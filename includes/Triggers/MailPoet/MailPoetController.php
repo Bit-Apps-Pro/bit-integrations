@@ -59,9 +59,10 @@ final class MailPoetController
 
     public function get_a_form($data)
     {
-        if (!class_exists('Forminator')) {
-            wp_send_json_error(__('Forminator is not installed or activated', 'bit-integrations'));
+        if (!is_plugin_active('mailpoet/mailpoet.php')) {
+            wp_send_json_error(__('MailPoet is not installed or activated', 'bit-integrations'));
         }
+
         if (empty($data->id)) {
             wp_send_json_error(__('Form doesn\'t exists', 'bit-integrations'));
         }
