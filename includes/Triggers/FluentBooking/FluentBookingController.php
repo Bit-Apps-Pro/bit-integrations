@@ -95,8 +95,6 @@ final class FluentBookingController
             }
         }
 
-        error_log(print_r($fields, true));
-
         return $fields;
     }
 
