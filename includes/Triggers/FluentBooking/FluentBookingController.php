@@ -15,7 +15,7 @@ final class FluentBookingController
 {
     public static function info()
     {
-        $plugin_path = 'mailpoet/mailpoet.php';
+        $plugin_path = 'fluent-booking-pro/fluent-booking-pro.php';
         return [
             'name' => 'Fluent Booking',
             'title' => 'Fluent Booking',
@@ -95,36 +95,135 @@ final class FluentBookingController
             }
         }
 
+        $otherFileds = [
+            [
+                'name'  => 'id',
+                'type'  => 'text',
+                'label' => 'Id',
+            ],
+            [
+                'name'  => 'calendar_id',
+                'type'  => 'text',
+                'label' => 'Calender Id',
+            ],
+            [
+                'name'  => 'event_id',
+                'type'  => 'text',
+                'label' => 'Event Id',
+            ],
+            [
+                'name'  => 'person_time_zone',
+                'type'  => 'text',
+                'label' => 'Person Time Zone',
+            ],
+            [
+                'name'  => 'location_type',
+                'type'  => 'text',
+                'label' => 'Location Type',
+            ],
+            [
+                'name'  => 'location_description',
+                'type'  => 'text',
+                'label' => 'Location Description',
+            ],
+            [
+                'name'  => 'start_time',
+                'type'  => 'text',
+                'label' => 'Start Time',
+            ],
+            [
+                'name'  => 'end_time',
+                'type'  => 'text',
+                'label' => 'End Time',
+            ],
+            [
+                'name'  => 'slot_minutes',
+                'type'  => 'text',
+                'label' => 'Slot Minutes',
+            ],
+        ];
+
+        if (!empty($fields)) {
+            $fields = array_merge($fields, $otherFileds);
+        }
+
         return $fields;
     }
 
-    public static function handle_fluentBooking_submit($data, $segmentIds, $form)
+    public static function handle_fluentBooking_submit($booking, $calendarSlot)
     {
-        $formData = [];
+        $customFieldsData = $booking->getCustomFormData(true);
 
-        foreach ($data as $key => $item) {
-            $keySeparated = explode('_', $key);
+        // error_log(print_r($customFieldsData, true));
 
-            if ($keySeparated[0] === 'cf') {
-                if (is_array($item)) {
-                    $formData[$keySeparated[1]] = self::handleDateField($item);
-                } else {
-                    $formData[$keySeparated[1]] = $item;
+        $bookingArray = $booking->toArray();
+        unset($bookingArray['calendar_event']);
+
+        $form_id = $bookingArray['event_id'];
+
+        error_log(print_r($bookingArray, true));
+
+        foreach ($bookingArray as $key => $item) {
+            if ($key === 'first_name') {
+                $name[] = $item;
+            } elseif ($key === 'last_name') {
+                if (!empty($item)) {
+                    $name[] = $item;
                 }
+            } elseif ($key === 'location_details') {
+                $formData['location_type'] = $item['type'];
+                $formData['location_description'] = $item['description'];
             } else {
-                if (is_array($item)) {
-                    $formData[$key] = self::handleDateField($item);
-                } else {
-                    $formData[$key] = $item;
-                }
+                $formData[$key] = $item;
             }
         }
 
-        $form_id = $form->getId();
-
-        if (!empty($form_id) && $flows = Flow::exists('MailPoet', $form_id)) {
-            Flow::execute('MailPoet', $form_id, $formData, $flows);
+        if (!empty($name)) {
+            $formData['name'] = implode(' ', $name);
         }
+
+        // error_log(print_r($formData, true));
+
+
+        if (!empty($form_id) && $flows = Flow::exists('FluentBooking', $form_id)) {
+            // error_log('sent');
+            Flow::execute('FluentBooking', $form_id, $formData, $flows);
+        }
+
+        // die;
+        // // error_log(print_r($calendarSlot, true));
+
+        // $customFieldsData = BookingFieldService::getCustomFieldsData($booking, $calendarSlot);
+
+        // error_log(print_r($customFieldsData, true));
+
+
+        // die;
+        // $formData = [];
+
+        // foreach ($data as $key => $item) {
+        //     $keySeparated = explode('_', $key);
+
+        //     if ($keySeparated[0] === 'cf') {
+        //         if (is_array($item)) {
+        //             $formData[$keySeparated[1]] = self::handleDateField($item);
+        //         } else {
+        //             $formData[$keySeparated[1]] = $item;
+        //         }
+        //     } else {
+        //         if (is_array($item)) {
+        //             $formData[$key] = self::handleDateField($item);
+        //         } else {
+        //             $formData[$key] = $item;
+        //         }
+        //     }
+        // }
+
+        // $form_id = $form->getId();
+
+        // if (!empty($form_id) && $flows = Flow::exists('MailPoet', $form_id)) {
+        //     Flow::execute('MailPoet', $form_id, $formData, $flows);
+        // }
     }
 
     public static function extractColumnData($array, &$result)
