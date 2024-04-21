@@ -167,6 +167,11 @@ final class FluentBookingController
         $bookingArray = $booking->toArray();
         unset($bookingArray['calendar_event']);
 
+        error_log(print_r($customFieldsData, true));
+        error_log(print_r($bookingArray, true));
+
+        // die;
+
         $form_id  = $bookingArray['event_id'];
         $formData = [];
 
