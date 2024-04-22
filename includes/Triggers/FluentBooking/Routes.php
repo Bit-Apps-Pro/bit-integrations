@@ -8,3 +8,4 @@ use BitCode\FI\Triggers\FluentBooking\FluentBookingController;
 
 Route::get('fluentBooking/get', [FluentBookingController::class, 'getAll']);
 Route::post('fluentBooking/get/form', [FluentBookingController::class, 'get_a_form']);
+Route::post('fluentBooking/get/fields', [FluentBookingController::class, 'fields']);

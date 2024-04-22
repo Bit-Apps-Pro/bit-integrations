@@ -43,19 +43,17 @@ final class FluentBookingController
             wp_send_json_error(__('Fluent Booking is not installed or activated', 'bit-integrations'));
         }
 
-        $events     = CalendarSlot::where('status', 'active')->get();
-        $all_events = [];
+        $types = ['Booking Scheduled', 'Booking Completed', 'Booking Cancelled'];
+        $tasks = [];
 
-        if ($events) {
-            foreach ($events as $event) {
-                $all_events[] = (object)[
-                    'id'    => $event->id,
-                    'title' => $event->title,
-                ];
-            }
+        foreach ($types as $key => $item) {
+            $tasks[] = (object) [
+                'id'    => 'fluentBooking-' . $key + 1,
+                'title' => $item,
+            ];
         }
 
-        wp_send_json_success($all_events);
+        wp_send_json_success($tasks);
     }
 
     public function get_a_form($data)
@@ -68,20 +66,34 @@ final class FluentBookingController
             wp_send_json_error(__('Event doesn\'t exists', 'bit-integrations'));
         }
 
-        $fields = self::fields($data->id);
+        if ($data->id) {
+            $events     = CalendarSlot::where('status', 'active')->get();
+            $all_events = [];
 
-        if (empty($fields)) {
-            wp_send_json_error(__('Event doesn\'t exists any field', 'bit-integrations'));
+            if ($events) {
+                foreach ($events as $event) {
+                    $all_events[] = [
+                        'id'    => $event->id,
+                        'title' => $event->title,
+                    ];
+                }
+            }
+
+            $responseData['events'] = $all_events;
         }
-
-        $responseData['fields'] = $fields;
 
         wp_send_json_success($responseData);
     }
 
-    public static function fields($form_id)
+    public static function fields($data)
     {
-        $calendarSlot  = CalendarSlot::find($form_id);
+        $id = $data->id;
+
+        if (empty($id)) {
+            return;
+        }
+
+        $calendarSlot  = CalendarSlot::find($id);
         $bookingFields = BookingFieldService::getBookingFields($calendarSlot);
         $fields        = [];
 

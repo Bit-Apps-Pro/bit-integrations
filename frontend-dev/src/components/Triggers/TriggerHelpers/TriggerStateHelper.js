@@ -51,6 +51,8 @@ export const FormPluginStateHelper = (val, tmpNewFlow, resp, setNewFlow) => {
     UltimateMemberStateFP(val, tmpNewFlow, resp, setNewFlow)
   } else if (tmpNewFlow?.triggered_entity === 'AcademyLms') {
     academylmsStateFP(val, tmpNewFlow, resp, setNewFlow)
+  } else if (tmpNewFlow?.triggered_entity === 'FluentBooking') {
+    fluentBookingStateFP(val, tmpNewFlow, resp, setNewFlow)
   } else {
     setNewFlow(tmpNewFlow)
   }
@@ -89,6 +91,13 @@ export const tutorlmsStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   } else if (val === '5') {
     tmpNewFlow.triggerData.quizzes = resp.data.quizzes
     tmpNewFlow.triggerData.percentageCondition = resp.data.percentageCondition
+  }
+  setNewFlow(tmpNewFlow)
+}
+
+export const fluentBookingStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+  if (val) {
+    tmpNewFlow.triggerData.events = resp.data.events
   }
   setNewFlow(tmpNewFlow)
 }
