@@ -94,7 +94,7 @@ export const moduleChange = (
         refreshPersons(newConf, setPipeDriveConf, setIsLoading, setSnackbar)
     }
 
-    if (!newConf.default.modules?.[module]?.fields && module !== '' && module !== undefined) {
+    if (module !== '' && module !== undefined) {
       setTimeout(() => {
         refreshFields(module, newConf, setPipeDriveConf, recordTab)
       }, 1000)
@@ -106,7 +106,7 @@ export const moduleChange = (
   } else {
     newConf.relatedlists[recordTab - 1].actions = {}
     newConf.relatedlists[recordTab - 1].field_map = [{ formField: '', pipeDriveFormField: '' }]
-    if (!newConf.default.modules?.[module]?.fields && module !== '' && module !== undefined) {
+    if (module !== '' && module !== undefined) {
       setTimeout(() => {
         refreshFields(module, newConf, setPipeDriveConf, recordTab)
       }, 1000)
@@ -123,6 +123,7 @@ export const moduleChange = (
 
 export const refreshFields = (module, pipeDriveConf, setPipeDriveConf, recordTab) => {
   const requestParams = { api_key: pipeDriveConf.api_key, module }
+
   bitsFetch(requestParams, 'PipeDrive_refresh_fields').then((result) => {
     if (result && result.success) {
       const newConf = { ...pipeDriveConf }

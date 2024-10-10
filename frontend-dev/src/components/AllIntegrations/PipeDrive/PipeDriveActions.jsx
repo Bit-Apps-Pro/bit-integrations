@@ -29,35 +29,36 @@ export default function PipeDriveActions({
 
   const actionHandler = (e, type) => {
     const newConf = { ...pipeDriveConf }
+
+    if (type === 'owner') {
+      getAllOwners(pipeDriveConf, setPipeDriveConf, setIsLoading, setSnackbar)
+      setActionMdl({ show: type })
+    }
+    if (type === 'lead_label') {
+      getAllLeadLabels(pipeDriveConf, setPipeDriveConf, setIsLoading, setSnackbar)
+      setActionMdl({ show: type })
+    }
+    if (type === 'currency') {
+      getAllCurrencies(pipeDriveConf, setPipeDriveConf, setIsLoading, setSnackbar)
+      setActionMdl({ show: type })
+    }
+    if (type === 'deal_stage') {
+      getDealStages(pipeDriveConf, setPipeDriveConf, setIsLoading, setSnackbar)
+      setActionMdl({ show: type })
+    }
+    if (type === 'deal_status') {
+      setActionMdl({ show: type })
+    }
+    if (type === 'activities_type') {
+      setActionMdl({ show: type })
+    }
+    if (type === 'visible_to') {
+      setActionMdl({ show: type })
+    }
+    if (type === 'activities_participants') {
+      setActionMdl({ show: type })
+    }
     if (tab === 0) {
-      if (type === 'owner') {
-        getAllOwners(pipeDriveConf, setPipeDriveConf, setIsLoading, setSnackbar)
-        setActionMdl({ show: type })
-      }
-      if (type === 'lead_label') {
-        getAllLeadLabels(pipeDriveConf, setPipeDriveConf, setIsLoading, setSnackbar)
-        setActionMdl({ show: type })
-      }
-      if (type === 'currency') {
-        getAllCurrencies(pipeDriveConf, setPipeDriveConf, setIsLoading, setSnackbar)
-        setActionMdl({ show: type })
-      }
-      if (type === 'deal_stage') {
-        getDealStages(pipeDriveConf, setPipeDriveConf, setIsLoading, setSnackbar)
-        setActionMdl({ show: type })
-      }
-      if (type === 'deal_status') {
-        setActionMdl({ show: type })
-      }
-      if (type === 'activities_type') {
-        setActionMdl({ show: type })
-      }
-      if (type === 'visible_to') {
-        setActionMdl({ show: type })
-      }
-      if (type === 'activities_participants') {
-        setActionMdl({ show: type })
-      }
       if (type === 'busy_flag' || type === 'active_flag') {
         if (e.target.checked) {
           newConf.actions[type] = true
@@ -68,17 +69,6 @@ export default function PipeDriveActions({
 
       setPipeDriveConf({ ...newConf })
     } else {
-      if (type === 'owner') {
-        getAllOwners(pipeDriveConf, setPipeDriveConf, setIsLoading, setSnackbar)
-        setActionMdl({ show: type })
-      }
-      if (type === 'activities_type') {
-        setActionMdl({ show: type })
-      }
-      if (type === 'activities_participants') {
-        setActionMdl({ show: type })
-      }
-
       if (type === 'busy_flag' || type === 'active_flag') {
         if (e.target.checked) {
           newConf.relatedlists[tab - 1].actions[type] = true
@@ -86,6 +76,7 @@ export default function PipeDriveActions({
           delete newConf.relatedlists[tab - 1].actions[type]
         }
       }
+
       setPipeDriveConf({ ...newConf })
     }
   }
@@ -196,8 +187,8 @@ export default function PipeDriveActions({
         <TableCheckBox
           checked={
             (tab === 0
-              ? pipeDriveConf.moduleData?.owner
-              : pipeDriveConf.relatedlists[tab - 1].moduleData?.owner) || false
+              ? pipeDriveConf?.moduleData?.owner
+              : pipeDriveConf?.relatedlists[tab - 1]?.moduleData?.owner) || false
           }
           onChange={(e) => actionHandler(e, 'owner')}
           className="wdt-200 mt-4 mr-2"
@@ -209,7 +200,11 @@ export default function PipeDriveActions({
           <>
             {' '}
             <TableCheckBox
-              checked={pipeDriveConf.moduleData?.lead_label || false}
+              checked={
+                tab === 0
+                  ? pipeDriveConf.moduleData?.lead_label
+                  : pipeDriveConf?.relatedlists[tab - 1]?.moduleData?.lead_label || false
+              }
               onChange={(e) => actionHandler(e, 'lead_label')}
               className="wdt-200 mt-4 mr-2"
               value="lead_label"
@@ -229,7 +224,11 @@ export default function PipeDriveActions({
         {module === 'Deals' && (
           <>
             <TableCheckBox
-              checked={pipeDriveConf.moduleData?.deal_stage || false}
+              checked={
+                tab === 0
+                  ? pipeDriveConf.moduleData?.deal_stage
+                  : pipeDriveConf?.relatedlists[tab - 1]?.moduleData?.deal_stage || false
+              }
               onChange={(e) => actionHandler(e, 'deal_stage')}
               className="wdt-200 mt-4 mr-2"
               value="deal_stage"
@@ -238,7 +237,11 @@ export default function PipeDriveActions({
             />
 
             <TableCheckBox
-              checked={pipeDriveConf.moduleData?.currency || false}
+              checked={
+                tab === 0
+                  ? pipeDriveConf.moduleData?.currency
+                  : pipeDriveConf?.relatedlists[tab - 1]?.moduleData?.currency || false
+              }
               onChange={(e) => actionHandler(e, 'currency')}
               className="wdt-200 mt-4 mr-2"
               value="currency"
@@ -246,7 +249,11 @@ export default function PipeDriveActions({
               subTitle={__('Add Currency', 'bit-integrations')}
             />
             <TableCheckBox
-              checked={pipeDriveConf.moduleData?.deal_status || false}
+              checked={
+                tab === 0
+                  ? pipeDriveConf.moduleData?.deal_status
+                  : pipeDriveConf?.relatedlists[tab - 1]?.moduleData?.deal_status || false
+              }
               onChange={(e) => actionHandler(e, 'deal_status')}
               className="wdt-200 mt-4 mr-2"
               value="deal_status"
@@ -312,7 +319,11 @@ export default function PipeDriveActions({
               subTitle={__('Add Inactive Flag', 'bit-integrations')}
             />
             <TableCheckBox
-              checked={pipeDriveConf.moduleData?.currency || false}
+              checked={
+                tab === 0
+                  ? pipeDriveConf.moduleData?.currency
+                  : pipeDriveConf.relatedlists[tab - 1]?.moduleData?.currency || false
+              }
               onChange={(e) => actionHandler(e, 'currency')}
               className="wdt-200 mt-4 mr-2"
               value="currency"
@@ -321,9 +332,13 @@ export default function PipeDriveActions({
             />
           </>
         )}
-        {['Leads', 'Deals', 'Persons', 'Products'].includes(module) && (
+        {['Leads', 'Deals', 'Persons', 'Products', 'Organizations'].includes(module) && (
           <TableCheckBox
-            checked={pipeDriveConf.actions?.visible_to || false}
+            checked={
+              tab === 0
+                ? pipeDriveConf.actions?.visible_to
+                : pipeDriveConf.relatedlists[tab - 1]?.actions?.visible_to || false
+            }
             onChange={(e) => actionHandler(e, 'visible_to')}
             className="wdt-200 mt-4 mr-2"
             value="visible_to"
@@ -361,7 +376,7 @@ export default function PipeDriveActions({
                 pipeDriveConf.default?.owners,
                 tab === 0
                   ? pipeDriveConf.moduleData?.owner
-                  : pipeDriveConf.relatedlists[tab - 1].moduleData?.owner
+                  : pipeDriveConf.relatedlists[tab - 1]?.moduleData?.owner
               )}
               options={pipeDriveConf.default?.owners?.map((owner) => ({
                 label: owner.label,
@@ -409,7 +424,11 @@ export default function PipeDriveActions({
           <div className="flx flx-between mt-2">
             <MultiSelect
               className="msl-wrp-options"
-              defaultValue={pipeDriveConf.moduleData?.lead_label}
+              defaultValue={
+                tab === 0
+                  ? pipeDriveConf.moduleData?.lead_label
+                  : pipeDriveConf.relatedlists[tab - 1]?.moduleData?.lead_label
+              }
               options={pipeDriveConf.default?.leadLabels?.map((label) => ({
                 label: label.label,
                 value: label.value
@@ -456,7 +475,9 @@ export default function PipeDriveActions({
               className="msl-wrp-options"
               defaultValue={getLabelById(
                 pipeDriveConf.default?.stages,
-                pipeDriveConf.moduleData?.deal_stage
+                tab === 0
+                  ? pipeDriveConf.moduleData?.deal_stage
+                  : pipeDriveConf.relatedlists[tab - 1]?.moduleData?.deal_stage
               )}
               options={pipeDriveConf.default?.stages?.map((stage) => ({
                 label: stage.label,
@@ -508,7 +529,7 @@ export default function PipeDriveActions({
                 ActivitiesTypes,
                 tab === 0
                   ? pipeDriveConf.moduleData?.activities_type
-                  : pipeDriveConf.relatedlists[tab - 1].moduleData?.activities_type
+                  : pipeDriveConf.relatedlists[tab - 1]?.moduleData?.activities_type
               )}
               options={ActivitiesTypes.map((activity) => ({
                 label: activity.label,
@@ -550,7 +571,7 @@ export default function PipeDriveActions({
                 pipeDriveConf.default?.currencies,
                 tab === 0
                   ? pipeDriveConf.moduleData?.currency
-                  : pipeDriveConf.relatedlists[tab - 1].moduleData?.currency
+                  : pipeDriveConf.relatedlists[tab - 1]?.moduleData?.currency
               )}
               options={pipeDriveConf.default?.currencies?.map((currency) => ({
                 label: currency.label,
@@ -592,7 +613,7 @@ export default function PipeDriveActions({
                 DealStatuses,
                 tab === 0
                   ? pipeDriveConf.moduleData?.deal_status
-                  : pipeDriveConf.relatedlists[tab - 1].moduleData?.deal_status
+                  : pipeDriveConf.relatedlists[tab - 1]?.moduleData?.deal_status
               )}
               options={DealStatuses.map((status) => ({ label: status.label, value: status.value }))}
               onChange={(val) => setChanges(val, 'deal_status')}
@@ -627,7 +648,12 @@ export default function PipeDriveActions({
           <div className="flx flx-between mt-2">
             <MultiSelect
               className="msl-wrp-options"
-              defaultValue={getLabelById(VisibleTo, pipeDriveConf.moduleData?.visible_to)}
+              defaultValue={getLabelById(
+                VisibleTo,
+                tab === 0
+                  ? pipeDriveConf.moduleData?.visible_to
+                  : pipeDriveConf.relatedlists[tab - 1]?.moduleData?.visible_to
+              )}
               options={VisibleTo.map((item) => ({ label: item.label, value: item.value }))}
               onChange={(val) => setChanges(val, 'visible_to')}
               customValue
@@ -665,7 +691,7 @@ export default function PipeDriveActions({
                 pipeDriveConf.default?.persons,
                 tab === 0
                   ? pipeDriveConf.moduleData?.activities_participants
-                  : pipeDriveConf.relatedlists[tab - 1].moduleData?.activities_participants
+                  : pipeDriveConf.relatedlists[tab - 1]?.moduleData?.activities_participants
               )}
               options={pipeDriveConf.default?.persons?.map((item) => ({
                 label: item.label,

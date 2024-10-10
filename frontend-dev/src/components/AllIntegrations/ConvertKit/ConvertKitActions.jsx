@@ -23,8 +23,11 @@ export default function ConvertKitActions({ convertKitConf, setConvertKitConf })
         onChange={(e) => actionHandler(e, 'update')}
         className="wdt-200 mt-4 mr-2"
         value="user_share"
-        title={__('Update ConvertKit', 'bit-integrations')}
-        subTitle={__('Update Responses with ConvertKit existing email?', 'bit-integrations')}
+        title={sprintf(__('Update %s', 'bit-integrations'), 'Kit(ConvertKit)')}
+        subTitle={sprintf(
+          __('Update Responses with %s existing email?', 'bit-integrations'),
+          'Kit(ConvertKit)'
+        )}
       />
     </div>
   )

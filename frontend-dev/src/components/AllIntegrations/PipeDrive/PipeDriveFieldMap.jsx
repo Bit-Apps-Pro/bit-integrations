@@ -80,7 +80,7 @@ export default function PipeDriveFieldMap({
 
           {field.formField === 'custom' && (
             <TagifyInput
-              onChange={(e) => handleCustomValue(e, i, pipeDriveConf, setPipeDriveConf)}
+              onChange={(e) => handleCustomValue(e, i, pipeDriveConf, setPipeDriveConf, tab)}
               label={__('Custom Value', 'bit-integrations')}
               className="mr-2"
               type="text"

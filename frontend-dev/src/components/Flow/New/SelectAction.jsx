@@ -104,7 +104,7 @@ export default function SelectAction() {
     { type: 'CustomApi' },
     { type: 'SureCart' },
     { type: 'Agiled CRM' },
-    { type: 'ConvertKit' },
+    { type: 'Kit(ConvertKit)' },
     { type: 'BenchMark' },
     { type: 'DirectIq' },
     { type: 'GiveWp' },

@@ -42,7 +42,7 @@ export default function PipeDriveNewRecord({
 
       {pipeDriveConf.moduleData.module !== '' &&
         pipeDriveConf.default.modules[pipeDriveConf.moduleData.module]?.required &&
-        !['Products'].includes(pipeDriveConf.moduleData.module) && (
+        !['Products', 'Organizations'].includes(pipeDriveConf.moduleData.module) && (
           <>
             <b className="wdt-200 d-in-b">{__('Organization:', 'bit-integrations')}</b>
             <select
@@ -68,13 +68,13 @@ export default function PipeDriveNewRecord({
               disabled={isLoading}>
               &#x21BB;
             </button>
+            <br />
+            <br />
           </>
         )}
-      <br />
-      <br />
       {pipeDriveConf.moduleData.module !== '' &&
         pipeDriveConf.default.modules[pipeDriveConf.moduleData.module]?.required &&
-        !['Products', 'Persons'].includes(pipeDriveConf.moduleData.module) && (
+        !['Products', 'Persons', 'Organizations'].includes(pipeDriveConf.moduleData.module) && (
           <>
             <b className="wdt-200 d-in-b">{__('Person:', 'bit-integrations')}</b>
             <select
@@ -104,8 +104,6 @@ export default function PipeDriveNewRecord({
             <br />
           </>
         )}
-      <br />
-      <br />
 
       {pipeDriveConf.moduleData.module &&
         pipeDriveConf.default?.modules?.[pipeDriveConf.moduleData.module]?.fields && (

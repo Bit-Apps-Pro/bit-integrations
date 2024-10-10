@@ -5,6 +5,8 @@ import { addFieldMap } from '../IntegrationHelpers/IntegrationHelpers'
 import PipeDriveActions from './PipeDriveActions'
 import { handleTabChange } from './PipeDriveCommonFunc'
 import PipeDriveFieldMap from './PipeDriveFieldMap'
+import { useRecoilValue } from 'recoil'
+import { $btcbi } from '../../../GlobalStates'
 
 export default function PipeDriveRelatedRecord({
   indx,
@@ -19,6 +21,9 @@ export default function PipeDriveRelatedRecord({
   setIsLoading,
   setSnackbar
 }) {
+  const btcbi = useRecoilValue($btcbi)
+  const { isPro } = btcbi
+
   useEffect(() => {
     handleTabChange(
       indx + 1,
@@ -32,7 +37,7 @@ export default function PipeDriveRelatedRecord({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   // eslint-disable-next-line no-undef
-  const isPro = typeof btcbi !== 'undefined' && btcbi.isPro
+
   return (
     <>
       {isLoading && (
@@ -50,11 +55,14 @@ export default function PipeDriveRelatedRecord({
       <br />
       <div className="pos-rel">
         {!isPro && (
-          <div className="pro-blur flx w-9">
+          <div className="pro-blur flx p-3">
             <div className="pro">
-              {__('Available On', 'bit-integrations')}
-              <a href="https://bitapps.pro/" target="_blank" rel="noreferrer">
-                <span className="txt-pro"> {__('Premium', 'bit-integrations')}</span>
+              <a
+                href="https://bitapps.pro/bit-integrations/#pricing"
+                target="_blank"
+                rel="noreferrer">
+                {__('Related List', 'bit-integrations')} {__('Available On', 'bit-integrations')}
+                <span className="txt-pro"> ({__('Pro', 'bit-integrations')})</span>
               </a>
             </div>
           </div>
@@ -77,69 +85,68 @@ export default function PipeDriveRelatedRecord({
         </select>
         <br />
         <br />
-      </div>
-      <br />
-      <br />
-      {pipeDriveConf.default.modules[pipeDriveConf?.relatedlists?.[tab - 1]?.module]?.fields && (
-        <>
-          <div className="mt-4">
-            <b className="wdt-100">{__('Field Map', 'bit-integrations')}</b>
-          </div>
-          <div className="btcd-hr mt-1" />
-          <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
-            <div className="txt-dp">
-              <b>{__('Form Fields', 'bit-integrations')}</b>
+        {pipeDriveConf.default.modules[pipeDriveConf?.relatedlists?.[tab - 1]?.module]?.fields && (
+          <>
+            <div className="mt-4">
+              <b className="wdt-100">{__('Field Map', 'bit-integrations')}</b>
             </div>
-            <div className="txt-dp">
-              <b>{__('PipeDrive Fields', 'bit-integrations')}</b>
+            <div className="btcd-hr mt-1" />
+            <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
+              <div className="txt-dp">
+                <b>{__('Form Fields', 'bit-integrations')}</b>
+              </div>
+              <div className="txt-dp">
+                <b>{__('PipeDrive Fields', 'bit-integrations')}</b>
+              </div>
             </div>
-          </div>
 
-          {pipeDriveConf.relatedlists?.[tab - 1]?.field_map?.map((itm, i) => (
-            <PipeDriveFieldMap
-              key={`crm-m-${i + 9}`}
-              i={i}
-              field={itm}
+            {pipeDriveConf.relatedlists?.[tab - 1]?.field_map?.map((itm, i) => (
+              <PipeDriveFieldMap
+                key={`crm-m-${i + 9}`}
+                i={i}
+                field={itm}
+                pipeDriveConf={pipeDriveConf}
+                formFields={formFields}
+                setPipeDriveConf={setPipeDriveConf}
+                tab={tab}
+                setSnackbar={setSnackbar}
+              />
+            ))}
+            <div className="txt-center btcbi-field-map-button mt-2">
+              <button
+                onClick={() =>
+                  addFieldMap(
+                    pipeDriveConf.relatedlists[tab - 1].field_map.length,
+                    pipeDriveConf,
+                    setPipeDriveConf,
+                    false,
+                    tab
+                  )
+                }
+                className="icn-btn sh-sm"
+                type="button">
+                +
+              </button>
+            </div>
+            <br />
+            <br />
+            <div className="mt-4">
+              <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
+            </div>
+            <div className="btcd-hr mt-1" />
+
+            <PipeDriveActions
               pipeDriveConf={pipeDriveConf}
-              formFields={formFields}
               setPipeDriveConf={setPipeDriveConf}
               tab={tab}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
               setSnackbar={setSnackbar}
             />
-          ))}
-          <div className="txt-center btcbi-field-map-button mt-2">
-            <button
-              onClick={() =>
-                addFieldMap(
-                  pipeDriveConf.relatedlists[tab - 1].field_map.length,
-                  pipeDriveConf,
-                  setPipeDriveConf,
-                  false,
-                  tab
-                )
-              }
-              className="icn-btn sh-sm"
-              type="button">
-              +
-            </button>
-          </div>
-          <br />
-          <br />
-          <div className="mt-4">
-            <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
-          </div>
-          <div className="btcd-hr mt-1" />
+          </>
+        )}
+      </div>
 
-          <PipeDriveActions
-            pipeDriveConf={pipeDriveConf}
-            setPipeDriveConf={setPipeDriveConf}
-            tab={tab}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
-            setSnackbar={setSnackbar}
-          />
-        </>
-      )}
       {pipeDriveConf.default.modules[pipeDriveConf.relatedlists[tab - 1]?.module] &&
         !pipeDriveConf.default.modules[pipeDriveConf?.relatedlists?.[tab - 1]?.module]?.fields && (
           <Loader

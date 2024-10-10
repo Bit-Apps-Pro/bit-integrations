@@ -78,8 +78,8 @@ function ConstantContact({ formFields, setFlow, flow, allIntegURL }) {
   const [constantContactConf, setConstantContactConf] = useState({
     name: 'ConstantContact',
     type: 'ConstantContact',
-    clientId: process.env.NODE_ENV === 'development' ? 'c57170b6-f104-4d8a-9ff4-2e0c76018e66' : '',
-    clientSecret: process.env.NODE_ENV === 'development' ? 'gIg8q3BYWbhmzvSZTdPgFw' : '',
+    clientId: process.env.NODE_ENV === 'development' ? 'b7214d84-c2a4-4538-b314-cd356bffc3d0' : '',
+    clientSecret: process.env.NODE_ENV === 'development' ? 'HLO2-dDNxjZY0H3OGC1I7w' : '',
     list_ids: '',
     lists: [],
     default: { constantContactFields },

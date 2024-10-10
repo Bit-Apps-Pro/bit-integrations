@@ -69,7 +69,7 @@ export default function ConvertKitAuthorization({
   const ActiveInstructions = `
             <h4>${__('Get api secret key', 'bit-integrations')}</h4>
             <ul>
-                <li>${__('First go to your ConvertKit dashboard.', 'bit-integrations')}</li>
+                <li>${sprintf(__('First go to your %s dashboard.', 'bit-integrations'), 'Kit(ConvertKit)')}</li>
                 <li>${__('Click "Settings", Then click "Advanced"', 'bit-integrations')}</li>
             </ul>`
 
@@ -118,7 +118,7 @@ export default function ConvertKitAuthorization({
           href="https://app.convertkit.com/account_settings/advanced_settings"
           target="_blank"
           rel="noreferrer">
-          {__('ConvertKit API Token', 'bit-integrations')}
+          {sprintf(__('%s API Token', 'bit-integrations'), 'Kit(ConvertKit)')}
         </a>
       </small>
       <br />
@@ -127,7 +127,7 @@ export default function ConvertKitAuthorization({
       {isLoading === 'auth' && (
         <div className="flx mt-5">
           <LoaderSm size={25} clr="#022217" className="mr-2" />
-          Checking API Secret Key!!!
+          {__('Checking API Secret Key', 'bit-integrations')}!!!
         </div>
       )}
 

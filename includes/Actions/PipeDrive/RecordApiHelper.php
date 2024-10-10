@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\PipeDrive;
 
+use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -132,48 +132,6 @@ class RecordApiHelper
         }
 
         return HttpHelper::post($apiEndpoints, wp_json_encode($finalData), $this->_defaultHeader);
-    }
-
-    public function addRelatedList($pipeDriveApiResponse, $integrationDetails, $fieldValues, $parentModule)
-    {
-        $parendId = $pipeDriveApiResponse->data->id;
-
-        foreach ($integrationDetails->relatedlists as $item) {
-            $fieldMap = $item->field_map;
-            $module = strtolower($item->module);
-            $moduleData = $item->moduleData;
-            $actions = $item->actions;
-            $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
-            if (isset($moduleData->activities_type) && !empty($moduleData->activities_type)) {
-                $finalData['type'] = $moduleData->activities_type;
-            }
-            if (isset($actions->busy_flag) && !empty($actions->busy_flag)) {
-                $finalData['busy_flag'] = true;
-            }
-            if (isset($actions->active_flag) && !empty($actions->active_flag)) {
-                $finalData['active_flag'] = 0;
-            }
-            if (isset($actions->activities_participants) && !empty($actions->activities_participants)) {
-                $participants = explode(',', $moduleData->activities_participants);
-                $allParticipants = [];
-                foreach ($participants as $participant) {
-                    $allParticipants[] = (object) [
-                        'person_id'    => (int) $participant,
-                        'primary_flag' => false
-                    ];
-                }
-                $finalData['participants'] = $allParticipants;
-            }
-            $apiEndpoints = $this->baseUrl . $module . '?api_token=' . $this->_integrationDetails->api_key;
-
-            if ($parentModule === 'leads') {
-                $finalData['lead_id'] = $parendId;
-            } else {
-                $finalData['deal_id'] = (int) $parendId;
-            }
-
-            return HttpHelper::post($apiEndpoints, wp_json_encode($finalData), $this->_defaultHeader);
-        }
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)

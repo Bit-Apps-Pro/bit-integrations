@@ -16,3 +16,8 @@ Hooks::add('wp_initialize_site', [Activation::class, 'handle_new_site'], 200, 1)
 
 Hooks::filter(Config::VAR_PREFIX . 'telemetry_additional_data', [new BtcbiAnalyticsController(), 'filterTrackingData']);
 Hooks::filter(Config::VAR_PREFIX . 'telemetry_data', [new BtcbiAnalyticsController(), 'filterProTrackingData']);
+
+if (is_user_logged_in()) {
+    // Add filter if the user is logged in to fetch the ID.
+    Hooks::filter('wpcf7_verify_nonce', '__return_true');
+}

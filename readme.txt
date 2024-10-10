@@ -1,10 +1,10 @@
-=== Webhook Automator & Form Integration to Automate 230+ Platforms – Bit Integrations ===
+=== Webhook Automator & Contact Form Integration to Automate 230+ Platforms – Bit Integrations ===
 Contributors: bitpressadmin, niloy121,rishadbitcode,fahimsakib,shuvomohajan,tanvirchy,shakhawathosen,khoaiz,mazharul78
 Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
 Tested up to: 6.6.2
 Requires PHP: 7.0
-Stable tag: 2.2.8
+Stable tag: 2.2.9
 License: GPLv2 or later
 
 Automation Plugin for WordPress like Zapier. Integration of 80+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
@@ -13,7 +13,7 @@ Automation Plugin for WordPress like Zapier. Integration of 80+ Triggers & 150+ 
 
 <strong> Best Zapier Alternative Automation Plugin for WordPress. Automate 230+ Individual Platforms.</strong>
 
-Automate your WordPress workflow with **Bit Integration**: the all-in-one plugin for WooCommerce, form builders, CRM, LMS, bookings, spreadsheets, [**webhooks**](https://webhook.is/difference-between-webhook-and-api), social media, email marketing and automation platforms like Zapier and others. No technical knowledge needed. Automate tasks across 230+ platforms effortlessly.
+Automate your WordPress workflow with **Bit Integration**: the all-in-one plugin for sending data authomatically to WooCommerce, form builders, CRM, LMS, bookings, spreadsheets, [**webhooks**](https://webhook.is/difference-between-webhook-and-api), social media, email marketing and automation platforms like Zapier and others. No technical knowledge needed. Automate tasks across 230+ platforms effortlessly.
 
 You can see below what WPTuts say about Bit Integrations
 
@@ -45,6 +45,9 @@ https://youtu.be/eFuficjF_F4
 
 ### ✔List of Available Triggers:
 
+* [**Elementor**](https://wordpress.org/plugins/elementor/)
+* [**Contact Form 7**](https://wordpress.org/plugins/contact-form-7/)
+* [**Fluent Forms**](https://wordpress.org/plugins/fluentform/)
 * [**Bit Form**](https://wordpress.org/plugins/bit-form/)
 * [**Bit Assist**](https://wordpress.org/plugins/bit-assist/)
 * [**Academy LMS**](https://wordpress.org/plugins/academy/)
@@ -60,18 +63,15 @@ https://youtu.be/eFuficjF_F4
 * [**Brizy**](https://wordpress.org/plugins/brizy/)
 * [**Breakdance**](https://breakdance.com/)
 * [**CartFlows**](https://wordpress.org/plugins/cartflows/)
-* [**Contact Form 7**](https://wordpress.org/plugins/contact-form-7/)
 * [**CoBlocks**](https://wordpress.org/plugins/coblocks/)
 * [**Custom Trigger**](https://bitapps.pro/docs/bit-integrations/trigger/custom-trigger-integrations/)
 * [**Divi**](https://www.elegantthemes.com/gallery/divi/)
 * [**Dokan**](https://wordpress.org/plugins/dokan-lite/)
 * [**Everest Forms**](https://wordpress.org/plugins/everest-forms/)
-* [**Elementor**](https://wordpress.org/plugins/elementor/)
 * [**Easy Digital Downloads**](https://wordpress.org/plugins/easy-digital-downloads/)
 * [**eForm**](https://eform.live/)
 * [**Essential Blocks**](https://wordpress.org/plugins/essential-blocks/)
 * [**FluentBooking**](https://fluentbooking.com/)
-* [**Fluent Forms**](https://wordpress.org/plugins/fluentform/)
 * [**Fluent Support**](https://wordpress.org/plugins/fluent-support/)
 * [**Formidable**](https://wordpress.org/plugins/formidable/)
 * [**Forminator**](https://wordpress.org/plugins/forminator/)
@@ -127,6 +127,10 @@ https://youtu.be/eFuficjF_F4
 
 ### ✔List of Available Actions:
 
+* [**Zapier**](https://zapier.com/)
+* [**SureTriggers**](https://wordpress.org/plugins/suretriggers/)
+* [**AutomatorWP**](https://wordpress.org/plugins/automatorwp/)
+* [**FlowMattic**](https://flowmattic.com/)
 * [**Bit Form**](https://wordpress.org/plugins/bit-form/)
 * [**Academy LMS**](https://wordpress.org/plugins/academy/)
 * [**ActiveCampaign**](https://www.activecampaign.com/)
@@ -137,14 +141,13 @@ https://youtu.be/eFuficjF_F4
 * [**Albato**](https://albato.net/)
 * [**Ants and Apps**](https://antsandapps.com/)
 * [**Asana**](https://asana.com/)
-* [**AutomatorWP**](https://wordpress.org/plugins/automatorwp/)
 * [**Autonami**](https://wordpress.org/plugins/wp-marketing-automations/)
 * [**BuddyBoss**](https://www.buddyboss.com/)
 * [**Benchmark**](https://www.benchmarkemail.com/)
 * [**Campaign Monitor**](https://www.campaignmonitor.com/)
 * [**CompanyHub**](https://companyhub.com/)
 * [**Constant Contact**](https://www.constantcontact.com/)
-* [**ConvertKit**](https://convertkit.com/)
+* [**Kit (ConvertKit)**](https://convertkit.com/)
 * [**Custom Action**](https://bitapps.pro/docs/bit-integrations/actions/custom-action-integrations/)
 * [**Custom Api :**](https://bitapps.pro/docs/bit-integrations/actions/customapi-integrations/)
 * [**Capsule CRM**](https://capsulecrm.com/)
@@ -161,7 +164,6 @@ https://youtu.be/eFuficjF_F4
 * [**Encharge**](https://encharge.io/)
 * [**EmailOctopus**](https://emailoctopus.com/)
 * [**Flowlu**](https://www.flowlu.com/)
-* [**FlowMattic**](https://flowmattic.com/)
 * [**FluentCRM**](https://wordpress.org/plugins/fluent-crm/)
 * [**Fluent Support**](https://wordpress.org/plugins/fluent-support/)
 * [**Freshdesk**](https://www.freshworks.com/freshdesk/)
@@ -244,7 +246,6 @@ https://youtu.be/eFuficjF_F4
 * [**Sperse IO**](https://sperse.io/)
 * [**SureCart**](https://wordpress.org/plugins/surecart/)
 * [**SuiteDash**](https://suitedash.com/)
-* [**SureTriggers**](https://wordpress.org/plugins/suretriggers/)
 * [**SureMembers**](https://suremembers.com/)
 * [**SystemeIO**](https://systeme.io/home)
 * [**Telegram**](https://telegram.org/)
@@ -262,7 +263,6 @@ https://youtu.be/eFuficjF_F4
 * [**WP Courseware**](https://wordpress.org/plugins/woo-commerce-addon-for-wp-courseware/)
 * [**wpForo**](https://wpforo.com/)
 * [**WP Webhooks**](https://wordpress.org/plugins/wp-webhooks/)
-* [**Zapier**](https://zapier.com/)
 * [**Zendesk**](https://www.zendesk.com/)
 * [**Zoho Bigin**](https://www.bigin.com/)
 * [**Zoho CRM**](https://www.zoho.com/crm/)
@@ -400,7 +400,7 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Contact Form 7**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AL85-ajsYQ7LOhs1t2y6toV)
 
-* [**Convertkit**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AITR_K9KlAnPTJeYBFcFEcy)
+* [**Kit (ConvertKit)**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AITR_K9KlAnPTJeYBFcFEcy)
 
 * [**Copper CRM**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIDfH9sPdxJ9vuUdWuJFx_p)
 
@@ -765,7 +765,7 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Constant Contact**](https://bitapps.pro/docs/bit-integrations/trigger/constantcontact/)
 
-* [**ConvertKit**](https://bitapps.pro/docs/bit-integrations/trigger/convertkit/)
+* [**Kit (ConvertKit)**](https://bitapps.pro/docs/bit-integrations/trigger/convertkit/)
 
 * [**Custom Action**](https://bitapps.pro/docs/bit-integrations/trigger/custom-action/)
 
@@ -996,6 +996,32 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 
 == Changelog ==
 
+= 2.2.9  =
+_Release Date -10th October 2024_
+
+- **Note :**
+  - The name ConvertKit has been updated to Kit (ConvertKit).
+
+- **New Features :**
+  - Eventin - New tasks added for better event management (Pro):
+      1. Speaker (or Organizer) Created
+      2. Speaker (or Organizer) Updated
+      3. Speaker (or Organizer) Deleted
+      4. Attendee Updated
+      5. Attendee Deleted
+      6. Order Created
+      7. Order Deleted
+      8. Schedule Deleted
+
+- **New Improvements :**
+  - Constant Contact: Improved contact update functionality.
+  - PipeDrive: Added support for the Organization module and new related lists (Pro).
+
+- **New Fixes :**
+  - HubSpot: Fixed issue with integration execution time for updating records.
+  - Zoho CRM: Resolved custom data submission issue.
+  - MailPoet: Fixed issue with retrieving form data. (Pro)
+
 = 2.2.8  =
 _Release Date -2nd October 2024_
 
@@ -1016,7 +1042,7 @@ _Release Date -1st October 2024_
 
 - **New Fixes :**
   - ZohoCRM: Resolved issue with Date field not being processed correctly.
-  - ConvertKit: Fixed problem with querying existing subscribers.
+  - Kit (ConvertKit): Fixed problem with querying existing subscribers.
 
 = 2.2.6  =
 _Release Date -28th September 2024_
@@ -1073,7 +1099,7 @@ _Release Date -17th September 2024_
   - ClickUp: Resolved the issue with custom field values.
   - ClinchPad: Addressed the issue with custom field values.
   - CompanyHub: Fixed the issue with custom field values.
-  - ConvertKit: Resolved the issue with custom field values.
+  - Kit (ConvertKit): Resolved the issue with custom field values.
   - CopperCRM: Addressed the issue with custom field values.
 
 = 2.2.3  =
@@ -1108,7 +1134,7 @@ _Release Date -28th August 2024_
 
 - **New Fixes :**
   - Core: Fixed operator precedence deprecation issue in PHP 8 (Pro)
-  - ConvertKit: Resolved the issue with custom field value mapping
+  - Kit (ConvertKit): Resolved the issue with custom field value mapping
 
 = 2.2.1  =
 _Release Date -22th August 2024_
@@ -1461,7 +1487,7 @@ _Release Date -6th April 2024_
   - Mailup: Lists & Groups limitation
   - Sendinblue (Brevo): Lists limitation
   - SendGrid: Authorization error response
-  - ConvertKit: Existing subscriber
+  - Kit (ConvertKit): Existing subscriber
   - MailChimp: Required field missing
   - Divi: Theme active check
   - Freshsales: Contact Module: Account
@@ -1533,7 +1559,7 @@ _Release Date -5th February 2024_
   - Custom Api: Fixed HTTP method
   - Mail Mint: FIxed update contact status
   - Post: Create a new post : Fixed multiple data sending issue
-  - ConvertKit: Fixed authorization
+  - Kit (ConvertKit): Fixed authorization
   - Zoho Bigin: integration update validation
   - WooCommerce: custom field mapping
 

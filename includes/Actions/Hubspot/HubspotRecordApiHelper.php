@@ -167,7 +167,7 @@ class HubspotRecordApiHelper
         return $this->insertTicket($finalData, $typeName);
     }
 
-    private function insertTicket($finalData)
+    private function insertTicket($finalData, &$typeName)
     {
         $typeName = 'Ticket-add';
         $apiEndpoint = 'https://api.hubapi.com/crm/v3/objects/tickets';
@@ -201,7 +201,7 @@ class HubspotRecordApiHelper
         $finalData = ['properties' => $data];
         $actionName = $actionName === 'contact' ? 'contacts' : 'companies';
 
-        if ($update && Helper::proActionFeatExists('Hubspot', 'updateEntity')) {
+        if ($update) {
             $identifier = $actionName === 'contacts' ? $data['email'] : $data['name'];
             $idProperty = $actionName === 'contacts' ? 'email' : 'name';
             $id = $this->existsEntity($actionName, $idProperty, $identifier);
@@ -216,27 +216,19 @@ class HubspotRecordApiHelper
 
     private function existsEntity($actionName, $idProperty, $identifier)
     {
-        $results = $this->fetchEntity("https://api.hubapi.com/crm/v3/objects/{$actionName}?idProperty={$idProperty}&properties={$idProperty}");
+        $apiEndpoint = "https://api.hubapi.com/crm/v3/objects/{$actionName}/search";
+        $data = [
+            'query'      => $identifier,
+            'properties' => [$idProperty]
+        ];
 
-        foreach ($results as $entity) {
-            if ($entity->properties->{$idProperty} == $identifier) {
-                return $entity->id;
-            }
+        $response = HttpHelper::post($apiEndpoint, json_encode($data), $this->defaultHeader);
+
+        if (is_wp_error($response) || empty($response->results) || (isset($response->status) && $response->status == 'error')) {
+            return;
         }
 
-        return false;
-    }
-
-    private function fetchEntity($apiEndpoint, $data = [])
-    {
-        $response = HttpHelper::get($apiEndpoint, null, $this->defaultHeader);
-        $data = array_merge($data, $response->results ?? []);
-
-        if (!empty($response->paging->next->link)) {
-            return $this->fetchEntity($response->paging->next->link, $data);
-        }
-
-        return $data;
+        return $response->results[0]->id ?? false;
     }
 
     private function insertContactOrCompany($finalData, $actionName, &$typeName)

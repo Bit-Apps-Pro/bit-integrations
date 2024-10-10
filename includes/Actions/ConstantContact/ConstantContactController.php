@@ -243,6 +243,7 @@ class ConstantContactController
         $phoneFields = $integrationDetails->phone_field;
         $addressType = $integrationDetails->address_type;
         $phoneType = $integrationDetails->phone_type;
+        $update = $integrationDetails->actions->update ?? false;
 
         if (
             empty($fieldMap)
@@ -279,7 +280,8 @@ class ConstantContactController
             $addressFields,
             $phoneFields,
             $addressType,
-            $phoneType
+            $phoneType,
+            $update
         );
 
         if (is_wp_error($constantContactApiResponse)) {

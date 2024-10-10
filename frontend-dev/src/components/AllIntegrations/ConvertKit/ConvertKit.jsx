@@ -19,8 +19,8 @@ function ConvertKit({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setstep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
   const [convertKitConf, setConvertKitConf] = useState({
-    name: 'ConvertKit',
-    type: 'ConvertKit',
+    name: 'Kit(ConvertKit)',
+    type: 'Kit(ConvertKit)',
     api_secret:
       process.env.NODE_ENV === 'development' ? 'm4iHyMa_gu65b16dJMnYJJzOlSFpj3wl1pB3k_IvOhc' : '',
     field_map: [{ formField: '', convertKitField: '' }],

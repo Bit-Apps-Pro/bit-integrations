@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\PipeDrive;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use WP_Error;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for PipeDrive integration
@@ -83,24 +83,28 @@ class PipeDriveController
             $requestModule = 'noteFields';
         } elseif ($module === 'Persons') {
             $requestModule = 'personFields';
+        } elseif ($module === 'Organizations') {
+            $requestModule = 'organizationFields';
         }
 
         $unnecessaryFields = (object) [
-            'Leads' => ['creator_user_id', 'user_id', 'weighted_value', 'currency', 'weighted_value_currency', 'probability', 'org_id', 'pipeline', 'person_id', 'stage_id', 'label', 'status', 'add_time', 'update_time', 'stage_change_time', 'next_activity_date', 'last_activity_date', 'won_time', 'last_incoming_mail_time', 'last_outgoing_mail_time', 'lost_time', 'close_time', 'lost_reason', 'visible_to', 'id', 'activities_count', 'done_activities_count', 'undone_activities_count', 'email_messages_count', 'product_quantity', 'product_amount'],
+            'Leads' => ['creator_user_id', 'product_name', 'user_id', 'weighted_value', 'currency', 'weighted_value_currency', 'probability', 'org_id', 'pipeline', 'person_id', 'stage_id', 'label', 'status', 'add_time', 'update_time', 'stage_change_time', 'next_activity_date', 'last_activity_date', 'won_time', 'last_incoming_mail_time', 'last_outgoing_mail_time', 'lost_time', 'close_time', 'lost_reason', 'visible_to', 'id', 'activities_count', 'done_activities_count', 'undone_activities_count', 'email_messages_count', 'product_quantity', 'product_amount'],
 
-            'Deals' => ['creator_user_id', 'user_id', 'weighted_value', 'pipeline', 'currency',  'weighted_value_currency', 'probability', 'org_id', 'person_id', 'stage_id', 'label', 'status', 'add_time', 'update_time', 'stage_change_time', 'next_activity_date', 'last_activity_date', 'won_time', 'last_incoming_mail_time', 'last_outgoing_mail_time', 'lost_time', 'close_time', 'lost_reason', 'visible_to', 'id', 'activities_count', 'done_activities_count', 'undone_activities_count', 'email_messages_count', 'product_quantity', 'product_amount'],
+            'Deals' => ['creator_user_id', 'product_name', 'user_id', 'weighted_value', 'pipeline', 'currency',  'weighted_value_currency', 'probability', 'org_id', 'person_id', 'stage_id', 'label', 'status', 'add_time', 'update_time', 'stage_change_time', 'next_activity_date', 'last_activity_date', 'won_time', 'last_incoming_mail_time', 'last_outgoing_mail_time', 'lost_time', 'close_time', 'lost_reason', 'visible_to', 'id', 'activities_count', 'done_activities_count', 'undone_activities_count', 'email_messages_count', 'product_quantity', 'product_amount'],
 
-            'Activities' => ['created_by_user_id', 'last_notification_time', 'deal_id', 'type', 'busy_flag',  'marked_as_done_time', 'lead_id', 'org_id', 'person_id',  'user_id', 'id', 'done', 'add_time', 'update_time', 'location_subpremise', 'location_street_number', 'location_route', 'location_sublocality', 'location_locality', 'location_admin_area_level_1', 'location_admin_area_level_2', 'location_country', 'location_postal_code', 'location_formatted_address'],
+            'Activities' => ['created_by_user_id', 'product_name', 'last_notification_time', 'deal_id', 'type', 'busy_flag',  'marked_as_done_time', 'lead_id', 'org_id', 'person_id',  'user_id', 'id', 'done', 'add_time', 'update_time', 'location_subpremise', 'location_street_number', 'location_route', 'location_sublocality', 'location_locality', 'location_admin_area_level_1', 'location_admin_area_level_2', 'location_country', 'location_postal_code', 'location_formatted_address'],
 
-            'Persons' => ['label', 'last_name', 'first_name', 'add_time', 'update_time', 'org_id', 'owner_id', 'open_deals_count', 'label', 'status', 'next_activity_date', 'last_activity_date', 'last_incoming_mail_time', 'last_outgoing_mail_time',  'visible_to', 'id', 'activities_count', 'done_activities_count', 'undone_activities_count', 'email_messages_count', 'picture_id', 'won_deals_count', 'lost_deals_count', 'closed_deals_count'],
+            'Organizations' => ['id', 'people_count', 'product_name', 'label_ids', 'add_time', 'update_time', 'owner_id', 'open_deals_count', 'next_activity_date', 'last_activity_date',  'visible_to', 'activities_count', 'done_activities_count', 'undone_activities_count', 'email_messages_count', 'picture_id', 'won_deals_count', 'lost_deals_count', 'closed_deals_count'],
 
-            'Products' => ['creator_user_id', 'unit_prices', 'user_id', 'weighted_value', 'category', 'currency',  'weighted_value_currency',  'org_id', 'owner_id', 'person_id', 'selectable', 'label', 'status', 'add_time', 'update_time', 'stage_change_time', 'next_activity_date', 'last_activity_date', 'won_time', 'last_incoming_mail_time', 'last_outgoing_mail_time', 'lost_time', 'close_time', 'lost_reason', 'visible_to', 'id', 'activities_count', 'done_activities_count', 'undone_activities_count', 'email_messages_count'],
+            'Persons' => ['label', 'last_name', 'product_name', 'first_name', 'add_time', 'update_time', 'org_id', 'owner_id', 'open_deals_count', 'label', 'status', 'next_activity_date', 'last_activity_date', 'last_incoming_mail_time', 'last_outgoing_mail_time',  'visible_to', 'id', 'activities_count', 'done_activities_count', 'undone_activities_count', 'email_messages_count', 'picture_id', 'won_deals_count', 'lost_deals_count', 'closed_deals_count'],
 
-            'Notes' => ['creator_user_id', 'user_id', 'weighted_value', 'deal_id', 'lead_id', 'pinned_to_lead_flag', 'pinned_to_deal_flag',  'pinned_to_organization_flag', 'pinned_to_person_flag', 'org_id', 'person_id', 'stage_id', 'label', 'status', 'add_time', 'update_time', 'stage_change_time', 'next_activity_date', 'last_activity_date', 'won_time', 'last_incoming_mail_time', 'last_outgoing_mail_time', 'lost_time', 'close_time', 'lost_reason', 'visible_to', 'id', 'activities_count', 'done_activities_count', 'undone_activities_count', 'email_messages_count', 'product_quantity', 'product_amount'],
+            'Products' => ['creator_user_id', 'product_name', 'unit_prices', 'user_id', 'weighted_value', 'category', 'currency',  'weighted_value_currency',  'org_id', 'owner_id', 'person_id', 'selectable', 'label', 'status', 'add_time', 'update_time', 'stage_change_time', 'next_activity_date', 'last_activity_date', 'won_time', 'last_incoming_mail_time', 'last_outgoing_mail_time', 'lost_time', 'close_time', 'lost_reason', 'visible_to', 'id', 'activities_count', 'done_activities_count', 'undone_activities_count', 'email_messages_count'],
+
+            'Notes' => ['creator_user_id', 'product_name', 'user_id', 'weighted_value', 'deal_id', 'lead_id', 'pinned_to_lead_flag', 'pinned_to_deal_flag',  'pinned_to_organization_flag', 'pinned_to_person_flag', 'org_id', 'person_id', 'stage_id', 'label', 'status', 'add_time', 'update_time', 'stage_change_time', 'next_activity_date', 'last_activity_date', 'won_time', 'last_incoming_mail_time', 'last_outgoing_mail_time', 'lost_time', 'close_time', 'lost_reason', 'visible_to', 'id', 'activities_count', 'done_activities_count', 'undone_activities_count', 'email_messages_count', 'product_quantity', 'product_amount'],
 
         ];
 
-        $apiEndpoints = $this->baseUrl . $requestModule . '?api_token=' . $requestParams->api_key;
+        $apiEndpoints = $this->baseUrl . $requestModule . '?limit=500&api_token=' . $requestParams->api_key;
 
         $response = HttpHelper::get($apiEndpoints, null);
         $formattedResponse = [];
@@ -110,7 +114,7 @@ class PipeDriveController
                 $required = false;
                 if (($module === 'Leads' || $module === 'Deals') && $value->key === 'title') {
                     $required = true;
-                } elseif (($module === 'Persons' || $module === 'Products') && $value->key === 'name') {
+                } elseif (($module === 'Organizations' || $module === 'Persons' || $module === 'Products') && $value->key === 'name') {
                     $required = true;
                 } elseif ($module === 'Notes' && $value->key === 'content') {
                     $required = true;
@@ -176,7 +180,7 @@ class PipeDriveController
         }
 
         if (isset($pipeDriveApiResponse->success, $pipeDriveApiResponse->data) && $pipeDriveApiResponse->success && \count($integrationDetails->relatedlists)) {
-            $recordApiHelper->addRelatedList($pipeDriveApiResponse, $integrationDetails, $fieldValues, $module);
+            do_action('btcbi_pipedrive_store_related_list', $pipeDriveApiResponse, $integrationDetails, $fieldValues, $module, $integrationDetails->api_key, $integId);
         }
 
         return $pipeDriveApiResponse;

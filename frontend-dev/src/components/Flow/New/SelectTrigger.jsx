@@ -17,9 +17,13 @@ import EssentialBlocksHelper from '../../Triggers/TriggerHelpers/EssentialBlocks
 import SpectraHelper from '../../Triggers/TriggerHelpers/SpectraHelper'
 import CustomFormSubmission from '../../Triggers/CustomFormSubmission'
 import CoblocksHelper from '../../Triggers/TriggerHelpers/CoblocksHelper'
+import ProModal from '../../Utilities/ProModal'
 
 export default function SelectTrigger() {
+  const [showProModal, setShowProModal] = useState(false)
+  const [triggerName, setTriggerName] = useState()
   const { isPro } = useRecoilValue($btcbi)
+
   const loaderStyle = {
     display: 'flex',
     height: '82vh',
@@ -101,6 +105,16 @@ export default function SelectTrigger() {
     )
   }
 
+  const showPModal = (name) => {
+    setTriggerName(name)
+    setShowProModal(true)
+  }
+
+  const closePModal = () => {
+    setShowProModal(false)
+    setTriggerName()
+  }
+
   return (
     <>
       {newFlow.triggered_entity ? (
@@ -151,9 +165,9 @@ export default function SelectTrigger() {
                   <div
                     key={`inte-sm-${i + 2}`}
                     onClick={() =>
-                      !inte.disable &&
-                      (isPro || !allTriggers?.data[inte]?.isPro) &&
-                      setTrigger(inte)
+                      !inte.disable && (isPro || !allTriggers?.data[inte]?.isPro)
+                        ? setTrigger(inte)
+                        : showPModal(allTriggers?.data[inte]?.name)
                     }
                     onKeyUp={() =>
                       !inte.disable &&
@@ -164,21 +178,26 @@ export default function SelectTrigger() {
                     tabIndex="0"
                     className={`btcd-inte-card inte-sm mr-4 mt-3 ${inte.disable && (isPro || !allTriggers?.data[inte]?.isPro) && 'btcd-inte-dis'} ${allTriggers?.data[inte]?.isPro && !isPro && 'btcd-inte-pro'}`}>
                     {allTriggers?.data[inte]?.isPro && !isPro && (
-                      <div className="pro-filter">
-                        <span className="txt-pro">
-                          <a
-                            href="https://towp.io/?demo&plugin=bit-integrations"
-                            target="_blank"
-                            rel="noreferrer">
-                            {__('Try Pro', 'bit-integrations')}
-                          </a>
-                        </span>
-                      </div>
+                      <>
+                        <div className="pro-filter">
+                          <button
+                            className="btn txt-pro"
+                            type="button"
+                            onClick={() => showPModal(allTriggers?.data[inte]?.name)}>
+                            {__('Pro', 'bit-integrations')}
+                          </button>
+                        </div>
+                      </>
                     )}
                     <GetLogo name={inte} extension="webp" />
                     <div className="txt-center">{allTriggers?.data[inte]?.name}</div>
                   </div>
                 ))}
+              <ProModal
+                show={showProModal}
+                setShow={closePModal}
+                sub={triggerName || __('This Trigger', 'bit-integrations')}
+              />
             </div>
           </div>
         </>

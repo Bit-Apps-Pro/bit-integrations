@@ -609,9 +609,9 @@ export const handleFieldMapping = (event, index, conftTmp, setConf, uploadFields
 export const handleCustomValue = (event, index, conftTmp, setConf, tab) => {
   const newConf = { ...conftTmp }
   if (tab) {
-    newConf.relatedlists[tab - 1].field_map[index].customValue = event.target.value
+    newConf.relatedlists[tab - 1].field_map[index].customValue = event?.target?.value || event
   } else {
-    newConf.field_map[index].customValue = event
+    newConf.field_map[index].customValue = event?.target?.value || event
   }
   setConf({ ...newConf })
 }

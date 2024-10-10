@@ -44,7 +44,10 @@ export const refreshConvertKitForm = (
       } else {
         setSnackbar({
           show: true,
-          msg: __('Convert Kit forms refresh failed. please try again', 'bit-integrations')
+          msg: sprintf(
+            __('%s forms refresh failed. please try again', 'bit-integrations'),
+            'Kit(ConvertKit)'
+          )
         })
       }
       setIsLoading(false)
@@ -72,14 +75,17 @@ export const refreshConvertKitTags = (
           newConf.default.convertKitTags = result.data.convertKitTags
           setSnackbar({
             show: true,
-            msg: __('Convert Kit tags refreshed', 'bit-integrations')
+            msg: sprintf(__('%s tags refreshed', 'bit-integrations'), 'Kit(ConvertKit)')
           })
         } else {
           setSnackbar({
             show: true,
-            msg: __(
-              'No Convert Kit tags found. Try changing the header row number or try again',
-              'bit-integrations'
+            msg: sprintf(
+              __(
+                'No %s tags found. Try changing the header row number or try again',
+                'bit-integrations'
+              ),
+              'Kit(ConvertKit)'
             )
           })
         }
@@ -88,7 +94,10 @@ export const refreshConvertKitTags = (
       } else {
         setSnackbar({
           show: true,
-          msg: __('Convert Kit tags refresh failed. please try again', 'bit-integrations')
+          msg: sprintf(
+            __('%s tags refresh failed. please try again', 'bit-integrations'),
+            'Kit(ConvertKit)'
+          )
         })
       }
       setIsLoading(false)
@@ -124,14 +133,17 @@ export const refreshConvertKitHeader = (
             }))
           setSnackbar({
             show: true,
-            msg: __('Convert Kit fields refreshed', 'bit-integrations')
+            msg: sprintf(__('%s fields refreshed', 'bit-integrations'), 'Kit(ConvertKit)')
           })
         } else {
           setSnackbar({
             show: true,
-            msg: __(
-              'No Convert Kit fields found. Try changing the header row number or try again',
-              'bit-integrations'
+            msg: sprintf(
+              __(
+                'No %s fields found. Try changing the header row number or try again',
+                'bit-integrations'
+              ),
+              'Kit(ConvertKit)'
             )
           })
         }
@@ -140,7 +152,10 @@ export const refreshConvertKitHeader = (
       } else {
         setSnackbar({
           show: true,
-          msg: __('Convert Kit fields refresh failed. please try again', 'bit-integrations')
+          msg: sprintf(
+            __('%s fields refresh failed. please try again', 'bit-integrations'),
+            'Kit(ConvertKit)'
+          )
         })
       }
       setIsLoading(false)

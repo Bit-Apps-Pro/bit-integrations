@@ -198,6 +198,7 @@ const ActionHook = () => {
               <li>${__('Submit <b>Integrable Form</b>', 'bit-integrations')}</li>
               <li>${__('Click <b>Next</b> and <b>Go</b></b>', 'bit-integrations')}</li>
             </ul>
+            <p><b>${__('Important', 'bit-integrations')}:</b> ${__('Choose a consistent and unique identifier for each form entry, like a <b>Form ID</b> or <b>PostID</b>. If unavailable, create and hide a custom field to serve as the unique key.', 'bit-integrations')}</p>
             <h5>
               <a className="btcd-link" href="https://bitapps.pro/docs/bit-integrations/trigger-hooks" target="_blank" rel="noreferrer">${__('Bit Integrations Trigger Hooks', 'bit-integrations')}</a>
               <br />            

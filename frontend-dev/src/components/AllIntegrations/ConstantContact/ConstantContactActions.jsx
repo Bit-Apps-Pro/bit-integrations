@@ -89,7 +89,6 @@ export default function ConstantContactActions({
     const newConf = { ...constantContactConf }
     if (type === 'list_ids' && val.length) {
       newConf.actions.list = true
-      newConf.actions.update = true
     } else if (type === 'list_ids' && val.length < 1) {
       delete newConf.actions.list
     }
@@ -183,6 +182,14 @@ export default function ConstantContactActions({
           value="list_ids"
           title={__('Lists', 'bit-integrations')}
           subTitle={__('Add Lists', 'bit-integrations')}
+        />
+        <TableCheckBox
+          checked={constantContactConf?.actions?.update || false}
+          onChange={(e) => actionHandler(e, 'update')}
+          className="wdt-200 mt-4 mr-2"
+          value="update"
+          title={__('Update Contact', 'bit-integrations')}
+          subTitle={__('Update Contact', 'bit-integrations')}
         />
       </div>
       <ConfirmModal

@@ -103,7 +103,9 @@ export default function ConvertKitIntegLayout({
             refreshConvertKitTags(convertKitConf, setConvertKitConf, setIsLoading, setSnackbar)
           }
           className="icn-btn sh-sm ml-2 mr-2 tooltip"
-          style={{ '--tooltip-txt': `'${__('Refresh ConvertKit Tags', 'bit-integrations')}'` }}
+          style={{
+            '--tooltip-txt': `'${sprintf(__('Refresh %s Tags', 'bit-integrations'), 'Kit(ConvertKit)')}'`
+          }}
           type="button"
           disabled={isLoading}>
           &#x21BB;
@@ -129,7 +131,9 @@ export default function ConvertKitIntegLayout({
             refreshConvertKitHeader(convertKitConf, setConvertKitConf, setIsLoading, setSnackbar)
           }
           className="icn-btn sh-sm ml-2 mr-2 tooltip"
-          style={{ '--tooltip-txt': `'${__('Refresh ConvertKit Field', 'bit-integrations')}'` }}
+          style={{
+            '--tooltip-txt': `'${sprintf(__('Refresh %s Field', 'bit-integrations'), 'Kit(ConvertKit)')}'`
+          }}
           type="button"
           disabled={isLoading}>
           &#x21BB;
@@ -143,7 +147,7 @@ export default function ConvertKitIntegLayout({
               <b>{__('Form Fields', 'bit-integrations')}</b>
             </div>
             <div className="txt-dp">
-              <b>{__('ConvertKit Fields', 'bit-integrations')}</b>
+              <b>{sprintf(__('%s Fields', 'bit-integrations'), 'Kit(ConvertKit)')}</b>
             </div>
           </div>
 

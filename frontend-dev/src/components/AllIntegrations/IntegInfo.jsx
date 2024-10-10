@@ -446,6 +446,7 @@ export default function IntegInfo() {
       case 'Agiled CRM':
         return <AgiledAuthorization agiledConf={integrationConf} step={1} isInfo />
       case 'ConvertKit':
+      case 'Kit(ConvertKit)':
         return <ConvertKitAuthorization convertKitConf={integrationConf} step={1} isInfo />
       case 'BenchMark':
         return <BenchMarkAuthorization benchMarkConf={integrationConf} step={1} isInfo />

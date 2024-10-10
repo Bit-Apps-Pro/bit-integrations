@@ -159,7 +159,8 @@ const CustomFormSubmission = () => {
               <li>${__('Submit <b>The Form</b> while the Fetch button is <b>spinning</b>.', 'bit-integrations')}</li>
               <li>${__('After submitting the form, Click <b>Next</b> and then <b>Go</b></b>', 'bit-integrations')}</li>
             </ul>
-            <h5>${__('Important: The Fetch button will keep spinning until you submit the form.', 'bit-integrations')}</h5>
+            <p><b>${__('Important', 'bit-integrations')}:</b> ${__('The Fetch button will keep spinning until you submit the form.', 'bit-integrations')}</p>
+            <p><b>${__('Important', 'bit-integrations')}:</b> ${__('Choose a consistent unique identifier like <b>Form ID</b> (default) or <b>Post ID</b> for each form entry, or create a hidden custom field if unavailable.', 'bit-integrations')}</p>
             ${
               newFlow?.triggerDetail?.note
                 ? `<h4 className="mt-0">Note</h4>${__(newFlow?.triggerDetail?.note, 'bit-integrations')}`

@@ -9,6 +9,7 @@ namespace BitCode\FI\Actions\ZohoCRM;
 use stdClass;
 use WP_Error;
 use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Core\Util\DateTimeHelper;
 
@@ -63,7 +64,7 @@ class RecordApiHelper
                     continue;
                 }
                 if ($fieldPair->formField === 'custom' && isset($fieldPair->customValue)) {
-                    $fieldData[$fieldPair->zohoFormField] = $this->formatFieldValue($fieldPair->customValue, $defaultConf->layouts->{$module}->{$layout}->fields->{$fieldPair->zohoFormField});
+                    $fieldData[$fieldPair->zohoFormField] = $this->formatFieldValue(Common::replaceFieldWithValue($fieldPair->customValue, $fieldValues), $defaultConf->layouts->{$module}->{$layout}->fields->{$fieldPair->zohoFormField});
                 } else {
                     $fieldData[$fieldPair->zohoFormField] = $this->formatFieldValue($fieldValues[$fieldPair->formField], $defaultConf->layouts->{$module}->{$layout}->fields->{$fieldPair->zohoFormField});
                 }

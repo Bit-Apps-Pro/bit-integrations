@@ -422,6 +422,7 @@ const IntegType = memo(({ allIntegURL, flow }) => {
     case 'Agiled CRM':
       return <EditAgiled allIntegURL={allIntegURL} />
     case 'ConvertKit':
+    case 'Kit(ConvertKit)':
       return <EditConvertKit allIntegURL={allIntegURL} />
     case 'BenchMark':
       return <EditBenchMark allIntegURL={allIntegURL} />
