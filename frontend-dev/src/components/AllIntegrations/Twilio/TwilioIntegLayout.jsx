@@ -73,6 +73,8 @@ export default function TwilioIntegLayout({
             .map((f) => ({ label: f.label, value: `\${${f.name}}` }))}
           className="btcd-paper-drpdwn wdt-400 ml-2"
           onChange={(val) => setFieldInputOnMsgBody(val, setTwilioConf, textAreaRef)}
+          singleSelect
+          selectOnClose
         />
       </div>
 
