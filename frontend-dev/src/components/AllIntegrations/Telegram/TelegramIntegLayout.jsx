@@ -26,7 +26,7 @@ export default function TelegramIntegLayout({
 
   const setMessageBody = (val) => {
     setTelegramConf(prevConf => create(prevConf, draftConf => {
-      draftConf.body += val
+      draftConf.body = val
     }))
   }
   const changeActionRun = (e) => {

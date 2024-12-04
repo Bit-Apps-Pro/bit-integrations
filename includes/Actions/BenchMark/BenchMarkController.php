@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\BenchMark;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use WP_Error;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for ZohoCrm integration
@@ -121,30 +121,53 @@ class BenchMarkController
             );
         }
 
-        $listId = $queryParams->list_id;
-
-        $apiEndpoint = "https://clientapi.benchmarkemail.com/Contact/{$listId}/Fields";
-
+        $apiEndpoint = "https://clientapi.benchmarkemail.com/Contact/{$queryParams->list_id}";
         $authorizationHeader['AuthToken'] = $queryParams->api_secret;
         $benchMarkResponse = HttpHelper::get($apiEndpoint, null, $authorizationHeader);
 
-        $fields = [];
-        if (!is_wp_error($benchMarkResponse)) {
-            $allFields = $benchMarkResponse->Response->Data;
+        $fields = [
+            'Email' => (object) [
+                'fieldId'    => 'Email',
+                'fieldName'  => 'Email',
+                'fieldValue' => 'Email',
+                'required'   => true
+            ],
+            'FirstName' => (object) [
+                'fieldId'    => 'FirstName',
+                'fieldName'  => 'First Name',
+                'fieldValue' => 'FirstName',
+                'required'   => false
+            ],
+            'LastName' => (object) [
+                'fieldId'    => 'LastName',
+                'fieldName'  => 'Last Name',
+                'fieldValue' => 'LastName',
+                'required'   => false
+            ],
+            'MiddleName' => (object) [
+                'fieldId'    => 'MiddleName',
+                'fieldName'  => 'Middle Name',
+                'fieldValue' => 'MiddleName',
+                'required'   => false
+            ]
+        ];
 
-            foreach ($allFields as $field) {
-                $fields[$field] = (object) [
-                    'fieldId'    => $field,
-                    'fieldName'  => $field,
-                    'fieldValue' => strtolower(str_replace(' ', '_', $field)),
-                    'required'   => $field == 'email' ? true : false
-                ];
+        if (!is_wp_error($benchMarkResponse) && !empty($benchMarkResponse->Response->Data)) {
+            foreach ((array) $benchMarkResponse->Response->Data as $key => $field) {
+                if (substr($key, 0, 5) === 'Field' && substr($key, \strlen($key) - 4, \strlen($key)) === 'Name') {
+                    $key = str_replace('Name', '', $key);
+
+                    $fields[$key] = (object) [
+                        'fieldId'    => $key,
+                        'fieldName'  => $field,
+                        'fieldValue' => $key,
+                        'required'   => false
+                    ];
+                }
             }
-
-            $response['benchMarkField'] = $fields;
-
-            wp_send_json_success($response);
         }
+
+        wp_send_json_success(['benchMarkField' => $fields]);
     }
 
     public function execute($integrationData, $fieldValues)
