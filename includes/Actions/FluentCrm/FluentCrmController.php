@@ -95,14 +95,14 @@ class FluentCrmController
             wp_send_json_success([], 200);
         }
 
-        $companies = Company::limit(200)->get(['id', 'name']);
+        $companies = Company::paginate(200)->toArray();
 
         wp_send_json_success(array_map(function ($company) {
             return [
                 'id'    => $company['id'],
                 'label' => $company['name'],
             ];
-        }, $companies->toArray()), 200);
+        }, $companies['data']), 200);
     }
 
     public static function fluentCrmFields()
