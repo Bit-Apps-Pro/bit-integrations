@@ -95,7 +95,7 @@ class FluentCrmController
             wp_send_json_success([], 200);
         }
 
-        $companies = Company::paginate(200)->toArray();
+        $companies = Company::paginate(500)->toArray();
 
         wp_send_json_success(array_map(function ($company) {
             return [
