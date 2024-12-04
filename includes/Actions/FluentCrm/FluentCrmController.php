@@ -89,17 +89,20 @@ class FluentCrmController
     {
         self::checkedExistsFluentCRM();
 
-        $response = [];
-        $companies = Company::get();
+        $settings = get_option('_fluentcrm_experimental_settings', []);
 
-        foreach ($companies as $company) {
-            $response[] = [
-                'id'    => $company->id,
-                'label' => $company->name,
-            ];
+        if (empty($settings['company_module']) || $settings['company_module'] !== 'yes') {
+            wp_send_json_success([], 200);
         }
 
-        wp_send_json_success($response, 200);
+        $companies = Company::limit(200)->get(['id', 'name']);
+
+        wp_send_json_success(array_map(function ($company) {
+            return [
+                'id'    => $company['id'],
+                'label' => $company['name'],
+            ];
+        }, $companies->toArray()), 200);
     }
 
     public static function fluentCrmFields()

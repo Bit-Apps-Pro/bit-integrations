@@ -145,32 +145,21 @@ export const getAllCompanies = (
   setLoading({ ...loading, company: true })
   bitsFetch({}, 'fluent_crm_get_all_company')
     .then((result) => {
-      if (result && result.success) {
-        if (result.data) {
-          setFluentCrmConf((prevConf) =>
-            create(prevConf, (newConf) => {
-              newConf.companies = result.data
-            })
-          )
-          setSnackbar({
-            show: true,
-            msg: __('Fluent CRM Companies refreshed', 'bit-integrations')
-          })
-        } else {
-          setSnackbar({
-            show: true,
-            msg: __('No Fluent CRM Companies found', 'bit-integrations')
-          })
-        }
-      } else {
-        setSnackbar({
-          show: true,
-          msg: __('Fluent CRM Companies refresh failed. please try again', 'bit-integrations')
-        })
-      }
       setLoading({ ...loading, company: false })
+
+      if (result.success && result?.data) {
+        setFluentCrmConf((prevConf) =>
+          create(prevConf, (draftConf) => {
+            draftConf.companies = result.data
+          })
+        )
+        setSnackbar({ show: true, msg: __('Fluent CRM Companies refreshed', 'bit-integrations') })
+
+        return
+      }
+
+      setSnackbar({ show: true, msg: __('Fluent CRM Companies refresh failed. please try again', 'bit-integrations') })
     })
-    .catch(() => setLoading({ ...loading, company: false }))
 }
 
 export const mapNewRequiredFields = (fluentCrmConf) => {
