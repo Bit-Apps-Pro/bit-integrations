@@ -8,9 +8,9 @@
  * Author:    Automation & Integration Plugin - Bit Apps
  * Author URI:  https://bitapps.pro
  * Text Domain: bit-integrations
- * Requires PHP: 7.0
+ * Requires PHP: 7.4
  * Requires at least: 5.1
- * Tested up to: 6.7
+ * Tested up to: 6.7.1
  * Domain Path: /languages
  * License:  GPLv2 or later
  */
@@ -37,9 +37,9 @@ function btcbi_activate_plugin($network_wide)
             esc_html__('Error Activating', 'bit-integrations')
         );
     }
-    if (version_compare(PHP_VERSION, '7.0', '<')) {
+    if (version_compare(PHP_VERSION, '7.4', '<')) {
         wp_die(
-            esc_html__('Forms Integrationsw requires PHP version 7.0.', 'bit-integrations'),
+            esc_html__('Bit Integrations requires PHP version 7.4.', 'bit-integrations'),
             esc_html__('Error Activating', 'bit-integrations')
         );
     }
@@ -55,9 +55,9 @@ function btcbi_deactivate_plugin($network_wide)
             esc_html__('Error Deactivating', 'bit-integrations')
         );
     }
-    if (version_compare(PHP_VERSION, '7.0', '<')) {
+    if (version_compare(PHP_VERSION, '7.4', '<')) {
         wp_die(
-            esc_html__('Forms Integrationsw requires PHP version 7.0.', 'bit-integrations'),
+            esc_html__('Bit Integrations requires PHP version 7.4.', 'bit-integrations'),
             esc_html__('Error Deactivating', 'bit-integrations')
         );
     }

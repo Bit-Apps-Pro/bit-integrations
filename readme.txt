@@ -2,8 +2,8 @@
 Contributors: bitpressadmin, niloy121,rishadbitcode,fahimsakib,shuvomohajan,tanvirchy,shakhawathosen,khoaiz,mazharul78
 Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
-Tested up to: 6.7
-Requires PHP: 7.0
+Tested up to: 6.7.1
+Requires PHP: 7.4
 Stable tag: 2.3.8
 License: GPLv2 or later
 
@@ -1022,7 +1022,7 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 == Changelog ==
 
 = 2.3.8  =
-_Release Date -26th November 2024_
+_Release Date -5th December 2024_
 
 - **New Feature**
  - Fluent CRM (Action)(Pro): Added support for assigning a company to contacts.
