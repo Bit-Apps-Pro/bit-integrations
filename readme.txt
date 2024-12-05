@@ -2,9 +2,9 @@
 Contributors: bitpressadmin, niloy121,rishadbitcode,fahimsakib,shuvomohajan,tanvirchy,shakhawathosen,khoaiz,mazharul78
 Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
-Tested up to: 6.7
-Requires PHP: 7.0
-Stable tag: 2.3.7
+Tested up to: 6.7.1
+Requires PHP: 7.4
+Stable tag: 2.3.8
 License: GPLv2 or later
 
 Automation Plugin for WordPress. Integration of 80+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
@@ -1020,6 +1020,27 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 6. All integration list
 
 == Changelog ==
+
+= 2.3.8  =
+_Release Date -5th December 2024_
+
+- **New Feature**
+ - Fluent CRM (Action)(Pro): Added support for assigning a company to contacts.
+
+- **New Improvement**
+ - Benchmark: Improved integration execution performance.
+ - Forminator (Pro): Extended form fetching limit to 1000.
+ - Ultimate Member (Pro): Added support for uploading field data URLs.
+
+- **Bug Fixes**
+ - Telegram: Fixed issue with integration name not being editable.
+ - Telegram: Resolved issue with HTML message text breaking characters.
+ - Telegram: Fixed issue with markdown field input appending incorrectly.
+ - Benchmark: Fixed issue with boolean fields not being handled correctly.
+ - Slack: Fixed issue with message body field input appending incorrectly.
+ - Chore: Corrected the improper call of _load_textdomain_just_in_time.
+ - Twilio: Fixed issue with message body field input appending incorrectly.
+ - Fluent CRM (Trigger)(Pro): Fixed issue with duplicate trigger execution.
 
 = 2.3.7  =
 _Release Date -28th November 2024_

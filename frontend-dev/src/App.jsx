@@ -77,7 +77,7 @@ function App() {
               {/* </Link> */}
             </div>
 
-            <nav className="top-nav ml-2">
+            {/* <nav className="top-nav ml-2">
               <a
                 target="_blank"
                 href="https://wordpress.org/support/plugin/bit-integrations/reviews/#new-post"
@@ -85,13 +85,13 @@ function App() {
                 rel="noreferrer">
                 {__('Review us', 'bit-integrations')}
               </a>
-            </nav>
+            </nav> */}
             <nav className="top-nav ml-5">
-              <AnnouncementModal />
+              {/* <AnnouncementModal /> */}
             </nav>
             <div className="flx flx-center" style={{ marginLeft: 'auto' }}>
               ${!btcbi.isPro && <ProModalBtn />}
-              <CashbackModal />
+              {/* <CashbackModal /> */}
               <ChangelogToggle />
             </div>
           </div>

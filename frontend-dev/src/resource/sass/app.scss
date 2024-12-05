@@ -2936,8 +2936,8 @@ nav.top-nav {
 
 .app-link-active {
   background: $light-bg !important;
-  color: #0e112f !important;
   font-weight: bold !important;
+  line-height: 25px;
 }
 .blink {
   animation: blink 2s linear infinite;

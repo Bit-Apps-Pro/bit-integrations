@@ -5,7 +5,7 @@ import Modal from '../components/Utilities/Modal'
 import { $btcbi } from '../GlobalStates'
 import ChangelogIcn from '../Icons/ChangeLogIcn'
 import ExternalLinkIcn from '../Icons/ExternalLinkIcn'
-import BlackFridayDeal from '../resource/img/BlackFridayDeal.webp'
+import CyberMondayDeal from '../resource/img/CyberMondayDeal.jpg'
 import bitsFetch from '../Utils/bitsFetch'
 import { __, sprintf } from '../Utils/i18nwrap'
 
@@ -18,7 +18,7 @@ export default function ChangelogToggle() {
 
   const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
   const Early_Bird_URL = `https://bit-social.com/?utm_source=${source}&utm_medium=inside-plugin&utm_campaign=early-bird-offer`
-  const releaseDate = '28th November 2024'
+  const releaseDate = '05th December 2024'
 
   const changeLog = [
     {
@@ -43,13 +43,17 @@ export default function ChangelogToggle() {
       label: __('New Features', 'bit-integrations'),
       headClass: 'new-feature',
       itemClass: 'feature-list',
-      items: []
+      items: ['Fluent CRM (Action)(Pro): Added support for assigning a company to contacts.']
     },
     {
       label: __('New Improvements', 'bit-integrations'),
       headClass: 'new-improvement',
       itemClass: 'feature-list',
-      items: ['Asana: Added Tagify input for custom fields.']
+      items: [
+        'Forminator (Pro): Extended form fetching limit to 1000.',
+        'Benchmark: Improved integration execution performance.',
+        'Ultimate Member (Pro): Added support for uploading field data URLs.'
+      ]
     }
   ]
 
@@ -113,7 +117,7 @@ export default function ChangelogToggle() {
           <>
             <div>
               <a href={Early_Bird_URL} target="_blank" rel="noreferrer">
-                <img src={BlackFridayDeal} style={{ width: '100%', marginTop: '-2px' }} alt="" />
+                <img src={CyberMondayDeal} style={{ width: '100%', marginTop: '-2px', borderRadius: '20px' }} alt="" />
               </a>
             </div>
             <div className="txt-right" style={{ marginTop: '-2px' }}>
@@ -196,7 +200,8 @@ export default function ChangelogToggle() {
                         className="app-link-active"
                         target="blank"
                         href="https://bitapps.pro/terms-of-service/">
-                        {__('Click here to see terms', 'bit-integrations')}
+                        {__('Terms and conditions', 'bit-integrations')}&nbsp;
+                        <ExternalLinkIcn size="14" />
                       </a>
                     </div>
                     <div className="flx flx-between">
