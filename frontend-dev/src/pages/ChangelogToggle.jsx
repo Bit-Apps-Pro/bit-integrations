@@ -5,7 +5,7 @@ import Modal from '../components/Utilities/Modal'
 import { $btcbi } from '../GlobalStates'
 import ChangelogIcn from '../Icons/ChangeLogIcn'
 import ExternalLinkIcn from '../Icons/ExternalLinkIcn'
-import BlackFridayDeal from '../resource/img/BlackFridayDeal.webp'
+import CyberMondayDeal from '../resource/img/CyberMondayDeal.jpg'
 import bitsFetch from '../Utils/bitsFetch'
 import { __, sprintf } from '../Utils/i18nwrap'
 
@@ -117,7 +117,7 @@ export default function ChangelogToggle() {
           <>
             <div>
               <a href={Early_Bird_URL} target="_blank" rel="noreferrer">
-                <img src={BlackFridayDeal} style={{ width: '100%', marginTop: '-2px' }} alt="" />
+                <img src={CyberMondayDeal} style={{ width: '100%', marginTop: '-2px', borderRadius: '20px' }} alt="" />
               </a>
             </div>
             <div className="txt-right" style={{ marginTop: '-2px' }}>

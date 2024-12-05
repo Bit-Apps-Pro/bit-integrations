@@ -121,11 +121,15 @@ function Settings() {
         </div>
         <div className="w-6 mt-3">
           <div className="flx flx-between sh-sm br-10 btcd-setting-opt">
-            <div>
-              <b>
-                <span className="btcd-icn  icn-trash-fill mr-2" />
-                {__('Turn off Opt In', 'bit-integrations')}
-              </b>
+            <div className='flx flx-start'>
+              <span className="btcd-icn  icn-trash-fill mr-2" />
+              <div>
+                <b>
+                  {__('Opt In Telemetry Data', 'bit-integrations')}
+                </b>
+                <br />
+                <small>{__('If you turn off, Bit Integrations will no longer collect any telemetry data', 'bit-integrations')}</small>
+              </div>
             </div>
             <SingleToggle2
               action={analyticsHandle}
