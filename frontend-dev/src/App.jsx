@@ -87,7 +87,7 @@ function App() {
               </a>
             </nav> */}
             <nav className="top-nav ml-5">
-              <AnnouncementModal />
+              {/* <AnnouncementModal /> */}
             </nav>
             <div className="flx flx-center" style={{ marginLeft: 'auto' }}>
               ${!btcbi.isPro && <ProModalBtn />}
