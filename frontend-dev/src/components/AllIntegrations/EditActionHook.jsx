@@ -47,6 +47,7 @@ function EditActionHook() {
                 draftFlow.flow_details['rawData'] = resp.data.actionHook
                 draftFlow.flow_details['fields'] = []
                 draftFlow.flow_details['primaryKey'] = undefined
+                draftFlow.flow_details['trigger_type'] = draftFlow.flow_details?.trigger_type || 'action_hook'
 
                 if (draftFlow.flow_details?.body?.data) {
                   draftFlow.flow_details.body.data = []

@@ -226,7 +226,8 @@ export default function FluentCrmIntegLayout({
           <FluentCrmActions
             fluentCrmConf={fluentCrmConf}
             setFluentCrmConf={setFluentCrmConf}
-            setIsLoading={setIsLoading}
+            loading={loading}
+            setLoading={setLoading}
             setSnackbar={setSnackbar}
           />
         </>

@@ -36,6 +36,7 @@ const FormPlugin = () => {
 
   const setTriggerData = (val) => {
     const tmpNewFlow = { ...newFlow }
+
     if (!val) {
       delete tmpNewFlow.triggerData
       setNewFlow(tmpNewFlow)
@@ -48,7 +49,7 @@ const FormPlugin = () => {
         newFlow?.triggerDetail?.name === 'PiotnetAddon' ||
         newFlow?.triggerDetail?.name === 'CartFlow'
       ) {
-        const filterData = data?.data?.filter((item) => item.id === val)[0]?.post_id ?? null
+        const filterData = data?.data?.filter((item) => item.id === val)[0]?.post_id || null
         queryData = { ...queryData, postId: filterData }
       }
 
@@ -57,7 +58,8 @@ const FormPlugin = () => {
           tmpNewFlow.triggerData = {
             formID: val,
             fields: resp.data.fields,
-            postId: resp.data.postId
+            postId: resp.data.postId,
+            trigger_type: newFlow?.triggerDetail?.type || 'form'
           }
           setFormFields(resp.data.fields)
           FormPluginStateHelper(val, tmpNewFlow, resp, setNewFlow)

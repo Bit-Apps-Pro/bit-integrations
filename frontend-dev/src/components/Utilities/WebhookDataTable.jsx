@@ -10,6 +10,7 @@ export default function WebhookDataTable({ data, flow, setFlow }) {
 
   const types = [
     { key: 'text', value: 'text' },
+    { key: 'boolean', value: 'true/false' },
     { key: 'email', value: 'email' },
     { key: 'select', value: 'select' },
     { key: 'radio', value: 'radio' },
@@ -21,7 +22,9 @@ export default function WebhookDataTable({ data, flow, setFlow }) {
     { key: 'url', value: 'url' },
     { key: 'file', value: 'file' },
     { key: 'array', value: 'array' },
-    { key: 'object', value: 'object' }
+    { key: 'object', value: 'object' },
+    { key: 'NULL', value: 'null' },
+    { key: 'unknown', value: 'unknown' }
   ]
 
   return (

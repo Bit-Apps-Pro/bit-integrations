@@ -7,6 +7,7 @@ import { useRecoilState } from 'recoil'
 import { $newFlow } from '../../GlobalStates'
 import { __ } from '../../Utils/i18nwrap'
 import Loader from '../Loaders/Loader'
+import { getRecoil } from 'recoil-nexus'
 
 const CustomAction = lazy(() => import('./CustomAction/CustomAction'))
 const PaidMembershipPro = lazy(() => import('./PaidMembershipPro/PaidMembershipPro'))
@@ -160,6 +161,8 @@ const Dokan = lazy(() => import('./Dokan/Dokan'))
 const JetEngine = lazy(() => import('./JetEngine/JetEngine'))
 const HighLevel = lazy(() => import('./HighLevel/HighLevel'))
 const TheEventsCalendar = lazy(() => import('./TheEventsCalendar/TheEventsCalendar'))
+const LMFWC = lazy(() => import('./LMFWC/LMFWC'))
+const Voxel = lazy(() => import('./Voxel/Voxel'))
 
 export default function NewInteg({ allIntegURL }) {
   const { integUrlName } = useParams()
@@ -1515,6 +1518,24 @@ export default function NewInteg({ allIntegURL }) {
       case 'The Events Calendar':
         return (
           <TheEventsCalendar
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'License Manager For WooCommerce':
+        return (
+          <LMFWC
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'Voxel':
+        return (
+          <Voxel
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
             flow={flow}

@@ -7,6 +7,7 @@
 namespace BitCode\FI\Actions\SendinBlue;
 
 use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
 
 /**
@@ -57,6 +58,13 @@ class RecordApiHelper
         return HttpHelper::post($insertRecordEndpoint, $data, $this->_defaultHeader);
     }
 
+    public function existRecord($email)
+    {
+        $insertRecordEndpoint = "{$this->_apiEndPoint}/{$email}";
+
+        return HttpHelper::get($insertRecordEndpoint, null, $this->_defaultHeader);
+    }
+
     public function updateRecord($id, $data)
     {
         $updateRecordEndpoint = "{$this->_apiEndPoint}/{$id}";
@@ -66,44 +74,28 @@ class RecordApiHelper
 
     public function execute($lists, $defaultDataConf, $fieldValues, $fieldMap, $actions, $integrationDetails)
     {
-        $fieldData = [];
-        $attributes = [];
+        $fieldData = $this->setFiledMapping($fieldMap, $fieldValues);
 
-        foreach ($fieldMap as $fieldKey => $fieldPair) {
-            if (!empty($fieldPair->sendinBlueField)) {
-                if ($fieldPair->sendinBlueField === 'email') {
-                    $fieldData['email'] = $fieldValues[$fieldPair->formField];
-                } elseif ($fieldPair->formField === 'custom' && isset($fieldPair->customValue)) {
-                    $attributes[$fieldPair->sendinBlueField] = $fieldPair->customValue;
-                } else {
-                    $attributes[$fieldPair->sendinBlueField] = $fieldValues[$fieldPair->formField];
-                }
-            }
-        }
+        $fieldData['listIds'] = array_map('intval', $lists);
 
-        $fieldData['attributes'] = (object) $attributes;
-
-        foreach ($lists as $index => $value) {
-            // code to be executed;
-            $lists[$index] = (int) $value;
-        }
-        $fieldData['listIds'] = $lists;
-
-        if (property_exists($actions, 'double_optin') && $actions->double_optin) {
-            $recordApiResponse = $this->insertRecordDoubleOpt(($fieldData), $integrationDetails);
-        } else {
-            $recordApiResponse = $this->insertRecord(wp_json_encode($fieldData));
-        }
-
+        $recordApiResponse = null;
         $type = 'insert';
+        $existRecord = false;
 
-        if (!empty($actions->update) && !empty($recordApiResponse->message) && $recordApiResponse->message === __('Contact already exist', 'bit-integrations')) {
-            $contactEmail = $fieldData['email'];
-            $recordApiResponse = $this->updateRecord($contactEmail, wp_json_encode($fieldData));
-            if (empty($recordApiResponse)) {
-                $recordApiResponse = ['success' => true, 'id' => $fieldData['email']];
-            }
+        if (!empty($actions->double_optin)) {
+            $recordApiResponse = $this->insertRecordDoubleOpt($fieldData, $integrationDetails);
+        }
+        if (empty($recordApiResponse) && !empty($actions->update)) {
+            $response = $this->existRecord($fieldData['email']);
+            $existRecord = !empty($response->id);
+        }
+
+        if (!empty($actions->update) && !empty($existRecord)) {
             $type = 'update';
+            $recordApiResponse = $this->updateRecord($fieldData['email'], wp_json_encode($fieldData));
+            $recordApiResponse = empty($recordApiResponse) ? (object) ['success' => true, 'id' => $fieldData['email']] : $recordApiResponse;
+        } elseif (empty($recordApiResponse)) {
+            $recordApiResponse = $this->insertRecord(wp_json_encode($fieldData));
         }
 
         if ($recordApiResponse && isset($recordApiResponse->code)) {
@@ -113,5 +105,37 @@ class RecordApiHelper
         }
 
         return $recordApiResponse;
+    }
+
+    private function setFiledMapping($fieldMap, $fieldValues)
+    {
+        $fieldData = [];
+        $attributes = [];
+
+        foreach ($fieldMap as $fieldKey => $fieldPair) {
+            $sendinBlueField = $fieldPair->sendinBlueField ?? null;
+            $formField = $fieldPair->formField ?? null;
+            $customValue = $fieldPair->customValue ?? null;
+
+            if (empty($sendinBlueField)) {
+                continue;
+            }
+
+            if ($sendinBlueField === 'email') {
+                $fieldData['email'] = ($formField === 'custom' && isset($customValue))
+                    ? Common::replaceFieldWithValue($customValue, $fieldValues)
+                    : $fieldValues[$formField] ?? null;
+
+                continue;
+            }
+
+            $attributes[$sendinBlueField] = ($formField === 'custom' && isset($customValue))
+                ? Common::replaceFieldWithValue($customValue, $fieldValues)
+                : ($fieldValues[$formField] ?? null);
+        }
+
+        $fieldData['attributes'] = (object) $attributes;
+
+        return $fieldData;
     }
 }

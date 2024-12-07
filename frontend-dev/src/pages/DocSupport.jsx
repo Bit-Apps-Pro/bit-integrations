@@ -103,7 +103,7 @@ function DocSupport() {
               'bit-integrations'
             )}
             &nbsp;
-            <a target="_blank" href="https://docs.bit-integrations.bitapps.pro/" rel="noreferrer">
+            <a target="_blank" href="https://bit-integrations.com/wp-docs/" rel="noreferrer">
               {__('here.', 'bit-integrations')} <ExternalLinkIcn size="15" />
             </a>
           </p>

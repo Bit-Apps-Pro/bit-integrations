@@ -192,7 +192,7 @@ class ConvertKitController
         ) {
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Kit(ConvertKit)'));
         }
-        $recordApiHelper = new RecordApiHelper($api_secret, $this->_integrationID);
+        $recordApiHelper = new RecordApiHelper($integrationDetails, $api_secret, $this->_integrationID);
 
         $convertKitApiResponse = $recordApiHelper->execute(
             $fieldValues,

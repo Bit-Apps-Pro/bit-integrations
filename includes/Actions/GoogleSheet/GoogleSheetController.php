@@ -33,6 +33,7 @@ class GoogleSheetController
         add_action('wp_ajax_gsheet_refresh_spreadsheets', [__CLASS__, 'refreshSpreadsheetsAjaxHelper']);
         add_action('wp_ajax_gsheet_refresh_worksheets', [__CLASS__, 'refreshWorksheetsAjaxHelper']);
         add_action('wp_ajax_gsheet_refresh_worksheet_headers', [__CLASS__, 'refreshWorksheetHeadersAjaxHelper']);
+        add_action('wp_ajax_gsheet_get_credentials', [__CLASS__, 'getCredentials']);
     }
 
     /**
@@ -67,6 +68,7 @@ class GoogleSheetController
             'redirect_uri'  => urldecode($requestsParams->redirectURI),
             'code'          => urldecode($requestsParams->code)
         ];
+        
         $apiResponse = HttpHelper::post($apiEndpoint, $requestParams, $authorizationHeader);
 
         if (is_wp_error($apiResponse) || !empty($apiResponse->error)) {
@@ -89,8 +91,6 @@ class GoogleSheetController
     public static function refreshSpreadsheetsAjaxHelper($queryParams)
     {
         if (empty($queryParams->tokenDetails)
-            || empty($queryParams->clientId)
-            || empty($queryParams->clientSecret)
         ) {
             wp_send_json_error(
                 __(
@@ -100,19 +100,19 @@ class GoogleSheetController
                 400
             );
         }
+        $spreadSheets = "https://www.googleapis.com/drive/v3/files?q=mimeType%20%3D%20'application%2Fvnd.google-apps.spreadsheet'";
         $response = [];
         if ((\intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $response['tokenDetails'] = GoogleSheetController::refreshAccessToken($queryParams);
+            $authorizationHeader['Authorization'] = "Bearer ".$response['tokenDetails']->access_token;
+        }else{
+            $authorizationHeader['Authorization'] = "Bearer {$queryParams->tokenDetails->access_token}";
         }
 
-        $workSheets = "https://www.googleapis.com/drive/v3/files?q=mimeType%20%3D%20'application%2Fvnd.google-apps.spreadsheet'";
-
-        $authorizationHeader['Authorization'] = "Bearer {$queryParams->tokenDetails->access_token}";
-        $workSheetResponse = HttpHelper::get($workSheets, null, $authorizationHeader);
-
+        $spreadSheetResponse = HttpHelper::get($spreadSheets, null, $authorizationHeader);
         $allSpreadsheet = [];
-        if (!is_wp_error($workSheetResponse) && empty($workSheetResponse->response->error)) {
-            $spreadsheets = $workSheetResponse->files;
+        if (!is_wp_error($spreadSheetResponse) && empty($spreadSheetResponse->response->error)) {
+            $spreadsheets = $spreadSheetResponse->files;
             foreach ($spreadsheets as $spreadsheet) {
                 $allSpreadsheet[$spreadsheet->name] = (object) [
                     'spreadsheetId'   => $spreadsheet->id,
@@ -123,7 +123,7 @@ class GoogleSheetController
             $response['spreadsheets'] = $allSpreadsheet;
         } else {
             wp_send_json_error(
-                $workSheetResponse->response->error->message,
+                $spreadSheetResponse->response->error->message,
                 400
             );
         }
@@ -142,8 +142,7 @@ class GoogleSheetController
      */
     public static function refreshWorksheetsAjaxHelper($queryParams)
     {
-        if (empty($queryParams->clientId)
-            || empty($queryParams->clientSecret)
+        if (empty($queryParams->tokenDetails)
             || empty($queryParams->spreadsheetId)
         ) {
             wp_send_json_error(
@@ -192,8 +191,6 @@ class GoogleSheetController
     {
         if (empty($queryParams->worksheetName)
             || empty($queryParams->tokenDetails)
-            || empty($queryParams->clientId)
-            || empty($queryParams->clientSecret)
             || empty($queryParams->header)
             || empty($queryParams->headerRow)
         ) {

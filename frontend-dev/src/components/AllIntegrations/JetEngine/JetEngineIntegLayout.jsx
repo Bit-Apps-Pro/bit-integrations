@@ -16,6 +16,7 @@ import {
 import { DELETE_LIST_ARRAY, TASK_LIST, TASK_LIST_VALUES } from './jetEngineConstants'
 import Loader from '../../Loaders/Loader'
 import TableCheckBox from '../../Utilities/TableCheckBox'
+import Note from '../../Utilities/Note'
 
 export default function JetEngineIntegLayout({
   formFields,
@@ -101,176 +102,176 @@ export default function JetEngineIntegLayout({
 
         {(jetEngineConf.selectedTask === TASK_LIST_VALUES.UPDATE_RELATION ||
           jetEngineConf.selectedTask === TASK_LIST_VALUES.DELETE_RELATION) && (
-          <div className="flx mt-3 mb-4">
-            <b className="wdt-200 d-in-b">{__('Select Relation:', 'bit-integrations')}</b>
-            <MultiSelect
-              style={{ width: '450px' }}
-              options={jetEngineConf?.relationList}
-              className="msl-wrp-options"
-              defaultValue={jetEngineConf?.relOptions?.selectedRelationForEdit}
-              onChange={(val) => handleRelationTypeChange(val, 'selectedRelationForEdit')}
-              singleSelect
-            />
-            <button
-              onClick={() =>
-                getJetEngineRelationList(jetEngineConf, setJetEngineConf, loading, setLoading)
-              }
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `'${__('Refresh relation list', 'bit-integrations')}'` }}
-              type="button">
-              &#x21BB;
-            </button>
-          </div>
-        )}
+            <div className="flx mt-3 mb-4">
+              <b className="wdt-200 d-in-b">{__('Select Relation:', 'bit-integrations')}</b>
+              <MultiSelect
+                style={{ width: '450px' }}
+                options={jetEngineConf?.relationList}
+                className="msl-wrp-options"
+                defaultValue={jetEngineConf?.relOptions?.selectedRelationForEdit}
+                onChange={(val) => handleRelationTypeChange(val, 'selectedRelationForEdit')}
+                singleSelect
+              />
+              <button
+                onClick={() =>
+                  getJetEngineRelationList(jetEngineConf, setJetEngineConf, loading, setLoading)
+                }
+                className="icn-btn sh-sm ml-2 mr-2 tooltip"
+                style={{ '--tooltip-txt': `'${__('Refresh relation list', 'bit-integrations')}'` }}
+                type="button">
+                &#x21BB;
+              </button>
+            </div>
+          )}
 
         {(jetEngineConf.selectedTask === TASK_LIST_VALUES.CREATE_RELATION ||
           jetEngineConf.selectedTask === TASK_LIST_VALUES.UPDATE_RELATION) && (
-          <>
-            <div className="flx mt-3 mb-4">
-              <b className="wdt-200 d-in-b">{__('Parent object:', 'bit-integrations')}</b>
-              <MultiSelect
-                style={{ width: '450px' }}
-                options={jetEngineConf?.allRelationTypes}
-                className="msl-wrp-options"
-                defaultValue={jetEngineConf?.relOptions?.parentObject}
-                onChange={(val) => handleRelationTypeChange(val, 'parentObject')}
-                singleSelect
-              />
-              <button
-                onClick={() =>
-                  getJetEngineRelationTypes(jetEngineConf, setJetEngineConf, loading, setLoading)
-                }
-                className="icn-btn sh-sm ml-2 mr-2 tooltip"
-                style={{ '--tooltip-txt': `'${__('Refresh parent objects', 'bit-integrations')}'` }}
-                type="button">
-                &#x21BB;
-              </button>
-            </div>
-            <div className="flx mt-3 mb-4">
-              <b className="wdt-200 d-in-b">{__('Child object:', 'bit-integrations')}</b>
-              <MultiSelect
-                style={{ width: '450px' }}
-                options={jetEngineConf?.allRelationTypes}
-                className="msl-wrp-options"
-                defaultValue={jetEngineConf?.relOptions?.childObject}
-                onChange={(val) => handleRelationTypeChange(val, 'childObject')}
-                singleSelect
-              />
-              <button
-                onClick={() =>
-                  getJetEngineRelationTypes(jetEngineConf, setJetEngineConf, loading, setLoading)
-                }
-                className="icn-btn sh-sm ml-2 mr-2 tooltip"
-                style={{ '--tooltip-txt': `'${__('Refresh child objects', 'bit-integrations')}'` }}
-                type="button">
-                &#x21BB;
-              </button>
-            </div>
-            <div className="flx mt-3 mb-4">
-              <b className="wdt-200 d-in-b">{__('Relation type:', 'bit-integrations')}</b>
-              <MultiSelect
-                style={{ width: '450px' }}
-                options={[
-                  { label: __('One to one', 'bit-integrations'), value: 'one_to_one' },
-                  { label: __('One to many', 'bit-integrations'), value: 'one_to_many' },
-                  { label: __('Many to many', 'bit-integrations'), value: 'many_to_many' }
-                ]}
-                className="msl-wrp-options"
-                defaultValue={jetEngineConf?.relOptions?.selectedRelationType}
-                onChange={(val) => handleRelationTypeChange(val, 'selectedRelationType')}
-                singleSelect
-              />
-            </div>
-          </>
-        )}
+            <>
+              <div className="flx mt-3 mb-4">
+                <b className="wdt-200 d-in-b">{__('Parent object:', 'bit-integrations')}</b>
+                <MultiSelect
+                  style={{ width: '450px' }}
+                  options={jetEngineConf?.allRelationTypes}
+                  className="msl-wrp-options"
+                  defaultValue={jetEngineConf?.relOptions?.parentObject}
+                  onChange={(val) => handleRelationTypeChange(val, 'parentObject')}
+                  singleSelect
+                />
+                <button
+                  onClick={() =>
+                    getJetEngineRelationTypes(jetEngineConf, setJetEngineConf, loading, setLoading)
+                  }
+                  className="icn-btn sh-sm ml-2 mr-2 tooltip"
+                  style={{ '--tooltip-txt': `'${__('Refresh parent objects', 'bit-integrations')}'` }}
+                  type="button">
+                  &#x21BB;
+                </button>
+              </div>
+              <div className="flx mt-3 mb-4">
+                <b className="wdt-200 d-in-b">{__('Child object:', 'bit-integrations')}</b>
+                <MultiSelect
+                  style={{ width: '450px' }}
+                  options={jetEngineConf?.allRelationTypes}
+                  className="msl-wrp-options"
+                  defaultValue={jetEngineConf?.relOptions?.childObject}
+                  onChange={(val) => handleRelationTypeChange(val, 'childObject')}
+                  singleSelect
+                />
+                <button
+                  onClick={() =>
+                    getJetEngineRelationTypes(jetEngineConf, setJetEngineConf, loading, setLoading)
+                  }
+                  className="icn-btn sh-sm ml-2 mr-2 tooltip"
+                  style={{ '--tooltip-txt': `'${__('Refresh child objects', 'bit-integrations')}'` }}
+                  type="button">
+                  &#x21BB;
+                </button>
+              </div>
+              <div className="flx mt-3 mb-4">
+                <b className="wdt-200 d-in-b">{__('Relation type:', 'bit-integrations')}</b>
+                <MultiSelect
+                  style={{ width: '450px' }}
+                  options={[
+                    { label: __('One to one', 'bit-integrations'), value: 'one_to_one' },
+                    { label: __('One to many', 'bit-integrations'), value: 'one_to_many' },
+                    { label: __('Many to many', 'bit-integrations'), value: 'many_to_many' }
+                  ]}
+                  className="msl-wrp-options"
+                  defaultValue={jetEngineConf?.relOptions?.selectedRelationType}
+                  onChange={(val) => handleRelationTypeChange(val, 'selectedRelationType')}
+                  singleSelect
+                />
+              </div>
+            </>
+          )}
 
         {(jetEngineConf.selectedTask === TASK_LIST_VALUES.UPDATE_POST_TYPE ||
           jetEngineConf.selectedTask === TASK_LIST_VALUES.DELETE_POST_TYPE) && (
-          <div className="flx mt-3 mb-4">
-            <b className="wdt-200 d-in-b">{__('Custom Post Type:', 'bit-integrations')}</b>
-            <MultiSelect
-              style={{ width: '450px' }}
-              options={jetEngineConf?.cptList}
-              className="msl-wrp-options"
-              defaultValue={jetEngineConf?.selectedCPT}
-              onChange={(val) => handleMultiSelectChange(val, 'selectedCPT')}
-              singleSelect
-            />
-            <button
-              onClick={() =>
-                getJetEngineCPTList(jetEngineConf, setJetEngineConf, loading, setLoading)
-              }
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `'${__('Refresh CPT List', 'bit-integrations')}'` }}
-              type="button">
-              &#x21BB;
-            </button>
-          </div>
-        )}
+            <div className="flx mt-3 mb-4">
+              <b className="wdt-200 d-in-b">{__('Custom Post Type:', 'bit-integrations')}</b>
+              <MultiSelect
+                style={{ width: '450px' }}
+                options={jetEngineConf?.cptList}
+                className="msl-wrp-options"
+                defaultValue={jetEngineConf?.selectedCPT}
+                onChange={(val) => handleMultiSelectChange(val, 'selectedCPT')}
+                singleSelect
+              />
+              <button
+                onClick={() =>
+                  getJetEngineCPTList(jetEngineConf, setJetEngineConf, loading, setLoading)
+                }
+                className="icn-btn sh-sm ml-2 mr-2 tooltip"
+                style={{ '--tooltip-txt': `'${__('Refresh CPT List', 'bit-integrations')}'` }}
+                type="button">
+                &#x21BB;
+              </button>
+            </div>
+          )}
 
         {(jetEngineConf.selectedTask === TASK_LIST_VALUES.UPDATE_CONTENT_TYPE ||
           jetEngineConf.selectedTask === TASK_LIST_VALUES.DELETE_CONTENT_TYPE) && (
-          <div className="flx mt-3 mb-4">
-            <b className="wdt-200 d-in-b">{__('Custom Content Type:', 'bit-integrations')}</b>
-            <MultiSelect
-              style={{ width: '450px' }}
-              options={jetEngineConf?.cctList}
-              className="msl-wrp-options"
-              defaultValue={jetEngineConf?.selectedCCT}
-              onChange={(val) => handleMultiSelectChange(val, 'selectedCCT')}
-              singleSelect
-            />
-            <button
-              onClick={() =>
-                getJetEngineCCTList(jetEngineConf, setJetEngineConf, loading, setLoading)
-              }
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `'${__('Refresh CCT List', 'bit-integrations')}'` }}
-              type="button">
-              &#x21BB;
-            </button>
-          </div>
-        )}
+            <div className="flx mt-3 mb-4">
+              <b className="wdt-200 d-in-b">{__('Custom Content Type:', 'bit-integrations')}</b>
+              <MultiSelect
+                style={{ width: '450px' }}
+                options={jetEngineConf?.cctList}
+                className="msl-wrp-options"
+                defaultValue={jetEngineConf?.selectedCCT}
+                onChange={(val) => handleMultiSelectChange(val, 'selectedCCT')}
+                singleSelect
+              />
+              <button
+                onClick={() =>
+                  getJetEngineCCTList(jetEngineConf, setJetEngineConf, loading, setLoading)
+                }
+                className="icn-btn sh-sm ml-2 mr-2 tooltip"
+                style={{ '--tooltip-txt': `'${__('Refresh CCT List', 'bit-integrations')}'` }}
+                type="button">
+                &#x21BB;
+              </button>
+            </div>
+          )}
 
         {(jetEngineConf.selectedTask === TASK_LIST_VALUES.UPDATE_TAXONOMY ||
           jetEngineConf.selectedTask === TASK_LIST_VALUES.DELETE_TAXONOMY) && (
-          <div className="flx mt-3 mb-4">
-            <b className="wdt-200 d-in-b">{__('Select Taxonomy:', 'bit-integrations')}</b>
-            <MultiSelect
-              style={{ width: '450px' }}
-              options={jetEngineConf?.taxList}
-              className="msl-wrp-options"
-              defaultValue={jetEngineConf?.selectedTaxForEdit}
-              onChange={(val) => handleMultiSelectChange(val, 'selectedTaxForEdit')}
-              singleSelect
-            />
-            <button
-              onClick={() =>
-                getJetEngineTaxList(jetEngineConf, setJetEngineConf, loading, setLoading)
-              }
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `'${__('Refresh Tax List', 'bit-integrations')}'` }}
-              type="button">
-              &#x21BB;
-            </button>
-          </div>
-        )}
+            <div className="flx mt-3 mb-4">
+              <b className="wdt-200 d-in-b">{__('Select Taxonomy:', 'bit-integrations')}</b>
+              <MultiSelect
+                style={{ width: '450px' }}
+                options={jetEngineConf?.taxList}
+                className="msl-wrp-options"
+                defaultValue={jetEngineConf?.selectedTaxForEdit}
+                onChange={(val) => handleMultiSelectChange(val, 'selectedTaxForEdit')}
+                singleSelect
+              />
+              <button
+                onClick={() =>
+                  getJetEngineTaxList(jetEngineConf, setJetEngineConf, loading, setLoading)
+                }
+                className="icn-btn sh-sm ml-2 mr-2 tooltip"
+                style={{ '--tooltip-txt': `'${__('Refresh Tax List', 'bit-integrations')}'` }}
+                type="button">
+                &#x21BB;
+              </button>
+            </div>
+          )}
 
         {(loading.relation_types ||
           loading.cptList ||
           loading.cctList ||
           loading.taxList ||
           loading.relationList) && (
-          <Loader
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 45,
-              transform: 'scale(0.5)'
-            }}
-          />
-        )}
+            <Loader
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 45,
+                transform: 'scale(0.5)'
+              }}
+            />
+          )}
 
         {DELETE_LIST_ARRAY.includes(jetEngineConf.selectedTask) && (
           <>
@@ -293,53 +294,57 @@ export default function JetEngineIntegLayout({
         {(!DELETE_LIST_ARRAY.includes(jetEngineConf.selectedTask) ||
           (DELETE_LIST_ARRAY.includes(jetEngineConf.selectedTask) &&
             jetEngineConf.deleteFieldMap[jetEngineConf.selectedTask])) && (
-          <>
-            <div className="mt-5">
-              <b className="wdt-100">{__('Field Map', 'bit-integrations')}</b>
-            </div>
-            <br />
-            <div className="btcd-hr mt-1" />
-            <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
-              <div className="txt-dp">
-                <b>{__('Form Fields', 'bit-integrations')}</b>
+            <>
+              <div className="mt-5">
+                <b className="wdt-100">{__('Field Map', 'bit-integrations')}</b>
               </div>
-              <div className="txt-dp">
-                <b>{__('JetEngine Fields', 'bit-integrations')}</b>
+              <br />
+              <div className="btcd-hr mt-1" />
+              <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
+                <div className="txt-dp">
+                  <b>{__('Form Fields', 'bit-integrations')}</b>
+                </div>
+                <div className="txt-dp">
+                  <b>{__('JetEngine Fields', 'bit-integrations')}</b>
+                </div>
               </div>
-            </div>
 
-            {jetEngineConf?.selectedTask &&
-              jetEngineConf?.field_map.map((itm, i) => (
-                <JetEngineFieldMap
-                  key={`rp-m-${i + 9}`}
-                  i={i}
-                  field={itm}
-                  jetEngineConf={jetEngineConf}
-                  formFields={formFields}
-                  setJetEngineConf={setJetEngineConf}
-                  setSnackbar={setSnackbar}
-                />
-              ))}
+              {jetEngineConf?.selectedTask &&
+                jetEngineConf?.field_map.map((itm, i) => (
+                  <JetEngineFieldMap
+                    key={`rp-m-${i + 9}`}
+                    i={i}
+                    field={itm}
+                    jetEngineConf={jetEngineConf}
+                    formFields={formFields}
+                    setJetEngineConf={setJetEngineConf}
+                    setSnackbar={setSnackbar}
+                  />
+                ))}
 
-            {jetEngineConf?.selectedTask && (
-              <div className="txt-center btcbi-field-map-button mt-2">
-                <button
-                  onClick={() =>
-                    addFieldMap(
-                      jetEngineConf.field_map.length,
-                      jetEngineConf,
-                      setJetEngineConf,
-                      false
-                    )
-                  }
-                  className="icn-btn sh-sm"
-                  type="button">
-                  +
-                </button>
-              </div>
-            )}
-          </>
-        )}
+              {jetEngineConf?.selectedTask && (
+                <div className="txt-center btcbi-field-map-button mt-2">
+                  <button
+                    onClick={() =>
+                      addFieldMap(
+                        jetEngineConf.field_map.length,
+                        jetEngineConf,
+                        setJetEngineConf,
+                        false
+                      )
+                    }
+                    className="icn-btn sh-sm"
+                    type="button">
+                    +
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+
+        <Note
+          note={__('The Jet Engine Action requires user login to perform any of the tasks listed above (as webhook does not indicate whether the user is logged in or not, any trigger that uses webhook will not be functional).', 'bit-integrations')}
+        />
 
         {jetEngineConf.selectedTask &&
           jetEngineConf.selectedTask !== TASK_LIST_VALUES.DELETE_CONTENT_TYPE &&

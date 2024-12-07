@@ -24,7 +24,12 @@ export default function Modal({
   }
 
   return (
-    <CSSTransition in={show} classNames="btc-mdl-trn" unmountOnExit style={cssTransStyle}>
+    // timeout property is required for CSSTransition. Do not remove it.
+    <CSSTransition in={show} classNames="btc-mdl-trn" unmountOnExit style={cssTransStyle} timeout={{
+      appear: 500,
+      enter: 300,
+      exit: 500,
+    }}>
       <div
         role="button"
         tabIndex={0}

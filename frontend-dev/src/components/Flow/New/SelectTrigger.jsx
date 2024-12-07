@@ -54,7 +54,7 @@ export default function SelectTrigger() {
         return tempAccr
       }, {})
       const sortedTriggers = sortObj(newData)
-      const finalSortedTriggers = sortFreeProd(sortedTriggers)
+      const finalSortedTriggers = isPro ? sortedTriggers : sortFreeProd(sortedTriggers)
       const finalData = { ...featuredProductData, ...finalSortedTriggers }
       return finalData
     }

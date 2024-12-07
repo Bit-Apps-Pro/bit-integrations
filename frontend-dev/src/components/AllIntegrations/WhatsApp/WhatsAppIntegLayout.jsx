@@ -9,6 +9,7 @@ import WhatsAppFieldMap from './WhatsAppFieldMap'
 import Note from '../../Utilities/Note'
 import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
+import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 
 export default function WhatsAppIntegLayout({
   formFields,
@@ -344,14 +345,3 @@ const contactFields = [
   }
 ]
 
-const checkIsPro = (isPro, proType) => {
-  return Boolean(isPro || !proType || (isPro && proType))
-}
-
-const getProLabel = (label) => {
-  return (
-    <span>
-      {label} <small className="txt-purple">(Pro)</small>
-    </span>
-  )
-}

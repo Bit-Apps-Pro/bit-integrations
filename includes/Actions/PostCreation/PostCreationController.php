@@ -22,7 +22,10 @@ final class PostCreationController
             if (isset($mapped->formField, $mapped->postField)) {
                 $triggerValue = $mapped->formField;
                 $actionValue = $mapped->postField;
-                if ($triggerValue === 'custom') {
+
+                if ($actionValue === '_thumbnail_id' && $triggerValue === 'custom') {
+                    Helper::uploadFeatureImg($mapped->customValue, $postData['post_id']);
+                } elseif ($triggerValue === 'custom') {
                     $postData[$actionValue] = Common::replaceFieldWithValue($mapped->customValue, $fieldValues);
                 } elseif (!\is_null($fieldValues[$triggerValue]) && $actionValue !== '_thumbnail_id') {
                     $postData[$actionValue] = $fieldValues[$triggerValue];

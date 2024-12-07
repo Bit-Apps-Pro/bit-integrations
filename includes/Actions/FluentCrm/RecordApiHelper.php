@@ -139,7 +139,7 @@ class RecordApiHelper
 
     public function execute($fieldValues, $fieldMap, $actions, $list_id, $tags, $actionName)
     {
-        $fieldData = [];
+        $fieldData = apply_filters('fluent_crm_assign_company', [], (array) $actions);
 
         foreach ($fieldMap as $fieldKey => $fieldPair) {
             if (!empty($fieldPair->fluentCRMField)) {

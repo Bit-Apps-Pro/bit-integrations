@@ -15,19 +15,22 @@ export default function TinyMCE({
   height,
   width,
   disabled,
-  plugins
-}: TinyMCEProps) {
+  plugins,
+  show = true
+}) {
   const editorId = `${id}-settings`
 
   useEffect(() => {
-    if (typeof tinymce !== 'undefined') {
+    if (!show && window?.tinymce?.get(editorId)) {
+      window.tinymce.get(editorId).remove();
+    } else if (typeof tinymce !== 'undefined') {
       timyMceInit()
     } else {
       console.warn('TinyMCE is not loaded yet')
     }
-  }, [])
+  }, [show])
 
-  const insertFieldKey = (fld: FieldType) => {
+  const insertFieldKey = (fld) => {
     if (fld.type === 'signature') {
       return `<img width="250" src="\${${fld.name}}" alt="${fld.name}" />`
     }
@@ -55,7 +58,7 @@ export default function TinyMCE({
           'formatselect | fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat toogleCode wp_code | addFormField | addSmartField',
         image_advtab: true,
         default_link_target: '_blank',
-        setup(editor: any) {
+        setup(editor) {
           editor.on('Paste Change input Undo Redo', () => {
             onChangeHandler(editor.getContent())
           })
@@ -67,9 +70,7 @@ export default function TinyMCE({
               icon: false,
               menu: formFields?.map(
                 (i) =>
-                  !i.type.match(
-                    /^(file-up|recaptcha|section|divider|image|advanced-file-up|)$/
-                  ) && {
+                  !i.type.match(/^(file-up|recaptcha|section|divider|image|advanced-file-up|)$/) && {
                     text: i.name,
                     onClick() {
                       editor.insertContent(insertFieldKey(i))
@@ -94,7 +95,7 @@ export default function TinyMCE({
             text: '</>',
             tooltip: 'Toggle preview',
             icon: false,
-            onclick(e: any) {
+            onclick(e) {
               const { $ } = e.control
               const myTextarea = $(`#${editorId}`)
               const myIframe = $(editor.iframeElement)
@@ -117,49 +118,13 @@ export default function TinyMCE({
     }
   }
 
-  return (
-    <textarea
-      id={editorId}
-      className="btcd-paper-inp mt-1 w-10"
-      rows={5}
-      value={value}
-      onChange={(ev) => onChangeHandler(ev.target.value)}
-      style={{ width: '95.5%', height: 'auto' }}
-      disabled={disabled}
-    />
-  )
-}
-
-type FieldType = { key: string; type: string; name: string }
-type SmartTagType = { label: string; name: string }
-
-type TinyMCEProps = {
-  id: string
-  value: string
-  formFields?: FieldType[]
-  SmartTagField?: SmartTagType[]
-  onChangeHandler: (e: any) => void
-  toolbarMnu?: string
-  menubar?: string
-  height?: string | number
-  width?: string | number
-  disabled?: boolean
-  plugins?: string
-  init?: any
-  get?: any
-  remove?: any
-}
-
-declare global {
-  interface Window {
-    tinymce: {
-      init: ({}) => void
-      baseURI: {
-        source: string
-      }
-      get: (id: string) => {
-        remove: () => void
-      }
-    }
-  }
+  return show && <textarea
+    id={editorId}
+    className="btcd-paper-inp mt-1 w-10"
+    rows={5}
+    value={value}
+    onChange={(ev) => onChangeHandler(ev.target.value)}
+    style={{ width: '95.5%', height: 'auto' }}
+    disabled={disabled}
+  />
 }

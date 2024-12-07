@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import announcement from '../resource/img/announcement.svg'
-import promo from '../resource/img/early_bird_offer.webp'
+import promo from '../resource/img/new_commer.webp'
 import ExternalLinkIcn from '../Icons/ExternalLinkIcn'
 import { __, sprintf } from '../Utils/i18nwrap'
 import '../resource/css/cashback-modal.css'

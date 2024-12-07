@@ -11,6 +11,10 @@ import {
   refreshConvertKitTags
 } from './ConvertKitCommonFunc'
 import ConvertKitFieldMap from './ConvertKitFieldMap'
+import { useRecoilValue } from 'recoil'
+import { $btcbi } from '../../../GlobalStates'
+import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
+import { create } from 'mutative'
 
 export default function ConvertKitIntegLayout({
   formID,
@@ -31,55 +35,79 @@ export default function ConvertKitIntegLayout({
     setConvertKitConf({ ...newConf })
   }
 
-  const handleInput = (e) => {
-    const formid = e.target.value
+  const handleInput = (val, name) => {
     const newConf = { ...convertKitConf }
-    if (formid) {
-      newConf.formId = formid
+    if (val) {
+      newConf[name] = val
     } else {
-      delete newConf.formId
+      delete newConf[name]
     }
-    refreshConvertKitHeader(newConf, setConvertKitConf, setIsLoading, setSnackbar)
-  }
 
-  const convertKitForms = convertKitConf?.default?.convertKitForms
+    setConvertKitConf({ ...newConf })
 
-  useEffect(() => {
-    convertKitForms &&
+    if (name === 'module') {
+      refreshConvertKitHeader(newConf, setConvertKitConf, setIsLoading, setSnackbar)
       refreshConvertKitTags(convertKitConf, setConvertKitConf, setIsLoading, setSnackbar)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [convertKitForms])
+    }
+    if (name === 'module' && val === 'add_subscriber_to_a_form') {
+      refreshConvertKitForm(convertKitConf, setConvertKitConf, setIsLoading, setSnackbar)
+    }
+  }
 
   return (
     <>
       <br />
-      <b className="wdt-200 d-in-b">{__('Form:', 'bit-integrations')}</b>
-      <select
-        value={convertKitConf?.formId}
-        name="formId"
-        id=""
-        className="btcd-paper-inp w-5"
-        onChange={handleInput}>
-        <option value="">{__('Select Form', 'bit-integrations')}</option>
-        {convertKitConf?.default?.convertKitForms &&
-          Object.keys(convertKitConf.default.convertKitForms).map((formname) => (
-            <option
-              key={`${formname + 1}`}
-              value={convertKitConf.default.convertKitForms[formname].formId}>
-              {convertKitConf.default.convertKitForms[formname].formName}
-            </option>
-          ))}
-      </select>
-      <button
-        onClick={() =>
-          refreshConvertKitForm(convertKitConf, setConvertKitConf, setIsLoading, setSnackbar)
-        }
-        className="icn-btn sh-sm ml-2 mr-2 tooltip"
-        style={{ '--tooltip-txt': '"Refresh ConvertKit form"' }}
-        type="button"
-        disabled={isLoading}>
-        &#x21BB;
-      </button>
+      <div className="d-flx">
+        <b style={{ marginTop: '15px' }} className="wdt-200 d-in-b">
+          {__('Select Module:', 'bit-integrations')}
+        </b>
+        <MultiSelect
+          defaultValue={convertKitConf?.module}
+          className="btcd-paper-drpdwn w-5"
+          options={[
+            { label: "Add subscriber to a form", value: "add_subscriber_to_a_form", },
+            { label: "Update a subscriber", value: "update_a_subscriber", },
+            { label: "Add tags to a subscriber", value: "add_tags_to_a_subscriber", },
+            { label: "Remove tags to a subscriber", value: "remove_tags_to_a_subscriber", },
+          ]}
+          onChange={(val) => handleInput(val, 'module')}
+          singleSelect
+          selectOnClose
+        />
+      </div>
+
+      {(!convertKitConf?.module || convertKitConf?.module === 'add_subscriber_to_a_form') &&
+        <>
+          <br />
+          <b className="wdt-200 d-in-b">{__('Form:', 'bit-integrations')}</b>
+          <select
+            value={convertKitConf?.formId}
+            name="formId"
+            id=""
+            className="btcd-paper-inp w-5"
+            onChange={(e) => handleInput(e.target.value, 'formId')}>
+            <option value="">{__('Select Form', 'bit-integrations')}</option>
+            {convertKitConf?.default?.convertKitForms &&
+              Object.keys(convertKitConf.default.convertKitForms).map((formname) => (
+                <option
+                  key={`${formname + 1}`}
+                  value={convertKitConf.default.convertKitForms[formname].formId}>
+                  {convertKitConf.default.convertKitForms[formname].formName}
+                </option>
+              ))}
+          </select>
+          <button
+            onClick={() =>
+              refreshConvertKitForm(convertKitConf, setConvertKitConf, setIsLoading, setSnackbar)
+            }
+            className="icn-btn sh-sm ml-2 mr-2 tooltip"
+            style={{ '--tooltip-txt': '"Refresh ConvertKit form"' }}
+            type="button"
+            disabled={isLoading}>
+            &#x21BB;
+          </button>
+        </>
+      }
       <br />
       <br />
       <div className="d-flx">
@@ -161,16 +189,18 @@ export default function ConvertKitIntegLayout({
               setConvertKitConf={setConvertKitConf}
             />
           ))}
-          <div className="txt-center btcbi-field-map-button mt-2">
-            <button
-              onClick={() =>
-                addFieldMap(convertKitConf.field_map.length, convertKitConf, setConvertKitConf)
-              }
-              className="icn-btn sh-sm"
-              type="button">
-              +
-            </button>
-          </div>
+          {convertKitConf?.default?.fields && Object.keys(convertKitConf.default.fields)?.length > 1 &&
+            <div className="txt-center btcbi-field-map-button mt-2">
+              <button
+                onClick={() =>
+                  addFieldMap(convertKitConf.field_map.length, convertKitConf, setConvertKitConf)
+                }
+                className="icn-btn sh-sm"
+                type="button">
+                +
+              </button>
+            </div>
+          }
           <br />
           <br />
           <div className="mt-4">

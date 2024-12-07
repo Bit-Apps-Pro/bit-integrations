@@ -1,26 +1,26 @@
-=== Webhook Automator & Contact Form Integration to Automate 230+ Platforms – Bit Integrations ===
+=== Webhook Automator & Contact Form Integration to Automate 240+ Platforms – Bit Integrations ===
 Contributors: bitpressadmin, niloy121,rishadbitcode,fahimsakib,shuvomohajan,tanvirchy,shakhawathosen,khoaiz,mazharul78
 Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
-Tested up to: 6.6.2
-Requires PHP: 7.0
-Stable tag: 2.3.1
+Tested up to: 6.7.1
+Requires PHP: 7.4
+Stable tag: 2.3.8
 License: GPLv2 or later
 
-Automation Plugin for WordPress like Zapier. Integration of 80+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
+Automation Plugin for WordPress. Integration of 80+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
 
 == Description ==
 
-<strong> Best Zapier Alternative Automation Plugin for WordPress. Automate 230+ Individual Platforms.</strong>
+<strong> Best Automation Plugin for WordPress. Automate 240+ Individual Platforms.</strong>
 
-Automate your WordPress workflow with **Bit Integration**: the all-in-one plugin for sending data authomatically to WooCommerce, form builders, CRM, LMS, bookings, spreadsheets, [**webhooks**](https://webhook.is/difference-between-webhook-and-api), social media, email marketing and automation platforms like Zapier and others. No technical knowledge needed. Automate tasks across 230+ platforms effortlessly.
+Automate your WordPress workflow with **Bit Integration**: the all-in-one plugin for sending data authomatically to WooCommerce, form builders, CRM, LMS, bookings, spreadsheets, [**webhooks**](https://webhook.is/difference-between-webhook-and-api), social media, email marketing and automation platforms like Zapier and others. No technical knowledge needed. Automate tasks across 240+ platforms effortlessly.
 
 You can see below what WPTuts say about Bit Integrations
 
 https://youtu.be/hgMkLvV-r6k
 
 **Useful Links**
-🚀[Try Full Version Demo](https://towp.io/) | 🚀[Docs](https://docs.bit-integrations.bitapps.pro/) | 🚀[Video Tutorials](https://youtube.com/playlist?list=PL7c6CDwwm-ALMEsKLYKebKb5XLGPWMNue) | 🚀[Support](https://tawk.to/chat/60eac4b6d6e7610a49aab375/1faah0r3e) | 🚀[Facebook Group](https://www.facebook.com/groups/3308027439209387) | 🚀[Upgrade to Pro](https://www.bitapps.pro/bit-integrations) | 🚀[Bit Integrations Repository](https://github.com/Bit-Apps-Pro/bit-integrations)
+🚀[Try Full Version Demo](https://towp.io/) | 🚀[Docs](https://bit-integrations.com/wp-docs/) | 🚀[Video Tutorials](https://youtube.com/playlist?list=PL7c6CDwwm-ALMEsKLYKebKb5XLGPWMNue) | 🚀[Support](https://tawk.to/chat/60eac4b6d6e7610a49aab375/1faah0r3e) | 🚀[Facebook Group](https://www.facebook.com/groups/3308027439209387) | 🚀[Upgrade to Pro](https://www.bitapps.pro/bit-integrations) | 🚀[Bit Integrations Repository](https://github.com/Bit-Apps-Pro/bit-integrations)
 
 📢 **Join our community [Bit Integrations](https://www.facebook.com/groups/bitapps) & get updates on our plugins.**
 
@@ -45,238 +45,244 @@ https://youtu.be/eFuficjF_F4
 
 ### ✔List of Available Triggers:
 
-* [**Elementor**](https://wordpress.org/plugins/elementor/)
-* [**Contact Form 7**](https://wordpress.org/plugins/contact-form-7/)
-* [**Fluent Forms**](https://wordpress.org/plugins/fluentform/)
-* [**Bit Form**](https://wordpress.org/plugins/bit-form/)
-* [**Bit Assist**](https://wordpress.org/plugins/bit-assist/)
-* [**Academy LMS**](https://wordpress.org/plugins/academy/)
-* [**Amelia**](https://wordpress.org/plugins/ameliabooking/)
-* [**Action Hook**](https://bitapps.pro/docs/bit-integrations/trigger/action-hook-integrations/)
-* [**AffiliateWP**](https://wordpress.org/plugins/affiliatewp-affiliate-area-shortcodes/)
-* [**ARForms**](https://wordpress.org/plugins/arforms-form-builder/)
-* [**ARMember**](https://wordpress.org/plugins/armember-membership/)
-* [**Beaver Builder**](https://wordpress.org/plugins/beaver-builder-lite-version/)
-* [**Bricks**](https://wordpress.org/plugins/bricksable/)
-* [**Bricksforge**](https://bricksforge.io/)
-* [**BuddyBoss**](https://www.buddyboss.com/)
-* [**Brizy**](https://wordpress.org/plugins/brizy/)
-* [**Breakdance**](https://breakdance.com/)
-* [**CartFlows**](https://wordpress.org/plugins/cartflows/)
-* [**CoBlocks**](https://wordpress.org/plugins/coblocks/)
-* [**Custom Trigger**](https://bitapps.pro/docs/bit-integrations/trigger/custom-trigger-integrations/)
-* [**Divi**](https://www.elegantthemes.com/gallery/divi/)
-* [**Dokan**](https://wordpress.org/plugins/dokan-lite/)
-* [**Everest Forms**](https://wordpress.org/plugins/everest-forms/)
-* [**Easy Digital Downloads**](https://wordpress.org/plugins/easy-digital-downloads/)
-* [**eForm**](https://eform.live/)
-* [**Essential Blocks**](https://wordpress.org/plugins/essential-blocks/)
-* [**FluentBooking**](https://fluentbooking.com/)
-* [**Fluent Support**](https://wordpress.org/plugins/fluent-support/)
-* [**Formidable**](https://wordpress.org/plugins/formidable/)
-* [**Forminator**](https://wordpress.org/plugins/forminator/)
-* [**FormCraft**](https://wordpress.org/plugins/formcraft-form-builder/)
-* [**Gravity Forms**](https://www.gravityforms.com/)
-* [**GamiPress**](https://wordpress.org/plugins/gamipress/)
-* [**GiveWP**](https://wordpress.org/plugins/give/)
-* [**Gutena Forms**](https://wordpress.org/plugins/gutena-forms/)
-* [**Happyforms**](https://wordpress.org/plugins/happyforms/)
-* [**Hustle**](https://wordpress.org/plugins/wordpress-popup/)
-* [**JetFormBuilder**](https://wordpress.org/plugins/jetformbuilder/)
-* [**JetEngine**](https://crocoblock.com/plugins/jetengine/)
-* [**Kali Forms**](https://wordpress.org/plugins/kali-forms/)
-* [**Kadence Blocks**](https://wordpress.org/plugins/kadence-blocks/)
-* [**LearnDash**](https://www.learndash.com/)
-* [**LifterLMS**](https://wordpress.org/plugins/lifterlms/)
-* [**MasterStudy LMS**](https://wordpress.org/plugins/masterstudy-lms-learning-management-system/)
-* [**Meta Box**](https://wordpress.org/plugins/meta-box/)
-* [**Metform**](https://wordpress.org/plugins/metform/)
-* [**MemberPress**](https://wordpress.org/plugins/members/)
-* [**MailPoet**](https://wordpress.org/plugins/mailpoet/)
-* [**Mailster**](https://wordpress.org/plugins/mailster/)
-* [**Ninja Forms**](https://wordpress.org/plugins/ninja-forms/)
-* [**Popup Maker**](https://wordpress.org/plugins/popup-maker/)
-* [**Piotnet Forms**](https://wordpress.org/plugins/piotnetforms/)
-* [**Paid Memberships Pro**](https://wordpress.org/plugins/paid-memberships-pro/)
-* [**Piotnet Addons For Elementor**](https://wordpress.org/plugins/piotnet-addons-for-elementor/)
-* [**Restrict Content**](https://wordpress.org/plugins/restrict-content/)
-* [**RafflePress**](https://wordpress.org/plugins/rafflepress/)
-* [**User Registration**]()
-* [**Ultimate Member**](https://wordpress.org/plugins/ultimate-member/)
-* [**SiteOrigin Widgets Bundle**](https://wordpress.org/plugins/so-widgets-bundle/)
-* [**Studiocart**](https://wordpress.org/plugins/studiocart/)
-* [**SliceWP Affiliate**](https://wordpress.org/plugins/slicewp/)
-* [**Solid Affiliate**](https://solidaffiliate.com/)
-* [**Spectra**](https://wordpress.org/plugins/ultimate-addons-for-gutenberg/)
-* [**SureCart**](https://wordpress.org/plugins/surecart/)
-* [**SureForms**](https://wordpress.org/plugins/sureforms/)
-* [**SureMembers**](https://suremembers.com/)
-* [**The Events Calendar**](https://wordpress.org/plugins/the-events-calendar/)
-* [**Tripetto**](https://wordpress.org/plugins/tripetto/)
-* [**Tutor LMS**](https://wordpress.org/plugins/tutor/)
-* [**Thrive Apprentice**](https://thrivethemes.com/apprentice/)
-* [**weForms**](https://wordpress.org/plugins/search/WeForms/)
-* [**WP Post**]()
-* [**WP Job Manager**](https://wordpress.org/plugins/wp-job-manager/)
-* [**WooCommerce**](https://wordpress.org/plugins/woocommerce/)
-* [**WooCommerce Subscriptions**](https://woocommerce.com/products/woocommerce-subscriptions/)
-* [**WP Courseware**](https://flyplugins.com/wp-courseware-wordpress-lms/)
-* [**WPForms**](https://wordpress.org/plugins/wpforms-lite/)
-* [**wpForo**](https://wordpress.org/plugins/wpforo/)
-* [**WPFunnels**](https://wordpress.org/plugins/wpfunnels/)
-* [**WS Form**](https://wordpress.org/plugins/ws-form/)
-* [**Webhooks**]()
+* [**Bit Form**](https://wordpress.org/plugins/bit-form/) (free)
+* [**Elementor**](https://wordpress.org/plugins/elementor/) (free)
+* [**Contact Form 7**](https://wordpress.org/plugins/contact-form-7/) (free)
+* [**WooCommerce**](https://wordpress.org/plugins/woocommerce/) (free)
+* [**WPForms**](https://wordpress.org/plugins/wpforms-lite/) (free)
+* [**Fluent Forms**](https://wordpress.org/plugins/fluentform/) (pro)
+* [**Bit Assist**](https://wordpress.org/plugins/bit-assist/) (pro)
+* [**Academy LMS**](https://wordpress.org/plugins/academy/) (pro)
+* [**Asgaros Forum**](https://wordpress.org/plugins/asgaros-forum/) (pro)
+* [**Amelia**](https://wordpress.org/plugins/ameliabooking/) (pro)
+* [**Action Hook**](https://bitapps.pro/docs/bit-integrations/trigger/action-hook-integrations/) (pro)
+* [**AffiliateWP**](https://wordpress.org/plugins/affiliatewp-affiliate-area-shortcodes/) (pro)
+* [**ARForms**](https://wordpress.org/plugins/arforms-form-builder/) (pro)
+* [**ARMember**](https://wordpress.org/plugins/armember-membership/) (pro)
+* [**Beaver Builder**](https://wordpress.org/plugins/beaver-builder-lite-version/) (pro)
+* [**Bricks**](https://wordpress.org/plugins/bricksable/) (pro)
+* [**Bricksforge**](https://bricksforge.io/) (pro)
+* [**BuddyBoss**](https://www.buddyboss.com/) (pro)
+* [**Brizy**](https://wordpress.org/plugins/brizy/) (pro)
+* [**Breakdance**](https://breakdance.com/) (pro)
+* [**CartFlows**](https://wordpress.org/plugins/cartflows/) (pro)
+* [**CoBlocks**](https://wordpress.org/plugins/coblocks/) (pro)
+* [**Custom Trigger**](https://bitapps.pro/docs/bit-integrations/trigger/custom-trigger-integrations/) (pro)
+* [**Divi**](https://www.elegantthemes.com/gallery/divi/) (pro)
+* [**Dokan**](https://wordpress.org/plugins/dokan-lite/) (pro)
+* [**Everest Forms**](https://wordpress.org/plugins/everest-forms/) (pro)
+* [**Easy Digital Downloads**](https://wordpress.org/plugins/easy-digital-downloads/) (pro)
+* [**eForm**](https://eform.live/) (pro)
+* [**Essential Blocks**](https://wordpress.org/plugins/essential-blocks/) (pro)
+* [**FluentBooking**](https://fluentbooking.com/) (pro)
+* [**Fluent Support**](https://wordpress.org/plugins/fluent-support/) (pro)
+* [**Formidable**](https://wordpress.org/plugins/formidable/) (pro)
+* [**Forminator**](https://wordpress.org/plugins/forminator/) (pro)
+* [**FormCraft**](https://wordpress.org/plugins/formcraft-form-builder/) (pro)
+* [**Gravity Forms**](https://www.gravityforms.com/) (pro)
+* [**GamiPress**](https://wordpress.org/plugins/gamipress/) (pro)
+* [**GiveWP**](https://wordpress.org/plugins/give/) (pro)
+* [**Gutena Forms**](https://wordpress.org/plugins/gutena-forms/) (pro)
+* [**Happyforms**](https://wordpress.org/plugins/happyforms/) (pro)
+* [**Hustle**](https://wordpress.org/plugins/wordpress-popup/) (pro)
+* [**JetFormBuilder**](https://wordpress.org/plugins/jetformbuilder/) (pro)
+* [**JetEngine**](https://crocoblock.com/plugins/jetengine/) (pro)
+* [**Kali Forms**](https://wordpress.org/plugins/kali-forms/) (pro)
+* [**Kadence Blocks**](https://wordpress.org/plugins/kadence-blocks/) (pro)
+* [**LearnDash**](https://www.learndash.com/) (pro)
+* [**LifterLMS**](https://wordpress.org/plugins/lifterlms/) (pro)
+* [**MasterStudy LMS**](https://wordpress.org/plugins/masterstudy-lms-learning-management-system/) (pro)
+* [**Meta Box**](https://wordpress.org/plugins/meta-box/) (pro)
+* [**Metform**](https://wordpress.org/plugins/metform/) (pro)
+* [**MemberPress**](https://wordpress.org/plugins/members/) (pro)
+* [**MailPoet**](https://wordpress.org/plugins/mailpoet/) (pro)
+* [**Mailster**](https://wordpress.org/plugins/mailster/) (pro)
+* [**Ninja Forms**](https://wordpress.org/plugins/ninja-forms/) (pro)
+* [**Popup Maker**](https://wordpress.org/plugins/popup-maker/) (pro)
+* [**Piotnet Forms**](https://wordpress.org/plugins/piotnetforms/) (pro)
+* [**Paid Memberships Pro**](https://wordpress.org/plugins/paid-memberships-pro/) (pro)
+* [**Pie Forms**](https://wordpress.org/plugins/pie-forms-for-wp/) (pro)
+* [**Piotnet Addons For Elementor**](https://wordpress.org/plugins/piotnet-addons-for-elementor/) (pro)
+* [**Restrict Content**](https://wordpress.org/plugins/restrict-content/) (pro)
+* [**RafflePress**](https://wordpress.org/plugins/rafflepress/) (pro)
+* [**User Registration**]() (pro)
+* [**Ultimate Member**](https://wordpress.org/plugins/ultimate-member/) (pro)
+* [**SiteOrigin Widgets Bundle**](https://wordpress.org/plugins/so-widgets-bundle/) (pro)
+* [**Studiocart**](https://wordpress.org/plugins/studiocart/) (pro)
+* [**SliceWP Affiliate**](https://wordpress.org/plugins/slicewp/) (pro)
+* [**Solid Affiliate**](https://solidaffiliate.com/) (pro)
+* [**Spectra**](https://wordpress.org/plugins/ultimate-addons-for-gutenberg/) (pro)
+* [**SureCart**](https://wordpress.org/plugins/surecart/) (pro)
+* [**SureForms**](https://wordpress.org/plugins/sureforms/) (pro)
+* [**SureMembers**](https://suremembers.com/) (pro)
+* [**The Events Calendar**](https://wordpress.org/plugins/the-events-calendar/) (pro)
+* [**Tripetto**](https://wordpress.org/plugins/tripetto/) (pro)
+* [**Tutor LMS**](https://wordpress.org/plugins/tutor/) (pro)
+* [**Thrive Apprentice**](https://thrivethemes.com/apprentice/) (pro)
+* [**Voxel**](https://getvoxel.io/) (pro)
+* [**weForms**](https://wordpress.org/plugins/search/WeForms/) (pro)
+* [**WP Post**]() (pro)
+* [**WP Job Manager**](https://wordpress.org/plugins/wp-job-manager/) (pro)
+* [**WooCommerce Subscriptions**](https://woocommerce.com/products/woocommerce-subscriptions/) (pro)
+* [**WP Courseware**](https://flyplugins.com/wp-courseware-wordpress-lms/) (pro)
+* [**WooCommerce Bookings**](https://woocommerce.com/products/woocommerce-bookings/) (pro)
+* [**wpForo**](https://wordpress.org/plugins/wpforo/) (pro)
+* [**WPFunnels**](https://wordpress.org/plugins/wpfunnels/) (pro)
+* [**WS Form**](https://wordpress.org/plugins/ws-form/) (pro)
+* [**Webhooks**]() (pro)
 
 ### ✔List of Available Actions:
 
-* [**Zapier**](https://zapier.com/)
-* [**SureTriggers**](https://wordpress.org/plugins/suretriggers/)
-* [**AutomatorWP**](https://wordpress.org/plugins/automatorwp/)
-* [**FlowMattic**](https://flowmattic.com/)
-* [**Bit Form**](https://wordpress.org/plugins/bit-form/)
-* [**Academy LMS**](https://wordpress.org/plugins/academy/)
-* [**ActiveCampaign**](https://www.activecampaign.com/)
-* [**Acumbamail**](https://acumbamail.com/en/)
-* [**Advanced Form**](https://wordpress.org/plugins/advanced-form-integration/)
-* [**Agile CRM**](https://www.agilecrm.com/)
-* [**Airtable**](https://www.airtable.com/)
-* [**Albato**](https://albato.net/)
-* [**Ants and Apps**](https://antsandapps.com/)
-* [**Asana**](https://asana.com/)
-* [**Autonami**](https://wordpress.org/plugins/wp-marketing-automations/)
-* [**BuddyBoss**](https://www.buddyboss.com/)
-* [**Benchmark**](https://www.benchmarkemail.com/)
-* [**Campaign Monitor**](https://www.campaignmonitor.com/)
-* [**CompanyHub**](https://companyhub.com/)
-* [**Constant Contact**](https://www.constantcontact.com/)
-* [**Kit (ConvertKit)**](https://convertkit.com/)
-* [**Custom Action**](https://bitapps.pro/docs/bit-integrations/actions/custom-action-integrations/)
-* [**Custom Api :**](https://bitapps.pro/docs/bit-integrations/actions/customapi-integrations/)
-* [**Capsule CRM**](https://capsulecrm.com/)
-* [**ClinchPad**](https://clinchpad.com/)
-* [**ClickUp**](https://clickup.com/)
-* [**Copper CRM**](https://www.copper.com/)
-* [**Demio**](https://www.demio.com/)
-* [**Dokan**](https://wordpress.org/plugins/dokan-lite/)
-* [**Discord**](https://discord.com/)
-* [**DirectIQ**](https://www.directiq.com/)
-* [**Drip**](https://www.drip.com/)
-* [**Dropbox**](https://www.dropbox.com/)
-* [**Elastic Email**](https://elasticemail.com/)
-* [**Encharge**](https://encharge.io/)
-* [**EmailOctopus**](https://emailoctopus.com/)
-* [**Flowlu**](https://www.flowlu.com/)
-* [**FluentCRM**](https://wordpress.org/plugins/fluent-crm/)
-* [**Fluent Support**](https://wordpress.org/plugins/fluent-support/)
-* [**Freshdesk**](https://www.freshworks.com/freshdesk/)
-* [**Freshsales**](https://www.freshworks.com/crm/sales/)
-* [**GetGist**](https://getgist.com/)
-* [**GetResponse**](https://www.getresponse.com/)
-* [**Google Sheet**](https://www.google.com/sheets/about/)
-* [**Google Calendar**](https://calendar.google.com/calendar/u/0/r)
-* [**Google Drive**](https://www.google.com/drive/)
-* [**Google Contacts**](https://contacts.google.com/)
-* [**GamiPress**](https://wordpress.org/plugins/gamipress/)
-* [**Groundhogg**](https://wordpress.org/plugins/groundhogg/)
-* [**GiveWP**](https://wordpress.org/plugins/give/)
-* [**Gravitec**](https://gravitec.net/)
-* [**HubSpot**](https://www.hubspot.com/)
-* [**Integrately**](https://integrately.com/)
-* [**Make(Integromat)**](https://www.youtube.com/)
-* [**IFTTT**](https://ifttt.com/)
-* [**Insightly**](https://www.insightly.com/)
-* [**JetEngine**](https://crocoblock.com/plugins/jetengine/)
-* [**Keap (Infusionsoft)**](https://keap.com/)
-* [**Klaviyo**](https://www.klaviyo.com/)
-* [**KonnectzIT**](https://konnectzit.com/)
-* [**Kirim.Email**](https://kirim.email/)
-* [**LearnDash**](https://www.learndash.com/)
-* [**Lemlist**](https://www.lemlist.com/)
-* [**LifterLMS**](https://wordpress.org/plugins/lifterlms/)
-* [**LionDesk**](https://liondesk.com/)
-* [**Livestorm**](https://livestorm.co/)
-* [**Mail**]()
-* [**MasterStudy LMS**](https://wordpress.org/plugins/masterstudy-lms-learning-management-system/)
-* [**MailBluster**](https://mailbluster.com/)
-* [**Mailercloud**](https://www.mailercloud.com/)
-* [**Mailchimp**](https://mailchimp.com/)
-* [**MailerLite**](https://www.mailerlite.com/)
-* [**MailPoet**](https://wordpress.org/plugins/mailpoet/)
-* [**Mailjet**](https://www.mailjet.com/)
-* [**Mautic**](https://www.mautic.org/)
-* [**Mailrelay**](https://mailrelay.com/en/)
-* [**Moosend**](https://moosend.com/)
-* [**MemberPress**](https://wordpress.org/plugins/members/)
-* [**MailUp**](https://mailup.com/)
-* [**Mailster**](https://wordpress.org/plugins/mailster/)
-* [**Mail Mint**](https://wordpress.org/plugins/mail-mint/)
-* [**Moxie**](https://www.withmoxie.com/)
-* [**Newsletter**](https://wordpress.org/plugins/newsletter/)
-* [**Nimble**](https://www.nimble.com/)
-* [**Notion**](https://www.notion.so/)
-* [**Nutshell CRM**](https://www.nutshell.com/)
-* [**N8N**](https://n8n.io/)
-* [**Omnisend**](https://www.omnisend.com/)
-* [**OneDrive**](https://www.microsoft.com/en-us/microsoft-365/onedrive/online-cloud-storage)
-* [**OneHash**](https://www.onehash.ai/)
-* [**OneHash**](https://www.onehash.ai/)
-* [**OptinMonster**](https://optinmonster.com/)
-* [**Pabbly**](https://www.pabbly.com/)
-* [**Paid Memberships Pro**](https://wordpress.org/plugins/paid-memberships-pro/)
-* [**Perfex CRM**](https://www.perfexcrm.com/)
-* [**Pods**](https://www.pods.com/)
-* [**Post Creation**]()
-* [**pCloud**](https://www.pcloud.com/)
-* [**Propovoice CRM**](https://wordpress.org/plugins/propovoice/)
-* [**Pipedrive**](https://www.pipedrive.com/)
-* [**Rapidmail**](https://www.rapidmail.com/)
-* [**Registration**]()
-* [**Restrict Content**](https://wordpress.org/plugins/restrict-content/)
-* [**Sales Plus**](https://salesplus.ie/)
-* [**Salesforce**](https://www.salesforce.com/in/?ir=1)
-* [**Salesmate**](https://www.salesmate.io/)
-* [**SliceWP Affiliate**](https://wordpress.org/plugins/slicewp/)
-* [**SendinBlue(Brevo)**](https://www.brevo.com/)
-* [**Sendy Widget**](https://wordpress.org/plugins/sendy-widget/)
-* [**SendGrid**](https://sendgrid.com/en-us)
-* [**SendPulse**](https://sendpulse.com/)
-* [**SendFox**](https://sendfox.com/)
-* [**SyncSpider**](https://syncspider.com/)
-* [**Slack**](https://slack.com/)
-* [**Selzy**](https://selzy.com/)
-* [**Smaily**](https://smaily.com/)
-* [**Sperse IO**](https://sperse.io/)
-* [**SureCart**](https://wordpress.org/plugins/surecart/)
-* [**SuiteDash**](https://suitedash.com/)
-* [**SureMembers**](https://suremembers.com/)
-* [**SystemeIO**](https://systeme.io/home)
-* [**The Events Calendar**](https://wordpress.org/plugins/the-events-calendar/)
-* [**Telegram**](https://telegram.org/)
-* [**Thrive Automator**](https://wordpress.org/plugins/thrive-automator/)
-* [**Tutor LMS**](https://wordpress.org/plugins/tutor/)
-* [**Trello**](https://trello.com/)
-* [**Twilio**](https://www.twilio.com/en-us)
-* [**Uncanny Automator**](https://wordpress.org/plugins/uncanny-automator/)
-* [**VBOUT**](https://www.vbout.com/)
-* [**Webhooks**]()
-* [**WhatsApp**](https://www.whatsapp.com/)
-* [**Wishlist**](https://www.wishlist.com/)
-* [**WooCommerce**](https://wordpress.org/plugins/woocommerce/)
-* [**Woodpecker**](https://woodpecker.co/signup/?wpcr=jack15)
-* [**WP Courseware**](https://wordpress.org/plugins/woo-commerce-addon-for-wp-courseware/)
-* [**wpForo**](https://wpforo.com/)
-* [**WP Webhooks**](https://wordpress.org/plugins/wp-webhooks/)
-* [**Zendesk**](https://www.zendesk.com/)
-* [**Zoho Bigin**](https://www.bigin.com/)
-* [**Zoho CRM**](https://www.zoho.com/crm/)
-* [**Zoho Campaigns**](https://www.zoho.com/campaigns/)
-* [**Zoho Sheet**](https://www.zoho.com/sheet/)
-* [**Zoho Desk**](https://www.zoho.com/desk/)
-* [**Zoho Flow**](https://www.zoho.com/flow/)
-* [**Zoho Marketing Hub**](https://www.zoho.com/marketingautomation/)
-* [**Zoho Recruit**](https://www.zoho.com/recruit/)
-* [**Zoom Meeting**](https://zoom.us/)
-* [**Zoom Webinar**](https://www.zoom.com/en/products/webinars/)
+* [**Zapier**](https://zapier.com/) (free)
+* [**SureTriggers**](https://wordpress.org/plugins/suretriggers/) (free)
+* [**AutomatorWP**](https://wordpress.org/plugins/automatorwp/) (free)
+* [**FlowMattic**](https://flowmattic.com/) (free)
+* [**Bit Form**](https://wordpress.org/plugins/bit-form/) (free)
+* [**Academy LMS**](https://wordpress.org/plugins/academy/) (free)
+* [**ActiveCampaign**](https://www.activecampaign.com/) (free)
+* [**Acumbamail**](https://acumbamail.com/en/) (free)
+* [**Advanced Form**](https://wordpress.org/plugins/advanced-form-integration/) (free)
+* [**Agile CRM**](https://www.agilecrm.com/) (free)
+* [**Airtable**](https://www.airtable.com/) (free)
+* [**Albato**](https://albato.net/) (free)
+* [**Ants and Apps**](https://antsandapps.com/) (free)
+* [**Asana**](https://asana.com/) (free)
+* [**Autonami**](https://wordpress.org/plugins/wp-marketing-automations/) (free)
+* [**BuddyBoss**](https://www.buddyboss.com/) (free)
+* [**Benchmark**](https://www.benchmarkemail.com/) (free)
+* [**Campaign Monitor**](https://www.campaignmonitor.com/) (free)
+* [**CompanyHub**](https://companyhub.com/) (free)
+* [**Constant Contact**](https://www.constantcontact.com/) (free)
+* [**Kit (ConvertKit)**](https://convertkit.com/) (free)
+* [**Custom Action**](https://bitapps.pro/docs/bit-integrations/actions/custom-action-integrations/) (free)
+* [**Custom Api :**](https://bitapps.pro/docs/bit-integrations/actions/customapi-integrations/) (free)
+* [**Capsule CRM**](https://capsulecrm.com/) (free)
+* [**ClinchPad**](https://clinchpad.com/) (free)
+* [**ClickUp**](https://clickup.com/) (free)
+* [**Copper CRM**](https://www.copper.com/) (free)
+* [**Demio**](https://www.demio.com/) (free)
+* [**Dokan**](https://wordpress.org/plugins/dokan-lite/) (free)
+* [**Discord**](https://discord.com/) (free)
+* [**DirectIQ**](https://www.directiq.com/) (free)
+* [**Drip**](https://www.drip.com/) (free)
+* [**Dropbox**](https://www.dropbox.com/) (free)
+* [**Elastic Email**](https://elasticemail.com/) (free)
+* [**Encharge**](https://encharge.io/) (free)
+* [**EmailOctopus**](https://emailoctopus.com/) (free)
+* [**Flowlu**](https://www.flowlu.com/) (free)
+* [**FluentCRM**](https://wordpress.org/plugins/fluent-crm/) (free)
+* [**Fluent Support**](https://wordpress.org/plugins/fluent-support/) (free)
+* [**Freshdesk**](https://www.freshworks.com/freshdesk/) (free)
+* [**Freshsales**](https://www.freshworks.com/crm/sales/) (free)
+* [**GetGist**](https://getgist.com/) (free)
+* [**GetResponse**](https://www.getresponse.com/) (free)
+* [**Google Sheet**](https://www.google.com/sheets/about/) (free)
+* [**Google Calendar**](https://calendar.google.com/calendar/u/0/r) (free)
+* [**Google Drive**](https://www.google.com/drive/) (free)
+* [**Google Contacts**](https://contacts.google.com/) (free)
+* [**GamiPress**](https://wordpress.org/plugins/gamipress/) (free)
+* [**Groundhogg**](https://wordpress.org/plugins/groundhogg/) (free)
+* [**GiveWP**](https://wordpress.org/plugins/give/) (free)
+* [**Gravitec**](https://gravitec.net/) (free)
+* [**HubSpot**](https://www.hubspot.com/) (free)
+* [**Integrately**](https://integrately.com/) (free)
+* [**Make(Integromat)**](https://www.youtube.com/) (free)
+* [**IFTTT**](https://ifttt.com/) (free)
+* [**Insightly**](https://www.insightly.com/) (free)
+* [**JetEngine**](https://crocoblock.com/plugins/jetengine/) (free)
+* [**Keap (Infusionsoft)**](https://keap.com/) (free)
+* [**Klaviyo**](https://www.klaviyo.com/) (free)
+* [**KonnectzIT**](https://konnectzit.com/) (free)
+* [**Kirim.Email**](https://kirim.email/) (free)
+* [**LearnDash**](https://www.learndash.com/) (free)
+* [**Lemlist**](https://www.lemlist.com/) (free)
+* [**LifterLMS**](https://wordpress.org/plugins/lifterlms/) (free)
+* [**LionDesk**](https://liondesk.com/) (free)
+* [**Livestorm**](https://livestorm.co/) (free)
+* [**License Manager for WooCommerce**](https://wordpress.org/plugins/license-manager-for-woocommerce/) (free)
+* [**Mail**]() (free)
+* [**MasterStudy LMS**](https://wordpress.org/plugins/masterstudy-lms-learning-management-system/) (free)
+* [**MailBluster**](https://mailbluster.com/) (free)
+* [**Mailercloud**](https://www.mailercloud.com/) (free)
+* [**Mailchimp**](https://mailchimp.com/) (free)
+* [**MailerLite**](https://www.mailerlite.com/) (free)
+* [**MailPoet**](https://wordpress.org/plugins/mailpoet/) (free)
+* [**Mailjet**](https://www.mailjet.com/) (free)
+* [**Mautic**](https://www.mautic.org/) (free)
+* [**Mailrelay**](https://mailrelay.com/en/) (free)
+* [**Moosend**](https://moosend.com/) (free)
+* [**MemberPress**](https://wordpress.org/plugins/members/) (free)
+* [**MailUp**](https://mailup.com/) (free)
+* [**Mailster**](https://wordpress.org/plugins/mailster/) (free)
+* [**Mail Mint**](https://wordpress.org/plugins/mail-mint/) (free)
+* [**Moxie**](https://www.withmoxie.com/) (free)
+* [**Newsletter**](https://wordpress.org/plugins/newsletter/) (free)
+* [**Nimble**](https://www.nimble.com/) (free)
+* [**Notion**](https://www.notion.so/) (free)
+* [**Nutshell CRM**](https://www.nutshell.com/) (free)
+* [**N8N**](https://n8n.io/) (free)
+* [**Omnisend**](https://www.omnisend.com/) (free)
+* [**OneDrive**](https://www.microsoft.com/en-us/microsoft-365/onedrive/online-cloud-storage) (free)
+* [**OneHash**](https://www.onehash.ai/) (free)
+* [**OneHash**](https://www.onehash.ai/) (free)
+* [**OptinMonster**](https://optinmonster.com/) (free)
+* [**Pabbly**](https://www.pabbly.com/) (free)
+* [**Paid Memberships Pro**](https://wordpress.org/plugins/paid-memberships-pro/) (free)
+* [**Perfex CRM**](https://www.perfexcrm.com/) (free)
+* [**Pods**](https://www.pods.com/) (free)
+* [**Post Creation**]() (free)
+* [**pCloud**](https://www.pcloud.com/) (free)
+* [**Propovoice CRM**](https://wordpress.org/plugins/propovoice/) (free)
+* [**Pipedrive**](https://www.pipedrive.com/) (free)
+* [**Rapidmail**](https://www.rapidmail.com/) (free)
+* [**Registration**]() (free)
+* [**Restrict Content**](https://wordpress.org/plugins/restrict-content/) (free)
+* [**Sales Plus**](https://salesplus.ie/) (free)
+* [**Salesforce**](https://www.salesforce.com/in/?ir=1) (free)
+* [**Salesmate**](https://www.salesmate.io/) (free)
+* [**SliceWP Affiliate**](https://wordpress.org/plugins/slicewp/) (free)
+* [**SendinBlue(Brevo)**](https://www.brevo.com/) (free)
+* [**Sendy Widget**](https://wordpress.org/plugins/sendy-widget/) (free)
+* [**SendGrid**](https://sendgrid.com/en-us) (free)
+* [**SendPulse**](https://sendpulse.com/) (free)
+* [**SendFox**](https://sendfox.com/) (free)
+* [**SyncSpider**](https://syncspider.com/) (free)
+* [**Slack**](https://slack.com/) (free)
+* [**Selzy**](https://selzy.com/) (free)
+* [**Smaily**](https://smaily.com/) (free)
+* [**Sperse IO**](https://sperse.io/) (free)
+* [**SureCart**](https://wordpress.org/plugins/surecart/) (free)
+* [**SuiteDash**](https://suitedash.com/) (free)
+* [**SureMembers**](https://suremembers.com/) (free)
+* [**SystemeIO**](https://systeme.io/home) (free)
+* [**The Events Calendar**](https://wordpress.org/plugins/the-events-calendar/) (free)
+* [**Telegram**](https://telegram.org/) (free)
+* [**Thrive Automator**](https://wordpress.org/plugins/thrive-automator/) (free)
+* [**Tutor LMS**](https://wordpress.org/plugins/tutor/) (free)
+* [**Trello**](https://trello.com/) (free)
+* [**Twilio**](https://www.twilio.com/en-us) (free)
+* [**Uncanny Automator**](https://wordpress.org/plugins/uncanny-automator/) (free)
+* [**VBOUT**](https://www.vbout.com/) (free)
+* [**Voxel**](https://getvoxel.io/) (free)
+* [**Webhooks**]() (free)
+* [**WhatsApp**](https://www.whatsapp.com/) (free)
+* [**Wishlist**](https://www.wishlist.com/) (free)
+* [**WooCommerce**](https://wordpress.org/plugins/woocommerce/) (free)
+* [**Woodpecker**](https://woodpecker.co/signup/?wpcr=jack15) (free)
+* [**WP Courseware**](https://wordpress.org/plugins/woo-commerce-addon-for-wp-courseware/) (free)
+* [**wpForo**](https://wpforo.com/) (free)
+* [**WP Webhooks**](https://wordpress.org/plugins/wp-webhooks/) (free)
+* [**Zendesk**](https://www.zendesk.com/) (free)
+* [**Zoho Bigin**](https://www.bigin.com/) (free)
+* [**Zoho CRM**](https://www.zoho.com/crm/) (free)
+* [**Zoho Campaigns**](https://www.zoho.com/campaigns/) (free)
+* [**Zoho Sheet**](https://www.zoho.com/sheet/) (free)
+* [**Zoho Desk**](https://www.zoho.com/desk/) (free)
+* [**Zoho Flow**](https://www.zoho.com/flow/) (free)
+* [**Zoho Marketing Hub**](https://www.zoho.com/marketingautomation/) (free)
+* [**Zoho Recruit**](https://www.zoho.com/recruit/) (free)
+* [**Zoom Meeting**](https://zoom.us/) (free)
+* [**Zoom Webinar**](https://www.zoom.com/en/products/webinars/) (free)
 
 
 **Some use cases below for more understanding about this plugin**
@@ -361,7 +367,7 @@ My typical use-case: Adding WooCommerce orders to Gsheets and then sending the l
 
 Free version allows you to use all free triggers and all actions,
 also with unlimited active integrations.
-With the pro version, you have the ability to use all 230+ triggers and actions for unlimited active integrations.
+With the pro version, you have the ability to use all 240+ triggers and actions for unlimited active integrations.
 Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations/).
 
 
@@ -627,6 +633,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**ARForm**](https://bitapps.pro/docs/bit-integrations/trigger/arform/)
 
+* [**Asgaros Forum**](https://bit-integrations.com/wp-docs/trigger/asgaros-forum-integrations/)
+
 * [**Beaver Builder**](https://bitapps.pro/docs/bit-integrations/trigger/beaver-builder/)
 
 * [**Bit Assist**](https://bitapps.pro/docs/bit-integrations/trigger/bit-assist/)
@@ -729,11 +737,15 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**User Registration**](https://bitapps.pro/docs/bit-integrations/trigger/user-registration/)
 
+* [**Voxel**](https://bit-integrations.com/wp-docs/trigger/voxel-integrations/)
+
 * [**weforms**](https://bitapps.pro/docs/bit-integrations/trigger/WeForms/)
 
 * [**Webhook**](https://bitapps.pro/docs/bit-integrations/trigger/webhook/)
 
 * [**Woocommerce**](https://bitapps.pro/docs/bit-integrations/trigger/woocommerce/)
+
+* [**Woocommerce Bookings**](https://bit-integrations.com/wp-docs/trigger/woocommerce-bookings-integrations/)
 
 * [**WooCommerce Subscriptions**](https://bit-integrations.com/wp-docs/trigger/woocommerce-subscriptions-integrations/)
 
@@ -833,6 +845,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 * [**Konnectzit**](https://bitapps.pro/docs/bit-integrations/trigger/konnectzit/)
 
 * [**LearnDash LMS**](https://bitapps.pro/docs/bit-integrations/trigger/learndash-lms/)
+
+* [**License Manager for WooCommerce**](https://bitapps.pro/docs/bit-integrations/trigger/learndash-lms/)
 
 * [**Mail Mint**](https://bitapps.pro/docs/bit-integrations/trigger/mail-mint/)
 
@@ -955,9 +969,9 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 ## FAQ
 
 = 1. What is Bit Integrations? =
-Bit Integrations is a wordpress plugin that allows you to connect your WordPress site with over 230+ popular platforms, such as CRMs, marketing tools, and more.
+Bit Integrations is a wordpress plugin that allows you to connect your WordPress site with over 240+ popular platforms, such as CRMs, marketing tools, and more.
 = 2. What kind of tasks does Bit Integrations automate?=
-Bit Integrations provide automated solutions for form submissions, data transfer between platforms, and more. With the integration of over 230+ popular platforms, users can effortlessly manage their connections to their WordPress site in one place.
+Bit Integrations provide automated solutions for form submissions, data transfer between platforms, and more. With the integration of over 240+ popular platforms, users can effortlessly manage their connections to their WordPress site in one place.
 = 3. Is Bit integrations easy to use?=
 Yes, Bit integrations easy to use without require coding knowledge and without read documentation.
 = 4. Bit Integrations support Multisite?=
@@ -971,7 +985,7 @@ Yes, you can send data when user complete course/lesson , create course etc.
 = 8. Can I automate with WooCommerce, WooCommerce subscription, WooCommerce booking, Studiocart and Easy Digital Downloads?=
 Yes, you can send data when user complete order, create order, create subscription, create booking etc.
 = 9. Do I need coding skills to use Bit Integrations?=
-No, you don't need any coding skills to use Bit Integrations. You can easily connect your WordPress site with over 230+ popular platforms, such as CRMs, marketing tools, and more.
+No, you don't need any coding skills to use Bit Integrations. You can easily connect your WordPress site with over 240+ popular platforms, such as CRMs, marketing tools, and more.
 = 10. Can I automate with WhatsApp?=
 Yes, you can automate with WhatsApp.
 = 11. Best WordPress Automation Tools and Plugins Compared (2023)?=
@@ -979,7 +993,7 @@ Yes, Bit Integrations is one of the best WordPress Automation Tools and Plugins 
 = 12. Can I automate with Google Sheets, Google Calendar, Google Drive, Google Contact?=
 Yes, you can automate with Google Sheets, Google Calendar, Google Drive, Google Contact.
 = 13. What users say about Bit Integrations?=
-Bit Integrations is self hosted Zapier with chepest price. You can automate with over 230+ popular platforms, such as CRMs, marketing tools, and more.
+Bit Integrations is self hosted Zapier with chepest price. You can automate with over 240+ popular platforms, such as CRMs, marketing tools, and more.
 = 14. Can I automate WordPress?=
 Yes, you can automate WordPress with 60+ trigger and 150+ actions.
 = 15. Can Bit Integrations connect plugins with external services like Zapier, Pabbly, N8N?=
@@ -1006,6 +1020,148 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 6. All integration list
 
 == Changelog ==
+
+= 2.3.8  =
+_Release Date -5th December 2024_
+
+- **New Feature**
+ - Fluent CRM (Action)(Pro): Added support for assigning a company to contacts.
+
+- **New Improvement**
+ - Benchmark: Improved integration execution performance.
+ - Forminator (Pro): Extended form fetching limit to 1000.
+ - Ultimate Member (Pro): Added support for uploading field data URLs.
+
+- **Bug Fixes**
+ - Telegram: Fixed issue with integration name not being editable.
+ - Telegram: Resolved issue with HTML message text breaking characters.
+ - Telegram: Fixed issue with markdown field input appending incorrectly.
+ - Benchmark: Fixed issue with boolean fields not being handled correctly.
+ - Slack: Fixed issue with message body field input appending incorrectly.
+ - Chore: Corrected the improper call of _load_textdomain_just_in_time.
+ - Twilio: Fixed issue with message body field input appending incorrectly.
+ - Fluent CRM (Trigger)(Pro): Fixed issue with duplicate trigger execution.
+
+= 2.3.7  =
+_Release Date -28th November 2024_
+
+- **Bug Fixes**
+ - Google Authorization issue fixed.
+
+= 2.3.6  =
+_Release Date -26th November 2024_
+
+- **New Improvement**
+ - Asana: Added Tagify input for custom fields.
+
+- **Bug Fixes**
+ - ARForm (Pro): Resolved the form fetching issue.
+ - Fluent Support: Fixed an issue with storing data in custom fields.
+ - WP Post (Pro): Prevented multiple hooks from being called when using the "change status" trigger.
+ - Chore: Fixed the loading issue in the WP Media Library.
+
+= 2.3.5  =
+_Release Date -20th November 2024_
+
+- **New Trigger**
+ - Asgaros (Pro): Added support for the best forum plugin for WordPress.
+
+- **New Action**
+ - Voxel: Introduced support for building advanced WordPress dynamic sites and directories.
+
+- **Bug Fixes**
+ - Telegram: Resolved the issue where markdown appended incorrectly to form fields.
+ - Telegram: Fixed the UI conflict related to parse mode settings.
+ - Google Sheets: Addressed the issue where custom authentication credentials were missing.
+ - SureCart (Pro): Fixed the blank page issue experienced by some users.
+
+= 2.3.4  =
+_Release Date -12th November 2024_
+
+- **New Trigger**
+ - Pie Forms (Pro): Drag & Drop Builder, Human Face Detector, Pre-built Templates, Spam Protection, User Email Notifications, and more!
+
+- **New Features**
+ - Kit (ex ConvertKit): New Module added:
+    "Update Subscriber" - Easily update subscriber details.
+    "Add Tags to a Subscriber" - Assign specific tags to subscribers.
+    "Remove Tags from a Subscriber" - Remove tags from selected subscribers. 
+  - Voxel: Added new tasks to enhance the integrations:
+
+    Membership (Pro):
+      - Membership Plan Activated
+      - Membership Plan Switched
+      - Membership Plan Canceled
+
+    Comments (Pro):
+      - New Comment
+      - New Reply to Comment
+
+    Profile (Pro):
+      - New Wall Post on Profile
+      - Wall Post by User
+
+    Orders (Pro):
+      - New Order Placed
+      - Order Approved by Vendor
+      - Order Declined by Vendor
+      - Order Canceled by Customer
+      - Orders Claim Listing
+      
+    Promotions(pro):
+      - Promotion Activated
+      - Promotion Canceled
+
+
+- **New Improvement**
+ - Brevo (ex Sendinblue): Enhanced optimization for smoother integration execution.
+ - Kit (ex ConvertKit): Improved functionality for adding and updating subscribers.
+
+= 2.3.3  =
+_Release Date -05th November 2024_
+
+- **New Action**
+ - License Manager for WooCommerce - An Ideal Add-on that Delivers Robust Solutions for Effortless Software License Sales and Management.
+
+- **New Trigger**
+ - Voxel - Build Advanced WordPress Dynamic Sites and Directories with Voxel and Elementor (Pro).
+
+- **New Features**
+ - MailChimp: Added utilities to manage Language and GDPR Marketing Preferences for users (Pro).
+
+- **New Improvement**
+ - Kit (ConvertKit): Optimized API for handling existing subscribers more efficiently.
+
+- **Bug Fixes**
+ - Telegram Messenger: Resolved an issue with link messages not displaying correctly.
+ - GoHighLevel: Fixed a bug where checkbox data was not submitting as expected.
+ - Chore: Addressed trigger uniqueKey update issues for various builders and forms, including:
+      - Breakdance
+      - Elementor
+      - Bricks
+      - BrickForge
+      - Brizy
+      - Divi
+      - Divi Form Builder by Divi Engine
+      - Gutena Forms
+      - Kadence Blocks Form
+      - Popup Maker
+      - SiteOrigin Widgets
+
+= 2.3.2  =
+_Release Date -30th October 2024_
+
+- **New Trigger :**
+  - WooCommerce Bookings: Added support for WooCommerce Bookings trigger, allowing you to automate workflows based on new bookings and other related events. (Pro)
+
+- **New Features :**
+  - OneClick Authorization feature added in GoogleSheet Action.
+
+- **New Improvements :**
+  - WP Post Creation: Enhanced the feature image upload process, now supporting improved handling of third-party public URLs, ensuring more consistent and reliable image integration for WP posts.
+
+- **Note :**
+  - Deprecated Old WooCommerce Booking Triggers: Previous WooCommerce booking-based triggers have been deprecated and replaced with a new, comprehensive trigger system, including specific triggers such as "Booking-Created" to provide more effective and detailed management of WooCommerce bookings.
 
 = 2.3.1  =
 _Release Date -23th October 2024_

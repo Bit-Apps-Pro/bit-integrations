@@ -27,7 +27,7 @@ const ZohoMarketingHubAuthorization = lazy(
   () => import('./ZohoMarketingHub/ZohoMarketingHubAuthorization')
 )
 const ZohoRecruitAuthorization = lazy(() => import('./ZohoRecruit/ZohoRecruitAuthorization'))
-const GoogleSheetAuthorization = lazy(() => import('./GoogleSheet/GoogleSheetAuthorization'))
+const GoogleSheetInfo = lazy(() => import('./GoogleSheet/GoogleSheetInfo'))
 const MailChimpAuthorization = lazy(() => import('./MailChimp/MailChimpAuthorization'))
 const MailPoetAuthorization = lazy(() => import('./MailPoet/MailPoetAuthorization'))
 const SendinblueAuthorization = lazy(() => import('./SendinBlue/SendinBlueAuthorization'))
@@ -189,6 +189,10 @@ const HighLevelAuthorization = lazy(() => import('./HighLevel/HighLevelAuthoriza
 const TheEventsCalendarAuthorization = lazy(
   () => import('./TheEventsCalendar/TheEventsCalendarAuthorization')
 )
+const LMFWCAuthorization = lazy(
+  () => import('./LMFWC/LMFWCAuthorization')
+)
+const VoxelAuthorization = lazy(() => import('./Voxel/VoxelAuthorization'))
 
 export default function IntegInfo() {
   const { id, type } = useParams()
@@ -296,10 +300,7 @@ export default function IntegInfo() {
         )
       case 'Google Sheet':
         return (
-          <GoogleSheetAuthorization
-            sheetConf={integrationConf}
-            step={1}
-            redirectLocation={location}
+          <GoogleSheetInfo sheetConf={integrationConf}
             isInfo
           />
         )
@@ -580,6 +581,14 @@ export default function IntegInfo() {
       case 'The Events Calendar':
         return (
           <TheEventsCalendarAuthorization theEventsCalendarConf={integrationConf} step={1} isInfo />
+        )
+      case 'License Manager For WooCommerce':
+        return (
+          <LMFWCAuthorization licenseManagerConf={integrationConf} step={1} isInfo />
+        )
+      case 'Voxel':
+        return (
+          <VoxelAuthorization voxelConf={integrationConf} step={1} isInfo />
         )
       default:
         return <></>

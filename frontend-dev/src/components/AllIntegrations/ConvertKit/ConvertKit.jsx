@@ -24,7 +24,8 @@ function ConvertKit({ formFields, setFlow, flow, allIntegURL }) {
     api_secret:
       process.env.NODE_ENV === 'development' ? 'm4iHyMa_gu65b16dJMnYJJzOlSFpj3wl1pB3k_IvOhc' : '',
     field_map: [{ formField: '', convertKitField: '' }],
-    actions: {}
+    actions: {},
+    module: '',
   })
 
   const nextPage = (val) => {
@@ -40,8 +41,16 @@ function ConvertKit({ formFields, setFlow, flow, allIntegURL }) {
         })
         return
       }
-      if (!convertKitConf?.formId) {
+      if (!convertKitConf?.module) {
+        setSnackbar({ show: true, msg: __('Please select module to continue.', 'bit-integrations') })
+        return
+      }
+      if (convertKitConf?.module === 'add_subscriber_to_a_form' && !convertKitConf?.formId) {
         setSnackbar({ show: true, msg: __('Please select form to continue.', 'bit-integrations') })
+        return
+      }
+      if ((convertKitConf?.module === 'add_tags_to_a_subscriber' || convertKitConf?.module === 'remove_tags_to_a_subscriber') && !convertKitConf?.tagIds) {
+        setSnackbar({ show: true, msg: __('Please select tag continue.', 'bit-integrations') })
         return
       }
       if (convertKitConf.name !== '' && convertKitConf.field_map.length > 0) {
@@ -49,6 +58,7 @@ function ConvertKit({ formFields, setFlow, flow, allIntegURL }) {
       }
     }
   }
+
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
@@ -82,7 +92,7 @@ function ConvertKit({ formFields, setFlow, flow, allIntegURL }) {
         />
         <button
           onClick={() => nextPage(3)}
-          disabled={!convertKitConf?.formId || convertKitConf.field_map.length < 1}
+          disabled={!checkMappedFields(convertKitConf)}
           className="btn f-right btcd-btn-lg purple sh-sm flx"
           type="button">
           {__('Next', 'bit-integrations')} &nbsp;

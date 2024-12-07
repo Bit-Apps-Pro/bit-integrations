@@ -53,6 +53,7 @@ const ActionHook = () => {
     tmpNewFlow.triggerData = {
       formID: hookID,
       primaryKey: primaryKey,
+      trigger_type: newFlow?.triggerDetail?.type ?? 'action_hook',
       fields: selectedFields.map((field) => ({ label: field, name: field })),
       rawData: newFlow.triggerDetail?.data
     }
@@ -147,9 +148,9 @@ const ActionHook = () => {
       !val
         ? undefined
         : {
-            key: val,
-            value: extractValueFromPath(newFlow.triggerDetail?.data, val)
-          }
+          key: val,
+          value: extractValueFromPath(newFlow.triggerDetail?.data, val)
+        }
     )
   }
 

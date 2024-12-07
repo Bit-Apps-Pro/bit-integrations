@@ -5,36 +5,37 @@ import Modal from '../components/Utilities/Modal'
 import { $btcbi } from '../GlobalStates'
 import ChangelogIcn from '../Icons/ChangeLogIcn'
 import ExternalLinkIcn from '../Icons/ExternalLinkIcn'
-import promo from '../resource/img/bit-social-promo.webp'
+import CyberMondayDeal from '../resource/img/CyberMondayDeal.jpg'
 import bitsFetch from '../Utils/bitsFetch'
 import { __, sprintf } from '../Utils/i18nwrap'
 
 export default function ChangelogToggle() {
   const [btcbi, setBtcbi] = useRecoilState($btcbi)
   const [show, setShow] = useState(btcbi.changelogVersion !== btcbi.version)
-  const [showAnalyticsOptin, setShowAnalyticsOptin] = useState([])
+  const [showAnalyticsOptin, setShowAnalyticsOptin] = useState(false)
   const [loading, setLoading] = useState('')
   const [step, setStep] = useState(1)
 
   const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
   const Early_Bird_URL = `https://bit-social.com/?utm_source=${source}&utm_medium=inside-plugin&utm_campaign=early-bird-offer`
+  const releaseDate = '05th December 2024'
 
   const changeLog = [
     {
       label: __('Note', 'bit-integrations'),
-      headClass: 'new-integration',
-      itemClass: 'integration-list',
+      headClass: 'new-note',
+      itemClass: '',
       items: []
     },
     {
       label: __('New Actions', 'bit-integrations'),
       headClass: 'new-integration',
       itemClass: 'integration-list',
-      items: ['The Events Calendar']
+      items: []
     },
     {
       label: __('New Triggers', 'bit-integrations'),
-      headClass: 'new-integration',
+      headClass: 'new-trigger',
       itemClass: 'integration-list',
       items: []
     },
@@ -42,19 +43,16 @@ export default function ChangelogToggle() {
       label: __('New Features', 'bit-integrations'),
       headClass: 'new-feature',
       itemClass: 'feature-list',
-      items: [
-        'The Events Calendar: Added new task for attendee registration with WooCommerce (Pro).',
-        'Moosend: Added support for custom fields (Pro).'
-      ]
+      items: ['Fluent CRM (Action)(Pro): Added support for assigning a company to contacts.']
     },
     {
       label: __('New Improvements', 'bit-integrations'),
-      headClass: 'new-integration',
-      itemClass: 'integration-list',
+      headClass: 'new-improvement',
+      itemClass: 'feature-list',
       items: [
-        'Campaign Monitor: Added custom field value support.',
-        'Telegram: Enhanced Markdown and HTML message support.',
-        'Mautic: Added functionality for contact owner.'
+        'Forminator (Pro): Extended form fetching limit to 1000.',
+        'Benchmark: Improved integration execution performance.',
+        'Ultimate Member (Pro): Added support for uploading field data URLs.'
       ]
     }
   ]
@@ -110,7 +108,7 @@ export default function ChangelogToggle() {
         sm={step !== 1}
         show={show}
         setModal={closeModal}
-        closeIcon={showAnalyticsOptin}
+        closeIcon={showAnalyticsOptin && step === 2}
         style={{
           height: 'auto',
           width: '550px'
@@ -119,10 +117,10 @@ export default function ChangelogToggle() {
           <>
             <div>
               <a href={Early_Bird_URL} target="_blank" rel="noreferrer">
-                <img src={promo} style={{ width: '100%', marginTop: '-10px' }} alt="" />
+                <img src={CyberMondayDeal} style={{ width: '100%', marginTop: '-2px', borderRadius: '20px' }} alt="" />
               </a>
             </div>
-            <div className="txt-right" style={{ marginTop: '-20px' }}>
+            <div className="txt-right" style={{ marginTop: '-2px' }}>
               <button
                 type="button"
                 className="btn round btcd-btn-lg purple purple-sh"
@@ -137,7 +135,7 @@ export default function ChangelogToggle() {
               <div className="flx flx-col flx-center whats-new">
                 <h3>{sprintf(__("What's New in %s", 'bit-integrations'), btcbi.version)}?</h3>
                 <small className="date">
-                  {__('Updated at:', 'bit-integrations')} <b>23th October 2024</b>
+                  {__('Updated at:', 'bit-integrations')} <b>{releaseDate}</b>
                 </small>
               </div>
               <div className="changelog-content">
@@ -202,7 +200,8 @@ export default function ChangelogToggle() {
                         className="app-link-active"
                         target="blank"
                         href="https://bitapps.pro/terms-of-service/">
-                        {__('Click here to see terms', 'bit-integrations')}
+                        {__('Terms and conditions', 'bit-integrations')}&nbsp;
+                        <ExternalLinkIcn size="14" />
                       </a>
                     </div>
                     <div className="flx flx-between">

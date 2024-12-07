@@ -22,7 +22,7 @@
         }
     },
     "require": {
-        "bitapps/wp-telemetry": "^0.0.8",
+        "bitapps/wp-telemetry": "v0.0.9",
         "typisttech/imposter-plugin": "*"
     },
   "extra": {

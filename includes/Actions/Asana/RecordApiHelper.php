@@ -6,8 +6,9 @@
 
 namespace BitCode\FI\Actions\Asana;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -87,19 +88,9 @@ class RecordApiHelper
         foreach ($fieldMap as $value) {
             $triggerValue = $value->formField;
             $actionValue = $value->asanaFormField;
-            if ($triggerValue === 'custom') {
-                if ($actionValue === 'fields') {
-                    $dataFinal[$value->customFieldKey] = $value->customValue;
-                } else {
-                    $dataFinal[$actionValue] = $value->customValue;
-                }
-            } elseif (!\is_null($data[$triggerValue])) {
-                if ($actionValue === 'fields') {
-                    $dataFinal[$value->customFieldKey] = $data[$triggerValue];
-                } else {
-                    $dataFinal[$actionValue] = $data[$triggerValue];
-                }
-            }
+
+            $fieldKey = $actionValue === 'fields' ? $value->customFieldKey : $actionValue;
+            $dataFinal[$fieldKey] = $triggerValue === 'custom' && isset($value->customValue) ? Common::replaceFieldWithValue($value->customValue, $data) : $data[$triggerValue] ?? null;
         }
 
         return $dataFinal;

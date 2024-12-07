@@ -35,12 +35,14 @@ import {
   memberpressStateIH,
   postStateIH,
   tutorlmsStateIH,
+  voxelIH,
   wooCommerceStateIH,
   wpCoursewareStateIH,
   wpForoStateIH,
   wpJobManagerStateIH
 } from '../../Triggers/TriggerHelpers/TriggerStateHelper'
 import c from 'react-multiple-select-dropdown-lite'
+import { create } from 'mutative'
 
 export const checkWebhookIntegrationsExist = (entity) => {
   const integrations = webhookIntegrations
@@ -63,6 +65,8 @@ export const saveIntegConfig = async (
   let action = 'flow/save'
   setIsLoading(true)
   let tmpConf = confTmp
+  tmpConf['trigger_type'] = flow?.triggerData?.trigger_type || flow?.flow_details?.trigger_type || ''
+
   if (confTmp?.condition?.action_behavior !== 'cond') {
     tmpConf.condition = {
       action_behavior: '',
@@ -168,6 +172,9 @@ export const saveIntegConfig = async (
   } else if (flow.triggered_entity === 'EventsCalendar') {
     const dataFlow = edit ? flow?.flow_details : flow?.triggerData
     tmpConf = eventsCalendarIH(tmpConf, dataFlow, flow.triggered_entity_id)
+  } else if (flow.triggered_entity === 'Voxel') {
+    const dataFlow = edit ? flow?.flow_details : flow?.triggerData
+    tmpConf = voxelIH(tmpConf, dataFlow, flow.triggered_entity_id)
   } else if (flow.triggered_entity === 'WCSubscriptions') {
     const dataFlow = edit ? flow?.flow_details : flow?.triggerData
     tmpConf = WCSubscriptionsStateIH(tmpConf, dataFlow, flow.triggered_entity_id)
@@ -249,6 +256,7 @@ export const saveActionConf = async ({
   let action = 'flow/save'
   setIsLoading && setIsLoading instanceof Function && setIsLoading(true)
   let tmpConf = conf
+  tmpConf['trigger_type'] = flow?.triggerData?.trigger_type || flow?.flow_details?.trigger_type || ''
 
   /**
    * TODO
@@ -346,6 +354,9 @@ export const saveActionConf = async ({
   } else if (flow.triggered_entity === 'EventsCalendar') {
     const dataFlow = edit ? flow?.flow_details : flow?.triggerData
     tmpConf = eventsCalendarIH(tmpConf, dataFlow, flow.triggered_entity_id)
+  } else if (flow.triggered_entity === 'Voxel') {
+    const dataFlow = edit ? flow?.flow_details : flow?.triggerData
+    tmpConf = voxelIH(tmpConf, dataFlow, flow.triggered_entity_id)
   } else if (flow.triggered_entity === 'WCSubscriptions') {
     const dataFlow = edit ? flow?.flow_details : flow?.triggerData
     tmpConf = WCSubscriptionsStateIH(tmpConf, dataFlow, flow.triggered_entity_id)
@@ -467,13 +478,11 @@ export const handleAuthorize = (
     return
   }
   setIsLoading(true)
-  const apiEndpoint = `https://accounts.zoho.${
-    confTmp.dataCenter
-  }/oauth/v2/auth?scope=${scopes}&response_type=code&client_id=${
-    confTmp.clientId
-  }&prompt=Consent&access_type=offline&state=${encodeURIComponent(
-    window.location.href
-  )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api.base}`)}/redirect`
+  const apiEndpoint = `https://accounts.zoho.${confTmp.dataCenter
+    }/oauth/v2/auth?scope=${scopes}&response_type=code&client_id=${confTmp.clientId
+    }&prompt=Consent&access_type=offline&state=${encodeURIComponent(
+      window.location.href
+    )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api.base}`)}/redirect`
   const authWindow = window.open(apiEndpoint, integ, 'width=400,height=609,toolbar=off')
   const popupURLCheckTimer = setInterval(() => {
     if (authWindow.closed) {
@@ -554,9 +563,8 @@ const tokenHelper = (
       ) {
         setSnackbar({
           show: true,
-          msg: `${__('Authorization failed Cause:', 'bit-integrations')}${
-            result.data.data || result.data
-          }. ${__('please try again', 'bit-integrations')}`
+          msg: `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data
+            }. ${__('please try again', 'bit-integrations')}`
         })
       } else {
         setSnackbar({
@@ -628,4 +636,15 @@ export const handleCustomValue = (event, index, conftTmp, setConf, tab) => {
     newConf.field_map[index].customValue = event?.target?.value || event
   }
   setConf({ ...newConf })
+}
+
+export const setFieldInputOnMsgBody = (val, setConf, inputRef) => {
+  setConf(prevConf => create(prevConf, draftConf => {
+    const body = draftConf.body
+    const cursorPosition = inputRef.current.selectionStart
+    const firstHalfBody = body.substring(0, cursorPosition)
+    const lastHalfBody = body.substring(cursorPosition, body.length)
+
+    draftConf.body = firstHalfBody + val + lastHalfBody
+  }))
 }

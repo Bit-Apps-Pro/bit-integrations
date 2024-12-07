@@ -6,12 +6,13 @@
 
 namespace BitCode\FI\Actions\FluentCrm;
 
-use FluentCrm\App\Models\CustomContactField;
-
-use FluentCrm\App\Models\Lists;
-use FluentCrm\App\Models\Subscriber;
-use FluentCrm\App\Models\Tag;
 use WP_Error;
+
+use FluentCrm\App\Models\Tag;
+use FluentCrm\App\Models\Lists;
+use FluentCrm\App\Models\Company;
+use FluentCrm\App\Models\Subscriber;
+use FluentCrm\App\Models\CustomContactField;
 
 /**
  * Provide functionality for ZohoCrm integration
@@ -82,6 +83,26 @@ class FluentCrmController
         }
         $response['fluentCrmTags'] = $fluentCrmTags;
         wp_send_json_success($response, 200);
+    }
+
+    public static function getAllCompany()
+    {
+        self::checkedExistsFluentCRM();
+
+        $settings = get_option('_fluentcrm_experimental_settings', []);
+
+        if (empty($settings['company_module']) || $settings['company_module'] !== 'yes') {
+            wp_send_json_success([], 200);
+        }
+
+        $companies = Company::paginate(500)->toArray();
+
+        wp_send_json_success(array_map(function ($company) {
+            return [
+                'id'    => $company['id'],
+                'label' => $company['name'],
+            ];
+        }, $companies['data']), 200);
     }
 
     public static function fluentCrmFields()

@@ -6,6 +6,8 @@ import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import { $btcbi } from '../../../GlobalStates'
 import { generateMappedField } from './AsanaCommonFunc'
 import CustomField from './CustomField'
+import TagifyInput from '../../Utilities/TagifyInput'
+import { handleCustomValue } from '../IntegrationHelpers/IntegrationHelpers'
 
 export default function AsanaFieldMap({ i, formFields, field, asanaConf, setAsanaConf }) {
   let allFields = []
@@ -61,14 +63,14 @@ export default function AsanaFieldMap({ i, formFields, field, asanaConf, setAsan
           </select>
 
           {field.formField === 'custom' && (
-            <CustomField
-              field={field}
-              index={i}
-              conf={asanaConf}
-              setConf={setAsanaConf}
-              fieldValue="customValue"
-              fieldLabel="Custom Value"
+            <TagifyInput
+              onChange={(e) => handleCustomValue(e, i, asanaConf, setAsanaConf)}
+              label={__('Custom Value', 'bit-integrations')}
               className="mr-2"
+              type="text"
+              value={field.customValue}
+              placeholder={__('Custom Value', 'bit-integrations')}
+              formFields={formFields}
             />
           )}
 

@@ -18,17 +18,19 @@ export default function ConvertKitActions({ convertKitConf, setConvertKitConf })
 
   return (
     <div className="pos-rel d-flx w-8">
-      <TableCheckBox
-        checked={convertKitConf.actions?.update || false}
-        onChange={(e) => actionHandler(e, 'update')}
-        className="wdt-200 mt-4 mr-2"
-        value="user_share"
-        title={sprintf(__('Update %s', 'bit-integrations'), 'Kit(ConvertKit)')}
-        subTitle={sprintf(
-          __('Update Responses with %s existing email?', 'bit-integrations'),
-          'Kit(ConvertKit)'
-        )}
-      />
+      {(!convertKitConf?.module || convertKitConf?.module === 'add_subscriber_to_a_form') &&
+        <TableCheckBox
+          checked={convertKitConf.actions?.update || false}
+          onChange={(e) => actionHandler(e, 'update')}
+          className="wdt-200 mt-4 mr-2"
+          value="user_share"
+          title={sprintf(__('Update %s', 'bit-integrations'), 'Kit(ConvertKit)')}
+          subTitle={sprintf(
+            __('Update Responses with %s existing email?', 'bit-integrations'),
+            'Kit(ConvertKit)'
+          )}
+        />
+      }
     </div>
   )
 }

@@ -6,10 +6,10 @@
 
 namespace BitCode\FI\Actions\HighLevel;
 
+use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\Helper;
 use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert,update, exist
@@ -296,7 +296,7 @@ class RecordApiHelper
                 $fieldType = $keyFieldType[1];
 
                 if ($fieldType === 'MULTIPLE_OPTIONS' || $fieldType === 'CHECKBOX') {
-                    $customFieldsData[$fieldKey] = explode(',', str_replace(' ', '', $value));
+                    $customFieldsData[$fieldKey] = \is_string($value) ? explode(',', str_replace(' ', '', $value)) : $value;
                 } else {
                     $customFieldsData[$fieldKey] = $value;
                 }

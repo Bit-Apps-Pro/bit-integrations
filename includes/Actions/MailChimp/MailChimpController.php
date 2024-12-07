@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\MailChimp;
 
+use WP_Error;
 use BitCode\FI\Core\Util\Helper;
 use BitCode\FI\Core\Util\HttpHelper;
-use WP_Error;
 
 /**
  * Provide functionality for MailChimp integration
@@ -289,7 +289,7 @@ class MailChimpController
         ) {
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Mail Chimp'));
         }
-        $recordApiHelper = new RecordApiHelper($tokenDetails, $this->_integrationID);
+        $recordApiHelper = new RecordApiHelper($tokenDetails, $this->_integrationID, $integrationDetails);
         $mChimpApiResponse = $recordApiHelper->execute(
             $listId,
             $module,

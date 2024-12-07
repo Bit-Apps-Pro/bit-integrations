@@ -6,12 +6,12 @@
 
 namespace BitCode\FI\Actions\FluentSupport;
 
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Core\Util\Helper as BtcbiHelper;
 use BitCode\FI\Log\LogHandler;
-use FluentSupport\App\Models\Customer;
+use BitCode\FI\Core\Util\Common;
 use FluentSupport\App\Models\Ticket;
+use FluentSupport\App\Models\Customer;
 use FluentSupport\App\Services\Helper;
+use BitCode\FI\Core\Util\Helper as BtcbiHelper;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -32,14 +32,13 @@ class RecordApiHelper
         foreach ($fieldMap as $key => $value) {
             $triggerValue = $value->formField;
             $actionValue = $value->fluentSupportFormField;
-            if ($triggerValue === 'custom' && str_starts_with($actionValue, 'cf_')) {
-                $dataFinal['custom_fields'][$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif ($triggerValue === 'custom') {
-                $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (str_starts_with($actionValue, 'cf_')) {
-                $dataFinal['custom_fields'][$actionValue] = $data[$triggerValue];
+
+            $value = $triggerValue === 'custom' && isset($value->customValue) ? Common::replaceFieldWithValue($value->customValue, $data) : $data[$triggerValue] ?? null;
+
+            if (str_starts_with($actionValue, 'cf_')) {
+                $dataFinal['custom_fields'][$actionValue] = $value;
             } elseif (!\is_null($data[$triggerValue])) {
-                $dataFinal[$actionValue] = $data[$triggerValue];
+                $dataFinal[$actionValue] = $value;
             }
         }
 
@@ -80,24 +79,41 @@ class RecordApiHelper
 
         $ticket = Ticket::create($finalData);
 
-        if (isset($ticket->id)) {
-            if (isset($finalData['custom_fields']) && \is_array($finalData['custom_fields'])) {
-                $ticket->syncCustomFields([$finalData['custom_fields']]);
-            }
-
-            if (!empty($attachments)) {
-                static::uploadTicketFiles($finalData, $attachments, $ticket, $finalData['customer_id'], $this->_integrationID);
-            }
-
-            return $ticket;
+        if (!isset($ticket->id)) {
+            wp_send_json_error(
+                __(
+                    'Create Ticket Failed!',
+                    'bit-integrations'
+                ),
+                400
+            );
         }
-        wp_send_json_error(
-            __(
-                'Create Ticket Failed!',
-                'bit-integrations'
-            ),
-            400
-        );
+
+        if (isset($finalData['custom_fields']) && \is_array($finalData['custom_fields'])) {
+            $fields = apply_filters('fluent_support/ticket_custom_fields', []);
+
+            if (!empty($fields)) {
+                $customFields = [];
+                $keys = array_keys($fields);
+                $validData = array_intersect_key($finalData['custom_fields'], array_flip($keys));
+
+                foreach ($validData as $dataKey => $value) {
+                    if ($fields[$dataKey]['type'] == 'checkbox') {
+                        $customFields[$dataKey] = \is_array($value) ? $value : explode(',', $value);
+                    } else {
+                        $customFields[$dataKey] = $value;
+                    }
+                }
+
+                $ticket->syncCustomFields($customFields);
+            }
+        }
+
+        if (!empty($attachments)) {
+            static::uploadTicketFiles($finalData, $attachments, $ticket, $finalData['customer_id'], $this->_integrationID);
+        }
+
+        return $ticket;
     }
 
     public function execute(

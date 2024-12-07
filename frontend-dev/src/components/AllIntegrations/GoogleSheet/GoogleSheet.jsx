@@ -5,12 +5,13 @@ import BackIcn from '../../../Icons/BackIcn'
 import { __ } from '../../../Utils/i18nwrap'
 import SnackMsg from '../../Utilities/SnackMsg'
 import Steps from '../../Utilities/Steps'
-import { setGrantTokenResponse } from '../IntegrationHelpers/GoogleIntegrationHelpers'
 import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import GoogleSheetAuthorization from './GoogleSheetAuthorization'
 import { handleInput, checkMappedFields } from './GoogleSheetCommonFunc'
 import GoogleSheetIntegLayout from './GoogleSheetIntegLayout'
+import bitsFetch from '../../../Utils/bitsFetch'
+
 
 function GoogleSheet({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
@@ -36,8 +37,18 @@ function GoogleSheet({ formFields, setFlow, flow, allIntegURL }) {
   })
 
   useEffect(() => {
-    window.opener && setGrantTokenResponse('googleSheet')
+    if (sheetConf.oneClickAuthCredentials === undefined) {
+      const requestParams = {
+        actionName: "googleSheet",
+      }
+      bitsFetch(null, 'get/credentials', requestParams, 'Get').then((res) => {
+        setSheetConf((prevConf) => {
+          return { ...prevConf, oneClickAuthCredentials: res.data }
+        })
+      })
+    }
   }, [])
+
 
   const nextPage = () => {
     setTimeout(() => {

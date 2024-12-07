@@ -1,4 +1,5 @@
-import { atom, selector } from 'recoil'
+import { atom } from 'recoil'
+import { atomWithBroadcast } from './components/atomWithBroadcast'
 
 // atoms
 // eslint-disable-next-line no-undef
@@ -15,3 +16,5 @@ export const $formFields = atom({
   dangerouslyAllowMutability: true
 })
 export const $flowStep = atom({ key: '$flowStep', default: 1, dangerouslyAllowMutability: true })
+
+export const authInfoAtom = atomWithBroadcast('authInfo', {});

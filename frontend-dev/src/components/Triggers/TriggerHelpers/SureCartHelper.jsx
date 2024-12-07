@@ -31,8 +31,8 @@ const SureCartHelper = ({ flow, setFlowData, edit = false }) => {
             className="msl-wrp-options"
             defaultValue={triggerData?.selectedProduct}
             options={triggerData?.allProduct?.map((list) => ({
-              label: list.product_name,
-              value: list.product_id.toString()
+              label: list?.product_name,
+              value: list?.product_id?.toString()
             }))}
             onChange={(val) => setFlowData(val, 'selectedProduct')}
             singleSelect

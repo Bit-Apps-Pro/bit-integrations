@@ -3,14 +3,14 @@
 /**
  * Plugin Name: Bit Integrations
  * Plugin URI:  https://bitapps.pro/bit-integrations
- * Description: Bit Integrations is a platform that integrates with over 200+ different platforms to help with various tasks on your WordPress site, like WooCommerce, Form builder, Page builder, LMS, Sales funnels, Bookings, CRM, Webhooks, Email marketing, Social media and Spreadsheets, etc
- * Version:     2.3.1
+ * Description: Bit Integrations is a platform that integrates with over 240+ different platforms to help with various tasks on your WordPress site, like WooCommerce, Form builder, Page builder, LMS, Sales funnels, Bookings, CRM, Webhooks, Email marketing, Social media and Spreadsheets, etc
+ * Version:     2.3.8
  * Author:    Automation & Integration Plugin - Bit Apps
  * Author URI:  https://bitapps.pro
  * Text Domain: bit-integrations
- * Requires PHP: 7.0
+ * Requires PHP: 7.4
  * Requires at least: 5.1
- * Tested up to: 6.6.2
+ * Tested up to: 6.7.1
  * Domain Path: /languages
  * License:  GPLv2 or later
  */
@@ -19,11 +19,12 @@
 if (!defined('ABSPATH')) {
     exit;
 }
+
 global $btcbi_db_version;
-$btcbi_db_version = '1.0';
+$btcbi_db_version = '1.1';
 
 // Define most essential constants.
-define('BTCBI_VERSION', '2.3.1');
+define('BTCBI_VERSION', '2.3.8');
 define('BTCBI_PLUGIN_MAIN_FILE', __FILE__);
 
 require_once plugin_dir_path(__FILE__) . 'includes/loader.php';
@@ -36,9 +37,9 @@ function btcbi_activate_plugin($network_wide)
             esc_html__('Error Activating', 'bit-integrations')
         );
     }
-    if (version_compare(PHP_VERSION, '7.0', '<')) {
+    if (version_compare(PHP_VERSION, '7.4', '<')) {
         wp_die(
-            esc_html__('Forms Integrationsw requires PHP version 7.0.', 'bit-integrations'),
+            esc_html__('Bit Integrations requires PHP version 7.4.', 'bit-integrations'),
             esc_html__('Error Activating', 'bit-integrations')
         );
     }
@@ -54,9 +55,9 @@ function btcbi_deactivate_plugin($network_wide)
             esc_html__('Error Deactivating', 'bit-integrations')
         );
     }
-    if (version_compare(PHP_VERSION, '7.0', '<')) {
+    if (version_compare(PHP_VERSION, '7.4', '<')) {
         wp_die(
-            esc_html__('Forms Integrationsw requires PHP version 7.0.', 'bit-integrations'),
+            esc_html__('Bit Integrations requires PHP version 7.4.', 'bit-integrations'),
             esc_html__('Error Deactivating', 'bit-integrations')
         );
     }

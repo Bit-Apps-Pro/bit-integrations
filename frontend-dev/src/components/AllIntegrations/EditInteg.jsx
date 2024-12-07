@@ -160,6 +160,8 @@ const EditDokan = lazy(() => import('./Dokan/EditDokan'))
 const EditJetEngine = lazy(() => import('./JetEngine/EditJetEngine'))
 const EditHighLevel = lazy(() => import('./HighLevel/EditHighLevel'))
 const EditTheEventsCalendar = lazy(() => import('./TheEventsCalendar/EditTheEventsCalendar'))
+const EditLMFWC = lazy(() => import('./LMFWC/EditLMFWC'))
+const EditVoxel = lazy(() => import('./Voxel/EditVoxel'))
 
 const loaderStyle = {
   display: 'flex',
@@ -546,6 +548,10 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditHighLevel allIntegURL={allIntegURL} />
     case 'The Events Calendar':
       return <EditTheEventsCalendar allIntegURL={allIntegURL} />
+    case 'License Manager For WooCommerce':
+      return <EditLMFWC allIntegURL={allIntegURL} />
+    case 'Voxel':
+      return <EditVoxel allIntegURL={allIntegURL} />
     default:
       return <Loader style={loaderStyle} />
   }

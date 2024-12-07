@@ -118,7 +118,7 @@ final class Flow
                     'postId' => $integration->flow_details->postId,
                 ];
                 $integration->fields = $trigger::fields($data);
-            } elseif (method_exists($trigger, 'formattedParam')) {
+            } elseif (method_exists($trigger, 'formattedParam') && $trigger::formattedParam($integration)->id !== -1) {
                 $data = $trigger::formattedParam($integration);
                 $integration->fields = $trigger::fields($data);
             } else {
@@ -476,6 +476,11 @@ final class Flow
 
                     case 'GoHighLevel':
                         $integrationName = 'HighLevel';
+
+                        break;
+
+                    case 'LicenseManagerForWooCommerce':
+                        $integrationName = 'LMFWC';
 
                         break;
 

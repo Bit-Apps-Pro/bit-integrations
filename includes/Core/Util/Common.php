@@ -74,7 +74,8 @@ final class Common
     {
         $upDir = wp_upload_dir();
         $fileBaseURL = $upDir['baseurl'];
-        $fileBasePath = $upDir['basedir'];
+        $fileBasePath = str_replace('\\', '/', $upDir['basedir']);
+
         if (\is_array($file)) {
             $Url = [];
             foreach ($file as $fileIndex => $fileUrl) {

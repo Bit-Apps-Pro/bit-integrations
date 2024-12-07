@@ -163,7 +163,9 @@ export default function SelectAction() {
     { type: 'Dokan' },
     { type: 'JetEngine' },
     { type: 'GoHighLevel' },
-    { type: 'The Events Calendar' }
+    { type: 'The Events Calendar' },
+    { type: 'License Manager For WooCommerce' },
+    { type: 'Voxel' }
   ]
 
   const [availableIntegs, setAvailableIntegs] = useState(

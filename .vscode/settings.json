@@ -66,13 +66,13 @@
     "testdox",
     "yoast"
   ],
-  "[typescript, javascript, typescriptreact, json, css]": {
+  "[typescript, javascript, typescriptreact, javascriptreact, json, css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[php]": {
     "editor.defaultFormatter": "junstyle.php-cs-fixer"
   },
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
 }

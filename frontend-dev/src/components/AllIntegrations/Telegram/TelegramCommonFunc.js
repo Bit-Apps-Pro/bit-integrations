@@ -1,5 +1,6 @@
 import { __ } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
+import { create } from 'mutative'
 
 export const refreshGetUpdates = (telegramConf, setTelegramConf, setIsLoading, setSnackbar) => {
   const newConf = { ...telegramConf }
@@ -37,9 +38,9 @@ export const refreshGetUpdates = (telegramConf, setTelegramConf, setIsLoading, s
 }
 
 export const handleInput = (e, telegramConf, setTelegramConf) => {
-  const newConf = { ...telegramConf }
-  newConf.name = e.target.value
-  setTelegramConf({ ...newConf })
+  setTelegramConf(prevConf => create(prevConf, draftConf => {
+    draftConf.name = e.target.value
+  }))
 }
 // export const checkMappedFields = telegramConf => {
 //   const mappedFields = telegramConf?.field_map ? telegramConf.field_map.filter(mappedField => (!mappedField.formField && mappedField.mailPoetField && mappedField.required)) : []

@@ -1,13 +1,14 @@
+import { useRef } from 'react'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import { useParams } from 'react-router-dom'
 import { __ } from '../../../Utils/i18nwrap'
-import CheckBox from '../../Utilities/CheckBox'
 import Loader from '../../Loaders/Loader'
-import TinyMCE from '../../Utilities/TinyMCE'
+import { setFieldInputOnMsgBody } from '../IntegrationHelpers/IntegrationHelpers'
 import SlackActions from './SlackActions'
 
 export default function SlackIntegLayout({ formFields, slackConf, setSlackConf, isLoading }) {
-  const { id } = useParams()
+  const textAreaRef = useRef(null)
+
   const handleInput = (e) => {
     const newConf = { ...slackConf }
     newConf[e.target.name] = e.target.value
@@ -63,6 +64,7 @@ export default function SlackIntegLayout({ formFields, slackConf, setSlackConf, 
           <div className="flx mt-4">
             <b className="wdt-200 d-in-b mr-16">{__('Messages:', 'bit-integrations')}</b>
             <textarea
+              ref={textAreaRef}
               className="w-7"
               onChange={handleInput}
               name="body"
@@ -74,7 +76,9 @@ export default function SlackIntegLayout({ formFields, slackConf, setSlackConf, 
                 .filter((f) => f.type !== 'file')
                 .map((f) => ({ label: f.label, value: `\${${f.name}}` }))}
               className="btcd-paper-drpdwn wdt-600 ml-2"
-              onChange={(val) => setMessageBody(val)}
+              onChange={(val) => setFieldInputOnMsgBody(val, setSlackConf, textAreaRef)}
+              singleSelect
+              selectOnClose
             />
           </div>
           <div className="mt-4">
