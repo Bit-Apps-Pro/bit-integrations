@@ -280,21 +280,14 @@ export const tokenHelper = async (authInfo, confTmp, setConf, selectedAuthType, 
     .then(async result => {
       if (result && result.success) {
         const userInfo = await fetchUserInfo(result.data)
-        const isUserMatched = authData.some(item => item.userInfo.user.emailAddress === userInfo.user.emailAddress);
 
-        if (userInfo && !isUserMatched) {
+        if (userInfo) {
           const newConf = { ...confTmp }
           result.data.selectedAuthType = selectedAuthType
           await handleAuthData(newConf.type, result.data, userInfo, setAuthData);
-          newConf.authData = [...authData, { tokenDetails: result.data, userInfo: userInfo }];
           newConf.setisAuthorized = true
           setConf(newConf)
-          setSnackbar({ show: true, msg: __('Authorized Successfully', 'bit-integrations') })
-        } else {
-          setSnackbar({
-            show: true,
-            msg: __('This account is already on the list.', 'bit-integrations')
-          })
+          setSnackbar({ show: true, msg: __('Authorized Successfully', 'bigt-integrations') })
         }
       } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
         setSnackbar({ show: true, msg: `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}` })

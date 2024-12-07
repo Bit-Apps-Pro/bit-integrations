@@ -42,6 +42,7 @@ import {
   wpJobManagerStateIH
 } from '../../Triggers/TriggerHelpers/TriggerStateHelper'
 import c from 'react-multiple-select-dropdown-lite'
+import { create } from 'mutative'
 
 export const checkWebhookIntegrationsExist = (entity) => {
   const integrations = webhookIntegrations
@@ -477,13 +478,11 @@ export const handleAuthorize = (
     return
   }
   setIsLoading(true)
-  const apiEndpoint = `https://accounts.zoho.${
-    confTmp.dataCenter
-  }/oauth/v2/auth?scope=${scopes}&response_type=code&client_id=${
-    confTmp.clientId
-  }&prompt=Consent&access_type=offline&state=${encodeURIComponent(
-    window.location.href
-  )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api.base}`)}/redirect`
+  const apiEndpoint = `https://accounts.zoho.${confTmp.dataCenter
+    }/oauth/v2/auth?scope=${scopes}&response_type=code&client_id=${confTmp.clientId
+    }&prompt=Consent&access_type=offline&state=${encodeURIComponent(
+      window.location.href
+    )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api.base}`)}/redirect`
   const authWindow = window.open(apiEndpoint, integ, 'width=400,height=609,toolbar=off')
   const popupURLCheckTimer = setInterval(() => {
     if (authWindow.closed) {
@@ -564,9 +563,8 @@ const tokenHelper = (
       ) {
         setSnackbar({
           show: true,
-          msg: `${__('Authorization failed Cause:', 'bit-integrations')}${
-            result.data.data || result.data
-          }. ${__('please try again', 'bit-integrations')}`
+          msg: `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data
+            }. ${__('please try again', 'bit-integrations')}`
         })
       } else {
         setSnackbar({
@@ -638,4 +636,15 @@ export const handleCustomValue = (event, index, conftTmp, setConf, tab) => {
     newConf.field_map[index].customValue = event?.target?.value || event
   }
   setConf({ ...newConf })
+}
+
+export const setFieldInputOnMsgBody = (val, setConf, inputRef) => {
+  setConf(prevConf => create(prevConf, draftConf => {
+    const body = draftConf.body
+    const cursorPosition = inputRef.current.selectionStart
+    const firstHalfBody = body.substring(0, cursorPosition)
+    const lastHalfBody = body.substring(cursorPosition, body.length)
+
+    draftConf.body = firstHalfBody + val + lastHalfBody
+  }))
 }

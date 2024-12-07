@@ -2,40 +2,30 @@ import React, { useState, useEffect, useRef } from 'react';
 import bitsFetch from '../../Utils/bitsFetch';
 import TrashIcn from '../../Icons/TrashIcn';
 
-const AuthorizationAccountList = ({ authData, setAuthData, selectedUserIndex, setSelectedUserIndex, isInfo, setIsLoading }) => {
+const AuthorizationAccountList = ({ authData, setAuthData, selectedUserId, setSelectedUserId, setIsLoading, isEdit, isInfo }) => {
   const [showConfirm, setShowConfirm] = useState(null);
-  const popoverRef = useRef(null); // Ref to the popover container
+  const popoverRef = useRef(null);
 
-  const handleDelete = (id, index) => {
-    setIsLoading(true)
+  const handleDelete = (id) => {
+    setIsLoading(true);
     bitsFetch(id, 'auth/account/delete').then((res) => {
       if (res.success) {
-        setAuthData((prevData => prevData.filter(item => item.id !== id)));
-        if (selectedUserIndex === index) { //if the selected account is deleted.
-          setSelectedUserIndex((authData.length - 2));
-        } else if (selectedUserIndex !== index && index <= selectedUserIndex) { //if the deleted account index is less than selected account.
-          setSelectedUserIndex(selectedUserIndex - 1)
+        setAuthData((prevData) => prevData.filter((item) => item.id !== id));
+        if (selectedUserId === id) {
+          setSelectedUserId(null);
         }
-        setIsLoading(false)
+
+        setIsLoading(false);
       }
     });
 
     setShowConfirm(null);
   };
 
-  const handleConnectionSelection = (index) => {
-    setSelectedUserIndex(index);
+  const handleConnectionSelection = (id) => {
+    setSelectedUserId(id);
   };
 
-  const handleShowConfirm = (index) => {
-    setShowConfirm(index);
-  };
-
-  const handleCancel = () => {
-    setShowConfirm(null);
-  };
-
-  // Listen for clicks outside the popover
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popoverRef.current && !popoverRef.current.contains(event.target)) {
@@ -51,25 +41,33 @@ const AuthorizationAccountList = ({ authData, setAuthData, selectedUserIndex, se
   }, []);
 
   useEffect(() => {
-    if (authData.length === 1 && !isInfo) { //if their is only one authorized account.
-      setSelectedUserIndex(0);
-    } else if (selectedUserIndex === null && !isInfo) {  //if no account is selected. 
-      setSelectedUserIndex(authData.length - 1);
+    // if (selectedUserId !== null) {
+    //   setSelectedUserId(selectedUserId)
+    // }
+
+    if (isInfo || isEdit) {
+      return
+    }
+
+    if (authData.length === 1) {
+      setSelectedUserId(authData[0].id);
+    } else if (!selectedUserId && authData.length > 0) {
+      setSelectedUserId(authData[authData.length - 1].id);
     }
   }, [authData]);
 
   return (
-    <div className='user-radio-input'>
+    <div className="user-radio-input">
       <div className="auth-list">
-        {authData.map((user, index) => (
-          <div key={index} className={`auth-item ${selectedUserIndex === index ? 'active' : ''}`}>
+        {authData.map((user) => (
+          <div key={user.id} className={`auth-item ${selectedUserId === user.id ? 'active' : ''}`}>
             <label className="auth-label">
               <input
                 type="radio"
                 name="auth"
-                value={index}
-                checked={selectedUserIndex === index}
-                onChange={() => handleConnectionSelection(index)}
+                value={user.id}
+                checked={selectedUserId === user.id}
+                onChange={() => handleConnectionSelection(user.id)}
                 className="radio-input"
               />
               <div className="auth-info">
@@ -82,14 +80,14 @@ const AuthorizationAccountList = ({ authData, setAuthData, selectedUserIndex, se
             </label>
             {!isInfo && (
               <div className="delete-section">
-                {showConfirm === index ? (
+                {showConfirm === user.id ? (
                   <div className="confirmation-popover" ref={popoverRef}>
                     <p>Are you sure?</p>
-                    <button className="confirm-button" onClick={() => handleDelete(user.id, index)}>Yes</button>
-                    <button className="cancel-button" onClick={handleCancel}>No</button>
+                    <button className="confirm-button" onClick={() => handleDelete(user.id)}>Yes</button>
+                    <button className="cancel-button" onClick={() => setShowConfirm(null)}>No</button>
                   </div>
                 ) : (
-                  <button className="delete-button" onClick={() => handleShowConfirm(index)}>
+                  <button className="delete-button" onClick={() => setShowConfirm(user.id)}>
                     <TrashIcn />
                   </button>
                 )}

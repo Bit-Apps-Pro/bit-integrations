@@ -1644,7 +1644,7 @@ final class WCController
     private static function isPluginActivated()
     {
         if (!static::isActivate()) {
-            wp_send_json_error(\sprintf(__('%s is not installed or activated', 'bit-integrations-pro'), 'WooCommerce'));
+            wp_send_json_error(\sprintf(__('%s is not installed or activated', 'bit-integrations'), 'WooCommerce'));
         }
     }
 

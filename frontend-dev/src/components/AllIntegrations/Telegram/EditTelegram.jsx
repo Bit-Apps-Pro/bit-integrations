@@ -22,6 +22,8 @@ function EditTelegram({ allIntegURL }) {
   const formFields = useRecoilValue($formFields)
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
+  const [name, setName] = useState(telegramConf?.name || '')
+
   return (
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
@@ -30,9 +32,12 @@ function EditTelegram({ allIntegURL }) {
         <b className="wdt-150 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
         <input
           className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, telegramConf, setTelegramConf)}
+          onChange={(e) => {
+            setName(e.target.value)
+            handleInput(e, telegramConf, setTelegramConf)
+          }}
           name="name"
-          value={telegramConf.name}
+          value={name}
           type="text"
           placeholder={__('Integration Name...', 'bit-integrations')}
         />

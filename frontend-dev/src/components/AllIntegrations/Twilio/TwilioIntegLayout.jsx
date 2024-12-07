@@ -1,5 +1,7 @@
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import { __ } from '../../../Utils/i18nwrap'
+import { setFieldInputOnMsgBody } from '../IntegrationHelpers/IntegrationHelpers'
+import { useRef } from 'react'
 // import TwilioFieldMap from './TwilioFieldMap'
 
 export default function TwilioIntegLayout({
@@ -11,11 +13,8 @@ export default function TwilioIntegLayout({
   setIsLoading,
   setSnackbar
 }) {
-  const setMessageBody = (val) => {
-    const newConf = { ...twilioConf }
-    newConf.body = val
-    setTwilioConf(newConf)
-  }
+  const textAreaRef = useRef(null)
+
   const handleInputt = (e) => {
     const newConf = { ...twilioConf }
     newConf[e.target.name] = e.target.value
@@ -61,6 +60,7 @@ export default function TwilioIntegLayout({
       <div className="flx mt-4">
         <b className="wdt-200 d-in-b">{__('Messages:', 'bit-integrations')}</b>
         <textarea
+          ref={textAreaRef}
           className="w-7"
           onChange={handleInputt}
           name="body"
@@ -72,7 +72,9 @@ export default function TwilioIntegLayout({
             .filter((f) => f.type !== 'file')
             .map((f) => ({ label: f.label, value: `\${${f.name}}` }))}
           className="btcd-paper-drpdwn wdt-400 ml-2"
-          onChange={(val) => setMessageBody(val)}
+          onChange={(val) => setFieldInputOnMsgBody(val, setTwilioConf, textAreaRef)}
+          singleSelect
+          selectOnClose
         />
       </div>
 
