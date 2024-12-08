@@ -23,7 +23,8 @@ export const customFormIntegrations = [
   'Brizy',
   'GutenaForms',
   'PieForms',
-  'Asgaros'
+  'Asgaros',
+  'AvadaForms'
 ]
 
 export const actionHookIntegrations = ['ActionHook']
