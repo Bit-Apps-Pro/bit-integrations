@@ -2,12 +2,12 @@
 
 namespace BitCode\FI\Core\Util;
 
+use BitCode\FI\Triggers\TriggerController;
 use DateTime;
+use DateTimeZone;
+use Exception;
 use stdClass;
 use WP_Error;
-use Exception;
-use DateTimeZone;
-use BitCode\FI\Triggers\TriggerController;
 
 /**
  * bit-integration helper class
@@ -329,6 +329,10 @@ final class Helper
 
             $currentKey = strtolower(preg_replace(['/[^A-Za-z0-9_]/', '/([A-Z])/'], ['', '_$1'], $key));
             $currentPath = $path ? "{$path}_{$currentKey}" : $currentKey;
+
+            if (empty($currentPath)) {
+                continue;
+            }
 
             if (\is_array($value) || \is_object($value)) {
                 $formattedData = static::prepareFetchFormatFields((array) $value, $currentPath, $formattedData);
