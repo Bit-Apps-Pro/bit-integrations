@@ -2,12 +2,12 @@
 
 namespace BitCode\FI\Core\Util;
 
-use BitCode\FI\Triggers\TriggerController;
 use DateTime;
-use DateTimeZone;
-use Exception;
 use stdClass;
 use WP_Error;
+use Exception;
+use DateTimeZone;
+use BitCode\FI\Triggers\TriggerController;
 
 /**
  * bit-integration helper class
@@ -351,6 +351,23 @@ final class Helper
         }
 
         return $formattedData;
+    }
+
+    public static function flattenNestedData($resultArray, $parentKey, $nestedData)
+    {
+        if (\is_array($nestedData) || \is_object($nestedData)) {
+            foreach ((array) $nestedData as $itemKey => $itemValue) {
+                $newKey = $parentKey . '_' . str_replace(['*', \chr(0)], '', $itemKey);
+
+                if (\is_array($itemValue) || \is_object($itemValue)) {
+                    $resultArray = static::flattenNestedData($resultArray, $newKey, (array) $itemValue);
+                } else {
+                    $resultArray[$newKey] = trim($itemValue);
+                }
+            }
+        }
+
+        return $resultArray;
     }
 
     private static function getVariableType($val)
