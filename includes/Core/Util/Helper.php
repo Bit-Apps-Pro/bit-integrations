@@ -355,19 +355,36 @@ final class Helper
 
     public static function flattenNestedData($resultArray, $parentKey, $nestedData)
     {
-        if (\is_array($nestedData) || \is_object($nestedData)) {
-            foreach ((array) $nestedData as $itemKey => $itemValue) {
-                $newKey = $parentKey . '_' . str_replace(['*', \chr(0)], '', $itemKey);
+        if (!(\is_array($nestedData) || \is_object($nestedData))) {
+            return $resultArray;
+        }
 
-                if (\is_array($itemValue) || \is_object($itemValue)) {
-                    $resultArray = static::flattenNestedData($resultArray, $newKey, (array) $itemValue);
-                } else {
-                    $resultArray[$newKey] = trim($itemValue);
-                }
+        $nestedData = (array) $nestedData;
+
+        foreach ($nestedData as $itemKey => $itemValue) {
+            $newKey = static::sanitizeKey($parentKey, $itemKey);
+
+            if (\is_array($itemValue) || \is_object($itemValue)) {
+                $resultArray = static::flattenNestedData($resultArray, $newKey, $itemValue);
+            } else {
+                $resultArray[$newKey] = static::sanitizeValue($itemValue);
             }
         }
 
         return $resultArray;
+    }
+
+    public static function decodeHtmlEntities($input)
+    {
+        if (\is_array($input)) {
+            foreach ($input as $index => $item) {
+                $input[$index] = static::decodeSingleEntity($item);
+            }
+
+            return $input;
+        }
+
+        return static::decodeSingleEntity($input);
     }
 
     private static function getVariableType($val)
@@ -384,5 +401,35 @@ final class Helper
         ];
 
         return $types[\gettype($val)] ?? 'text';
+    }
+
+    private static function decodeSingleEntity($string)
+    {
+        return html_entity_decode($string);
+    }
+
+    /**
+     * Sanitize the key by removing unwanted characters.
+     *
+     * @param string $parentKey The parent key to prepend.
+     * @param string $itemKey   The current key.
+     *
+     * @return string The sanitized and combined key.
+     */
+    private static function sanitizeKey($parentKey, $itemKey)
+    {
+        return $parentKey . '_' . str_replace(['*', \chr(0)], '', $itemKey);
+    }
+
+    /**
+     * Sanitize the value by trimming spaces and handling empty values.
+     *
+     * @param mixed $value The value to sanitize.
+     *
+     * @return mixed The sanitized value.
+     */
+    private static function sanitizeValue($value)
+    {
+        return $value ? trim($value) : $value;
     }
 }
