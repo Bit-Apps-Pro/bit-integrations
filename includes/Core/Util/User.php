@@ -18,15 +18,31 @@ class User
             return [];
         }
 
+        return static::mappingData($user);
+    }
+
+    public static function currentUser()
+    {
+        if (!is_user_logged_in()) {
+            return [];
+        }
+
+        $current_user = wp_get_current_user();
+
+        return static::mappingData($current_user);
+    }
+
+    private static function mappingData($user)
+    {
         return [
-            'wp_user_id'      => $user->ID,
-            'user_login'      => $user->user_login,
-            'display_name'    => $user->display_name,
-            'user_firstname'  => $user->user_firstname,
-            'user_lastname'   => $user->user_lastname,
-            'user_email'      => $user->user_email,
-            'user_registered' => $user->user_registered,
-            'user_role'       => $user->roles,
+            'wp_user_id'         => $user->ID,
+            'wp_user_login'      => $user->user_login,
+            'wp_display_name'    => $user->display_name,
+            'wp_user_first_name' => $user->user_firstname,
+            'wp_user_last_name'  => $user->user_lastname,
+            'wp_user_email'      => $user->user_email,
+            'wp_user_registered' => $user->user_registered,
+            'wp_user_role'       => $user->roles,
         ];
     }
 }
