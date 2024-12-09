@@ -14,6 +14,7 @@ final class AllTriggersName
             'ARForm'            => ['name' => 'ARForm',  'isPro' => true, 'is_active' => false],
             'ARMember'          => ['name' => 'ARMember',  'isPro' => true, 'is_active' => false],
             'Asgaros'           => ['name' => 'Asgaros Forum',  'isPro' => true, 'is_active' => false],
+            'AvadaForms'        => ['name' => 'Avada Forms',  'isPro' => true, 'is_active' => false],
             'Beaver'            => ['name' => 'Beaver',  'isPro' => true, 'is_active' => false],
             'BitAssist'         => ['name' => 'Bit  Assist',  'isPro' => true, 'is_active' => false],
             'Breakdance'        => ['name' => 'Breakdance',  'isPro' => true, 'is_active' => false],
