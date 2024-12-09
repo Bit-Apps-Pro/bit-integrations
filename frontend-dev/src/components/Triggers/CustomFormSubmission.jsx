@@ -9,7 +9,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil'
 import { $flowStep, $formFields, $newFlow } from '../../GlobalStates'
 import CloseIcn from '../../Icons/CloseIcn'
 import GetLogo from '../../Utils/GetLogo'
-import { extractValueFromPath } from '../../Utils/Helpers'
+import { extractValueFromPath, isLinkEmpty, TriggerDocLink } from '../../Utils/Helpers'
 import hooklist from '../../Utils/StaticData/hooklist'
 import bitsFetch from '../../Utils/bitsFetch'
 import { __ } from '../../Utils/i18nwrap'
@@ -169,16 +169,8 @@ const CustomFormSubmission = () => {
             </ul>
             <p><b>${__('Important', 'bit-integrations')}:</b> ${__('The Fetch button will keep spinning until you submit the form.', 'bit-integrations')}</p>
             <p><b>${__('Important', 'bit-integrations')}:</b> ${__('Choose a consistent unique identifier like <b>Form ID</b> (default) or <b>Post ID</b> for each form entry, or create a hidden custom field if unavailable.', 'bit-integrations')}</p>
-            ${newFlow?.triggerDetail?.note
-      ? `<h4 className="mt-0">Note</h4>${__(newFlow?.triggerDetail?.note, 'bit-integrations')}`
-      : ''
-    }
-            <h5>
-              ${__('More Details on', 'bit-integrations')} 
-              <a className="btcd-link" href=${newFlow?.triggerDetail?.documentation_url} target="_blank" rel="noreferrer">${__('Documentation', 'bit-integrations')}</a>
-              ${__('or', 'bit-integrations')}
-              <a className="btcd-link" href=${newFlow?.triggerDetail?.tutorial_url} target="_blank" rel="noreferrer">${__('Youtube Tutorials', 'bit-integrations')}</a>
-            </h5>`
+            ${newFlow?.triggerDetail?.note ? `<h4 className="mt-0">Note</h4>${newFlow?.triggerDetail?.note}` : ''}
+            ${TriggerDocLink(newFlow?.triggerDetail?.documentation_url, newFlow?.triggerDetail?.tutorial_url)}`
 
   return !newFlow?.triggerDetail?.is_active ? (
     <span className="mt-3">
