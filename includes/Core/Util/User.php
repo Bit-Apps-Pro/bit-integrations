@@ -18,7 +18,7 @@ class User
             return [];
         }
 
-        return static::mappingData($user);
+        return static::formattedData($user);
     }
 
     public static function currentUser()
@@ -29,10 +29,10 @@ class User
 
         $current_user = wp_get_current_user();
 
-        return static::mappingData($current_user);
+        return static::formattedData($current_user);
     }
 
-    private static function mappingData($user)
+    private static function formattedData(WP_user $user)
     {
         return [
             'wp_user_id'         => $user->ID,
