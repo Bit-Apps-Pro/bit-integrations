@@ -20,11 +20,11 @@ final class AuthDataController
         $sanitizedTokenDetails = sanitize_text_field($tokenDetails);
         $sanitizedUserInfo = sanitize_text_field($userInfo);
 
-        $emailExists = $this->checkAuthDataExist($sanitizedActionName, $sanitizedUserEmailAddress);
-
-        if (empty($sanitizedActionName) || empty($sanitizedTokenDetails)) {
-            return;
+        if (empty($sanitizedActionName) || empty($sanitizedTokenDetails) || empty($sanitizedUserInfo) || empty($sanitizedUserEmailAddress)) {
+            wp_send_json_error(['error' => 'Requested Parameters are empty']);
         }
+
+        $emailExists = $this->checkAuthDataExist($sanitizedActionName, $sanitizedUserEmailAddress);
 
         if (!$emailExists) {
             $authModel = new AuthModel();
