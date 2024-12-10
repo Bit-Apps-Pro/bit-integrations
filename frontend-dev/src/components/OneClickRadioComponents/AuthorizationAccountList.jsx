@@ -71,10 +71,10 @@ const AuthorizationAccountList = ({ authData, setAuthData, selectedUserId, setSe
                 className="radio-input"
               />
               <div className="auth-info">
-                <img src={user.userInfo.user.photoLink} alt="User Avatar" className="user-avatar" />
+                <img src={user?.userInfo?.user?.photoLink} alt="User Avatar" className="user-avatar" />
                 <div>
-                  <div className="user-name">{user.userInfo.user.displayName}</div>
-                  <div className="user-email">{user.userInfo.user.emailAddress}</div>
+                  <div className="user-name">{user?.userInfo?.user?.displayName}</div>
+                  <div className="user-email">{user?.userInfo?.user?.emailAddress}</div>
                 </div>
               </div>
             </label>
