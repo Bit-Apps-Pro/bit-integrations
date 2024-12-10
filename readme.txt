@@ -4,7 +4,7 @@ Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
 Tested up to: 6.7.1
 Requires PHP: 7.4
-Stable tag: 2.3.8
+Stable tag: 2.3.9
 License: GPLv2 or later
 
 Automation Plugin for WordPress. Integration of 80+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
@@ -59,6 +59,7 @@ https://youtu.be/eFuficjF_F4
 * [**AffiliateWP**](https://wordpress.org/plugins/affiliatewp-affiliate-area-shortcodes/) (pro)
 * [**ARForms**](https://wordpress.org/plugins/arforms-form-builder/) (pro)
 * [**ARMember**](https://wordpress.org/plugins/armember-membership/) (pro)
+* [**Avada Form**](https://avada.com/feature/form-builder/) (pro)
 * [**Beaver Builder**](https://wordpress.org/plugins/beaver-builder-lite-version/) (pro)
 * [**Bricks**](https://wordpress.org/plugins/bricksable/) (pro)
 * [**Bricksforge**](https://bricksforge.io/) (pro)
@@ -71,10 +72,12 @@ https://youtu.be/eFuficjF_F4
 * [**Divi**](https://www.elegantthemes.com/gallery/divi/) (pro)
 * [**Dokan**](https://wordpress.org/plugins/dokan-lite/) (pro)
 * [**Everest Forms**](https://wordpress.org/plugins/everest-forms/) (pro)
+* [**Eventin**](https://wordpress.org/plugins/wp-event-solution/) (pro)
 * [**Easy Digital Downloads**](https://wordpress.org/plugins/easy-digital-downloads/) (pro)
 * [**eForm**](https://eform.live/) (pro)
 * [**Essential Blocks**](https://wordpress.org/plugins/essential-blocks/) (pro)
 * [**FluentBooking**](https://fluentbooking.com/) (pro)
+* [**Fluent CRM**](https://wordpress.org/plugins/fluent-crm/) (pro)
 * [**Fluent Support**](https://wordpress.org/plugins/fluent-support/) (pro)
 * [**Formidable**](https://wordpress.org/plugins/formidable/) (pro)
 * [**Forminator**](https://wordpress.org/plugins/forminator/) (pro)
@@ -83,6 +86,7 @@ https://youtu.be/eFuficjF_F4
 * [**GamiPress**](https://wordpress.org/plugins/gamipress/) (pro)
 * [**GiveWP**](https://wordpress.org/plugins/give/) (pro)
 * [**Gutena Forms**](https://wordpress.org/plugins/gutena-forms/) (pro)
+* [**Groundhogg**](https://wordpress.org/plugins/groundhogg/) (pro)
 * [**Happyforms**](https://wordpress.org/plugins/happyforms/) (pro)
 * [**Hustle**](https://wordpress.org/plugins/wordpress-popup/) (pro)
 * [**JetFormBuilder**](https://wordpress.org/plugins/jetformbuilder/) (pro)
@@ -98,6 +102,7 @@ https://youtu.be/eFuficjF_F4
 * [**MailPoet**](https://wordpress.org/plugins/mailpoet/) (pro)
 * [**Mailster**](https://wordpress.org/plugins/mailster/) (pro)
 * [**Ninja Forms**](https://wordpress.org/plugins/ninja-forms/) (pro)
+* [**OptinMonster**](https://wordpress.org/plugins/optinmonster/) (pro)
 * [**Popup Maker**](https://wordpress.org/plugins/popup-maker/) (pro)
 * [**Piotnet Forms**](https://wordpress.org/plugins/piotnetforms/) (pro)
 * [**Paid Memberships Pro**](https://wordpress.org/plugins/paid-memberships-pro/) (pro)
@@ -141,7 +146,7 @@ https://youtu.be/eFuficjF_F4
 * [**Academy LMS**](https://wordpress.org/plugins/academy/) (free)
 * [**ActiveCampaign**](https://www.activecampaign.com/) (free)
 * [**Acumbamail**](https://acumbamail.com/en/) (free)
-* [**Advanced Form**](https://wordpress.org/plugins/advanced-form-integration/) (free)
+* [**Advanced Form Integration**](https://wordpress.org/plugins/advanced-form-integration/) (free)
 * [**Agile CRM**](https://www.agilecrm.com/) (free)
 * [**Airtable**](https://www.airtable.com/) (free)
 * [**Albato**](https://albato.net/) (free)
@@ -176,6 +181,7 @@ https://youtu.be/eFuficjF_F4
 * [**Freshsales**](https://www.freshworks.com/crm/sales/) (free)
 * [**GetGist**](https://getgist.com/) (free)
 * [**GetResponse**](https://www.getresponse.com/) (free)
+* [**GoHighLevel**](https://www.gohighlevel.com/) (free)
 * [**Google Sheet**](https://www.google.com/sheets/about/) (free)
 * [**Google Calendar**](https://calendar.google.com/calendar/u/0/r) (free)
 * [**Google Drive**](https://www.google.com/drive/) (free)
@@ -187,6 +193,7 @@ https://youtu.be/eFuficjF_F4
 * [**HubSpot**](https://www.hubspot.com/) (free)
 * [**Integrately**](https://integrately.com/) (free)
 * [**Make(Integromat)**](https://www.youtube.com/) (free)
+* [**OneHashCRM**](https://www.onehash.ai/crm) (free)
 * [**IFTTT**](https://ifttt.com/) (free)
 * [**Insightly**](https://www.insightly.com/) (free)
 * [**JetEngine**](https://crocoblock.com/plugins/jetengine/) (free)
@@ -239,6 +246,7 @@ https://youtu.be/eFuficjF_F4
 * [**Restrict Content**](https://wordpress.org/plugins/restrict-content/) (free)
 * [**Sales Plus**](https://salesplus.ie/) (free)
 * [**Salesforce**](https://www.salesforce.com/in/?ir=1) (free)
+* [**Salesflare**](https://salesflare.com/) (free)
 * [**Salesmate**](https://www.salesmate.io/) (free)
 * [**SliceWP Affiliate**](https://wordpress.org/plugins/slicewp/) (free)
 * [**SendinBlue(Brevo)**](https://www.brevo.com/) (free)
@@ -253,6 +261,7 @@ https://youtu.be/eFuficjF_F4
 * [**Sperse IO**](https://sperse.io/) (free)
 * [**SureCart**](https://wordpress.org/plugins/surecart/) (free)
 * [**SuiteDash**](https://suitedash.com/) (free)
+* [**Sarbacane(Mailify)**](https://www.sarbacane.com/en) (free)
 * [**SureMembers**](https://suremembers.com/) (free)
 * [**SystemeIO**](https://systeme.io/home) (free)
 * [**The Events Calendar**](https://wordpress.org/plugins/the-events-calendar/) (free)
@@ -270,8 +279,10 @@ https://youtu.be/eFuficjF_F4
 * [**WooCommerce**](https://wordpress.org/plugins/woocommerce/) (free)
 * [**Woodpecker**](https://woodpecker.co/signup/?wpcr=jack15) (free)
 * [**WP Courseware**](https://wordpress.org/plugins/woo-commerce-addon-for-wp-courseware/) (free)
+* [**WPFusion**](https://wpfusion.com) (free)
 * [**wpForo**](https://wpforo.com/) (free)
 * [**WP Webhooks**](https://wordpress.org/plugins/wp-webhooks/) (free)
+* [**ZagoMail**](https://zagomail.com/) (free)
 * [**Zendesk**](https://www.zendesk.com/) (free)
 * [**Zoho Bigin**](https://www.bigin.com/) (free)
 * [**Zoho CRM**](https://www.zoho.com/crm/) (free)
@@ -1020,6 +1031,16 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 6. All integration list
 
 == Changelog ==
+
+= 2.3.9  =
+_Release Date -10th December 2024_
+
+- **New Trigger**
+ - Avada Form – Allowing users to integrate and automate workflows effectively with the Avada Website Builder. (pro)
+
+- **Bug Fixes**
+ - Groundhogg: Resolved the issue with fetching tags. (pro)
+ - GoogleSheet: Authorization page issue fixed.
 
 = 2.3.8  =
 _Release Date -5th December 2024_
