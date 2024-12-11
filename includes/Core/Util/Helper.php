@@ -310,13 +310,16 @@ final class Helper
         return true;
     }
 
-    public static function setTestData($optionKey, $formData, $primaryKey, $primaryKeyId)
+    public static function setTestData($optionKey, $formData, $primaryKey = null, $primaryKeyId = null)
     {
         if (get_option($optionKey) !== false) {
-            update_option($optionKey, [
-                'formData'   => $formData,
-                'primaryKey' => [(object) ['key' => $primaryKey, 'value' => $primaryKeyId]]
-            ]);
+            $value = ['formData' => $formData];
+
+            if (!empty($primaryKey) && !empty($primaryKeyId)) {
+                $value['primaryKey'] = [(object) ['key' => $primaryKey, 'value' => $primaryKeyId]];
+            }
+
+            update_option($optionKey, $value);
         }
     }
 
