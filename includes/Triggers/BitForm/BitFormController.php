@@ -115,7 +115,7 @@ final class BitFormController
                 }
             }
             if (!empty($formId) && $flows = Flow::exists('BitForm', $formId)) {
-                Flow::execute('FormBitForminator', $formId, $data, $flows);
+                Flow::execute('BitForm', $formId, $data, $flows);
             }
         }
     }

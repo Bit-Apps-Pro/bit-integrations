@@ -5,7 +5,7 @@ import Modal from '../components/Utilities/Modal'
 import { $btcbi } from '../GlobalStates'
 import ChangelogIcn from '../Icons/ChangeLogIcn'
 import ExternalLinkIcn from '../Icons/ExternalLinkIcn'
-import CyberMondayDeal from '../resource/img/CyberMondayDeal.jpg'
+import ChirstmasDeal from '../resource/img/chirstmas.webp'
 import bitsFetch from '../Utils/bitsFetch'
 import { __, sprintf } from '../Utils/i18nwrap'
 
@@ -17,8 +17,8 @@ export default function ChangelogToggle() {
   const [step, setStep] = useState(1)
 
   const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
-  const Early_Bird_URL = `https://bit-social.com/?utm_source=${source}&utm_medium=inside-plugin&utm_campaign=early-bird-offer`
-  const releaseDate = '05th December 2024'
+  const Early_Bird_URL = `https://bitapps.pro/christmas-wordpress-plugin-deal/#bit-integrations-pricing`
+  const releaseDate = '10th December 2024'
 
   const changeLog = [
     {
@@ -37,23 +37,19 @@ export default function ChangelogToggle() {
       label: __('New Triggers', 'bit-integrations'),
       headClass: 'new-trigger',
       itemClass: 'integration-list',
-      items: []
+      items: ['Avada Form (pro)']
     },
     {
       label: __('New Features', 'bit-integrations'),
       headClass: 'new-feature',
       itemClass: 'feature-list',
-      items: ['Fluent CRM (Action)(Pro): Added support for assigning a company to contacts.']
+      items: []
     },
     {
       label: __('New Improvements', 'bit-integrations'),
       headClass: 'new-improvement',
       itemClass: 'feature-list',
-      items: [
-        'Forminator (Pro): Extended form fetching limit to 1000.',
-        'Benchmark: Improved integration execution performance.',
-        'Ultimate Member (Pro): Added support for uploading field data URLs.'
-      ]
+      items: []
     }
   ]
 
@@ -117,7 +113,7 @@ export default function ChangelogToggle() {
           <>
             <div>
               <a href={Early_Bird_URL} target="_blank" rel="noreferrer">
-                <img src={CyberMondayDeal} style={{ width: '100%', marginTop: '-2px', borderRadius: '20px' }} alt="" />
+                <img src={ChirstmasDeal} style={{ width: '100%', height: '450px', marginTop: '-2px', borderRadius: '20px' }} alt="" />
               </a>
             </div>
             <div className="txt-right" style={{ marginTop: '-2px' }}>
