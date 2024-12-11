@@ -27,11 +27,13 @@ const CustomFormSubmission = () => {
   const setFlowStep = useSetRecoilState($flowStep)
   const setFormFields = useSetRecoilState($formFields)
   const [primaryKey, setPrimaryKey] = useState()
+  const [skipPrimaryKey, setSkipPrimaryKey] = useState(false)
   const [primaryKeyModal, setPrimaryKeyModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
   const [showResponse, setShowResponse] = useState(false)
   const intervalRef = useRef(null)
+
   let controller = new AbortController()
   const signal = controller.signal
   const fetchAction = newFlow?.triggerDetail?.fetch?.action || ''
@@ -40,7 +42,7 @@ const CustomFormSubmission = () => {
   const removeMethod = newFlow?.triggerDetail?.fetch_remove?.method || ''
 
   const setTriggerData = () => {
-    if (!primaryKey) {
+    if (!primaryKey && !skipPrimaryKey) {
       toast.error(__('Please Select a Primary Key', 'bit-integrations'))
       return
     }
@@ -51,7 +53,7 @@ const CustomFormSubmission = () => {
 
     const tmpNewFlow = { ...newFlow }
     tmpNewFlow.triggerData = {
-      primaryKey: primaryKey,
+      primaryKey: skipPrimaryKey ? false : primaryKey,
       trigger_type: newFlow?.triggerDetail?.type || 'custom_form_submission',
       fields: tmpNewFlow.triggerDetail.data,
       fetch: newFlow?.triggerDetail?.fetch,
@@ -145,7 +147,7 @@ const CustomFormSubmission = () => {
     }
   }, [])
 
-  const setTriggerEntityId = (val) => {
+  const setTriggerEntityId = (entityId) => {
     if (isLoading) {
       clearInterval(intervalRef.current)
       controller.abort()
@@ -156,9 +158,17 @@ const CustomFormSubmission = () => {
 
     setNewFlow((prevFlow) =>
       create(prevFlow, (draftFlow) => {
-        draftFlow.triggerDetail.triggered_entity_id = val
+        draftFlow.triggerDetail.triggered_entity_id = entityId
+        delete draftFlow.triggerDetail.data
       })
     )
+
+    const multiForm = newFlow?.triggerDetail?.multi_form;
+    const requiresPrimaryKey = multiForm?.some(
+      ({ triggered_entity_id, skipPrimaryKey: isSkipPrimaryKey }) => triggered_entity_id === entityId && isSkipPrimaryKey
+    );
+
+    setSkipPrimaryKey(requiresPrimaryKey);
   }
 
   const info = `<h4>${sprintf(__('Follow these simple steps to set up the %s', 'bit-integrations'), newFlow?.triggerDetail?.name)}</h4>
@@ -201,7 +211,7 @@ const CustomFormSubmission = () => {
       {newFlow?.triggerDetail?.triggered_entity_id && (
         <>
           <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-          <div className={`flx mt-2 flx-${newFlow.triggerDetail?.data ? 'between' : 'around'}`}>
+          <div className={`flx mt-2 flx-${newFlow.triggerDetail?.data && !skipPrimaryKey ? 'between' : 'around'}`}>
             <button
               onClick={handleFetch}
               className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : 'purple'}`}
@@ -213,7 +223,7 @@ const CustomFormSubmission = () => {
                   : __('Fetch', 'bit-integrations')}
               {isLoading && <LoaderSm size="20" clr="#022217" className="ml-2" />}
             </button>
-            {newFlow.triggerDetail?.data?.length > 0 && (
+            {newFlow.triggerDetail?.data?.length > 0 && !skipPrimaryKey && (
               <button
                 onClick={() => setPrimaryKeyModal(true)}
                 className={`btn btcd-btn-lg sh-sm flx ${newFlow.triggerDetail?.data?.length > 0 && 'purple'}`}

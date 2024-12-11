@@ -17,6 +17,10 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
   const setFormFields = useSetRecoilState($formFields)
   const [isLoading, setIsLoading] = useState(false)
   const intervalRef = useRef(null)
+  const [skipPrimaryKey, setSkipPrimaryKey] = useState(() => flow?.flow_details?.multi_form && flow?.flow_details?.multi_form?.some(
+    ({ triggered_entity_id, skipPrimaryKey }) => triggered_entity_id === flow?.triggered_entity_id && skipPrimaryKey
+  ) || false)
+
   let controller = new AbortController()
   const signal = controller.signal
   const fetchAction = flow?.flow_details?.fetch?.action || ''
@@ -95,14 +99,14 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
     }
   }, [])
 
-  const setTriggerEntityId = (val) => {
+  const setTriggerEntityId = (entityId) => {
     if (flow?.triggered_entity_id) {
       removeTestData()
     }
 
     setFlow((prevFlow) =>
       create(prevFlow, (draftFlow) => {
-        draftFlow.triggered_entity_id = val
+        draftFlow.triggered_entity_id = entityId
         draftFlow.flow_details['fields'] = []
         draftFlow.flow_details['primaryKey'] = undefined
 
@@ -113,6 +117,13 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
         }
       })
     )
+
+    const multiForm = flow.flow_details?.multi_form;
+    const requiresPrimaryKey = multiForm?.some(
+      ({ triggered_entity_id, skipPrimaryKey: isSkipPrimaryKey }) => triggered_entity_id === entityId && isSkipPrimaryKey
+    );
+
+    setSkipPrimaryKey(requiresPrimaryKey);
     setFormFields([])
   }
 
@@ -138,9 +149,9 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
       )}
       {flow?.triggered_entity_id && (
         <div className="flx">
-          <b className="wdt-200 d-in-b">{__('Unique Key:', 'bit-integrations')}</b>
+          <b className="wdt-200 d-in-b">{skipPrimaryKey ? __('Fetch Again:', 'bit-integrations') : __('Unique Key:', 'bit-integrations')}</b>
           <div className="w-5 flx flx-between">
-            <MultiSelect
+            {!skipPrimaryKey && <MultiSelect
               options={flow.flow_details.fields?.map((field) => ({
                 label: field?.label,
                 value: field?.name
@@ -154,7 +165,7 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
               onChange={primaryKeySet}
               disabled={isLoading}
               closeOnSelect
-            />
+            />}
             <button
               onClick={handleFetch}
               className={`btn btcd-btn-lg sh-sm flx ml-1 ${isLoading ? 'red' : 'purple'}`}
