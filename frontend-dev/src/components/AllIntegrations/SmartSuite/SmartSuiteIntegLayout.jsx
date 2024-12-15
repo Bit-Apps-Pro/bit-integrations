@@ -8,7 +8,7 @@ import { addFieldMap } from './IntegrationHelpers'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import SmartSuiteActions from './SmartSuiteActions'
 import { getAllEvents, getAllSessions, generateMappedField } from './SmartSuiteCommonFunc'
-//import { getCustomFields } from './SmartSuiteCommonFunc'
+import { getCustomFields } from './SmartSuiteCommonFunc'
 import SmartSuiteFieldMap from './SmartSuiteFieldMap'
 
 export default function SmartSuiteIntegLayout({
@@ -47,8 +47,8 @@ export default function SmartSuiteIntegLayout({
 
     if (e.target.value != '') {
       newConf[name] = e.target.value
-      if (e.target.value === 'contact' || e.target.value === 'campaign') {
-        //   getCustomFields(newConf, setSmartSuiteConf, setIsLoading, btcbi)
+      if (e.target.value === 'record') {
+        // getCustomFields(newConf, setSmartSuiteConf, setIsLoading, btcbi)
       }
     } else {
       delete newConf[name]
@@ -82,7 +82,7 @@ export default function SmartSuiteIntegLayout({
           {__('Create Record', 'bit-integrations')}
         </option>
       </select>
-      {(loading.CRMPipelines || loading.CRMOwners || loading.CRMContacts) && (
+      {(isLoading || loading.event || loading.session) && (
         <Loader
           style={{
             display: 'flex',
@@ -96,7 +96,8 @@ export default function SmartSuiteIntegLayout({
 
       {smartSuiteConf.actionName &&
         (smartSuiteConf.isActionTable === 'table' || smartSuiteConf.isActionTable === 'record') &&
-        !loading.event && (
+        !loading.event &&
+        !loading.session && (
           <>
             <br />
             <br />
@@ -148,7 +149,7 @@ export default function SmartSuiteIntegLayout({
                 closeOnSelect
               />
               <button
-                onClick={() => getAllSessions(smartSuiteConf, setSmartSuiteConf, setLoading)}
+                onClick={() => getAllSessions(smartSuiteConf, setSmartSuiteConf, 23, setLoading)}
                 className="icn-btn sh-sm ml-2 mr-2 tooltip"
                 style={{ '--tooltip-txt': `'${__('Refresh Sessions', 'bit-integrations')}'` }}
                 type="button"
@@ -177,7 +178,7 @@ export default function SmartSuiteIntegLayout({
             <b className="wdt-100">{__('Field Map', 'bit-integrations')}</b>
             {smartSuiteConf.actionName === 'contact' && (
               <button
-                //   onClick={() => getCustomFields(smartSuiteConf, setSmartSuiteConf, setIsLoading, btcbi)}
+                // onClick={() => getCustomFields(smartSuiteConf, setSmartSuiteConf, setIsLoading, btcbi)}
                 className="icn-btn sh-sm ml-2 mr-2 tooltip"
                 style={{ '--tooltip-txt': `'${__('Refresh fields', 'bit-integrations')}'` }}
                 type="button"
@@ -207,7 +208,7 @@ export default function SmartSuiteIntegLayout({
               setSnackbar={setSnackbar}
             />
           ))}
-          {smartSuiteConf.actionName === 'record' && (
+          {(smartSuiteConf.actionName === 'solution' || smartSuiteConf.actionName === 'record') && (
             <div className="txt-center btcbi-field-map-button mt-2">
               <button
                 onClick={() =>
@@ -221,17 +222,21 @@ export default function SmartSuiteIntegLayout({
           )}
           <br />
           <br />
-          <div className="mt-4">
-            <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
-          </div>
-          <div className="btcd-hr mt-1" />
-          <SmartSuiteActions
-            smartSuiteConf={smartSuiteConf}
-            setSmartSuiteConf={setSmartSuiteConf}
-            formFields={formFields}
-            loading={loading}
-            setLoading={setLoading}
-          />
+          {smartSuiteConf.actionName === 'solution' && (
+            <div>
+              <div className="mt-4">
+                <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
+              </div>
+              <div className="btcd-hr mt-1" />
+              <SmartSuiteActions
+                smartSuiteConf={smartSuiteConf}
+                setSmartSuiteConf={setSmartSuiteConf}
+                formFields={formFields}
+                loading={loading}
+                setLoading={setLoading}
+              />
+            </div>
+          )}
         </div>
       )}
     </>

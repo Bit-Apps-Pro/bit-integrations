@@ -44,15 +44,17 @@ class RecordApiHelper
     public function addSolutions($finalData)
     {
         $requestParams = [];
+
         foreach ($finalData as $key => $value) {
             $requestParams['name'] = $value;
         }
         $requestParams['logo_icon'] = 'overline';
-        $requestParams['logo_color'] = '#3A86FF';
-
+        if (isset($this->integrationDetails->selectedTag)) {
+            $finalData['logo_color'] = $this->integrationDetails->selectedTag;
+        }
         $apiEndpoint = $this->apiUrl . 'solutions/';
 
-        return HttpHelper::post($apiEndpoint, wp_json_encode($requestParams), $this->defaultHeader);
+        return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->defaultHeader);
     }
 
     public function addTable($finalData)

@@ -67,16 +67,10 @@ class SmartSuiteController
     public function getCustomFields($fieldsRequestParams)
     {
         $response = [];
-        if (strtotime($fieldsRequestParams->token_details->expires) < time()) {
-            $response['tokenDetails'] = $this->_refreshAccessToken($fieldsRequestParams);
-            $fieldsRequestParams->token_details = $response['tokenDetails'];
-        }
+        $this->setHeaders($fieldsRequestParams->api_key, $fieldsRequestParams->api_secret);
+        $apiEndpoint = $this->apiEndpoint . "applications/?solution={$fieldsRequestParams->event_id}";
+        $response = HttpHelper::get($apiEndpoint, null, $this->_defaultHeader);
 
-        $this->checkValidation($fieldsRequestParams);
-        $access_token = $fieldsRequestParams->token_details->access_token;
-        $apiEndpoint = $this->apiEndpoint . '/custom-fields';
-        $headers = $this->setHeaders($access_token);
-        $response = HttpHelper::get($apiEndpoint, null, $headers);
         if (isset($response)) {
             if (isset($response->data)) {
                 foreach ($response->data as $customField) {

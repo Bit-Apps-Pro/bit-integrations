@@ -30,10 +30,15 @@ function EditSmartSuite({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
-    if (!smartSuiteConf.selectedEvent) {
-      toast.error(__('Please select a Event', 'bit-integrations'))
+    if (smartSuiteConf.actionName != 'solution' && !smartSuiteConf.selectedEvent) {
+      toast.error(__('Please select a solution', 'bit-integrations'))
       return
     }
+    if (smartSuiteConf.actionName === 'record' && !smartSuiteConf.selectedSession) {
+      toast.error(__('Please select a table', 'bit-integrations'))
+      return
+    }
+
     saveActionConf({
       flow,
       allIntegURL,

@@ -22,8 +22,8 @@ function SmartSuite({ formFields, setFlow, flow, allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const smartSuiteFields = [
-    { label: __('Name', 'bit-integrations'), key: 'name', required: true }
-    //  { label: __('Email Address', 'bit-integrations'), key: 'email', required: false }
+    { label: __('Name', 'bit-integrations'), key: 'name', required: true },
+    { label: __('Logo Icon', 'bit-integrations'), key: 'logo_icon', required: false }
     // { label: __('Last Name', 'bit-integrations'), key: 'last_name', required: false },
     // { label: __('Phone Number', 'bit-integrations'), key: 'phone_number', required: false },
     // { label: __('Company', 'bit-integrations'), key: 'company', required: false },
@@ -34,6 +34,10 @@ function SmartSuite({ formFields, setFlow, flow, allIntegURL }) {
     //   key: 'ref_url',
     //   required: false
     // }
+  ]
+  const smartSuiteFieldsForSolution = [
+    { label: __('Name', 'bit-integrations'), key: 'name', required: true },
+    { label: __('Logo Icon', 'bit-integrations'), key: 'logo_icon', required: false }
   ]
   const smartSuiteFieldsForRecord = [
     { label: __('Title', 'bit-integrations'), key: 'title', required: true },

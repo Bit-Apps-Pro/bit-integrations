@@ -41,13 +41,14 @@ export default function SmartSuiteAuthorization({
   }
 
   const ActiveInstructions = `
-            <h4>${__('To Get API Key & API Secret', 'bit-integrations')}</h4>
+            <h4>${__('To Get Workspace ID & API Token', 'bit-integrations')}</h4>
             <ul>
                 <li>${__('First go to your SmartSuite dashboard.', 'bit-integrations')}</li>
-                <li>${__('Click go to "Settings" from Right Top corner', 'bit-integrations')}</li>
-                <li>${__('Then Click "API" from the "Settings Menu"', 'bit-integrations')}</li>
-                <li>${__('Then Click "Generate Api Secret"', 'bit-integrations')}</li>
-                <li>${__('Then copy "API Authorization Credentials"', 'bit-integrations')}</li>
+                <li>${__('Click go to Profile Icon from Right Top corner.', 'bit-integrations')}</li>
+                <li>${__('Then Click "API Key" from the "My Profile Menu".', 'bit-integrations')}</li>
+                <li>${__('Then Click and Copy the "Hidden Api Token".', 'bit-integrations')}</li>
+                <li>${__('Your Workspace Id is the 8 characters that follow https://app.smartsuite.com/ in the SmartSuite URL when you’re logged in.', 'bit-integrations')}</li>
+
             </ul>`
 
   return (
@@ -103,10 +104,7 @@ export default function SmartSuiteAuthorization({
       <small className="d-blk mt-3">
         {__('To Get API Token & Workspace ID, Please Visit', 'bit-integrations')}
         &nbsp;
-        <a
-          className="btcd-link"
-          href="https://help.smartsuite.com/en/articles/4855681-generating-an-api-key"
-          target="_blank">
+        <a className="btcd-link" href="https://app.smartsuite.com/" target="_blank">
           {__('SmartSuite API Token & Workspace ID', 'bit-integrations')}
         </a>
       </small>

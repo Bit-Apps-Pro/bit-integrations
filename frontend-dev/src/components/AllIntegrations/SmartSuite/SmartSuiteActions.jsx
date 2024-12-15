@@ -11,7 +11,28 @@ import TableCheckBox from '../../Utilities/TableCheckBox'
 
 export default function SmartSuiteActions({ smartSuiteConf, setSmartSuiteConf, loading, setLoading }) {
   const [actionMdl, setActionMdl] = useState({ show: false, action: () => {} })
-
+  const colorPicker = [
+    { key: 'Primary Blue', value: '#3A86FF' },
+    { key: 'Primary Light Blue', value: '#4ECCFD' },
+    { key: 'Primary Green', value: '#3EAC40' },
+    { key: 'Primary Red', value: '#FF5757' },
+    { key: 'Primary Orange', value: '#FF9210' },
+    { key: 'Primary Yellow', value: '#FFB938' },
+    { key: 'Primary Purple', value: '#883CD0' },
+    { key: 'Primary Pink', value: '#EC506E' },
+    { key: 'Primary Teal', value: '#17C4C4' },
+    { key: 'Primary Grey', value: '#6A849B' },
+    { key: 'Dark Primary Blue', value: '#0C41F3' },
+    { key: 'Dark Primary Light Blue', value: '#00B3FA' },
+    { key: 'Dark Primary Green', value: '#199A27' },
+    { key: 'Dark Primary Red', value: '#F1273F' },
+    { key: 'Dark Primary Orange', value: '#FF702E' },
+    { key: 'Dark Primary Yellow', value: '#FDA80D' },
+    { key: 'Dark Primary Purple', value: '#673DB6' },
+    { key: 'Dark Primary Pink', value: '#CD286A' },
+    { key: 'Dark Primary Teal', value: '#00B2A8' },
+    { key: 'Dark Primary Grey', value: '#50515B' }
+  ]
   const actionHandler = (e, type) => {
     const newConf = { ...smartSuiteConf }
     if (type === 'tag') {
@@ -40,16 +61,16 @@ export default function SmartSuiteActions({ smartSuiteConf, setSmartSuiteConf, l
 
   return (
     <div className="pos-rel d-flx flx-wrp">
-      {/* {smartSuiteConf.actionName === 'contact' && (
+      {smartSuiteConf.actionName != 'contact' && (
         <TableCheckBox
           checked={smartSuiteConf?.selectedTag?.length || false}
           onChange={(e) => actionHandler(e, 'tag')}
           className="wdt-200 mt-4 mr-2"
           value="tag"
-          title={__('Add Tags', 'bit - integrations')}
-          subTitle={__('Add tags')}
+          title={__('Add Logo Color', 'bit - integrations')}
+          subTitle={__('Logo Color for solutions')}
         />
-      )} */}
+      )}
 
       <ConfirmModal
         className="custom-conf-mdl"
@@ -59,9 +80,9 @@ export default function SmartSuiteActions({ smartSuiteConf, setSmartSuiteConf, l
         show={actionMdl.show === 'tag'}
         close={clsActionMdl}
         action={clsActionMdl}
-        title={__('Tags', 'bit-integrations')}>
+        title={__('Logo Color', 'bit-integrations')}>
         <div className="btcd-hr mt-2 mb-2" />
-        <div className="mt-2">{__('Select tag', 'bit-integrations')}</div>
+        <div className="mt-2">{__('Select Logo Color', 'bit-integrations')}</div>
         {loading.tags ? (
           <Loader
             style={{
@@ -75,10 +96,12 @@ export default function SmartSuiteActions({ smartSuiteConf, setSmartSuiteConf, l
         ) : (
           <div className="flx flx-between mt-2">
             <MultiSelect
-              options={smartSuiteConf?.tags?.map((tag) => ({ label: tag.tag, value: tag.tag }))}
+              options={colorPicker.map((color) => ({ label: color.key, value: color.value }))}
               className="msl-wrp-options"
               defaultValue={smartSuiteConf?.selectedTag}
               onChange={(val) => setChanges(val, 'selectedTag')}
+              selectOnClose
+              singleSelect
             />
             <button
               /*  onClick={() => getAllTags(smartSuiteConf, setSmartSuiteConf, setLoading)} */
