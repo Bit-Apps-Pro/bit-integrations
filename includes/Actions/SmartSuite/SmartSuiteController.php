@@ -68,15 +68,18 @@ class SmartSuiteController
     {
         $response = [];
         $this->setHeaders($fieldsRequestParams->api_key, $fieldsRequestParams->api_secret);
-        $apiEndpoint = $this->apiEndpoint . "applications/?solution={$fieldsRequestParams->event_id}";
+        $apiEndpoint = $this->apiEndpoint . "applications/{$fieldsRequestParams->event_id}";
         $response = HttpHelper::get($apiEndpoint, null, $this->_defaultHeader);
+        error_log(print_r('get custom', true));
+        error_log(print_r($apiEndpoint, true));
+        error_log(print_r($response, true));
 
         if (isset($response)) {
-            if (isset($response->data)) {
-                foreach ($response->data as $customField) {
+            if (isset($response->structure)) {
+                foreach ($response->structure as $customField) {
                     $customFields[] = [
-                        'key'   => $customField->id,
-                        'label' => $customField->name,
+                        'key'   => $customField->slug,
+                        'label' => $customField->label,
                     ];
                 }
                 wp_send_json_success($customFields, 200);

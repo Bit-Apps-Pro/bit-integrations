@@ -40,10 +40,10 @@ function SmartSuite({ formFields, setFlow, flow, allIntegURL }) {
     { label: __('Logo Icon', 'bit-integrations'), key: 'logo_icon', required: false }
   ]
   const smartSuiteFieldsForRecord = [
-    { label: __('Title', 'bit-integrations'), key: 'title', required: true },
-    { label: __('Description', 'bit-integrations'), key: 'description', required: false },
-    { label: __('From date', 'bit-integrations'), key: 'due_date', required: false },
-    { label: __('To date', 'bit-integrations'), key: 'to_date', required: false }
+    { label: __('Title', 'bit-integrations'), key: 'title', required: true }
+    // { label: __('Description', 'bit-integrations'), key: 'description', required: false },
+    // { label: __('From date', 'bit-integrations'), key: 'due_date', required: false },
+    // { label: __('To date', 'bit-integrations'), key: 'to_date', required: false }
   ]
   const [smartSuiteConf, setSmartSuiteConf] = useState({
     name: 'SmartSuite',

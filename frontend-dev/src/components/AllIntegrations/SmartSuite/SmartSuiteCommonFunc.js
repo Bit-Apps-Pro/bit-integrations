@@ -25,11 +25,15 @@ export const generateMappedField = (smartSuiteFields) => {
     }))
     : [{ formField: '', smartSuiteFormField: '' }]
 }
-export const getCustomFields = (confTmp, setConf, setIsLoading, btcbi) => {
+export const getCustomFields = (confTmp, setConf, setIsLoading, val = '') => {
   setIsLoading(true)
+  console.error('time')
+  console.error(confTmp.selectedSession)
+  let tempVal = (val == '' ? confTmp.selectedSession : val)
   const requestParams = {
     api_key: confTmp.api_key,
-    api_secret: confTmp.api_secret
+    api_secret: confTmp.api_secret,
+    event_id: tempVal
   }
 
   bitsFetch(requestParams, 'smartSuite_fetch_custom_fields').then((result) => {
@@ -135,6 +139,7 @@ export const getAllEvents = (confTmp, setConf, setLoading) => {
 }
 
 export const getAllSessions = (confTmp, setConf, event_id, setLoading) => {
+
   setLoading({ ...setLoading, session: true })
 
   const requestParams = {

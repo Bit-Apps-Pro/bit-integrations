@@ -25,10 +25,21 @@ export default function SmartSuiteIntegLayout({
   const btcbi = useRecoilValue($btcbi)
 
   const setChanges = (val, name) => {
-    if (name === 'selectedEvent' && val !== '') {
+    console.error('check value')
+
+    console.error(val + ' ' + name)
+
+    if (name === 'selectedEvent' && val !== '' && smartSuiteConf?.actionName === 'record') {
       getAllSessions(smartSuiteConf, setSmartSuiteConf, val, setLoading)
     }
-
+    if (
+      name === 'selectedSession' &&
+      val != '' &&
+      smartSuiteConf?.selectedSession &&
+      smartSuiteConf?.selectedSession != ''
+    ) {
+      getCustomFields(smartSuiteConf, setSmartSuiteConf, setIsLoading, val)
+    }
     setSmartSuiteConf((prevConf) => {
       const newConf = { ...prevConf }
       newConf[name] = val
@@ -40,6 +51,14 @@ export default function SmartSuiteIntegLayout({
       return newConf
     })
   }
+  const handleCustomFieldForRecord = (actionName, value) => {
+    if (actionName === 'record') {
+      if (value != null && value != '') return true
+      return false
+    }
+    return true
+  }
+
   const handleActionInput = (e) => {
     const newConf = { ...smartSuiteConf }
     const { name } = e.target
@@ -47,8 +66,8 @@ export default function SmartSuiteIntegLayout({
 
     if (e.target.value != '') {
       newConf[name] = e.target.value
-      if (e.target.value === 'record') {
-        // getCustomFields(newConf, setSmartSuiteConf, setIsLoading, btcbi)
+      if (e.target.value === 'table' || e.target.value === 'record') {
+        getAllEvents(smartSuiteConf, setSmartSuiteConf, setLoading)
       }
     } else {
       delete newConf[name]
@@ -82,7 +101,7 @@ export default function SmartSuiteIntegLayout({
           {__('Create Record', 'bit-integrations')}
         </option>
       </select>
-      {(isLoading || loading.event || loading.session) && (
+      {loading.event && (
         <Loader
           style={{
             display: 'flex',
@@ -96,13 +115,12 @@ export default function SmartSuiteIntegLayout({
 
       {smartSuiteConf.actionName &&
         (smartSuiteConf.isActionTable === 'table' || smartSuiteConf.isActionTable === 'record') &&
-        !loading.event &&
-        !loading.session && (
+        !loading.event && (
           <>
             <br />
             <br />
             <div className="flx">
-              <b className="wdt-200 d-in-b">{__('Select Solutions:', 'bit-integrations')}</b>
+              <b className="wdt-200 d-in-b">{__('Select Solution:', 'bit-integrations')}</b>
               <MultiSelect
                 options={
                   smartSuiteConf?.events &&
@@ -113,11 +131,12 @@ export default function SmartSuiteIntegLayout({
                 onChange={(val) => setChanges(val, 'selectedEvent')}
                 singleSelect
                 closeOnSelect
+                disabled={loading.event}
               />
               <button
                 onClick={() => getAllEvents(smartSuiteConf, setSmartSuiteConf, setLoading)}
                 className="icn-btn sh-sm ml-2 mr-2 tooltip"
-                style={{ '--tooltip-txt': `'${__('Refresh Events', 'bit-integrations')}'` }}
+                style={{ '--tooltip-txt': `'${__('Refresh Solution', 'bit-integrations')}'` }}
                 type="button"
                 disabled={loading.event}>
                 &#x21BB;
@@ -125,10 +144,25 @@ export default function SmartSuiteIntegLayout({
             </div>
           </>
         )}
+
+      {console.error(smartSuiteConf.selectedEvent)}
+      {loading.session && (
+        <Loader
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 100,
+            transform: 'scale(0.7)'
+          }}
+        />
+      )}
       {smartSuiteConf.actionName &&
-        smartSuiteConf.selectedEvent &&
-        smartSuiteConf.isActionTable === 'record' &&
-        !loading.session && (
+        smartSuiteConf?.selectedEvent &&
+        smartSuiteConf?.selectedEvent != '' &&
+        !loading.event &&
+        !loading.session &&
+        smartSuiteConf.isActionTable === 'record' && (
           <>
             <br />
             <br />
@@ -149,9 +183,16 @@ export default function SmartSuiteIntegLayout({
                 closeOnSelect
               />
               <button
-                onClick={() => getAllSessions(smartSuiteConf, setSmartSuiteConf, 23, setLoading)}
+                onClick={() =>
+                  getAllSessions(
+                    smartSuiteConf,
+                    setSmartSuiteConf,
+                    smartSuiteConf?.selectedEvent,
+                    setLoading
+                  )
+                }
                 className="icn-btn sh-sm ml-2 mr-2 tooltip"
-                style={{ '--tooltip-txt': `'${__('Refresh Sessions', 'bit-integrations')}'` }}
+                style={{ '--tooltip-txt': `'${__('Refresh Table', 'bit-integrations')}'` }}
                 type="button"
                 disabled={loading.event}>
                 &#x21BB;
@@ -171,74 +212,82 @@ export default function SmartSuiteIntegLayout({
           }}
         />
       )}
-      {smartSuiteConf.actionName && !isLoading && (
-        <div>
-          <br />
-          <div className="mt-5">
-            <b className="wdt-100">{__('Field Map', 'bit-integrations')}</b>
-            {smartSuiteConf.actionName === 'contact' && (
-              <button
-                // onClick={() => getCustomFields(smartSuiteConf, setSmartSuiteConf, setIsLoading, btcbi)}
-                className="icn-btn sh-sm ml-2 mr-2 tooltip"
-                style={{ '--tooltip-txt': `'${__('Refresh fields', 'bit-integrations')}'` }}
-                type="button"
-                disabled={loading.CRMPipelines}>
-                &#x21BB;
-              </button>
+
+      {handleCustomFieldForRecord(smartSuiteConf.actionName, smartSuiteConf.selectedSession) &&
+        smartSuiteConf.actionName &&
+        !isLoading && (
+          <div>
+            <br />
+            <div className="mt-5">
+              <b className="wdt-100">{__('Field Map', 'bit-integrations')}</b>
+              {smartSuiteConf.actionName === 'record' && (
+                <button
+                  onClick={() => getCustomFields(smartSuiteConf, setSmartSuiteConf, setIsLoading)}
+                  className="icn-btn sh-sm ml-2 mr-2 tooltip"
+                  style={{ '--tooltip-txt': `'${__('Refresh fields', 'bit-integrations')}'` }}
+                  type="button"
+                  disabled={loading.CRMPipelines}>
+                  &#x21BB;
+                </button>
+              )}
+            </div>
+            <br />
+            <div className="btcd-hr mt-1" />
+            <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
+              <div className="txt-dp">
+                <b>{__('Form Fields', 'bit-integrations')}</b>
+              </div>
+              <div className="txt-dp">
+                <b>{__('SmartSuite Fields', 'bit-integrations')}</b>
+              </div>
+            </div>
+            {smartSuiteConf?.field_map.map((itm, i) => (
+              <SmartSuiteFieldMap
+                key={`rp-m-${i + 9}`}
+                i={i}
+                field={itm}
+                smartSuiteConf={smartSuiteConf}
+                formFields={formFields}
+                setSmartSuiteConf={setSmartSuiteConf}
+                setSnackbar={setSnackbar}
+              />
+            ))}
+            {(smartSuiteConf.actionName === 'solution' || smartSuiteConf.actionName === 'record') && (
+              <div className="txt-center btcbi-field-map-button mt-2">
+                <button
+                  onClick={() =>
+                    addFieldMap(
+                      smartSuiteConf.field_map.length,
+                      smartSuiteConf,
+                      setSmartSuiteConf,
+                      false
+                    )
+                  }
+                  className="icn-btn sh-sm"
+                  type="button">
+                  +
+                </button>
+              </div>
+            )}
+            <br />
+            <br />
+            {smartSuiteConf.actionName === 'solution' && (
+              <div>
+                <div className="mt-4">
+                  <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
+                </div>
+                <div className="btcd-hr mt-1" />
+                <SmartSuiteActions
+                  smartSuiteConf={smartSuiteConf}
+                  setSmartSuiteConf={setSmartSuiteConf}
+                  formFields={formFields}
+                  loading={loading}
+                  setLoading={setLoading}
+                />
+              </div>
             )}
           </div>
-          <br />
-          <div className="btcd-hr mt-1" />
-          <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
-            <div className="txt-dp">
-              <b>{__('Form Fields', 'bit-integrations')}</b>
-            </div>
-            <div className="txt-dp">
-              <b>{__('SmartSuite Fields', 'bit-integrations')}</b>
-            </div>
-          </div>
-          {smartSuiteConf?.field_map.map((itm, i) => (
-            <SmartSuiteFieldMap
-              key={`rp-m-${i + 9}`}
-              i={i}
-              field={itm}
-              smartSuiteConf={smartSuiteConf}
-              formFields={formFields}
-              setSmartSuiteConf={setSmartSuiteConf}
-              setSnackbar={setSnackbar}
-            />
-          ))}
-          {(smartSuiteConf.actionName === 'solution' || smartSuiteConf.actionName === 'record') && (
-            <div className="txt-center btcbi-field-map-button mt-2">
-              <button
-                onClick={() =>
-                  addFieldMap(smartSuiteConf.field_map.length, smartSuiteConf, setSmartSuiteConf, false)
-                }
-                className="icn-btn sh-sm"
-                type="button">
-                +
-              </button>
-            </div>
-          )}
-          <br />
-          <br />
-          {smartSuiteConf.actionName === 'solution' && (
-            <div>
-              <div className="mt-4">
-                <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
-              </div>
-              <div className="btcd-hr mt-1" />
-              <SmartSuiteActions
-                smartSuiteConf={smartSuiteConf}
-                setSmartSuiteConf={setSmartSuiteConf}
-                formFields={formFields}
-                loading={loading}
-                setLoading={setLoading}
-              />
-            </div>
-          )}
-        </div>
-      )}
+        )}
     </>
   )
 }
