@@ -41,9 +41,11 @@ export default function SalesforceIntegLayout({
   const handleInputP = (e) => {
     const newConf = { ...salesforceConf }
     const { name, value } = e.target
+    newConf[name] = value
+
     if (e.target.value !== '') {
-      newConf[name] = value
       const actName = value
+
       if (actName === 'contact-create') {
         getAllCustomFields(
           formID,
@@ -116,7 +118,7 @@ export default function SalesforceIntegLayout({
           setIsLoading,
           setSnackbar
         )
-      } else {
+      } else if (actName !== 'task-create') {
         getAllCustomFields(formID, actName, newConf, setSalesforceConf, setIsLoading, setSnackbar)
       }
     } else {
@@ -157,7 +159,6 @@ export default function SalesforceIntegLayout({
           &#x21BB;
         </button>
       </div>
-      <br />
       <br />
 
       {/* Campaign */}
@@ -365,7 +366,7 @@ export default function SalesforceIntegLayout({
         />
       )}
 
-      {salesforceConf?.actionName && !isLoading && (
+      {salesforceConf?.actionName && salesforceConf?.actionName !== 'task-create' && !isLoading && (
         <>
           <br />
           <div className="mt-5">
