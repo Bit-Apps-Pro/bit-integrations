@@ -7,9 +7,10 @@ import Loader from '../../Loaders/Loader'
 import { addFieldMap } from './IntegrationHelpers'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import SmartSuiteActions from './SmartSuiteActions'
-import { getAllEvents, getAllSessions, generateMappedField } from './SmartSuiteCommonFunc'
+import { getAllSolutions, getAllTables, generateMappedField } from './SmartSuiteCommonFunc'
 import { getCustomFields } from './SmartSuiteCommonFunc'
 import SmartSuiteFieldMap from './SmartSuiteFieldMap'
+import CustomField from './CustomField'
 
 export default function SmartSuiteIntegLayout({
   formFields,
@@ -29,24 +30,27 @@ export default function SmartSuiteIntegLayout({
 
     console.error(val + ' ' + name)
 
-    if (name === 'selectedEvent' && val !== '' && smartSuiteConf?.actionName === 'record') {
-      getAllSessions(smartSuiteConf, setSmartSuiteConf, val, setLoading)
+    if (name === 'selectedSolution' && val !== '' && smartSuiteConf?.actionName === 'record') {
+      getAllTables(smartSuiteConf, setSmartSuiteConf, val, setLoading)
     }
-    if (
-      name === 'selectedSession' &&
-      val != '' &&
-      smartSuiteConf?.selectedSession &&
-      smartSuiteConf?.selectedSession != ''
-    ) {
-      getCustomFields(smartSuiteConf, setSmartSuiteConf, setIsLoading, val)
-    }
+
     setSmartSuiteConf((prevConf) => {
       const newConf = { ...prevConf }
       newConf[name] = val
+      if (
+        name === 'selectedTable' &&
+        val != '' &&
+        newConf?.selectedTable &&
+        newConf?.selectedTable != ''
+      ) {
+        const findItem = newConf.tables.find((item) => item.id === val)
+        newConf.customFields = findItem.customFields
+        //getCustomFields(smartSuiteConf, setSmartSuiteConf, setIsLoading, val)
+      } else newConf.customFields = null
 
-      if (name === 'selectedEvent') {
-        delete newConf.selectedSession
-        delete newConf.sessions
+      if (name === 'selectedSolution') {
+        delete newConf.selectedTable
+        delete newConf.tables
       }
       return newConf
     })
@@ -63,11 +67,11 @@ export default function SmartSuiteIntegLayout({
     const newConf = { ...smartSuiteConf }
     const { name } = e.target
     newConf.field_map = [{ formField: '', smartSuiteFormField: '' }]
-
+    newConf.customFields = null
     if (e.target.value != '') {
       newConf[name] = e.target.value
       if (e.target.value === 'table' || e.target.value === 'record') {
-        getAllEvents(smartSuiteConf, setSmartSuiteConf, setLoading)
+        getAllSolutions(smartSuiteConf, setSmartSuiteConf, setLoading)
       }
     } else {
       delete newConf[name]
@@ -101,7 +105,7 @@ export default function SmartSuiteIntegLayout({
           {__('Create Record', 'bit-integrations')}
         </option>
       </select>
-      {loading.event && (
+      {/* {loading.solution && (
         <Loader
           style={{
             display: 'flex',
@@ -111,11 +115,11 @@ export default function SmartSuiteIntegLayout({
             transform: 'scale(0.7)'
           }}
         />
-      )}
+      )} */}
 
       {smartSuiteConf.actionName &&
         (smartSuiteConf.isActionTable === 'table' || smartSuiteConf.isActionTable === 'record') &&
-        !loading.event && (
+        !loading.solution && (
           <>
             <br />
             <br />
@@ -123,30 +127,34 @@ export default function SmartSuiteIntegLayout({
               <b className="wdt-200 d-in-b">{__('Select Solution:', 'bit-integrations')}</b>
               <MultiSelect
                 options={
-                  smartSuiteConf?.events &&
-                  smartSuiteConf.events.map((event) => ({ label: event.name, value: `${event.id}` }))
+                  smartSuiteConf?.solutions &&
+                  smartSuiteConf.solutions.map((solution) => ({
+                    label: solution.name,
+                    value: `${solution.id}`
+                  }))
                 }
                 className="msl-wrp-options dropdown-custom-width"
-                defaultValue={smartSuiteConf?.selectedEvent}
-                onChange={(val) => setChanges(val, 'selectedEvent')}
+                defaultValue={smartSuiteConf?.selectedSolution}
+                customFields="asas"
+                onChange={(val) => setChanges(val, 'selectedSolution')}
                 singleSelect
                 closeOnSelect
-                disabled={loading.event}
+                disabled={loading.solution}
               />
               <button
-                onClick={() => getAllEvents(smartSuiteConf, setSmartSuiteConf, setLoading)}
+                onClick={() => getAllSolutions(smartSuiteConf, setSmartSuiteConf, setLoading)}
                 className="icn-btn sh-sm ml-2 mr-2 tooltip"
                 style={{ '--tooltip-txt': `'${__('Refresh Solution', 'bit-integrations')}'` }}
                 type="button"
-                disabled={loading.event}>
+                disabled={loading.solution}>
                 &#x21BB;
               </button>
             </div>
           </>
         )}
 
-      {console.error(smartSuiteConf.selectedEvent)}
-      {loading.session && (
+      {console.error(smartSuiteConf.selectedSolution)}
+      {(loading.solution || loading.table) && (
         <Loader
           style={{
             display: 'flex',
@@ -158,50 +166,52 @@ export default function SmartSuiteIntegLayout({
         />
       )}
       {smartSuiteConf.actionName &&
-        smartSuiteConf?.selectedEvent &&
-        smartSuiteConf?.selectedEvent != '' &&
-        !loading.event &&
-        !loading.session &&
+        smartSuiteConf?.selectedSolution &&
+        smartSuiteConf?.selectedSolution != '' &&
+        !loading.solution &&
+        !loading.table &&
         smartSuiteConf.isActionTable === 'record' && (
           <>
             <br />
             <br />
             <div className="flx">
               <b className="wdt-200 d-in-b">{__('Select Table:', 'bit-integrations')}</b>
+              {console.error('payroll')}
+              {console.error(smartSuiteConf.tables)}
               <MultiSelect
                 options={
-                  smartSuiteConf?.sessions &&
-                  smartSuiteConf.sessions.map((session) => ({
-                    label: session.datetime,
-                    value: `${session.date_id}`
+                  smartSuiteConf?.tables &&
+                  smartSuiteConf.tables.map((table) => ({
+                    label: table.name,
+                    value: `${table.id}`
                   }))
                 }
                 className="msl-wrp-options dropdown-custom-width"
-                defaultValue={smartSuiteConf?.selectedSession}
-                onChange={(val) => setChanges(val, 'selectedSession')}
+                defaultValue={smartSuiteConf?.selectedTable}
+                onChange={(val) => setChanges(val, 'selectedTable')}
                 singleSelect
                 closeOnSelect
               />
               <button
                 onClick={() =>
-                  getAllSessions(
+                  getAllTables(
                     smartSuiteConf,
                     setSmartSuiteConf,
-                    smartSuiteConf?.selectedEvent,
+                    smartSuiteConf?.selectedSolution,
                     setLoading
                   )
                 }
                 className="icn-btn sh-sm ml-2 mr-2 tooltip"
                 style={{ '--tooltip-txt': `'${__('Refresh Table', 'bit-integrations')}'` }}
                 type="button"
-                disabled={loading.event}>
+                disabled={loading.solution}>
                 &#x21BB;
               </button>
             </div>
           </>
         )}
 
-      {isLoading && (
+      {/* {isLoading && (
         <Loader
           style={{
             display: 'flex',
@@ -211,16 +221,16 @@ export default function SmartSuiteIntegLayout({
             transform: 'scale(0.7)'
           }}
         />
-      )}
+      )} */}
 
-      {handleCustomFieldForRecord(smartSuiteConf.actionName, smartSuiteConf.selectedSession) &&
+      {handleCustomFieldForRecord(smartSuiteConf.actionName, smartSuiteConf.selectedTable) &&
         smartSuiteConf.actionName &&
         !isLoading && (
           <div>
             <br />
             <div className="mt-5">
               <b className="wdt-100">{__('Field Map', 'bit-integrations')}</b>
-              {smartSuiteConf.actionName === 'record' && (
+              {smartSuiteConf.actionName === 'record1' && (
                 <button
                   onClick={() => getCustomFields(smartSuiteConf, setSmartSuiteConf, setIsLoading)}
                   className="icn-btn sh-sm ml-2 mr-2 tooltip"
@@ -271,7 +281,11 @@ export default function SmartSuiteIntegLayout({
             )}
             <br />
             <br />
-            {smartSuiteConf.actionName === 'solution' && (
+            <br />
+            {(smartSuiteConf.actionName === 'solution' ||
+              (smartSuiteConf.actionName === 'record' &&
+                smartSuiteConf?.selectedTable &&
+                smartSuiteConf?.selectedTable != '')) && (
               <div>
                 <div className="mt-4">
                   <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>

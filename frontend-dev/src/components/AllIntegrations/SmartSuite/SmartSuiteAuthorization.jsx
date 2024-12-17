@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { __ } from '../../../Utils/i18nwrap'
 import LoaderSm from '../../Loaders/LoaderSm'
 import Note from '../../Utilities/Note'
-import { smartSuiteAuthentication, getAllEvents } from './SmartSuiteCommonFunc'
+import { smartSuiteAuthentication, getAllSolutions } from './SmartSuiteCommonFunc'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 
@@ -28,7 +28,7 @@ export default function SmartSuiteAuthorization({
 
     !smartSuiteConf?.default
     setStep(2)
-    //getAllEvents(smartSuiteConf, setSmartSuiteConf, setLoading)
+    //getAllSolutions(smartSuiteConf, setSmartSuiteConf, setLoading)
   }
 
   const handleInput = (e) => {

@@ -12,6 +12,7 @@ import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import SmartSuiteAuthorization from './SmartSuiteAuthorization'
 import { checkMappedFields, generateMappedField } from './SmartSuiteCommonFunc'
 import SmartSuiteIntegLayout from './SmartSuiteIntegLayout'
+import CustomField from './CustomField'
 
 function SmartSuite({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
@@ -24,16 +25,6 @@ function SmartSuite({ formFields, setFlow, flow, allIntegURL }) {
   const smartSuiteFields = [
     { label: __('Name', 'bit-integrations'), key: 'name', required: true },
     { label: __('Logo Icon', 'bit-integrations'), key: 'logo_icon', required: false }
-    // { label: __('Last Name', 'bit-integrations'), key: 'last_name', required: false },
-    // { label: __('Phone Number', 'bit-integrations'), key: 'phone_number', required: false },
-    // { label: __('Company', 'bit-integrations'), key: 'company', required: false },
-    // { label: __('Website', 'bit-integrations'), key: 'website', required: false },
-    // { label: __('GDPR', 'bit-integrations'), key: 'gdpr', required: false },
-    // {
-    //   label: __('Event Registration page URL', 'bit-integrations'),
-    //   key: 'ref_url',
-    //   required: false
-    // }
   ]
   const smartSuiteFieldsForSolution = [
     { label: __('Name', 'bit-integrations'), key: 'name', required: true },
@@ -41,9 +32,6 @@ function SmartSuite({ formFields, setFlow, flow, allIntegURL }) {
   ]
   const smartSuiteFieldsForRecord = [
     { label: __('Title', 'bit-integrations'), key: 'title', required: true }
-    // { label: __('Description', 'bit-integrations'), key: 'description', required: false },
-    // { label: __('From date', 'bit-integrations'), key: 'due_date', required: false },
-    // { label: __('To date', 'bit-integrations'), key: 'to_date', required: false }
   ]
   const [smartSuiteConf, setSmartSuiteConf] = useState({
     name: 'SmartSuite',
@@ -55,6 +43,7 @@ function SmartSuite({ formFields, setFlow, flow, allIntegURL }) {
     isActionTable: 'no action',
     smartSuiteFields,
     smartSuiteFieldsForRecord,
+    customFields: null,
     actions: {}
   })
 

@@ -28,12 +28,12 @@ export const generateMappedField = (smartSuiteFields) => {
 export const getCustomFields = (confTmp, setConf, setIsLoading, val = '') => {
   setIsLoading(true)
   console.error('time')
-  console.error(confTmp.selectedSession)
-  let tempVal = (val == '' ? confTmp.selectedSession : val)
+  console.error(confTmp.selectedTable)
+  let tempVal = (val == '' ? confTmp.selectedTable : val)
   const requestParams = {
     api_key: confTmp.api_key,
     api_secret: confTmp.api_secret,
-    event_id: tempVal
+    solution_id: tempVal
   }
 
   bitsFetch(requestParams, 'smartSuite_fetch_custom_fields').then((result) => {
@@ -109,62 +109,101 @@ export const smartSuiteAuthentication = (
   })
 }
 
-export const getAllEvents = (confTmp, setConf, setLoading) => {
-  setLoading({ ...setLoading, event: true })
+export const getAllSolutions = (confTmp, setConf, setLoading) => {
+  setLoading({ ...setLoading, solution: true })
 
   const requestParams = {
     api_key: confTmp.api_key,
     api_secret: confTmp.api_secret
   }
 
-  bitsFetch(requestParams, 'smartSuite_fetch_all_events').then((result) => {
+  bitsFetch(requestParams, 'smartSuite_fetch_all_solutions').then((result) => {
     if (result && result.success) {
       if (result.data) {
         setConf((prevConf) => {
-          prevConf.events = result.data
+          prevConf.solutions = result.data
           return prevConf
         })
 
-        setLoading({ ...setLoading, event: false })
+        setLoading({ ...setLoading, solution: false })
         toast.success(__('Solution fetched successfully', 'bit-integrations'))
         return
       }
-      setLoading({ ...setLoading, event: false })
+      setLoading({ ...setLoading, solution: false })
       toast.error(__('Solution Not Found!', 'bit-integrations'))
       return
     }
-    setLoading({ ...setLoading, event: false })
+    setLoading({ ...setLoading, solution: false })
     toast.error(__('Solution fetching failed', 'bit-integrations'))
   })
 }
 
-export const getAllSessions = (confTmp, setConf, event_id, setLoading) => {
+export const getAllTables = (confTmp, setConf, solution_id, setLoading) => {
 
-  setLoading({ ...setLoading, session: true })
+  if (confTmp?.selectedTable)
+    delete confTmp?.selectedTable
 
+  setLoading({ ...setLoading, table: true })
   const requestParams = {
     api_key: confTmp.api_key,
     api_secret: confTmp.api_secret,
-    event_id: event_id
+    solution_id: solution_id
   }
 
-  bitsFetch(requestParams, 'smartSuite_fetch_all_sessions').then((result) => {
+  bitsFetch(requestParams, 'smartSuite_fetch_all_tables').then((result) => {
     if (result && result.success) {
       if (result.data) {
         setConf((prevConf) => {
-          prevConf.sessions = result.data
+          prevConf.tables = result.data
+          console.error('check it error')
+          console.error(result.data[0].customFields)
+          if (result.data.length > 0 && result.data[0].customFields)
+            prevConf.customFields = result.data[0].customFields;
+          else
+            prevConf.customFields = null
           return prevConf
         })
 
-        setLoading({ ...setLoading, session: false })
+        setLoading({ ...setLoading, table: false })
         toast.success(__('Table fetched successfully', 'bit-integrations'))
         return
       }
-      setLoading({ ...setLoading, session: false })
+      setLoading({ ...setLoading, table: false })
       toast.error(__('Table Not Found!', 'bit-integrations'))
       return
     }
-    setLoading({ ...setLoading, session: false })
+    setLoading({ ...setLoading, table: false })
     toast.error(__('Table fetching failed', 'bit-integrations'))
+  })
+}
+
+export const getAllUser = (confTmp, setConf, setLoading) => {
+  setLoading({ ...setLoading, assignedUser: true })
+
+  const requestParams = {
+    api_key: confTmp.api_key,
+    api_secret: confTmp.api_secret
+  }
+
+  bitsFetch(requestParams, 'smartSuite_fetch_all_user').then((result) => {
+    if (result && result.success) {
+      if (result.data) {
+        setConf((prevConf) => {
+          prevConf.assignedUser = result.data
+          console.error('show user')
+          console.error(result.data)
+          return prevConf
+        })
+
+        setLoading({ ...setLoading, solution: false })
+        toast.success(__('User fetched successfully', 'bit-integrations'))
+        return
+      }
+      setLoading({ ...setLoading, solution: false })
+      toast.error(__('User Not Found!', 'bit-integrations'))
+      return
+    }
+    setLoading({ ...setLoading, solution: false })
+    toast.error(__('User fetching failed', 'bit-integrations'))
   })
 }

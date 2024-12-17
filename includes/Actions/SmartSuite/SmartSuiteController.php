@@ -70,9 +70,6 @@ class SmartSuiteController
         $this->setHeaders($fieldsRequestParams->api_key, $fieldsRequestParams->api_secret);
         $apiEndpoint = $this->apiEndpoint . "applications/{$fieldsRequestParams->event_id}";
         $response = HttpHelper::get($apiEndpoint, null, $this->_defaultHeader);
-        error_log(print_r('get custom', true));
-        error_log(print_r($apiEndpoint, true));
-        error_log(print_r($response, true));
 
         if (isset($response)) {
             if (isset($response->structure)) {
@@ -91,78 +88,81 @@ class SmartSuiteController
         }
     }
 
-    public function getAllTags($fieldsRequestParams)
-    {
-        $response = [];
-        if (strtotime($fieldsRequestParams->token_details->expires) < time()) {
-            $response['tokenDetails'] = $this->_refreshAccessToken($fieldsRequestParams);
-            $fieldsRequestParams->token_details = $response['tokenDetails'];
-        }
-
-        $this->checkValidation($fieldsRequestParams);
-        $access_token = $fieldsRequestParams->token_details->access_token;
-        $apiEndpoint = $this->apiEndpoint . '/tags';
-        $headers = $this->setHeaders($access_token);
-        $response = HttpHelper::get($apiEndpoint, null, $headers);
-
-        if (isset($response)) {
-            if (isset($response->data)) {
-                foreach ($response->data as $tag) {
-                    $tags[] = [
-                        'tag' => $tag->content
-                    ];
-                }
-                wp_send_json_success($tags, 200);
-            } else {
-                wp_send_json_error($response->message, 400);
-            }
-        } else {
-            wp_send_json_error(__('Tags fetching failed', 'bit-integrations'), 400);
-        }
-    }
-
-    public function getAllEvents($fieldsRequestParams)
+    public function getAllSolutions($fieldsRequestParams)
     {
         // $this->checkValidation($fieldsRequestParams);
         $this->setHeaders($fieldsRequestParams->api_key, $fieldsRequestParams->api_secret);
         $apiEndpoint = $this->apiEndpoint . 'solutions/';
         $response = HttpHelper::get($apiEndpoint, null, $this->_defaultHeader);
+        error_log(print_r('get event', true));
+        error_log(print_r($apiEndpoint, true));
 
         if (!isset($response->errors)) {
-            $events = [];
-            foreach ($response as $event) {
-                $events[]
+            $solutions = [];
+            foreach ($response as $solution) {
+                $solutions[]
                 = (object) [
-                    'id'   => $event->id,
-                    'name' => $event->name
+                    'id'   => $solution->id,
+                    'name' => $solution->name
                 ]
                 ;
             }
-            wp_send_json_success($events, 200);
+            wp_send_json_success($solutions, 200);
         } else {
-            wp_send_json_error(__('Events fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error(__('Solutions fetching failed', 'bit-integrations'), 400);
         }
     }
 
-    public function getAllSessions($fieldsRequestParams)
+    public function getAllTables($fieldsRequestParams)
     {
         // $this->checkValidation($fieldsRequestParams);
         $this->setHeaders($fieldsRequestParams->api_key, $fieldsRequestParams->api_secret);
-        $apiEndpoint = $this->apiEndpoint . "applications/?solution={$fieldsRequestParams->event_id}";
+        $apiEndpoint = $this->apiEndpoint . "applications/?solution={$fieldsRequestParams->solution_id}";
+        error_log(print_r('get tables', true));
+        error_log(print_r($apiEndpoint, true));
         $response = HttpHelper::get($apiEndpoint, null, $this->_defaultHeader);
         if (!isset($response->errors)) {
-            $sessions = [];
-            foreach ($response as $session) {
-                $sessions[]
+            $tables = [];
+            foreach ($response as $table) {
+                $tables[]
                 = (object) [
-                    'date_id'  => $session->id,
-                    'datetime' => $session->name
+                    'id'           => $table->id,
+                    'name'         => $table->name,
+                    'customFields' => $table->structure
+                ]
+                ;
+                error_log(print_r('change custom', true));
+                error_log(print_r($table->structure, true));
+            }
+            wp_send_json_success($tables, 200);
+        } else {
+            wp_send_json_error(__('Tables fetching failed', 'bit-integrations'), 400);
+        }
+    }
+
+    public function getAllUser($fieldsRequestParams)
+    {
+        // $this->checkValidation($fieldsRequestParams);
+        $this->setHeaders($fieldsRequestParams->api_key, $fieldsRequestParams->api_secret);
+        $apiEndpoint = $this->apiEndpoint . 'applications/members/records/list/';
+        error_log(print_r('get user', true));
+        error_log(print_r($apiEndpoint, true));
+
+        $response = HttpHelper::post($apiEndpoint, null, $this->_defaultHeader);
+        error_log(print_r($response->items, true));
+        if (isset($response->items)) {
+            $users = [];
+            foreach ($response->items as $user) {
+                $users[]
+                = (object) [
+                    'id'   => $user->id,
+                    'name' => $user->full_name->sys_root
                 ]
                 ;
             }
-            wp_send_json_success($sessions, 200);
+            wp_send_json_success($users, 200);
         } else {
-            wp_send_json_error(__('Events fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error(__('User fetching failed', 'bit-integrations'), 400);
         }
     }
 
