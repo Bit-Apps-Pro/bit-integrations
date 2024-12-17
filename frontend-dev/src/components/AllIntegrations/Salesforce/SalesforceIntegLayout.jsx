@@ -83,7 +83,7 @@ export default function SalesforceIntegLayout({
       } else if (actName === 'add-campaign-member') {
         getAllCustomFields(
           formID,
-          'add-campaign-create',
+          'add-campaign-member',
           newConf,
           setSalesforceConf,
           setIsLoading,
@@ -435,18 +435,18 @@ export default function SalesforceIntegLayout({
       {['opportunity-create', 'event-create', 'case-create', 'account-create'].includes(
         salesforceConf?.actionName
       ) && (
-        <>
-          <div className="mt-4">
-            <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
-          </div>
-          <div className="btcd-hr mt-1" />
-          <SalesforceActions
-            salesforceConf={salesforceConf}
-            setSalesforceConf={setSalesforceConf}
-            formFields={formFields}
-          />
-        </>
-      )}
+          <>
+            <div className="mt-4">
+              <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
+            </div>
+            <div className="btcd-hr mt-1" />
+            <SalesforceActions
+              salesforceConf={salesforceConf}
+              setSalesforceConf={setSalesforceConf}
+              formFields={formFields}
+            />
+          </>
+        )}
     </>
   )
 }

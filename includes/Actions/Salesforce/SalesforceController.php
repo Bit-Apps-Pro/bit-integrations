@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\Salesforce;
 
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Flow\FlowController;
 use WP_Error;
+use BitCode\FI\Flow\FlowController;
+use BitCode\FI\Core\Util\HttpHelper;
 
 class SalesforceController
 {
@@ -122,85 +122,52 @@ class SalesforceController
                 400
             );
         }
-        $response = [];
+        $response = ['tokenDetails' => $customFieldRequestParams->tokenDetails];
         if ((\intval($customFieldRequestParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $response['tokenDetails'] = self::refreshAccessToken($customFieldRequestParams);
         }
 
-        $isCustomAction = false;
-        switch ($customFieldRequestParams->actionName) {
-            case 'contact-create':
-                $action = 'Contact';
+        $actionMap = [
+            'contact-create'      => 'Contact',
+            'lead-create'         => 'Lead',
+            'account-create'      => 'Account',
+            'campaign-create'     => 'Campaign',
+            'add-campaign-member' => 'Campaign',
+            'opportunity-create'  => 'Opportunity',
+            'event-create'        => 'Event',
+            'case-create'         => 'Case'
+        ];
 
-                break;
-            case 'lead-create':
-                $action = 'Lead';
-
-                break;
-            case 'account-create':
-                $action = 'Account';
-
-                break;
-            case 'campaign-create':
-            case 'add-campaign-member':
-                $action = 'Campaign';
-
-                break;
-            case 'opportunity-create':
-                $action = 'Opportunity';
-
-                break;
-            case 'event-create':
-                $action = 'Event';
-
-                break;
-            case 'case-create':
-                $action = 'Case';
-
-                break;
-
-            default:
-                $action = $customFieldRequestParams->actionName;
-                $isCustomAction = true;
-
-                break;
-        }
-
+        $action = $actionMap[$customFieldRequestParams->actionName] ?? $customFieldRequestParams->actionName;
         $apiEndpoint = "{$customFieldRequestParams->tokenDetails->instance_url}/services/data/v37.0/sobjects/{$action}/describe";
-        $authorizationHeader['Authorization'] = "Bearer {$customFieldRequestParams->tokenDetails->access_token}";
-        $authorizationHeader['Content-Type'] = 'application/json';
-        $apiResponse = HttpHelper::get($apiEndpoint, null, $authorizationHeader);
+        $headers = [
+            'Authorization' => "Bearer {$customFieldRequestParams->tokenDetails->access_token}",
+            'Content-Type'  => 'application/json'
+        ];
+
+        $apiResponse = HttpHelper::get($apiEndpoint, null, $headers);
+
         if (!property_exists((object) $apiResponse, 'fields')) {
             wp_send_json_error($apiResponse, 400);
         }
 
-        if ($isCustomAction) {
-            $unusualFields = ['Id', 'OwnerId', 'IsDeleted', 'CreatedDate', 'CreatedById', 'LastModifiedDate', 'LastModifiedById', 'SystemModstamp', 'LastViewedDate', 'LastReferencedDate'];
-            $customFields = array_filter($apiResponse->fields, function ($field) use ($unusualFields) {
-                if (!\in_array($field->name, $unusualFields) || $field->custom) {
-                    return true;
-                }
-            });
-        } else {
-            $customFields = array_filter($apiResponse->fields, function ($field) {
-                if ($field->custom) {
-                    return true;
-                }
-            });
-        }
+        $unusualFields = ['Id', 'MasterRecordId', 'AccountId', 'ReportsToId', 'OwnerId', 'LeadSource', 'IsDeleted', 'CreatedDate', 'CreatedById', 'LastModifiedDate', 'LastModifiedById', 'SystemModstamp', 'LastViewedDate', 'LastActivityDate', 'LastCURequestDate', 'EmailBouncedReason', 'EmailBouncedDate', 'IsEmailBounced', 'LastCUUpdateDate', 'LastReferencedDate', 'Jigsaw', 'JigsawContactId', 'CleanStatus'];
+        $customFields = array_filter($apiResponse->fields, function ($field) use ($unusualFields) {
+            return !\in_array($field->name, $unusualFields) || (boolean) $field->custom;
+        });
 
-        $fieldMap = [];
-        foreach ($customFields as $field) {
-            $fieldMap[] = (object) [
+        $fieldMap = array_map(function ($field) use ($action) {
+            return (object) [
                 'key'      => $field->name,
                 'label'    => $field->label,
-                'required' => (boolean) ($field->name == 'Name')
+                'required' => static::isRequiredField($field->name, $action)
             ];
-        }
+        }, array_values($customFields));
 
         if (!empty($response['tokenDetails'])) {
             self::saveRefreshedToken($customFieldRequestParams->flowID, $response['tokenDetails'], $response['organizations']);
         }
+
         wp_send_json_success($fieldMap, 200);
     }
 
@@ -474,6 +441,18 @@ class SalesforceController
         $tokenDetails->access_token = $apiResponse->access_token;
 
         return $tokenDetails;
+    }
+
+    private static function isRequiredField($key, $action)
+    {
+        $requiredFields = [
+            'Contact' => ['LastName'],
+            'Case'    => ['SuppliedName'],
+            'Event'   => ['StartDateTime', 'EndDateTime'],
+            'Lead'    => ['LastName', 'Email', 'Company'],
+        ];
+
+        return \in_array($key, $requiredFields[$action] ?? ['Name']);
     }
 
     private static function getCaseMetaData($campaignRequestParams, $module)
