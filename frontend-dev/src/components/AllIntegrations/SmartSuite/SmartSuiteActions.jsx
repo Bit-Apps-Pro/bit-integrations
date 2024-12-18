@@ -52,7 +52,7 @@ export default function SmartSuiteActions({ smartSuiteConf, setSmartSuiteConf, l
       )}
       {smartSuiteConf.actionName === 'record' && (
         <TableCheckBox
-          checked={smartSuiteConf?.selectedAssignedUser?.length || false}
+          checked={smartSuiteConf?.assigned_to?.length || false}
           onChange={(e) => actionHandler(e, 'assignedUser')}
           className="wdt-200 mt-4 mr-2"
           value="assigned"
@@ -62,7 +62,7 @@ export default function SmartSuiteActions({ smartSuiteConf, setSmartSuiteConf, l
       )}
       {smartSuiteConf.actionName === 'record' && (
         <TableCheckBox
-          checked={smartSuiteConf?.selectedPriority?.length || false}
+          checked={smartSuiteConf?.priority?.length || false}
           onChange={(e) => actionHandler(e, 'priority')}
           className="wdt-200 mt-4 mr-2"
           value="priority"
@@ -72,7 +72,7 @@ export default function SmartSuiteActions({ smartSuiteConf, setSmartSuiteConf, l
       )}
       {smartSuiteConf.actionName === 'record' && (
         <TableCheckBox
-          checked={smartSuiteConf?.selectedStatus?.length || false}
+          checked={smartSuiteConf?.status?.length || false}
           onChange={(e) => actionHandler(e, 'status')}
           className="wdt-200 mt-4 mr-2"
           value="status"
@@ -118,8 +118,8 @@ export default function SmartSuiteActions({ smartSuiteConf, setSmartSuiteConf, l
           <MultiSelect
             options={prioritySelectionData.map((color) => ({ label: color.key, value: color.value }))}
             className="msl-wrp-options"
-            defaultValue={smartSuiteConf?.selectedPriority}
-            onChange={(val) => setChanges(val, 'selectedPriority')}
+            defaultValue={smartSuiteConf?.priority}
+            onChange={(val) => setChanges(val, 'priority')}
             selectOnClose
             singleSelect
           />
@@ -140,8 +140,8 @@ export default function SmartSuiteActions({ smartSuiteConf, setSmartSuiteConf, l
           <MultiSelect
             options={statusTypeData.map((status) => ({ label: status.key, value: status.value }))}
             className="msl-wrp-options"
-            defaultValue={smartSuiteConf?.selectedStatus}
-            onChange={(val) => setChanges(val, 'selectedStatus')}
+            defaultValue={smartSuiteConf?.status}
+            onChange={(val) => setChanges(val, 'status')}
             selectOnClose
             singleSelect
           />
@@ -176,8 +176,8 @@ export default function SmartSuiteActions({ smartSuiteConf, setSmartSuiteConf, l
                 value: user.id
               }))}
               className="msl-wrp-options"
-              defaultValue={smartSuiteConf?.selectedAssignedUser}
-              onChange={(val) => setChanges(val, 'selectedAssignedUser')}
+              defaultValue={smartSuiteConf?.assigned_to}
+              onChange={(val) => setChanges(val, 'assigned_to')}
               selectOnClose
               singleSelect
             />
@@ -219,7 +219,7 @@ const colorPicker = [
 ]
 const statusTypeData = [
   { key: 'Backlog', value: 'backlog' },
-  { key: 'In Process', value: 'in_process' },
+  { key: 'In Process', value: 'in_progress' },
   { key: 'Ready for Review', value: 'ready_for_review' },
   { key: 'Complete', value: 'complete' }
 ]

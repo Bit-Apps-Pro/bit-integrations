@@ -49,9 +49,10 @@ class RecordApiHelper
             $requestParams['name'] = $value;
         }
         $requestParams['logo_icon'] = 'overline';
-        if (isset($this->integrationDetails->selectedTag)) {
+        if (isset($this->integrationDetails->selectedTag) && $this->integrationDetails->selectedTag != '') {
             $finalData['logo_color'] = $this->integrationDetails->selectedTag;
         }
+
         $apiEndpoint = $this->apiUrl . 'solutions/';
 
         return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->defaultHeader);
@@ -63,7 +64,7 @@ class RecordApiHelper
         foreach ($finalData as $key => $value) {
             $requestParams['name'] = $value;
         }
-        $requestParams['solution'] = $this->integrationDetails->selectedEvent;
+        $requestParams['solution'] = $this->integrationDetails->selectedSolution;
 
         $apiEndpoint = $this->apiUrl . 'applications/';
         $extraData = [['slug' => 'name',
@@ -77,20 +78,28 @@ class RecordApiHelper
     public function addRecord($finalData)
     {
         $apiEndpoint = $this->apiUrl . 'applications/'
-        . $this->integrationDetails->selectedSession . '/records/';
+        . $this->integrationDetails->selectedTable . '/records/';
 
         $currentDate = date('Y-m-d');
         $addTenDays = date('Y-m-d', strtotime($currentDate . ' + 10 days'));
-
-        if (isset($finalData['due_date']) && !checkIsAValidDate($finalData['due_date'])) {
-            $finalData['due_date'] = $currentDate;
+        if (isset($this->integrationDetails->assigned_to) && $this->integrationDetails->assigned_to != '') {
+            $finalData['assigned_to'] = $this->integrationDetails->assigned_to;
         }
-        if (isset($finalData['to_date']) && !checkIsAValidDate($finalData['to_date'])) {
-            $finalData['to_date'] = $addTenDays;
+        if (isset($this->integrationDetails->status) && $this->integrationDetails->status != '') {
+            $finalData['status'] = $this->integrationDetails->status;
         }
-        $finalData['status'] = 'in_progress';
+        if (isset($this->integrationDetails->priority) && $this->integrationDetails->priority != '') {
+            $finalData['priority'] = $this->integrationDetails->priority;
+        }
+        $requestParams = [];
+        foreach ($finalData as $key => $value) {
+            if (empty($value)) {
+                continue;
+            }
+            $requestParams[$key] = $value;
+        }
 
-        return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->defaultHeader);
+        return HttpHelper::post($apiEndpoint, wp_json_encode($requestParams), $this->defaultHeader);
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
@@ -116,8 +125,7 @@ class RecordApiHelper
         } else {
             $apiResponse = $this->addRecord($finalData);
         }
-
-        if (isset($apiResponse->id)) {
+        if (isset($apiResponse->id) || isset($apiResponse->title)) {
             $res = [$this->typeName . ' successfully'];
             LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->typeName]), 'success', wp_json_encode($res));
         } else {

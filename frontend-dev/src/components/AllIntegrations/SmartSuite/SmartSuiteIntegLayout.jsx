@@ -26,10 +26,6 @@ export default function SmartSuiteIntegLayout({
   const btcbi = useRecoilValue($btcbi)
 
   const setChanges = (val, name) => {
-    console.error('check value')
-
-    console.error(val + ' ' + name)
-
     if (name === 'selectedSolution' && val !== '' && smartSuiteConf?.actionName === 'record') {
       getAllTables(smartSuiteConf, setSmartSuiteConf, val, setLoading)
     }
@@ -45,6 +41,11 @@ export default function SmartSuiteIntegLayout({
       ) {
         const findItem = newConf.tables.find((item) => item.id === val)
         newConf.customFields = findItem.customFields
+        if (newConf.isActionTable === 'solution' || newConf.isActionTable === 'table') {
+          newConf.field_map = generateMappedField(newConf.smartSuiteFields)
+        } else if (newConf.isActionTable === 'record') {
+          newConf.field_map = generateMappedField(newConf.smartSuiteFieldsForRecord)
+        }
         //getCustomFields(smartSuiteConf, setSmartSuiteConf, setIsLoading, val)
       } else newConf.customFields = null
 
@@ -68,6 +69,8 @@ export default function SmartSuiteIntegLayout({
     const { name } = e.target
     newConf.field_map = [{ formField: '', smartSuiteFormField: '' }]
     newConf.customFields = null
+    if (newConf?.selectedSolution) delete newConf?.selectedSolution
+    if (newConf?.selectedTable) delete newConf?.selectedTable
     if (e.target.value != '') {
       newConf[name] = e.target.value
       if (e.target.value === 'table' || e.target.value === 'record') {
@@ -93,6 +96,7 @@ export default function SmartSuiteIntegLayout({
         onChange={handleActionInput}
         name="actionName"
         value={smartSuiteConf.actionName}
+        disabled={loading.solution || loading.table}
         className="btcd-paper-inp w-5">
         <option value="">{__('Select an action', 'bit-integrations')}</option>
         <option value="solution" data-action_name="contact">
@@ -105,17 +109,6 @@ export default function SmartSuiteIntegLayout({
           {__('Create Record', 'bit-integrations')}
         </option>
       </select>
-      {/* {loading.solution && (
-        <Loader
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: 100,
-            transform: 'scale(0.7)'
-          }}
-        />
-      )} */}
 
       {smartSuiteConf.actionName &&
         (smartSuiteConf.isActionTable === 'table' || smartSuiteConf.isActionTable === 'record') &&
@@ -139,7 +132,7 @@ export default function SmartSuiteIntegLayout({
                 onChange={(val) => setChanges(val, 'selectedSolution')}
                 singleSelect
                 closeOnSelect
-                disabled={loading.solution}
+                disabled={loading.solution || loading.table}
               />
               <button
                 onClick={() => getAllSolutions(smartSuiteConf, setSmartSuiteConf, setLoading)}
@@ -153,7 +146,6 @@ export default function SmartSuiteIntegLayout({
           </>
         )}
 
-      {console.error(smartSuiteConf.selectedSolution)}
       {(loading.solution || loading.table) && (
         <Loader
           style={{
@@ -176,8 +168,7 @@ export default function SmartSuiteIntegLayout({
             <br />
             <div className="flx">
               <b className="wdt-200 d-in-b">{__('Select Table:', 'bit-integrations')}</b>
-              {console.error('payroll')}
-              {console.error(smartSuiteConf.tables)}
+
               <MultiSelect
                 options={
                   smartSuiteConf?.tables &&
@@ -210,18 +201,6 @@ export default function SmartSuiteIntegLayout({
             </div>
           </>
         )}
-
-      {/* {isLoading && (
-        <Loader
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: 100,
-            transform: 'scale(0.7)'
-          }}
-        />
-      )} */}
 
       {handleCustomFieldForRecord(smartSuiteConf.actionName, smartSuiteConf.selectedTable) &&
         smartSuiteConf.actionName &&

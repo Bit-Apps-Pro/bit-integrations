@@ -90,12 +90,10 @@ class SmartSuiteController
 
     public function getAllSolutions($fieldsRequestParams)
     {
-        // $this->checkValidation($fieldsRequestParams);
+        $this->checkValidation($fieldsRequestParams);
         $this->setHeaders($fieldsRequestParams->api_key, $fieldsRequestParams->api_secret);
         $apiEndpoint = $this->apiEndpoint . 'solutions/';
         $response = HttpHelper::get($apiEndpoint, null, $this->_defaultHeader);
-        error_log(print_r('get event', true));
-        error_log(print_r($apiEndpoint, true));
 
         if (!isset($response->errors)) {
             $solutions = [];
@@ -115,11 +113,10 @@ class SmartSuiteController
 
     public function getAllTables($fieldsRequestParams)
     {
-        // $this->checkValidation($fieldsRequestParams);
+        $this->checkValidation($fieldsRequestParams);
         $this->setHeaders($fieldsRequestParams->api_key, $fieldsRequestParams->api_secret);
         $apiEndpoint = $this->apiEndpoint . "applications/?solution={$fieldsRequestParams->solution_id}";
-        error_log(print_r('get tables', true));
-        error_log(print_r($apiEndpoint, true));
+
         $response = HttpHelper::get($apiEndpoint, null, $this->_defaultHeader);
         if (!isset($response->errors)) {
             $tables = [];
@@ -131,8 +128,6 @@ class SmartSuiteController
                     'customFields' => $table->structure
                 ]
                 ;
-                error_log(print_r('change custom', true));
-                error_log(print_r($table->structure, true));
             }
             wp_send_json_success($tables, 200);
         } else {
@@ -142,14 +137,12 @@ class SmartSuiteController
 
     public function getAllUser($fieldsRequestParams)
     {
-        // $this->checkValidation($fieldsRequestParams);
+        $this->checkValidation($fieldsRequestParams);
         $this->setHeaders($fieldsRequestParams->api_key, $fieldsRequestParams->api_secret);
         $apiEndpoint = $this->apiEndpoint . 'applications/members/records/list/';
-        error_log(print_r('get user', true));
-        error_log(print_r($apiEndpoint, true));
 
         $response = HttpHelper::post($apiEndpoint, null, $this->_defaultHeader);
-        error_log(print_r($response->items, true));
+
         if (isset($response->items)) {
             $users = [];
             foreach ($response->items as $user) {
@@ -175,7 +168,6 @@ class SmartSuiteController
         $tokenDetails = '';
         $fieldMap = $integrationDetails->field_map;
         $actionName = $integrationDetails->actionName;
-
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId, $tokenDetails, $apiKey, $apiSecret);
 
         $smartSuiteApiResponse = $recordApiHelper->execute($fieldValues, $fieldMap, $actionName);
@@ -240,9 +232,9 @@ class SmartSuiteController
         return $apiResponse;
     }
 
-    private function checkValidation($fieldsRequestParams, $customParam = '**')
+    private function checkValidation($fieldsRequestParams)
     {
-        if (empty($fieldsRequestParams->token_details->access_token) || empty($customParam)) {
+        if (empty($fieldsRequestParams->api_key) || empty($fieldsRequestParams->api_secret)) {
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
     }

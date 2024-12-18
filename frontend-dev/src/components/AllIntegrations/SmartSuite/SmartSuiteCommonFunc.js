@@ -27,8 +27,7 @@ export const generateMappedField = (smartSuiteFields) => {
 }
 export const getCustomFields = (confTmp, setConf, setIsLoading, val = '') => {
   setIsLoading(true)
-  console.error('time')
-  console.error(confTmp.selectedTable)
+
   let tempVal = (val == '' ? confTmp.selectedTable : val)
   const requestParams = {
     api_key: confTmp.api_key,
@@ -112,6 +111,9 @@ export const smartSuiteAuthentication = (
 export const getAllSolutions = (confTmp, setConf, setLoading) => {
   setLoading({ ...setLoading, solution: true })
 
+  if (confTmp?.selectedSolution)
+    delete confTmp?.selectedSolution
+
   const requestParams = {
     api_key: confTmp.api_key,
     api_secret: confTmp.api_secret
@@ -155,12 +157,6 @@ export const getAllTables = (confTmp, setConf, solution_id, setLoading) => {
       if (result.data) {
         setConf((prevConf) => {
           prevConf.tables = result.data
-          console.error('check it error')
-          console.error(result.data[0].customFields)
-          if (result.data.length > 0 && result.data[0].customFields)
-            prevConf.customFields = result.data[0].customFields;
-          else
-            prevConf.customFields = null
           return prevConf
         })
 
@@ -190,8 +186,6 @@ export const getAllUser = (confTmp, setConf, setLoading) => {
       if (result.data) {
         setConf((prevConf) => {
           prevConf.assignedUser = result.data
-          console.error('show user')
-          console.error(result.data)
           return prevConf
         })
 
