@@ -8,6 +8,7 @@ namespace BitCode\FI\Actions\WebHooks;
 
 use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Core\Util\Helper;
 use BitCode\FI\Core\Util\HttpHelper;
 
 /**
@@ -129,7 +130,7 @@ class WebHooksController
     private static function processPayload($details, $fieldValues, $boundary)
     {
         if ($details->body->type === 'raw' && isset($details->body->raw)) {
-            return Common::replaceFieldWithValue(sanitize_text_field($details->body->raw), $fieldValues);
+            return Helper::processCustomRawJson($details->body->raw, $fieldValues);
         }
 
         $payload = [];

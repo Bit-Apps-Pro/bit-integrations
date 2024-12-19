@@ -387,6 +387,23 @@ final class Helper
         return static::decodeSingleEntity($input);
     }
 
+    public static function processCustomRawJson($payload, $fieldValues)
+    {
+        $payload = sanitize_text_field($payload);
+        $payload = Common::replaceFieldWithValue($payload, $fieldValues);
+        $payload = str_replace(['"[', ']"', "'[", "]'"], ['[', ']', '[', ']'], $payload);
+
+        $decodedPayload = json_decode($payload, true);
+
+        if (\is_array($decodedPayload)) {
+            $decodedPayload = array_map(static function ($item) {
+                return \is_array($item) || \is_object($item) ? wp_json_encode($item) : $item;
+            }, $decodedPayload);
+        }
+
+        return wp_json_encode($decodedPayload, JSON_PRETTY_PRINT);
+    }
+
     private static function getVariableType($val)
     {
         $types = [
