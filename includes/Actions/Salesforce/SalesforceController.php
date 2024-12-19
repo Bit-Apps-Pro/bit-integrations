@@ -151,7 +151,7 @@ class SalesforceController
             wp_send_json_error($apiResponse, 400);
         }
 
-        $unusualFields = ['Id', 'MasterRecordId', 'AccountId', 'ReportsToId', 'OwnerId', 'LeadSource', 'IsDeleted', 'CreatedDate', 'CreatedById', 'LastModifiedDate', 'LastModifiedById', 'SystemModstamp', 'LastViewedDate', 'LastActivityDate', 'LastCURequestDate', 'EmailBouncedReason', 'EmailBouncedDate', 'IsEmailBounced', 'LastCUUpdateDate', 'LastReferencedDate', 'Jigsaw', 'JigsawContactId', 'CleanStatus'];
+        $unusualFields = ['Id', 'Type', 'Status', 'Origin', 'Priority', 'PotentialLiability__c', 'SLAViolation__c', 'Reason', 'Ownership', 'StageName', 'MasterRecordId', 'AccountId', 'ReportsToId', 'OwnerId', 'LeadSource', 'IsDeleted', 'CreatedDate', 'CreatedById', 'LastModifiedDate', 'LastModifiedById', 'SystemModstamp', 'LastViewedDate', 'LastActivityDate', 'LastCURequestDate', 'EmailBouncedReason', 'EmailBouncedDate', 'IsEmailBounced', 'LastCUUpdateDate', 'LastReferencedDate', 'Jigsaw', 'JigsawContactId', 'CleanStatus'];
         $customFields = array_filter($apiResponse->fields, function ($field) use ($unusualFields) {
             return !\in_array($field->name, $unusualFields) || (boolean) $field->custom;
         });
