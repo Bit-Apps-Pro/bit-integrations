@@ -4,7 +4,7 @@ Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
 Tested up to: 6.7.1
 Requires PHP: 7.4
-Stable tag: 2.3.9
+Stable tag: 2.4.0
 License: GPLv2 or later
 
 Automation Plugin for WordPress. Integration of 80+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
@@ -1031,6 +1031,20 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 6. All integration list
 
 == Changelog ==
+
+= 2.4.0  =
+_Release Date -19th December 2024_
+
+- **New Improvements**
+ - Salesforce: Updated static fields to dynamic fields for enhanced flexibility.
+ - BuddyBoss (Trigger): Added trigger support for user ID fields, improving workflow options.(Pro)
+
+- **Bug Fixes**
+ - Omnisend: Resolved an issue with trailing commas causing errors in integration.
+ - MasterStudyLMS (Trigger): Fixed the course completion execution bug for smoother functionality.(Pro)
+ - Zoho Marketing Hub: Addressed an execution issue to ensure seamless operation.
+ - Freshdesk: Fixed an authorization issue affecting API connectivity.
+ - CartFlows: Corrected the field fetching issue during checkout integration.(Pro).
 
 = 2.3.9  =
 _Release Date -10th December 2024_
