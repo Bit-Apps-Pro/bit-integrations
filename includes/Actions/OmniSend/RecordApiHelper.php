@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\OmniSend;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -103,7 +103,7 @@ class RecordApiHelper
         $emailStatus,
         $smsStatus,
         $fieldValues,
-        $fieldMap,
+        $fieldMap
     ) {
         $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
         $apiResponse = $this->addContact(
