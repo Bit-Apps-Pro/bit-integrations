@@ -6,9 +6,10 @@
 
 namespace BitCode\FI\Actions\CustomApi;
 
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Core\Util\Helper;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for webhooks
@@ -126,7 +127,7 @@ class CustomApiController
     private static function processPayload($details, $fieldValues)
     {
         if ($details->body->type === 'raw' && isset($details->body->raw)) {
-            return Common::replaceFieldWithValue(sanitize_text_field($details->body->raw), $fieldValues);
+            return Helper::processCustomRawJson($details->body->raw, $fieldValues);
         }
 
         $payload = [];
