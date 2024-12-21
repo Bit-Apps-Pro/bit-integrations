@@ -259,10 +259,9 @@ export const handleAuthorize = (confTmp, selectedAuthType, setError, setIsLoadin
       }
     }, 500)
   }
-
 }
 
-export const tokenHelper = async (authInfo, confTmp, setConf, selectedAuthType, authData, setAuthData, setIsLoading, setSnackbar) => {
+export const tokenHelper = async (authInfo, confTmp, setConf, selectedAuthType, setAuthData, setIsLoading, setSnackbar) => {
   if (!selectedAuthType) {
     return
   }

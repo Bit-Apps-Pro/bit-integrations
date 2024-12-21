@@ -6,11 +6,11 @@
 
 namespace BitCode\FI\Actions\ZohoCRM;
 
+use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Flow\FlowController;
+use BitCode\FI\Log\LogHandler;
 use stdClass;
 use WP_Error;
-use BitCode\FI\Log\LogHandler;
-use BitCode\FI\Flow\FlowController;
-use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for ZohoCrm integration
@@ -58,6 +58,7 @@ final class ZohoCRMController
             'code'          => $requestsParams->code
         ];
         $apiResponse = HttpHelper::post($apiEndpoint, $requestParams);
+
         if (is_wp_error($apiResponse) || !empty($apiResponse->error)) {
             wp_send_json_error(
                 empty($apiResponse->error) ? 'Unknown' : $apiResponse->error,
@@ -178,7 +179,6 @@ final class ZohoCRMController
         $authorizationHeader['Authorization'] = "Zoho-oauthtoken {$queryParams->tokenDetails->access_token}";
         $requiredParams['module'] = $queryParams->module;
         $layoutsMetaResponse = HttpHelper::get($layoutsMetaApiEndpoint, $requiredParams, $authorizationHeader);
-        error_log(print_r($layoutsMetaResponse, true));
         if (!is_wp_error($layoutsMetaResponse) && (empty($layoutsMetaResponse->status) || (!empty($layoutsMetaResponse->status) && $layoutsMetaResponse->status !== 'error'))) {
             $retriveLayoutsData = $layoutsMetaResponse->layouts;
             $layouts = [];
@@ -638,6 +638,25 @@ final class ZohoCRMController
         }
 
         return $zcrmApiResponse;
+    }
+
+    public static function getUserDetails($requestParams)
+    {
+        if (empty($requestParams->code) || $requestParams->code === null) {
+            return;
+        }
+        $apiEndpoint = 'https://www.zohoapis.com/crm/v2/users?type=AllUsers';
+        $authorizationHeader['Authorization'] = 'Bearer ' . $requestParams->code;
+        $authorizationHeader['Content-Type'] = 'application/json';
+
+        $response = HttpHelper::get($apiEndpoint, null, $authorizationHeader);
+
+        $user['user'] = [
+            'displayName'  => $response->users[0]->full_name,
+            'emailAddress' => $response->users[0]->email,
+        ];
+
+        wp_send_json_success($user, 200);
     }
 
     /**

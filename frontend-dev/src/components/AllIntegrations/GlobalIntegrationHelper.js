@@ -34,17 +34,28 @@ export const handleCustomValue = (event, index, conftTmp, setConf) => {
   setConf({ ...newConf })
 }
 
+
 export const handleAuthData = async (actionName, tokenDetails, userInfo, setAuthData) => {
-  const requestParams = {};
-  requestParams.actionName = actionName
-  requestParams.tokenDetails = tokenDetails
-  requestParams.userInfo = userInfo
-  await bitsFetch(requestParams, 'store/authData').then((resp) => {
+  const requestParams = {
+    actionName: actionName,
+    tokenDetails: tokenDetails,
+    userInfo: userInfo,
+  };
+
+  try {
+    const resp = await bitsFetch(requestParams, 'store/authData');
+
     if (resp.success) {
       if (resp.data.data.length > 0) {
         setAuthData(resp.data.data);
       }
-      // setSnackbar({ show: true, msg: 'Authorization Data Fetched Successfully' })
+    } else if (resp.success === false && resp.data?.error) {
+      throw new Error(resp.data.error);
+    } else {
+      throw new Error('Unknown error occurred while storing auth data.');
     }
-  })
-}
+  } catch (error) {
+    console.error('handleAuthData error:', error.message);
+    throw error;
+  }
+};

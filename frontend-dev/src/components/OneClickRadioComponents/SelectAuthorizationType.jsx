@@ -13,7 +13,7 @@ const SelectAuthorizationType = ({ name, options, selectedAuthType, handleChange
             onClick={() => handleChange(option)}
             className="radio-input"
           />
-          {option}
+          {option}{option === 'One Click Authorization' ? ' (Beta )' : ' (Recomended )'}
         </label>
       ))}
     </div>
