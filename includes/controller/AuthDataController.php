@@ -39,7 +39,7 @@ final class AuthDataController
 
             return $this->getAuthData($sanitizedActionName);
         }
-        wp_send_json_success(['error' => 'Email address exists.']);
+        wp_send_json_error(['error' => 'Email address already exists in the list.']);
     }
 
     public function getAuthData($request)
@@ -62,7 +62,7 @@ final class AuthDataController
         );
 
         if (is_wp_error($result)) {
-            wp_send_json_success(['data' => []]);
+            wp_send_json_error(['data' => []]);
             exit;
         }
 

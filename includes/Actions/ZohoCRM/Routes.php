@@ -14,6 +14,7 @@ Route::post('zcrm_get_related_lists', [ZohoCRMController::class, 'getRelatedList
 Route::post('zcrm_generate_token', [ZohoCRMController::class, 'generateTokens']);
 Route::post('zcrm_refresh_modules', [ZohoCRMController::class, 'refreshModulesAjaxHelper']);
 Route::post('zcrm_refresh_layouts', [ZohoCRMController::class, 'refreshLayoutsAjaxHelper']);
+Route::post('zcrm_get_user_details', [ZohoCRMController::class, 'getUserDetails']);
 
 // Rapidmail
 // Route::post('rapidmail_authorization', [RapidmailController::class, 'checkAuthorization']);

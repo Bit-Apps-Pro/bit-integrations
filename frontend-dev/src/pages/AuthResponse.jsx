@@ -1,23 +1,29 @@
-import { useEffect } from 'react'
-import { useSetRecoilState } from 'recoil'
-import { authInfoAtom } from '../GlobalStates'
+import { useEffect } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { authInfoAtom } from '../GlobalStates';
 
 // popup window: render when redirected from oauth to bit-integration with code
 export default function AuthResponse() {
-  const setAuthInfo = useSetRecoilState(authInfoAtom)
+  const setAuthInfo = useSetRecoilState(authInfoAtom);
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.hash)
-    const code = urlParams.get('code')
+    const searchParams = new URLSearchParams(window.location.hash.slice(1));
+    const authResponse = {};
 
-    if (code) {
-      setAuthInfo({ code: code });
-
-      setTimeout(() => {
-        window.close()
-      }, 100)
+    for (const [key, value] of searchParams) {
+      if (value !== null && value.trim() !== '') {
+        authResponse[key] = value;
+      }
     }
-  }, [])
 
-  return <h4>Auth Response Captured</h4>
+    if (Object.keys(authResponse).length > 0) {
+      setAuthInfo(authResponse);
+    }
+
+    setTimeout(() => {
+      window.close();
+    }, 100);
+  }, []);
+
+  return <h4>Auth Response Captured</h4>;
 }
