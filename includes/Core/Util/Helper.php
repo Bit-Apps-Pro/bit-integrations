@@ -358,6 +358,10 @@ final class Helper
 
     public static function flattenNestedData($resultArray, $parentKey, $nestedData)
     {
+        if (\is_object($nestedData)) {
+            $nestedData = !empty($nestedData->getAttributes()) ? $nestedData->getAttributes() : wp_json_encode($nestedData);
+        }
+
         if (!(\is_array($nestedData) || \is_object($nestedData))) {
             return $resultArray;
         }
