@@ -16,44 +16,16 @@ export const handleInput = (e, salesmateConf, setSalesmateConf) => {
 }
 
 export const generateMappedField = (smartSuiteFields) => {
-  const requiredFlds = smartSuiteFields.filter((fld) => fld.required === true)
+  const requiredFlds = smartSuiteFields?.filter((fld) => fld.required === true)
 
-  return requiredFlds.length > 0
+  return requiredFlds?.length > 0
     ? requiredFlds.map((field) => ({
       formField: '',
       smartSuiteFormField: field.key
     }))
     : [{ formField: '', smartSuiteFormField: '' }]
 }
-export const getCustomFields = (confTmp, setConf, setIsLoading, val = '') => {
-  setIsLoading(true)
 
-  let tempVal = (val == '' ? confTmp.selectedTable : val)
-  const requestParams = {
-    api_key: confTmp.api_key,
-    api_secret: confTmp.api_secret,
-    solution_id: tempVal
-  }
-
-  bitsFetch(requestParams, 'smartSuite_fetch_custom_fields').then((result) => {
-    if (result && result.success) {
-      setIsLoading(false)
-      if (result.data) {
-        setConf((prevConf) => {
-          const newConf = { ...prevConf }
-          newConf.customFields = result.data
-          return newConf
-        })
-        toast.success(__('Custom fields also fetched successfully', 'bit-integrations'))
-      } else {
-        toast.error(__('No custom fields found', 'bit-integrations'))
-      }
-      return
-    }
-    setIsLoading(false)
-    toast.error(__(`Custom fields fetching failed ${result.data}`, 'bit-integrations'))
-  })
-}
 export const checkMappedFields = (smartSuiteConf) => {
   const mappedFields = smartSuiteConf?.field_map
     ? smartSuiteConf.field_map.filter(

@@ -9,16 +9,11 @@ namespace BitCode\FI\Actions\SmartSuite;
 use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Log\LogHandler;
 
-/**
- * Provide functionality for Record insert, upsert
- */
 class RecordApiHelper
 {
     private $integrationDetails;
 
     private $integrationId;
-
-    private $tokenDetails;
 
     private $apiUrl;
 
@@ -28,11 +23,10 @@ class RecordApiHelper
 
     private $typeName;
 
-    public function __construct($integrationDetails, $integId, $tokenDetails, $apiKey, $apiSecret)
+    public function __construct($integrationDetails, $integId, $apiKey, $apiSecret)
     {
         $this->integrationDetails = $integrationDetails;
         $this->integrationId = $integId;
-        $this->tokenDetails = $tokenDetails;
         $this->apiUrl = 'https://app.smartsuite.com/api/v1/';
         $this->defaultHeader = [
             'ACCOUNT-ID'    => $apiKey,
@@ -43,12 +37,6 @@ class RecordApiHelper
 
     public function addSolutions($finalData)
     {
-        $requestParams = [];
-
-        foreach ($finalData as $key => $value) {
-            $requestParams['name'] = $value;
-        }
-        $requestParams['logo_icon'] = 'overline';
         if (isset($this->integrationDetails->selectedTag) && $this->integrationDetails->selectedTag != '') {
             $finalData['logo_color'] = $this->integrationDetails->selectedTag;
         }
@@ -80,8 +68,6 @@ class RecordApiHelper
         $apiEndpoint = $this->apiUrl . 'applications/'
         . $this->integrationDetails->selectedTable . '/records/';
 
-        $currentDate = date('Y-m-d');
-        $addTenDays = date('Y-m-d', strtotime($currentDate . ' + 10 days'));
         if (isset($this->integrationDetails->assigned_to) && $this->integrationDetails->assigned_to != '') {
             $finalData['assigned_to'] = $this->integrationDetails->assigned_to;
         }
@@ -117,19 +103,21 @@ class RecordApiHelper
     public function execute($fieldValues, $fieldMap, $actionName)
     {
         $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
-
+        $this->typeName = 'create';
         if ($actionName === 'solution') {
+            $this->type = 'solution';
             $apiResponse = $this->addSolutions($finalData);
         } elseif ($actionName === 'table') {
+            $this->type = 'table';
             $apiResponse = $this->addTable($finalData);
         } else {
+            $this->type = 'record';
             $apiResponse = $this->addRecord($finalData);
         }
         if (isset($apiResponse->id) || isset($apiResponse->title)) {
-            $res = [$this->typeName . ' successfully'];
-            LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->typeName]), 'success', wp_json_encode($res));
+            LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->typeName]), 'success', $this->typeName . ' ' . $this->type . ' successfully');
         } else {
-            LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->type . ' creating']), 'error', wp_json_encode($apiResponse));
+            LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->typeName . ' ' . $this->type]), 'error', wp_json_encode($apiResponse));
         }
 
         return $apiResponse;

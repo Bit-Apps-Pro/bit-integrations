@@ -7,15 +7,9 @@ import CustomField from './CustomField'
 import { addFieldMap, delFieldMap, handleFieldMapping } from './IntegrationHelpers'
 
 export default function SmartSuiteFieldMap({ i, formFields, field, smartSuiteConf, setSmartSuiteConf }) {
-  let allFields = []
-  if (smartSuiteConf.actionName === 'solution' || smartSuiteConf.actionName === 'table') {
-    allFields = smartSuiteConf?.smartSuiteFields
-  } else if (smartSuiteConf.actionName === 'record') {
-    allFields = smartSuiteConf?.smartSuiteFieldsForRecord
-  }
-  const requiredFields = allFields.filter((fld) => fld.required === true) || []
-  const nonRequiredFields = allFields.filter((fld) => fld.required === false) || []
-  const allNonRequiredFields = [...nonRequiredFields, ...(smartSuiteConf?.customFields || [])]
+  const requiredFields = smartSuiteConf?.smartSuiteFields.filter((fld) => fld.required === true) || []
+  const nonRequiredFields =
+    smartSuiteConf?.smartSuiteFields.filter((fld) => fld.required === false) || []
 
   const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
@@ -78,7 +72,7 @@ export default function SmartSuiteFieldMap({ i, formFields, field, smartSuiteCon
                 {requiredFields[i].label}
               </option>
             ) : (
-              allNonRequiredFields.map(({ key, label }) => (
+              nonRequiredFields.map(({ key, label }) => (
                 <option key={key} value={key}>
                   {label}
                 </option>

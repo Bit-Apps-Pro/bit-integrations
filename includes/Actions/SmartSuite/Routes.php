@@ -7,8 +7,6 @@ if (!defined('ABSPATH')) {
 use BitCode\FI\Actions\SmartSuite\SmartSuiteController;
 use BitCode\FI\Core\Util\Route;
 
-Route::post('smartSuite_generate_token', [SmartSuiteController::class, 'generateTokens']);
-Route::post('smartSuite_fetch_custom_fields', [SmartSuiteController::class, 'getCustomFields']);
 Route::post('smartSuite_authentication', [SmartSuiteController::class, 'authentication']);
 Route::post('smartSuite_fetch_all_solutions', [SmartSuiteController::class, 'getAllSolutions']);
 Route::post('smartSuite_fetch_all_tables', [SmartSuiteController::class, 'getAllTables']);

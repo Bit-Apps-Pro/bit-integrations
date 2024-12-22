@@ -8,9 +8,8 @@ import { addFieldMap } from './IntegrationHelpers'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import SmartSuiteActions from './SmartSuiteActions'
 import { getAllSolutions, getAllTables, generateMappedField } from './SmartSuiteCommonFunc'
-import { getCustomFields } from './SmartSuiteCommonFunc'
 import SmartSuiteFieldMap from './SmartSuiteFieldMap'
-import CustomField from './CustomField'
+import { create } from 'mutative'
 
 export default function SmartSuiteIntegLayout({
   formFields,
@@ -40,18 +39,27 @@ export default function SmartSuiteIntegLayout({
         newConf?.selectedTable != ''
       ) {
         const findItem = newConf.tables.find((item) => item.id === val)
-        newConf.customFields = findItem.customFields
-        if (newConf.isActionTable === 'solution' || newConf.isActionTable === 'table') {
-          newConf.field_map = generateMappedField(newConf.smartSuiteFields)
-        } else if (newConf.isActionTable === 'record') {
-          newConf.field_map = generateMappedField(newConf.smartSuiteFieldsForRecord)
-        }
-        //getCustomFields(smartSuiteConf, setSmartSuiteConf, setIsLoading, val)
+        let customFieldsForRecord = []
+        findItem.customFields.forEach((item) => {
+          if (!excludeList.includes(item.slug)) {
+            customFieldsForRecord.push({
+              label: item.label,
+              key: item.slug,
+              required: item?.params?.required || false
+            })
+          }
+        })
+        newConf.smartSuiteFields = customFieldsForRecord
+        newConf.field_map = generateMappedField(newConf.smartSuiteFields)
       } else newConf.customFields = null
 
       if (name === 'selectedSolution') {
         delete newConf.selectedTable
         delete newConf.tables
+      } else if (name === 'selectedTable') {
+        delete newConf['priority']
+        delete newConf['status']
+        delete newConf['assigned_to']
       }
       return newConf
     })
@@ -65,27 +73,34 @@ export default function SmartSuiteIntegLayout({
   }
 
   const handleActionInput = (e) => {
-    const newConf = { ...smartSuiteConf }
-    const { name } = e.target
-    newConf.field_map = [{ formField: '', smartSuiteFormField: '' }]
-    newConf.customFields = null
-    if (newConf?.selectedSolution) delete newConf?.selectedSolution
-    if (newConf?.selectedTable) delete newConf?.selectedTable
-    if (e.target.value != '') {
-      newConf[name] = e.target.value
-      if (e.target.value === 'table' || e.target.value === 'record') {
-        getAllSolutions(smartSuiteConf, setSmartSuiteConf, setLoading)
-      }
-    } else {
-      delete newConf[name]
-    }
-    newConf.isActionTable = e.target.value
-    if (newConf.isActionTable === 'solution' || newConf.isActionTable === 'table') {
-      newConf.field_map = generateMappedField(newConf.smartSuiteFields)
-    } else if (newConf.isActionTable === 'record') {
-      newConf.field_map = generateMappedField(newConf.smartSuiteFieldsForRecord)
-    }
-    setSmartSuiteConf({ ...newConf })
+    setSmartSuiteConf((prevConf) =>
+      create(prevConf, (draftConf) => {
+        const { name, value } = e.target
+        draftConf.field_map = [{ formField: '', smartSuiteFormField: '' }]
+        draftConf.isActionTable = value
+        if (draftConf?.selectedSolution) delete draftConf.selectedSolution
+        if (draftConf?.selectedTable) delete draftConf.selectedTable
+        if (value != '') {
+          draftConf[name] = value
+          if (value === 'table' || value === 'record') {
+            getAllSolutions(smartSuiteConf, setSmartSuiteConf, setLoading)
+          }
+        } else {
+          delete draftConf[name]
+        }
+
+        if (value === 'solution') {
+          draftConf.smartSuiteFields = draftConf?.solutionFields
+        } else if (value === 'table') {
+          draftConf.smartSuiteFields = draftConf?.tableFields
+        } else if (value === 'record') {
+          delete draftConf['priority']
+          delete draftConf['status']
+          delete draftConf['assigned_to']
+        }
+        draftConf.field_map = generateMappedField(draftConf.smartSuiteFields)
+      })
+    )
   }
 
   return (
@@ -99,13 +114,13 @@ export default function SmartSuiteIntegLayout({
         disabled={loading.solution || loading.table}
         className="btcd-paper-inp w-5">
         <option value="">{__('Select an action', 'bit-integrations')}</option>
-        <option value="solution" data-action_name="contact">
+        <option value="solution" data-action_name="solution">
           {__('Create Solution', 'bit-integrations')}
         </option>
-        <option value="table" data-action_name="campaign">
+        <option value="table" data-action_name="table">
           {__('Create Table', 'bit-integrations')}
         </option>
-        <option value="record" data-action_name="campaign">
+        <option value="record" data-action_name="record">
           {__('Create Record', 'bit-integrations')}
         </option>
       </select>
@@ -128,7 +143,6 @@ export default function SmartSuiteIntegLayout({
                 }
                 className="msl-wrp-options dropdown-custom-width"
                 defaultValue={smartSuiteConf?.selectedSolution}
-                customFields="asas"
                 onChange={(val) => setChanges(val, 'selectedSolution')}
                 singleSelect
                 closeOnSelect
@@ -209,16 +223,6 @@ export default function SmartSuiteIntegLayout({
             <br />
             <div className="mt-5">
               <b className="wdt-100">{__('Field Map', 'bit-integrations')}</b>
-              {smartSuiteConf.actionName === 'record1' && (
-                <button
-                  onClick={() => getCustomFields(smartSuiteConf, setSmartSuiteConf, setIsLoading)}
-                  className="icn-btn sh-sm ml-2 mr-2 tooltip"
-                  style={{ '--tooltip-txt': `'${__('Refresh fields', 'bit-integrations')}'` }}
-                  type="button"
-                  disabled={loading.CRMPipelines}>
-                  &#x21BB;
-                </button>
-              )}
             </div>
             <br />
             <div className="btcd-hr mt-1" />
@@ -284,3 +288,14 @@ export default function SmartSuiteIntegLayout({
     </>
   )
 }
+
+const excludeList = [
+  'assigned_to',
+  'priority',
+  'status',
+  'first_created',
+  'last_updated',
+  'followed_by',
+  'comments_count',
+  'autonumber'
+]

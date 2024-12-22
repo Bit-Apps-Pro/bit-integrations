@@ -12,7 +12,6 @@ import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import SmartSuiteAuthorization from './SmartSuiteAuthorization'
 import { checkMappedFields, generateMappedField } from './SmartSuiteCommonFunc'
 import SmartSuiteIntegLayout from './SmartSuiteIntegLayout'
-import CustomField from './CustomField'
 
 function SmartSuite({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
@@ -22,17 +21,7 @@ function SmartSuite({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
 
-  const smartSuiteFields = [
-    { label: __('Name', 'bit-integrations'), key: 'name', required: true },
-    { label: __('Logo Icon', 'bit-integrations'), key: 'logo_icon', required: false }
-  ]
-  const smartSuiteFieldsForSolution = [
-    { label: __('Name', 'bit-integrations'), key: 'name', required: true },
-    { label: __('Logo Icon', 'bit-integrations'), key: 'logo_icon', required: false }
-  ]
-  const smartSuiteFieldsForRecord = [
-    { label: __('Title', 'bit-integrations'), key: 'title', required: true }
-  ]
+  const smartSuiteFields = []
   const [smartSuiteConf, setSmartSuiteConf] = useState({
     name: 'SmartSuite',
     type: 'SmartSuite',
@@ -42,7 +31,8 @@ function SmartSuite({ formFields, setFlow, flow, allIntegURL }) {
     actionName: '',
     isActionTable: 'no action',
     smartSuiteFields,
-    smartSuiteFieldsForRecord,
+    solutionFields,
+    tableFields,
     customFields: null,
     actions: {}
   })
@@ -149,5 +139,11 @@ function SmartSuite({ formFields, setFlow, flow, allIntegURL }) {
     </div>
   )
 }
+
+const solutionFields = [
+  { label: 'Name', key: 'name', required: true },
+  { label: 'Logo Icon', key: 'logo_icon', required: false }
+]
+const tableFields = [{ label: 'Name', key: 'name', required: true }]
 
 export default SmartSuite

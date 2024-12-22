@@ -28,7 +28,6 @@ export default function SmartSuiteAuthorization({
 
     !smartSuiteConf?.default
     setStep(2)
-    //getAllSolutions(smartSuiteConf, setSmartSuiteConf, setLoading)
   }
 
   const handleInput = (e) => {
