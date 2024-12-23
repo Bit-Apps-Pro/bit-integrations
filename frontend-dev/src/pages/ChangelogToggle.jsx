@@ -18,7 +18,7 @@ export default function ChangelogToggle() {
 
   const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
   const Early_Bird_URL = `https://bitapps.pro/christmas-wordpress-plugin-deal/#bit-integrations-pricing`
-  const releaseDate = '10th December 2024'
+  const releaseDate = '19th December 2024'
 
   const changeLog = [
     {
@@ -37,7 +37,7 @@ export default function ChangelogToggle() {
       label: __('New Triggers', 'bit-integrations'),
       headClass: 'new-trigger',
       itemClass: 'integration-list',
-      items: ['Avada Form (pro)']
+      items: []
     },
     {
       label: __('New Features', 'bit-integrations'),
@@ -49,7 +49,7 @@ export default function ChangelogToggle() {
       label: __('New Improvements', 'bit-integrations'),
       headClass: 'new-improvement',
       itemClass: 'feature-list',
-      items: []
+      items: ['Salesforce: Updated static fields to dynamic fields for enhanced flexibility.', 'BuddyBoss (Trigger): Added trigger support for user ID fields, improving workflow options.(Pro)']
     }
   ]
 

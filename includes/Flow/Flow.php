@@ -469,8 +469,8 @@ final class Flow
                         $integrationName = 'Registration';
 
                         break;
-                    case 'Zoho Marketing Automation(Zoho Marketing Hub)':
-                        $integrationName = 'Zoho Marketing Hub';
+                    case 'ZohoMarketingAutomation(ZohoMarketingHub)':
+                        $integrationName = 'ZohoMarketingHub';
 
                         break;
 
