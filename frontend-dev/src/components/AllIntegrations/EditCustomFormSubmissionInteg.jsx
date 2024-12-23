@@ -2,6 +2,7 @@
 
 import { create } from 'mutative'
 import { useEffect, useRef, useState } from 'react'
+import toast from 'react-hot-toast'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useRecoilState, useSetRecoilState } from 'recoil'
@@ -9,17 +10,17 @@ import { $formFields, $newFlow } from '../../GlobalStates'
 import bitsFetch from '../../Utils/bitsFetch'
 import { __ } from '../../Utils/i18nwrap'
 import LoaderSm from '../Loaders/LoaderSm'
-import toast from 'react-hot-toast'
-import { deepCopy } from '../../Utils/Helpers'
+
+const shouldSkipPrimaryKey = (flow) => flow?.flow_details?.multi_form && flow?.flow_details?.multi_form?.some(
+  ({ triggered_entity_id, skipPrimaryKey }) => (triggered_entity_id === flow?.triggered_entity_id && skipPrimaryKey)
+)
 
 function EditCustomFormSubmissionInteg({ setSnackbar }) {
   const [flow, setFlow] = useRecoilState($newFlow)
   const setFormFields = useSetRecoilState($formFields)
   const [isLoading, setIsLoading] = useState(false)
+  const [skipPrimaryKey, setSkipPrimaryKey] = useState(shouldSkipPrimaryKey(flow) || false)
   const intervalRef = useRef(null)
-  const [skipPrimaryKey, setSkipPrimaryKey] = useState(() => flow?.flow_details?.multi_form && flow?.flow_details?.multi_form?.some(
-    ({ triggered_entity_id, skipPrimaryKey }) => triggered_entity_id === flow?.triggered_entity_id && skipPrimaryKey
-  ) || false)
 
   let controller = new AbortController()
   const signal = controller.signal
