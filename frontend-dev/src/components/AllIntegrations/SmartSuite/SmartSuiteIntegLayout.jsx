@@ -9,6 +9,8 @@ import MultiSelect from 'react-multiple-select-dropdown-lite'
 import SmartSuiteActions from './SmartSuiteActions'
 import { getAllSolutions, getAllTables, generateMappedField } from './SmartSuiteCommonFunc'
 import SmartSuiteFieldMap from './SmartSuiteFieldMap'
+import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
+
 import { create } from 'mutative'
 
 export default function SmartSuiteIntegLayout({
@@ -23,8 +25,12 @@ export default function SmartSuiteIntegLayout({
   setSnackbar
 }) {
   const btcbi = useRecoilValue($btcbi)
+  //const isPro = true
+  const { isPro } = btcbi
 
   const setChanges = (val, name) => {
+    if (!isPro) return
+
     if (name === 'selectedSolution' && val !== '' && smartSuiteConf?.actionName === 'record') {
       getAllTables(smartSuiteConf, setSmartSuiteConf, val, setLoading)
     }
@@ -72,17 +78,16 @@ export default function SmartSuiteIntegLayout({
     return true
   }
 
-  const handleActionInput = (e) => {
+  const handleActionInput = (value, name) => {
     setSmartSuiteConf((prevConf) =>
       create(prevConf, (draftConf) => {
-        const { name, value } = e.target
         draftConf.field_map = [{ formField: '', smartSuiteFormField: '' }]
         draftConf.isActionTable = value
         if (draftConf?.selectedSolution) delete draftConf.selectedSolution
         if (draftConf?.selectedTable) delete draftConf.selectedTable
         if (value != '') {
           draftConf[name] = value
-          if (value === 'table' || value === 'record') {
+          if (isPro && (value === 'table' || value === 'record')) {
             getAllSolutions(smartSuiteConf, setSmartSuiteConf, setLoading)
           }
         } else {
@@ -91,9 +96,9 @@ export default function SmartSuiteIntegLayout({
 
         if (value === 'solution') {
           draftConf.smartSuiteFields = draftConf?.solutionFields
-        } else if (value === 'table') {
+        } else if (isPro && value === 'table') {
           draftConf.smartSuiteFields = draftConf?.tableFields
-        } else if (value === 'record') {
+        } else if (isPro && value === 'record') {
           delete draftConf['priority']
           delete draftConf['status']
           delete draftConf['assigned_to']
@@ -106,26 +111,45 @@ export default function SmartSuiteIntegLayout({
   return (
     <>
       <br />
-      <b className="wdt-200 d-in-b">{__('Select Action:', 'bit-integrations')}</b>
-      <select
-        onChange={handleActionInput}
-        name="actionName"
-        value={smartSuiteConf.actionName}
-        disabled={loading.solution || loading.table}
-        className="btcd-paper-inp w-5">
-        <option value="">{__('Select an action', 'bit-integrations')}</option>
-        <option value="solution" data-action_name="solution">
-          {__('Create Solution', 'bit-integrations')}
-        </option>
-        <option value="table" data-action_name="table">
-          {__('Create Table', 'bit-integrations')}
-        </option>
-        <option value="record" data-action_name="record">
-          {__('Create Record', 'bit-integrations')}
-        </option>
-      </select>
+      <div className="flx">
+        <b className="wdt-200 d-in-b">{__('Select Action:', 'bit-integrations')}</b>
+        {/* <select
+          onChange={handleActionInput}
+          name="actionName"
+          value={smartSuiteConf.actionName}
+          disabled={loading.solution || loading.table}
+          className="btcd-paper-inp w-5">
+          <option value="">{__('Select an action', 'bit-integrations')}</option>
+          <option value="solution" data-action_name="solution">
+            {__('Create Solution', 'bit-integrations')}
+          </option>
+          <option disabled={true} value="table" data-action_name="table">
+            {getProLabel(__('Create Table', 'bit-integrations'))}
+          </option>
+          <option value="record" data-action_name="record" disabled={true}>
+            {getProLabel(__('Create Record', 'bit-integrations'))}
+          </option>
+        </select> */}
 
+        <MultiSelect
+          defaultValue={smartSuiteConf?.actionName}
+          value={smartSuiteConf.actionName}
+          disabled={loading.solution || loading.table}
+          className="mt-2 w-5"
+          onChange={(val) => handleActionInput(val, 'actionName')}
+          options={smartSuiteConf?.actionTypes?.map((actionType) => ({
+            label: checkIsPro(isPro, actionType.is_pro)
+              ? actionType.label
+              : getProLabel(actionType.label),
+            value: actionType.name,
+            disabled: checkIsPro(isPro, actionType.is_pro) ? false : true
+          }))}
+          singleSelect
+          closeOnSelect
+        />
+      </div>
       {smartSuiteConf.actionName &&
+        isPro &&
         (smartSuiteConf.isActionTable === 'table' || smartSuiteConf.isActionTable === 'record') &&
         !loading.solution && (
           <>
@@ -176,6 +200,7 @@ export default function SmartSuiteIntegLayout({
         smartSuiteConf?.selectedSolution != '' &&
         !loading.solution &&
         !loading.table &&
+        isPro &&
         smartSuiteConf.isActionTable === 'record' && (
           <>
             <br />

@@ -34,6 +34,7 @@ function SmartSuite({ formFields, setFlow, flow, allIntegURL }) {
     solutionFields,
     tableFields,
     customFields: null,
+    actionTypes,
     actions: {}
   })
 
@@ -145,5 +146,9 @@ const solutionFields = [
   { label: 'Logo Icon', key: 'logo_icon', required: false }
 ]
 const tableFields = [{ label: 'Name', key: 'name', required: true }]
-
+const actionTypes = [
+  { name: 'solution', label: __('Solution', 'bit-integrations'), is_pro: false },
+  { name: 'table', label: __('Table', 'bit-integrations'), is_pro: true },
+  { name: 'record', label: __('Record', 'bit-integrations'), is_pro: true }
+]
 export default SmartSuite

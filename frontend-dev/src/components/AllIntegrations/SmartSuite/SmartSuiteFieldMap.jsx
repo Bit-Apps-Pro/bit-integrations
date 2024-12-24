@@ -12,6 +12,7 @@ export default function SmartSuiteFieldMap({ i, formFields, field, smartSuiteCon
     smartSuiteConf?.smartSuiteFields.filter((fld) => fld.required === false) || []
 
   const btcbi = useRecoilValue($btcbi)
+  // const isPro = true
   const { isPro } = btcbi
 
   return (
