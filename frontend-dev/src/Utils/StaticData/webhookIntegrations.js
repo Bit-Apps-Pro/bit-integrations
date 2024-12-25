@@ -24,7 +24,8 @@ export const customFormIntegrations = [
   'GutenaForms',
   'PieForms',
   'Asgaros',
-  'AvadaForms'
+  'AvadaForms',
+  'FluentCommunity'
 ]
 
 export const actionHookIntegrations = ['ActionHook']
