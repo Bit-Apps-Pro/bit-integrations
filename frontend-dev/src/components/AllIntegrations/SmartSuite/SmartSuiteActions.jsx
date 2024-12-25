@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 
 import { useState } from 'react'
+import { $btcbi } from '../../../GlobalStates'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { __ } from '../../../Utils/i18nwrap'
@@ -8,8 +9,11 @@ import Loader from '../../Loaders/Loader'
 import ConfirmModal from '../../Utilities/ConfirmModal'
 import TableCheckBox from '../../Utilities/TableCheckBox'
 import { getAllUser } from './SmartSuiteCommonFunc'
+import { useRecoilValue } from 'recoil'
 
 export default function SmartSuiteActions({ smartSuiteConf, setSmartSuiteConf, loading, setLoading }) {
+  const btcbi = useRecoilValue($btcbi)
+  const { isPro } = btcbi
   const [actionMdl, setActionMdl] = useState({ show: false, action: () => {} })
 
   const actionHandler = (e, type) => {
@@ -60,7 +64,7 @@ export default function SmartSuiteActions({ smartSuiteConf, setSmartSuiteConf, l
           subTitle={__('Assigned user for record')}
         />
       )}
-      {smartSuiteConf.actionName === 'record' && (
+      {isPro && smartSuiteConf.actionName === 'record' && (
         <TableCheckBox
           checked={smartSuiteConf?.priority?.length || false}
           onChange={(e) => actionHandler(e, 'priority')}
@@ -70,7 +74,7 @@ export default function SmartSuiteActions({ smartSuiteConf, setSmartSuiteConf, l
           subTitle={__('Priority for record')}
         />
       )}
-      {smartSuiteConf.actionName === 'record' && (
+      {isPro && smartSuiteConf.actionName === 'record' && (
         <TableCheckBox
           checked={smartSuiteConf?.status?.length || false}
           onChange={(e) => actionHandler(e, 'status')}
@@ -103,94 +107,100 @@ export default function SmartSuiteActions({ smartSuiteConf, setSmartSuiteConf, l
           />
         </div>
       </ConfirmModal>
-      <ConfirmModal
-        className="custom-conf-mdl"
-        mainMdlCls="o-v"
-        btnClass="purple"
-        btnTxt={__('Ok', 'bit-integrations')}
-        show={actionMdl.show === 'priority'}
-        close={clsActionMdl}
-        action={clsActionMdl}
-        title={__('Priority', 'bit-integrations')}>
-        <div className="btcd-hr mt-2 mb-2" />
-        <div className="mt-2">{__('Select Priority', 'bit-integrations')}</div>
-        <div className="flx flx-between mt-2">
-          <MultiSelect
-            options={prioritySelectionData.map((color) => ({ label: color.key, value: color.value }))}
-            className="msl-wrp-options"
-            defaultValue={smartSuiteConf?.priority}
-            onChange={(val) => setChanges(val, 'priority')}
-            selectOnClose
-            singleSelect
-          />
-        </div>
-      </ConfirmModal>
-      <ConfirmModal
-        className="custom-conf-mdl"
-        mainMdlCls="o-v"
-        btnClass="purple"
-        btnTxt={__('Ok', 'bit-integrations')}
-        show={actionMdl.show === 'status'}
-        close={clsActionMdl}
-        action={clsActionMdl}
-        title={__('Status', 'bit-integrations')}>
-        <div className="btcd-hr mt-2 mb-2" />
-        <div className="mt-2">{__('Select Status', 'bit-integrations')}</div>
-        <div className="flx flx-between mt-2">
-          <MultiSelect
-            options={statusTypeData.map((status) => ({ label: status.key, value: status.value }))}
-            className="msl-wrp-options"
-            defaultValue={smartSuiteConf?.status}
-            onChange={(val) => setChanges(val, 'status')}
-            selectOnClose
-            singleSelect
-          />
-        </div>
-      </ConfirmModal>
-      <ConfirmModal
-        className="custom-conf-mdl"
-        mainMdlCls="o-v"
-        btnClass="purple"
-        btnTxt={__('Ok', 'bit-integrations')}
-        show={actionMdl.show === 'assignedUser'}
-        close={clsActionMdl}
-        action={clsActionMdl}
-        title={__('Assigned User', 'bit-integrations')}>
-        <div className="btcd-hr mt-2 mb-2" />
-        <div className="mt-2">{__('Select User', 'bit-integrations')}</div>
-        {loading.assignedUser ? (
-          <Loader
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 45,
-              transform: 'scale(0.5)'
-            }}
-          />
-        ) : (
-          <div className="flx mt-2">
+      {isPro && (
+        <ConfirmModal
+          className="custom-conf-mdl"
+          mainMdlCls="o-v"
+          btnClass="purple"
+          btnTxt={__('Ok', 'bit-integrations')}
+          show={actionMdl.show === 'priority'}
+          close={clsActionMdl}
+          action={clsActionMdl}
+          title={__('Priority', 'bit-integrations')}>
+          <div className="btcd-hr mt-2 mb-2" />
+          <div className="mt-2">{__('Select Priority', 'bit-integrations')}</div>
+          <div className="flx flx-between mt-2">
             <MultiSelect
-              options={smartSuiteConf?.assignedUser?.map((user) => ({
-                label: user.name,
-                value: user.id
-              }))}
+              options={prioritySelectionData.map((color) => ({ label: color.key, value: color.value }))}
               className="msl-wrp-options"
-              defaultValue={smartSuiteConf?.assigned_to}
-              onChange={(val) => setChanges(val, 'assigned_to')}
+              defaultValue={smartSuiteConf?.priority}
+              onChange={(val) => setChanges(val, 'priority')}
               selectOnClose
               singleSelect
             />
-            <button
-              onClick={() => getAllUser(smartSuiteConf, setSmartSuiteConf, setLoading)}
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `${__('Refresh Tags', 'bit-integrations')}'` }}
-              type="button">
-              &#x21BB;
-            </button>
           </div>
-        )}
-      </ConfirmModal>
+        </ConfirmModal>
+      )}
+      {isPro && (
+        <ConfirmModal
+          className="custom-conf-mdl"
+          mainMdlCls="o-v"
+          btnClass="purple"
+          btnTxt={__('Ok', 'bit-integrations')}
+          show={actionMdl.show === 'status'}
+          close={clsActionMdl}
+          action={clsActionMdl}
+          title={__('Status', 'bit-integrations')}>
+          <div className="btcd-hr mt-2 mb-2" />
+          <div className="mt-2">{__('Select Status', 'bit-integrations')}</div>
+          <div className="flx flx-between mt-2">
+            <MultiSelect
+              options={statusTypeData.map((status) => ({ label: status.key, value: status.value }))}
+              className="msl-wrp-options"
+              defaultValue={smartSuiteConf?.status}
+              onChange={(val) => setChanges(val, 'status')}
+              selectOnClose
+              singleSelect
+            />
+          </div>
+        </ConfirmModal>
+      )}
+      {isPro && (
+        <ConfirmModal
+          className="custom-conf-mdl"
+          mainMdlCls="o-v"
+          btnClass="purple"
+          btnTxt={__('Ok', 'bit-integrations')}
+          show={actionMdl.show === 'assignedUser'}
+          close={clsActionMdl}
+          action={clsActionMdl}
+          title={__('Assigned User', 'bit-integrations')}>
+          <div className="btcd-hr mt-2 mb-2" />
+          <div className="mt-2">{__('Select User', 'bit-integrations')}</div>
+          {loading.assignedUser ? (
+            <Loader
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 45,
+                transform: 'scale(0.5)'
+              }}
+            />
+          ) : (
+            <div className="flx mt-2">
+              <MultiSelect
+                options={smartSuiteConf?.assignedUser?.map((user) => ({
+                  label: user.name,
+                  value: user.id
+                }))}
+                className="msl-wrp-options"
+                defaultValue={smartSuiteConf?.assigned_to}
+                onChange={(val) => setChanges(val, 'assigned_to')}
+                selectOnClose
+                singleSelect
+              />
+              <button
+                onClick={() => getAllUser(smartSuiteConf, setSmartSuiteConf, setLoading)}
+                className="icn-btn sh-sm ml-2 mr-2 tooltip"
+                style={{ '--tooltip-txt': `${__('Refresh Tags', 'bit-integrations')}'` }}
+                type="button">
+                &#x21BB;
+              </button>
+            </div>
+          )}
+        </ConfirmModal>
+      )}
     </div>
   )
 }

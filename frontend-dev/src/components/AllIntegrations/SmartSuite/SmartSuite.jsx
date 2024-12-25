@@ -147,8 +147,8 @@ const solutionFields = [
 ]
 const tableFields = [{ label: 'Name', key: 'name', required: true }]
 const actionTypes = [
-  { name: 'solution', label: __('Solution', 'bit-integrations'), is_pro: false },
-  { name: 'table', label: __('Table', 'bit-integrations'), is_pro: true },
-  { name: 'record', label: __('Record', 'bit-integrations'), is_pro: true }
+  { name: 'solution', label: __('Create Solution', 'bit-integrations'), is_pro: false },
+  { name: 'table', label: __('Create Table', 'bit-integrations'), is_pro: true },
+  { name: 'record', label: __('Create Record', 'bit-integrations'), is_pro: true }
 ]
 export default SmartSuite

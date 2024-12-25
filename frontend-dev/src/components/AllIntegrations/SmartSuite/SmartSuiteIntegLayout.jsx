@@ -25,7 +25,6 @@ export default function SmartSuiteIntegLayout({
   setSnackbar
 }) {
   const btcbi = useRecoilValue($btcbi)
-  //const isPro = true
   const { isPro } = btcbi
 
   const setChanges = (val, name) => {
@@ -113,23 +112,6 @@ export default function SmartSuiteIntegLayout({
       <br />
       <div className="flx">
         <b className="wdt-200 d-in-b">{__('Select Action:', 'bit-integrations')}</b>
-        {/* <select
-          onChange={handleActionInput}
-          name="actionName"
-          value={smartSuiteConf.actionName}
-          disabled={loading.solution || loading.table}
-          className="btcd-paper-inp w-5">
-          <option value="">{__('Select an action', 'bit-integrations')}</option>
-          <option value="solution" data-action_name="solution">
-            {__('Create Solution', 'bit-integrations')}
-          </option>
-          <option disabled={true} value="table" data-action_name="table">
-            {getProLabel(__('Create Table', 'bit-integrations'))}
-          </option>
-          <option value="record" data-action_name="record" disabled={true}>
-            {getProLabel(__('Create Record', 'bit-integrations'))}
-          </option>
-        </select> */}
 
         <MultiSelect
           defaultValue={smartSuiteConf?.actionName}

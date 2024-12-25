@@ -6,7 +6,6 @@
 
 namespace BitCode\FI\Actions\SmartSuite;
 
-use BitCode\FI\Core\Util\Helper;
 use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Log\LogHandler;
 
@@ -42,7 +41,7 @@ class RecordApiHelper
         ];
     }
 
-    public function addSolutions($finalData)
+    public function createSolution($finalData)
     {
         if (isset($this->integrationDetails->selectedTag) && $this->integrationDetails->selectedTag != '') {
             $finalData['logo_color'] = $this->integrationDetails->selectedTag;
@@ -52,32 +51,7 @@ class RecordApiHelper
         return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->defaultHeader);
     }
 
-    public function createTable(
-        $requestParams
-    ) {
-        if (Helper::proActionFeatExists('WhatsApp', 'sendMediaMessages')) {
-            $response = apply_filters('btcbi_smartSuite_create_table', $requestParams, $this->apiKey, $this->apiSecret);
-
-            return handleFilterResponse($response);
-        }
-
-        return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')];
-    }
-
-    public function createRecord(
-        $requestParams,
-        $tableId
-    ) {
-        if (Helper::proActionFeatExists('WhatsApp', 'sendMediaMessages')) {
-            $response = apply_filters('btcbi_smartSuite_create_record', $requestParams, $tableId, $this->apiKey, $this->apiSecret);
-
-            return handleFilterResponse($response);
-        }
-
-        return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')];
-    }
-
-    public function addTable($finalData)
+    public function createTable($finalData)
     {
         $requestParams = [];
         foreach ($finalData as $key => $value) {
@@ -88,11 +62,12 @@ class RecordApiHelper
             'label'          => 'Name',
             'field_type'     => 'textfield']];
         $requestParams['structure'] = $infoData;
+        $response = apply_filters('btcbi_smartSuite_create_table', false, $requestParams, $this->apiKey, $this->apiSecret);
 
-        return $this->createTable($requestParams);
+        return handleFilterResponse($response);
     }
 
-    public function addRecord($finalData)
+    public function createRecord($finalData)
     {
         if (isset($this->integrationDetails->assigned_to) && $this->integrationDetails->assigned_to != '') {
             $finalData['assigned_to'] = $this->integrationDetails->assigned_to;
@@ -111,7 +86,9 @@ class RecordApiHelper
             $requestParams[$key] = $value;
         }
 
-        return $this->createRecord($requestParams, $this->integrationDetails->selectedTable);
+        $response = apply_filters('btcbi_smartSuite_create_record', false, $requestParams, $this->integrationDetails->selectedTable, $this->apiKey, $this->apiSecret);
+
+        return handleFilterResponse($response);
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
@@ -132,13 +109,13 @@ class RecordApiHelper
         $this->typeName = 'create';
         if ($actionName === 'solution') {
             $this->type = 'solution';
-            $apiResponse = $this->addSolutions($finalData);
+            $apiResponse = $this->createSolution($finalData);
         } elseif ($actionName === 'table') {
             $this->type = 'table';
-            $apiResponse = $this->addTable($finalData);
+            $apiResponse = $this->createTable($finalData);
         } else {
             $this->type = 'record';
-            $apiResponse = $this->addRecord($finalData);
+            $apiResponse = $this->createRecord($finalData);
         }
 
         if (isset($apiResponse->id) || isset($apiResponse->title)) {
@@ -156,7 +133,7 @@ function checkIsAValidDate($myDateString)
 }
 function handleFilterResponse($response)
 {
-    if (isset($response->messages[0]->id) || isset($response->error) || is_wp_error($response)) {
+    if ($response) {
         return $response;
     }
 
