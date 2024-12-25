@@ -310,13 +310,16 @@ final class Helper
         return true;
     }
 
-    public static function setTestData($optionKey, $formData, $primaryKey, $primaryKeyId)
+    public static function setTestData($optionKey, $formData, $primaryKey = null, $primaryKeyId = null)
     {
         if (get_option($optionKey) !== false) {
-            update_option($optionKey, [
-                'formData'   => $formData,
-                'primaryKey' => [(object) ['key' => $primaryKey, 'value' => $primaryKeyId]]
-            ]);
+            $value = ['formData' => $formData];
+
+            if (!empty($primaryKey) && !empty($primaryKeyId)) {
+                $value['primaryKey'] = [(object) ['key' => $primaryKey, 'value' => $primaryKeyId]];
+            }
+
+            update_option($optionKey, $value);
         }
     }
 
@@ -355,6 +358,10 @@ final class Helper
 
     public static function flattenNestedData($resultArray, $parentKey, $nestedData)
     {
+        if (\is_object($nestedData)) {
+            $nestedData = !empty($nestedData->getAttributes()) ? $nestedData->getAttributes() : wp_json_encode($nestedData);
+        }
+
         if (!(\is_array($nestedData) || \is_object($nestedData))) {
             return $resultArray;
         }
