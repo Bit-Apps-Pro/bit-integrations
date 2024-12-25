@@ -35,6 +35,7 @@ final class AllTriggersName
             'FF'                => ['name' => 'Fluent Forms',  'isPro' => true, 'is_active' => false],
             'FluentBooking'     => ['name' => 'Fluent Booking',  'isPro' => true, 'is_active' => false],
             'FluentCrm'         => ['name' => 'Fluent CRM',  'isPro' => true, 'is_active' => false],
+            'FluentCommunity'   => ['name' => 'Fluent Community',  'isPro' => true, 'is_active' => false],
             'FluentSupport'     => ['name' => 'Fluent Support',  'isPro' => true, 'is_active' => false],
             'FormCraft'         => ['name' => 'FormCraft3',  'isPro' => true, 'is_active' => false],
             'Formidable'        => ['name' => 'Formidable',  'isPro' => true, 'is_active' => false],
