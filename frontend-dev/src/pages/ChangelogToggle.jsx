@@ -18,8 +18,9 @@ export default function ChangelogToggle() {
 
   const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
   const Early_Bird_URL = `https://bitapps.pro/christmas-wordpress-plugin-deal/#bit-integrations-pricing`
-  const releaseDate = '19th December 2024'
+  const releaseDate = '25th December 2024'
 
+  // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
   const changeLog = [
     {
       label: __('Note', 'bit-integrations'),
@@ -37,19 +38,19 @@ export default function ChangelogToggle() {
       label: __('New Triggers', 'bit-integrations'),
       headClass: 'new-trigger',
       itemClass: 'integration-list',
-      items: []
+      items: [{ 'label': 'Fluent Community', 'desc': 'Full-fledge Social Network, Community & LMS.', 'isPro': true }]
     },
     {
       label: __('New Features', 'bit-integrations'),
       headClass: 'new-feature',
       itemClass: 'feature-list',
-      items: []
+      items: [{ 'label': 'BuddyBoss', 'desc': 'Added support for Profile Custom Fields.', 'isPro': true }]
     },
     {
       label: __('New Improvements', 'bit-integrations'),
       headClass: 'new-improvement',
       itemClass: 'feature-list',
-      items: ['Salesforce: Updated static fields to dynamic fields for enhanced flexibility.', 'BuddyBoss (Trigger): Added trigger support for user ID fields, improving workflow options.(Pro)']
+      items: [{ 'label': 'GravityForms', 'desc': 'Uploaded file path now changed to URL format for better compatibility.', 'isPro': true }]
     }
   ]
 
@@ -146,7 +147,13 @@ export default function ChangelogToggle() {
                         <div className={log.itemClass}>
                           <ul>
                             {log.items.map((item, index) => (
-                              <li key={index}> {item} </li>
+                              <li key={index}>
+                                {item?.label && <b>{item.label}</b>}
+                                {item?.label && item?.desc && <b>:&nbsp;</b>}
+                                {item?.desc && <span>{item.desc}</span>}
+                                &nbsp;
+                                {item?.isPro && <span className='txt-purple'>(Pro)</span>}
+                              </li>
                             ))}
                           </ul>
                         </div>

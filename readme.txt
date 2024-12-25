@@ -4,10 +4,10 @@ Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
 Tested up to: 6.7.1
 Requires PHP: 7.4
-Stable tag: 2.4.0
+Stable tag: 2.4.1
 License: GPLv2 or later
 
-Automation Plugin for WordPress. Integration of 80+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
+Automation Plugin for WordPress. Integration of 90+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
 
 == Description ==
 
@@ -1047,6 +1047,21 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 6. All integration list
 
 == Changelog ==
+
+= 2.4.1  =
+_Release Date -25th December 2024_
+
+- **New Trigger**
+ - FluentCommunity: Integration added to support Full-fledged Social Network, Community, and LMS platforms (Pro).
+
+- **New Feature**
+ - BuddyBoss: Added support for Profile Custom Fields (Pro).
+
+- **New Improvements**
+ - GravityForms: Uploaded file path now changed to URL format for better compatibility (Pro).
+
+- **Bug Fixes**
+ - Webhook & Custom API: Resolved issue with custom raw JSON data submission.
 
 = 2.4.0  =
 _Release Date -19th December 2024_
