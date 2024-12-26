@@ -308,7 +308,7 @@ final class Common
             $smartTagValue = SmartTags::getSmartTagValue($fieldName, true);
             if (isset($fieldValues[$fieldName]) && !self::isEmpty($fieldValues[$fieldName])) {
                 $stringToReplaceField = !\is_array($fieldValues[$fieldName]) ? str_replace($value, $fieldValues[$fieldName], $stringToReplaceField)
-                    : str_replace($value, wp_json_encode($fieldValues[$fieldName]), $stringToReplaceField);
+                    : str_replace(['"' . $value . '"', $value], wp_json_encode($fieldValues[$fieldName], true), $stringToReplaceField);
             } elseif (!empty($smartTagValue)) {
                 $stringToReplaceField = str_replace($value, $smartTagValue, $stringToReplaceField);
             } else {
