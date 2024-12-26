@@ -310,13 +310,16 @@ final class Helper
         return true;
     }
 
-    public static function setTestData($optionKey, $formData, $primaryKey, $primaryKeyId)
+    public static function setTestData($optionKey, $formData, $primaryKey = null, $primaryKeyId = null)
     {
         if (get_option($optionKey) !== false) {
-            update_option($optionKey, [
-                'formData'   => $formData,
-                'primaryKey' => [(object) ['key' => $primaryKey, 'value' => $primaryKeyId]]
-            ]);
+            $value = ['formData' => $formData];
+
+            if (!empty($primaryKey) && !empty($primaryKeyId)) {
+                $value['primaryKey'] = [(object) ['key' => $primaryKey, 'value' => $primaryKeyId]];
+            }
+
+            update_option($optionKey, $value);
         }
     }
 
@@ -355,6 +358,10 @@ final class Helper
 
     public static function flattenNestedData($resultArray, $parentKey, $nestedData)
     {
+        if (\is_object($nestedData)) {
+            $nestedData = !empty($nestedData->getAttributes()) ? $nestedData->getAttributes() : wp_json_encode($nestedData);
+        }
+
         if (!(\is_array($nestedData) || \is_object($nestedData))) {
             return $resultArray;
         }
@@ -385,23 +392,6 @@ final class Helper
         }
 
         return static::decodeSingleEntity($input);
-    }
-
-    public static function processCustomRawJson($payload, $fieldValues)
-    {
-        $payload = sanitize_text_field($payload);
-        $payload = Common::replaceFieldWithValue($payload, $fieldValues);
-        $payload = str_replace(['"[', ']"', "'[", "]'"], ['[', ']', '[', ']'], $payload);
-
-        $decodedPayload = json_decode($payload, true);
-
-        if (\is_array($decodedPayload)) {
-            $decodedPayload = array_map(static function ($item) {
-                return \is_array($item) || \is_object($item) ? wp_json_encode($item) : $item;
-            }, $decodedPayload);
-        }
-
-        return wp_json_encode($decodedPayload, JSON_PRETTY_PRINT);
     }
 
     private static function getVariableType($val)

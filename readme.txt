@@ -4,16 +4,16 @@ Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
 Tested up to: 6.7.1
 Requires PHP: 7.4
-Stable tag: 2.4.0
+Stable tag: 2.4.1
 License: GPLv2 or later
 
-Automation Plugin for WordPress. Integration of 80+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
+Automation Plugin for WordPress. Integration of 90+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
 
 == Description ==
 
 <strong> Best Automation Plugin for WordPress. Automate 240+ Individual Platforms.</strong>
 
-Automate your WordPress workflow with **Bit Integration**: the all-in-one plugin for sending data authomatically to WooCommerce, form builders, CRM, LMS, bookings, spreadsheets, [**webhooks**](https://webhook.is/difference-between-webhook-and-api), social media, email marketing and automation platforms like Zapier and others. No technical knowledge needed. Automate tasks across 240+ platforms effortlessly.
+Automate your WordPress workflow with **Bit Integrations**: the all-in-one plugin for sending data authomatically to WooCommerce, form builders, CRM, LMS, bookings, spreadsheets, [**webhooks**](https://webhook.is/difference-between-webhook-and-api), social media, email marketing and automation platforms like Zapier and others. No technical knowledge needed. Automate tasks across 240+ platforms effortlessly.
 
 You can see below what WPTuts say about Bit Integrations
 
@@ -51,7 +51,9 @@ https://youtu.be/eFuficjF_F4
 * [**WooCommerce**](https://wordpress.org/plugins/woocommerce/) (free)
 * [**WPForms**](https://wordpress.org/plugins/wpforms-lite/) (free)
 * [**Fluent Forms**](https://wordpress.org/plugins/fluentform/) (pro)
+* [**Formidable**](https://wordpress.org/plugins/formidable/) (pro)
 * [**Bit Assist**](https://wordpress.org/plugins/bit-assist/) (pro)
+* [**Thrive Apprentice**](https://thrivethemes.com/apprentice/) (pro)
 * [**Academy LMS**](https://wordpress.org/plugins/academy/) (pro)
 * [**Asgaros Forum**](https://wordpress.org/plugins/asgaros-forum/) (pro)
 * [**Amelia**](https://wordpress.org/plugins/ameliabooking/) (pro)
@@ -59,7 +61,7 @@ https://youtu.be/eFuficjF_F4
 * [**AffiliateWP**](https://wordpress.org/plugins/affiliatewp-affiliate-area-shortcodes/) (pro)
 * [**ARForms**](https://wordpress.org/plugins/arforms-form-builder/) (pro)
 * [**ARMember**](https://wordpress.org/plugins/armember-membership/) (pro)
-* [**Avada Form**](https://avada.com/feature/form-builder/) (pro)
+* [**Avada Forms**](https://avada.com/feature/form-builder/) (pro)
 * [**Beaver Builder**](https://wordpress.org/plugins/beaver-builder-lite-version/) (pro)
 * [**Bricks**](https://wordpress.org/plugins/bricksable/) (pro)
 * [**Bricksforge**](https://bricksforge.io/) (pro)
@@ -70,16 +72,17 @@ https://youtu.be/eFuficjF_F4
 * [**CoBlocks**](https://wordpress.org/plugins/coblocks/) (pro)
 * [**Custom Trigger**](https://bitapps.pro/docs/bit-integrations/trigger/custom-trigger-integrations/) (pro)
 * [**Divi**](https://www.elegantthemes.com/gallery/divi/) (pro)
+* [**Divi Form Builder**](https://bit-integrations.com/wp-docs/trigger/divi-form-builder-by-divi-engine-integrations/) (pro)
 * [**Dokan**](https://wordpress.org/plugins/dokan-lite/) (pro)
 * [**Everest Forms**](https://wordpress.org/plugins/everest-forms/) (pro)
 * [**Eventin**](https://wordpress.org/plugins/wp-event-solution/) (pro)
 * [**Easy Digital Downloads**](https://wordpress.org/plugins/easy-digital-downloads/) (pro)
 * [**eForm**](https://eform.live/) (pro)
 * [**Essential Blocks**](https://wordpress.org/plugins/essential-blocks/) (pro)
-* [**FluentBooking**](https://fluentbooking.com/) (pro)
+* [**FluentCommunity**](https://wordpress.org/plugins/fluent-community/) (pro)
+* [**Fluent Booking**](https://fluentbooking.com/) (pro)
 * [**Fluent CRM**](https://wordpress.org/plugins/fluent-crm/) (pro)
 * [**Fluent Support**](https://wordpress.org/plugins/fluent-support/) (pro)
-* [**Formidable**](https://wordpress.org/plugins/formidable/) (pro)
 * [**Forminator**](https://wordpress.org/plugins/forminator/) (pro)
 * [**FormCraft**](https://wordpress.org/plugins/formcraft-form-builder/) (pro)
 * [**Gravity Forms**](https://www.gravityforms.com/) (pro)
@@ -123,7 +126,6 @@ https://youtu.be/eFuficjF_F4
 * [**The Events Calendar**](https://wordpress.org/plugins/the-events-calendar/) (pro)
 * [**Tripetto**](https://wordpress.org/plugins/tripetto/) (pro)
 * [**Tutor LMS**](https://wordpress.org/plugins/tutor/) (pro)
-* [**Thrive Apprentice**](https://thrivethemes.com/apprentice/) (pro)
 * [**Voxel**](https://getvoxel.io/) (pro)
 * [**weForms**](https://wordpress.org/plugins/search/WeForms/) (pro)
 * [**WP Post**]() (pro)
@@ -139,6 +141,7 @@ https://youtu.be/eFuficjF_F4
 ### ✔List of Available Actions:
 
 * [**Zapier**](https://zapier.com/) (free)
+* [**Uncanny Automator**](https://wordpress.org/plugins/uncanny-automator/) (free)
 * [**SureTriggers**](https://wordpress.org/plugins/suretriggers/) (free)
 * [**AutomatorWP**](https://wordpress.org/plugins/automatorwp/) (free)
 * [**FlowMattic**](https://flowmattic.com/) (free)
@@ -270,7 +273,6 @@ https://youtu.be/eFuficjF_F4
 * [**Tutor LMS**](https://wordpress.org/plugins/tutor/) (free)
 * [**Trello**](https://trello.com/) (free)
 * [**Twilio**](https://www.twilio.com/en-us) (free)
-* [**Uncanny Automator**](https://wordpress.org/plugins/uncanny-automator/) (free)
 * [**VBOUT**](https://www.vbout.com/) (free)
 * [**Voxel**](https://getvoxel.io/) (free)
 * [**Webhooks**]() (free)
@@ -404,7 +406,7 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Bit Assist Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJeqs93IpMJ99064Sb_ebCO)
 
-* [**Bit**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALMEsKLYKebKb5XLGPWMNue)
+* [**Bit Integrations**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALMEsKLYKebKb5XLGPWMNue)
 
 * [**Bit SMTP - 100% free SMTP plugin for WordPress**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKDsASsBpjZseqCkHAf97HI)
 
@@ -646,6 +648,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Asgaros Forum**](https://bit-integrations.com/wp-docs/trigger/asgaros-forum-integrations/)
 
+* [**Avada Forms**](https://bit-integrations.com/wp-docs/trigger/avada-forms-integrations/)
+
 * [**Beaver Builder**](https://bitapps.pro/docs/bit-integrations/trigger/beaver-builder/)
 
 * [**Bit Assist**](https://bitapps.pro/docs/bit-integrations/trigger/bit-assist/)
@@ -666,17 +670,21 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Divi**](https://bitapps.pro/docs/bit-integrations/trigger/divi/)
 
+* [**Divi Form Builder**](https://bit-integrations.com/wp-docs/trigger/divi-form-builder-by-divi-engine-integrations/)
+
 * [**Dokan**](https://bitapps.pro/docs/bit-integrations/trigger/dokan-integration/)
 
 * [**Easy Digital Downloads**](https://bitapps.pro/docs/bit-integrations/trigger/easy-digital-downloads/)
 
-* [**Eventin **](https://bit-integrations.com/wp-docs/trigger/eventin-integrations/)
+* [**Eventin**](https://bit-integrations.com/wp-docs/trigger/eventin-integrations/)
 
 * [**eForm**](https://bitapps.pro/docs/bit-integrations/trigger/eform/)
 
 * [**Elementor Form**](https://bitapps.pro/docs/bit-integrations/trigger/elementor-form/)
 
-* [**FluentBooking**](https://bitapps.pro/docs/bit-integrations/trigger/fluentbooking-integrations/)
+* [**FluentCommunity**](https://bit-integrations.com/wp-docs/trigger/fluentcommunity-integrations/)
+
+* [**Fluent Booking**](https://bitapps.pro/docs/bit-integrations/trigger/fluentbooking-integrations/)
 
 * [**Fluent CRM**](https://bitapps.pro/docs/bit-integrations/trigger/fluent-crm/)
 
@@ -721,6 +729,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 * [**Ninja Form**](https://bitapps.pro/docs/bit-integrations/trigger/ninja-forms/)
 
 * [**Paid Membership Pro**](https://bitapps.pro/docs/bit-integrations/trigger/paid-membership-pro/)
+
+* [**Pie Forms**](https://bit-integrations.com/wp-docs/trigger/pie-forms-integrations/)
 
 * [**Piotnet Addon For Elementor**](https://bitapps.pro/docs/bit-integrations/trigger/piotnet-addon-for-elementor/)
 
@@ -770,6 +780,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 
 ### 💥 Don't worry, we give you some [**Action's**](https://bitapps.pro/docs/bit-integrations/actions/) documentation with use cases to help you get started with the plugin.
+
+* [**AutomatorWP**](https://bit-integrations.com/wp-docs/actions/automatorwp-integrations/)
 
 * [**ActiveCampaign**](https://bitapps.pro/docs/bit-integrations/trigger/active-campaign/)
 
@@ -907,6 +919,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Restrict Content**](https://bitapps.pro/docs/bit-integrations/trigger/restrict-content/)
 
+* [**Suretriggers**](https://bit-integrations.com/wp-docs/actions/suretriggers-integrations/)
+
 * [**Salesforce**](https://bitapps.pro/docs/bit-integrations/trigger/salesforce/)
 
 * [**Selzy**](https://bitapps.pro/docs/bit-integrations/trigger/selzy/)
@@ -932,6 +946,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 * [**Tutor LMS**](https://bitapps.pro/docs/bit-integrations/trigger/tutor-lms/)
 
 * [**Twilio**](https://bitapps.pro/docs/bit-integrations/trigger/twilio/)
+
+* [**Uncanny Automator**](https://bit-integrations.com/wp-docs/actions/uncanny-automator-integrations/)
 
 * [**Vbout**](https://bitapps.pro/docs/bit-integrations/trigger/vbout/)
 
@@ -1032,6 +1048,21 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 
 == Changelog ==
 
+= 2.4.1  =
+_Release Date -25th December 2024_
+
+- **New Trigger**
+ - FluentCommunity: Integration added to support Full-fledged Social Network, Community, and LMS platforms (Pro).
+
+- **New Feature**
+ - BuddyBoss: Added support for Profile Custom Fields (Pro).
+
+- **New Improvements**
+ - GravityForms: Uploaded file path now changed to URL format for better compatibility (Pro).
+
+- **Bug Fixes**
+ - Webhook & Custom API: Resolved issue with custom raw JSON data submission.
+
 = 2.4.0  =
 _Release Date -19th December 2024_
 
@@ -1050,7 +1081,7 @@ _Release Date -19th December 2024_
 _Release Date -10th December 2024_
 
 - **New Trigger**
- - Avada Form – Allowing users to integrate and automate workflows effectively with the Avada Website Builder. (pro)
+ - Avada Forms – Allowing users to integrate and automate workflows effectively with the Avada Website Builder. (pro)
 
 - **Bug Fixes**
  - Groundhogg: Resolved the issue with fetching tags. (pro)
