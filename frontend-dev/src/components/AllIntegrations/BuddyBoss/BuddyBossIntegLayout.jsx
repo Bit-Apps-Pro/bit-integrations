@@ -65,31 +65,42 @@ export default function BuddyBossIntegLayout({
   }
 
   const getFields = (e) => {
-    let buddyBossFields = []
+    let buddyBossFields
 
-    if (Number(buddyBossConf?.mainAction) === CREATE_GROUP_PRO) {
-      buddyBossFields = buddyBossConf?.createGroupFields || []
-    } else if (Number(buddyBossConf?.mainAction) === POST_TOPIC_FORUM_PRO) {
-      buddyBossFields = buddyBossConf?.topicInForumFields || []
-    } else if (
-      Number(buddyBossConf?.mainAction) === SEND_NOTIFICATION_MEMBER_GRP_PRO ||
-      Number(buddyBossConf?.mainAction) === SEND_NOTIFICATION_USER_PRO
-    ) {
-      buddyBossFields = buddyBossConf?.sendAllUserNotificationFields || []
-    } else if (
-      Number(buddyBossConf?.mainAction) === SEND_PRIVATE_MSG_MEMBER_GRP_PRO ||
-      Number(buddyBossConf?.mainAction) === SEND_PRIVATE_MSG_USER_PRO
-    ) {
-      buddyBossFields = buddyBossConf?.sendAllGroupPrivateMessageFields || []
-    } else if (Number(buddyBossConf?.mainAction) === ADD_POST_GRP_ACTIVITY_STREAM_PRO) {
-      buddyBossFields = buddyBossConf?.addPostToGroupFields || []
-    } else if (
-      Number(buddyBossConf?.mainAction) === ADD_POST_SITE_WIDE_ACTIVITY_STREAM_PRO ||
-      Number(buddyBossConf?.mainAction) === ADD_POST_USER_ACTIVITY_STREAM_PRO
-    ) {
-      buddyBossFields = buddyBossConf?.addPostSiteWideActivityStreamFields || []
-    } else if (Number(buddyBossConf?.mainAction) === POST_REPLY_TOPIC_FORUM_PRO) {
-      buddyBossFields = buddyBossConf?.postReplyTopicForumFields || []
+    switch (Number(buddyBossConf?.mainAction)) {
+      case CREATE_GROUP_PRO:
+        buddyBossFields = buddyBossConf?.createGroupFields || []
+        break
+
+      case POST_TOPIC_FORUM_PRO:
+        buddyBossFields = buddyBossConf?.topicInForumFields || []
+        break
+
+      case SEND_NOTIFICATION_MEMBER_GRP_PRO:
+      case SEND_NOTIFICATION_USER_PRO:
+        buddyBossFields = buddyBossConf?.sendAllUserNotificationFields || []
+        break
+
+      case SEND_PRIVATE_MSG_MEMBER_GRP_PRO:
+      case SEND_PRIVATE_MSG_USER_PRO:
+        buddyBossFields = buddyBossConf?.sendAllGroupPrivateMessageFields || []
+        break
+
+      case ADD_POST_GRP_ACTIVITY_STREAM_PRO:
+        buddyBossFields = buddyBossConf?.addPostToGroupFields || []
+        break
+
+      case ADD_POST_SITE_WIDE_ACTIVITY_STREAM_PRO:
+      case ADD_POST_USER_ACTIVITY_STREAM_PRO:
+        buddyBossFields = buddyBossConf?.addPostSiteWideActivityStreamFields || []
+        break
+
+      case POST_REPLY_TOPIC_FORUM_PRO:
+        buddyBossFields = buddyBossConf?.postReplyTopicForumFields || []
+        break
+
+      default:
+        buddyBossFields = []
     }
 
     return buddyBossFields
