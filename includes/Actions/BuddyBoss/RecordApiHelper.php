@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\BuddyBoss;
 
-use BP_Suspend_Member;
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Log\LogHandler;
+use BP_Suspend_Member;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -426,9 +426,9 @@ class RecordApiHelper
         }
     }
 
-    public static function SendPrivateMessageUser($friendId, $finalData)
+    public static function SendPrivateMessageUser($friendId, $finalData, $fieldValues, $recipientUserId = null)
     {
-        $user_id = get_current_user_id();
+        $user_id = (empty($recipientUserId) || $recipientUserId === 'loggedInUser') ? get_current_user_id() : Common::replaceFieldWithValue($recipientUserId, $fieldValues);
         $data = [
             'sender_id'       => $friendId,
             'message_content' => do_shortcode($finalData['message_content']),
@@ -442,6 +442,7 @@ class RecordApiHelper
             'content'    => $data['message_content'],
             'error_type' => 'wp_error',
         ];
+
         if (\function_exists('messages_new_message')) {
             $send = messages_new_message($msg);
             if (is_wp_error($send)) {
@@ -962,8 +963,11 @@ class RecordApiHelper
         }
         if ($mainAction == static::SEND_PRIVATE_MSG_USER_PRO) {
             $friendId = $integrationDetails->friendId;
+            $recipientUserId = $integrationDetails->recipientUserId ?? null;
+
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
-            $apiResponse = self::SendPrivateMessageUser($friendId, $finalData);
+            $apiResponse = self::SendPrivateMessageUser($friendId, $finalData, $fieldValues, $recipientUserId);
+
             if ($apiResponse) {
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'message', 'type_name' => 'send-private-message']), 'success', wp_json_encode(__('Send private message to user successfully .', 'bit-integrations')));
             } else {

@@ -54,46 +54,19 @@ export default function BuddyBossIntegLayout({
 
   const changeHandler = (val, name) => {
     const newConf = { ...buddyBossConf }
-    if (name === 'groupId') {
-      if (val !== '') {
-        newConf[name] = val
-      } else {
-        delete newConf[name]
-      }
+
+    if (val !== '') {
+      newConf[name] = val
+    } else {
+      delete newConf[name]
     }
-    if (name === 'friendId') {
-      if (val !== '') {
-        newConf[name] = val
-      } else {
-        delete newConf[name]
-      }
-    }
-    if (name === 'forumId') {
-      if (val !== '') {
-        newConf[name] = val
-      } else {
-        delete newConf[name]
-      }
-    }
-    if (name === 'topicId') {
-      if (val !== '') {
-        newConf[name] = val
-      } else {
-        delete newConf[name]
-      }
-    }
-    if (name === 'userStatusId') {
-      if (val !== '') {
-        newConf[name] = val
-      } else {
-        delete newConf[name]
-      }
-    }
+
     setBuddyBossConf({ ...newConf })
   }
 
   const getFields = (e) => {
     let buddyBossFields = []
+
     if (Number(buddyBossConf?.mainAction) === CREATE_GROUP_PRO) {
       buddyBossFields = buddyBossConf?.createGroupFields || []
     } else if (Number(buddyBossConf?.mainAction) === POST_TOPIC_FORUM_PRO) {
@@ -118,6 +91,7 @@ export default function BuddyBossIntegLayout({
     } else if (Number(buddyBossConf?.mainAction) === POST_REPLY_TOPIC_FORUM_PRO) {
       buddyBossFields = buddyBossConf?.postReplyTopicForumFields || []
     }
+
     return buddyBossFields
   }
 
@@ -174,10 +148,12 @@ export default function BuddyBossIntegLayout({
           <br />
           <div className="flx mt-4">
             <b className="wdt-200 d-in-b">
-              {__(
-                `${Number(buddyBossConf.mainAction) === SEND_NOTIFICATION_MEMBER_GRP_PRO ? __('Sender User', 'bit-integrations') : __('Select User', 'bit-integrations')}`,
-                'bit-integrations'
-              )}
+              {`${
+                Number(buddyBossConf.mainAction) === SEND_NOTIFICATION_MEMBER_GRP_PRO ||
+                Number(buddyBossConf.mainAction) === SEND_PRIVATE_MSG_USER_PRO
+                  ? __('Sender User', 'bit-integrations')
+                  : __('Select User', 'bit-integrations')
+              }`}
             </b>
             <MultiSelect
               className="w-5"
@@ -192,6 +168,47 @@ export default function BuddyBossIntegLayout({
               onChange={(val) => changeHandler(val, 'friendId')}
               singleSelect={Number(buddyBossConf?.mainAction) !== STOP_FOLLOWING_USER_PRO}
             />
+            <button
+              onClick={() => getAllUser(buddyBossConf, setBuddyBossConf, setIsLoading, setSnackbar)}
+              className="icn-btn sh-sm ml-2 mr-2 tooltip"
+              style={{ '--tooltip-txt': `'${__('Fetch All User', 'bit-integrations')}'` }}
+              type="button"
+              disabled={isLoading}>
+              &#x21BB;
+            </button>
+          </div>
+        </>
+      )}
+
+      {Number(buddyBossConf?.mainAction) === SEND_PRIVATE_MSG_USER_PRO && (
+        <>
+          <div className="flx mt-4">
+            <b className="wdt-200 d-in-b">{__('Recipient User', 'bit-integrations')}</b>
+            <select
+              className="btcd-paper-inp w-5"
+              name="formField"
+              value={buddyBossConf?.recipientUserId || ''}
+              onChange={(e) => changeHandler(e.target.value, 'recipientUserId')}>
+              <option value="">{__('Select User', 'bit-integrations')}</option>
+              <optgroup label={__('Logged In User', 'bit-integrations')}>
+                <option value="loggedInUser">{__('Logged In User', 'bit-integrations')}</option>
+              </optgroup>
+              <optgroup label={__('All User', 'bit-integrations')}>
+                {buddyBossConf?.default?.allUser &&
+                  buddyBossConf.default.allUser.map((item) => (
+                    <option key={`ff-rm-${item.ID}`} value={item.ID}>
+                      {item.display_name}
+                    </option>
+                  ))}
+              </optgroup>
+              <optgroup label={__('Select user id from Form Fields', 'bit-integrations')}>
+                {formFields?.map((f) => (
+                  <option key={`ff-rm-${f.name}`} value={'${' + f.name + '}'}>
+                    {f.label}
+                  </option>
+                ))}
+              </optgroup>
+            </select>
             <button
               onClick={() => getAllUser(buddyBossConf, setBuddyBossConf, setIsLoading, setSnackbar)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
