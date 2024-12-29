@@ -1,5 +1,6 @@
 import { __, sprintf } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
+import { handleAuthData } from '../GlobalIntegrationHelper'
 
 export const handleInput = (
   e,
@@ -108,7 +109,7 @@ export const layoutChange = (recordTab, formID, crmConf, setCrmConf, setIsLoadin
 
     newConf.upload_field_map =
       newConf?.default?.layouts?.[module]?.[layout]?.requiredFileUploadFields &&
-      Object.keys(newConf.default.layouts[module][layout].requiredFileUploadFields).length > 0
+        Object.keys(newConf.default.layouts[module][layout].requiredFileUploadFields).length > 0
         ? generateMappedField(recordTab, newConf, true)
         : [{ formField: '', zohoFormField: '' }]
   } else {
@@ -121,7 +122,7 @@ export const layoutChange = (recordTab, formID, crmConf, setCrmConf, setIsLoadin
 
     newConf.relatedlists[recordTab - 1].upload_field_map =
       newConf?.default?.layouts?.[module]?.[layout]?.requiredFileUploadFields &&
-      Object.keys(newConf.default.layouts[module][layout].requiredFileUploadFields).length > 0
+        Object.keys(newConf.default.layouts[module][layout].requiredFileUploadFields).length > 0
         ? generateMappedField(recordTab, newConf, true)
         : [{ formField: '', zohoFormField: '' }]
   }
@@ -134,12 +135,14 @@ export const layoutChange = (recordTab, formID, crmConf, setCrmConf, setIsLoadin
 
 export const refreshModules = (formID, crmConf, setCrmConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
+
+  const isCustomAuth = !crmConf.tokenDetails?.selectedAuthType || crmConf.tokenDetails.selectedAuthType === 'Custom Authorization'
   const refreshModulesRequestParams = {
     formID,
     id: crmConf.id,
-    dataCenter: crmConf.dataCenter,
-    clientId: crmConf.clientId,
-    clientSecret: crmConf.clientSecret,
+    dataCenter: isCustomAuth ? crmConf.tokenDetails.dataCenter : 'com',
+    clientId: isCustomAuth ? crmConf.clientId : crmConf.oneClickAuthCredentials.clientId,
+    clientSecret: isCustomAuth ? crmConf.clientSecret : crmConf.oneClickAuthCredentials.clientSecret,
     tokenDetails: crmConf.tokenDetails
   }
   bitsFetch(refreshModulesRequestParams, 'zcrm_refresh_modules')
@@ -190,13 +193,15 @@ export const refreshLayouts = (
   if (!module) {
     return
   }
+
+  const isCustomAuth = !crmConf.tokenDetails?.selectedAuthType || crmConf.tokenDetails.selectedAuthType === 'Custom Authorization'
   setIsLoading(true)
   const refreshLayoutsRequestParams = {
     formID,
     module,
-    dataCenter: newConf.dataCenter,
-    clientId: newConf.clientId,
-    clientSecret: newConf.clientSecret,
+    dataCenter: isCustomAuth ? crmConf.tokenDetails.dataCenter : 'com',
+    clientId: isCustomAuth ? crmConf.clientId : crmConf.oneClickAuthCredentials.clientId,
+    clientSecret: isCustomAuth ? crmConf.clientSecret : crmConf.oneClickAuthCredentials.clientSecret,
     tokenDetails: newConf.tokenDetails
   }
   bitsFetch(refreshLayoutsRequestParams, 'zcrm_refresh_layouts')
@@ -261,13 +266,15 @@ export const refreshRelatedList = (formID, crmConf, setCrmConf, setIsLoading, se
   if (!crmConf.module) {
     return
   }
+
+  const isCustomAuth = !crmConf.tokenDetails?.selectedAuthType || crmConf.tokenDetails.selectedAuthType === 'Custom Authorization'
   setIsLoading(true)
   const relatedListRequestParams = {
     formID,
     module: crmConf.module,
-    dataCenter: crmConf.dataCenter,
-    clientId: crmConf.clientId,
-    clientSecret: crmConf.clientSecret,
+    dataCenter: isCustomAuth ? crmConf.tokenDetails.dataCenter : 'com',
+    clientId: isCustomAuth ? crmConf.clientId : crmConf.oneClickAuthCredentials.clientId,
+    clientSecret: isCustomAuth ? crmConf.clientSecret : crmConf.oneClickAuthCredentials.clientSecret,
     tokenDetails: crmConf.tokenDetails
   }
   bitsFetch(relatedListRequestParams, 'zcrm_get_related_lists')
@@ -304,13 +311,15 @@ export const refreshRelatedList = (formID, crmConf, setCrmConf, setIsLoading, se
 export const refreshTags = (recordTab, formID, crmConf, setCrmConf, setIsLoading, setSnackbar) => {
   const module = recordTab === 0 ? crmConf.module : crmConf.relatedlists[recordTab - 1].module
   if (!module) return
+
+  const isCustomAuth = !crmConf.tokenDetails?.selectedAuthType || crmConf.tokenDetails.selectedAuthType === 'Custom Authorization'
   setIsLoading(true)
   const refreshTagsParams = {
     formID,
     module,
-    dataCenter: crmConf.dataCenter,
-    clientId: crmConf.clientId,
-    clientSecret: crmConf.clientSecret,
+    dataCenter: isCustomAuth ? crmConf.tokenDetails.dataCenter : 'com',
+    clientId: isCustomAuth ? crmConf.clientId : crmConf.oneClickAuthCredentials.clientId,
+    clientSecret: isCustomAuth ? crmConf.clientSecret : crmConf.oneClickAuthCredentials.clientSecret,
     tokenDetails: crmConf.tokenDetails
   }
   bitsFetch(refreshTagsParams, 'zcrm_get_tags')
@@ -346,11 +355,13 @@ export const refreshTags = (recordTab, formID, crmConf, setCrmConf, setIsLoading
 
 export const refreshOwners = (formID, crmConf, setCrmConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
+
+  const isCustomAuth = !crmConf.tokenDetails?.selectedAuthType || crmConf.tokenDetails.selectedAuthType === 'Custom Authorization'
   const getOwnersParams = {
     formID,
-    dataCenter: crmConf.dataCenter,
-    clientId: crmConf.clientId,
-    clientSecret: crmConf.clientSecret,
+    dataCenter: isCustomAuth ? crmConf.tokenDetails.dataCenter : 'com',
+    clientId: isCustomAuth ? crmConf.clientId : crmConf.oneClickAuthCredentials.clientId,
+    clientSecret: isCustomAuth ? crmConf.clientSecret : crmConf.oneClickAuthCredentials.clientSecret,
     tokenDetails: crmConf.tokenDetails
   }
   bitsFetch(getOwnersParams, 'zcrm_get_users')
@@ -383,12 +394,14 @@ export const refreshAssigmentRules = (
 ) => {
   const module = recordTab === 0 ? crmConf.module : crmConf.relatedlists[recordTab - 1].module
   if (!module) return
+
+  const isCustomAuth = !crmConf.tokenDetails?.selectedAuthType || crmConf.tokenDetails.selectedAuthType === 'Custom Authorization'
   setIsLoading(true)
   const getAssigmentRulesParams = {
     module,
-    dataCenter: crmConf.dataCenter,
-    clientId: crmConf.clientId,
-    clientSecret: crmConf.clientSecret,
+    dataCenter: isCustomAuth ? crmConf.tokenDetails.dataCenter : 'com',
+    clientId: isCustomAuth ? crmConf.clientId : crmConf.oneClickAuthCredentials.clientId,
+    clientSecret: isCustomAuth ? crmConf.clientSecret : crmConf.oneClickAuthCredentials.clientSecret,
     tokenDetails: crmConf.tokenDetails
   }
   bitsFetch(getAssigmentRulesParams, 'zcrm_get_assignment_rules')
@@ -422,39 +435,39 @@ export const generateMappedField = (recordTab, crmConf, uploadFields) => {
   if (uploadFields) {
     return crmConf.default.layouts[module][layout].requiredFileUploadFields.length > 0
       ? crmConf.default.layouts[module][layout].requiredFileUploadFields.map((field) => ({
-          formField: '',
-          zohoFormField: field
-        }))
+        formField: '',
+        zohoFormField: field
+      }))
       : [{ formField: '', zohoFormField: '' }]
   }
   return crmConf.default.layouts[module][layout].required.length > 0
     ? crmConf.default.layouts[module][layout].required.map((field) => ({
-        formField: '',
-        zohoFormField: field
-      }))
+      formField: '',
+      zohoFormField: field
+    }))
     : [{ formField: '', zohoFormField: '' }]
 }
 
 export const checkMappedFields = (crmConf) => {
   const mappedFields = crmConf?.field_map
     ? crmConf.field_map.filter(
-        (mappedField) =>
-          !mappedField.formField &&
-          mappedField.zohoFormField &&
-          crmConf?.default?.layouts?.[crmConf.module]?.[crmConf.layout]?.required.indexOf(
-            mappedField.zohoFormField
-          ) !== -1
-      )
+      (mappedField) =>
+        !mappedField.formField &&
+        mappedField.zohoFormField &&
+        crmConf?.default?.layouts?.[crmConf.module]?.[crmConf.layout]?.required.indexOf(
+          mappedField.zohoFormField
+        ) !== -1
+    )
     : []
   const mappedUploadFields = crmConf?.upload_field_map
     ? crmConf.upload_field_map.filter(
-        (mappedField) =>
-          !mappedField.formField &&
-          mappedField.zohoFormField &&
-          crmConf.default.layouts[crmConf.module][crmConf.layout].requiredFileUploadFields.indexOf(
-            mappedField.zohoFormField
-          ) !== -1
-      )
+      (mappedField) =>
+        !mappedField.formField &&
+        mappedField.zohoFormField &&
+        crmConf.default.layouts[crmConf.module][crmConf.layout].requiredFileUploadFields.indexOf(
+          mappedField.zohoFormField
+        ) !== -1
+    )
     : []
   const mappedRelatedFields = crmConf.relatedlists.map((relatedlist) =>
     relatedlist.field_map.filter(
@@ -477,4 +490,146 @@ export const checkMappedFields = (crmConf) => {
   }
 
   return true
+}
+
+export const handleAuthorize = (
+  integ,
+  ajaxInteg,
+  selectedAuthType,
+  scopes,
+  confTmp,
+  setConf,
+  setError,
+  setisAuthorized,
+  setIsLoading,
+  setSnackbar,
+  btcbi
+) => {
+
+  let clientId = '';
+  let dataCenter = '';
+  if (selectedAuthType === 'One Click Authorization') {
+    clientId = confTmp.oneClickAuthCredentials.clientId
+    dataCenter = 'com'
+  } else if (selectedAuthType === 'Custom Authorization') {
+    if (!confTmp.clientId || !confTmp.clientSecret || !confTmp.dataCenter) {
+      setError({
+        dataCenter: !confTmp.dataCenter ? __("Data center can't be empty", 'bit-integrations') : '',
+        clientId: !confTmp.clientId ? __("Client Id can't be empty", 'bit-integrations') : '',
+        clientSecret: !confTmp.clientSecret ? __("Secret key can't be empty", 'bit-integrations') : ''
+      })
+      return
+    }
+    clientId = confTmp.clientId
+    dataCenter = confTmp.dataCenter
+  }
+
+  const redirectURI = 'https://auth-apps.bitapps.pro/redirect/v2';
+  const finalRedirectUri = selectedAuthType === 'One Click Authorization' ? redirectURI : `${btcbi.api.base}/redirect`
+
+  setIsLoading(true)
+
+
+  const { href, hash } = window.location
+  const stateUrl = hash ? href.replace(hash, '#/auth-response/') : `${href}#/auth-response/`
+  const apiEndpoint = `https://accounts.zoho.${dataCenter
+    }/oauth/v2/auth?scope=${scopes}&response_type=code&client_id=${clientId
+    }&prompt=Consent&access_type=offline&state=${encodeURIComponent(stateUrl)}/redirect&redirect_uri=${encodeURIComponent(finalRedirectUri)}`
+
+  const authWindow = window.open(apiEndpoint, integ, 'width=400,height=609,toolbar=off')
+  if (selectedAuthType === 'Custom Authorization') {
+    const popupURLCheckTimer = setInterval(() => {
+      if (authWindow.closed) {
+        clearInterval(popupURLCheckTimer)
+        setIsLoading(false)
+      }
+    }, 500)
+  }
+}
+
+
+export const tokenHelper = async (authInfo, confTmp, setConf, selectedAuthType, setAuthData, setIsLoading, setSnackbar) => {
+  if (!selectedAuthType) {
+    return;
+  }
+
+  const tokenRequestParams = {};
+  tokenRequestParams.code = authInfo.code || '';
+  const redirectURI = 'https://auth-apps.bitapps.pro/redirect/v2';
+
+  if (selectedAuthType === 'One Click Authorization') {
+    tokenRequestParams.clientId = confTmp.oneClickAuthCredentials.clientId;
+    tokenRequestParams.clientSecret = confTmp.oneClickAuthCredentials.clientSecret;
+    tokenRequestParams.dataCenter = 'com';
+    tokenRequestParams.redirectURI = redirectURI;
+    tokenRequestParams['accounts-server'] = 'https://accounts.zoho.com';
+  } else {
+    tokenRequestParams.clientId = confTmp.clientId;
+    tokenRequestParams.clientSecret = confTmp.clientSecret;
+    tokenRequestParams.dataCenter = confTmp.dataCenter;
+    tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`;
+    tokenRequestParams['accounts-server'] = authInfo['accounts-server'];
+  }
+
+  setIsLoading(true);
+  try {
+    const result = await bitsFetch(tokenRequestParams, 'zcrm_generate_token');
+
+    if (result && result.success) {
+      const userInfo = await fetchUserInfo(result.data);
+
+      if (userInfo) {
+        const newConf = { ...confTmp };
+        result.data.selectedAuthType = selectedAuthType;
+        result.data.dataCenter = selectedAuthType === 'One Click Authorization' ? 'com' : confTmp.dataCenter;
+        try {
+          await handleAuthData(newConf.type, result.data, userInfo, setAuthData);
+          newConf.setisAuthorized = true;
+          setConf(newConf);
+          setSnackbar({ show: true, msg: __('Authorized Successfully', 'bit-integrations') });
+        } catch (error) {
+          console.error('Authorization failed:', error.message);
+          setSnackbar({ show: true, msg: error.message }); // Display backend error
+        }
+      }
+    } else {
+      const errorMessage = result?.data?.error || __('Authorization failed. Please try again.', 'bit-integrations');
+      setSnackbar({ show: true, msg: `${__('Authorization failed Cause:', 'bit-integrations')} ${errorMessage}` });
+    }
+  } catch (error) {
+    console.error('Error during token generation:', error.message);
+    setSnackbar({ show: true, msg: __('An unexpected error occurred. Please try again.', 'bit-integrations') });
+  } finally {
+    setIsLoading(false);
+  }
+}
+
+
+
+async function fetchUserInfo(tokenResponse) {
+  const requestParams = {
+    code: tokenResponse.access_token
+  }
+  try {
+    const result = await bitsFetch(requestParams, 'zcrm_get_user_details');
+    if (result.data && result.success) {
+      return result.data;
+    } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
+      setSnackbar({
+        show: true,
+        msg: `${__('Authorization failed Cause:', 'bit-integrations')} ${result.data.data || result.data}. ${__('Please try again', 'bit-integrations')}`
+      });
+    } else {
+      setSnackbar({
+        show: true,
+        msg: __('User Fetch Failed. Please try again', 'bit-integrations')
+      });
+    }
+  } catch (error) {
+    console.error('Error fetching user info:', error.message);
+    setSnackbar({
+      show: true,
+      msg: __('An unexpected error occurred. Please try again.', 'bit-integrations')
+    });
+  }
 }

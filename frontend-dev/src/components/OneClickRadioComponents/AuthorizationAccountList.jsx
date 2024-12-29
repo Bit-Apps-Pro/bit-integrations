@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import bitsFetch from '../../Utils/bitsFetch';
 import TrashIcn from '../../Icons/TrashIcn';
+import Avatar from '../../resource/img/avatar.webp'
 
 const AuthorizationAccountList = ({ authData, setAuthData, selectedUserId, setSelectedUserId, setIsLoading, isEdit, isInfo }) => {
   const [showConfirm, setShowConfirm] = useState(null);
@@ -71,7 +72,7 @@ const AuthorizationAccountList = ({ authData, setAuthData, selectedUserId, setSe
                 className="radio-input"
               />
               <div className="auth-info">
-                <img src={user?.userInfo?.user?.photoLink} alt="User Avatar" className="user-avatar" />
+                <img src={user?.userInfo?.user?.photoLink ?? Avatar} alt="User Avatar" className="user-avatar" />
                 <div>
                   <div className="user-name">{user?.userInfo?.user?.displayName}</div>
                   <div className="user-email">{user?.userInfo?.user?.emailAddress}</div>

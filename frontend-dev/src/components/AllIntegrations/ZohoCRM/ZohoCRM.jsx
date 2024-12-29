@@ -10,6 +10,7 @@ import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import ZohoCRMAuthorization from './ZohoCRMAuthorization'
 import { checkMappedFields, handleInput } from './ZohoCRMCommonFunc'
 import ZohoCRMIntegLayout from './ZohoCRMIntegLayout'
+import bitsFetch from '../../../Utils/bitsFetch'
 
 function ZohoCRM({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
@@ -32,9 +33,28 @@ function ZohoCRM({ formFields, setFlow, flow, allIntegURL }) {
     actions: {}
   })
 
+
   useEffect(() => {
-    window.opener && setGrantTokenResponse('zohoCRM')
-  }, [])
+    const fetchCredentials = async () => {
+      if (crmConf.oneClickAuthCredentials === undefined) {
+        const actionName = "zohoCrm";
+
+        try {
+          const userInfoResponse = await fetch('https://auth-apps.bitapps.pro/apps/' + actionName);
+          const userInfo = await userInfoResponse.json();
+          setCrmConf((prevConf) => {
+            return { ...prevConf, oneClickAuthCredentials: userInfo };
+          });
+        } catch (error) {
+          console.error('Error fetching Credentials:', error);
+        }
+      }
+    };
+
+    fetchCredentials();
+  }, []);
+
+
 
   const saveConfig = () => {
     saveActionConf({
