@@ -25,17 +25,14 @@ function SmartSuite({ formFields, setFlow, flow, allIntegURL }) {
   const [smartSuiteConf, setSmartSuiteConf] = useState({
     name: 'SmartSuite',
     type: 'SmartSuite',
-    api_key: process.env.NODE_ENV === 'development' ? 'sn5usd27' : '',
-    api_secret: process.env.NODE_ENV === 'development' ? '78c6dfdf3ea3d0d28bd1a23144ef16f1ac303237' : '',
+    workspaceId: process.env.NODE_ENV === 'development' ? 'sn5usd27' : '',
+    apiToken: process.env.NODE_ENV === 'development' ? '78c6dfdf3ea3d0d28bd1a23144ef16f1ac303237' : '',
     field_map: generateMappedField(smartSuiteFields),
     actionName: '',
-    isActionTable: 'no action',
     smartSuiteFields,
     solutionFields,
     tableFields,
-    customFields: null,
-    actionTypes,
-    actions: {}
+    actionLists
   })
 
   const saveConfig = () => {
@@ -146,7 +143,7 @@ const solutionFields = [
   { label: 'Logo Icon', key: 'logo_icon', required: false }
 ]
 const tableFields = [{ label: 'Name', key: 'name', required: true }]
-const actionTypes = [
+const actionLists = [
   { name: 'solution', label: __('Create Solution', 'bit-integrations'), is_pro: false },
   { name: 'table', label: __('Create Table', 'bit-integrations'), is_pro: true },
   { name: 'record', label: __('Create Record', 'bit-integrations'), is_pro: true }

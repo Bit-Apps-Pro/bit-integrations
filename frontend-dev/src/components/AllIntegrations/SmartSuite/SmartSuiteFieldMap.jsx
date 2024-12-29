@@ -3,16 +3,17 @@ import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import { __ } from '../../../Utils/i18nwrap'
-import CustomField from './CustomField'
+import TagifyInput from '../../Utilities/TagifyInput'
 import { addFieldMap, delFieldMap, handleFieldMapping } from './IntegrationHelpers'
+import { handleCustomValue } from '../IntegrationHelpers/IntegrationHelpers'
 
 export default function SmartSuiteFieldMap({ i, formFields, field, smartSuiteConf, setSmartSuiteConf }) {
+  const btcbi = useRecoilValue($btcbi)
+  const { isPro } = btcbi
+
   const requiredFields = smartSuiteConf?.smartSuiteFields.filter((fld) => fld.required === true) || []
   const nonRequiredFields =
     smartSuiteConf?.smartSuiteFields.filter((fld) => fld.required === false) || []
-
-  const btcbi = useRecoilValue($btcbi)
-  const { isPro } = btcbi
 
   return (
     <div className="flx mt-2 mb-2 btcbi-field-map">
@@ -47,14 +48,14 @@ export default function SmartSuiteFieldMap({ i, formFields, field, smartSuiteCon
           </select>
 
           {field.formField === 'custom' && (
-            <CustomField
-              field={field}
-              index={i}
-              conf={smartSuiteConf}
-              setConf={setSmartSuiteConf}
-              fieldValue="customValue"
-              fieldLabel="Custom Value"
+            <TagifyInput
+              onChange={(e) => handleCustomValue(e, i, smartSuiteConf, setSmartSuiteConf)}
+              label={__('Custom Value', 'bit-integrations')}
               className="mr-2"
+              type="text"
+              value={field.customValue}
+              placeholder={__('Custom Value', 'bit-integrations')}
+              formFields={formFields}
             />
           )}
 

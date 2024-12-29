@@ -6,6 +6,7 @@
 
 namespace BitCode\FI\Actions\SmartSuite;
 
+use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Log\LogHandler;
 
@@ -23,70 +24,44 @@ class RecordApiHelper
 
     private $typeName;
 
-    private $apiKey;
+    private $workspaceId;
 
-    private $apiSecret;
+    private $apiToken;
 
-    public function __construct($integrationDetails, $integId, $apiKey, $apiSecret)
+    public function __construct($integrationDetails, $integId, $workspaceId, $apiToken)
     {
         $this->integrationDetails = $integrationDetails;
         $this->integrationId = $integId;
-        $this->apiKey = $apiKey;
-        $this->apiSecret = $apiSecret;
+        $this->workspaceId = $workspaceId;
+        $this->apiToken = $apiToken;
         $this->apiUrl = 'https://app.smartsuite.com/api/v1/';
         $this->defaultHeader = [
-            'ACCOUNT-ID'    => $apiKey,
-            'Authorization' => 'Token ' . $apiSecret,
+            'ACCOUNT-ID'    => $workspaceId,
+            'Authorization' => 'Token ' . $apiToken,
             'Content-Type'  => 'application/json'
         ];
     }
 
     public function createSolution($finalData)
     {
-        if (isset($this->integrationDetails->selectedTag) && $this->integrationDetails->selectedTag != '') {
-            $finalData['logo_color'] = $this->integrationDetails->selectedTag;
+        if (isset($this->integrationDetails->selectedLogoColor) && !empty($this->integrationDetails->selectedLogoColor)) {
+            $finalData['logo_color'] = $this->integrationDetails->selectedLogoColor;
         }
         $apiEndpoint = $this->apiUrl . 'solutions/';
 
         return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->defaultHeader);
     }
 
-    public function createTable($finalData)
+    public function createTable($requestParams)
     {
-        $requestParams = [];
-        foreach ($finalData as $key => $value) {
-            $requestParams[$key] = $value;
-        }
-        $requestParams['solution'] = $this->integrationDetails->selectedSolution;
-        $infoData = [['slug' => 'name',
-            'label'          => 'Name',
-            'field_type'     => 'textfield']];
-        $requestParams['structure'] = $infoData;
-        $response = apply_filters('btcbi_smartSuite_create_table', false, $requestParams, $this->apiKey, $this->apiSecret);
+        $response = apply_filters('btcbi_smartSuite_create_table', false, $requestParams, $this->workspaceId, $this->apiToken, $this->integrationDetails->selectedSolution);
 
         return handleFilterResponse($response);
     }
 
-    public function createRecord($finalData)
+    public function createRecord($requestParams)
     {
-        if (isset($this->integrationDetails->assigned_to) && $this->integrationDetails->assigned_to != '') {
-            $finalData['assigned_to'] = $this->integrationDetails->assigned_to;
-        }
-        if (isset($this->integrationDetails->status) && $this->integrationDetails->status != '') {
-            $finalData['status'] = $this->integrationDetails->status;
-        }
-        if (isset($this->integrationDetails->priority) && $this->integrationDetails->priority != '') {
-            $finalData['priority'] = $this->integrationDetails->priority;
-        }
-        $requestParams = [];
-        foreach ($finalData as $key => $value) {
-            if (empty($value)) {
-                continue;
-            }
-            $requestParams[$key] = $value;
-        }
-
-        $response = apply_filters('btcbi_smartSuite_create_record', false, $requestParams, $this->integrationDetails->selectedTable, $this->apiKey, $this->apiSecret);
+        $response = apply_filters('btcbi_smartSuite_create_record', false, $requestParams, $this->integrationDetails->selectedTable, $this->workspaceId, $this->apiToken, $this->integrationDetails->assigned_to, $this->integrationDetails->status, $this->integrationDetails->priority);
 
         return handleFilterResponse($response);
     }
@@ -94,10 +69,14 @@ class RecordApiHelper
     public function generateReqDataFromFieldMap($data, $fieldMap)
     {
         $dataFinal = [];
-        foreach ($fieldMap as $value) {
+        foreach ($fieldMap as $key => $value) {
             $triggerValue = $value->formField;
             $actionValue = $value->smartSuiteFormField;
-            $dataFinal[$actionValue] = ($triggerValue === 'custom') ? $value->customValue : $data[$triggerValue];
+            if ($triggerValue === 'custom') {
+                $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
+            } elseif (!\is_null($data[$triggerValue])) {
+                $dataFinal[$actionValue] = $data[$triggerValue];
+            }
         }
 
         return $dataFinal;
@@ -107,18 +86,23 @@ class RecordApiHelper
     {
         $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
         $this->typeName = 'create';
-        if ($actionName === 'solution') {
-            $this->type = 'solution';
-            $apiResponse = $this->createSolution($finalData);
-        } elseif ($actionName === 'table') {
-            $this->type = 'table';
-            $apiResponse = $this->createTable($finalData);
-        } else {
-            $this->type = 'record';
-            $apiResponse = $this->createRecord($finalData);
+        switch ($actionName) {
+            case 'solution':
+                $this->type = 'solution';
+                $apiResponse = $this->createSolution($finalData);
+
+                break;
+            case 'table':
+                $this->type = 'table';
+                $apiResponse = $this->createTable($finalData);
+
+                break;
+            default:
+                $this->type = 'record';
+                $apiResponse = $this->createRecord($finalData);
         }
 
-        if (isset($apiResponse->id) || isset($apiResponse->title)) {
+        if (!is_wp_error($apiResponse) || isset($apiResponse->id) || isset($apiResponse->title)) {
             LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->typeName]), 'success', $this->typeName . ' ' . $this->type . ' successfully');
         } else {
             LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->typeName . ' ' . $this->type]), 'error', wp_json_encode($apiResponse));

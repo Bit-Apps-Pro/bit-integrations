@@ -50,10 +50,10 @@ export const smartSuiteAuthentication = (
   loading,
   setLoading
 ) => {
-  if (!confTmp.api_key || !confTmp.api_secret) {
+  if (!confTmp.workspaceId || !confTmp.apiToken) {
     setError({
-      api_key: !confTmp.api_key ? __("Workspace ID can't be empty", 'bit-integrations') : '',
-      api_secret: !confTmp.api_secret ? __("API Token can't be empty", 'bit-integrations') : ''
+      workspaceId: !confTmp.workspaceId ? __("Workspace ID can't be empty", 'bit-integrations') : '',
+      apiToken: !confTmp.apiToken ? __("API Token can't be empty", 'bit-integrations') : ''
     })
     return
   }
@@ -62,8 +62,8 @@ export const smartSuiteAuthentication = (
   setLoading({ ...loading, auth: true })
 
   const requestParams = {
-    api_key: confTmp.api_key,
-    api_secret: confTmp.api_secret
+    workspaceId: confTmp.workspaceId,
+    apiToken: confTmp.apiToken
   }
 
   bitsFetch(requestParams, 'smartSuite_authentication').then((result) => {
@@ -87,8 +87,8 @@ export const getAllSolutions = (confTmp, setConf, setLoading) => {
     delete confTmp?.selectedSolution
 
   const requestParams = {
-    api_key: confTmp.api_key,
-    api_secret: confTmp.api_secret
+    workspaceId: confTmp.workspaceId,
+    apiToken: confTmp.apiToken
   }
 
   bitsFetch(requestParams, 'smartSuite_fetch_all_solutions').then((result) => {
@@ -119,8 +119,8 @@ export const getAllTables = (confTmp, setConf, solution_id, setLoading) => {
 
   setLoading({ ...setLoading, table: true })
   const requestParams = {
-    api_key: confTmp.api_key,
-    api_secret: confTmp.api_secret,
+    workspaceId: confTmp.workspaceId,
+    apiToken: confTmp.apiToken,
     solution_id: solution_id
   }
 
@@ -149,8 +149,8 @@ export const getAllUser = (confTmp, setConf, setLoading) => {
   setLoading({ ...setLoading, assignedUser: true })
 
   const requestParams = {
-    api_key: confTmp.api_key,
-    api_secret: confTmp.api_secret
+    workspaceId: confTmp.workspaceId,
+    apiToken: confTmp.apiToken
   }
 
   bitsFetch(requestParams, 'smartSuite_fetch_all_user').then((result) => {
@@ -173,3 +173,4 @@ export const getAllUser = (confTmp, setConf, setLoading) => {
     toast.error(__('User fetching failed', 'bit-integrations'))
   })
 }
+

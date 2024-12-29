@@ -43,9 +43,9 @@ export default function SmartSuiteIntegLayout({
         newConf?.selectedTable &&
         newConf?.selectedTable != ''
       ) {
-        const findItem = newConf.tables.find((item) => item.id === val)
+        const getTable = newConf.tables.find((item) => item.id === val)
         let customFieldsForRecord = []
-        findItem.customFields.forEach((item) => {
+        getTable.customFields.forEach((item) => {
           if (!excludeList.includes(item.slug)) {
             customFieldsForRecord.push({
               label: item.label,
@@ -56,7 +56,7 @@ export default function SmartSuiteIntegLayout({
         })
         newConf.smartSuiteFields = customFieldsForRecord
         newConf.field_map = generateMappedField(newConf.smartSuiteFields)
-      } else newConf.customFields = null
+      }
 
       if (name === 'selectedSolution') {
         delete newConf.selectedTable
@@ -81,14 +81,11 @@ export default function SmartSuiteIntegLayout({
     setSmartSuiteConf((prevConf) =>
       create(prevConf, (draftConf) => {
         draftConf.field_map = [{ formField: '', smartSuiteFormField: '' }]
-        draftConf.isActionTable = value
         if (draftConf?.selectedSolution) delete draftConf.selectedSolution
         if (draftConf?.selectedTable) delete draftConf.selectedTable
+
         if (value != '') {
           draftConf[name] = value
-          if (isPro && (value === 'table' || value === 'record')) {
-            getAllSolutions(smartSuiteConf, setSmartSuiteConf, setLoading)
-          }
         } else {
           delete draftConf[name]
         }
@@ -96,8 +93,10 @@ export default function SmartSuiteIntegLayout({
         if (value === 'solution') {
           draftConf.smartSuiteFields = draftConf?.solutionFields
         } else if (isPro && value === 'table') {
+          getAllSolutions(smartSuiteConf, setSmartSuiteConf, setLoading)
           draftConf.smartSuiteFields = draftConf?.tableFields
         } else if (isPro && value === 'record') {
+          getAllSolutions(smartSuiteConf, setSmartSuiteConf, setLoading)
           delete draftConf['priority']
           delete draftConf['status']
           delete draftConf['assigned_to']
@@ -119,12 +118,12 @@ export default function SmartSuiteIntegLayout({
           disabled={loading.solution || loading.table}
           className="mt-2 w-5"
           onChange={(val) => handleActionInput(val, 'actionName')}
-          options={smartSuiteConf?.actionTypes?.map((actionType) => ({
+          options={smartSuiteConf?.actionLists?.map((actionType) => ({
             label: checkIsPro(isPro, actionType.is_pro)
               ? actionType.label
               : getProLabel(actionType.label),
             value: actionType.name,
-            disabled: checkIsPro(isPro, actionType.is_pro) ? false : true
+            disabled: !checkIsPro(isPro, actionType.is_pro)
           }))}
           singleSelect
           closeOnSelect
@@ -132,7 +131,7 @@ export default function SmartSuiteIntegLayout({
       </div>
       {smartSuiteConf.actionName &&
         isPro &&
-        (smartSuiteConf.isActionTable === 'table' || smartSuiteConf.isActionTable === 'record') &&
+        (smartSuiteConf.actionName === 'table' || smartSuiteConf.actionName === 'record') &&
         !loading.solution && (
           <>
             <br />
@@ -183,7 +182,7 @@ export default function SmartSuiteIntegLayout({
         !loading.solution &&
         !loading.table &&
         isPro &&
-        smartSuiteConf.isActionTable === 'record' && (
+        smartSuiteConf.actionName === 'record' && (
           <>
             <br />
             <br />

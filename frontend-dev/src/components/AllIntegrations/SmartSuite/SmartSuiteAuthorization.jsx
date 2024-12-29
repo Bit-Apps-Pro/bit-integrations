@@ -19,7 +19,7 @@ export default function SmartSuiteAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const { smartSuite } = tutorialLinks
-  const [error, setError] = useState({ api_key: '', api_secret: '' })
+  const [error, setError] = useState({ workspaceId: '', apiToken: '' })
 
   const nextPage = () => {
     setTimeout(() => {
@@ -78,13 +78,13 @@ export default function SmartSuiteAuthorization({
       <input
         className="btcd-paper-inp w-6 mt-1"
         onChange={handleInput}
-        name="api_key"
-        value={smartSuiteConf.api_key}
+        name="workspaceId"
+        value={smartSuiteConf.workspaceId}
         type="text"
         placeholder={__('Workspace ID...', 'bit-integrations')}
         disabled={isInfo}
       />
-      <div style={{ color: 'red', fontSize: '15px' }}>{error.api_key}</div>
+      <div style={{ color: 'red', fontSize: '15px' }}>{error.workspaceId}</div>
 
       <div className="mt-3">
         <b>{__('API Token:', 'bit-integrations')}</b>
@@ -92,13 +92,13 @@ export default function SmartSuiteAuthorization({
       <input
         className="btcd-paper-inp w-6 mt-1"
         onChange={handleInput}
-        name="api_secret"
-        value={smartSuiteConf.api_secret}
+        name="apiToken"
+        value={smartSuiteConf.apiToken}
         type="text"
         placeholder={__('API Token...', 'bit-integrations')}
         disabled={isInfo}
       />
-      <div style={{ color: 'red', fontSize: '15px' }}>{error.api_secret}</div>
+      <div style={{ color: 'red', fontSize: '15px' }}>{error.apiToken}</div>
 
       <small className="d-blk mt-3">
         {__('To Get API Token & Workspace ID, Please Visit', 'bit-integrations')}

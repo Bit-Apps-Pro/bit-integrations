@@ -22,7 +22,7 @@ class SmartSuiteController
     public function getAllSolutions($fieldsRequestParams)
     {
         $this->checkValidation($fieldsRequestParams);
-        $this->setHeaders($fieldsRequestParams->api_key, $fieldsRequestParams->api_secret);
+        $this->setHeaders($fieldsRequestParams->workspaceId, $fieldsRequestParams->apiToken);
         $apiEndpoint = $this->apiEndpoint . 'solutions/';
         $response = HttpHelper::get($apiEndpoint, null, $this->_defaultHeader);
 
@@ -45,7 +45,7 @@ class SmartSuiteController
     public function getAllTables($fieldsRequestParams)
     {
         $this->checkValidation($fieldsRequestParams);
-        $this->setHeaders($fieldsRequestParams->api_key, $fieldsRequestParams->api_secret);
+        $this->setHeaders($fieldsRequestParams->workspaceId, $fieldsRequestParams->apiToken);
         $apiEndpoint = $this->apiEndpoint . "applications/?solution={$fieldsRequestParams->solution_id}";
 
         $response = HttpHelper::get($apiEndpoint, null, $this->_defaultHeader);
@@ -69,7 +69,7 @@ class SmartSuiteController
     public function getAllUser($fieldsRequestParams)
     {
         $this->checkValidation($fieldsRequestParams);
-        $this->setHeaders($fieldsRequestParams->api_key, $fieldsRequestParams->api_secret);
+        $this->setHeaders($fieldsRequestParams->workspaceId, $fieldsRequestParams->apiToken);
         $apiEndpoint = $this->apiEndpoint . 'applications/members/records/list/';
 
         $response = HttpHelper::post($apiEndpoint, null, $this->_defaultHeader);
@@ -93,12 +93,12 @@ class SmartSuiteController
     public function execute($integrationData, $fieldValues)
     {
         $integrationDetails = $integrationData->flow_details;
-        $apiKey = $integrationDetails->api_key;
-        $apiSecret = $integrationDetails->api_secret;
+        $workspaceId = $integrationDetails->workspaceId;
+        $apiToken = $integrationDetails->apiToken;
         $integId = $integrationData->id;
         $fieldMap = $integrationDetails->field_map;
         $actionName = $integrationDetails->actionName;
-        $recordApiHelper = new RecordApiHelper($integrationDetails, $integId, $apiKey, $apiSecret);
+        $recordApiHelper = new RecordApiHelper($integrationDetails, $integId, $workspaceId, $apiToken);
         $smartSuiteApiResponse = $recordApiHelper->execute($fieldValues, $fieldMap, $actionName);
 
         if (is_wp_error($smartSuiteApiResponse)) {
@@ -110,7 +110,8 @@ class SmartSuiteController
 
     public function authentication($fieldsRequestParams)
     {
-        $this->setHeaders($fieldsRequestParams->api_key, $fieldsRequestParams->api_secret);
+        $this->checkValidation($fieldsRequestParams);
+        $this->setHeaders($fieldsRequestParams->workspaceId, $fieldsRequestParams->apiToken);
         $apiEndpoint = $this->apiEndpoint . 'solutions/';
         $response = HttpHelper::get($apiEndpoint, null, $this->_defaultHeader);
         if (\is_array($response)) {
@@ -122,16 +123,16 @@ class SmartSuiteController
 
     private function checkValidation($fieldsRequestParams)
     {
-        if (empty($fieldsRequestParams->api_key) || empty($fieldsRequestParams->api_secret)) {
+        if (empty($fieldsRequestParams->workspaceId) || empty($fieldsRequestParams->apiToken)) {
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
     }
 
-    private function setHeaders($apiKey, $apiSecret)
+    private function setHeaders($workspaceId, $apiToken)
     {
         $this->_defaultHeader = [
-            'ACCOUNT-ID'    => $apiKey,
-            'Authorization' => 'Token ' . $apiSecret,
+            'ACCOUNT-ID'    => $workspaceId,
+            'Authorization' => 'Token ' . $apiToken,
             'Content-Type'  => 'application/json'
         ];
     }
