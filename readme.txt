@@ -136,6 +136,9 @@ https://youtu.be/eFuficjF_F4
 * [**wpForo**](https://wordpress.org/plugins/wpforo/) (pro)
 * [**WPFunnels**](https://wordpress.org/plugins/wpfunnels/) (pro)
 * [**WS Form**](https://wordpress.org/plugins/ws-form/) (pro)
+* [**MetaBox Frontend Submission**](https://wordpress.org/plugins/meta-box/) (pro)
+
+
 * [**Webhooks**]() (pro)
 
 ### ✔List of Available Actions:
