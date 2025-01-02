@@ -4,7 +4,7 @@ Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
 Tested up to: 6.7.1
 Requires PHP: 7.4
-Stable tag: 2.4.1
+Stable tag: 2.4.2
 License: GPLv2 or later
 
 Automation Plugin for WordPress. Integration of 90+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
@@ -1025,7 +1025,18 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 
 == Changelog ==
 
-= 2.4.1  =
+= 2.4.2 =
+_Release Date -2nd January 2025_
+
+- **New Improvements**
+ - BuddyBoss (Trigger): Updated profile module with custom fields (Pro).
+ - FluentCRM: Added profile update functionality on tag insert/remove modules.
+ - AffiliateWP: Added registration form fields for when an affiliate is approved & a user becomes an affiliate.
+
+- **Bug Fixes**
+ - PipeDrive: Fixed issue with integration name not being editable.
+
+= 2.4.1 =
 _Release Date -25th December 2024_
 
 - **New Trigger**
@@ -1040,7 +1051,7 @@ _Release Date -25th December 2024_
 - **Bug Fixes**
  - Webhook & Custom API: Resolved issue with custom raw JSON data submission.
 
-= 2.4.0  =
+= 2.4.0 =
 _Release Date -19th December 2024_
 
 - **New Improvements**
@@ -1054,7 +1065,7 @@ _Release Date -19th December 2024_
  - Freshdesk: Fixed an authorization issue affecting API connectivity.
  - CartFlows: Corrected the field fetching issue during checkout integration.(Pro).
 
-= 2.3.9  =
+= 2.3.9 =
 _Release Date -10th December 2024_
 
 - **New Trigger**
@@ -1064,7 +1075,7 @@ _Release Date -10th December 2024_
  - Groundhogg: Resolved the issue with fetching tags. (pro)
  - GoogleSheet: Authorization page issue fixed.
 
-= 2.3.8  =
+= 2.3.8 =
 _Release Date -5th December 2024_
 
 - **New Feature**
