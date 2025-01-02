@@ -51,9 +51,10 @@ export default function ChangelogToggle() {
       headClass: 'new-improvement',
       itemClass: 'feature-list',
       items: [
+        { 'label': 'WP Post (Trigger)', 'desc': 'Added post categories fields.', 'isPro': true },
         { 'label': 'BuddyBoss (Trigger)', 'desc': 'Updated profile module with custom fields.', 'isPro': true },
         { 'label': 'FluentCRM', 'desc': 'Added profile update functionality on tag insert/remove modules.', 'isPro': false },
-        { 'label': 'AffiliateWP', 'desc': 'Added registration form fields for when an affiliate is approved & a user becomes an affiliate.', 'isPro': false }
+        { 'label': 'AffiliateWP (Trigger)', 'desc': 'Added registration form fields for when an affiliate is approved & a user becomes an affiliate.', 'isPro': true }
       ]
     }
   ]

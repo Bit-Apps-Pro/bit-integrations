@@ -1029,9 +1029,10 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 _Release Date -2nd January 2025_
 
 - **New Improvements**
+ - WP Post (Trigger): Added post categories fields (Pro).
  - BuddyBoss (Trigger): Updated profile module with custom fields (Pro).
  - FluentCRM: Added profile update functionality on tag insert/remove modules.
- - AffiliateWP: Added registration form fields for when an affiliate is approved & a user becomes an affiliate.
+ - AffiliateWP (Trigger): Added registration form fields for when an affiliate is approved & a user becomes an affiliate (Pro).
 
 - **Bug Fixes**
  - PipeDrive: Fixed issue with integration name not being editable.
