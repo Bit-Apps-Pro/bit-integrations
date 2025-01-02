@@ -165,12 +165,11 @@ export default function SelectAction() {
     { type: 'GoHighLevel' },
     { type: 'The Events Calendar' },
     { type: 'License Manager For WooCommerce' },
-    { type: 'Voxel' }
+    { type: 'Voxel' },
+    { type: 'SmartSuite' }
   ]
 
-  const [availableIntegs, setAvailableIntegs] = useState(
-    sortByField(integs, 'type', 'ASC') || integs
-  )
+  const [availableIntegs, setAvailableIntegs] = useState(sortByField(integs, 'type', 'ASC') || integs)
   const organizeIntegs = () => {
     const bitformIndex = availableIntegs.findIndex((i) => i.type === 'Bit Form')
     if (bitformIndex === -1) return availableIntegs
@@ -183,9 +182,7 @@ export default function SelectAction() {
 
   const searchInteg = (e) => {
     const { value } = e.target
-    const filtered = integs.filter((integ) =>
-      integ.type.toLowerCase().includes(value.toLowerCase())
-    )
+    const filtered = integs.filter((integ) => integ.type.toLowerCase().includes(value.toLowerCase()))
     setAvailableIntegs(filtered)
   }
 
