@@ -4,18 +4,18 @@ Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
 Tested up to: 6.7.1
 Requires PHP: 7.4
-Stable tag: 2.4.1
+Stable tag: 2.4.2
 License: GPLv2 or later
 
 Automation Plugin for WordPress. Integration of 90+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
 
 == Description ==
 
-<strong> Best Automation Plugin for WordPress. Automate 240+ Individual Platforms.</strong>
+<strong>no-code automation plugin for WordPress, enabling flawless workflows with webhooks, WooCommerce, CRM, LMS, and more | Best Automation Plugin for WordPress.</strong>
 
 Automate your WordPress workflow with **Bit Integrations**: the all-in-one plugin for sending data authomatically to WooCommerce, form builders, CRM, LMS, bookings, spreadsheets, [**webhooks**](https://webhook.is/difference-between-webhook-and-api), social media, email marketing and automation platforms like Zapier and others. No technical knowledge needed. Automate tasks across 240+ platforms effortlessly.
 
-You can see below what WPTuts say about Bit Integrations
+You can see below what WPTuts say about **Bit Integrations**
 
 https://youtu.be/hgMkLvV-r6k
 
@@ -24,21 +24,21 @@ https://youtu.be/hgMkLvV-r6k
 
 📢 **Join our community [Bit Integrations](https://www.facebook.com/groups/bitapps) & get updates on our plugins.**
 
-Jeffrey @ Lytbox says about Bit Integrations
+Jeffrey @ Lytbox says about **Bit Integrations**
 
 https://www.youtube.com/watch?v=Jocbz2lAqKU
 
 
-Mak says about Bit Integrations
+Mak says about **Bit Integrations**
 
 https://youtu.be/UhTu6LCmh8A
 
 
-"WP Simple Hacks - Wordpress tips and tricks" youtube channels thoughts about Bit Integrations
+"WP Simple Hacks - Wordpress tips and tricks" youtube channels thoughts about **Bit Integrations**
 
 https://youtu.be/tLNOuvPdhcY?si=2zWd4yTMYHZUpD7n
 
-Bit Integrations review in SaaS Master youtube channel
+**Bit Integrations** review in SaaS Master youtube channel
 
 https://youtu.be/eFuficjF_F4
 
@@ -327,43 +327,21 @@ Wp-Telemetry **DOES NOT IMMEDIATELY** start gathering data, rather it will gathe
 == ❣ What our customer say about Bit Integrations : ==
 
 [` 💠 Best of class`](https://wordpress.org/support/topic/best-of-class-with-few-glitches/)
-
-I have tested a lot of integrators/automators, like AutomatorWP, Uncanny Automator, Thrive Automator and SureTriggers … what can I say:
-Bit Integrations integrates with the widest range of plugins & services among all ⭐
-
 -by @saschinger
 
 [` 💠 Bit Integrations is an affordable alternative to Pabbly Connect and Zapier`](https://wordpress.org/support/topic/bit-integrations-is-an-affordable-alternative-to-pabbly-and-zapier/)
-
-Bit Integrations is an easy-to-install and easy-to-use automation plug-in that handles many functions that we would normally have to pay large monthly or annual fees (for Pabbly Connect or Zapier). Check out their list of integrations and see if it can save you dollars too!
-
 -by @barrynthdegreegroupnet
 
 [` 💠 A Game Changer for My WordPress automation`](https://wordpress.org/support/topic/a-game-changer-for-my-wordpress-automation/)
-
-“I’ve been using Bit Integrations for a few months now, and it’s been a game changer for my business. The wide range of integrations available has allowed me to connect Bit with a variety of external tools and services, making it much easier to automate my workflows and streamline my work processes
-
 -by @angelitos
 
 [` 💠 Zapier-like Integrations, No Fees Required!`](https://wordpress.org/support/topic/zapier-like-integrations-without-the-fees/)
-
-The rich WordPress ecosystem can be integrated without paying the high cost of Zapier.
-
 -by @peterode
 
 [` 💠 Zapier for WordPress Made Easy!`](https://wordpress.org/support/topic/zapier-for-wordpress/)
-
-I’ve been using the pro version to automate many tasks from Gravity Forms, Restrict Content Pro and FluentCRM. Easy to set up and runs on your own site.
-
 -by @onedogsolutions
 
-
 [` 💠 Pure Automation at Play!`](https://wordpress.org/support/topic/pure-automation-at-play/)
-
-This is an amazing plugin. The premium version allows you to automate close to 100+ popular apps in the market. The library is growing and the developers are active adding integrations every month.
-With incoming and outgoing webhooks, you can literally automate a lot of stuff. This can totally replace Zapier and other automation tools inside WordPress as conditional logic is also included.
-My typical use-case: Adding WooCommerce orders to Gsheets and then sending the lead info to ActiveCampaign along with tags.
-
 -by @vaishakdamu
 
 ### 💥 In the free version, you can create unlimited integrations using free triggers, while the pro version offers unlimited integration capabilities using all triggers.
@@ -382,7 +360,6 @@ Free version allows you to use all free triggers and all actions,
 also with unlimited active integrations.
 With the pro version, you have the ability to use all 240+ triggers and actions for unlimited active integrations.
 Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations/).
-
 
 ### 💥 Don't worry, we give you some video tutorials with use cases to help you get started with the plugin.
 
@@ -1048,7 +1025,19 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 
 == Changelog ==
 
-= 2.4.1  =
+= 2.4.2 =
+_Release Date -2nd January 2025_
+
+- **New Improvements**
+ - WP Post (Trigger): Added post categories fields (Pro).
+ - BuddyBoss (Trigger): Updated profile module with custom fields (Pro).
+ - FluentCRM: Added profile update functionality on tag insert/remove modules.
+ - AffiliateWP (Trigger): Added registration form fields for when an affiliate is approved & a user becomes an affiliate (Pro).
+
+- **Bug Fixes**
+ - PipeDrive: Fixed issue with integration name not being editable.
+
+= 2.4.1 =
 _Release Date -25th December 2024_
 
 - **New Trigger**
@@ -1063,7 +1052,7 @@ _Release Date -25th December 2024_
 - **Bug Fixes**
  - Webhook & Custom API: Resolved issue with custom raw JSON data submission.
 
-= 2.4.0  =
+= 2.4.0 =
 _Release Date -19th December 2024_
 
 - **New Improvements**
@@ -1077,7 +1066,7 @@ _Release Date -19th December 2024_
  - Freshdesk: Fixed an authorization issue affecting API connectivity.
  - CartFlows: Corrected the field fetching issue during checkout integration.(Pro).
 
-= 2.3.9  =
+= 2.3.9 =
 _Release Date -10th December 2024_
 
 - **New Trigger**
@@ -1087,7 +1076,7 @@ _Release Date -10th December 2024_
  - Groundhogg: Resolved the issue with fetching tags. (pro)
  - GoogleSheet: Authorization page issue fixed.
 
-= 2.3.8  =
+= 2.3.8 =
 _Release Date -5th December 2024_
 
 - **New Feature**

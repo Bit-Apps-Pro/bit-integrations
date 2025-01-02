@@ -5,7 +5,7 @@ import Modal from '../components/Utilities/Modal'
 import { $btcbi } from '../GlobalStates'
 import ChangelogIcn from '../Icons/ChangeLogIcn'
 import ExternalLinkIcn from '../Icons/ExternalLinkIcn'
-import ChirstmasDeal from '../resource/img/chirstmas.webp'
+import NewYear from '../resource/img/NewYear.png'
 import bitsFetch from '../Utils/bitsFetch'
 import { __, sprintf } from '../Utils/i18nwrap'
 
@@ -17,8 +17,8 @@ export default function ChangelogToggle() {
   const [step, setStep] = useState(1)
 
   const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
-  const Early_Bird_URL = `https://bitapps.pro/christmas-wordpress-plugin-deal/#bit-integrations-pricing`
-  const releaseDate = '25th December 2024'
+  const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
+  const releaseDate = '2nd January 2025'
 
   // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
   const changeLog = [
@@ -38,19 +38,24 @@ export default function ChangelogToggle() {
       label: __('New Triggers', 'bit-integrations'),
       headClass: 'new-trigger',
       itemClass: 'integration-list',
-      items: [{ 'label': 'Fluent Community', 'desc': 'Full-fledge Social Network, Community & LMS.', 'isPro': true }]
+      items: []
     },
     {
       label: __('New Features', 'bit-integrations'),
       headClass: 'new-feature',
       itemClass: 'feature-list',
-      items: [{ 'label': 'BuddyBoss', 'desc': 'Added support for Profile Custom Fields.', 'isPro': true }]
+      items: []
     },
     {
       label: __('New Improvements', 'bit-integrations'),
       headClass: 'new-improvement',
       itemClass: 'feature-list',
-      items: [{ 'label': 'GravityForms', 'desc': 'Uploaded file path now changed to URL format for better compatibility.', 'isPro': true }]
+      items: [
+        { 'label': 'WP Post (Trigger)', 'desc': 'Added post categories fields.', 'isPro': true },
+        { 'label': 'BuddyBoss (Trigger)', 'desc': 'Updated profile module with custom fields.', 'isPro': true },
+        { 'label': 'FluentCRM', 'desc': 'Added profile update functionality on tag insert/remove modules.', 'isPro': false },
+        { 'label': 'AffiliateWP (Trigger)', 'desc': 'Added registration form fields for when an affiliate is approved & a user becomes an affiliate.', 'isPro': true }
+      ]
     }
   ]
 
@@ -113,8 +118,8 @@ export default function ChangelogToggle() {
         {(step === 1 && show === true && (
           <>
             <div>
-              <a href={Early_Bird_URL} target="_blank" rel="noreferrer">
-                <img src={ChirstmasDeal} style={{ width: '100%', height: '450px', marginTop: '-2px', borderRadius: '20px' }} alt="" />
+              <a href={dealURL} target="_blank" rel="noreferrer">
+                <img src={NewYear} style={{ width: '100%', height: 'auto', marginTop: '-2px', borderRadius: '20px' }} alt="" />
               </a>
             </div>
             <div className="txt-right" style={{ marginTop: '-2px' }}>
