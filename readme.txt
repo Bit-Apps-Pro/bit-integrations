@@ -391,6 +391,12 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**ActiveCampaign**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJi9NlLdluJLhADHgyymPgf)
 
+* [**Academy LMS**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AL0ckxqJPUdiG0syI65HXg2)
+
+* [**Action Hook**](https://youtube.com/playlist?list=PL7c6CDwwm-AKFj4x2bWQ9PSP_5aRNj-Tm&si=JJQtYb_vE4Dp0WID)
+
+* [**AffiliateWP**](https://youtube.com/playlist?list=PL7c6CDwwm-AKA6EP_4OMVlEHrBw5kSrQo&si=R76z2gaUISflMfAN)
+
 * [**Airtable**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKVpJtCejmJnsXrKl4xWLUz)
 
 * [**Agiled CRM**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKR_aHEcgno5CONC2GXgJj1)
@@ -409,6 +415,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Bit Assist Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJeqs93IpMJ99064Sb_ebCO)
 
+* [**Bit Form**](https://youtube.com/playlist?list=PL7c6CDwwm-AIJN9QZGc3jORO9Z6Rjp0O6&si=3dmBltytfhXu_I_p)
+
 * [**Bit Integrations**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALMEsKLYKebKb5XLGPWMNue)
 
 * [**Bit SMTP - 100% free SMTP plugin for WordPress**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKDsASsBpjZseqCkHAf97HI)
@@ -419,11 +427,17 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Bricks Page Builder Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKyyZhh4_n-MqdeaFv6x4iK)
 
+* [**BricksForge**](https://youtube.com/playlist?list=PL7c6CDwwm-AJvSYtsYiyH7O0CuV661H0s&si=PDzqwZCKfO563eay)
+
 * [**Brizy Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJYTO5YvgqLeNdbWzGUmC_h)
+
+* [**BuddyBoss**](https://youtube.com/playlist?list=PL7c6CDwwm-AL1Lmj_7nU7vTQwly34ScS1&si=3ylnHM-JxIjjXm1f)
 
 * [**Conditional Logics**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJvTRBjjKOrNZARdHLa9OOf)
 
 * [**Contact Form 7**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AL85-ajsYQ7LOhs1t2y6toV)
+
+* [**CoBlocks**](https://youtube.com/playlist?list=PL7c6CDwwm-AI3cQxtPuRI6ssSihs7hRkq&si=XOZQD_NDGYw4FzFR)
 
 * [**Kit (ConvertKit)**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AITR_K9KlAnPTJeYBFcFEcy)
 
@@ -432,6 +446,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 * [**DirectIQ**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AI9ZIECQakOnGjj8mKggEEl)
 
 * [**Divi Contact Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJpOfpcioYpZOYbhcY_qTLN)
+
+* [**Dokan**](https://youtube.com/playlist?list=PL7c6CDwwm-AK_Lwk-n8sM2XzXl6D2Ixti&si=CpX_qIy8wm3QC_x1)
 
 * [**Dropbox**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AI7DZ2EQhJCISI84iaLhz6C)
 
@@ -447,9 +463,13 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Everest Forms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJ-BjBZjgzvMIgs8HXT5E3B)
 
+* [**Essential Blocks**](https://youtube.com/playlist?list=PL7c6CDwwm-AIRLKYqjVf-61q1bfTCxBaa&si=55cwNbh6atThh6WN)
+
 * [**FluentCRM**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJy5hZGqcKBmtxO-9TSNlmy)
 
 * [**Fluent Forms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIyB8ezuQkv5T-_8T7MaTV7)
+
+* [**Fluent Support**](https://youtube.com/playlist?list=PL7c6CDwwm-AJk_-lRrBQGqA0ZdErCb6q0&si=sAdwkHNP4zdXEwTz)
 
 * [**Forminator Forms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALvmungUM60JXvI-PcsDK90)
 
@@ -481,9 +501,13 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Groundhogg**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AITHa6jPQ3TfYo1P0FsNkF1)
 
+* [**Gutena Forms**](https://youtube.com/playlist?list=PL7c6CDwwm-AJ9xNgikf2unjXj2h0sc9u4&si=Sv9E3kjSdtjNgdeh)
+
 * [**Happyforms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALmHg1oLd4UGLzes70-OqWe)
 
 * [**HubSpot**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AI1QPJIx4YUwpQLVbTvw1KO)
+
+* [**Hustle**](https://youtube.com/playlist?list=PL7c6CDwwm-ALdteHY5s3KJQERS2PFY5tI&si=WT00hxB42qRGbbn1)
 
 * [**Integrately**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AInYjAN6svcuBDHJolbCkIZ)
 
@@ -653,13 +677,23 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Avada Forms**](https://bit-integrations.com/wp-docs/trigger/avada-forms-integrations/)
 
+* [**Academy LMS**](https://bit-integrations.com/wp-docs/trigger/academy-lms-integrations-as-a-trigger/)
+
+* [**Action Hook**](https://bit-integrations.com/wp-docs/trigger/action-hook-integrations/)
+
+* [**ARMember**](https://bit-integrations.com/wp-docs/trigger/armember-integrations/)
+
 * [**Beaver Builder**](https://bitapps.pro/docs/bit-integrations/trigger/beaver-builder/)
 
 * [**Bit Assist**](https://bitapps.pro/docs/bit-integrations/trigger/bit-assist/)
 
+* [**Bit Form**](https://bit-integrations.com/wp-docs/trigger/bit-form-integrations-as-a-trigger/)
+
 * [**Breakdance**](https://bitapps.pro/docs/bit-integrations/trigger/breakdance/)
 
 * [**Bricks**](https://bitapps.pro/docs/bit-integrations/trigger/bricks/)
+
+* [**BricksForge**](https://bit-integrations.com/wp-docs/trigger/bricksforge-integrations/)
 
 * [**Brizy**](https://bitapps.pro/docs/bit-integrations/trigger/brizy/)
 
@@ -671,6 +705,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Contact Form 7**](https://bitapps.pro/docs/bit-integrations/trigger/contact-form/)
 
+* [**Custom Trigger**](https://bit-integrations.com/wp-docs/trigger/custom-trigger-integrations/)
+
 * [**Divi**](https://bitapps.pro/docs/bit-integrations/trigger/divi/)
 
 * [**Divi Form Builder**](https://bit-integrations.com/wp-docs/trigger/divi-form-builder-by-divi-engine-integrations/)
@@ -679,11 +715,15 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Easy Digital Downloads**](https://bitapps.pro/docs/bit-integrations/trigger/easy-digital-downloads/)
 
+* [**Everest Forms**](https://bit-integrations.com/wp-docs/trigger/everest-forms-integrations/)
+
 * [**Eventin**](https://bit-integrations.com/wp-docs/trigger/eventin-integrations/)
 
 * [**eForm**](https://bitapps.pro/docs/bit-integrations/trigger/eform/)
 
 * [**Elementor Form**](https://bitapps.pro/docs/bit-integrations/trigger/elementor-form/)
+
+* [**Essential Blocks**](https://bit-integrations.com/wp-docs/trigger/essential-blocks-integrations/)
 
 * [**FluentCommunity**](https://bit-integrations.com/wp-docs/trigger/fluentcommunity-integrations/)
 
@@ -715,7 +755,11 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Hustle**](https://bitapps.pro/docs/bit-integrations/trigger/hustle-integration/)
 
+* [**JetEngine**](https://bit-integrations.com/wp-docs/trigger/jetengine-integrations-as-a-trigger/)
+
 * [**JetFormBuilder**](https://bitapps.pro/docs/bit-integrations/trigger/jetformbuilder/)
+
+* [**Kali Forms**](https://bit-integrations.com/wp-docs/trigger/kali-forms-integrations/)
 
 * [**Kadence Blocks**](https://bitapps.pro/docs/bit-integrations/trigger/kadence-blocks-form/)
 
@@ -724,6 +768,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 * [**LifterLMS**](https://bitapps.pro/docs/bit-integrations/trigger/lifterlms/)
 
 * [**MB Frontend Submission**](https://bitapps.pro/docs/bit-integrations/trigger/mb-frontend-submission/)
+
+* [**MailPoet**](https://bit-integrations.com/wp-docs/trigger/mailpoet-integrations-as-a-trigger/)
 
 * [**Memberpress**](https://bitapps.pro/docs/bit-integrations/trigger/memberpress/)
 
