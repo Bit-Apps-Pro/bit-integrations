@@ -92,28 +92,23 @@ class RecordApiHelper
         $subscriber = Subscriber::where('email', $data['email'])->first();
 
         if (!$subscriber) {
-            return $response = [
-                'success'  => false,
-                'messages' => __("Contact doesn't exists!", 'bit-integrations')
-            ];
+            return ['success' => false, 'messages' => __("Contact doesn't exists!", 'bit-integrations')];
         }
 
         $tags = $data['tags'];
 
         if ($actionName === 'add-tag') {
             $subscriber->attachTags($tags);
-
-            return $response = [
-                'success'  => true,
-                'messages' => __('Tag added successfully!', 'bit-integrations')
-            ];
+            $message = __('Tag added successfully!', 'bit-integrations');
+        } else {
+            $subscriber->detachTags($tags);
+            $message = __('Tag remove successfully!', 'bit-integrations');
         }
-        $subscriber->detachTags($tags);
 
-        return $response = [
-            'success'  => true,
-            'messages' => __('Tag remove successfully!', 'bit-integrations')
-        ];
+        unset($data['tags']);
+        FluentCrmApi('contacts')->createOrUpdate($data, false, false);
+
+        return ['success' => true, 'messages' => $message];
     }
 
     public function removeUser($data)
