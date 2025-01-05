@@ -66,11 +66,11 @@ export default function GoogleSheetFieldMap({ i, formFields, field, sheetConf, s
           ] &&
             Object.values(
               sheetConf.default.headers[sheetConf.spreadsheetId][sheetConf.worksheetName][
-                sheetConf.headerRow
+              sheetConf.headerRow
               ]
             ).map((header, indx) => (
               <option key={`gsheet-${indx * 2}`} value={header}>
-                {header}
+                {header.replace(`_${indx}`, '')}
               </option>
             ))}
         </select>
