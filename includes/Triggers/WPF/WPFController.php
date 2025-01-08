@@ -2,8 +2,8 @@
 
 namespace BitCode\FI\Triggers\WPF;
 
-use BitCode\FI\Core\Util\DateTimeHelper;
 use BitCode\FI\Flow\Flow;
+use BitCode\FI\Core\Util\DateTimeHelper;
 
 final class WPFController
 {
@@ -170,6 +170,10 @@ final class WPFController
 
     private static function setFiles($files)
     {
+        if (empty($files) || !\is_array($files)) {
+            return [];
+        }
+
         $allFiles = [];
         foreach ($files as $file) {
             $allFiles[] = $file['value'];
