@@ -6,10 +6,10 @@
 
 namespace BitCode\FI\Actions\Hubspot;
 
+use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\Helper;
 use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert,upsert
@@ -222,7 +222,7 @@ class HubspotRecordApiHelper
             'properties' => [$idProperty]
         ];
 
-        $response = HttpHelper::post($apiEndpoint, json_encode($data), $this->defaultHeader);
+        $response = HttpHelper::post($apiEndpoint, wp_json_encode($data), $this->defaultHeader);
 
         if (is_wp_error($response) || empty($response->results) || (isset($response->status) && $response->status == 'error')) {
             return;

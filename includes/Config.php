@@ -174,11 +174,11 @@ class Config
     {
         return [
             'settings' => [
-                'title' => __('Settings', 'bit-flow'),
+                'title' => __('Settings', 'bit-integrations'),
                 'url'   => self::get('ADMIN_URL') . 'admin.php?page=' . self::SLUG . '#settings',
             ],
             'help' => [
-                'title' => __('Help', 'bit-flow'),
+                'title' => __('Help', 'bit-integrations'),
                 'url'   => self::get('ADMIN_URL') . 'admin.php?page=' . self::SLUG . '#help',
             ],
         ];
