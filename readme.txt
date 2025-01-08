@@ -442,6 +442,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Essential Blocks**](https://youtube.com/playlist?list=PL7c6CDwwm-AIRLKYqjVf-61q1bfTCxBaa&si=55cwNbh6atThh6WN)
 
+* [**eForm**](https://youtube.com/playlist?list=PL7c6CDwwm-AJIlWYWJ0pCIP8yWrd0CYPw&si=2-b1hbFEz7F_BWJu)
+
 * [**FluentCRM**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJy5hZGqcKBmtxO-9TSNlmy)
 
 * [**Fluent Forms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIyB8ezuQkv5T-_8T7MaTV7)
@@ -522,11 +524,17 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**MailPoet**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJXbv17x7QVuO9dxddO6Z-1)
 
+* [**Mailster**](https://youtube.com/playlist?list=PL7c6CDwwm-AK04F8F1OgzMOK8_2w1XLus&si=-tbAjs5z1e5cvuwz)
+
+* [**MasterStudy LMS**](https://youtube.com/playlist?list=PL7c6CDwwm-AIRhdvMtVF1lKcj4zD1cFHK&si=1Ap7GSgn_mpMxgej)
+
 * [**Mailrelay**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AL4Qq3LwifB5Q0FMc9jbCBh)
 
 * [**MailUp**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKZoTOsege0sBuR1kPqnUhI)
 
 * [**Mautic**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIJBYngBbT4yuYwBd51yEXb)
+
+* [**MB Frontend Submission**](https://youtube.com/playlist?list=PL7c6CDwwm-AK4FF8E3vyuTPu90EwYGaGn&si=MfwDm2QbRlytCshM)
 
 * [**MetaBox Frontend Submission**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKm2-Ex0E2aUit6aai2LM09)
 
@@ -576,15 +584,23 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Smaily**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKu0p4pFVuQs66fDavvyL0o)
 
+* [**SiteOrigin**](https://youtube.com/playlist?list=PL7c6CDwwm-AIkjyDJvcaTv4270D8yuYKE&si=Dy97J9ltIw1a0f61)
+
 * [**Slack**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALs0FkFMv0hh5_22fawGJsb)
 
 * [**SliceWP Affiliate**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALhoOseAyoCeffUOwCssDeQ)
 
 * [**Solid Affiliate**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJqJ6U-pXbBTTzKQJwy_jX-)
 
+* [**Spectra**](https://youtube.com/playlist?list=PL7c6CDwwm-AL6IEfQLbHpWfq0lZl9Cci3&si=6uIkB8wwvnlIM9kO)
+
 * [**Studiocart**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIzdZmtu18zJZwQFSZohEqq)
 
 * [**SureCart**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALWAM6nXMfveSjTUUxONz7Y)
+
+* [**SureForms**](https://youtube.com/playlist?list=PL7c6CDwwm-AJ0kTe5L9ZudU2CTNVs2boG&si=LbCaz6HlrhTywuL6)
+
+* [**SureMembers**](https://youtube.com/playlist?list=PL7c6CDwwm-AL1LP5QSkVmALdxVs_M3AAA&si=OruvZVrsMwL7Fd3K)
 
 * [**Telegram WordPress**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKWf-FAvcCGFqgAzroUvrX5)
 
@@ -615,6 +631,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 * [**WordPress Post**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKVAxNlFLKvcVd_9yiX1mgZ)
 
 * [**WPForms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKn6NqhMqYhgi61eZELRHFK)
+
+* [**WPForo Forum**](https://youtube.com/playlist?list=PL7c6CDwwm-AJmBlJbqcOqRWBerqOUdRft&si=nae6nGRSKH9v0DIs)
 
 * [**WPFunnels**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIvMYNATfH66kAMiYH9nrx3)
 
@@ -748,6 +766,10 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**MailPoet**](https://bit-integrations.com/wp-docs/trigger/mailpoet-integrations-as-a-trigger/)
 
+* [**Mailster**](https://bit-integrations.com/wp-docs/trigger/mailster-integrations-as-a-trigger/)
+
+* [**MasterStudy LMS**](https://bit-integrations.com/wp-docs/trigger/masterstudy-lms-integrations-as-a-trigger/)
+
 * [**Memberpress**](https://bitapps.pro/docs/bit-integrations/trigger/memberpress/)
 
 * [**MetForm**](https://bitapps.pro/docs/bit-integrations/trigger/metform/)
@@ -768,13 +790,21 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Restrict Content**](https://bitapps.pro/docs/bit-integrations/trigger/restrict-content/)
 
+* [**SiteOrigin**](https://bit-integrations.com/wp-docs/trigger/siteorigin-widgets-bundle-integrations/)
+
 * [**SliceWP**](https://bitapps.pro/docs/bit-integrations/trigger/SliceWP/)
 
 * [**Solid Affiliate**](https://bitapps.pro/docs/bit-integrations/trigger/solid-affiliate/)
 
+* [**Spectra**](https://bit-integrations.com/wp-docs/trigger/spectra-integrations/)
+
 * [**StudioCart**](https://bitapps.pro/docs/bit-integrations/trigger/studiocart/)
 
 * [**SureCart**](https://bitapps.pro/docs/bit-integrations/trigger/surecart/)
+
+* [**SureForms**](https://bit-integrations.com/wp-docs/trigger/sureforms-integrations/)
+
+* [**SureMembers**](https://bit-integrations.com/wp-docs/trigger/suremembers-integrations-as-a-trigger/)
 
 * [**The Events Calendar**](https://bit-integrations.com/wp-docs/trigger/the-events-calendar-integrations-as-a-trigger/)
 
@@ -800,9 +830,17 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**WPForms**](https://bitapps.pro/docs/bit-integrations/trigger/wpforms/)
 
+* [**wpForo Forum**](https://bit-integrations.com/wp-docs/trigger/wpforo-integration-as-a-trigger/)
+
 * [**WP Post**](https://bitapps.pro/docs/bit-integrations/trigger/wp-post/)
 
 * [**WS Form**](https://bitapps.pro/docs/bit-integrations/trigger/ws-form/)
+
+* [**WPFunnels**](https://bit-integrations.com/wp-docs/trigger/wpfunnels-integrations/)
+
+* [**WP Job Manager**](https://bit-integrations.com/wp-docs/trigger/wp-job-manager-integrations/)
+
+* [**Webhooks**](https://bit-integrations.com/wp-docs/trigger/incoming-webhooks-integrations/)
 
 
 ### 💥 Don't worry, we give you some [**Action's**](https://bitapps.pro/docs/bit-integrations/actions/) documentation with use cases to help you get started with the plugin.
