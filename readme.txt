@@ -847,185 +847,273 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**AutomatorWP**](https://bit-integrations.com/wp-docs/actions/automatorwp-integrations/)
 
-* [**ActiveCampaign**](https://bitapps.pro/docs/bit-integrations/trigger/active-campaign/)
+* [**ActiveCampaign**](https://bit-integrations.com/wp-docs/actions/activecampaign-integrations/)
 
-* [**Acumbamail**](https://bitapps.pro/docs/bit-integrations/trigger/acumbamail/)
+* [**Acumbamail**](https://bit-integrations.com/wp-docs/actions/acumbamail-integrations/)
 
-* [**Airtable**](https://bitapps.pro/docs/bit-integrations/trigger/airtable/)
+* [**AffiliateWP**](https://bit-integrations.com/wp-docs/actions/affiliatewp-integrations-as-an-action/)
 
-* [**Asana**](https://bitapps.pro/docs/bit-integrations/trigger/asana-integrations/)
+* [**Airtable**](https://bit-integrations.com/wp-docs/actions/airtable-integrations/)
 
-* [**Agiled CRM**](https://bitapps.pro/docs/bit-integrations/trigger/agiled-crm/)
+* [**Albato**](https://bit-integrations.com/wp-docs/actions/albato-integrations/)
 
-* [**Autonami**](https://bitapps.pro/docs/bit-integrations/trigger/autonami/)
+* [**Asana**](https://bit-integrations.com/wp-docs/actions/asana-integrations/)
 
-* [**Benchmark Email**](https://bitapps.pro/docs/bit-integrations/trigger/benchmark/)
+* [**Agiled CRM**](https://bit-integrations.com/wp-docs/actions/agiled-crm-integrations/)
 
-* [**Bit Form**](https://bitapps.pro/docs/bit-integrations/trigger/bit-form/)
+* [**Funnelkit(Autonami)**](https://bit-integrations.com/wp-docs/actions/funnelkit-integrations/)
 
-* [**Brevo (Sendinblue)**](https://bitapps.pro/docs/bit-integrations/trigger/brevo-sendinblue/)
+* [**Benchmark Email**](https://bit-integrations.com/wp-docs/actions/benchmark-email-integrations/)
 
-* [**BuddyBoss**](https://bitapps.pro/docs/bit-integrations/trigger/buddyboss/)
+* [**Bit Form**](https://bit-integrations.com/wp-docs/actions/bit-form-integrations-as-an-action/)
 
-* [**Capsule CRM**](https://bitapps.pro/docs/bit-integrations/trigger/capsule-crm-integrations/)
+* [**Brevo (Sendinblue)**](https://bit-integrations.com/wp-docs/actions/brevo-integrations/)
 
-* [**ClickUp**](https://bitapps.pro/docs/bit-integrations/trigger/clickup/)
+* [**BuddyBoss**](https://bit-integrations.com/wp-docs/actions/buddyboss-integrations-as-an-action/)
+
+* [**Capsule CRM**](https://bit-integrations.com/wp-docs/actions/capsule-crm-integrations/)
+
+* [**Campaign Monitor**](https://bit-integrations.com/wp-docs/actions/campaign-monitor-integrations/)
+
+* [**ClickUp**](https://bit-integrations.com/wp-docs/actions/clickup-integrations/)
+
+* [**ClinchPad**](https://bit-integrations.com/wp-docs/actions/clinchpad-integrations/)
+
+* [**CompanyHub**](https://bit-integrations.com/wp-docs/actions/companyhub-integrations/)
+
+* [**Copper CRM**](https://bit-integrations.com/wp-docs/actions/copper-crm-integrations/)
 
 * [**Constant Contact**](https://bitapps.pro/docs/bit-integrations/trigger/constantcontact/)
 
-* [**Kit (ConvertKit)**](https://bitapps.pro/docs/bit-integrations/trigger/convertkit/)
+* [**Kit (ConvertKit)**](https://bit-integrations.com/wp-docs/actions/convertkit-integrations/)
 
-* [**Custom Action**](https://bitapps.pro/docs/bit-integrations/trigger/custom-action/)
+* [**Custom Action**](https://bit-integrations.com/wp-docs/actions/custom-action-integrations/)
 
-* [**Dokan**](https://bitapps.pro/docs/bit-integrations/actions/dokan-integration/)
+* [**CustomApi**](https://bit-integrations.com/wp-docs/actions/customapi-integrations/)
 
-* [**DirectIQ**](https://bitapps.pro/docs/bit-integrations/trigger/directiq/)
+* [**Dokan**](https://bit-integrations.com/wp-docs/actions/dokan-integrations-as-an-action/)
+
+* [**Demio**](https://bit-integrations.com/wp-docs/actions/demio-integrations/)
+
+* [**DirectIQ**](https://bit-integrations.com/wp-docs/actions/directiq-integrations/)
+
+* [**Discord**](https://bit-integrations.com/wp-docs/actions/discord-integrations/)
 
 * [**Drip**](https://bitapps.pro/docs/bit-integrations/actions/drip-integrations/)
 
-* [**Dropbox**](https://bitapps.pro/docs/bit-integrations/trigger/dropbox/)
+* [**Dropbox**](https://bit-integrations.com/wp-docs/actions/dropbox-integrations/)
 
-* [**Elastic Email**](https://bitapps.pro/docs/bit-integrations/trigger/elastic-email/)
+* [**Elastic Email**](https://bit-integrations.com/wp-docs/actions/elastic-email-integrations/)
 
-* [**Elastic Email**](https://bitapps.pro/docs/bit-integrations/trigger/elastic-email/)
+* [**EmailOctopus**](https://bit-integrations.com/wp-docs/actions/emailoctopus-integrations/)
 
-* [**EmailOctopus**](https://bitapps.pro/docs/bit-integrations/trigger/emailoctopus/)
+* [**Encharge**](https://bit-integrations.com/wp-docs/actions/encharge-integrations/)
 
-* [**Encharge**](https://bitapps.pro/docs/bit-integrations/trigger/encharge/)
+* [**FlowMattic**](https://bit-integrations.com/wp-docs/actions/flowmattic-integrations/)
 
-* [**Fluent Support**](https://bitapps.pro/docs/bit-integrations/trigger/fluent-support/)
+* [**Flowlu**](https://bit-integrations.com/wp-docs/actions/flowlu-integrations/)
 
-* [**FluentCRM**](https://bitapps.pro/docs/bit-integrations/trigger/fluentcrm/)
+* [**Fluent Support**](https://bit-integrations.com/wp-docs/actions/fluent-support-integrations-as-an-action/)
 
-* [**Freshdesk**](https://bitapps.pro/docs/bit-integrations/trigger/freshdesk/)
+* [**FluentCRM**](https://bit-integrations.com/wp-docs/actions/fluentcrm-integrations-as-an-action/)
 
-* [**FreshSales**](https://bitapps.pro/docs/bit-integrations/trigger/freshsales/)
+* [**Freshdesk**](https://bit-integrations.com/wp-docs/actions/freshdesk-integrations/)
 
-* [**GamiPress**](https://bitapps.pro/docs/bit-integrations/trigger/gamipress/)
+* [**FreshSales**](https://bit-integrations.com/wp-docs/actions/freshsales-integrations/)
 
-* [**Get Response**](https://bitapps.pro/docs/bit-integrations/trigger/get-response/)
+* [**GamiPress**](https://bit-integrations.com/wp-docs/actions/gamipress-integrations-as-an-action/)
 
-* [**Getgist**](https://bitapps.pro/docs/bit-integrations/trigger/getgist/)
+* [**Get Response**](https://bit-integrations.com/wp-docs/actions/getresponse-integrations/)
 
-* [**GiveWp**](https://bitapps.pro/docs/bit-integrations/trigger/givewp/)
+* [**Getgist**](https://bit-integrations.com/wp-docs/actions/getgist-integrations/)
 
-* [**Google Contacts**](https://bitapps.pro/docs/bit-integrations/trigger/google-contacts/)
+* [**GiveWp**](https://bit-integrations.com/wp-docs/actions/givewp-integrations-as-an-action/)
 
-* [**Google Calendar**](https://bitapps.pro/docs/bit-integrations/trigger/google-calendar/)
+* [**GoHighLevel**](https://bit-integrations.com/wp-docs/actions/gohighlevel-integrations/)
 
-* [**Google Drive**](https://bitapps.pro/docs/bit-integrations/trigger/google-drive/)
+* [**Google Contacts**](https://bit-integrations.com/wp-docs/actions/google-contacts-integrations/)
 
-* [**Google Sheet**](https://bitapps.pro/docs/bit-integrations/trigger/google-sheet/)
+* [**Google Calendar**](https://bit-integrations.com/wp-docs/actions/google-calendar-integrations/)
 
-* [**Groundhogg**](https://bitapps.pro/docs/bit-integrations/trigger/groundhogg/)
+* [**Google Drive**](https://bit-integrations.com/wp-docs/actions/google-drive-integrations/)
 
-* [**Hubspot**](https://bitapps.pro/docs/bit-integrations/trigger/hubspot/)
+* [**Google Sheet**](https://bit-integrations.com/wp-docs/actions/google-sheets-integrations/)
 
-* [**JetEngine**](https://bit-integrations.com/documentation/actions/jetengine-integrations-as-an-action/)
+* [**Gravitec**](https://bit-integrations.com/wp-docs/actions/gravitec-integrations/)
 
-* [**Keap**](https://bitapps.pro/docs/bit-integrations/trigger/keap/)
+* [**Groundhogg**](https://bit-integrations.com/wp-docs/actions/groundhogg-integrations-as-an-action/)
 
-* [**Kirim Email**](https://bitapps.pro/docs/bit-integrations/trigger/kirim-email/)
+* [**Hubspot**](https://bit-integrations.com/wp-docs/actions/hubspot-integrations/)
 
-* [**Klaviyo**](https://bitapps.pro/docs/bit-integrations/trigger/klaviyo/)
+* [**Insightly**](https://bit-integrations.com/wp-docs/actions/insightly-integrations/)
 
-* [**Konnectzit**](https://bitapps.pro/docs/bit-integrations/trigger/konnectzit/)
+* [**Integrately**](https://bit-integrations.com/wp-docs/actions/integrately-integrations/)
 
-* [**LearnDash LMS**](https://bitapps.pro/docs/bit-integrations/trigger/learndash-lms/)
+* [**JetEngine**](https://bit-integrations.com/wp-docs/actions/jetengine-integrations-as-an-action/)
 
-* [**License Manager for WooCommerce**](https://bitapps.pro/docs/bit-integrations/trigger/learndash-lms/)
+* [**Keap**](https://bit-integrations.com/wp-docs/actions/keap-integrations/)
 
-* [**Mail Mint**](https://bitapps.pro/docs/bit-integrations/trigger/mail-mint/)
+* [**Kirim Email**](https://bit-integrations.com/wp-docs/actions/kirim-email-integrations/)
 
-* [**MailBluster**](https://bitapps.pro/docs/bit-integrations/trigger/mailbluster/)
+* [**Klaviyo**](https://bit-integrations.com/wp-docs/actions/klaviyo-integrations/)
 
-* [**Mailchimp**](https://bitapps.pro/docs/bit-integrations/trigger/mailchimp/)
+* [**Konnectzit**](https://bit-integrations.com/wp-docs/actions/konnectzit-integrations/)
 
-* [**Mailercloud**](https://bitapps.pro/docs/bit-integrations/trigger/mailercloud/)
+* [**LearnDash LMS**](https://bit-integrations.com/wp-docs/actions/learndash-lms-integrations-as-an-action/)
 
-* [**MailerLite**](https://bitapps.pro/docs/bit-integrations/trigger/mailerlite/)
+* [**Lemlist**](https://bit-integrations.com/wp-docs/actions/lemlist-integrations/)
 
-* [**Mailjet**](https://bitapps.pro/docs/bit-integrations/trigger/mailjet/)
+* [**License Manager for WooCommerce**](https://bit-integrations.com/wp-docs/actions/license-manager-for-woocommerce-integrations/)
 
-* [**Mailpoet**](https://bitapps.pro/docs/bit-integrations/trigger/mailpoet/)
+* [**LifterLMS**](https://bit-integrations.com/wp-docs/actions/lifterlms-integrations-as-an-action/)
 
-* [**Mailrelay**](https://bitapps.pro/docs/bit-integrations/trigger/mailrelay/)
+* [**LionDesk**](https://bit-integrations.com/wp-docs/actions/liondesk-integrations/)
 
-* [**Mailup**](https://bitapps.pro/docs/bit-integrations/trigger/mailup/)
+* [**Livestorm**](https://bit-integrations.com/wp-docs/actions/livestorm-integrations/)
 
-* [**Mautic**](https://bitapps.pro/docs/bit-integrations/trigger/mautic/)
+* [**Mail Mint**](https://bit-integrations.com/wp-docs/actions/mail-mint-integrations/)
 
-* [**Memberpress**](https://bitapps.pro/docs/bit-integrations/trigger/memberpress/)
+* [**MailBluster**](https://bit-integrations.com/wp-docs/actions/mailbluster-integrations/)
 
-* [**Moosend**](https://bitapps.pro/docs/bit-integrations/trigger/moosend/)
+* [**Mailchimp**](https://bit-integrations.com/wp-docs/actions/mailchimp-integrations/)
 
-* [**Newsletter**](https://bitapps.pro/docs/bit-integrations/actions/newsletter-integration/)
+* [**Mailercloud**](https://bit-integrations.com/wp-docs/actions/mailercloud-integrations/)
 
-* [**OmniSend**](https://bitapps.pro/docs/bit-integrations/trigger/omnisend/)
+* [**MailerLite**](https://bit-integrations.com/wp-docs/actions/mailerlite-integrations/)
 
-* [**OneDrive**](https://bitapps.pro/docs/bit-integrations/trigger/onedrive/)
+* [**Mailjet**](https://bit-integrations.com/wp-docs/actions/mailjet-integrations/)
 
-* [**Paid Membership Pro**](https://bitapps.pro/docs/bit-integrations/trigger/paid-membership-pro/)
+* [**Mailpoet**](https://bit-integrations.com/wp-docs/actions/mailpoet-integrations-as-an-action/)
 
-* [**PCloud**](https://bitapps.pro/docs/bit-integrations/trigger/pcloud/)
+* [**Mailrelay**](https://bit-integrations.com/wp-docs/actions/mailrelay-integrations/)
 
-* [**Perfex CRM**](https://bitapps.pro/docs/bit-integrations/trigger/perfex-crm-integrations/)
+* [**Mailup**](https://bit-integrations.com/wp-docs/actions/mailup-integrations/)
 
-* [**PipeDrive**](https://bitapps.pro/docs/bit-integrations/trigger/pipedrive/)
+* [**Mailster**](https://bit-integrations.com/wp-docs/actions/mailster-integrations-as-an-action/)
 
-* [**Pods**](https://bitapps.pro/docs/bit-integrations/trigger/pods/)
+* [**Mautic**](https://bit-integrations.com/wp-docs/actions/mautic-integrations/)
 
-* [**Post Creation**](https://bitapps.pro/docs/bit-integrations/trigger/post-creation/)
+* [**Make**](https://bit-integrations.com/wp-docs/actions/make-integrations/)
 
-* [**Rapid Mail**](https://bitapps.pro/docs/bit-integrations/trigger/rapid-mail/)
+* [**MasterStudy LMS**](https://bit-integrations.com/wp-docs/actions/masterstudy-lms-integrations-as-an-action/)
 
-* [**Registration**](https://bitapps.pro/docs/bit-integrations/trigger/registration/)
+* [**Memberpress**](https://bit-integrations.com/wp-docs/actions/memberpress-integrations-as-an-action/)
 
-* [**Restrict Content**](https://bitapps.pro/docs/bit-integrations/trigger/restrict-content/)
+* [**Moosend**](https://bit-integrations.com/wp-docs/actions/moosend-integrations/)
+
+* [**Moxie**](https://bit-integrations.com/wp-docs/actions/moxie-integrations/)
+
+* [**N8n**](https://bit-integrations.com/wp-docs/actions/n8n-integrations/)
+
+* [**Newsletter**](https://bit-integrations.com/wp-docs/actions/newsletter-integrations/)
+
+* [**Nimble**](https://bit-integrations.com/wp-docs/actions/nimble-integrations/)
+
+* [**Notion**](https://bit-integrations.com/wp-docs/actions/notion-integrations/)
+
+* [**Nutshell CRM**](https://bit-integrations.com/wp-docs/actions/nutshell-crm-integrations/)
+
+* [**OmniSend**](https://bit-integrations.com/wp-docs/actions/omnisend-integrations/)
+
+* [**OneDrive**](https://bit-integrations.com/wp-docs/actions/onedrive-integrations/)
+
+* [**OneHash CRM**](https://bit-integrations.com/wp-docs/actions/onehash-crm-integrations/)
+
+* [**Paid Membership Pro**](https://bit-integrations.com/wp-docs/actions/paid-membership-pro-integrations-as-an-action/)
+
+* [**Pabbly**](https://bit-integrations.com/wp-docs/actions/pabbly-integrations/)
+
+* [**PCloud**](https://bit-integrations.com/wp-docs/actions/pcloud-integrations/)
+
+* [**Perfex CRM**](https://bit-integrations.com/wp-docs/actions/perfex-crm-integrations/)
+
+* [**PipeDrive**](https://bit-integrations.com/wp-docs/actions/pipedrive-integrations/)
+
+* [**Pods**](https://bit-integrations.com/wp-docs/actions/pods-integrations/)
+
+* [**Propovoice CRM**](https://bit-integrations.com/wp-docs/actions/propovoice-crm-integrations/)
+
+* [**Post Creation**](https://bit-integrations.com/wp-docs/actions/post-creation-integrations/)
+
+* [**Rapid Mail**](https://bit-integrations.com/wp-docs/actions/rapidmail-integrations/)
+
+* [**Restrict Content**](https://bit-integrations.com/wp-docs/actions/restrict-content-integrations-as-an-action/)
+
+* [**Salesforce**](https://bit-integrations.com/wp-docs/actions/salesforce-integrations/)
+
+* [**Salesflare**](https://bit-integrations.com/wp-docs/actions/salesflare-integrations/)
+
+* [**Salesmate**](https://bit-integrations.com/wp-docs/actions/salesmate-integrations/)
+
+* [**Sarbacane(Mailify)**](https://bit-integrations.com/wp-docs/actions/sarbacane-integrations/)
+
+* [**Selzy**](https://bit-integrations.com/wp-docs/actions/selzy-integrations/)
+
+* [**Sendfox**](https://bit-integrations.com/wp-docs/actions/sendfox-integrations/)
+
+* [**SendGrid**](https://bit-integrations.com/wp-docs/actions/sendgrid-integrations/)
+
+* [**SendPulse**](https://bit-integrations.com/wp-docs/actions/sendpulse-integrations/)
+
+* [**Sendy**](https://bit-integrations.com/wp-docs/actions/sendy-integrations/)
+
+* [**Slack**](https://bit-integrations.com/wp-docs/actions/slack-integrations/)
+
+* [**SliceWp**](https://bit-integrations.com/wp-docs/actions/slicewp-integrations-as-an-action/)
+
+* [**Smaily**](https://bit-integrations.com/wp-docs/actions/smaily-integrations/)
+
+* [**SperseIO**](https://bit-integrations.com/wp-docs/actions/sperse-io-integrations/)
+
+* [**SuiteDash**](https://bit-integrations.com/wp-docs/actions/suitedash-integrations/)
+
+* [**SureCart**](https://bit-integrations.com/wp-docs/actions/surecart-integrations-as-an-action/)
+
+* [**SureMembers**](https://bit-integrations.com/wp-docs/actions/suremembers-integrations-as-an-action/)
 
 * [**Suretriggers**](https://bit-integrations.com/wp-docs/actions/suretriggers-integrations/)
 
-* [**Salesforce**](https://bitapps.pro/docs/bit-integrations/trigger/salesforce/)
+* [**SyncSpider**](https://bit-integrations.com/wp-docs/actions/syncspider-integrations/)
 
-* [**Selzy**](https://bitapps.pro/docs/bit-integrations/trigger/selzy/)
-
-* [**Sendfox**](https://bitapps.pro/docs/bit-integrations/trigger/sendfox/)
-
-* [**SendGrid**](https://bitapps.pro/docs/bit-integrations/trigger/sendgrid/)
-
-* [**Sendy**](https://bitapps.pro/docs/bit-integrations/trigger/sendy/)
-
-* [**Slack**](https://bitapps.pro/docs/bit-integrations/trigger/slack/)
-
-* [**SliceWp**](https://bitapps.pro/docs/bit-integrations/trigger/slicewp/)
-
-* [**SureCart**](https://bitapps.pro/docs/bit-integrations/trigger/surecart/)
+* [**Systeme.io**](https://bit-integrations.com/wp-docs/actions/systeme-io-integrations/)
 
 * [**The Events Calendar**](https://bit-integrations.com/wp-docs/actions/the-events-calendar-integrations-as-an-action/)
 
-* [**Telegram**](https://bitapps.pro/docs/bit-integrations/trigger/telegram/)
+* [**Telegram**](https://bit-integrations.com/wp-docs/actions/telegram-integrations/)
 
-* [**Trello**](https://bitapps.pro/docs/bit-integrations/trigger/trello/)
+* [**Thrive Automator**](https://bit-integrations.com/wp-docs/actions/thrive-automator-integrations/)
 
-* [**Tutor LMS**](https://bitapps.pro/docs/bit-integrations/trigger/tutor-lms/)
+* [**Trello**](https://bit-integrations.com/wp-docs/actions/trello-integrations/)
 
-* [**Twilio**](https://bitapps.pro/docs/bit-integrations/trigger/twilio/)
+* [**Tutor LMS**](https://bit-integrations.com/wp-docs/actions/tutor-lms-integrations-as-an-action/)
+
+* [**Twilio**](https://bit-integrations.com/wp-docs/actions/twilio-integrations/)
 
 * [**Uncanny Automator**](https://bit-integrations.com/wp-docs/actions/uncanny-automator-integrations/)
 
-* [**Vbout**](https://bitapps.pro/docs/bit-integrations/trigger/vbout/)
+* [**Vbout**](https://bit-integrations.com/wp-docs/actions/vbout-integrations/)
 
-* [**Webhooks**](https://bitapps.pro/docs/bit-integrations/trigger/web-hooks/)
+* [**Voxel**](https://bit-integrations.com/wp-docs/actions/voxel-integrations-as-an-action/)
 
-* [**wpForo**](https://bitapps.pro/docs/bit-integrations/trigger/wpforo-integration/)
+* [**WP Webhooks**](https://bit-integrations.com/wp-docs/actions/wp-webhooks-integrations/)
 
-* [**WhatsApp**](https://bitapps.pro/docs/bit-integrations/trigger/whatsapp/)
+* [**Webhooks**](https://bit-integrations.com/wp-docs/actions/outgoing-webhooks-integrations/)
+
+* [**WP Foro**](https://bit-integrations.com/wp-docs/actions/wpforo-integrations-as-an-action/)
+
+* [**WP Fusion**](https://bit-integrations.com/wp-docs/actions/wp-fusion-integrations/)
+
+* [**WhatsApp**](https://bit-integrations.com/wp-docs/actions/whatsapp-integrations/)
 
 * [**WishList**](https://bitapps.pro/docs/bit-integrations/trigger/wishlist/)
 
-* [**wooCommerce**](https://bitapps.pro/docs/bit-integrations/trigger/woocommerce/)
+* [**wooCommerce**](https://bit-integrations.com/wp-docs/actions/woocommerce-integrations-as-an-action/)
 
-* [**WP Courseware**](https://bitapps.pro/docs/bit-integrations/trigger/wp-courseware/)
+* [**Woodpecker**](https://bit-integrations.com/wp-docs/actions/woodpecker-integrations/)
+
+* [**WP Courseware**](https://bit-integrations.com/wp-docs/actions/wp-courseware-integrations-as-an-action/)
+
+* [**Zagomail**](https://bit-integrations.com/wp-docs/actions/zagomail-integrations/)
 
 * [**Zoho CRM**](https://bitapps.pro/docs/bit-integrations/trigger/zoho-crm/)
 
