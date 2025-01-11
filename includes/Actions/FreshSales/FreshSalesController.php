@@ -73,46 +73,7 @@ class FreshSalesController
                 break;
         }
 
-        if ($requestParams->module == 'filters') {
-            $apiEndpoints = 'https://' . $requestParams->bundle_alias . '/api/' . $requestParams->type . '/' . $requestParams->module;
-        } else {
-            $apiEndpoints = 'https://' . $requestParams->bundle_alias . '/api/' . $requestParams->module . '/view/' . $viewId;
-        }
-
-        $headers = [
-            'Authorization' => 'Token token=' . $requestParams->api_key,
-        ];
-
-        $response = HttpHelper::get($apiEndpoints, null, $headers);
-
-        $formattedResponse = [];
-
-        $responseData = ((array) ($response))[$requestParams->module];
-
-        foreach ($responseData as $value) {
-            if ($requestParams->module == 'contacts') {
-                $formattedResponse[]
-                    = [
-                        'value' => $value->id,
-                        'label' => $value->display_name,
-                    ];
-            } else {
-                $formattedResponse[]
-                    = [
-                        'value' => $value->id,
-                        'label' => $value->name,
-                    ];
-            }
-        }
-
-        if (isset($response) && $response) {
-            wp_send_json_success($formattedResponse, 200);
-        } else {
-            wp_send_json_error(
-                'The token is invalid',
-                400
-            );
-        }
+        wp_send_json_success(static::getMetaDataRecursively($requestParams, $viewId), 200);
     }
 
     public function getFields($requestParams)
@@ -237,5 +198,38 @@ class FreshSalesController
         }
 
         return $freshSalesApiResponse;
+    }
+
+    private static function getMetaDataRecursively($requestParams, $viewId, $formattedResponse = [], $page = 1)
+    {
+        if ($requestParams->module == 'filters') {
+            $apiEndpoints = 'https://' . $requestParams->bundle_alias . '/api/' . $requestParams->type . '/' . $requestParams->module;
+        } else {
+            $apiEndpoints = 'https://' . $requestParams->bundle_alias . '/api/' . $requestParams->module . '/view/' . $viewId . '?page=' . $page;
+        }
+
+        $headers = ['Authorization' => 'Token token=' . $requestParams->api_key];
+        $response = HttpHelper::get($apiEndpoints, null, $headers);
+
+        if (is_wp_error($response)) {
+            return $response;
+        }
+
+        $responseData = ((array) ($response))[$requestParams->module];
+        $isContactModule = $requestParams->module == 'contacts';
+
+        foreach ($responseData as $value) {
+            $formattedResponse[] = [
+                'value' => $value->id,
+                'label' => $isContactModule ? $value->display_name : $value->name
+            ];
+        }
+
+        if (isset($response->meta->total_pages) && $response->meta->total_pages > $page) {
+            $page++;
+            $formattedResponse = static::getMetaDataRecursively($requestParams, $viewId, $formattedResponse, $page);
+        }
+
+        return $formattedResponse;
     }
 }
