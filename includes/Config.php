@@ -21,7 +21,7 @@ class Config
 
     public const VAR_PREFIX = 'btcbi_';
 
-    public const VERSION = '2.3.9';
+    public const VERSION = '2.4.2';
 
     public const DB_VERSION = '1.0';
 
@@ -174,11 +174,11 @@ class Config
     {
         return [
             'settings' => [
-                'title' => __('Settings', 'bit-flow'),
+                'title' => __('Settings', 'bit-integrations'),
                 'url'   => self::get('ADMIN_URL') . 'admin.php?page=' . self::SLUG . '#settings',
             ],
             'help' => [
-                'title' => __('Help', 'bit-flow'),
+                'title' => __('Help', 'bit-integrations'),
                 'url'   => self::get('ADMIN_URL') . 'admin.php?page=' . self::SLUG . '#help',
             ],
         ];

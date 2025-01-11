@@ -540,25 +540,7 @@ export const getAllCustomFields = (
         const draftConf = prevConf
         draftConf.field_map = [{ formField: '', salesmateFormField: '' }]
         if (result?.data) {
-          if (actionName === 'contact-create') {
-            draftConf['selesforceFields'] = [...draftConf.contactFields, ...customFields]
-          } else if (actionName === 'lead-create') {
-            draftConf['selesforceFields'] = [...draftConf.leadFields, ...customFields]
-          } else if (actionName === 'account-create') {
-            draftConf['selesforceFields'] = [...draftConf.accountFields, ...customFields]
-          } else if (actionName === 'campaign-create') {
-            draftConf['selesforceFields'] = [...draftConf.campaignFields, ...customFields]
-          } else if (actionName === 'add-campaign-member') {
-            draftConf['selesforceFields'] = [...draftConf.campaignMemberStatus, ...customFields]
-          } else if (actionName === 'opportunity-create') {
-            draftConf['selesforceFields'] = [...draftConf.opportunityFields, ...customFields]
-          } else if (actionName === 'event-create') {
-            draftConf['selesforceFields'] = [...draftConf.eventFields, ...customFields]
-          } else if (actionName === 'case-create') {
-            draftConf['selesforceFields'] = [...draftConf.caseFields, ...customFields]
-          } else {
-            draftConf['selesforceFields'] = customFields
-          }
+          draftConf['selesforceFields'] = customFields
         }
         draftConf.field_map = generateMappedField(draftConf)
         return draftConf
@@ -690,11 +672,11 @@ export const getAllAccountList = (
 export const checkMappedFields = (salesforceConf) => {
   const mappedFields = salesforceConf?.field_map
     ? salesforceConf.field_map.filter(
-        (mappedField) =>
-          !mappedField.formField ||
-          !mappedField.selesforceField ||
-          (!mappedField.formField === 'custom' && !mappedField.customValue)
-      )
+      (mappedField) =>
+        !mappedField.formField ||
+        !mappedField.selesforceField ||
+        (!mappedField.formField === 'custom' && !mappedField.customValue)
+    )
     : []
 
   if (mappedFields.length > 0) {
@@ -725,9 +707,9 @@ export const generateMappedField = (salesforceConf, actionName) => {
   const requiredFlds = fields.filter((fld) => fld.required === true)
   return requiredFlds.length > 0
     ? requiredFlds.map((field) => ({
-        formField: '',
-        selesforceField: field.key
-      }))
+      formField: '',
+      selesforceField: field.key
+    }))
     : [{ formField: '', selesforceField: '' }]
 }
 export const handleAuthorize = (

@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\Freshdesk;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use WP_Error;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Freshdesk integration
@@ -42,10 +42,9 @@ class FreshdeskController
         ];
 
         $apiEndpoint = $tokenRequestParams->app_domain . '/api/v2/tickets';
-
         $apiResponse = HttpHelper::get($apiEndpoint, null, $header);
 
-        if (is_wp_error($apiResponse) || empty($apiResponse[0]->id)) {
+        if (is_wp_error($apiResponse) || HttpHelper::$responseCode !== 200) {
             wp_send_json_error(
                 empty($apiResponse->error) ? 'Unknown' : $apiResponse->error,
                 400

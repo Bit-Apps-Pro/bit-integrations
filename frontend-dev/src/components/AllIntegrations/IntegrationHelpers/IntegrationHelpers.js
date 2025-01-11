@@ -150,7 +150,8 @@ export const saveIntegConfig = async (
     tmpConf = LifterLmsStateIH(tmpConf, dataFlow)
   } else if (flow.triggered_entity === 'MasterStudyLms') {
     const dataFlow = edit ? flow?.flow_details : flow?.triggerData
-    tmpConf = MasterStudyLmsStateIH(tmpConf, dataFlow, flow?.triggered_entity_id)
+    const formID = dataFlow?.formID || flow?.triggered_entity_id
+    tmpConf = MasterStudyLmsStateIH(tmpConf, dataFlow, formID)
   } else if (flow.triggered_entity === 'ThriveApprentice') {
     const dataFlow = edit ? flow?.flow_details : flow?.triggerData
     tmpConf = ThriveApprenticeStateIH(tmpConf, dataFlow)
@@ -332,7 +333,8 @@ export const saveActionConf = async ({
     tmpConf = LifterLmsStateIH(tmpConf, dataFlow)
   } else if (flow.triggered_entity === 'MasterStudyLms') {
     const dataFlow = edit ? flow?.flow_details : flow?.triggerData
-    tmpConf = MasterStudyLmsStateIH(tmpConf, dataFlow, flow?.triggered_entity_id)
+    const formID = dataFlow?.formID || flow?.triggered_entity_id
+    tmpConf = MasterStudyLmsStateIH(tmpConf, dataFlow, formID)
   } else if (flow.triggered_entity === 'ThriveApprentice') {
     const dataFlow = edit ? flow?.flow_details : flow?.triggerData
     tmpConf = ThriveApprenticeStateIH(tmpConf, dataFlow)

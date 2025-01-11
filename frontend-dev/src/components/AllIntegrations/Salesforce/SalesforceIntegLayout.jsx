@@ -41,9 +41,11 @@ export default function SalesforceIntegLayout({
   const handleInputP = (e) => {
     const newConf = { ...salesforceConf }
     const { name, value } = e.target
+    newConf[name] = value
+
     if (e.target.value !== '') {
-      newConf[name] = value
       const actName = value
+
       if (actName === 'contact-create') {
         getAllCustomFields(
           formID,
@@ -83,7 +85,7 @@ export default function SalesforceIntegLayout({
       } else if (actName === 'add-campaign-member') {
         getAllCustomFields(
           formID,
-          'add-campaign-create',
+          'add-campaign-member',
           newConf,
           setSalesforceConf,
           setIsLoading,
@@ -116,7 +118,7 @@ export default function SalesforceIntegLayout({
           setIsLoading,
           setSnackbar
         )
-      } else {
+      } else if (actName !== 'task-create') {
         getAllCustomFields(formID, actName, newConf, setSalesforceConf, setIsLoading, setSnackbar)
       }
     } else {
@@ -157,7 +159,6 @@ export default function SalesforceIntegLayout({
           &#x21BB;
         </button>
       </div>
-      <br />
       <br />
 
       {/* Campaign */}
@@ -365,7 +366,7 @@ export default function SalesforceIntegLayout({
         />
       )}
 
-      {salesforceConf?.actionName && !isLoading && (
+      {salesforceConf?.actionName && salesforceConf?.actionName !== 'task-create' && !isLoading && (
         <>
           <br />
           <div className="mt-5">
@@ -435,18 +436,18 @@ export default function SalesforceIntegLayout({
       {['opportunity-create', 'event-create', 'case-create', 'account-create'].includes(
         salesforceConf?.actionName
       ) && (
-        <>
-          <div className="mt-4">
-            <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
-          </div>
-          <div className="btcd-hr mt-1" />
-          <SalesforceActions
-            salesforceConf={salesforceConf}
-            setSalesforceConf={setSalesforceConf}
-            formFields={formFields}
-          />
-        </>
-      )}
+          <>
+            <div className="mt-4">
+              <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
+            </div>
+            <div className="btcd-hr mt-1" />
+            <SalesforceActions
+              salesforceConf={salesforceConf}
+              setSalesforceConf={setSalesforceConf}
+              formFields={formFields}
+            />
+          </>
+        )}
     </>
   )
 }

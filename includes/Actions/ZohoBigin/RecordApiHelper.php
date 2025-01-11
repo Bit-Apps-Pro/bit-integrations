@@ -6,11 +6,11 @@
 
 namespace BitCode\FI\Actions\ZohoBigin;
 
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Core\Util\DateTimeHelper;
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Log\LogHandler;
 use WP_Error;
+use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Core\Util\DateTimeHelper;
 
 /**
  * Provide functionality for Record insert,upsert
@@ -140,7 +140,7 @@ class RecordApiHelper
             } elseif (\is_object($response) && isset($response->status) && $response->status === 'error') {
                 LogHandler::save($this->_integID, ['type' => 'tags', 'type_name' => $module], 'error', $response);
             } else {
-                LogHandler::save($this->_integID, ['type' => 'tags', 'type_name' => $module], 'success', __('Tags added successfully', 'Bit Integration Pro'));
+                LogHandler::save($this->_integID, ['type' => 'tags', 'type_name' => $module], 'success', __('Tags added successfully', 'bit-integrations'));
             }
         }
 

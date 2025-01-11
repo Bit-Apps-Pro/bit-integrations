@@ -39,9 +39,19 @@ export default function FreshdeskAuthorization({
   }
 
   const freshdeskInstructions = `
-            <h4>${__('App Domain Example', 'bit-integrations')}</h4>
+            <h4>${__('Locate Your App Domain', 'bit-integrations')}</h4>
             <ul>
-                <li>https://domain-help.freshdesk.com/</li>
+                <li>${__('Access your Freshdesk account.', 'bit-integrations')}</li>
+                <li>${__('Copy the URL displayed in your browser’s address bar', 'bit-integrations')} (e.g., https://domain.freshdesk.com/)</li>
+                <li>${__('Paste the copied App Domain into the designated “App Domain” field within the integrations you’re setting up.', 'bit-integrations')}</li>
+            </ul>
+            <h4>${__('Retrieve Your App API Key', 'bit-integrations')}</h4>
+            <ul>
+                <li>${__('Within your Freshdesk account, click on your profile icon, situated in the top right corner.', 'bit-integrations')}</li>
+                <li>${__('Select “Profile Settings” from the options that appear.', 'bit-integrations')}</li>
+                <li>${__('Locate your App API key, prominently displayed on the top right side of the Profile Settings page.', 'bit-integrations')}</li>
+                <li>${__('Copy this key.', 'bit-integrations')}</li>
+                <li>${__('Paste the copied App API key into the designated “App API key” field within the integrations you’re configuring.', 'bit-integrations')}</li>
             </ul>`
 
   return (
@@ -69,17 +79,6 @@ export default function FreshdeskAuthorization({
         disabled={isInfo}
       />
 
-      <small className="d-blk mt-5">
-        {__('To get access Token , Please Visit', 'bit-integrations')}{' '}
-        <a
-          className="btcd-link"
-          href="https://bitcode-help.freshdesk.com/a/profiles/72009210017/edit"
-          target="_blank"
-          rel="noreferrer">
-          {__('FreshDesk Console', 'bit-integrations')}
-        </a>
-      </small>
-
       <div className="mt-3">
         <b>{__('Your App Domain:', 'bit-integrations')}</b>
       </div>
@@ -92,6 +91,7 @@ export default function FreshdeskAuthorization({
         placeholder={__('App Domain...', 'bit-integrations')}
         disabled={isInfo}
       />
+      <small className="d-blk mt-2">{`${__('App Domain Example', 'bit-integrations')}: https://domain.freshdesk.com`}</small>
       <div style={{ color: 'red' }}>{error.app_domain}</div>
 
       <div className="mt-3">
@@ -106,6 +106,16 @@ export default function FreshdeskAuthorization({
         placeholder={__('Access Token...', 'bit-integrations')}
         disabled={isInfo}
       />
+      <small className="d-blk mt-2">
+        {__('To get access Token , Please Visit', 'bit-integrations')}{' '}
+        <a
+          className="btcd-link"
+          href={`${freshdeskConf?.app_domain || 'https://domain.freshdesk.com'}/a/profiles/72009210017/edit`}
+          target="_blank"
+          rel="noreferrer">
+          {__('FreshDesk Console', 'bit-integrations')}
+        </a>
+      </small>
       <div style={{ color: 'red' }}>{error.api_key}</div>
 
       {!isInfo && (
