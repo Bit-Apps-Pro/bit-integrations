@@ -15,11 +15,45 @@ use BP_Suspend_Member;
  */
 class RecordApiHelper
 {
+    private const CREATE_GROUP_PRO = 1;
+
+    private const ADD_USER_GROUP = 2;
+
+    private const END_FRIENDSHIP_WITH_USER_PRO = 3;
+
+    private const FOLLOW_USER_PRO = 4;
+
+    private const POST_TOPIC_FORUM_PRO = 5;
+
+    private const REMOVE_USER_FROM_GROUP_PRO = 6;
+
+    private const SEND_FRIENDSHIP_REQ_USER_PRO = 7;
+
+    private const SEND_NOTIFICATION_MEMBER_GRP_PRO = 8;
+
+    private const SEND_PRIVATE_MSG_MEMBER_GRP_PRO = 9;
+
+    private const SEND_PRIVATE_MSG_USER_PRO = 10;
+
+    private const SEND_NOTIFICATION_USER_PRO = 11;
+
+    private const STOP_FOLLOWING_USER_PRO = 12;
+
+    private const SUBSCRIBE_USER_FORUM_PRO = 13;
+
+    private const ADD_POST_GRP_ACTIVITY_STREAM_PRO = 14;
+
+    private const ADD_POST_SITE_WIDE_ACTIVITY_STREAM_PRO = 15;
+
+    private const ADD_POST_USER_ACTIVITY_STREAM_PRO = 16;
+
+    private const POST_REPLY_TOPIC_FORUM_PRO = 17;
+
+    private const SET_USER_STATUS_PRO = 18;
+
     private static $integrationID;
 
     private $_integrationDetails;
-
-    private $quiz_list;
 
     private $assignment_list;
 
@@ -392,9 +426,9 @@ class RecordApiHelper
         }
     }
 
-    public static function SendPrivateMessageUser($friendId, $finalData)
+    public static function SendPrivateMessageUser($friendId, $finalData, $fieldValues, $recipientUserId = null)
     {
-        $user_id = get_current_user_id();
+        $user_id = (empty($recipientUserId) || $recipientUserId === 'loggedInUser') ? get_current_user_id() : Common::replaceFieldWithValue($recipientUserId, $fieldValues);
         $data = [
             'sender_id'       => $friendId,
             'message_content' => do_shortcode($finalData['message_content']),
@@ -408,6 +442,7 @@ class RecordApiHelper
             'content'    => $data['message_content'],
             'error_type' => 'wp_error',
         ];
+
         if (\function_exists('messages_new_message')) {
             $send = messages_new_message($msg);
             if (is_wp_error($send)) {
@@ -843,7 +878,7 @@ class RecordApiHelper
     ) {
         $fieldData = [];
         $apiResponse = null;
-        if ($mainAction === '1') {
+        if ($mainAction == static::CREATE_GROUP_PRO) {
             $privacyId = $integrationDetails->privacyId;
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
             $apiResponse = self::createGroup(
@@ -856,25 +891,25 @@ class RecordApiHelper
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'group', 'type_name' => 'create-group']), 'error', wp_json_encode($apiResponse));
             }
         }
-        if ($mainAction === '2') {
+        if ($mainAction == static::ADD_USER_GROUP) {
             $groupId = $integrationDetails->groupId;
             self::addUserToGroup(
                 $groupId
             );
         }
-        if ($mainAction === '3') {
+        if ($mainAction == static::END_FRIENDSHIP_WITH_USER_PRO) {
             $friendId = $integrationDetails->friendId;
             self::EndFriendshipWithUser(
                 $friendId
             );
         }
-        if ($mainAction === '4') {
+        if ($mainAction == static::FOLLOW_USER_PRO) {
             $friendId = $integrationDetails->friendId;
             self::FollowUser(
                 $friendId
             );
         }
-        if ($mainAction === '5') {
+        if ($mainAction == static::POST_TOPIC_FORUM_PRO) {
             $forumId = $integrationDetails->forumId;
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
             self::posTopicForum(
@@ -882,7 +917,7 @@ class RecordApiHelper
                 $finalData
             );
         }
-        if ($mainAction === '6') {
+        if ($mainAction == static::REMOVE_USER_FROM_GROUP_PRO) {
             $groupId = $integrationDetails->groupId;
             $apiResponse = self::removeUserFromGroup(
                 $groupId
@@ -893,7 +928,7 @@ class RecordApiHelper
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'user', 'type_name' => 'user-remove-group']), 'error', wp_json_encode(__('Failed to remove user form group .', 'bit-integrations')));
             }
         }
-        if ($mainAction === '7') {
+        if ($mainAction == static::SEND_FRIENDSHIP_REQ_USER_PRO) {
             $friendId = $integrationDetails->friendId;
             $apiResponse = self::sendFriendshipRequestUser(
                 $friendId
@@ -904,7 +939,7 @@ class RecordApiHelper
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'user', 'type_name' => 'send-friend-request']), 'error', wp_json_encode(__('Failed to send friend request to user .', 'bit-integrations')));
             }
         }
-        if ($mainAction === '8') {
+        if ($mainAction == static::SEND_NOTIFICATION_MEMBER_GRP_PRO) {
             $group_id = $integrationDetails->groupId;
             $friendId = $integrationDetails->friendId;
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
@@ -915,7 +950,7 @@ class RecordApiHelper
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'notification', 'type_name' => 'send-notification-allMember']), 'error', wp_json_encode(__('BuddyBoss notification module is not active.', 'bit-integrations')));
             }
         }
-        if ($mainAction === '9') {
+        if ($mainAction == static::SEND_PRIVATE_MSG_MEMBER_GRP_PRO) {
             $group_id = $integrationDetails->groupId;
             $friendId = $integrationDetails->friendId;
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
@@ -926,17 +961,20 @@ class RecordApiHelper
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'message', 'type_name' => 'send-private-message']), 'error', wp_json_encode(__('BuddyBoss message module is not active.', 'bit-integrations')));
             }
         }
-        if ($mainAction === '10') {
+        if ($mainAction == static::SEND_PRIVATE_MSG_USER_PRO) {
             $friendId = $integrationDetails->friendId;
+            $recipientUserId = $integrationDetails->recipientUserId ?? null;
+
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
-            $apiResponse = self::SendPrivateMessageUser($friendId, $finalData);
+            $apiResponse = self::SendPrivateMessageUser($friendId, $finalData, $fieldValues, $recipientUserId);
+
             if ($apiResponse) {
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'message', 'type_name' => 'send-private-message']), 'success', wp_json_encode(__('Send private message to user successfully .', 'bit-integrations')));
             } else {
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'message', 'type_name' => 'send-private-message']), 'error', wp_json_encode(__('BuddyBoss message module is not active.', 'bit-integrations')));
             }
         }
-        if ($mainAction === '11') {
+        if ($mainAction == static::SEND_NOTIFICATION_USER_PRO) {
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
             $apiResponse = self::sendNotificationUser($finalData);
             if ($apiResponse) {
@@ -945,13 +983,13 @@ class RecordApiHelper
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'notification', 'type_name' => 'send-notification-allMember']), 'error', wp_json_encode(__('BuddyBoss message module is not active.', 'bit-integrations')));
             }
         }
-        if ($mainAction === '12') {
+        if ($mainAction == static::STOP_FOLLOWING_USER_PRO) {
             $friendId = $integrationDetails->friendId;
             $apiResponse = self::stopFollowingUser(
                 $friendId
             );
         }
-        if ($mainAction === '13') {
+        if ($mainAction == static::SUBSCRIBE_USER_FORUM_PRO) {
             $forum_id = $integrationDetails->forumId;
             $apiResponse = self::subscribeForum(
                 $forum_id
@@ -962,7 +1000,7 @@ class RecordApiHelper
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'subscribe', 'type_name' => 'subscribe-forum']), 'error', wp_json_encode(__('Failed to subscribe Forum .', 'bit-integrations')));
             }
         }
-        if ($mainAction === '14') {
+        if ($mainAction == static::ADD_POST_GRP_ACTIVITY_STREAM_PRO) {
             $group_id = $integrationDetails->groupId;
             $friendId = $integrationDetails->friendId;
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
@@ -973,7 +1011,7 @@ class RecordApiHelper
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'post', 'type_name' => 'add-post-to-group']), 'error', wp_json_encode($apiResponse));
             }
         }
-        if ($mainAction === '15') {
+        if ($mainAction == static::ADD_POST_SITE_WIDE_ACTIVITY_STREAM_PRO) {
             $friendId = $integrationDetails->friendId;
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
             $apiResponse = self::postActivityStream($friendId, $finalData);
@@ -983,7 +1021,7 @@ class RecordApiHelper
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'post', 'type_name' => 'add-post-sitewide-activity']), 'error', wp_json_encode($apiResponse));
             }
         }
-        if ($mainAction === '16') {
+        if ($mainAction == static::ADD_POST_USER_ACTIVITY_STREAM_PRO) {
             $friendId = $integrationDetails->friendId;
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
             $apiResponse = self::postActivityUsersStream($friendId, $finalData);
@@ -993,7 +1031,7 @@ class RecordApiHelper
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'post', 'type_name' => 'add-post-user-activity']), 'error', wp_json_encode($apiResponse));
             }
         }
-        if ($mainAction === '17') {
+        if ($mainAction == static::POST_REPLY_TOPIC_FORUM_PRO) {
             $forum_id = $integrationDetails->forumId;
             $topic_id = $integrationDetails->topicId;
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
@@ -1004,7 +1042,7 @@ class RecordApiHelper
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'reply', 'type_name' => 'reply-forum-topic']), 'error', wp_json_encode(__('Failed to reply forum topic.', 'bit-integrations')));
             }
         }
-        if ($mainAction === '18') {
+        if ($mainAction == static::SET_USER_STATUS_PRO) {
             $userStatusId = $integrationDetails->userStatusId;
             $apiResponse = self::setUserStatus($userStatusId);
             if ($apiResponse) {

@@ -2,6 +2,7 @@ import toast from 'react-hot-toast'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { deepCopy } from '../../../Utils/Helpers'
 import { sprintf, __ } from '../../../Utils/i18nwrap'
+import { ADD_POST_GRP_ACTIVITY_STREAM_PRO, ADD_POST_SITE_WIDE_ACTIVITY_STREAM_PRO, ADD_POST_USER_ACTIVITY_STREAM_PRO, CREATE_GROUP_PRO, POST_REPLY_TOPIC_FORUM_PRO, POST_TOPIC_FORUM_PRO, REMOVE_USER_FROM_GROUP_PRO, SEND_NOTIFICATION_MEMBER_GRP_PRO, SEND_NOTIFICATION_USER_PRO, SEND_PRIVATE_MSG_MEMBER_GRP_PRO, SEND_PRIVATE_MSG_USER_PRO } from './IntegrationHelpers'
 
 export const handleInput = (
   e,
@@ -43,7 +44,7 @@ export const getAllBuddyBossGroup = (
             newConf.default = {}
           }
           if (result.data) {
-            if (buddyBossConf.mainAction === '6' || buddyBossConf.mainAction === '14') {
+            if (Number(buddyBossConf.mainAction) === REMOVE_USER_FROM_GROUP_PRO || Number(buddyBossConf.mainAction) === ADD_POST_GRP_ACTIVITY_STREAM_PRO) {
               const newGroupAdd = { id: 'any', name: 'Any' }
               const allGroupModify = [newGroupAdd, ...result.data]
               newConf.default.allGroup = allGroupModify
@@ -139,28 +140,42 @@ export const getAllTopic = (buddyBossConf, setBuddyBossConf, setIsLoading, setSn
     .catch(() => setIsLoading(false))
 }
 
-// export const generateMappedField = (buddyBossConf) => {
-//   const requiredFlds = buddyBossConf?.createGroupFields.filter(fld => fld.required === true)
-//   return requiredFlds.length > 0 ? requiredFlds.map(field => ({ formField: '', buddyBossFormField: field.key })) : [{ formField: '', buddyBossFormField: '' }]
-// }
+export const generateMappedField = (buddyBossConf) => {
+  switch (Number(buddyBossConf.mainAction)) {
+    case CREATE_GROUP_PRO:
+      var fields = buddyBossConf?.createGroupFields
+      break;
 
-export const generateMappedField = (buddyBossConf, mainAction) => {
-  let fields = []
-  if (mainAction === '1') {
-    fields = buddyBossConf?.createGroupFields
-  } else if (mainAction === '5') {
-    fields = buddyBossConf?.topicInForumFields
-  } else if (mainAction === '8' || mainAction === '11') {
-    fields = buddyBossConf?.sendAllUserNotificationFields
-  } else if (mainAction === '9' || mainAction === '10') {
-    fields = buddyBossConf?.sendAllGroupPrivateMessageFields
-  } else if (mainAction === '14') {
-    fields = buddyBossConf?.addPostToGroupFields
-  } else if (mainAction === '15') {
-    fields = buddyBossConf?.addPostSiteWideActivityStreamFields
-  } else if (mainAction === '17') {
-    fields = buddyBossConf?.postReplyTopicForumFields
+    case POST_TOPIC_FORUM_PRO:
+      var fields = buddyBossConf?.topicInForumFields
+      break;
+
+    case SEND_NOTIFICATION_MEMBER_GRP_PRO:
+    case SEND_NOTIFICATION_USER_PRO:
+      var fields = buddyBossConf?.sendAllUserNotificationFields
+      break;
+
+    case SEND_PRIVATE_MSG_MEMBER_GRP_PRO:
+    case SEND_PRIVATE_MSG_USER_PRO:
+      var fields = buddyBossConf?.sendAllGroupPrivateMessageFields
+      break;
+
+    case ADD_POST_GRP_ACTIVITY_STREAM_PRO:
+      var fields = buddyBossConf?.addPostToGroupFields
+      break;
+
+    case ADD_POST_SITE_WIDE_ACTIVITY_STREAM_PRO:
+      var fields = buddyBossConf?.addPostSiteWideActivityStreamFields
+      break;
+
+    case POST_REPLY_TOPIC_FORUM_PRO:
+      var fields = buddyBossConf?.postReplyTopicForumFields
+
+    default:
+      var fields = []
+      break;
   }
+
   const requiredFlds = fields.filter((fld) => fld.required === true)
   return requiredFlds.length > 0
     ? requiredFlds.map((field) => ({ formField: '', buddyBossFormField: field.key }))
@@ -168,6 +183,21 @@ export const generateMappedField = (buddyBossConf, mainAction) => {
 }
 
 export const checkMappedFields = (buddyBossConf) => {
+  if (![
+    CREATE_GROUP_PRO,
+    POST_TOPIC_FORUM_PRO,
+    SEND_NOTIFICATION_MEMBER_GRP_PRO,
+    SEND_PRIVATE_MSG_MEMBER_GRP_PRO,
+    SEND_PRIVATE_MSG_USER_PRO,
+    SEND_NOTIFICATION_USER_PRO,
+    ADD_POST_GRP_ACTIVITY_STREAM_PRO,
+    ADD_POST_SITE_WIDE_ACTIVITY_STREAM_PRO,
+    ADD_POST_USER_ACTIVITY_STREAM_PRO,
+    POST_REPLY_TOPIC_FORUM_PRO
+  ].includes(buddyBossConf.mainAction)) {
+    return true
+  }
+
   const mappedFleld = buddyBossConf.field_map
     ? buddyBossConf.field_map.filter((mapped) => !mapped.formField && !mapped.buddyBossFormField)
     : []
