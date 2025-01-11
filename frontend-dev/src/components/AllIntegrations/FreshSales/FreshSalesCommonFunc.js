@@ -3,6 +3,7 @@
 import toast from 'react-hot-toast'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { __, sprintf } from '../../../Utils/i18nwrap'
+import { create } from 'mutative'
 
 export const handleInput = (
   e,
@@ -15,75 +16,75 @@ export const handleInput = (
   error,
   setError
 ) => {
-  let newConf = { ...freshSalesConf }
+  const inputName = e.target.name;
+  const inputValue = e.target.value;
+
   if (isNew) {
-    const rmError = { ...error }
-    rmError[e.target.name] = ''
-    setError({ ...rmError })
-  }
-  if (e.target.value !== '') {
-    if (e.target.name !== 'module') {
-      newConf.moduleData[e.target.name] = parseInt(e.target.value)
-    } else {
-      newConf.moduleData = {}
-      newConf.moduleData[e.target.name] = e.target.value
-    }
-  } else {
-    delete newConf.moduleData[e.target.name]
+    const rmError = { ...error };
+    rmError[inputName] = '';
+    setError({ ...rmError });
   }
 
-  switch (e.target.name) {
+  setFreshSalesConf(prevConf =>
+    create(prevConf, draftConf => {
+      if (inputValue === '') {
+        delete draftConf.moduleData[inputName];
+        return
+      }
+
+      if (inputName !== 'module') {
+        draftConf.moduleData[inputName] = parseInt(inputValue);
+      } else {
+        draftConf.moduleData = {};
+        draftConf.moduleData[inputName] = inputValue;
+      }
+      console.log(draftConf.moduleData[inputName])
+    })
+  );
+
+  switch (inputName) {
     case 'module':
-      newConf = moduleChange(formID, newConf, setFreshSalesConf, setIsLoading, setSnackbar)
+      moduleChange(inputValue, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
       break
     case 'contact_view_id':
-      newConf = contactViewChange(formID, newConf, setFreshSalesConf, setIsLoading, setSnackbar)
+      contactViewChange(formID, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
       break
     case 'account_view_id':
-      newConf = accountViewChange(formID, newConf, setFreshSalesConf, setIsLoading, setSnackbar)
+      accountViewChange(formID, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
       break
     default:
       break
   }
-  setFreshSalesConf({ ...newConf })
-}
+};
 
 export const moduleChange = (
-  formID,
+  module,
   freshSalesConf,
   setFreshSalesConf,
   setIsLoading,
   setSnackbar
 ) => {
-  const newConf = { ...freshSalesConf }
+  setFreshSalesConf(prevConf =>
+    create(prevConf, draftConf => {
+      draftConf.actions = {};
+      draftConf.field_map = [{ formField: '', freshSalesFormField: '' }];
 
-  const module = newConf.moduleData.module
+      if (['Contact'].includes(module)) {
+        !draftConf.default.views &&
+          accountRefreshViews(freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
+      }
 
-  newConf.actions = {}
-  newConf.field_map = [{ formField: '', freshSalesFormField: '' }]
+      if (['Deal'].includes(module)) {
+        !draftConf.default.views &&
+          contactRefreshViews(freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
+      }
 
-  if (['Contact'].includes(module)) {
-    !newConf.default.views &&
-      accountRefreshViews(newConf, setFreshSalesConf, setIsLoading, setSnackbar)
-  }
-
-  if (['Deal'].includes(module)) {
-    !newConf.default.views &&
-      contactRefreshViews(newConf, setFreshSalesConf, setIsLoading, setSnackbar)
-  }
-
-  if (module !== '' && module !== undefined) {
-    setTimeout(() => {
-      refreshFields(module, newConf, setFreshSalesConf)
-    }, 1000)
-  } else {
-    newConf.field_map = newConf.default.modules?.[module]?.requiredFields
-      ? generateMappedField(newConf)
-      : [{ formField: '', freshSalesFormField: '' }]
-  }
-
-  return newConf
-}
+      if (module) {
+        refreshFields(module, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
+      }
+    })
+  );
+};
 
 export const accountViewChange = (
   formID,
@@ -92,26 +93,25 @@ export const accountViewChange = (
   setIsLoading,
   setSnackbar
 ) => {
-  const newConf = { ...freshSalesConf }
-  const view = newConf.moduleData.module
+  setFreshSalesConf(prevConf => create(prevConf, draftConf => {
+    const module = draftConf.moduleData.module
 
-  newConf.actions = {}
-  newConf.field_map = [{ formField: '', freshSalesFormField: '' }]
+    draftConf.actions = {}
+    draftConf.field_map = [{ formField: '', freshSalesFormField: '' }]
 
-  if (['Deal', 'Contact'].includes(view)) {
-    refreshAccounts(newConf, setFreshSalesConf, setIsLoading, setSnackbar)
-    if (!newConf.default.modules?.[view]?.fields && view !== '' && view !== undefined) {
-      setTimeout(() => {
-        refreshFields(view, newConf, setFreshSalesConf)
-      }, 1000)
-    } else {
-      newConf.field_map = newConf.default.modules?.[view]?.requiredFields
-        ? generateMappedField(newConf)
-        : [{ formField: '', freshSalesFormField: '' }]
+    if (['Deal', 'Contact'].includes(module)) {
+      refreshAccounts(draftConf, setFreshSalesConf, setIsLoading, setSnackbar)
+      if (!draftConf.default.modules?.[module]?.fields && module !== '' && module !== undefined) {
+        setTimeout(() => {
+          refreshFields(module, draftConf, setFreshSalesConf)
+        }, 1000)
+      } else {
+        draftConf.field_map = draftConf.default.modules?.[module]?.requiredFields
+          ? generateMappedField(draftConf)
+          : [{ formField: '', freshSalesFormField: '' }]
+      }
     }
-  }
-
-  return newConf
+  }))
 }
 
 export const contactViewChange = (
@@ -121,47 +121,56 @@ export const contactViewChange = (
   setIsLoading,
   setSnackbar
 ) => {
-  const newConf = { ...freshSalesConf }
-  const view = newConf.moduleData.module
-  newConf.actions = {}
-  newConf.field_map = [{ formField: '', freshSalesFormField: '' }]
+  setFreshSalesConf(prevConf => create(prevConf, draftConf => {
+    const module = draftConf.moduleData.module
+    draftConf.actions = {}
+    draftConf.field_map = [{ formField: '', freshSalesFormField: '' }]
 
-  if (['Deal'].includes(view)) {
-    !newConf.default.contacts &&
-      refreshContacts(newConf, setFreshSalesConf, setIsLoading, setSnackbar)
+    if (['Deal'].includes(module)) {
+      !draftConf.default.contacts &&
+        refreshContacts(draftConf, setFreshSalesConf, setIsLoading, setSnackbar)
 
-    if (!newConf.default.modules?.[view]?.fields && view !== '' && view !== undefined) {
-      setTimeout(() => {
-        refreshFields(view, newConf, setFreshSalesConf)
-      }, 1000)
-    } else {
-      newConf.field_map = newConf.default.modules?.[view]?.requiredFields
-        ? generateMappedField(newConf)
-        : [{ formField: '', freshSalesFormField: '' }]
+      if (!draftConf.default.modules?.[module]?.fields && module !== '' && module !== undefined) {
+        setTimeout(() => {
+          refreshFields(module, draftConf, setFreshSalesConf)
+        }, 1000)
+      } else {
+        draftConf.field_map = draftConf.default.modules?.[module]?.requiredFields
+          ? generateMappedField(draftConf)
+          : [{ formField: '', freshSalesFormField: '' }]
+      }
     }
-  }
-
-  return newConf
+  }))
 }
 
-export const refreshFields = (module, freshSalesConf, setFreshSalesConf) => {
+export const refreshFields = (module, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar) => {
   const requestParams = {
     api_key: freshSalesConf.api_key,
     bundle_alias: freshSalesConf.bundle_alias,
     module
   }
+
+  setIsLoading(true)
   bitsFetch(requestParams, 'FreshSales_refresh_fields').then((result) => {
-    if (result && result.success) {
-      const newConf = { ...freshSalesConf }
-      if (!newConf.default.modules[module].fields) newConf.default.modules[module].fields = {}
-      if (result.data) {
-        newConf.default.modules[module].fields = result.data
-        newConf.field_map = newConf.default.modules?.[module]?.requiredFields
-          ? generateMappedField(newConf)
-          : [{ formField: '', freshSalesFormField: '' }]
-      }
-      setFreshSalesConf({ ...newConf })
+    setIsLoading(false)
+
+    if (!result || !result.success) {
+      setSnackbar({ show: false, msg: __('Fields refreshed failed', 'bit-integrations') })
+      return
     }
+
+    setFreshSalesConf(prevConf => create(prevConf, draftConf => {
+      if (!draftConf.default.modules[module].fields) {
+        draftConf.default.modules[module].fields = []
+      }
+
+      draftConf.default.modules[module].fields = result?.data || []
+      draftConf.field_map = draftConf.default.modules?.[module]?.requiredFields
+        ? generateMappedField(draftConf)
+        : [{ formField: '', freshSalesFormField: '' }]
+
+      setSnackbar({ show: true, msg: __('Fields refreshed', 'bit-integrations') })
+    }))
   })
 }
 
@@ -361,22 +370,22 @@ export const generateMappedField = (freshSalesConf) => {
   )
   return requiredFlds?.length > 0
     ? requiredFlds.map((field) => ({
-        formField: '',
-        freshSalesFormField: field.key
-      }))
+      formField: '',
+      freshSalesFormField: field.key
+    }))
     : [{ formField: '', freshSalesFormField: '' }]
 }
 
 export const checkMappedFields = (freshSalesConf) => {
   const mappedFields = freshSalesConf?.field_map
     ? freshSalesConf.field_map.filter(
-        (mappedField) =>
-          !mappedField.formField &&
-          mappedField.freshSalesFormField &&
-          freshSalesConf?.default?.modules?.[
-            freshSalesConf.moduleData.module
-          ]?.requiredFields?.indexOf(mappedField.freshSalesFormField) !== -1
-      )
+      (mappedField) =>
+        !mappedField.formField &&
+        mappedField.freshSalesFormField &&
+        freshSalesConf?.default?.modules?.[
+          freshSalesConf.moduleData.module
+        ]?.requiredFields?.indexOf(mappedField.freshSalesFormField) !== -1
+    )
     : []
   if (mappedFields.length > 0) {
     return false

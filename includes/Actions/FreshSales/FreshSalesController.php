@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\FreshSales;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use WP_Error;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for FreshSales integration
@@ -185,6 +185,8 @@ class FreshSalesController
             $response = HttpHelper::get($apiEndpoints, null, $headers);
 
             if (isset($response) && $response) {
+                $formattedResponse = [];
+
                 foreach ($response->fields as $value) {
                     if (!\in_array($value->name, $unnecessaryFields->{$module})) {
                         $formattedResponse[] = [
@@ -194,6 +196,7 @@ class FreshSalesController
                         ];
                     }
                 }
+
                 wp_send_json_success($formattedResponse, 200);
             } else {
                 wp_send_json_error(
