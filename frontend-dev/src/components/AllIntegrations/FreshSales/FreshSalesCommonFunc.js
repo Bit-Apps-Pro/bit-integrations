@@ -81,34 +81,6 @@ export const moduleChange = (
   );
 };
 
-// export const accountViewChange = (
-//   formID,
-//   freshSalesConf,
-//   setFreshSalesConf,
-//   setIsLoading,
-//   setSnackbar
-// ) => {
-//   setFreshSalesConf(prevConf => create(prevConf, draftConf => {
-//     const module = draftConf.moduleData.module
-
-//     draftConf.actions = {}
-//     draftConf.field_map = [{ formField: '', freshSalesFormField: '' }]
-
-//     if (['Deal', 'Contact'].includes(module)) {
-//       refreshAccounts(draftConf, setFreshSalesConf, setIsLoading, setSnackbar)
-//       if (!draftConf.default.modules?.[module]?.fields && module !== '' && module !== undefined) {
-//         setTimeout(() => {
-//           refreshFields(module, draftConf, setFreshSalesConf)
-//         }, 1000)
-//       } else {
-//         draftConf.field_map = draftConf.default.modules?.[module]?.requiredFields
-//           ? generateMappedField(draftConf)
-//           : [{ formField: '', freshSalesFormField: '' }]
-//       }
-//     }
-//   }))
-// }
-
 export const accountViewChange = (
   formID,
   freshSalesConf,
@@ -120,7 +92,10 @@ export const accountViewChange = (
 
   if (['Deal', 'Contact'].includes(module)) {
     refreshAccounts(freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar);
-    refreshFields(module, freshSalesConf, setFreshSalesConf);
+  }
+
+  if (['Deal', 'Contact'].includes(module) && !freshSalesConf.default.modules[module]?.fields) {
+    refreshFields(module, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar);
   }
 };
 
@@ -137,7 +112,7 @@ export const contactViewChange = (
     refreshContacts(freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar);
   }
 
-  if (['Deal'].includes(module) && freshSalesConf.default.modules.deal?.fields) {
+  if (['Deal'].includes(module) && !freshSalesConf.default.modules[module]?.fields) {
     refreshFields(module, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar);
   }
 };
@@ -165,9 +140,6 @@ export const refreshFields = (module, freshSalesConf, setFreshSalesConf, setIsLo
       }
 
       draftConf.default.modules[module].fields = result?.data || []
-      // draftConf.field_map = draftConf.default.modules?.[module]?.requiredFields
-      //   ? generateMappedField(draftConf)
-      //   : [{ formField: '', freshSalesFormField: '' }]
       draftConf.field_map = generateMappedField(draftConf)
 
       setSnackbar({ show: true, msg: __('Fields refreshed', 'bit-integrations') })
