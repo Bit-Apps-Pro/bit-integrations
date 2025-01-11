@@ -38,7 +38,6 @@ export const handleInput = (
         draftConf.moduleData = {};
         draftConf.moduleData[inputName] = inputValue;
       }
-      console.log(draftConf.moduleData[inputName])
     })
   );
 
@@ -70,15 +69,11 @@ export const moduleChange = (
       draftConf.field_map = [{ formField: '', freshSalesFormField: '' }];
 
       if (['Contact'].includes(module)) {
-        !draftConf.default.views &&
-          accountRefreshViews(freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
+        accountRefreshViews(freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
       }
-
       if (['Deal'].includes(module)) {
-        !draftConf.default.views &&
-          contactRefreshViews(freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
+        contactRefreshViews(freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
       }
-
       if (module) {
         refreshFields(module, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
       }
@@ -129,36 +124,6 @@ export const accountViewChange = (
   }
 };
 
-
-// export const contactViewChange = (
-//   formID,
-//   freshSalesConf,
-//   setFreshSalesConf,
-//   setIsLoading,
-//   setSnackbar
-// ) => {
-//   setFreshSalesConf(prevConf => create(prevConf, draftConf => {
-//     const module = draftConf.moduleData.module
-//     draftConf.actions = {}
-//     draftConf.field_map = [{ formField: '', freshSalesFormField: '' }]
-
-//     if (['Deal'].includes(module)) {
-//       !draftConf.default.contacts &&
-//         refreshContacts(draftConf, setFreshSalesConf, setIsLoading, setSnackbar)
-
-//       if (!draftConf.default.modules?.[module]?.fields && module !== '' && module !== undefined) {
-//         setTimeout(() => {
-//           refreshFields(module, draftConf, setFreshSalesConf)
-//         }, 1000)
-//       } else {
-//         draftConf.field_map = draftConf.default.modules?.[module]?.requiredFields
-//           ? generateMappedField(draftConf)
-//           : [{ formField: '', freshSalesFormField: '' }]
-//       }
-//     }
-//   }))
-// }
-
 export const contactViewChange = (
   formID,
   freshSalesConf,
@@ -170,7 +135,10 @@ export const contactViewChange = (
 
   if (['Deal'].includes(module)) {
     refreshContacts(freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar);
-    refreshFields(module, freshSalesConf, setFreshSalesConf);
+  }
+
+  if (['Deal'].includes(module) && freshSalesConf.default.modules.deal?.fields) {
+    refreshFields(module, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar);
   }
 };
 
@@ -213,7 +181,6 @@ export const accountRefreshViews = (
   setIsLoading,
   setSnackbar
 ) => {
-  setIsLoading(true)
   const requestParams = {
     api_key: freshSalesConf.api_key,
     bundle_alias: freshSalesConf.bundle_alias,
@@ -221,37 +188,19 @@ export const accountRefreshViews = (
     type: 'sales_accounts'
   }
 
+  setIsLoading(true)
   bitsFetch(requestParams, 'FreshSales_fetch_meta_data')
     .then((result) => {
-      if (result && result.success) {
-        const newConf = { ...freshSalesConf }
-        if (!newConf.default.accountViews) newConf.default.accountViews = {}
-        if (result.data) {
-          newConf.default.accountViews = result.data
-        }
-        setFreshSalesConf({ ...newConf })
-        setSnackbar({
-          show: true,
-          msg: __('Account views refreshed', 'bit-integrations')
-        })
-      } else if (
-        (result && result.data && result.data.data) ||
-        (!result.success && typeof result.data === 'string')
-      ) {
-        setSnackbar({
-          show: true,
-          msg: sprintf(
-            __('Account views refresh failed Cause: %s. please try again', 'bit-integrations'),
-            result.data.data || result.data
-          )
-        })
-      } else {
-        setSnackbar({
-          show: true,
-          msg: __('Account views refresh failed. please try again', 'bit-integrations')
-        })
-      }
       setIsLoading(false)
+
+      if (!result || !result.success) {
+        setSnackbar({ show: false, msg: __('Account views refresh failed. please try again', 'bit-integrations') })
+        return
+      }
+
+      setFreshSalesConf(prevConf => create(prevConf, draftConf => {
+        draftConf.default.accountViews = result.data || []
+      }))
     })
     .catch(() => setIsLoading(false))
 }
@@ -282,7 +231,6 @@ export const contactRefreshViews = (
       setFreshSalesConf(prevConf => create(prevConf, draftConf => {
         draftConf.default.contactViews = result.data || []
       }))
-
     })
     .catch(() => setIsLoading(false))
 }
@@ -314,7 +262,6 @@ export const refreshAccounts = (freshSalesConf, setFreshSalesConf, setIsLoading,
 }
 
 export const refreshContacts = (freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar) => {
-  setIsLoading(true)
   const requestParams = {
     api_key: freshSalesConf.api_key,
     bundle_alias: freshSalesConf.bundle_alias,
@@ -323,37 +270,19 @@ export const refreshContacts = (freshSalesConf, setFreshSalesConf, setIsLoading,
     module: 'contacts'
   }
 
+  setIsLoading(true)
   bitsFetch(requestParams, 'FreshSales_fetch_meta_data')
     .then((result) => {
-      if (result && result.success) {
-        const newConf = { ...freshSalesConf }
-        if (!newConf.default.contacts) newConf.default.contacts = {}
-        if (result.data) {
-          newConf.default.contacts = result.data
-        }
-        setFreshSalesConf({ ...newConf })
-        setSnackbar({
-          show: true,
-          msg: __('Contacts refreshed', 'bit-integrations')
-        })
-      } else if (
-        (result && result.data && result.data.data) ||
-        (!result.success && typeof result.data === 'string')
-      ) {
-        setSnackbar({
-          show: true,
-          msg: sprintf(
-            __('Contacts refresh failed Cause: %s. please try again', 'bit-integrations'),
-            result.data.data || result.data
-          )
-        })
-      } else {
-        setSnackbar({
-          show: true,
-          msg: __('Contacts refresh failed. please try again', 'bit-integrations')
-        })
-      }
       setIsLoading(false)
+
+      if (!result || !result.success) {
+        setSnackbar({ show: false, msg: __('Contacts refresh failed. please try again', 'bit-integrations') })
+        return
+      }
+
+      setFreshSalesConf(prevConf => create(prevConf, draftConf => {
+        draftConf.default.contacts = result.data || []
+      }))
     })
     .catch(() => setIsLoading(false))
 }
