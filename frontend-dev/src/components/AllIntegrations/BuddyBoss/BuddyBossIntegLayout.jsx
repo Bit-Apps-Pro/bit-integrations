@@ -7,6 +7,26 @@ import BuddyBossActions from './BuddyBossActions'
 import { getAllBuddyBossGroup, getAllForum, getAllTopic, getAllUser } from './BuddyBossCommonFunc'
 import BuddyBossFieldMap from './BuddyBossFieldMap'
 import Note from '../../Utilities/Note'
+import {
+  ADD_POST_GRP_ACTIVITY_STREAM_PRO,
+  ADD_POST_SITE_WIDE_ACTIVITY_STREAM_PRO,
+  ADD_POST_USER_ACTIVITY_STREAM_PRO,
+  ADD_USER_GROUP,
+  CREATE_GROUP_PRO,
+  END_FRIENDSHIP_WITH_USER_PRO,
+  FOLLOW_USER_PRO,
+  POST_REPLY_TOPIC_FORUM_PRO,
+  POST_TOPIC_FORUM_PRO,
+  REMOVE_USER_FROM_GROUP_PRO,
+  SEND_FRIENDSHIP_REQ_USER_PRO,
+  SEND_NOTIFICATION_MEMBER_GRP_PRO,
+  SEND_NOTIFICATION_USER_PRO,
+  SEND_PRIVATE_MSG_MEMBER_GRP_PRO,
+  SEND_PRIVATE_MSG_USER_PRO,
+  SET_USER_STATUS_PRO,
+  STOP_FOLLOWING_USER_PRO,
+  SUBSCRIBE_USER_FORUM_PRO
+} from './IntegrationHelpers'
 
 export default function BuddyBossIntegLayout({
   formFields,
@@ -21,74 +41,68 @@ export default function BuddyBossIntegLayout({
   edit
 }) {
   useEffect(() => {
-    if (['2', '6', '8', '9'].includes(buddyBossConf?.mainAction)) {
+    if (toFetchGroups.includes(Number(buddyBossConf?.mainAction))) {
       getAllBuddyBossGroup(buddyBossConf, setBuddyBossConf, setIsLoading, setSnackbar)
     }
-    if (['3', '4', '8', '9', '10', '12', '15', '16'].includes(buddyBossConf?.mainAction)) {
+    if (toFetchUsers.includes(Number(buddyBossConf?.mainAction))) {
       getAllUser(buddyBossConf, setBuddyBossConf, setIsLoading, setSnackbar)
     }
-    if (['5', '13', '17'].includes(buddyBossConf?.mainAction)) {
+    if (toFetchForum.includes(Number(buddyBossConf?.mainAction))) {
       getAllForum(buddyBossConf, setBuddyBossConf, setIsLoading, setSnackbar)
     }
   }, [buddyBossConf.mainAction])
 
   const changeHandler = (val, name) => {
     const newConf = { ...buddyBossConf }
-    if (name === 'groupId') {
-      if (val !== '') {
-        newConf[name] = val
-      } else {
-        delete newConf[name]
-      }
+
+    if (val !== '') {
+      newConf[name] = val
+    } else {
+      delete newConf[name]
     }
-    if (name === 'friendId') {
-      if (val !== '') {
-        newConf[name] = val
-      } else {
-        delete newConf[name]
-      }
-    }
-    if (name === 'forumId') {
-      if (val !== '') {
-        newConf[name] = val
-      } else {
-        delete newConf[name]
-      }
-    }
-    if (name === 'topicId') {
-      if (val !== '') {
-        newConf[name] = val
-      } else {
-        delete newConf[name]
-      }
-    }
-    if (name === 'userStatusId') {
-      if (val !== '') {
-        newConf[name] = val
-      } else {
-        delete newConf[name]
-      }
-    }
+
     setBuddyBossConf({ ...newConf })
   }
 
   const getFields = (e) => {
-    let buddyBossFields = []
-    if (buddyBossConf?.mainAction === '1') {
-      buddyBossFields = buddyBossConf?.createGroupFields || []
-    } else if (buddyBossConf?.mainAction === '5') {
-      buddyBossFields = buddyBossConf?.topicInForumFields || []
-    } else if (buddyBossConf?.mainAction === '8' || buddyBossConf?.mainAction === '11') {
-      buddyBossFields = buddyBossConf?.sendAllUserNotificationFields || []
-    } else if (buddyBossConf?.mainAction === '9' || buddyBossConf?.mainAction === '10') {
-      buddyBossFields = buddyBossConf?.sendAllGroupPrivateMessageFields || []
-    } else if (buddyBossConf?.mainAction === '14') {
-      buddyBossFields = buddyBossConf?.addPostToGroupFields || []
-    } else if (buddyBossConf?.mainAction === '15' || buddyBossConf?.mainAction === '16') {
-      buddyBossFields = buddyBossConf?.addPostSiteWideActivityStreamFields || []
-    } else if (buddyBossConf?.mainAction === '17') {
-      buddyBossFields = buddyBossConf?.postReplyTopicForumFields || []
+    let buddyBossFields
+
+    switch (Number(buddyBossConf?.mainAction)) {
+      case CREATE_GROUP_PRO:
+        buddyBossFields = buddyBossConf?.createGroupFields || []
+        break
+
+      case POST_TOPIC_FORUM_PRO:
+        buddyBossFields = buddyBossConf?.topicInForumFields || []
+        break
+
+      case SEND_NOTIFICATION_MEMBER_GRP_PRO:
+      case SEND_NOTIFICATION_USER_PRO:
+        buddyBossFields = buddyBossConf?.sendAllUserNotificationFields || []
+        break
+
+      case SEND_PRIVATE_MSG_MEMBER_GRP_PRO:
+      case SEND_PRIVATE_MSG_USER_PRO:
+        buddyBossFields = buddyBossConf?.sendAllGroupPrivateMessageFields || []
+        break
+
+      case ADD_POST_GRP_ACTIVITY_STREAM_PRO:
+        buddyBossFields = buddyBossConf?.addPostToGroupFields || []
+        break
+
+      case ADD_POST_SITE_WIDE_ACTIVITY_STREAM_PRO:
+      case ADD_POST_USER_ACTIVITY_STREAM_PRO:
+        buddyBossFields = buddyBossConf?.addPostSiteWideActivityStreamFields || []
+        break
+
+      case POST_REPLY_TOPIC_FORUM_PRO:
+        buddyBossFields = buddyBossConf?.postReplyTopicForumFields || []
+        break
+
+      default:
+        buddyBossFields = []
     }
+
     return buddyBossFields
   }
 
@@ -111,7 +125,7 @@ export default function BuddyBossIntegLayout({
       </select>
       <br />
       <br />
-      {['2', '6', '8', '9', '14'].includes(buddyBossConf?.mainAction) && (
+      {showGroupActions.includes(Number(buddyBossConf?.mainAction)) && (
         <>
           <br />
           <div className="flx mt-4">
@@ -140,17 +154,17 @@ export default function BuddyBossIntegLayout({
         </>
       )}
 
-      {['3', '4', '7', '8', '9', '10', '12', '14', '15', '16'].includes(
-        buddyBossConf?.mainAction
-      ) && (
+      {showUserActions.includes(Number(buddyBossConf?.mainAction)) && (
         <>
           <br />
           <div className="flx mt-4">
             <b className="wdt-200 d-in-b">
-              {__(
-                `${buddyBossConf.mainAction === '8' ? __('Sender User', 'bit-integrations') : __('Select User', 'bit-integrations')}`,
-                'bit-integrations'
-              )}
+              {`${
+                Number(buddyBossConf.mainAction) === SEND_NOTIFICATION_MEMBER_GRP_PRO ||
+                Number(buddyBossConf.mainAction) === SEND_PRIVATE_MSG_USER_PRO
+                  ? __('Sender User', 'bit-integrations')
+                  : __('Select User', 'bit-integrations')
+              }`}
             </b>
             <MultiSelect
               className="w-5"
@@ -163,7 +177,7 @@ export default function BuddyBossIntegLayout({
                 }))
               }
               onChange={(val) => changeHandler(val, 'friendId')}
-              singleSelect={buddyBossConf?.mainAction !== '12'}
+              singleSelect={Number(buddyBossConf?.mainAction) !== STOP_FOLLOWING_USER_PRO}
             />
             <button
               onClick={() => getAllUser(buddyBossConf, setBuddyBossConf, setIsLoading, setSnackbar)}
@@ -177,7 +191,48 @@ export default function BuddyBossIntegLayout({
         </>
       )}
 
-      {['5', '13', '17'].includes(buddyBossConf?.mainAction) && (
+      {Number(buddyBossConf?.mainAction) === SEND_PRIVATE_MSG_USER_PRO && (
+        <>
+          <div className="flx mt-4">
+            <b className="wdt-200 d-in-b">{__('Recipient User', 'bit-integrations')}</b>
+            <select
+              className="btcd-paper-inp w-5"
+              name="formField"
+              value={buddyBossConf?.recipientUserId || ''}
+              onChange={(e) => changeHandler(e.target.value, 'recipientUserId')}>
+              <option value="">{__('Select User', 'bit-integrations')}</option>
+              <optgroup label={__('Logged In User', 'bit-integrations')}>
+                <option value="loggedInUser">{__('Logged In User', 'bit-integrations')}</option>
+              </optgroup>
+              <optgroup label={__('All User', 'bit-integrations')}>
+                {buddyBossConf?.default?.allUser &&
+                  buddyBossConf.default.allUser.map((item) => (
+                    <option key={`ff-rm-${item.ID}`} value={item.ID}>
+                      {item.display_name}
+                    </option>
+                  ))}
+              </optgroup>
+              <optgroup label={__('Select user id from Form Fields', 'bit-integrations')}>
+                {formFields?.map((f) => (
+                  <option key={`ff-rm-${f.name}`} value={'${' + f.name + '}'}>
+                    {f.label}
+                  </option>
+                ))}
+              </optgroup>
+            </select>
+            <button
+              onClick={() => getAllUser(buddyBossConf, setBuddyBossConf, setIsLoading, setSnackbar)}
+              className="icn-btn sh-sm ml-2 mr-2 tooltip"
+              style={{ '--tooltip-txt': `'${__('Fetch All User', 'bit-integrations')}'` }}
+              type="button"
+              disabled={isLoading}>
+              &#x21BB;
+            </button>
+          </div>
+        </>
+      )}
+
+      {showForumActions.includes(Number(buddyBossConf?.mainAction)) && (
         <>
           <br />
           <div className="flx mt-4">
@@ -193,12 +248,10 @@ export default function BuddyBossIntegLayout({
                 }))
               }
               onChange={(val) => changeHandler(val, 'forumId')}
-              singleSelect={buddyBossConf?.mainAction !== '13'}
+              singleSelect={Number(buddyBossConf?.mainAction) !== SUBSCRIBE_USER_FORUM_PRO}
             />
             <button
-              onClick={() =>
-                getAllForum(buddyBossConf, setBuddyBossConf, setIsLoading, setSnackbar)
-              }
+              onClick={() => getAllForum(buddyBossConf, setBuddyBossConf, setIsLoading, setSnackbar)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `'${__('Fetch All Forum', 'bit-integrations')}'` }}
               type="button"
@@ -208,39 +261,38 @@ export default function BuddyBossIntegLayout({
           </div>
         </>
       )}
-      {buddyBossConf?.forumId !== undefined && ['17'].includes(buddyBossConf?.mainAction) && (
-        <>
-          <br />
-          <div className="flx mt-4">
-            <b className="wdt-200 d-in-b">{__('Select Topic:', 'bit-integrations')}</b>
-            <MultiSelect
-              className="w-5"
-              defaultValue={buddyBossConf?.topicId}
-              options={
-                buddyBossConf?.default?.allTopic &&
-                buddyBossConf.default.allTopic.map((item) => ({
-                  label: item.topic_title,
-                  value: item.topic_id.toString()
-                }))
-              }
-              onChange={(val) => changeHandler(val, 'topicId')}
-              singleSelect
-            />
-            <button
-              onClick={() =>
-                getAllTopic(buddyBossConf, setBuddyBossConf, setIsLoading, setSnackbar)
-              }
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `'${__('Fetch All Topic', 'bit-integrations')}'` }}
-              type="button"
-              disabled={isLoading}>
-              &#x21BB;
-            </button>
-          </div>
-        </>
-      )}
+      {buddyBossConf?.forumId !== undefined &&
+        Number(buddyBossConf?.mainAction) === POST_REPLY_TOPIC_FORUM_PRO && (
+          <>
+            <br />
+            <div className="flx mt-4">
+              <b className="wdt-200 d-in-b">{__('Select Topic:', 'bit-integrations')}</b>
+              <MultiSelect
+                className="w-5"
+                defaultValue={buddyBossConf?.topicId}
+                options={
+                  buddyBossConf?.default?.allTopic &&
+                  buddyBossConf.default.allTopic.map((item) => ({
+                    label: item.topic_title,
+                    value: item.topic_id.toString()
+                  }))
+                }
+                onChange={(val) => changeHandler(val, 'topicId')}
+                singleSelect
+              />
+              <button
+                onClick={() => getAllTopic(buddyBossConf, setBuddyBossConf, setIsLoading, setSnackbar)}
+                className="icn-btn sh-sm ml-2 mr-2 tooltip"
+                style={{ '--tooltip-txt': `'${__('Fetch All Topic', 'bit-integrations')}'` }}
+                type="button"
+                disabled={isLoading}>
+                &#x21BB;
+              </button>
+            </div>
+          </>
+        )}
 
-      {['18'].includes(buddyBossConf?.mainAction) && (
+      {Number(buddyBossConf?.mainAction) === SET_USER_STATUS_PRO && (
         <>
           <br />
           <div className="flx mt-4">
@@ -274,9 +326,7 @@ export default function BuddyBossIntegLayout({
       )}
 
       <>
-        {['1', '5', '8', '9', '10', '11', '14', '15', '16', '17'].includes(
-          buddyBossConf?.mainAction
-        ) && (
+        {showFieldMapping.includes(Number(buddyBossConf?.mainAction)) && (
           <>
             <div className="mt-4">
               <b className="wdt-100">{__('Map Fields', 'bit-integrations')}</b>
@@ -317,7 +367,7 @@ export default function BuddyBossIntegLayout({
         )}
         <br />
         <br />
-        {buddyBossConf.mainAction === '1' && (
+        {Number(buddyBossConf.mainAction) === CREATE_GROUP_PRO && (
           <>
             <div className="mt-4">
               <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
@@ -332,9 +382,62 @@ export default function BuddyBossIntegLayout({
         )}
       </>
       <br />
-      <Note
-        note={__('Some integrations will only work for logged-in users.', 'bit-integrations')}
-      />
+      <Note note={__('Some integrations will only work for logged-in users.', 'bit-integrations')} />
     </>
   )
 }
+
+const toFetchGroups = [
+  ADD_USER_GROUP,
+  REMOVE_USER_FROM_GROUP_PRO,
+  SEND_NOTIFICATION_MEMBER_GRP_PRO,
+  SEND_PRIVATE_MSG_MEMBER_GRP_PRO
+]
+
+const toFetchUsers = [
+  END_FRIENDSHIP_WITH_USER_PRO,
+  FOLLOW_USER_PRO,
+  SEND_NOTIFICATION_MEMBER_GRP_PRO,
+  SEND_PRIVATE_MSG_MEMBER_GRP_PRO,
+  SEND_PRIVATE_MSG_USER_PRO,
+  STOP_FOLLOWING_USER_PRO,
+  ADD_POST_SITE_WIDE_ACTIVITY_STREAM_PRO,
+  ADD_POST_USER_ACTIVITY_STREAM_PRO
+]
+
+const showGroupActions = [
+  ADD_USER_GROUP,
+  REMOVE_USER_FROM_GROUP_PRO,
+  SEND_NOTIFICATION_MEMBER_GRP_PRO,
+  SEND_PRIVATE_MSG_MEMBER_GRP_PRO,
+  ADD_POST_GRP_ACTIVITY_STREAM_PRO
+]
+
+const showUserActions = [
+  END_FRIENDSHIP_WITH_USER_PRO,
+  FOLLOW_USER_PRO,
+  SEND_FRIENDSHIP_REQ_USER_PRO,
+  SEND_NOTIFICATION_MEMBER_GRP_PRO,
+  SEND_PRIVATE_MSG_MEMBER_GRP_PRO,
+  SEND_PRIVATE_MSG_USER_PRO,
+  STOP_FOLLOWING_USER_PRO,
+  ADD_POST_GRP_ACTIVITY_STREAM_PRO,
+  ADD_POST_SITE_WIDE_ACTIVITY_STREAM_PRO,
+  ADD_POST_USER_ACTIVITY_STREAM_PRO
+]
+
+const showFieldMapping = [
+  CREATE_GROUP_PRO,
+  POST_TOPIC_FORUM_PRO,
+  SEND_NOTIFICATION_MEMBER_GRP_PRO,
+  SEND_PRIVATE_MSG_MEMBER_GRP_PRO,
+  SEND_PRIVATE_MSG_USER_PRO,
+  SEND_NOTIFICATION_USER_PRO,
+  ADD_POST_GRP_ACTIVITY_STREAM_PRO,
+  ADD_POST_SITE_WIDE_ACTIVITY_STREAM_PRO,
+  ADD_POST_USER_ACTIVITY_STREAM_PRO,
+  POST_REPLY_TOPIC_FORUM_PRO
+]
+
+const toFetchForum = [POST_TOPIC_FORUM_PRO, SUBSCRIBE_USER_FORUM_PRO, POST_REPLY_TOPIC_FORUM_PRO]
+const showForumActions = [POST_TOPIC_FORUM_PRO, SUBSCRIBE_USER_FORUM_PRO, POST_REPLY_TOPIC_FORUM_PRO]
