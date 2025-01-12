@@ -1115,19 +1115,29 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Zagomail**](https://bit-integrations.com/wp-docs/actions/zagomail-integrations/)
 
-* [**Zoho CRM**](https://bitapps.pro/docs/bit-integrations/trigger/zoho-crm/)
+* [**Zapier**](https://bit-integrations.com/wp-docs/actions/zapier-integrations/)
 
-* [**Zoho Desk**](https://bitapps.pro/docs/bit-integrations/trigger/zoho-desk/)
+* [**Zendesk**](https://bit-integrations.com/wp-docs/actions/zendesk-integrations/)
 
-* [**Zoho Flow**](https://bitapps.pro/docs/bit-integrations/trigger/zoho-flow/)
+* [**Zoho Bigin**](https://bit-integrations.com/wp-docs/actions/zoho-bigin-integrations/)
 
-* [**Zoho Recruit**](https://bitapps.pro/docs/bit-integrations/trigger/zoho-recruit/)
+* [**Zoho CRM**](https://bit-integrations.com/wp-docs/actions/zoho-crm-integrations/)
 
-* [**Zoho Bigin**](https://bitapps.pro/docs/bit-integrations/trigger/zoho-bigin/)
+* [**Zoho Desk**](https://bit-integrations.com/wp-docs/actions/zoho-desk-integrations/)
 
-* [**Zoho Campaign**](https://bitapps.pro/docs/bit-integrations/trigger/zoho-campaign/)
+* [**Zoho Flow**](https://bit-integrations.com/wp-docs/actions/zoho-flow-integrations/)
 
-* [**Zoho Marketing Automation(Zoho Marketing Hub)**](https://bitapps.pro/docs/bit-integrations/trigger/zoho-marketing-hub/)
+* [**Zoho Recruit**](https://bit-integrations.com/wp-docs/actions/zoho-recruit-integrations/)
+
+* [**Zoho Campaign**](https://bit-integrations.com/wp-docs/actions/zoho-campaigns-integrations/)
+
+* [**Zoho Marketing Automation(Zoho Marketing Hub)**](https://bit-integrations.com/wp-docs/actions/zoho-marketing-automation-integrations/)
+
+* [**Zoho Sheet**](https://bit-integrations.com/wp-docs/actions/zoho-sheet-integrations/)
+
+* [**Zoom**](https://bit-integrations.com/wp-docs/actions/zoom-meeting-integrations/)
+
+* [**Zoom Webinar**](https://bit-integrations.com/wp-docs/actions/zoom-webinar-integrations/)
 
 ✨ Overview of other products we are offering :
 
