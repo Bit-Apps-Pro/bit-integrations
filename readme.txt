@@ -4,7 +4,7 @@ Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
 Tested up to: 6.7.1
 Requires PHP: 7.4
-Stable tag: 2.4.2
+Stable tag: 2.4.3
 License: GPLv2 or later
 
 Automation Plugin for WordPress. Integration of 90+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
@@ -1141,17 +1141,17 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 ✨ Overview of other products we are offering :
 
-📝[**Bit Form**](https://wordpress.org/plugins/bit-form/): One of our bestselling product. Bit Form is an amazing drag & drop form builder that allows you to create custom forms to interact with your visitors. It gives you the freedom to create any form you want, with no coding required.
+📝[**Bit Form**](https://wordpress.org/plugins/bit-form/): One of our bestselling product. Drag & drop form builder for WordPress. Create custom contact forms, surveys, and more - no coding required!
 
-📧 [**Bit Assist**](https://wordpress.org/plugins/bit-assist/): Connect with your visitor using their favorite Facebook Messenger, WhatsApp, Tawk to, Telegram, Viber, Slack, etc. You can also use custom form, custom link, and many more facilities to interact with all your users.
+📧 [**Bit Assist**](https://wordpress.org/plugins/bit-assist/): Connect with users via Messenger, WhatsApp, Telegram, Slack, Viber, and more, with custom forms and links.
 
-📧 [**Bit File Manager**](https://wordpress.org/plugins/file-manager/): Most robust and powerful file manager plugin for WordPress. You can upload, delete, copy, move, rename, archive, and extract files with the file manager plugin. You don’t need to worry about FTP anymore. It is really simple and easy to use. 100% free file manager for WordPress
+📧 [**Bit Social**](https://wordpress.org/plugins/bit-social/): Auto-post, schedule, and share WordPress posts on Facebook, LinkedIn, and Twitter with ease.
 
-📧 [**Bit SMTP**](https://wordpress.org/plugins/bit-smtp/): The ultimate goal of Bit SMTP plugin to make your email deliverability more easy as well as secure.
+📧 [**Bit File Manager**](https://wordpress.org/plugins/file-manager/): The ultimate WordPress file manager for uploading, deleting, moving, renaming, and managing files—100% free!
 
-📧 [**Bit Social**](https://wordpress.org/plugins/bit-social/): With Bit Social you can Auto Post, Schedule & Share WordPress post to Facebook, LinkedIn, Twitter with Bit Social Auto Poster. Scheduling & Share post on social media easily.
+📧 [**Bit SMTP**](https://wordpress.org/plugins/bit-smtp/): Secure and improve your WordPress email deliverability.
 
-📧 [**Webhooks.is**](https://webhook.is/): Test your incoming and outgoing [**webhook**](https://webhook.is/difference-between-webhook-and-api) free.
+📧 [**Webhooks.is**](https://webhook.is/): Test incoming and outgoing [**webhooks**](https://webhook.is/difference-between-webhook-and-api) for free.
 
 📢 **We are open for freelance work/custom development. [Connect](https://bitapps.pro/contact) with us for further information.**
 
@@ -1209,6 +1209,21 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 6. All integration list
 
 == Changelog ==
+
+= 2.4.3 =
+_Release Date -12th January 2025_
+
+- **New Feature**
+ - FluentCRM (Trigger): Added company data, including custom field data, to contacts-related triggers. (Pro)
+
+- **New Improvements**
+ - BuddyBoss (Action): Added sender and recipient user details in the send private message module.
+ - Freshsales: Increased the fetching quantity for accounts and contacts.
+
+- **Bug Fixes**
+ - CartFlow: Resolved the trigger field format issue. (Pro)
+ - WPForms: Fixed the issue with empty upload file objects.
+ - Google Sheets: Addressed duplicate header data conflict issues.
 
 = 2.4.2 =
 _Release Date -2nd January 2025_
