@@ -16,7 +16,6 @@ export default async function bitsFetch(data, action, queryParam = null, method 
       }
     }
   }
-  console.log('action', action)
 
   const options = {
     method,
