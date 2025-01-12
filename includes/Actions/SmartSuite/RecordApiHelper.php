@@ -61,7 +61,7 @@ class RecordApiHelper
 
     public function createRecord($requestParams)
     {
-        $response = apply_filters('btcbi_smartSuite_create_record', false, $requestParams, $this->integrationDetails->selectedTable, $this->workspaceId, $this->apiToken, $this->integrationDetails->assigned_to, $this->integrationDetails->status, $this->integrationDetails->priority);
+        $response = apply_filters('btcbi_smartSuite_create_record', false, $requestParams, $this->integrationDetails, $this->workspaceId, $this->apiToken);
 
         return handleFilterResponse($response);
     }
