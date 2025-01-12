@@ -62,7 +62,6 @@ class MailupController
                 'required' => true
             ]
         ];
-        error_log(print_r($apiResponse, true));
 
         if (!property_exists($apiResponse, 'Items')) {
             wp_send_json_error('List fetching failed', 400);

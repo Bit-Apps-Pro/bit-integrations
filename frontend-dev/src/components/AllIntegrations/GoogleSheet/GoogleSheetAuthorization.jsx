@@ -99,7 +99,7 @@ export default function GoogleSheetAuthorization({
 
 
   const handleVerificationCode = async (authInfo) => {
-    await tokenHelper(authInfo, sheetConf, setSheetConf, selectedAuthType, authData, setAuthData, setIsLoading, setSnackbar);
+    await tokenHelper(authInfo, sheetConf, setSheetConf, selectedAuthType, setAuthData, setIsLoading, setSnackbar);
     setAuthInfo(undefined)
     getAuthData()
   }
@@ -227,7 +227,7 @@ export default function GoogleSheetAuthorization({
         </button>
         )}
       <br />
-      <button onClick={() => nextPage(2)} className="btn f-right btcd-btn-lg purple sh-sm flx" type="button" disabled={!selectedUserId || authData.length === 0}>
+      <button onClick={() => nextPage(2)} className="btn f-right btcd-btn-lg purple sh-sm flx" type="button" disabled={!selectedUserId || (authData.length === 0 && !isEdit && (sheetConf.tokenDetails == null))}>
         {__('Next', 'bit-integrations')}
         <BackIcn className="ml-1 rev-icn" />
       </button>
