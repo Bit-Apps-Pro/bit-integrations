@@ -46,10 +46,10 @@ export const handleInput = (
       moduleChange(inputValue, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
       break
     case 'contact_view_id':
-      contactViewChange(formID, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
+      contactViewChange(inputValue, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
       break
     case 'account_view_id':
-      accountViewChange(formID, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
+      accountViewChange(inputValue, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
       break
     default:
       break
@@ -82,7 +82,7 @@ export const moduleChange = (
 };
 
 export const accountViewChange = (
-  formID,
+  accountViewId,
   freshSalesConf,
   setFreshSalesConf,
   setIsLoading,
@@ -91,7 +91,7 @@ export const accountViewChange = (
   const module = freshSalesConf.moduleData.module
 
   if (['Deal', 'Contact'].includes(module)) {
-    refreshAccounts(freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar);
+    refreshAccounts(accountViewId, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar);
   }
 
   if (['Deal', 'Contact'].includes(module) && !freshSalesConf.default.modules[module]?.fields) {
@@ -100,7 +100,7 @@ export const accountViewChange = (
 };
 
 export const contactViewChange = (
-  formID,
+  contactViewId,
   freshSalesConf,
   setFreshSalesConf,
   setIsLoading,
@@ -109,7 +109,7 @@ export const contactViewChange = (
   const module = freshSalesConf.moduleData.module;
 
   if (['Deal'].includes(module)) {
-    refreshContacts(freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar);
+    refreshContacts(contactViewId, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar);
   }
 
   if (['Deal'].includes(module) && !freshSalesConf.default.modules[module]?.fields) {
@@ -207,11 +207,11 @@ export const contactRefreshViews = (
     .catch(() => setIsLoading(false))
 }
 
-export const refreshAccounts = (freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar) => {
+export const refreshAccounts = (accountViewId, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar) => {
   const requestParams = {
     api_key: freshSalesConf.api_key,
     bundle_alias: freshSalesConf.bundle_alias,
-    account_view_id: freshSalesConf.moduleData.account_view_id,
+    account_view_id: accountViewId,
     contact_view_id: freshSalesConf.moduleData.contact_view_id,
     module: 'sales_accounts'
   }
@@ -233,11 +233,11 @@ export const refreshAccounts = (freshSalesConf, setFreshSalesConf, setIsLoading,
     .catch(() => setIsLoading(false))
 }
 
-export const refreshContacts = (freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar) => {
+export const refreshContacts = (contactViewId, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar) => {
   const requestParams = {
     api_key: freshSalesConf.api_key,
     bundle_alias: freshSalesConf.bundle_alias,
-    contact_view_id: freshSalesConf.moduleData.contact_view_id,
+    contact_view_id: contactViewId,
     account_view_id: freshSalesConf.moduleData.account_view_id,
     module: 'contacts'
   }
