@@ -141,38 +141,37 @@ export const getAllTopic = (buddyBossConf, setBuddyBossConf, setIsLoading, setSn
 }
 
 export const generateMappedField = (buddyBossConf) => {
+  var fields = []
+
   switch (Number(buddyBossConf.mainAction)) {
     case CREATE_GROUP_PRO:
-      var fields = buddyBossConf?.createGroupFields
+      fields = buddyBossConf?.createGroupFields
       break;
 
     case POST_TOPIC_FORUM_PRO:
-      var fields = buddyBossConf?.topicInForumFields
+      fields = buddyBossConf?.topicInForumFields
       break;
 
     case SEND_NOTIFICATION_MEMBER_GRP_PRO:
     case SEND_NOTIFICATION_USER_PRO:
-      var fields = buddyBossConf?.sendAllUserNotificationFields
+      fields = buddyBossConf?.sendAllUserNotificationFields
       break;
 
     case SEND_PRIVATE_MSG_MEMBER_GRP_PRO:
     case SEND_PRIVATE_MSG_USER_PRO:
-      var fields = buddyBossConf?.sendAllGroupPrivateMessageFields
+      fields = buddyBossConf?.sendAllGroupPrivateMessageFields
       break;
 
     case ADD_POST_GRP_ACTIVITY_STREAM_PRO:
-      var fields = buddyBossConf?.addPostToGroupFields
+      fields = buddyBossConf?.addPostToGroupFields
       break;
 
     case ADD_POST_SITE_WIDE_ACTIVITY_STREAM_PRO:
-      var fields = buddyBossConf?.addPostSiteWideActivityStreamFields
+      fields = buddyBossConf?.addPostSiteWideActivityStreamFields
       break;
 
     case POST_REPLY_TOPIC_FORUM_PRO:
-      var fields = buddyBossConf?.postReplyTopicForumFields
-
-    default:
-      var fields = []
+      fields = buddyBossConf?.postReplyTopicForumFields
       break;
   }
 

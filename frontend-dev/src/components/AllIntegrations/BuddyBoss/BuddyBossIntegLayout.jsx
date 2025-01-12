@@ -40,17 +40,19 @@ export default function BuddyBossIntegLayout({
   isInfo,
   edit
 }) {
+  const mainAction = Number(buddyBossConf?.mainAction)
+
   useEffect(() => {
-    if (toFetchGroups.includes(Number(buddyBossConf?.mainAction))) {
+    if (toFetchGroups.includes(mainAction)) {
       getAllBuddyBossGroup(buddyBossConf, setBuddyBossConf, setIsLoading, setSnackbar)
     }
-    if (toFetchUsers.includes(Number(buddyBossConf?.mainAction))) {
+    if (toFetchUsers.includes(mainAction)) {
       getAllUser(buddyBossConf, setBuddyBossConf, setIsLoading, setSnackbar)
     }
-    if (toFetchForum.includes(Number(buddyBossConf?.mainAction))) {
+    if (toFetchForum.includes(mainAction)) {
       getAllForum(buddyBossConf, setBuddyBossConf, setIsLoading, setSnackbar)
     }
-  }, [buddyBossConf.mainAction])
+  }, [mainAction])
 
   const changeHandler = (val, name) => {
     const newConf = { ...buddyBossConf }
@@ -67,7 +69,7 @@ export default function BuddyBossIntegLayout({
   const getFields = (e) => {
     let buddyBossFields
 
-    switch (Number(buddyBossConf?.mainAction)) {
+    switch (mainAction) {
       case CREATE_GROUP_PRO:
         buddyBossFields = buddyBossConf?.createGroupFields || []
         break
@@ -125,7 +127,7 @@ export default function BuddyBossIntegLayout({
       </select>
       <br />
       <br />
-      {showGroupActions.includes(Number(buddyBossConf?.mainAction)) && (
+      {showGroupActions.includes(mainAction) && (
         <>
           <br />
           <div className="flx mt-4">
@@ -154,7 +156,7 @@ export default function BuddyBossIntegLayout({
         </>
       )}
 
-      {showUserActions.includes(Number(buddyBossConf?.mainAction)) && (
+      {showUserActions.includes(mainAction) && (
         <>
           <br />
           <div className="flx mt-4">
@@ -177,7 +179,7 @@ export default function BuddyBossIntegLayout({
                 }))
               }
               onChange={(val) => changeHandler(val, 'friendId')}
-              singleSelect={Number(buddyBossConf?.mainAction) !== STOP_FOLLOWING_USER_PRO}
+              singleSelect={mainAction !== STOP_FOLLOWING_USER_PRO}
             />
             <button
               onClick={() => getAllUser(buddyBossConf, setBuddyBossConf, setIsLoading, setSnackbar)}
@@ -191,7 +193,7 @@ export default function BuddyBossIntegLayout({
         </>
       )}
 
-      {Number(buddyBossConf?.mainAction) === SEND_PRIVATE_MSG_USER_PRO && (
+      {mainAction === SEND_PRIVATE_MSG_USER_PRO && (
         <>
           <div className="flx mt-4">
             <b className="wdt-200 d-in-b">{__('Recipient User', 'bit-integrations')}</b>
@@ -232,7 +234,7 @@ export default function BuddyBossIntegLayout({
         </>
       )}
 
-      {showForumActions.includes(Number(buddyBossConf?.mainAction)) && (
+      {showForumActions.includes(mainAction) && (
         <>
           <br />
           <div className="flx mt-4">
@@ -248,7 +250,7 @@ export default function BuddyBossIntegLayout({
                 }))
               }
               onChange={(val) => changeHandler(val, 'forumId')}
-              singleSelect={Number(buddyBossConf?.mainAction) !== SUBSCRIBE_USER_FORUM_PRO}
+              singleSelect={mainAction !== SUBSCRIBE_USER_FORUM_PRO}
             />
             <button
               onClick={() => getAllForum(buddyBossConf, setBuddyBossConf, setIsLoading, setSnackbar)}
@@ -261,38 +263,37 @@ export default function BuddyBossIntegLayout({
           </div>
         </>
       )}
-      {buddyBossConf?.forumId !== undefined &&
-        Number(buddyBossConf?.mainAction) === POST_REPLY_TOPIC_FORUM_PRO && (
-          <>
-            <br />
-            <div className="flx mt-4">
-              <b className="wdt-200 d-in-b">{__('Select Topic:', 'bit-integrations')}</b>
-              <MultiSelect
-                className="w-5"
-                defaultValue={buddyBossConf?.topicId}
-                options={
-                  buddyBossConf?.default?.allTopic &&
-                  buddyBossConf.default.allTopic.map((item) => ({
-                    label: item.topic_title,
-                    value: item.topic_id.toString()
-                  }))
-                }
-                onChange={(val) => changeHandler(val, 'topicId')}
-                singleSelect
-              />
-              <button
-                onClick={() => getAllTopic(buddyBossConf, setBuddyBossConf, setIsLoading, setSnackbar)}
-                className="icn-btn sh-sm ml-2 mr-2 tooltip"
-                style={{ '--tooltip-txt': `'${__('Fetch All Topic', 'bit-integrations')}'` }}
-                type="button"
-                disabled={isLoading}>
-                &#x21BB;
-              </button>
-            </div>
-          </>
-        )}
+      {buddyBossConf?.forumId !== undefined && mainAction === POST_REPLY_TOPIC_FORUM_PRO && (
+        <>
+          <br />
+          <div className="flx mt-4">
+            <b className="wdt-200 d-in-b">{__('Select Topic:', 'bit-integrations')}</b>
+            <MultiSelect
+              className="w-5"
+              defaultValue={buddyBossConf?.topicId}
+              options={
+                buddyBossConf?.default?.allTopic &&
+                buddyBossConf.default.allTopic.map((item) => ({
+                  label: item.topic_title,
+                  value: item.topic_id.toString()
+                }))
+              }
+              onChange={(val) => changeHandler(val, 'topicId')}
+              singleSelect
+            />
+            <button
+              onClick={() => getAllTopic(buddyBossConf, setBuddyBossConf, setIsLoading, setSnackbar)}
+              className="icn-btn sh-sm ml-2 mr-2 tooltip"
+              style={{ '--tooltip-txt': `'${__('Fetch All Topic', 'bit-integrations')}'` }}
+              type="button"
+              disabled={isLoading}>
+              &#x21BB;
+            </button>
+          </div>
+        </>
+      )}
 
-      {Number(buddyBossConf?.mainAction) === SET_USER_STATUS_PRO && (
+      {mainAction === SET_USER_STATUS_PRO && (
         <>
           <br />
           <div className="flx mt-4">
@@ -326,7 +327,7 @@ export default function BuddyBossIntegLayout({
       )}
 
       <>
-        {showFieldMapping.includes(Number(buddyBossConf?.mainAction)) && (
+        {showFieldMapping.includes(mainAction) && (
           <>
             <div className="mt-4">
               <b className="wdt-100">{__('Map Fields', 'bit-integrations')}</b>
