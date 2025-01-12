@@ -25,6 +25,7 @@ function EditPipeDrive({ allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
   const [tab, settab] = useState(0)
   const formFields = useRecoilValue($formFields)
+  const [name, setName] = useState(pipeDriveConf?.name || '')
 
   const saveConfig = () => {
     if (!checkMappedFields(pipeDriveConf)) {
@@ -38,9 +39,7 @@ function EditPipeDrive({ allIntegURL }) {
           msg: __('Please select a organization or a person', 'bit-integrations')
         })
       }
-      // if (pipeDriveConf.moduleData.module === 'Persons') {
-      //   setSnackbar({ show: true, msg: __('Please select a organization', 'bit-integrations') })
-      // }
+
       return
     }
 
@@ -58,9 +57,10 @@ function EditPipeDrive({ allIntegURL }) {
   }
 
   const handleEditIntegName = (e) => {
+    setName(e.target.value)
     setPipeDriveConf((prevConf) =>
       create(prevConf, (draftConF) => {
-        draftConF[e.target.name] = e.target.value
+        draftConF.name = e.target.value
       })
     )
   }
@@ -73,9 +73,9 @@ function EditPipeDrive({ allIntegURL }) {
         <b className="wdt-200 ">{__('Integration Name:', 'bit-integrations')}</b>
         <input
           className="btcd-paper-inp w-5"
-          onChange={(e) => handleEditIntegName}
+          onChange={handleEditIntegName}
           name="name"
-          value={pipeDriveConf.name}
+          value={name}
           type="text"
           placeholder={__('Integration Name...', 'bit-integrations')}
         />

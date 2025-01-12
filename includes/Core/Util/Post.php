@@ -30,4 +30,16 @@ final class Post
 
         return get_posts($parsedArgs);
     }
+
+    public static function getCategories($id)
+    {
+        $categories = [];
+        $PostCategories = get_the_category($id);
+
+        foreach ($PostCategories as $category) {
+            $categories[] = $category->name;
+        }
+
+        return $categories;
+    }
 }

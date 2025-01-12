@@ -303,16 +303,16 @@ final class Common
         $fieldPattern = '/\${\w[^ ${}]*}/';
         preg_match_all($fieldPattern, $stringToReplaceField, $matchedField);
         $uniqueFieldsInStr = array_unique($matchedField[0]);
-        foreach ($uniqueFieldsInStr as $key => $value) {
-            $fieldName = substr($value, 2, \strlen($value) - 3);
+        foreach ($uniqueFieldsInStr as $field) {
+            $fieldName = substr($field, 2, \strlen($field) - 3);
             $smartTagValue = SmartTags::getSmartTagValue($fieldName, true);
             if (isset($fieldValues[$fieldName]) && !self::isEmpty($fieldValues[$fieldName])) {
-                $stringToReplaceField = !\is_array($fieldValues[$fieldName]) ? str_replace($value, $fieldValues[$fieldName], $stringToReplaceField)
-                    : str_replace($value, wp_json_encode($fieldValues[$fieldName]), $stringToReplaceField);
+                $stringToReplaceField = !\is_array($fieldValues[$fieldName]) ? str_replace($field, $fieldValues[$fieldName], $stringToReplaceField)
+                    : str_replace(['"' . $field . '"', $field], wp_json_encode($fieldValues[$fieldName], true), $stringToReplaceField);
             } elseif (!empty($smartTagValue)) {
-                $stringToReplaceField = str_replace($value, $smartTagValue, $stringToReplaceField);
+                $stringToReplaceField = str_replace($field, $smartTagValue, $stringToReplaceField);
             } else {
-                $stringToReplaceField = str_replace($value, '', $stringToReplaceField);
+                $stringToReplaceField = str_replace($field, '', $stringToReplaceField);
             }
         }
 
