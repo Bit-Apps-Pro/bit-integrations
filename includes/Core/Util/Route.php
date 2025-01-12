@@ -59,11 +59,14 @@ final class Route
         ) {
             $invokeable = static::$_invokeable[$action][$requestMethod];
             unset($_POST['_ajax_nonce'], $_POST['action'], $_GET['_ajax_nonce'], $_GET['action']);
+
             if (method_exists($invokeable[0], $invokeable[1])) {
                 if ($requestMethod == 'POST') {
                     if (isset($_SERVER['CONTENT_TYPE']) && strpos(sanitize_text_field($_SERVER['CONTENT_TYPE']), 'form-data') === false && strpos(sanitize_text_field($_SERVER['CONTENT_TYPE']), 'x-www-form-urlencoded') === false) {
                         $inputJSON = file_get_contents('php://input');
                         $data = \is_string($inputJSON) ? json_decode($inputJSON) : $inputJSON;
+                    } elseif ($_POST['data']) {
+                        $data = \is_string($_POST['data']) ? json_decode(wp_unslash($_POST['data'])) : $_POST['data'];
                     } else {
                         $data = (object) $_POST;
                     }
@@ -73,6 +76,7 @@ final class Route
 
                 $reflectionMethod = new ReflectionMethod($invokeable[0], $invokeable[1]);
                 $response = $reflectionMethod->invoke($reflectionMethod->isStatic() ? null : new $invokeable[0](), $data);
+
                 if (is_wp_error($response)) {
                     wp_send_json_error($response);
                 } else {
