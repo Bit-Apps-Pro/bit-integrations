@@ -62,7 +62,7 @@ final class Plugin
     {
         $schedules['every_week'] = [
             'interval' => 604800, // 604800 seconds in 1 week
-            'display'  => esc_html__('Every Week', 'textdomain')
+            'display'  => esc_html__('Every Week', 'bit-integrations')
         ];
 
         return $schedules;

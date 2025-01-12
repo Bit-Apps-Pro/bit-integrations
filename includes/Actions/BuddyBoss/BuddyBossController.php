@@ -13,33 +13,9 @@ use WP_Error;
  */
 class BuddyBossController
 {
-    // private $_integrationID;
-
-    // public function __construct($integrationID)
-    // {
-    //     $this->_integrationID = $integrationID;
-    // }
-
-    // public static function pluginActive($option = null)
-    // {
-    //     if (is_plugin_active('buddyboss-platform/class-buddypress.php')) {
-    //         return $option === 'get_name' ? 'buddyboss-platform/class-buddypress.php' : true;
-    //     } elseif (is_plugin_active('buddyboss-platform-pro/buddyboss-platform-pro.php')) {
-    //         return $option === 'get_name' ? 'buddyboss-platform-pro/buddyboss-platform-pro.php' : true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
-
     public static function pluginActive($option = null)
     {
-        return (bool) (class_exists('BuddyPress'))
-
-        //  elseif (is_plugin_active('buddyboss-platform-pro/buddyboss-platform-pro.php')) {
-        //     return $option === 'get_name' ? 'buddyboss-platform-pro/buddyboss-platform-pro.php' : true;
-        // }
-
-        ;
+        return (bool) (class_exists('BuddyPress'));
     }
 
     public static function authorizeBuddyBoss()
@@ -85,11 +61,6 @@ class BuddyBossController
         ];
 
         $forumList = get_posts($forum_args);
-
-        // $forums[] = [
-        //     'forum_id' => 'any',
-        //     'forum_title' => 'Any Forums',
-        // ];
 
         foreach ($forumList as $key => $val) {
             $forums[] = [

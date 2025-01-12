@@ -18,7 +18,7 @@ export default function ChangelogToggle() {
 
   const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
   const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-  const releaseDate = '2nd January 2025'
+  const releaseDate = '12th January 2025'
 
   // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
   const changeLog = [
@@ -44,17 +44,29 @@ export default function ChangelogToggle() {
       label: __('New Features', 'bit-integrations'),
       headClass: 'new-feature',
       itemClass: 'feature-list',
-      items: []
+      items: [
+        {
+          label: 'FluentCRM (Trigger)',
+          desc: 'Added company data, including custom field data, to contacts-related triggers.',
+          isPro: true
+        }
+      ]
     },
     {
       label: __('New Improvements', 'bit-integrations'),
       headClass: 'new-improvement',
       itemClass: 'feature-list',
       items: [
-        { 'label': 'WP Post (Trigger)', 'desc': 'Added post categories fields.', 'isPro': true },
-        { 'label': 'BuddyBoss (Trigger)', 'desc': 'Updated profile module with custom fields.', 'isPro': true },
-        { 'label': 'FluentCRM', 'desc': 'Added profile update functionality on tag insert/remove modules.', 'isPro': false },
-        { 'label': 'AffiliateWP (Trigger)', 'desc': 'Added registration form fields for when an affiliate is approved & a user becomes an affiliate.', 'isPro': true }
+        {
+          label: 'BuddyBoss (Action)',
+          desc: 'Added sender and recipient user details in the send private message module.',
+          isPro: false
+        },
+        {
+          label: 'Freshsales',
+          desc: 'Increased the fetching quantity for accounts and contacts.',
+          isPro: false
+        }
       ]
     }
   ]
@@ -119,7 +131,11 @@ export default function ChangelogToggle() {
           <>
             <div>
               <a href={dealURL} target="_blank" rel="noreferrer">
-                <img src={NewYear} style={{ width: '100%', height: 'auto', marginTop: '-2px', borderRadius: '20px' }} alt="" />
+                <img
+                  src={NewYear}
+                  style={{ width: '100%', height: 'auto', marginTop: '-2px', borderRadius: '20px' }}
+                  alt=""
+                />
               </a>
             </div>
             <div className="txt-right" style={{ marginTop: '-2px' }}>
@@ -157,7 +173,7 @@ export default function ChangelogToggle() {
                                 {item?.label && item?.desc && <b>:&nbsp;</b>}
                                 {item?.desc && <span>{item.desc}</span>}
                                 &nbsp;
-                                {item?.isPro && <span className='txt-purple'>(Pro)</span>}
+                                {item?.isPro && <span className="txt-purple">(Pro)</span>}
                               </li>
                             ))}
                           </ul>

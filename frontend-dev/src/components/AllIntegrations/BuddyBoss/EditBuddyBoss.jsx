@@ -5,13 +5,31 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { $actionConf, $formFields, $newFlow } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import SnackMsg from '../../Utilities/SnackMsg'
-import EditFormInteg from '../EditFormInteg'
-import SetEditIntegComponents from '../IntegrationHelpers/SetEditIntegComponents'
-import EditWebhookInteg from '../EditWebhookInteg'
 import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
+import SetEditIntegComponents from '../IntegrationHelpers/SetEditIntegComponents'
+import {
+  ADD_POST_GRP_ACTIVITY_STREAM_PRO,
+  ADD_POST_SITE_WIDE_ACTIVITY_STREAM_PRO,
+  ADD_POST_USER_ACTIVITY_STREAM_PRO,
+  ADD_USER_GROUP,
+  CREATE_GROUP_PRO,
+  END_FRIENDSHIP_WITH_USER_PRO,
+  FOLLOW_USER_PRO,
+  isDisabled,
+  POST_REPLY_TOPIC_FORUM_PRO,
+  POST_TOPIC_FORUM_PRO,
+  REMOVE_USER_FROM_GROUP_PRO,
+  SEND_FRIENDSHIP_REQ_USER_PRO,
+  SEND_NOTIFICATION_MEMBER_GRP_PRO,
+  SEND_PRIVATE_MSG_MEMBER_GRP_PRO,
+  SEND_PRIVATE_MSG_USER_PRO,
+  SET_USER_STATUS_PRO,
+  STOP_FOLLOWING_USER_PRO,
+  SUBSCRIBE_USER_FORUM_PRO
+} from './IntegrationHelpers'
+import { checkMappedFields, handleInput } from './BuddyBossCommonFunc'
 import BuddyBossIntegLayout from './BuddyBossIntegLayout'
-import { handleInput } from './BuddyBossCommonFunc'
 
 function EditBuddyBoss({ allIntegURL }) {
   const navigate = useNavigate()
@@ -22,47 +40,6 @@ function EditBuddyBoss({ allIntegURL }) {
   const formFields = useRecoilValue($formFields)
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
-
-  function isDisabled() {
-    switch (buddyBossConf.mainAction) {
-      case '1':
-        return buddyBossConf.privacyId === undefined
-      case '2':
-        return buddyBossConf.groupId === undefined
-      case '3':
-        return buddyBossConf.friendId === undefined
-      case '4':
-        return buddyBossConf.friendId === undefined
-      case '5':
-        return buddyBossConf.forumId === undefined
-      case '6':
-        return buddyBossConf.groupId === undefined
-      case '7':
-        return buddyBossConf.friendId === undefined
-      case '8':
-        return buddyBossConf.groupId === undefined || buddyBossConf.friendId === undefined
-      case '9':
-        return buddyBossConf.groupId === undefined || buddyBossConf.friendId === undefined
-      case '10':
-        return buddyBossConf.friendId === undefined
-      case '12':
-        return buddyBossConf.friendId === undefined
-      case '13':
-        return buddyBossConf.forumId === undefined
-      case '14':
-        return buddyBossConf.groupId === undefined || buddyBossConf.friendId === undefined
-      case '15':
-        return buddyBossConf.friendId === undefined
-      case '16':
-        return buddyBossConf.friendId === undefined
-      case '17':
-        return buddyBossConf.topicId === undefined || buddyBossConf.forumId === undefined
-      case '18':
-        return buddyBossConf.userStatusId === undefined
-      default:
-        return false
-    }
-  }
 
   return (
     <div style={{ width: 900 }}>
@@ -86,9 +63,7 @@ function EditBuddyBoss({ allIntegURL }) {
       <BuddyBossIntegLayout
         formID={formID}
         formFields={formFields}
-        handleInput={(e) =>
-          handleInput(e, buddyBossConf, setBuddyBossConf, setIsLoading, setSnackbar)
-        }
+        handleInput={(e) => handleInput(e, buddyBossConf, setBuddyBossConf, setIsLoading, setSnackbar)}
         buddyBossConf={buddyBossConf}
         setBuddyBossConf={setBuddyBossConf}
         isLoading={isLoading}
@@ -109,7 +84,12 @@ function EditBuddyBoss({ allIntegURL }) {
             setSnackbar
           })
         }
-        disabled={!buddyBossConf.mainAction || isLoading || isDisabled()}
+        disabled={
+          !buddyBossConf.mainAction ||
+          !checkMappedFields(buddyBossConf) ||
+          isLoading ||
+          isDisabled(buddyBossConf)
+        }
         isLoading={isLoading}
         dataConf={buddyBossConf}
         setDataConf={setBuddyBossConf}

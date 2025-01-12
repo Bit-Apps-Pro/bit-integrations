@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\GoogleSheet;
 
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Flow\FlowController;
 use WP_Error;
+use BitCode\FI\Flow\FlowController;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for ZohoCrm integration
@@ -68,7 +68,7 @@ class GoogleSheetController
             'redirect_uri'  => urldecode($requestsParams->redirectURI),
             'code'          => urldecode($requestsParams->code)
         ];
-        
+
         $apiResponse = HttpHelper::post($apiEndpoint, $requestParams, $authorizationHeader);
 
         if (is_wp_error($apiResponse) || !empty($apiResponse->error)) {
@@ -104,8 +104,8 @@ class GoogleSheetController
         $response = [];
         if ((\intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $response['tokenDetails'] = GoogleSheetController::refreshAccessToken($queryParams);
-            $authorizationHeader['Authorization'] = "Bearer ".$response['tokenDetails']->access_token;
-        }else{
+            $authorizationHeader['Authorization'] = 'Bearer ' . $response['tokenDetails']->access_token;
+        } else {
             $authorizationHeader['Authorization'] = "Bearer {$queryParams->tokenDetails->access_token}";
         }
 
@@ -220,26 +220,25 @@ class GoogleSheetController
         $authorizationHeader['Authorization'] = "Bearer {$queryParams->tokenDetails->access_token}";
         $worksheetHeadersMetaResponse = HttpHelper::get($worksheetHeadersMetaApiEndpoint, null, $authorizationHeader);
 
-        // wp_send_json_success($worksheetHeadersMetaResponse, 200);
-
-        if (!is_wp_error($worksheetHeadersMetaResponse)) {
-            $allHeaders = $worksheetHeadersMetaResponse->values[0];
-
-            if ($allHeaders === null) {
-                $response['worksheet_headers'] = [];
-            } else {
-                $response['worksheet_headers'] = $allHeaders;
-            }
-        } else {
+        if (is_wp_error($worksheetHeadersMetaResponse)) {
             wp_send_json_error(
                 $worksheetHeadersMetaResponse->status === 'error' ? $worksheetHeadersMetaResponse->message : 'Unknown',
                 400
             );
         }
+
+        $response['worksheet_headers'] = [];
+        $allHeaders = empty($worksheetHeadersMetaResponse->values[0]) ? [] : $worksheetHeadersMetaResponse->values[0];
+
+        foreach ($allHeaders as $key => $header) {
+            $response['worksheet_headers'][] = "{$header}_{$key}";
+        }
+
         if (!empty($response['tokenDetails']) && $response['tokenDetails'] && !empty($queryParams->id)) {
             $response['queryModule'] = $queryParams->module;
             GoogleSheetController::saveRefreshedToken($queryParams->id, $response['tokenDetails'], $response);
         }
+
         wp_send_json_success($response, 200);
     }
 
