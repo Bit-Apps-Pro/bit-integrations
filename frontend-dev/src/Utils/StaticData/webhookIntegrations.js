@@ -27,7 +27,8 @@ export const customFormIntegrations = [
   'AvadaForms',
   'FluentCommunity',
   'Buddypress',
-  'NinjaTables'
+  'NinjaTables',
+  'AdvancedAds'
 ]
 
 export const actionHookIntegrations = ['ActionHook']
