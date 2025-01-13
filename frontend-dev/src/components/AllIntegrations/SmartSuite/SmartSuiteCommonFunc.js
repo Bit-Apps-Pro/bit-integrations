@@ -3,16 +3,18 @@
 import toast from 'react-hot-toast'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { __ } from '../../../Utils/i18nwrap'
+import { create } from 'mutative'
 
-export const handleInput = (e, salesmateConf, setSalesmateConf) => {
-  const newConf = { ...salesmateConf }
-  const { name } = e.target
-  if (e.target.value !== '') {
-    newConf[name] = e.target.value
-  } else {
-    delete newConf[name]
-  }
-  setSalesmateConf({ ...newConf })
+export const handleInput = (e, smartSuiteConf, setSmartSuiteConf) => {
+  setSmartSuiteConf((smartSuiteConf) =>
+    create(smartSuiteConf, (draftConf) => {
+      const { name, value } = e.target
+      if (value !== '') {
+        draftConf[name] = value
+      } else {
+        delete draftConf[name]
+      }
+    }))
 }
 
 export const generateMappedField = (smartSuiteFields) => {

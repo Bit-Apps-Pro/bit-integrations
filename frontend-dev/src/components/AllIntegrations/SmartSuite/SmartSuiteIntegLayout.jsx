@@ -4,13 +4,12 @@ import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
-import { addFieldMap } from './IntegrationHelpers'
+import { addFieldMap } from '../IntegrationHelpers/FieldMapHelper'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import SmartSuiteActions from './SmartSuiteActions'
 import { getAllSolutions, getAllTables, generateMappedField } from './SmartSuiteCommonFunc'
 import SmartSuiteFieldMap from './SmartSuiteFieldMap'
 import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
-
 import { create } from 'mutative'
 
 export default function SmartSuiteIntegLayout({
@@ -34,40 +33,40 @@ export default function SmartSuiteIntegLayout({
       getAllTables(smartSuiteConf, setSmartSuiteConf, val, setLoading)
     }
 
-    setSmartSuiteConf((prevConf) => {
-      const newConf = { ...prevConf }
-      newConf[name] = val
-      if (
-        name === 'selectedTable' &&
-        val != '' &&
-        newConf?.selectedTable &&
-        newConf?.selectedTable != ''
-      ) {
-        const getTable = newConf.tables.find((item) => item.id === val)
-        let customFieldsForRecord = []
-        getTable.customFields.forEach((item) => {
-          if (!excludeList.includes(item.slug)) {
-            customFieldsForRecord.push({
-              label: item.label,
-              key: item.slug,
-              required: item?.params?.required || false
-            })
-          }
-        })
-        newConf.smartSuiteFields = customFieldsForRecord
-        newConf.field_map = generateMappedField(newConf.smartSuiteFields)
-      }
+    setSmartSuiteConf((prevConf) =>
+      create(prevConf, (draftConf) => {
+        draftConf[name] = val
+        if (
+          name === 'selectedTable' &&
+          val != '' &&
+          draftConf?.selectedTable &&
+          draftConf?.selectedTable != ''
+        ) {
+          const getTable = draftConf.tables.find((item) => item.id === val)
+          let customFieldsForRecord = []
+          getTable.customFields.forEach((item) => {
+            if (!excludeList.includes(item.slug)) {
+              customFieldsForRecord.push({
+                label: item.label,
+                key: item.slug,
+                required: item?.params?.required || false
+              })
+            }
+          })
+          draftConf.smartSuiteFields = customFieldsForRecord
+          draftConf.field_map = generateMappedField(draftConf.smartSuiteFields)
+        }
 
-      if (name === 'selectedSolution') {
-        delete newConf.selectedTable
-        delete newConf.tables
-      } else if (name === 'selectedTable') {
-        delete newConf['priority']
-        delete newConf['status']
-        delete newConf['assigned_to']
-      }
-      return newConf
-    })
+        if (name === 'selectedSolution') {
+          delete draftConf.selectedTable
+          delete draftConf.tables
+        } else if (name === 'selectedTable') {
+          delete draftConf['priority']
+          delete draftConf['status']
+          delete draftConf['assigned_to']
+        }
+      })
+    )
   }
 
   const handleActionInput = (value, name) => {

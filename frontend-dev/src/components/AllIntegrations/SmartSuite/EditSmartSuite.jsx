@@ -28,7 +28,10 @@ function EditSmartSuite({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
-    if (smartSuiteConf.actionName != 'solution' && !smartSuiteConf.selectedSolution) {
+    if (
+      (smartSuiteConf.actionName === 'table' || smartSuiteConf.actionName === 'record') &&
+      !smartSuiteConf.selectedSolution
+    ) {
       toast.error(__('Please select a solution', 'bit-integrations'))
       return
     }

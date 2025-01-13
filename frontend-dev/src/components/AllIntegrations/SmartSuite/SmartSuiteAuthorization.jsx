@@ -7,6 +7,7 @@ import Note from '../../Utilities/Note'
 import { smartSuiteAuthentication, getAllSolutions } from './SmartSuiteCommonFunc'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
+import { create } from 'mutative'
 
 export default function SmartSuiteAuthorization({
   smartSuiteConf,
@@ -31,12 +32,17 @@ export default function SmartSuiteAuthorization({
   }
 
   const handleInput = (e) => {
-    const newConf = { ...smartSuiteConf }
-    const rmError = { ...error }
-    rmError[e.target.name] = ''
-    newConf[e.target.name] = e.target.value
-    setError(rmError)
-    setSmartSuiteConf(newConf)
+    const { name, value } = e.target
+    setError((error) =>
+      create(error, (draftError) => {
+        draftError[name] = ''
+      })
+    )
+    setSmartSuiteConf((smartSuiteConf) =>
+      create(smartSuiteConf, (draftConf) => {
+        draftConf[name] = value
+      })
+    )
   }
 
   const ActiveInstructions = `

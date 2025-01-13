@@ -10,6 +10,7 @@ import ConfirmModal from '../../Utilities/ConfirmModal'
 import TableCheckBox from '../../Utilities/TableCheckBox'
 import { getAllUser } from './SmartSuiteCommonFunc'
 import { useRecoilValue } from 'recoil'
+import { create } from 'mutative'
 
 export default function SmartSuiteActions({ smartSuiteConf, setSmartSuiteConf, loading, setLoading }) {
   const btcbi = useRecoilValue($btcbi)
@@ -17,13 +18,10 @@ export default function SmartSuiteActions({ smartSuiteConf, setSmartSuiteConf, l
   const [actionMdl, setActionMdl] = useState({ show: false, action: () => {} })
 
   const actionHandler = (e, type) => {
-    const newConf = { ...smartSuiteConf }
     if (type === 'assignedUser') {
       getAllUser(smartSuiteConf, setSmartSuiteConf, setLoading)
     }
-
     setActionMdl({ show: type })
-    setSmartSuiteConf({ ...newConf })
   }
 
   const clsActionMdl = () => {
@@ -31,9 +29,11 @@ export default function SmartSuiteActions({ smartSuiteConf, setSmartSuiteConf, l
   }
 
   const setChanges = (val, name) => {
-    const newConf = { ...smartSuiteConf }
-    newConf[name] = val
-    setSmartSuiteConf({ ...newConf })
+    setSmartSuiteConf((smartSuiteConf) =>
+      create(smartSuiteConf, (draftConf) => {
+        draftConf[name] = val
+      })
+    )
   }
 
   return (

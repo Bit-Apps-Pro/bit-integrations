@@ -4,7 +4,8 @@ import { $btcbi } from '../../../GlobalStates'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import { __ } from '../../../Utils/i18nwrap'
 import TagifyInput from '../../Utilities/TagifyInput'
-import { addFieldMap, delFieldMap, handleFieldMapping } from './IntegrationHelpers'
+import { addFieldMap, delFieldMap, handleFieldMapping } from '../IntegrationHelpers/FieldMapHelper'
+
 import { handleCustomValue } from '../IntegrationHelpers/IntegrationHelpers'
 
 export default function SmartSuiteFieldMap({ i, formFields, field, smartSuiteConf, setSmartSuiteConf }) {
