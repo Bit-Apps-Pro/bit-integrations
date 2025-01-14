@@ -67,7 +67,10 @@ function SmartSuite({ formFields, setFlow, flow, allIntegURL }) {
       return
     }
 
-    if (smartSuiteConf.actionName != 'solution' && !smartSuiteConf.selectedSolution) {
+    if (
+      (smartSuiteConf.actionName === 'table' || smartSuiteConf.actionName === 'record') &&
+      !smartSuiteConf.selectedSolution
+    ) {
       toast.error(__('Please select a solution', 'bit-integrations'))
       return
     }
