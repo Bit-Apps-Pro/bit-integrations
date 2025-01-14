@@ -42,6 +42,15 @@ class RecordApiHelper
         ];
     }
 
+    public function handleFilterResponse($response)
+    {
+        if ($response) {
+            return $response;
+        }
+
+        return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')];
+    }
+
     public function createSolution($finalData)
     {
         if (isset($this->integrationDetails->selectedLogoColor) && !empty($this->integrationDetails->selectedLogoColor)) {
@@ -56,14 +65,14 @@ class RecordApiHelper
     {
         $response = apply_filters('btcbi_smartSuite_create_table', false, $requestParams, $this->workspaceId, $this->apiToken, $this->integrationDetails->selectedSolution);
 
-        return handleFilterResponse($response);
+        return $this->handleFilterResponse($response);
     }
 
     public function createRecord($requestParams)
     {
         $response = apply_filters('btcbi_smartSuite_create_record', false, $requestParams, $this->integrationDetails, $this->workspaceId, $this->apiToken);
 
-        return handleFilterResponse($response);
+        return $this->handleFilterResponse($response);
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
@@ -110,16 +119,4 @@ class RecordApiHelper
 
         return $apiResponse;
     }
-}
-function checkIsAValidDate($myDateString)
-{
-    return (bool) strtotime($myDateString);
-}
-function handleFilterResponse($response)
-{
-    if ($response) {
-        return $response;
-    }
-
-    return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')];
 }
