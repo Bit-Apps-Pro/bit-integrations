@@ -138,9 +138,7 @@ const AutomatorWP = lazy(() => import('./AutomatorWP/AutomatorWP'))
 const UncannyAutomator = lazy(() => import('./UncannyAutomator/UncannyAutomator'))
 const ThriveAutomator = lazy(() => import('./ThriveAutomator/ThriveAutomator'))
 const WPWebhooks = lazy(() => import('./WPWebhooks/WPWebhooks'))
-const AdvancedFormIntegration = lazy(
-  () => import('./AdvancedFormIntegration/AdvancedFormIntegration')
-)
+const AdvancedFormIntegration = lazy(() => import('./AdvancedFormIntegration/AdvancedFormIntegration'))
 const PerfexCRM = lazy(() => import('./PerfexCRM/PerfexCRM'))
 const SureTriggers = lazy(() => import('./SureTriggers/SureTriggers'))
 const OneHashCRM = lazy(() => import('./OneHashCRM/OneHashCRM'))
@@ -163,6 +161,7 @@ const HighLevel = lazy(() => import('./HighLevel/HighLevel'))
 const TheEventsCalendar = lazy(() => import('./TheEventsCalendar/TheEventsCalendar'))
 const LMFWC = lazy(() => import('./LMFWC/LMFWC'))
 const Voxel = lazy(() => import('./Voxel/Voxel'))
+const FluentCommunity = lazy(() => import('./FluentCommunity/FluentCommunity'))
 
 export default function NewInteg({ allIntegURL }) {
   const { integUrlName } = useParams()
@@ -1536,6 +1535,15 @@ export default function NewInteg({ allIntegURL }) {
       case 'Voxel':
         return (
           <Voxel
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'FluentCommunity':
+        return (
+          <FluentCommunity
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
             flow={flow}

@@ -8,6 +8,7 @@ import { __ } from '../../Utils/i18nwrap'
 import Loader from '../Loaders/Loader'
 import SnackMsg from '../Utilities/SnackMsg'
 import EditCustomApi from './CustomApi/EditCustomApi'
+import FluentCommunity from './FluentCommunity/FluentCommunity'
 
 const EditOmniSend = lazy(() => import('./OmniSend/EditOmniSend'))
 const EditSliceWp = lazy(() => import('./SliceWp/EditSliceWp'))
@@ -228,12 +229,7 @@ export default function EditInteg({ allIntegURL }) {
       </div>
       <Suspense fallback={<Loader className="g-c" style={{ height: '82vh' }} />}>
         {actionConfig && Object.keys(actionConfig).length && (
-          <IntegType
-            allIntegURL={allIntegURL}
-            formFields={flow.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
+          <IntegType allIntegURL={allIntegURL} formFields={flow.fields} flow={flow} setFlow={setFlow} />
         )}
       </Suspense>
     </div>
@@ -552,6 +548,8 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditLMFWC allIntegURL={allIntegURL} />
     case 'Voxel':
       return <EditVoxel allIntegURL={allIntegURL} />
+    case 'FluentCommunity':
+      return <FluentCommunity allIntegURL={allIntegURL} />
     default:
       return <Loader style={loaderStyle} />
   }
