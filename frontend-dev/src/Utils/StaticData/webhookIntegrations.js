@@ -25,7 +25,10 @@ export const customFormIntegrations = [
   'PieForms',
   'Asgaros',
   'AvadaForms',
-  'FluentCommunity'
+  'FluentCommunity',
+  'Buddypress',
+  'NinjaTables',
+  'AdvancedAds'
 ]
 
 export const actionHookIntegrations = ['ActionHook']
