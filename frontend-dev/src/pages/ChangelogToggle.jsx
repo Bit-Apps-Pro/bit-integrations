@@ -14,11 +14,11 @@ export default function ChangelogToggle() {
   const [show, setShow] = useState(btcbi.changelogVersion !== btcbi.version)
   const [showAnalyticsOptin, setShowAnalyticsOptin] = useState(false)
   const [loading, setLoading] = useState('')
-  const [step, setStep] = useState(1)
+  const [step, setStep] = useState(2)
 
-  const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
-  const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-  const releaseDate = '12th January 2025'
+  // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
+  // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
+  const releaseDate = '16th January 2025'
 
   // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
   const changeLog = [
@@ -32,42 +32,30 @@ export default function ChangelogToggle() {
       label: __('New Actions', 'bit-integrations'),
       headClass: 'new-integration',
       itemClass: 'integration-list',
-      items: []
+      items: [{ 'label': 'SmartSuite', 'desc': '', 'isPro': false }]
     },
     {
       label: __('New Triggers', 'bit-integrations'),
       headClass: 'new-trigger',
       itemClass: 'integration-list',
-      items: []
+      items: [
+        { 'label': 'Advanced Ads', 'desc': '', 'isPro': true },
+        { 'label': 'BuddyPress', 'desc': '', 'isPro': true },
+        { 'label': 'Ninja Tables', 'desc': '', 'isPro': true },
+        { 'label': 'Sensei LMS', 'desc': '', 'isPro': true }
+      ]
     },
     {
       label: __('New Features', 'bit-integrations'),
       headClass: 'new-feature',
       itemClass: 'feature-list',
-      items: [
-        {
-          label: 'FluentCRM (Trigger)',
-          desc: 'Added company data, including custom field data, to contacts-related triggers.',
-          isPro: true
-        }
-      ]
+      items: []
     },
     {
       label: __('New Improvements', 'bit-integrations'),
       headClass: 'new-improvement',
       itemClass: 'feature-list',
-      items: [
-        {
-          label: 'BuddyBoss (Action)',
-          desc: 'Added sender and recipient user details in the send private message module.',
-          isPro: false
-        },
-        {
-          label: 'Freshsales',
-          desc: 'Increased the fetching quantity for accounts and contacts.',
-          isPro: false
-        }
-      ]
+      items: []
     }
   ]
 
@@ -112,7 +100,7 @@ export default function ChangelogToggle() {
         type="button"
         className="changelog-btn"
         onClick={() => {
-          setStep(1)
+          setStep(2)
           setShow(true)
         }}>
         <ChangelogIcn size={25} />
@@ -127,27 +115,28 @@ export default function ChangelogToggle() {
           height: 'auto',
           width: '550px'
         }}>
-        {(step === 1 && show === true && (
-          <>
-            <div>
-              <a href={dealURL} target="_blank" rel="noreferrer">
-                <img
-                  src={NewYear}
-                  style={{ width: '100%', height: 'auto', marginTop: '-2px', borderRadius: '20px' }}
-                  alt=""
-                />
-              </a>
-            </div>
-            <div className="txt-right" style={{ marginTop: '-2px' }}>
-              <button
-                type="button"
-                className="btn round btcd-btn-lg purple purple-sh"
-                onClick={() => setStep(2)}>
-                {__('Next', 'bit-integrations')}
-              </button>
-            </div>
-          </>
-        )) ||
+        {
+        // (step === 1 && show === true && (
+        //   <>
+        //     <div>
+        //       <a href={dealURL} target="_blank" rel="noreferrer">
+        //         <img
+        //           src={NewYear}
+        //           style={{ width: '100%', height: 'auto', marginTop: '-2px', borderRadius: '20px' }}
+        //           alt=""
+        //         />
+        //       </a>
+        //     </div>
+        //     <div className="txt-right" style={{ marginTop: '-2px' }}>
+        //       <button
+        //         type="button"
+        //         className="btn round btcd-btn-lg purple purple-sh"
+        //         onClick={() => setStep(2)}>
+        //         {__('Next', 'bit-integrations')}
+        //       </button>
+        //     </div>
+        //   </>
+        // )) ||
           (step === 2 && (
             <div className="changelog content">
               <div className="flx flx-col flx-center whats-new">
