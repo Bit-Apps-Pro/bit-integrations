@@ -34,7 +34,6 @@ class AdminAjax
     public function setChangelogVersion()
     {
         if (wp_verify_nonce(sanitize_text_field($_REQUEST['_ajax_nonce']), 'btcbi_nonce')) {
-            // $inputJSON = file_get_contents('php://input');
             $inputJSON = stripslashes($_REQUEST['data']);
             $input = json_decode($inputJSON);
             $version = isset($input->version) ? $input->version : '';
