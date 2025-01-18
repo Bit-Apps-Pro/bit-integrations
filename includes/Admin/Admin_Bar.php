@@ -2,9 +2,9 @@
 
 namespace BitCode\FI\Admin;
 
+use BitCode\FI\Core\Util\Hooks;
 use BitCode\FI\Core\Util\Capabilities;
 use BitCode\FI\Core\Util\DateTimeHelper;
-use BitCode\FI\Core\Util\Hooks;
 
 /**
  * The admin menu and page handler class
@@ -109,17 +109,17 @@ class Admin_Bar
         $btcbi = apply_filters(
             'btcbi_localized_script',
             [
-                'nonce'      => wp_create_nonce('btcbi_nonce'),
-                'assetsURL'  => BTCBI_ASSET_URI,
-                'baseURL'    => $base_path_admin . 'admin.php?page=bit-integrations#',
-                'siteURL'    => site_url(),
-                'ajaxURL'    => admin_url('admin-ajax.php'),
-                'api'        => $api,
-                'dateFormat' => get_option('date_format'),
-                'timeFormat' => get_option('time_format'),
-                'timeZone'   => DateTimeHelper::wp_timezone_string(),
-                'userMail'   => $userMails,
-                'currentUser'=> wp_get_current_user(),
+                'nonce'       => wp_create_nonce('btcbi_nonce'),
+                'assetsURL'   => BTCBI_ASSET_URI,
+                'baseURL'     => $base_path_admin . 'admin.php?page=bit-integrations#',
+                'siteURL'     => site_url(),
+                'ajaxURL'     => admin_url('admin-ajax.php'),
+                'api'         => $api,
+                'dateFormat'  => get_option('date_format'),
+                'timeFormat'  => get_option('time_format'),
+                'timeZone'    => DateTimeHelper::wp_timezone_string(),
+                'userMail'    => $userMails,
+                'currentUser' => wp_get_current_user(),
             ]
         );
 
@@ -129,10 +129,12 @@ class Admin_Bar
 
         $changelogVersion = get_option('btcbi_changelog_version', '0.0.0');
         $btcbi['changelogVersion'] = $changelogVersion;
+
         if ((get_locale() !== 'en_US' || get_user_locale() !== 'en_US') && file_exists(BTCBI_PLUGIN_BASEDIR . '/languages/generatedString.php')) {
             include_once BTCBI_PLUGIN_BASEDIR . '/languages/generatedString.php';
             $btcbi['translations'] = $bit_integrations_i18n_strings;
         }
+
         wp_localize_script('index-BTCBI-MODULE', 'btcbi', $btcbi);
     }
 
