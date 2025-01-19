@@ -8,6 +8,7 @@ namespace BitCode\FI\Actions\MailPoet;
 
 use Exception;
 use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\Common;
 
 /**
  * Provide functionality for Record insert,upsert
@@ -24,17 +25,31 @@ class RecordApiHelper
         static::$mailPoet_api = \MailPoet\API\API::MP('v1');
     }
 
-    public function insertRecord($subscriber, $lists)
+    public function insertRecord($subscriber, $lists, $actions)
     {
         try {
             // try to find if user is already a subscriber
-            $existing_subscriber = static::$mailPoet_api->getSubscriber($subscriber['email']);
+            $existingSubscriber = static::$mailPoet_api->getSubscriber($subscriber['email']);
 
-            if (!$existing_subscriber) {
+            if (!$existingSubscriber) {
                 return static::addSubscriber($subscriber, $lists);
             }
 
-            return static::addSubscribeToLists($existing_subscriber['id'], $lists);
+            if (!empty($actions->update)) {
+                $response = apply_filters('btcbi_mailpoet_update_subscriber', $existingSubscriber['id'], $subscriber);
+
+                if ($response === $existingSubscriber['id']) {
+                    $errorMessages = wp_sprintf(__('%s is not active or not installed', 'bit-integrations'), 'Bit Integration Pro');
+                } elseif (!$response['success']) {
+                    $errorMessages = $response('message');
+                }
+
+                if (isset($errorMessages)) {
+                    LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'update'], 'error', $errorMessages);
+                }
+            }
+
+            return static::addSubscribeToLists($existingSubscriber['id'], $lists);
         } catch (\MailPoet\API\MP\v1\APIException $e) {
             if ($e->getCode() == 4) {
                 // Handle the case where the subscriber doesn't exist
@@ -56,24 +71,15 @@ class RecordApiHelper
         }
     }
 
-    public function execute($fieldValues, $fieldMap, $lists)
+    public function execute($fieldValues, $fieldMap, $lists, $actions)
     {
         if (!class_exists(\MailPoet\API\API::class)) {
             return;
         }
-        $fieldData = [];
 
-        foreach ($fieldMap as $fieldKey => $fieldPair) {
-            if (!empty($fieldPair->mailPoetField)) {
-                if ($fieldPair->formField == 'custom' && isset($fieldPair->customValue)) {
-                    $fieldData[$fieldPair->mailPoetField] = $fieldPair->customValue;
-                } else {
-                    $fieldData[$fieldPair->mailPoetField] = $fieldValues[$fieldPair->formField];
-                }
-            }
-        }
+        $fieldData = static::setFieldMap($fieldMap, $fieldValues);
+        $recordApiResponse = $this->insertRecord($fieldData, $lists, $actions);
 
-        $recordApiResponse = $this->insertRecord($fieldData, $lists);
         if ($recordApiResponse['success']) {
             LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'insert'], 'success', $recordApiResponse);
         } else {
@@ -81,6 +87,23 @@ class RecordApiHelper
         }
 
         return $recordApiResponse;
+    }
+
+    private static function setFieldMap($fieldMap, $fieldValues)
+    {
+        $fieldData = [];
+
+        foreach ($fieldMap as $fieldPair) {
+            if (empty($fieldPair->mailPoetField)) {
+                continue;
+            }
+
+            $fieldData[$fieldPair->mailPoetField] = ($fieldPair->formField == 'custom' && !empty($fieldPair->customValue))
+                ? Common::replaceFieldWithValue($fieldPair->customValue, $fieldValues)
+                : $fieldValues[$fieldPair->formField];
+        }
+
+        return $fieldData;
     }
 
     private static function addSubscriber($subscriber, $lists)
