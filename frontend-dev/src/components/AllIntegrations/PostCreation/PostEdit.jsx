@@ -240,6 +240,7 @@ function Post({ allIntegURL }) {
             <option disabled selected>
               {__('Select Author', 'bit-integrations')}
             </option>
+            <option value="logged_in_user">{__('Logged In User', 'bit-integrations')}</option>
             {users?.map((user, key) => (
               <option key={`acf-${key * 2}`} value={user.ID}>
                 {user.display_name}
