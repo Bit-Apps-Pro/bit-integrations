@@ -21,6 +21,10 @@ class RecordApiHelper
 
     public function __construct($integId)
     {
+        if (!class_exists(\MailPoet\API\API::class)) {
+            return;
+        }
+
         $this->_integrationID = $integId;
         static::$mailPoet_api = \MailPoet\API\API::MP('v1');
     }
