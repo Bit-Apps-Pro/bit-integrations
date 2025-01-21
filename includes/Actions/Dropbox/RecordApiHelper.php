@@ -2,9 +2,10 @@
 
 namespace BitCode\FI\Actions\Dropbox;
 
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Log\LogHandler;
 use WP_Error;
+use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Core\Util\HttpHelper;
 
 class RecordApiHelper
 {
@@ -27,7 +28,8 @@ class RecordApiHelper
             return false;
         }
 
-        $body = file_get_contents(trim($filePath));
+        $body = file_get_contents(Common::filePath(trim($filePath)));
+
         if (!$body) {
             return new WP_Error(423, 'Can\'t open file!');
         }
