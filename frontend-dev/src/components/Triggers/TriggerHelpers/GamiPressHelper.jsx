@@ -3,6 +3,7 @@ import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useRecoilState } from 'recoil'
 import { $newFlow } from '../../../GlobalStates'
 import { getAllAwardByAchievementType, getAllRank } from './GamiPressHelper/GamiPressCommonFunction'
+import { __ } from '../../../Utils/i18nwrap'
 
 const GamiPressHelper = ({ flow, setFlowData, edit = false }) => {
   const id = !edit ? flow?.triggerData?.formID : flow.triggered_entity_id
