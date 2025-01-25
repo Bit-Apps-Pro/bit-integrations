@@ -41,13 +41,11 @@ export default function ProModal({ show, setShow, title, sub, className, childre
               {__('Try Demo', 'bit-integrations')}
             </a>
             <a
-              // href="https://bitapps.pro/bit-integrations/#pricing"
-              href="https://bitapps.pro/wordpress-black-friday-discounts/"
+              href="https://bitapps.pro/bit-integrations/#pricing"
               target="_blank"
               className="btn btcd-btn-o-white purple w-4 mr-2 br-50 btn-lg"
               rel="noreferrer">
-              {/* {__('Upgrade to Pro', 'bit-integrations')} */}
-              {__('Get 50% Off - Limited Time!', 'bit-integrations')}
+              {__('Upgrade to Pro', 'bit-integrations')}
             </a>
           </div>
           <p>
