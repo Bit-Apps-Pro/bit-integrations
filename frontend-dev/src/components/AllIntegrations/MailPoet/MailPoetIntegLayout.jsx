@@ -4,6 +4,7 @@ import Loader from '../../Loaders/Loader'
 import { addFieldMap } from '../IntegrationHelpers/IntegrationHelpers'
 import { refreshMailpoetHeader, refreshNewsLetter } from './MailPoetCommonFunc'
 import MailPoetFieldMap from './MailPoetFieldMap'
+import MailPoetActions from './MailPoetActions'
 
 export default function MailPoetIntegLayout({
   formID,
@@ -101,6 +102,7 @@ export default function MailPoetIntegLayout({
           </div>
           <br />
           <br />
+          <MailPoetActions mailPoetConf={mailPoetConf} setMailPoetConf={setMailPoetConf} formFields={formFields} />
         </>
       )}
     </>

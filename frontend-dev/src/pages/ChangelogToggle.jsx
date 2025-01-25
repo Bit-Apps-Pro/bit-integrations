@@ -18,7 +18,7 @@ export default function ChangelogToggle() {
 
   // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
   // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-  const releaseDate = '16th January 2025'
+  const releaseDate = '25th January 2025'
 
   // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
   const changeLog = [
@@ -32,24 +32,19 @@ export default function ChangelogToggle() {
       label: __('New Actions', 'bit-integrations'),
       headClass: 'new-integration',
       itemClass: 'integration-list',
-      items: [{ 'label': 'SmartSuite', 'desc': '', 'isPro': false }]
+      items: []
     },
     {
       label: __('New Triggers', 'bit-integrations'),
       headClass: 'new-trigger',
       itemClass: 'integration-list',
-      items: [
-        { 'label': 'Advanced Ads', 'desc': '', 'isPro': true },
-        { 'label': 'BuddyPress', 'desc': '', 'isPro': true },
-        { 'label': 'Ninja Tables', 'desc': '', 'isPro': true },
-        { 'label': 'Sensei LMS', 'desc': '', 'isPro': true }
-      ]
+      items: []
     },
     {
       label: __('New Features', 'bit-integrations'),
       headClass: 'new-feature',
       itemClass: 'feature-list',
-      items: []
+      items: [{ 'label': 'MailPoet', 'desc': 'Added the update subscriber feature.', 'isPro': true }]
     },
     {
       label: __('New Improvements', 'bit-integrations'),

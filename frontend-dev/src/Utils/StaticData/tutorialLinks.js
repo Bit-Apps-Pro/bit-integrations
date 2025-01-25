@@ -575,7 +575,7 @@ const tutorialLinks = {
     docLink: 'https://bit-integrations.com/wp-docs/actions/mailster-integrations-as-an-action/'
   },
   wpforo: {
-    youTubeLink: '#',
+    youTubeLink: '',
     docLink: 'https://bit-integrations.com/wp-docs/actions/wpforo-integrations-as-an-action/'
   },
   dokan: {
@@ -587,25 +587,29 @@ const tutorialLinks = {
     docLink: 'https://bit-integrations.com/wp-docs/actions/drip-integrations/'
   },
   jetEngine: {
-    youTubeLink: '#',
+    youTubeLink: '',
     docLink: 'https://bit-integrations.com/wp-docs/actions/jetengine-integrations-as-an-action/'
   },
   highLevel: {
-    youTubeLink: '#',
+    youTubeLink: '',
     docLink: 'https://bit-integrations.com/wp-docs/actions/gohighlevel-integrations/'
   },
   theEventsCalendar: {
-    youTubeLink: '#',
+    youTubeLink: '',
     docLink:
       'https://bit-integrations.com/wp-docs/actions/the-events-calendar-integrations-as-an-action/'
   },
   lmfwc: {
-    youTubeLink: '#',
-    docLink: '#'
+    youTubeLink: '',
+    docLink: 'https://bit-integrations.com/wp-docs/actions/license-manager-for-woocommerce-integrations/'
   },
   voxel: {
-    youTubeLink: '#',
+    youTubeLink: '',
     docLink: 'https://bit-integrations.com/wp-docs/actions/voxel-integrations-as-an-action/'
+  },
+  smartSuite: {
+    youTubeLink: '',
+    docLink: 'https://bit-integrations.com/wp-docs/actions/smartsuite-integrations/'
   }
 }
 export default tutorialLinks

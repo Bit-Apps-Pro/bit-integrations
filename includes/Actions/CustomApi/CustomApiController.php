@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\CustomApi;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for webhooks
@@ -28,7 +28,8 @@ class CustomApiController
 
         if ($details->authType === 'apikey') {
             if ($details->apiKeyAddTo === 'query') {
-                $url = "{$url}" . "{$details->key}={$details->value}";
+                $separator = (strpos($url, '?') !== false) ? '&' : '?';
+                $url = "{$url}{$separator}{$details->key}={$details->value}";
             } else {
                 $headers = array_merge($headers, [$details->key => $details->value]);
             }
@@ -85,6 +86,11 @@ class CustomApiController
 
         $cleanURL = "{$Scheme}{$Usr}{$Pass}{$Host}{$Port}{$Path}";
         $params = [];
+
+        if (empty($Query)) {
+            return $cleanURL;
+        }
+
         foreach (explode('&', $Query) as $keyValue) {
             if (empty($keyValue)) {
                 continue;
