@@ -4,7 +4,7 @@ Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
 Tested up to: 6.7.1
 Requires PHP: 7.4
-Stable tag: 2.4.4
+Stable tag: 2.4.5
 License: GPLv2 or later
 
 Automation Plugin for WordPress. Integration of 90+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
@@ -1223,8 +1223,20 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 
 == Changelog ==
 
+= 2.4.5 =
+_Release Date -25th January 2025_
+
+- **New Feature**
+ - MailPoet: Added the update subscriber feature. (Pro)
+
+- **Bug Fixes**
+ - WP Post Creation: Fixed the Edit Page logged-in user post author assignment.
+ - Custom API: Resolved API key authentication issue.
+ - Dropbox: Fixed issue with retrieving file content.
+ - Gramipress: Fixed trigger blank page issue. (Pro)
+
 = 2.4.4 =
-_Release Date -16th January 2025_
+_Release Date -18th January 2025_
 
 - **New Action**
  - SmartSuite – Added support for managing work on a single platform.
