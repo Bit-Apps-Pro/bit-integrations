@@ -1233,7 +1233,7 @@ _Release Date -25th January 2025_
  - WP Post Creation: Fixed the Edit Page logged-in user post author assignment.
  - Custom API: Resolved API key authentication issue.
  - Dropbox: Fixed issue with retrieving file content.
- - Gramipress: Fixed trigger blank page issue. (Pro)
+ - GamiPress: Fixed trigger blank page issue. (Pro)
 
 = 2.4.4 =
 _Release Date -18th January 2025_
