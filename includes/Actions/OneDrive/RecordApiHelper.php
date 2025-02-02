@@ -3,6 +3,7 @@
 namespace BitCode\FI\Actions\OneDrive;
 
 use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
 
 class RecordApiHelper
@@ -18,16 +19,18 @@ class RecordApiHelper
         $this->token = $token;
     }
 
-    public function uploadFile($folder, $filePath, $folderId, $parentId)
+    public function uploadFile($folder, $file, $folderId, $parentId)
     {
         if (\is_null($parentId)) {
             // $parentId = 'root';
             $parentId = $folderId;
         }
         $ids = explode('!', $folderId);
-        if ($filePath === '') {
+        if ($file === '') {
             return false;
         }
+
+        $filePath = Common::filePath($file);
         $apiEndpoint = 'https://api.onedrive.com/v1.0/drives/' . $ids[0] . '/items/' . $parentId . ':/' . basename($filePath) . ':/content';
 
         $headers = [
