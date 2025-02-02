@@ -63,6 +63,8 @@ class RecordApiHelper
     {
         $updateRecordEndpoint = $this->_apiEndPoint() . "/lists/{$listId}/members/{$contactId}";
 
+        error_log(print_r($data, true));
+
         return HttpHelper::request($updateRecordEndpoint, 'PUT', $data, $this->_defaultHeader);
     }
 
@@ -76,21 +78,23 @@ class RecordApiHelper
     public function execute($listId, $module, $tags, $defaultConf, $fieldValues, $fieldMap, $actions, $addressFields)
     {
         $fieldData = static::generateFieldMap($fieldMap, $fieldValues, $actions, $addressFields, $tags);
+
         if (empty($module) || $module == 'add_a_member_to_an_audience') {
             $fieldData = apply_filters('btcbi_mailchimp_map_language', $fieldData, $this->_integrationDetails);
 
-            $recordApiResponse = $this->insertRecord($listId, wp_json_encode($fieldData));
-            $type = 'insert';
+            $contactEmail = $fieldData['email_address'];
+            $foundContact = $this->existContact($listId, $contactEmail);
 
-            if (!empty($actions->update) && !empty($recordApiResponse->title) && $recordApiResponse->title === 'Member Exists') {
-                $contactEmail = $fieldData['email_address'];
-                $foundContact = $this->existContact($listId, $contactEmail);
-                if (\count($foundContact->exact_matches->members)) {
-                    $contactId = $foundContact->exact_matches->members[0]->id;
-                    $recordApiResponse = $this->updateRecord($listId, $contactId, wp_json_encode($fieldData));
-                    $type = 'update';
-                }
+            if (!empty($actions->update) && \count($foundContact->exact_matches->members)) {
+                $contactId = $foundContact->exact_matches->members[0]->id;
+                $fieldData['status'] = $foundContact->exact_matches->members[0]->status;
+                $recordApiResponse = $this->updateRecord($listId, $contactId, wp_json_encode($fieldData));
+                $type = 'update';
+            } else {
+                $recordApiResponse = $this->insertRecord($listId, wp_json_encode($fieldData));
+                $type = 'insert';
             }
+
             if (isset($recordApiResponse->id, $this->_integrationDetails->selectedGDPR)) {
                 do_action('btcbi_mailchimp_store_gdpr_permission', $recordApiResponse, $this->_integrationDetails->selectedGDPR, $listId, $this->_apiEndPoint(), $this->_defaultHeader, $this->_integrationID);
             }
