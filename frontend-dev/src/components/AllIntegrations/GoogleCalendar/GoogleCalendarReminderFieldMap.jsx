@@ -1,3 +1,4 @@
+import { __ } from '../../../Utils/i18nwrap'
 import { delReminderFieldMap } from './IntegrationHelpers'
 
 export default function GoogleCalendarReminderFieldMap({
