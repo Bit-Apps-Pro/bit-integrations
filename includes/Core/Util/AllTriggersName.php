@@ -10,6 +10,7 @@ final class AllTriggersName
             'AcademyLms'        => ['name' => 'Academy Lms',  'isPro' => true, 'is_active' => false],
             'ActionHook'        => ['name' => 'Action Hook',  'isPro' => true, 'is_active' => false],
             'AdvancedAds'       => ['name' => 'Advanced Ads',  'isPro' => true, 'is_active' => false],
+            'AdvancedCoupons'   => ['name' => 'Advanced coupons for Woocommerce',  'isPro' => true, 'is_active' => false],
             'Affiliate'         => ['name' => 'Affiliate',  'isPro' => true, 'is_active' => false],
             'Amelia'            => ['name' => 'Amelia',  'isPro' => true, 'is_active' => false],
             'ARForm'            => ['name' => 'ARForm',  'isPro' => true, 'is_active' => false],
