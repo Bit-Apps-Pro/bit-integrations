@@ -18,7 +18,7 @@ export default function ChangelogToggle() {
 
   // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
   // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-  const releaseDate = '25th January 2025'
+  const releaseDate = '3rd February 2025'
 
   // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
   const changeLog = [
@@ -50,7 +50,7 @@ export default function ChangelogToggle() {
       label: __('New Improvements', 'bit-integrations'),
       headClass: 'new-improvement',
       itemClass: 'feature-list',
-      items: []
+      items: [{ 'label': 'MailChimp', 'desc': 'Fetching of fields has been maximized.', 'isPro': false }]
     }
   ]
 

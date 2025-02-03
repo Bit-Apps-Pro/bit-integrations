@@ -199,7 +199,7 @@ class MailChimpController
             return;
         }
 
-        $apiEndpoint = self::apiEndPoint($queryParams->tokenDetails->dc) . "/lists/{$queryParams->listId}/merge-fields";
+        $apiEndpoint = self::apiEndPoint($queryParams->tokenDetails->dc) . "/lists/{$queryParams->listId}/merge-fields?count=1000&offset=0";
         $authorizationHeader['Authorization'] = "Bearer {$queryParams->tokenDetails->access_token}";
         $mergeFieldResponse = HttpHelper::get($apiEndpoint, null, $authorizationHeader);
 

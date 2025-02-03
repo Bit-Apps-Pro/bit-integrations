@@ -4,7 +4,7 @@ Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
 Tested up to: 6.7.1
 Requires PHP: 7.4
-Stable tag: 2.4.5
+Stable tag: 2.4.6
 License: GPLv2 or later
 
 Automation Plugin for WordPress. Integration of 90+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
@@ -1222,6 +1222,19 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 6. All integration list
 
 == Changelog ==
+
+= 2.4.6 =
+_Release Date -3rd February 2025_
+
+- **New Improvements**
+ - MailChimp: Fetching of fields has been maximized.
+
+- **Bug Fixes**
+ - BuddyPress: Resolved group permalink issue, ensuring proper redirection and URL structure. (Pro)
+ - SureCart: Fixed product fetching issue, improving data retrieval and display functionality. (Pro)
+ - OneDrive: Fixed file uploading path issue to ensure accurate file storage and retrieval paths.
+ - MailChimp: Corrected issue where contact status updates were not being processed properly.
+ - Google Calendar: Resolved blank page issue during calendar operations.
 
 = 2.4.5 =
 _Release Date -25th January 2025_
