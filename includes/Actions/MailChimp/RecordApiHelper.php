@@ -63,8 +63,6 @@ class RecordApiHelper
     {
         $updateRecordEndpoint = $this->_apiEndPoint() . "/lists/{$listId}/members/{$contactId}";
 
-        error_log(print_r($data, true));
-
         return HttpHelper::request($updateRecordEndpoint, 'PUT', $data, $this->_defaultHeader);
     }
 
