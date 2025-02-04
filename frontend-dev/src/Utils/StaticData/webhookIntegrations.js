@@ -29,7 +29,8 @@ export const customFormIntegrations = [
   'Buddypress',
   'NinjaTables',
   'AdvancedAds',
-  'AdvancedCoupons'
+  'AdvancedCoupons',
+  'AppointmentHourBooking',
 ]
 
 export const actionHookIntegrations = ['ActionHook']
