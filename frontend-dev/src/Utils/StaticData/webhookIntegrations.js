@@ -33,6 +33,7 @@ export const customFormIntegrations = [
   'AppointmentHourBooking',
   'BetterMessages',
   'ConvertPro',
+  'FunnelKitAutomations',
 ]
 
 export const actionHookIntegrations = ['ActionHook']

@@ -43,6 +43,7 @@ final class AllTriggersName
             'FluentCrm'              => ['name' => 'Fluent CRM',  'isPro' => true, 'is_active' => false],
             'FluentCommunity'        => ['name' => 'Fluent Community',  'isPro' => true, 'is_active' => false],
             'FluentSupport'          => ['name' => 'Fluent Support',  'isPro' => true, 'is_active' => false],
+            'FunnelKitAutomations'   => ['name' => 'FunnelKit Automations',  'isPro' => true, 'is_active' => false],
             'FormCraft'              => ['name' => 'FormCraft3',  'isPro' => true, 'is_active' => false],
             'Formidable'             => ['name' => 'Formidable',  'isPro' => true, 'is_active' => false],
             'Forminator'             => ['name' => 'Forminator',  'isPro' => true, 'is_active' => false],
