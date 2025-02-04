@@ -30,6 +30,7 @@ final class AllTriggersName
             'CartFlow'               => ['name' => 'CartFlow',  'isPro' => true, 'is_active' => false],
             'CustomTrigger'          => ['name' => 'Custom Trigger',  'isPro' => true, 'is_active' => false],
             'Coblocks'               => ['name' => 'CoBlocks Form',  'isPro' => true, 'is_active' => false],
+            'ConvertPro'             => ['name' => 'Convert Pro',  'isPro' => true, 'is_active' => false],
             'Divi'                   => ['name' => 'Divi',  'isPro' => true, 'is_active' => false],
             'DiviFormBuilder'        => ['name' => 'Divi Form by Divi Engine',  'isPro' => true, 'is_active' => false],
             'Dokan'                  => ['name' => 'Dokan',  'isPro' => true, 'is_active' => false],
