@@ -19,6 +19,7 @@ final class AllTriggersName
             'Asgaros'                => ['name' => 'Asgaros Forum',  'isPro' => true, 'is_active' => false],
             'AvadaForms'             => ['name' => 'Avada Forms',  'isPro' => true, 'is_active' => false],
             'Beaver'                 => ['name' => 'Beaver',  'isPro' => true, 'is_active' => false],
+            'BetterMessages'         => ['name' => 'Better Messages',  'isPro' => true, 'is_active' => false],
             'BitAssist'              => ['name' => 'Bit  Assist',  'isPro' => true, 'is_active' => false],
             'Breakdance'             => ['name' => 'Breakdance',  'isPro' => true, 'is_active' => false],
             'Bricks'                 => ['name' => 'Bricks',  'isPro' => true, 'is_active' => false],

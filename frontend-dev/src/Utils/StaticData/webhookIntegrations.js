@@ -31,6 +31,7 @@ export const customFormIntegrations = [
   'AdvancedAds',
   'AdvancedCoupons',
   'AppointmentHourBooking',
+  'BetterMessages',
 ]
 
 export const actionHookIntegrations = ['ActionHook']
