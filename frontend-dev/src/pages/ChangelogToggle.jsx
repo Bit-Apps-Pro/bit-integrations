@@ -39,7 +39,7 @@ export default function ChangelogToggle() {
       headClass: 'new-trigger',
       itemClass: 'integration-list',
       items: [
-        { 'label': 'Advanced Coupons', 'desc': '', 'isPro': true },
+        { 'label': 'Advanced Coupons for WooCommerce', 'desc': '', 'isPro': true },
         { 'label': 'Appointment Hour Booking', 'desc': '', 'isPro': true },
         { 'label': 'Better Messages', 'desc': '', 'isPro': true },
         { 'label': 'Convert Pro', 'desc': '', 'isPro': true },

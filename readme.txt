@@ -56,6 +56,8 @@ https://youtu.be/eFuficjF_F4
 * [**Thrive Apprentice**](https://thrivethemes.com/apprentice/) (pro)
 * [**Academy LMS**](https://wordpress.org/plugins/academy/) (pro)
 * [**Advanced Ads**](https://wordpress.org/plugins/advanced-ads/) (pro)
+* [**Advanced Coupons For WooCommerce**](https://wordpress.org/plugins/advanced-coupons-for-woocommerce-free/) (pro)
+* [**Appointment Hour Booking**](https://wordpress.org/plugins/appointment-hour-booking/) (pro)
 * [**Asgaros Forum**](https://wordpress.org/plugins/asgaros-forum/) (pro)
 * [**Amelia**](https://wordpress.org/plugins/ameliabooking/) (pro)
 * [**Action Hook**](https://bitapps.pro/docs/bit-integrations/trigger/action-hook-integrations/) (pro)
@@ -64,6 +66,7 @@ https://youtu.be/eFuficjF_F4
 * [**ARMember**](https://wordpress.org/plugins/armember-membership/) (pro)
 * [**Avada Forms**](https://avada.com/feature/form-builder/) (pro)
 * [**Beaver Builder**](https://wordpress.org/plugins/beaver-builder-lite-version/) (pro)
+* [**Better Messages**](https://wordpress.org/plugins/bp-better-messages/) (pro)
 * [**Bricks**](https://wordpress.org/plugins/bricksable/) (pro)
 * [**Bricksforge**](https://bricksforge.io/) (pro)
 * [**BuddyBoss**](https://www.buddyboss.com/) (pro)
@@ -72,6 +75,7 @@ https://youtu.be/eFuficjF_F4
 * [**Breakdance**](https://breakdance.com/) (pro)
 * [**CartFlows**](https://wordpress.org/plugins/cartflows/) (pro)
 * [**CoBlocks**](https://wordpress.org/plugins/coblocks/) (pro)
+* [**Convert Pro**](https://www.convertpro.net/) (pro)
 * [**Custom Trigger**](https://bitapps.pro/docs/bit-integrations/trigger/custom-trigger-integrations/) (pro)
 * [**Divi**](https://www.elegantthemes.com/gallery/divi/) (pro)
 * [**Divi Form Builder**](https://bit-integrations.com/wp-docs/trigger/divi-form-builder-by-divi-engine-integrations/) (pro)
@@ -85,6 +89,7 @@ https://youtu.be/eFuficjF_F4
 * [**Fluent Booking**](https://fluentbooking.com/) (pro)
 * [**Fluent CRM**](https://wordpress.org/plugins/fluent-crm/) (pro)
 * [**Fluent Support**](https://wordpress.org/plugins/fluent-support/) (pro)
+* [**FunnelKit Automations CRM**](https://wordpress.org/plugins/wp-marketing-automations/) (pro)
 * [**Forminator**](https://wordpress.org/plugins/forminator/) (pro)
 * [**FormCraft**](https://wordpress.org/plugins/formcraft-form-builder/) (pro)
 * [**Gravity Forms**](https://www.gravityforms.com/) (pro)
@@ -675,6 +680,10 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Advanced Ads**](https://bit-integrations.com/wp-docs/trigger/advanced-ads-integrations/)
 
+* [**Advanced Coupons for WooCommerce**](https://bit-integrations.com/wp-docs/trigger/advanced-coupons-integrations/)
+
+* [**Appointment Hour Booking**](https://bit-integrations.com/wp-docs/trigger/appointment-hour-booking-integrations/)
+
 * [**Asgaros Forum**](https://bit-integrations.com/wp-docs/trigger/asgaros-forum-integrations/)
 
 * [**Avada Forms**](https://bit-integrations.com/wp-docs/trigger/avada-forms-integrations/)
@@ -686,6 +695,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 * [**ARMember**](https://bit-integrations.com/wp-docs/trigger/armember-integrations/)
 
 * [**Beaver Builder**](https://bitapps.pro/docs/bit-integrations/trigger/beaver-builder/)
+
+* [**Better Messages**](https://bit-integrations.com/wp-docs/trigger/better-messages-integrations/)
 
 * [**Bit Assist**](https://bitapps.pro/docs/bit-integrations/trigger/bit-assist/)
 
@@ -706,6 +717,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 * [**Cart Flow**](https://bitapps.pro/docs/bit-integrations/trigger/cart-flow/)
 
 * [**CoBlocks**](https://bitapps.pro/docs/bit-integrations/trigger/coblocks-integrations/)
+
+* [**Convert Pro**](https://bit-integrations.com/wp-docs/trigger/convert-pro-integrations/)
 
 * [**Contact Form 7**](https://bitapps.pro/docs/bit-integrations/trigger/contact-form/)
 
@@ -738,6 +751,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 * [**Fluent Forms**](https://bitapps.pro/docs/bit-integrations/trigger/fluent-forms/)
 
 * [**Fluent Support**](https://bitapps.pro/docs/bit-integrations/trigger/fluent-support/)
+
+* [**FunnelKit Automations CRM**](https://bit-integrations.com/wp-docs/trigger/funnelkit-automation-integrations/)
 
 * [**FormCraft**](https://bitapps.pro/docs/bit-integrations/trigger/formcraft/)
 
@@ -1227,7 +1242,7 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 _Release Date -5th February 2025_
 
 - **New Trigger**
- - Advanced Coupons: The Best WooCommerce Coupon Plugin. (Pro)
+ - Advanced Coupons for WooCommerce: The Best WooCommerce Coupon Plugin. (Pro)
  - Appointment Hour Booking: WordPress Booking Plugin. (Pro)
  - Better Messages: Realtime private messaging system for WordPress. (Pro)
  - Convert Pro: The Best Lead Generation Tool for WordPress. (Pro)
