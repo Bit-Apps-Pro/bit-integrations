@@ -326,7 +326,7 @@ final class Helper
     public static function prepareFetchFormatFields(array $data, $path = '', $formattedData = [])
     {
         foreach ($data as $key => $value) {
-            if (ctype_upper($key)) {
+            if (\is_string($key) && ctype_upper($key)) {
                 $key = strtolower($key);
             }
 
