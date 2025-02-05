@@ -28,7 +28,12 @@ export const customFormIntegrations = [
   'FluentCommunity',
   'Buddypress',
   'NinjaTables',
-  'AdvancedAds'
+  'AdvancedAds',
+  'AdvancedCoupons',
+  'AppointmentHourBooking',
+  'BetterMessages',
+  'ConvertPro',
+  'FunnelKitAutomations',
 ]
 
 export const actionHookIntegrations = ['ActionHook']

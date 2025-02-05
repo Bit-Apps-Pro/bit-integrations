@@ -2,12 +2,12 @@
 
 namespace BitCode\FI\Triggers\WC;
 
+use BitCode\FI\Core\Util\Helper;
+use BitCode\FI\Flow\Flow;
 use WC_Booking;
 use WC_Checkout;
 use WC_Product_Simple;
-use BitCode\FI\Flow\Flow;
 use WC_Subscriptions_Product;
-use BitCode\FI\Core\Util\Helper;
 
 final class WCController
 {
@@ -20,7 +20,7 @@ final class WCController
         $plugin_path = 'woocommerce/woocommerce.php';
 
         return [
-            'name'           => 'Woocommerce',
+            'name'           => 'WooCommerce',
             'title'          => __('WooCommerce is the world’s most popular open-source eCommerce solution', 'bit-integrations'),
             'slug'           => $plugin_path,
             'pro'            => 'woocommerce/woocommerce.php',
