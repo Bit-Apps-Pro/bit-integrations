@@ -18,7 +18,7 @@ export default function ChangelogToggle() {
 
   // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
   // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-  const releaseDate = '3rd February 2025'
+  const releaseDate = '5th February 2025'
 
   // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
   const changeLog = [
@@ -38,19 +38,25 @@ export default function ChangelogToggle() {
       label: __('New Triggers', 'bit-integrations'),
       headClass: 'new-trigger',
       itemClass: 'integration-list',
-      items: []
+      items: [
+        { 'label': 'Advanced Coupons', 'desc': '', 'isPro': true },
+        { 'label': 'Appointment Hour Booking', 'desc': '', 'isPro': true },
+        { 'label': 'Better Messages', 'desc': '', 'isPro': true },
+        { 'label': 'Convert Pro', 'desc': '', 'isPro': true },
+        { 'label': 'FunnelKit Automations CRM', 'desc': '', 'isPro': true },
+      ]
     },
     {
       label: __('New Features', 'bit-integrations'),
       headClass: 'new-feature',
       itemClass: 'feature-list',
-      items: [{ 'label': 'MailPoet', 'desc': 'Added the update subscriber feature.', 'isPro': true }]
+      items: []
     },
     {
       label: __('New Improvements', 'bit-integrations'),
       headClass: 'new-improvement',
       itemClass: 'feature-list',
-      items: [{ 'label': 'MailChimp', 'desc': 'Fetching of fields has been maximized.', 'isPro': false }]
+      items: []
     }
   ]
 

@@ -4,7 +4,7 @@ Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
 Tested up to: 6.7.1
 Requires PHP: 7.4
-Stable tag: 2.4.6
+Stable tag: 2.4.7
 License: GPLv2 or later
 
 Automation Plugin for WordPress. Integration of 90+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
@@ -1222,6 +1222,16 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 6. All integration list
 
 == Changelog ==
+
+= 2.4.7 =
+_Release Date -5th February 2025_
+
+- **New Trigger**
+ - Advanced Coupons: The Best WooCommerce Coupon Plugin. (Pro)
+ - Appointment Hour Booking: WordPress Booking Plugin. (Pro)
+ - Better Messages: Realtime private messaging system for WordPress. (Pro)
+ - Convert Pro: The Best Lead Generation Tool for WordPress. (Pro)
+ - FunnelKit Automations CRM: WordPress Marketing Automation Engine. (Pro)
 
 = 2.4.6 =
 _Release Date -3rd February 2025_
