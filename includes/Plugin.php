@@ -40,6 +40,7 @@ final class Plugin
     public function initialize()
     {
         Hooks::add('plugins_loaded', [$this, 'init_plugin'], 12);
+
         (new Activation())->activate();
         (new Deactivation())->register();
         (new UnInstallation())->register();
@@ -54,6 +55,8 @@ final class Plugin
         Hooks::add('btcbi_delete_integ_log', [$this, 'integrationlogDelete'], PHP_INT_MAX);
         Hooks::filter('plugin_action_links_' . plugin_basename(BTCBI_PLUGIN_MAIN_FILE), [$this, 'plugin_action_links']);
         Hooks::filter('cron_schedules', [$this, 'every_week_time_cron']);
+
+        new HookService();
 
         $this->btcbi_delete_log_scheduler();
     }
@@ -101,7 +104,6 @@ final class Plugin
         if (Request::Check('admin')) {
             (new Admin_Bar())->register();
         }
-        new HookService();
     }
 
     /**
