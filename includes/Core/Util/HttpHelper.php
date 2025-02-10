@@ -57,16 +57,11 @@ final class HttpHelper
         ];
 
         $options = wp_parse_args($options, $defaultOptions);
-        $requestReponse = wp_remote_request($url, $options);
+        $requestReponse = wp_safe_remote_request($url, $options);
 
         if (is_wp_error($requestReponse)) {
             return $requestReponse;
         }
-
-        // $responseCode = wp_remote_retrieve_response_code($requestReponse);
-        // if (!\is_null($responseCode) && $responseCode != 200) {
-        //     return wp_remote_retrieve_response_message($requestReponse);
-        // }
 
         static::$responseCode = wp_remote_retrieve_response_code($requestReponse);
         $responseBody = wp_remote_retrieve_body($requestReponse);
