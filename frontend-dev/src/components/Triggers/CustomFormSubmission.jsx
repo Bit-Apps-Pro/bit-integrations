@@ -214,7 +214,7 @@ const CustomFormSubmission = () => {
           <div className={`flx mt-2 flx-${newFlow.triggerDetail?.data && !skipPrimaryKey ? 'between' : 'around'}`}>
             <button
               onClick={handleFetch}
-              className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : 'purple'}`}
+              className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : 'gray'}`}
               type="button">
               {isLoading
                 ? __('Waiting for form submission...', 'bit-integrations')
@@ -226,7 +226,7 @@ const CustomFormSubmission = () => {
             {newFlow.triggerDetail?.data?.length > 0 && !skipPrimaryKey && (
               <button
                 onClick={() => setPrimaryKeyModal(true)}
-                className={`btn btcd-btn-lg sh-sm flx ${newFlow.triggerDetail?.data?.length > 0 && 'purple'}`}
+                className={`btn btcd-btn-lg sh-sm flx ${newFlow.triggerDetail?.data?.length > 0 && 'gray'}`}
                 type="button"
                 disabled={!newFlow.triggerDetail?.data?.length > 0}>
                 {primaryKey
@@ -272,7 +272,7 @@ const CustomFormSubmission = () => {
           )}
           {newFlow.triggerDetail?.data && (
             <div className="flx flx-between">
-              <button onClick={showResponseTable} className="btn btcd-btn-lg sh-sm purple flx">
+              <button onClick={showResponseTable} className="btn btcd-btn-lg sh-sm gray flx">
                 <span className="txt-essentialBlocks-resbtn font-inter-500">
                   {showResponse
                     ? __('Hide Response', 'bit-integrations')
@@ -280,9 +280,9 @@ const CustomFormSubmission = () => {
                 </span>
                 &nbsp;
                 {!showResponse ? (
-                  <EyeIcn width="20" height="20" strokeColor="#fff" />
+                  <EyeIcn width="20" height="20" strokeColor="#222" />
                 ) : (
-                  <EyeOffIcn width="20" height="20" strokeColor="#fff" />
+                  <EyeOffIcn width="20" height="20" strokeColor="#222" />
                 )}
               </button>
               <button
