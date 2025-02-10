@@ -34,6 +34,7 @@ export const customFormIntegrations = [
   'BetterMessages',
   'ConvertPro',
   'FunnelKitAutomations',
+  'CalculatedFieldsForm',
 ]
 
 export const actionHookIntegrations = ['ActionHook']
