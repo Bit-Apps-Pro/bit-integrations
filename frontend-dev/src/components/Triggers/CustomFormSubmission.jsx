@@ -7,19 +7,15 @@ import MultiSelect from 'react-multiple-select-dropdown-lite'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { $flowStep, $formFields, $newFlow } from '../../GlobalStates'
-import CloseIcn from '../../Icons/CloseIcn'
-import GetLogo from '../../Utils/GetLogo'
-import { extractValueFromPath, isLinkEmpty, TriggerDocLink } from '../../Utils/Helpers'
-import hooklist from '../../Utils/StaticData/hooklist'
+import { TriggerDocLink } from '../../Utils/Helpers'
 import bitsFetch from '../../Utils/bitsFetch'
 import { __ } from '../../Utils/i18nwrap'
 import LoaderSm from '../Loaders/LoaderSm'
 import ConfirmModal from '../Utilities/ConfirmModal'
 import EyeIcn from '../Utilities/EyeIcn'
 import EyeOffIcn from '../Utilities/EyeOffIcn'
-import SnackMsg from '../Utilities/SnackMsg'
-import TreeViewer from '../Utilities/treeViewer/TreeViewer'
 import Note from '../Utilities/Note'
+import SnackMsg from '../Utilities/SnackMsg'
 import WebhookDataTable from '../Utilities/WebhookDataTable'
 
 const CustomFormSubmission = () => {
@@ -32,7 +28,7 @@ const CustomFormSubmission = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
   const [showResponse, setShowResponse] = useState(false)
-  const intervalRef = useRef(null)
+  const isLoadingRef = useRef(false)
 
   let controller = new AbortController()
   const signal = controller.signal
@@ -67,47 +63,118 @@ const CustomFormSubmission = () => {
     setFlowStep(2)
   }
 
-  const handleFetch = () => {
-    if (isLoading) {
-      clearInterval(intervalRef.current)
-      controller.abort()
-      removeTestData()
-      setIsLoading(false)
+  // const handleFetch = () => {
+  //   if (isLoading) {
+  //     clearInterval(intervalRef.current)
+  //     controller.abort()
+  //     removeTestData()
+  //     setIsLoading(false)
+  //     return
+  //   }
+
+  //   setIsLoading(true)
+  //   setShowResponse(false)
+  //   setPrimaryKey(undefined)
+  //   setNewFlow((prevFlow) =>
+  //     create(prevFlow, (draftFlow) => {
+  //       delete draftFlow.triggerDetail.data
+  //     })
+  //   )
+  //   intervalRef.current = setInterval(() => {
+  //     bitsFetch({ triggered_entity_id: newFlow.triggerDetail.triggered_entity_id }, fetchAction, null, fetchMethod, signal)
+  //       .then((resp) => {
+  //         if (resp.success) {
+  //           clearInterval(intervalRef.current)
+  //           controller.abort()
+  //           setNewFlow((prevFlow) =>
+  //             create(prevFlow, (draftFlow) => {
+  //               draftFlow.triggerDetail.data = Array.isArray(resp.data?.formData) ? resp.data?.formData : Object.values(resp.data?.formData)
+  //             })
+  //           )
+  //           setPrimaryKey(resp.data?.primaryKey || undefined)
+  //           setIsLoading(false)
+  //           setShowResponse(true)
+  //           bitsFetch({ triggered_entity_id: newFlow.triggerDetail.triggered_entity_id }, removeAction, null, removeMethod)
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         if (err.name === 'AbortError') {
+  //           console.log(__('AbortError: Fetch request aborted', 'bit-integrations'))
+  //         }
+  //       })
+  //   }, 1500)
+  // }
+
+
+  const handleFetch = async () => {
+    if (isLoadingRef.current) {
+      stopFetching()
       return
     }
 
     setIsLoading(true)
+    isLoadingRef.current = true
     setShowResponse(false)
     setPrimaryKey(undefined)
+    resetFlowData()
+    fetchSequentially()
+  }
+
+  const stopFetching = () => {
+    controller.abort()
+    removeTestData()
+    setIsLoading(false)
+    isLoadingRef.current = false
+  }
+
+  const resetFlowData = () => {
     setNewFlow((prevFlow) =>
       create(prevFlow, (draftFlow) => {
         delete draftFlow.triggerDetail.data
       })
     )
-    intervalRef.current = setInterval(() => {
-      bitsFetch({ triggered_entity_id: newFlow.triggerDetail.triggered_entity_id }, fetchAction, null, fetchMethod, signal)
-        .then((resp) => {
-          if (resp.success) {
-            clearInterval(intervalRef.current)
-            controller.abort()
-            setNewFlow((prevFlow) =>
-              create(prevFlow, (draftFlow) => {
-                draftFlow.triggerDetail.data = Array.isArray(resp.data?.formData) ? resp.data?.formData : Object.values(resp.data?.formData)
-              })
-            )
-            setPrimaryKey(resp.data?.primaryKey || undefined)
-            setIsLoading(false)
-            setShowResponse(true)
-            bitsFetch({ triggered_entity_id: newFlow.triggerDetail.triggered_entity_id }, removeAction, null, removeMethod)
-          }
-        })
-        .catch((err) => {
-          if (err.name === 'AbortError') {
-            console.log(__('AbortError: Fetch request aborted', 'bit-integrations'))
-          }
-        })
-    }, 1500)
   }
+
+  const fetchSequentially = () => {
+    try {
+      if (!isLoadingRef.current) {
+        stopFetching()
+        return
+      }
+
+      bitsFetch(
+        { triggered_entity_id: newFlow.triggerDetail.triggered_entity_id },
+        fetchAction,
+        null,
+        fetchMethod,
+        signal
+      ).then((resp) => {
+        if (resp.success) {
+          setNewFlow((prevFlow) =>
+            create(prevFlow, (draftFlow) => {
+              draftFlow.triggerDetail.data = Array.isArray(resp.data?.formData)
+                ? resp.data.formData
+                : Object.values(resp.data?.formData)
+            })
+          )
+
+          setPrimaryKey(resp.data?.primaryKey || undefined)
+          setShowResponse(true)
+          stopFetching()
+        } else if (isLoadingRef.current) {
+          fetchSequentially()
+        } else {
+          stopFetching()
+        }
+      })
+
+    } catch (err) {
+      console.log(err.name === 'AbortError'
+        ? __('AbortError: Fetch request aborted', 'bit-integrations')
+        : err)
+    }
+  }
+
 
   const showResponseTable = () => {
     setShowResponse((prevState) => !prevState)
@@ -116,7 +183,7 @@ const CustomFormSubmission = () => {
   const primaryKeySet = (key) => {
     setPrimaryKey((prev) =>
       create(prev, (draft) => {
-        if(key === '' || key === null){
+        if (key === '' || key === null) {
           return rawReturn(undefined)
         }
 
@@ -138,25 +205,23 @@ const CustomFormSubmission = () => {
   }
 
   const removeTestData = () => {
+    if (!newFlow?.triggerDetail?.triggered_entity_id) {
+      return
+    }
+
     bitsFetch({ triggered_entity_id: newFlow.triggerDetail.triggered_entity_id }, removeAction, null, removeMethod).then((resp) => {
-      intervalRef.current && clearInterval(intervalRef.current)
     })
   }
 
   useEffect(() => {
     return () => {
-      intervalRef.current && clearInterval(intervalRef.current)
-      controller.abort()
-      removeTestData()
+      stopFetching()
     }
   }, [])
 
   const setTriggerEntityId = (entityId) => {
-    if (isLoading) {
-      clearInterval(intervalRef.current)
-      controller.abort()
-      removeTestData()
-      setIsLoading(false)
+    if (isLoading|| isLoadingRef.current) {
+      stopFetching()
       return
     }
 
@@ -167,12 +232,12 @@ const CustomFormSubmission = () => {
       })
     )
 
-    const multiForm = newFlow?.triggerDetail?.multi_form;
+    const multiForm = newFlow?.triggerDetail?.multi_form
     const requiresPrimaryKey = multiForm?.some(
       ({ triggered_entity_id, skipPrimaryKey: isSkipPrimaryKey }) => triggered_entity_id === entityId && isSkipPrimaryKey
-    );
+    )
 
-    setSkipPrimaryKey(requiresPrimaryKey);
+    setSkipPrimaryKey(requiresPrimaryKey)
   }
 
   const info = `<h4>${sprintf(__('Follow these simple steps to set up the %s', 'bit-integrations'), newFlow?.triggerDetail?.name)}</h4>
@@ -219,7 +284,7 @@ const CustomFormSubmission = () => {
           <div className={`flx mt-2 flx-${newFlow.triggerDetail?.data && !skipPrimaryKey ? 'between' : 'around'}`}>
             <button
               onClick={handleFetch}
-              className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : newFlow.triggerDetail?.data ? 'gray': 'purple'}`}
+              className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : newFlow.triggerDetail?.data ? 'gray' : 'purple'}`}
               type="button">
               {isLoading
                 ? __('Waiting for form submission...', 'bit-integrations')
