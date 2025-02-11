@@ -235,7 +235,7 @@ function EditActionHook() {
         />
         <button
           onClick={handleFetch}
-          className={`btn btcd-btn-lg sh-sm flx ml-1 ${isLoading ? 'red' : 'purple'}`}
+          className={`btn btcd-btn-lg sh-sm flx ml-1 ${isLoading ? 'red' : flow.flow_details?.fields ? 'gray': 'purple'}`}
           type="button">
           {isLoading
             ? __('Stop', 'bit-integrations')
@@ -253,14 +253,15 @@ function EditActionHook() {
             </div>
             <button
               onClick={() => setShowSelectedFields((prev) => !prev)}
-              className="btn btcd-btn-md sh-sm flx">
+              className="btn btcd-btn-md sh-sm flx gray">
               <span className="txt-actionHook-resbtn font-inter-500">
                 {showSelectedFields ? 'Hide Selected Fields' : 'View Selected Fields'}
               </span>
+              &nbsp;
               {!showSelectedFields ? (
-                <EyeIcn width="20" height="20" strokeColor="#000000" />
+                <EyeIcn width="20" height="20" strokeColor="#222" />
               ) : (
-                <EyeOffIcn width="20" height="20" strokeColor="#000000" />
+                <EyeOffIcn width="20" height="20" strokeColor="#222" />
               )}
             </button>
           </div>
@@ -304,16 +305,17 @@ function EditActionHook() {
             </div>
             <button
               onClick={() => setShowResponse((prev) => !prev)}
-              className="btn btcd-btn-md sh-sm flx">
+              className="btn btcd-btn-md sh-sm flx gray">
               <span className="txt-actionHook-resbtn font-inter-500">
                 {showResponse
                   ? __('Hide Response', 'bit-integrations')
                   : __('View Response', 'bit-integrations')}
               </span>
+              &nbsp;
               {!showResponse ? (
-                <EyeIcn width="20" height="20" strokeColor="#000000" />
+                <EyeIcn width="20" height="20" strokeColor="#222" />
               ) : (
-                <EyeOffIcn width="20" height="20" strokeColor="#000000" />
+                <EyeOffIcn width="20" height="20" strokeColor="#222" />
               )}
             </button>
           </div>

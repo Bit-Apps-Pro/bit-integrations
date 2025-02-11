@@ -281,7 +281,7 @@ const ActionHook = () => {
       <div className="flx flx-between">
         <button
           onClick={handleFetch}
-          className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : 'purple'}`}
+          className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : newFlow.triggerDetail?.data ? 'gray': 'purple'}`}
           type="button"
           disabled={!hookID}>
           {isLoading
@@ -294,7 +294,7 @@ const ActionHook = () => {
         {selectedFields.length > 0 && (
           <button
             onClick={() => setPrimaryKeyModal(true)}
-            className={`btn btcd-btn-lg sh-sm flx ${selectedFields.length && 'purple'}`}
+            className={`btn btcd-btn-lg sh-sm flx ${selectedFields.length && 'gray'}`}
             type="button"
             disabled={!selectedFields.length}>
             {primaryKey
@@ -337,16 +337,17 @@ const ActionHook = () => {
       )}
       {newFlow.triggerDetail?.data && (
         <div className="flx flx-between">
-          <button onClick={showResponseTable} className="btn btcd-btn-lg sh-sm flx">
+          <button onClick={showResponseTable} className="btn btcd-btn-lg sh-sm gray flx">
             <span className="txt-actionHook-resbtn font-inter-500">
               {showResponse
                 ? __('Hide Response', 'bit-integrations')
                 : __('View Response', 'bit-integrations')}
             </span>
+            &nbsp;
             {!showResponse ? (
-              <EyeIcn width="20" height="20" strokeColor="#000000" />
+              <EyeIcn width="20" height="20" strokeColor="#222" />
             ) : (
-              <EyeOffIcn width="20" height="20" strokeColor="#000000" />
+              <EyeOffIcn width="20" height="20" strokeColor="#222" />
             )}
           </button>
           <button

@@ -199,7 +199,7 @@ function EditCustomTrigger() {
       <div className="flx flx-between">
         <button
           onClick={handleFetch}
-          className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : 'purple'}`}
+          className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : flow.flow_details?.rawData ? 'gray': 'purple'}`}
           type="button"
           disabled={isLoading}>
           {isLoading

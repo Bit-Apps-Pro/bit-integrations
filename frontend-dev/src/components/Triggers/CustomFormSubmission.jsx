@@ -116,6 +116,10 @@ const CustomFormSubmission = () => {
   const primaryKeySet = (key) => {
     setPrimaryKey((prev) =>
       create(prev, (draft) => {
+        if(key === '' || key === null){
+          return rawReturn(undefined)
+        }
+
         const keys = key?.split(',') || []
         const primaryKey = keys.map((k) => ({
           key: k,
@@ -182,6 +186,7 @@ const CustomFormSubmission = () => {
             ${newFlow?.triggerDetail?.note ? `<h4 className="mt-0">Note</h4>${newFlow?.triggerDetail?.note}` : ''}
             ${TriggerDocLink(newFlow?.triggerDetail?.documentation_url, newFlow?.triggerDetail?.tutorial_url)}`
 
+
   return !newFlow?.triggerDetail?.is_active ? (
     <span className="mt-3">
       {sprintf(
@@ -214,7 +219,7 @@ const CustomFormSubmission = () => {
           <div className={`flx mt-2 flx-${newFlow.triggerDetail?.data && !skipPrimaryKey ? 'between' : 'around'}`}>
             <button
               onClick={handleFetch}
-              className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : 'gray'}`}
+              className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : newFlow.triggerDetail?.data ? 'gray': 'purple'}`}
               type="button">
               {isLoading
                 ? __('Waiting for form submission...', 'bit-integrations')
