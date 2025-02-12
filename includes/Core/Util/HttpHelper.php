@@ -57,7 +57,7 @@ final class HttpHelper
         ];
 
         $options = wp_parse_args($options, $defaultOptions);
-        $requestReponse = wp_safe_remote_request($url, $options);
+        $requestReponse = wp_remote_request($url, $options);
 
         if (is_wp_error($requestReponse)) {
             return $requestReponse;
