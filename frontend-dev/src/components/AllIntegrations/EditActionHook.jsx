@@ -328,34 +328,6 @@ function EditActionHook() {
               onUpdateField={onUpdateField}
               onRemoveField={removeSelectedField}
             />
-            // <div
-            //   className="bg-white rounded border my-1 table-webhook-div p-2"
-            //   style={{ minHeight: '40px', maxHeight: '14rem' }}>
-            //   {flow.flow_details?.fields.map((field, index) => (
-            //     <div key={index} style={{ position: 'relative' }}>
-            //       <input
-            //         key={index}
-            //         className="btcd-paper-inp w-100 m-1"
-            //         type="text"
-            //         onChange={e => setSelectedFieldsData(e.target.value, index)}
-            //         value={field?.name?.replace(/[,]/gi, '.')?.replace(/["{\}[\](\)]/gi, '')}
-            //         disabled={isLoading}
-            //       />
-            //       <button
-            //         className="btn btcd-btn-lg sh-sm"
-            //         onClick={() => removeSelectedField(index)}
-            //         style={{
-            //           position: 'absolute',
-            //           top: -5,
-            //           right: -5,
-            //           color: '#ff4646',
-            //           padding: '2px'
-            //         }}>
-            //         <CloseIcn size={12} />
-            //       </button>
-            //     </div>
-            //   ))}
-            // </div>
           )}
         </>
       )}
