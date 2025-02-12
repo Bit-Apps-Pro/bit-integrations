@@ -9,6 +9,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil'
 import { $flowStep, $formFields, $newFlow } from '../../GlobalStates'
 import { TriggerDocLink } from '../../Utils/Helpers'
 import bitsFetch from '../../Utils/bitsFetch'
+import { startFetching, stopFetching } from '../../Utils/customFormHelper'
 import { __ } from '../../Utils/i18nwrap'
 import LoaderSm from '../Loaders/LoaderSm'
 import ConfirmModal from '../Utilities/ConfirmModal'
@@ -17,7 +18,6 @@ import EyeOffIcn from '../Utilities/EyeOffIcn'
 import Note from '../Utilities/Note'
 import SnackMsg from '../Utilities/SnackMsg'
 import WebhookDataTable from '../Utilities/WebhookDataTable'
-import { startFetching, stopFetching } from '../../Utils/customFormHookDataFetch'
 
 const CustomFormSubmission = () => {
   const [newFlow, setNewFlow] = useRecoilState($newFlow)

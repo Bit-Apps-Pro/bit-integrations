@@ -1,12 +1,12 @@
 import { create } from 'mutative'
 import bitsFetch from './bitsFetch'
 
-const removeTestData = (triggered_entity_id, removeAction, removeMethod = 'post') => {
-  if (!triggered_entity_id) {
+const removeTestData = (entityId, removeAction, removeMethod = 'POST', key = 'triggered_entity_id') => {
+  if (!entityId) {
     return
   }
 
-  bitsFetch({ triggered_entity_id: triggered_entity_id }, removeAction, null, removeMethod)
+  bitsFetch({ [key]: entityId }, removeAction, null, removeMethod)
 }
 
 const startFetching = (
@@ -26,17 +26,18 @@ const startFetching = (
 
 const stopFetching = (
   controller,
-  triggered_entity_id,
+  entityId,
   isLoadingRef,
   removeAction,
   removeMethod,
-  setIsLoading
+  setIsLoading,
+  key = 'triggered_entity_id'
 ) => {
   controller.abort()
   setIsLoading(false)
   isLoadingRef.current = false
 
-  removeTestData(triggered_entity_id, removeAction, removeMethod)
+  removeTestData(entityId, removeAction, removeMethod, key)
 }
 
 const resetFlowData = (setFlow, isEdit = false) => {

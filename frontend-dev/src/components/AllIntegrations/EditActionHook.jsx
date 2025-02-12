@@ -6,12 +6,12 @@ import MultiSelect from 'react-multiple-select-dropdown-lite'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { $actionConf, $formFields, $newFlow } from '../../GlobalStates'
+import CloseIcn from '../../Icons/CloseIcn'
 import bitsFetch from '../../Utils/bitsFetch'
+import { stopFetching } from '../../Utils/customFormHelper'
+import { extractValueFromPath } from '../../Utils/Helpers'
 import { __ } from '../../Utils/i18nwrap'
 import LoaderSm from '../Loaders/LoaderSm'
-import toast from 'react-hot-toast'
-import { deepCopy, extractValueFromPath } from '../../Utils/Helpers'
-import CloseIcn from '../../Icons/CloseIcn'
 import EyeIcn from '../Utilities/EyeIcn'
 import EyeOffIcn from '../Utilities/EyeOffIcn'
 import TreeViewer from '../Utilities/treeViewer/TreeViewer'
@@ -23,83 +23,113 @@ function EditActionHook() {
   const [showResponse, setShowResponse] = useState(false)
   const [showSelectedFields, setShowSelectedFields] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const intervalRef = useRef(null)
+  const isLoadingRef = useRef(false)
   let controller = new AbortController()
   const signal = controller.signal
 
   const handleFetch = () => {
-    if (isLoading) {
-      clearInterval(intervalRef.current)
-      removeTestData(flow?.triggered_entity_id)
-      setIsLoading(false)
+    if (isLoadingRef.current) {
+      stopFetching(
+        controller,
+        flow?.triggered_entity_id,
+        isLoadingRef,
+        'action_hook/test/remove',
+        'post',
+        setIsLoading,
+        'hook_id'
+      )
       return
     }
 
+    isLoadingRef.current = true
     setIsLoading(true)
-    intervalRef.current = setInterval(() => {
-      bitsFetch({ hook_id: flow?.triggered_entity_id }, 'action_hook/test', null, 'POST', signal)
-        .then((resp) => {
-          if (resp.success) {
-            clearInterval(intervalRef.current)
-            controller.abort()
-            setFlow((prevFlow) =>
-              create(prevFlow, (draftFlow) => {
-                draftFlow.flow_details['rawData'] = resp.data.actionHook
-                draftFlow.flow_details['fields'] = []
-                draftFlow.flow_details['primaryKey'] = undefined
-                draftFlow.flow_details['trigger_type'] = draftFlow.flow_details?.trigger_type || 'action_hook'
-
-                if (draftFlow.flow_details?.body?.data) {
-                  draftFlow.flow_details.body.data = []
-                } else {
-                  draftFlow.flow_details.field_map = []
-                }
-              })
-            )
-            setActionConf((prevConf) =>
-              create(prevConf, (draftConf) => {
-                draftConf['rawData'] = resp.data.actionHook
-                draftConf['fields'] = []
-                draftConf['primaryKey'] = undefined
-
-                if (draftConf?.body?.data) {
-                  draftConf.body.data = []
-                } else {
-                  draftConf.field_map = []
-                }
-              })
-            )
-            setFormFields([])
-            setIsLoading(false)
-            setShowResponse(true)
-            setShowSelectedFields(true)
-            removeTestData(flow?.triggered_entity_id, true)
-          }
-        })
-        .catch((err) => {
-          if (err.name === 'AbortError') {
-            console.log('AbortError: Fetch request aborted')
-          }
-        })
-    }, 1500)
+    fetchSequentially()
   }
 
-  const removeTestData = (hookID, reset = false) => {
-    bitsFetch({ hook_id: hookID, reset: reset }, 'action_hook/test/remove').then((resp) => {
-      intervalRef.current && clearInterval(intervalRef.current)
-    })
+  const fetchSequentially = () => {
+    const hookID = flow?.triggered_entity_id
+
+    try {
+      if (!isLoadingRef.current || !hookID) {
+        stopFetching(
+          controller,
+          hookID,
+          isLoadingRef,
+          'action_hook/test/remove',
+          'post',
+          setIsLoading,
+          'hook_id'
+        )
+        return
+      }
+
+      bitsFetch({ hook_id: hookID }, 'action_hook/test', null, 'POST', signal).then(resp => {
+        if (!resp.success && isLoadingRef.current) {
+          fetchSequentially()
+          return
+        }
+
+        if (resp.success) {
+          setFlow(prevFlow =>
+            create(prevFlow, draftFlow => {
+              draftFlow.flow_details['rawData'] = resp.data.actionHook
+              draftFlow.flow_details['fields'] = []
+              draftFlow.flow_details['primaryKey'] = undefined
+              draftFlow.flow_details['trigger_type'] =
+                draftFlow.flow_details?.trigger_type || 'action_hook'
+
+              if (draftFlow.flow_details?.body?.data) {
+                draftFlow.flow_details.body.data = []
+              } else {
+                draftFlow.flow_details.field_map = []
+              }
+            })
+          )
+          setActionConf(prevConf =>
+            create(prevConf, draftConf => {
+              draftConf['rawData'] = resp.data.actionHook
+              draftConf['fields'] = []
+              draftConf['primaryKey'] = undefined
+
+              if (draftConf?.body?.data) {
+                draftConf.body.data = []
+              } else {
+                draftConf.field_map = []
+              }
+            })
+          )
+          setFormFields([])
+          setShowResponse(true)
+          setShowSelectedFields(true)
+        }
+
+        stopFetching(
+          controller,
+          hookID,
+          isLoadingRef,
+          'action_hook/test/remove',
+          'post',
+          setIsLoading,
+          'hook_id'
+        )
+      })
+    } catch (err) {
+      console.log(
+        err.name === 'AbortError' ? __('AbortError: Fetch request aborted', 'bit-integrations') : err
+      )
+    }
   }
 
-  const primaryKeySet = (val) => {
-    setFlow((prevFlow) =>
-      create(prevFlow, (draftFlow) => {
+  const primaryKeySet = val => {
+    setFlow(prevFlow =>
+      create(prevFlow, draftFlow => {
         draftFlow.flow_details['primaryKey'] = !val
           ? undefined
           : { key: val, value: extractValueFromPath(flow.flow_details?.rawData, val) }
       })
     )
-    setActionConf((prevConf) =>
-      create(prevConf, (draftConf) => {
+    setActionConf(prevConf =>
+      create(prevConf, draftConf => {
         draftConf['primaryKey'] = !val
           ? undefined
           : { key: val, value: extractValueFromPath(flow.flow_details?.rawData, val) }
@@ -109,7 +139,7 @@ function EditActionHook() {
 
   const setSelectedFieldsData = (value = null, remove = false, index = null) => {
     if (remove) {
-      index = index ? index : flow.flow_details.fields.findIndex((field) => field.name === value)
+      index = index ? index : flow.flow_details.fields.findIndex(field => field.name === value)
       if (index !== -1) {
         removeSelectedField(index)
       }
@@ -118,58 +148,64 @@ function EditActionHook() {
     addSelectedField(value)
   }
 
-  const addSelectedField = (value) => {
-    setFlow((prevFlow) =>
-      create(prevFlow, (draftFlow) => {
-        if (draftFlow.flow_details.fields.findIndex((field) => field.name === value) === -1) {
+  const addSelectedField = value => {
+    setFlow(prevFlow =>
+      create(prevFlow, draftFlow => {
+        if (draftFlow.flow_details.fields.findIndex(field => field.name === value) === -1) {
           draftFlow.flow_details['fields'].push({ label: value, name: value })
         }
       })
     )
-    setActionConf((prevConf) =>
-      create(prevConf, (draftConf) => {
-        if (draftConf.fields.findIndex((field) => field.name === value) === -1) {
+    setActionConf(prevConf =>
+      create(prevConf, draftConf => {
+        if (draftConf.fields.findIndex(field => field.name === value) === -1) {
           draftConf['fields'].push({ label: value, name: value })
         }
       })
     )
-    setFormFields((prevFields) =>
-      create(prevFields, (draftFields) => {
-        if (draftFields.findIndex((field) => field.name === value) === -1) {
+    setFormFields(prevFields =>
+      create(prevFields, draftFields => {
+        if (draftFields.findIndex(field => field.name === value) === -1) {
           draftFields.push({ label: value, name: value })
         }
       })
     )
   }
 
-  const removeSelectedField = (index) => {
-    setFormFields((prevFields) =>
-      create(prevFields, (draftFields) => {
-        index = draftFields.findIndex(
-          (field) => field.name === flow.flow_details.fields[index].name
-        )
+  const removeSelectedField = index => {
+    setFormFields(prevFields =>
+      create(prevFields, draftFields => {
+        index = draftFields.findIndex(field => field.name === flow.flow_details.fields[index].name)
         draftFields.splice(index, 1)
       })
     )
-    setFlow((prevFlow) =>
-      create(prevFlow, (draftFlow) => {
+    setFlow(prevFlow =>
+      create(prevFlow, draftFlow => {
         draftFlow.flow_details.fields.splice(index, 1)
       })
     )
-    setActionConf((prevConf) =>
-      create(prevConf, (draftConf) => {
+    setActionConf(prevConf =>
+      create(prevConf, draftConf => {
         draftConf.fields.splice(index, 1)
       })
     )
   }
 
-  const setHook = (val) => {
+  const setHook = val => {
     if (flow?.triggered_entity_id) {
-      removeTestData(flow?.triggered_entity_id)
+      stopFetching(
+        controller,
+        flow?.triggered_entity_id,
+        isLoadingRef,
+        'action_hook/test/remove',
+        'post',
+        setIsLoading,
+        'hook_id'
+      )
     }
 
-    setFlow((prevFlow) =>
-      create(prevFlow, (draftFlow) => {
+    setFlow(prevFlow =>
+      create(prevFlow, draftFlow => {
         draftFlow.triggered_entity_id = val
         draftFlow.flow_details['rawData'] = []
         draftFlow.flow_details['fields'] = []
@@ -182,8 +218,8 @@ function EditActionHook() {
         }
       })
     )
-    setActionConf((prevConf) =>
-      create(prevConf, (draftConf) => {
+    setActionConf(prevConf =>
+      create(prevConf, draftConf => {
         draftConf['rawData'] = []
         draftConf['fields'] = []
         draftConf['primaryKey'] = undefined
@@ -208,7 +244,7 @@ function EditActionHook() {
         </div>
         <input
           className="btcd-paper-inp mt-1"
-          onChange={(e) => setHook(e.target.value)}
+          onChange={e => setHook(e.target.value)}
           name="custom"
           value={flow?.triggered_entity_id || ''}
           type="text"
@@ -219,13 +255,13 @@ function EditActionHook() {
       <div className="flx mt-1 flx-between">
         <b className="wdt-100 d-in-b">{__('Unique Key:', 'bit-integrations')}</b>
         <MultiSelect
-          options={flow.flow_details.fields?.map((field) => ({
+          options={flow.flow_details.fields?.map(field => ({
             label: field?.label,
             value: field?.name
           }))}
           defaultValue={
             Array.isArray(flow?.flow_details?.primaryKey)
-              ? flow?.flow_details?.primaryKey.map((item) => item.key).join(',')
+              ? flow?.flow_details?.primaryKey.map(item => item.key).join(',')
               : flow?.flow_details?.primaryKey?.key || ''
           }
           className="msl-wrp-options"
@@ -235,7 +271,7 @@ function EditActionHook() {
         />
         <button
           onClick={handleFetch}
-          className={`btn btcd-btn-lg sh-sm flx ml-1 ${isLoading ? 'red' : flow.flow_details?.fields ? 'gray': 'purple'}`}
+          className={`btn btcd-btn-lg sh-sm flx ml-1 ${isLoading ? 'red' : flow.flow_details?.fields ? 'gray' : 'purple'}`}
           type="button">
           {isLoading
             ? __('Stop', 'bit-integrations')
@@ -252,7 +288,7 @@ function EditActionHook() {
               <b>{__('Selected Fields:', 'bit-integrations')}</b>
             </div>
             <button
-              onClick={() => setShowSelectedFields((prev) => !prev)}
+              onClick={() => setShowSelectedFields(prev => !prev)}
               className="btn btcd-btn-md sh-sm flx gray">
               <span className="txt-actionHook-resbtn font-inter-500">
                 {showSelectedFields ? 'Hide Selected Fields' : 'View Selected Fields'}
@@ -275,7 +311,7 @@ function EditActionHook() {
                     key={index}
                     className="btcd-paper-inp w-100 m-1"
                     type="text"
-                    onChange={(e) => setSelectedFieldsData(e.target.value, index)}
+                    onChange={e => setSelectedFieldsData(e.target.value, index)}
                     value={field?.name?.replace(/[,]/gi, '.')?.replace(/["{\}[\](\)]/gi, '')}
                     disabled={isLoading}
                   />
@@ -304,7 +340,7 @@ function EditActionHook() {
               <b>{__('Select Fields:', 'bit-integrations')}</b>
             </div>
             <button
-              onClick={() => setShowResponse((prev) => !prev)}
+              onClick={() => setShowResponse(prev => !prev)}
               className="btn btcd-btn-md sh-sm flx gray">
               <span className="txt-actionHook-resbtn font-inter-500">
                 {showResponse

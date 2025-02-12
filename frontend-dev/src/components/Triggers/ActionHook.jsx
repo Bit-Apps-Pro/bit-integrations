@@ -12,15 +12,15 @@ import GetLogo from '../../Utils/GetLogo'
 import { extractValueFromPath } from '../../Utils/Helpers'
 import hooklist from '../../Utils/StaticData/hooklist'
 import bitsFetch from '../../Utils/bitsFetch'
+import { stopFetching } from '../../Utils/customFormHelper'
 import { __ } from '../../Utils/i18nwrap'
 import LoaderSm from '../Loaders/LoaderSm'
 import ConfirmModal from '../Utilities/ConfirmModal'
 import EyeIcn from '../Utilities/EyeIcn'
 import EyeOffIcn from '../Utilities/EyeOffIcn'
+import Note from '../Utilities/Note'
 import SnackMsg from '../Utilities/SnackMsg'
 import TreeViewer from '../Utilities/treeViewer/TreeViewer'
-import Note from '../Utilities/Note'
-import InfoIcn from '../../Icons/InfoIcn'
 
 const ActionHook = () => {
   const [newFlow, setNewFlow] = useRecoilState($newFlow)
@@ -35,7 +35,6 @@ const ActionHook = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
   const [showResponse, setShowResponse] = useState(false)
-  const intervalRef = useRef(null)
   const isLoadingRef = useRef(false)
   let controller = new AbortController()
   const signal = controller.signal
@@ -98,17 +97,17 @@ const ActionHook = () => {
     }
 
     return () => {
-      stopFetching()
+      stopFetching(
+        controller,
+        hookID,
+        isLoadingRef,
+        'action_hook/test/remove',
+        'post',
+        setIsLoading,
+        'hook_id'
+      )
     }
   }, [])
-
-  const stopFetching = () => {
-    controller.abort()
-    isLoadingRef.current = false
-    setIsLoading(false)
-
-    bitsFetch({ hook_id: hookID }, 'action_hook/test/remove')
-  }
 
   const startFetching = () => {
     isLoadingRef.current = true
@@ -130,7 +129,15 @@ const ActionHook = () => {
 
   const handleFetch = () => {
     if (isLoadingRef.current) {
-      stopFetching()
+      stopFetching(
+        controller,
+        hookID,
+        isLoadingRef,
+        'action_hook/test/remove',
+        'post',
+        setIsLoading,
+        'hook_id'
+      )
       return
     }
 
@@ -141,7 +148,15 @@ const ActionHook = () => {
   const fetchSequentially = () => {
     try {
       if (!isLoadingRef.current || !hookID) {
-        stopFetching()
+        stopFetching(
+          controller,
+          hookID,
+          isLoadingRef,
+          'action_hook/test/remove',
+          'post',
+          setIsLoading,
+          'hook_id'
+        )
         return
       }
 
@@ -164,7 +179,15 @@ const ActionHook = () => {
           setShowResponse(true)
         }
 
-        stopFetching()
+        stopFetching(
+          controller,
+          hookID,
+          isLoadingRef,
+          'action_hook/test/remove',
+          'post',
+          setIsLoading,
+          'hook_id'
+        )
       })
     } catch (err) {
       console.log(
@@ -193,7 +216,15 @@ const ActionHook = () => {
     const isHook = name === 'hook'
 
     if (hookID) {
-      stopFetching()
+      stopFetching(
+        controller,
+        hookID,
+        isLoadingRef,
+        'action_hook/test/remove',
+        'post',
+        setIsLoading,
+        'hook_id'
+      )
     }
 
     if (isCustom || (isHook && val === 'custom')) {

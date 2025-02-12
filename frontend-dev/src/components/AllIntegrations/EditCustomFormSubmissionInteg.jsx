@@ -8,9 +8,9 @@ import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { $formFields, $newFlow } from '../../GlobalStates'
 import bitsFetch from '../../Utils/bitsFetch'
+import { stopFetching } from '../../Utils/customFormHelper'
 import { __ } from '../../Utils/i18nwrap'
 import LoaderSm from '../Loaders/LoaderSm'
-import { stopFetching } from '../../Utils/customFormHookDataFetch'
 
 const shouldSkipPrimaryKey = flow =>
   flow?.flow_details?.multi_form &&
@@ -47,8 +47,8 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
       return
     }
 
-    setIsLoading(true)
     isLoadingRef.current = true
+    setIsLoading(true)
     fetchSequentially()
   }
 
