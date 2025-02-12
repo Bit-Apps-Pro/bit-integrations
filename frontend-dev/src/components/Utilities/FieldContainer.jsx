@@ -9,7 +9,7 @@ function FieldContainer({ data = [], onRemoveField, onUpdateField }) {
   const [actionMdl, setActionMdl] = useState(false)
   const [fieldIndex, setFieldIndex] = useState()
 
-  const onFieldClick = (index) => {
+  const onFieldClick = index => {
     setFieldIndex(index)
     setActionMdl(true)
   }
@@ -74,17 +74,17 @@ function FieldContainer({ data = [], onRemoveField, onUpdateField }) {
           <input
             className="btcd-paper-inp w-100"
             type="text"
-            onChange={(e) => onUpdateField(e.target.value, fieldIndex, 'label')}
+            onChange={e => onUpdateField(e.target.value, fieldIndex, 'label')}
             value={data[fieldIndex]?.label}
           />
 
           <div className="mt-3 mb-2">
-            <b>{`${__('Field Id', 'bit-integrations')} (${__("It is not recommended to edit the field ID", 'bit-integrations')})`}</b>
+            <b>{`${__('Field Id', 'bit-integrations')} (${__('It is not recommended to edit the field ID', 'bit-integrations')})`}</b>
           </div>
           <input
             className="btcd-paper-inp w-100"
             type="text"
-            onChange={(e) => onUpdateField(e.target.value, fieldIndex, 'name')}
+            onChange={e => onUpdateField(e.target.value, fieldIndex, 'name')}
             value={data[fieldIndex]?.name}
           />
 
@@ -95,7 +95,7 @@ function FieldContainer({ data = [], onRemoveField, onUpdateField }) {
             className="msl-wrp-options w-10"
             defaultValue={data[fieldIndex]?.type || 'text'}
             options={types}
-            onChange={(val) => onUpdateField(val, fieldIndex, 'type')}
+            onChange={val => onUpdateField(val, fieldIndex, 'type')}
             singleSelect
             closeOnSelect
             customValue

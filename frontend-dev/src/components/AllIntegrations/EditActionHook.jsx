@@ -15,6 +15,7 @@ import LoaderSm from '../Loaders/LoaderSm'
 import EyeIcn from '../Utilities/EyeIcn'
 import EyeOffIcn from '../Utilities/EyeOffIcn'
 import TreeViewer from '../Utilities/treeViewer/TreeViewer'
+import FieldContainer from '../Utilities/FieldContainer'
 
 function EditActionHook() {
   const [actionConf, setActionConf] = useRecoilState($actionConf)
@@ -139,7 +140,9 @@ function EditActionHook() {
 
   const setSelectedFieldsData = (value = null, remove = false, index = null) => {
     if (remove) {
+      // index = index ? index : flow.flow_details.fields.findIndex(field => field.name === value)
       index = index ? index : flow.flow_details.fields.findIndex(field => field.name === value)
+
       if (index !== -1) {
         removeSelectedField(index)
       }
@@ -168,6 +171,24 @@ function EditActionHook() {
         if (draftFields.findIndex(field => field.name === value) === -1) {
           draftFields.push({ label: value, name: value })
         }
+      })
+    )
+  }
+
+  const onUpdateField = (value, index, key) => {
+    setFlow(prevFlow =>
+      create(prevFlow, draftFlow => {
+        draftFlow.flow_details.fields[index][key] = value
+      })
+    )
+    setActionConf(prevConf =>
+      create(prevConf, draftConf => {
+        draftConf.fields[index][key] = value
+      })
+    )
+    setFormFields(prevFields =>
+      create(prevFields, draftFields => {
+        draftFields[index][key] = value
       })
     )
   }
@@ -302,34 +323,39 @@ function EditActionHook() {
             </button>
           </div>
           {showSelectedFields && (
-            <div
-              className="bg-white rounded border my-1 table-webhook-div p-2"
-              style={{ minHeight: '40px', maxHeight: '14rem' }}>
-              {flow.flow_details?.fields.map((field, index) => (
-                <div key={index} style={{ position: 'relative' }}>
-                  <input
-                    key={index}
-                    className="btcd-paper-inp w-100 m-1"
-                    type="text"
-                    onChange={e => setSelectedFieldsData(e.target.value, index)}
-                    value={field?.name?.replace(/[,]/gi, '.')?.replace(/["{\}[\](\)]/gi, '')}
-                    disabled={isLoading}
-                  />
-                  <button
-                    className="btn btcd-btn-lg sh-sm"
-                    onClick={() => removeSelectedField(index)}
-                    style={{
-                      position: 'absolute',
-                      top: -5,
-                      right: -5,
-                      color: '#ff4646',
-                      padding: '2px'
-                    }}>
-                    <CloseIcn size={12} />
-                  </button>
-                </div>
-              ))}
-            </div>
+            <FieldContainer
+              data={flow.flow_details.fields}
+              onUpdateField={onUpdateField}
+              onRemoveField={removeSelectedField}
+            />
+            // <div
+            //   className="bg-white rounded border my-1 table-webhook-div p-2"
+            //   style={{ minHeight: '40px', maxHeight: '14rem' }}>
+            //   {flow.flow_details?.fields.map((field, index) => (
+            //     <div key={index} style={{ position: 'relative' }}>
+            //       <input
+            //         key={index}
+            //         className="btcd-paper-inp w-100 m-1"
+            //         type="text"
+            //         onChange={e => setSelectedFieldsData(e.target.value, index)}
+            //         value={field?.name?.replace(/[,]/gi, '.')?.replace(/["{\}[\](\)]/gi, '')}
+            //         disabled={isLoading}
+            //       />
+            //       <button
+            //         className="btn btcd-btn-lg sh-sm"
+            //         onClick={() => removeSelectedField(index)}
+            //         style={{
+            //           position: 'absolute',
+            //           top: -5,
+            //           right: -5,
+            //           color: '#ff4646',
+            //           padding: '2px'
+            //         }}>
+            //         <CloseIcn size={12} />
+            //       </button>
+            //     </div>
+            //   ))}
+            // </div>
           )}
         </>
       )}
