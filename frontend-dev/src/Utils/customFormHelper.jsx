@@ -9,6 +9,15 @@ const removeTestData = (entityId, removeAction, removeMethod = 'POST', key = 'tr
   bitsFetch({ [key]: entityId }, removeAction, null, removeMethod)
 }
 
+const resetActionHookFlowData = setFlow => {
+  setFlow(prevFlow =>
+    create(prevFlow, draftFlow => {
+      delete draftFlow?.triggerDetail?.tmp
+      delete draftFlow?.triggerDetail?.data
+    })
+  )
+}
+
 const startFetching = (
   isLoadingRef,
   setShowResponse,
@@ -50,4 +59,4 @@ const resetFlowData = (setFlow, isEdit = false) => {
   )
 }
 
-export { removeTestData, startFetching, stopFetching, resetFlowData }
+export { removeTestData, startFetching, stopFetching, resetFlowData, resetActionHookFlowData }

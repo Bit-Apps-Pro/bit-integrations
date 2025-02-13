@@ -29,7 +29,7 @@ const CustomFormSubmission = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
   const [showResponse, setShowResponse] = useState(false)
-  const isLoadingRef = useRef(false)
+  const isFetchingRef = useRef(false)
 
   let controller = new AbortController()
   const signal = controller.signal
@@ -65,11 +65,11 @@ const CustomFormSubmission = () => {
   }
 
   const handleFetch = async () => {
-    if (isLoadingRef.current) {
+    if (isFetchingRef.current) {
       stopFetching(
         controller,
         newFlow?.triggerDetail?.triggered_entity_id,
-        isLoadingRef,
+        isFetchingRef,
         removeAction,
         removeMethod,
         setIsLoading
@@ -78,7 +78,7 @@ const CustomFormSubmission = () => {
       return
     }
 
-    startFetching(isLoadingRef, setShowResponse, setPrimaryKey, setNewFlow, setIsLoading)
+    startFetching(isFetchingRef, setShowResponse, setPrimaryKey, setNewFlow, setIsLoading)
     fetchSequentially()
   }
 
@@ -86,13 +86,13 @@ const CustomFormSubmission = () => {
     const entityId = newFlow?.triggerDetail?.triggered_entity_id
 
     try {
-      if (!isLoadingRef.current || !entityId) {
+      if (!isFetchingRef.current || !entityId) {
         stopFetching()
         return
       }
 
       bitsFetch({ triggered_entity_id: entityId }, fetchAction, null, fetchMethod, signal).then(resp => {
-        if (!resp.success && isLoadingRef.current) {
+        if (!resp.success && isFetchingRef.current) {
           fetchSequentially()
 
           return
@@ -111,7 +111,7 @@ const CustomFormSubmission = () => {
           setShowResponse(true)
         }
 
-        stopFetching(controller, entityId, isLoadingRef, removeAction, removeMethod, setIsLoading)
+        stopFetching(controller, entityId, isFetchingRef, removeAction, removeMethod, setIsLoading)
       })
     } catch (err) {
       console.log(
@@ -153,7 +153,7 @@ const CustomFormSubmission = () => {
       stopFetching(
         controller,
         newFlow.triggerDetail.triggered_entity_id,
-        isLoadingRef,
+        isFetchingRef,
         removeAction,
         removeMethod,
         setIsLoading
@@ -162,11 +162,11 @@ const CustomFormSubmission = () => {
   }, [])
 
   const setTriggerEntityId = entityId => {
-    if (isLoading || isLoadingRef.current) {
+    if (isLoading || isFetchingRef.current) {
       stopFetching(
         controller,
         newFlow.triggerDetail.triggered_entity_id,
-        isLoadingRef,
+        isFetchingRef,
         removeAction,
         removeMethod,
         setIsLoading

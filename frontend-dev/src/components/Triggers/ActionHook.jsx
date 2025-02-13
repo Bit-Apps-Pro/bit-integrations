@@ -7,21 +7,20 @@ import MultiSelect from 'react-multiple-select-dropdown-lite'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { $flowStep, $formFields, $newFlow } from '../../GlobalStates'
-import CloseIcn from '../../Icons/CloseIcn'
 import GetLogo from '../../Utils/GetLogo'
 import { extractValueFromPath } from '../../Utils/Helpers'
 import hooklist from '../../Utils/StaticData/hooklist'
 import bitsFetch from '../../Utils/bitsFetch'
-import { stopFetching } from '../../Utils/customFormHelper'
+import { resetActionHookFlowData, stopFetching } from '../../Utils/customFormHelper'
 import { __ } from '../../Utils/i18nwrap'
 import LoaderSm from '../Loaders/LoaderSm'
 import ConfirmModal from '../Utilities/ConfirmModal'
 import EyeIcn from '../Utilities/EyeIcn'
 import EyeOffIcn from '../Utilities/EyeOffIcn'
+import FieldContainer from '../Utilities/FieldContainer'
 import Note from '../Utilities/Note'
 import SnackMsg from '../Utilities/SnackMsg'
 import TreeViewer from '../Utilities/treeViewer/TreeViewer'
-import FieldContainer from '../Utilities/FieldContainer'
 
 const ActionHook = () => {
   const [newFlow, setNewFlow] = useRecoilState($newFlow)
@@ -36,7 +35,7 @@ const ActionHook = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
   const [showResponse, setShowResponse] = useState(false)
-  const isLoadingRef = useRef(false)
+  const isFetchingRef = useRef(false)
   let controller = new AbortController()
   const signal = controller.signal
 
@@ -109,7 +108,7 @@ const ActionHook = () => {
       stopFetching(
         controller,
         hookID,
-        isLoadingRef,
+        isFetchingRef,
         'action_hook/test/remove',
         'post',
         setIsLoading,
@@ -119,29 +118,20 @@ const ActionHook = () => {
   }, [])
 
   const startFetching = () => {
-    isLoadingRef.current = true
+    isFetchingRef.current = true
     setIsLoading(true)
     setShowResponse(false)
     setPrimaryKey(undefined)
     setSelectedFields([])
-    resetFlowData()
-  }
-
-  const resetFlowData = () => {
-    setNewFlow(prevFlow =>
-      create(prevFlow, draftFlow => {
-        delete draftFlow?.triggerDetail?.tmp
-        delete draftFlow?.triggerDetail?.data
-      })
-    )
+    resetActionHookFlowData(setNewFlow)
   }
 
   const handleFetch = () => {
-    if (isLoadingRef.current) {
+    if (isFetchingRef.current) {
       stopFetching(
         controller,
         hookID,
-        isLoadingRef,
+        isFetchingRef,
         'action_hook/test/remove',
         'post',
         setIsLoading,
@@ -156,11 +146,11 @@ const ActionHook = () => {
 
   const fetchSequentially = () => {
     try {
-      if (!isLoadingRef.current || !hookID) {
+      if (!isFetchingRef.current || !hookID) {
         stopFetching(
           controller,
           hookID,
-          isLoadingRef,
+          isFetchingRef,
           'action_hook/test/remove',
           'post',
           setIsLoading,
@@ -170,7 +160,7 @@ const ActionHook = () => {
       }
 
       bitsFetch({ hook_id: hookID }, 'action_hook/test', null, 'POST', signal).then(resp => {
-        if (!resp.success && isLoadingRef.current) {
+        if (!resp.success && isFetchingRef.current) {
           fetchSequentially()
           return
         }
@@ -191,7 +181,7 @@ const ActionHook = () => {
         stopFetching(
           controller,
           hookID,
-          isLoadingRef,
+          isFetchingRef,
           'action_hook/test/remove',
           'post',
           setIsLoading,
@@ -224,7 +214,7 @@ const ActionHook = () => {
       stopFetching(
         controller,
         hookID,
-        isLoadingRef,
+        isFetchingRef,
         'action_hook/test/remove',
         'post',
         setIsLoading,
@@ -247,7 +237,7 @@ const ActionHook = () => {
 
     if (isCustom || isHook) {
       setSelectedFields([])
-      resetFlowData()
+      resetActionHookFlowData(setNewFlow)
     }
   }
 

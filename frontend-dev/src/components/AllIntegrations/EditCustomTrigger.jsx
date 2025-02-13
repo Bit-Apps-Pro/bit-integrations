@@ -5,16 +5,16 @@ import { useRef, useState } from 'react'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { $actionConf, $formFields, $newFlow } from '../../GlobalStates'
-import CloseIcn from '../../Icons/CloseIcn'
 import bitsFetch from '../../Utils/bitsFetch'
+import { stopFetching } from '../../Utils/customFormHelper'
 import { __ } from '../../Utils/i18nwrap'
 import LoaderSm from '../Loaders/LoaderSm'
 import CopyTextTrigger from '../Utilities/CopyTextTrigger'
 import EyeIcn from '../Utilities/EyeIcn'
 import EyeOffIcn from '../Utilities/EyeOffIcn'
+import FieldContainer from '../Utilities/FieldContainer'
 import SnackMsg from '../Utilities/SnackMsg'
 import TreeViewer from '../Utilities/treeViewer/TreeViewer'
-import FieldContainer from '../Utilities/FieldContainer'
 
 function EditCustomTrigger() {
   const [actionConf, setActionConf] = useRecoilState($actionConf)
@@ -24,7 +24,7 @@ function EditCustomTrigger() {
   const [snack, setSnackbar] = useState({ show: false })
   const [showResponse, setShowResponse] = useState(false)
   const [showSelectedFields, setShowSelectedFields] = useState(false)
-  const fetchIntervalRef = useRef(0)
+  const isFetchingRef = useRef(false)
   let controller = new AbortController()
   const signal = controller.signal
 
@@ -36,7 +36,7 @@ function EditCustomTrigger() {
 
   const setSelectedFieldsData = (value = null, remove = false, index = null) => {
     if (remove) {
-      index = index ? index : flow.flow_details.fields.findIndex((field) => field.name === value)
+      index = index ? index : flow.flow_details.fields.findIndex(field => field.name === value)
 
       if (index !== -1) {
         removeSelectedField(index)
@@ -46,138 +46,154 @@ function EditCustomTrigger() {
     addSelectedField(value)
   }
 
-  const addSelectedField = (value) => {
-    setFlow((prevFlow) =>
-      create(prevFlow, (draftFlow) => {
-        if (draftFlow.flow_details.fields.findIndex((field) => field.name === value) === -1) {
+  const addSelectedField = value => {
+    setFlow(prevFlow =>
+      create(prevFlow, draftFlow => {
+        if (draftFlow.flow_details.fields.findIndex(field => field.name === value) === -1) {
           draftFlow.flow_details['fields'].push({ label: value, name: value })
         }
       })
     )
-    setActionConf((prevConf) =>
-      create(prevConf, (draftConf) => {
-        if (draftConf.fields.findIndex((field) => field.name === value) === -1) {
+    setActionConf(prevConf =>
+      create(prevConf, draftConf => {
+        if (draftConf.fields.findIndex(field => field.name === value) === -1) {
           draftConf['fields'].push({ label: value, name: value })
         }
       })
     )
-    setFormFields((prevFields) =>
-      create(prevFields, (draftFields) => {
-        if (draftFields.findIndex((field) => field.name === value) === -1) {
+    setFormFields(prevFields =>
+      create(prevFields, draftFields => {
+        if (draftFields.findIndex(field => field.name === value) === -1) {
           draftFields.push({ label: value, name: value })
         }
       })
     )
   }
 
-  const removeSelectedField = (index) => {
-    setFormFields((prevFields) =>
-      create(prevFields, (draftFields) => {
-        index = draftFields.findIndex(
-          (field) => field.name === flow.flow_details.fields[index].name
-        )
+  const removeSelectedField = index => {
+    setFormFields(prevFields =>
+      create(prevFields, draftFields => {
+        index = draftFields.findIndex(field => field.name === flow.flow_details.fields[index].name)
         draftFields.splice(index, 1)
       })
     )
-    setFlow((prevFlow) =>
-      create(prevFlow, (draftFlow) => {
+    setFlow(prevFlow =>
+      create(prevFlow, draftFlow => {
         draftFlow.flow_details.fields.splice(index, 1)
       })
     )
-    setActionConf((prevConf) =>
-      create(prevConf, (draftConf) => {
+    setActionConf(prevConf =>
+      create(prevConf, draftConf => {
         draftConf.fields.splice(index, 1)
       })
     )
   }
 
-  const removeTestData = (hookID, reset = false) => {
-    bitsFetch({ hook_id: hookID, reset: reset }, 'custom_trigger/test/remove').then((resp) => {
-      delete window.hook_id
-      fetchIntervalRef.current && clearInterval(fetchIntervalRef.current)
-    })
-  }
-
   const handleFetch = () => {
-    if (isLoading) {
-      fetchIntervalRef.current && clearInterval(fetchIntervalRef.current)
-      controller.abort()
-      removeTestData(flow?.triggered_entity_id)
-      setIsLoading(false)
+    if (isFetchingRef.current) {
+      stopFetching(
+        controller,
+        flow?.triggered_entity_id,
+        isFetchingRef,
+        'custom_trigger/test/remove',
+        'post',
+        setIsLoading,
+        'hook_id'
+      )
       return
     }
 
+    isFetchingRef.current = true
     setIsLoading(true)
-    setShowResponse(false)
-    setFlow((prevFlow) =>
-      create(prevFlow, (draftFlow) => {
-        delete draftFlow.flow_details?.tmp
-        delete draftFlow.flow_details?.rawData
-      })
-    )
-    fetchIntervalRef.current = setInterval(() => {
-      bitsFetch({ hook_id: flow?.triggered_entity_id }, 'custom_trigger/test', null, 'post', signal)
-        .then((resp) => {
-          if (resp.success) {
-            controller.abort()
-            clearInterval(fetchIntervalRef.current)
-            setFlow((prevFlow) =>
-              create(prevFlow, (draftFlow) => {
-                draftFlow.flow_details.rawData = resp.data.custom_trigger
-                draftFlow.flow_details.fields = []
-
-                if (draftFlow.flow_details?.body?.data) {
-                  draftFlow.flow_details.body.data = []
-                } else {
-                  draftFlow.flow_details.field_map = []
-                }
-              })
-            )
-            setActionConf((prevConf) =>
-              create(prevConf, (draftConf) => {
-                draftConf.rawData = resp.data.custom_trigger
-                draftConf.fields = []
-
-                if (draftConf?.body?.data) {
-                  draftConf.body.data = []
-                } else {
-                  draftConf.field_map = []
-                }
-              })
-            )
-
-            setFormFields([])
-            setIsLoading(false)
-            setShowResponse(true)
-            setShowSelectedFields(true)
-            removeTestData(flow?.triggered_entity_id, true)
-          }
-        })
-        .catch((err) => {
-          if (err.name === 'AbortError') {
-            console.log(__('AbortError: Fetch request aborted', 'bit-integrations'))
-          }
-        })
-    }, 1500)
+    fetchSequentially()
   }
 
-  const showResponseTable = () => {
-    setShowResponse((prevState) => !prevState)
+  const fetchSequentially = () => {
+    const hookID = flow?.triggered_entity_id
+
+    try {
+      if (!isFetchingRef.current || !hookID) {
+        stopFetching(
+          controller,
+          hookID,
+          isFetchingRef,
+          'custom_trigger/test/remove',
+          'post',
+          setIsLoading,
+          'hook_id'
+        )
+        return
+      }
+
+      bitsFetch({ hook_id: hookID }, 'custom_trigger/test', null, 'POST', signal).then(resp => {
+        if (!resp.success && isFetchingRef.current) {
+          fetchSequentially()
+          return
+        }
+
+        if (resp.success) {
+          setFlow(prevFlow =>
+            create(prevFlow, draftFlow => {
+              draftFlow.flow_details['rawData'] = resp.data.custom_trigger
+              draftFlow.flow_details['fields'] = []
+              draftFlow.flow_details['trigger_type'] =
+                draftFlow.flow_details?.trigger_type || 'custom_trigger'
+
+              if (draftFlow.flow_details?.body?.data) {
+                draftFlow.flow_details.body.data = []
+              } else {
+                draftFlow.flow_details.field_map = []
+              }
+            })
+          )
+          setActionConf(prevConf =>
+            create(prevConf, draftConf => {
+              draftConf['rawData'] = resp.data.custom_trigger
+              draftConf['fields'] = []
+
+              if (draftConf?.body?.data) {
+                draftConf.body.data = []
+              } else {
+                draftConf.field_map = []
+              }
+            })
+          )
+
+          setFormFields([])
+          setShowResponse(true)
+          setShowSelectedFields(true)
+        }
+
+        stopFetching(
+          controller,
+          flow?.triggered_entity_id,
+          isFetchingRef,
+          'custom_trigger/test/remove',
+          'post',
+          setIsLoading,
+          'hook_id'
+        )
+      })
+    } catch (err) {
+      console.log(
+        err.name === 'AbortError' ? __('AbortError: Fetch request aborted', 'bit-integrations') : err
+      )
+    }
   }
 
   const onUpdateField = (value, index, key) => {
-    setFlow((prevFlow) =>
-      create(prevFlow, (draftFlow) => {
+    setFlow(prevFlow =>
+      create(prevFlow, draftFlow => {
         draftFlow.flow_details.fields[index][key] = value
       })
     )
-    setActionConf((prevConf) =>
-      create(prevConf, (draftConf) => {
+    setActionConf(prevConf =>
+      create(prevConf, draftConf => {
         draftConf.fields[index][key] = value
       })
     )
-    setFormFields((prevFields) =>
-      create(prevFields, (draftFields) => {
+    setFormFields(prevFields =>
+      create(prevFields, draftFields => {
         draftFields[index][key] = value
       })
     )
@@ -199,9 +215,8 @@ function EditCustomTrigger() {
       <div className="flx flx-between">
         <button
           onClick={handleFetch}
-          className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : flow.flow_details?.rawData ? 'gray': 'purple'}`}
-          type="button"
-          disabled={isLoading}>
+          className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : flow.flow_details?.rawData ? 'gray' : 'purple'}`}
+          type="button">
           {isLoading
             ? __('Stop', 'bit-integrations')
             : flow.flow_details?.rawData
@@ -225,7 +240,7 @@ function EditCustomTrigger() {
             />
           )}
           <button
-            onClick={() => setShowSelectedFields((prev) => !prev)}
+            onClick={() => setShowSelectedFields(prev => !prev)}
             className="btn btcd-btn-md sh-sm flx gray">
             <span className="txt-actionHook-resbtn font-inter-500">
               {showSelectedFields ? 'Hide Selected Fields' : 'View Selected Fields'}
@@ -254,7 +269,9 @@ function EditCustomTrigger() {
 
       {flow.flow_details?.rawData && (
         <div className="flx flx-between">
-          <button onClick={showResponseTable} className="btn btcd-btn-md sh-sm flx gray">
+          <button
+            onClick={() => setShowResponse(prevState => !prevState)}
+            className="btn btcd-btn-md sh-sm flx gray">
             <span className="txt-actionHook-resbtn font-inter-500">
               {showResponse
                 ? __('Hide Response', 'bit-integrations')

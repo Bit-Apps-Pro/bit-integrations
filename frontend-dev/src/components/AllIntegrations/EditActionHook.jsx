@@ -24,16 +24,16 @@ function EditActionHook() {
   const [showResponse, setShowResponse] = useState(false)
   const [showSelectedFields, setShowSelectedFields] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const isLoadingRef = useRef(false)
+  const isFetchingRef = useRef(false)
   let controller = new AbortController()
   const signal = controller.signal
 
   const handleFetch = () => {
-    if (isLoadingRef.current) {
+    if (isFetchingRef.current) {
       stopFetching(
         controller,
         flow?.triggered_entity_id,
-        isLoadingRef,
+        isFetchingRef,
         'action_hook/test/remove',
         'post',
         setIsLoading,
@@ -42,7 +42,7 @@ function EditActionHook() {
       return
     }
 
-    isLoadingRef.current = true
+    isFetchingRef.current = true
     setIsLoading(true)
     fetchSequentially()
   }
@@ -51,11 +51,11 @@ function EditActionHook() {
     const hookID = flow?.triggered_entity_id
 
     try {
-      if (!isLoadingRef.current || !hookID) {
+      if (!isFetchingRef.current || !hookID) {
         stopFetching(
           controller,
           hookID,
-          isLoadingRef,
+          isFetchingRef,
           'action_hook/test/remove',
           'post',
           setIsLoading,
@@ -65,7 +65,7 @@ function EditActionHook() {
       }
 
       bitsFetch({ hook_id: hookID }, 'action_hook/test', null, 'POST', signal).then(resp => {
-        if (!resp.success && isLoadingRef.current) {
+        if (!resp.success && isFetchingRef.current) {
           fetchSequentially()
           return
         }
@@ -107,7 +107,7 @@ function EditActionHook() {
         stopFetching(
           controller,
           hookID,
-          isLoadingRef,
+          isFetchingRef,
           'action_hook/test/remove',
           'post',
           setIsLoading,
@@ -217,7 +217,7 @@ function EditActionHook() {
       stopFetching(
         controller,
         flow?.triggered_entity_id,
-        isLoadingRef,
+        isFetchingRef,
         'action_hook/test/remove',
         'post',
         setIsLoading,

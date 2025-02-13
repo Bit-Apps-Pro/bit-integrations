@@ -24,7 +24,7 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
   const setFormFields = useSetRecoilState($formFields)
   const [isLoading, setIsLoading] = useState(false)
   const [skipPrimaryKey, setSkipPrimaryKey] = useState(shouldSkipPrimaryKey(flow) || false)
-  const isLoadingRef = useRef(false)
+  const isFetchingRef = useRef(false)
 
   let controller = new AbortController()
   const signal = controller.signal
@@ -34,11 +34,11 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
   const removeMethod = flow?.flow_details?.fetch_remove?.method || ''
 
   const handleFetch = async () => {
-    if (isLoadingRef.current) {
+    if (isFetchingRef.current) {
       stopFetching(
         controller,
         flow.triggered_entity_id,
-        isLoadingRef,
+        isFetchingRef,
         removeAction,
         removeMethod,
         setIsLoading
@@ -47,7 +47,7 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
       return
     }
 
-    isLoadingRef.current = true
+    isFetchingRef.current = true
     setIsLoading(true)
     fetchSequentially()
   }
@@ -56,13 +56,13 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
     const entityId = flow.triggered_entity_id
 
     try {
-      if (!isLoadingRef.current || !entityId) {
+      if (!isFetchingRef.current || !entityId) {
         stopFetching()
         return
       }
 
       bitsFetch({ triggered_entity_id: entityId }, fetchAction, null, fetchMethod, signal).then(resp => {
-        if (!resp.success && isLoadingRef.current) {
+        if (!resp.success && isFetchingRef.current) {
           fetchSequentially()
 
           return
@@ -84,7 +84,7 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
           setFormFields(formData)
         }
 
-        stopFetching(controller, entityId, isLoadingRef, removeAction, removeMethod, setIsLoading)
+        stopFetching(controller, entityId, isFetchingRef, removeAction, removeMethod, setIsLoading)
       })
     } catch (err) {
       console.log(
@@ -120,7 +120,7 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
       stopFetching(
         controller,
         flow.triggered_entity_id,
-        isLoadingRef,
+        isFetchingRef,
         removeAction,
         removeMethod,
         setIsLoading
@@ -133,7 +133,7 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
       stopFetching(
         controller,
         flow.triggered_entity_id,
-        isLoadingRef,
+        isFetchingRef,
         removeAction,
         removeMethod,
         setIsLoading
