@@ -242,7 +242,7 @@ final class Helper
 
     public static function extractValueFromPath($data, $path, $triggerEntity = 'trigger')
     {
-        $parts = \is_array($path) ? $path : explode('.', $path);
+        $parts = \is_array($path) ? $path : explode('.', $path ?? '');
         if (\count($parts) === 0) {
             return $data;
         }
