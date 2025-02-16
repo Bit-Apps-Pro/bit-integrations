@@ -35,6 +35,7 @@ export const customFormIntegrations = [
   'ConvertPro',
   'FunnelKitAutomations',
   'CalculatedFieldsForm',
+  'AmeliaBooking',
 ]
 
 export const actionHookIntegrations = ['ActionHook']
