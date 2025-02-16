@@ -2,9 +2,9 @@
 Contributors: bitpressadmin, niloy121,rishadbitcode,fahimsakib,shuvomohajan,tanvirchy,shakhawathosen,khoaiz,mazharul78
 Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
-Tested up to: 6.7.1
+Tested up to: 6.7.2
 Requires PHP: 7.4
-Stable tag: 2.4.7
+Stable tag: 2.4.8
 License: GPLv2 or later
 
 Automation Plugin for WordPress. Integration of 90+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
@@ -73,6 +73,7 @@ https://youtu.be/eFuficjF_F4
 * [**BuddyPress**](https://buddypress.org/) (pro)
 * [**Brizy**](https://wordpress.org/plugins/brizy/) (pro)
 * [**Breakdance**](https://breakdance.com/) (pro)
+* [**Calculated Fields Form**](https://wordpress.org/plugins/calculated-fields-form/) (pro)
 * [**CartFlows**](https://wordpress.org/plugins/cartflows/) (pro)
 * [**CoBlocks**](https://wordpress.org/plugins/coblocks/) (pro)
 * [**Convert Pro**](https://www.convertpro.net/) (pro)
@@ -714,6 +715,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**BuddyPress**](https://bit-integrations.com/wp-docs/trigger/buddypress-integrations/)
 
+* [**Calculated Fields Form**](https://bit-integrations.com/wp-docs/trigger/calculated-fields-form-integrations/)
+
 * [**Cart Flow**](https://bitapps.pro/docs/bit-integrations/trigger/cart-flow/)
 
 * [**CoBlocks**](https://bitapps.pro/docs/bit-integrations/trigger/coblocks-integrations/)
@@ -1237,6 +1240,20 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 6. All integration list
 
 == Changelog ==
+
+= 2.4.8 =
+_Release Date -16th February 2025_
+
+- **New Triggers**
+ - Calculated Fields Form: Added a New Trigger to enhance dynamic form functionality. (Pro)
+ - Ninja Tables: Introduced a "Row Deleted trigger" for better table management automation. (Pro)
+
+- **New Improvement**
+ - Performance Optimization: Improved the captured triggers data functionality to reduce CPU and RAM usage for better performance and efficiency.
+
+- **Bug Fixes**
+ - Tripetto: Fixed an issue where conditional fields were not fetching data correctly. (Pro)
+ - Google Sheets Integration: Removed the redundant reauth component for streamlined authentication.
 
 = 2.4.7 =
 _Release Date -5th February 2025_

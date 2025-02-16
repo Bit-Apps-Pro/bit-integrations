@@ -7,19 +7,16 @@ import MultiSelect from 'react-multiple-select-dropdown-lite'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { $flowStep, $formFields, $newFlow } from '../../GlobalStates'
-import CloseIcn from '../../Icons/CloseIcn'
-import GetLogo from '../../Utils/GetLogo'
-import { extractValueFromPath, isLinkEmpty, TriggerDocLink } from '../../Utils/Helpers'
-import hooklist from '../../Utils/StaticData/hooklist'
 import bitsFetch from '../../Utils/bitsFetch'
+import CustomFetcherHelper, { startFetching } from '../../Utils/CustomFetcherHelper'
+import { TriggerDocLink } from '../../Utils/Helpers'
 import { __ } from '../../Utils/i18nwrap'
 import LoaderSm from '../Loaders/LoaderSm'
 import ConfirmModal from '../Utilities/ConfirmModal'
 import EyeIcn from '../Utilities/EyeIcn'
 import EyeOffIcn from '../Utilities/EyeOffIcn'
-import SnackMsg from '../Utilities/SnackMsg'
-import TreeViewer from '../Utilities/treeViewer/TreeViewer'
 import Note from '../Utilities/Note'
+import SnackMsg from '../Utilities/SnackMsg'
 import WebhookDataTable from '../Utilities/WebhookDataTable'
 
 const CustomFormSubmission = () => {
@@ -32,7 +29,7 @@ const CustomFormSubmission = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
   const [showResponse, setShowResponse] = useState(false)
-  const intervalRef = useRef(null)
+  const isFetchingRef = useRef(false)
 
   let controller = new AbortController()
   const signal = controller.signal
@@ -40,6 +37,14 @@ const CustomFormSubmission = () => {
   const fetchMethod = newFlow?.triggerDetail?.fetch?.method || ''
   const removeAction = newFlow?.triggerDetail?.fetch_remove?.action || ''
   const removeMethod = newFlow?.triggerDetail?.fetch_remove?.method || ''
+  const { stopFetching } = CustomFetcherHelper(
+    isFetchingRef,
+    newFlow?.triggerDetail?.triggered_entity_id,
+    controller,
+    setIsLoading,
+    removeAction,
+    removeMethod
+  )
 
   const setTriggerData = () => {
     if (!primaryKey && !skipPrimaryKey) {
@@ -67,62 +72,72 @@ const CustomFormSubmission = () => {
     setFlowStep(2)
   }
 
-  const handleFetch = () => {
-    if (isLoading) {
-      clearInterval(intervalRef.current)
-      controller.abort()
-      removeTestData()
-      setIsLoading(false)
+  const handleFetch = async () => {
+    if (isFetchingRef.current) {
+      stopFetching()
       return
     }
 
-    setIsLoading(true)
-    setShowResponse(false)
-    setPrimaryKey(undefined)
-    setNewFlow((prevFlow) =>
-      create(prevFlow, (draftFlow) => {
-        delete draftFlow.triggerDetail.data
+    startFetching(isFetchingRef, setShowResponse, setPrimaryKey, setNewFlow, setIsLoading)
+    fetchSequentially()
+  }
+
+  const fetchSequentially = () => {
+    const entityId = newFlow?.triggerDetail?.triggered_entity_id
+
+    try {
+      if (!isFetchingRef.current || !entityId) {
+        stopFetching()
+        return
+      }
+
+      bitsFetch({ triggered_entity_id: entityId }, fetchAction, null, fetchMethod, signal).then(resp => {
+        if (!resp.success && isFetchingRef.current) {
+          fetchSequentially()
+
+          return
+        }
+
+        if (resp.success) {
+          setNewFlow(prevFlow =>
+            create(prevFlow, draftFlow => {
+              draftFlow.triggerDetail.data = Array.isArray(resp.data?.formData)
+                ? resp.data.formData
+                : Object.values(resp.data?.formData)
+            })
+          )
+
+          setPrimaryKey(resp.data?.primaryKey || undefined)
+          setShowResponse(true)
+        }
+
+        stopFetching()
       })
-    )
-    intervalRef.current = setInterval(() => {
-      bitsFetch({ triggered_entity_id: newFlow.triggerDetail.triggered_entity_id }, fetchAction, null, fetchMethod, signal)
-        .then((resp) => {
-          if (resp.success) {
-            clearInterval(intervalRef.current)
-            controller.abort()
-            setNewFlow((prevFlow) =>
-              create(prevFlow, (draftFlow) => {
-                draftFlow.triggerDetail.data = Array.isArray(resp.data?.formData) ? resp.data?.formData : Object.values(resp.data?.formData)
-              })
-            )
-            setPrimaryKey(resp.data?.primaryKey || undefined)
-            setIsLoading(false)
-            setShowResponse(true)
-            bitsFetch({ triggered_entity_id: newFlow.triggerDetail.triggered_entity_id }, removeAction, null, removeMethod)
-          }
-        })
-        .catch((err) => {
-          if (err.name === 'AbortError') {
-            console.log(__('AbortError: Fetch request aborted', 'bit-integrations'))
-          }
-        })
-    }, 1500)
+    } catch (err) {
+      console.log(
+        err.name === 'AbortError' ? __('AbortError: Fetch request aborted', 'bit-integrations') : err
+      )
+    }
   }
 
   const showResponseTable = () => {
-    setShowResponse((prevState) => !prevState)
+    setShowResponse(prevState => !prevState)
   }
 
-  const primaryKeySet = (key) => {
-    setPrimaryKey((prev) =>
-      create(prev, (draft) => {
+  const primaryKeySet = key => {
+    setPrimaryKey(prev =>
+      create(prev, draft => {
+        if (key === '' || key === null) {
+          return rawReturn(undefined)
+        }
+
         const keys = key?.split(',') || []
-        const primaryKey = keys.map((k) => ({
+        const primaryKey = keys.map(k => ({
           key: k,
-          value: newFlow.triggerDetail?.data?.find((item) => item.name === k)?.value
+          value: newFlow.triggerDetail?.data?.find(item => item.name === k)?.value
         }))
 
-        const hasEmptyValues = primaryKey.some((item) => !item.value)
+        const hasEmptyValues = primaryKey.some(item => !item.value)
         if (key && hasEmptyValues) {
           toast.error('Unique value not found!')
           return rawReturn(null)
@@ -133,42 +148,32 @@ const CustomFormSubmission = () => {
     )
   }
 
-  const removeTestData = () => {
-    bitsFetch({ triggered_entity_id: newFlow.triggerDetail.triggered_entity_id }, removeAction, null, removeMethod).then((resp) => {
-      intervalRef.current && clearInterval(intervalRef.current)
-    })
-  }
-
   useEffect(() => {
     return () => {
-      intervalRef.current && clearInterval(intervalRef.current)
-      controller.abort()
-      removeTestData()
+      stopFetching()
     }
   }, [])
 
-  const setTriggerEntityId = (entityId) => {
-    if (isLoading) {
-      clearInterval(intervalRef.current)
-      controller.abort()
-      removeTestData()
-      setIsLoading(false)
+  const setTriggerEntityId = entityId => {
+    if (isLoading || isFetchingRef.current) {
+      stopFetching()
       return
     }
 
-    setNewFlow((prevFlow) =>
-      create(prevFlow, (draftFlow) => {
+    setNewFlow(prevFlow =>
+      create(prevFlow, draftFlow => {
         draftFlow.triggerDetail.triggered_entity_id = entityId
         delete draftFlow.triggerDetail.data
       })
     )
 
-    const multiForm = newFlow?.triggerDetail?.multi_form;
+    const multiForm = newFlow?.triggerDetail?.multi_form
     const requiresPrimaryKey = multiForm?.some(
-      ({ triggered_entity_id, skipPrimaryKey: isSkipPrimaryKey }) => triggered_entity_id === entityId && isSkipPrimaryKey
-    );
+      ({ triggered_entity_id, skipPrimaryKey: isSkipPrimaryKey }) =>
+        triggered_entity_id === entityId && isSkipPrimaryKey
+    )
 
-    setSkipPrimaryKey(requiresPrimaryKey);
+    setSkipPrimaryKey(requiresPrimaryKey)
   }
 
   const info = `<h4>${sprintf(__('Follow these simple steps to set up the %s', 'bit-integrations'), newFlow?.triggerDetail?.name)}</h4>
@@ -197,12 +202,12 @@ const CustomFormSubmission = () => {
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={newFlow?.triggerDetail?.triggered_entity_id}
-            options={newFlow.triggerDetail?.multi_form?.map((field) => ({
+            options={newFlow.triggerDetail?.multi_form?.map(field => ({
               label: field?.form_name,
               value: field?.triggered_entity_id
             }))}
             style={{ width: '100%', minWidth: 400, maxWidth: 450 }}
-            onChange={(val) => setTriggerEntityId(val)}
+            onChange={val => setTriggerEntityId(val)}
             singleSelect
             selectOnClose
           />
@@ -211,10 +216,11 @@ const CustomFormSubmission = () => {
       {newFlow?.triggerDetail?.triggered_entity_id && (
         <>
           <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-          <div className={`flx mt-2 flx-${newFlow.triggerDetail?.data && !skipPrimaryKey ? 'between' : 'around'}`}>
+          <div
+            className={`flx mt-2 flx-${newFlow.triggerDetail?.data && !skipPrimaryKey ? 'between' : 'around'}`}>
             <button
               onClick={handleFetch}
-              className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : 'purple'}`}
+              className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : newFlow.triggerDetail?.data ? 'gray' : 'purple'}`}
               type="button">
               {isLoading
                 ? __('Waiting for form submission...', 'bit-integrations')
@@ -226,7 +232,7 @@ const CustomFormSubmission = () => {
             {newFlow.triggerDetail?.data?.length > 0 && !skipPrimaryKey && (
               <button
                 onClick={() => setPrimaryKeyModal(true)}
-                className={`btn btcd-btn-lg sh-sm flx ${newFlow.triggerDetail?.data?.length > 0 && 'purple'}`}
+                className={`btn btcd-btn-lg sh-sm flx ${newFlow.triggerDetail?.data?.length > 0 && 'gray'}`}
                 type="button"
                 disabled={!newFlow.triggerDetail?.data?.length > 0}>
                 {primaryKey
@@ -249,13 +255,13 @@ const CustomFormSubmission = () => {
             <div className="mt-2">{__('Select Unique Key', 'bit-integrations')}</div>
             <div className="flx flx-between mt-2">
               <MultiSelect
-                options={newFlow.triggerDetail?.data?.map((field) => ({
+                options={newFlow.triggerDetail?.data?.map(field => ({
                   label: field?.label,
                   value: field?.name
                 }))}
                 className="msl-wrp-options"
                 defaultValue={
-                  Array.isArray(primaryKey) ? primaryKey.map((item) => item.key).join(',') : ''
+                  Array.isArray(primaryKey) ? primaryKey.map(item => item.key).join(',') : ''
                 }
                 onChange={primaryKeySet}
                 closeOnSelect
@@ -264,15 +270,11 @@ const CustomFormSubmission = () => {
           </ConfirmModal>
 
           {newFlow.triggerDetail?.data && showResponse && (
-            <WebhookDataTable
-              data={newFlow?.triggerDetail?.data}
-              flow={newFlow}
-              setFlow={setNewFlow}
-            />
+            <WebhookDataTable data={newFlow?.triggerDetail?.data} flow={newFlow} setFlow={setNewFlow} />
           )}
           {newFlow.triggerDetail?.data && (
             <div className="flx flx-between">
-              <button onClick={showResponseTable} className="btn btcd-btn-lg sh-sm purple flx">
+              <button onClick={showResponseTable} className="btn btcd-btn-lg sh-sm gray flx">
                 <span className="txt-essentialBlocks-resbtn font-inter-500">
                   {showResponse
                     ? __('Hide Response', 'bit-integrations')
@@ -280,9 +282,9 @@ const CustomFormSubmission = () => {
                 </span>
                 &nbsp;
                 {!showResponse ? (
-                  <EyeIcn width="20" height="20" strokeColor="#fff" />
+                  <EyeIcn width="20" height="20" strokeColor="#222" />
                 ) : (
-                  <EyeOffIcn width="20" height="20" strokeColor="#fff" />
+                  <EyeOffIcn width="20" height="20" strokeColor="#222" />
                 )}
               </button>
               <button

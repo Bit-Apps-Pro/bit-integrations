@@ -7,20 +7,20 @@ import MultiSelect from 'react-multiple-select-dropdown-lite'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { $flowStep, $formFields, $newFlow } from '../../GlobalStates'
-import CloseIcn from '../../Icons/CloseIcn'
+import bitsFetch from '../../Utils/bitsFetch'
+import CustomFetcherHelper, { resetActionHookFlowData } from '../../Utils/CustomFetcherHelper'
 import GetLogo from '../../Utils/GetLogo'
 import { extractValueFromPath } from '../../Utils/Helpers'
-import hooklist from '../../Utils/StaticData/hooklist'
-import bitsFetch from '../../Utils/bitsFetch'
 import { __ } from '../../Utils/i18nwrap'
+import hooklist from '../../Utils/StaticData/hooklist'
 import LoaderSm from '../Loaders/LoaderSm'
 import ConfirmModal from '../Utilities/ConfirmModal'
 import EyeIcn from '../Utilities/EyeIcn'
 import EyeOffIcn from '../Utilities/EyeOffIcn'
+import FieldContainer from '../Utilities/FieldContainer'
+import Note from '../Utilities/Note'
 import SnackMsg from '../Utilities/SnackMsg'
 import TreeViewer from '../Utilities/treeViewer/TreeViewer'
-import Note from '../Utilities/Note'
-import InfoIcn from '../../Icons/InfoIcn'
 
 const ActionHook = () => {
   const [newFlow, setNewFlow] = useRecoilState($newFlow)
@@ -35,9 +35,19 @@ const ActionHook = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
   const [showResponse, setShowResponse] = useState(false)
-  const intervalRef = useRef(null)
+  const isFetchingRef = useRef(false)
+
   let controller = new AbortController()
   const signal = controller.signal
+  const { stopFetching } = CustomFetcherHelper(
+    isFetchingRef,
+    hookID,
+    controller,
+    setIsLoading,
+    'action_hook/test/remove',
+    'POST',
+    'hook_id'
+  )
 
   const setTriggerData = () => {
     if (!selectedFields.length) {
@@ -54,7 +64,7 @@ const ActionHook = () => {
       formID: hookID,
       primaryKey: primaryKey,
       trigger_type: newFlow?.triggerDetail?.type ?? 'action_hook',
-      fields: selectedFields.map((field) => ({ label: field, name: field })),
+      fields: selectedFields,
       rawData: newFlow.triggerDetail?.data
     }
     tmpNewFlow.triggered_entity_id = hookID
@@ -65,7 +75,7 @@ const ActionHook = () => {
 
   const setSelectedFieldsData = (value = null, remove = false, index = null) => {
     if (remove) {
-      index = index ? index : selectedFields.indexOf(value)
+      index = index ? index : selectedFields.findIndex(field => field.name === value)
 
       if (index !== -1) {
         removeSelectedField(index)
@@ -75,17 +85,25 @@ const ActionHook = () => {
     addSelectedField(value)
   }
 
-  const addSelectedField = (value) => {
-    setSelectedFields((prevFields) =>
-      create(prevFields, (draftFields) => {
-        draftFields.push(value)
+  const addSelectedField = value => {
+    setSelectedFields(prevFields =>
+      create(prevFields, draftFields => {
+        draftFields.push({ label: value, name: value })
       })
     )
   }
 
-  const removeSelectedField = (index) => {
-    setSelectedFields((prevFields) =>
-      create(prevFields, (draftFields) => {
+  const onUpdateField = (value, index, key) => {
+    setSelectedFields(prevFields =>
+      create(prevFields, draftFields => {
+        draftFields[index][key] = value
+      })
+    )
+  }
+
+  const removeSelectedField = index => {
+    setSelectedFields(prevFields =>
+      create(prevFields, draftFields => {
         draftFields.splice(index, 1)
       })
     )
@@ -94,71 +112,76 @@ const ActionHook = () => {
   useEffect(() => {
     if (newFlow.triggerDetail?.data?.length > 0 && newFlow.triggerDetail?.hook_id !== '') {
       setHookID(newFlow.triggerDetail?.hook_id)
-      window.hook_id = newFlow.triggerDetail?.hook_id
     }
 
     return () => {
-      removeTestData('all')
+      stopFetching()
     }
   }, [])
 
+  const startFetching = () => {
+    isFetchingRef.current = true
+    setIsLoading(true)
+    setShowResponse(false)
+    setPrimaryKey(undefined)
+    setSelectedFields([])
+    resetActionHookFlowData(setNewFlow)
+  }
+
   const handleFetch = () => {
-    if (isLoading) {
-      clearInterval(intervalRef.current)
-      controller.abort()
-      removeTestData(hookID)
-      setIsLoading(false)
+    if (isFetchingRef.current) {
+      stopFetching()
       return
     }
 
-    setIsLoading(true)
-    window.hook_id = hookID
-    intervalRef.current = setInterval(() => {
-      bitsFetch({ hook_id: hookID }, 'action_hook/test', null, 'POST', signal)
-        .then((resp) => {
-          if (resp.success) {
-            clearInterval(intervalRef.current)
-            controller.abort()
-            const tmpNewFlow = { ...newFlow }
-
-            tmpNewFlow.triggerDetail.tmp = resp.data.actionHook
-            tmpNewFlow.triggerDetail.data = resp.data.actionHook
-            tmpNewFlow.triggerDetail.hook_id = hookID
-            setNewFlow(tmpNewFlow)
-            setIsLoading(false)
-            setShowResponse(true)
-            setSelectedFields([])
-            bitsFetch({ hook_id: window.hook_id, reset: true }, 'action_hook/test/remove')
-          }
-        })
-        .catch((err) => {
-          if (err.name === 'AbortError') {
-            console.log(__('AbortError: Fetch request aborted', 'bit-integrations'))
-          }
-        })
-    }, 1500)
+    startFetching()
+    fetchSequentially()
   }
 
-  const showResponseTable = () => {
-    setShowResponse((prevState) => !prevState)
+  const fetchSequentially = () => {
+    try {
+      if (!isFetchingRef.current || !hookID) {
+        stopFetching()
+        return
+      }
+
+      bitsFetch({ hook_id: hookID }, 'action_hook/test', null, 'POST', signal).then(resp => {
+        if (!resp.success && isFetchingRef.current) {
+          fetchSequentially()
+          return
+        }
+
+        if (resp.success) {
+          setNewFlow(prevFlow =>
+            create(prevFlow, draftFlow => {
+              draftFlow.triggerDetail['tmp'] = resp.data.actionHook
+              draftFlow.triggerDetail['data'] = resp.data.actionHook
+              draftFlow.triggerDetail['hook_id'] = hookID
+            })
+          )
+
+          setPrimaryKey(undefined)
+          setShowResponse(true)
+        }
+
+        stopFetching()
+      })
+    } catch (err) {
+      console.log(
+        err.name === 'AbortError' ? __('AbortError: Fetch request aborted', 'bit-integrations') : err
+      )
+    }
   }
 
-  const primaryKeySet = (val) => {
+  const primaryKeySet = val => {
     setPrimaryKey(
       !val
         ? undefined
         : {
-          key: val,
-          value: extractValueFromPath(newFlow.triggerDetail?.data, val)
-        }
+            key: val,
+            value: extractValueFromPath(newFlow.triggerDetail?.data, val)
+          }
     )
-  }
-
-  const removeTestData = (hookID) => {
-    bitsFetch({ hook_id: hookID }, 'action_hook/test/remove').then((resp) => {
-      delete window.hook_id
-      intervalRef.current && clearInterval(intervalRef.current)
-    })
   }
 
   const setHook = (val, name) => {
@@ -166,7 +189,7 @@ const ActionHook = () => {
     const isHook = name === 'hook'
 
     if (hookID) {
-      removeTestData(hookID)
+      stopFetching()
     }
 
     if (isCustom || (isHook && val === 'custom')) {
@@ -184,12 +207,7 @@ const ActionHook = () => {
 
     if (isCustom || isHook) {
       setSelectedFields([])
-      setNewFlow((prevFlow) =>
-        create(prevFlow, (draftFlow) => {
-          delete draftFlow?.triggerDetail?.tmp
-          delete draftFlow?.triggerDetail?.data
-        })
-      )
+      resetActionHookFlowData(setNewFlow)
     }
   }
 
@@ -218,10 +236,10 @@ const ActionHook = () => {
       <div className="flx mt-2">
         <MultiSelect
           style={{ width: '100%' }}
-          options={hooklist.map((hook) => ({ label: hook.label, value: hook.value }))}
+          options={hooklist.map(hook => ({ label: hook.label, value: hook.value }))}
           className="msl-wrp-options"
           defaultValue={selectedHook}
-          onChange={(val) => setHook(val, 'hook')}
+          onChange={val => setHook(val, 'hook')}
           singleSelect
           closeOnSelect
           disabled={isLoading}
@@ -234,7 +252,7 @@ const ActionHook = () => {
           </div>
           <input
             className="btcd-paper-inp w-100 mt-1"
-            onChange={(e) => setHook(e.target.value, 'custom')}
+            onChange={e => setHook(e.target.value, 'custom')}
             name="custom"
             value={hookID}
             type="text"
@@ -248,40 +266,17 @@ const ActionHook = () => {
           <div className="my-3">
             <b>{__('Selected Fields:', 'bit-integrations')}</b>
           </div>
-          <div
-            className="bg-white rounded border my-1 table-webhook-div p-2"
-            style={{ minHeight: '40px', maxHeight: '14rem' }}>
-            {selectedFields.map((field, index) => (
-              <div key={index} style={{ position: 'relative' }}>
-                <input
-                  key={index}
-                  className="btcd-paper-inp w-100 m-1"
-                  type="text"
-                  onChange={(e) => setSelectedFieldsData(e.target.value, index)}
-                  value={field.replace(/[,]/gi, '.').replace(/["{\}[\](\)]/gi, '')}
-                  disabled={isLoading}
-                />
-                <button
-                  className="btn btcd-btn-lg sh-sm"
-                  onClick={() => removeSelectedField(index)}
-                  style={{
-                    position: 'absolute',
-                    top: -5,
-                    right: -5,
-                    color: '#ff4646',
-                    padding: '2px'
-                  }}>
-                  <CloseIcn size={12} />
-                </button>
-              </div>
-            ))}
-          </div>
+          <FieldContainer
+            data={selectedFields}
+            onUpdateField={onUpdateField}
+            onRemoveField={removeSelectedField}
+          />
         </>
       )}
       <div className="flx flx-between">
         <button
           onClick={handleFetch}
-          className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : 'purple'}`}
+          className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : newFlow.triggerDetail?.data ? 'gray' : 'purple'}`}
           type="button"
           disabled={!hookID}>
           {isLoading
@@ -294,7 +289,7 @@ const ActionHook = () => {
         {selectedFields.length > 0 && (
           <button
             onClick={() => setPrimaryKeyModal(true)}
-            className={`btn btcd-btn-lg sh-sm flx ${selectedFields.length && 'purple'}`}
+            className={`btn btcd-btn-lg sh-sm flx ${selectedFields.length && 'gray'}`}
             type="button"
             disabled={!selectedFields.length}>
             {primaryKey
@@ -317,7 +312,7 @@ const ActionHook = () => {
         <div className="mt-2">{__('Select Unique Key', 'bit-integrations')}</div>
         <div className="flx flx-between mt-2">
           <MultiSelect
-            options={selectedFields.map((field) => ({ label: field, value: field }))}
+            options={selectedFields.map(field => ({ label: field.label, value: field.name }))}
             className="msl-wrp-options"
             defaultValue={primaryKey?.key}
             onChange={primaryKeySet}
@@ -337,16 +332,19 @@ const ActionHook = () => {
       )}
       {newFlow.triggerDetail?.data && (
         <div className="flx flx-between">
-          <button onClick={showResponseTable} className="btn btcd-btn-lg sh-sm flx">
+          <button
+            onClick={() => setShowResponse(prevState => !prevState)}
+            className="btn btcd-btn-lg sh-sm gray flx">
             <span className="txt-actionHook-resbtn font-inter-500">
               {showResponse
                 ? __('Hide Response', 'bit-integrations')
                 : __('View Response', 'bit-integrations')}
             </span>
+            &nbsp;
             {!showResponse ? (
-              <EyeIcn width="20" height="20" strokeColor="#000000" />
+              <EyeIcn width="20" height="20" strokeColor="#222" />
             ) : (
-              <EyeOffIcn width="20" height="20" strokeColor="#000000" />
+              <EyeOffIcn width="20" height="20" strokeColor="#222" />
             )}
           </button>
           <button

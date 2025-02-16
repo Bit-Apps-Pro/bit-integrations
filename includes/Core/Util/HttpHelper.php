@@ -63,11 +63,6 @@ final class HttpHelper
             return $requestReponse;
         }
 
-        // $responseCode = wp_remote_retrieve_response_code($requestReponse);
-        // if (!\is_null($responseCode) && $responseCode != 200) {
-        //     return wp_remote_retrieve_response_message($requestReponse);
-        // }
-
         static::$responseCode = wp_remote_retrieve_response_code($requestReponse);
         $responseBody = wp_remote_retrieve_body($requestReponse);
         $jsonData = json_decode($responseBody);

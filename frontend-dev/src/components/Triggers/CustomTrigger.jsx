@@ -4,19 +4,20 @@ import { create } from 'mutative'
 import { useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { $btcbi, $flowStep, $formFields, $newFlow } from '../../GlobalStates'
-import CloseIcn from '../../Icons/CloseIcn'
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import { $flowStep, $formFields, $newFlow } from '../../GlobalStates'
 import bitsFetch from '../../Utils/bitsFetch'
+import CustomFetcherHelper, { resetActionHookFlowData } from '../../Utils/CustomFetcherHelper'
 import { __ } from '../../Utils/i18nwrap'
+import Loader from '../Loaders/Loader'
 import LoaderSm from '../Loaders/LoaderSm'
 import CopyTextTrigger from '../Utilities/CopyTextTrigger'
 import EyeIcn from '../Utilities/EyeIcn'
 import EyeOffIcn from '../Utilities/EyeOffIcn'
+import FieldContainer from '../Utilities/FieldContainer'
 import Note from '../Utilities/Note'
 import SnackMsg from '../Utilities/SnackMsg'
 import TreeViewer from '../Utilities/treeViewer/TreeViewer'
-import FieldContainer from '../Utilities/FieldContainer'
 
 const CustomTrigger = () => {
   const [selectedFields, setSelectedFields] = useState([])
@@ -26,11 +27,20 @@ const CustomTrigger = () => {
   const [hookID, setHookID] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
-  const { api } = useRecoilValue($btcbi)
   const [showResponse, setShowResponse] = useState(false)
-  const fetchIntervalRef = useRef(0)
+  const isFetchingRef = useRef(false)
+
   let controller = new AbortController()
   const signal = controller.signal
+  const { stopFetching } = CustomFetcherHelper(
+    isFetchingRef,
+    hookID,
+    controller,
+    setIsLoading,
+    'custom_trigger/test/remove',
+    'POST',
+    'hook_id'
+  )
 
   const triggerAbeleHook = `do_action(
     'bit_integrations_custom_trigger',
@@ -58,7 +68,7 @@ const CustomTrigger = () => {
 
   const setSelectedFieldsData = (value = null, remove = false, index = null) => {
     if (remove) {
-      index = index ? index : selectedFields.findIndex((field) => field.name === value)
+      index = index ? index : selectedFields.findIndex(field => field.name === value)
 
       if (index !== -1) {
         removeSelectedField(index)
@@ -68,25 +78,25 @@ const CustomTrigger = () => {
     addSelectedField(value)
   }
 
-  const addSelectedField = (value) => {
-    setSelectedFields((prevFields) =>
-      create(prevFields, (draftFields) => {
+  const addSelectedField = value => {
+    setSelectedFields(prevFields =>
+      create(prevFields, draftFields => {
         draftFields.push({ label: value, name: value })
       })
     )
   }
 
   const onUpdateField = (value, index, key) => {
-    setSelectedFields((prevFields) =>
-      create(prevFields, (draftFields) => {
+    setSelectedFields(prevFields =>
+      create(prevFields, draftFields => {
         draftFields[index][key] = value
       })
     )
   }
 
-  const removeSelectedField = (index) => {
-    setSelectedFields((prevFields) =>
-      create(prevFields, (draftFields) => {
+  const removeSelectedField = index => {
+    setSelectedFields(prevFields =>
+      create(prevFields, draftFields => {
         draftFields.splice(index, 1)
       })
     )
@@ -95,72 +105,69 @@ const CustomTrigger = () => {
   useEffect(() => {
     if (newFlow.triggerDetail?.data?.length > 0 && newFlow.triggerDetail?.hook_id) {
       setHookID(newFlow.triggerDetail?.hook_id)
-      window.hook_id = newFlow.triggerDetail?.hook_id
     } else {
-      bitsFetch({ hook_id: hookID }, 'custom_trigger/new', null, 'get').then((resp) => {
+      bitsFetch({ hook_id: hookID }, 'custom_trigger/new', null, 'get').then(resp => {
         if (resp.success) {
           setHookID(resp.data.hook_id)
-          window.hook_id = resp.data.hook_id
         }
       })
     }
 
     return () => {
-      removeTestData(delete window.hook_id)
+      stopFetching()
     }
   }, [])
 
-  const removeTestData = (hookID) => {
-    bitsFetch({ hook_id: hookID }, 'custom_trigger/test/remove').then((resp) => {
-      delete window.hook_id
-      fetchIntervalRef.current && clearInterval(fetchIntervalRef.current)
-    })
+  const startFetching = () => {
+    isFetchingRef.current = true
+    setIsLoading(true)
+    setShowResponse(false)
+    setSelectedFields([])
+    resetActionHookFlowData(setNewFlow)
   }
 
   const handleFetch = () => {
-    if (isLoading) {
-      fetchIntervalRef.current && clearInterval(fetchIntervalRef.current)
-      controller.abort()
-      removeTestData(hookID)
-      setIsLoading(false)
+    if (isFetchingRef.current) {
+      stopFetching()
       return
     }
 
-    setIsLoading(true)
-    setShowResponse(false)
-    setNewFlow((prevFlow) =>
-      create(prevFlow, (draftFlow) => {
-        delete draftFlow.triggerDetail?.tmp
-        delete draftFlow.triggerDetail?.data
-      })
-    )
-    fetchIntervalRef.current = setInterval(() => {
-      bitsFetch({ hook_id: hookID }, 'custom_trigger/test', null, 'post', signal)
-        .then((resp) => {
-          if (resp.success) {
-            controller.abort()
-            clearInterval(fetchIntervalRef.current)
-            const tmpNewFlow = { ...newFlow }
-            tmpNewFlow.triggerDetail.tmp = resp.data.custom_trigger
-            tmpNewFlow.triggerDetail.data = resp.data.custom_trigger
-            tmpNewFlow.triggerDetail.hook_id = hookID
-            setNewFlow(tmpNewFlow)
-            setIsLoading(false)
-            setShowResponse(true)
-            setSelectedFields([])
-            bitsFetch({ hook_id: window.hook_id, reset: true }, 'custom_trigger/test/remove')
-          }
-        })
-        .catch((err) => {
-          if (err.name === 'AbortError') {
-            console.log(__('AbortError: Fetch request aborted', 'bit-integrations'))
-          }
-        })
-    }, 1500)
+    startFetching()
+    fetchSequentially()
   }
 
-  const showResponseTable = () => {
-    setShowResponse((prevState) => !prevState)
+  const fetchSequentially = () => {
+    try {
+      if (!isFetchingRef.current || !hookID) {
+        stopFetching()
+        return
+      }
+
+      bitsFetch({ hook_id: hookID }, 'custom_trigger/test', null, 'POST', signal).then(resp => {
+        if (!resp.success && isFetchingRef.current) {
+          fetchSequentially()
+          return
+        }
+
+        if (resp.success) {
+          setNewFlow(prevFlow =>
+            create(prevFlow, draftFlow => {
+              draftFlow.triggerDetail['tmp'] = resp.data.custom_trigger
+              draftFlow.triggerDetail['data'] = resp.data.custom_trigger
+              draftFlow.triggerDetail['hook_id'] = hookID
+            })
+          )
+
+          setShowResponse(true)
+        }
+
+        stopFetching()
+      })
+    } catch (err) {
+      console.log(
+        err.name === 'AbortError' ? __('AbortError: Fetch request aborted', 'bit-integrations') : err
+      )
+    }
   }
 
   const info = `<h4>${sprintf(__('Follow these simple steps to set up the %s', 'bit-integrations'), 'Action Hook')}</h4>
@@ -171,12 +178,8 @@ const CustomTrigger = () => {
               <li>${__('Click <b>Next</b> and <b>Go</b></b>', 'bit-integrations')}</li>
             </ul>
             <h5>
-              <a className="btcd-link" href="https://bitapps.pro/docs/bit-integrations/trigger-hooks" target="_blank" rel="noreferrer">${__('Bit Integrations Trigger Hooks', 'bit-integrations')}</a>
-              <br />            
               ${__('More Details on', 'bit-integrations')} 
-              <a className="btcd-link" href="" target="_blank" rel="noreferrer">${__('Documentation', 'bit-integrations')}</a>
-              ${__('or', 'bit-integrations')}
-              <a className="btcd-link" href="#" target="_blank" rel="noreferrer" disabled>${__('Youtube Tutorials', 'bit-integrations')}</a>
+              <a className="btcd-link" href="https://bit-integrations.com/wp-docs/trigger/custom-trigger-integrations/" target="_blank" rel="noreferrer">${__('Documentation', 'bit-integrations')}</a>
             </h5>`
 
   return (
@@ -185,12 +188,24 @@ const CustomTrigger = () => {
       <div className="mt-3">
         <b>{__('Custom action trigger:', 'bit-integrations')}</b>
       </div>
-      <CopyTextTrigger
-        value={triggerAbeleHook}
-        className="flx mt-2"
-        setSnackbar={setSnackbar}
-        readOnly
-      />
+      {!hookID ? (
+        <Loader
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 100,
+            transform: 'scale(0.7)'
+          }}
+        />
+      ) : (
+        <CopyTextTrigger
+          value={triggerAbeleHook}
+          className="flx mt-2"
+          setSnackbar={setSnackbar}
+          readOnly
+        />
+      )}
 
       {newFlow.triggerDetail?.data && (
         <>
@@ -208,7 +223,7 @@ const CustomTrigger = () => {
       <div className="flx flx-between">
         <button
           onClick={handleFetch}
-          className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : 'purple'}`}
+          className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : newFlow.triggerDetail?.data ? 'gray' : 'purple'}`}
           type="button"
           disabled={!hookID}>
           {isLoading
@@ -231,16 +246,18 @@ const CustomTrigger = () => {
 
       {newFlow.triggerDetail?.data && (
         <div className="flx flx-between">
-          <button onClick={showResponseTable} className="btn btcd-btn-lg sh-sm flx gray">
+          <button
+            onClick={() => setShowResponse(prevState => !prevState)}
+            className="btn btcd-btn-lg sh-sm flx gray">
             <span className="txt-actionHook-resbtn font-inter-500">
               {showResponse
                 ? __('Hide Response', 'bit-integrations')
                 : __('View Response', 'bit-integrations')}
             </span>
             {!showResponse ? (
-              <EyeIcn width="20" height="20" strokeColor="#000000" />
+              <EyeIcn width="20" height="20" strokeColor="#222" />
             ) : (
-              <EyeOffIcn width="20" height="20" strokeColor="#000000" />
+              <EyeOffIcn width="20" height="20" strokeColor="#222" />
             )}
           </button>
           <button

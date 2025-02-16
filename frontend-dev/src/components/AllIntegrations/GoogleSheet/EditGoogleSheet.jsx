@@ -22,23 +22,23 @@ function EditGoogleSheet({ allIntegURL }) {
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
   const formFields = useRecoilValue($formFields)
-  const [step, setStep] = useState(1);
-  if (step == 1) {
-    return (
-      <GoogleSheetAuthorization
-        formID={formID}
-        sheetConf={sheetConf}
-        setSheetConf={setSheetConf}
-        step={step}
-        setstep={setStep}
-        setSnackbar={setSnackbar}
-        isLoading={isLoading}
-        setIsLoading={setIsLoading}
-        isEdit={true}
-      />
-    )
-  }
-  if (step == 2) {
+  // const [step, setStep] = useState(1);
+  // if (step == 1) {
+  //   return (
+  //     <GoogleSheetAuthorization
+  //       formID={formID}
+  //       sheetConf={sheetConf}
+  //       setSheetConf={setSheetConf}
+  //       step={step}
+  //       setstep={setStep}
+  //       setSnackbar={setSnackbar}
+  //       isLoading={isLoading}
+  //       setIsLoading={setIsLoading}
+  //       isEdit={true}
+  //     />
+  //   )
+  // }
+  // if (step == 2) {
     return (
       <div style={{ width: 900 }}>
         <SnackMsg snack={snack} setSnackbar={setSnackbar} />
@@ -99,6 +99,6 @@ function EditGoogleSheet({ allIntegURL }) {
       </div>
     )
   }
-}
+// }
 
 export default EditGoogleSheet

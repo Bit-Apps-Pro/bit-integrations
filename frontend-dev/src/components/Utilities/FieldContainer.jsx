@@ -9,7 +9,7 @@ function FieldContainer({ data = [], onRemoveField, onUpdateField }) {
   const [actionMdl, setActionMdl] = useState(false)
   const [fieldIndex, setFieldIndex] = useState()
 
-  const onFieldClick = (index) => {
+  const onFieldClick = index => {
     setFieldIndex(index)
     setActionMdl(true)
   }
@@ -40,7 +40,7 @@ function FieldContainer({ data = [], onRemoveField, onUpdateField }) {
             className="field purple-sh tooltip"
             onClick={() => onFieldClick(index)}
             style={{
-              '--tooltip-txt': `'${__('Click to edit this field', 'bit-integrations')}'`
+              '--tooltip-txt': `'${__('Click to edit', 'bit-integrations')}'`
             }}
             type="button">
             {field?.label?.replace(/[,]/gi, '.').replace(/["{\}[\](\)]/gi, '')}
@@ -49,7 +49,7 @@ function FieldContainer({ data = [], onRemoveField, onUpdateField }) {
             className="remove-field tooltip"
             onClick={() => onRemoveField(index)}
             style={{
-              '--tooltip-txt': `'${__('Click to remove this field', 'bit-integrations')}'`
+              '--tooltip-txt': `'${__('Click to remove', 'bit-integrations')}'`
             }}>
             <CloseIcn size={8} stroke={7} />
           </button>
@@ -74,17 +74,17 @@ function FieldContainer({ data = [], onRemoveField, onUpdateField }) {
           <input
             className="btcd-paper-inp w-100"
             type="text"
-            onChange={(e) => onUpdateField(e.target.value, fieldIndex, 'label')}
+            onChange={e => onUpdateField(e.target.value, fieldIndex, 'label')}
             value={data[fieldIndex]?.label}
           />
 
           <div className="mt-3 mb-2">
-            <b>{`${__('Field Id', 'bit-integrations')} (${__("It's recommended not to edit this field", 'bit-integrations')})`}</b>
+            <b>{`${__('Field Id', 'bit-integrations')} (${__('It is not recommended to edit the field ID', 'bit-integrations')})`}</b>
           </div>
           <input
             className="btcd-paper-inp w-100"
             type="text"
-            onChange={(e) => onUpdateField(e.target.value, fieldIndex, 'name')}
+            onChange={e => onUpdateField(e.target.value, fieldIndex, 'name')}
             value={data[fieldIndex]?.name}
           />
 
@@ -95,7 +95,7 @@ function FieldContainer({ data = [], onRemoveField, onUpdateField }) {
             className="msl-wrp-options w-10"
             defaultValue={data[fieldIndex]?.type || 'text'}
             options={types}
-            onChange={(val) => onUpdateField(val, fieldIndex, 'type')}
+            onChange={val => onUpdateField(val, fieldIndex, 'type')}
             singleSelect
             closeOnSelect
             customValue

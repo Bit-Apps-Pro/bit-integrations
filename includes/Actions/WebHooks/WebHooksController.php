@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\WebHooks;
 
+use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for webhooks
@@ -162,7 +162,7 @@ class WebHooksController
     private static function pushMissingFields($fieldValues, $fields)
     {
         foreach ($fields as $field) {
-            if (!isset($fieldValues[$field->key])) {
+            if (isset($field->key) && !isset($fieldValues[$field->key])) {
                 $fieldValues[$field->key] = '';
             }
         }

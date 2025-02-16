@@ -27,6 +27,7 @@ final class AllTriggersName
             'Brizy'                  => ['name' => 'Brizy',  'isPro' => true, 'is_active' => false],
             'BuddyBoss'              => ['name' => 'BuddyBoss',  'isPro' => true, 'is_active' => false],
             'Buddypress'             => ['name' => 'Buddypress',  'isPro' => true, 'is_active' => false],
+            'CalculatedFieldsForm'   => ['name' => 'Calculated Fields Form Pro',  'isPro' => true, 'is_active' => false],
             'CartFlow'               => ['name' => 'CartFlow',  'isPro' => true, 'is_active' => false],
             'CustomTrigger'          => ['name' => 'Custom Trigger',  'isPro' => true, 'is_active' => false],
             'Coblocks'               => ['name' => 'CoBlocks Form',  'isPro' => true, 'is_active' => false],
