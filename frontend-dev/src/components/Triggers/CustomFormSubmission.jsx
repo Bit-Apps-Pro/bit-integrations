@@ -7,9 +7,9 @@ import MultiSelect from 'react-multiple-select-dropdown-lite'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { $flowStep, $formFields, $newFlow } from '../../GlobalStates'
-import { TriggerDocLink } from '../../Utils/Helpers'
 import bitsFetch from '../../Utils/bitsFetch'
-import { startFetching, stopFetching } from '../../Utils/customFormHelper'
+import CustomFetcherHelper, { startFetching } from '../../Utils/CustomFetcherHelper'
+import { TriggerDocLink } from '../../Utils/Helpers'
 import { __ } from '../../Utils/i18nwrap'
 import LoaderSm from '../Loaders/LoaderSm'
 import ConfirmModal from '../Utilities/ConfirmModal'
@@ -37,6 +37,14 @@ const CustomFormSubmission = () => {
   const fetchMethod = newFlow?.triggerDetail?.fetch?.method || ''
   const removeAction = newFlow?.triggerDetail?.fetch_remove?.action || ''
   const removeMethod = newFlow?.triggerDetail?.fetch_remove?.method || ''
+  const { stopFetching } = CustomFetcherHelper(
+    isFetchingRef,
+    newFlow?.triggerDetail?.triggered_entity_id,
+    controller,
+    setIsLoading,
+    removeAction,
+    removeMethod
+  )
 
   const setTriggerData = () => {
     if (!primaryKey && !skipPrimaryKey) {
@@ -64,20 +72,9 @@ const CustomFormSubmission = () => {
     setFlowStep(2)
   }
 
-  const callStopFetching = () => {
-    stopFetching(
-      controller,
-      newFlow?.triggerDetail?.triggered_entity_id,
-      isFetchingRef,
-      removeAction,
-      removeMethod,
-      setIsLoading
-    )
-  }
-
   const handleFetch = async () => {
     if (isFetchingRef.current) {
-      callStopFetching()
+      stopFetching()
       return
     }
 
@@ -90,7 +87,7 @@ const CustomFormSubmission = () => {
 
     try {
       if (!isFetchingRef.current || !entityId) {
-        callStopFetching()
+        stopFetching()
         return
       }
 
@@ -114,7 +111,7 @@ const CustomFormSubmission = () => {
           setShowResponse(true)
         }
 
-        callStopFetching()
+        stopFetching()
       })
     } catch (err) {
       console.log(
@@ -153,13 +150,13 @@ const CustomFormSubmission = () => {
 
   useEffect(() => {
     return () => {
-      callStopFetching()
+      stopFetching()
     }
   }, [])
 
   const setTriggerEntityId = entityId => {
     if (isLoading || isFetchingRef.current) {
-      callStopFetching()
+      stopFetching()
       return
     }
 

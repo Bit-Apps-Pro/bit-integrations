@@ -1,12 +1,32 @@
 import { create } from 'mutative'
 import bitsFetch from './bitsFetch'
 
-const removeTestData = (entityId, removeAction, removeMethod = 'POST', key = 'triggered_entity_id') => {
-  if (!entityId) {
-    return
+export default function CustomFetcherHelper(
+  isLoadingRef,
+  entityId,
+  controller,
+  setIsLoading,
+  removeAction,
+  removeMethod = 'POST',
+  key = 'triggered_entity_id'
+) {
+  const removeTestData = () => {
+    if (!entityId) {
+      return
+    }
+
+    bitsFetch({ [key]: entityId }, removeAction, null, removeMethod)
   }
 
-  bitsFetch({ [key]: entityId }, removeAction, null, removeMethod)
+  const stopFetching = () => {
+    controller.abort()
+    setIsLoading(false)
+    isLoadingRef.current = false
+
+    removeTestData()
+  }
+
+  return { stopFetching }
 }
 
 const resetActionHookFlowData = setFlow => {
@@ -33,22 +53,6 @@ const startFetching = (
   resetFlowData(setFlow, isEdit)
 }
 
-const stopFetching = (
-  controller,
-  entityId,
-  isLoadingRef,
-  removeAction,
-  removeMethod,
-  setIsLoading,
-  key = 'triggered_entity_id'
-) => {
-  controller.abort()
-  setIsLoading(false)
-  isLoadingRef.current = false
-
-  removeTestData(entityId, removeAction, removeMethod, key)
-}
-
 const resetFlowData = (setFlow, isEdit = false) => {
   setFlow(prevFlow =>
     create(prevFlow, draftFlow => {
@@ -59,4 +63,4 @@ const resetFlowData = (setFlow, isEdit = false) => {
   )
 }
 
-export { removeTestData, startFetching, stopFetching, resetFlowData, resetActionHookFlowData }
+export { startFetching, resetFlowData, resetActionHookFlowData }

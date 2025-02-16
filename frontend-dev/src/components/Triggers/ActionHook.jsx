@@ -7,12 +7,12 @@ import MultiSelect from 'react-multiple-select-dropdown-lite'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { $flowStep, $formFields, $newFlow } from '../../GlobalStates'
+import bitsFetch from '../../Utils/bitsFetch'
+import CustomFetcherHelper, { resetActionHookFlowData } from '../../Utils/CustomFetcherHelper'
 import GetLogo from '../../Utils/GetLogo'
 import { extractValueFromPath } from '../../Utils/Helpers'
-import hooklist from '../../Utils/StaticData/hooklist'
-import bitsFetch from '../../Utils/bitsFetch'
-import { resetActionHookFlowData, stopFetching } from '../../Utils/customFormHelper'
 import { __ } from '../../Utils/i18nwrap'
+import hooklist from '../../Utils/StaticData/hooklist'
 import LoaderSm from '../Loaders/LoaderSm'
 import ConfirmModal from '../Utilities/ConfirmModal'
 import EyeIcn from '../Utilities/EyeIcn'
@@ -36,8 +36,18 @@ const ActionHook = () => {
   const [snack, setSnackbar] = useState({ show: false })
   const [showResponse, setShowResponse] = useState(false)
   const isFetchingRef = useRef(false)
+
   let controller = new AbortController()
   const signal = controller.signal
+  const { stopFetching } = CustomFetcherHelper(
+    isFetchingRef,
+    hookID,
+    controller,
+    setIsLoading,
+    'action_hook/test/remove',
+    'POST',
+    'hook_id'
+  )
 
   const setTriggerData = () => {
     if (!selectedFields.length) {
@@ -61,18 +71,6 @@ const ActionHook = () => {
     setFields(selectedFields)
     setNewFlow(tmpNewFlow)
     setFlowStep(2)
-  }
-
-  const callStopFetching = () => {
-    stopFetching(
-      controller,
-      hookID,
-      isFetchingRef,
-      'action_hook/test/remove',
-      'post',
-      setIsLoading,
-      'hook_id'
-    )
   }
 
   const setSelectedFieldsData = (value = null, remove = false, index = null) => {
@@ -117,7 +115,7 @@ const ActionHook = () => {
     }
 
     return () => {
-      callStopFetching()
+      stopFetching()
     }
   }, [])
 
@@ -132,7 +130,7 @@ const ActionHook = () => {
 
   const handleFetch = () => {
     if (isFetchingRef.current) {
-      callStopFetching()
+      stopFetching()
       return
     }
 
@@ -143,7 +141,7 @@ const ActionHook = () => {
   const fetchSequentially = () => {
     try {
       if (!isFetchingRef.current || !hookID) {
-        callStopFetching()
+        stopFetching()
         return
       }
 
@@ -166,7 +164,7 @@ const ActionHook = () => {
           setShowResponse(true)
         }
 
-        callStopFetching()
+        stopFetching()
       })
     } catch (err) {
       console.log(
@@ -191,7 +189,7 @@ const ActionHook = () => {
     const isHook = name === 'hook'
 
     if (hookID) {
-      callStopFetching()
+      stopFetching()
     }
 
     if (isCustom || (isHook && val === 'custom')) {

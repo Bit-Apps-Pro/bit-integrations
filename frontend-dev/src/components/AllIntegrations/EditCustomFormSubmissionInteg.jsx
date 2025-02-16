@@ -8,7 +8,7 @@ import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { $formFields, $newFlow } from '../../GlobalStates'
 import bitsFetch from '../../Utils/bitsFetch'
-import { stopFetching } from '../../Utils/customFormHelper'
+import CustomFetcherHelper from '../../Utils/CustomFetcherHelper'
 import { __ } from '../../Utils/i18nwrap'
 import LoaderSm from '../Loaders/LoaderSm'
 
@@ -32,21 +32,18 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
   const fetchMethod = flow?.flow_details?.fetch?.method || ''
   const removeAction = flow?.flow_details?.fetch_remove?.action || ''
   const removeMethod = flow?.flow_details?.fetch_remove?.method || ''
-
-  const callStopFetching = () => {
-    stopFetching(
-      controller,
-      flow.triggered_entity_id,
-      isFetchingRef,
-      removeAction,
-      removeMethod,
-      setIsLoading
-    )
-  }
+  const { stopFetching } = CustomFetcherHelper(
+    isFetchingRef,
+    flow.triggered_entity_id,
+    controller,
+    setIsLoading,
+    removeAction,
+    removeMethod
+  )
 
   const handleFetch = async () => {
     if (isFetchingRef.current) {
-      callStopFetching()
+      stopFetching()
       return
     }
 
@@ -60,7 +57,7 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
 
     try {
       if (!isFetchingRef.current || !entityId) {
-        callStopFetching()
+        stopFetching()
         return
       }
 
@@ -87,7 +84,7 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
           setFormFields(formData)
         }
 
-        callStopFetching()
+        stopFetching()
       })
     } catch (err) {
       console.log(
@@ -120,13 +117,13 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
 
   useEffect(() => {
     return () => {
-      callStopFetching()
+      stopFetching()
     }
   }, [])
 
   const setTriggerEntityId = entityId => {
     if (flow?.triggered_entity_id) {
-      callStopFetching()
+      stopFetching()
     }
 
     setFlow(prevFlow =>

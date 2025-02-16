@@ -6,7 +6,7 @@ import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { $actionConf, $formFields, $newFlow } from '../../GlobalStates'
 import bitsFetch from '../../Utils/bitsFetch'
-import { stopFetching } from '../../Utils/customFormHelper'
+import CustomFetcherHelper from '../../Utils/CustomFetcherHelper'
 import { __ } from '../../Utils/i18nwrap'
 import LoaderSm from '../Loaders/LoaderSm'
 import CopyTextTrigger from '../Utilities/CopyTextTrigger'
@@ -25,26 +25,23 @@ function EditCustomTrigger() {
   const [showResponse, setShowResponse] = useState(false)
   const [showSelectedFields, setShowSelectedFields] = useState(false)
   const isFetchingRef = useRef(false)
+
   let controller = new AbortController()
   const signal = controller.signal
+  const { stopFetching } = CustomFetcherHelper(
+    isFetchingRef,
+    flow?.triggered_entity_id,
+    controller,
+    setIsLoading,
+    'custom_trigger/test/remove',
+    'hook_id'
+  )
 
   const triggerAbeleHook = `do_action(
     'bit_integrations_custom_trigger',
     '${flow?.triggered_entity_id}',
      array()
      );`
-
-  const callStopFetching = () => {
-    stopFetching(
-      controller,
-      flow?.triggered_entity_id,
-      isFetchingRef,
-      'custom_trigger/test/remove',
-      'post',
-      setIsLoading,
-      'hook_id'
-    )
-  }
 
   const setSelectedFieldsData = (value = null, remove = false, index = null) => {
     if (remove) {
@@ -103,7 +100,7 @@ function EditCustomTrigger() {
 
   const handleFetch = () => {
     if (isFetchingRef.current) {
-      callStopFetching()
+      stopFetching()
       return
     }
 
@@ -117,7 +114,7 @@ function EditCustomTrigger() {
 
     try {
       if (!isFetchingRef.current || !hookID) {
-        callStopFetching()
+        stopFetching()
         return
       }
 
@@ -160,7 +157,7 @@ function EditCustomTrigger() {
           setShowSelectedFields(true)
         }
 
-        callStopFetching()
+        stopFetching()
       })
     } catch (err) {
       console.log(

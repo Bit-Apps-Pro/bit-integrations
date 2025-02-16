@@ -4,21 +4,20 @@ import { create } from 'mutative'
 import { useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { $btcbi, $flowStep, $formFields, $newFlow } from '../../GlobalStates'
-import CloseIcn from '../../Icons/CloseIcn'
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import { $flowStep, $formFields, $newFlow } from '../../GlobalStates'
 import bitsFetch from '../../Utils/bitsFetch'
+import CustomFetcherHelper, { resetActionHookFlowData } from '../../Utils/CustomFetcherHelper'
 import { __ } from '../../Utils/i18nwrap'
+import Loader from '../Loaders/Loader'
 import LoaderSm from '../Loaders/LoaderSm'
 import CopyTextTrigger from '../Utilities/CopyTextTrigger'
 import EyeIcn from '../Utilities/EyeIcn'
 import EyeOffIcn from '../Utilities/EyeOffIcn'
+import FieldContainer from '../Utilities/FieldContainer'
 import Note from '../Utilities/Note'
 import SnackMsg from '../Utilities/SnackMsg'
 import TreeViewer from '../Utilities/treeViewer/TreeViewer'
-import FieldContainer from '../Utilities/FieldContainer'
-import { resetActionHookFlowData, stopFetching } from '../../Utils/customFormHelper'
-import Loader from '../Loaders/Loader'
 
 const CustomTrigger = () => {
   const [selectedFields, setSelectedFields] = useState([])
@@ -30,8 +29,18 @@ const CustomTrigger = () => {
   const [snack, setSnackbar] = useState({ show: false })
   const [showResponse, setShowResponse] = useState(false)
   const isFetchingRef = useRef(false)
+
   let controller = new AbortController()
   const signal = controller.signal
+  const { stopFetching } = CustomFetcherHelper(
+    isFetchingRef,
+    hookID,
+    controller,
+    setIsLoading,
+    'custom_trigger/test/remove',
+    'POST',
+    'hook_id'
+  )
 
   const triggerAbeleHook = `do_action(
     'bit_integrations_custom_trigger',
@@ -55,18 +64,6 @@ const CustomTrigger = () => {
     setFields(selectedFields)
     setNewFlow(tmpNewFlow)
     setFlowStep(2)
-  }
-
-  const callStopFetching = () => {
-    stopFetching(
-      controller,
-      hookID,
-      isFetchingRef,
-      'custom_trigger/test/remove',
-      'post',
-      setIsLoading,
-      'hook_id'
-    )
   }
 
   const setSelectedFieldsData = (value = null, remove = false, index = null) => {
@@ -117,7 +114,7 @@ const CustomTrigger = () => {
     }
 
     return () => {
-      callStopFetching()
+      stopFetching()
     }
   }, [])
 
@@ -131,7 +128,7 @@ const CustomTrigger = () => {
 
   const handleFetch = () => {
     if (isFetchingRef.current) {
-      callStopFetching()
+      stopFetching()
       return
     }
 
@@ -142,7 +139,7 @@ const CustomTrigger = () => {
   const fetchSequentially = () => {
     try {
       if (!isFetchingRef.current || !hookID) {
-        callStopFetching()
+        stopFetching()
         return
       }
 
@@ -164,7 +161,7 @@ const CustomTrigger = () => {
           setShowResponse(true)
         }
 
-        callStopFetching()
+        stopFetching()
       })
     } catch (err) {
       console.log(
@@ -181,12 +178,8 @@ const CustomTrigger = () => {
               <li>${__('Click <b>Next</b> and <b>Go</b></b>', 'bit-integrations')}</li>
             </ul>
             <h5>
-              <a className="btcd-link" href="https://bitapps.pro/docs/bit-integrations/trigger-hooks" target="_blank" rel="noreferrer">${__('Bit Integrations Trigger Hooks', 'bit-integrations')}</a>
-              <br />            
               ${__('More Details on', 'bit-integrations')} 
-              <a className="btcd-link" href="" target="_blank" rel="noreferrer">${__('Documentation', 'bit-integrations')}</a>
-              ${__('or', 'bit-integrations')}
-              <a className="btcd-link" href="#" target="_blank" rel="noreferrer" disabled>${__('Youtube Tutorials', 'bit-integrations')}</a>
+              <a className="btcd-link" href="https://bit-integrations.com/wp-docs/trigger/custom-trigger-integrations/" target="_blank" rel="noreferrer">${__('Documentation', 'bit-integrations')}</a>
             </h5>`
 
   return (

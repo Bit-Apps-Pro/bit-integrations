@@ -6,16 +6,15 @@ import MultiSelect from 'react-multiple-select-dropdown-lite'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { $actionConf, $formFields, $newFlow } from '../../GlobalStates'
-import CloseIcn from '../../Icons/CloseIcn'
 import bitsFetch from '../../Utils/bitsFetch'
-import { stopFetching } from '../../Utils/customFormHelper'
+import CustomFetcherHelper from '../../Utils/CustomFetcherHelper'
 import { extractValueFromPath } from '../../Utils/Helpers'
 import { __ } from '../../Utils/i18nwrap'
 import LoaderSm from '../Loaders/LoaderSm'
 import EyeIcn from '../Utilities/EyeIcn'
 import EyeOffIcn from '../Utilities/EyeOffIcn'
-import TreeViewer from '../Utilities/treeViewer/TreeViewer'
 import FieldContainer from '../Utilities/FieldContainer'
+import TreeViewer from '../Utilities/treeViewer/TreeViewer'
 
 function EditActionHook() {
   const [actionConf, setActionConf] = useRecoilState($actionConf)
@@ -25,24 +24,22 @@ function EditActionHook() {
   const [showSelectedFields, setShowSelectedFields] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const isFetchingRef = useRef(false)
+
   let controller = new AbortController()
   const signal = controller.signal
-
-  const callStopFetching = () => {
-    stopFetching(
-      controller,
-      flow?.triggered_entity_id,
-      isFetchingRef,
-      'action_hook/test/remove',
-      'post',
-      setIsLoading,
-      'hook_id'
-    )
-  }
+  const { stopFetching } = CustomFetcherHelper(
+    isFetchingRef,
+    flow?.triggered_entity_id,
+    controller,
+    setIsLoading,
+    'action_hook/test/remove',
+    'POST',
+    'hook_id'
+  )
 
   const handleFetch = () => {
     if (isFetchingRef.current) {
-      callStopFetching()
+      stopFetching()
       return
     }
 
@@ -56,7 +53,7 @@ function EditActionHook() {
 
     try {
       if (!isFetchingRef.current || !hookID) {
-        callStopFetching()
+        stopFetching()
         return
       }
 
@@ -100,7 +97,7 @@ function EditActionHook() {
           setShowSelectedFields(true)
         }
 
-        callStopFetching()
+        stopFetching()
       })
     } catch (err) {
       console.log(
@@ -202,7 +199,7 @@ function EditActionHook() {
 
   const setHook = val => {
     if (flow?.triggered_entity_id) {
-      callStopFetching()
+      stopFetching()
     }
 
     setFlow(prevFlow =>
