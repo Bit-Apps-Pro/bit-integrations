@@ -24,7 +24,7 @@ final class CF7Controller
             'is_active'      => class_exists('WPCF7_ContactForm'),
             'activation_url' => wp_nonce_url(self_admin_url('plugins.php?action=activate&amp;plugin=' . $plugin_path . '&amp;plugin_status=all&amp;paged=1&amp;s'), 'activate-plugin_' . $plugin_path),
             'install_url'    => wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=' . $plugin_path), 'install-plugin_' . $plugin_path),
-            'note'           => '<p>' . __('The feature <b>Advanced Custom HTML Fields</b> is available only in the Bit Integrations Pro starting from v2.1.6 of the plugin. Please upgrade to access this feature.', 'bit-integrations') . '</b>',
+            'note'           => '<p>' . __('The feature <b>Advanced Custom HTML Fields</b> is available only in the Bit Integrations Pro starting from v2.1.6 of the plugin. Please upgrade to access this feature.', 'bit-integrations') . '</p>',
             'list'           => [
                 'action' => 'cf7/get',
                 'method' => 'get',
