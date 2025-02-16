@@ -18,7 +18,7 @@ export default function ChangelogToggle() {
 
   // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
   // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-  const releaseDate = '5th February 2025'
+  const releaseDate = '16th February 2025'
 
   // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
   const changeLog = [
@@ -39,11 +39,8 @@ export default function ChangelogToggle() {
       headClass: 'new-trigger',
       itemClass: 'integration-list',
       items: [
-        { 'label': 'Advanced Coupons for WooCommerce', 'desc': '', 'isPro': true },
-        { 'label': 'Appointment Hour Booking', 'desc': '', 'isPro': true },
-        { 'label': 'Better Messages', 'desc': '', 'isPro': true },
-        { 'label': 'Convert Pro', 'desc': '', 'isPro': true },
-        { 'label': 'FunnelKit Automations CRM', 'desc': '', 'isPro': true },
+        { label: 'Calculated Fields Form', desc: '', isPro: true },
+        { label: 'Ninja Tables: Row Deleted trigger', desc: '', isPro: true }
       ]
     },
     {
@@ -56,11 +53,17 @@ export default function ChangelogToggle() {
       label: __('New Improvements', 'bit-integrations'),
       headClass: 'new-improvement',
       itemClass: 'feature-list',
-      items: []
+      items: [
+        {
+          label: 'Performance Optimization',
+          desc: 'Improved the captured triggers data functionality to reduce CPU and RAM usage for better performance and efficiency.',
+          isPro: false
+        }
+      ]
     }
   ]
 
-  const setChangeLogVersion = (val) => {
+  const setChangeLogVersion = val => {
     setShow(val)
     if (!val) {
       bitsFetch(
@@ -69,7 +72,7 @@ export default function ChangelogToggle() {
         },
         'changelog_version'
       ).then(() => {
-        setBtcbi((prevBtcbi) => ({ ...prevBtcbi, changelogVersion: prevBtcbi.version }))
+        setBtcbi(prevBtcbi => ({ ...prevBtcbi, changelogVersion: prevBtcbi.version }))
       })
     }
   }
@@ -87,7 +90,7 @@ export default function ChangelogToggle() {
   useEffect(() => {
     if (show) {
       setLoading(true)
-      bitsFetch({}, 'analytics/check', '', 'GET').then((res) => {
+      bitsFetch({}, 'analytics/check', '', 'GET').then(res => {
         setShowAnalyticsOptin(res.data)
         setLoading(false)
       })
@@ -117,28 +120,28 @@ export default function ChangelogToggle() {
           width: '550px'
         }}>
         {
-        // (step === 1 && show === true && (
-        //   <>
-        //     <div>
-        //       <a href={dealURL} target="_blank" rel="noreferrer">
-        //         <img
-        //           src={NewYear}
-        //           style={{ width: '100%', height: 'auto', marginTop: '-2px', borderRadius: '20px' }}
-        //           alt=""
-        //         />
-        //       </a>
-        //     </div>
-        //     <div className="txt-right" style={{ marginTop: '-2px' }}>
-        //       <button
-        //         type="button"
-        //         className="btn round btcd-btn-lg purple purple-sh"
-        //         onClick={() => setStep(2)}>
-        //         {__('Next', 'bit-integrations')}
-        //       </button>
-        //     </div>
-        //   </>
-        // )) ||
-          (step === 2 && (
+          // (step === 1 && show === true && (
+          //   <>
+          //     <div>
+          //       <a href={dealURL} target="_blank" rel="noreferrer">
+          //         <img
+          //           src={NewYear}
+          //           style={{ width: '100%', height: 'auto', marginTop: '-2px', borderRadius: '20px' }}
+          //           alt=""
+          //         />
+          //       </a>
+          //     </div>
+          //     <div className="txt-right" style={{ marginTop: '-2px' }}>
+          //       <button
+          //         type="button"
+          //         className="btn round btcd-btn-lg purple purple-sh"
+          //         onClick={() => setStep(2)}>
+          //         {__('Next', 'bit-integrations')}
+          //       </button>
+          //     </div>
+          //   </>
+          // )) ||
+          step === 2 && (
             <div className="changelog content">
               <div className="flx flx-col flx-center whats-new">
                 <h3>{sprintf(__("What's New in %s", 'bit-integrations'), btcbi.version)}?</h3>
@@ -236,7 +239,8 @@ export default function ChangelogToggle() {
                 )
               )}
             </div>
-          ))}
+          )
+        }
       </Modal>
     </div>
   )
