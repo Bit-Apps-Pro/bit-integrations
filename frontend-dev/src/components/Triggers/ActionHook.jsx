@@ -63,6 +63,18 @@ const ActionHook = () => {
     setFlowStep(2)
   }
 
+  const callStopFetching = () => {
+    stopFetching(
+      controller,
+      hookID,
+      isFetchingRef,
+      'action_hook/test/remove',
+      'post',
+      setIsLoading,
+      'hook_id'
+    )
+  }
+
   const setSelectedFieldsData = (value = null, remove = false, index = null) => {
     if (remove) {
       index = index ? index : selectedFields.findIndex(field => field.name === value)
@@ -105,15 +117,7 @@ const ActionHook = () => {
     }
 
     return () => {
-      stopFetching(
-        controller,
-        hookID,
-        isFetchingRef,
-        'action_hook/test/remove',
-        'post',
-        setIsLoading,
-        'hook_id'
-      )
+      callStopFetching()
     }
   }, [])
 
@@ -128,15 +132,7 @@ const ActionHook = () => {
 
   const handleFetch = () => {
     if (isFetchingRef.current) {
-      stopFetching(
-        controller,
-        hookID,
-        isFetchingRef,
-        'action_hook/test/remove',
-        'post',
-        setIsLoading,
-        'hook_id'
-      )
+      callStopFetching()
       return
     }
 
@@ -147,15 +143,7 @@ const ActionHook = () => {
   const fetchSequentially = () => {
     try {
       if (!isFetchingRef.current || !hookID) {
-        stopFetching(
-          controller,
-          hookID,
-          isFetchingRef,
-          'action_hook/test/remove',
-          'post',
-          setIsLoading,
-          'hook_id'
-        )
+        callStopFetching()
         return
       }
 
@@ -178,15 +166,7 @@ const ActionHook = () => {
           setShowResponse(true)
         }
 
-        stopFetching(
-          controller,
-          hookID,
-          isFetchingRef,
-          'action_hook/test/remove',
-          'post',
-          setIsLoading,
-          'hook_id'
-        )
+        callStopFetching()
       })
     } catch (err) {
       console.log(
@@ -211,15 +191,7 @@ const ActionHook = () => {
     const isHook = name === 'hook'
 
     if (hookID) {
-      stopFetching(
-        controller,
-        hookID,
-        isFetchingRef,
-        'action_hook/test/remove',
-        'post',
-        setIsLoading,
-        'hook_id'
-      )
+      callStopFetching()
     }
 
     if (isCustom || (isHook && val === 'custom')) {

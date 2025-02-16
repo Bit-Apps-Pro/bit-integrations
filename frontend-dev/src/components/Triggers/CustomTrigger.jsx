@@ -57,6 +57,18 @@ const CustomTrigger = () => {
     setFlowStep(2)
   }
 
+  const callStopFetching = () => {
+    stopFetching(
+      controller,
+      hookID,
+      isFetchingRef,
+      'custom_trigger/test/remove',
+      'post',
+      setIsLoading,
+      'hook_id'
+    )
+  }
+
   const setSelectedFieldsData = (value = null, remove = false, index = null) => {
     if (remove) {
       index = index ? index : selectedFields.findIndex(field => field.name === value)
@@ -105,15 +117,7 @@ const CustomTrigger = () => {
     }
 
     return () => {
-      stopFetching(
-        controller,
-        hookID,
-        isFetchingRef,
-        'custom_trigger/test/remove',
-        'post',
-        setIsLoading,
-        'hook_id'
-      )
+      callStopFetching()
     }
   }, [])
 
@@ -127,15 +131,7 @@ const CustomTrigger = () => {
 
   const handleFetch = () => {
     if (isFetchingRef.current) {
-      stopFetching(
-        controller,
-        hookID,
-        isFetchingRef,
-        'custom_trigger/test/remove',
-        'post',
-        setIsLoading,
-        'hook_id'
-      )
+      callStopFetching()
       return
     }
 
@@ -146,15 +142,7 @@ const CustomTrigger = () => {
   const fetchSequentially = () => {
     try {
       if (!isFetchingRef.current || !hookID) {
-        stopFetching(
-          controller,
-          hookID,
-          isFetchingRef,
-          'custom_trigger/test/remove',
-          'post',
-          setIsLoading,
-          'hook_id'
-        )
+        callStopFetching()
         return
       }
 
@@ -176,15 +164,7 @@ const CustomTrigger = () => {
           setShowResponse(true)
         }
 
-        stopFetching(
-          controller,
-          hookID,
-          isFetchingRef,
-          'custom_trigger/test/remove',
-          'post',
-          setIsLoading,
-          'hook_id'
-        )
+        callStopFetching()
       })
     } catch (err) {
       console.log(

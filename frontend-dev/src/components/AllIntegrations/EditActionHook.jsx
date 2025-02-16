@@ -28,17 +28,21 @@ function EditActionHook() {
   let controller = new AbortController()
   const signal = controller.signal
 
+  const callStopFetching = () => {
+    stopFetching(
+      controller,
+      flow?.triggered_entity_id,
+      isFetchingRef,
+      'action_hook/test/remove',
+      'post',
+      setIsLoading,
+      'hook_id'
+    )
+  }
+
   const handleFetch = () => {
     if (isFetchingRef.current) {
-      stopFetching(
-        controller,
-        flow?.triggered_entity_id,
-        isFetchingRef,
-        'action_hook/test/remove',
-        'post',
-        setIsLoading,
-        'hook_id'
-      )
+      callStopFetching()
       return
     }
 
@@ -52,15 +56,7 @@ function EditActionHook() {
 
     try {
       if (!isFetchingRef.current || !hookID) {
-        stopFetching(
-          controller,
-          hookID,
-          isFetchingRef,
-          'action_hook/test/remove',
-          'post',
-          setIsLoading,
-          'hook_id'
-        )
+        callStopFetching()
         return
       }
 
@@ -104,15 +100,7 @@ function EditActionHook() {
           setShowSelectedFields(true)
         }
 
-        stopFetching(
-          controller,
-          hookID,
-          isFetchingRef,
-          'action_hook/test/remove',
-          'post',
-          setIsLoading,
-          'hook_id'
-        )
+        callStopFetching()
       })
     } catch (err) {
       console.log(
@@ -214,15 +202,7 @@ function EditActionHook() {
 
   const setHook = val => {
     if (flow?.triggered_entity_id) {
-      stopFetching(
-        controller,
-        flow?.triggered_entity_id,
-        isFetchingRef,
-        'action_hook/test/remove',
-        'post',
-        setIsLoading,
-        'hook_id'
-      )
+      callStopFetching()
     }
 
     setFlow(prevFlow =>

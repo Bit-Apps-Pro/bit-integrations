@@ -33,17 +33,20 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
   const removeAction = flow?.flow_details?.fetch_remove?.action || ''
   const removeMethod = flow?.flow_details?.fetch_remove?.method || ''
 
+  const callStopFetching = () => {
+    stopFetching(
+      controller,
+      flow.triggered_entity_id,
+      isFetchingRef,
+      removeAction,
+      removeMethod,
+      setIsLoading
+    )
+  }
+
   const handleFetch = async () => {
     if (isFetchingRef.current) {
-      stopFetching(
-        controller,
-        flow.triggered_entity_id,
-        isFetchingRef,
-        removeAction,
-        removeMethod,
-        setIsLoading
-      )
-
+      callStopFetching()
       return
     }
 
@@ -57,7 +60,7 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
 
     try {
       if (!isFetchingRef.current || !entityId) {
-        stopFetching()
+        callStopFetching()
         return
       }
 
@@ -84,7 +87,7 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
           setFormFields(formData)
         }
 
-        stopFetching(controller, entityId, isFetchingRef, removeAction, removeMethod, setIsLoading)
+        callStopFetching()
       })
     } catch (err) {
       console.log(
@@ -117,27 +120,13 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
 
   useEffect(() => {
     return () => {
-      stopFetching(
-        controller,
-        flow.triggered_entity_id,
-        isFetchingRef,
-        removeAction,
-        removeMethod,
-        setIsLoading
-      )
+      callStopFetching()
     }
   }, [])
 
   const setTriggerEntityId = entityId => {
     if (flow?.triggered_entity_id) {
-      stopFetching(
-        controller,
-        flow.triggered_entity_id,
-        isFetchingRef,
-        removeAction,
-        removeMethod,
-        setIsLoading
-      )
+      callStopFetching()
     }
 
     setFlow(prevFlow =>

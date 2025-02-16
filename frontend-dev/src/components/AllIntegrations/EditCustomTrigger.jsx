@@ -34,6 +34,18 @@ function EditCustomTrigger() {
      array()
      );`
 
+  const callStopFetching = () => {
+    stopFetching(
+      controller,
+      flow?.triggered_entity_id,
+      isFetchingRef,
+      'custom_trigger/test/remove',
+      'post',
+      setIsLoading,
+      'hook_id'
+    )
+  }
+
   const setSelectedFieldsData = (value = null, remove = false, index = null) => {
     if (remove) {
       index = index ? index : flow.flow_details.fields.findIndex(field => field.name === value)
@@ -91,15 +103,7 @@ function EditCustomTrigger() {
 
   const handleFetch = () => {
     if (isFetchingRef.current) {
-      stopFetching(
-        controller,
-        flow?.triggered_entity_id,
-        isFetchingRef,
-        'custom_trigger/test/remove',
-        'post',
-        setIsLoading,
-        'hook_id'
-      )
+      callStopFetching()
       return
     }
 
@@ -113,15 +117,7 @@ function EditCustomTrigger() {
 
     try {
       if (!isFetchingRef.current || !hookID) {
-        stopFetching(
-          controller,
-          hookID,
-          isFetchingRef,
-          'custom_trigger/test/remove',
-          'post',
-          setIsLoading,
-          'hook_id'
-        )
+        callStopFetching()
         return
       }
 
@@ -164,15 +160,7 @@ function EditCustomTrigger() {
           setShowSelectedFields(true)
         }
 
-        stopFetching(
-          controller,
-          flow?.triggered_entity_id,
-          isFetchingRef,
-          'custom_trigger/test/remove',
-          'post',
-          setIsLoading,
-          'hook_id'
-        )
+        callStopFetching()
       })
     } catch (err) {
       console.log(

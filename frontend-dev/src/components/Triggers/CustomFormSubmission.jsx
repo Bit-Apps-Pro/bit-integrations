@@ -64,17 +64,20 @@ const CustomFormSubmission = () => {
     setFlowStep(2)
   }
 
+  const callStopFetching = () => {
+    stopFetching(
+      controller,
+      newFlow?.triggerDetail?.triggered_entity_id,
+      isFetchingRef,
+      removeAction,
+      removeMethod,
+      setIsLoading
+    )
+  }
+
   const handleFetch = async () => {
     if (isFetchingRef.current) {
-      stopFetching(
-        controller,
-        newFlow?.triggerDetail?.triggered_entity_id,
-        isFetchingRef,
-        removeAction,
-        removeMethod,
-        setIsLoading
-      )
-
+      callStopFetching()
       return
     }
 
@@ -87,7 +90,7 @@ const CustomFormSubmission = () => {
 
     try {
       if (!isFetchingRef.current || !entityId) {
-        stopFetching()
+        callStopFetching()
         return
       }
 
@@ -111,7 +114,7 @@ const CustomFormSubmission = () => {
           setShowResponse(true)
         }
 
-        stopFetching(controller, entityId, isFetchingRef, removeAction, removeMethod, setIsLoading)
+        callStopFetching()
       })
     } catch (err) {
       console.log(
@@ -150,27 +153,13 @@ const CustomFormSubmission = () => {
 
   useEffect(() => {
     return () => {
-      stopFetching(
-        controller,
-        newFlow.triggerDetail.triggered_entity_id,
-        isFetchingRef,
-        removeAction,
-        removeMethod,
-        setIsLoading
-      )
+      callStopFetching()
     }
   }, [])
 
   const setTriggerEntityId = entityId => {
     if (isLoading || isFetchingRef.current) {
-      stopFetching(
-        controller,
-        newFlow.triggerDetail.triggered_entity_id,
-        isFetchingRef,
-        removeAction,
-        removeMethod,
-        setIsLoading
-      )
+      callStopFetching()
       return
     }
 
