@@ -70,6 +70,7 @@ final class AllTriggersName
             'Memberpress'            => ['name' => 'Memberpress',  'isPro' => true, 'is_active' => false],
             'Met'                    => ['name' => 'Met Form',  'isPro' => true, 'is_active' => false],
             'MetaBox'                => ['name' => 'MB Frontend Submission',  'isPro' => true, 'is_active' => false],
+            'Newsletter'             => ['name' => 'Newsletter',  'isPro' => true, 'is_active' => false],
             'NF'                     => ['name' => 'Ninja Forms',  'isPro' => true, 'is_active' => false],
             'NinjaTables'            => ['name' => 'Ninja Tables',  'isPro' => true, 'is_active' => false],
             'OptinMonster'           => ['name' => 'OptinMonster',  'isPro' => true, 'is_active' => false],
