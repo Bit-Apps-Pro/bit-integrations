@@ -9,13 +9,13 @@ class User
     public static function get($id)
     {
         if (empty($id)) {
-            return [];
+            return static::formattedUserTemp();
         }
 
         $user = new WP_User($id);
 
         if (empty($user->user_email)) {
-            return [];
+            return static::formattedUserTemp();
         }
 
         return static::formattedData($user);
@@ -24,7 +24,7 @@ class User
     public static function currentUser()
     {
         if (!is_user_logged_in()) {
-            return [];
+            return static::formattedUserTemp();
         }
 
         $current_user = wp_get_current_user();
@@ -43,6 +43,20 @@ class User
             'wp_user_email'      => $user->user_email,
             'wp_user_registered' => $user->user_registered,
             'wp_user_role'       => $user->roles,
+        ];
+    }
+
+    private static function formattedUserTemp()
+    {
+        return [
+            'wp_user_id'         => '',
+            'wp_user_login'      => '',
+            'wp_display_name'    => '',
+            'wp_user_first_name' => '',
+            'wp_user_last_name'  => '',
+            'wp_user_email'      => '',
+            'wp_user_registered' => '',
+            'wp_user_role'       => '',
         ];
     }
 }
