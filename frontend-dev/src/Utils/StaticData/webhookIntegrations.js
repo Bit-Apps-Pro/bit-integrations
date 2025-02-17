@@ -39,6 +39,7 @@ export const customFormIntegrations = [
   'FluentSMTP',
   'BbPress',
   'Newsletter',
+  'WishlistMember',
 ]
 
 export const actionHookIntegrations = ['ActionHook']

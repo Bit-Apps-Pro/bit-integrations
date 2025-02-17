@@ -110,6 +110,7 @@ final class AllTriggersName
             'WPFunnels'              => ['name' => 'WPFunnels',  'isPro' => true, 'is_active' => false],
             'WPJobManager'           => ['name' => 'WP Job Manager',  'isPro' => true, 'is_active' => false],
             'WSForm'                 => ['name' => 'WSForm',  'isPro' => true, 'is_active' => false],
+            'WishlistMember'         => ['name' => 'Wishlist Member',  'isPro' => true, 'is_active' => false],
         ];
     }
 }
