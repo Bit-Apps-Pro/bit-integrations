@@ -55,7 +55,7 @@ final class AllTriggersName
             'GF'                     => ['name' => 'Gravity Forms',  'isPro' => true, 'is_active' => false],
             'GiveWp'                 => ['name' => 'GiveWp',  'isPro' => true, 'is_active' => false],
             'Groundhogg'             => ['name' => 'Groundhogg',  'isPro' => true, 'is_active' => false],
-            'gutenaForms'            => ['name' => 'Gutena Forms',  'isPro' => true, 'is_active' => false],
+            'GutenaForms'            => ['name' => 'Gutena Forms',  'isPro' => true, 'is_active' => false],
             'Happy'                  => ['name' => 'Happy Forms',  'isPro' => true, 'is_active' => false],
             'Hustle'                 => ['name' => 'Hustle',  'isPro' => true, 'is_active' => false],
             'JetEngine'              => ['name' => 'JetEngine',  'isPro' => true, 'is_active' => false],
