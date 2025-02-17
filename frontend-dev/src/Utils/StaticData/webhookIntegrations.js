@@ -37,6 +37,7 @@ export const customFormIntegrations = [
   'CalculatedFieldsForm',
   'AmeliaBooking',
   'FluentSMTP',
+  'BbPress',
 ]
 
 export const actionHookIntegrations = ['ActionHook']
