@@ -1029,7 +1029,7 @@ export const customTriggerStateIH = (dataFlow, tmpConf) => {
 export const CFSStateIH = (dataFlow, tmpConf) => {
   tmpConf['primaryKey'] = dataFlow?.primaryKey
   tmpConf['fields'] = dataFlow?.fields
-  tmpConf['multi_form'] = dataFlow?.multi_form || ''
+  tmpConf['tasks'] = dataFlow?.tasks || ''
   tmpConf['fetch'] = dataFlow?.fetch || ''
   tmpConf['fetch_remove'] = dataFlow?.fetch_remove || ''
 

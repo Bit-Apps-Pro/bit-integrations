@@ -18,6 +18,8 @@ import EyeOffIcn from '../Utilities/EyeOffIcn'
 import Note from '../Utilities/Note'
 import SnackMsg from '../Utilities/SnackMsg'
 import WebhookDataTable from '../Utilities/WebhookDataTable'
+import useFetch from '../../hooks/useFetch'
+import Loader from '../Loaders/Loader'
 
 const CustomFormSubmission = () => {
   const [newFlow, setNewFlow] = useRecoilState($newFlow)
@@ -25,6 +27,7 @@ const CustomFormSubmission = () => {
   const setFormFields = useSetRecoilState($formFields)
   const [primaryKey, setPrimaryKey] = useState()
   const [skipPrimaryKey, setSkipPrimaryKey] = useState(false)
+  const [taskNote, setTaskNote] = useState()
   const [primaryKeyModal, setPrimaryKeyModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
@@ -37,6 +40,12 @@ const CustomFormSubmission = () => {
   const fetchMethod = newFlow?.triggerDetail?.fetch?.method || ''
   const removeAction = newFlow?.triggerDetail?.fetch_remove?.action || ''
   const removeMethod = newFlow?.triggerDetail?.fetch_remove?.method || ''
+  const { data: { data: allTasks = [] } = {}, isLoading: formsLoading } = useFetch({
+    payload: {},
+    action: newFlow?.triggerDetail?.tasks?.action || '',
+    method: newFlow?.triggerDetail?.tasks?.method || ''
+  })
+
   const { stopFetching } = CustomFetcherHelper(
     isFetchingRef,
     newFlow?.triggerDetail?.triggered_entity_id,
@@ -61,9 +70,9 @@ const CustomFormSubmission = () => {
       primaryKey: skipPrimaryKey ? false : primaryKey,
       trigger_type: newFlow?.triggerDetail?.type || 'custom_form_submission',
       fields: tmpNewFlow.triggerDetail.data,
+      tasks: newFlow?.triggerDetail?.tasks,
       fetch: newFlow?.triggerDetail?.fetch,
-      fetch_remove: newFlow?.triggerDetail?.fetch_remove,
-      multi_form: newFlow.triggerDetail?.multi_form
+      fetch_remove: newFlow?.triggerDetail?.fetch_remove
     }
 
     tmpNewFlow.triggered_entity_id = newFlow?.triggerDetail?.triggered_entity_id
@@ -167,25 +176,12 @@ const CustomFormSubmission = () => {
       })
     )
 
-    const multiForm = newFlow?.triggerDetail?.multi_form
-    const requiresPrimaryKey = multiForm?.some(
-      ({ triggered_entity_id, skipPrimaryKey: isSkipPrimaryKey }) =>
-        triggered_entity_id === entityId && isSkipPrimaryKey
-    )
-
-    setSkipPrimaryKey(requiresPrimaryKey)
+    const selectedTask = allTasks.filter(item => item.triggered_entity_id == entityId)
+    if (selectedTask?.length > 0) {
+      setTaskNote(selectedTask[0]?.note || '')
+      setSkipPrimaryKey(selectedTask[0]?.skipPrimaryKey || false)
+    }
   }
-
-  const info = `<h4>${sprintf(__('Follow these simple steps to set up the %s', 'bit-integrations'), newFlow?.triggerDetail?.name)}</h4>
-            <ul>
-              <li>${__('Click the <b>Fetch</b> button.', 'bit-integrations')}</li>
-              <li>${__('Submit <b>The Form</b> while the Fetch button is <b>spinning</b>.', 'bit-integrations')}</li>
-              <li>${__('After submitting the form, Click <b>Next</b> and then <b>Go</b></b>', 'bit-integrations')}</li>
-            </ul>
-            <p><b>${__('Important', 'bit-integrations')}:</b> ${__('The Fetch button will keep spinning until you submit the form.', 'bit-integrations')}</p>
-            <p><b>${__('Important', 'bit-integrations')}:</b> ${__('Choose a consistent unique identifier like <b>Form ID</b> (default) or <b>Post ID</b> for each form entry, or create a hidden custom field if unavailable.', 'bit-integrations')}</p>
-            ${newFlow?.triggerDetail?.note ? `<h4 className="mt-0">Note</h4>${newFlow?.triggerDetail?.note}` : ''}
-            ${TriggerDocLink(newFlow?.triggerDetail?.documentation_url, newFlow?.triggerDetail?.tutorial_url)}`
 
   return !newFlow?.triggerDetail?.is_active ? (
     <span className="mt-3">
@@ -194,15 +190,28 @@ const CustomFormSubmission = () => {
         newFlow?.triggerDetail?.name
       )}
     </span>
+  ) : formsLoading ? (
+    <div>
+      <br />
+      <Loader
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: 50,
+          transform: 'scale(0.7)'
+        }}
+      />
+    </div>
   ) : (
     <div className="trigger-custom-width">
-      {newFlow?.triggerDetail?.multi_form && newFlow?.triggerDetail?.multi_form.length > 0 && (
+      {allTasks && (
         <div className="w-8 m-a">
           <h4>{__('Select a Form/Task Name', 'bit-integrations')}</h4>
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={newFlow?.triggerDetail?.triggered_entity_id}
-            options={newFlow.triggerDetail?.multi_form?.map(field => ({
+            options={allTasks?.map(field => ({
               label: field?.form_name,
               value: field?.triggered_entity_id
             }))}
@@ -211,6 +220,12 @@ const CustomFormSubmission = () => {
             singleSelect
             selectOnClose
           />
+          {taskNote && (
+            <small className="trigger-task-note">
+              <strong>Note: </strong>
+              {taskNote}
+            </small>
+          )}
         </div>
       )}
       {newFlow?.triggerDetail?.triggered_entity_id && (
@@ -299,9 +314,22 @@ const CustomFormSubmission = () => {
         </>
       )}
       <div className="flx flx-center">
-        <Note note={info} isInstruction={true} />
+        <Note note={info(newFlow)} isInstruction={true} />
       </div>
     </div>
   )
 }
+
+const info =
+  newFlow => `<h4>${sprintf(__('Follow these simple steps to set up the %s', 'bit-integrations'), newFlow?.triggerDetail?.name)}</h4>
+            <ul>
+              <li>${__('Click the <b>Fetch</b> button.', 'bit-integrations')}</li>
+              <li>${__('Submit <b>The Form</b> while the Fetch button is <b>spinning</b>.', 'bit-integrations')}</li>
+              <li>${__('After submitting the form, Click <b>Next</b> and then <b>Go</b></b>', 'bit-integrations')}</li>
+            </ul>
+            <p><b>${__('Important', 'bit-integrations')}:</b> ${__('The Fetch button will keep spinning until you submit the form/task.', 'bit-integrations')}</p>
+            <p><b>${__('Important', 'bit-integrations')}:</b> ${__('Choose a consistent unique identifier like <b>Form ID</b> (default) or <b>Post ID</b> for each form entry, or create a hidden custom field if unavailable.', 'bit-integrations')}</p>
+            ${newFlow?.triggerDetail?.note ? `<h4 className="mt-0">Note</h4>${newFlow?.triggerDetail?.note}` : ''}
+            ${TriggerDocLink(newFlow?.triggerDetail?.documentation_url, newFlow?.triggerDetail?.tutorial_url)}`
+
 export default CustomFormSubmission
