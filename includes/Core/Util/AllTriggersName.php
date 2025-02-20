@@ -53,6 +53,7 @@ final class AllTriggersName
             'Forminator'             => ['name' => 'Forminator',  'isPro' => true, 'is_active' => false],
             'GamiPress'              => ['name' => 'GamiPress',  'isPro' => true, 'is_active' => false],
             'GF'                     => ['name' => 'Gravity Forms',  'isPro' => true, 'is_active' => false],
+            'GravityKit'             => ['name' => 'Gravity Kit',  'isPro' => true, 'is_active' => false],
             'GiveWp'                 => ['name' => 'GiveWp',  'isPro' => true, 'is_active' => false],
             'Groundhogg'             => ['name' => 'Groundhogg',  'isPro' => true, 'is_active' => false],
             'GutenaForms'            => ['name' => 'Gutena Forms',  'isPro' => true, 'is_active' => false],

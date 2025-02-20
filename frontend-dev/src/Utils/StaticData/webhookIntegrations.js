@@ -40,6 +40,7 @@ export const customFormIntegrations = [
   'BbPress',
   'Newsletter',
   'WishlistMember',
+  'GravityKit',
 ]
 
 export const actionHookIntegrations = ['ActionHook']
