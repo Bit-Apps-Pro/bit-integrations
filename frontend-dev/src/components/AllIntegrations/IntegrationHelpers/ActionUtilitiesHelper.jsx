@@ -19,20 +19,14 @@ const getProFeatureSubtitle = (title, subTitle, proVersion) => {
 }
 
 const getProFeatureTitle = title => {
+  const btcbi = useRecoilValue($btcbi)
+  const { isPro } = btcbi
+
   return (
     <span>
       {title}
       &nbsp;
-      <span
-        style={{
-          backgroundColor: '#7902f8',
-          color: 'white',
-          padding: '2px 4px',
-          textAlign: 'center',
-          borderRadius: '5px'
-        }}>
-        {__('Pro', 'bit-integrations')}
-      </span>
+      {!isPro && <span className="pro-btn">{__('Pro', 'bit-integrations')}</span>}
     </span>
   )
 }
