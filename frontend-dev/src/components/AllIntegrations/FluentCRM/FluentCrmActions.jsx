@@ -9,8 +9,15 @@ import MultiSelect from 'react-multiple-select-dropdown-lite'
 import Loader from '../../Loaders/Loader'
 import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
+import { getProFeatureSubtitle, getProFeatureTitle } from '../IntegrationHelpers/ActionUtilitiesHelper'
 
-export default function FluentCrmActions({ fluentCrmConf, setFluentCrmConf, loading, setLoading, setSnackbar }) {
+export default function FluentCrmActions({
+  fluentCrmConf,
+  setFluentCrmConf,
+  loading,
+  setLoading,
+  setSnackbar
+}) {
   const [actionMdl, setActionMdl] = useState({ show: false })
   const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
@@ -50,7 +57,7 @@ export default function FluentCrmActions({ fluentCrmConf, setFluentCrmConf, load
     <div className="pos-rel d-flx w-8">
       <TableCheckBox
         checked={fluentCrmConf.actions?.skip_if_exists || false}
-        onChange={(e) => actionHandler(e, 'exists')}
+        onChange={e => actionHandler(e, 'exists')}
         className="wdt-200 mt-4 mr-2"
         value="skip_if_exists"
         title={__('Skip exist Contact', 'bit-integrations')}
@@ -58,7 +65,7 @@ export default function FluentCrmActions({ fluentCrmConf, setFluentCrmConf, load
       />
       <TableCheckBox
         checked={fluentCrmConf.actions?.double_opt_in || false}
-        onChange={(e) => actionHandler(e, 'doubleOpIn')}
+        onChange={e => actionHandler(e, 'doubleOpIn')}
         className="wdt-200 mt-4 mr-2"
         value="double_opt_in"
         title={__('Double Opt-in', 'bit-integrations')}
@@ -66,22 +73,16 @@ export default function FluentCrmActions({ fluentCrmConf, setFluentCrmConf, load
       />
       <TableCheckBox
         checked={fluentCrmConf.actions?.company_id || false}
-        onChange={(e) => actionHandler(e, 'company_id')}
+        onChange={e => actionHandler(e, 'company_id')}
         className="wdt-200 mt-4 mr-2"
         value="company_id"
         isInfo={!isPro}
-        title={`${__('Assign Company', 'bit-integrations')} ${!isPro ? '(Pro)' : ''}`}
-        subTitle={isPro
-          ? __('Assign Company for contact', 'bit-integrations')
-          : sprintf(
-            __(
-              'The Bit Integration Pro v(%s) plugin needs to be installed and activated to enable the %s feature',
-              'bit-integrations'
-            ),
-            '2.3.8',
-            __('Assign Company', 'bit-integrations')
-          )
-        }
+        title={getProFeatureTitle(__('Assign Company', 'bit-integrations'))}
+        subTitle={getProFeatureSubtitle(
+          __('Assign Company', 'bit-integrations'),
+          __('Assign Company for contact', 'bit-integrations'),
+          '2.3.8'
+        )}
       />
 
       {isPro && (
@@ -109,10 +110,13 @@ export default function FluentCrmActions({ fluentCrmConf, setFluentCrmConf, load
           ) : (
             <div className="flx flx-center mt-2">
               <MultiSelect
-                options={fluentCrmConf?.companies && fluentCrmConf.companies.map(item => ({ label: item.label, value: item.id.toString() }))}
+                options={
+                  fluentCrmConf?.companies &&
+                  fluentCrmConf.companies.map(item => ({ label: item.label, value: item.id.toString() }))
+                }
                 className="msl-wrp-options"
                 defaultValue={fluentCrmConf.actions?.company_id?.toString() || ''}
-                onChange={(val) => actionHandler(val, 'company')}
+                onChange={val => actionHandler(val, 'company')}
                 singleSelect
                 selectOnClose
               />

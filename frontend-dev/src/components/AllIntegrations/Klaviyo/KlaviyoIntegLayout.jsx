@@ -5,12 +5,14 @@ import Loader from '../../Loaders/Loader'
 import { getAllLists, addFieldMap, generateMappedField } from './KlaviyoCommonFunc'
 import KlaviyoFieldMap from './KlaviyoFieldMap'
 import { $btcbi } from '../../../GlobalStates'
+import KlaviyoActions from './KlaviyoActions'
+import { getProFeatureSubtitle, getProFeatureTitle } from '../IntegrationHelpers/ActionUtilitiesHelper'
 
 function KlaviyoIntegLayout({ klaviyoConf, setKlaviyoConf, formFields, loading, setLoading }) {
   const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
 
-  const handleList = (e) => {
+  const handleList = e => {
     const newConf = { ...klaviyoConf }
     const { name } = e.target
     if (e.target.value !== '') {
@@ -106,10 +108,7 @@ function KlaviyoIntegLayout({ klaviyoConf, setKlaviyoConf, formFields, loading, 
       )}
       {klaviyoConf?.listId && (
         <div className="mt-5">
-          <b className="wdt-100">
-            {__('Custom Properties', 'bit-integrations')}{' '}
-            {isPro ? '' : `(${__('Pro', 'bit-integrations')})`}
-          </b>
+          <b className="wdt-100">{getProFeatureTitle(__('Custom Properties', 'bit-integrations'))}</b>
           <div className="btcd-hr mt-2 mb-4" />
           {isPro ? (
             <>
@@ -150,16 +149,26 @@ function KlaviyoIntegLayout({ klaviyoConf, setKlaviyoConf, formFields, loading, 
             </>
           ) : (
             <p>
-              {sprintf(
-                __(
-                  'The Bit Integration Pro v(%s) plugin needs to be installed and activated to enable the %s feature',
-                  'bit-integrations'
-                ),
-                '2.2.2',
-                __('Custom Properties', 'bit-integrations')
+              {getProFeatureSubtitle(
+                __('Custom Properties', 'bit-integrations'),
+                __('Custom Properties', 'bit-integrations'),
+                '2.2.2'
               )}
             </p>
           )}
+          <br />
+          <br />
+          <div className="mt-4">
+            <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
+          </div>
+          <div className="btcd-hr mt-1" />
+          <KlaviyoActions
+            klaviyoConf={klaviyoConf}
+            setKlaviyoConf={setKlaviyoConf}
+            formFields={formFields}
+            loading={loading}
+            setLoading={setLoading}
+          />
         </div>
       )}
     </div>

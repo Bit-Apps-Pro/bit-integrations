@@ -9,6 +9,7 @@ import Loader from '../../Loaders/Loader'
 import { getAllBusinessInboxes, supportStaff } from './FluentSupportCommonFunc'
 import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
+import { getProFeatureSubtitle, getProFeatureTitle } from '../IntegrationHelpers/ActionUtilitiesHelper'
 
 export default function FluentSupportActions({
   fluentSupportConf,
@@ -48,13 +49,7 @@ export default function FluentSupportActions({
   }
   const openBusinessInboxModal = () => {
     if (!fluentSupportConf.default?.businessInboxes) {
-      getAllBusinessInboxes(
-        formID,
-        fluentSupportConf,
-        setFluentSupportConf,
-        setIsLoading,
-        setSnackbar
-      )
+      getAllBusinessInboxes(formID, fluentSupportConf, setFluentSupportConf, setIsLoading, setSnackbar)
     }
     setActionMdl({ show: 'business_inboxes' })
   }
@@ -73,10 +68,7 @@ export default function FluentSupportActions({
             className="wdt-200 mt-4 mr-2"
             value="support_staff"
             title={__('Support Staff', 'bit-integrations')}
-            subTitle={__(
-              'Add a Support Staff to ticket pushed to fluentSupport.',
-              'bit-integrations'
-            )}
+            subTitle={__('Add a Support Staff to ticket pushed to fluentSupport.', 'bit-integrations')}
           />
           {!fluentSupportConf.actions.support_staff && (
             <small style={{ marginLeft: 30, marginTop: 10, color: 'red' }}>
@@ -106,22 +98,15 @@ export default function FluentSupportActions({
           className="wdt-200 mt-4 mr-2"
           value="Attachment"
           isInfo={!isPro}
-          title={__(`Attachment ${!isPro ? '(Pro)' : ''}`, 'bit-integrations')}
-          subTitle={
-            isPro
-              ? __(
-                  'Supported Types: Photos, CSV, PDF/Docs, Zip, JSON and max file size: 2.0MB',
-                  'bit-integrations'
-                )
-              : sprintf(
-                  __(
-                    'The Bit Integration Pro v(%s) plugin needs to be installed and activated to enable the %s feature',
-                    'bit-integrations'
-                  ),
-                  '2.1.7',
-                  __('Upsert Record', 'bit-integrations')
-                )
-          }
+          title={getProFeatureTitle(__('Attachment', 'bit-integrations'))}
+          subTitle={getProFeatureSubtitle(
+            __('Upsert Record', 'bit-integrations'),
+            __(
+              'Supported Types: Photos, CSV, PDF/Docs, Zip, JSON and max file size: 2.0MB',
+              'bit-integrations'
+            ),
+            '2.1.7'
+          )}
         />
       </div>
 
@@ -150,10 +135,10 @@ export default function FluentSupportActions({
             <select
               value={fluentSupportConf.actions.support_staff}
               className="btcd-paper-inp"
-              onChange={(e) => actionHandler(e.target.value, 'support_staff')}>
+              onChange={e => actionHandler(e.target.value, 'support_staff')}>
               <option value="">{__('Select Support Staff', 'bit-integrations')}</option>
               {fluentSupportConf?.default?.agents &&
-                fluentSupportConf.default.agents.map((staff) => (
+                fluentSupportConf.default.agents.map(staff => (
                   <option
                     key={staff.id}
                     value={`${staff.id}`}>{`${staff.first_name || staff.last_name ? staff.first_name + ' ' + staff.last_name : staff.email}`}</option>
@@ -161,13 +146,7 @@ export default function FluentSupportActions({
             </select>
             <button
               onClick={() =>
-                supportStaff(
-                  formID,
-                  fluentSupportConf,
-                  setFluentSupportConf,
-                  setIsLoading,
-                  setSnackbar
-                )
+                supportStaff(formID, fluentSupportConf, setFluentSupportConf, setIsLoading, setSnackbar)
               }
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': '"Refresh Support Staff"' }}
@@ -194,7 +173,7 @@ export default function FluentSupportActions({
           singleSelect
           defaultValue={fluentSupportConf.actions.client_priority}
           className="mt-2 w-9"
-          onChange={(val) => actionHandler(val, 'client_priority')}
+          onChange={val => actionHandler(val, 'client_priority')}
           options={options}
         />
       </ConfirmModal>
@@ -224,10 +203,10 @@ export default function FluentSupportActions({
             <select
               value={fluentSupportConf.actions.business_inbox}
               className="btcd-paper-inp"
-              onChange={(e) => actionHandler(e.target.value, 'business_inbox')}>
+              onChange={e => actionHandler(e.target.value, 'business_inbox')}>
               <option value="">{__('Select Business Inbox', 'bit-integrations')}</option>
               {fluentSupportConf?.default?.businessInboxes &&
-                fluentSupportConf.default.businessInboxes.map((inbox) => (
+                fluentSupportConf.default.businessInboxes.map(inbox => (
                   <option key={inbox.id} value={`${inbox.id}`}>
                     {inbox.name}
                   </option>
@@ -268,10 +247,10 @@ export default function FluentSupportActions({
           <MultiSelect
             defaultValue={fluentSupportConf.actions.attachment}
             className="mt-2 w-9"
-            onChange={(val) => actionHandler(val, 'attachment')}
+            onChange={val => actionHandler(val, 'attachment')}
             options={formFields
-              .filter((itm) => itm.type === 'file')
-              .map((itm) => ({ label: itm.label, value: itm.name }))}
+              .filter(itm => itm.type === 'file')
+              .map(itm => ({ label: itm.label, value: itm.name }))}
             singleSelect
             closeOnSelect
           />
