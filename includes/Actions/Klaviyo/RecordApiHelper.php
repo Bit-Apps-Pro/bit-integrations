@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\Klaviyo;
 
+use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record Add Member
@@ -93,12 +93,12 @@ class RecordApiHelper
 
     private function existProfile($email, $authKey)
     {
-        $apiEndpoints = "https://a.klaviyo.com/api/profiles?filter=equals(email,'{$email}')";
-        $apiResponse = HttpHelper::get($apiEndpoints, null, $this->setHeaders($authKey));
-
-        if (empty($apiResponse->data)) {
+        if (empty($email)) {
             return false;
         }
+
+        $apiEndpoints = "https://a.klaviyo.com/api/profiles?filter=equals(email,'{$email}')";
+        $apiResponse = HttpHelper::get($apiEndpoints, null, $this->setHeaders($authKey));
 
         return $apiResponse->data[0]->id ?? false;
     }
@@ -107,6 +107,7 @@ class RecordApiHelper
     {
         $apiEndpoints = "{$this->baseUrl}profiles";
         $apiResponse = HttpHelper::post($apiEndpoints, wp_json_encode($data), $this->setHeaders($authKey));
+
         if (!isset($apiResponse->data)) {
             return $apiResponse;
         }
