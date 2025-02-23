@@ -39,27 +39,31 @@ export default function ChangelogToggle() {
       headClass: 'new-trigger',
       itemClass: 'integration-list',
       items: [
-        { label: 'Calculated Fields Form', desc: '', isPro: true },
-        { label: 'Ninja Tables: Row Deleted trigger', desc: '', isPro: true }
+        { label: 'Amelia Booking', desc: '', isPro: true },
+        { label: 'bbPress', desc: '', isPro: true },
+        { label: 'FluentSMTP', desc: '', isPro: true },
+        { label: 'GravityKit', desc: '', isPro: true },
+        { label: 'Newsletter', desc: '', isPro: true },
+        { label: 'Wishlist Member', desc: '', isPro: true }
       ]
     },
     {
       label: __('New Features', 'bit-integrations'),
       headClass: 'new-feature',
       itemClass: 'feature-list',
-      items: []
+      items: [
+        {
+          label: 'Klaviyo',
+          desc: 'Update Profile feature added for enhanced audience segmentation and personalization.',
+          isPro: true
+        }
+      ]
     },
     {
       label: __('New Improvements', 'bit-integrations'),
       headClass: 'new-improvement',
       itemClass: 'feature-list',
-      items: [
-        {
-          label: 'Performance Optimization',
-          desc: 'Improved the captured triggers data functionality to reduce CPU and RAM usage for better performance and efficiency.',
-          isPro: false
-        }
-      ]
+      items: []
     }
   ]
 
@@ -166,7 +170,7 @@ export default function ChangelogToggle() {
                                 {item?.label && item?.desc && <b>:&nbsp;</b>}
                                 {item?.desc && <span>{item.desc}</span>}
                                 &nbsp;
-                                {item?.isPro && <span className="txt-purple">(Pro)</span>}
+                                {item?.isPro && <small className="pro-btn">Pro</small>}
                               </li>
                             ))}
                           </ul>
