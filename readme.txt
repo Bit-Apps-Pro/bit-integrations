@@ -7,7 +7,7 @@ Requires PHP: 7.4
 Stable tag: 2.4.9
 License: GPLv2 or later
 
-Automation Plugin for WordPress. Integration of 90+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
+Automation Plugin for WordPress. Integration of 110+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
 
 == Description ==
 
@@ -1222,7 +1222,7 @@ Yes, you can automate with Google Sheets, Google Calendar, Google Drive, Google 
 = 13. What users say about Bit Integrations?=
 Bit Integrations is self hosted Zapier with chepest price. You can automate with over 260+ popular platforms, such as CRMs, marketing tools, and more.
 = 14. Can I automate WordPress?=
-Yes, you can automate WordPress with 60+ trigger and 150+ actions.
+Yes, you can automate WordPress with 110+ trigger and 150+ actions.
 = 15. Can Bit Integrations connect plugins with external services like Zapier, Pabbly, N8N?=
 Yes, you can connect plugins with external services like Zapier, Pabbly, N8N with webhook.
 = 16. Does Bit Integrations works as like as Zapier in Wordpress?=
