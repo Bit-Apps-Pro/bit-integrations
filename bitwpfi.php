@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Bit Integrations
  * Plugin URI:  https://bitapps.pro/bit-integrations
- * Description: Bit Integrations is a platform that integrates with over 250+ different platforms to help with various tasks on your WordPress site, like WooCommerce, Form builder, Page builder, LMS, Sales funnels, Bookings, CRM, Webhooks, Email marketing, Social media and Spreadsheets, etc
+ * Description: Bit Integrations is a platform that integrates with over 260+ different platforms to help with various tasks on your WordPress site, like WooCommerce, Form builder, Page builder, LMS, Sales funnels, Bookings, CRM, Webhooks, Email marketing, Social media and Spreadsheets, etc
  * Version:     2.4.9
  * Author:    Automation & Integration Plugin - Bit Apps
  * Author URI:  https://bitapps.pro
