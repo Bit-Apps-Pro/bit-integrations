@@ -1264,6 +1264,7 @@ _Release Date -24th February 2025_
 
 - **Bug Fixes**
  - Google Drive: Resolved the file path issue to ensure smoother file handling and syncing.
+ - Chore: Conditional Undefined Array Key Handling.
 
 = 2.4.8 =
 _Release Date -16th February 2025_
