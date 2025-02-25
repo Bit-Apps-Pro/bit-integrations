@@ -32,28 +32,10 @@ export default function ProModal({ show, setShow, title, sub, className, childre
             )}
           </p>
           {children}
-          <div className={`d-flx flx-center ${warning && 'mt-3'}`}>
-            <a
-              href="https://towp.io/?demo&plugin=bit-integrations"
-              target="_blank"
-              className="btn btcd-btn-o-gray gray gray-sh w-4 mr-2 br-50 btn-lg "
-              rel="noreferrer">
-              {__('Try Demo', 'bit-integrations')}
-            </a>
-            <a
-              href="https://bitapps.pro/bit-integrations/#pricing"
-              target="_blank"
-              className="btn btcd-btn-o-white purple w-4 mr-2 br-50 btn-lg"
-              rel="noreferrer">
-              {__('Upgrade to Pro', 'bit-integrations')}
-            </a>
-          </div>
+          <ProModalBtnGrp warning={warning} />
           <p>
             {__('Check out our', 'bit-integrations')}
-            <a
-              href="https://towp.io/?demo&plugin=bit-integrations"
-              target="_blank"
-              rel="noreferrer">
+            <a href="https://towp.io/?demo&plugin=bit-integrations" target="_blank" rel="noreferrer">
               {__(' Demo ', 'bit-integrations')}
             </a>
             {__('to see what can you do with Pro version.', 'bit-integrations')}
@@ -61,5 +43,26 @@ export default function ProModal({ show, setShow, title, sub, className, childre
         </div>
       </div>
     </Modal>
+  )
+}
+
+export const ProModalBtnGrp = warning => {
+  return (
+    <div className={`d-flx flx-center ${warning && 'mt-3'}`}>
+      <a
+        href="https://towp.io/?demo&plugin=bit-integrations"
+        target="_blank"
+        className="btn btcd-btn-o-gray gray gray-sh w-4 mr-2 br-50 btn-lg "
+        rel="noreferrer">
+        {__('Try Demo', 'bit-integrations')}
+      </a>
+      <a
+        href="https://bitapps.pro/bit-integrations/#pricing"
+        target="_blank"
+        className="btn btcd-btn-o-white purple w-4 mr-2 br-50 btn-lg"
+        rel="noreferrer">
+        {__('Upgrade to Pro', 'bit-integrations')}
+      </a>
+    </div>
   )
 }

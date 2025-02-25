@@ -19,7 +19,7 @@ function KlaviyoAuthorization({
   const [error, setError] = useState({ name: '', authKey: '' })
   const { klaviyo } = tutorialLinks
 
-  const handleInput = (e) => {
+  const handleInput = e => {
     const newConf = { ...klaviyoConf }
     const koError = { ...error }
     koError[e.target.name] = ''
@@ -85,6 +85,7 @@ function KlaviyoAuthorization({
 
         <small className="d-blk mt-1">
           {__('To get API key, please visit', 'bit-integrations')}
+          &nbsp;
           <a
             className="btcd-link"
             href="https://www.klaviyo.com/account#api-keys-tab"

@@ -10,6 +10,7 @@ import Loader from '../../Loaders/Loader'
 import { refreshUsers, refreshTags } from './ZohoBiginCommonFunc'
 import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
+import { getProFeatureSubtitle, getProFeatureTitle } from '../IntegrationHelpers/ActionUtilitiesHelper'
 
 export default function ZohoBiginActions({
   tab,
@@ -68,7 +69,7 @@ export default function ZohoBiginActions({
         {biginConf?.relatedlists?.[tab - 1]?.module !== 'Notes' && (
           <>
             <TableCheckBox
-              onChange={(e) => actionHandler(true, 'workflow', e.target.checked)}
+              onChange={e => actionHandler(true, 'workflow', e.target.checked)}
               checked={
                 tab === 0
                   ? 'workflow' in biginConf.actions
@@ -80,7 +81,7 @@ export default function ZohoBiginActions({
               subTitle={__('Trigger workflows in Zoho Bigin.', 'bit-integrations')}
             />
             <TableCheckBox
-              onChange={(e) => actionHandler(true, 'approval', e.target.checked)}
+              onChange={e => actionHandler(true, 'approval', e.target.checked)}
               checked={
                 tab === 0
                   ? 'approval' in biginConf.actions
@@ -101,10 +102,7 @@ export default function ZohoBiginActions({
                 className="wdt-200 mt-4 mr-2"
                 value="notes"
                 title={__('Add a Note', 'bit-integrations')}
-                subTitle={__(
-                  'Add a note from bitform to pushed to Zoho Bigin.',
-                  'bit-integrations'
-                )}
+                subTitle={__('Add a note from bitform to pushed to Zoho Bigin.', 'bit-integrations')}
               />
             )}
           </>
@@ -148,19 +146,12 @@ export default function ZohoBiginActions({
           className="wdt-200 mt-4 mr-2"
           value="tags"
           isInfo={!isPro}
-          title={`${__('Tags', 'bit-integrations')} ${isPro ? '' : `(${__('Pro', 'bit-integrations')})`}`}
-          subTitle={
-            isPro
-              ? __('add tags to records', 'bit-integrations')
-              : sprintf(
-                  __(
-                    'The Bit Integration Pro v(%s) plugin needs to be installed and activated to enable the %s feature',
-                    'bit-integrations'
-                  ),
-                  '2.2.6',
-                  __('Tags', 'bit-integrations')
-                )
-          }
+          title={getProFeatureTitle(__('Tags', 'bit-integrations'))}
+          subTitle={getProFeatureSubtitle(
+            __('Tags', 'bit-integrations'),
+            __('add tags to records', 'bit-integrations'),
+            '2.2.6'
+          )}
         />
       </div>
 
@@ -182,10 +173,10 @@ export default function ZohoBiginActions({
               : biginConf.relatedlists[tab - 1].actions.attachments
           }
           className="mt-2 w-9"
-          onChange={(val) => actionHandler(val, 'attachments')}
+          onChange={val => actionHandler(val, 'attachments')}
           options={formFields
-            .filter((itm) => itm.type === 'file')
-            .map((itm) => ({ label: itm.label, value: itm.name }))}
+            .filter(itm => itm.type === 'file')
+            .map(itm => ({ label: itm.label, value: itm.name }))}
         />
       </ConfirmModal>
 
@@ -205,10 +196,10 @@ export default function ZohoBiginActions({
             tab === 0 ? biginConf.actions.photo : biginConf.relatedlists[tab - 1].actions.photo
           }
           className="mt-2 w-9"
-          onChange={(val) => actionHandler(val, 'photo')}
+          onChange={val => actionHandler(val, 'photo')}
           options={formFields
-            .filter((itm) => itm.type === 'file')
-            .map((itm) => ({ label: itm.label, value: itm.name }))}
+            .filter(itm => itm.type === 'file')
+            .map(itm => ({ label: itm.label, value: itm.name }))}
           singleSelect
         />
       </ConfirmModal>
@@ -242,18 +233,16 @@ export default function ZohoBiginActions({
               }
               options={
                 biginConf.default?.users &&
-                Object.values(biginConf.default.users).map((user) => ({
+                Object.values(biginConf.default.users).map(user => ({
                   label: user.userName,
                   value: user.userId
                 }))
               }
-              onChange={(val) => actionHandler(val, 'owner')}
+              onChange={val => actionHandler(val, 'owner')}
               customValue
             />
             <button
-              onClick={() =>
-                refreshUsers(formID, biginConf, setBiginConf, setIsLoading, setSnackbar)
-              }
+              onClick={() => refreshUsers(formID, biginConf, setBiginConf, setIsLoading, setSnackbar)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': '"Refresh Users"' }}
               type="button"
@@ -292,7 +281,7 @@ export default function ZohoBiginActions({
                 type="text"
                 className="btcd-paper-inp"
                 placeholder={__('Note Title', 'bit-integrations')}
-                onChange={(e) => handleNoteAction('title', e.target.value)}
+                onChange={e => handleNoteAction('title', e.target.value)}
                 value={
                   tab === 0
                     ? biginConf.actions?.note?.title || ''
@@ -302,10 +291,10 @@ export default function ZohoBiginActions({
               <div className="mt-2 mb-1">{__('Note Content', 'bit-integrations')}</div>
               <select
                 className="btcd-paper-inp w-5"
-                onChange={(e) => handleNoteAction('field', e.target.value)}>
+                onChange={e => handleNoteAction('field', e.target.value)}>
                 <option value="">{__('Field', 'bit-integrations')}</option>
                 {formFields.map(
-                  (f) =>
+                  f =>
                     f.type !== 'file' && (
                       <option key={`ff-zhcrm-${f.name}`} value={`\${${f.name}}`}>
                         {f.label}
@@ -316,7 +305,7 @@ export default function ZohoBiginActions({
               <textarea
                 rows="5"
                 className="btcd-paper-inp mt-2"
-                onChange={(e) => handleNoteAction('content', e.target.value)}
+                onChange={e => handleNoteAction('content', e.target.value)}
                 value={
                   tab === 0
                     ? biginConf.actions?.note?.content || ''
@@ -360,12 +349,12 @@ export default function ZohoBiginActions({
                 }
                 options={
                   biginConf.default?.moduleData[module]?.tags &&
-                  Object.values(biginConf.default?.moduleData[module]?.tags).map((tag) => ({
+                  Object.values(biginConf.default?.moduleData[module]?.tags).map(tag => ({
                     label: tag,
                     value: tag
                   }))
                 }
-                onChange={(val) => actionHandler(val, 'selectedTags')}
+                onChange={val => actionHandler(val, 'selectedTags')}
                 customValue
               />
               <button

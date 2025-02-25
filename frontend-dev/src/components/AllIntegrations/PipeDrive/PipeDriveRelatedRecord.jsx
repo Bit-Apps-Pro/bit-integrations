@@ -7,6 +7,7 @@ import { handleTabChange } from './PipeDriveCommonFunc'
 import PipeDriveFieldMap from './PipeDriveFieldMap'
 import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
+import ActionProFeatureComponent from '../IntegrationHelpers/ActionProFeatureComponent'
 
 export default function PipeDriveRelatedRecord({
   indx,
@@ -25,15 +26,7 @@ export default function PipeDriveRelatedRecord({
   const { isPro } = btcbi
 
   useEffect(() => {
-    handleTabChange(
-      indx + 1,
-      settab,
-      formID,
-      pipeDriveConf,
-      setPipeDriveConf,
-      setIsLoading,
-      setSnackbar
-    )
+    handleTabChange(indx + 1, settab, formID, pipeDriveConf, setPipeDriveConf, setIsLoading, setSnackbar)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   // eslint-disable-next-line no-undef
@@ -53,20 +46,7 @@ export default function PipeDriveRelatedRecord({
       )}
       <br />
       <br />
-      <div className="pos-rel">
-        {!isPro && (
-          <div className="pro-blur flx p-3">
-            <div className="pro">
-              <a
-                href="https://bitapps.pro/bit-integrations/#pricing"
-                target="_blank"
-                rel="noreferrer">
-                {__('Related List', 'bit-integrations')} {__('Available On', 'bit-integrations')}
-                <span className="txt-pro"> ({__('Pro', 'bit-integrations')})</span>
-              </a>
-            </div>
-          </div>
-        )}
+      <ActionProFeatureComponent title={__('Related List', 'bit-integrations')}>
         <b className="wdt-100 d-in-b">{__('Related List:', 'bit-integrations')}</b>
         <select
           onChange={handleInput}
@@ -76,7 +56,7 @@ export default function PipeDriveRelatedRecord({
           disabled={!pipeDriveConf.moduleData?.module}>
           <option value="">{__('Select Related Module', 'bit-integrations')}</option>
           {pipeDriveConf.default.modules[pipeDriveConf.moduleData.module]?.relatedlists?.map(
-            (relatedlistApiName) => (
+            relatedlistApiName => (
               <option key={relatedlistApiName.name} value={relatedlistApiName.name}>
                 {relatedlistApiName.name}
               </option>
@@ -145,7 +125,7 @@ export default function PipeDriveRelatedRecord({
             />
           </>
         )}
-      </div>
+      </ActionProFeatureComponent>
 
       {pipeDriveConf.default.modules[pipeDriveConf.relatedlists[tab - 1]?.module] &&
         !pipeDriveConf.default.modules[pipeDriveConf?.relatedlists?.[tab - 1]?.module]?.fields && (
