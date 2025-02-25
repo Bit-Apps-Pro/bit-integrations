@@ -128,15 +128,16 @@ final class Common
         }
         $condition->val = self::replaceFieldWithValue($condition->val, $data);
 
-        if (\is_array($data[$condition->field]) || \is_object($data[$condition->field])) {
+        if (!empty($data[$condition->field]) && (\is_array($data[$condition->field]) || \is_object($data[$condition->field]))) {
             $fieldValue = $data[$condition->field];
             $valueToCheck = explode(',', $condition->val);
             $isArr = true;
         } else {
-            $fieldValue = $data[$condition->field];
+            $fieldValue = $data[$condition->field] ?? null;
             $valueToCheck = $condition->val;
             $isArr = false;
         }
+
         switch ($condition->logic) {
             case 'equal':
                 if ($isArr) {

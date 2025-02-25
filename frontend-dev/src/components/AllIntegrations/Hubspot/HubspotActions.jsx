@@ -11,6 +11,7 @@ import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { getAllCompany, getAllContacts, getAllIndustry, getAllOwners } from './HubspotCommonFunc'
 import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
+import { getProFeatureSubtitle, getProFeatureTitle } from '../IntegrationHelpers/ActionUtilitiesHelper'
 
 export default function HubspotActions({
   hubspotConf,
@@ -162,7 +163,7 @@ export default function HubspotActions({
       {hubspotConf?.actionName && (
         <TableCheckBox
           checked={hubspotConf?.contact_owner?.length || false}
-          onChange={(e) => actionHandler(e, 'contact_owner')}
+          onChange={e => actionHandler(e, 'contact_owner')}
           className="wdt-200 mt-4 mr-2"
           value="contact_owner"
           title={__('Contact Owner', 'bit-integrations')}
@@ -172,7 +173,7 @@ export default function HubspotActions({
       {(hubspotConf?.actionName === 'contact' || hubspotConf?.actionName === 'company') && (
         <TableCheckBox
           checked={hubspotConf?.lifecycle_stage || false}
-          onChange={(e) => actionHandler(e, 'lifecycle_stage')}
+          onChange={e => actionHandler(e, 'lifecycle_stage')}
           className="wdt-200 mt-4 mr-2"
           value="lifecycle_stage"
           title={__('Lifecycle Stage', 'bit-integrations')}
@@ -182,7 +183,7 @@ export default function HubspotActions({
       {(hubspotConf?.actionName === 'contact' || hubspotConf?.actionName === 'company') && (
         <TableCheckBox
           checked={hubspotConf?.lead_status || false}
-          onChange={(e) => actionHandler(e, 'lead_status')}
+          onChange={e => actionHandler(e, 'lead_status')}
           className="wdt-200 mt-4 mr-2"
           value="lead_status"
           title={__('Lead Status', 'bit-integrations')}
@@ -192,7 +193,7 @@ export default function HubspotActions({
       {hubspotConf?.actionName === 'deal' && (
         <TableCheckBox
           checked={hubspotConf?.contact || false}
-          onChange={(e) => actionHandler(e, 'contact')}
+          onChange={e => actionHandler(e, 'contact')}
           className="wdt-200 mt-4 mr-2"
           value="contact"
           title={__('Contact', 'bit-integrations')}
@@ -202,7 +203,7 @@ export default function HubspotActions({
       {hubspotConf?.actionName === 'deal' && (
         <TableCheckBox
           checked={hubspotConf?.company || false}
-          onChange={(e) => actionHandler(e, 'company')}
+          onChange={e => actionHandler(e, 'company')}
           className="wdt-200 mt-4 mr-2"
           value="company"
           title={__('Company', 'bit-integrations')}
@@ -212,7 +213,7 @@ export default function HubspotActions({
       {hubspotConf?.actionName === 'deal' && (
         <TableCheckBox
           checked={hubspotConf?.deal_type || false}
-          onChange={(e) => actionHandler(e, 'deal_type')}
+          onChange={e => actionHandler(e, 'deal_type')}
           className="wdt-200 mt-4 mr-2"
           value="deal_type"
           title={__('Deal Type', 'bit-integrations')}
@@ -222,7 +223,7 @@ export default function HubspotActions({
       {hubspotConf?.actionName !== 'contact' && hubspotConf?.actionName !== 'company' && (
         <TableCheckBox
           checked={hubspotConf?.priority || false}
-          onChange={(e) => actionHandler(e, 'priority')}
+          onChange={e => actionHandler(e, 'priority')}
           className="wdt-200 mt-4 mr-2"
           value="deal_type"
           title={__('Priority', 'bit-integrations')}
@@ -232,7 +233,7 @@ export default function HubspotActions({
       {hubspotConf?.actionName === 'company' && (
         <TableCheckBox
           checked={hubspotConf?.company_type || false}
-          onChange={(e) => actionHandler(e, 'company_type')}
+          onChange={e => actionHandler(e, 'company_type')}
           className="wdt-200 mt-4 mr-2"
           value="company_type"
           title={__('Type', 'bit-integrations')}
@@ -245,7 +246,7 @@ export default function HubspotActions({
       {hubspotConf?.actionName === 'company' && (
         <TableCheckBox
           checked={hubspotConf?.industry || false}
-          onChange={(e) => actionHandler(e, 'industry')}
+          onChange={e => actionHandler(e, 'industry')}
           className="wdt-200 mt-4 mr-2"
           value="industry"
           title={__('Industry', 'bit-integrations')}
@@ -258,25 +259,15 @@ export default function HubspotActions({
       {
         <TableCheckBox
           checked={hubspotConf?.actions?.update || false}
-          onChange={(e) => actionHandler(e, 'update')}
+          onChange={e => actionHandler(e, 'update')}
           className="wdt-200 mt-4 mr-2"
           value="update"
-          title={__(
-            `Update ${hubspotConf?.actionName} ${!isPro ? '(Pro)' : ''}`,
-            'bit-integrations'
+          title={getProFeatureTitle(`${__('Update', 'bit-integrations')} ${hubspotConf?.actionName}`)}
+          subTitle={getProFeatureSubtitle(
+            __('Update Record', 'bit-integrations'),
+            __('Update Record', 'bit-integrations'),
+            '2.1.9'
           )}
-          subTitle={
-            isPro
-              ? __('Update Record', 'bit-integrations')
-              : sprintf(
-                  __(
-                    'The Bit Integration Pro v(%s) plugin needs to be installed and activated to enable the %s feature',
-                    'bit-integrations'
-                  ),
-                  '2.1.9',
-                  __('Update Record', 'bit-integrations')
-                )
-          }
           isInfo={!isPro}
         />
       }
@@ -306,11 +297,11 @@ export default function HubspotActions({
             <MultiSelect
               className="msl-wrp-options"
               defaultValue={hubspotConf?.contact_owner}
-              options={hubspotConf.default?.owners?.map((list) => ({
+              options={hubspotConf.default?.owners?.map(list => ({
                 label: list.ownerName,
                 value: list.ownerId.toString()
               }))}
-              onChange={(val) => setChanges(val, 'contact_owner')}
+              onChange={val => setChanges(val, 'contact_owner')}
               customValue
               singleSelect
             />
@@ -340,11 +331,11 @@ export default function HubspotActions({
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={hubspotConf?.lifecycle_stage}
-            options={lifecycleStage?.map((list) => ({
+            options={lifecycleStage?.map(list => ({
               label: list.label,
               value: list.value.toString()
             }))}
-            onChange={(val) => setChanges(val, 'lifecycle_stage')}
+            onChange={val => setChanges(val, 'lifecycle_stage')}
             customValue
             singleSelect
           />
@@ -365,11 +356,11 @@ export default function HubspotActions({
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={hubspotConf?.lead_status}
-            options={leadStatus?.map((list) => ({
+            options={leadStatus?.map(list => ({
               label: list.label,
               value: list.value.toString()
             }))}
-            onChange={(val) => setChanges(val, 'lead_status')}
+            onChange={val => setChanges(val, 'lead_status')}
             customValue
             singleSelect
           />
@@ -401,11 +392,11 @@ export default function HubspotActions({
             <MultiSelect
               className="msl-wrp-options"
               defaultValue={hubspotConf?.contact}
-              options={hubspotConf?.default?.contacts?.map((list) => ({
+              options={hubspotConf?.default?.contacts?.map(list => ({
                 label: list.contactName,
                 value: list.contactId.toString()
               }))}
-              onChange={(val) => setChanges(val, 'contact')}
+              onChange={val => setChanges(val, 'contact')}
               customValue
             />
             <button
@@ -445,11 +436,11 @@ export default function HubspotActions({
             <MultiSelect
               className="msl-wrp-options"
               defaultValue={hubspotConf?.company}
-              options={hubspotConf?.default?.companies?.map((list) => ({
+              options={hubspotConf?.default?.companies?.map(list => ({
                 label: list.companyName,
                 value: list.companyId.toString()
               }))}
-              onChange={(val) => setChanges(val, 'company')}
+              onChange={val => setChanges(val, 'company')}
               customValue
             />
             <button
@@ -478,8 +469,8 @@ export default function HubspotActions({
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={hubspotConf?.deal_type}
-            options={dealType?.map((list) => ({ label: list.label, value: list.value.toString() }))}
-            onChange={(val) => setChanges(val, 'deal_type')}
+            options={dealType?.map(list => ({ label: list.label, value: list.value.toString() }))}
+            onChange={val => setChanges(val, 'deal_type')}
             customValue
             singleSelect
           />
@@ -500,8 +491,8 @@ export default function HubspotActions({
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={hubspotConf?.priority}
-            options={priority?.map((list) => ({ label: list.label, value: list.value.toString() }))}
-            onChange={(val) => setChanges(val, 'priority')}
+            options={priority?.map(list => ({ label: list.label, value: list.value.toString() }))}
+            onChange={val => setChanges(val, 'priority')}
             customValue
             singleSelect
           />
@@ -522,8 +513,8 @@ export default function HubspotActions({
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={hubspotConf?.company_type}
-            options={companyTypes?.map((list) => ({ label: list.label, value: list.value }))}
-            onChange={(val) => setChanges(val, 'company_type')}
+            options={companyTypes?.map(list => ({ label: list.label, value: list.value }))}
+            onChange={val => setChanges(val, 'company_type')}
             customValue
             singleSelect
           />
@@ -555,11 +546,11 @@ export default function HubspotActions({
             <MultiSelect
               className="msl-wrp-options"
               defaultValue={hubspotConf?.industry}
-              options={hubspotConf?.industries?.map((list) => ({
+              options={hubspotConf?.industries?.map(list => ({
                 label: list.label,
                 value: list.value
               }))}
-              onChange={(val) => setChanges(val, 'industry')}
+              onChange={val => setChanges(val, 'industry')}
               customValue
               singleSelect
             />

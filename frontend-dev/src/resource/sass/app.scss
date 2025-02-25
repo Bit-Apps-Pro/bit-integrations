@@ -291,12 +291,25 @@ input[type='checkbox'].disabled:checked:before {
   cursor: grab;
 }
 
+.pro-btn {
+  background-color: #7902f8;
+  color: white;
+  padding: 2px 4px;
+  text-align: center;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
 .pro-blur {
   background: #07316f38;
   position: absolute;
   top: -15px;
   left: -20px;
   height: 110%;
+  min-height: min-content;
   justify-content: center;
   width: 110%;
   border-radius: 8px;

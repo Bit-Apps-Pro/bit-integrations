@@ -6,6 +6,7 @@ import { __, sprintf } from '../../../Utils/i18nwrap'
 import TableCheckBox from '../../Utilities/TableCheckBox'
 import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
+import { getProFeatureSubtitle, getProFeatureTitle } from '../IntegrationHelpers/ActionUtilitiesHelper'
 
 export default function FreshSalesActions({ freshSalesConf, setFreshSalesConf }) {
   const btcbi = useRecoilValue($btcbi)
@@ -29,27 +30,20 @@ export default function FreshSalesActions({ freshSalesConf, setFreshSalesConf })
       <div className="pos-rel d-flx w-8">
         {'Product' !== freshSalesConf.moduleData.module && (
           <TableCheckBox
-            onChange={(e) => actionHandler(e, 'upsert')}
+            onChange={e => actionHandler(e, 'upsert')}
             checked={freshSalesConf?.actions?.upsert || false}
             className="wdt-200 mt-4 mr-2"
             value="Upsert_Record"
             isInfo={!isPro}
-            title={`${__('Upsert Record', 'bit-integrations')} ${isPro ? '' : `(${__('Pro', 'bit-integrations')})`}`}
-            subTitle={
-              isPro
-                ? __(
-                    'A record gets updated based on the unique identifier value, else a new record will be created',
-                    'bit-integrations'
-                  )
-                : sprintf(
-                    __(
-                      'The Bit Integration Pro v(%s) plugin needs to be installed and activated to enable the %s feature',
-                      'bit-integrations'
-                    ),
-                    '2.1.1',
-                    __('Upsert Record', 'bit-integrations')
-                  )
-            }
+            title={getProFeatureTitle(__('Upsert Record', 'bit-integrations'))}
+            subTitle={getProFeatureSubtitle(
+              __('Upsert Record', 'bit-integrations'),
+              __(
+                'A record gets updated based on the unique identifier value, else a new record will be created',
+                'bit-integrations'
+              ),
+              '2.1.1'
+            )}
           />
         )}
       </div>

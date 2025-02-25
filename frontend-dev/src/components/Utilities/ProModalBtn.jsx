@@ -2,7 +2,7 @@ import { useState } from 'react'
 import ProBadgeIcn from '../../Icons/ProBadgeIcn'
 import { __, sprintf } from '../../Utils/i18nwrap'
 import Modal from './Modal'
-import ProModal from './ProModal'
+import ProModal, { ProModalBtnGrp } from './ProModal'
 
 export default function ProModalBtn({ title, sub, className, children, warning }) {
   const [show, setShow] = useState(false)
@@ -10,10 +10,7 @@ export default function ProModalBtn({ title, sub, className, children, warning }
   return (
     <>
       <nav className="top-nav" style={{ marginRight: '15px' }}>
-        <button
-          type="button"
-          onClick={() => setShow(true)}
-          className="btn purple btn-md py-2 purple-sh">
+        <button type="button" onClick={() => setShow(true)} className="btn purple btn-md py-2 purple-sh">
           {__('Try Pro', 'bit-integrations')}
         </button>
       </nav>
@@ -37,22 +34,7 @@ export default function ProModalBtn({ title, sub, className, children, warning }
               )}
             </p>
             {children}
-            <div className={`d-flx flx-center ${warning && 'mt-3'}`}>
-              <a
-                href="https://towp.io"
-                target="_blank"
-                className="btn btcd-btn-o-gray gray gray-sh w-4 mr-2 br-50 btn-lg "
-                rel="noreferrer">
-                {__('Try Pro', 'bit-integrations')}
-              </a>
-              <a
-                href="https://bitapps.pro/bit-integrations/#pricing"
-                target="_blank"
-                className="btn btcd-btn-o-white purple w-4 mr-2 br-50 btn-lg"
-                rel="noreferrer">
-                {__('Upgrade to Pro', 'bit-integrations')}
-              </a>
-            </div>
+            <ProModalBtnGrp warning={warning} />
           </div>
         </div>
       </Modal>

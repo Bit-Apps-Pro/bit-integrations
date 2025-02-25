@@ -3,6 +3,7 @@
 namespace BitCode\FI\Actions\GoogleDrive;
 
 use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
 
 class RecordApiHelper
@@ -18,12 +19,13 @@ class RecordApiHelper
         $this->token = $token;
     }
 
-    public function uploadFile($folder, $filePath)
+    public function uploadFile($folder, $file)
     {
-        if ($filePath === '') {
+        if (${$file} === '') {
             return false;
         }
 
+        $filePath = Common::filePath($file);
         $apiEndpoint = 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart';
         $boundary = $this->getBoundary();
         $headers = [
@@ -69,6 +71,7 @@ class RecordApiHelper
                 $folderWithFile[$value->googleDriveFormField][] = $fieldValues[$value->formField];
             }
         }
+
         $this->handleAllFiles($folderWithFile, $actions);
 
         if (\count($this->successApiResponse) > 0) {

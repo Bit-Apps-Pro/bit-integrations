@@ -10,6 +10,7 @@ import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { getAllTags } from './GetResponseCommonFunc'
 import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
+import { getProFeatureSubtitle, getProFeatureTitle } from '../IntegrationHelpers/ActionUtilitiesHelper'
 
 export default function GetResponseActions({
   getResponseConf,
@@ -69,7 +70,7 @@ export default function GetResponseActions({
     <div className="pos-rel d-flx w-8">
       <TableCheckBox
         checked={getResponseConf?.selectedTags.length || false}
-        onChange={(e) => actionHandler(e, 'tag')}
+        onChange={e => actionHandler(e, 'tag')}
         className="wdt-200 mt-4 mr-2"
         value="tag"
         title={__('Add Tags', 'bit-integrations')}
@@ -77,7 +78,7 @@ export default function GetResponseActions({
       />
       <TableCheckBox
         checked={getResponseConf.actions?.update || false}
-        onChange={(e) => actionHandler(e, 'update')}
+        onChange={e => actionHandler(e, 'update')}
         className="wdt-200 mt-4 mr-2"
         value="update_contact"
         title={__('Update Contact', 'bit-integrations')}
@@ -86,23 +87,16 @@ export default function GetResponseActions({
       {
         <TableCheckBox
           checked={getResponseConf?.dayOfCycle || false}
-          onChange={(e) => actionHandler(e, 'dayOfCycle')}
+          onChange={e => actionHandler(e, 'dayOfCycle')}
           className="wdt-200 mt-4 mr-2"
           value="dayOfCycle"
-          title={`${__('Autoresponder day', 'bit-integrations')} ${isPro ? '' : `(${__('Pro', 'bit-integrations')})`}`}
-          subTitle={
-            isPro
-              ? __('The day on which the contact is in the Autoresponder cycle', 'bit-integrations')
-              : sprintf(
-                  __(
-                    'The Bit Integration Pro v(%s) plugin needs to be installed and activated to enable the %s feature',
-                    'bit-integrations'
-                  ),
-                  '2.1.9',
-                  __('Autoresponder day', 'bit-integrations')
-                )
-          }
           isInfo={!isPro}
+          title={getProFeatureTitle(__('Autoresponder day', 'bit-integrations'))}
+          subTitle={getProFeatureSubtitle(
+            __('Autoresponder day', 'bit-integrations'),
+            __('The day on which the contact is in the Autoresponder cycle', 'bit-integrations'),
+            '2.1.9'
+          )}
         />
       }
 
@@ -130,10 +124,10 @@ export default function GetResponseActions({
         ) : (
           <div className="flx flx-between mt-2">
             <MultiSelect
-              options={getResponseConf?.tags?.map((tag) => ({ label: tag.name, value: tag.tagId }))}
+              options={getResponseConf?.tags?.map(tag => ({ label: tag.name, value: tag.tagId }))}
               className="msl-wrp-options"
               defaultValue={getResponseConf?.selectedTags}
-              onChange={(val) => setChanges(val, 'selectedTags')}
+              onChange={val => setChanges(val, 'selectedTags')}
             />
             <button
               onClick={() => getAllTags(getResponseConf, setGetResponseConf, setLoading)}
@@ -162,7 +156,7 @@ export default function GetResponseActions({
           </div>
           <input
             className="btcd-paper-inp mt-1"
-            onChange={(e) => setChanges(e.target.value, 'dayOfCycle')}
+            onChange={e => setChanges(e.target.value, 'dayOfCycle')}
             type="number"
             name="dayOfCycle"
             value={getResponseConf.dayOfCycle}
