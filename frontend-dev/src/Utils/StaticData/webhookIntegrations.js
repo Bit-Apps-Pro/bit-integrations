@@ -42,6 +42,7 @@ export const customFormIntegrations = [
   'WishlistMember',
   'GravityKit',
   'AdvancedCustomFields',
+  'PrestoPlayer',
 ]
 
 export const actionHookIntegrations = ['ActionHook']
