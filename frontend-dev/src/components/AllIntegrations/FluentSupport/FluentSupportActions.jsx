@@ -2,14 +2,14 @@
 
 import { useState } from 'react'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
-import { __, sprintf } from '../../../Utils/i18nwrap'
-import ConfirmModal from '../../Utilities/ConfirmModal'
-import TableCheckBox from '../../Utilities/TableCheckBox'
-import Loader from '../../Loaders/Loader'
-import { getAllBusinessInboxes, supportStaff } from './FluentSupportCommonFunc'
 import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
-import { getProFeatureSubtitle, getProFeatureTitle } from '../IntegrationHelpers/ActionUtilitiesHelper'
+import { __ } from '../../../Utils/i18nwrap'
+import Loader from '../../Loaders/Loader'
+import ConfirmModal from '../../Utilities/ConfirmModal'
+import TableCheckBox from '../../Utilities/TableCheckBox'
+import { ProFeatureSubtitle, ProFeatureTitle } from '../IntegrationHelpers/ActionProFeatureLabels'
+import { getAllBusinessInboxes, supportStaff } from './FluentSupportCommonFunc'
 
 export default function FluentSupportActions({
   fluentSupportConf,
@@ -98,15 +98,17 @@ export default function FluentSupportActions({
           className="wdt-200 mt-4 mr-2"
           value="Attachment"
           isInfo={!isPro}
-          title={getProFeatureTitle(__('Attachment', 'bit-integrations'))}
-          subTitle={getProFeatureSubtitle(
-            __('Upsert Record', 'bit-integrations'),
-            __(
-              'Supported Types: Photos, CSV, PDF/Docs, Zip, JSON and max file size: 2.0MB',
-              'bit-integrations'
-            ),
-            '2.1.7'
-          )}
+          title={<ProFeatureTitle title={__('Attachment', 'bit-integrations')} />}
+          subTitle={
+            <ProFeatureSubtitle
+              title={__('Upsert Record', 'bit-integrations')}
+              subTitle={__(
+                'Supported Types: Photos, CSV, PDF/Docs, Zip, JSON and max file size: 2.0MB',
+                'bit-integrations'
+              )}
+              proVersion="2.1.7"
+            />
+          }
         />
       </div>
 

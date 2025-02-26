@@ -2,11 +2,11 @@
 /* eslint-disable no-param-reassign */
 
 import 'react-multiple-select-dropdown-lite/dist/index.css'
-import { __, sprintf } from '../../../Utils/i18nwrap'
-import TableCheckBox from '../../Utilities/TableCheckBox'
 import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
-import { getProFeatureSubtitle, getProFeatureTitle } from '../IntegrationHelpers/ActionUtilitiesHelper'
+import { __ } from '../../../Utils/i18nwrap'
+import TableCheckBox from '../../Utilities/TableCheckBox'
+import { ProFeatureSubtitle, ProFeatureTitle } from '../IntegrationHelpers/ActionProFeatureLabels'
 
 export default function FreshSalesActions({ freshSalesConf, setFreshSalesConf }) {
   const btcbi = useRecoilValue($btcbi)
@@ -35,15 +35,17 @@ export default function FreshSalesActions({ freshSalesConf, setFreshSalesConf })
             className="wdt-200 mt-4 mr-2"
             value="Upsert_Record"
             isInfo={!isPro}
-            title={getProFeatureTitle(__('Upsert Record', 'bit-integrations'))}
-            subTitle={getProFeatureSubtitle(
-              __('Upsert Record', 'bit-integrations'),
-              __(
-                'A record gets updated based on the unique identifier value, else a new record will be created',
-                'bit-integrations'
-              ),
-              '2.1.1'
-            )}
+            title={<ProFeatureTitle title={__('Upsert Record', 'bit-integrations')} />}
+            subTitle={
+              <ProFeatureSubtitle
+                title={__('Upsert Record', 'bit-integrations')}
+                subTitle={__(
+                  'A record gets updated based on the unique identifier value, else a new record will be created',
+                  'bit-integrations'
+                )}
+                proVersion="2.1.1"
+              />
+            }
           />
         )}
       </div>

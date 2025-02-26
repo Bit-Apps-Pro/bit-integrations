@@ -1,11 +1,11 @@
 /* eslint-disable no-param-reassign */
 
 import 'react-multiple-select-dropdown-lite/dist/index.css'
-import { __ } from '../../../Utils/i18nwrap'
-import TableCheckBox from '../../Utilities/TableCheckBox'
 import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
-import { getProFeatureSubtitle, getProFeatureTitle } from '../IntegrationHelpers/ActionUtilitiesHelper'
+import { __ } from '../../../Utils/i18nwrap'
+import TableCheckBox from '../../Utilities/TableCheckBox'
+import { ProFeatureSubtitle, ProFeatureTitle } from '../IntegrationHelpers/ActionProFeatureLabels'
 
 export default function KlaviyoActions({ klaviyoConf, setKlaviyoConf, loading, setLoading }) {
   const btcbi = useRecoilValue($btcbi)
@@ -30,15 +30,17 @@ export default function KlaviyoActions({ klaviyoConf, setKlaviyoConf, loading, s
         className="wdt-200 mt-4 mr-2"
         value="update"
         isInfo={!isPro}
-        title={getProFeatureTitle(__('Update Profile', 'bit-integrations'))}
-        subTitle={getProFeatureSubtitle(
-          __('Update Profile', 'bit-integrations'),
-          __(
-            'A record gets updated based on the email, else a new profile will be created',
-            'bit-integrations'
-          ),
-          '2.4.9'
-        )}
+        title={<ProFeatureTitle title={__('Update Profile', 'bit-integrations')} />}
+        subTitle={
+          <ProFeatureSubtitle
+            title={__('Update Profile', 'bit-integrations')}
+            subtitle={__(
+              'A record gets updated based on the email, else a new profile will be created',
+              'bit-integrations'
+            )}
+            proVersion="2.4.9"
+          />
+        }
       />
     </div>
   )

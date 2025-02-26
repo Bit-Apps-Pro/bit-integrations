@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\Klaviyo;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use WP_Error;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Klaviyo integration
@@ -81,6 +81,11 @@ class KlaviyoController
         ];
 
         $response = HttpHelper::get($apiEndpoints, null, $headers);
+
+        if (is_wp_error($response) || empty($response->data)) {
+            return $data;
+        }
+
         $data = array_merge($data, $response->data);
 
         if (!empty($response->links->next)) {

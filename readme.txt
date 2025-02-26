@@ -4,7 +4,7 @@ Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
 Tested up to: 6.7.2
 Requires PHP: 7.4
-Stable tag: 2.4.9
+Stable tag: 2.4.10
 License: GPLv2 or later
 
 Automation Plugin for WordPress. Integration of 110+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
@@ -1247,6 +1247,12 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 6. All integration list
 
 == Changelog ==
+
+= 2.4.10 =
+_Release Date -25th February 2025_
+
+- **Bug Fixes**
+ - Klaviyo: Resolved blank page issue during list selection.
 
 = 2.4.9 =
 _Release Date -24th February 2025_
