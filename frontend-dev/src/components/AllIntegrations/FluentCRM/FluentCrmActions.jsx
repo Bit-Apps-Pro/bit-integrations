@@ -1,15 +1,15 @@
 /* eslint-disable no-param-reassign */
 
 import { useState } from 'react'
-import { __ } from '../../../Utils/i18nwrap'
-import TableCheckBox from '../../Utilities/TableCheckBox'
-import ConfirmModal from '../../Utilities/ConfirmModal'
-import { getAllCompanies } from './FluentCrmCommonFunc'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
-import Loader from '../../Loaders/Loader'
 import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
-import { getProFeatureSubtitle, getProFeatureTitle } from '../IntegrationHelpers/ActionUtilitiesHelper'
+import { __ } from '../../../Utils/i18nwrap'
+import Loader from '../../Loaders/Loader'
+import ConfirmModal from '../../Utilities/ConfirmModal'
+import TableCheckBox from '../../Utilities/TableCheckBox'
+import { ProFeatureSubtitle, ProFeatureTitle } from '../IntegrationHelpers/ActionProFeatureLabels'
+import { getAllCompanies } from './FluentCrmCommonFunc'
 
 export default function FluentCrmActions({
   fluentCrmConf,
@@ -77,12 +77,14 @@ export default function FluentCrmActions({
         className="wdt-200 mt-4 mr-2"
         value="company_id"
         isInfo={!isPro}
-        title={getProFeatureTitle(__('Assign Company', 'bit-integrations'))}
-        subTitle={getProFeatureSubtitle(
-          __('Assign Company', 'bit-integrations'),
-          __('Assign Company for contact', 'bit-integrations'),
-          '2.3.8'
-        )}
+        title={<ProFeatureTitle title={__('Assign Company', 'bit-integrations')} />}
+        subTitle={
+          <ProFeatureSubtitle
+            title={__('Assign Company', 'bit-integrations')}
+            subTitle={__('Assign Company for contact', 'bit-integrations')}
+            proVersion="2.3.8"
+          />
+        }
       />
 
       {isPro && (

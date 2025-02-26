@@ -26,7 +26,10 @@ export default function ProModalBtn({ title, sub, className, children, warning }
         <div className={`txt-center atn-btns flx flx-center ${className || 'flx-col'}`}>
           <div className={`content p-4 ${!className && 'confirm-content'}`}>
             <ProBadgeIcn size="50" />
-            <h3>{__('Unlock Premium Features with Our Pro Plugin', 'bit-integrations')}</h3>
+            <h3>
+              {__('Unlock Premium Features with', 'bit-integrations')}&nbsp;
+              <span className="pro-btn">{__('Pro', 'bit-integrations')}</span>
+            </h3>
             <p>
               {__(
                 'Thanks for using our product! You can explore our Pro plugin with a 7-day trial. Please note that your data will be deleted once the trial ends.',

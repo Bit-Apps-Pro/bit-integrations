@@ -16,16 +16,14 @@ export default function ActionProFeatureComponent({ title, children }) {
             <div className={`txt-center atn-btns flx flx-center`}>
               <div className={`content`}>
                 <ProBadgeIcn size="30" />
-                <h4>
-                  {__('Unlock Premium Features with Our', 'bit-integrations')}
+                <h4 style={{ margin: '10px 0 0 0' }}>
+                  {title}
                   &nbsp;
-                  <span className="pro-btn">{__('Pro Plugin', 'bit-integrations')}</span>
-                </h4>
-                <p>
-                  <b>{title}</b> {__('Available On', 'bit-integrations')}
+                  {__('Available On', 'bit-integrations')}
                   &nbsp;
                   <span className="pro-btn">{__('Pro', 'bit-integrations')}</span>
-                </p>
+                </h4>
+                <p>{__('Unlock Premium Features with Pro Plugin', 'bit-integrations')}</p>
                 <ProModalBtnGrp />
               </div>
             </div>

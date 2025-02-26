@@ -3,14 +3,14 @@
 
 import { useState } from 'react'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
-import { __ } from '../../../Utils/i18nwrap'
-import ConfirmModal from '../../Utilities/ConfirmModal'
-import TableCheckBox from '../../Utilities/TableCheckBox'
-import Loader from '../../Loaders/Loader'
-import { refreshUsers, refreshTags } from './ZohoBiginCommonFunc'
 import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
-import { getProFeatureSubtitle, getProFeatureTitle } from '../IntegrationHelpers/ActionUtilitiesHelper'
+import { __ } from '../../../Utils/i18nwrap'
+import Loader from '../../Loaders/Loader'
+import ConfirmModal from '../../Utilities/ConfirmModal'
+import TableCheckBox from '../../Utilities/TableCheckBox'
+import { ProFeatureSubtitle, ProFeatureTitle } from '../IntegrationHelpers/ActionProFeatureLabels'
+import { refreshTags, refreshUsers } from './ZohoBiginCommonFunc'
 
 export default function ZohoBiginActions({
   tab,
@@ -146,12 +146,14 @@ export default function ZohoBiginActions({
           className="wdt-200 mt-4 mr-2"
           value="tags"
           isInfo={!isPro}
-          title={getProFeatureTitle(__('Tags', 'bit-integrations'))}
-          subTitle={getProFeatureSubtitle(
-            __('Tags', 'bit-integrations'),
-            __('add tags to records', 'bit-integrations'),
-            '2.2.6'
-          )}
+          title={<ProFeatureTitle title={__('Tags', 'bit-integrations')} />}
+          subTitle={
+            <ProFeatureSubtitle
+              title={__('Tags', 'bit-integrations')}
+              subTitle={__('add tags to records', 'bit-integrations')}
+              proVersion="2.2.6"
+            />
+          }
         />
       </div>
 
