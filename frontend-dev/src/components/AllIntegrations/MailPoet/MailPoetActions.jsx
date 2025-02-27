@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import TableCheckBox from '../../Utilities/TableCheckBox'
-import { getProFeatureSubtitle, getProFeatureTitle } from '../IntegrationHelpers/ActionUtilitiesHelper'
+import { ProFeatureSubtitle, ProFeatureTitle } from '../IntegrationHelpers/ActionProFeatureLabels'
 
 export default function MailPoetActions({ mailPoetConf, setMailPoetConf }) {
   const btcbi = useRecoilValue($btcbi)
@@ -30,15 +30,17 @@ export default function MailPoetActions({ mailPoetConf, setMailPoetConf }) {
         className="wdt-200 mt-4 mr-2"
         value="user_share"
         isInfo={!isPro}
-        title={getProFeatureTitle(__('Update Subscriber', 'bit-integrations'))}
-        subTitle={getProFeatureSubtitle(
-          __('Update Subscriber', 'bit-integrations'),
-          __(
-            'Update Mailpoet exist Subscriber? First name, last name, and email may not be updated.',
-            'bit-integrations'
-          ),
-          '2.4.1'
-        )}
+        title={<ProFeatureTitle title={__('Update Subscriber', 'bit-integrations')} />}
+        subTitle={
+          <ProFeatureSubtitle
+            title={__('Update Subscriber', 'bit-integrations')}
+            subTitle={__(
+              'Update Mailpoet exist Subscriber? First name, last name, and email may not be updated.',
+              'bit-integrations'
+            )}
+            proVersion="2.4.1"
+          />
+        }
       />
     </div>
   )

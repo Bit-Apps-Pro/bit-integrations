@@ -2,15 +2,15 @@
 
 import { useState } from 'react'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
+import 'react-multiple-select-dropdown-lite/dist/index.css'
+import { useRecoilValue } from 'recoil'
+import { $btcbi } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
 import ConfirmModal from '../../Utilities/ConfirmModal'
 import TableCheckBox from '../../Utilities/TableCheckBox'
-import 'react-multiple-select-dropdown-lite/dist/index.css'
+import { ProFeatureSubtitle, ProFeatureTitle } from '../IntegrationHelpers/ActionProFeatureLabels'
 import { getAllTags } from './GetResponseCommonFunc'
-import { useRecoilValue } from 'recoil'
-import { $btcbi } from '../../../GlobalStates'
-import { getProFeatureSubtitle, getProFeatureTitle } from '../IntegrationHelpers/ActionUtilitiesHelper'
 
 export default function GetResponseActions({
   getResponseConf,
@@ -91,12 +91,17 @@ export default function GetResponseActions({
           className="wdt-200 mt-4 mr-2"
           value="dayOfCycle"
           isInfo={!isPro}
-          title={getProFeatureTitle(__('Autoresponder day', 'bit-integrations'))}
-          subTitle={getProFeatureSubtitle(
-            __('Autoresponder day', 'bit-integrations'),
-            __('The day on which the contact is in the Autoresponder cycle', 'bit-integrations'),
-            '2.1.9'
-          )}
+          title={<ProFeatureTitle title={__('Autoresponder day', 'bit-integrations')} />}
+          subTitle={
+            <ProFeatureSubtitle
+              title={__('Autoresponder day', 'bit-integrations')}
+              subTitle={__(
+                'The day on which the contact is in the Autoresponder cycle',
+                'bit-integrations'
+              )}
+              proVersion="2.1.9"
+            />
+          }
         />
       }
 

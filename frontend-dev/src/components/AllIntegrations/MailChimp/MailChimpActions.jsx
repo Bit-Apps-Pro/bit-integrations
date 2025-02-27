@@ -1,15 +1,15 @@
 /* eslint-disable no-param-reassign */
 
+import { create } from 'mutative'
+import { useState } from 'react'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
+import { useRecoilValue } from 'recoil'
+import { $btcbi } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import ConfirmModal from '../../Utilities/ConfirmModal'
 import TableCheckBox from '../../Utilities/TableCheckBox'
-import { useState } from 'react'
-import { create } from 'mutative'
-import { useRecoilValue } from 'recoil'
-import { $btcbi } from '../../../GlobalStates'
-import { getProFeatureSubtitle, getProFeatureTitle } from '../IntegrationHelpers/ActionUtilitiesHelper'
+import { ProFeatureSubtitle, ProFeatureTitle } from '../IntegrationHelpers/ActionProFeatureLabels'
 
 export default function MailChimpActions({ mailChimpConf, setMailChimpConf, formFields, address }) {
   const [actionMdl, setActionMdl] = useState({ show: false })
@@ -99,12 +99,14 @@ export default function MailChimpActions({ mailChimpConf, setMailChimpConf, form
             className="wdt-200 mt-4 mr-2"
             value="language"
             isInfo={!isPro}
-            title={getProFeatureTitle(__('Add Language', 'bit-integrations'))}
-            subTitle={getProFeatureSubtitle(
-              __('Add Language', 'bit-integrations'),
-              __('Add Language', 'bit-integrations'),
-              '2.3.0'
-            )}
+            title={<ProFeatureTitle title={__('Add Language', 'bit-integrations')} />}
+            subTitle={
+              <ProFeatureSubtitle
+                title={__('Add Language', 'bit-integrations')}
+                subTitle={__('Add Language', 'bit-integrations')}
+                proVersion="2.3.0"
+              />
+            }
           />
 
           <TableCheckBox
@@ -112,13 +114,15 @@ export default function MailChimpActions({ mailChimpConf, setMailChimpConf, form
             onChange={e => actionHandler(e, 'gdpr')}
             className="wdt-200 mt-4 mr-2"
             value="gdpr"
-            title={getProFeatureTitle(__('Add GDPR', 'bit-integrations'))}
-            subTitle={getProFeatureSubtitle(
-              __('GDPR', 'bit-integrations'),
-              __('Add GDPR Marketing Preferences', 'bit-integrations'),
-              '2.3.0'
-            )}
             isInfo={!isPro}
+            title={<ProFeatureTitle title={__('Add GDPR', 'bit-integrations')} />}
+            subTitle={
+              <ProFeatureSubtitle
+                title={__('GDPR', 'bit-integrations')}
+                subTitle={__('Add GDPR Marketing Preferences', 'bit-integrations')}
+                proVersion="2.3.0"
+              />
+            }
           />
 
           {isPro && (

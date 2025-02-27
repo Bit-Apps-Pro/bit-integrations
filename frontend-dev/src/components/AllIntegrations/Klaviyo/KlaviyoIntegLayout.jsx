@@ -6,8 +6,8 @@ import { getAllLists, addFieldMap, generateMappedField } from './KlaviyoCommonFu
 import KlaviyoFieldMap from './KlaviyoFieldMap'
 import { $btcbi } from '../../../GlobalStates'
 import KlaviyoActions from './KlaviyoActions'
-import { getProFeatureSubtitle, getProFeatureTitle } from '../IntegrationHelpers/ActionUtilitiesHelper'
 import ActionProFeatureComponent from '../IntegrationHelpers/ActionProFeatureComponent'
+import { ProFeatureTitle } from '../IntegrationHelpers/ActionProFeatureLabels'
 
 function KlaviyoIntegLayout({ klaviyoConf, setKlaviyoConf, formFields, loading, setLoading }) {
   const btcbi = useRecoilValue($btcbi)
@@ -107,10 +107,13 @@ function KlaviyoIntegLayout({ klaviyoConf, setKlaviyoConf, formFields, loading, 
           </div>
         </div>
       )}
+      <br />
       {klaviyoConf?.listId && (
         <div className="mt-5">
           <ActionProFeatureComponent title={__('Custom Properties', 'bit-integrations')}>
-            <b className="wdt-100">{getProFeatureTitle(__('Custom Properties', 'bit-integrations'))}</b>
+            <b className="wdt-100">
+              {<ProFeatureTitle title={__('Custom Properties', 'bit-integrations')} />}
+            </b>
             <div className="btcd-hr mt-2 mb-4" />
             <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
               <div className="txt-dp">
@@ -148,7 +151,6 @@ function KlaviyoIntegLayout({ klaviyoConf, setKlaviyoConf, formFields, loading, 
             </div>
           </ActionProFeatureComponent>
 
-          <br />
           <br />
           <div className="mt-4">
             <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>

@@ -3,15 +3,15 @@
 
 import { useState } from 'react'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
+import 'react-multiple-select-dropdown-lite/dist/index.css'
+import { useRecoilValue } from 'recoil'
+import { $btcbi } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
 import ConfirmModal from '../../Utilities/ConfirmModal'
 import TableCheckBox from '../../Utilities/TableCheckBox'
-import 'react-multiple-select-dropdown-lite/dist/index.css'
+import { ProFeatureSubtitle, ProFeatureTitle } from '../IntegrationHelpers/ActionProFeatureLabels'
 import { getAllCompany, getAllContacts, getAllIndustry, getAllOwners } from './HubspotCommonFunc'
-import { useRecoilValue } from 'recoil'
-import { $btcbi } from '../../../GlobalStates'
-import { getProFeatureSubtitle, getProFeatureTitle } from '../IntegrationHelpers/ActionUtilitiesHelper'
 
 export default function HubspotActions({
   hubspotConf,
@@ -262,12 +262,16 @@ export default function HubspotActions({
           onChange={e => actionHandler(e, 'update')}
           className="wdt-200 mt-4 mr-2"
           value="update"
-          title={getProFeatureTitle(`${__('Update', 'bit-integrations')} ${hubspotConf?.actionName}`)}
-          subTitle={getProFeatureSubtitle(
-            __('Update Record', 'bit-integrations'),
-            __('Update Record', 'bit-integrations'),
-            '2.1.9'
-          )}
+          title={
+            <ProFeatureTitle title={`${__('Update', 'bit-integrations')} ${hubspotConf?.actionName}`} />
+          }
+          subTitle={
+            <ProFeatureSubtitle
+              title={__('Update Record', 'bit-integrations')}
+              subTitle={__('Update Record', 'bit-integrations')}
+              proVersion="2.1.9"
+            />
+          }
           isInfo={!isPro}
         />
       }

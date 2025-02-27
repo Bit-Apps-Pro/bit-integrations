@@ -18,9 +18,11 @@ export default function ProModal({ show, setShow, title, sub, className, childre
           <ProBadgeIcn size="50" />
           <h3>
             {sprintf(
-              __('%s is available in Pro', 'bit-integrations'),
+              __('%s is available in', 'bit-integrations'),
               sub || __('This feature', 'bit-integrations')
             )}
+            &nbsp;
+            <span className="pro-btn">{__('Pro', 'bit-integrations')}</span>
           </h3>
           <p>
             {sprintf(
