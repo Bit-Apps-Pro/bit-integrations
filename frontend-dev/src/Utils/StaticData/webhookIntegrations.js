@@ -43,6 +43,7 @@ export const customFormIntegrations = [
   'GravityKit',
   'AdvancedCustomFields',
   'PrestoPlayer',
+  'SimplyScheduleAppointments',
 ]
 
 export const actionHookIntegrations = ['ActionHook']
