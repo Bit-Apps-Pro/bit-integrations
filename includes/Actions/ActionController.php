@@ -2,9 +2,9 @@
 
 namespace BitCode\FI\Actions;
 
-use FilesystemIterator;
 use WP_Error;
 use WP_REST_Request;
+use FilesystemIterator;
 
 final class ActionController
 {
@@ -37,14 +37,23 @@ final class ActionController
     public function handleRedirect(WP_REST_Request $request)
     {
         $state = $request->get_param('state');
+
+        $state_parsed_url = wp_parse_url($state);
         $parsed_url = wp_parse_url(get_site_url());
-        $site_url = $parsed_url['scheme'] . '://' . $parsed_url['host'];
-        $site_url .= empty($parsed_url['port']) ? null : ':' . $parsed_url['port'];
-        if (strpos($state, $site_url) === false) {
+
+        $state_host = $state_parsed_url['host'];
+        $site_host = $parsed_url['host'];
+
+        $state_host .= (empty($state_parsed_url['port']) ? null : (':' . $state_parsed_url['port']));
+        $site_host .= (empty($parsed_url['port']) ? null : (':' . $parsed_url['port']));
+
+        if ($state_host !== $site_host) {
             return new WP_Error('404');
         }
+
         $params = $request->get_params();
         unset($params['rest_route'], $params['state']);
+
         if (wp_redirect($state . '&' . http_build_query($params), 302)) {
             exit;
         }
