@@ -86,7 +86,7 @@ final class AllTriggersName
             'Post'                       => ['name' => 'WP Post',  'isPro' => true, 'is_active' => false],
             'PrestoPlayer'               => ['name' => 'Presto Player',  'isPro' => true, 'is_active' => false],
             'Rafflepress'                => ['name' => 'Rafflepress',  'isPro' => true, 'is_active' => false],
-            'Rafflepress'                => ['name' => 'Rafflepress',  'isPro' => true, 'is_active' => false],
+            'PeepSo'                     => ['name' => 'PeepSo',  'isPro' => true, 'is_active' => false],
             'Registration'               => ['name' => 'WP User Registration',  'isPro' => true, 'is_active' => false],
             'RestrictContent'            => ['name' => 'Restrict Content',  'isPro' => true, 'is_active' => false],
             'SenseiLMS'                  => ['name' => 'Sensei LMS',  'isPro' => true, 'is_active' => false],

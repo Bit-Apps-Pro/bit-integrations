@@ -45,6 +45,7 @@ export const customFormIntegrations = [
   'PrestoPlayer',
   'SimplyScheduleAppointments',
   'LearnPress',
+  'PeepSo',
 ]
 
 export const actionHookIntegrations = ['ActionHook']
