@@ -46,6 +46,7 @@ export const customFormIntegrations = [
   'SimplyScheduleAppointments',
   'LearnPress',
   'PeepSo',
+  'SureMail',
 ]
 
 export const actionHookIntegrations = ['ActionHook']

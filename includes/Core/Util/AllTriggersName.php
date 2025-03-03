@@ -97,6 +97,7 @@ final class AllTriggersName
             'Spectra'                    => ['name' => 'Spectra',  'isPro' => true, 'is_active' => false],
             'StudioCart'                 => ['name' => 'StudioCart',  'isPro' => true, 'is_active' => false],
             'SureCart'                   => ['name' => 'SureCart',  'isPro' => true, 'is_active' => false],
+            'SureMail'                   => ['name' => 'SureMail SMTP',  'isPro' => true, 'is_active' => false],
             'SureForms'                  => ['name' => 'SureForms',  'isPro' => true, 'is_active' => false],
             'SureMembers'                => ['name' => 'SureMembers',  'isPro' => true, 'is_active' => false],
             'EventsCalendar'             => ['name' => 'The Events Calendar',  'isPro' => true, 'is_active' => false],
