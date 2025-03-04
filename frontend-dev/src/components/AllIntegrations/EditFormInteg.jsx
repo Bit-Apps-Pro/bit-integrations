@@ -96,14 +96,14 @@ function EditFormInteg({ setSnackbar, className = '' }) {
   const [flow, setFlow] = useRecoilState($newFlow)
   const setFormFields = useSetRecoilState($formFields)
   const setFlowData = (val, type) => {
-    setFlow((prevFlow) =>
-      create(prevFlow, (draftFlow) => {
+    setFlow(prevFlow =>
+      create(prevFlow, draftFlow => {
         draftFlow.flow_details[type] = val
       })
     )
   }
 
-  const handle = (e) => {
+  const handle = e => {
     const tmpInteg = { ...flow }
     const { name, value } = e.target
     tmpInteg[name] = value
@@ -119,11 +119,11 @@ function EditFormInteg({ setSnackbar, className = '' }) {
       const loadFormFields = bitsFetch(
         queryData,
         `${flow.triggered_entity.toLowerCase()}/get/form`
-      ).then((res) => {
+      ).then(res => {
         if (res.success) {
           setFormFields(res.data.fields)
-          setFlow((prevFlow) =>
-            create(prevFlow, (draftFlow) => {
+          setFlow(prevFlow =>
+            create(prevFlow, draftFlow => {
               draftFlow.flow_details.fields = res.data.fields
             })
           )
@@ -206,10 +206,7 @@ function EditFormInteg({ setSnackbar, className = '' }) {
       }
     }
     if (trigger === 'FluentCrm') {
-      if (
-        data.triggered_entity_id === 'fluentcrm-1' ||
-        data.triggered_entity_id === 'fluentcrm-2'
-      ) {
+      if (data.triggered_entity_id === 'fluentcrm-1' || data.triggered_entity_id === 'fluentcrm-2') {
         getFluentCrmTags(data, setFlow)
       } else if (
         data.triggered_entity_id === 'fluentcrm-3' ||
@@ -405,17 +402,18 @@ function EditFormInteg({ setSnackbar, className = '' }) {
   }
 
   useEffect(() => {
-    bitsFetch({}, `${flow.triggered_entity.toLowerCase()}/get`, null, 'GET').then((res) => {
+    bitsFetch({}, `${flow.triggered_entity.toLowerCase()}/get`, null, 'GET').then(res => {
       if (res.success) {
         setForms(res.data)
         const tmpFormPost = {}
-        res.data?.map((form) => {
+        res.data?.map(form => {
           tmpFormPost[form.id] = form.post_id
         })
         setFormPost(tmpFormPost)
       }
     })
   }, [])
+
   return (
     <>
       <div className={`${className || 'flx'}`}>
@@ -426,7 +424,7 @@ function EditFormInteg({ setSnackbar, className = '' }) {
           onChange={handle}
           className={`btcd-paper-inp w-5 ${className}`}>
           <option value="">{__('Select Form', 'bit-integrations')}</option>
-          {forms?.map((form) => (
+          {forms?.map(form => (
             <option key={form.id} value={form.id}>
               {form.title}
             </option>
