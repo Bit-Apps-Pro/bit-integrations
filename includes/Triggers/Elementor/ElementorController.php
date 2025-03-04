@@ -37,11 +37,11 @@ final class ElementorController
     public function getAllTasks()
     {
         if (!self::pluginActive()) {
-            wp_send_json_error(\sprintf(__('%s is not installed or activated', 'bit-integrations-pro'), 'Elementor'));
+            wp_send_json_error(\sprintf(__('%s is not installed or activated', 'bit-integrations'), 'Elementor'));
         }
 
         wp_send_json_success([
-            ['form_name' => __('Form Submission', 'bit-integrations-pro'), 'triggered_entity_id' => 'elementor_pro/forms/new_record', 'skipPrimaryKey' => false]
+            ['form_name' => __('Form Submission', 'bit-integrations'), 'triggered_entity_id' => 'elementor_pro/forms/new_record', 'skipPrimaryKey' => false]
         ]);
     }
 
