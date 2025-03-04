@@ -18,7 +18,7 @@ export default function ChangelogToggle() {
 
   // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
   // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-  const releaseDate = '25th February 2025'
+  const releaseDate = '5th March 2025'
 
   // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
   const changeLog = [
@@ -39,25 +39,19 @@ export default function ChangelogToggle() {
       headClass: 'new-trigger',
       itemClass: 'integration-list',
       items: [
-        { label: 'Amelia Booking', desc: '', isPro: true },
-        { label: 'bbPress', desc: '', isPro: true },
-        { label: 'FluentSMTP', desc: '', isPro: true },
-        { label: 'GravityKit', desc: '', isPro: true },
-        { label: 'Newsletter', desc: '', isPro: true },
-        { label: 'Wishlist Member', desc: '', isPro: true }
+        { label: 'Advanced Custom Fields (ACF)', desc: '', isPro: true },
+        { label: 'LearnPress LMS', desc: '', isPro: true },
+        { label: 'PeepSo', desc: '', isPro: true },
+        { label: 'Presto Player', desc: '', isPro: true },
+        { label: 'Simply Schedule Appointments', desc: '', isPro: true },
+        { label: 'SureMail WordPress SMTP', desc: '', isPro: true }
       ]
     },
     {
       label: __('New Features', 'bit-integrations'),
       headClass: 'new-feature',
       itemClass: 'feature-list',
-      items: [
-        {
-          label: 'Klaviyo',
-          desc: 'Update Profile feature added for enhanced audience segmentation and personalization.',
-          isPro: true
-        }
-      ]
+      items: []
     },
     {
       label: __('New Improvements', 'bit-integrations'),
