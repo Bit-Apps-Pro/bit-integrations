@@ -11,10 +11,11 @@ import bitsFetch from '../../Utils/bitsFetch'
 import CustomFetcherHelper from '../../Utils/CustomFetcherHelper'
 import { __ } from '../../Utils/i18nwrap'
 import LoaderSm from '../Loaders/LoaderSm'
+import Loader from '../Loaders/Loader'
 
-const shouldSkipPrimaryKey = flow =>
-  flow?.flow_details?.multi_form &&
-  flow?.flow_details?.multi_form?.some(
+const shouldSkipPrimaryKey = (allTasks, flow) =>
+  allTasks &&
+  allTasks?.some(
     ({ triggered_entity_id, skipPrimaryKey }) =>
       triggered_entity_id === flow?.triggered_entity_id && skipPrimaryKey
   )
@@ -23,11 +24,16 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
   const [flow, setFlow] = useRecoilState($newFlow)
   const setFormFields = useSetRecoilState($formFields)
   const [isLoading, setIsLoading] = useState(false)
-  const [skipPrimaryKey, setSkipPrimaryKey] = useState(shouldSkipPrimaryKey(flow) || false)
+  const [formsLoading, setFormsLoading] = useState(false)
+  const [allTasks, setAllTasks] = useState(flow.flow_details?.multi_form || [])
+  const [skipPrimaryKey, setSkipPrimaryKey] = useState(shouldSkipPrimaryKey(allTasks, flow) || false)
+  const [taskNote, setTaskNote] = useState()
   const isFetchingRef = useRef(false)
 
   let controller = new AbortController()
   const signal = controller.signal
+  const tasksAction = flow?.flow_details?.tasks?.action || ''
+  const tasksMethod = flow?.flow_details?.tasks?.method || ''
   const fetchAction = flow?.flow_details?.fetch?.action || ''
   const fetchMethod = flow?.flow_details?.fetch?.method || ''
   const removeAction = flow?.flow_details?.fetch_remove?.action || ''
@@ -116,6 +122,16 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
   }
 
   useEffect(() => {
+    if (tasksAction && tasksMethod) {
+      setFormsLoading(true)
+      bitsFetch({}, tasksAction, null, tasksMethod).then(res => {
+        setFormsLoading(false)
+        if (res.success) {
+          setAllTasks(res.data)
+        }
+      })
+    }
+
     return () => {
       stopFetching()
     }
@@ -140,26 +156,38 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
       })
     )
 
-    const multiForm = flow.flow_details?.multi_form
-    const requiresPrimaryKey = multiForm?.some(
-      ({ triggered_entity_id, skipPrimaryKey: isSkipPrimaryKey }) =>
-        triggered_entity_id === entityId && isSkipPrimaryKey
-    )
+    const selectedTask = allTasks.filter(item => item.triggered_entity_id == entityId)
+    if (selectedTask?.length > 0) {
+      setTaskNote(selectedTask[0]?.note || '')
+      setSkipPrimaryKey(selectedTask[0]?.skipPrimaryKey || false)
+    }
 
-    setSkipPrimaryKey(requiresPrimaryKey)
     setFormFields([])
   }
 
-  return (
+  return formsLoading ? (
     <div>
-      {flow?.flow_details?.multi_form && flow?.flow_details?.multi_form?.length > 0 && (
+      <br />
+      <Loader
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: 50,
+          transform: 'scale(0.7)'
+        }}
+      />
+    </div>
+  ) : (
+    <div>
+      {allTasks && (
         <div className="flx">
           <b className="wdt-200 d-in-b">{__('Select a Form/Task Name:', 'bit-integrations')}</b>
-          <div className="w-5 flx flx-between">
+          <div className="w-5">
             <MultiSelect
               className="msl-wrp-options"
               defaultValue={flow?.triggered_entity_id}
-              options={flow.flow_details?.multi_form?.map(field => ({
+              options={allTasks?.map(field => ({
                 label: field?.form_name,
                 value: field?.triggered_entity_id
               }))}
@@ -206,6 +234,14 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
                   : __('Fetch', 'bit-integrations')}
               {isLoading && <LoaderSm size="20" clr="#022217" className="ml-2" />}
             </button>
+          </div>
+        </div>
+      )}
+      {taskNote && (
+        <div className="flx">
+          <b className="wdt-200 d-in-b">{__('Form/Task Note:', 'bit-integrations')}</b>
+          <div className="w-5">
+            <small className="trigger-task-note">{taskNote}</small>
           </div>
         </div>
       )}

@@ -12,18 +12,17 @@ final class ElementorController
         $plugin_path = 'elementor-pro/elementor-pro.php';
 
         return [
-            'name'                => 'Elementor',
-            'title'               => __('Elementor is the platform web creators choose to build professional WordPress websites, grow their skills, and build their business. Start for free today!', 'bit-integrations'),
-            'slug'                => $plugin_path,
-            'pro'                 => $plugin_path,
-            'type'                => 'custom_form_submission',
-            'is_active'           => self::pluginActive(),
-            'activation_url'      => wp_nonce_url(self_admin_url('plugins.php?action=activate&amp;plugin=' . $plugin_path . '&amp;plugin_status=all&amp;paged=1&amp;s'), 'activate-plugin_' . $plugin_path),
-            'install_url'         => wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=' . $plugin_path), 'install-plugin_' . $plugin_path),
-            'documentation_url'   => 'https://bitapps.pro/docs/bit-integrations/trigger/elementor-form-integrations',
-            'tutorial_url'        => 'https://youtube.com/playlist?list=PL7c6CDwwm-ALGg0fZNLDIHjh1QJPcDSXp&si=HIKa9m0-yjPSXP2p',
-            'triggered_entity_id' => 'elementor_pro/forms/new_record', // Form submission hook act as triggered_entity_id
-            'fetch'               => [
+            'name'              => 'Elementor',
+            'title'             => __('Elementor is the platform web creators choose to build professional WordPress websites, grow their skills, and build their business. Start for free today!', 'bit-integrations'),
+            'type'              => 'custom_form_submission',
+            'is_active'         => self::pluginActive(),
+            'documentation_url' => 'https://bitapps.pro/docs/bit-integrations/trigger/elementor-form-integrations',
+            'tutorial_url'      => 'https://youtube.com/playlist?list=PL7c6CDwwm-ALGg0fZNLDIHjh1QJPcDSXp&si=HIKa9m0-yjPSXP2p',
+            'tasks'             => [
+                'action' => 'elementor/get',
+                'method' => 'get',
+            ],
+            'fetch' => [
                 'action' => 'elementor/test',
                 'method' => 'post',
             ],
@@ -33,6 +32,17 @@ final class ElementorController
             ],
             'isPro' => false
         ];
+    }
+
+    public function getAllTasks()
+    {
+        if (!self::pluginActive()) {
+            wp_send_json_error(\sprintf(__('%s is not installed or activated', 'bit-integrations'), 'Elementor'));
+        }
+
+        wp_send_json_success([
+            ['form_name' => __('Form Submission', 'bit-integrations'), 'triggered_entity_id' => 'elementor_pro/forms/new_record', 'skipPrimaryKey' => false]
+        ]);
     }
 
     public static function pluginActive($option = null)

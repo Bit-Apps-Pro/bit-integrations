@@ -41,6 +41,12 @@ export const customFormIntegrations = [
   'Newsletter',
   'WishlistMember',
   'GravityKit',
+  'AdvancedCustomFields',
+  'PrestoPlayer',
+  'SimplyScheduleAppointments',
+  'LearnPress',
+  'PeepSo',
+  'SureMail',
 ]
 
 export const actionHookIntegrations = ['ActionHook']
