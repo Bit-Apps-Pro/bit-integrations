@@ -38,14 +38,8 @@ final class ActionController
     {
         $state = $request->get_param('state');
 
-        $state_parsed_url = wp_parse_url($state);
-        $parsed_url = wp_parse_url(get_site_url());
-
-        $state_host = $state_parsed_url['host'];
-        $site_host = $parsed_url['host'];
-
-        $state_host .= (empty($state_parsed_url['port']) ? null : (':' . $state_parsed_url['port']));
-        $site_host .= (empty($parsed_url['port']) ? null : (':' . $parsed_url['port']));
+        $state_host = static::getHostWithPort(wp_parse_url($state));
+        $site_host = static::getHostWithPort(wp_parse_url(get_site_url()));
 
         if ($state_host !== $site_host) {
             return new WP_Error('404');
@@ -57,5 +51,10 @@ final class ActionController
         if (wp_redirect($state . '&' . http_build_query($params), 302)) {
             exit;
         }
+    }
+
+    public static function getHostWithPort($parsed_url)
+    {
+        return $parsed_url['host'] . (empty($parsed_url['port']) ? null : (':' . $parsed_url['port']));
     }
 }
