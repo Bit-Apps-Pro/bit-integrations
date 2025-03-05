@@ -38,10 +38,7 @@ final class ActionController
     {
         $state = $request->get_param('state');
 
-        $state_host = static::getHostWithPort(wp_parse_url($state));
-        $site_host = static::getHostWithPort(wp_parse_url(get_site_url()));
-
-        if ($state_host !== $site_host) {
+        if (static::getHostWithPort($state) !== static::getHostWithPort(get_site_url())) {
             return new WP_Error('404');
         }
 
@@ -53,8 +50,10 @@ final class ActionController
         }
     }
 
-    public static function getHostWithPort($parsed_url)
+    public static function getHostWithPort($url)
     {
+        $parsed_url = wp_parse_url($url);
+
         return $parsed_url['host'] . (empty($parsed_url['port']) ? null : (':' . $parsed_url['port']));
     }
 }
