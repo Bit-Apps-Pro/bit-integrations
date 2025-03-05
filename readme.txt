@@ -4,7 +4,7 @@ Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
 Tested up to: 6.7.2
 Requires PHP: 7.4
-Stable tag: 2.4.10
+Stable tag: 2.5.0
 License: GPLv2 or later
 
 Automation Plugin for WordPress. Integration of 110+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
@@ -50,6 +50,7 @@ https://youtu.be/eFuficjF_F4
 * [**Contact Form 7**](https://wordpress.org/plugins/contact-form-7/) (free)
 * [**WooCommerce**](https://wordpress.org/plugins/woocommerce/) (free)
 * [**WPForms**](https://wordpress.org/plugins/wpforms-lite/) (free)
+* [**Advanced Custom Fields (ACF)**](https://wordpress.org/plugins/advanced-custom-fields/) (pro)
 * [**Fluent Forms**](https://wordpress.org/plugins/fluentform/) (pro)
 * [**Formidable**](https://wordpress.org/plugins/formidable/) (pro)
 * [**Bit Assist**](https://wordpress.org/plugins/bit-assist/) (pro)
@@ -108,6 +109,7 @@ https://youtu.be/eFuficjF_F4
 * [**Kali Forms**](https://wordpress.org/plugins/kali-forms/) (pro)
 * [**Kadence Blocks**](https://wordpress.org/plugins/kadence-blocks/) (pro)
 * [**LearnDash**](https://www.learndash.com/) (pro)
+* [**LearnPress**](https://wordpress.org/plugins/learnpress/) (pro)
 * [**LifterLMS**](https://wordpress.org/plugins/lifterlms/) (pro)
 * [**MasterStudy LMS**](https://wordpress.org/plugins/masterstudy-lms-learning-management-system/) (pro)
 * [**Meta Box**](https://wordpress.org/plugins/meta-box/) (pro)
@@ -119,6 +121,8 @@ https://youtu.be/eFuficjF_F4
 * [**Ninja Forms**](https://wordpress.org/plugins/ninja-forms/) (pro)
 * [**Ninja Tables**](https://wordpress.org/plugins/ninja-tables/) (pro)
 * [**OptinMonster**](https://wordpress.org/plugins/optinmonster/) (pro)
+* [**PeepSo**](https://www.peepso.com/) (pro)
+* [**Presto Player**](https://wordpress.org/plugins/presto-player/) (pro)
 * [**Popup Maker**](https://wordpress.org/plugins/popup-maker/) (pro)
 * [**Piotnet Forms**](https://wordpress.org/plugins/piotnetforms/) (pro)
 * [**Paid Memberships Pro**](https://wordpress.org/plugins/paid-memberships-pro/) (pro)
@@ -132,9 +136,11 @@ https://youtu.be/eFuficjF_F4
 * [**SiteOrigin Widgets Bundle**](https://wordpress.org/plugins/so-widgets-bundle/) (pro)
 * [**Studiocart**](https://wordpress.org/plugins/studiocart/) (pro)
 * [**SliceWP Affiliate**](https://wordpress.org/plugins/slicewp/) (pro)
+* [**Simply Schedule Appointments**](https://wordpress.org/plugins/simply-schedule-appointments/) (pro)
 * [**Solid Affiliate**](https://solidaffiliate.com/) (pro)
 * [**Spectra**](https://wordpress.org/plugins/ultimate-addons-for-gutenberg/) (pro)
 * [**SureCart**](https://wordpress.org/plugins/surecart/) (pro)
+* [**SureMail**](https://wordpress.org/plugins/suremails/) (pro)
 * [**SureForms**](https://wordpress.org/plugins/sureforms/) (pro)
 * [**SureMembers**](https://suremembers.com/) (pro)
 * [**The Events Calendar**](https://wordpress.org/plugins/the-events-calendar/) (pro)
@@ -668,6 +674,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 ### 💥 Don't worry, we give you some [**Trigger's**](https://bitapps.pro/docs/bit-integrations/trigger/) documentation with use cases to help you get started with the plugin.
 
+* [**Advanced Custom Fields (ACF)**](https://bit-integrations.com/wp-docs/trigger/advanced-custom-fields-integrations/)
+
 * [**AffiliateWP**](https://bitapps.pro/docs/bit-integrations/trigger/affiliatewp/)
 
 * [**Amelia Webhook**](https://bitapps.pro/docs/bit-integrations/trigger/amelia/)
@@ -788,7 +796,9 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Kadence Blocks**](https://bitapps.pro/docs/bit-integrations/trigger/kadence-blocks-form/)
 
-* [**LearnDash LMS**](https://bitapps.pro/docs/bit-integrations/trigger/learndash-lms/)
+* [**LearnDash**](https://bitapps.pro/docs/bit-integrations/trigger/learndash-lms/)
+
+* [**LearnPress**](https://bit-integrations.com/wp-docs/trigger/learnpress-integrations/)
 
 * [**LifterLMS**](https://bitapps.pro/docs/bit-integrations/trigger/lifterlms/)
 
@@ -810,6 +820,10 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Ninja Tables**](https://bit-integrations.com/wp-docs/trigger/ninja-tables-integrations/)
 
+* [**PeepSo**](https://bit-integrations.com/wp-docs/trigger/peepso-integrations/)
+
+* [**Presto Player**](https://bit-integrations.com/wp-docs/trigger/presto-player-integrations/)
+
 * [**Paid Membership Pro**](https://bitapps.pro/docs/bit-integrations/trigger/paid-membership-pro/)
 
 * [**Pie Forms**](https://bit-integrations.com/wp-docs/trigger/pie-forms-integrations/)
@@ -824,6 +838,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Restrict Content**](https://bitapps.pro/docs/bit-integrations/trigger/restrict-content/)
 
+* [**Simply Schedule Appointments**](https://bit-integrations.com/wp-docs/trigger/simply-schedule-appointments-integrations/)
+
 * [**Sensei LMS**](https://bit-integrations.com/wp-docs/trigger/sensei-lms-integrations/)
 
 * [**SiteOrigin**](https://bit-integrations.com/wp-docs/trigger/siteorigin-widgets-bundle-integrations/)
@@ -835,6 +851,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 * [**Spectra**](https://bit-integrations.com/wp-docs/trigger/spectra-integrations/)
 
 * [**StudioCart**](https://bitapps.pro/docs/bit-integrations/trigger/studiocart/)
+
+* [**SureMail**](https://bit-integrations.com/wp-docs/trigger/suremail-integrations/)
 
 * [**SureCart**](https://bitapps.pro/docs/bit-integrations/trigger/surecart/)
 
@@ -1247,6 +1265,25 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 6. All integration list
 
 == Changelog ==
+
+= 2.5.0 =
+_Release Date -5th March 2025_
+
+- **Security Fixes**
+ - Improved validation and sanitization of redirection URLs to prevent unauthorized redirects.
+ - Enhanced security measures to restrict redirects to trusted domains only.
+
+- **Bug Fixes**
+ - SureCart: Resolved an issue where editing dependencies caused unexpected errors. (Pro)
+ - SureCart: Fixed a bug where multiple executions occurred unexpectedly. (Pro)
+
+- **New Triggers**
+ - Advanced Custom Fields (ACF) – Unlock custom fields automation. (Pro)
+ - LearnPress – WordPress LMS Plugin. (Pro)
+ - Presto Player – The Ultimate Video Player For WordPress. (Pro)
+ - PeepSo – Free User Profile and Community WordPress Plugin. (Pro)
+ - Simply Schedule Appointments – Booking Plugin for WordPress. (Pro)
+ - SureMail – WordPress SMTP and Email Logs Plugin. (Pro)
 
 = 2.4.10 =
 _Release Date -25th February 2025_
@@ -1758,561 +1795,6 @@ _Release Date -17th August 2024_
 
 - **New Fixes :**
   - Telegram: HTML Entities parse issue fixed 
-
-= 2.1.9  =
-_Release Date -12th August 2024_
-
-- **New Trigger :**
-  - Dokan – Powerful WooCommerce Multivendor Marketplace Solution – Build Your Own Amazon, eBay, Etsy (Pro)
-  
-- **New Features :**
-  - Contact Form 7: Advanced Custom HTML Fields added (Pro)
-
-- **New Fixes :**
-  - WooCommerce: Undefined acfGetFieldGroups method defined
-  - MailPoet: Existing subscriber issue fixed 
-  - Google Calendar: Event TimeZone issue fixed 
-
-= 2.1.8  =
-_Release Date -1st August 2024_
-
-- **New Trigger :**
-  - Popup Maker – Boost Sales, Conversions, Optins, Subscribers with the Ultimate WP Popups Builder (Pro)
-  - Hustle – Email Marketing, Lead Generation, Optins, Popups (Pro)
-  
-- **New Features :**
-  - WooCommerce: Product Module: ACF fields added
-
-- **New Improvements :**
-  - Campaign Monitor: Ajax error removed from existing email finder
-
-- **New Fixes :**
-  - Google Calender: AllDayEvent issue fixed
-  - GramiPress: DB query table prefix issue fixed (Pro)
-
-= 2.1.7  =
-_Release Date -28th July 2024_
-
-- **New Trigger :**
-  - SureForms – Drag and Drop Form Builder for WordPress (Pro)
-  - Bricksforge – One Plugin. Countless Possibilities (Pro)
-  
-- **New Features :**
-  - WooCommerce (action): Order modules Flexible Checkout Fields for WooCommerce added (Pro)
-
-- **New Improvements :**
-  - Custom Trigger: Fetch data api improved
-  - MailPoet: Removed: All instances of deprecated \MailPoet\Models code.
-  - MailPoet: Updated: Replaced deprecated code with the MailPoet public API.
-
-- **New Fixes :**
-  - Hubspot: Actions value submission issue fixed
-  - WooCommerce: Undefined array key "customer_note" & is_internal_meta_key methods issue fixed
-
-= 2.1.6  =
-_Release Date -17th July 2024_
-
-- **New Trigger :**
-  - wpForo Forum - #1 WordPress Forum Plugin (Pro)
-
-- **New Action :**
-  - wpForo Forum - #1 WordPress Forum Plugin
-  
-- **New Features :**
-  - WooCommerce (trigger): Flexible Checkout Fields for WooCommerce added (Pro)
-
-- **New Improvements :**
-  - Perfex CRM: Error Response handler imporved
-  - Salesforce: Case Status, Origin, Type & Reason action Api Improved
-  - Salesforce: Case Priority, SLA Violation & Potential Liability actions are dynamically functioned
-
-- **New Fixes :**
-  - Salesforce: Create Case mapped field issue fixed
-  - Ninja Forms: File Upload field type issue fixed (Pro)
-  - MasterStudy LMS (trigger): Integration update dependency issue fixed
-  - MasterStudy LMS (trigger): Quiz fetching by Course issue fixed (Pro)
-  - MasterStudy LMS (trigger): Lesson Complete trigger hook updated (Pro)
-
-= 2.1.5  =
-_Release Date -11th July 2024_
-
-- **New Fixes :**
-  - Webhook: Test Webhook execute issue fixed
-  
-= 2.1.4  =
-_Release Date -8th July 2024_
-
-- **New Improvements :**
-  - WooCommerce: Product create trigger Improved
-  - Salesforce: Case Status action dynamically functioned
-  - Webhook: Fetch Api improved
-
-- **New Fixes :**
-  - Fluent Support: Custom Fields array checking issue fixed
-  - Zoho Desk: Custom field value issue fixed
-  
-
-= 2.1.3  =
-_Release Date -6th July 2024_
-
-- **New Features :**
-  - FreshSales: Upsert Record Action added (Pro)
-
-- **New Improvements :**
-  - Core: Update flow trigger hooks in cache
-  - ActiveCampaign: List limitation extended
-
-- **New Fixes :**
-  - Ninja Form: Form submission issue Fixed (Pro)
-  - Fluent Support: Undefined mailbox id
-  
-= 2.1.2  =
-_Release Date -3rd July 2024_
-
-- **New Trigger :**
-  - SureMembers - #1 WordPress Membership Plugin (Pro)
-  - Mailster - Email Newsletter Plugin for WordPress (Pro)
-
-- **New Action :**
-  - SureMembers - #1 WordPress Membership Plugin
-  - Mailster - Email Newsletter Plugin for WordPress
-
-- **New Features :**
-  - Airtable: Multiple Attachment file upload added
-  - MailRelay: Phone number field added ( Note: Phone numbers from the following countries will work only in the Mailrelay phone number field: Ecuador, Peru, Argentina, Italy, Uruguay, Chile, Portugal, Brazil, Mexico, Colombia, Spain)
-
-- **New Improvements :**
-  - Divi: Upgraded with Contact Form Module (Pro)
-  - Kadence Block Form: Parse non-required fields to field-map improved (Pro)
-  - Core: Integration log delete schedule added
-  - Salesforce: Case Origin, Case reason & Case type action dynamically functioned
-
-- **New Fixes :**
-  - Core: Conditional Logic preg_match issue fixed 
-
-= 2.1.1  =
-_Release Date -24th June 2024_
-
-- **New Fixes :**
-  - Elementor: plugin activation check issue fixed
-
-= 2.1.0  =
-_Release Date -24th June 2024_
-
-- **New Features :**
-  - Mailchimp: Add & Remove tag module added (pro)
-
-- **New Improvements :**
-  - Kadence Block Form: Upgraded with Advanced Form Block & Form Block (pro)
-  - Custom Form Submission Triggers: Active plugin checker added
-
-- **New Fixes :**
-  - Fluent Support: Undefined "custom_fields" issue fixed
-  - Salesforce: Zip code input field issue fixed
-  - Core: Undefined array key "REQUEST_METHOD" issue fixed
-
-= 2.0.8 - 2.0.9  =
-_Release Date -13th June 2024_
-
-- **New Actions :**
-  - Newsletter
-
-- **New Improvements :**
-  - MailUp: Custom field added
-  - Hubspot: Company module added
-
-- **New Fixes :**
-  - PipeDrive: Integration name update issue
-
-= 2.0.7  =
-_Release Date -10th June 2024_
-
-- **New Triggers :**
-  - Gutena Forms – Contact Forms Block
-  - SiteOrigin Widgets Bundle (Contact Form only)
-
-- **New Improvements :**
-  - Action Hook: Edit/Update Integration page added
-
-- **New Fixes :**
-  - MailMint: LogHandler
-  - Sendy: Custom Form Fields Value
-  - WooCommerce: Order-Status-Change-Specific-Status module post type 
-  - Google Contacts: Names Field
-  - Action Hook: State Reset
-  - Google Calender: TimeZone 
-  - Tutor LMS: Quiz attempt status (Pro)
-  - Integration Table Navigation Button
-
-= 2.0.6  =
-_Release Date -1st June 2024_
-
-- **New Triggers :**
-  - CoBlocks
-
-- **New Actions :**
-  - Drip
-
-- **New Features :**
-  - Sendy: Custom Field: Key added
-  - Autonami: Store new list & tag with existing record feature added
-  - Salesforce: Custom Module added
-
-- **New Fixes :**
-  - ClickUp: Custom Field Key
-  - Mailchimp: Audience List: Limitation
-  - ZagoMail: Tag explode
-  - GoogleCalender: Authorization
-  - SystemIO: Api Response
-  - Breakdance: Double Form Submission
-  - WooCommerce: Downloadable attachment
-  - WhatsApp: Info Page Blank
-  - Custom Form Submission: Edit state immutable
-  - Breakdance: Field Label (Pro)
-  - Licence Expired Value (Pro)
-
-= 2.0.5  =
-_Release Date -22th May 2024_
-
-- **New Fixes :**
-  - Bitform: FIeld label
-  - Klaviyo: List limitation
-
-= 2.0.4  =
-_Release Date -21th May 2024_
-
-- **New Features :**
-  - ZohoCRM: Pro Actions and Upload fields, previously exclusive to our premium versions, are now available in the free version of our product! This update provides all users with enhanced functionality and greater flexibility at no extra cost.
-  - ClickUp: custom Tagify input added
-  - SystemeIO: Contact Fields added
-  - Metform: File upload added (Pro)
-  - MasterStudy: Course Enroll: 'add_user_course' hook added (Pro)
-  - Fluent support: Custom fields added
-  - PipeDrive: Multiple options showing beside field map
-
-- **Fixes :**
-  - MailerLite: Name field
-  - Google Calendar: ISO8601 DateTime format
-  - Hubspot: Multiple select and Dropdown custom field
-  - Hubspot: Deal: Freezing screen
-  - WooCommerce: Order-Specific-Product: Select a Product Dropdown Update
-  - Bricks: CPT Form Type (Pro)
-  - PipeDrive: Multiple options issue
-
-= 2.0.3  =
-_Release Date -9th May 2024_
-
-- **New Triggers :**
-  - Fluent Booking
-
-- **Fixes :**
-  - Notion: Custom Input Vissible
-  - Notion: ISO 8601 Date Format
-
-= 2.0.2  =
-_Release Date -8th May 2024_
-
-- **New Features :**
-  - ClickUp: Attachment action added
-  
-- **Improvements :**
-  - Contact Form 7: converted file path into file URL
-
-- **Fixes :**
-  - ZagoMail: Tag explode
-  - Klaviyo: List limitation
-  - MailerLite: Group fetch
-
-= 2.0.1  =
-_Release Date -6th May 2024_
-
-- **Fixes :**
-  - Woocommerce: specific task order change issue 
-
-= 2.0.0  =
-_Release Date -25th April 2024_
-
-- **New Improvements :**
-  - Expanded Integration Options: In compliance with WordPress guidelines, we have updated the plugin to offer unlimited integration possibilities. Previously, users were limited to creating only one integration, but now they can create unlimited integrations using a wide range of triggers.
-  - New Trigger Options: Users can now create integrations using the following triggers:
-        1. **WooCommerce**
-        2. **Elementor**
-        3. **Contact Form 7**
-        4. **Bit Form**
-        5. **WP Forms**
-        6. **Custom Trigger**
-        7. **Actionhook**
-        
-- **Compatibility Update :**
-  - Existing Integrations: Users who have created integrations using triggers other than those listed above in the previous version of the plugin need not worry. This update will not affect their existing integrations, and they will continue to run properly. However, they will be unable to edit these integrations unless they are using one of the newly added triggers.
-
-= 1.6.5  =
-_Release Date -22th April 2024_
-
-- **Improvements :**
-  - Unusefull code removed.
-
-= 1.6.4  =
-_Release Date -18th April 2024_
-
-- **New Triggers :**
-  - Mailpoet
-
-- **New Features :**
-  - Freshdesk: Custom Field Added
-
-- **Fixes :**
-  - MailChimp: Field Mapping visibility 
-
-= 1.6.3  =
-_Release Date -6th April 2024_
-
-- **New Features :**
-  - Keap: Custom Fields Added
-  
-- **Improvements :**
-  - Elementor: UI & functionality upgraded
-
-- **Fixes :**
-  - Mailup: Lists & Groups limitation
-  - Sendinblue (Brevo): Lists limitation
-  - SendGrid: Authorization error response
-  - Kit (ConvertKit): Existing subscriber
-  - MailChimp: Required field missing
-  - Divi: Theme active check
-  - Freshsales: Contact Module: Account
-  - SendFox: Integration name edit/update
-  - FluentCRM: Tag added Contact Module: tag json format
-	- FluentCRM: Dependency form list update
-  - eForm: Single dropdown array
-  - Zagomail: Error response
-  - Keap: Refresh token expired
-  - ActionHook: Remove test option hook
-
-= 1.6.2  =
-_Release Date -19th March 2024_
-
-- **New Features :**
-  - WooCommerce: Order Attribution Tracking fields
-  - PerfexCRM: lead module: status & source fields
-  - Zoom: Generall fields & custom question's
-  - OmniSend: Tag action
-  - Salesforce: account & Case module:  missing fields
-- **Improvements :**
-  - Brekdance: UI & functionality upgraded
-  - Klaviyo: API version upgraded
-
-- **Fixes :**
-  - Mailjet: Contact list limitation
-  - Keap: data submit
-  - Clickup: phone number
-  - Zoom: access token expired
-  - Zoho Bigin: note content
-  - WPForms: file attachment path
-  - MailChimp: custom fields
-  - Custom Action: function file location missing
-  - FreshSales: Deal module: custom field
-  - WooCommerce: order-create module: checkout handling
-  - Freshsales: integration name update
-  - Telegram: file attachment upload
-
-= 1.6.1  =
-_Release Date -21th February 2024_
-
-- **New Features :**
-  - WooCommerce: Order module checkout custom field & customer Note
-
-- **Fixes :**
-  - Formidable: Single checkbox
-  - Dropbox: Multiple file upload 
-  - Moosend: Phone number validation
-  - Telegram: Single file attachment upload
-  - PropovoiceCRM: Lead module fields 
-  - Piotnet Addon: Form fields
-  - Pipedrive: Multiple label
-
-= 1.6.0  =
-_Release Date -5th February 2024_
-
-- **New Triggers :**
-  - Spectra
-  - Essential Blocks
-
-- **New Features :**
-  - Mail Mint: Custom Field
-  - Active Campaign: Account feature
-  - WebHook: General Smart Codes Fields & Custom JSON Schema Editor (Raw)
-  - Custom Api: General Smart Codes Fields & Custom JSON Schema Editor (Raw)
-
-- **Fixes :**
-  - ZohoCRM: Fixed DateTime 
-  - Custom Api: Fixed HTTP method
-  - Mail Mint: FIxed update contact status
-  - Post: Create a new post : Fixed multiple data sending issue
-  - Kit (ConvertKit): Fixed authorization
-  - Zoho Bigin: integration update validation
-  - WooCommerce: custom field mapping
-
-= 1.5.9  =
-_Release Date -21th January 2024_
-
-- **New Actions :**
-  - Action Hook
-
-- **New Features :**
-  - MailMint: Contact Fields
-  - Airtable: Attachment field
-
-- **Fixes :**
-  - Zoom webinar: list fetch issue fixed
-  - Integration Timeline: Log pagination
-  - Mautic: Authorization
-  - MailMint: contact status & select field mapping
-  - ARMember: edit integration form fields
-  - ZohoBigin: CheckMapped field
-  - Forminator: year field submit
-  - FreshSales: authorization & integration
-  - WooCommerce: order-create: product acf field 
-  - Google Drive: single folder multiple file upload
-  - Goggle Sheet: checkbox array data
-
-= 1.5.8  =
-_Release Date -11th January 2024_
-
-- **New Actions :**
-  - Zagomail - Email marketing & Automation -  Zagomail Integration & Automation
-
-- **New Features :**
-  - WooCommerce: Order Module: ACF field 
-
-- **Fixes :**
-  - Nutshell Crm: timeline response error
-  - Salesforce: fetal error issue
-  - Post: postTrashed  WP_Post object  handling issue
-  - Post: createPost module double data sending issue
-  - Breakdance: footer form & duplicate form issue
-  - Elementor: File upload issue
-  - Notion: file attachment issue
-
-= 1.5.7  =
-_Release Date -1st January 2024_
-
-- **New Actions :**
-  - Discord | Your Place to Talk and Hang Out -  Discord Integration & Automation
-  - OptinMonster - Most Powerful Lead Generation Software
-
-- **New Features :**
-  - WooCommerce: Custom Field: ACF field
-
-- **Fixes :**
-  - Zoho Bigin: Fixed Pipeline module 
-  - Zoho Desk: Fixed Custom multi-select field and multiple attachment store
-
-= 1.5.6  =
-_Release Date -20th December 2023_
-
-- **New Actions :**
-  - Systeme.io - The only tool you need to launch your online business -  Systeme.io Integration & Automation
-
-- **Fixes :**
-  - SendFox lists limitation issue fixed
-  - Rapidemail Double opt-in issue fixed
-  - Formidable multiiple file upload issue fixed
-  - PropovoiceCRM tags issue fixed
-  - Affiliate blank page issue fixed
-  - FluentCRM custom field issue fixed
-  - Forminator multiple address issue fixed 
-  - Mailchimp update record issue fixed
-  - Elementor integration issue fixed
-  - Hubspot custom field issue fixed
-
-= 1.5.5  =
-_Release Date -5th December 2023_
-
-- **New Actions :**
-  - Nutshell CRM: Simple Pipeline & Contact Management - Nutshell CRM Integration & Automation
-
-- **Fixes :**
-  - Woocommerce order create refatored
-  - MailPoet existing subscriber issue fixed
-  - Elementor duplicate page form issue fixed 
-  - WooCommerce change custom order status issue fixed
-  - Salesforce custom field issue fixed
-
-= 1.5.4  =
-_Release Date -20th November 2023_
-
-- **Fixes :**
-  - Brizy global footer form issue fixed
-  - Restrict Content expiry date issue fixed
-  - Mailrelay group fetching limitation issue fixed
-  - Mailjet fields limitation issue fixed
-  - Elementor trigger issue fixed 
-  - Elementor form with Airtable integrations issue fixed
-  - Formidable section fields issue fixed
-
-= 1.5.3  =
-_Release Date -7th November 2023_
-
-- **Fixes :**
-  - Woocommerce multiple image upload issue fixed
-  - Moosend list limitation issue fixed
-  - Metform hooks issue fixed
-  - TutorLms first_name, last_name & email field added in course enroll
-  - GoogleSheets custom data sending issue fixed
-  - Tripetto form issue fixed
-
-= 1.5.2  =
-_Release Date -30th October 2023_
-
-- **Fixes :**
-  - Acumbamail data submission issue fixed
-  - Elementor global form data submission issue fixed
-  - Forminator forms limitation issue fixed
-  - Google Sheets custom form-field issue fixed
-  - Post trigger feature image issue fixed
-  - Beaver Builder custom dashboard issue fixed
-  - Doc & support page product design breaking issue fixed
-  - Custom Action validation issue fixed
-
-= 1.5.1  =
-_Release Date -18th October 2023_
-
-- **Fixes :**
-  - Post create isssue fixed.
-  - Woo-commerce multiple user create issue fixed
-  - Insightly log data issue fixed.
-  - Mailjet integration name edit issue fixed.
-  - Suitedash custom field & address field blank issue fixed
-  - Groundhogg email field issue fixed
-  - Asana custom field & logHandler message issue fixed
-  - Gravitec Custom field "#" issue fixed
-  - Airtable select box issue fixed
-  - TinyMCE loading issue fixed
-  - Telegram checkbox, selectbox, datetime data sending issue fixed
-  - Groundhog trigger edit, add tag & remove tag issue fixed
-  - BuddyBoss logHandler message issue fixed
-
-= 1.5.0  =
-_Release Date -3rd October 2023_
-
-- **New Triggers :**
-  - Academy LMS: eLearning and online course solution for WordPress
-  - BitForm: Easiest Multi Step Contact Form, Payment Form, Calculator Form Builder Plugin for WordPress
-- **New Actions :**
-  - Woodpecker: Tools for Cold Email, Sales & Agency Outreach
-  - Academy LMS: eLearning and online course solution for WordPress
-  - Moxie CRM: Built for freelancers
-  - WP Fusion: Marketing automation for WordPress
-- **Fixes :**
-  - CopperCRM email field mapping & success message issue fixed
-  - Groundhogg tag id issue fixed
-  - Insightly authorization & next button issue fixed
-  - SuiteDash custom field issue fixed
-  - HookServices false array issue fixed
-  - PropovoiceCRM logHandler & loader issue fixed
-  - Mail Poet new list fetching issue fixed
-  - Woocommerse order create issue fixed
 
 - **For Older Changelogs :**
   - [Click Here](https://bitapps.pro/docs/bit-integrations/free-changelogs/)

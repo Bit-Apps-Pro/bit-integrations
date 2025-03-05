@@ -889,11 +889,10 @@ export const SliceWpStateIH = (tmpConf, flowData) => {
 }
 
 export const SureCartStateIH = (tmpConf, flowData) => {
-  const val = Number(flowData.formID)
-  if (val === 1 || val === 2 || val === 3) {
-    tmpConf.selectedProduct = flowData.selectedProduct
-    tmpConf.allProduct = flowData.allProduct
-  }
+
+  tmpConf.selectedProduct = flowData.selectedProduct
+  tmpConf.allProduct = flowData.allProduct
+
   return tmpConf
 }
 
