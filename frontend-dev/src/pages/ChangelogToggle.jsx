@@ -58,6 +58,23 @@ export default function ChangelogToggle() {
       headClass: 'new-improvement',
       itemClass: 'feature-list',
       items: []
+    },
+    {
+      label: __('Bug Fixes', 'bit-integrations'),
+      headClass: 'fixes',
+      itemClass: 'fixes-list',
+      items: [
+        {
+          label: 'SureCart',
+          desc: 'Resolved an issue where editing dependencies caused unexpected errors.',
+          isPro: true
+        },
+        {
+          label: 'SureCart',
+          desc: 'Fixed a bug where multiple executions occurred unexpectedly.',
+          isPro: true
+        }
+      ]
     }
   ]
 
