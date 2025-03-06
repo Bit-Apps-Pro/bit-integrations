@@ -48,6 +48,7 @@ export const customFormIntegrations = [
   'PeepSo',
   'SureMail',
   'MasteriyoLMS',
+  'FluentBoards',
 ]
 
 export const actionHookIntegrations = ['ActionHook']
