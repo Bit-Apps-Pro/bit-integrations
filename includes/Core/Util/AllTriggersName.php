@@ -70,6 +70,7 @@ final class AllTriggersName
             'MailPoet'                   => ['name' => 'MailPoet',  'isPro' => true, 'is_active' => false],
             'Mailster'                   => ['name' => 'Mailster',  'isPro' => true, 'is_active' => false],
             'MasterStudyLms'             => ['name' => 'MasterStudyLms',  'isPro' => true, 'is_active' => false],
+            'MasteriyoLMS'               => ['name' => 'Masteriyo LMS',  'isPro' => true, 'is_active' => false],
             'Memberpress'                => ['name' => 'Memberpress',  'isPro' => true, 'is_active' => false],
             'Met'                        => ['name' => 'Met Form',  'isPro' => true, 'is_active' => false],
             'MetaBox'                    => ['name' => 'MB Frontend Submission',  'isPro' => true, 'is_active' => false],
