@@ -49,6 +49,7 @@ export const customFormIntegrations = [
   'SureMail',
   'MasteriyoLMS',
   'FluentBoards',
+  'JetpackCRM',
 ]
 
 export const actionHookIntegrations = ['ActionHook']

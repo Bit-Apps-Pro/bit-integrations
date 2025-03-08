@@ -63,6 +63,7 @@ final class AllTriggersName
             'Hustle'                     => ['name' => 'Hustle',  'isPro' => true, 'is_active' => false],
             'JetEngine'                  => ['name' => 'JetEngine',  'isPro' => true, 'is_active' => false],
             'JetForm'                    => ['name' => 'JetForm Builder',  'isPro' => true, 'is_active' => false],
+            'JetpackCRM'                 => ['name' => 'Jetpack CRM',  'isPro' => true, 'is_active' => false],
             'Kadence'                    => ['name' => 'Kadence Blocks Form',  'isPro' => true, 'is_active' => false],
             'KaliForms'                  => ['name' => 'Kali Forms',  'isPro' => true, 'is_active' => false],
             'LearnDash'                  => ['name' => 'LearnDash LMS',  'isPro' => true, 'is_active' => false],
