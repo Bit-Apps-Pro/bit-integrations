@@ -6,18 +6,18 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { $actionConf, $btcbi, $formFields, $newFlow } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
+import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import ConditionalLogic from '../../ConditionalLogic'
 import LoaderSm from '../../Loaders/LoaderSm'
 import DropDown from '../../Utilities/DropDown'
 import SnackMsg from '../../Utilities/SnackMsg'
 import TableCheckBox from '../../Utilities/TableCheckBox'
 import TinyMCE from '../../Utilities/TinyMCE'
+import TutorialLink from '../../Utilities/TutorialLink'
 import EditFormInteg from '../EditFormInteg'
-import SetEditIntegComponents from '../IntegrationHelpers/SetEditIntegComponents'
 import EditWebhookInteg from '../EditWebhookInteg'
 import { saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
-import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
-import TutorialLink from '../../Utilities/TutorialLink'
+import SetEditIntegComponents from '../IntegrationHelpers/SetEditIntegComponents'
 
 function Mail({ allIntegURL, isInfo, edit, isLearnDash = false, learnDashConf }) {
   const [flow, setFlow] = useRecoilState($newFlow)
@@ -37,7 +37,7 @@ function Mail({ allIntegURL, isInfo, edit, isLearnDash = false, learnDashConf })
     if (emailInFormField()) {
       const flds = []
 
-      formFields.map((fld) => {
+      formFields.map(fld => {
         if (fld.type === 'email') {
           flds.push({ label: fld.label, value: `\${${fld.name}}` })
         }
@@ -130,7 +130,7 @@ function Mail({ allIntegURL, isInfo, edit, isLearnDash = false, learnDashConf })
   }
 
   const addFieldToSubject = ({ target: { value } }) => {
-    setConf((prv) => ({ ...prv, subject: (prv.subject !== undefined ? prv.subject : '') + value }))
+    setConf(prv => ({ ...prv, subject: (prv.subject !== undefined ? prv.subject : '') + value }))
     setTimeout(() => {
       value = ''
     }, 100)
@@ -146,17 +146,8 @@ function Mail({ allIntegURL, isInfo, edit, isLearnDash = false, learnDashConf })
       return
     }
     const allConf = { ...conf, learnDashConf }
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      allConf,
-      navigate,
-      '',
-      edit,
-      setIsLoading
-    )
-    resp.then((res) => {
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, allConf, navigate, '', edit, setIsLoading)
+    resp.then(res => {
       if (res.success) {
         if (edit) {
           toast.success('Integration Updated Successfully')
@@ -168,8 +159,8 @@ function Mail({ allIntegURL, isInfo, edit, isLearnDash = false, learnDashConf })
     })
   }
 
-  const onChangeHandler = (val) => {
-    setConf((prv) => ({ ...prv, body: val }))
+  const onChangeHandler = val => {
+    setConf(prv => ({ ...prv, body: val }))
     // setEmailSetting('body', val)
   }
 
@@ -188,7 +179,7 @@ function Mail({ allIntegURL, isInfo, edit, isLearnDash = false, learnDashConf })
       <span className="f-m wdt-200 d-in-b">{__('Integration Name', 'bit-integration')}</span>
       <input
         className="btcd-paper-inp w-5 mt-1"
-        onChange={(e) => setEmailSetting('name', e.target.value)}
+        onChange={e => setEmailSetting('name', e.target.value)}
         name="name"
         value={conf.name}
         type="text"
@@ -198,15 +189,10 @@ function Mail({ allIntegURL, isInfo, edit, isLearnDash = false, learnDashConf })
 
       <br />
       <br />
-      {flow.triggered_entity === 'Webhook' && flow?.flow_details && (
-        <EditWebhookInteg setSnackbar={setSnackbar} />
-      )}
-      {flow.triggered_entity !== 'Webhook' && flow?.flow_details && (
-        <EditFormInteg setSnackbar={setSnackbar} />
-      )}
+      {edit && <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />}
 
       <DropDown
-        action={(val) => setEmailSetting('from', val)}
+        action={val => setEmailSetting('from', val)}
         placeholder={__('Add mail from address', 'bit-integrations')}
         value={conf.from}
         title={<span className="f-m wdt-200 d-in-b">{__('From', 'bit-integrations')}</span>}
@@ -216,7 +202,7 @@ function Mail({ allIntegURL, isInfo, edit, isLearnDash = false, learnDashConf })
         options={mailOptions(conf.from)}
       />
       <DropDown
-        action={(val) => setEmailSetting('to', val)}
+        action={val => setEmailSetting('to', val)}
         value={conf.to}
         placeholder={__('Add Email Receiver', 'bit-integrations')}
         title={<span className="f-m wdt-200 d-in-b">{__('To', 'bit-integrations')}</span>}
@@ -227,7 +213,7 @@ function Mail({ allIntegURL, isInfo, edit, isLearnDash = false, learnDashConf })
         options={mailOptions(conf.to)}
       />
       <DropDown
-        action={(val) => setEmailSetting('cc', val)}
+        action={val => setEmailSetting('cc', val)}
         value={conf.cc}
         placeholder={__('Add Email CC', 'bit-integrations')}
         title={<span className="f-m wdt-200 d-in-b">{__('CC', 'bit-integrations')}</span>}
@@ -238,7 +224,7 @@ function Mail({ allIntegURL, isInfo, edit, isLearnDash = false, learnDashConf })
         options={mailOptions(conf.cc)}
       />
       <DropDown
-        action={(val) => setEmailSetting('bcc', val)}
+        action={val => setEmailSetting('bcc', val)}
         placeholder={__('Add Email BCC', 'bit-integrations')}
         value={conf.bcc}
         title={<span className="f-m wdt-200 d-in-b">{__('BCC', 'bit-integrations')}</span>}
@@ -249,7 +235,7 @@ function Mail({ allIntegURL, isInfo, edit, isLearnDash = false, learnDashConf })
         options={mailOptions(conf.bcc)}
       />
       <DropDown
-        action={(val) => setEmailSetting('replyto', val)}
+        action={val => setEmailSetting('replyto', val)}
         placeholder={__('Reply To', 'bit-integrations')}
         value={conf.replyto}
         title={<span className="f-m wdt-200 d-in-b">{__('Reply To', 'bit-integrations')}</span>}
@@ -260,7 +246,7 @@ function Mail({ allIntegURL, isInfo, edit, isLearnDash = false, learnDashConf })
         options={mailOptions(conf.replyto)}
       />
       <DropDown
-        action={(value) => setEmailSetting('attachment', value)}
+        action={value => setEmailSetting('attachment', value)}
         placeholder={__('Attachment', 'bit-integrations')}
         value={conf?.attachment || []}
         title={<span className="f-m wdt-200 d-in-b">{__('Attachment', 'bit-integrations')}</span>}
@@ -275,24 +261,21 @@ function Mail({ allIntegURL, isInfo, edit, isLearnDash = false, learnDashConf })
       <div className="mt-2 mb-4 flx">
         <span className="f-m wdt-200 d-in-b">Subject:</span>
         <input
-          onChange={(e) => setEmailSetting('subject', e.target.value)}
+          onChange={e => setEmailSetting('subject', e.target.value)}
           name="sub"
           type="text"
           className="btcd-paper-inp w-5"
           placeholder="Email Subject Here"
           value={conf.subject}
         />
-        <select
-          onChange={addFieldToSubject}
-          className="btcd-paper-inp ml-2"
-          style={{ width: '20%' }}>
+        <select onChange={addFieldToSubject} className="btcd-paper-inp ml-2" style={{ width: '20%' }}>
           {/* <option value="">{__('Add form field', 'bit-integrations')}</option>
           {formFields !== null && formFields.map(f => !f.type.match(/^(file|recaptcha)$/) && <option key={f.name} value={`\${${f.name}}`}>{f.label}</option>)} */}
           <option value="">{__('Add field', 'bit-integrations')}</option>
           <optgroup label={__('Form Fields', 'bit-integrations')}>
             {formFields !== null &&
               formFields.map(
-                (f) =>
+                f =>
                   f.type !== undefined &&
                   !f.type.match(/^(file|recaptcha)$/) && (
                     <option key={f.name} value={`\${${f.name}}`}>
@@ -304,7 +287,7 @@ function Mail({ allIntegURL, isInfo, edit, isLearnDash = false, learnDashConf })
           <optgroup
             label={`${__('General Smart Codes', 'bit-integrations')} ${isPro ? '' : `(${__('Pro', 'bit-integrations')})`}`}>
             {isPro &&
-              SmartTagField?.map((f) => (
+              SmartTagField?.map(f => (
                 <option key={`ff-rm-${f.name}`} value={`\${${f.name}}`}>
                   {f.label}
                 </option>
@@ -324,7 +307,7 @@ function Mail({ allIntegURL, isInfo, edit, isLearnDash = false, learnDashConf })
         <>
           <div className="flx">
             <TableCheckBox
-              onChange={(e) => checkedCondition(e.target.value, e.target.checked)}
+              onChange={e => checkedCondition(e.target.value, e.target.checked)}
               checked={conf?.condition?.action_behavior === 'cond'}
               className="wdt-200 mt-4 mr-2"
               value="cond"
