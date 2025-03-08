@@ -81,6 +81,7 @@ final class AllTriggersName
             'NinjaTables'                => ['name' => 'Ninja Tables',  'isPro' => true, 'is_active' => false],
             'OptinMonster'               => ['name' => 'OptinMonster',  'isPro' => true, 'is_active' => false],
             'PaidMembershipPro'          => ['name' => 'Paid Membership Pro',  'isPro' => true, 'is_active' => false],
+            'Paymattic'                  => ['name' => 'Paymattic',  'isPro' => true, 'is_active' => false],
             'PiotnetAddon'               => ['name' => 'PiotnetAddon',  'isPro' => true, 'is_active' => false],
             'PiotnetAddonForm'           => ['name' => 'PiotnetAddonForm',  'isPro' => true, 'is_active' => false],
             'PiotnetForms'               => ['name' => 'Piotnet Forms',  'isPro' => true, 'is_active' => false],

@@ -50,6 +50,7 @@ export const customFormIntegrations = [
   'MasteriyoLMS',
   'FluentBoards',
   'JetpackCRM',
+  'Paymattic',
 ]
 
 export const actionHookIntegrations = ['ActionHook']
