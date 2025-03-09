@@ -74,6 +74,7 @@ final class AllTriggersName
             'MasterStudyLms'             => ['name' => 'MasterStudyLms',  'isPro' => true, 'is_active' => false],
             'MasteriyoLMS'               => ['name' => 'Masteriyo LMS',  'isPro' => true, 'is_active' => false],
             'Memberpress'                => ['name' => 'Memberpress',  'isPro' => true, 'is_active' => false],
+            'MemberPressCourse'          => ['name' => 'MemberPress Courses',  'isPro' => true, 'is_active' => false],
             'Met'                        => ['name' => 'Met Form',  'isPro' => true, 'is_active' => false],
             'MetaBox'                    => ['name' => 'MB Frontend Submission',  'isPro' => true, 'is_active' => false],
             'Newsletter'                 => ['name' => 'Newsletter',  'isPro' => true, 'is_active' => false],

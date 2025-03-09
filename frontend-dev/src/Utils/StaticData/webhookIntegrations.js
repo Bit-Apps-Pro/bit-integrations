@@ -52,6 +52,7 @@ export const customFormIntegrations = [
   'JetpackCRM',
   'Paymattic',
   'ProfileGrid',
+  'MemberPressCourse',
 ]
 
 export const actionHookIntegrations = ['ActionHook']
