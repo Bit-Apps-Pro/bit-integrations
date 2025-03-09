@@ -89,6 +89,7 @@ final class AllTriggersName
             'PopupMaker'                 => ['name' => 'Popup Maker',  'isPro' => true, 'is_active' => false],
             'Post'                       => ['name' => 'WP Post',  'isPro' => true, 'is_active' => false],
             'PrestoPlayer'               => ['name' => 'Presto Player',  'isPro' => true, 'is_active' => false],
+            'ProfileGrid'                => ['name' => 'ProfileGrid',  'isPro' => true, 'is_active' => false],
             'Rafflepress'                => ['name' => 'Rafflepress',  'isPro' => true, 'is_active' => false],
             'PeepSo'                     => ['name' => 'PeepSo',  'isPro' => true, 'is_active' => false],
             'Registration'               => ['name' => 'WP User Registration',  'isPro' => true, 'is_active' => false],
