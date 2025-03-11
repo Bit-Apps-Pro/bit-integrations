@@ -77,6 +77,7 @@ final class AllTriggersName
             'MemberPressCourse'          => ['name' => 'MemberPress Courses',  'isPro' => true, 'is_active' => false],
             'Met'                        => ['name' => 'Met Form',  'isPro' => true, 'is_active' => false],
             'MetaBox'                    => ['name' => 'MB Frontend Submission',  'isPro' => true, 'is_active' => false],
+            'ModernEventsCalendar'       => ['name' => 'Modern Events Calendar',  'isPro' => true, 'is_active' => false],
             'Newsletter'                 => ['name' => 'Newsletter',  'isPro' => true, 'is_active' => false],
             'NF'                         => ['name' => 'Ninja Forms',  'isPro' => true, 'is_active' => false],
             'NinjaTables'                => ['name' => 'Ninja Tables',  'isPro' => true, 'is_active' => false],

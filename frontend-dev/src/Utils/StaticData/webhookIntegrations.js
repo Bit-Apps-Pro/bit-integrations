@@ -53,6 +53,7 @@ export const customFormIntegrations = [
   'Paymattic',
   'ProfileGrid',
   'MemberPressCourse',
+  'ModernEventsCalendar',
 ]
 
 export const actionHookIntegrations = ['ActionHook']
