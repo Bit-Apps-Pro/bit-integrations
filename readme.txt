@@ -1290,10 +1290,6 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 = 2.5.1 =
 _Release Date -12th March 2025_
 
-- **Bug Fixes**
- - SureCart: Resolved an issue where order cancellation wasn’t executing correctly on specific products. (Pro)
- - Mail: Fixed a glitch in the trigger integration component when editing existing integrations.
-
 - **New Triggers**
  - Fluent Boards – 3 new events added (Pro)
  - Jetpack CRM – 10 new events added (Pro)
@@ -1303,16 +1299,12 @@ _Release Date -12th March 2025_
  - Paymattic – 1 new events added (Pro)
  - ProfileGrid – 12 new events added (Pro)
 
+- **Bug Fixes**
+ - SureCart: Resolved an issue where order cancellation wasn’t executing correctly on specific products. (Pro)
+ - Mail: Fixed a glitch in the trigger integration component when editing existing integrations.
+
 = 2.5.0 =
 _Release Date -5th March 2025_
-
-- **Security Fixes**
- - Improved validation and sanitization of redirection URLs to prevent unauthorized redirects.
- - Enhanced security measures to restrict redirects to trusted domains only.
-
-- **Bug Fixes**
- - SureCart: Resolved an issue where editing dependencies caused unexpected errors. (Pro)
- - SureCart: Fixed a bug where multiple executions occurred unexpectedly. (Pro)
 
 - **New Triggers**
  - Advanced Custom Fields (ACF) – Unlock custom fields automation. (Pro)
@@ -1321,6 +1313,14 @@ _Release Date -5th March 2025_
  - PeepSo – Free User Profile and Community WordPress Plugin. (Pro)
  - Simply Schedule Appointments – Booking Plugin for WordPress. (Pro)
  - SureMail – WordPress SMTP and Email Logs Plugin. (Pro)
+
+- **Security Fixes**
+ - Improved validation and sanitization of redirection URLs to prevent unauthorized redirects.
+ - Enhanced security measures to restrict redirects to trusted domains only.
+
+- **Bug Fixes**
+ - SureCart: Resolved an issue where editing dependencies caused unexpected errors. (Pro)
+ - SureCart: Fixed a bug where multiple executions occurred unexpectedly. (Pro)
 
 = 2.4.10 =
 _Release Date -25th February 2025_
