@@ -54,6 +54,7 @@ export const customFormIntegrations = [
   'ProfileGrid',
   'MemberPressCourse',
   'ModernEventsCalendar',
+  'SureFeedback',
 ]
 
 export const actionHookIntegrations = ['ActionHook']

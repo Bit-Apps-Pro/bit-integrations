@@ -106,6 +106,7 @@ final class AllTriggersName
             'SureCart'                   => ['name' => 'SureCart',  'isPro' => true, 'is_active' => false],
             'SureMail'                   => ['name' => 'SureMail',  'isPro' => true, 'is_active' => false],
             'SureForms'                  => ['name' => 'SureForms',  'isPro' => true, 'is_active' => false],
+            'SureFeedback'               => ['name' => 'SureFeedback',  'isPro' => true, 'is_active' => false],
             'SureMembers'                => ['name' => 'SureMembers',  'isPro' => true, 'is_active' => false],
             'EventsCalendar'             => ['name' => 'The Events Calendar',  'isPro' => true, 'is_active' => false],
             'ThriveApprentice'           => ['name' => 'ThriveApprentice',  'isPro' => true, 'is_active' => false],
