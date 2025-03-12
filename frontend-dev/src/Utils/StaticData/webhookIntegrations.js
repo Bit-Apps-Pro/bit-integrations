@@ -47,6 +47,13 @@ export const customFormIntegrations = [
   'LearnPress',
   'PeepSo',
   'SureMail',
+  'MasteriyoLMS',
+  'FluentBoards',
+  'JetpackCRM',
+  'Paymattic',
+  'ProfileGrid',
+  'MemberPressCourse',
+  'ModernEventsCalendar',
 ]
 
 export const actionHookIntegrations = ['ActionHook']

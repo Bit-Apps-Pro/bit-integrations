@@ -205,7 +205,7 @@ const CustomFormSubmission = () => {
     </div>
   ) : (
     <div className="trigger-custom-width">
-      {allTasks && (
+      {allTasks && Array.isArray(allTasks) && (
         <div className="w-8 m-a">
           <h4>{__('Select a Form/Task Name', 'bit-integrations')}</h4>
           <MultiSelect

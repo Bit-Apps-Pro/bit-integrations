@@ -1,10 +1,10 @@
-=== Webhook Automator & Contact Form Integration to Automate 260+ Platforms – Bit Integrations ===
+=== Webhook Automator & Contact Form Integration to Automate 270+ Platforms – Bit Integrations ===
 Contributors: bitpressadmin, rishadbitcode, niloy121, fahimsakib, shuvomohajan, tanvirchy, shakhawathosen, khoaiz, mazharul78
 Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
 Tested up to: 6.7.2
 Requires PHP: 7.4
-Stable tag: 2.5.0
+Stable tag: 2.5.1
 License: GPLv2 or later
 
 Automation Plugin for WordPress. Integration of 110+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
@@ -13,7 +13,7 @@ Automation Plugin for WordPress. Integration of 110+ Triggers & 150+ Actions.The
 
 <strong>no-code automation plugin for WordPress, enabling flawless workflows with webhooks, WooCommerce, CRM, LMS, and more | Best Automation Plugin for WordPress.</strong>
 
-Automate your WordPress workflow with **Bit Integrations**: the all-in-one plugin for sending data authomatically to WooCommerce, form builders, CRM, LMS, bookings, spreadsheets, [**webhooks**](https://webhook.is/difference-between-webhook-and-api), social media, email marketing and automation platforms like Zapier and others. No technical knowledge needed. Automate tasks across 260+ platforms effortlessly.
+Automate your WordPress workflow with **Bit Integrations**: the all-in-one plugin for sending data authomatically to WooCommerce, form builders, CRM, LMS, bookings, spreadsheets, [**webhooks**](https://webhook.is/difference-between-webhook-and-api), social media, email marketing and automation platforms like Zapier and others. No technical knowledge needed. Automate tasks across 270+ platforms effortlessly.
 
 You can see below what WPTuts say about **Bit Integrations**
 
@@ -91,6 +91,7 @@ https://youtu.be/eFuficjF_F4
 * [**FluentCommunity**](https://wordpress.org/plugins/fluent-community/) (pro)
 * [**FluentSMTP**](https://wordpress.org/plugins/fluent-smtp/) (pro)
 * [**Fluent Booking**](https://fluentbooking.com/) (pro)
+* [**Fluent Boards**](https://wordpress.org/plugins/fluent-boards/) (pro)
 * [**Fluent CRM**](https://wordpress.org/plugins/fluent-crm/) (pro)
 * [**Fluent Support**](https://wordpress.org/plugins/fluent-support/) (pro)
 * [**FunnelKit Automations CRM**](https://wordpress.org/plugins/wp-marketing-automations/) (pro)
@@ -106,21 +107,27 @@ https://youtu.be/eFuficjF_F4
 * [**Hustle**](https://wordpress.org/plugins/wordpress-popup/) (pro)
 * [**JetFormBuilder**](https://wordpress.org/plugins/jetformbuilder/) (pro)
 * [**JetEngine**](https://crocoblock.com/plugins/jetengine/) (pro)
+* [**Jetpack CRM**](https://wordpress.org/plugins/zero-bs-crm/) (pro)
 * [**Kali Forms**](https://wordpress.org/plugins/kali-forms/) (pro)
 * [**Kadence Blocks**](https://wordpress.org/plugins/kadence-blocks/) (pro)
 * [**LearnDash**](https://www.learndash.com/) (pro)
 * [**LearnPress**](https://wordpress.org/plugins/learnpress/) (pro)
 * [**LifterLMS**](https://wordpress.org/plugins/lifterlms/) (pro)
 * [**MasterStudy LMS**](https://wordpress.org/plugins/masterstudy-lms-learning-management-system/) (pro)
+* [**Masteriyo LMS**](https://wordpress.org/plugins/learning-management-system/) (pro)
 * [**Meta Box**](https://wordpress.org/plugins/meta-box/) (pro)
 * [**Metform**](https://wordpress.org/plugins/metform/) (pro)
 * [**MemberPress**](https://wordpress.org/plugins/members/) (pro)
+* [**MemberPress Courses**](https://memberpress.com/addons/memberpress-courses/) (pro)
 * [**MailPoet**](https://wordpress.org/plugins/mailpoet/) (pro)
 * [**Mailster**](https://wordpress.org/plugins/mailster/) (pro)
+* [**Modern Events Calendar**](https://webnus.net/modern-events-calendar/) (pro)
 * [**Newsletter**](https://wordpress.org/plugins/newsletter/) (pro)
 * [**Ninja Forms**](https://wordpress.org/plugins/ninja-forms/) (pro)
 * [**Ninja Tables**](https://wordpress.org/plugins/ninja-tables/) (pro)
 * [**OptinMonster**](https://wordpress.org/plugins/optinmonster/) (pro)
+* [**Paymattic**](https://wordpress.org/plugins/wp-payment-form/) (pro)
+* [**ProfileGrid**](https://wordpress.org/plugins/profilegrid-user-profiles-groups-and-communities/) (pro)
 * [**PeepSo**](https://www.peepso.com/) (pro)
 * [**Presto Player**](https://wordpress.org/plugins/presto-player/) (pro)
 * [**Popup Maker**](https://wordpress.org/plugins/popup-maker/) (pro)
@@ -381,7 +388,7 @@ Wp-Telemetry **DOES NOT IMMEDIATELY** start gathering data, rather it will gathe
 
 Free version allows you to use all free triggers and all actions,
 also with unlimited active integrations.
-With the pro version, you have the ability to use all 260+ triggers and actions for unlimited active integrations.
+With the pro version, you have the ability to use all 270+ triggers and actions for unlimited active integrations.
 Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations/).
 
 ### 💥 Don't worry, we give you some video tutorials with use cases to help you get started with the plugin.
@@ -758,6 +765,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Fluent Booking**](https://bitapps.pro/docs/bit-integrations/trigger/fluentbooking-integrations/)
 
+* [**Fluent Boards**](https://bit-integrations.com/wp-docs/trigger/fluentboards-integrations/)
+
 * [**Fluent CRM**](https://bitapps.pro/docs/bit-integrations/trigger/fluent-crm/)
 
 * [**Fluent Forms**](https://bitapps.pro/docs/bit-integrations/trigger/fluent-forms/)
@@ -792,6 +801,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**JetFormBuilder**](https://bitapps.pro/docs/bit-integrations/trigger/jetformbuilder/)
 
+* [**Jetpack CRM**](https://bit-integrations.com/wp-docs/trigger/jetpack-crm-integrations/)
+
 * [**Kali Forms**](https://bit-integrations.com/wp-docs/trigger/kali-forms-integrations/)
 
 * [**Kadence Blocks**](https://bitapps.pro/docs/bit-integrations/trigger/kadence-blocks-form/)
@@ -810,7 +821,13 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**MasterStudy LMS**](https://bit-integrations.com/wp-docs/trigger/masterstudy-lms-integrations-as-a-trigger/)
 
+* [**Masteriyo LMS**](https://bit-integrations.com/wp-docs/trigger/masteriyo-lms-integrations/)
+
 * [**Memberpress**](https://bitapps.pro/docs/bit-integrations/trigger/memberpress/)
+
+* [**MemberPress Courses**](https://bit-integrations.com/wp-docs/trigger/memberpress-courses-integrations/)
+
+* [**Modern Events Calendar**](https://bit-integrations.com/wp-docs/trigger/modern-events-calendar-integrations/)
 
 * [**MetForm**](https://bitapps.pro/docs/bit-integrations/trigger/metform/)
 
@@ -819,6 +836,10 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 * [**Ninja Form**](https://bitapps.pro/docs/bit-integrations/trigger/ninja-forms/)
 
 * [**Ninja Tables**](https://bit-integrations.com/wp-docs/trigger/ninja-tables-integrations/)
+
+* [**Paymattic**](https://bit-integrations.com/wp-docs/trigger/paymattic-integrations/)
+
+* [**ProfileGrid**](https://bit-integrations.com/wp-docs/trigger/profilegrid-integrations/)
 
 * [**PeepSo**](https://bit-integrations.com/wp-docs/trigger/peepso-integrations/)
 
@@ -1214,9 +1235,9 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 ## FAQ
 
 = 1. What is Bit Integrations? =
-Bit Integrations is a wordpress plugin that allows you to connect your WordPress site with over 260+ popular platforms, such as CRMs, marketing tools, and more.
+Bit Integrations is a wordpress plugin that allows you to connect your WordPress site with over 270+ popular platforms, such as CRMs, marketing tools, and more.
 = 2. What kind of tasks does Bit Integrations automate?=
-Bit Integrations provide automated solutions for form submissions, data transfer between platforms, and more. With the integration of over 260+ popular platforms, users can effortlessly manage their connections to their WordPress site in one place.
+Bit Integrations provide automated solutions for form submissions, data transfer between platforms, and more. With the integration of over 270+ popular platforms, users can effortlessly manage their connections to their WordPress site in one place.
 = 3. Is Bit integrations easy to use?=
 Yes, Bit integrations easy to use without require coding knowledge and without read documentation.
 = 4. Bit Integrations support Multisite?=
@@ -1230,7 +1251,7 @@ Yes, you can send data when user complete course/lesson , create course etc.
 = 8. Can I automate with WooCommerce, WooCommerce subscription, WooCommerce booking, Studiocart and Easy Digital Downloads?=
 Yes, you can send data when user complete order, create order, create subscription, create booking etc.
 = 9. Do I need coding skills to use Bit Integrations?=
-No, you don't need any coding skills to use Bit Integrations. You can easily connect your WordPress site with over 260+ popular platforms, such as CRMs, marketing tools, and more.
+No, you don't need any coding skills to use Bit Integrations. You can easily connect your WordPress site with over 270+ popular platforms, such as CRMs, marketing tools, and more.
 = 10. Can I automate with WhatsApp?=
 Yes, you can automate with WhatsApp.
 = 11. Best WordPress Automation Tools and Plugins Compared (2023)?=
@@ -1238,7 +1259,7 @@ Yes, Bit Integrations is one of the best WordPress Automation Tools and Plugins 
 = 12. Can I automate with Google Sheets, Google Calendar, Google Drive, Google Contact?=
 Yes, you can automate with Google Sheets, Google Calendar, Google Drive, Google Contact.
 = 13. What users say about Bit Integrations?=
-Bit Integrations is self hosted Zapier with chepest price. You can automate with over 260+ popular platforms, such as CRMs, marketing tools, and more.
+Bit Integrations is self hosted Zapier with chepest price. You can automate with over 270+ popular platforms, such as CRMs, marketing tools, and more.
 = 14. Can I automate WordPress?=
 Yes, you can automate WordPress with 110+ trigger and 150+ actions.
 = 15. Can Bit Integrations connect plugins with external services like Zapier, Pabbly, N8N?=
@@ -1266,16 +1287,24 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 
 == Changelog ==
 
-= 2.5.0 =
-_Release Date -5th March 2025_
+= 2.5.1 =
+_Release Date -12th March 2025_
 
-- **Security Fixes**
- - Improved validation and sanitization of redirection URLs to prevent unauthorized redirects.
- - Enhanced security measures to restrict redirects to trusted domains only.
+- **New Triggers**
+ - Fluent Boards – 3 new events added (Pro)
+ - Jetpack CRM – 10 new events added (Pro)
+ - Masteriyo LMS – 4 new events added (Pro)
+ - MemberPress Courses – 2 new events added (Pro)
+ - Modern Events Calendar – 4 new events added (Pro)
+ - Paymattic – 1 new events added (Pro)
+ - ProfileGrid – 12 new events added (Pro)
 
 - **Bug Fixes**
- - SureCart: Resolved an issue where editing dependencies caused unexpected errors. (Pro)
- - SureCart: Fixed a bug where multiple executions occurred unexpectedly. (Pro)
+ - SureCart: Resolved an issue where order cancellation wasn’t executing correctly on specific products. (Pro)
+ - Mail: Fixed a glitch in the trigger integration component when editing existing integrations.
+
+= 2.5.0 =
+_Release Date -5th March 2025_
 
 - **New Triggers**
  - Advanced Custom Fields (ACF) – Unlock custom fields automation. (Pro)
@@ -1284,6 +1313,14 @@ _Release Date -5th March 2025_
  - PeepSo – Free User Profile and Community WordPress Plugin. (Pro)
  - Simply Schedule Appointments – Booking Plugin for WordPress. (Pro)
  - SureMail – WordPress SMTP and Email Logs Plugin. (Pro)
+
+- **Security Fixes**
+ - Improved validation and sanitization of redirection URLs to prevent unauthorized redirects.
+ - Enhanced security measures to restrict redirects to trusted domains only.
+
+- **Bug Fixes**
+ - SureCart: Resolved an issue where editing dependencies caused unexpected errors. (Pro)
+ - SureCart: Fixed a bug where multiple executions occurred unexpectedly. (Pro)
 
 = 2.4.10 =
 _Release Date -25th February 2025_
