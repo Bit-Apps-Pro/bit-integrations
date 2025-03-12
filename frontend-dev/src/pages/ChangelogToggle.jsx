@@ -18,7 +18,7 @@ export default function ChangelogToggle() {
 
   // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
   // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-  const releaseDate = '5th March 2025'
+  const releaseDate = '12th March 2025'
 
   // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
   const changeLog = [
@@ -39,12 +39,13 @@ export default function ChangelogToggle() {
       headClass: 'new-trigger',
       itemClass: 'integration-list',
       items: [
-        { label: 'Advanced Custom Fields (ACF)', desc: '', isPro: true },
-        { label: 'LearnPress LMS', desc: '', isPro: true },
-        { label: 'PeepSo', desc: '', isPro: true },
-        { label: 'Presto Player', desc: '', isPro: true },
-        { label: 'Simply Schedule Appointments', desc: '', isPro: true },
-        { label: 'SureMail WordPress SMTP', desc: '', isPro: true }
+        { label: 'Fluent Boards', desc: '3 new events added', isPro: true },
+        { label: 'Jetpack CRM', desc: '10 new events added', isPro: true },
+        { label: 'Masteriyo LMS', desc: '4 new events added', isPro: true },
+        { label: 'MemberPress Courses', desc: '2 new events added', isPro: true },
+        { label: 'Modern Events Calendar', desc: '4 new events added', isPro: true },
+        { label: 'Paymattic', desc: '1 new events added', isPro: true },
+        { label: 'ProfileGrid', desc: '12 new events added', isPro: true }
       ]
     },
     {
@@ -66,13 +67,13 @@ export default function ChangelogToggle() {
       items: [
         {
           label: 'SureCart',
-          desc: 'Resolved an issue where editing dependencies caused unexpected errors.',
+          desc: 'Resolved an issue where order cancellation wasn’t executing correctly on specific products.',
           isPro: true
         },
         {
-          label: 'SureCart',
-          desc: 'Fixed a bug where multiple executions occurred unexpectedly.',
-          isPro: true
+          label: 'Mail',
+          desc: 'Fixed a glitch in the trigger integration component when editing existing integrations.',
+          isPro: false
         }
       ]
     }
