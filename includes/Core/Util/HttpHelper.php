@@ -41,6 +41,7 @@ final class HttpHelper
         if (
             $type !== 'GET'
             && strpos(strtolower($contentType), 'form')
+            && \is_array($data)
             && !strpos(strtolower($contentType), 'urlencoded')
         ) {
             $boundary = wp_generate_password(24);
