@@ -125,6 +125,7 @@ final class AllTriggersName
             'WPJobManager'               => ['name' => 'WP Job Manager',  'isPro' => true, 'is_active' => false],
             'WSForm'                     => ['name' => 'WSForm',  'isPro' => true, 'is_active' => false],
             'WishlistMember'             => ['name' => 'Wishlist Member',  'isPro' => true, 'is_active' => false],
+            'WpPolls'                    => ['name' => 'WP-Polls',  'isPro' => true, 'is_active' => false],
         ];
     }
 }

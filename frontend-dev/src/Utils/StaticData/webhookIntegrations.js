@@ -55,6 +55,7 @@ export const customFormIntegrations = [
   'MemberPressCourse',
   'ModernEventsCalendar',
   'SureFeedback',
+  'WpPolls',
 ]
 
 export const actionHookIntegrations = ['ActionHook']
