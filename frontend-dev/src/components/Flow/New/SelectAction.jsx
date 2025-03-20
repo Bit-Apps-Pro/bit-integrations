@@ -166,12 +166,13 @@ export default function SelectAction() {
     { type: 'The Events Calendar' },
     { type: 'License Manager For WooCommerce' },
     { type: 'Voxel' },
-    { type: 'SmartSuite' }
+    { type: 'SmartSuite' },
+    { type: 'Bento' }
   ]
 
   const [availableIntegs, setAvailableIntegs] = useState(sortByField(integs, 'type', 'ASC') || integs)
   const organizeIntegs = () => {
-    const bitformIndex = availableIntegs.findIndex((i) => i.type === 'Bit Form')
+    const bitformIndex = availableIntegs.findIndex(i => i.type === 'Bit Form')
     if (bitformIndex === -1) return availableIntegs
     const bitformData = availableIntegs[bitformIndex]
     availableIntegs.splice(bitformIndex, 1)
@@ -180,9 +181,9 @@ export default function SelectAction() {
 
   const allOrganizeIntegs = isPro ? organizeIntegs() : availableIntegs
 
-  const searchInteg = (e) => {
+  const searchInteg = e => {
     const { value } = e.target
-    const filtered = integs.filter((integ) => integ.type.toLowerCase().includes(value.toLowerCase()))
+    const filtered = integs.filter(integ => integ.type.toLowerCase().includes(value.toLowerCase()))
     setAvailableIntegs(filtered)
   }
 
@@ -190,14 +191,14 @@ export default function SelectAction() {
     setFlowStep(1)
   }
 
-  const getStrInsideParenthesis = (str) => {
+  const getStrInsideParenthesis = str => {
     const startIndex = str.indexOf('(')
     const endIndex = str.indexOf(')')
 
     return str.slice(startIndex + 1, endIndex)
   }
 
-  const setAction = (str) => {
+  const setAction = str => {
     const action = str.includes('(') || str.includes(')') ? getStrInsideParenthesis(str) : str
 
     const tempConf = { ...newFlow }
