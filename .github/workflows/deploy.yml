@@ -13,7 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PLUGIN_SLUG: bit-integrations
-      TEST_ACTION: true
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -93,7 +92,7 @@ jobs:
         uses: 10up/action-wordpress-plugin-deploy@stable
         with:
           generate-zip: true
-          dry-run: true
+          dry-run: ${{ env.TEST_ACTION }}
         env:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
