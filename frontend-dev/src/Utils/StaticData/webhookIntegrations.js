@@ -57,6 +57,9 @@ export const customFormIntegrations = [
   'SureFeedback',
   'WpPolls',
   'WpAllImport',
+  'MyCred',
+  'WPLMS',
+  'WPLoyalty',
 ]
 
 export const actionHookIntegrations = ['ActionHook']
