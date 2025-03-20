@@ -29,6 +29,7 @@ jobs:
         with:
           node-version: 22
           cache: "pnpm"
+          cache-dependency-path: "frontend-dev/pnpm-lock.yaml"
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -40,7 +41,6 @@ jobs:
         name: Setup pnpm cache
         with:
           path: ${{ env.STORE_PATH }}
-          cache-dependency-path: "frontend-dev/pnpm-lock.yaml"
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
