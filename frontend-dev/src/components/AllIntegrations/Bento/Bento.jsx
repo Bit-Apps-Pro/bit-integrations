@@ -21,21 +21,6 @@ function Bento({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
 
-  // const bentoFields = [
-  //   { label: __('First Name', 'bit-integrations'), key: 'name', required: true },
-  //   { label: __('Email Address', 'bit-integrations'), key: 'email', required: true },
-  //   { label: __('Last Name', 'bit-integrations'), key: 'last_name', required: false },
-  //   { label: __('Phone Number', 'bit-integrations'), key: 'phone_number', required: false },
-  //   { label: __('Company', 'bit-integrations'), key: 'company', required: false },
-  //   { label: __('Website', 'bit-integrations'), key: 'website', required: false },
-  //   { label: __('GDPR', 'bit-integrations'), key: 'gdpr', required: false },
-  //   {
-  //     label: __('Event Registration page URL', 'bit-integrations'),
-  //     key: 'ref_url',
-  //     required: false
-  //   }
-  // ]
-
   const [bentoConf, setBentoConf] = useState({
     name: 'Bento',
     type: 'Bento',
@@ -43,8 +28,8 @@ function Bento({ formFields, setFlow, flow, allIntegURL }) {
     secret_key: process.env.NODE_ENV === 'development' ? 's157573fef647a67ee7855ee28d7356f0' : '',
     site_uuid: process.env.NODE_ENV === 'development' ? '2575b8ccda54062d1f022611916bb0a4' : '',
     field_map: [{ formField: '', bentoFormField: '' }],
-    actionName: '',
-    actions: {}
+    action: '',
+    actions: [{ value: 'create_user', label: __('Create User', 'bit-integrations') }]
   })
 
   const saveConfig = () => {
@@ -65,15 +50,15 @@ function Bento({ formFields, setFlow, flow, allIntegURL }) {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
-    if (!checkMappedFields(bentoConf)) {
-      toast.error(__('Please map mandatory fields', 'bit-integrations'))
-      return
-    }
+    // if (!checkMappedFields(bentoConf)) {
+    //   toast.error(__('Please map mandatory fields', 'bit-integrations'))
+    //   return
+    // }
 
-    if (!bentoConf.selectedEvent) {
-      toast.error(__('Please select a Event', 'bit-integrations'))
-      return
-    }
+    // if (!bentoConf.selectedEvent) {
+    //   toast.error(__('Please select a Event', 'bit-integrations'))
+    //   return
+    // }
 
     bentoConf.field_map.length > 0 && setStep(pageNo)
   }
@@ -111,7 +96,7 @@ function Bento({ formFields, setFlow, flow, allIntegURL }) {
           setSnackbar={setSnackbar}
         />
 
-        {bentoConf?.actionName && (
+        {bentoConf?.action && (
           <button
             onClick={() => nextPage(3)}
             disabled={!checkMappedFields(bentoConf)}
@@ -124,7 +109,7 @@ function Bento({ formFields, setFlow, flow, allIntegURL }) {
       </div>
 
       {/* STEP 3 */}
-      {bentoConf?.actionName && (
+      {bentoConf?.action && (
         <IntegrationStepThree
           step={step}
           saveConfig={() => saveConfig()}

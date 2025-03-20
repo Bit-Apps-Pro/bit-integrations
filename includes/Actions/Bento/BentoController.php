@@ -16,16 +16,16 @@ class BentoController
 {
     protected $_defaultHeader;
 
-    protected $_apiEndpoint = 'https://app.bentonow.com/api/v1/';
+    protected $_apiEndpoint = 'https://app.bentonow.com/api/v1/fetch/';
 
     public function authentication($fieldsRequestParams)
     {
         $this->checkValidation($fieldsRequestParams);
-        $this->setHeaders($fieldsRequestParams->publishable_key, $fieldsRequestParams->secret_key, $fieldsRequestParams->site_uuid);
+        $this->setHeaders($fieldsRequestParams->publishable_key, $fieldsRequestParams->secret_key);
 
-        $apiEndpoint = $this->setEndpoint('fetch/tags', $fieldsRequestParams->site_uuid);
+        $apiEndpoint = $this->setEndpoint('tags', $fieldsRequestParams->site_uuid);
         $response = HttpHelper::get($apiEndpoint, null, $this->_defaultHeader);
-        error_log(print_r($response, true));
+
         if (HttpHelper::$responseCode === 200) {
             wp_send_json_success(__('Authentication successful', 'bit-integrations'), 200);
         } else {
@@ -33,50 +33,34 @@ class BentoController
         }
     }
 
-    public function getAllEvents($fieldsRequestParams)
+    public function getAllFields($fieldsRequestParams)
     {
-        $this->checkValidation($fieldsRequestParams);
-        $this->setHeaders($fieldsRequestParams->publishable_key, $fieldsRequestParams->secret_key, $fieldsRequestParams->site_uuid);
-        $apiEndpoint = $this->_apiEndpoint . '/events';
-        $response = HttpHelper::get($apiEndpoint, null, $this->_defaultHeader);
+        $this->checkValidation($fieldsRequestParams, $fieldsRequestParams->action ?? '');
 
-        if (!isset($response->errors)) {
-            $events = [];
-            foreach ($response as $event) {
-                $events[]
-                = (object) [
-                    'id'   => $event->id,
-                    'name' => $event->name
-                ]
-                ;
-            }
-            wp_send_json_success($events, 200);
-        } else {
-            wp_send_json_error(__('Events fetching failed', 'bit-integrations'), 400);
+        $defaultFields = [(object) ['label' => __('Email Address', 'bit-integrations'), 'key' => 'email', 'required' => true]];
+
+        switch ($fieldsRequestParams->action) {
+            case 'create_user':
+                $fields = apply_filters('btcbi_bento_get_custom_fields', $defaultFields, $fieldsRequestParams);
+
+                break;
+
+            default:
+                $fields = $defaultFields;
+
+                break;
         }
+
+        wp_send_json_success($fields, 200);
     }
 
-    public function getAllSessions($fieldsRequestParams)
+    public function getAlTags($fieldsRequestParams)
     {
         $this->checkValidation($fieldsRequestParams);
-        $this->setHeaders($fieldsRequestParams->publishable_key, $fieldsRequestParams->secret_key, $fieldsRequestParams->site_uuid, $fieldsRequestParams->event_id);
-        $apiEndpoint = $this->_apiEndpoint . "/event/{$fieldsRequestParams->event_id}";
-        $response = HttpHelper::get($apiEndpoint, null, $this->_defaultHeader);
 
-        if (!isset($response->errors)) {
-            $sessions = [];
-            foreach ($response->dates as $session) {
-                $sessions[]
-                = (object) [
-                    'date_id'  => $session->date_id,
-                    'datetime' => $session->datetime
-                ]
-                ;
-            }
-            wp_send_json_success($sessions, 200);
-        } else {
-            wp_send_json_error(__('Events fetching failed', 'bit-integrations'), 400);
-        }
+        $tags = apply_filters('btcbi_bento_get_all_tags', [], $fieldsRequestParams);
+
+        wp_send_json_success($tags, 200);
     }
 
     public function execute($integrationData, $fieldValues)

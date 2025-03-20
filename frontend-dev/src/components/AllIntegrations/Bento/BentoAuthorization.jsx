@@ -2,11 +2,11 @@
 /* eslint-disable no-unused-expressions */
 import { useState } from 'react'
 import { __ } from '../../../Utils/i18nwrap'
+import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import LoaderSm from '../../Loaders/LoaderSm'
 import Note from '../../Utilities/Note'
-import { bentoAuthentication, getAllEvents } from './BentoCommonFunc'
-import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
+import { bentoAuthentication } from './BentoCommonFunc'
 
 export default function BentoAuthorization({
   bentoConf,
@@ -28,7 +28,6 @@ export default function BentoAuthorization({
 
     !bentoConf?.default
     setStep(2)
-    getAllEvents(bentoConf, setBentoConf, setLoading)
   }
 
   const handleInput = e => {
@@ -115,14 +114,7 @@ export default function BentoAuthorization({
         <div>
           <button
             onClick={() =>
-              bentoAuthentication(
-                bentoConf,
-                setBentoConf,
-                setError,
-                setIsAuthorized,
-                loading,
-                setLoading
-              )
+              bentoAuthentication(bentoConf, setError, setIsAuthorized, loading, setLoading)
             }
             className="btn btcd-btn-lg purple sh-sm flx"
             type="button"

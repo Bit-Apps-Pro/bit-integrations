@@ -3,9 +3,14 @@ import MultiSelect from 'react-multiple-select-dropdown-lite'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
-import { getAllEvents, getAllSessions } from './BentoCommonFunc'
+import { getFields } from './BentoCommonFunc'
 import BentoFieldMap from './BentoFieldMap'
 import { addFieldMap } from './IntegrationHelpers'
+import { create } from 'mutative'
+import { useRecoilValue } from 'recoil'
+import { $btcbi } from '../../../GlobalStates'
+import Note from '../../Utilities/Note'
+import BentoActions from './BentoActions'
 
 export default function BentoIntegLayout({
   formFields,
@@ -17,26 +22,39 @@ export default function BentoIntegLayout({
   setIsLoading,
   setSnackbar
 }) {
+  const btcbi = useRecoilValue($btcbi)
+  const { isPro } = btcbi
+
   const setChanges = (val, name) => {
-    if (name === 'selectedEvent' && val !== '') {
-      getAllSessions(bentoConf, setBentoConf, val, setLoading)
+    if (name === 'action' && val !== '') {
+      getFields(bentoConf, setBentoConf, val, setLoading)
     }
 
-    setBentoConf(prevConf => {
-      const newConf = { ...prevConf }
-      newConf[name] = val
-
-      if (name === 'selectedEvent') {
-        delete newConf.selectedSession
-        delete newConf.sessions
-      }
-      return newConf
-    })
+    setBentoConf(prevConf =>
+      create(prevConf, draftConf => {
+        draftConf[name] = val
+      })
+    )
   }
 
   return (
     <>
-      {(isLoading || loading.event || loading.session) && (
+      <br />
+      <br />
+      <div className="flx">
+        <b className="wdt-200 d-in-b">{__('Select Action:', 'bit-integrations')}</b>
+        <MultiSelect
+          options={bentoConf.actions}
+          className="msl-wrp-options dropdown-custom-width"
+          defaultValue={bentoConf?.action}
+          onChange={val => setChanges(val, 'action')}
+          singleSelect
+          closeOnSelect
+        />
+      </div>
+      <br />
+      <br />
+      {(isLoading || loading.fields || loading.session) && (
         <Loader
           style={{
             display: 'flex',
@@ -48,72 +66,13 @@ export default function BentoIntegLayout({
         />
       )}
 
-      {bentoConf.actionName && !loading.event && (
-        <>
-          <br />
-          <br />
-          <div className="flx">
-            <b className="wdt-200 d-in-b">{__('Select Event:', 'bit-integrations')}</b>
-            <MultiSelect
-              options={
-                bentoConf?.events &&
-                bentoConf.events.map(event => ({ label: event.name, value: `${event.id}` }))
-              }
-              className="msl-wrp-options dropdown-custom-width"
-              defaultValue={bentoConf?.selectedEvent}
-              onChange={val => setChanges(val, 'selectedEvent')}
-              singleSelect
-              closeOnSelect
-            />
-            <button
-              onClick={() => getAllEvents(bentoConf, setBentoConf, setLoading)}
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `'${__('Refresh Events', 'bit-integrations')}'` }}
-              type="button"
-              disabled={loading.event}>
-              &#x21BB;
-            </button>
-          </div>
-        </>
-      )}
-
-      {bentoConf.actionName && bentoConf.selectedEvent && !loading.session && (
-        <>
-          <br />
-          <br />
-          <div className="flx">
-            <b className="wdt-200 d-in-b">{__('Select Session:', 'bit-integrations')}</b>
-            <MultiSelect
-              options={
-                bentoConf?.sessions &&
-                bentoConf.sessions.map(session => ({
-                  label: session.datetime,
-                  value: `${session.date_id}`
-                }))
-              }
-              className="msl-wrp-options dropdown-custom-width"
-              defaultValue={bentoConf?.selectedSession}
-              onChange={val => setChanges(val, 'selectedSession')}
-              singleSelect
-              closeOnSelect
-            />
-            <button
-              onClick={() => getAllSessions(bentoConf, setBentoConf, setLoading)}
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `'${__('Refresh Sessions', 'bit-integrations')}'` }}
-              type="button"
-              disabled={loading.event}>
-              &#x21BB;
-            </button>
-          </div>
-        </>
-      )}
-      {bentoConf.actionName && !isLoading && (
+      {bentoConf.action && bentoConf.bentoFields && !isLoading && (
         <div>
           <br />
           <div className="mt-5">
             <b className="wdt-100">{__('Field Map', 'bit-integrations')}</b>
             <button
+              onClick={() => getFields(bentoConf, setBentoConf, bentoConf.action, setLoading)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `'${__('Refresh fields', 'bit-integrations')}'` }}
               type="button">
@@ -153,6 +112,25 @@ export default function BentoIntegLayout({
           </div>
           <br />
           <br />
+
+          {!isPro && (
+            <Note note={`<p>${__('Custom Fields Available in Pro', 'bit-integrations')}</p>`} />
+          )}
+
+          <div className="mt-4">
+            <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
+          </div>
+          <div className="btcd-hr mt-1" />
+
+          <BentoActions
+            bentoConf={bentoConf}
+            setBentoConf={setBentoConf}
+            loading={loading}
+            setLoading={setLoading}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            setSnackbar={setSnackbar}
+          />
         </div>
       )}
     </>

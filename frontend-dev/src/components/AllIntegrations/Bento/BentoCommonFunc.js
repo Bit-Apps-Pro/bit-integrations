@@ -3,6 +3,7 @@
 import toast from 'react-hot-toast'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { __ } from '../../../Utils/i18nwrap'
+import { create } from 'mutative'
 
 export const handleInput = (e, salesmateConf, setSalesmateConf) => {
   const newConf = { ...salesmateConf }
@@ -41,9 +42,17 @@ export const checkMappedFields = (bentoConf) => {
   return true
 }
 
+const setRequestParams = (config, customs = {}) => {
+  return {
+    ...customs,
+    publishable_key: config.publishable_key,
+    secret_key: config.secret_key,
+    site_uuid: config.site_uuid,
+  }
+}
+
 export const bentoAuthentication = (
   confTmp,
-  setConf,
   setError,
   setIsAuthorized,
   loading,
@@ -62,13 +71,7 @@ export const bentoAuthentication = (
   setError({})
   setLoading({ ...loading, auth: true })
 
-  const requestParams = {
-    publishable_key: confTmp.publishable_key,
-    secret_key: confTmp.secret_key,
-    site_uuid: confTmp.site_uuid,
-  }
-
-  bitsFetch(requestParams, 'bento_authentication').then((result) => {
+  bitsFetch(setRequestParams(confTmp), 'bento_authentication').then((result) => {
     setLoading({ ...loading, auth: false })
 
     if (result && result.success) {
@@ -83,61 +86,41 @@ export const bentoAuthentication = (
   })
 }
 
-export const getAllEvents = (confTmp, setConf, setLoading) => {
-  setLoading({ ...setLoading, event: true })
+export const getFields = (confTmp, setConf, action, setLoading) => {
+  setLoading({ ...setLoading, fields: true })
 
-  const requestParams = {
-    publishable_key: confTmp.publishable_key,
-    secret_key: confTmp.secret_key
-  }
+  bitsFetch(setRequestParams(confTmp, { action: action }), 'bento_get_fields').then((result) => {
+    setLoading({ ...setLoading, fields: false })
 
-  bitsFetch(requestParams, 'bento_fetch_all_events').then((result) => {
-    if (result && result.success) {
-      if (result.data) {
-        setConf((prevConf) => {
-          prevConf.events = result.data
-          return prevConf
-        })
+    if (result?.success && result?.data) {
+      setConf((prevConf) => create(prevConf, draftConf => {
+        draftConf.bentoFields = result.data
+        draftConf.field_map = generateMappedField(result.data)
+      }))
 
-        setLoading({ ...setLoading, event: false })
-        toast.success(__('Events fetched successfully', 'bit-integrations'))
-        return
-      }
-      setLoading({ ...setLoading, event: false })
-      toast.error(__('Events Not Found!', 'bit-integrations'))
+      toast.success(__('Fields fetched successfully', 'bit-integrations'))
       return
     }
-    setLoading({ ...setLoading, event: false })
-    toast.error(__('Events fetching failed', 'bit-integrations'))
+
+    toast.error(result?.data ? result?.data : __('Fields fetching failed', 'bit-integrations'))
   })
 }
 
-export const getAllSessions = (confTmp, setConf, event_id, setLoading) => {
-  setLoading({ ...setLoading, session: true })
+export const getAllTags = (confTmp, setConf, setLoading) => {
+  setLoading({ ...setLoading, tags: true })
 
-  const requestParams = {
-    publishable_key: confTmp.publishable_key,
-    secret_key: confTmp.secret_key,
-    event_id: event_id
-  }
+  bitsFetch(setRequestParams(confTmp), 'bento_get_all_tags').then((result) => {
+    setLoading({ ...setLoading, tags: false })
 
-  bitsFetch(requestParams, 'bento_fetch_all_sessions').then((result) => {
-    if (result && result.success) {
-      if (result.data) {
-        setConf((prevConf) => {
-          prevConf.sessions = result.data
-          return prevConf
-        })
+    if (result?.success && result?.data) {
+      setConf((prevConf) => create(prevConf, draftConf => {
+        draftConf.tags = result.data
+      }))
 
-        setLoading({ ...setLoading, session: false })
-        toast.success(__('Sessions fetched successfully', 'bit-integrations'))
-        return
-      }
-      setLoading({ ...setLoading, session: false })
-      toast.error(__('Sessions Not Found!', 'bit-integrations'))
+      toast.success(__('Fields fetched successfully', 'bit-integrations'))
       return
     }
-    setLoading({ ...setLoading, session: false })
-    toast.error(__('Sessions fetching failed', 'bit-integrations'))
+
+    toast.error(result?.data ? result?.data : __('Fields fetching failed', 'bit-integrations'))
   })
 }
