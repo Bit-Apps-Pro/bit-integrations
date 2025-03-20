@@ -4,13 +4,14 @@ import { $btcbi } from '../../../GlobalStates'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import { __ } from '../../../Utils/i18nwrap'
 import CustomField from './CustomField'
-import { addFieldMap, delFieldMap, handleFieldMapping } from './IntegrationHelpers'
+import { addFieldMap, delFieldMap, handleCustomValue, handleFieldMapping } from './IntegrationHelpers'
+import TagifyInput from '../../Utilities/TagifyInput'
 
 export default function DemioFieldMap({ i, formFields, field, demioConf, setDemioConf }) {
   const requiredFields =
-    (demioConf?.demioFields && demioConf.demioFields.filter((fld) => fld.required === true)) || []
+    (demioConf?.demioFields && demioConf.demioFields.filter(fld => fld.required === true)) || []
   const allNonRequiredFields =
-    (demioConf?.demioFields && demioConf.demioFields.filter((fld) => fld.required === false)) || []
+    (demioConf?.demioFields && demioConf.demioFields.filter(fld => fld.required === false)) || []
 
   const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
@@ -23,10 +24,10 @@ export default function DemioFieldMap({ i, formFields, field, demioConf, setDemi
             className="btcd-paper-inp mr-2"
             name="formField"
             value={field.formField || ''}
-            onChange={(ev) => handleFieldMapping(ev, i, demioConf, setDemioConf)}>
+            onChange={ev => handleFieldMapping(ev, i, demioConf, setDemioConf)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             <optgroup label={__('Form Fields', 'bit-integrations')}>
-              {formFields?.map((f) => (
+              {formFields?.map(f => (
                 <option key={`ff-rm-${f.name}`} value={f.name}>
                   {f.label}
                 </option>
@@ -39,7 +40,7 @@ export default function DemioFieldMap({ i, formFields, field, demioConf, setDemi
                 isPro ? '' : `(${__('Pro', 'bit-integrations')})`
               )}>
               {isPro &&
-                SmartTagField?.map((f) => (
+                SmartTagField?.map(f => (
                   <option key={`ff-rm-${f.name}`} value={f.name}>
                     {f.label}
                   </option>
@@ -48,14 +49,14 @@ export default function DemioFieldMap({ i, formFields, field, demioConf, setDemi
           </select>
 
           {field.formField === 'custom' && (
-            <CustomField
-              field={field}
-              index={i}
-              conf={demioConf}
-              setConf={setDemioConf}
-              fieldValue="customValue"
-              fieldLabel="Custom Value"
+            <TagifyInput
+              onChange={e => handleCustomValue(e, i, demioConf, setDemioConf)}
+              label={__('Custom Value', 'bit-integrations')}
               className="mr-2"
+              type="text"
+              value={field.customValue}
+              placeholder={__('Custom Value', 'bit-integrations')}
+              formFields={formFields}
             />
           )}
 
@@ -63,10 +64,8 @@ export default function DemioFieldMap({ i, formFields, field, demioConf, setDemi
             className="btcd-paper-inp"
             disabled={i < requiredFields.length}
             name="demioFormField"
-            value={
-              i < requiredFields.length ? requiredFields[i].key || '' : field.demioFormField || ''
-            }
-            onChange={(ev) => handleFieldMapping(ev, i, demioConf, setDemioConf)}>
+            value={i < requiredFields.length ? requiredFields[i].key || '' : field.demioFormField || ''}
+            onChange={ev => handleFieldMapping(ev, i, demioConf, setDemioConf)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             {i < requiredFields.length ? (
               <option key={requiredFields[i].key} value={requiredFields[i].key}>

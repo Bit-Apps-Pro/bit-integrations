@@ -4,7 +4,8 @@ import { $btcbi } from '../../../GlobalStates'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import { __ } from '../../../Utils/i18nwrap'
 import CustomField from './CustomField'
-import { addFieldMap, delFieldMap, handleFieldMapping } from './IntegrationHelpers'
+import { addFieldMap, delFieldMap, handleCustomValue, handleFieldMapping } from './IntegrationHelpers'
+import TagifyInput from '../../Utilities/TagifyInput'
 
 export default function BentoFieldMap({ i, formFields, field, bentoConf, setBentoConf }) {
   const requiredFields =
@@ -48,14 +49,14 @@ export default function BentoFieldMap({ i, formFields, field, bentoConf, setBent
           </select>
 
           {field.formField === 'custom' && (
-            <CustomField
-              field={field}
-              index={i}
-              conf={bentoConf}
-              setConf={setBentoConf}
-              fieldValue="customValue"
-              fieldLabel="Custom Value"
+            <TagifyInput
+              onChange={e => handleCustomValue(e, i, bentoConf, setBentoConf)}
+              label={__('Custom Value', 'bit-integrations')}
               className="mr-2"
+              type="text"
+              value={field.customValue}
+              placeholder={__('Custom Value', 'bit-integrations')}
+              formFields={formFields}
             />
           )}
 
