@@ -67,17 +67,25 @@ class BentoController
     {
         $integrationDetails = $integrationData->flow_details;
         $integId = $integrationData->id;
-        $apiKey = $integrationDetails->publishable_key;
-        $apiSecret = $integrationDetails->secret_key;
+        $publishableKey = $integrationDetails->publishable_key;
+        $secretKey = $integrationDetails->secret_key;
+        $siteUUID = $integrationDetails->site_uuid;
         $fieldMap = $integrationDetails->field_map;
-        $actionName = $integrationDetails->actionName;
+        $action = $integrationDetails->action;
 
-        if (empty($fieldMap) || empty($apiSecret) || empty($actionName) || empty($apiKey)) {
+        if (empty($fieldMap) || empty($publishableKey) || empty($secretKey) || empty($siteUUID) || empty($action)) {
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Bento'));
         }
 
-        $recordApiHelper = new RecordApiHelper($integrationDetails, $integId, $apiSecret, $apiKey);
-        $bentoApiResponse = $recordApiHelper->execute($fieldValues, $fieldMap, $actionName);
+        $recordApiHelper = new RecordApiHelper(
+            $integrationDetails,
+            $integId,
+            $publishableKey,
+            $secretKey,
+            $siteUUID
+        );
+
+        $bentoApiResponse = $recordApiHelper->execute($fieldValues, $fieldMap, $action);
 
         if (is_wp_error($bentoApiResponse)) {
             return $bentoApiResponse;

@@ -6,8 +6,9 @@
 
 namespace BitCode\FI\Actions\Bento;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -22,46 +23,46 @@ class RecordApiHelper
 
     private $defaultHeader;
 
+    private $siteUUID;
+
     private $type;
 
     private $typeName;
 
-    public function __construct($integrationDetails, $integId, $apiSecret, $apiKey)
-    {
+    public function __construct(
+        $integrationDetails,
+        $integId,
+        $publishableKey,
+        $secretKey,
+        $siteUUID
+    ) {
         $this->integrationDetails = $integrationDetails;
         $this->integrationId = $integId;
-        $this->apiUrl = 'https://my.bento.com/api/v1';
+        $this->siteUUID = $siteUUID;
+        $this->apiUrl = 'https://app.bentonow.com/api/v1/fetch/';
+
         $this->defaultHeader = [
-            'Api-Key'      => $apiKey,
-            'Api-Secret'   => $apiSecret,
-            'Content-Type' => 'application/json'
+            'Authorization' => 'Basic ' . base64_encode("{$publishableKey}:{$secretKey}"),
+            'Accept'        => 'application/json',
+            'Content-Type'  => 'application/json'
         ];
     }
 
-    public function registration($finalData)
+    public function createUser($finalData)
     {
-        $this->type = 'Register People to Wabinar';
-        $this->typeName = 'Register People to Wabinar';
+        $this->type = 'Create User';
+        $this->typeName = 'Create User';
 
-        if (empty($finalData['name'])) {
-            return ['success' => false, 'message' => __('Required field First Name is empty', 'bit-integrations'), 'code' => 400];
-        }
         if (empty($finalData['email'])) {
             return ['success' => false, 'message' => __('Required field Email is empty', 'bit-integrations'), 'code' => 400];
         }
-        if (!isset($this->integrationDetails->selectedEvent) || empty($this->integrationDetails->selectedEvent)) {
-            return ['success' => false, 'message' => __('Required field Event is empty', 'bit-integrations'), 'code' => 400];
-        }
-        if (isset($this->integrationDetails->selectedEvent) || !empty($this->integrationDetails->selectedEvent)) {
-            $finalData['id'] = $this->integrationDetails->selectedEvent;
-        }
-        if (isset($this->integrationDetails->selectedSession) && !empty($this->integrationDetails->selectedSession)) {
-            $finalData['date_id'] = $this->integrationDetails->selectedSession;
-        }
 
-        $apiEndpoint = $this->apiUrl . '/event/register';
+        $data = ['email' => $finalData['email']];
+        unset($finalData['email']);
 
-        return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->defaultHeader);
+        $apiEndpoint = $this->apiUrl . "subscribers?site_uuid={$this->siteUUID}";
+
+        return HttpHelper::post($apiEndpoint, wp_json_encode($data), $this->defaultHeader);
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
@@ -70,23 +71,19 @@ class RecordApiHelper
         foreach ($fieldMap as $value) {
             $triggerValue = $value->formField;
             $actionValue = $value->bentoFormField;
-            $dataFinal[$actionValue] = ($triggerValue === 'custom') ? $value->customValue : $data[$triggerValue];
+            $dataFinal[$actionValue] = ($triggerValue === 'custom' && !empty($value->customValue)) ? Common::replaceFieldWithValue($value->customValue, $data) : $data[$triggerValue];
         }
 
         return $dataFinal;
     }
 
-    public function execute($fieldValues, $fieldMap, $actionName)
+    public function execute($fieldValues, $fieldMap, $action)
     {
         $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
-        $apiResponse = $this->registration($finalData);
+        $apiResponse = $this->createUser($finalData);
+        $logStatus = (HttpHelper::$responseCode !== 200 || empty($apiResponse->data)) ? 'error' : 'success';
 
-        if (!isset($apiResponse->errors)) {
-            $res = [$this->typeName . '  successfully'];
-            LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->typeName]), 'success', wp_json_encode($res));
-        } else {
-            LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->type . ' creating']), 'error', wp_json_encode($apiResponse));
-        }
+        LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->typeName]), $logStatus, wp_json_encode($apiResponse));
 
         return $apiResponse;
     }

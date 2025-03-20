@@ -610,6 +610,10 @@ const tutorialLinks = {
   smartSuite: {
     youTubeLink: '',
     docLink: 'https://bit-integrations.com/wp-docs/actions/smartsuite-integrations/'
+  },
+  bento: {
+    youTubeLink: '',
+    docLink: 'https://bit-integrations.com/wp-docs/actions/bento-integrations/'
   }
 }
 export default tutorialLinks
