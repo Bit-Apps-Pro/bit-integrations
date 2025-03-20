@@ -13,7 +13,7 @@ fi
 
 composer i -o --no-dev --ignore-platform-reqs 2>&1 >/dev/null
 
-cd "$PLUGIN_DIR/frontend-dev" && pnpm install && pnpm pda
+cd "$PLUGIN_DIR/frontend-dev" && pnpm pda
 
 cd "$PLUGIN_DIR"
 

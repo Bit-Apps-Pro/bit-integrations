@@ -46,7 +46,9 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install frontend dependencies
-        run: pnpm install
+        run: |
+          cd frontend-dev
+          pnpm install
 
       - name: Check for SVN
         id: check_svn
