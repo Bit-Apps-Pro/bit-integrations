@@ -73,6 +73,7 @@ final class AllTriggersName
             'Mailster'                   => ['name' => 'Mailster',  'isPro' => true, 'is_active' => false],
             'MasterStudyLms'             => ['name' => 'MasterStudyLms',  'isPro' => true, 'is_active' => false],
             'MasteriyoLMS'               => ['name' => 'Masteriyo LMS',  'isPro' => true, 'is_active' => false],
+            'MyCred'                     => ['name' => 'myCred',  'isPro' => true, 'is_active' => false],
             'Memberpress'                => ['name' => 'Memberpress',  'isPro' => true, 'is_active' => false],
             'MemberPressCourse'          => ['name' => 'MemberPress Courses',  'isPro' => true, 'is_active' => false],
             'Met'                        => ['name' => 'Met Form',  'isPro' => true, 'is_active' => false],
@@ -106,6 +107,7 @@ final class AllTriggersName
             'SureCart'                   => ['name' => 'SureCart',  'isPro' => true, 'is_active' => false],
             'SureMail'                   => ['name' => 'SureMail',  'isPro' => true, 'is_active' => false],
             'SureForms'                  => ['name' => 'SureForms',  'isPro' => true, 'is_active' => false],
+            'SureFeedback'               => ['name' => 'SureFeedback',  'isPro' => true, 'is_active' => false],
             'SureMembers'                => ['name' => 'SureMembers',  'isPro' => true, 'is_active' => false],
             'EventsCalendar'             => ['name' => 'The Events Calendar',  'isPro' => true, 'is_active' => false],
             'ThriveApprentice'           => ['name' => 'ThriveApprentice',  'isPro' => true, 'is_active' => false],
@@ -124,6 +126,10 @@ final class AllTriggersName
             'WPJobManager'               => ['name' => 'WP Job Manager',  'isPro' => true, 'is_active' => false],
             'WSForm'                     => ['name' => 'WSForm',  'isPro' => true, 'is_active' => false],
             'WishlistMember'             => ['name' => 'Wishlist Member',  'isPro' => true, 'is_active' => false],
+            'WpAllImport'                => ['name' => 'WP All Import',  'isPro' => true, 'is_active' => false],
+            'WPLMS'                      => ['name' => 'WPLMS',  'isPro' => true, 'is_active' => false],
+            'WPLoyalty'                  => ['name' => 'WPLoyalty',  'isPro' => true, 'is_active' => false],
+            'WpPolls'                    => ['name' => 'WP-Polls',  'isPro' => true, 'is_active' => false],
         ];
     }
 }

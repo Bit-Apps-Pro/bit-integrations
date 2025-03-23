@@ -54,6 +54,12 @@ export const customFormIntegrations = [
   'ProfileGrid',
   'MemberPressCourse',
   'ModernEventsCalendar',
+  'SureFeedback',
+  'WpPolls',
+  'WpAllImport',
+  'MyCred',
+  'WPLMS',
+  'WPLoyalty',
 ]
 
 export const actionHookIntegrations = ['ActionHook']

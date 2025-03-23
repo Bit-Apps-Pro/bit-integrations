@@ -24,14 +24,14 @@ export default function WebHooksIntegration({
   const [isLoading, setIsLoading] = useState(false)
   const [tab, setTab] = useState(1)
   const method = ['GET', 'POST', 'PUT', 'PATCH', 'OPTION', 'DELETE', 'TRACE', 'CONNECT']
-  const handleInput = (e) => {
+  const handleInput = e => {
     const tmpConfConf = { ...webHooks }
     tmpConfConf[e.target.name] = e.target.value
     setWebHooks({ ...tmpConfConf })
   }
-  const testWebHook = (webHooksDetails) => {
+  const testWebHook = webHooksDetails => {
     setIsLoading(true)
-    bitsFetch({ hookDetails: webHooksDetails }, 'test_webhook').then((response) => {
+    bitsFetch({ hookDetails: webHooksDetails }, 'test_webhook').then(response => {
       if (response && response.success) {
         setSnackbar({ show: true, msg: `${response.data}` })
         setIsLoading(false)
@@ -88,7 +88,7 @@ export default function WebHooksIntegration({
           <div className="f-m">{__('Integration Name', 'bit-integrations')}</div>
           <input
             name="name"
-            onChange={(e) => handleInput(e, webHooks, setWebHooks)}
+            onChange={e => handleInput(e, webHooks, setWebHooks)}
             className="btcd-paper-inp mt-1"
             type="text"
             value={webHooks.name}
@@ -102,7 +102,7 @@ export default function WebHooksIntegration({
           <div className="f-m">{__('Link:', 'bit-integrations')}</div>
           <input
             name="url"
-            onChange={(e) => handleInput(e, webHooks, setWebHooks)}
+            onChange={e => handleInput(e, webHooks, setWebHooks)}
             className="btcd-paper-inp mt-1"
             type="text"
             value={webHooks.url}
@@ -113,7 +113,7 @@ export default function WebHooksIntegration({
           <div className="f-m">{__('Method:', 'bit-integrations')}</div>
           <select
             name="method"
-            onChange={(e) => handleInput(e, webHooks, setWebHooks)}
+            onChange={e => handleInput(e, webHooks, setWebHooks)}
             defaultValue={webHooks.method}
             className="btcd-paper-inp mt-1"
             disabled={isInfo}>
@@ -134,96 +134,98 @@ export default function WebHooksIntegration({
         </small>
       )}
       {!isInfo && (
-        <Button
-          onClick={() => testWebHook(webHooks, setIsLoading, setSnackbar)}
-          className="btn btcd-btn-o-purple">
-          {__('Test Webhook', 'bit-integrations')}
-          {isLoading && <LoaderSm size={14} clr="#022217" className="ml-2" />}
-        </Button>
-      )}
-      <br />
-      <br />
-      <Tabs>
-        <div className="flx mt-2">
-          <Tab>
-            <button className={`btcd-s-tab-link ${tab === 1 && 's-t-l-active'}`} type="button">
-              {__('Params', 'bit-integrations')}
-            </button>
-          </Tab>
-          <Tab>
-            <button className={`btcd-s-tab-link ${tab === 2 && 's-t-l-active'}`} type="button">
-              {__('Headers', 'bit-integrations')}
-            </button>
-          </Tab>
-          <Tab>
-            <button className={`btcd-s-tab-link ${tab === 3 && 's-t-l-active'}`} type="button">
-              {__('Body', 'bit-integrations')}
-            </button>
-          </Tab>
-        </div>
-        <div className="btcd-hr" />
-        <Panel>
-          <Params
-            webHooks={webHooks}
-            setWebHooks={setWebHooks}
-            formFields={formFields}
-            isInfo={isInfo}
-            setTab={setTab}
-          />
-        </Panel>
-        <Panel>
-          <RequestHeaders
-            webHooks={webHooks}
-            setWebHooks={setWebHooks}
-            formFields={formFields}
-            isInfo={isInfo}
-            setTab={setTab}
-          />
-        </Panel>
-        <Panel>
-          <Body
-            webHooks={webHooks}
-            setWebHooks={setWebHooks}
-            formFields={formFields}
-            isInfo={isInfo}
-            setTab={setTab}
-          />
-        </Panel>
-      </Tabs>
-
-      {webHooks?.condition && (
         <>
-          <div className="flx">
-            <TableCheckBox
-              onChange={(e) => checkedCondition(e.target.value, e.target.checked)}
-              checked={webHooks?.condition?.action_behavior === 'cond'}
-              className="wdt-200 mt-4 mr-2"
-              value="cond"
-              title={__('Conditional Logics', 'bit_integration')}
-              isInfo={isInfo}
-            />
-          </div>
+          <Button
+            onClick={() => testWebHook(webHooks, setIsLoading, setSnackbar)}
+            className="btn btcd-btn-o-purple">
+            {__('Test Webhook', 'bit-integrations')}
+            {isLoading && <LoaderSm size={14} clr="#022217" className="ml-2" />}
+          </Button>
+
           <br />
-          {webHooks?.condition?.action_behavior === 'cond' && (
-            <ConditionalLogic
-              formFields={formFields}
-              dataConf={webHooks}
-              setDataConf={setWebHooks}
-            />
+          <br />
+          <Tabs>
+            <div className="flx mt-2">
+              <Tab>
+                <button className={`btcd-s-tab-link ${tab === 1 && 's-t-l-active'}`} type="button">
+                  {__('Params', 'bit-integrations')}
+                </button>
+              </Tab>
+              <Tab>
+                <button className={`btcd-s-tab-link ${tab === 2 && 's-t-l-active'}`} type="button">
+                  {__('Headers', 'bit-integrations')}
+                </button>
+              </Tab>
+              <Tab>
+                <button className={`btcd-s-tab-link ${tab === 3 && 's-t-l-active'}`} type="button">
+                  {__('Body', 'bit-integrations')}
+                </button>
+              </Tab>
+            </div>
+            <div className="btcd-hr" />
+            <Panel>
+              <Params
+                webHooks={webHooks}
+                setWebHooks={setWebHooks}
+                formFields={formFields}
+                isInfo={isInfo}
+                setTab={setTab}
+              />
+            </Panel>
+            <Panel>
+              <RequestHeaders
+                webHooks={webHooks}
+                setWebHooks={setWebHooks}
+                formFields={formFields}
+                isInfo={isInfo}
+                setTab={setTab}
+              />
+            </Panel>
+            <Panel>
+              <Body
+                webHooks={webHooks}
+                setWebHooks={setWebHooks}
+                formFields={formFields}
+                isInfo={isInfo}
+                setTab={setTab}
+              />
+            </Panel>
+          </Tabs>
+
+          {webHooks?.condition && (
+            <>
+              <div className="flx">
+                <TableCheckBox
+                  onChange={e => checkedCondition(e.target.value, e.target.checked)}
+                  checked={webHooks?.condition?.action_behavior === 'cond'}
+                  className="wdt-200 mt-4 mr-2"
+                  value="cond"
+                  title={__('Conditional Logics', 'bit_integration')}
+                  isInfo={isInfo}
+                />
+              </div>
+              <br />
+              {webHooks?.condition?.action_behavior === 'cond' && (
+                <ConditionalLogic
+                  formFields={formFields}
+                  dataConf={webHooks}
+                  setDataConf={setWebHooks}
+                />
+              )}
+            </>
           )}
+          {create && (
+            <button
+              onClick={() => nextPage()}
+              className="btn btcd-btn-lg purple sh-sm flx"
+              type="button">
+              {__('Next', 'bit-integrations')}
+              <BackIcn className="ml-1 rev-icn" />
+            </button>
+          )}
+          <Note note={info} />
         </>
       )}
-      {create && (
-        <button
-          onClick={() => nextPage()}
-          className="btn btcd-btn-lg purple sh-sm flx"
-          type="button">
-          {__('Next', 'bit-integrations')}
-          <BackIcn className="ml-1 rev-icn" />
-        </button>
-      )}
-
-      <Note note={info} />
     </div>
   )
 }
