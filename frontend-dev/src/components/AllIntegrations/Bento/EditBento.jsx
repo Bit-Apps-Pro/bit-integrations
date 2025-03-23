@@ -30,10 +30,7 @@ function EditBento({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
-    if (!bentoConf.selectedEvent) {
-      toast.error(__('Please select a Event', 'bit-integrations'))
-      return
-    }
+
     saveActionConf({
       flow,
       allIntegURL,

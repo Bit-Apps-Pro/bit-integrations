@@ -29,7 +29,7 @@ function Bento({ formFields, setFlow, flow, allIntegURL }) {
     site_uuid: process.env.NODE_ENV === 'development' ? '2575b8ccda54062d1f022611916bb0a4' : '',
     field_map: [{ formField: '', bentoFormField: '' }],
     action: '',
-    actions: [{ value: 'create_user', label: __('Create User', 'bit-integrations') }]
+    actions: [{ value: 'add_people', label: __('Add People', 'bit-integrations') }]
   })
 
   const saveConfig = () => {

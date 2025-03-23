@@ -3,9 +3,8 @@ import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import { __ } from '../../../Utils/i18nwrap'
-import CustomField from './CustomField'
-import { addFieldMap, delFieldMap, handleCustomValue, handleFieldMapping } from './IntegrationHelpers'
 import TagifyInput from '../../Utilities/TagifyInput'
+import { addFieldMap, delFieldMap, handleCustomValue, handleFieldMapping } from './IntegrationHelpers'
 
 export default function BentoFieldMap({ i, formFields, field, bentoConf, setBentoConf }) {
   const requiredFields =

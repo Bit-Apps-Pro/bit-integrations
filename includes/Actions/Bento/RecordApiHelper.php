@@ -25,6 +25,10 @@ class RecordApiHelper
 
     private $siteUUID;
 
+    private $publishableKey;
+
+    private $secretKey;
+
     private $type;
 
     private $typeName;
@@ -39,6 +43,8 @@ class RecordApiHelper
         $this->integrationDetails = $integrationDetails;
         $this->integrationId = $integId;
         $this->siteUUID = $siteUUID;
+        $this->publishableKey = $publishableKey;
+        $this->secretKey = $secretKey;
         $this->apiUrl = 'https://app.bentonow.com/api/v1/fetch/';
 
         $this->defaultHeader = [
@@ -48,21 +54,41 @@ class RecordApiHelper
         ];
     }
 
-    public function createUser($finalData)
+    public function addPeople($finalData)
     {
-        $this->type = 'Create User';
+        $this->type = 'User';
         $this->typeName = 'Create User';
 
         if (empty($finalData['email'])) {
             return ['success' => false, 'message' => __('Required field Email is empty', 'bit-integrations'), 'code' => 400];
         }
 
-        $data = ['email' => $finalData['email']];
+        $email = $finalData['email'];
         unset($finalData['email']);
 
-        $apiEndpoint = $this->apiUrl . "subscribers?site_uuid={$this->siteUUID}";
+        $apiEndpoint = "{$this->apiUrl}subscribers?site_uuid={$this->siteUUID}";
+        $response = HttpHelper::post($apiEndpoint, wp_json_encode(['email' => $email]), $this->defaultHeader);
 
-        return HttpHelper::post($apiEndpoint, wp_json_encode($data), $this->defaultHeader);
+        if (!$this->checkResponseCode()) {
+            return $response;
+        }
+
+        $integration = $this->integrationDetails;
+        $utilities = [
+            'tags'      => $integration->selected_tags ?? [],
+            'EventTags' => $integration->selected_tags_via_event ?? [],
+            'subscribe' => $integration->subscribe ?? false,
+        ];
+
+        $reqParams = (object) [
+            'site_uuid'       => $this->siteUUID,
+            'publishable_key' => $this->publishableKey,
+            'secret_key'      => $this->secretKey,
+        ];
+
+        do_action('btcbi_bento_update_user_data', false, $reqParams, $email, $finalData, $utilities);
+
+        return $response;
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
@@ -80,11 +106,16 @@ class RecordApiHelper
     public function execute($fieldValues, $fieldMap, $action)
     {
         $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
-        $apiResponse = $this->createUser($finalData);
-        $logStatus = (HttpHelper::$responseCode !== 200 || empty($apiResponse->data)) ? 'error' : 'success';
+        $apiResponse = $this->addPeople($finalData);
+        $logStatus = (!$this->checkResponseCode() || empty($apiResponse->data)) ? 'error' : 'success';
 
         LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->typeName]), $logStatus, wp_json_encode($apiResponse));
 
         return $apiResponse;
+    }
+
+    private function checkResponseCode()
+    {
+        return empty(HttpHelper::$responseCode) ? false : substr(HttpHelper::$responseCode, 0, 2) == 20;
     }
 }

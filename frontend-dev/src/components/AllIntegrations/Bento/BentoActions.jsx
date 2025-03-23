@@ -13,6 +13,7 @@ import ConfirmModal from '../../Utilities/ConfirmModal'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import { getAllTags } from './BentoCommonFunc'
 import Loader from '../../Loaders/Loader'
+import c from 'react-multiple-select-dropdown-lite'
 
 export default function BentoActions({
   bentoConf,
@@ -30,6 +31,12 @@ export default function BentoActions({
   const actionHandler = (e, type) => {
     if (type === 'add_tags' || type === 'add_tags_via_event') {
       getAllTags(bentoConf, setBentoConf, setLoading)
+    } else if (type === 'subscribe') {
+      setBentoConf(prevConf =>
+        create(prevConf, draftConf => {
+          draftConf[type] = Boolean(e.target.checked)
+        })
+      )
     }
 
     setActionMdl({ show: type })
@@ -50,7 +57,7 @@ export default function BentoActions({
   return (
     <>
       <div className="pos-rel d-flx w-8">
-        {'create_user' === bentoConf.action && (
+        {'add_people' === bentoConf.action && (
           <>
             <TableCheckBox
               onChange={e => actionHandler(e, 'add_tags')}
@@ -69,6 +76,15 @@ export default function BentoActions({
               isInfo={!isPro}
               title={<ProFeatureTitle title={__('Add Tags via Event', 'bit-integrations')} />}
               subTitle={'Add Tags via Event'}
+            />
+            <TableCheckBox
+              onChange={e => actionHandler(e, 'subscribe')}
+              checked={bentoConf?.subscribe || false}
+              className="wdt-200 mt-4 mr-2"
+              value="subscribe"
+              isInfo={!isPro}
+              title={<ProFeatureTitle title={__('Subscribe', 'bit-integrations')} />}
+              subTitle={'Subscribe User'}
             />
           </>
         )}
