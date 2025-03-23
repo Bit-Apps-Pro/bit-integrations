@@ -18,7 +18,7 @@ export default function ChangelogToggle() {
 
   // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
   // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-  const releaseDate = '12th March 2025'
+  const releaseDate = '24th March 2025'
 
   // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
   const changeLog = [
@@ -39,13 +39,12 @@ export default function ChangelogToggle() {
       headClass: 'new-trigger',
       itemClass: 'integration-list',
       items: [
-        { label: 'Fluent Boards', desc: '3 new events added', isPro: true },
-        { label: 'Jetpack CRM', desc: '10 new events added', isPro: true },
-        { label: 'Masteriyo LMS', desc: '4 new events added', isPro: true },
-        { label: 'MemberPress Courses', desc: '2 new events added', isPro: true },
-        { label: 'Modern Events Calendar', desc: '4 new events added', isPro: true },
-        { label: 'Paymattic', desc: '1 new events added', isPro: true },
-        { label: 'ProfileGrid', desc: '12 new events added', isPro: true }
+        { label: 'myCred', desc: '5 new events added', isPro: true },
+        { label: 'SureFeedback', desc: '2 new events added', isPro: true },
+        { label: 'WP All Import', desc: '3 new events added', isPro: true },
+        { label: 'WPLMS', desc: '1 new events added', isPro: true },
+        { label: 'WPLoyalty', desc: '1 new events added', isPro: true },
+        { label: 'WP-Polls', desc: '1 new events added', isPro: true }
       ]
     },
     {
@@ -66,14 +65,19 @@ export default function ChangelogToggle() {
       itemClass: 'fixes-list',
       items: [
         {
-          label: 'SureCart',
-          desc: 'Resolved an issue where order cancellation wasn’t executing correctly on specific products.',
+          label: 'Webhook (Action)',
+          desc: 'Fixed an issue where the Info Page was showing blank.',
+          isPro: false
+        },
+        {
+          label: 'Fluent Community',
+          desc: 'Resolved the "invalid argument" issue.',
           isPro: true
         },
         {
-          label: 'Mail',
-          desc: 'Fixed a glitch in the trigger integration component when editing existing integrations.',
-          isPro: false
+          label: 'Voxel (Trigger)',
+          desc: 'Fixed the issue where hooks were incorrectly listed.',
+          isPro: true
         }
       ]
     }
