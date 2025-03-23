@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\WhatsApp;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use WP_Error;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Trello integration

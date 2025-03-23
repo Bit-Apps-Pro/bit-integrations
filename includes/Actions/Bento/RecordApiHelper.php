@@ -69,7 +69,7 @@ class RecordApiHelper
         $apiEndpoint = "{$this->apiUrl}subscribers?site_uuid={$this->siteUUID}";
         $response = HttpHelper::post($apiEndpoint, wp_json_encode(['email' => $email]), $this->defaultHeader);
 
-        if (!$this->checkResponseCode()) {
+        if (!BentoHelper::checkResponseCode()) {
             return $response;
         }
 
@@ -80,15 +80,27 @@ class RecordApiHelper
             'subscribe' => $integration->subscribe ?? false,
         ];
 
-        $reqParams = (object) [
-            'site_uuid'       => $this->siteUUID,
-            'publishable_key' => $this->publishableKey,
-            'secret_key'      => $this->secretKey,
-        ];
+        $reqParams = BentoHelper::setReqParams($this->siteUUID, $this->publishableKey, $this->secretKey);
 
         do_action('btcbi_bento_update_user_data', false, $reqParams, $email, $finalData, $utilities);
 
         return $response;
+    }
+
+    public function addEvent($finalData)
+    {
+        $this->type = 'User';
+        $this->typeName = 'Create User';
+
+        if (empty($finalData['email']) || empty($finalData['type'])) {
+            return ['success' => false, 'message' => __('Required field Email is empty', 'bit-integrations'), 'code' => 400];
+        }
+
+        $reqParams = BentoHelper::setReqParams($this->siteUUID, $this->publishableKey, $this->secretKey);
+
+        $response = apply_filters('btcbi_bento_store_event', false, $reqParams, $finalData);
+
+        return empty($response) ? (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')] : $response;
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
@@ -106,16 +118,25 @@ class RecordApiHelper
     public function execute($fieldValues, $fieldMap, $action)
     {
         $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
-        $apiResponse = $this->addPeople($finalData);
-        $logStatus = (!$this->checkResponseCode() || empty($apiResponse->data)) ? 'error' : 'success';
+
+        switch ($action) {
+            case 'add_people':
+                $apiResponse = $this->addPeople($finalData);
+                $logStatus = (!BentoHelper::checkResponseCode() || empty($apiResponse->data)) ? 'error' : 'success';
+
+                break;
+            case 'add_event':
+                $apiResponse = $this->addEvent($finalData);
+                $logStatus = (!BentoHelper::checkResponseCode() || empty($apiResponse->results)) ? 'error' : 'success';
+
+                break;
+
+            default:
+                break;
+        }
 
         LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->typeName]), $logStatus, wp_json_encode($apiResponse));
 
         return $apiResponse;
-    }
-
-    private function checkResponseCode()
-    {
-        return empty(HttpHelper::$responseCode) ? false : substr(HttpHelper::$responseCode, 0, 2) == 20;
     }
 }

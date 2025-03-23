@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\Bento;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use WP_Error;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Bento integration
@@ -26,7 +26,7 @@ class BentoController
         $apiEndpoint = $this->setEndpoint('tags', $fieldsRequestParams->site_uuid);
         $response = HttpHelper::get($apiEndpoint, null, $this->_defaultHeader);
 
-        if (substr(HttpHelper::$responseCode, 0, 2) === 20) {
+        if (BentoHelper::checkResponseCode()) {
             wp_send_json_success(__('Authentication successful', 'bit-integrations'), 200);
         } else {
             wp_send_json_error(!empty($response) ? $response : __('Please enter valid Publishable Key, Secret Key & Site UUID', 'bit-integrations'), 400);
@@ -37,16 +37,19 @@ class BentoController
     {
         $this->checkValidation($fieldsRequestParams, $fieldsRequestParams->action ?? '');
 
-        $defaultFields = [(object) ['label' => __('Email Address', 'bit-integrations'), 'key' => 'email', 'required' => true]];
-
         switch ($fieldsRequestParams->action) {
             case 'add_people':
-                $fields = apply_filters('btcbi_bento_get_custom_fields', $defaultFields, $fieldsRequestParams);
+                $defaultFields = [(object) ['label' => __('Email Address', 'bit-integrations'), 'key' => 'email', 'required' => true]];
+                $fields = apply_filters('btcbi_bento_get_user_fields', $defaultFields, $fieldsRequestParams);
+
+                break;
+            case 'add_event':
+                $fields = apply_filters('btcbi_bento_get_event_fields', []);
 
                 break;
 
             default:
-                $fields = $defaultFields;
+                $fields = [];
 
                 break;
         }

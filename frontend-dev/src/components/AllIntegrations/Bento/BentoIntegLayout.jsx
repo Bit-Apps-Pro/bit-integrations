@@ -11,6 +11,7 @@ import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
 import Note from '../../Utilities/Note'
 import BentoActions from './BentoActions'
+import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 
 export default function BentoIntegLayout({
   formFields,
@@ -44,10 +45,14 @@ export default function BentoIntegLayout({
       <div className="flx">
         <b className="wdt-200 d-in-b">{__('Select Action:', 'bit-integrations')}</b>
         <MultiSelect
-          options={bentoConf.actions}
           className="msl-wrp-options dropdown-custom-width"
           defaultValue={bentoConf?.action}
           onChange={val => setChanges(val, 'action')}
+          options={bentoConf.actions?.map(action => ({
+            label: checkIsPro(isPro, action.is_pro) ? action.label : getProLabel(action.label),
+            value: action.value,
+            disabled: checkIsPro(isPro, action.is_pro) ? false : true
+          }))}
           singleSelect
           closeOnSelect
         />
