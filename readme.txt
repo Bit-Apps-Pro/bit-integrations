@@ -1,10 +1,10 @@
-=== Webhook Automator & Contact Form Integration to Automate 270+ Platforms – Bit Integrations ===
+=== Webhook Automator & Contact Form Integration to Automate 280+ Platforms – Bit Integrations ===
 Contributors: bitpressadmin, rishadbitcode, niloy121, fahimsakib, shuvomohajan, tanvirchy, shakhawathosen, khoaiz, mazharul78
 Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
 Tested up to: 6.7.2
 Requires PHP: 7.4
-Stable tag: 2.5.1
+Stable tag: 2.5.2
 License: GPLv2 or later
 
 Automation Plugin for WordPress. Integration of 110+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
@@ -13,7 +13,7 @@ Automation Plugin for WordPress. Integration of 110+ Triggers & 150+ Actions.The
 
 <strong>no-code automation plugin for WordPress, enabling flawless workflows with webhooks, WooCommerce, CRM, LMS, and more | Best Automation Plugin for WordPress.</strong>
 
-Automate your WordPress workflow with **Bit Integrations**: the all-in-one plugin for sending data authomatically to WooCommerce, form builders, CRM, LMS, bookings, spreadsheets, [**webhooks**](https://webhook.is/difference-between-webhook-and-api), social media, email marketing and automation platforms like Zapier and others. No technical knowledge needed. Automate tasks across 270+ platforms effortlessly.
+Automate your WordPress workflow with **Bit Integrations**: the all-in-one plugin for sending data authomatically to WooCommerce, form builders, CRM, LMS, bookings, spreadsheets, [**webhooks**](https://webhook.is/difference-between-webhook-and-api), social media, email marketing and automation platforms like Zapier and others. No technical knowledge needed. Automate tasks across 280+ platforms effortlessly.
 
 You can see below what WPTuts say about **Bit Integrations**
 
@@ -45,16 +45,17 @@ https://youtu.be/eFuficjF_F4
 
 ### ✔List of Available Triggers:
 
-* [**Bit Form**](https://wordpress.org/plugins/bit-form/) (free)
+* [**Webhook**]() (pro)
 * [**Elementor**](https://wordpress.org/plugins/elementor/) (free)
+* [**Thrive Apprentice**](https://thrivethemes.com/apprentice/) (pro)
 * [**Contact Form 7**](https://wordpress.org/plugins/contact-form-7/) (free)
 * [**WooCommerce**](https://wordpress.org/plugins/woocommerce/) (free)
 * [**WPForms**](https://wordpress.org/plugins/wpforms-lite/) (free)
 * [**Advanced Custom Fields (ACF)**](https://wordpress.org/plugins/advanced-custom-fields/) (pro)
 * [**Fluent Forms**](https://wordpress.org/plugins/fluentform/) (pro)
 * [**Formidable**](https://wordpress.org/plugins/formidable/) (pro)
+* [**Bit Form**](https://wordpress.org/plugins/bit-form/) (free)
 * [**Bit Assist**](https://wordpress.org/plugins/bit-assist/) (pro)
-* [**Thrive Apprentice**](https://thrivethemes.com/apprentice/) (pro)
 * [**Academy LMS**](https://wordpress.org/plugins/academy/) (pro)
 * [**Advanced Ads**](https://wordpress.org/plugins/advanced-ads/) (pro)
 * [**Advanced Coupons For WooCommerce**](https://wordpress.org/plugins/advanced-coupons-for-woocommerce-free/) (pro)
@@ -122,6 +123,7 @@ https://youtu.be/eFuficjF_F4
 * [**MailPoet**](https://wordpress.org/plugins/mailpoet/) (pro)
 * [**Mailster**](https://wordpress.org/plugins/mailster/) (pro)
 * [**Modern Events Calendar**](https://webnus.net/modern-events-calendar/) (pro)
+* [**myCred**](https://wordpress.org/plugins/mycred/) (pro)
 * [**Newsletter**](https://wordpress.org/plugins/newsletter/) (pro)
 * [**Ninja Forms**](https://wordpress.org/plugins/ninja-forms/) (pro)
 * [**Ninja Tables**](https://wordpress.org/plugins/ninja-tables/) (pro)
@@ -147,6 +149,7 @@ https://youtu.be/eFuficjF_F4
 * [**Solid Affiliate**](https://solidaffiliate.com/) (pro)
 * [**Spectra**](https://wordpress.org/plugins/ultimate-addons-for-gutenberg/) (pro)
 * [**SureCart**](https://wordpress.org/plugins/surecart/) (pro)
+* [**SureFeedback**](https://wordpress.org/plugins/projecthuddle-child-site/) (pro)
 * [**SureMail**](https://wordpress.org/plugins/suremails/) (pro)
 * [**SureForms**](https://wordpress.org/plugins/sureforms/) (pro)
 * [**SureMembers**](https://suremembers.com/) (pro)
@@ -156,6 +159,10 @@ https://youtu.be/eFuficjF_F4
 * [**Voxel**](https://getvoxel.io/) (pro)
 * [**weForms**](https://wordpress.org/plugins/search/WeForms/) (pro)
 * [**Wishlist Member**](https://wishlistmember.com/) (pro)
+* [**WPLMS**](https://wplms.io/) (pro)
+* [**WPLoyalty**](https://wordpress.org/plugins/wployalty/) (pro)
+* [**WP All Import**](https://www.wpallimport.com/) (pro)
+* [**WP-Polls**](https://wordpress.org/plugins/wp-polls/) (pro)
 * [**WP Post**]() (pro)
 * [**WP Job Manager**](https://wordpress.org/plugins/wp-job-manager/) (pro)
 * [**WooCommerce Subscriptions**](https://woocommerce.com/products/woocommerce-subscriptions/) (pro)
@@ -165,7 +172,6 @@ https://youtu.be/eFuficjF_F4
 * [**WPFunnels**](https://wordpress.org/plugins/wpfunnels/) (pro)
 * [**WS Form**](https://wordpress.org/plugins/ws-form/) (pro)
 * [**MetaBox Frontend Submission**](https://wordpress.org/plugins/meta-box/) (pro)
-* [**Webhooks**]() (pro)
 
 ### ✔List of Available Actions:
 
@@ -388,7 +394,7 @@ Wp-Telemetry **DOES NOT IMMEDIATELY** start gathering data, rather it will gathe
 
 Free version allows you to use all free triggers and all actions,
 also with unlimited active integrations.
-With the pro version, you have the ability to use all 270+ triggers and actions for unlimited active integrations.
+With the pro version, you have the ability to use all 280+ triggers and actions for unlimited active integrations.
 Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations/).
 
 ### 💥 Don't worry, we give you some video tutorials with use cases to help you get started with the plugin.
@@ -607,7 +613,7 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Smaily**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKu0p4pFVuQs66fDavvyL0o)
 
-* [**SiteOrigin**](https://youtube.com/playlist?list=PL7c6CDwwm-AIkjyDJvcaTv4270D8yuYKE&si=Dy97J9ltIw1a0f61)
+* [**SiteOrigin**](https://youtube.com/playlist?list=PL7c6CDwwm-AIkjyDJvcaTv4280D8yuYKE&si=Dy97J9ltIw1a0f61)
 
 * [**Slack**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALs0FkFMv0hh5_22fawGJsb)
 
@@ -1235,9 +1241,9 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 ## FAQ
 
 = 1. What is Bit Integrations? =
-Bit Integrations is a wordpress plugin that allows you to connect your WordPress site with over 270+ popular platforms, such as CRMs, marketing tools, and more.
+Bit Integrations is a wordpress plugin that allows you to connect your WordPress site with over 280+ popular platforms, such as CRMs, marketing tools, and more.
 = 2. What kind of tasks does Bit Integrations automate?=
-Bit Integrations provide automated solutions for form submissions, data transfer between platforms, and more. With the integration of over 270+ popular platforms, users can effortlessly manage their connections to their WordPress site in one place.
+Bit Integrations provide automated solutions for form submissions, data transfer between platforms, and more. With the integration of over 280+ popular platforms, users can effortlessly manage their connections to their WordPress site in one place.
 = 3. Is Bit integrations easy to use?=
 Yes, Bit integrations easy to use without require coding knowledge and without read documentation.
 = 4. Bit Integrations support Multisite?=
@@ -1251,7 +1257,7 @@ Yes, you can send data when user complete course/lesson , create course etc.
 = 8. Can I automate with WooCommerce, WooCommerce subscription, WooCommerce booking, Studiocart and Easy Digital Downloads?=
 Yes, you can send data when user complete order, create order, create subscription, create booking etc.
 = 9. Do I need coding skills to use Bit Integrations?=
-No, you don't need any coding skills to use Bit Integrations. You can easily connect your WordPress site with over 270+ popular platforms, such as CRMs, marketing tools, and more.
+No, you don't need any coding skills to use Bit Integrations. You can easily connect your WordPress site with over 280+ popular platforms, such as CRMs, marketing tools, and more.
 = 10. Can I automate with WhatsApp?=
 Yes, you can automate with WhatsApp.
 = 11. Best WordPress Automation Tools and Plugins Compared (2023)?=
@@ -1259,7 +1265,7 @@ Yes, Bit Integrations is one of the best WordPress Automation Tools and Plugins 
 = 12. Can I automate with Google Sheets, Google Calendar, Google Drive, Google Contact?=
 Yes, you can automate with Google Sheets, Google Calendar, Google Drive, Google Contact.
 = 13. What users say about Bit Integrations?=
-Bit Integrations is self hosted Zapier with chepest price. You can automate with over 270+ popular platforms, such as CRMs, marketing tools, and more.
+Bit Integrations is self hosted Zapier with chepest price. You can automate with over 280+ popular platforms, such as CRMs, marketing tools, and more.
 = 14. Can I automate WordPress?=
 Yes, you can automate WordPress with 110+ trigger and 150+ actions.
 = 15. Can Bit Integrations connect plugins with external services like Zapier, Pabbly, N8N?=
@@ -1286,6 +1292,22 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 6. All integration list
 
 == Changelog ==
+
+= 2.5.2 =
+_Release Date -24th March 2025_
+
+- **New Triggers**
+ - myCred – 5 new events added (Pro)
+ - SureFeedback – 2 new events added (Pro)
+ - WP All Import – 3 new events added (Pro)
+ - WPLMS – 1 new events added (Pro)
+ - WPLoyalty – 1 new events added (Pro)
+ - WP-Polls – 1 new events added (Pro)
+
+- **Bug Fixes**
+ - Webhook (Action): Fixed an issue where the Info Page was showing blank.
+ - Fluent Community: Resolved the "invalid argument" issue. (Pro)
+ - Voxel (Trigger): Fixed the issue where hooks were incorrectly listed. (Pro)
 
 = 2.5.1 =
 _Release Date -12th March 2025_
