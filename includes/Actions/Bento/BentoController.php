@@ -16,26 +16,26 @@ class BentoController
 {
     protected $_defaultHeader;
 
-    protected $_apiEndpoint = 'https://app.bentonow.com/api/v1/fetch/';
-
     public function authentication($fieldsRequestParams)
     {
-        $this->checkValidation($fieldsRequestParams);
-        $this->setHeaders($fieldsRequestParams->publishable_key, $fieldsRequestParams->secret_key);
+        BentoHelper::checkValidation($fieldsRequestParams);
 
-        $apiEndpoint = $this->setEndpoint('tags', $fieldsRequestParams->site_uuid);
-        $response = HttpHelper::get($apiEndpoint, null, $this->_defaultHeader);
+        $headers = BentoHelper::setHeaders($fieldsRequestParams->publishable_key, $fieldsRequestParams->secret_key);
+        $apiEndpoint = BentoHelper::setEndpoint('tags', $fieldsRequestParams->site_uuid);
+        $response = HttpHelper::get($apiEndpoint, null, $headers);
 
         if (BentoHelper::checkResponseCode()) {
             wp_send_json_success(__('Authentication successful', 'bit-integrations'), 200);
-        } else {
-            wp_send_json_error(!empty($response) ? $response : __('Please enter valid Publishable Key, Secret Key & Site UUID', 'bit-integrations'), 400);
+
+            return;
         }
+
+        wp_send_json_error(!empty($response) ? $response : __('Please enter valid Publishable Key, Secret Key & Site UUID', 'bit-integrations'), 400);
     }
 
     public function getAllFields($fieldsRequestParams)
     {
-        $this->checkValidation($fieldsRequestParams, $fieldsRequestParams->action ?? '');
+        BentoHelper::checkValidation($fieldsRequestParams, $fieldsRequestParams->action ?? '');
 
         switch ($fieldsRequestParams->action) {
             case 'add_people':
@@ -59,7 +59,7 @@ class BentoController
 
     public function getAlTags($fieldsRequestParams)
     {
-        $this->checkValidation($fieldsRequestParams);
+        BentoHelper::checkValidation($fieldsRequestParams);
 
         $tags = apply_filters('btcbi_bento_get_all_tags', [], $fieldsRequestParams);
 
@@ -88,33 +88,6 @@ class BentoController
             $siteUUID
         );
 
-        $bentoApiResponse = $recordApiHelper->execute($fieldValues, $fieldMap, $action);
-
-        if (is_wp_error($bentoApiResponse)) {
-            return $bentoApiResponse;
-        }
-
-        return $bentoApiResponse;
-    }
-
-    private function checkValidation($fieldsRequestParams, $customParam = '**')
-    {
-        if (empty($fieldsRequestParams->publishable_key) || empty($fieldsRequestParams->secret_key || empty($fieldsRequestParams->site_uuid)) || empty($customParam)) {
-            wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
-        }
-    }
-
-    private function setHeaders($publishableKey, $secretKey)
-    {
-        $this->_defaultHeader = [
-            'Authorization' => 'Basic ' . base64_encode("{$publishableKey}:{$secretKey}"),
-            'Accept'        => 'application/json',
-            'Content-Type'  => 'application/json'
-        ];
-    }
-
-    private function setEndpoint($endpoint, $siteUUID)
-    {
-        return "{$this->_apiEndpoint}{$endpoint}?site_uuid={$siteUUID}";
+        return $recordApiHelper->execute($fieldValues, $fieldMap, $action);
     }
 }

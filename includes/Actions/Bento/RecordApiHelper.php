@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\Bento;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -19,8 +19,6 @@ class RecordApiHelper
 
     private $integrationId;
 
-    private $apiUrl;
-
     private $defaultHeader;
 
     private $siteUUID;
@@ -28,10 +26,6 @@ class RecordApiHelper
     private $publishableKey;
 
     private $secretKey;
-
-    private $type;
-
-    private $typeName;
 
     public function __construct(
         $integrationDetails,
@@ -45,20 +39,11 @@ class RecordApiHelper
         $this->siteUUID = $siteUUID;
         $this->publishableKey = $publishableKey;
         $this->secretKey = $secretKey;
-        $this->apiUrl = 'https://app.bentonow.com/api/v1/fetch/';
-
-        $this->defaultHeader = [
-            'Authorization' => 'Basic ' . base64_encode("{$publishableKey}:{$secretKey}"),
-            'Accept'        => 'application/json',
-            'Content-Type'  => 'application/json'
-        ];
+        $this->defaultHeader = BentoHelper::setHeaders($publishableKey, $secretKey);
     }
 
     public function addPeople($finalData)
     {
-        $this->type = 'User';
-        $this->typeName = 'Create User';
-
         if (empty($finalData['email'])) {
             return ['success' => false, 'message' => __('Required field Email is empty', 'bit-integrations'), 'code' => 400];
         }
@@ -66,7 +51,7 @@ class RecordApiHelper
         $email = $finalData['email'];
         unset($finalData['email']);
 
-        $apiEndpoint = "{$this->apiUrl}subscribers?site_uuid={$this->siteUUID}";
+        $apiEndpoint = BentoHelper::setEndpoint('subscribers', $this->siteUUID);
         $response = HttpHelper::post($apiEndpoint, wp_json_encode(['email' => $email]), $this->defaultHeader);
 
         if (!BentoHelper::checkResponseCode()) {
@@ -89,9 +74,6 @@ class RecordApiHelper
 
     public function addEvent($finalData)
     {
-        $this->type = 'User';
-        $this->typeName = 'Create User';
-
         if (empty($finalData['email']) || empty($finalData['type'])) {
             return ['success' => false, 'message' => __('Required field Email is empty', 'bit-integrations'), 'code' => 400];
         }
@@ -122,11 +104,15 @@ class RecordApiHelper
 
         switch ($action) {
             case 'add_people':
+                $type = 'People';
+                $typeName = 'Add People';
                 $apiResponse = $this->addPeople($finalData);
                 $logStatus = (!BentoHelper::checkResponseCode() || empty($apiResponse->data)) ? 'error' : 'success';
 
                 break;
             case 'add_event':
+                $type = 'Event';
+                $typeName = 'Add Event';
                 $apiResponse = $this->addEvent($finalData);
                 $logStatus = (!BentoHelper::checkResponseCode() || empty($apiResponse->results)) ? 'error' : 'success';
 
@@ -136,7 +122,7 @@ class RecordApiHelper
                 break;
         }
 
-        LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->typeName]), $logStatus, wp_json_encode($apiResponse));
+        LogHandler::save($this->integrationId, wp_json_encode(['type' => $type, 'type_name' => $typeName]), $logStatus, wp_json_encode($apiResponse));
 
         return $apiResponse;
     }
