@@ -130,6 +130,7 @@ final class AllTriggersName
             'WPLMS'                      => ['name' => 'WPLMS',  'isPro' => true, 'is_active' => false],
             'WPLoyalty'                  => ['name' => 'WPLoyalty',  'isPro' => true, 'is_active' => false],
             'WpPolls'                    => ['name' => 'WP-Polls',  'isPro' => true, 'is_active' => false],
+            'WpSimplePay'                => ['name' => 'WP Simple Pay',  'isPro' => true, 'is_active' => false],
         ];
     }
 }

@@ -60,6 +60,7 @@ export const customFormIntegrations = [
   'MyCred',
   'WPLMS',
   'WPLoyalty',
+  'WpSimplePay',
 ]
 
 export const actionHookIntegrations = ['ActionHook']
