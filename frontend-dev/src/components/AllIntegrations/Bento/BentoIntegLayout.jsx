@@ -1,17 +1,17 @@
 /* eslint-disable no-unused-vars */
+import { create } from 'mutative'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
+import { useRecoilValue } from 'recoil'
+import { $btcbi } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
+import Note from '../../Utilities/Note'
+import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
+import BentoActions from './BentoActions'
 import { getFields } from './BentoCommonFunc'
 import BentoFieldMap from './BentoFieldMap'
 import { addFieldMap } from './IntegrationHelpers'
-import { create } from 'mutative'
-import { useRecoilValue } from 'recoil'
-import { $btcbi } from '../../../GlobalStates'
-import Note from '../../Utilities/Note'
-import BentoActions from './BentoActions'
-import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 
 export default function BentoIntegLayout({
   formFields,

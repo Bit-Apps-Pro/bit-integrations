@@ -10,14 +10,13 @@ import Steps from '../../Utilities/Steps'
 import { saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import BentoAuthorization from './BentoAuthorization'
-import { checkMappedFields, generateMappedField } from './BentoCommonFunc'
+import { checkMappedFields } from './BentoCommonFunc'
 import BentoIntegLayout from './BentoIntegLayout'
 
 function Bento({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
   const [loading, setLoading] = useState({})
-
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
 
@@ -52,16 +51,6 @@ function Bento({ formFields, setFlow, flow, allIntegURL }) {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
-
-    // if (!checkMappedFields(bentoConf)) {
-    //   toast.error(__('Please map mandatory fields', 'bit-integrations'))
-    //   return
-    // }
-
-    // if (!bentoConf.selectedEvent) {
-    //   toast.error(__('Please select a Event', 'bit-integrations'))
-    //   return
-    // }
 
     bentoConf.field_map.length > 0 && setStep(pageNo)
   }

@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 /* eslint-disable no-else-return */
+import { create } from 'mutative'
 import toast from 'react-hot-toast'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { __ } from '../../../Utils/i18nwrap'
-import { create } from 'mutative'
 
 export const handleInput = (e, salesmateConf, setSalesmateConf) => {
   const newConf = { ...salesmateConf }
@@ -18,6 +18,7 @@ export const handleInput = (e, salesmateConf, setSalesmateConf) => {
 
 export const generateMappedField = (bentoFields) => {
   const requiredFlds = bentoFields.filter((fld) => fld.required === true)
+
   return requiredFlds.length > 0
     ? requiredFlds.map((field) => ({
       formField: '',
@@ -33,13 +34,11 @@ export const checkMappedFields = (bentoConf) => {
         !mappedField.formField ||
         !mappedField.bentoFormField ||
         (mappedField.formField === 'custom' && !mappedField.customValue) ||
-        (mappedField.bentoFormField === 'customFieldKey' && !mappedField.customFieldKey)
+        (bentoConf.action === 'add_event' && mappedField.bentoFormField === 'customFieldKey' && !mappedField.customFieldKey)
     )
     : []
-  if (mappedFields.length > 0) {
-    return false
-  }
-  return true
+
+  return mappedFields.length <= 0
 }
 
 const setRequestParams = (config, customs = {}) => {

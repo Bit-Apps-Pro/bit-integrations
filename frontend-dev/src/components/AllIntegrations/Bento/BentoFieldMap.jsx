@@ -3,19 +3,19 @@ import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import { __ } from '../../../Utils/i18nwrap'
+import CustomFieldKey from '../../Utilities/CustomFieldKey'
 import TagifyInput from '../../Utilities/TagifyInput'
 import { addFieldMap, delFieldMap, handleCustomValue, handleFieldMapping } from './IntegrationHelpers'
-import CustomFieldKey from '../../Utilities/CustomFieldKey'
 
 export default function BentoFieldMap({ i, formFields, field, bentoConf, setBentoConf }) {
+  const btcbi = useRecoilValue($btcbi)
+  const { isPro } = btcbi
+
   const requiredFields =
     (bentoConf?.bentoFields && bentoConf.bentoFields.filter(fld => fld.required === true)) || []
   const allNonRequiredFields =
     (bentoConf?.bentoFields && bentoConf.bentoFields.filter(fld => fld.required === false)) || []
 
-  const btcbi = useRecoilValue($btcbi)
-  const { isPro } = btcbi
-  console.log(bentoConf)
   return (
     <div className="flx mt-2 mb-2 btcbi-field-map">
       <div className="pos-rel flx">
@@ -82,7 +82,7 @@ export default function BentoFieldMap({ i, formFields, field, bentoConf, setBent
               <option value="customFieldKey">{__('Custom Field Key', 'bit-integrations')}</option>
             )}
           </select>
-          {field.bentoFormField === 'customFieldKey' && (
+          {field.bentoFormField === 'customFieldKey' && bentoConf.action === 'add_event' && (
             <CustomFieldKey
               field={field}
               index={i}

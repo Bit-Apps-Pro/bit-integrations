@@ -2,17 +2,14 @@
 /* eslint-disable no-param-reassign */
 
 import { useState } from 'react'
-import { toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { $actionConf, $formFields, $newFlow } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import SnackMsg from '../../Utilities/SnackMsg'
-import EditFormInteg from '../EditFormInteg'
-import SetEditIntegComponents from '../IntegrationHelpers/SetEditIntegComponents'
-import EditWebhookInteg from '../EditWebhookInteg'
 import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
+import SetEditIntegComponents from '../IntegrationHelpers/SetEditIntegComponents'
 import { checkMappedFields, handleInput } from './BentoCommonFunc'
 import BentoIntegLayout from './BentoIntegLayout'
 
