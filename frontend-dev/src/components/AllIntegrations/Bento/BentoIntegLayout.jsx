@@ -118,9 +118,11 @@ export default function BentoIntegLayout({
           <br />
           <br />
 
-          {!isPro && (
-            <Note note={`<p>${__('Custom Fields Available in Pro', 'bit-integrations')}</p>`} />
-          )}
+          {!isPro &&
+            bentoConf.action ===
+              'add_people'(
+                <Note note={`<p>${__('Custom Fields Available in Pro', 'bit-integrations')}</p>`} />
+              )}
 
           <div className="mt-4">
             <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>

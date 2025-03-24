@@ -107,9 +107,10 @@ class RecordApiHelper
     {
         $dataFinal = [];
         foreach ($fieldMap as $value) {
-            $triggerValue = $value->formField;
-            $actionValue = $value->bentoFormField;
-            $dataFinal[$actionValue] = ($triggerValue === 'custom' && !empty($value->customValue)) ? Common::replaceFieldWithValue($value->customValue, $data) : $data[$triggerValue];
+            $triggerValue = ($value->formField === 'custom' && !empty($value->customValue)) ? Common::replaceFieldWithValue($value->customValue, $data) : $data[$value->formField];
+            $actionValue = $value->bentoFormField === 'customFieldKey' && !empty($value->customFieldKey) ? $value->customFieldKey : $value->bentoFormField;
+
+            $dataFinal[$actionValue] = $triggerValue;
         }
 
         return $dataFinal;
