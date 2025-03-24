@@ -67,6 +67,7 @@ function EditBento({ allIntegURL }) {
         setBentoConf={setBentoConf}
         loading={loading}
         setLoading={setLoading}
+        isLoading={isLoading}
         setIsLoading={setIsLoading}
         setSnackbar={setSnackbar}
       />

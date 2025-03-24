@@ -79,7 +79,7 @@ export default function BentoFieldMap({ i, formFields, field, bentoConf, setBent
               ))
             )}
             {bentoConf.action === 'add_event' && (
-              <option value="customFieldKey">{__('Custom Field', 'bit-integrations')}</option>
+              <option value="customFieldKey">{__('Custom Field Key', 'bit-integrations')}</option>
             )}
           </select>
           {field.bentoFormField === 'customFieldKey' && (

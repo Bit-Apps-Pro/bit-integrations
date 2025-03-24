@@ -28,7 +28,7 @@ export default function BentoIntegLayout({
 
   const setChanges = (val, name) => {
     if (name === 'action' && val !== '') {
-      getFields(bentoConf, setBentoConf, val, setLoading)
+      getFields(bentoConf, setBentoConf, val, setIsLoading)
     }
 
     setBentoConf(prevConf =>
@@ -59,7 +59,7 @@ export default function BentoIntegLayout({
       </div>
       <br />
       <br />
-      {(isLoading || loading.fields || loading.session) && (
+      {isLoading && (
         <Loader
           style={{
             display: 'flex',
@@ -77,7 +77,7 @@ export default function BentoIntegLayout({
           <div className="mt-5">
             <b className="wdt-100">{__('Field Map', 'bit-integrations')}</b>
             <button
-              onClick={() => getFields(bentoConf, setBentoConf, bentoConf.action, setLoading)}
+              onClick={() => getFields(bentoConf, setBentoConf, bentoConf.action, setIsLoading)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `'${__('Refresh fields', 'bit-integrations')}'` }}
               type="button">

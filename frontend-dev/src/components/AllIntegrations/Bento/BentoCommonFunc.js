@@ -86,11 +86,11 @@ export const bentoAuthentication = (
   })
 }
 
-export const getFields = (confTmp, setConf, action, setLoading) => {
-  setLoading({ ...setLoading, fields: true })
+export const getFields = (confTmp, setConf, action, setIsLoading) => {
+  setIsLoading(true)
 
   bitsFetch(setRequestParams(confTmp, { action: action }), 'bento_get_fields').then((result) => {
-    setLoading({ ...setLoading, fields: false })
+    setIsLoading(false)
 
     if (result?.success && result?.data) {
       setConf((prevConf) => create(prevConf, draftConf => {
