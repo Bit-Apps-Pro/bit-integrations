@@ -61,6 +61,7 @@ export const customFormIntegrations = [
   'WPLMS',
   'WPLoyalty',
   'WpSimplePay',
+  'WCMemberships',
 ]
 
 export const actionHookIntegrations = ['ActionHook']
