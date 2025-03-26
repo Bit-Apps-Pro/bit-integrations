@@ -97,6 +97,7 @@ export const refreshFields = (zoomConf, setZoomConf, setIsLoading, setSnackbar) 
   }
   bitsFetch(fetchMeetingModulesRequestParams, 'zoom_fetch_all_fields')
     .then((result) => {
+      setIsLoading(false)
       if (result && result.success) {
         setZoomConf((prevConf) =>
           create(prevConf, (draftConf) => {
@@ -109,7 +110,10 @@ export const refreshFields = (zoomConf, setZoomConf, setIsLoading, setSnackbar) 
           msg: __('Zoom fields refreshed', 'bit-integrations')
         })
       }
-      setIsLoading(false)
+      setSnackbar({
+        show: true,
+        msg: result?.data ? result?.data : __('Zoom fields refreshed failed!', 'bit-integrations')
+      })
     })
     .catch(() => setIsLoading(false))
 }
@@ -130,11 +134,10 @@ export const handleAuthorize = (
     return
   }
   setIsLoading(true)
-  const apiEndpoint = `https://zoom.us/oauth/authorize?response_type=code&client_id=${
-    confTmp.clientId
-  }&state=${encodeURIComponent(
-    window.location.href
-  )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api.base}/redirect`)}`
+  const apiEndpoint = `https://zoom.us/oauth/authorize?response_type=code&client_id=${confTmp.clientId
+    }&state=${encodeURIComponent(
+      window.location.href
+    )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api.base}/redirect`)}`
   const authWindow = window.open(apiEndpoint, 'zoom', 'width=400,height=609,toolbar=off')
   const popupURLCheckTimer = setInterval(() => {
     if (authWindow.closed) {
@@ -202,9 +205,8 @@ const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, setIsLoading
       ) {
         setSnackbar({
           show: true,
-          msg: `${__('Authorization failed Cause:', 'bit-integrations')}${
-            result.data.data || result.data
-          }. ${__('please try again', 'bit-integrations')}`
+          msg: `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data
+            }. ${__('please try again', 'bit-integrations')}`
         })
       } else {
         setSnackbar({
