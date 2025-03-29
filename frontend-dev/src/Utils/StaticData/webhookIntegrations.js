@@ -64,6 +64,7 @@ export const customFormIntegrations = [
   'WCMemberships',
   'NexForms',
   'ProfileBuilder',
+  'QuillForms',
 ]
 
 export const actionHookIntegrations = ['ActionHook']
