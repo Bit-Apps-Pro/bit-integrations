@@ -63,6 +63,7 @@ export const customFormIntegrations = [
   'WpSimplePay',
   'WCMemberships',
   'NexForms',
+  'ProfileBuilder',
 ]
 
 export const actionHookIntegrations = ['ActionHook']
