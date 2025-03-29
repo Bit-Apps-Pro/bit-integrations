@@ -65,6 +65,7 @@ export const customFormIntegrations = [
   'NexForms',
   'ProfileBuilder',
   'QuillForms',
+  'UserFeedback',
 ]
 
 export const actionHookIntegrations = ['ActionHook']

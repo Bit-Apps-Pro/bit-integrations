@@ -252,7 +252,7 @@ const ActionHook = () => {
           </div>
           <input
             className="btcd-paper-inp w-100 mt-1"
-            onChange={e => setHook(e.target.value, 'custom')}
+            onChange={e => setHook(e.target.value?.trim(), 'custom')}
             name="custom"
             value={hookID}
             type="text"
