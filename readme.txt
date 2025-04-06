@@ -4,7 +4,7 @@ Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
 Tested up to: 6.7.2
 Requires PHP: 7.4
-Stable tag: 2.5.2
+Stable tag: 2.5.3
 License: GPLv2 or later
 
 Automation Plugin for WordPress. Integration of 110+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
@@ -125,11 +125,13 @@ https://youtu.be/eFuficjF_F4
 * [**Modern Events Calendar**](https://webnus.net/modern-events-calendar/) (pro)
 * [**myCred**](https://wordpress.org/plugins/mycred/) (pro)
 * [**Newsletter**](https://wordpress.org/plugins/newsletter/) (pro)
+* [**NEX-Forms**](https://wordpress.org/plugins/nex-forms-express-wp-form-builder/) (pro)
 * [**Ninja Forms**](https://wordpress.org/plugins/ninja-forms/) (pro)
 * [**Ninja Tables**](https://wordpress.org/plugins/ninja-tables/) (pro)
 * [**OptinMonster**](https://wordpress.org/plugins/optinmonster/) (pro)
 * [**Paymattic**](https://wordpress.org/plugins/wp-payment-form/) (pro)
 * [**ProfileGrid**](https://wordpress.org/plugins/profilegrid-user-profiles-groups-and-communities/) (pro)
+* [**Profile Builder**](https://wordpress.org/plugins/profile-builder/) (pro)
 * [**PeepSo**](https://www.peepso.com/) (pro)
 * [**Presto Player**](https://wordpress.org/plugins/presto-player/) (pro)
 * [**Popup Maker**](https://wordpress.org/plugins/popup-maker/) (pro)
@@ -139,6 +141,8 @@ https://youtu.be/eFuficjF_F4
 * [**Piotnet Addons For Elementor**](https://wordpress.org/plugins/piotnet-addons-for-elementor/) (pro)
 * [**Restrict Content**](https://wordpress.org/plugins/restrict-content/) (pro)
 * [**RafflePress**](https://wordpress.org/plugins/rafflepress/) (pro)
+* [**Quill Forms**](https://wordpress.org/plugins/quillforms/) (pro)
+* [**UserFeedback**](https://www.userfeedback.com/) (pro)
 * [**User Registration**]() (pro)
 * [**Ultimate Member**](https://wordpress.org/plugins/ultimate-member/) (pro)
 * [**Sensei LMS**](https://wordpress.org/plugins/sensei-lms/) (pro)
@@ -166,8 +170,10 @@ https://youtu.be/eFuficjF_F4
 * [**WP Post**]() (pro)
 * [**WP Job Manager**](https://wordpress.org/plugins/wp-job-manager/) (pro)
 * [**WooCommerce Subscriptions**](https://woocommerce.com/products/woocommerce-subscriptions/) (pro)
-* [**WP Courseware**](https://flyplugins.com/wp-courseware-wordpress-lms/) (pro)
 * [**WooCommerce Bookings**](https://woocommerce.com/products/woocommerce-bookings/) (pro)
+* [**WooCommerce Memberships**](https://woocommerce.com/products/woocommerce-memberships/) (pro)
+* [**WP Courseware**](https://flyplugins.com/wp-courseware-wordpress-lms/) (pro)
+* [**WP Simple Pay**](https://wpsimplepay.com/) (pro)
 * [**wpForo**](https://wordpress.org/plugins/wpforo/) (pro)
 * [**WPFunnels**](https://wordpress.org/plugins/wpfunnels/) (pro)
 * [**WS Form**](https://wordpress.org/plugins/ws-form/) (pro)
@@ -191,6 +197,7 @@ https://youtu.be/eFuficjF_F4
 * [**Ants and Apps**](https://antsandapps.com/) (free)
 * [**Asana**](https://asana.com/) (free)
 * [**Autonami**](https://wordpress.org/plugins/wp-marketing-automations/) (free)
+* [**Bento**](https://bentonow.com/) (free)
 * [**BuddyBoss**](https://www.buddyboss.com/) (free)
 * [**Benchmark**](https://www.benchmarkemail.com/) (free)
 * [**Campaign Monitor**](https://www.campaignmonitor.com/) (free)
@@ -837,6 +844,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**MetForm**](https://bitapps.pro/docs/bit-integrations/trigger/metform/)
 
+* [**NEX-Forms**](https://bit-integrations.com/wp-docs/trigger/nex-forms-integrations/)
+
 * [**Newsletter**](https://bit-integrations.com/wp-docs/trigger/newsletter-integrations/)
 
 * [**Ninja Form**](https://bitapps.pro/docs/bit-integrations/trigger/ninja-forms/)
@@ -844,6 +853,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 * [**Ninja Tables**](https://bit-integrations.com/wp-docs/trigger/ninja-tables-integrations/)
 
 * [**Paymattic**](https://bit-integrations.com/wp-docs/trigger/paymattic-integrations/)
+
+* [**Profile Builder**](https://bit-integrations.com/wp-docs/trigger/profile-builder-integrations/)
 
 * [**ProfileGrid**](https://bit-integrations.com/wp-docs/trigger/profilegrid-integrations/)
 
@@ -861,9 +872,13 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Popup Maker**](https://bitapps.pro/docs/bit-integrations/trigger/popup-maker-integration/)
 
+* [**Quill Forms**](https://bit-integrations.com/wp-docs/trigger/quill-forms-integrations/)
+
 * [**Rafflepress**](https://bitapps.pro/docs/bit-integrations/trigger/rafflepress/)
 
 * [**Restrict Content**](https://bitapps.pro/docs/bit-integrations/trigger/restrict-content/)
+
+* [**UserFeedback**](https://bit-integrations.com/wp-docs/trigger/userfeedback-integrations/)
 
 * [**Simply Schedule Appointments**](https://bit-integrations.com/wp-docs/trigger/simply-schedule-appointments-integrations/)
 
@@ -908,6 +923,10 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 * [**Woocommerce Bookings**](https://bit-integrations.com/wp-docs/trigger/woocommerce-bookings-integrations/)
 
 * [**WooCommerce Subscriptions**](https://bit-integrations.com/wp-docs/trigger/woocommerce-subscriptions-integrations/)
+
+* [**WooCommerce Memberships**](https://bit-integrations.com/wp-docs/trigger/woocommerce-memberships-integrations/)
+
+* [**WP Simple Pay**](https://bit-integrations.com/wp-docs/trigger/wp-simple-pay-integrations/)
 
 * [**WP Courseware**](https://bitapps.pro/docs/bit-integrations/trigger/wp-courseware/)
 
@@ -1293,6 +1312,25 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 
 == Changelog ==
 
+= 2.5.3 =
+_Release Date -6th April 2025_
+
+- **New Triggers**
+ - NEX-Forms – 1 new events added (Pro)
+ - Profile Builder – 6 new events added (Pro)
+ - Quill Forms – 1 new events added (Pro)
+ - UserFeedback – 1 new events added (Pro)
+ - WooCommerce Memberships – 4 new events added (Pro)
+ - WP Simple Pay – 3 new events added (Pro)
+
+- **New Action**
+ - Bento – 2 new events added (Pro)
+
+- **Bug Fixes**
+ - Zoom: Fixed an issue causing the field mapping section to re-render unnecessarily.
+ - Zendesk: The Company field in the Lead module is now marked as non-required, allowing more flexible submissions.
+ - Forminator: Resolved a date format issue for consistent and accurate data capture. (Pro)
+ 
 = 2.5.2 =
 _Release Date -24th March 2025_
 
