@@ -9,13 +9,8 @@ import TagifyInput from '../../Utilities/TagifyInput'
 import { handleCustomValue } from '../IntegrationHelpers/IntegrationHelpers'
 
 export default function ZoomFieldMap({ i, formFields, field, zoomConf, setZoomConf }) {
-  if (zoomConf?.field_map?.length === 1 && field.zoomField === '') {
-    const newConf = { ...zoomConf }
-    setZoomConf(newConf)
-  }
-
-  const requiredFlds = zoomConf?.zoomFields.filter((fld) => fld.required === true) || []
-  const nonRequiredFlds = zoomConf?.zoomFields.filter((fld) => fld.required === false) || []
+  const requiredFlds = zoomConf?.zoomFields.filter(fld => fld.required === true) || []
+  const nonRequiredFlds = zoomConf?.zoomFields.filter(fld => fld.required === false) || []
 
   const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
@@ -28,10 +23,10 @@ export default function ZoomFieldMap({ i, formFields, field, zoomConf, setZoomCo
             className="btcd-paper-inp mr-2"
             name="formField"
             value={field.formField || ''}
-            onChange={(ev) => handleFieldMapping(ev, i, zoomConf, setZoomConf)}>
+            onChange={ev => handleFieldMapping(ev, i, zoomConf, setZoomConf)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             <optgroup label={__('Form Fields', 'bit-integrations')}>
-              {formFields?.map((f) => (
+              {formFields?.map(f => (
                 <option key={`ff-rm-${f.name}`} value={f.name}>
                   {f.label}
                 </option>
@@ -44,7 +39,7 @@ export default function ZoomFieldMap({ i, formFields, field, zoomConf, setZoomCo
                 isPro ? '' : `(${__('Pro', 'bit-integrations')})`
               )}>
               {isPro &&
-                SmartTagField?.map((f) => (
+                SmartTagField?.map(f => (
                   <option key={`ff-rm-${f.name}`} value={f.name}>
                     {f.label}
                   </option>
@@ -54,7 +49,7 @@ export default function ZoomFieldMap({ i, formFields, field, zoomConf, setZoomCo
 
           {field.formField === 'custom' && (
             <TagifyInput
-              onChange={(e) => handleCustomValue(e, i, zoomConf, setZoomConf)}
+              onChange={e => handleCustomValue(e, i, zoomConf, setZoomConf)}
               label={__('Custom Value', 'bit-integrations')}
               className="mr-2"
               type="text"
@@ -69,7 +64,7 @@ export default function ZoomFieldMap({ i, formFields, field, zoomConf, setZoomCo
             disabled={i < requiredFlds.length}
             name="zoomField"
             value={i < requiredFlds.length ? requiredFlds[i].key || '' : field.zoomField || ''}
-            onChange={(ev) => handleFieldMapping(ev, i, zoomConf, setZoomConf)}>
+            onChange={ev => handleFieldMapping(ev, i, zoomConf, setZoomConf)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             {i < requiredFlds.length ? (
               <option key={requiredFlds[i].key} value={requiredFlds[i].key}>

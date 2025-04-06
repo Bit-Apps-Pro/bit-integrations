@@ -114,17 +114,8 @@ function Zendesk({ formFields, setFlow, flow, allIntegURL }) {
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      zendeskConf,
-      navigate,
-      '',
-      '',
-      setIsLoading
-    )
-    resp.then((res) => {
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, zendeskConf, navigate, '', '', setIsLoading)
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -134,7 +125,7 @@ function Zendesk({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -144,19 +135,9 @@ function Zendesk({ formFields, setFlow, flow, allIntegURL }) {
       return
     }
 
-    if (zendeskConf.actionName === 'lead' || zendeskConf.actionName === 'deal') {
-      if (!zendeskConf.selectedCRMCompany) {
-        toast.error(__('Please select a company', 'bit-integrations'))
-        return
-      }
-      if (!zendeskConf.selectedCRMContact) {
-        toast.error(__('Please select a contact', 'bit-integrations'))
-        return
-      }
-      if (!zendeskConf.selectedCRMSources && zendeskConf.actionName === 'lead') {
-        toast.error(__('Please select a Source', 'bit-integrations'))
-        return
-      }
+    if (zendeskConf.actionName === 'deal' && !zendeskConf.selectedCRMContact) {
+      toast.error(__('Please select a contact', 'bit-integrations'))
+      return
     }
 
     zendeskConf.field_map.length > 0 && setStep(pageNo)
@@ -186,7 +167,7 @@ function Zendesk({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <ZendeskIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, zendeskConf, setZendeskConf, setLoading, setSnackbar)}
+          handleInput={e => handleInput(e, zendeskConf, setZendeskConf, setLoading, setSnackbar)}
           zendeskConf={zendeskConf}
           setZendeskConf={setZendeskConf}
           loading={loading}

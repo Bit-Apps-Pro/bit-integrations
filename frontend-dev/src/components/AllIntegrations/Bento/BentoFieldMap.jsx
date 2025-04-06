@@ -3,18 +3,18 @@ import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import { __ } from '../../../Utils/i18nwrap'
-import CustomField from './CustomField'
-import { addFieldMap, delFieldMap, handleCustomValue, handleFieldMapping } from './IntegrationHelpers'
+import CustomFieldKey from '../../Utilities/CustomFieldKey'
 import TagifyInput from '../../Utilities/TagifyInput'
+import { addFieldMap, delFieldMap, handleCustomValue, handleFieldMapping } from './IntegrationHelpers'
 
-export default function DemioFieldMap({ i, formFields, field, demioConf, setDemioConf }) {
-  const requiredFields =
-    (demioConf?.demioFields && demioConf.demioFields.filter(fld => fld.required === true)) || []
-  const allNonRequiredFields =
-    (demioConf?.demioFields && demioConf.demioFields.filter(fld => fld.required === false)) || []
-
+export default function BentoFieldMap({ i, formFields, field, bentoConf, setBentoConf }) {
   const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
+
+  const requiredFields =
+    (bentoConf?.bentoFields && bentoConf.bentoFields.filter(fld => fld.required === true)) || []
+  const allNonRequiredFields =
+    (bentoConf?.bentoFields && bentoConf.bentoFields.filter(fld => fld.required === false)) || []
 
   return (
     <div className="flx mt-2 mb-2 btcbi-field-map">
@@ -24,7 +24,7 @@ export default function DemioFieldMap({ i, formFields, field, demioConf, setDemi
             className="btcd-paper-inp mr-2"
             name="formField"
             value={field.formField || ''}
-            onChange={ev => handleFieldMapping(ev, i, demioConf, setDemioConf)}>
+            onChange={ev => handleFieldMapping(ev, i, bentoConf, setBentoConf)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             <optgroup label={__('Form Fields', 'bit-integrations')}>
               {formFields?.map(f => (
@@ -50,7 +50,7 @@ export default function DemioFieldMap({ i, formFields, field, demioConf, setDemi
 
           {field.formField === 'custom' && (
             <TagifyInput
-              onChange={e => handleCustomValue(e, i, demioConf, setDemioConf)}
+              onChange={e => handleCustomValue(e, i, bentoConf, setBentoConf)}
               label={__('Custom Value', 'bit-integrations')}
               className="mr-2"
               type="text"
@@ -63,9 +63,9 @@ export default function DemioFieldMap({ i, formFields, field, demioConf, setDemi
           <select
             className="btcd-paper-inp"
             disabled={i < requiredFields.length}
-            name="demioFormField"
-            value={i < requiredFields.length ? requiredFields[i].key || '' : field.demioFormField || ''}
-            onChange={ev => handleFieldMapping(ev, i, demioConf, setDemioConf)}>
+            name="bentoFormField"
+            value={i < requiredFields.length ? requiredFields[i].key || '' : field.bentoFormField || ''}
+            onChange={ev => handleFieldMapping(ev, i, bentoConf, setBentoConf)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             {i < requiredFields.length ? (
               <option key={requiredFields[i].key} value={requiredFields[i].key}>
@@ -78,18 +78,32 @@ export default function DemioFieldMap({ i, formFields, field, demioConf, setDemi
                 </option>
               ))
             )}
+            {bentoConf.action === 'add_event' && (
+              <option value="customFieldKey">{__('Custom Field Key', 'bit-integrations')}</option>
+            )}
           </select>
+          {field.bentoFormField === 'customFieldKey' && bentoConf.action === 'add_event' && (
+            <CustomFieldKey
+              field={field}
+              index={i}
+              conf={bentoConf}
+              setConf={setBentoConf}
+              fieldValue="customFieldKey"
+              fieldLabel="Custom Field Key"
+              className="ml-2"
+            />
+          )}
         </div>
         {i >= requiredFields.length && (
           <>
             <button
-              onClick={() => addFieldMap(i, demioConf, setDemioConf)}
+              onClick={() => addFieldMap(i, bentoConf, setBentoConf)}
               className="icn-btn sh-sm ml-2 mr-1"
               type="button">
               +
             </button>
             <button
-              onClick={() => delFieldMap(i, demioConf, setDemioConf)}
+              onClick={() => delFieldMap(i, bentoConf, setBentoConf)}
               className="icn-btn sh-sm ml-1"
               type="button"
               aria-label="btn">

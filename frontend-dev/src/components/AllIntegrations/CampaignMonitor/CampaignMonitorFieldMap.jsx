@@ -16,27 +16,27 @@ export default function CampaignMonitorFieldMap({
   setCampaignMonitorConf
 }) {
   let allFields = campaignMonitorConf.subscriberFields
-  const requiredFields = allFields.filter((fld) => fld.required === true) || []
-  const nonRequiredFields = allFields.filter((fld) => fld.required === false) || []
+  const requiredFields = allFields.filter(fld => fld.required === true) || []
+  const nonRequiredFields = allFields.filter(fld => fld.required === false) || []
   const allNonRequiredFields = [...nonRequiredFields, ...(campaignMonitorConf?.customFields || [])]
 
   const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
 
   if (campaignMonitorConf?.field_map?.length === 1 && field.campaignMonitorField === '') {
-    setCampaignMonitorConf((prevConf) => {
+    setCampaignMonitorConf(prevConf => {
       prevConf.field_map = generateMappedField(prevConf)
       return prevConf
     })
   }
 
-  const addFieldMap = (indx) => {
+  const addFieldMap = indx => {
     const newConf = { ...campaignMonitorConf }
     newConf.field_map.splice(indx, 0, {})
     setCampaignMonitorConf(newConf)
   }
 
-  const delFieldMap = (indx) => {
+  const delFieldMap = indx => {
     const newConf = { ...campaignMonitorConf }
     if (newConf.field_map.length > 1) {
       newConf.field_map.splice(indx, 1)
@@ -67,10 +67,10 @@ export default function CampaignMonitorFieldMap({
           className="btcd-paper-inp mr-2"
           name="formField"
           value={field.formField || ''}
-          onChange={(ev) => handleFieldMapping(ev, i)}>
+          onChange={ev => handleFieldMapping(ev, i)}>
           <option value="">{__('Select Field', 'bit-integrations')}</option>
           <optgroup label={__('List Fields', 'bit-integrations')}>
-            {formFields?.map((f) => (
+            {formFields?.map(f => (
               <option key={`ff-rm-${f.name}`} value={f.name}>
                 {f.label}
               </option>
@@ -80,7 +80,7 @@ export default function CampaignMonitorFieldMap({
           <optgroup
             label={`${__('General Smart Codes', 'bit-integrations')} ${isPro ? '' : `(${__('Pro', 'bit-integrations')})`}`}>
             {isPro &&
-              SmartTagField?.map((f) => (
+              SmartTagField?.map(f => (
                 <option key={`ff-rm-${f.name}`} value={f.name}>
                   {f.label}
                 </option>
@@ -90,7 +90,7 @@ export default function CampaignMonitorFieldMap({
 
         {field.formField === 'custom' && (
           <TagifyInput
-            onChange={(e) => handleCustomValue(e, i)}
+            onChange={e => handleCustomValue(e, i, campaignMonitorConf, setCampaignMonitorConf)}
             label={__('Custom Value', 'bit-integrations')}
             className="mr-2"
             type="text"
@@ -104,11 +104,9 @@ export default function CampaignMonitorFieldMap({
           className="btcd-paper-inp"
           name="campaignMonitorField"
           value={
-            i < requiredFields.length
-              ? requiredFields[i].key || ''
-              : field.campaignMonitorField || ''
+            i < requiredFields.length ? requiredFields[i].key || '' : field.campaignMonitorField || ''
           }
-          onChange={(ev) => handleFieldMapping(ev, i)}
+          onChange={ev => handleFieldMapping(ev, i)}
           disabled={i < requiredFields.length}>
           <option value="">{__('Select Field', 'bit-integrations')}</option>
           {i < requiredFields.length ? (

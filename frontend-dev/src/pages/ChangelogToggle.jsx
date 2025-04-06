@@ -18,7 +18,7 @@ export default function ChangelogToggle() {
 
   // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
   // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-  const releaseDate = '24th March 2025'
+  const releaseDate = '6th April 2025'
 
   // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
   const changeLog = [
@@ -32,19 +32,19 @@ export default function ChangelogToggle() {
       label: __('New Actions', 'bit-integrations'),
       headClass: 'new-integration',
       itemClass: 'integration-list',
-      items: []
+      items: [{ label: 'Bento', desc: '2 new events added', isPro: false }]
     },
     {
       label: __('New Triggers', 'bit-integrations'),
       headClass: 'new-trigger',
       itemClass: 'integration-list',
       items: [
-        { label: 'myCred', desc: '5 new events added', isPro: true },
-        { label: 'SureFeedback', desc: '2 new events added', isPro: true },
-        { label: 'WP All Import', desc: '3 new events added', isPro: true },
-        { label: 'WPLMS', desc: '1 new events added', isPro: true },
-        { label: 'WPLoyalty', desc: '1 new events added', isPro: true },
-        { label: 'WP-Polls', desc: '1 new events added', isPro: true }
+        { label: 'NEX-Forms', desc: '1 new events added', isPro: true },
+        { label: 'Profile Builder', desc: '6 new events added', isPro: true },
+        { label: 'Quill Forms', desc: '1 new events added', isPro: true },
+        { label: 'UserFeedback', desc: '1 new events added', isPro: true },
+        { label: 'WooCommerce Memberships', desc: '4 new events added', isPro: true },
+        { label: 'WP Simple Pay', desc: '3 new events added', isPro: true }
       ]
     },
     {
@@ -65,19 +65,19 @@ export default function ChangelogToggle() {
       itemClass: 'fixes-list',
       items: [
         {
-          label: 'Webhook (Action)',
-          desc: 'Fixed an issue where the Info Page was showing blank.',
+          label: 'Forminator',
+          desc: 'Resolved a date format issue for consistent and accurate data capture.',
+          isPro: true
+        },
+        {
+          label: 'Zoom',
+          desc: 'Fixed an issue causing the field mapping section to re-render unnecessarily.',
           isPro: false
         },
         {
-          label: 'Fluent Community',
-          desc: 'Resolved the "invalid argument" issue.',
-          isPro: true
-        },
-        {
-          label: 'Voxel (Trigger)',
-          desc: 'Fixed the issue where hooks were incorrectly listed.',
-          isPro: true
+          label: 'Zendesk',
+          desc: 'The Company field in the Lead module is now marked as non-required.',
+          isPro: false
         }
       ]
     }

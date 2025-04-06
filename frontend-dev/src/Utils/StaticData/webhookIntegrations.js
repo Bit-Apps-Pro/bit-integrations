@@ -60,6 +60,12 @@ export const customFormIntegrations = [
   'MyCred',
   'WPLMS',
   'WPLoyalty',
+  'WpSimplePay',
+  'WCMemberships',
+  'NexForms',
+  'ProfileBuilder',
+  'QuillForms',
+  'UserFeedback',
 ]
 
 export const actionHookIntegrations = ['ActionHook']

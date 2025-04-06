@@ -80,6 +80,7 @@ final class AllTriggersName
             'MetaBox'                    => ['name' => 'MB Frontend Submission',  'isPro' => true, 'is_active' => false],
             'ModernEventsCalendar'       => ['name' => 'Modern Events Calendar',  'isPro' => true, 'is_active' => false],
             'Newsletter'                 => ['name' => 'Newsletter',  'isPro' => true, 'is_active' => false],
+            'NexForms'                   => ['name' => 'NEX-Forms',  'isPro' => true, 'is_active' => false],
             'NF'                         => ['name' => 'Ninja Forms',  'isPro' => true, 'is_active' => false],
             'NinjaTables'                => ['name' => 'Ninja Tables',  'isPro' => true, 'is_active' => false],
             'OptinMonster'               => ['name' => 'OptinMonster',  'isPro' => true, 'is_active' => false],
@@ -92,7 +93,9 @@ final class AllTriggersName
             'PopupMaker'                 => ['name' => 'Popup Maker',  'isPro' => true, 'is_active' => false],
             'Post'                       => ['name' => 'WP Post',  'isPro' => true, 'is_active' => false],
             'PrestoPlayer'               => ['name' => 'Presto Player',  'isPro' => true, 'is_active' => false],
+            'ProfileBuilder'             => ['name' => 'Profile Builder',  'isPro' => true, 'is_active' => false],
             'ProfileGrid'                => ['name' => 'ProfileGrid',  'isPro' => true, 'is_active' => false],
+            'QuillForms'                 => ['name' => 'Quill Forms',  'isPro' => true, 'is_active' => false],
             'Rafflepress'                => ['name' => 'Rafflepress',  'isPro' => true, 'is_active' => false],
             'PeepSo'                     => ['name' => 'PeepSo',  'isPro' => true, 'is_active' => false],
             'Registration'               => ['name' => 'WP User Registration',  'isPro' => true, 'is_active' => false],
@@ -114,8 +117,10 @@ final class AllTriggersName
             'Tripetto'                   => ['name' => 'Tripetto',  'isPro' => true, 'is_active' => false],
             'TutorLms'                   => ['name' => 'Tutor LMS',  'isPro' => true, 'is_active' => false],
             'UltimateMember'             => ['name' => 'UltimateMember',  'isPro' => true, 'is_active' => false],
+            'UserFeedback'               => ['name' => 'UserFeedback',  'isPro' => true, 'is_active' => false],
             'Voxel'                      => ['name' => 'Voxel',  'isPro' => true, 'is_active' => false],
             'WCBookings'                 => ['name' => 'WooCommerce Bookings',  'isPro' => true, 'is_active' => false],
+            'WCMemberships'              => ['name' => 'WooCommerce Memberships',  'isPro' => true, 'is_active' => false],
             'WCSubscriptions'            => ['name' => 'WooCommerce Subscriptions',  'isPro' => true, 'is_active' => false],
             'Webhook'                    => ['name' => 'Webhook',  'isPro' => true, 'is_active' => false],
             'WeForms'                    => ['name' => 'WeForms',  'isPro' => true, 'is_active' => false],
@@ -130,6 +135,7 @@ final class AllTriggersName
             'WPLMS'                      => ['name' => 'WPLMS',  'isPro' => true, 'is_active' => false],
             'WPLoyalty'                  => ['name' => 'WPLoyalty',  'isPro' => true, 'is_active' => false],
             'WpPolls'                    => ['name' => 'WP-Polls',  'isPro' => true, 'is_active' => false],
+            'WpSimplePay'                => ['name' => 'WP Simple Pay',  'isPro' => true, 'is_active' => false],
         ];
     }
 }
