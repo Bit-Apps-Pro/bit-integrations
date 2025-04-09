@@ -2,12 +2,12 @@
 
 namespace BitCode\FI\Triggers\WC;
 
-use BitCode\FI\Core\Util\Helper;
-use BitCode\FI\Flow\Flow;
 use WC_Booking;
 use WC_Checkout;
 use WC_Product_Simple;
+use BitCode\FI\Flow\Flow;
 use WC_Subscriptions_Product;
+use BitCode\FI\Core\Util\Helper;
 
 final class WCController
 {
@@ -788,61 +788,59 @@ final class WCController
 
     public static function accessOrderData($order)
     {
-        // var_dump(get_class($order), 'class');
-        // Automattic\WooCommerce\Admin\Overrides\Order
-        // if (!$order instanceof WC_Product_Factory) {
-        //     return [];
-        // }
         $data = [
-            'id'                          => $order->get_id(),
-            'order_key'                   => $order->get_order_key(),
-            'card_tax'                    => $order->get_cart_tax(),
-            'currency'                    => $order->get_currency(),
-            'discount_tax'                => $order->get_discount_tax(),
-            'discount_to_display'         => $order->get_discount_to_display(),
-            'discount_total'              => $order->get_discount_total(),
-            'fees'                        => $order->get_fees(),
-            'shipping_tax'                => $order->get_shipping_tax(),
-            'shipping_total'              => $order->get_shipping_total(),
-            'tax_totals'                  => $order->get_tax_totals(),
-            'total'                       => $order->get_total(),
-            'total_refunded'              => $order->get_total_refunded(),
-            'total_tax_refunded'          => $order->get_total_tax_refunded(),
-            'total_shipping_refunded'     => $order->get_total_shipping_refunded(),
-            'total_qty_refunded'          => $order->get_total_qty_refunded(),
-            'remaining_refund_amount'     => $order->get_remaining_refund_amount(),
-            'shipping_method'             => $order->get_shipping_method(),
+            'id'                          => $order->get_id() ?? '',
+            'order_key'                   => $order->get_order_key() ?? '',
+            'card_tax'                    => $order->get_cart_tax() ?? '',
+            'currency'                    => $order->get_currency() ?? '',
+            'discount_tax'                => $order->get_discount_tax() ?? '',
+            'discount_to_display'         => $order->get_discount_to_display() ?? '',
+            'discount_total'              => $order->get_discount_total() ?? '',
+            'fees'                        => $order->get_fees() ?? '',
+            'shipping_tax'                => $order->get_shipping_tax() ?? '',
+            'shipping_total'              => $order->get_shipping_total() ?? '',
+            'tax_totals'                  => $order->get_tax_totals() ?? '',
+            'total'                       => $order->get_total() ?? '',
+            'total_refunded'              => $order->get_total_refunded() ?? '',
+            'total_tax_refunded'          => $order->get_total_tax_refunded() ?? '',
+            'total_shipping_refunded'     => $order->get_total_shipping_refunded() ?? '',
+            'total_qty_refunded'          => $order->get_total_qty_refunded() ?? '',
+            'remaining_refund_amount'     => $order->get_remaining_refund_amount() ?? '',
+            'shipping_method'             => $order->get_shipping_method() ?? '',
             'date_created'                => \is_null($order->get_date_created()) ? $order->get_date_created() : $order->get_date_created()->format('Y-m-d H:i:s'),
             'date_modified'               => \is_null($order->get_date_modified()) ? $order->get_date_modified() : $order->get_date_modified()->format('Y-m-d H:i:s'),
             'date_completed'              => \is_null($order->get_date_completed()) ? $order->get_date_completed() : $order->get_date_completed()->format('Y-m-d H:i:s'),
             'date_paid'                   => \is_null($order->get_date_paid()) ? $order->get_date_paid() : $order->get_date_paid()->format('Y-m-d H:i:s'),
-            'customer_id'                 => $order->get_customer_id(),
-            'created_via'                 => $order->get_created_via(),
-            'customer_note'               => $order->get_customer_note(),
-            'billing_first_name'          => $order->get_billing_first_name(),
-            'billing_last_name'           => $order->get_billing_last_name(),
-            'billing_company'             => $order->get_billing_company(),
-            'billing_address_1'           => $order->get_billing_address_1(),
-            'billing_address_2'           => $order->get_billing_address_2(),
-            'billing_city'                => $order->get_billing_city(),
-            'billing_state'               => $order->get_billing_state(),
-            'billing_postcode'            => $order->get_billing_postcode(),
-            'billing_country'             => $order->get_billing_country(),
-            'billing_email'               => $order->get_billing_email(),
-            'billing_phone'               => $order->get_billing_phone(),
-            'shipping_first_name'         => $order->get_shipping_first_name(),
-            'shipping_last_name'          => $order->get_shipping_last_name(),
-            'shipping_company'            => $order->get_shipping_company(),
-            'shipping_address_1'          => $order->get_shipping_address_1(),
-            'shipping_address_2'          => $order->get_shipping_address_2(),
-            'shipping_city'               => $order->get_shipping_city(),
-            'shipping_state'              => $order->get_shipping_state(),
-            'shipping_postcode'           => $order->get_shipping_postcode(),
-            'shipping_country'            => $order->get_shipping_country(),
-            'payment_method'              => $order->get_payment_method(),
-            'payment_method_title'        => $order->get_payment_method_title(),
-            'status'                      => $order->get_status(),
-            'checkout_order_received_url' => $order->get_checkout_order_received_url(),
+            'customer_id'                 => $order->get_customer_id() ?? '',
+            'created_via'                 => $order->get_created_via() ?? '',
+            'customer_note'               => $order->get_customer_note() ?? '',
+            'billing_first_name'          => $order->get_billing_first_name() ?? '',
+            'billing_last_name'           => $order->get_billing_last_name() ?? '',
+            'billing_company'             => $order->get_billing_company() ?? '',
+            'billing_address_1'           => $order->get_billing_address_1() ?? '',
+            'billing_address_2'           => $order->get_billing_address_2() ?? '',
+            'billing_city'                => $order->get_billing_city() ?? '',
+            'billing_state'               => $order->get_billing_state() ?? '',
+            'billing_postcode'            => $order->get_billing_postcode() ?? '',
+            'billing_country'             => $order->get_billing_country() ?? '',
+            'billing_email'               => $order->get_billing_email() ?? '',
+            'billing_phone'               => $order->get_billing_phone() ?? '',
+            'shipping_first_name'         => $order->get_shipping_first_name() ?? '',
+            'shipping_last_name'          => $order->get_shipping_last_name() ?? '',
+            'shipping_company'            => $order->get_shipping_company() ?? '',
+            'shipping_address_1'          => $order->get_shipping_address_1() ?? '',
+            'shipping_address_2'          => $order->get_shipping_address_2() ?? '',
+            'shipping_city'               => $order->get_shipping_city() ?? '',
+            'shipping_state'              => $order->get_shipping_state() ?? '',
+            'shipping_postcode'           => $order->get_shipping_postcode() ?? '',
+            'shipping_country'            => $order->get_shipping_country() ?? '',
+            'payment_method'              => $order->get_payment_method() ?? '',
+            'payment_method_title'        => $order->get_payment_method_title() ?? '',
+            'status'                      => $order->get_status() ?? '',
+            'checkout_order_received_url' => $order->get_checkout_order_received_url() ?? '',
+            'line_items'                  => [],
+            'product_names'               => '',
+            'line_items_quantity'         => 0
         ];
         if (\defined('WC_VERSION') && version_compare(WC_VERSION, '8.5.1', '>=')) {
             $data += [
@@ -858,39 +856,24 @@ final class WCController
             ];
         }
 
-        $line_items = [];
-        $line_items_all = [];
-        $count = 0;
-        foreach ($order->get_items() as $item_id => $item) {
+        foreach ($order->get_items() as $item) {
             $product_id = $item->get_product_id();
-            $variation_id = $item->get_variation_id();
             $product = $item->get_product();
-            $product_name = $item->get_name();
-            $quantity = $item->get_quantity();
-            $subtotal = $item->get_subtotal();
-            $total = $item->get_total();
-            $subtotal_tax = $item->get_subtotal_tax();
-            $taxclass = $item->get_tax_class();
-            $taxstat = $item->get_tax_status();
-            $product_unit_price = $product->get_price();
-            $label = 'line_items_';
-            $productSku = $product->get_sku();
-            $count++;
             $itemData = [
                 'product_id'         => $product_id,
-                'variation_id'       => $variation_id,
-                'product_name'       => $product_name,
-                'quantity'           => $quantity,
-                'subtotal'           => $subtotal,
-                'total'              => $total,
-                'subtotal_tax'       => $subtotal_tax,
-                'tax_class'          => $taxclass,
-                'tax_status'         => $taxstat,
-                'product_sku'        => $productSku,
-                'product_unit_price' => $product_unit_price,
+                'variation_id'       => $item->get_variation_id() ?? '',
+                'product_name'       => $item->get_name() ?? '',
+                'quantity'           => $item->get_quantity() ?? '',
+                'subtotal'           => $item->get_subtotal() ?? '',
+                'total'              => $item->get_total() ?? '',
+                'subtotal_tax'       => $item->get_subtotal_tax() ?? '',
+                'tax_class'          => $item->get_tax_class() ?? '',
+                'tax_status'         => $item->get_tax_status() ?? '',
+                'product_sku'        => $product->get_sku() ?? '',
+                'product_unit_price' => $product->get_price() ?? '',
             ];
-            $acfFieldGroups = Helper::acfGetFieldGroups(['product']);
 
+            $acfFieldGroups = Helper::acfGetFieldGroups(['product']);
             foreach ($acfFieldGroups as $group) {
                 $acfFields = acf_get_fields($group['ID']);
 
@@ -899,9 +882,10 @@ final class WCController
                 }
             }
 
-            $line_items_all['line_items'][] = (object) $itemData;
+            $data['line_items'][] = (object) $itemData;
         }
-        $data += $line_items_all;
+        $data['product_names'] = implode(', ', array_column($data['line_items'], 'product_name'));
+        $data['line_items_quantity'] = count($data['line_items']);
 
         return $data;
     }
