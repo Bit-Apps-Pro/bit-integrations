@@ -22,6 +22,8 @@ function EditGoogleSheet({ allIntegURL }) {
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
   const formFields = useRecoilValue($formFields)
+  const [name, setName] = useState(sheetConf?.name || '')
+
   // const [step, setStep] = useState(1);
   // if (step == 1) {
   //   return (
@@ -39,66 +41,67 @@ function EditGoogleSheet({ allIntegURL }) {
   //   )
   // }
   // if (step == 2) {
-    return (
-      <div style={{ width: 900 }}>
-        <SnackMsg snack={snack} setSnackbar={setSnackbar} />
+  return (
+    <div style={{ width: 900 }}>
+      <SnackMsg snack={snack} setSnackbar={setSnackbar} />
 
-        <div className="flx mt-3">
-          <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-          <input
-            className="btcd-paper-inp w-5"
-            onChange={(e) => handleInput(e, sheetConf, setSheetConf)}
-            name="name"
-            value={sheetConf.name}
-            type="text"
-            placeholder={__('Integration Name...', 'bit-integrations')}
-          />
-        </div>
-        <br />
-
-        <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
-
-        <GoogleSheetIntegLayout
-          formID={formID}
-          formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, sheetConf, setSheetConf, formID, setIsLoading, setSnackbar)
-          }
-          sheetConf={sheetConf}
-          setSheetConf={setSheetConf}
-          isLoading={isLoading}
-          setIsLoading={setIsLoading}
-          setSnackbar={setSnackbar}
+      <div className="flx mt-3">
+        <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={e => {
+            setName(e.target.value)
+            handleInput(e, sheetConf, setSheetConf)
+          }}
+          name="name"
+          value={name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
         />
-
-        <IntegrationStepThree
-          edit
-          saveConfig={() =>
-            saveActionConf({
-              flow,
-              setFlow,
-              allIntegURL,
-              conf: sheetConf,
-              navigate,
-              edit: 1,
-              setIsLoading,
-              setSnackbar
-            })
-          }
-          disabled={
-            sheetConf.spreadsheetId === '' ||
-            sheetConf.worksheetName === '' ||
-            sheetConf.field_map.length < 1
-          }
-          isLoading={isLoading}
-          dataConf={sheetConf}
-          setDataConf={setSheetConf}
-          formFields={formFields}
-        />
-        <br />
       </div>
-    )
-  }
+      <br />
+
+      <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
+
+      <GoogleSheetIntegLayout
+        formID={formID}
+        formFields={formFields}
+        handleInput={e => handleInput(e, sheetConf, setSheetConf, formID, setIsLoading, setSnackbar)}
+        sheetConf={sheetConf}
+        setSheetConf={setSheetConf}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+        setSnackbar={setSnackbar}
+      />
+
+      <IntegrationStepThree
+        edit
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            setFlow,
+            allIntegURL,
+            conf: sheetConf,
+            navigate,
+            edit: 1,
+            setIsLoading,
+            setSnackbar
+          })
+        }
+        disabled={
+          sheetConf.spreadsheetId === '' ||
+          sheetConf.worksheetName === '' ||
+          sheetConf.field_map.length < 1
+        }
+        isLoading={isLoading}
+        dataConf={sheetConf}
+        setDataConf={setSheetConf}
+        formFields={formFields}
+      />
+      <br />
+    </div>
+  )
+}
 // }
 
 export default EditGoogleSheet
