@@ -77,15 +77,14 @@ final class Common
         $fileBasePath = str_replace('\\', '/', $upDir['basedir']);
 
         if (\is_array($file)) {
-            $Url = [];
-            foreach ($file as $fileIndex => $fileUrl) {
-                $Url[$fileIndex] = str_replace($fileBaseURL, $fileBasePath, $fileUrl);
-            }
+            $url = array_map(function ($filePath) use ($fileBasePath, $fileBaseURL) {
+                return str_replace($fileBasePath, $fileBaseURL, $filePath);
+            }, $file);
         } else {
-            $Url = str_replace($fileBasePath, $fileBaseURL, $file);
+            $url = str_replace($fileBasePath, $fileBaseURL, $file);
         }
 
-        return $Url;
+        return $url;
     }
 
     /**
@@ -151,9 +150,7 @@ final class Common
                         }
                     }
 
-                    return (bool) ($checker === \count($valueToCheck) && \count($valueToCheck) === \count($fieldValue))
-
-                    ;
+                    return (bool) ($checker === \count($valueToCheck) && \count($valueToCheck) === \count($fieldValue));
                 }
 
                 return $fieldValue === $valueToCheck;
@@ -194,9 +191,7 @@ final class Common
                         }
                     }
 
-                    return (bool) ($checker > 0)
-
-                    ;
+                    return (bool) ($checker > 0);
                 }
 
                 return stripos($fieldValue, $valueToCheck) !== false;
@@ -213,9 +208,7 @@ final class Common
                         }
                     }
 
-                    return (bool) ($checker >= \count($valueToCheck))
-
-                    ;
+                    return (bool) ($checker >= \count($valueToCheck));
                 }
 
                 return stripos($fieldValue, $valueToCheck) !== false;
@@ -232,9 +225,7 @@ final class Common
                         }
                     }
 
-                    return (bool) ($checker === \count($valueToCheck))
-
-                    ;
+                    return (bool) ($checker === \count($valueToCheck));
                 }
 
                 return stripos($fieldValue, $valueToCheck) === false;
