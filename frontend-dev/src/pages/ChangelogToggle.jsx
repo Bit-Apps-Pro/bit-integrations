@@ -18,7 +18,7 @@ export default function ChangelogToggle() {
 
   // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
   // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-  const releaseDate = '6th April 2025'
+  const releaseDate = '14th April 2025'
 
   // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
   const changeLog = [
@@ -32,20 +32,13 @@ export default function ChangelogToggle() {
       label: __('New Actions', 'bit-integrations'),
       headClass: 'new-integration',
       itemClass: 'integration-list',
-      items: [{ label: 'Bento', desc: '2 new events added', isPro: false }]
+      items: []
     },
     {
       label: __('New Triggers', 'bit-integrations'),
       headClass: 'new-trigger',
       itemClass: 'integration-list',
-      items: [
-        { label: 'NEX-Forms', desc: '1 new events added', isPro: true },
-        { label: 'Profile Builder', desc: '6 new events added', isPro: true },
-        { label: 'Quill Forms', desc: '1 new events added', isPro: true },
-        { label: 'UserFeedback', desc: '1 new events added', isPro: true },
-        { label: 'WooCommerce Memberships', desc: '4 new events added', isPro: true },
-        { label: 'WP Simple Pay', desc: '3 new events added', isPro: true }
-      ]
+      items: []
     },
     {
       label: __('New Features', 'bit-integrations'),
@@ -54,10 +47,21 @@ export default function ChangelogToggle() {
       items: []
     },
     {
-      label: __('New Improvements', 'bit-integrations'),
+      label: __('Improvements', 'bit-integrations'),
       headClass: 'new-improvement',
       itemClass: 'feature-list',
-      items: []
+      items: [
+        {
+          label: 'WooCommerce',
+          desc: 'Added product names and quantity fields to the Order module.',
+          isPro: false
+        },
+        {
+          label: 'Forminator',
+          desc: 'Replaced uploaded file path with URL.',
+          isPro: true
+        }
+      ]
     },
     {
       label: __('Bug Fixes', 'bit-integrations'),
@@ -65,18 +69,8 @@ export default function ChangelogToggle() {
       itemClass: 'fixes-list',
       items: [
         {
-          label: 'Forminator',
-          desc: 'Resolved a date format issue for consistent and accurate data capture.',
-          isPro: true
-        },
-        {
-          label: 'Zoom',
-          desc: 'Fixed an issue causing the field mapping section to re-render unnecessarily.',
-          isPro: false
-        },
-        {
-          label: 'Zendesk',
-          desc: 'The Company field in the Lead module is now marked as non-required.',
+          label: 'Google Sheet',
+          desc: 'Fixed issue with the integration name input field.',
           isPro: false
         }
       ]

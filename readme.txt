@@ -1322,7 +1322,7 @@ _Release Date -14th April 2025_
  - WooCommerce: Added product names and quantity fields to the Order module.
 
 - **Bug Fixes**
- - Zoom: Google Sheet: Fixed issue with the integration name input field.
+ - Google Sheet: Fixed issue with the integration name input field.
 
 = 2.5.3 =
 _Release Date -6th April 2025_
