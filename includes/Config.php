@@ -21,11 +21,11 @@ class Config
 
     public const VAR_PREFIX = 'btcbi_';
 
-    public const VERSION = '2.5.3';
+    public const VERSION = '2.5.4';
 
     public const DB_VERSION = '1.0';
 
-    public const REQUIRED_PHP_VERSION = '7.0';
+    public const REQUIRED_PHP_VERSION = '7.4';
 
     public const REQUIRED_WP_VERSION = '5.1';
 

@@ -36,7 +36,7 @@
     "**/vendor": true,
     "**/tests/__libs": true
   },
-  "typescript.tsdk": "frontend-dev\\node_modules\\typescript\\lib",
+  // "typescript.tsdk": "frontend-dev\\node_modules\\typescript\\lib",
   "css.lint.validProperties": ["composes"],
   "cSpell.words": [
     "ABSPATH",
@@ -73,9 +73,10 @@
     "editor.defaultFormatter": "junstyle.php-cs-fixer"
   },
   "[javascript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "typescript.validate.enable": false
 }

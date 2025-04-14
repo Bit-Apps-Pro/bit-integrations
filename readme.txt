@@ -4,14 +4,14 @@ Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
 Tested up to: 6.7.2
 Requires PHP: 7.4
-Stable tag: 2.5.3
+Stable tag: 2.5.4
 License: GPLv2 or later
 
 Automation Plugin for WordPress. Integration of 110+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
 
 == Description ==
 
-<strong>no-code automation plugin for WordPress, enabling flawless workflows with webhooks, WooCommerce, CRM, LMS, and more | Best Automation Plugin for WordPress.</strong>
+<strong>no-code automation plugin for WordPress, enabling flawless workflows with webhooks, WooCommerce, CRM, LMS, Zapier and more | Best Automation Plugin for WordPress.</strong>
 
 Automate your WordPress workflow with **Bit Integrations**: the all-in-one plugin for sending data authomatically to WooCommerce, form builders, CRM, LMS, bookings, spreadsheets, [**webhooks**](https://webhook.is/difference-between-webhook-and-api), social media, email marketing and automation platforms like Zapier and others. No technical knowledge needed. Automate tasks across 280+ platforms effortlessly.
 
@@ -969,6 +969,8 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 * [**Bit Form**](https://bit-integrations.com/wp-docs/actions/bit-form-integrations-as-an-action/)
 
+* [**Bento**](https://bit-integrations.com/wp-docs/actions/bento-integrations/)
+
 * [**Brevo (Sendinblue)**](https://bit-integrations.com/wp-docs/actions/brevo-integrations/)
 
 * [**BuddyBoss**](https://bit-integrations.com/wp-docs/actions/buddyboss-integrations-as-an-action/)
@@ -1311,6 +1313,16 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 6. All integration list
 
 == Changelog ==
+
+= 2.5.4 =
+_Release Date -14th April 2025_
+
+- **New Improvement**
+ - Forminator: Replaced uploaded file path with URL. (Pro)
+ - WooCommerce: Added product names and quantity fields to the Order module.
+
+- **Bug Fixes**
+ - Google Sheet: Fixed issue with the integration name input field.
 
 = 2.5.3 =
 _Release Date -6th April 2025_

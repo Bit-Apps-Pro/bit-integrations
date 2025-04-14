@@ -271,6 +271,14 @@ class WCStaticFields
                 'fieldKey'  => 'line_items',
                 'fieldName' => __('Line Items', 'bit-integrations')
             ],
+            'Line Items Quantity' => (object) [
+                'fieldKey'  => 'line_items_quantity',
+                'fieldName' => __('Line Items Quantity', 'bit-integrations')
+            ],
+            'Product Names' => (object) [
+                'fieldKey'  => 'product_names',
+                'fieldName' => __('Product Names', 'bit-integrations')
+            ],
             'Order Receive URl' => (object) [
                 'fieldKey'  => 'order_received_url',
                 'fieldName' => __('order_received_url', 'bit-integrations')
