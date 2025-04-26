@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\OmniSend;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use WP_Error;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for OmniSend integration
@@ -54,6 +54,7 @@ class OmniSendController
         $api_key = $integrationDetails->api_key;
         $channels = $integrationDetails->channels;
         $fieldMap = $integrationDetails->field_map;
+        $customFieldMap = $integrationDetails->custom_field_map ?? [];
         $emailStatus = $integrationDetails->email_status;
         $smsStatus = $integrationDetails->sms_status;
 
@@ -70,7 +71,8 @@ class OmniSendController
             $emailStatus,
             $smsStatus,
             $fieldValues,
-            $fieldMap
+            $fieldMap,
+            $customFieldMap
         );
 
         if (is_wp_error($omniSendApiResponse)) {

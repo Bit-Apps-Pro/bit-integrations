@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\OmniSend;
 
+use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -36,7 +36,8 @@ class RecordApiHelper
         $channels,
         $emailStatus,
         $smsStatus,
-        $finalData
+        $finalData,
+        $customProperties
     ) {
         $apiEndpoints = $this->baseUrl . 'contacts';
         $splitChannels = [];
@@ -68,6 +69,7 @@ class RecordApiHelper
         }
 
         $requestParams['identifiers'] = $identifires;
+        $requestParams['customProperties'] = $customProperties;
 
         if ($this->_integrationDetails->actions->tag && !empty($this->_integrationDetails->selected_tags)) {
             $requestParams['tags'] = explode(',', $this->_integrationDetails->selected_tags);
@@ -78,7 +80,7 @@ class RecordApiHelper
                 $requestParams[$key] = $value;
             }
         }
-
+        
         return HttpHelper::post($apiEndpoints, wp_json_encode($requestParams), $this->_defaultHeader);
     }
 
@@ -103,14 +105,17 @@ class RecordApiHelper
         $emailStatus,
         $smsStatus,
         $fieldValues,
-        $fieldMap
+        $fieldMap,
+        $customFieldMap
     ) {
         $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
+        $customProperties = apply_filters('btcbi_omnisend_custom_properties', (object) [], $customFieldMap,$fieldValues);
         $apiResponse = $this->addContact(
             $channels,
             $emailStatus,
             $smsStatus,
-            $finalData
+            $finalData,
+            $customProperties
         );
 
         if (isset($apiResponse->error)) {
