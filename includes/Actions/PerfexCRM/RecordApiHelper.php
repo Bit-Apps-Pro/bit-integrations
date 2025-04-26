@@ -160,7 +160,7 @@ class RecordApiHelper
         foreach ($fieldMap as $value) {
             $triggerValue = $value->formField;
             $actionValue = $value->perfexCRMFormField;
-            $dataFinal[$actionValue] = ($triggerValue === 'custom') ? Common::replaceFieldWithValue($value->customValue, $data) : $data[$triggerValue];
+            $dataFinal[$actionValue] = ($triggerValue === 'custom' && !empty($value->customValue)) ? Common::replaceFieldWithValue($value->customValue, $data) : $data[$triggerValue];
         }
 
         return $dataFinal;
