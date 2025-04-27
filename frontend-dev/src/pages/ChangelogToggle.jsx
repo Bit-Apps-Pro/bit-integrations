@@ -9,89 +9,89 @@ import NewYear from '../resource/img/NewYear.png'
 import bitsFetch from '../Utils/bitsFetch'
 import { __, sprintf } from '../Utils/i18nwrap'
 
+// const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
+// const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
+const releaseDate = '27th April 2025'
+
+// Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
+const changeLog = [
+  {
+    label: __('Note', 'bit-integrations'),
+    headClass: 'new-note',
+    itemClass: '',
+    items: []
+  },
+  {
+    label: __('New Actions', 'bit-integrations'),
+    headClass: 'new-integration',
+    itemClass: 'integration-list',
+    items: []
+  },
+  {
+    label: __('New Triggers', 'bit-integrations'),
+    headClass: 'new-trigger',
+    itemClass: 'integration-list',
+    items: []
+  },
+  {
+    label: __('New Features', 'bit-integrations'),
+    headClass: 'new-feature',
+    itemClass: 'feature-list',
+    items: [
+      {
+        label: 'Omnisend',
+        desc: 'Added support for custom properties.',
+        isPro: true
+      }
+    ]
+  },
+  {
+    label: __('Improvements', 'bit-integrations'),
+    headClass: 'new-improvement',
+    itemClass: 'feature-list',
+    items: [
+      {
+        label: 'FluentSMTP',
+        desc: 'Added email failed alternative hook.',
+        isPro: true
+      },
+      {
+        label: 'Bento',
+        desc: 'Improved utilities tags explode functionality.',
+        isPro: true
+      }
+    ]
+  },
+  {
+    label: __('Bug Fixes', 'bit-integrations'),
+    headClass: 'fixes',
+    itemClass: 'fixes-list',
+    items: [
+      {
+        label: 'PerfexCRM',
+        desc: 'Fixed issue with custom field # tags.',
+        isPro: false
+      },
+      {
+        label: 'WooCommerce (Trigger)',
+        desc: 'Resolved Unicode escape issue in Product Name.',
+        isPro: false
+      },
+      {
+        label: 'SureFeedBack',
+        desc: 'Fixed comment resolved hook issue.',
+        isPro: true
+      }
+    ]
+  }
+]
+
 export default function ChangelogToggle() {
   const [btcbi, setBtcbi] = useRecoilState($btcbi)
   const [show, setShow] = useState(btcbi.changelogVersion !== btcbi.version)
   const [showAnalyticsOptin, setShowAnalyticsOptin] = useState(false)
   const [loading, setLoading] = useState('')
   const [step, setStep] = useState(2)
-
-  // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
-  // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-  const releaseDate = '27th April 2025'
-
-  // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
-  const changeLog = [
-    {
-      label: __('Note', 'bit-integrations'),
-      headClass: 'new-note',
-      itemClass: '',
-      items: []
-    },
-    {
-      label: __('New Actions', 'bit-integrations'),
-      headClass: 'new-integration',
-      itemClass: 'integration-list',
-      items: []
-    },
-    {
-      label: __('New Triggers', 'bit-integrations'),
-      headClass: 'new-trigger',
-      itemClass: 'integration-list',
-      items: []
-    },
-    {
-      label: __('New Features', 'bit-integrations'),
-      headClass: 'new-feature',
-      itemClass: 'feature-list',
-      items: [
-        {
-          label: 'Omnisend',
-          desc: 'Added support for custom properties.',
-          isPro: true
-        }
-      ]
-    },
-    {
-      label: __('Improvements', 'bit-integrations'),
-      headClass: 'new-improvement',
-      itemClass: 'feature-list',
-      items: [
-        {
-          label: 'FluentSMTP',
-          desc: 'Added email failed alternative hook.',
-          isPro: true
-        },
-        {
-          label: 'Bento',
-          desc: 'Improved utilities tags explode functionality.',
-          isPro: true
-        }
-      ]
-    },
-    {
-      label: __('Bug Fixes', 'bit-integrations'),
-      headClass: 'fixes',
-      itemClass: 'fixes-list',
-      items: [
-        {
-          label: 'PerfexCRM',
-          desc: 'Fixed issue with custom field # tags.',
-          isPro: false
-        },
-        {
-          label: 'WooCommerce (Trigger)',
-          desc: 'Resolved Unicode escape issue in Product Name.',
-          isPro: false
-        },
-        {
-          label: 'SureFeedBack',
-          desc: 'Fixed comment resolved hook issue.',
-          isPro: true
-        }
-      ]
-    }
-  ]
 
   const setChangeLogVersion = val => {
     setShow(val)
