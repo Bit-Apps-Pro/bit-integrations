@@ -18,7 +18,7 @@ export default function ChangelogToggle() {
 
   // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
   // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-  const releaseDate = '14th April 2025'
+  const releaseDate = '27th April 2025'
 
   // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
   const changeLog = [
@@ -44,7 +44,13 @@ export default function ChangelogToggle() {
       label: __('New Features', 'bit-integrations'),
       headClass: 'new-feature',
       itemClass: 'feature-list',
-      items: []
+      items: [
+        {
+          label: 'Omnisend',
+          desc: 'Added support for custom properties.',
+          isPro: true
+        }
+      ]
     },
     {
       label: __('Improvements', 'bit-integrations'),
@@ -52,13 +58,13 @@ export default function ChangelogToggle() {
       itemClass: 'feature-list',
       items: [
         {
-          label: 'WooCommerce',
-          desc: 'Added product names and quantity fields to the Order module.',
-          isPro: false
+          label: 'FluentSMTP',
+          desc: 'Added email failed alternative hook.',
+          isPro: true
         },
         {
-          label: 'Forminator',
-          desc: 'Replaced uploaded file path with URL.',
+          label: 'Bento',
+          desc: 'Improved utilities tags explode functionality.',
           isPro: true
         }
       ]
@@ -69,9 +75,19 @@ export default function ChangelogToggle() {
       itemClass: 'fixes-list',
       items: [
         {
-          label: 'Google Sheet',
-          desc: 'Fixed issue with the integration name input field.',
+          label: 'PerfexCRM',
+          desc: 'Fixed issue with custom field # tags.',
           isPro: false
+        },
+        {
+          label: 'WooCommerce (Trigger)',
+          desc: 'Resolved Unicode escape issue in Product Name.',
+          isPro: false
+        },
+        {
+          label: 'SureFeedBack',
+          desc: 'Fixed comment resolved hook issue.',
+          isPro: true
         }
       ]
     }
