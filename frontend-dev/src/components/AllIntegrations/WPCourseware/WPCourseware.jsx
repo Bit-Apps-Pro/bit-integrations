@@ -8,7 +8,6 @@ import Steps from '../../Utilities/Steps'
 import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import WPCoursewareAuthorization from './WPCoursewareAuthorization'
-import { getWPCoursewareActions } from './WPCoursewareCommonFunc'
 import WPCoursewareIntegLayout from './WPCoursewareIntegLayout'
 
 export default function WPCourseware({ formFields, setFlow, flow, allIntegURL }) {
@@ -27,9 +26,8 @@ export default function WPCourseware({ formFields, setFlow, flow, allIntegURL })
     actions: {}
   })
 
-  const nextPage = (val) => {
+  const nextPage = val => {
     if (val === 2 && wpCoursewareConf.name !== '') {
-      getWPCoursewareActions(wpCoursewareConf, setWPCoursewareConf)
       setStep(val)
     } else if (val === 3 && wpCoursewareConf.action !== '' && wpCoursewareConf.course.length > 0) {
       setStep(val)

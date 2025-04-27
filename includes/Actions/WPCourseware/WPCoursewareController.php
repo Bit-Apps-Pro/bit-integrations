@@ -23,24 +23,6 @@ class WPCoursewareController
         }
     }
 
-    public static function WPCWActions()
-    {
-        if (!is_plugin_active('wp-courseware/wp-courseware.php')) {
-            wp_send_json_error(__('WP Courseware Plugin is not active or installed', 'bit-integrations'), 400);
-        }
-
-        $actions = [];
-        foreach (self::$actions as $action) {
-            $actions[] = (object) [
-                'id'    => $action['id'],
-                'title' => $action['title']
-            ];
-        }
-
-        $response['WPCWActions'] = $actions;
-        wp_send_json_success($response, 200);
-    }
-
     public static function WPCWCourses()
     {
         if (!is_plugin_active('wp-courseware/wp-courseware.php')) {
@@ -86,19 +68,5 @@ class WPCoursewareController
         $recordApiHelper = new RecordApiHelper($this->integrationID);
 
         return $recordApiHelper->execute($action, $course, $userId, $allCourse);
-    }
-
-    protected static function actions()
-    {
-        return [
-            'enroll' => [
-                'id'    => 'enroll',
-                'title' => __('Enroll user in a Course', 'bit-integrations')
-            ],
-            'unroll' => [
-                'id'    => 'unroll',
-                'title' => __('Unroll user in a Course', 'bit-integrations')
-            ],
-        ];
     }
 }
