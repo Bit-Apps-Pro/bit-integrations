@@ -9,7 +9,7 @@ import Steps from '../../Utilities/Steps'
 import { saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import OmniSendAuthorization from './OmniSendAuthorization'
-import { checkMappedFields, handleInput } from './OmniSendCommonFunc'
+import { checkMappedFields, generateMappedField, handleInput } from './OmniSendCommonFunc'
 import OmniSendIntegLayout from './OmniSendIntegLayout'
 
 function OmniSend({ formFields, setFlow, flow, allIntegURL }) {
@@ -93,7 +93,8 @@ function OmniSend({ formFields, setFlow, flow, allIntegURL }) {
       process.env.NODE_ENV === 'development'
         ? '6368ea4de67810becfd7638c-TeHA6oan0eO092kBbJh0BiepvUYzn5sehgbbSfhO4hXgPLax1v'
         : '',
-    field_map: [{ formField: '', omniSendFormField: '' }],
+    field_map: generateMappedField(omniSendFields),
+    custom_field_map: [{ formField: '', omniSendFormField: '' }],
     channels: '',
     channel_types: [],
     email_status: '',
@@ -114,7 +115,7 @@ function OmniSend({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -123,7 +124,7 @@ function OmniSend({ formFields, setFlow, flow, allIntegURL }) {
       }
     })
   }
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -166,9 +167,7 @@ function OmniSend({ formFields, setFlow, flow, allIntegURL }) {
         }}>
         <OmniSendIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, omniSendConf, setOmniSendConf, setLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, omniSendConf, setOmniSendConf, setLoading, setSnackbar)}
           omniSendConf={omniSendConf}
           setOmniSendConf={setOmniSendConf}
           loading={loading}

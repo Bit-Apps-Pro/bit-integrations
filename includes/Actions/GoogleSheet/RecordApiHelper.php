@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\GoogleSheet;
 
+use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert,upsert
@@ -52,7 +52,7 @@ class RecordApiHelper
             }
         }
         if ($isMatched) {
-            return wp_json_encode($values);
+            return wp_json_encode($values, JSON_UNESCAPED_UNICODE);
         }
 
         return implode(',', $values);
@@ -62,7 +62,7 @@ class RecordApiHelper
     {
         $fieldData = [];
         $allHeaders = $defaultConf->headers->{$spreadsheetId}->{$worksheetName}->{$headerRow};
-
+        
         foreach ($fieldMap as $fieldKey => $fieldPair) {
             if (!empty($fieldPair->googleSheetField)) {
                 if ($fieldPair->formField === 'custom' && isset($fieldPair->customValue)) {
@@ -81,12 +81,12 @@ class RecordApiHelper
                 $values[] = '';
             }
         }
-
+        
         $data = [];
         $data['range'] = "{$worksheetName}!{$headerRow}";
         $data['majorDimension'] = "{$header}";
         $data['values'][] = $values;
-
+        
         $recordApiResponse = $this->insertRecord($spreadsheetId, $worksheetName, $header, $headerRow, wp_json_encode($data));
         $type = 'insert';
         if (isset($recordApiResponse->error)) {

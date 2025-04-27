@@ -6,6 +6,8 @@ import { addFieldMap } from './IntegrationHelpers'
 import OmniSendFieldMap from './OmniSendFieldMap'
 import OmniSendActions from './OmniSendActions'
 import { generateMappedField } from './OmniSendCommonFunc'
+import ActionProFeatureComponent from '../IntegrationHelpers/ActionProFeatureComponent'
+import { ProFeatureTitle } from '../IntegrationHelpers/ActionProFeatureLabels'
 
 export default function OmniSendIntegLayout({
   formFields,
@@ -76,11 +78,11 @@ export default function OmniSendIntegLayout({
         <MultiSelect
           className="msl-wrp-options  w-5"
           defaultValue={omniSendConf?.channels}
-          options={channels?.map((channel) => ({
+          options={channels?.map(channel => ({
             label: channel.label,
             value: channel.value
           }))}
-          onChange={(val) => setChanges(val, 'channels')}
+          onChange={val => setChanges(val, 'channels')}
           customValue
         />
       </div>
@@ -119,8 +121,7 @@ export default function OmniSendIntegLayout({
         </div>
       )}
 
-      {(omniSendConf.channels.search('email') !== -1 ||
-        omniSendConf.channels.search('sms') !== -1) && (
+      {(omniSendConf.channels.search('email') !== -1 || omniSendConf.channels.search('sms') !== -1) && (
         <>
           <br />
           <div className="mt-5">
@@ -158,12 +159,13 @@ export default function OmniSendIntegLayout({
               formFields={formFields}
               setOmniSendConf={setOmniSendConf}
               setSnackbar={setSnackbar}
+              type="field_map"
             />
           ))}
           <div className="txt-center btcbi-field-map-button mt-2">
             <button
               onClick={() =>
-                addFieldMap(omniSendConf.field_map.length, omniSendConf, setOmniSendConf, false)
+                addFieldMap(omniSendConf.field_map.length, omniSendConf, setOmniSendConf, 'field_map')
               }
               className="icn-btn sh-sm"
               type="button">
@@ -172,6 +174,48 @@ export default function OmniSendIntegLayout({
           </div>
           <br />
           <br />
+
+          <ActionProFeatureComponent title={__('Custom Properties', 'bit-integrations')}>
+            <b className="wdt-100">
+              {<ProFeatureTitle title={__('Custom Properties', 'bit-integrations')} />}
+            </b>
+            <div className="btcd-hr mt-2 mb-4" />
+            <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
+              <div className="txt-dp">
+                <b>{__('Form Fields', 'bit-integrations')}</b>
+              </div>
+              <div className="txt-dp">
+                <b>{__('OmniSend Property name', 'bit-integrations')}</b>
+              </div>
+            </div>
+            {omniSendConf?.custom_field_map?.map((itm, i) => (
+              <OmniSendFieldMap
+                key={`rp-m-${i + 9}`}
+                i={i}
+                field={itm}
+                omniSendConf={omniSendConf}
+                formFields={formFields}
+                setOmniSendConf={setOmniSendConf}
+                setSnackbar={setSnackbar}
+                type="custom_field_map"
+              />
+            ))}
+            <div className="txt-center btcbi-field-map-button mt-2">
+              <button
+                onClick={() =>
+                  addFieldMap(
+                    omniSendConf?.custom_field_map?.length,
+                    omniSendConf,
+                    setOmniSendConf,
+                    'custom_field_map'
+                  )
+                }
+                className="icn-btn sh-sm"
+                type="button">
+                +
+              </button>
+            </div>
+          </ActionProFeatureComponent>
 
           <div className="mt-4">
             <b className="wdt-100">{__('Actions', 'bit-integrations')}</b>

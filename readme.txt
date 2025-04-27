@@ -2,9 +2,9 @@
 Contributors: bitpressadmin, rishadbitcode, niloy121, fahimsakib, shuvomohajan, tanvirchy, shakhawathosen, khoaiz, mazharul78
 Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
-Tested up to: 6.7.2
+Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.5.4
+Stable tag: 2.5.5
 License: GPLv2 or later
 
 Automation Plugin for WordPress. Integration of 110+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
@@ -1313,6 +1313,21 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 6. All integration list
 
 == Changelog ==
+
+= 2.5.5 =
+_Release Date -27th April 2025_
+
+- **New Feature**
+ - Omnisend: Added support for custom properties (Pro).
+
+- **New Improvement**
+ - FluentSMTP: Added email failed alternative hook (Pro).
+ - Bento: Improved utilities tags explode functionality (Pro).
+
+- **Bug Fixes**
+ - PerfexCRM: Fixed issue with custom field # tags.
+ - WooCommerce (Trigger): Resolved Unicode escape issue in Product Name.
+ - SureFeedBack: Fixed comment resolved hook issue (Pro).
 
 = 2.5.4 =
 _Release Date -14th April 2025_

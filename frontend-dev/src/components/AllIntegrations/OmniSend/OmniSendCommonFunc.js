@@ -23,20 +23,20 @@ export const handleInput = (
   setOmniSendConf({ ...newConf })
 }
 
-export const generateMappedField = (omniSendConf) => {
-  const requiredFlds = omniSendConf?.omniSend_fields.filter((fld) => fld.required === true)
+export const generateMappedField = (fields = []) => {
+  const requiredFlds = fields.filter(fld => fld.required === true)
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({
+    ? requiredFlds.map(field => ({
         formField: '',
         omniSendFormField: field.key
       }))
     : [{ formField: '', omniSendFormField: '' }]
 }
 
-export const checkMappedFields = (omniSendConf) => {
+export const checkMappedFields = omniSendConf => {
   const mappedFields = omniSendConf?.field_map
     ? omniSendConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField ||
           !mappedField.omniSendFormField ||
           (!mappedField.formField === 'custom' && !mappedField.customValue)
@@ -66,7 +66,7 @@ export const handleOmniSendAuthorize = (
 
   const requestParams = { api_key: confTmp.api_key }
 
-  bitsFetch(requestParams, 'Omnisend_authorization').then((result) => {
+  bitsFetch(requestParams, 'Omnisend_authorization').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       setConf(newConf)
