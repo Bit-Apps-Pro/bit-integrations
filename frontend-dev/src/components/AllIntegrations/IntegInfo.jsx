@@ -496,6 +496,7 @@ export default function IntegInfo() {
       case 'PerfexCRM':
         return <PerfexCRMAuthorization perfexCRMConf={integrationConf} step={1} isInfo />
       case 'SureTriggers':
+      case 'OttoKit (SureTriggers)':
         return <SureTriggersAuthorization webHooks={integrationConf} step={1} isInfo />
       case 'OneHashCRM':
         return <OneHashCRMAuthorization oneHashCRMConf={integrationConf} step={1} isInfo />

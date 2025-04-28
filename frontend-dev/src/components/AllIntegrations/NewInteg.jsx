@@ -1354,6 +1354,7 @@ export default function NewInteg({ allIntegURL }) {
           />
         )
       case 'SureTriggers':
+      case 'OttoKit (SureTriggers)':
         return (
           <SureTriggers
             allIntegURL={allIntegURL}
@@ -1582,6 +1583,9 @@ export default function NewInteg({ allIntegURL }) {
       break
     case 'ConvertKit':
       integrationName = 'Kit(ConvertKit)'
+      break
+    case 'SureTriggers':
+      integrationName = 'OttoKit (SureTriggers)'
       break
 
     default:

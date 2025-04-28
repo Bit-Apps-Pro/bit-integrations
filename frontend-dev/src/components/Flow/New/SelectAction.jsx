@@ -144,7 +144,7 @@ export default function SelectAction() {
     { type: 'WPWebhooks' },
     { type: 'AdvancedFormIntegration' },
     { type: 'PerfexCRM' },
-    { type: 'SureTriggers' },
+    { type: 'OttoKit (SureTriggers)' },
     { type: 'OneHashCRM' },
     { type: 'Salesflare' },
     { type: 'AcademyLms' },

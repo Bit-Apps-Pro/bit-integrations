@@ -481,6 +481,9 @@ final class Flow
 
                     case 'LicenseManagerForWooCommerce':
                         $integrationName = 'LMFWC';
+                    
+                    case 'OttoKit (SureTriggers)':
+                        $integrationName = 'SureTriggers';
 
                         break;
 
