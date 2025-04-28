@@ -21,10 +21,7 @@ function ThriveAutomator({ formFields, setFlow, flow, allIntegURL }) {
     name: 'ThriveAutomator Web Hooks',
     type: 'ThriveAutomator',
     method: 'POST',
-    url:
-      process.env.NODE_ENV === 'development'
-        ? 'https://connect.thriveAutomator.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D'
-        : ''
+    url: ''
   })
 
   return (
@@ -64,16 +61,7 @@ function ThriveAutomator({ formFields, setFlow, flow, allIntegURL }) {
         <WebHooksStepTwo
           step={step}
           saveConfig={() =>
-            saveIntegConfig(
-              flow,
-              setFlow,
-              allIntegURL,
-              thriveAutomator,
-              navigate,
-              '',
-              '',
-              setIsLoading
-            )
+            saveIntegConfig(flow, setFlow, allIntegURL, thriveAutomator, navigate, '', '', setIsLoading)
           }
           isLoading={isLoading}
         />

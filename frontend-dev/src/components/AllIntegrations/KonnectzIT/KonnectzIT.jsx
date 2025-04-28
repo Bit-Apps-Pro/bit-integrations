@@ -21,10 +21,7 @@ function KonnectzIT({ formFields, setFlow, flow, allIntegURL }) {
     name: 'konnectzIT Web Hooks',
     type: 'konnectzIT',
     method: 'POST',
-    url:
-      process.env.NODE_ENV === 'development'
-        ? 'https://production.konnectzit.com/webhooks/catch/qt2ttou5bs-kz6253-vW0cp2Y31I'
-        : '',
+    url: '',
     apiConsole: 'https://app.konnectzit.com/konnect'
   })
 

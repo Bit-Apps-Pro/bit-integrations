@@ -26,8 +26,8 @@ function Sendy({ formFields, setFlow, flow, allIntegURL }) {
   const [sendyConf, setSendyConf] = useState({
     name: 'Sendy',
     type: 'Sendy',
-    api_key: process.env.NODE_ENV === 'development' ? 'qIhdPEcl2m7x9f4JPtFw' : '',
-    sendy_url: process.env.NODE_ENV === 'development' ? 'https://mizan.dev.bitcode.pro' : '',
+    api_key: '',
+    sendy_url: '',
     field_map: [{ formField: '', sendyField: '' }],
     subscriberFields,
     actions: {}
@@ -35,17 +35,8 @@ function Sendy({ formFields, setFlow, flow, allIntegURL }) {
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      sendyConf,
-      navigate,
-      '',
-      '',
-      setIsLoading
-    )
-    resp.then((res) => {
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, sendyConf, navigate, '', '', setIsLoading)
+    resp.then(res => {
       if (res.success) {
         // setSnackbar({ show: true, msg: res.data?.msg })
         toast.success(res.data?.msg)
@@ -56,7 +47,7 @@ function Sendy({ formFields, setFlow, flow, allIntegURL }) {
       }
     })
   }
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -94,7 +85,7 @@ function Sendy({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <SendyIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, sendyConf, setSendyConf, setIsLoading, setSnackbar)}
+          handleInput={e => handleInput(e, sendyConf, setSendyConf, setIsLoading, setSnackbar)}
           sendyConf={sendyConf}
           setSendyConf={setSendyConf}
           isLoading={isLoading}

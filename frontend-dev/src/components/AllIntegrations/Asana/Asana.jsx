@@ -31,10 +31,7 @@ function Asana({ formFields, setFlow, flow, allIntegURL }) {
   const [asanaConf, setAsanaConf] = useState({
     name: 'Asana',
     type: 'Asana',
-    api_key:
-      process.env.NODE_ENV === 'development'
-        ? '1/1204059769132541:4f2eba544ecafbc29df397dec56c457c'
-        : '',
+    api_key: '',
     field_map: [{ formField: '', asanaFormField: '' }],
     actionName: '',
     taskFields,
@@ -43,17 +40,8 @@ function Asana({ formFields, setFlow, flow, allIntegURL }) {
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      asanaConf,
-      navigate,
-      '',
-      '',
-      setIsLoading
-    )
-    resp.then((res) => {
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, asanaConf, navigate, '', '', setIsLoading)
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -63,7 +51,7 @@ function Asana({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -111,7 +99,7 @@ function Asana({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <AsanaIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, asanaConf, setAsanaConf, setLoading, setSnackbar)}
+          handleInput={e => handleInput(e, asanaConf, setAsanaConf, setLoading, setSnackbar)}
           asanaConf={asanaConf}
           setAsanaConf={setAsanaConf}
           loading={loading}

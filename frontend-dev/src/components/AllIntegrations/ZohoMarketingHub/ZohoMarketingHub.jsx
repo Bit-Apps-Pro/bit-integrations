@@ -25,9 +25,8 @@ function ZohoMarketingHub({ formFields, setFlow, flow, allIntegURL }) {
   const [marketingHubConf, setMarketingHubConf] = useState({
     name: 'Zoho Marketing Automation(Zoho Marketing Hub)',
     type: 'Zoho Marketing Automation(Zoho Marketing Hub)',
-    clientId: process.env.NODE_ENV === 'development' ? '1000.HFCU8M8XENMULNWH12RO937GWC4V9A' : '',
-    clientSecret:
-      process.env.NODE_ENV === 'development' ? '88870e8fe81cdeeb4c452dc953be3973603bd8f87c' : '',
+    clientId: '',
+    clientSecret: '',
     list: '',
     field_map: [{ formField: '', zohoFormField: '' }]
   })
@@ -36,7 +35,7 @@ function ZohoMarketingHub({ formFields, setFlow, flow, allIntegURL }) {
     window.opener && setGrantTokenResponse('zohoMarketingHub')
   }, [])
 
-  const nextPage = (val) => {
+  const nextPage = val => {
     if (val === 3) {
       if (!checkMappedFields(marketingHubConf)) {
         setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
@@ -78,13 +77,11 @@ function ZohoMarketingHub({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
         <ZohoMarketingHubIntegLayout
           formID={formID}
           formFields={formFields}
-          handleInput={(e) =>
+          handleInput={e =>
             handleInput(e, formID, marketingHubConf, setMarketingHubConf, setIsLoading, setSnackbar)
           }
           marketingHubConf={marketingHubConf}
@@ -112,16 +109,7 @@ function ZohoMarketingHub({ formFields, setFlow, flow, allIntegURL }) {
       <IntegrationStepThree
         step={step}
         saveConfig={() =>
-          saveIntegConfig(
-            flow,
-            setFlow,
-            allIntegURL,
-            marketingHubConf,
-            navigate,
-            '',
-            '',
-            setIsLoading
-          )
+          saveIntegConfig(flow, setFlow, allIntegURL, marketingHubConf, navigate, '', '', setIsLoading)
         }
         isLoading={isLoading}
       />

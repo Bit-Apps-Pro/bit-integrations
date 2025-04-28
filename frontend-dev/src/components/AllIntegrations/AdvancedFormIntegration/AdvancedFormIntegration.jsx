@@ -20,10 +20,7 @@ function AdvancedFormIntegration({ formFields, setFlow, flow, allIntegURL }) {
     name: 'AdvancedFormIntegration Web Hooks',
     type: 'AdvancedFormIntegration',
     method: 'POST',
-    url:
-      process.env.NODE_ENV === 'development'
-        ? 'https://connect.advancedFormIntegration.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D'
-        : ''
+    url: ''
   })
   const { afi } = tutorialLinks
 

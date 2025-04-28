@@ -26,11 +26,8 @@ function MailChimp({ formFields, setFlow, flow, allIntegURL }) {
   const [mailChimpConf, setMailChimpConf] = useState({
     name: 'Mail Chimp',
     type: 'Mail Chimp',
-    clientId: process.env.NODE_ENV === 'development' ? '343788104704' : '',
-    clientSecret:
-      process.env.NODE_ENV === 'development'
-        ? '6095599b3071827e5049e6e43cfd6f5677d3960d14b3c10990'
-        : '',
+    clientId: '',
+    clientSecret: '',
     listId: '',
     listName: '',
     tags: '',
@@ -85,13 +82,11 @@ function MailChimp({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
         <MailChimpIntegLayout
           formID={formID}
           formFields={formFields}
-          handleInput={(e) =>
+          handleInput={e =>
             handleInput(
               e,
               mailChimpConf,

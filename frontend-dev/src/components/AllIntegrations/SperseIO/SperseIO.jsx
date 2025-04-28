@@ -21,10 +21,7 @@ function SperseIO({ formFields, setFlow, flow, allIntegURL }) {
     name: 'SperseIO Web Hooks',
     type: 'SperseIO',
     method: 'POST',
-    url:
-      process.env.NODE_ENV === 'development'
-        ? 'https://connect.sperseIO.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D'
-        : '',
+    url: '',
     apiConsole: 'https://sperse.io/'
   })
 
@@ -39,9 +36,7 @@ function SperseIO({ formFields, setFlow, flow, allIntegURL }) {
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
-        {sperse?.youTubeLink && (
-          <TutorialLink title="Sperse IO" youTubeLink={sperse?.youTubeLink} />
-        )}
+        {sperse?.youTubeLink && <TutorialLink title="Sperse IO" youTubeLink={sperse?.youTubeLink} />}
         {sperse?.docLink && <TutorialLink title="Sperse IO" docLink={sperse?.docLink} />}
 
         <WebHooksIntegration

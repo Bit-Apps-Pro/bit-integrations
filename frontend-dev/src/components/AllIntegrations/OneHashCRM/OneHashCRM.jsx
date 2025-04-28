@@ -77,9 +77,9 @@ function OneHashCRM({ formFields, setFlow, flow, allIntegURL }) {
   const [oneHashCRMConf, setOneHashCRMConf] = useState({
     name: 'OneHashCRM',
     type: 'OneHashCRM',
-    api_key: process.env.NODE_ENV === 'development' ? '5949cd9c3985169' : '',
-    api_secret: process.env.NODE_ENV === 'development' ? '8846dcd0bf4a44c' : '',
-    domain: process.env.NODE_ENV === 'development' ? 'https://bitcode.onehash.is' : '',
+    api_key: '',
+    api_secret: '',
+    domain: '',
     field_map: [{ formField: '', oneHashCRMFormField: '' }],
     actionName: '',
     actionId: '',
@@ -101,7 +101,7 @@ function OneHashCRM({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -111,7 +111,7 @@ function OneHashCRM({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -157,9 +157,7 @@ function OneHashCRM({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <OneHashCRMIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, oneHashCRMConf, setOneHashCRMConf, setLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, oneHashCRMConf, setOneHashCRMConf, setLoading, setSnackbar)}
           oneHashCRMConf={oneHashCRMConf}
           setOneHashCRMConf={setOneHashCRMConf}
           loading={loading}

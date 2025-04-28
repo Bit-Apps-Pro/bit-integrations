@@ -20,9 +20,8 @@ function ZohoCreator({ formFields, setFlow, flow, allIntegURL }) {
   const [creatorConf, setCreatorConf] = useState({
     name: 'Zoho Creator',
     type: 'Zoho Creator',
-    clientId: process.env.NODE_ENV === 'development' ? '1000.YN34H0SNYOASNVTOYPKPO158PD8VTD' : '',
-    clientSecret:
-      process.env.NODE_ENV === 'development' ? '04e7b570f25f7702d93a84a3ab8121880788782464' : '',
+    clientId: '',
+    clientSecret: '',
     accountOwner: '',
     field_map: [{ formField: '', zohoFormField: '' }],
     actions: {}
@@ -64,13 +63,11 @@ function ZohoCreator({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
         <ZohoCreatorIntegLayout
           formID={formID}
           formFields={formFields}
-          handleInput={(e) =>
+          handleInput={e =>
             handleInput(e, creatorConf, setCreatorConf, formID, setIsLoading, setSnackbar)
           }
           creatorConf={creatorConf}

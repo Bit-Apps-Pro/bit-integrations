@@ -21,10 +21,7 @@ function Integrately({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Integrately Web Hooks',
     type: 'Integrately',
     method: 'POST',
-    url:
-      process.env.NODE_ENV === 'development'
-        ? 'https://connect.pabbly.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D'
-        : '',
+    url: '',
     apiConsole: 'https://app.integrately.com/'
   })
 

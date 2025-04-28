@@ -30,7 +30,7 @@ function Trello({ formFields, setFlow, flow, allIntegURL }) {
   const [trelloConf, setTrelloConf] = useState({
     name: 'Trello',
     type: 'Trello',
-    clientId: process.env.NODE_ENV === 'development' ? '' : '',
+    clientId: '',
     listId: '',
     listName: '',
     tags: '',
@@ -85,7 +85,7 @@ function Trello({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <TrelloIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, trelloConf, setTrelloConf, setIsLoading, setSnackbar)}
+          handleInput={e => handleInput(e, trelloConf, setTrelloConf, setIsLoading, setSnackbar)}
           trelloConf={trelloConf}
           setTrelloConf={setTrelloConf}
           isLoading={isLoading}

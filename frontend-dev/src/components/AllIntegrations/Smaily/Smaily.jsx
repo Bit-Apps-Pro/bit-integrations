@@ -28,10 +28,9 @@ function Smaily({ formFields, setFlow, flow, allIntegURL }) {
   const [smailyConf, setSmailyConf] = useState({
     name: 'Smaily',
     type: 'Smaily',
-    subdomain: process.env.NODE_ENV === 'development' ? 'b5bmlbqw' : '',
-    api_user_name: process.env.NODE_ENV === 'development' ? 'iyl32h' : '',
-    api_user_password:
-      process.env.NODE_ENV === 'development' ? '6jlqbV3OnLTTy1iiHjGcOsi01sP2iJKQ' : '',
+    subdomain: '',
+    api_user_name: '',
+    api_user_password: '',
     field_map: [{ formField: '', smailyFormField: '' }],
     staticFields,
     actions: {}
@@ -39,17 +38,8 @@ function Smaily({ formFields, setFlow, flow, allIntegURL }) {
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      smailyConf,
-      navigate,
-      '',
-      '',
-      setIsLoading
-    )
-    resp.then((res) => {
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, smailyConf, navigate, '', '', setIsLoading)
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -59,7 +49,7 @@ function Smaily({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -95,7 +85,7 @@ function Smaily({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <SmailyIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, smailyConf, setSmailyConf, setLoading, setSnackbar)}
+          handleInput={e => handleInput(e, smailyConf, setSmailyConf, setLoading, setSnackbar)}
           smailyConf={smailyConf}
           setSmailyConf={setSmailyConf}
           loading={loading}

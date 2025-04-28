@@ -21,12 +21,12 @@ function Lemlist({ formFields, setFlow, flow, allIntegURL }) {
   const [lemlistConf, setLemlistConf] = useState({
     name: 'Lemlist',
     type: 'Lemlist',
-    api_key: process.env.NODE_ENV === 'development' ? '27c7f2e51a6781bd868efe3a71698c88' : '',
+    api_key: '',
     field_map: [{ formField: '', lemlistField: '' }],
     actions: {}
   })
 
-  const nextPage = (val) => {
+  const nextPage = val => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -67,9 +67,7 @@ function Lemlist({ formFields, setFlow, flow, allIntegURL }) {
         setSnackbar={setSnackbar}
       />
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
         <LemlistIntegLayout
           formID={formID}
           formFields={formFields}

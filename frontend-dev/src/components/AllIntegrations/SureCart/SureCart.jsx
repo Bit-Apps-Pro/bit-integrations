@@ -40,13 +40,13 @@ function SureCart({ formFields, setFlow, flow, allIntegURL }) {
     name: 'SureCart',
     type: 'SureCart',
     mainAction: '',
-    api_key: process.env.NODE_ENV === 'development' ? '5qA9v2NhCzjJqGhSa2bnnwuw' : '',
+    api_key: '',
     field_map: [{ formField: '', SureCartFormField: '' }],
     customerFields,
     allActions,
     actions: {}
   })
-  const nextPage = (val) => {
+  const nextPage = val => {
     if (!checkMappedFields(sureCartConf.field_map)) {
       setSnackbar({ show: true, msg: __('Please map fields to continue.', 'bit-integrations') })
       return
@@ -90,9 +90,7 @@ function SureCart({ formFields, setFlow, flow, allIntegURL }) {
         }}>
         <SureCartIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, sureCartConf, setSureCartConf, setIsLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, sureCartConf, setSureCartConf, setIsLoading, setSnackbar)}
           sureCartConf={sureCartConf}
           setSureCartConf={setSureCartConf}
           isLoading={isLoading}

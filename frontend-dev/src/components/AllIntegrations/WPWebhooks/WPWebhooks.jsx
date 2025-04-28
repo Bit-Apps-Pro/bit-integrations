@@ -21,10 +21,7 @@ function WPWebhooks({ formFields, setFlow, flow, allIntegURL }) {
     name: 'WPWebhooks Web Hooks',
     type: 'WPWebhooks',
     method: 'POST',
-    url:
-      process.env.NODE_ENV === 'development'
-        ? 'https://connect.wPWebhooks.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D'
-        : ''
+    url: ''
   })
 
   return (

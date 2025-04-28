@@ -21,10 +21,7 @@ function Integromat({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Make(Integromat) Web Hooks',
     type: 'Make(Integromat)',
     method: 'POST',
-    url:
-      process.env.NODE_ENV === 'development'
-        ? 'https://connect.pabbly.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D'
-        : '',
+    url: '',
     apiConsole: 'https://www.integromat.com/hooks/'
   })
 

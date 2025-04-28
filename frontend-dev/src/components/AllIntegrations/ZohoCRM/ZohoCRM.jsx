@@ -22,9 +22,8 @@ function ZohoCRM({ formFields, setFlow, flow, allIntegURL }) {
   const [crmConf, setCrmConf] = useState({
     name: 'Zoho CRM',
     type: 'Zoho CRM',
-    clientId: process.env.NODE_ENV === 'development' ? '1000.K74DBY9N0MEW6C4G0153AIXOIVW0ME' : '',
-    clientSecret:
-      process.env.NODE_ENV === 'development' ? '27daa2acedc21c988641d079a16ed7fab9135dcf0f' : '',
+    clientId: '',
+    clientSecret: '',
     module: '',
     layout: '',
     field_map: [{ formField: '', zohoFormField: '' }],
@@ -47,7 +46,7 @@ function ZohoCRM({ formFields, setFlow, flow, allIntegURL }) {
       setSnackbar
     })
   }
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -87,9 +86,7 @@ function ZohoCRM({ formFields, setFlow, flow, allIntegURL }) {
           settab={settab}
           formID={formID}
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, tab, crmConf, setCrmConf, formID, setIsLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, tab, crmConf, setCrmConf, formID, setIsLoading, setSnackbar)}
           crmConf={crmConf}
           setCrmConf={setCrmConf}
           isLoading={isLoading}

@@ -39,8 +39,8 @@ function Demio({ formFields, setFlow, flow, allIntegURL }) {
   const [demioConf, setDemioConf] = useState({
     name: 'Demio',
     type: 'Demio',
-    api_key: process.env.NODE_ENV === 'development' ? 'XZcHMyLh6zlobOkZU92ZQ83N9qs6bri3' : '',
-    api_secret: process.env.NODE_ENV === 'development' ? 'r4VzkWc4K7My7' : '',
+    api_key: '',
+    api_secret: '',
     field_map: generateMappedField(demioFields),
     actionName: 'registerPeopletoWabinar',
     demioFields,
@@ -49,17 +49,8 @@ function Demio({ formFields, setFlow, flow, allIntegURL }) {
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      demioConf,
-      navigate,
-      '',
-      '',
-      setIsLoading
-    )
-    resp.then((res) => {
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, demioConf, navigate, '', '', setIsLoading)
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -69,7 +60,7 @@ function Demio({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)

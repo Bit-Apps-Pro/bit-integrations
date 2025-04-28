@@ -60,8 +60,8 @@ function Agiled({ formFields, setFlow, flow, allIntegURL }) {
   const [agiledConf, setAgiledConf] = useState({
     name: 'Agiled CRM',
     type: 'Agiled CRM',
-    auth_token: process.env.NODE_ENV === 'development' ? 'ABaDKRfMUrSUda3yBToLWSHWXwDNFo' : '',
-    brand: process.env.NODE_ENV === 'development' ? 'fahim.agiled.app' : '',
+    auth_token: '',
+    brand: '',
     field_map: [{ formField: '', agiledFormField: '' }],
     actionName: '',
     accountFields,

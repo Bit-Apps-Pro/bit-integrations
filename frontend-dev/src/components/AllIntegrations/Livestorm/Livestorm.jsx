@@ -23,10 +23,7 @@ function Livestorm({ formFields, setFlow, flow, allIntegURL }) {
   const [livestormConf, setLivestormConf] = useState({
     name: 'Livestorm',
     type: 'Livestorm',
-    api_key:
-      process.env.NODE_ENV === 'development'
-        ? 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGkubGl2ZXN0b3JtLmNvIiwianRpIjoiZTVkMzUwZTEtZjQyZi00ODM3LWExZjctMDhjZDJkNGQ0MmFjIiwiaWF0IjoxNjg4MzYwMDg4LCJvcmciOiJhOWEwYTdjNy1jNzMzLTRjMzEtOTc0Yi1mODI3NzM4OTVjYTcifQ.rejNMN0nQ3rT-32Yy0WGOIpzoc4T5EE6KiEe4IDXpF8'
-        : '',
+    api_key: '',
     field_map: [{ formField: '', livestormFormField: '' }],
     actionName: 'addPeopletoEventSession',
     actions: {}
@@ -44,7 +41,7 @@ function Livestorm({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -54,7 +51,7 @@ function Livestorm({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)

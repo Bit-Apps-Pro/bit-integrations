@@ -33,7 +33,7 @@ function GetResponse({ formFields, setFlow, flow, allIntegURL }) {
   const [getResponseConf, setGetResponseConf] = useState({
     name: 'GetResponse',
     type: 'GetResponse',
-    auth_token: process.env.NODE_ENV === 'development' ? '' : '',
+    auth_token: '',
     field_map: [{ formField: '', getResponseFormField: '' }],
     contactsFields,
     campaignId: '',
@@ -56,7 +56,7 @@ function GetResponse({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -66,7 +66,7 @@ function GetResponse({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -102,9 +102,7 @@ function GetResponse({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <GetResponseIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, getResponseConf, setGetResponseConf, setLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, getResponseConf, setGetResponseConf, setLoading, setSnackbar)}
           getResponseConf={getResponseConf}
           setGetResponseConf={setGetResponseConf}
           loading={loading}

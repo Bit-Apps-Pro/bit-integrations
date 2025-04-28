@@ -37,18 +37,13 @@ function SendFox({ formFields, setFlow, flow, allIntegURL }) {
   ]
 
   const listFields = [{ key: 'name', label: __('Name', 'bit-integrations'), required: true }]
-  const unsubscribeFields = [
-    { key: 'email', label: __('Email', 'bit-integrations'), required: true }
-  ]
+  const unsubscribeFields = [{ key: 'email', label: __('Email', 'bit-integrations'), required: true }]
 
   const [sendFoxConf, setSendFoxConf] = useState({
     name: 'SendFox',
     type: 'SendFox',
     listId: '',
-    access_token:
-      process.env.NODE_ENV === 'development'
-        ? 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjIzZDg3ZjdhODZmYTI0NTMwYzU5ZjVmNjZlYWQ1MzY3YTk0ZTQ3NjIzMzAzN2IzZTE5MDg2NGM0NmRiMjUwYmEyNTc5YTJhZDhlMWJkZjdlIn0.eyJhdWQiOiI0IiwianRpIjoiMjNkODdmN2E4NmZhMjQ1MzBjNTlmNWY2NmVhZDUzNjdhOTRlNDc2MjMzMDM3YjNlMTkwODY0YzQ2ZGIyNTBiYTI1NzlhMmFkOGUxYmRmN2UiLCJpYXQiOjE2NTE5ODk2ODIsIm5iZiI6MTY1MTk4OTY4MiwiZXhwIjoxNjgzNTI1NjgyLCJzdWIiOiI5MjQ0MCIsInNjb3BlcyI6W119.iMlfEH_ffSzQRVik6R3KJyuMYILUsxFg1RZka2j-kL2dZmyNLfz7_qHzDZM-WnjIxN0ybHuG8UYeZRyIhZi-XPKJte5XfV-t8tFxFrV50wPP6BAup2f0yoiHpA0RmrnBTnQYC9Ii6yjGgvacMJwzVzPJZtteI3jy224lW53t-S0dbg40fzszTbtFW14QwaZhyiUML9pnSalfdBUUQFqFsPqtGg6HX4TUmT_w7hjv5mRUfA9gmpJpLS9WPwE2814jjOKfadLLcsKmsNkwqH09_fsGl03pZIc4WcNPFtWwznGbynglLbYaOYD5QYXP78YvNJu7JLW4V-G6XX4_0mxKLA5EPPAticPbBZnvL3TZH7aibVPDgQ7tV17L64DGWegfafV7kScjY_jQlyo8K3SMktl7jGAOf8krLctziHkChhlpieqccj7pl3fC3sxBp76hGM2fmLK9UXxF8D-9yj4ORJFZejGtwVJmJasRpnGX_x9MeDbnjllzlYLHRCJQbj2q2-syHqM9BxP-mednv-xgPHBQRro4YKe5IT7TnQwkcTINa7AevasHiFjfGHyJKq91_OfjmTveok20eC4kc5Wjtz8FnpG0AOftwBy7Aqel5NjjfobBctr2jPwTe4eVAQa0WaCoCn7xzdFNspQUxDF4qkYK3QoZwmGmNZKHqrHUX4o'
-        : '',
+    access_token: '',
     field_map: [{ formField: '', sendFoxFormField: '' }],
     field_map_list: [{ formField: '', sendFoxListFormField: '' }],
     field_map_unsubscribe: [{ formField: '', sendFoxUnsubscribeFormField: '' }],
@@ -92,7 +87,7 @@ function SendFox({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <SendFoxIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
+          handleInput={e =>
             handleInput(e, sendFoxConf, setSendFoxConf, setIsLoading, setSnackbar, formID)
           }
           sendFoxConf={sendFoxConf}

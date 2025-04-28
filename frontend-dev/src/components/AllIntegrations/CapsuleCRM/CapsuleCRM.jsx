@@ -75,11 +75,8 @@ function CapsuleCRM({ formFields, setFlow, flow, allIntegURL }) {
   const [capsulecrmConf, setCapsuleCRMConf] = useState({
     name: 'CapsuleCRM',
     type: 'CapsuleCRM',
-    api_key:
-      process.env.NODE_ENV === 'development'
-        ? 'uf/pCrlRjbuDmB2JBxj/weun6p00r41zAtZUQ2GJbD+DnNYQ44A0U3POGB4hE/v1'
-        : '',
-    api_url: process.env.NODE_ENV === 'development' ? 'bitcode.capsulecrm.com' : '',
+    api_key: '',
+    api_url: '',
     field_map: [{ formField: '', capsulecrmFormField: '' }],
     actionName: '',
     organisationFields,
@@ -101,7 +98,7 @@ function CapsuleCRM({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -111,7 +108,7 @@ function CapsuleCRM({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -159,9 +156,7 @@ function CapsuleCRM({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <CapsuleCRMIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, capsulecrmConf, setCapsuleCRMConf, setLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, capsulecrmConf, setCapsuleCRMConf, setLoading, setSnackbar)}
           capsulecrmConf={capsulecrmConf}
           setCapsuleCRMConf={setCapsuleCRMConf}
           loading={loading}

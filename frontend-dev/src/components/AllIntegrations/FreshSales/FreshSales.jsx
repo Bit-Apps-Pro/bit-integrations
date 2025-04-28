@@ -21,11 +21,8 @@ function FreshSales({ formFields, setFlow, flow, allIntegURL }) {
   const [freshSalesConf, setFreshSalesConf] = useState({
     name: 'FreshSales',
     type: 'FreshSales',
-    api_key: process.env.NODE_ENV === 'development' ? '6nF6wAQj5EukXP0JLcysrA' : '',
-    bundle_alias:
-      process.env.NODE_ENV === 'development'
-        ? 'bitapps-728497918782196505.myfreshworks.com/crm/sales'
-        : '',
+    api_key: '',
+    bundle_alias: '',
     default: {
       modules: {
         Account: {
@@ -63,7 +60,7 @@ function FreshSales({ formFields, setFlow, flow, allIntegURL }) {
       setSnackbar
     })
   }
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -113,7 +110,7 @@ function FreshSales({ formFields, setFlow, flow, allIntegURL }) {
         <FreshSalesIntegLayout
           formID={formID}
           formFields={formFields}
-          handleInput={(e) =>
+          handleInput={e =>
             handleInput(e, freshSalesConf, setFreshSalesConf, formID, setIsLoading, setSnackbar)
           }
           freshSalesConf={freshSalesConf}

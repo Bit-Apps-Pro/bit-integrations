@@ -38,9 +38,9 @@ function Gravitec({ formFields, setFlow, flow, allIntegURL }) {
   const [gravitecConf, setGravitecConf] = useState({
     name: 'Gravitec',
     type: 'Gravitec',
-    app_key: process.env.NODE_ENV === 'development' ? '9db98604d370a87a92b6250de50e11e2' : '',
-    app_secret: process.env.NODE_ENV === 'development' ? '966cab74622780699086601dc0b9478f' : '',
-    site_url: process.env.NODE_ENV === 'development' ? 'https://bit-integrations.org/' : '',
+    app_key: '',
+    app_secret: '',
+    site_url: '',
     field_map: generateMappedField(notificationFields),
     actionName: '',
     notificationFields,
@@ -59,7 +59,7 @@ function Gravitec({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -69,7 +69,7 @@ function Gravitec({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)

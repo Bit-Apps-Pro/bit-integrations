@@ -29,9 +29,8 @@ function ZohoSheet({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Zoho Sheet',
     type: 'Zoho Sheet',
     dataCenter: '',
-    clientId: process.env.NODE_ENV === 'development' ? '1000.RZ6CKE6NUUU3YMJ83FKMQH3T6E0OAK' : '',
-    clientSecret:
-      process.env.NODE_ENV === 'development' ? '192e33c5530e52e5d9066ed5394ccec15b550dd4fe' : '',
+    clientId: '',
+    clientSecret: '',
     field_map: [{ formField: '', zohoSheetFormField: '' }],
     workbooks: [],
     worksheets: [],
@@ -58,7 +57,7 @@ function ZohoSheet({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -68,7 +67,7 @@ function ZohoSheet({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)

@@ -29,8 +29,8 @@ function Mailjet({ formFields, setFlow, flow, allIntegURL }) {
   const [mailjetConf, setMailjetConf] = useState({
     name: 'Mailjet',
     type: 'Mailjet',
-    apiKey: process.env.NODE_ENV === 'development' ? 'eda7ec27e1a31ddc88ae5aae3c569699' : '',
-    secretKey: process.env.NODE_ENV === 'development' ? '8f6175601298cf3fa3a12439794af7b2' : '',
+    apiKey: '',
+    secretKey: '',
     field_map: [{ formField: '', mailjetFormField: '' }],
     staticFields,
     lists: [],
@@ -42,17 +42,8 @@ function Mailjet({ formFields, setFlow, flow, allIntegURL }) {
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      mailjetConf,
-      navigate,
-      '',
-      '',
-      setIsLoading
-    )
-    resp.then((res) => {
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, mailjetConf, navigate, '', '', setIsLoading)
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -62,7 +53,7 @@ function Mailjet({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)

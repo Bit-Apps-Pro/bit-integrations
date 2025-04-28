@@ -23,9 +23,9 @@ function Bento({ formFields, setFlow, flow, allIntegURL }) {
   const [bentoConf, setBentoConf] = useState({
     name: 'Bento',
     type: 'Bento',
-    publishable_key: process.env.NODE_ENV === 'development' ? 'p5a8bbc915c21ef10e61a360a91dbbcc6' : '',
-    secret_key: process.env.NODE_ENV === 'development' ? 's157573fef647a67ee7855ee28d7356f0' : '',
-    site_uuid: process.env.NODE_ENV === 'development' ? '2575b8ccda54062d1f022611916bb0a4' : '',
+    publishable_key: '',
+    secret_key: '',
+    site_uuid: '',
     field_map: [{ formField: '', bentoFormField: '' }],
     action: '',
     actions: [

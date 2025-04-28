@@ -31,8 +31,7 @@ function Clickup({ formFields, setFlow, flow, allIntegURL }) {
   const [clickupConf, setClickupConf] = useState({
     name: 'Clickup',
     type: 'Clickup',
-    api_key:
-      process.env.NODE_ENV === 'development' ? 'pk_49397980_G19CDMAFLTV8V04UR5PNAYN29QB8UG5H' : '',
+    api_key: '',
     field_map: [{ formField: '', clickupFormField: '' }],
     actionName: '',
     taskFields,
@@ -41,17 +40,8 @@ function Clickup({ formFields, setFlow, flow, allIntegURL }) {
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      clickupConf,
-      navigate,
-      '',
-      '',
-      setIsLoading
-    )
-    resp.then((res) => {
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, clickupConf, navigate, '', '', setIsLoading)
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -61,7 +51,7 @@ function Clickup({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -117,7 +107,7 @@ function Clickup({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <ClickupIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, clickupConf, setClickupConf, setLoading, setSnackbar)}
+          handleInput={e => handleInput(e, clickupConf, setClickupConf, setLoading, setSnackbar)}
           clickupConf={clickupConf}
           setClickupConf={setClickupConf}
           loading={loading}
