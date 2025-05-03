@@ -58,7 +58,7 @@ export default function PerfexCRMFieldMap({ i, formFields, field, perfexCRMConf,
               label={__('Custom Value', 'bit-integrations')}
               className="mr-2"
               type="text"
-              value={field.customValue}
+              value={field?.customValue || ''}
               placeholder={__('Custom Value', 'bit-integrations')}
               formFields={formFields}
             />
