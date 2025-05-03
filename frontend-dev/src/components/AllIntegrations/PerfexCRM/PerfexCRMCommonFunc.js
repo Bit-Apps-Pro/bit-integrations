@@ -26,10 +26,10 @@ export const refreshCustomFields = (perfexCRMConf, setPerfexCRMConf, setIsLoadin
   }
 
   bitsFetch(requestParams, 'perfexcrm_custom_fields')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
-        setPerfexCRMConf(prevPerfexCRMConf =>
-          create(prevPerfexCRMConf, draftConf => {
+        setPerfexCRMConf((prevPerfexCRMConf) =>
+          create(prevPerfexCRMConf, (draftConf) => {
             draftConf.perfexCRMFields = ''
             draftConf.field_map = [{ formField: '', perfexCRMFormField: '' }]
 
@@ -67,31 +67,30 @@ export const refreshCustomFields = (perfexCRMConf, setPerfexCRMConf, setIsLoadin
     .catch(() => setIsLoading(false))
 }
 
-export const generateMappedField = perfexCRMConf => {
+export const generateMappedField = (perfexCRMConf) => {
   const requiredFlds =
     perfexCRMConf?.perfexCRMFields &&
     perfexCRMConf?.perfexCRMFields.filter(
-      fld => fld.required === true && fld.key !== 'owner' && fld.key !== 'pipeline'
+      (fld) => fld.required === true && fld.key !== 'owner' && fld.key !== 'pipeline'
     )
   return requiredFlds.length > 0
-    ? requiredFlds.map(field => ({
+    ? requiredFlds.map((field) => ({
         formField: '',
         perfexCRMFormField: field.key
       }))
     : [{ formField: '', perfexCRMFormField: '' }]
 }
 
-export const checkMappedFields = perfexCRMConf => {
+export const checkMappedFields = (perfexCRMConf) => {
   const mappedFields = perfexCRMConf?.field_map
     ? perfexCRMConf.field_map.filter(
-        mappedField =>
+        (mappedField) =>
           !mappedField.formField ||
           !mappedField.perfexCRMFormField ||
           (mappedField.formField === 'custom' && !mappedField.customValue) ||
           (mappedField.perfexCRMFormField === 'customFieldKey' && !mappedField.customFieldKey)
       )
     : []
-
   if (mappedFields.length > 0) {
     return false
   }
@@ -122,7 +121,7 @@ export const perfexCRMAuthentication = (
     domain: confTmp.domain
   }
 
-  bitsFetch(requestParams, 'perfexcrm_authentication').then(result => {
+  bitsFetch(requestParams, 'perfexcrm_authentication').then((result) => {
     if (result && result.success) {
       setIsAuthorized(true)
       setLoading({ ...loading, auth: false })
@@ -133,7 +132,10 @@ export const perfexCRMAuthentication = (
     toast.error(
       String(result?.data)
         ? result?.data
-        : __('Authorized failed, Please enter valid API Token or Access API URL', 'bit-integrations')
+        : __(
+            'Authorized failed, Please enter valid API Token or Access API URL',
+            'bit-integrations'
+          )
     )
   })
 }
@@ -146,10 +148,10 @@ export const getAllCustomer = (confTmp, setConf, loading, setLoading) => {
     domain: confTmp.domain
   }
 
-  bitsFetch(requestParams, 'perfexcrm_fetch_all_customers').then(result => {
+  bitsFetch(requestParams, 'perfexcrm_fetch_all_customers').then((result) => {
     if (result && result.success) {
-      setConf(prevConf =>
-        create(prevConf, draftConf => {
+      setConf((prevConf) =>
+        create(prevConf, (draftConf) => {
           if (result.data) {
             draftConf.customers = result.data
           }
@@ -172,10 +174,10 @@ export const getAllLeads = (confTmp, setConf, loading, setLoading) => {
     domain: confTmp.domain
   }
 
-  bitsFetch(requestParams, 'perfexcrm_fetch_all_leads').then(result => {
+  bitsFetch(requestParams, 'perfexcrm_fetch_all_leads').then((result) => {
     if (result && result.success) {
-      setConf(prevConf =>
-        create(prevConf, draftConf => {
+      setConf((prevConf) =>
+        create(prevConf, (draftConf) => {
           if (result.data) {
             draftConf.leads = result.data
           }
@@ -198,10 +200,10 @@ export const getAllStaffs = (confTmp, setConf, loading, setLoading) => {
     domain: confTmp.domain
   }
 
-  bitsFetch(requestParams, 'perfexcrm_fetch_all_staffs').then(result => {
+  bitsFetch(requestParams, 'perfexcrm_fetch_all_staffs').then((result) => {
     if (result && result.success) {
-      setConf(prevConf =>
-        create(prevConf, draftConf => {
+      setConf((prevConf) =>
+        create(prevConf, (draftConf) => {
           if (result.data) {
             draftConf.staffs = result.data
           }

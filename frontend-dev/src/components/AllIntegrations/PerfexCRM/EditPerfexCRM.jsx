@@ -91,7 +91,7 @@ function EditPerfexCRM({ allIntegURL }) {
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
         <input
           className="btcd-paper-inp w-5"
-          onChange={e => handleInput(e, perfexCRMConf, setPerfexCRMConf)}
+          onChange={(e) => handleInput(e, perfexCRMConf, setPerfexCRMConf)}
           name="name"
           value={perfexCRMConf.name}
           type="text"
@@ -104,7 +104,9 @@ function EditPerfexCRM({ allIntegURL }) {
       <PerfexCRMIntegLayout
         formID={flow.triggered_entity_id}
         formFields={formField}
-        handleInput={e => handleInput(e, perfexCRMConf, setPerfexCRMConf, setLoading, setSnackbar)}
+        handleInput={(e) =>
+          handleInput(e, perfexCRMConf, setPerfexCRMConf, setLoading, setSnackbar)
+        }
         perfexCRMConf={perfexCRMConf}
         setPerfexCRMConf={setPerfexCRMConf}
         loading={loading}
