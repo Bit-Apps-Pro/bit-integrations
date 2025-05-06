@@ -2,12 +2,12 @@
 
 namespace BitCode\FI\Triggers\WC;
 
+use BitCode\FI\Core\Util\Helper;
+use BitCode\FI\Flow\Flow;
 use WC_Booking;
 use WC_Checkout;
 use WC_Product_Simple;
-use BitCode\FI\Flow\Flow;
 use WC_Subscriptions_Product;
-use BitCode\FI\Core\Util\Helper;
 
 final class WCController
 {
@@ -600,7 +600,7 @@ final class WCController
             return false;
         }
 
-        if (isset($importType['role']) && $newData['role'] !== 'customer') {
+        if (isset($newData['role']) && $newData['role'] !== 'customer') {
             return false;
         }
         $customer_data = (array) $newData;
@@ -626,9 +626,11 @@ final class WCController
 
         $user_meta = get_userdata($customer_id);
         $user_roles = $user_meta->roles;
-        if (isset($importType['role']) && \in_array('customer', $user_roles)) {
+
+        if (!\in_array('customer', $user_roles)) {
             return false;
         }
+
         $customer_data = ['customer_id' => $customer_id];
         if (!empty($customer_id) && $flows = Flow::exists('WC', 3)) {
             Flow::execute('WC', 3, $customer_data, $flows);
@@ -885,7 +887,7 @@ final class WCController
             $data['line_items'][] = (object) $itemData;
         }
         $data['product_names'] = implode(', ', array_column($data['line_items'], 'product_name'));
-        $data['line_items_quantity'] = count($data['line_items']);
+        $data['line_items_quantity'] = \count($data['line_items']);
 
         return $data;
     }

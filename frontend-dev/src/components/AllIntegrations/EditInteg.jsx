@@ -508,6 +508,7 @@ const IntegType = memo(({ allIntegURL, flow }) => {
     case 'PerfexCRM':
       return <EditPerfexCRM allIntegURL={allIntegURL} />
     case 'SureTriggers':
+    case 'OttoKit (SureTriggers)':
       return <EditSureTriggers allIntegURL={allIntegURL} />
     case 'OneHashCRM':
       return <EditOneHashCRM allIntegURL={allIntegURL} />

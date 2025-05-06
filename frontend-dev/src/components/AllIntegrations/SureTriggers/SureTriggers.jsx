@@ -18,8 +18,8 @@ function SureTriggers({ formFields, setFlow, flow, allIntegURL }) {
   const [isLoading, setIsLoading] = useState(false)
   const { sureTriggersLinks } = tutorialLinks
   const [sureTriggers, setSureTriggers] = useState({
-    name: 'SureTriggers Web Hooks',
-    type: 'SureTriggers',
+    name: 'OttoKit (SureTriggers) Web Hooks',
+    type: 'OttoKit (SureTriggers)',
     method: 'POST',
     url: ''
   })
@@ -61,16 +61,7 @@ function SureTriggers({ formFields, setFlow, flow, allIntegURL }) {
         <WebHooksStepTwo
           step={step}
           saveConfig={() =>
-            saveIntegConfig(
-              flow,
-              setFlow,
-              allIntegURL,
-              sureTriggers,
-              navigate,
-              '',
-              '',
-              setIsLoading
-            )
+            saveIntegConfig(flow, setFlow, allIntegURL, sureTriggers, navigate, '', '', setIsLoading)
           }
           isLoading={isLoading}
         />
