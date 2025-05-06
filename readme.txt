@@ -4,7 +4,7 @@ Tags: automation,forms,integration,automator,webhooks
 Requires at least: 5.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.5.5
+Stable tag: 2.5.6
 License: GPLv2 or later
 
 Automation Plugin for WordPress. Integration of 110+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
