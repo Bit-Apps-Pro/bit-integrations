@@ -35,14 +35,13 @@ function KirimEmail({ formFields, setFlow, flow, allIntegURL }) {
     type: 'Kirim Email',
     mainAction: '',
     userName: 'vaishak',
-    api_key:
-      process.env.NODE_ENV === 'development' ? 'BUXDv7EH86lGZFVQsm5W1hgLnqcJdOSzvaishak' : '',
+    api_key: '',
     field_map: [{ formField: '', kirimEmailFormField: '' }],
     subscriberFields,
     allActions,
     actions: {}
   })
-  const nextPage = (val) => {
+  const nextPage = val => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -81,9 +80,7 @@ function KirimEmail({ formFields, setFlow, flow, allIntegURL }) {
         }}>
         <KirimEmailIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, kirimEmailConf, setKirimEmailConf, setIsLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, kirimEmailConf, setKirimEmailConf, setIsLoading, setSnackbar)}
           kirimEmailConf={kirimEmailConf}
           setKirimEmailConf={setKirimEmailConf}
           isLoading={isLoading}

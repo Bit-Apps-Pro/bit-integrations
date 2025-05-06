@@ -26,10 +26,7 @@ function SystemeIO({ formFields, setFlow, flow, allIntegURL }) {
   const [systemeIOConf, setSystemeIOConf] = useState({
     name: 'SystemeIO',
     type: 'SystemeIO',
-    api_key:
-      process.env.NODE_ENV === 'development'
-        ? '649rpkoa4945nrj36ilr4jswz2f1k6mzc50f22y527jvnlihb73s3td555h3u28i'
-        : '',
+    api_key: '',
     field_map: generateMappedField(systemeIOFields),
     actionName: 'registerPeopletoWabinar',
     systemeIOFields,
@@ -48,7 +45,7 @@ function SystemeIO({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -58,7 +55,7 @@ function SystemeIO({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)

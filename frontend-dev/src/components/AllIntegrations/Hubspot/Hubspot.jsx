@@ -27,8 +27,7 @@ function Hubspot({ formFields, setFlow, flow, allIntegURL }) {
   const [hubspotConf, setHubspotConf] = useState({
     name: 'Hubspot',
     type: 'Hubspot',
-    api_key:
-      process.env.NODE_ENV === 'development' ? 'pat-na1-728747ce-3594-48f0-801b-494f537ba7ef' : '',
+    api_key: '',
     field_map: [{ formField: '', hubspotField: '' }],
     hubSpotFields: [],
     actions: {}
@@ -47,7 +46,7 @@ function Hubspot({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     if (!checkMappedFields(hubspotConf)) {
       toast.error(__('Please map mandatory fields', 'bit-integrations'))
       return
@@ -90,9 +89,7 @@ function Hubspot({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <HubspotIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, hubspotConf, setHubspotConf, setIsLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, hubspotConf, setHubspotConf, setIsLoading, setSnackbar)}
           hubspotConf={hubspotConf}
           setHubspotConf={setHubspotConf}
           setSnackbar={setSnackbar}

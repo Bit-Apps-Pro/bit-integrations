@@ -47,8 +47,8 @@ function Groundhogg({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Groundhogg',
     type: 'Groundhogg',
     domainName: siteURL,
-    token: process.env.NODE_ENV === 'development' ? 'e2a493a79dd63d4f883f0e25deb3ccd3' : '',
-    public_key: process.env.NODE_ENV === 'development' ? '7bbe502000a6279ed55582e786ff2acb' : '',
+    token: '',
+    public_key: '',
     id: '',
     mainAction: '',
     addTagToUser: '',
@@ -121,7 +121,7 @@ function Groundhogg({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <GroundhoggIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
+          handleInput={e =>
             handleInput(e, groundhoggConf, setGroundhoggConf, formID, setIsLoading, setSnackbar)
           }
           groundhoggConf={groundhoggConf}

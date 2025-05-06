@@ -20,15 +20,9 @@ function Mautic({ formFields, setFlow, flow, allIntegURL }) {
   const [mauticConf, setMauticConf] = useState({
     name: 'Mautic',
     type: 'Mautic',
-    clientId:
-      process.env.NODE_ENV === 'development'
-        ? '1_30g9s9iz2ugw40og8gwcoow0sskksgwgkw4kk8gw0os0w44kk0'
-        : '',
-    clientSecret:
-      process.env.NODE_ENV === 'development'
-        ? '61ie9cvvhcw0oo4osgc0sssg4s04osws8kgggsoskss4k4w8c4'
-        : '',
-    baseUrl: process.env.NODE_ENV === 'development' ? 'https://mautic.dev.bitcode.pro' : '',
+    clientId: '',
+    clientSecret: '',
+    baseUrl: '',
     field_map: [{ formField: '', mauticField: '' }],
     actions: {}
   })
@@ -68,12 +62,10 @@ function Mautic({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
         <MauticIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, mauticConf, setMauticConf, setIsLoading, setSnackbar)}
+          handleInput={e => handleInput(e, mauticConf, setMauticConf, setIsLoading, setSnackbar)}
           mauticConf={mauticConf}
           setMauticConf={setMauticConf}
           isLoading={isLoading}

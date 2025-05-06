@@ -23,14 +23,11 @@ function SendinBlue({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Brevo(Sendinblue)',
     type: 'Brevo(Sendinblue)',
     lists: [],
-    api_key:
-      process.env.NODE_ENV === 'development'
-        ? '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'
-        : '',
+    api_key: '',
     field_map: [{ formField: '', sendinBlueField: '' }],
     actions: {}
   })
-  const nextPage = (val) => {
+  const nextPage = val => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -77,9 +74,7 @@ function SendinBlue({ formFields, setFlow, flow, allIntegURL }) {
         setSnackbar={setSnackbar}
       />
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
         <SendinBlueIntegLayout
           formID={formID}
           formFields={formFields}
@@ -105,16 +100,7 @@ function SendinBlue({ formFields, setFlow, flow, allIntegURL }) {
       <IntegrationStepThree
         step={step}
         saveConfig={() =>
-          saveIntegConfig(
-            flow,
-            setFlow,
-            allIntegURL,
-            sendinBlueConf,
-            navigate,
-            '',
-            '',
-            setIsLoading
-          )
+          saveIntegConfig(flow, setFlow, allIntegURL, sendinBlueConf, navigate, '', '', setIsLoading)
         }
         isLoading={isLoading}
         dataConf={sendinBlueConf}

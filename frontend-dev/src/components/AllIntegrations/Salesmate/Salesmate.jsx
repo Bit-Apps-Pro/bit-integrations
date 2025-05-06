@@ -24,9 +24,8 @@ function Salesmate({ formFields, setFlow, flow, allIntegURL }) {
   const [salesmateConf, setSalesmateConf] = useState({
     name: 'Salesmate',
     type: 'Salesmate',
-    session_token:
-      process.env.NODE_ENV === 'development' ? 'a2e39d10-b9d2-11ed-8056-0d118e2d3ff7' : '',
-    link_name: process.env.NODE_ENV === 'development' ? 'bitcode' : '',
+    session_token: '',
+    link_name: '',
     field_map: [{ formField: '', salesmateFormField: '' }],
     actionName: '',
     actionId: '',
@@ -46,7 +45,7 @@ function Salesmate({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -56,7 +55,7 @@ function Salesmate({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -113,9 +112,7 @@ function Salesmate({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <SalesmateIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, salesmateConf, setSalesmateConf, setLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, salesmateConf, setSalesmateConf, setLoading, setSnackbar)}
           salesmateConf={salesmateConf}
           setSalesmateConf={setSalesmateConf}
           loading={loading}

@@ -99,10 +99,7 @@ function Zendesk({ formFields, setFlow, flow, allIntegURL }) {
   const [zendeskConf, setZendeskConf] = useState({
     name: 'Zendesk',
     type: 'Zendesk',
-    api_key:
-      process.env.NODE_ENV === 'development'
-        ? '8259c4ba5798d7005e5d2f2a3ea8e57de2013439ed4a0720f0cfcaf4bc4095a5'
-        : '',
+    api_key: '',
     field_map: [{ formField: '', zendeskFormField: '' }],
     actionName: '',
     organizationFields,

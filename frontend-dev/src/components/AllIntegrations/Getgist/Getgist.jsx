@@ -35,10 +35,7 @@ function Getgist({ formFields, setFlow, flow, allIntegURL }) {
   const [getgistConf, setGetgistConf] = useState({
     name: 'Getgist',
     type: 'Getgist',
-    api_key:
-      process.env.NODE_ENV === 'development'
-        ? 'vpzw4rMLCjo0Crs9GG+EGla3rC+ojHBCT5XFZRyS6Z+DR1Eq2vcTDsqIR6TgwVY70u4='
-        : '',
+    api_key: '',
     field_map: [{ formField: '', getgistFormField: '' }],
     actions: {},
     gistFields: fields
@@ -56,7 +53,7 @@ function Getgist({ formFields, setFlow, flow, allIntegURL }) {
       setSnackbar
     })
   }
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -93,7 +90,7 @@ function Getgist({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <GetgistIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, getgistConf, setGetgistConf, setIsLoading)}
+          handleInput={e => handleInput(e, getgistConf, setGetgistConf, setIsLoading)}
           getgistConf={getgistConf}
           setGetgistConf={setGetgistConf}
           isLoading={isLoading}

@@ -30,7 +30,7 @@ function Acumbamail({ formFields, setFlow, flow, allIntegURL }) {
     type: 'Acumbamail',
     mainAction: '',
     listId: '',
-    auth_token: process.env.NODE_ENV === 'development' ? 'sPz60EL4hoaRHJVYFSpV' : '',
+    auth_token: '',
     field_map: [{ formField: '', acumbamailFormField: 'EMAIL' }],
     addSubsCriberFields,
     allActions,
@@ -78,7 +78,7 @@ function Acumbamail({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <AcumbamailIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
+          handleInput={e =>
             handleInput(e, acumbamailConf, setAcumbamailConf, setIsLoading, setSnackbar, formID)
           }
           acumbamailConf={acumbamailConf}

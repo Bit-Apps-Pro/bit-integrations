@@ -35,14 +35,8 @@ function Salesforce({ formFields, setFlow, flow, allIntegURL }) {
   const [salesforceConf, setSalesforceConf] = useState({
     name: 'Salesforce',
     type: 'Salesforce',
-    clientId:
-      process.env.NODE_ENV === 'development'
-        ? '3MVG9fe4g9fhX0E44ebIn.zn5KgPBKCuDGqLDPSpP5dIg8pf3XIPRMooVLLpLp5UvPMWegD00Vv_PE4_oQLGN'
-        : '',
-    clientSecret:
-      process.env.NODE_ENV === 'development'
-        ? '558BA6981F35209E3A89F617BD25C017E6354188F3C8C776E76EF116307AB522'
-        : '',
+    clientId: '',
+    clientSecret: '',
     field_map: [{ formField: '', selesforceField: '' }],
     selesforceActionModules: action_modules,
     action_modules,
@@ -62,7 +56,7 @@ function Salesforce({ formFields, setFlow, flow, allIntegURL }) {
     'case-create'
   ].includes(salesforceConf?.actionName)
 
-  const nextPage = (val) => {
+  const nextPage = val => {
     if (checkedActionFieldsMapType && !checkMappedFields(salesforceConf)) {
       toast.error('Please map mandatory fields !')
       return
@@ -102,13 +96,11 @@ function Salesforce({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
         <SelesforceIntegLayout
           formID={formID}
           formFields={formFields}
-          handleInput={(e) =>
+          handleInput={e =>
             handleInput(e, salesforceConf, setSalesforceConf, formID, setIsLoading, setSnackbar)
           }
           salesforceConf={salesforceConf}

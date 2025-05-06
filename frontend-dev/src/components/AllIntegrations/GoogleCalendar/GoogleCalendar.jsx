@@ -30,12 +30,8 @@ function GoogleCalendar({ formFields, setFlow, flow, allIntegURL }) {
   const [googleCalendarConf, setGoogleCalendarConf] = useState({
     name: 'Google Calendar',
     type: 'Google Calendar',
-    clientId:
-      process.env.NODE_ENV === 'development'
-        ? '169745940494-ambvaatv48bcnoebo0cqqg6u4427mbcf.apps.googleusercontent.com'
-        : '',
-    clientSecret:
-      process.env.NODE_ENV === 'development' ? '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' : '',
+    clientId: '',
+    clientSecret: '',
     field_map: [{ formField: '', googleCalendarFormField: '' }],
     reminder_field_map: [{ method: 'popup', minutes: '30' }],
     default: defaultCalendarFields,
@@ -112,8 +108,7 @@ function GoogleCalendar({ formFields, setFlow, flow, allIntegURL }) {
           }
           className="btn ml-auto btcd-btn-lg purple sh-sm flx"
           type="button">
-          {__('Next', 'bit-integrations')}{' '}
-          <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
+          {__('Next', 'bit-integrations')} <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
         </button>
       </div>
     </div>

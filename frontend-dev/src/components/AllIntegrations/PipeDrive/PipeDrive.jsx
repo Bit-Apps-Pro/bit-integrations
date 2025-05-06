@@ -22,8 +22,7 @@ function PipeDrive({ formFields, setFlow, flow, allIntegURL }) {
   const [pipeDriveConf, setPipeDriveConf] = useState({
     name: 'PipeDrive',
     type: 'PipeDrive',
-    api_key:
-      process.env.NODE_ENV === 'development' ? '58cd3b665628da407ba7b400909ceb2ebf84c772' : '',
+    api_key: '',
     default: {
       modules: {
         Leads: {
@@ -51,12 +50,7 @@ function PipeDrive({ formFields, setFlow, flow, allIntegURL }) {
         Persons: {
           required: true,
           requiredFields: ['name'],
-          relatedlists: [
-            { name: 'Activities' },
-            { name: 'Deals' },
-            { name: 'Leads' },
-            { name: 'Notes' }
-          ]
+          relatedlists: [{ name: 'Activities' }, { name: 'Deals' }, { name: 'Leads' }, { name: 'Notes' }]
         },
         Products: {
           requiredFields: ['name']
@@ -84,7 +78,7 @@ function PipeDrive({ formFields, setFlow, flow, allIntegURL }) {
       setSnackbar
     })
   }
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -136,7 +130,7 @@ function PipeDrive({ formFields, setFlow, flow, allIntegURL }) {
           settab={settab}
           formID={formID}
           formFields={formFields}
-          handleInput={(e) =>
+          handleInput={e =>
             handleInput(e, tab, pipeDriveConf, setPipeDriveConf, formID, setIsLoading, setSnackbar)
           }
           pipeDriveConf={pipeDriveConf}

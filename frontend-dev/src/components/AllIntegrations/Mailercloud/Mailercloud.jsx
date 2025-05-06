@@ -19,10 +19,7 @@ function Mailercloud({ formFields, setFlow, flow, allIntegURL }) {
   const [mailercloudConf, setMailercloudConf] = useState({
     name: 'Mailercloud',
     type: 'Mailercloud',
-    authKey:
-      process.env.NODE_ENV === 'development'
-        ? 'bxYcg-12c3341e0a6a661d6c6aa19d6b2f6f3e-0a996276fb753a6d2408e62226380d31'
-        : '',
+    authKey: '',
     field_map: [{ formFields: '', mailercloudFormField: '' }],
     listId: '',
     contactType: '',
@@ -46,7 +43,7 @@ function Mailercloud({ formFields, setFlow, flow, allIntegURL }) {
     //   { key: 'zip', label: 'Zip', required: false },
     // ],
   })
-  const setSavePageLoad = (value) => {
+  const setSavePageLoad = value => {
     setLoading({ ...loading, page: value })
   }
   return (

@@ -23,7 +23,7 @@ function Nimble({ formFields, setFlow, flow, allIntegURL }) {
   const [nimbleConf, setNimbleConf] = useState({
     name: 'Nimble',
     type: 'Nimble',
-    api_key: process.env.NODE_ENV === 'development' ? 't8KX44qoxEKGQ2B1MGQi8f6XxLWlsY' : '',
+    api_key: '',
     field_map: [{ formField: '', nimbleFormField: '' }],
     actionName: '',
     actions: {}
@@ -31,17 +31,8 @@ function Nimble({ formFields, setFlow, flow, allIntegURL }) {
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      nimbleConf,
-      navigate,
-      '',
-      '',
-      setIsLoading
-    )
-    resp.then((res) => {
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, nimbleConf, navigate, '', '', setIsLoading)
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -51,7 +42,7 @@ function Nimble({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)

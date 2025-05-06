@@ -41,10 +41,8 @@ function Rapidmail({ formFields, setFlow, flow, allIntegURL }) {
   const [rapidmailConf, setRapidmailConf] = useState({
     name: 'Rapidmail',
     type: 'Rapidmail',
-    username:
-      process.env.NODE_ENV === 'development' ? '3794a7c6ad7cc48871b97c2b68f328e374a089d2' : '',
-    password:
-      process.env.NODE_ENV === 'development' ? 'd7db58d60026707dc677fd5b240e9de4b5bd7841' : '',
+    username: '',
+    password: '',
     field_map: [{ formField: '', rapidmailFormField: '' }],
     recipientsFields,
     actions: {
@@ -64,7 +62,7 @@ function Rapidmail({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         // setSnackbar({ show: true, msg: res.data?.msg })
         toast.success(res.data?.msg)
@@ -75,7 +73,7 @@ function Rapidmail({ formFields, setFlow, flow, allIntegURL }) {
       }
     })
   }
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -113,9 +111,7 @@ function Rapidmail({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <RapidmailIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, rapidmailConf, setRapidmailConf, setIsLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, rapidmailConf, setRapidmailConf, setIsLoading, setSnackbar)}
           rapidmailConf={rapidmailConf}
           setRapidmailConf={setRapidmailConf}
           isLoading={isLoading}

@@ -42,11 +42,8 @@ function GoogleContacts({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Google Contacts',
     type: 'Google Contacts',
     mainAction: '',
-    clientId:
-      process.env.NODE_ENV === 'development'
-        ? '266670391931-688o26jcfb8iqqos8fvlusqifmjtv2on.apps.googleusercontent.com'
-        : '',
-    clientSecret: process.env.NODE_ENV === 'development' ? '1M7oVG0Y_4kjvnNnxe2b0Xyi' : '',
+    clientId: '',
+    clientSecret: '',
     field_map: [{ formField: '', googleContactsFormField: '' }],
     default: defaultContactsFields,
     allActions,

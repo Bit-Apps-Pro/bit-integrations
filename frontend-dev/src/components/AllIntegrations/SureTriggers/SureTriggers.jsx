@@ -21,10 +21,7 @@ function SureTriggers({ formFields, setFlow, flow, allIntegURL }) {
     name: 'SureTriggers Web Hooks',
     type: 'SureTriggers',
     method: 'POST',
-    url:
-      process.env.NODE_ENV === 'development'
-        ? 'https://connect.sureTriggers.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D'
-        : ''
+    url: ''
   })
 
   return (

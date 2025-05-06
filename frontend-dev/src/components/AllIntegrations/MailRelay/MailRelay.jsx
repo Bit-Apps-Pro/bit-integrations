@@ -41,9 +41,8 @@ function MailRelay({ formFields, setFlow, flow, allIntegURL }) {
   const [mailRelayConf, setMailRelayConf] = useState({
     name: 'MailRelay',
     type: 'MailRelay',
-    auth_token:
-      process.env.NODE_ENV === 'development' ? 'GyZVAYGYgcBg2pszujYt43iCuxBMk_xBMcCu5KBw' : '',
-    domain: process.env.NODE_ENV === 'development' ? 'bitapps' : '',
+    auth_token: '',
+    domain: '',
     field_map: [{ formField: '', mailRelayFormField: '' }],
     staticFields,
     status: '',
@@ -65,7 +64,7 @@ function MailRelay({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -75,7 +74,7 @@ function MailRelay({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -117,9 +116,7 @@ function MailRelay({ formFields, setFlow, flow, allIntegURL }) {
         }}>
         <MailRelayIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, mailRelayConf, setMailRelayConf, setLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, mailRelayConf, setMailRelayConf, setLoading, setSnackbar)}
           mailRelayConf={mailRelayConf}
           setMailRelayConf={setMailRelayConf}
           loading={loading}

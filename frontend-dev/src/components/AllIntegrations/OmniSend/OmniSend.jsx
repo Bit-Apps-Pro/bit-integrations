@@ -89,10 +89,7 @@ function OmniSend({ formFields, setFlow, flow, allIntegURL }) {
   const [omniSendConf, setOmniSendConf] = useState({
     name: 'OmniSend',
     type: 'OmniSend',
-    api_key:
-      process.env.NODE_ENV === 'development'
-        ? '6368ea4de67810becfd7638c-TeHA6oan0eO092kBbJh0BiepvUYzn5sehgbbSfhO4hXgPLax1v'
-        : '',
+    api_key: '',
     field_map: generateMappedField(omniSendFields),
     custom_field_map: [{ formField: '', omniSendFormField: '' }],
     channels: '',

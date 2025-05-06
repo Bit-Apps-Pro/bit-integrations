@@ -53,9 +53,8 @@ function NutshellCRM({ formFields, setFlow, flow, allIntegURL }) {
   const [nutshellCRMConf, setNutshellCRMConf] = useState({
     name: 'NutshellCRM',
     type: 'NutshellCRM',
-    user_name: process.env.NODE_ENV === 'development' ? 'niloy@bitcode.pro' : '',
-    api_token:
-      process.env.NODE_ENV === 'development' ? '040b25bff9834b573b51c500e6489ca714d8bcf6' : '',
+    user_name: '',
+    api_token: '',
     field_map: [{ formField: '', nutshellCRMFormField: '' }],
     actionName: '',
     actionId: '',
@@ -77,7 +76,7 @@ function NutshellCRM({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -87,7 +86,7 @@ function NutshellCRM({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -124,9 +123,7 @@ function NutshellCRM({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <NutshellCRMIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, nutshellCRMConf, setNutshellCRMConf, setLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, nutshellCRMConf, setNutshellCRMConf, setLoading, setSnackbar)}
           nutshellCRMConf={nutshellCRMConf}
           setNutshellCRMConf={setNutshellCRMConf}
           loading={loading}

@@ -80,11 +80,8 @@ function PerfexCRM({ formFields, setFlow, flow, allIntegURL }) {
   const [perfexCRMConf, setPerfexCRMConf] = useState({
     name: 'PerfexCRM',
     type: 'PerfexCRM',
-    api_token:
-      process.env.NODE_ENV === 'development'
-        ? 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiIiwibmFtZSI6IlRlc3QiLCJBUElfVElNRSI6MTY4OTQ4NzExOH0.sdDrgh19H08sLvpL8ArvT-rZvv_QP9KtoSLCAtOEyXM'
-        : '',
-    domain: process.env.NODE_ENV === 'development' ? 'https://bit.nandocardoso.com.br' : '',
+    api_token: '',
+    domain: '',
     field_map: [{ formField: '', perfexCRMFormField: '' }],
     actionName: '',
     selectedLeadSourceId: 1,
@@ -109,7 +106,7 @@ function PerfexCRM({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -119,7 +116,7 @@ function PerfexCRM({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -196,9 +193,7 @@ function PerfexCRM({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <PerfexCRMIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, perfexCRMConf, setPerfexCRMConf, setLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, perfexCRMConf, setPerfexCRMConf, setLoading, setSnackbar)}
           perfexCRMConf={perfexCRMConf}
           setPerfexCRMConf={setPerfexCRMConf}
           loading={loading}

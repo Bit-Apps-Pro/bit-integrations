@@ -21,10 +21,7 @@ function WPFusion({ formFields, setFlow, flow, allIntegURL }) {
     name: 'WPFusion Web Hooks',
     type: 'WPFusion',
     method: 'POST',
-    url:
-      process.env.NODE_ENV === 'development'
-        ? 'https://connect.wpFusion.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D'
-        : ''
+    url: ''
   })
 
   return (
@@ -41,9 +38,7 @@ function WPFusion({ formFields, setFlow, flow, allIntegURL }) {
         {wpFusionLinks?.youTubeLink && (
           <TutorialLink title="WP Fusion" youTubeLink={wpFusionLinks?.youTubeLink} />
         )}
-        {wpFusionLinks?.docLink && (
-          <TutorialLink title="WP Fusion" docLink={wpFusionLinks?.docLink} />
-        )}
+        {wpFusionLinks?.docLink && <TutorialLink title="WP Fusion" docLink={wpFusionLinks?.docLink} />}
 
         <WebHooksIntegration
           formID={formID}

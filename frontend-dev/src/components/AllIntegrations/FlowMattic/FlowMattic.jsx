@@ -21,10 +21,7 @@ function FlowMattic({ formFields, setFlow, flow, allIntegURL }) {
     name: 'FlowMattic Web Hooks',
     type: 'FlowMattic',
     method: 'POST',
-    url:
-      process.env.NODE_ENV === 'development'
-        ? 'https://connect.flowMattic.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D'
-        : ''
+    url: ''
   })
 
   return (

@@ -21,10 +21,7 @@ function Albato({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Albato Web Hooks',
     type: 'Albato',
     method: 'POST',
-    url:
-      process.env.NODE_ENV === 'development'
-        ? 'https://connect.albato.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D'
-        : '',
+    url: '',
     apiConsole: 'https://albato.com/app/bundle'
   })
 

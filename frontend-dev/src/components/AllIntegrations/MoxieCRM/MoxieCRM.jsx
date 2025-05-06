@@ -72,11 +72,8 @@ function MoxieCRM({ formFields, setFlow, flow, allIntegURL }) {
   const [moxiecrmConf, setMoxieCRMConf] = useState({
     name: 'MoxieCRM',
     type: 'MoxieCRM',
-    api_key:
-      process.env.NODE_ENV === 'development'
-        ? '650812eea4abf602e48784f4.bb61de27cab66b7943d78f039cb108ea1a53e7b6c839754a3b4f7c824d4c5d45'
-        : '',
-    api_url: process.env.NODE_ENV === 'development' ? 'pod01.withmoxie.com' : '',
+    api_key: '',
+    api_url: '',
     field_map: [{ formField: '', moxiecrmFormField: '' }],
     actionName: '',
     clientFields,
@@ -97,7 +94,7 @@ function MoxieCRM({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -107,7 +104,7 @@ function MoxieCRM({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -144,9 +141,7 @@ function MoxieCRM({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <MoxieCRMIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, moxiecrmConf, setMoxieCRMConf, setLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, moxiecrmConf, setMoxieCRMConf, setLoading, setSnackbar)}
           moxiecrmConf={moxiecrmConf}
           setMoxieCRMConf={setMoxieCRMConf}
           loading={loading}

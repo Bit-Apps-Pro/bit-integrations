@@ -23,8 +23,8 @@ function PCloud({ formFields, setFlow, flow, allIntegURL }) {
   const [pCloudConf, setPCloudConf] = useState({
     name: 'PCloud',
     type: 'PCloud',
-    clientId: process.env.NODE_ENV === 'development' ? 'AhqlFhr1Dnk' : '',
-    clientSecret: process.env.NODE_ENV === 'development' ? 'wsWwLNCI3nLiQlJVMYFry0V1rJg7' : '',
+    clientId: '',
+    clientSecret: '',
     field_map: [{ formField: '', pCloudFormField: '' }],
     foldersList: [],
     actions: {}
@@ -87,8 +87,7 @@ function PCloud({ formFields, setFlow, flow, allIntegURL }) {
           disabled={!checkMappedFields(pCloudConf)}
           className="btn f-right btcd-btn-lg purple sh-sm flx"
           type="button">
-          {__('Next', 'bit-integrations')}{' '}
-          <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
+          {__('Next', 'bit-integrations')} <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
         </button>
       </div>
 

@@ -80,8 +80,8 @@ function CompanyHub({ formFields, setFlow, flow, allIntegURL }) {
   const [companyHubConf, setCompanyHubConf] = useState({
     name: 'CompanyHub',
     type: 'CompanyHub',
-    sub_domain: process.env.NODE_ENV === 'development' ? 'bitcode' : '',
-    api_key: process.env.NODE_ENV === 'development' ? 'Q0t71Oef8Y9yHj2JLayU' : '',
+    sub_domain: '',
+    api_key: '',
     field_map: [{ formField: '', companyHubFormField: '' }],
     actionName: '',
     contactFields,
@@ -102,7 +102,7 @@ function CompanyHub({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -112,7 +112,7 @@ function CompanyHub({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)

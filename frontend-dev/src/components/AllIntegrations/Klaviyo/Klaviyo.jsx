@@ -19,7 +19,7 @@ function Klaviyo({ formFields, setFlow, flow, allIntegURL }) {
   const [klaviyoConf, setKlaviyoConf] = useState({
     name: 'Klaviyo',
     type: 'Klaviyo',
-    authKey: process.env.NODE_ENV === 'development' ? 'pk_d8b5b0537a0358d781f72a474efab0f36e' : '',
+    authKey: '',
     field_map: [{ formField: '', klaviyoFormField: '' }],
     custom_field_map: [{ formField: '', klaviyoFormField: '' }],
     klaviyoFields: [
@@ -76,9 +76,7 @@ function Klaviyo({ formFields, setFlow, flow, allIntegURL }) {
 
       <IntegrationStepThree
         step={step}
-        saveConfig={() =>
-          saveConfig(flow, setFlow, allIntegURL, klaviyoConf, navigate, setIsLoading)
-        }
+        saveConfig={() => saveConfig(flow, setFlow, allIntegURL, klaviyoConf, navigate, setIsLoading)}
         isLoading={isLoading}
         dataConf={klaviyoConf}
         setDataConf={setKlaviyoConf}

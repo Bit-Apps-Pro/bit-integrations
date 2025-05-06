@@ -32,10 +32,7 @@ function HighLevel({ formFields, setFlow, flow, allIntegURL }) {
   const [highLevelConf, setHighLevelConf] = useState({
     name: 'GoHighLevel',
     type: 'GoHighLevel',
-    api_key:
-      process.env.NODE_ENV === 'development'
-        ? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6IlBqM1lwWkE2bHZTcmhBYlZ4dDRWIiwidmVyc2lvbiI6MSwiaWF0IjoxNzI2MzkxMjM1NTQwLCJzdWIiOiJORHFMUmNBT1ZSU2xPbTFrTUlLZiJ9.N8u68mUJxmmFHIozCtJCoIgCnxq9D-uipGIZFDYMe1w'
-        : '',
+    api_key: '',
     field_map: [{ formField: '', highLevelField: '' }],
     actions: {},
     tags: [],
@@ -58,7 +55,7 @@ function HighLevel({ formFields, setFlow, flow, allIntegURL }) {
     selectedOpportunity: ''
   })
 
-  const nextPage = (val) => {
+  const nextPage = val => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -143,9 +140,7 @@ function HighLevel({ formFields, setFlow, flow, allIntegURL }) {
         setLoading={setLoading}
       />
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
         <HighLevelIntegLayout
           formID={formID}
           formFields={formFields}

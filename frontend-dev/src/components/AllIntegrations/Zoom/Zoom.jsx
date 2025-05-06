@@ -21,8 +21,8 @@ function Zoom({ formFields, setFlow, flow, allIntegURL }) {
   const [zoomConf, setZoomConf] = useState({
     name: 'Zoom',
     type: 'Zoom',
-    clientId: process.env.NODE_ENV === 'development' ? 'xjnkttIRUONUAlObRmZIQ' : '',
-    clientSecret: process.env.NODE_ENV === 'development' ? 'h0GkOp58bi64nPsEkS8ZGLpszBbAtR6n' : '',
+    clientId: '',
+    clientSecret: '',
     zoomId: '',
     field_map: [{ formField: '', zoomField: '' }],
     zoomFields: [],
@@ -78,9 +78,7 @@ function Zoom({ formFields, setFlow, flow, allIntegURL }) {
         <ZoomIntegLayout
           formID={formID}
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, zoomConf, setZoomConf, formID, setIsLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, zoomConf, setZoomConf, formID, setIsLoading, setSnackbar)}
           zoomConf={zoomConf}
           setZoomConf={setZoomConf}
           isLoading={isLoading}

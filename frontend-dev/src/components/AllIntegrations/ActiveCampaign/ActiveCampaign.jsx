@@ -21,15 +21,12 @@ function ActiveCampaign({ formFields, setFlow, flow, allIntegURL }) {
   const [activeCampaingConf, setActiveCampaingConf] = useState({
     name: 'Active Campaign',
     type: 'ActiveCampaign',
-    api_url: process.env.NODE_ENV === 'development' ? 'https://furnato.activehosted.com' : '',
-    api_key:
-      process.env.NODE_ENV === 'development'
-        ? 'b2b11fa4ba55b77e5d31bcc7f1ce36461efc523c3fe1536d0f37e05892c15a924e705a5f'
-        : '',
+    api_url: '',
+    api_key: '',
     field_map: [{ formField: '', activeCampaignField: '' }],
     actions: {}
   })
-  const nextPage = (val) => {
+  const nextPage = val => {
     // setIsLoading(true)
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
@@ -70,9 +67,7 @@ function ActiveCampaign({ formFields, setFlow, flow, allIntegURL }) {
         setSnackbar={setSnackbar}
       />
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
         <ActiveCampaignIntegLayout
           formID={formID}
           formFields={formFields}
@@ -96,16 +91,7 @@ function ActiveCampaign({ formFields, setFlow, flow, allIntegURL }) {
       <IntegrationStepThree
         step={step}
         saveConfig={() =>
-          saveIntegConfig(
-            flow,
-            setFlow,
-            allIntegURL,
-            activeCampaingConf,
-            navigate,
-            '',
-            '',
-            setIsLoading
-          )
+          saveIntegConfig(flow, setFlow, allIntegURL, activeCampaingConf, navigate, '', '', setIsLoading)
         }
         isLoading={isLoading}
         dataConf={activeCampaingConf}

@@ -45,7 +45,7 @@ function ClinchPad({ formFields, setFlow, flow, allIntegURL }) {
   const [clinchPadConf, setClinchPadConf] = useState({
     name: 'ClinchPad',
     type: 'ClinchPad',
-    api_key: process.env.NODE_ENV === 'development' ? '18c5716c8f83c95dbef6107fb6fffbb1' : '',
+    api_key: '',
     field_map: [{ formField: '', clinchPadFormField: '' }],
     actionName: '',
     organizationFields,
@@ -66,7 +66,7 @@ function ClinchPad({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -76,7 +76,7 @@ function ClinchPad({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -120,9 +120,7 @@ function ClinchPad({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <ClinchPadIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, clinchPadConf, setClinchPadConf, setLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, clinchPadConf, setClinchPadConf, setLoading, setSnackbar)}
           clinchPadConf={clinchPadConf}
           setClinchPadConf={setClinchPadConf}
           loading={loading}

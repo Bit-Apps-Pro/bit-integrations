@@ -28,16 +28,13 @@ function Notion({ formFields, setFlow, flow, allIntegURL }) {
   const [notionConf, setNotionConf] = useState({
     name: 'Notion',
     type: 'Notion',
-    clientId: process.env.NODE_ENV === 'development' ? '3666dc6d-8e41-4e04-b0d7-c652b0fccfaa' : '',
-    clientSecret:
-      process.env.NODE_ENV === 'development'
-        ? 'secret_hU4uEb602cEHr8F9r612UBcNfSDJBcn6uXod7F262c8'
-        : '',
+    clientId: '',
+    clientSecret: '',
     databaseId: '',
     field_map: [{ formFields: '', notionFormFields: '' }],
     notionFields: ''
   })
-  const setSavePageLoad = (value) => {
+  const setSavePageLoad = value => {
     setLoading({ ...loading, page: value })
   }
 

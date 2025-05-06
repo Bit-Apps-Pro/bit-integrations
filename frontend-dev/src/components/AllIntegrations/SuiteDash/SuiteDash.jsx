@@ -24,11 +24,8 @@ function SuiteDash({ formFields, setFlow, flow, allIntegURL }) {
   const [suiteDashConf, setSuiteDashConf] = useState({
     name: 'SuiteDash',
     type: 'SuiteDash',
-    public_id: process.env.NODE_ENV === 'development' ? '994665df-dd08-4e9d-9d40-fa510ef31ac8' : '',
-    secret_key:
-      process.env.NODE_ENV === 'development'
-        ? '$2y$13$WZy9preZCG5DO3Vhj3..N.hiyHnRn2QHkEkQClwrYYeYzsYPx0JPG'
-        : '',
+    public_id: '',
+    secret_key: '',
     field_map: [{ formField: '', suiteDashFormField: '' }],
     actionName: '',
     suiteDashFields: [],
@@ -47,7 +44,7 @@ function SuiteDash({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -57,7 +54,7 @@ function SuiteDash({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)

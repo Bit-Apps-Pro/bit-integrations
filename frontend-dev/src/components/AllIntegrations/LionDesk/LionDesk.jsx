@@ -48,10 +48,8 @@ function LionDesk({ formFields, setFlow, flow, allIntegURL }) {
   const [lionDeskConf, setLionDeskConf] = useState({
     name: 'LionDesk',
     type: 'LionDesk',
-    clientId:
-      process.env.NODE_ENV === 'development' ? '6a245650854440d0dada1f57df066852a0bc3cef' : '',
-    clientSecret:
-      process.env.NODE_ENV === 'development' ? '6109fe54a44160eb8ded60a94d7d74c725622fb5' : '',
+    clientId: '',
+    clientSecret: '',
     field_map: [{ formField: '', lionDeskFormField: '' }],
     actionName: '',
     actionId: '',
@@ -76,7 +74,7 @@ function LionDesk({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -86,7 +84,7 @@ function LionDesk({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -123,9 +121,7 @@ function LionDesk({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <LionDeskIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, lionDeskConf, setLionDeskConf, setLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, lionDeskConf, setLionDeskConf, setLoading, setSnackbar)}
           lionDeskConf={lionDeskConf}
           setLionDeskConf={setLionDeskConf}
           loading={loading}

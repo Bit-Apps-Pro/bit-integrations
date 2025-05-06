@@ -21,9 +21,8 @@ function ZohoDesk({ formFields, setFlow, flow, allIntegURL }) {
   const [deskConf, setDeskConf] = useState({
     name: 'Zoho Desk',
     type: 'Zoho Desk',
-    clientId: process.env.NODE_ENV === 'development' ? '1000.KY0PGSWT3ZVY841014BSQYV1K1C4XH' : '',
-    clientSecret:
-      process.env.NODE_ENV === 'development' ? '97fd44705c7bb79b51eae4d220d2c66a7c1d3fe59e' : '',
+    clientId: '',
+    clientSecret: '',
     orgId: '',
     department: '',
     field_map: [{ formField: '', zohoFormField: '' }],
@@ -33,7 +32,7 @@ function ZohoDesk({ formFields, setFlow, flow, allIntegURL }) {
     window.opener && setGrantTokenResponse('zohoDesk')
   }, [])
 
-  const nextPage = (val) => {
+  const nextPage = val => {
     if (val === 3) {
       if (!checkMappedFields(deskConf)) {
         setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
@@ -76,15 +75,11 @@ function ZohoDesk({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
         <ZohoDeskIntegLayout
           formID={formID}
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, deskConf, setDeskConf, formID, setIsLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, deskConf, setDeskConf, formID, setIsLoading, setSnackbar)}
           deskConf={deskConf}
           setDeskConf={setDeskConf}
           isLoading={isLoading}
@@ -94,9 +89,7 @@ function ZohoDesk({ formFields, setFlow, flow, allIntegURL }) {
 
         <button
           onClick={() => nextPage(3)}
-          disabled={
-            deskConf.department === '' || deskConf.table === '' || deskConf.field_map.length < 1
-          }
+          disabled={deskConf.department === '' || deskConf.table === '' || deskConf.field_map.length < 1}
           className="btn f-right btcd-btn-lg purple sh-sm flx"
           type="button">
           {__('Next', 'bit-integrations')}

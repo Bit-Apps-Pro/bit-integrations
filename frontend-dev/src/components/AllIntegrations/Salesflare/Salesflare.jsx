@@ -62,8 +62,7 @@ function Salesflare({ formFields, setFlow, flow, allIntegURL }) {
   const [salesflareConf, setSalesflareConf] = useState({
     name: 'Salesflare',
     type: 'Salesflare',
-    api_key:
-      process.env.NODE_ENV === 'development' ? 'qL2oAebEsF6UM-QZ84t6WgeYm4aBQ1cwkPPOQfwDPM_wD' : '',
+    api_key: '',
     field_map: [{ formField: '', salesflareFormField: '' }],
     actionName: '',
     actionId: '',
@@ -85,7 +84,7 @@ function Salesflare({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -95,7 +94,7 @@ function Salesflare({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -147,9 +146,7 @@ function Salesflare({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <SalesflareIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, salesflareConf, setSalesflareConf, setLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, salesflareConf, setSalesflareConf, setLoading, setSnackbar)}
           salesflareConf={salesflareConf}
           setSalesflareConf={setSalesflareConf}
           loading={loading}

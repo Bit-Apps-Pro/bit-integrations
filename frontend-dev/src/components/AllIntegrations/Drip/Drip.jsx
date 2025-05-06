@@ -27,7 +27,7 @@ function Drip({ formFields, setFlow, flow, allIntegURL }) {
   const [dripConf, setDripConf] = useState({
     name: 'Drip',
     type: 'Drip',
-    api_token: process.env.NODE_ENV === 'development' ? 'fa2e5034e01d8e8f4f95b31ba8739918' : '',
+    api_token: '',
     accounts: [],
     field_map: [{ formField: '', dripField: '' }],
     actions: {},
@@ -39,7 +39,7 @@ function Drip({ formFields, setFlow, flow, allIntegURL }) {
     selectedRemoveTags: ''
   })
 
-  const nextPage = (val) => {
+  const nextPage = val => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -74,9 +74,7 @@ function Drip({ formFields, setFlow, flow, allIntegURL }) {
         setLoading={setLoading}
       />
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
         <DripIntegLayout
           formID={formID}
           formFields={formFields}
@@ -88,9 +86,7 @@ function Drip({ formFields, setFlow, flow, allIntegURL }) {
         <button
           onClick={() => nextPage(3)}
           disabled={
-            !dripConf?.selectedAccountId ||
-            !checkMappedFields(dripConf) ||
-            dripConf.field_map.length < 1
+            !dripConf?.selectedAccountId || !checkMappedFields(dripConf) || dripConf.field_map.length < 1
           }
           className="btn f-right btcd-btn-lg purple sh-sm flx"
           type="button">

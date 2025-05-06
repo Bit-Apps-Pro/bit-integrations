@@ -21,10 +21,7 @@ function ZohoFlow({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Zoho Flow Web Hooks',
     type: 'Zoho Flow',
     method: 'POST',
-    url:
-      process.env.NODE_ENV === 'development'
-        ? 'https://hooks..com/hooks/catch/8430229/o7gwcin/'
-        : '',
+    url: '',
     apiConsole: 'https://flow.zoho.com/#/workspace/default/flows/create'
   })
 
@@ -42,9 +39,7 @@ function ZohoFlow({ formFields, setFlow, flow, allIntegURL }) {
         {zohoFlowLinks?.youTubeLink && (
           <TutorialLink title="Zoho Flow" youTubeLink={zohoFlowLinks?.youTubeLink} />
         )}
-        {zohoFlowLinks?.docLink && (
-          <TutorialLink title="Zoho Flow" docLink={zohoFlowLinks?.docLink} />
-        )}
+        {zohoFlowLinks?.docLink && <TutorialLink title="Zoho Flow" docLink={zohoFlowLinks?.docLink} />}
 
         <WebHooksLayouts
           formID={formID}
@@ -59,9 +54,7 @@ function ZohoFlow({ formFields, setFlow, flow, allIntegURL }) {
       </div>
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
         <WebHooksStepTwo
           step={step}
           saveConfig={() =>

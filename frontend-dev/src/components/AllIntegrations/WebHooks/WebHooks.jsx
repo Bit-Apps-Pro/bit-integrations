@@ -21,10 +21,7 @@ function WebHooks({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Web Hooks',
     type: 'Web Hooks',
     method: 'POST',
-    url:
-      process.env.NODE_ENV === 'development'
-        ? 'https://webhook.is/api/v1/46f7ffc3-4d0c-4d61-b8ee-4a7efa1ac29a'
-        : ''
+    url: ''
   })
 
   return (
@@ -41,9 +38,7 @@ function WebHooks({ formFields, setFlow, flow, allIntegURL }) {
         {webHooksLinks?.youTubeLink && (
           <TutorialLink title="Web Hooks" youTubeLink={webHooksLinks?.youTubeLink} />
         )}
-        {webHooksLinks?.docLink && (
-          <TutorialLink title="Web Hooks" docLink={webHooksLinks?.docLink} />
-        )}
+        {webHooksLinks?.docLink && <TutorialLink title="Web Hooks" docLink={webHooksLinks?.docLink} />}
 
         <WebHooksIntegration
           formID={formID}

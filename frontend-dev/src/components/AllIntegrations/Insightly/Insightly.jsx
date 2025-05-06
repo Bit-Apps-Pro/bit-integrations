@@ -201,8 +201,8 @@ function Insightly({ formFields, setFlow, flow, allIntegURL }) {
   const [insightlyConf, setInsightlyConf] = useState({
     name: 'Insightly',
     type: 'Insightly',
-    api_key: process.env.NODE_ENV === 'development' ? 'ce8c4bf8-df7a-428a-8080-cfd701592114' : '',
-    api_url: process.env.NODE_ENV === 'development' ? 'na1.insightly.com' : '',
+    api_key: '',
+    api_url: '',
     field_map: [{ formField: '', insightlyFormField: '' }],
     actionName: '',
     organisationFields,
@@ -226,7 +226,7 @@ function Insightly({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -236,7 +236,7 @@ function Insightly({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -289,9 +289,7 @@ function Insightly({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <InsightlyIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, insightlyConf, setInsightlyConf, setLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, insightlyConf, setInsightlyConf, setLoading, setSnackbar)}
           insightlyConf={insightlyConf}
           setInsightlyConf={setInsightlyConf}
           loading={loading}

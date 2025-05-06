@@ -28,10 +28,7 @@ function Airtable({ formFields, setFlow, flow, allIntegURL }) {
   const [airtableConf, setAirtableConf] = useState({
     name: 'Airtable',
     type: 'Airtable',
-    auth_token:
-      process.env.NODE_ENV === 'development'
-        ? 'patCjF7UvT0iFgvii.d58f98a1b6e7aa6436a2619561fa40eee1cda043c46c0878034ab4a778d7c10f'
-        : '',
+    auth_token: '',
     field_map: [{ formField: '', airtableFormField: '' }],
     airtableFields: [],
     bases: [],

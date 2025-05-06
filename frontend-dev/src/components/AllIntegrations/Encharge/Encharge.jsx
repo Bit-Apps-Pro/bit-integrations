@@ -22,14 +22,11 @@ function Encharge({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Encharge',
     type: 'Encharge',
     tags: '',
-    api_key:
-      process.env.NODE_ENV === 'development'
-        ? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOjE1MjkyLCJuYW1lIjoiYmFzZSJ9.yZ0PHY7bfPvYP-laE2ES92kt-lwmvJajKk_U9FCm-Bs'
-        : '',
+    api_key: '',
     field_map: [{ formField: '', enChargeFields: '' }],
     actions: {}
   })
-  const nextPage = (val) => {
+  const nextPage = val => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)

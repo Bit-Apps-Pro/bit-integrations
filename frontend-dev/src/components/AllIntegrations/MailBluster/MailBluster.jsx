@@ -34,8 +34,7 @@ function MailBluster({ formFields, setFlow, flow, allIntegURL }) {
   const [mailBlusterConf, setMailBlusterConf] = useState({
     name: 'MailBluster',
     type: 'MailBluster',
-    auth_token:
-      process.env.NODE_ENV === 'development' ? '394bebe6-e8dc-4070-a028-d3fd36eacf9e' : '',
+    auth_token: '',
     field_map: [{ formField: '', mailBlusterFormField: '' }],
     staticFields,
     subscribed: '',
@@ -56,7 +55,7 @@ function MailBluster({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -66,7 +65,7 @@ function MailBluster({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -102,9 +101,7 @@ function MailBluster({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <MailBlusterIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, mailBlusterConf, setMailBlusterConf, setLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, mailBlusterConf, setMailBlusterConf, setLoading, setSnackbar)}
           mailBlusterConf={mailBlusterConf}
           setMailBlusterConf={setMailBlusterConf}
           loading={loading}
