@@ -1314,6 +1314,17 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 
 == Changelog ==
 
+= 2.5.6 =
+_Release Date -6th may 2025_
+
+- **New Feature**
+ - SureCart: Enhanced SureCart product purchase module by adding customer information (Pro).
+
+- **Bug Fixes**
+ - PerfexCRM: Resolved issue with custom tagify field.
+ - WP Courseware: Fixed task fetching problem.
+ - WP post: Addressed multiple execution of triggers during WP post update (Pro).
+ 
 = 2.5.5 =
 _Release Date -27th April 2025_
 
