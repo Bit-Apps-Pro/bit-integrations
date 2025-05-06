@@ -31,8 +31,8 @@ function ZoomWebinar({ formFields, setFlow, flow, allIntegURL }) {
   const [zoomWebinarConf, setZoomWebinarConf] = useState({
     name: 'Zoom Webinar',
     type: 'Zoom Webinar',
-    clientId: process.env.NODE_ENV === 'development' ? 'SMn59eOiR5KCdijvBpp8uA' : '',
-    clientSecret: process.env.NODE_ENV === 'development' ? 'naiIsG7ZmVV5ecf3NyGqTT64U0rnIp4n' : '',
+    clientId: '',
+    clientSecret: '',
     zoomId: '',
     field_map: [{ formField: '', zoomField: '' }],
     zoomWebinarFields,
@@ -88,7 +88,7 @@ function ZoomWebinar({ formFields, setFlow, flow, allIntegURL }) {
         <ZoomWebinarIntegLayout
           formID={formID}
           formFields={formFields}
-          handleInput={(e) =>
+          handleInput={e =>
             handleInput(e, zoomWebinarConf, setZoomWebinarConf, formID, setIsLoading, setSnackbar)
           }
           zoomWebinarConf={zoomWebinarConf}

@@ -21,10 +21,7 @@ function SyncSpider({ formFields, setFlow, flow, allIntegURL }) {
     name: 'SyncSpider Web Hooks',
     type: 'SyncSpider',
     method: 'POST',
-    url:
-      process.env.NODE_ENV === 'development'
-        ? 'https://app.syncspider.com/api/v1/external_api/webhook/4NmDKfEn3ic7MyJoIejHRJ7SjH9RmD3SnnWcpNur'
-        : '',
+    url: '',
     apiConsole: 'https://app.syncspider.com/app/'
   })
 

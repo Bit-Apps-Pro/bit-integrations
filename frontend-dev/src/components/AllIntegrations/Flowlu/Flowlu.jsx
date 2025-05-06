@@ -24,11 +24,8 @@ function Flowlu({ formFields, setFlow, flow, allIntegURL }) {
   const [flowluConf, setFlowluConf] = useState({
     name: 'Flowlu',
     type: 'Flowlu',
-    api_key:
-      process.env.NODE_ENV === 'development'
-        ? 'Z2pBZHR5ckZkSERQSU1sN295RU5VQ25IcXd3YzFRUTlfMTA1Mjc0'
-        : '',
-    company_name: process.env.NODE_ENV === 'development' ? 'bit-integration' : '',
+    api_key: '',
+    company_name: '',
     field_map: [{ formField: '', flowluFormField: '' }],
     actionName: '',
     actionId: '',
@@ -38,17 +35,8 @@ function Flowlu({ formFields, setFlow, flow, allIntegURL }) {
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      flowluConf,
-      navigate,
-      '',
-      '',
-      setIsLoading
-    )
-    resp.then((res) => {
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, flowluConf, navigate, '', '', setIsLoading)
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -58,7 +46,7 @@ function Flowlu({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -112,7 +100,7 @@ function Flowlu({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <FlowluIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, flowluConf, setFlowluConf, setLoading, setSnackbar)}
+          handleInput={e => handleInput(e, flowluConf, setFlowluConf, setLoading, setSnackbar)}
           flowluConf={flowluConf}
           setFlowluConf={setFlowluConf}
           loading={loading}

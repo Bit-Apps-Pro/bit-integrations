@@ -25,8 +25,8 @@ function SmartSuite({ formFields, setFlow, flow, allIntegURL }) {
   const [smartSuiteConf, setSmartSuiteConf] = useState({
     name: 'SmartSuite',
     type: 'SmartSuite',
-    workspaceId: process.env.NODE_ENV === 'development' ? 'sn5usd27' : '',
-    apiToken: process.env.NODE_ENV === 'development' ? '78c6dfdf3ea3d0d28bd1a23144ef16f1ac303237' : '',
+    workspaceId: '',
+    apiToken: '',
     field_map: generateMappedField(smartSuiteFields),
     actionName: '',
     smartSuiteFields,
@@ -47,7 +47,7 @@ function SmartSuite({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -57,7 +57,7 @@ function SmartSuite({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)

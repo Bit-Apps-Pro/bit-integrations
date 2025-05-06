@@ -55,17 +55,14 @@ function WhatsApp({ formFields, setFlow, flow, allIntegURL }) {
   const [whatsAppConf, setWhatsAppConf] = useState({
     name: 'WhatsApp',
     type: 'WhatsApp',
-    numberID: process.env.NODE_ENV === 'development' ? '115645968196230' : '',
-    businessAccountID: process.env.NODE_ENV === 'development' ? '101082419667133' : '',
+    numberID: '',
+    businessAccountID: '',
     messageTypes,
     mediaTypes,
     messageType: '',
     body: '',
     templateName: '',
-    token:
-      process.env.NODE_ENV === 'development'
-        ? 'EAALIMHqNYCEBO9nAFnCSJL6G3O6dJ6k9L3CZB6iTbPqkVfFt9HH4UhSLQZA1BykHLR0xHgYaR9ZBkJuLdwex8v3N2wNI33GB5eBCK40lm1t0drOhoDodvrH3fw8kaT3ZCqTT2mRYE37fIMnAqVgEBwqygftCLseEmC0kLvLTte8HYW7KW6dXHEINnypkNUwZAG9drPZBdKtGTdnxEJKEQYegsMLz3LoZAQp7eL5'
-        : '',
+    token: '',
     field_map: generateMappedField(whatsAppFields),
     whatsAppFields,
     address_field: [],
@@ -109,9 +106,7 @@ function WhatsApp({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <WhatsAppIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, whatsAppConf, setWhatsAppConf, setIsLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, whatsAppConf, setWhatsAppConf, setIsLoading, setSnackbar)}
           whatsAppConf={whatsAppConf}
           setWhatsAppConf={setWhatsAppConf}
           isLoading={isLoading}

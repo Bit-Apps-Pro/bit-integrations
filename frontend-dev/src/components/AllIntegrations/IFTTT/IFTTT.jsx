@@ -21,7 +21,7 @@ function IFTTT({ formFields, setFlow, flow, allIntegURL }) {
     name: 'IFTTT Web Hooks',
     type: 'IFTTT',
     method: 'POST',
-    url: process.env.NODE_ENV === 'development' ? '' : '',
+    url: '',
     apiConsole: ''
   })
 

@@ -22,23 +22,31 @@ function LMFWC({ formFields, setFlow, flow, allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const licenseFields = [
-    { label: __('License key', 'bit-integrations'), key: 'license_key', required: true },
+    { label: __('License key', 'bit-integrations'), key: 'license_key', required: true }
   ]
   const generalFields = [
     { label: __('Valid for (days)', 'bit-integrations'), key: 'valid_for', required: false },
     { label: __('Expires at', 'bit-integrations'), key: 'expires_at', required: false },
-    { label: __('Maximum activation count', 'bit-integrations'), key: 'times_activated_max', required: false },
+    {
+      label: __('Maximum activation count', 'bit-integrations'),
+      key: 'times_activated_max',
+      required: false
+    }
   ]
   const generatorFields = [
     { label: __('Name', 'bit-integrations'), key: 'name', required: true },
     { label: __('Character map', 'bit-integrations'), key: 'charset', required: true },
     { label: __('Number of chunks', 'bit-integrations'), key: 'chunks', required: true },
     { label: __('Chunk length', 'bit-integrations'), key: 'chunk_length', required: true },
-    { label: __('Maximum activation count', 'bit-integrations'), key: 'times_activated_max', required: false },
+    {
+      label: __('Maximum activation count', 'bit-integrations'),
+      key: 'times_activated_max',
+      required: false
+    },
     { label: __('Separator', 'bit-integrations'), key: 'separator', required: false },
     { label: __('Prefix', 'bit-integrations'), key: 'prefix', required: false },
     { label: __('Suffix', 'bit-integrations'), key: 'suffix', required: false },
-    { label: __('Expires in	(days)', 'bit-integrations'), key: 'expires_in', required: false },
+    { label: __('Expires in	(days)', 'bit-integrations'), key: 'expires_in', required: false }
   ]
 
   const modules = [
@@ -49,15 +57,15 @@ function LMFWC({ formFields, setFlow, flow, allIntegURL }) {
     { name: 'delete_license', label: __('Delete a License', 'bit-integrations'), is_pro: true },
     { name: 'reactivate_license', label: __('Reactivate a License', 'bit-integrations'), is_pro: true },
     { name: 'create_generator', label: __('Create a generator', 'bit-integrations'), is_pro: true },
-    { name: 'update_generator', label: __('Update a Generator', 'bit-integrations'), is_pro: true },
+    { name: 'update_generator', label: __('Update a Generator', 'bit-integrations'), is_pro: true }
   ]
 
   const [licenseManagerConf, setLicenseManagerConf] = useState({
     name: 'License Manager For WooCommerce',
     type: 'License Manager For WooCommerce',
     base_url: window.location.origin,
-    api_key: process.env.NODE_ENV === 'development' ? 'ck_5782ba9801de81aa84d9e38745fae2f30b3a2eed' : '',
-    api_secret: process.env.NODE_ENV === 'development' ? 'cs_2f075d046a3cc5b698481aeed618841bf3e9ccb3' : '',
+    api_key: '',
+    api_secret: '',
     field_map: [{ formField: '', lmfwcFormField: '' }],
     lmfwcFields: [],
     module: '',
@@ -79,7 +87,7 @@ function LMFWC({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -89,7 +97,7 @@ function LMFWC({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -133,7 +141,9 @@ function LMFWC({ formFields, setFlow, flow, allIntegURL }) {
       {/* STEP 2 */}
       <div
         className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, minHeight: '400px', height: 'auto', overflow: 'visible' }) }}>
+        style={{
+          ...(step === 2 && { width: 900, minHeight: '400px', height: 'auto', overflow: 'visible' })
+        }}>
         <LMFWCIntegLayout
           formFields={formFields}
           licenseManagerConf={licenseManagerConf}

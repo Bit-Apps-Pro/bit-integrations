@@ -20,16 +20,13 @@ export default function Telegram({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Telegram',
     type: 'Telegram',
     parse_mode: 'HTML',
-    bot_api_key:
-      process.env.NODE_ENV === 'development'
-        ? '1748780148:AAGrngQBKkEhKx5qyo3smqllw2gNc2YWnO4'
-        : '',
+    bot_api_key: '',
     chat_id: '',
     body: '',
     actions: {}
   })
 
-  const nextPage = (val) => {
+  const nextPage = val => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -92,16 +89,7 @@ export default function Telegram({ formFields, setFlow, flow, allIntegURL }) {
       <IntegrationStepThree
         step={step}
         saveConfig={() =>
-          saveIntegConfig(
-            flow,
-            setFlow,
-            allIntegURL,
-            telegramConf,
-            navigate,
-            0,
-            false,
-            setIsLoading
-          )
+          saveIntegConfig(flow, setFlow, allIntegURL, telegramConf, navigate, 0, false, setIsLoading)
         }
         isLoading={isLoading}
         dataConf={telegramConf}

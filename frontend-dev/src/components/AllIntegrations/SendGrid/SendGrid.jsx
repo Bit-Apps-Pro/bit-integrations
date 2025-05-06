@@ -49,10 +49,7 @@ function SendGrid({ formFields, setFlow, flow, allIntegURL }) {
   const [sendGridConf, setSendGridConf] = useState({
     name: 'SendGrid',
     type: 'SendGrid',
-    apiKey:
-      process.env.NODE_ENV === 'development'
-        ? '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'
-        : '',
+    apiKey: '',
     field_map: [{ formField: '', sendGridFormField: '' }],
     staticFields,
     lists: [],
@@ -74,7 +71,7 @@ function SendGrid({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -84,7 +81,7 @@ function SendGrid({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)

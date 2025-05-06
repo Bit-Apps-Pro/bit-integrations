@@ -73,14 +73,8 @@ function Keap({ formFields, setFlow, flow, allIntegURL }) {
   const [keapConf, setKeapConf] = useState({
     name: 'Keap',
     type: 'Keap',
-    clientId:
-      process.env.NODE_ENV === 'development'
-        ? 'xsx2T9lBWoevR3GxkAqGwBqoqWMEcG4FRuVYyb1GUEzYzYHH'
-        : '',
-    clientSecret:
-      process.env.NODE_ENV === 'development'
-        ? 'w3jPmmAS7h9CzxSknz6aS0MfRkZckAar8dgIOMr9BGDjFjvrWEEcAm2onVwrq4fp'
-        : '',
+    clientId: '',
+    clientSecret: '',
     keapId: '',
     field_map: [{ formField: '', keapField: '' }],
     contactFields,
@@ -125,15 +119,11 @@ function Keap({ formFields, setFlow, flow, allIntegURL }) {
         setIsLoading={setIsLoading}
       />
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
         <KeapIntegLayout
           formID={formID}
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, keapConf, setKeapConf, formID, setIsLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, keapConf, setKeapConf, formID, setIsLoading, setSnackbar)}
           keapConf={keapConf}
           setKeapConf={setKeapConf}
           isLoading={isLoading}

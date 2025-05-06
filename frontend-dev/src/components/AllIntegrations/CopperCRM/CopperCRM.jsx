@@ -65,8 +65,8 @@ function CopperCRM({ formFields, setFlow, flow, allIntegURL }) {
   const [coppercrmConf, setCopperCRMConf] = useState({
     name: 'CopperCRM',
     type: 'CopperCRM',
-    api_key: process.env.NODE_ENV === 'development' ? 'ddb80b7020325b2182f4be8e820ebac9' : '',
-    api_email: process.env.NODE_ENV === 'development' ? 'niloy@bitcode.pro' : '',
+    api_key: '',
+    api_email: '',
     field_map: [{ formField: '', coppercrmFormField: '' }],
     actionName: '',
     companyFields,
@@ -88,7 +88,7 @@ function CopperCRM({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -98,7 +98,7 @@ function CopperCRM({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -146,9 +146,7 @@ function CopperCRM({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <CopperCRMIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, coppercrmConf, setCopperCRMConf, setLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, coppercrmConf, setCopperCRMConf, setLoading, setSnackbar)}
           coppercrmConf={coppercrmConf}
           setCopperCRMConf={setCopperCRMConf}
           loading={loading}

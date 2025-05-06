@@ -26,11 +26,11 @@ function Twilio({ formFields, setFlow, flow, allIntegURL }) {
   const [twilioConf, setTwilioConf] = useState({
     name: 'Twilio',
     type: 'Twilio',
-    sid: process.env.NODE_ENV === 'development' ? 'AC320b8d36a8a82cebf0b9356f36bf43e9' : '',
-    token: process.env.NODE_ENV === 'development' ? 'ec4d20136c1af5c033c545c6c7b1257f' : '',
+    sid: '',
+    token: '',
     body: '',
     to: '',
-    from_num: process.env.NODE_ENV === 'development' ? '01861054127' : '',
+    from_num: '',
     field_map: [
       { formField: '', twilioField: 'To' },
       { formField: '', twilioField: 'Body' }
@@ -40,17 +40,8 @@ function Twilio({ formFields, setFlow, flow, allIntegURL }) {
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      twilioConf,
-      navigate,
-      '',
-      '',
-      setIsLoading
-    )
-    resp.then((res) => {
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, twilioConf, navigate, '', '', setIsLoading)
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -59,7 +50,7 @@ function Twilio({ formFields, setFlow, flow, allIntegURL }) {
       }
     })
   }
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     if (twilioConf.to === '' && twilioConf.body === '') {
       toast.error('Please select To and Body field , it is required')
       return
@@ -98,7 +89,7 @@ function Twilio({ formFields, setFlow, flow, allIntegURL }) {
         }}>
         <TwilioIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, twilioConf, setTwilioConf, setIsLoading, setSnackbar)}
+          handleInput={e => handleInput(e, twilioConf, setTwilioConf, setIsLoading, setSnackbar)}
           twilioConf={twilioConf}
           setTwilioConf={setTwilioConf}
           isLoading={isLoading}

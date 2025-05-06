@@ -21,10 +21,7 @@ function AutomatorWP({ formFields, setFlow, flow, allIntegURL }) {
     name: 'AutomatorWP Web Hooks',
     type: 'AutomatorWP',
     method: 'POST',
-    url:
-      process.env.NODE_ENV === 'development'
-        ? 'https://connect.automatorWP.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D'
-        : ''
+    url: ''
   })
 
   return (

@@ -19,7 +19,7 @@ function Moosend({ formFields, setFlow, flow, allIntegURL }) {
   const [moosendConf, setMoosendConf] = useState({
     name: 'Moosend',
     type: 'Moosend',
-    authKey: process.env.NODE_ENV === 'development' ? '066846f2-debb-4d09-8615-9849f5b15d3a' : '',
+    authKey: '',
     field_map: [{ formFields: '', moosendFormFields: '' }],
     listId: '',
     method: '',
@@ -32,7 +32,7 @@ function Moosend({ formFields, setFlow, flow, allIntegURL }) {
     ]
   })
 
-  const setSavePageLoad = (value) => {
+  const setSavePageLoad = value => {
     setLoading({ ...loading, page: value })
   }
 

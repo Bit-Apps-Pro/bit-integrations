@@ -20,8 +20,8 @@ function Dropbox({ formFields, setFlow, flow, allIntegURL }) {
   const [dropboxConf, setDropboxConf] = useState({
     name: 'Dropbox',
     type: 'Dropbox',
-    clientId: process.env.NODE_ENV === 'development' ? 'ybmbut986ut5y61' : '',
-    clientSecret: process.env.NODE_ENV === 'development' ? 'bzan1ymigsk2sa1' : '',
+    clientId: '',
+    clientSecret: '',
     accessCode: '',
     field_map: [{ formField: '', dropboxFormField: '' }],
     foldersList: [],
@@ -80,8 +80,7 @@ function Dropbox({ formFields, setFlow, flow, allIntegURL }) {
           disabled={dropboxConf.field_map.length < 1}
           className="btn f-right btcd-btn-lg purple sh-sm flx"
           type="button">
-          {__('Next', 'bit-integrations')}{' '}
-          <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
+          {__('Next', 'bit-integrations')} <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
         </button>
       </div>
 

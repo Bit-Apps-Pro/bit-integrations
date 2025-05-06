@@ -21,13 +21,13 @@ function Mailify({ formFields, setFlow, flow, allIntegURL }) {
   const [mailifyConf, setMailifyConf] = useState({
     name: 'Sarbacane(Mailify)',
     type: 'Sarbacane(Mailify)',
-    account_id: process.env.NODE_ENV === 'development' ? '643240d170f32e4b76f5e52b' : '',
-    api_key: process.env.NODE_ENV === 'development' ? 'hoWqax0jSVuMsxGBizHOUg' : '',
+    account_id: '',
+    api_key: '',
     field_map: [{ formField: '', mailifyField: '' }],
     actions: {}
   })
 
-  const nextPage = (val) => {
+  const nextPage = val => {
     // setIsLoading(true)
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
@@ -68,9 +68,7 @@ function Mailify({ formFields, setFlow, flow, allIntegURL }) {
         setSnackbar={setSnackbar}
       />
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
         <MailifyIntegLayout
           formID={formID}
           formFields={formFields}

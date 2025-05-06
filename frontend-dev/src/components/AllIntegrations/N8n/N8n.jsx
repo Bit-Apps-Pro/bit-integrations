@@ -21,10 +21,7 @@ function N8n({ formFields, setFlow, flow, allIntegURL }) {
     name: 'N8n Web Hooks',
     type: 'N8n',
     method: 'POST',
-    url:
-      process.env.NODE_ENV === 'development'
-        ? 'https://connect.n8n.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D'
-        : '',
+    url: '',
     apiConsole: 'https://connect.n8n.com/dashboard'
   })
 
@@ -39,9 +36,7 @@ function N8n({ formFields, setFlow, flow, allIntegURL }) {
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
-        {n8nLinks?.youTubeLink && (
-          <TutorialLink title="n8n.io" youTubeLink={n8nLinks?.youTubeLink} />
-        )}
+        {n8nLinks?.youTubeLink && <TutorialLink title="n8n.io" youTubeLink={n8nLinks?.youTubeLink} />}
         {n8nLinks?.docLink && <TutorialLink title="n8n.io" docLink={n8nLinks?.docLink} />}
 
         <WebHooksIntegration

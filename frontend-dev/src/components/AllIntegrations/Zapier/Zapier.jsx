@@ -21,10 +21,7 @@ function Zapier({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Zapier Web Hooks',
     type: 'Zapier',
     method: 'POST',
-    url:
-      process.env.NODE_ENV === 'development'
-        ? 'https://hooks.zapier.com/hooks/catch/8430229/o7gwcin/'
-        : '',
+    url: '',
     apiConsole: 'https://zapier.com/app/dashboard'
   })
 

@@ -23,7 +23,7 @@ function Freshdesk({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Freshdesk',
     type: 'Freshdesk',
     app_domain: '',
-    api_key: process.env.NODE_ENV === 'development' ? 'RfPqlzHcProz1o9kjGj' : '',
+    api_key: '',
     field_map: [{ formField: '', freshdeskFormField: '' }],
     field_map_contact: [{ formField: '', contactFreshdeskFormField: '' }],
     freshdesk_id: '',
@@ -36,7 +36,7 @@ function Freshdesk({ formFields, setFlow, flow, allIntegURL }) {
     actions: {}
   })
 
-  const nextPage = (val) => {
+  const nextPage = val => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -80,9 +80,7 @@ function Freshdesk({ formFields, setFlow, flow, allIntegURL }) {
         }}>
         <FreshdeskIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, freshdeskConf, setFreshdeskConf, setIsLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, freshdeskConf, setFreshdeskConf, setIsLoading, setSnackbar)}
           freshdeskConf={freshdeskConf}
           setFreshdeskConf={setFreshdeskConf}
           isLoading={isLoading}
@@ -96,8 +94,7 @@ function Freshdesk({ formFields, setFlow, flow, allIntegURL }) {
             !freshdeskConf.priority ||
             !freshdeskConf.status ||
             !checkMappedFields(freshdeskConf?.field_map) ||
-            (freshdeskConf.contactShow &&
-              !checkMappedFieldsContact(freshdeskConf?.field_map_contact))
+            (freshdeskConf.contactShow && !checkMappedFieldsContact(freshdeskConf?.field_map_contact))
           }
           className="btn f-right btcd-btn-lg purple sh-sm flx"
           type="button">

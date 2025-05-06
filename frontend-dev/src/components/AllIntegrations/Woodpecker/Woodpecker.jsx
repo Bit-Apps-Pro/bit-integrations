@@ -56,17 +56,12 @@ function Woodpecker({ formFields, setFlow, flow, allIntegURL }) {
     { key: 'snippet15', label: __('snippet15', 'bit-integrations'), required: false }
   ]
 
-  const companyFields = [
-    { key: 'name', label: __('Company Name', 'bit-integrations'), required: true }
-  ]
+  const companyFields = [{ key: 'name', label: __('Company Name', 'bit-integrations'), required: true }]
 
   const [woodpeckerConf, setWoodpeckerConf] = useState({
     name: 'Woodpecker',
     type: 'Woodpecker',
-    api_key:
-      process.env.NODE_ENV === 'development'
-        ? '411340.5e782bcaf07998f5344948482d2e862630f438756971599d0c95f76c5b7098f7'
-        : '',
+    api_key: '',
     field_map: [{ formField: '', woodpeckerFormField: '' }],
     actionName: '',
     actionId: '',
@@ -87,7 +82,7 @@ function Woodpecker({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -97,7 +92,7 @@ function Woodpecker({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -142,9 +137,7 @@ function Woodpecker({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <WoodpeckerIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, woodpeckerConf, setWoodpeckerConf, setLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, woodpeckerConf, setWoodpeckerConf, setLoading, setSnackbar)}
           woodpeckerConf={woodpeckerConf}
           setWoodpeckerConf={setWoodpeckerConf}
           loading={loading}

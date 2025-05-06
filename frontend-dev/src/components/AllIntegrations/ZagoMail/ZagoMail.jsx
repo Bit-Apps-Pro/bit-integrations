@@ -21,8 +21,7 @@ function ZagoMail({ formFields, setFlow, flow, allIntegURL }) {
   const [zagoMailConf, setZagoMailConf] = useState({
     name: 'ZagoMail',
     type: 'ZagoMail',
-    api_public_key:
-      process.env.NODE_ENV === 'development' ? 'f6a347f07b4e7b4c434504a69b1a9f98b896cefd' : '',
+    api_public_key: '',
     field_map: [{ formField: '', zagoMailField: '' }],
     // lists: [],
     selectedList: '',
@@ -31,7 +30,7 @@ function ZagoMail({ formFields, setFlow, flow, allIntegURL }) {
     selectedTags: []
   })
 
-  const nextPage = (val) => {
+  const nextPage = val => {
     // setIsLoading(true)
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
@@ -72,9 +71,7 @@ function ZagoMail({ formFields, setFlow, flow, allIntegURL }) {
         setSnackbar={setSnackbar}
       />
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
         <ZagoMailIntegLayout
           formID={formID}
           formFields={formFields}

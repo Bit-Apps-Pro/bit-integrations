@@ -12,7 +12,6 @@ import { handleInput, checkMappedFields } from './GoogleSheetCommonFunc'
 import GoogleSheetIntegLayout from './GoogleSheetIntegLayout'
 import bitsFetch from '../../../Utils/bitsFetch'
 
-
 function GoogleSheet({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
   const { formID } = useParams()
@@ -22,12 +21,8 @@ function GoogleSheet({ formFields, setFlow, flow, allIntegURL }) {
   const [sheetConf, setSheetConf] = useState({
     name: 'Google Sheet',
     type: 'Google Sheet',
-    clientId:
-      process.env.NODE_ENV === 'development'
-        ? '169745940494-ambvaatv48bcnoebo0cqqg6u4427mbcf.apps.googleusercontent.com'
-        : '',
-    clientSecret:
-      process.env.NODE_ENV === 'development' ? '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' : '',
+    clientId: '',
+    clientSecret: '',
     spreadsheetId: '',
     worksheetName: '',
     field_map: [{ formField: '', googleSheetField: '' }],
@@ -39,16 +34,15 @@ function GoogleSheet({ formFields, setFlow, flow, allIntegURL }) {
   useEffect(() => {
     if (sheetConf.oneClickAuthCredentials === undefined) {
       const requestParams = {
-        actionName: "googleSheet",
+        actionName: 'googleSheet'
       }
-      bitsFetch(null, 'get/credentials', requestParams, 'Get').then((res) => {
-        setSheetConf((prevConf) => {
+      bitsFetch(null, 'get/credentials', requestParams, 'Get').then(res => {
+        setSheetConf(prevConf => {
           return { ...prevConf, oneClickAuthCredentials: res.data }
         })
       })
     }
   }, [])
-
 
   const nextPage = () => {
     setTimeout(() => {
@@ -87,15 +81,11 @@ function GoogleSheet({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
         <GoogleSheetIntegLayout
           formID={formID}
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, sheetConf, setSheetConf, formID, setIsLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, sheetConf, setSheetConf, formID, setIsLoading, setSnackbar)}
           sheetConf={sheetConf}
           setSheetConf={setSheetConf}
           isLoading={isLoading}

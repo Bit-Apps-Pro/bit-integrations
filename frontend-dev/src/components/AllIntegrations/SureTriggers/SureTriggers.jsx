@@ -21,10 +21,7 @@ function SureTriggers({ formFields, setFlow, flow, allIntegURL }) {
     name: 'OttoKit (SureTriggers) Web Hooks',
     type: 'OttoKit (SureTriggers)',
     method: 'POST',
-    url:
-      process.env.NODE_ENV === 'development'
-        ? 'https://connect.sureTriggers.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D'
-        : ''
+    url: ''
   })
 
   return (

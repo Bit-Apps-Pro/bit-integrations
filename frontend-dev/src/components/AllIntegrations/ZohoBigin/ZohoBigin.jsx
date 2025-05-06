@@ -29,9 +29,8 @@ function ZohoBigin({ allIntegURL }) {
     setBiginConf({
       name: 'Zoho Bigin',
       type: 'Zoho Bigin',
-      clientId: process.env.NODE_ENV === 'development' ? '1000.TUNG7UIFO7DNSI1BNATM0SXJ2KRFKF' : '',
-      clientSecret:
-        process.env.NODE_ENV === 'development' ? '946ab847ed5e6d6426adea379a4c51c24a4e92d47d' : '',
+      clientId: '',
+      clientSecret: '',
       module: '',
       field_map: [{ formField: '', zohoFormField: '' }],
       relatedlists: [],
@@ -76,14 +75,12 @@ function ZohoBigin({ allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
         <ZohoBiginIntegLayout
           tab={tab}
           settab={settab}
           formID={formID}
-          handleInput={(e) =>
+          handleInput={e =>
             handleInput(e, tab, biginConf, setBiginConf, formID, setIsLoading, setSnackbar)
           }
           isLoading={isLoading}

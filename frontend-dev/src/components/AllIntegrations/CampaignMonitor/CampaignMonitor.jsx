@@ -27,17 +27,14 @@ function CampaignMonitor({ formFields, setFlow, flow, allIntegURL }) {
   const [campaignMonitorConf, setCampaignMonitorConf] = useState({
     name: 'CampaignMonitor',
     type: 'CampaignMonitor',
-    client_id: process.env.NODE_ENV === 'development' ? 'cfd7b57a6c131b44076ebf4f533c2799' : '',
-    api_key:
-      process.env.NODE_ENV === 'development'
-        ? '25SmS5TO21Ot5EXyLT0KbHbjejn0ykGi00q6LpzQh0TWAUal/OqaO59yDWJ9ZloY+NF9WUcOOaJjtxNVAszH85+R0Q8uDBbwKCkCh1pYO/ENPnqmBBzcJINUXplb/vJpj7Ywb3KBAnjscIP50udrnA=='
-        : '',
+    client_id: '',
+    api_key: '',
     field_map: [{ formField: '', campaignMonitorField: '' }],
     subscriberFields,
     actions: {}
   })
 
-  const nextPage = (val) => {
+  const nextPage = val => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -78,9 +75,7 @@ function CampaignMonitor({ formFields, setFlow, flow, allIntegURL }) {
         setSnackbar={setSnackbar}
       />
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
         <CampaignMonitorIntegLayout
           formID={formID}
           formFields={formFields}

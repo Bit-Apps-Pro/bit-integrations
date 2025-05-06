@@ -21,8 +21,7 @@ function Selzy({ formFields, setFlow, flow, allIntegURL }) {
   const [selzyConf, setSelzyConf] = useState({
     name: 'Selzy',
     type: 'Selzy',
-    authKey:
-      process.env.NODE_ENV === 'development' ? '6rfgbuq7w7mkusbq6ec13oarzpr1qwwizybyusyo' : '',
+    authKey: '',
     field_map: [{ formFields: '', selzyFormField: '' }],
     listIds: '',
     tags: '',
@@ -47,7 +46,7 @@ function Selzy({ formFields, setFlow, flow, allIntegURL }) {
     ]
   })
 
-  const setSavePageLoad = (value) => {
+  const setSavePageLoad = value => {
     setLoading({ ...loading, page: value })
   }
 
@@ -96,9 +95,7 @@ function Selzy({ formFields, setFlow, flow, allIntegURL }) {
       {selzyConf.listIds && (
         <IntegrationStepThree
           step={step}
-          saveConfig={() =>
-            saveConfig(flow, setFlow, allIntegURL, selzyConf, navigate, setSavePageLoad)
-          }
+          saveConfig={() => saveConfig(flow, setFlow, allIntegURL, selzyConf, navigate, setSavePageLoad)}
           isLoading={loading.page}
           dataConf={selzyConf}
           setDataConf={setSelzyConf}

@@ -26,7 +26,7 @@ function Vbout({ formFields, setFlow, flow, allIntegURL }) {
   const [vboutConf, setVboutConf] = useState({
     name: 'Vbout',
     type: 'Vbout',
-    auth_token: process.env.NODE_ENV === 'development' ? '8517173337548323874274218' : '',
+    auth_token: '',
     field_map: [{ formField: '', VboutFormField: '' }],
     VboutFields: [],
     list_id: '',
@@ -35,17 +35,8 @@ function Vbout({ formFields, setFlow, flow, allIntegURL }) {
   })
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      vboutConf,
-      navigate,
-      '',
-      '',
-      setIsLoading
-    )
-    resp.then((res) => {
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, vboutConf, navigate, '', '', setIsLoading)
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -54,7 +45,7 @@ function Vbout({ formFields, setFlow, flow, allIntegURL }) {
       }
     })
   }
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -91,7 +82,7 @@ function Vbout({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <VboutIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, vboutConf, setVboutConf)}
+          handleInput={e => handleInput(e, vboutConf, setVboutConf)}
           vboutConf={vboutConf}
           setVboutConf={setVboutConf}
           loading={loading}

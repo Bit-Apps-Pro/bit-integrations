@@ -21,16 +21,13 @@ function DirectIq({ formFields, setFlow, flow, allIntegURL }) {
   const [directIqConf, setDirectIqConf] = useState({
     name: 'DirectIq',
     type: 'DirectIq',
-    client_id: process.env.NODE_ENV === 'development' ? 'c75b61369cf340a08225622b110db619' : '',
-    client_secret:
-      process.env.NODE_ENV === 'development'
-        ? 'd524fac91a354e0c9bcb872448bbcb7433490478228b40eba298ec89f98c46dd'
-        : '',
+    client_id: '',
+    client_secret: '',
     field_map: [{ formField: '', directIqField: '' }],
     actions: {}
   })
 
-  const nextPage = (val) => {
+  const nextPage = val => {
     // setIsLoading(true)
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
@@ -71,9 +68,7 @@ function DirectIq({ formFields, setFlow, flow, allIntegURL }) {
         setSnackbar={setSnackbar}
       />
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
         <DirectIqIntegLayout
           formID={formID}
           formFields={formFields}

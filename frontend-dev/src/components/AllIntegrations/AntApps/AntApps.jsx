@@ -21,7 +21,7 @@ function AntApps({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Ants & Apps',
     type: 'Ant Apps',
     method: 'POST',
-    url: process.env.NODE_ENV === 'development' ? 'https://antsandapps.com/....' : '',
+    url: '',
     apiConsole: 'https://my.antsandapps.com/'
   })
 
@@ -39,9 +39,7 @@ function AntApps({ formFields, setFlow, flow, allIntegURL }) {
         {antsAndApps?.youTubeLink && (
           <TutorialLink title="Ants and Apps" youTubeLink={antsAndApps?.youTubeLink} />
         )}
-        {antsAndApps?.docLink && (
-          <TutorialLink title="Ants and Apps" docLink={antsAndApps?.docLink} />
-        )}
+        {antsAndApps?.docLink && <TutorialLink title="Ants and Apps" docLink={antsAndApps?.docLink} />}
 
         <WebHooksIntegration
           formID={formID}
@@ -56,9 +54,7 @@ function AntApps({ formFields, setFlow, flow, allIntegURL }) {
       </div>
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
         <WebHooksStepTwo
           step={step}
           saveConfig={() =>

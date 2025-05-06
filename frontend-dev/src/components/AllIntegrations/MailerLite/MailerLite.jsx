@@ -29,10 +29,7 @@ function MailerLite({ formFields, setFlow, flow, allIntegURL }) {
     name: 'MailerLite',
     type: 'MailerLite',
     // eslint-disable-next-line max-len
-    auth_token:
-      process.env.NODE_ENV === 'development'
-        ? 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiMDkyZGQ0OTM5YWEyMTI2OGM5NGQzMDBkZTQ3MjRhZWM0YWU2MmUyMDExMjA4MzQ1ODllNzMzZGRjODRkYzY1ZjMzODYyZDBmZDhkZTgwOTIiLCJpYXQiOjE2ODUyNTI5NDEuMDA4NzU2LCJuYmYiOjE2ODUyNTI5NDEuMDA4NzU4LCJleHAiOjQ4NDA5MjY1NDEuMDAzNDY5LCJzdWIiOiI3MTY2MCIsInNjb3BlcyI6W119.VVT1hmV8xiZ-Js2HCbEbdkX1cVPGLHxeeCER0XPqZEtveQHTguhG9bdrzhnEfiZYILi4rgCpyiI9ib1kj7psQZX2lkBBtNao6QHecvwHejKNNjHvjsuGUX_Yy7Xeku5kU0wWKJod5zVHWcbESHbVlG09d2giMlsmoSvAk8OnkEy63JZ0kG2VGvqN8wGN9BJ1V9oNBsNrD-nPyw6VV0pNQmsFnjrL4_nvN4Z0f_wYbLnNH1b0Kv76N5NloDiXeyOlz2fqwi7XKD-JdvoUM0dF6zpso2c5BfN3zmOXzyY5r-qsvVQkSK7mN8t2XHh51roF2j2qZBy53Dm4ICitCeughGO5nb74od1okaKjAdDdC16HnW9Q7saSa31R1I_rAt150UkQKxrbDj8AWEyjAaF1KxzzyF8U77IxJhDSAdYm_rY62PMY8I8Me2rL7SnjQUZ8qwo5QNXWmbV8JZK9B-w7b7QiX0keT1gFufLwHIGZcM47YWmHXdBa1xtyQ-YB3A0Koi4K2oIa01uIXdWT4WS8OHSMH0sb2gCy_lYcOPDb0T7OaXi-Qq-knyPYT1rTcnPxS9AikuYokphiBttcaYbpzlBENvQWbkC29oIcnA6R4RMpKDwtdqz9eC8rDaaL4zbshvLZUyFkLGJvANT0tA2lSUCMBFOcGarRBMfyvH3Oux0'
-        : '',
+    auth_token: '',
     field_map: [{ formField: '', mailerLiteFormField: 'email' }],
     mailer_lite_type: '',
     mailerLiteFields: [],
@@ -53,7 +50,7 @@ function MailerLite({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -62,7 +59,7 @@ function MailerLite({ formFields, setFlow, flow, allIntegURL }) {
       }
     })
   }
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -99,9 +96,7 @@ function MailerLite({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <MailerLiteIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, mailerLiteConf, setMailerLiteConf, setLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, mailerLiteConf, setMailerLiteConf, setLoading, setSnackbar)}
           mailerLiteConf={mailerLiteConf}
           setMailerLiteConf={setMailerLiteConf}
           loading={loading}

@@ -22,9 +22,8 @@ function Mailup({ formFields, setFlow, flow, allIntegURL }) {
   const [mailupConf, setMailupConf] = useState({
     name: 'Mailup',
     type: 'Mailup',
-    clientId: process.env.NODE_ENV === 'development' ? '85e59098-8c70-46c6-b2a2-a95bf9c0a356' : '',
-    clientSecret:
-      process.env.NODE_ENV === 'development' ? '4e8c54cf-3c07-4c18-8d9c-47e0aa8ed6c1' : '',
+    clientId: '',
+    clientSecret: '',
     allList: [],
     allGroup: [],
     listId: '',
@@ -39,7 +38,7 @@ function Mailup({ formFields, setFlow, flow, allIntegURL }) {
     window.opener && setGrantTokenResponse('mailup')
   }, [])
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -77,7 +76,7 @@ function Mailup({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <MailupIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, mailupConf, setMailupConf, setIsLoading, setSnackbar)}
+          handleInput={e => handleInput(e, mailupConf, setMailupConf, setIsLoading, setSnackbar)}
           mailupConf={mailupConf}
           setMailupConf={setMailupConf}
           isLoading={isLoading}

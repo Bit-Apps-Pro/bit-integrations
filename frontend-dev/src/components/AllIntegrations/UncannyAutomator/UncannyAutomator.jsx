@@ -21,10 +21,7 @@ function UncannyAutomator({ formFields, setFlow, flow, allIntegURL }) {
     name: 'UncannyAutomator Web Hooks',
     type: 'UncannyAutomator',
     method: 'POST',
-    url:
-      process.env.NODE_ENV === 'development'
-        ? 'https://connect.uncannyAutomator.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D'
-        : ''
+    url: ''
   })
 
   return (
@@ -39,10 +36,7 @@ function UncannyAutomator({ formFields, setFlow, flow, allIntegURL }) {
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
         {uncannyAutomatorLinks?.youTubeLink && (
-          <TutorialLink
-            title="Uncanny Automator"
-            youTubeLink={uncannyAutomatorLinks?.youTubeLink}
-          />
+          <TutorialLink title="Uncanny Automator" youTubeLink={uncannyAutomatorLinks?.youTubeLink} />
         )}
         {uncannyAutomatorLinks?.docLink && (
           <TutorialLink title="Uncanny Automator" docLink={uncannyAutomatorLinks?.docLink} />
@@ -67,16 +61,7 @@ function UncannyAutomator({ formFields, setFlow, flow, allIntegURL }) {
         <WebHooksStepTwo
           step={step}
           saveConfig={() =>
-            saveIntegConfig(
-              flow,
-              setFlow,
-              allIntegURL,
-              uncannyAutomator,
-              navigate,
-              '',
-              '',
-              setIsLoading
-            )
+            saveIntegConfig(flow, setFlow, allIntegURL, uncannyAutomator, navigate, '', '', setIsLoading)
           }
           isLoading={isLoading}
         />

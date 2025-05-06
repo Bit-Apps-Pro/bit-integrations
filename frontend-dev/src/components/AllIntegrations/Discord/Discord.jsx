@@ -22,10 +22,7 @@ function Discord({ formFields, setFlow, flow, allIntegURL }) {
   const [discordConf, setDiscordConf] = useState({
     name: 'Discord',
     type: 'Discord',
-    accessToken:
-      process.env.NODE_ENV === 'development'
-        ? 'MTE4ODA1NTc5ODQzNDI1NDg2MA.G-UPBS.pKp3KXIsxsWleLojlW1oToI0Y9-IfuIqWi9oJk'
-        : '',
+    accessToken: '',
     parse_mode: 'HTML',
     field_map: [{ formField: '', discordFormField: '' }],
     server_id: '',
@@ -34,7 +31,7 @@ function Discord({ formFields, setFlow, flow, allIntegURL }) {
     actions: {}
   })
 
-  const nextPage = (val) => {
+  const nextPage = val => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -77,9 +74,7 @@ function Discord({ formFields, setFlow, flow, allIntegURL }) {
         }}>
         <DiscordIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, discordConf, setDiscordConf, setIsLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, discordConf, setDiscordConf, setIsLoading, setSnackbar)}
           discordConf={discordConf}
           setDiscordConf={setDiscordConf}
           isLoading={isLoading}

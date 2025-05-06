@@ -29,8 +29,7 @@ function EmailOctopus({ formFields, setFlow, flow, allIntegURL }) {
   const [emailOctopusConf, setEmailOctopusConf] = useState({
     name: 'EmailOctopus',
     type: 'EmailOctopus',
-    auth_token:
-      process.env.NODE_ENV === 'development' ? 'cb8a0959-b750-48b3-8d91-d4a7fad5d278' : '',
+    auth_token: '',
     field_map: [{ formField: '', emailOctopusFormField: '' }],
     emailOctopusFields: [],
     lists: [],
@@ -53,7 +52,7 @@ function EmailOctopus({ formFields, setFlow, flow, allIntegURL }) {
       '',
       setIsLoading
     )
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -63,7 +62,7 @@ function EmailOctopus({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -99,7 +98,7 @@ function EmailOctopus({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <EmailOctopusIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
+          handleInput={e =>
             handleInput(e, emailOctopusConf, setEmailOctopusConf, setLoading, setSnackbar)
           }
           emailOctopusConf={emailOctopusConf}
