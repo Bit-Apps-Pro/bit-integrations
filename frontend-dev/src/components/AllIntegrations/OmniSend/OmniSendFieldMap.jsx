@@ -1,12 +1,9 @@
 import { useRecoilValue } from 'recoil'
-import { useEffect } from 'react'
-import { __ } from '../../../Utils/i18nwrap'
-import MtInput from '../../Utilities/MtInput'
-import { addFieldMap, delFieldMap, handleCustomValue, handleFieldMapping } from './IntegrationHelpers'
-import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import { $btcbi } from '../../../GlobalStates'
-import { generateMappedField } from './OmniSendCommonFunc'
+import { __ } from '../../../Utils/i18nwrap'
+import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import TagifyInput from '../../Utilities/TagifyInput'
+import { addFieldMap, delFieldMap, handleCustomValue, handleFieldMapping } from './IntegrationHelpers'
 
 export default function OmniSendFieldMap({ i, formFields, field, omniSendConf, setOmniSendConf, type }) {
   const btcbi = useRecoilValue($btcbi)
