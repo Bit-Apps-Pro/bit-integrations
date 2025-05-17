@@ -11,7 +11,13 @@ Automation Plugin for WordPress. Integration of 110+ Triggers & 150+ Actions.The
 
 == Description ==
 
-<strong>no-code automation plugin for WordPress, enabling flawless workflows with webhooks, WooCommerce, CRM, LMS, Zapier and more | Best Automation Plugin for WordPress.</strong>
+**Bit Integrations is a powerful no-code automation plugin built for WordPress users who want to simplify workflows and boost productivity — without writing a single line of code. Whether you're running a small business, automating e-commerce store, or scaling your digital marketing automation, Bit Integrations helps you connect apps, collect data, and trigger actions automatically.**
+
+**no-code automation plugin for WordPress, enabling flawless workflows with webhooks, WooCommerce, CRM, LMS, Zapier and more | Best Automation Plugin for WordPress.**
+
+**Seamlessly connect with form builders, email marketing tools, and CRMs. Use webhooks integration, REST API integration, and platform connectors to create real-time data sync between your favorite apps.**
+
+**Design custom triggers, custom action, add conditional logic, handle errors smoothly for flexible data mapping — all through an intuitive UI.**
 
 Automate your WordPress workflow with **Bit Integrations**: the automation plugin for sending data authomatically to WooCommerce, form builders, CRM, LMS, bookings, spreadsheets, webhooks, social media, email marketing and automation platforms like Zapier and others. No technical knowledge needed. Automate tasks across 280+ platforms effortlessly.
 
@@ -36,7 +42,7 @@ https://youtu.be/UhTu6LCmh8A
 
 Bit Integrations is more than just a plugin—it's your gateway to seamless automation. Automate everything from simple tasks to complex workflows and watch your productivity soar with powerful automation tools.
 
-**WP Simple Hacks - Wordpress tips and tricks" youtube channels thoughts about WordPress automation plugin **Bit Integrations**
+**WP Simple Hacks - Wordpress tips and tricks" youtube channels thoughts about WordPress automation plugin **Bit Integrations\*\*
 
 https://youtu.be/tLNOuvPdhcY?si=2zWd4yTMYHZUpD7n
 
@@ -48,303 +54,302 @@ https://youtu.be/eFuficjF_F4
 
 Say goodbye to manual work and hello to effortless automation. With Bit Integrations, you can automate processes, integrate apps, and create a fully automated workflow that drives your WordPress site to new heights.
 
-### ✔List of Available Free Triggers:
+### ✔ List of Available Free Triggers:
 
-* **Elementor**
-* **Contact Form 7**
-* **WooCommerce**
-* **WPForms**
-* **Bit Form**
+- [**Elementor Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Contact Form 7 Automation**](https://bit-integrations.com/triggers/contact-form-7/connect)
+- [**WooCommerce Integration**](https://bit-integrations.com/triggers/woocommerce/connect)
+- [**WPForms Automation**](https://bit-integrations.com/triggers/wpforms/connect)
+- [**Bit Form Automation**](https://bit-integrations.com/triggers/bit-form/connect)
 
-### ✔List of Available Pro Triggers:
+### ✔ List of Available Pro Triggers:
 
-* **Webhook**
-* **Advanced Custom Fields (ACF)**
-* **Fluent Forms**
-* **Formidable**
-* **Bit Assist**
-* **Academy LMS**
-* **Advanced Coupons For WooCommerce**
-* **Appointment Hour Booking**
-* **Amelia**
-* **Action Hook**
-* **ARForms**
-* **ARMember**
-* **Beaver Builder**
-* **bbPress**
-* **Bricks**
-* **Bricksforge**
-* **BuddyBoss**
-* **BuddyPress**
-* **Brizy**
-* **Custom Trigger**
-* **Divi**
-* **Divi Form Builder**
-* **Dokan**
-* **Everest Forms**
-* **Eventin**
-* **Easy Digital Downloads**
-* **eForm**
-* **Essential Blocks**
-* **FluentCommunity**
-* **FluentSMTP**
-* **Fluent Booking**
-* **Fluent Boards**
-* **Fluent CRM**
-* **FunnelKit Automations CRM**
-* **Forminator**
-* **FormCraft**
-* **GravityKit**
-* **Gravity Forms**
-* **GamiPress**
-* **GiveWP**
-* **Gutena Forms**
-* **Groundhogg**
-* **Happyforms**
-* **Hustle**
-* **JetFormBuilder**
-* **JetEngine**
-* **Jetpack CRM**
-* **Kali Forms**
-* **Kadence Blocks**
-* **LearnDash**
-* **LearnPress**
-* **LifterLMS**
-* **MasterStudy LMS**
-* **Masteriyo LMS**
-* **Meta Box**
-* **Metform**
-* **MemberPress**
-* **MemberPress Courses**
-* **MailPoet**
-* **Mailster**
-* **Modern Events Calendar**
-* **myCred**
-* **Newsletter**
-* **NEX-Forms**
-* **Ninja Forms**
-* **Ninja Tables**
-* **OptinMonster**
-* **Paymattic**
-* **ProfileGrid**
-* **Profile Builder**
-* **PeepSo**
-* **Presto Player**
-* **Popup Maker**
-* **Piotnet Forms**
-* **Paid Memberships Pro**
-* **Pie Forms**
-* **Piotnet Addons For Elementor**
-* **Restrict Content**
-* **RafflePress**
-* **Quill Forms**
-* **UserFeedback**
-* **User Registration**
-* **Ultimate Member**
-* **Sensei LMS**
-* **SiteOrigin Widgets Bundle**
-* **Studiocart**
-* **SliceWP Affiliate**
-* **Simply Schedule Appointments**
-* **Solid Affiliate**
-* **Spectra**
-* **SureCart**
-* **SureFeedback**
-* **SureMail**
-* **SureForms**
-* **SureMembers**
-* **The Events Calendar**
-* **Tripetto**
-* **Tutor LMS**
-* **Voxel**
-* **weForms**
-* **Wishlist Member**
-* **WPLMS**
-* **WPLoyalty**
-* **WP All Import**
-* **WP-Polls**
-* **WP Post**
-* **WP Job Manager**
-* **WooCommerce Subscriptions**
-* **WooCommerce Bookings**
-* **WooCommerce Memberships**
-* **WP Courseware**
-* **WP Simple Pay**
-* **wpForo**
-* **WPFunnels**
-* **WS Form**
-* **MetaBox Frontend Submission**
+- [**Webhook Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Advanced Custom Fields (ACF) Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Fluent Forms Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Formidable Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Bit Assist Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Academy LMS Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Advanced Coupons For WooCommerce Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Appointment Hour Booking Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Amelia Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Action Hook Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**ARForms Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**ARMember Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Beaver Builder Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**bbPress Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Bricks Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Bricksforge Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**BuddyBoss Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**BuddyPress Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Brizy Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Custom Trigger Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Divi Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Divi Form Builder Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Dokan Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Everest Forms Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Eventin Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Easy Digital Downloads Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**eForm Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Essential Blocks Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**FluentCommunity Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**FluentSMTP Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Fluent Booking Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Fluent Boards Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Fluent CRM Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**FunnelKit Automations CRM Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Forminator Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**FormCraft Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**GravityKit Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Gravity Forms Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**GamiPress Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**GiveWP Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Gutena Forms Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Groundhogg Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Happyforms Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Hustle Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**JetFormBuilder Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**JetEngine Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Jetpack CRM Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Kali Forms Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Kadence Blocks Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**LearnDash Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**LearnPress Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**LifterLMS Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**MasterStudy LMS Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Masteriyo LMS Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Meta Box Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Metform Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**MemberPress Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**MemberPress Courses Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**MailPoet Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Mailster Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Modern Events Calendar Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**myCred Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Newsletter Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**NEX-Forms Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Ninja Forms Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Ninja Tables Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**OptinMonster Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Paymattic Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**ProfileGrid Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Profile Builder Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**PeepSo Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Presto Player Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Popup Maker Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Piotnet Forms Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Paid Memberships Pro Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Pie Forms Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Piotnet Addons For Elementor Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Restrict Content Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**RafflePress Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Quill Forms Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**UserFeedback Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**User Registration Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Ultimate Member Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Sensei LMS Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**SiteOrigin Widgets Bundle Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Studiocart Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**SliceWP Affiliate Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Simply Schedule Appointments Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Solid Affiliate Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Spectra Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**SureCart Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**SureFeedback Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**SureMail Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**SureForms Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**SureMembers Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**The Events Calendar Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Tripetto Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Tutor LMS Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Voxel Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**weForms Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Wishlist Member Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**WPLMS Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**WPLoyalty Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**WP All Import Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**WP-Polls Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**WP Post Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**WP Job Manager Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**WooCommerce Subscriptions Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**WooCommerce Bookings Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**WooCommerce Memberships Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**WP Courseware Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**WP Simple Pay Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**wpForo Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**WPFunnels Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**WS Form Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**MetaBox Frontend Submission Automation**](https://bit-integrations.com/triggers/elementor/connect)
 
 ### ✔List of Available Free Actions:
 
-* **Zapier**
-* **Uncanny Automator**
-* **SureTriggers**
-* **AutomatorWP**
-* **FlowMattic**
-* **Bit Form**
-* **Academy LMS**
-* **ActiveCampaign**
-* **Acumbamail**
-* **Advanced Form Integration**
-* **Agile CRM**
-* **Airtable**
-* **Albato**
-* **Asana**
-* **BuddyBoss**
-* **Constant Contact**
-* **Custom Action**
-* **Custom Api :**
-* **Capsule CRM**
-* **ClickUp**
-* **Copper CRM**
-* **Dokan**
-* **Discord**
-* **Drip**
-* **Dropbox**
-* **Elastic Email**
-* **Encharge**
-* **EmailOctopus**
-* **Flowlu**
-* **FluentCRM**
-* **Fluent Support**
-* **Freshdesk**
-* **Freshsales**
-* **GetResponse**
-* **GoHighLevel**
-* **Google Sheet**
-* **Google Calendar**
-* **Google Drive**
-* **Google Contacts**
-* **GamiPress**
-* **Groundhogg**
-* **GiveWP**
-* **Gravitec**
-* **HubSpot**
-* **Integrately**
-* **Make(Integromat)**
-* **OneHashCRM**
-* **IFTTT**
-* **Insightly**
-* **JetEngine**
-* **Keap (Infusionsoft)**
-* **Klaviyo**
-* **KonnectzIT**
-* **Kirim.Email**
-* **LearnDash**
-* **Lemlist**
-* **LifterLMS**
-* **LionDesk**
-* **Livestorm**
-* **License Manager for WooCommerce**
-* **Mail**
-* **MasterStudy LMS**
-* **MailBluster**
-* **Mailercloud**
-* **Mailchimp**
-* **MailerLite**
-* **MailPoet**
-* **Mailjet**
-* **Mautic**
-* **Mailrelay**
-* **Moosend**
-* **MemberPress**
-* **MailUp**
-* **Mailster**
-* **Mail Mint**
-* **Moxie**
-* **Newsletter**
-* **Nimble**
-* **Notion**
-* **Nutshell CRM**
-* **N8N**
-* **Omnisend**
-* **OneDrive**
-* **OneHash**
-* **OneHash**
-* **OptinMonster**
-* **Pabbly**
-* **Paid Memberships Pro**
-* **Perfex CRM**
-* **Pods**
-* **Post Creation**
-* **pCloud**
-* **Propovoice CRM**
-* **Pipedrive**
-* **Rapidmail**
-* **Registration**
-* **Restrict Content**
-* **Sales Plus**
-* **Salesforce**
-* **Salesflare**
-* **Salesmate**
-* **SliceWP Affiliate**
-* **SendinBlue(Brevo)**
-* **Sendy Widget**
-* **SendGrid**
-* **SendPulse**
-* **SendFox**
-* **SyncSpider**
-* **Slack**
-* **Selzy**
-* **Smaily**
-* **SmartSuite**
-* **Sperse IO**
-* **SureCart**
-* **SuiteDash**
-* **Sarbacane(Mailify)**
-* **SureMembers**
-* **SystemeIO**
-* **The Events Calendar**
-* **Telegram**
-* **Thrive Automator**
-* **Tutor LMS**
-* **Trello**
-* **Twilio**
-* **VBOUT**
-* **Voxel**
-* **Webhooks**
-* **WhatsApp**
-* **Wishlist**
-* **WooCommerce**
-* **Woodpecker**
-* **WP Courseware**
-* **WPFusion**
-* **wpForo**
-* **WP Webhooks**
-* **ZagoMail**
-* **Zendesk**
-* **Zoho Bigin**
-* **Zoho CRM**
-* **Zoho Campaigns**
-* **Zoho Sheet**
-* **Zoho Desk**
-* **Zoho Flow**
-* **Zoho Marketing Hub**
-* **Zoho Recruit**
-* **Zoom Meeting**
-* **Zoom Webinar**
-
+- [**Zapier Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Uncanny Automator Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**SureTriggers Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**AutomatorWP Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**FlowMattic Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Bit Form Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Academy LMS Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**ActiveCampaign Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Acumbamail Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Advanced Form Integration Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Agile CRM Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Airtable Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Albato Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Asana Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**BuddyBoss Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Constant Contact Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Custom Action Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Custom Api : Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Capsule CRM Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**ClickUp Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Copper CRM Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Dokan Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Discord Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Drip Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Dropbox Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Elastic Email Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Encharge Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**EmailOctopus Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Flowlu Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**FluentCRM Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Fluent Support Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Freshdesk Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Freshsales Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**GetResponse Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**GoHighLevel Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Google Sheet Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Google Calendar Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Google Drive Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Google Contacts Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**GamiPress Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Groundhogg Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**GiveWP Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Gravitec Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**HubSpot Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Integrately Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Make(Integromat) Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**OneHashCRM Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**IFTTT Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Insightly Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**JetEngine Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Keap (Infusionsoft) Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Klaviyo Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**KonnectzIT Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Kirim.Email Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**LearnDash Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Lemlist Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**LifterLMS Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**LionDesk Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Livestorm Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**License Manager for WooCommerce Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Mail Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**MasterStudy LMS Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**MailBluster Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Mailercloud Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Mailchimp Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**MailerLite Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**MailPoet Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Mailjet Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Mautic Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Mailrelay Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Moosend Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**MemberPress Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**MailUp Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Mailster Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Mail Mint Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Moxie Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Newsletter Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Nimble Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Notion Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Nutshell CRM Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**N8N Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Omnisend Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**OneDrive Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**OneHash Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**OneHash Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**OptinMonster Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Pabbly Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Paid Memberships Pro Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Perfex CRM Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Pods Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Post Creation Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**pCloud Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Propovoice CRM Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Pipedrive Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Rapidmail Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Registration Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Restrict Content Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Sales Plus Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Salesforce Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Salesflare Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Salesmate Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**SliceWP Affiliate Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**SendinBlue(Brevo) Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Sendy Widget Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**SendGrid Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**SendPulse Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**SendFox Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**SyncSpider Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Slack Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Selzy Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Smaily Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**SmartSuite Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Sperse IO Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**SureCart Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**SuiteDash Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Sarbacane(Mailify) Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**SureMembers Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**SystemeIO Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**The Events Calendar Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Telegram Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Thrive Automator Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Tutor LMS Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Trello Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Twilio Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**VBOUT Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Voxel Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Webhooks Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**WhatsApp Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Wishlist Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**WooCommerce Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Woodpecker Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**WP Courseware Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**WPFusion Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**wpForo Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**WP Webhooks Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**ZagoMail Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Zendesk Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Zoho Bigin Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Zoho CRM Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Zoho Campaigns Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Zoho Sheet Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Zoho Desk Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Zoho Flow Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Zoho Marketing Hub Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Zoho Recruit Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Zoom Meeting Automation**](https://bit-integrations.com/triggers/elementor/connect)
+- [**Zoom Webinar Automation**](https://bit-integrations.com/triggers/elementor/connect)
 
 **Most popular automation use cases below for more understanding about this automation plugin**
 
-* Automate order management, customer data syncing, product updates, and more. Common integrations include **WooCommerce + CRM**, **WooCommerce + Email Marketing**, and **WooCommerce + Google Sheets**.
+- Automate order management, customer data syncing, product updates, and more. Common integrations include **WooCommerce + CRM**, **WooCommerce + Email Marketing**, and **WooCommerce + Google Sheets**.
 
-* **Mailchimp + WooCommerce** for automated email marketing and **Mailchimp + WPForms** for form-based sign-ups or newsletters.
+- **Mailchimp + WooCommerce** for automated email marketing and **Mailchimp + WPForms** for form-based sign-ups or newsletters.
 
-* **HubSpot + Bit Form** to automatically sync leads or form submissions with your CRM, and **HubSpot + WooCommerce** to enhance eCommerce customer tracking.
+- **HubSpot + Bit Form** to automatically sync leads or form submissions with your CRM, and **HubSpot + WooCommerce** to enhance eCommerce customer tracking.
 
-* **Zapier + Bit Integrations** to extend the platform’s capabilities by connecting to more platforms that aren’t natively supported.
+- **Zapier + Bit Integrations** to extend the platform’s capabilities by connecting to more platforms that aren’t natively supported.
 
-* **LearnDash + WooCommerce** for automating course registration and payments, or **LearnDash + CRM** to sync user enrollment data.
+- **LearnDash + WooCommerce** for automating course registration and payments, or **LearnDash + CRM** to sync user enrollment data.
 
-* **Google Sheets + WooCommerce** for automating order records, or **Google Sheets + WPForms** for automatically populating form submissions.
+- **Google Sheets + WooCommerce** for automating order records, or **Google Sheets + WPForms** for automatically populating form submissions.
 
-* **ActiveCampaign + Bit Form** to automate the process of adding form submissions to the email list, or **ActiveCampaign + WooCommerce** to trigger marketing campaigns based on purchase behavior.
+- **ActiveCampaign + Bit Form** to automate the process of adding form submissions to the email list, or **ActiveCampaign + WooCommerce** to trigger marketing campaigns based on purchase behavior.
 
-* **Salesforce + WooCommerce** to sync customer and order data, or **Salesforce + Bit Form** to capture leads from forms directly into Salesforce.
+- **Salesforce + WooCommerce** to sync customer and order data, or **Salesforce + Bit Form** to capture leads from forms directly into Salesforce.
 
-* **Trello + WPForms** to create cards or tasks automatically when a form is submitted, or **Trello + WooCommerce** to create tasks or track orders as cards in Trello.
+- **Trello + WPForms** to create cards or tasks automatically when a form is submitted, or **Trello + WooCommerce** to create tasks or track orders as cards in Trello.
 
 ## ♻ How does this plugin work?
 
@@ -383,24 +388,33 @@ Wp-Telemetry **DOES NOT IMMEDIATELY** start gathering data, rather it will gathe
 
 ### ⚡ Key Features:
 
-* **No-code automation**: Automate your WordPress workflows without coding.
+- ⚡ **No-code automation**: No-code automation for small businesses, marketers, and eCommerce sites.
 
-* **Webhooks Integration**: Send and receive data via webhooks to hundreds of platforms.
+- 🔁 **Automated workflows**: Create automated workflows across hundreds of apps and services.
 
-* **CRM Integration**: Automate lead generation and manage customer data across CRMs like **Zoho CRM**, **Salesforce**, **HubSpot**.
+- 🌐 **Webhooks Integration**: Send and receive data via webhooks to hundreds of platforms.
 
-* **WooCommerce Automation**: Automatically sync orders, customers, and products.
+- 🧩 **Powerful data mapping**: Powerful data mapping for seamless data transfer automation.
 
-* **Form Builder Integration**: Connect form data from **Contact Form 7**, **WPForms**, **Bit Form**, **Elementor Forms**, etc., to CRMs, email marketing platforms, and more.
+- 🎯 **Custom Triggre & Conditional Logic**: Use custom triggers and conditional logic to tailor actions.
 
-* **Social Media and Email Marketing Automation**: Send data to platforms like **Mailchimp**, **ActiveCampaign**, **MailPoet**.
+- 🔄 **Real-time data sync**: Ensure real-time data sync across tools.
 
-* **Easy Setup**: Get started with simple, no-code automation setups for all your integrations.
+- 🧩 **CRM integrations**: Automate lead generation and manage customer data across CRMs like Zoho CRM, Salesforce, HubSpot.
 
-* **Detailed Logging**: View logs of all your data submissions and automated actions.
+- 💌 **Email marketing automation**: Email marketing automation with Mailchimp, Sendinblue, and more.
 
-* **Access to 290+ Integrations**: Easily connect with tools like **Zapier**, **Google Sheets**, **Trello**, **Slack**, and more.
+- 🛍️ **WooCommerce Automation**: Native e-commerce integrations and Automatically sync orders, customers, and products.
 
+- 📥 **Form Builder Integration**: Automated data collection from popular form builder integrations. Connect form data from Contact Form 7, WPForms, Bit Form, Elementor Forms, etc., to CRMs, email marketing platforms, and more.
+
+- 📱 **Social Media Automation**: Send data to platforms like Telegram, WhatsApp, Slack, Discord and more.
+
+- ⚙️ **Easy Setup**: Get started with simple, no-code automation setups for all your integrations.
+
+- 🧠 **Detailed Logging**: Smart error handling with view logs of all your data submissions and automated actions.
+
+- 🔁 **Access to 290+ Integrations**: Easily connect with tools like Zapier, Google Sheets, Trello, Slack, and more.
 
 ### ✨ [**Bit Integrations Pro Version Features**](https://www.bitapps.pro/bit-integrations/) :
 
@@ -411,842 +425,841 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 ### 💥 Don't worry, we give you some video tutorials with use cases to help you get started with the plugin.
 
-* [**Bit Integrations**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALMEsKLYKebKb5XLGPWMNue)
+- [**Bit Integrations**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALMEsKLYKebKb5XLGPWMNue)
 
-* [**ActiveCampaign**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJi9NlLdluJLhADHgyymPgf)
+- [**ActiveCampaign**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJi9NlLdluJLhADHgyymPgf)
 
-* [**Academy LMS**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AL0ckxqJPUdiG0syI65HXg2)
+- [**Academy LMS**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AL0ckxqJPUdiG0syI65HXg2)
 
-* [**Action Hook**](https://youtube.com/playlist?list=PL7c6CDwwm-AKFj4x2bWQ9PSP_5aRNj-Tm&si=JJQtYb_vE4Dp0WID)
+- [**Action Hook**](https://youtube.com/playlist?list=PL7c6CDwwm-AKFj4x2bWQ9PSP_5aRNj-Tm&si=JJQtYb_vE4Dp0WID)
 
-* [**AffiliateWP**](https://youtube.com/playlist?list=PL7c6CDwwm-AKA6EP_4OMVlEHrBw5kSrQo&si=R76z2gaUISflMfAN)
+- [**AffiliateWP**](https://youtube.com/playlist?list=PL7c6CDwwm-AKA6EP_4OMVlEHrBw5kSrQo&si=R76z2gaUISflMfAN)
 
-* [**Airtable**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKVpJtCejmJnsXrKl4xWLUz)
+- [**Airtable**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKVpJtCejmJnsXrKl4xWLUz)
 
-* [**Agiled CRM**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKR_aHEcgno5CONC2GXgJj1)
+- [**Agiled CRM**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKR_aHEcgno5CONC2GXgJj1)
 
-* [**Amelia**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJtHagrdIb16C3yVYX6rUTv)
+- [**Amelia**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJtHagrdIb16C3yVYX6rUTv)
 
-* [**ARForms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALPmhxRCE2HuhGMPAlCoptE)
+- [**ARForms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALPmhxRCE2HuhGMPAlCoptE)
 
-* [**Asana**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALqRZ-IfDlhwqu40W6GG6iP)
+- [**Asana**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALqRZ-IfDlhwqu40W6GG6iP)
 
-* [**Beaver Builder Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AL1d8J_r7brB_pZ7iRIpPpx)
+- [**Beaver Builder Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AL1d8J_r7brB_pZ7iRIpPpx)
 
-* [**Benchmark Email**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIrUyTzC5KAyuEv22VDxXhU)
+- [**Benchmark Email**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIrUyTzC5KAyuEv22VDxXhU)
 
-* [**Bit Assist**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5)
+- [**Bit Assist**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5)
 
-* [**Bit Assist Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJeqs93IpMJ99064Sb_ebCO)
+- [**Bit Assist Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJeqs93IpMJ99064Sb_ebCO)
 
-* [**Bit Form**](https://youtube.com/playlist?list=PL7c6CDwwm-AIJN9QZGc3jORO9Z6Rjp0O6&si=3dmBltytfhXu_I_p)
+- [**Bit Form**](https://youtube.com/playlist?list=PL7c6CDwwm-AIJN9QZGc3jORO9Z6Rjp0O6&si=3dmBltytfhXu_I_p)
 
-* [**Breakdance Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKSASMJiVsaECw_seJI-hd0)
+- [**Breakdance Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKSASMJiVsaECw_seJI-hd0)
 
-* [**Brevo (Sendinblue)**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALjCKxsaR8FfT73Qv8mDEQ6)
+- [**Brevo (Sendinblue)**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALjCKxsaR8FfT73Qv8mDEQ6)
 
-* [**Bricks Page Builder Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKyyZhh4_n-MqdeaFv6x4iK)
+- [**Bricks Page Builder Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKyyZhh4_n-MqdeaFv6x4iK)
 
-* [**BricksForge**](https://youtube.com/playlist?list=PL7c6CDwwm-AJvSYtsYiyH7O0CuV661H0s&si=PDzqwZCKfO563eay)
+- [**BricksForge**](https://youtube.com/playlist?list=PL7c6CDwwm-AJvSYtsYiyH7O0CuV661H0s&si=PDzqwZCKfO563eay)
 
-* [**Brizy Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJYTO5YvgqLeNdbWzGUmC_h)
+- [**Brizy Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJYTO5YvgqLeNdbWzGUmC_h)
 
-* [**BuddyBoss**](https://youtube.com/playlist?list=PL7c6CDwwm-AL1Lmj_7nU7vTQwly34ScS1&si=3ylnHM-JxIjjXm1f)
+- [**BuddyBoss**](https://youtube.com/playlist?list=PL7c6CDwwm-AL1Lmj_7nU7vTQwly34ScS1&si=3ylnHM-JxIjjXm1f)
 
-* [**Conditional Logics**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJvTRBjjKOrNZARdHLa9OOf)
+- [**Conditional Logics**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJvTRBjjKOrNZARdHLa9OOf)
 
-* [**Contact Form 7**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AL85-ajsYQ7LOhs1t2y6toV)
+- [**Contact Form 7**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AL85-ajsYQ7LOhs1t2y6toV)
 
-* [**CoBlocks**](https://youtube.com/playlist?list=PL7c6CDwwm-AI3cQxtPuRI6ssSihs7hRkq&si=XOZQD_NDGYw4FzFR)
+- [**CoBlocks**](https://youtube.com/playlist?list=PL7c6CDwwm-AI3cQxtPuRI6ssSihs7hRkq&si=XOZQD_NDGYw4FzFR)
 
-* [**Kit (ConvertKit)**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AITR_K9KlAnPTJeYBFcFEcy)
+- [**Kit (ConvertKit)**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AITR_K9KlAnPTJeYBFcFEcy)
 
-* [**Copper CRM**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIDfH9sPdxJ9vuUdWuJFx_p)
+- [**Copper CRM**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIDfH9sPdxJ9vuUdWuJFx_p)
 
-* [**DirectIQ**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AI9ZIECQakOnGjj8mKggEEl)
+- [**DirectIQ**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AI9ZIECQakOnGjj8mKggEEl)
 
-* [**Divi Contact Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJpOfpcioYpZOYbhcY_qTLN)
+- [**Divi Contact Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJpOfpcioYpZOYbhcY_qTLN)
 
-* [**Dokan**](https://youtube.com/playlist?list=PL7c6CDwwm-AK_Lwk-n8sM2XzXl6D2Ixti&si=CpX_qIy8wm3QC_x1)
+- [**Dokan**](https://youtube.com/playlist?list=PL7c6CDwwm-AK_Lwk-n8sM2XzXl6D2Ixti&si=CpX_qIy8wm3QC_x1)
 
-* [**Dropbox**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AI7DZ2EQhJCISI84iaLhz6C)
+- [**Dropbox**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AI7DZ2EQhJCISI84iaLhz6C)
 
-* [**Easy Digital Downloads (EDD)**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIrOtwsULBh0YD6Rz4pNaro)
+- [**Easy Digital Downloads (EDD)**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIrOtwsULBh0YD6Rz4pNaro)
 
-* [**Elastic Email**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKGk8q9MzrgeZvIqoP0yrWS)
+- [**Elastic Email**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKGk8q9MzrgeZvIqoP0yrWS)
 
-* [**Elementor Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALGg0fZNLDIHjh1QJPcDSXp)
+- [**Elementor Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALGg0fZNLDIHjh1QJPcDSXp)
 
-* [**EmailOctopus**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJ9CS13FDnTgPfbhjMG2x1O)
+- [**EmailOctopus**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJ9CS13FDnTgPfbhjMG2x1O)
 
-* [**Encharge**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AImmtJe83OV_alDRJtl_Wm2)
+- [**Encharge**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AImmtJe83OV_alDRJtl_Wm2)
 
-* [**Everest Forms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJ-BjBZjgzvMIgs8HXT5E3B)
+- [**Everest Forms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJ-BjBZjgzvMIgs8HXT5E3B)
 
-* [**Essential Blocks**](https://youtube.com/playlist?list=PL7c6CDwwm-AIRLKYqjVf-61q1bfTCxBaa&si=55cwNbh6atThh6WN)
+- [**Essential Blocks**](https://youtube.com/playlist?list=PL7c6CDwwm-AIRLKYqjVf-61q1bfTCxBaa&si=55cwNbh6atThh6WN)
 
-* [**eForm**](https://youtube.com/playlist?list=PL7c6CDwwm-AJIlWYWJ0pCIP8yWrd0CYPw&si=2-b1hbFEz7F_BWJu)
+- [**eForm**](https://youtube.com/playlist?list=PL7c6CDwwm-AJIlWYWJ0pCIP8yWrd0CYPw&si=2-b1hbFEz7F_BWJu)
 
-* [**FluentCRM**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJy5hZGqcKBmtxO-9TSNlmy)
+- [**FluentCRM**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJy5hZGqcKBmtxO-9TSNlmy)
 
-* [**Fluent Forms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIyB8ezuQkv5T-_8T7MaTV7)
+- [**Fluent Forms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIyB8ezuQkv5T-_8T7MaTV7)
 
-* [**Fluent Support**](https://youtube.com/playlist?list=PL7c6CDwwm-AJk_-lRrBQGqA0ZdErCb6q0&si=sAdwkHNP4zdXEwTz)
+- [**Fluent Support**](https://youtube.com/playlist?list=PL7c6CDwwm-AJk_-lRrBQGqA0ZdErCb6q0&si=sAdwkHNP4zdXEwTz)
 
-* [**Forminator Forms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALvmungUM60JXvI-PcsDK90)
+- [**Forminator Forms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALvmungUM60JXvI-PcsDK90)
 
-* [**FormCraft**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIEaLLGpxecKyCtUEidGs8A)
+- [**FormCraft**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIEaLLGpxecKyCtUEidGs8A)
 
-* [**Formidable Forms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALZZxjFPE7bKPjoz0nVZUN3)
+- [**Formidable Forms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALZZxjFPE7bKPjoz0nVZUN3)
 
-* [**Freshdesk**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKSOvPOxvQ73003RJqjyzmq)
+- [**Freshdesk**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKSOvPOxvQ73003RJqjyzmq)
 
-* [**Freshsales**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJpdtINh80Pq8YQXdp0Wvsi)
+- [**Freshsales**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJpdtINh80Pq8YQXdp0Wvsi)
 
-* [**GamiPress**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKvoKAatg5ioOep1N77Ek2d)
+- [**GamiPress**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKvoKAatg5ioOep1N77Ek2d)
 
-* [**GetGist**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALmJUyTlrw7KyKeWSwa0-9_)
+- [**GetGist**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALmJUyTlrw7KyKeWSwa0-9_)
 
-* [**GetResponse**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJ-gbPXJY3k6knIjPXiLuay)
+- [**GetResponse**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJ-gbPXJY3k6knIjPXiLuay)
 
-* [**GiveWP**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJd_oKE5n438PSWLUg35I2v)
+- [**GiveWP**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJd_oKE5n438PSWLUg35I2v)
 
-* [**Google Calendar**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJ9gfbu6S8M1DCTaWWCWptu)
+- [**Google Calendar**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJ9gfbu6S8M1DCTaWWCWptu)
 
-* [**Google Contacts**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AL2YdvUmvYmjjYx4brP5t81)
+- [**Google Contacts**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AL2YdvUmvYmjjYx4brP5t81)
 
-* [**Google Drive**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AI1G80MgmdIewYLPqsr7Bl2)
+- [**Google Drive**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AI1G80MgmdIewYLPqsr7Bl2)
 
-* [**Google Sheet**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKuQdXT_tF6D9xEYIF2U5EF)
+- [**Google Sheet**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKuQdXT_tF6D9xEYIF2U5EF)
 
-* [**Gravity Forms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKbkYDUkBo_Z6zCviYruqmb)
+- [**Gravity Forms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKbkYDUkBo_Z6zCviYruqmb)
 
-* [**Groundhogg**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AITHa6jPQ3TfYo1P0FsNkF1)
+- [**Groundhogg**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AITHa6jPQ3TfYo1P0FsNkF1)
 
-* [**Gutena Forms**](https://youtube.com/playlist?list=PL7c6CDwwm-AJ9xNgikf2unjXj2h0sc9u4&si=Sv9E3kjSdtjNgdeh)
+- [**Gutena Forms**](https://youtube.com/playlist?list=PL7c6CDwwm-AJ9xNgikf2unjXj2h0sc9u4&si=Sv9E3kjSdtjNgdeh)
 
-* [**Happyforms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALmHg1oLd4UGLzes70-OqWe)
+- [**Happyforms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALmHg1oLd4UGLzes70-OqWe)
 
-* [**HubSpot**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AI1QPJIx4YUwpQLVbTvw1KO)
+- [**HubSpot**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AI1QPJIx4YUwpQLVbTvw1KO)
 
-* [**Hustle**](https://youtube.com/playlist?list=PL7c6CDwwm-ALdteHY5s3KJQERS2PFY5tI&si=WT00hxB42qRGbbn1)
+- [**Hustle**](https://youtube.com/playlist?list=PL7c6CDwwm-ALdteHY5s3KJQERS2PFY5tI&si=WT00hxB42qRGbbn1)
 
-* [**Integrately**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AInYjAN6svcuBDHJolbCkIZ)
+- [**Integrately**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AInYjAN6svcuBDHJolbCkIZ)
 
-* [**Make(Integromat)**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AL8HfPs26xjhzc_7ysFYrCu)
+- [**Make(Integromat)**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AL8HfPs26xjhzc_7ysFYrCu)
 
-* [**JetFormBuilder**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJtNwId97vmLRjpqAWiZrpb)
+- [**JetFormBuilder**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJtNwId97vmLRjpqAWiZrpb)
 
-* [**Kadence Blocks Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIYYb6OSx05xgfrQ0v2Eatm)
+- [**Kadence Blocks Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIYYb6OSx05xgfrQ0v2Eatm)
 
-* [**Kali Forms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKZDVuoVAU1fIXuPDFjQKwd)
+- [**Kali Forms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKZDVuoVAU1fIXuPDFjQKwd)
 
-* [**Klaviyo**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIH42QKENrstP5MpfIieHtz)
+- [**Klaviyo**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIH42QKENrstP5MpfIieHtz)
 
-* [**KonnectzIT**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJWYHqcUzFwVsiCy_2uUxml)
+- [**KonnectzIT**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJWYHqcUzFwVsiCy_2uUxml)
 
-* [**LearnDash**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALIfOiZvP_7IGF8ASejyNWD)
+- [**LearnDash**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALIfOiZvP_7IGF8ASejyNWD)
 
-* [**Lemlist**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALlqBRAtTILihQLCYtJi2X3)
+- [**Lemlist**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALlqBRAtTILihQLCYtJi2X3)
 
-* [**LifterLMS**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJRGUfkF0prpGOOonGktABQ)
+- [**LifterLMS**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJRGUfkF0prpGOOonGktABQ)
 
-* [**MailBluster**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKizqbIH_kWIGoPaoRUmY0j)
+- [**MailBluster**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKizqbIH_kWIGoPaoRUmY0j)
 
-* [**Mail Mint**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AI0HbXNIZLj08eYGZQx4z9j)
+- [**Mail Mint**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AI0HbXNIZLj08eYGZQx4z9j)
 
-* [**Mailchimp**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALUaeqiK9GwBSxVkAod1PzP)
+- [**Mailchimp**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALUaeqiK9GwBSxVkAod1PzP)
 
-* [**Mailercloud**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIqOr2OMJT8FNh9QPVm2NQ6)
+- [**Mailercloud**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIqOr2OMJT8FNh9QPVm2NQ6)
 
-* [**MailerLite**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKe60pZMUmlWnHQWKrx8nw8)
+- [**MailerLite**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKe60pZMUmlWnHQWKrx8nw8)
 
-* [**Mailify (Sarbacane)**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJjJSkugTCNWW_mfwnFK02i)
+- [**Mailify (Sarbacane)**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJjJSkugTCNWW_mfwnFK02i)
 
-* [**Mailjet**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKgFBwkpaM0Uah1RPpaq0LO)
+- [**Mailjet**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKgFBwkpaM0Uah1RPpaq0LO)
 
-* [**MailPoet**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJXbv17x7QVuO9dxddO6Z-1)
+- [**MailPoet**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJXbv17x7QVuO9dxddO6Z-1)
 
-* [**Mailster**](https://youtube.com/playlist?list=PL7c6CDwwm-AK04F8F1OgzMOK8_2w1XLus&si=-tbAjs5z1e5cvuwz)
+- [**Mailster**](https://youtube.com/playlist?list=PL7c6CDwwm-AK04F8F1OgzMOK8_2w1XLus&si=-tbAjs5z1e5cvuwz)
 
-* [**MasterStudy LMS**](https://youtube.com/playlist?list=PL7c6CDwwm-AIRhdvMtVF1lKcj4zD1cFHK&si=1Ap7GSgn_mpMxgej)
+- [**MasterStudy LMS**](https://youtube.com/playlist?list=PL7c6CDwwm-AIRhdvMtVF1lKcj4zD1cFHK&si=1Ap7GSgn_mpMxgej)
 
-* [**Mailrelay**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AL4Qq3LwifB5Q0FMc9jbCBh)
+- [**Mailrelay**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AL4Qq3LwifB5Q0FMc9jbCBh)
 
-* [**MailUp**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKZoTOsege0sBuR1kPqnUhI)
+- [**MailUp**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKZoTOsege0sBuR1kPqnUhI)
 
-* [**Mautic**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIJBYngBbT4yuYwBd51yEXb)
+- [**Mautic**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIJBYngBbT4yuYwBd51yEXb)
 
-* [**MB Frontend Submission**](https://youtube.com/playlist?list=PL7c6CDwwm-AK4FF8E3vyuTPu90EwYGaGn&si=MfwDm2QbRlytCshM)
+- [**MB Frontend Submission**](https://youtube.com/playlist?list=PL7c6CDwwm-AK4FF8E3vyuTPu90EwYGaGn&si=MfwDm2QbRlytCshM)
 
-* [**MetaBox Frontend Submission**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKm2-Ex0E2aUit6aai2LM09)
+- [**MetaBox Frontend Submission**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKm2-Ex0E2aUit6aai2LM09)
 
-* [**MetForm**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AI6D0gHqgQMrKAD8uWxCF5j)
+- [**MetForm**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AI6D0gHqgQMrKAD8uWxCF5j)
 
-* [**Moosend**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALkxq7mPauOZN1aU2vIWnER)
+- [**Moosend**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALkxq7mPauOZN1aU2vIWnER)
 
-* [**Ninja Forms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKq_x_MEanFAgLZtaYUstKY)
+- [**Ninja Forms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKq_x_MEanFAgLZtaYUstKY)
 
-* [**Notion**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AI-HlfXA-3V-mMcJ_g8L6gl)
+- [**Notion**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AI-HlfXA-3V-mMcJ_g8L6gl)
 
-* [**Omnisend**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJtfMscjcjlQWfurvh2jy2J)
+- [**Omnisend**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJtfMscjcjlQWfurvh2jy2J)
 
-* [**OneDrive**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKmwv84LP85aQDa2HdM9cPc)
+- [**OneDrive**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKmwv84LP85aQDa2HdM9cPc)
 
-* [**pCloud**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKN8YP9ZiA2Nr2YJkPsQL8x)
+- [**pCloud**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKN8YP9ZiA2Nr2YJkPsQL8x)
 
-* [**Pabbly Connect**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKWWLROSA7sPf75a4TfNKKg)
+- [**Pabbly Connect**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKWWLROSA7sPf75a4TfNKKg)
 
-* [**Paid Memberships Pro**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJIZ020K3uZyVFDr00u-O6K)
+- [**Paid Memberships Pro**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJIZ020K3uZyVFDr00u-O6K)
 
-* [**Piotnet Addons for Elementor Form (PAFE)**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIw22xCcveVAG1q1KgCXo7t)
+- [**Piotnet Addons for Elementor Form (PAFE)**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIw22xCcveVAG1q1KgCXo7t)
 
-* [**Piotnet Forms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIC8HEO3M6L514FeS-4lsAE)
+- [**Piotnet Forms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIC8HEO3M6L514FeS-4lsAE)
 
-* [**Propovoice CRM**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALypdI2_549Vquqwc5qdDUE)
+- [**Propovoice CRM**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALypdI2_549Vquqwc5qdDUE)
 
-* [**RapidMail**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIptiRzWyY65BhngKd_dqbQ)
+- [**RapidMail**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIptiRzWyY65BhngKd_dqbQ)
 
-* [**Restrict Content**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJq1l8SeKisLk60ewQRreg1)
+- [**Restrict Content**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJq1l8SeKisLk60ewQRreg1)
 
-* [**Salesforce**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJHfZhVPrQ4KLQMNbVNgcnv)
+- [**Salesforce**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJHfZhVPrQ4KLQMNbVNgcnv)
 
-* [**Salesmate CRM**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJehgjc-7kcMyoPLOSLDxoc)
+- [**Salesmate CRM**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJehgjc-7kcMyoPLOSLDxoc)
 
-* [**Selzy**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKX9kTxBGWtQ_6R36EzK68N)
+- [**Selzy**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKX9kTxBGWtQ_6R36EzK68N)
 
-* [**SendFox**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKhQzTDGUWR6OAVj-uN1-Ep)
+- [**SendFox**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKhQzTDGUWR6OAVj-uN1-Ep)
 
-* [**SendGrid**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AI1QPJIx4YUwpQLVbTvw1KO)
+- [**SendGrid**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AI1QPJIx4YUwpQLVbTvw1KO)
 
-* [**SendPulse**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJlUggyhxxiPMqUvxFfqzGN)
+- [**SendPulse**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJlUggyhxxiPMqUvxFfqzGN)
 
-* [**Sendy Widget**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AINF7yrxJGD6b4kghdm6AyS)
+- [**Sendy Widget**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AINF7yrxJGD6b4kghdm6AyS)
 
-* [**Smaily**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKu0p4pFVuQs66fDavvyL0o)
+- [**Smaily**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKu0p4pFVuQs66fDavvyL0o)
 
-* [**SiteOrigin**](https://youtube.com/playlist?list=PL7c6CDwwm-AIkjyDJvcaTv4280D8yuYKE&si=Dy97J9ltIw1a0f61)
+- [**SiteOrigin**](https://youtube.com/playlist?list=PL7c6CDwwm-AIkjyDJvcaTv4280D8yuYKE&si=Dy97J9ltIw1a0f61)
 
-* [**Slack**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALs0FkFMv0hh5_22fawGJsb)
+- [**Slack**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALs0FkFMv0hh5_22fawGJsb)
 
-* [**SliceWP Affiliate**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALhoOseAyoCeffUOwCssDeQ)
+- [**SliceWP Affiliate**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALhoOseAyoCeffUOwCssDeQ)
 
-* [**Solid Affiliate**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJqJ6U-pXbBTTzKQJwy_jX-)
+- [**Solid Affiliate**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJqJ6U-pXbBTTzKQJwy_jX-)
 
-* [**Spectra**](https://youtube.com/playlist?list=PL7c6CDwwm-AL6IEfQLbHpWfq0lZl9Cci3&si=6uIkB8wwvnlIM9kO)
+- [**Spectra**](https://youtube.com/playlist?list=PL7c6CDwwm-AL6IEfQLbHpWfq0lZl9Cci3&si=6uIkB8wwvnlIM9kO)
 
-* [**Studiocart**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIzdZmtu18zJZwQFSZohEqq)
+- [**Studiocart**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIzdZmtu18zJZwQFSZohEqq)
 
-* [**SureCart**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALWAM6nXMfveSjTUUxONz7Y)
+- [**SureCart**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALWAM6nXMfveSjTUUxONz7Y)
 
-* [**SureForms**](https://youtube.com/playlist?list=PL7c6CDwwm-AJ0kTe5L9ZudU2CTNVs2boG&si=LbCaz6HlrhTywuL6)
+- [**SureForms**](https://youtube.com/playlist?list=PL7c6CDwwm-AJ0kTe5L9ZudU2CTNVs2boG&si=LbCaz6HlrhTywuL6)
 
-* [**SureMembers**](https://youtube.com/playlist?list=PL7c6CDwwm-AL1LP5QSkVmALdxVs_M3AAA&si=OruvZVrsMwL7Fd3K)
+- [**SureMembers**](https://youtube.com/playlist?list=PL7c6CDwwm-AL1LP5QSkVmALdxVs_M3AAA&si=OruvZVrsMwL7Fd3K)
 
-* [**Telegram**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKWf-FAvcCGFqgAzroUvrX5)
+- [**Telegram**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKWf-FAvcCGFqgAzroUvrX5)
 
-* [**Trello**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALwkqPjpDK9SbXzpG6xSJz4)
+- [**Trello**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALwkqPjpDK9SbXzpG6xSJz4)
 
-* [**Tripetto Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKFEQ4Inx09-M8he5w5V80P)
+- [**Tripetto Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKFEQ4Inx09-M8he5w5V80P)
 
-* [**Tutor LMS**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKtLYQYbqcV6W_SYpVH9dJV)
+- [**Tutor LMS**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKtLYQYbqcV6W_SYpVH9dJV)
 
-* [**Twilio**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIdj2m4zjTUt6FaX8lWHeAf)
+- [**Twilio**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIdj2m4zjTUt6FaX8lWHeAf)
 
-* [**Ultimate Member**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIQZ6_LkYASRj5zBJnNWDne)
+- [**Ultimate Member**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIQZ6_LkYASRj5zBJnNWDne)
 
-* [**VBOUT**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKFBZEeN02rhG3lNCiy76yn)
+- [**VBOUT**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKFBZEeN02rhG3lNCiy76yn)
 
-* [**Webhooks**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AK9UTFZUC--v1aCMNms6QUr)
+- [**Webhooks**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AK9UTFZUC--v1aCMNms6QUr)
 
-* [**weForms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJxrtiuCRgT8ZyKMCDMJYIP)
+- [**weForms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJxrtiuCRgT8ZyKMCDMJYIP)
 
-* [**Wishlist Member**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIsdIcLNYtPXJGnTZ_UmWvT)
+- [**Wishlist Member**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIsdIcLNYtPXJGnTZ_UmWvT)
 
-* [**WooCommerce**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIjBabvB9-BmttQmFQGVd7_)
+- [**WooCommerce**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIjBabvB9-BmttQmFQGVd7_)
 
-* [**WordPress User Registration**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKXUCcNE3JzpdQ-REGaZqP0)
+- [**WordPress User Registration**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKXUCcNE3JzpdQ-REGaZqP0)
 
-* [**WordPress Post**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKVAxNlFLKvcVd_9yiX1mgZ)
+- [**WordPress Post**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKVAxNlFLKvcVd_9yiX1mgZ)
 
-* [**WPForms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKn6NqhMqYhgi61eZELRHFK)
+- [**WPForms**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKn6NqhMqYhgi61eZELRHFK)
 
-* [**WPForo Forum**](https://youtube.com/playlist?list=PL7c6CDwwm-AJmBlJbqcOqRWBerqOUdRft&si=nae6nGRSKH9v0DIs)
+- [**WPForo Forum**](https://youtube.com/playlist?list=PL7c6CDwwm-AJmBlJbqcOqRWBerqOUdRft&si=nae6nGRSKH9v0DIs)
 
-* [**WPFunnels**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIvMYNATfH66kAMiYH9nrx3)
+- [**WPFunnels**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIvMYNATfH66kAMiYH9nrx3)
 
-* [**WS Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKmyPCIy1-JR9tfZYhzRr38)
+- [**WS Form**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKmyPCIy1-JR9tfZYhzRr38)
 
-* [**Zoho Bigin**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALhsMoiWS1Bel1TtjIbtibB)
+- [**Zoho Bigin**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALhsMoiWS1Bel1TtjIbtibB)
 
-* [**Zoho Creator**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIQLjwPBmjmDlcU1dbBgkwz)
+- [**Zoho Creator**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIQLjwPBmjmDlcU1dbBgkwz)
 
-* [**Zoho CRM**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALDlpDo9vCBjdiJDJ33Xx0z)
+- [**Zoho CRM**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALDlpDo9vCBjdiJDJ33Xx0z)
 
-* [**Zoho Desk**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIbT5j2wupZ1O3USH8gDilg)
+- [**Zoho Desk**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIbT5j2wupZ1O3USH8gDilg)
 
-* [**Zoho Flow**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKT6gxT00O3YFk2GGYvQtMX)
+- [**Zoho Flow**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKT6gxT00O3YFk2GGYvQtMX)
 
-* [**Zoho Marketing Automation**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKgaz3bG1iFFBYg2JuFpgVJ)
+- [**Zoho Marketing Automation**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKgaz3bG1iFFBYg2JuFpgVJ)
 
-* [**Zoho Recruit**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIpAJSh09abQZaSe30pwk9E)
+- [**Zoho Recruit**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AIpAJSh09abQZaSe30pwk9E)
 
-* [**Zoho Sheet**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJVBb24m1J1z0CcKPhr1Een)
+- [**Zoho Sheet**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AJVBb24m1J1z0CcKPhr1Een)
 
-* [**Zoho Sheet**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKN4gEgctrcyht7zOwCyWpz)
+- [**Zoho Sheet**](https://www.youtube.com/playlist?list=PL7c6CDwwm-AKN4gEgctrcyht7zOwCyWpz)
 
-* [**Zoom Video Communications**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALsihVZKhQuq5QGINgro4DB)
+- [**Zoom Video Communications**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALsihVZKhQuq5QGINgro4DB)
 
 ### 💥 Don't worry, we give you some [**Trigger's**](https://bitapps.pro/docs/bit-integrations/trigger/) documentation with use cases to help you get started with the plugin.
 
-* [**Advanced Custom Fields (ACF)**](https://bit-integrations.com/wp-docs/trigger/advanced-custom-fields-integrations/)
+- [**Advanced Custom Fields (ACF)**](https://bit-integrations.com/wp-docs/trigger/advanced-custom-fields-integrations/)
 
-* [**AffiliateWP**](https://bitapps.pro/docs/bit-integrations/trigger/affiliatewp/)
+- [**AffiliateWP**](https://bitapps.pro/docs/bit-integrations/trigger/affiliatewp/)
 
-* [**Amelia Webhook**](https://bitapps.pro/docs/bit-integrations/trigger/amelia/)
+- [**Amelia Webhook**](https://bitapps.pro/docs/bit-integrations/trigger/amelia/)
 
-* [**Amelia Booking**](https://bit-integrations.com/wp-docs/trigger/amelia-booking-integrations/)
+- [**Amelia Booking**](https://bit-integrations.com/wp-docs/trigger/amelia-booking-integrations/)
 
-* [**ARForm**](https://bitapps.pro/docs/bit-integrations/trigger/arform/)
+- [**ARForm**](https://bitapps.pro/docs/bit-integrations/trigger/arform/)
 
-* [**Advanced Ads**](https://bit-integrations.com/wp-docs/trigger/advanced-ads-integrations/)
+- [**Advanced Ads**](https://bit-integrations.com/wp-docs/trigger/advanced-ads-integrations/)
 
-* [**Advanced Coupons for WooCommerce**](https://bit-integrations.com/wp-docs/trigger/advanced-coupons-integrations/)
+- [**Advanced Coupons for WooCommerce**](https://bit-integrations.com/wp-docs/trigger/advanced-coupons-integrations/)
 
-* [**Appointment Hour Booking**](https://bit-integrations.com/wp-docs/trigger/appointment-hour-booking-integrations/)
+- [**Appointment Hour Booking**](https://bit-integrations.com/wp-docs/trigger/appointment-hour-booking-integrations/)
 
-* [**Asgaros Forum**](https://bit-integrations.com/wp-docs/trigger/asgaros-forum-integrations/)
+- [**Asgaros Forum**](https://bit-integrations.com/wp-docs/trigger/asgaros-forum-integrations/)
 
-* [**Avada Forms**](https://bit-integrations.com/wp-docs/trigger/avada-forms-integrations/)
+- [**Avada Forms**](https://bit-integrations.com/wp-docs/trigger/avada-forms-integrations/)
 
-* [**Academy LMS**](https://bit-integrations.com/wp-docs/trigger/academy-lms-integrations-as-a-trigger/)
+- [**Academy LMS**](https://bit-integrations.com/wp-docs/trigger/academy-lms-integrations-as-a-trigger/)
 
-* [**Action Hook**](https://bit-integrations.com/wp-docs/trigger/action-hook-integrations/)
+- [**Action Hook**](https://bit-integrations.com/wp-docs/trigger/action-hook-integrations/)
 
-* [**ARMember**](https://bit-integrations.com/wp-docs/trigger/armember-integrations/)
+- [**ARMember**](https://bit-integrations.com/wp-docs/trigger/armember-integrations/)
 
-* [**bbPress**](https://bit-integrations.com/wp-docs/trigger/bbpress-integrations/)
+- [**bbPress**](https://bit-integrations.com/wp-docs/trigger/bbpress-integrations/)
 
-* [**Beaver Builder**](https://bitapps.pro/docs/bit-integrations/trigger/beaver-builder/)
+- [**Beaver Builder**](https://bitapps.pro/docs/bit-integrations/trigger/beaver-builder/)
 
-* [**Better Messages**](https://bit-integrations.com/wp-docs/trigger/better-messages-integrations/)
+- [**Better Messages**](https://bit-integrations.com/wp-docs/trigger/better-messages-integrations/)
 
-* [**Bit Assist**](https://bitapps.pro/docs/bit-integrations/trigger/bit-assist/)
+- [**Bit Assist**](https://bitapps.pro/docs/bit-integrations/trigger/bit-assist/)
 
-* [**Bit Form**](https://bit-integrations.com/wp-docs/trigger/bit-form-integrations-as-a-trigger/)
+- [**Bit Form**](https://bit-integrations.com/wp-docs/trigger/bit-form-integrations-as-a-trigger/)
 
-* [**Breakdance**](https://bitapps.pro/docs/bit-integrations/trigger/breakdance/)
+- [**Breakdance**](https://bitapps.pro/docs/bit-integrations/trigger/breakdance/)
 
-* [**Bricks**](https://bitapps.pro/docs/bit-integrations/trigger/bricks/)
+- [**Bricks**](https://bitapps.pro/docs/bit-integrations/trigger/bricks/)
 
-* [**BricksForge**](https://bit-integrations.com/wp-docs/trigger/bricksforge-integrations/)
+- [**BricksForge**](https://bit-integrations.com/wp-docs/trigger/bricksforge-integrations/)
 
-* [**Brizy**](https://bitapps.pro/docs/bit-integrations/trigger/brizy/)
+- [**Brizy**](https://bitapps.pro/docs/bit-integrations/trigger/brizy/)
 
-* [**BuddyBoss**](https://bitapps.pro/docs/bit-integrations/trigger/buddyboss/)
+- [**BuddyBoss**](https://bitapps.pro/docs/bit-integrations/trigger/buddyboss/)
 
-* [**BuddyPress**](https://bit-integrations.com/wp-docs/trigger/buddypress-integrations/)
+- [**BuddyPress**](https://bit-integrations.com/wp-docs/trigger/buddypress-integrations/)
 
-* [**Calculated Fields Form**](https://bit-integrations.com/wp-docs/trigger/calculated-fields-form-integrations/)
+- [**Calculated Fields Form**](https://bit-integrations.com/wp-docs/trigger/calculated-fields-form-integrations/)
 
-* [**Cart Flow**](https://bitapps.pro/docs/bit-integrations/trigger/cart-flow/)
+- [**Cart Flow**](https://bitapps.pro/docs/bit-integrations/trigger/cart-flow/)
 
-* [**CoBlocks**](https://bitapps.pro/docs/bit-integrations/trigger/coblocks-integrations/)
+- [**CoBlocks**](https://bitapps.pro/docs/bit-integrations/trigger/coblocks-integrations/)
 
-* [**Convert Pro**](https://bit-integrations.com/wp-docs/trigger/convert-pro-integrations/)
+- [**Convert Pro**](https://bit-integrations.com/wp-docs/trigger/convert-pro-integrations/)
 
-* [**Contact Form 7**](https://bitapps.pro/docs/bit-integrations/trigger/contact-form/)
+- [**Contact Form 7**](https://bitapps.pro/docs/bit-integrations/trigger/contact-form/)
 
-* [**Custom Trigger**](https://bit-integrations.com/wp-docs/trigger/custom-trigger-integrations/)
+- [**Custom Trigger**](https://bit-integrations.com/wp-docs/trigger/custom-trigger-integrations/)
 
-* [**Divi**](https://bitapps.pro/docs/bit-integrations/trigger/divi/)
+- [**Divi**](https://bitapps.pro/docs/bit-integrations/trigger/divi/)
 
-* [**Divi Form Builder**](https://bit-integrations.com/wp-docs/trigger/divi-form-builder-by-divi-engine-integrations/)
+- [**Divi Form Builder**](https://bit-integrations.com/wp-docs/trigger/divi-form-builder-by-divi-engine-integrations/)
 
-* [**Dokan**](https://bitapps.pro/docs/bit-integrations/trigger/dokan-integration/)
+- [**Dokan**](https://bitapps.pro/docs/bit-integrations/trigger/dokan-integration/)
 
-* [**Easy Digital Downloads**](https://bitapps.pro/docs/bit-integrations/trigger/easy-digital-downloads/)
+- [**Easy Digital Downloads**](https://bitapps.pro/docs/bit-integrations/trigger/easy-digital-downloads/)
 
-* [**Everest Forms**](https://bit-integrations.com/wp-docs/trigger/everest-forms-integrations/)
+- [**Everest Forms**](https://bit-integrations.com/wp-docs/trigger/everest-forms-integrations/)
 
-* [**Eventin**](https://bit-integrations.com/wp-docs/trigger/eventin-integrations/)
+- [**Eventin**](https://bit-integrations.com/wp-docs/trigger/eventin-integrations/)
 
-* [**eForm**](https://bitapps.pro/docs/bit-integrations/trigger/eform/)
+- [**eForm**](https://bitapps.pro/docs/bit-integrations/trigger/eform/)
 
-* [**Elementor Form**](https://bitapps.pro/docs/bit-integrations/trigger/elementor-form/)
+- [**Elementor Form**](https://bitapps.pro/docs/bit-integrations/trigger/elementor-form/)
 
-* [**Essential Blocks**](https://bit-integrations.com/wp-docs/trigger/essential-blocks-integrations/)
+- [**Essential Blocks**](https://bit-integrations.com/wp-docs/trigger/essential-blocks-integrations/)
 
-* [**FluentSMTP**](https://bit-integrations.com/wp-docs/trigger/fluentsmtp-integrations/)
+- [**FluentSMTP**](https://bit-integrations.com/wp-docs/trigger/fluentsmtp-integrations/)
 
-* [**FluentCommunity**](https://bit-integrations.com/wp-docs/trigger/fluentcommunity-integrations/)
+- [**FluentCommunity**](https://bit-integrations.com/wp-docs/trigger/fluentcommunity-integrations/)
 
-* [**Fluent Booking**](https://bitapps.pro/docs/bit-integrations/trigger/fluentbooking-integrations/)
+- [**Fluent Booking**](https://bitapps.pro/docs/bit-integrations/trigger/fluentbooking-integrations/)
 
-* [**Fluent Boards**](https://bit-integrations.com/wp-docs/trigger/fluentboards-integrations/)
+- [**Fluent Boards**](https://bit-integrations.com/wp-docs/trigger/fluentboards-integrations/)
 
-* [**Fluent CRM**](https://bitapps.pro/docs/bit-integrations/trigger/fluent-crm/)
+- [**Fluent CRM**](https://bitapps.pro/docs/bit-integrations/trigger/fluent-crm/)
 
-* [**Fluent Forms**](https://bitapps.pro/docs/bit-integrations/trigger/fluent-forms/)
+- [**Fluent Forms**](https://bitapps.pro/docs/bit-integrations/trigger/fluent-forms/)
 
-* [**Fluent Support**](https://bitapps.pro/docs/bit-integrations/trigger/fluent-support/)
+- [**Fluent Support**](https://bitapps.pro/docs/bit-integrations/trigger/fluent-support/)
 
-* [**FunnelKit Automations CRM**](https://bit-integrations.com/wp-docs/trigger/funnelkit-automation-integrations/)
+- [**FunnelKit Automations CRM**](https://bit-integrations.com/wp-docs/trigger/funnelkit-automation-integrations/)
 
-* [**FormCraft**](https://bitapps.pro/docs/bit-integrations/trigger/formcraft/)
+- [**FormCraft**](https://bitapps.pro/docs/bit-integrations/trigger/formcraft/)
 
-* [**Formidable Forms**](https://bitapps.pro/docs/bit-integrations/trigger/formidable-forms/)
+- [**Formidable Forms**](https://bitapps.pro/docs/bit-integrations/trigger/formidable-forms/)
 
-* [**Forminator**](https://bitapps.pro/docs/bit-integrations/trigger/forminator/)
+- [**Forminator**](https://bitapps.pro/docs/bit-integrations/trigger/forminator/)
 
-* [**GamiPress**](https://bitapps.pro/docs/bit-integrations/trigger/gamipress/)
+- [**GamiPress**](https://bitapps.pro/docs/bit-integrations/trigger/gamipress/)
 
-* [**GiveWP**](https://bitapps.pro/docs/bit-integrations/trigger/givewp/)
+- [**GiveWP**](https://bitapps.pro/docs/bit-integrations/trigger/givewp/)
 
-* [**Gravity Forms**](https://bitapps.pro/docs/bit-integrations/trigger/gravity-forms/)
+- [**Gravity Forms**](https://bitapps.pro/docs/bit-integrations/trigger/gravity-forms/)
 
-* [**GravityKit**](https://bit-integrations.com/wp-docs/trigger/gravitykit-integrations/)
+- [**GravityKit**](https://bit-integrations.com/wp-docs/trigger/gravitykit-integrations/)
 
-* [**Groundhogg**](https://bitapps.pro/docs/bit-integrations/trigger/groundhogg/)
+- [**Groundhogg**](https://bitapps.pro/docs/bit-integrations/trigger/groundhogg/)
 
-* [**Gutena Forms**](https://bitapps.pro/docs/bit-integrations/trigger/gutena-forms-integration/)
+- [**Gutena Forms**](https://bitapps.pro/docs/bit-integrations/trigger/gutena-forms-integration/)
 
-* [**Happy Forms**](https://bitapps.pro/docs/bit-integrations/trigger/happy-forms/)
+- [**Happy Forms**](https://bitapps.pro/docs/bit-integrations/trigger/happy-forms/)
 
-* [**Hustle**](https://bitapps.pro/docs/bit-integrations/trigger/hustle-integration/)
+- [**Hustle**](https://bitapps.pro/docs/bit-integrations/trigger/hustle-integration/)
 
-* [**JetEngine**](https://bit-integrations.com/wp-docs/trigger/jetengine-integrations-as-a-trigger/)
+- [**JetEngine**](https://bit-integrations.com/wp-docs/trigger/jetengine-integrations-as-a-trigger/)
 
-* [**JetFormBuilder**](https://bitapps.pro/docs/bit-integrations/trigger/jetformbuilder/)
+- [**JetFormBuilder**](https://bitapps.pro/docs/bit-integrations/trigger/jetformbuilder/)
 
-* [**Jetpack CRM**](https://bit-integrations.com/wp-docs/trigger/jetpack-crm-integrations/)
+- [**Jetpack CRM**](https://bit-integrations.com/wp-docs/trigger/jetpack-crm-integrations/)
 
-* [**Kali Forms**](https://bit-integrations.com/wp-docs/trigger/kali-forms-integrations/)
+- [**Kali Forms**](https://bit-integrations.com/wp-docs/trigger/kali-forms-integrations/)
 
-* [**Kadence Blocks**](https://bitapps.pro/docs/bit-integrations/trigger/kadence-blocks-form/)
+- [**Kadence Blocks**](https://bitapps.pro/docs/bit-integrations/trigger/kadence-blocks-form/)
 
-* [**LearnDash**](https://bitapps.pro/docs/bit-integrations/trigger/learndash-lms/)
+- [**LearnDash**](https://bitapps.pro/docs/bit-integrations/trigger/learndash-lms/)
 
-* [**LearnPress**](https://bit-integrations.com/wp-docs/trigger/learnpress-integrations/)
+- [**LearnPress**](https://bit-integrations.com/wp-docs/trigger/learnpress-integrations/)
 
-* [**LifterLMS**](https://bitapps.pro/docs/bit-integrations/trigger/lifterlms/)
+- [**LifterLMS**](https://bitapps.pro/docs/bit-integrations/trigger/lifterlms/)
 
-* [**MB Frontend Submission**](https://bitapps.pro/docs/bit-integrations/trigger/mb-frontend-submission/)
+- [**MB Frontend Submission**](https://bitapps.pro/docs/bit-integrations/trigger/mb-frontend-submission/)
 
-* [**MailPoet**](https://bit-integrations.com/wp-docs/trigger/mailpoet-integrations-as-a-trigger/)
+- [**MailPoet**](https://bit-integrations.com/wp-docs/trigger/mailpoet-integrations-as-a-trigger/)
 
-* [**Mailster**](https://bit-integrations.com/wp-docs/trigger/mailster-integrations-as-a-trigger/)
+- [**Mailster**](https://bit-integrations.com/wp-docs/trigger/mailster-integrations-as-a-trigger/)
 
-* [**MasterStudy LMS**](https://bit-integrations.com/wp-docs/trigger/masterstudy-lms-integrations-as-a-trigger/)
+- [**MasterStudy LMS**](https://bit-integrations.com/wp-docs/trigger/masterstudy-lms-integrations-as-a-trigger/)
 
-* [**Masteriyo LMS**](https://bit-integrations.com/wp-docs/trigger/masteriyo-lms-integrations/)
+- [**Masteriyo LMS**](https://bit-integrations.com/wp-docs/trigger/masteriyo-lms-integrations/)
 
-* [**Memberpress**](https://bitapps.pro/docs/bit-integrations/trigger/memberpress/)
+- [**Memberpress**](https://bitapps.pro/docs/bit-integrations/trigger/memberpress/)
 
-* [**MemberPress Courses**](https://bit-integrations.com/wp-docs/trigger/memberpress-courses-integrations/)
+- [**MemberPress Courses**](https://bit-integrations.com/wp-docs/trigger/memberpress-courses-integrations/)
 
-* [**Modern Events Calendar**](https://bit-integrations.com/wp-docs/trigger/modern-events-calendar-integrations/)
+- [**Modern Events Calendar**](https://bit-integrations.com/wp-docs/trigger/modern-events-calendar-integrations/)
 
-* [**MetForm**](https://bitapps.pro/docs/bit-integrations/trigger/metform/)
+- [**MetForm**](https://bitapps.pro/docs/bit-integrations/trigger/metform/)
 
-* [**NEX-Forms**](https://bit-integrations.com/wp-docs/trigger/nex-forms-integrations/)
+- [**NEX-Forms**](https://bit-integrations.com/wp-docs/trigger/nex-forms-integrations/)
 
-* [**Newsletter**](https://bit-integrations.com/wp-docs/trigger/newsletter-integrations/)
+- [**Newsletter**](https://bit-integrations.com/wp-docs/trigger/newsletter-integrations/)
 
-* [**Ninja Form**](https://bitapps.pro/docs/bit-integrations/trigger/ninja-forms/)
+- [**Ninja Form**](https://bitapps.pro/docs/bit-integrations/trigger/ninja-forms/)
 
-* [**Ninja Tables**](https://bit-integrations.com/wp-docs/trigger/ninja-tables-integrations/)
+- [**Ninja Tables**](https://bit-integrations.com/wp-docs/trigger/ninja-tables-integrations/)
 
-* [**Paymattic**](https://bit-integrations.com/wp-docs/trigger/paymattic-integrations/)
+- [**Paymattic**](https://bit-integrations.com/wp-docs/trigger/paymattic-integrations/)
 
-* [**Profile Builder**](https://bit-integrations.com/wp-docs/trigger/profile-builder-integrations/)
+- [**Profile Builder**](https://bit-integrations.com/wp-docs/trigger/profile-builder-integrations/)
 
-* [**ProfileGrid**](https://bit-integrations.com/wp-docs/trigger/profilegrid-integrations/)
+- [**ProfileGrid**](https://bit-integrations.com/wp-docs/trigger/profilegrid-integrations/)
 
-* [**PeepSo**](https://bit-integrations.com/wp-docs/trigger/peepso-integrations/)
+- [**PeepSo**](https://bit-integrations.com/wp-docs/trigger/peepso-integrations/)
 
-* [**Presto Player**](https://bit-integrations.com/wp-docs/trigger/presto-player-integrations/)
+- [**Presto Player**](https://bit-integrations.com/wp-docs/trigger/presto-player-integrations/)
 
-* [**Paid Membership Pro**](https://bitapps.pro/docs/bit-integrations/trigger/paid-membership-pro/)
+- [**Paid Membership Pro**](https://bitapps.pro/docs/bit-integrations/trigger/paid-membership-pro/)
 
-* [**Pie Forms**](https://bit-integrations.com/wp-docs/trigger/pie-forms-integrations/)
+- [**Pie Forms**](https://bit-integrations.com/wp-docs/trigger/pie-forms-integrations/)
 
-* [**Piotnet Addon For Elementor**](https://bitapps.pro/docs/bit-integrations/trigger/piotnet-addon-for-elementor/)
+- [**Piotnet Addon For Elementor**](https://bitapps.pro/docs/bit-integrations/trigger/piotnet-addon-for-elementor/)
 
-* [**Piotnet Forms**](https://bitapps.pro/docs/bit-integrations/trigger/piotnet-forms/)
+- [**Piotnet Forms**](https://bitapps.pro/docs/bit-integrations/trigger/piotnet-forms/)
 
-* [**Popup Maker**](https://bitapps.pro/docs/bit-integrations/trigger/popup-maker-integration/)
+- [**Popup Maker**](https://bitapps.pro/docs/bit-integrations/trigger/popup-maker-integration/)
 
-* [**Quill Forms**](https://bit-integrations.com/wp-docs/trigger/quill-forms-integrations/)
+- [**Quill Forms**](https://bit-integrations.com/wp-docs/trigger/quill-forms-integrations/)
 
-* [**Rafflepress**](https://bitapps.pro/docs/bit-integrations/trigger/rafflepress/)
+- [**Rafflepress**](https://bitapps.pro/docs/bit-integrations/trigger/rafflepress/)
 
-* [**Restrict Content**](https://bitapps.pro/docs/bit-integrations/trigger/restrict-content/)
+- [**Restrict Content**](https://bitapps.pro/docs/bit-integrations/trigger/restrict-content/)
 
-* [**UserFeedback**](https://bit-integrations.com/wp-docs/trigger/userfeedback-integrations/)
+- [**UserFeedback**](https://bit-integrations.com/wp-docs/trigger/userfeedback-integrations/)
 
-* [**Simply Schedule Appointments**](https://bit-integrations.com/wp-docs/trigger/simply-schedule-appointments-integrations/)
+- [**Simply Schedule Appointments**](https://bit-integrations.com/wp-docs/trigger/simply-schedule-appointments-integrations/)
 
-* [**Sensei LMS**](https://bit-integrations.com/wp-docs/trigger/sensei-lms-integrations/)
+- [**Sensei LMS**](https://bit-integrations.com/wp-docs/trigger/sensei-lms-integrations/)
 
-* [**SiteOrigin**](https://bit-integrations.com/wp-docs/trigger/siteorigin-widgets-bundle-integrations/)
+- [**SiteOrigin**](https://bit-integrations.com/wp-docs/trigger/siteorigin-widgets-bundle-integrations/)
 
-* [**SliceWP**](https://bitapps.pro/docs/bit-integrations/trigger/SliceWP/)
+- [**SliceWP**](https://bitapps.pro/docs/bit-integrations/trigger/SliceWP/)
 
-* [**Solid Affiliate**](https://bitapps.pro/docs/bit-integrations/trigger/solid-affiliate/)
+- [**Solid Affiliate**](https://bitapps.pro/docs/bit-integrations/trigger/solid-affiliate/)
 
-* [**Spectra**](https://bit-integrations.com/wp-docs/trigger/spectra-integrations/)
+- [**Spectra**](https://bit-integrations.com/wp-docs/trigger/spectra-integrations/)
 
-* [**StudioCart**](https://bitapps.pro/docs/bit-integrations/trigger/studiocart/)
+- [**StudioCart**](https://bitapps.pro/docs/bit-integrations/trigger/studiocart/)
 
-* [**SureMail**](https://bit-integrations.com/wp-docs/trigger/suremail-integrations/)
+- [**SureMail**](https://bit-integrations.com/wp-docs/trigger/suremail-integrations/)
 
-* [**SureCart**](https://bitapps.pro/docs/bit-integrations/trigger/surecart/)
+- [**SureCart**](https://bitapps.pro/docs/bit-integrations/trigger/surecart/)
 
-* [**SureForms**](https://bit-integrations.com/wp-docs/trigger/sureforms-integrations/)
+- [**SureForms**](https://bit-integrations.com/wp-docs/trigger/sureforms-integrations/)
 
-* [**SureMembers**](https://bit-integrations.com/wp-docs/trigger/suremembers-integrations-as-a-trigger/)
+- [**SureMembers**](https://bit-integrations.com/wp-docs/trigger/suremembers-integrations-as-a-trigger/)
 
-* [**The Events Calendar**](https://bit-integrations.com/wp-docs/trigger/the-events-calendar-integrations-as-a-trigger/)
+- [**The Events Calendar**](https://bit-integrations.com/wp-docs/trigger/the-events-calendar-integrations-as-a-trigger/)
 
-* [**Tripetto**](https://bitapps.pro/docs/bit-integrations/trigger/tripetto/)
+- [**Tripetto**](https://bitapps.pro/docs/bit-integrations/trigger/tripetto/)
 
-* [**Tutor LMS**](https://bitapps.pro/docs/bit-integrations/trigger/tutor-lms/)
+- [**Tutor LMS**](https://bitapps.pro/docs/bit-integrations/trigger/tutor-lms/)
 
-* [**User Registration**](https://bitapps.pro/docs/bit-integrations/trigger/user-registration/)
+- [**User Registration**](https://bitapps.pro/docs/bit-integrations/trigger/user-registration/)
 
-* [**Voxel**](https://bit-integrations.com/wp-docs/trigger/voxel-integrations/)
+- [**Voxel**](https://bit-integrations.com/wp-docs/trigger/voxel-integrations/)
 
-* [**weforms**](https://bitapps.pro/docs/bit-integrations/trigger/WeForms/)
+- [**weforms**](https://bitapps.pro/docs/bit-integrations/trigger/WeForms/)
 
-* [**Webhook**](https://bitapps.pro/docs/bit-integrations/trigger/webhook/)
+- [**Webhook**](https://bitapps.pro/docs/bit-integrations/trigger/webhook/)
 
-* [**Wishlist Member**](https://bit-integrations.com/wp-docs/trigger/wishlist-member-integrations/)
+- [**Wishlist Member**](https://bit-integrations.com/wp-docs/trigger/wishlist-member-integrations/)
 
-* [**Woocommerce**](https://bitapps.pro/docs/bit-integrations/trigger/woocommerce/)
+- [**Woocommerce**](https://bitapps.pro/docs/bit-integrations/trigger/woocommerce/)
 
-* [**Woocommerce Bookings**](https://bit-integrations.com/wp-docs/trigger/woocommerce-bookings-integrations/)
+- [**Woocommerce Bookings**](https://bit-integrations.com/wp-docs/trigger/woocommerce-bookings-integrations/)
 
-* [**WooCommerce Subscriptions**](https://bit-integrations.com/wp-docs/trigger/woocommerce-subscriptions-integrations/)
+- [**WooCommerce Subscriptions**](https://bit-integrations.com/wp-docs/trigger/woocommerce-subscriptions-integrations/)
 
-* [**WooCommerce Memberships**](https://bit-integrations.com/wp-docs/trigger/woocommerce-memberships-integrations/)
+- [**WooCommerce Memberships**](https://bit-integrations.com/wp-docs/trigger/woocommerce-memberships-integrations/)
 
-* [**WP Simple Pay**](https://bit-integrations.com/wp-docs/trigger/wp-simple-pay-integrations/)
+- [**WP Simple Pay**](https://bit-integrations.com/wp-docs/trigger/wp-simple-pay-integrations/)
 
-* [**WP Courseware**](https://bitapps.pro/docs/bit-integrations/trigger/wp-courseware/)
+- [**WP Courseware**](https://bitapps.pro/docs/bit-integrations/trigger/wp-courseware/)
 
-* [**WPForms**](https://bitapps.pro/docs/bit-integrations/trigger/wpforms/)
+- [**WPForms**](https://bitapps.pro/docs/bit-integrations/trigger/wpforms/)
 
-* [**wpForo Forum**](https://bit-integrations.com/wp-docs/trigger/wpforo-integration-as-a-trigger/)
+- [**wpForo Forum**](https://bit-integrations.com/wp-docs/trigger/wpforo-integration-as-a-trigger/)
 
-* [**WP Post**](https://bitapps.pro/docs/bit-integrations/trigger/wp-post/)
+- [**WP Post**](https://bitapps.pro/docs/bit-integrations/trigger/wp-post/)
 
-* [**WS Form**](https://bitapps.pro/docs/bit-integrations/trigger/ws-form/)
+- [**WS Form**](https://bitapps.pro/docs/bit-integrations/trigger/ws-form/)
 
-* [**WPFunnels**](https://bit-integrations.com/wp-docs/trigger/wpfunnels-integrations/)
+- [**WPFunnels**](https://bit-integrations.com/wp-docs/trigger/wpfunnels-integrations/)
 
-* [**WP Job Manager**](https://bit-integrations.com/wp-docs/trigger/wp-job-manager-integrations/)
+- [**WP Job Manager**](https://bit-integrations.com/wp-docs/trigger/wp-job-manager-integrations/)
 
-* [**Webhooks**](https://bit-integrations.com/wp-docs/trigger/incoming-webhooks-integrations/)
-
+- [**Webhooks**](https://bit-integrations.com/wp-docs/trigger/incoming-webhooks-integrations/)
 
 ### 💥 Don't worry, we give you some [**Action's**](https://bitapps.pro/docs/bit-integrations/actions/) documentation with use cases to help you get started with the plugin.
 
-* [**AutomatorWP**](https://bit-integrations.com/wp-docs/actions/automatorwp-integrations/)
+- [**AutomatorWP**](https://bit-integrations.com/wp-docs/actions/automatorwp-integrations/)
 
-* [**ActiveCampaign**](https://bit-integrations.com/wp-docs/actions/activecampaign-integrations/)
+- [**ActiveCampaign**](https://bit-integrations.com/wp-docs/actions/activecampaign-integrations/)
 
-* [**Acumbamail**](https://bit-integrations.com/wp-docs/actions/acumbamail-integrations/)
+- [**Acumbamail**](https://bit-integrations.com/wp-docs/actions/acumbamail-integrations/)
 
-* [**AffiliateWP**](https://bit-integrations.com/wp-docs/actions/affiliatewp-integrations-as-an-action/)
+- [**AffiliateWP**](https://bit-integrations.com/wp-docs/actions/affiliatewp-integrations-as-an-action/)
 
-* [**Airtable**](https://bit-integrations.com/wp-docs/actions/airtable-integrations/)
+- [**Airtable**](https://bit-integrations.com/wp-docs/actions/airtable-integrations/)
 
-* [**Albato**](https://bit-integrations.com/wp-docs/actions/albato-integrations/)
+- [**Albato**](https://bit-integrations.com/wp-docs/actions/albato-integrations/)
 
-* [**Asana**](https://bit-integrations.com/wp-docs/actions/asana-integrations/)
+- [**Asana**](https://bit-integrations.com/wp-docs/actions/asana-integrations/)
 
-* [**Agiled CRM**](https://bit-integrations.com/wp-docs/actions/agiled-crm-integrations/)
+- [**Agiled CRM**](https://bit-integrations.com/wp-docs/actions/agiled-crm-integrations/)
 
-* [**Funnelkit(Autonami)**](https://bit-integrations.com/wp-docs/actions/funnelkit-integrations/)
+- [**Funnelkit(Autonami)**](https://bit-integrations.com/wp-docs/actions/funnelkit-integrations/)
 
-* [**Benchmark Email**](https://bit-integrations.com/wp-docs/actions/benchmark-email-integrations/)
+- [**Benchmark Email**](https://bit-integrations.com/wp-docs/actions/benchmark-email-integrations/)
 
-* [**Bit Form**](https://bit-integrations.com/wp-docs/actions/bit-form-integrations-as-an-action/)
+- [**Bit Form**](https://bit-integrations.com/wp-docs/actions/bit-form-integrations-as-an-action/)
 
-* [**Bento**](https://bit-integrations.com/wp-docs/actions/bento-integrations/)
+- [**Bento**](https://bit-integrations.com/wp-docs/actions/bento-integrations/)
 
-* [**Brevo (Sendinblue)**](https://bit-integrations.com/wp-docs/actions/brevo-integrations/)
+- [**Brevo (Sendinblue)**](https://bit-integrations.com/wp-docs/actions/brevo-integrations/)
 
-* [**BuddyBoss**](https://bit-integrations.com/wp-docs/actions/buddyboss-integrations-as-an-action/)
+- [**BuddyBoss**](https://bit-integrations.com/wp-docs/actions/buddyboss-integrations-as-an-action/)
 
-* [**Capsule CRM**](https://bit-integrations.com/wp-docs/actions/capsule-crm-integrations/)
+- [**Capsule CRM**](https://bit-integrations.com/wp-docs/actions/capsule-crm-integrations/)
 
-* [**Campaign Monitor**](https://bit-integrations.com/wp-docs/actions/campaign-monitor-integrations/)
+- [**Campaign Monitor**](https://bit-integrations.com/wp-docs/actions/campaign-monitor-integrations/)
 
-* [**ClickUp**](https://bit-integrations.com/wp-docs/actions/clickup-integrations/)
+- [**ClickUp**](https://bit-integrations.com/wp-docs/actions/clickup-integrations/)
 
-* [**ClinchPad**](https://bit-integrations.com/wp-docs/actions/clinchpad-integrations/)
+- [**ClinchPad**](https://bit-integrations.com/wp-docs/actions/clinchpad-integrations/)
 
-* [**CompanyHub**](https://bit-integrations.com/wp-docs/actions/companyhub-integrations/)
+- [**CompanyHub**](https://bit-integrations.com/wp-docs/actions/companyhub-integrations/)
 
-* [**Copper CRM**](https://bit-integrations.com/wp-docs/actions/copper-crm-integrations/)
+- [**Copper CRM**](https://bit-integrations.com/wp-docs/actions/copper-crm-integrations/)
 
-* [**Constant Contact**](https://bitapps.pro/docs/bit-integrations/trigger/constantcontact/)
+- [**Constant Contact**](https://bitapps.pro/docs/bit-integrations/trigger/constantcontact/)
 
-* [**Kit (ConvertKit)**](https://bit-integrations.com/wp-docs/actions/convertkit-integrations/)
+- [**Kit (ConvertKit)**](https://bit-integrations.com/wp-docs/actions/convertkit-integrations/)
 
-* [**Custom Action**](https://bit-integrations.com/wp-docs/actions/custom-action-integrations/)
+- [**Custom Action**](https://bit-integrations.com/wp-docs/actions/custom-action-integrations/)
 
-* [**CustomApi**](https://bit-integrations.com/wp-docs/actions/customapi-integrations/)
+- [**CustomApi**](https://bit-integrations.com/wp-docs/actions/customapi-integrations/)
 
-* [**Dokan**](https://bit-integrations.com/wp-docs/actions/dokan-integrations-as-an-action/)
+- [**Dokan**](https://bit-integrations.com/wp-docs/actions/dokan-integrations-as-an-action/)
 
-* [**Demio**](https://bit-integrations.com/wp-docs/actions/demio-integrations/)
+- [**Demio**](https://bit-integrations.com/wp-docs/actions/demio-integrations/)
 
-* [**DirectIQ**](https://bit-integrations.com/wp-docs/actions/directiq-integrations/)
+- [**DirectIQ**](https://bit-integrations.com/wp-docs/actions/directiq-integrations/)
 
-* [**Discord**](https://bit-integrations.com/wp-docs/actions/discord-integrations/)
+- [**Discord**](https://bit-integrations.com/wp-docs/actions/discord-integrations/)
 
-* [**Drip**](https://bitapps.pro/docs/bit-integrations/actions/drip-integrations/)
+- [**Drip**](https://bitapps.pro/docs/bit-integrations/actions/drip-integrations/)
 
-* [**Dropbox**](https://bit-integrations.com/wp-docs/actions/dropbox-integrations/)
+- [**Dropbox**](https://bit-integrations.com/wp-docs/actions/dropbox-integrations/)
 
-* [**Elastic Email**](https://bit-integrations.com/wp-docs/actions/elastic-email-integrations/)
+- [**Elastic Email**](https://bit-integrations.com/wp-docs/actions/elastic-email-integrations/)
 
-* [**EmailOctopus**](https://bit-integrations.com/wp-docs/actions/emailoctopus-integrations/)
+- [**EmailOctopus**](https://bit-integrations.com/wp-docs/actions/emailoctopus-integrations/)
 
-* [**Encharge**](https://bit-integrations.com/wp-docs/actions/encharge-integrations/)
+- [**Encharge**](https://bit-integrations.com/wp-docs/actions/encharge-integrations/)
 
-* [**FlowMattic**](https://bit-integrations.com/wp-docs/actions/flowmattic-integrations/)
+- [**FlowMattic**](https://bit-integrations.com/wp-docs/actions/flowmattic-integrations/)
 
-* [**Flowlu**](https://bit-integrations.com/wp-docs/actions/flowlu-integrations/)
+- [**Flowlu**](https://bit-integrations.com/wp-docs/actions/flowlu-integrations/)
 
-* [**Fluent Support**](https://bit-integrations.com/wp-docs/actions/fluent-support-integrations-as-an-action/)
+- [**Fluent Support**](https://bit-integrations.com/wp-docs/actions/fluent-support-integrations-as-an-action/)
 
-* [**FluentCRM**](https://bit-integrations.com/wp-docs/actions/fluentcrm-integrations-as-an-action/)
+- [**FluentCRM**](https://bit-integrations.com/wp-docs/actions/fluentcrm-integrations-as-an-action/)
 
-* [**Freshdesk**](https://bit-integrations.com/wp-docs/actions/freshdesk-integrations/)
+- [**Freshdesk**](https://bit-integrations.com/wp-docs/actions/freshdesk-integrations/)
 
-* [**FreshSales**](https://bit-integrations.com/wp-docs/actions/freshsales-integrations/)
+- [**FreshSales**](https://bit-integrations.com/wp-docs/actions/freshsales-integrations/)
 
-* [**GamiPress**](https://bit-integrations.com/wp-docs/actions/gamipress-integrations-as-an-action/)
+- [**GamiPress**](https://bit-integrations.com/wp-docs/actions/gamipress-integrations-as-an-action/)
 
-* [**Get Response**](https://bit-integrations.com/wp-docs/actions/getresponse-integrations/)
+- [**Get Response**](https://bit-integrations.com/wp-docs/actions/getresponse-integrations/)
 
-* [**Getgist**](https://bit-integrations.com/wp-docs/actions/getgist-integrations/)
+- [**Getgist**](https://bit-integrations.com/wp-docs/actions/getgist-integrations/)
 
-* [**GiveWp**](https://bit-integrations.com/wp-docs/actions/givewp-integrations-as-an-action/)
+- [**GiveWp**](https://bit-integrations.com/wp-docs/actions/givewp-integrations-as-an-action/)
 
-* [**GoHighLevel**](https://bit-integrations.com/wp-docs/actions/gohighlevel-integrations/)
+- [**GoHighLevel**](https://bit-integrations.com/wp-docs/actions/gohighlevel-integrations/)
 
-* [**Google Contacts**](https://bit-integrations.com/wp-docs/actions/google-contacts-integrations/)
+- [**Google Contacts**](https://bit-integrations.com/wp-docs/actions/google-contacts-integrations/)
 
-* [**Google Calendar**](https://bit-integrations.com/wp-docs/actions/google-calendar-integrations/)
+- [**Google Calendar**](https://bit-integrations.com/wp-docs/actions/google-calendar-integrations/)
 
-* [**Google Drive**](https://bit-integrations.com/wp-docs/actions/google-drive-integrations/)
+- [**Google Drive**](https://bit-integrations.com/wp-docs/actions/google-drive-integrations/)
 
-* [**Google Sheet**](https://bit-integrations.com/wp-docs/actions/google-sheets-integrations/)
+- [**Google Sheet**](https://bit-integrations.com/wp-docs/actions/google-sheets-integrations/)
 
-* [**Gravitec**](https://bit-integrations.com/wp-docs/actions/gravitec-integrations/)
+- [**Gravitec**](https://bit-integrations.com/wp-docs/actions/gravitec-integrations/)
 
-* [**Groundhogg**](https://bit-integrations.com/wp-docs/actions/groundhogg-integrations-as-an-action/)
+- [**Groundhogg**](https://bit-integrations.com/wp-docs/actions/groundhogg-integrations-as-an-action/)
 
-* [**Hubspot**](https://bit-integrations.com/wp-docs/actions/hubspot-integrations/)
+- [**Hubspot**](https://bit-integrations.com/wp-docs/actions/hubspot-integrations/)
 
-* [**Insightly**](https://bit-integrations.com/wp-docs/actions/insightly-integrations/)
+- [**Insightly**](https://bit-integrations.com/wp-docs/actions/insightly-integrations/)
 
-* [**Integrately**](https://bit-integrations.com/wp-docs/actions/integrately-integrations/)
+- [**Integrately**](https://bit-integrations.com/wp-docs/actions/integrately-integrations/)
 
-* [**JetEngine**](https://bit-integrations.com/wp-docs/actions/jetengine-integrations-as-an-action/)
+- [**JetEngine**](https://bit-integrations.com/wp-docs/actions/jetengine-integrations-as-an-action/)
 
-* [**Keap**](https://bit-integrations.com/wp-docs/actions/keap-integrations/)
+- [**Keap**](https://bit-integrations.com/wp-docs/actions/keap-integrations/)
 
-* [**Kirim Email**](https://bit-integrations.com/wp-docs/actions/kirim-email-integrations/)
+- [**Kirim Email**](https://bit-integrations.com/wp-docs/actions/kirim-email-integrations/)
 
-* [**Klaviyo**](https://bit-integrations.com/wp-docs/actions/klaviyo-integrations/)
+- [**Klaviyo**](https://bit-integrations.com/wp-docs/actions/klaviyo-integrations/)
 
-* [**Konnectzit**](https://bit-integrations.com/wp-docs/actions/konnectzit-integrations/)
+- [**Konnectzit**](https://bit-integrations.com/wp-docs/actions/konnectzit-integrations/)
 
-* [**LearnDash LMS**](https://bit-integrations.com/wp-docs/actions/learndash-lms-integrations-as-an-action/)
+- [**LearnDash LMS**](https://bit-integrations.com/wp-docs/actions/learndash-lms-integrations-as-an-action/)
 
-* [**Lemlist**](https://bit-integrations.com/wp-docs/actions/lemlist-integrations/)
+- [**Lemlist**](https://bit-integrations.com/wp-docs/actions/lemlist-integrations/)
 
-* [**License Manager for WooCommerce**](https://bit-integrations.com/wp-docs/actions/license-manager-for-woocommerce-integrations/)
+- [**License Manager for WooCommerce**](https://bit-integrations.com/wp-docs/actions/license-manager-for-woocommerce-integrations/)
 
-* [**LifterLMS**](https://bit-integrations.com/wp-docs/actions/lifterlms-integrations-as-an-action/)
+- [**LifterLMS**](https://bit-integrations.com/wp-docs/actions/lifterlms-integrations-as-an-action/)
 
-* [**LionDesk**](https://bit-integrations.com/wp-docs/actions/liondesk-integrations/)
+- [**LionDesk**](https://bit-integrations.com/wp-docs/actions/liondesk-integrations/)
 
-* [**Livestorm**](https://bit-integrations.com/wp-docs/actions/livestorm-integrations/)
+- [**Livestorm**](https://bit-integrations.com/wp-docs/actions/livestorm-integrations/)
 
-* [**Mail Mint**](https://bit-integrations.com/wp-docs/actions/mail-mint-integrations/)
+- [**Mail Mint**](https://bit-integrations.com/wp-docs/actions/mail-mint-integrations/)
 
-* [**MailBluster**](https://bit-integrations.com/wp-docs/actions/mailbluster-integrations/)
+- [**MailBluster**](https://bit-integrations.com/wp-docs/actions/mailbluster-integrations/)
 
-* [**Mailchimp**](https://bit-integrations.com/wp-docs/actions/mailchimp-integrations/)
+- [**Mailchimp**](https://bit-integrations.com/wp-docs/actions/mailchimp-integrations/)
 
-* [**Mailercloud**](https://bit-integrations.com/wp-docs/actions/mailercloud-integrations/)
+- [**Mailercloud**](https://bit-integrations.com/wp-docs/actions/mailercloud-integrations/)
 
-* [**MailerLite**](https://bit-integrations.com/wp-docs/actions/mailerlite-integrations/)
+- [**MailerLite**](https://bit-integrations.com/wp-docs/actions/mailerlite-integrations/)
 
-* [**Mailjet**](https://bit-integrations.com/wp-docs/actions/mailjet-integrations/)
+- [**Mailjet**](https://bit-integrations.com/wp-docs/actions/mailjet-integrations/)
 
-* [**Mailpoet**](https://bit-integrations.com/wp-docs/actions/mailpoet-integrations-as-an-action/)
+- [**Mailpoet**](https://bit-integrations.com/wp-docs/actions/mailpoet-integrations-as-an-action/)
 
-* [**Mailrelay**](https://bit-integrations.com/wp-docs/actions/mailrelay-integrations/)
+- [**Mailrelay**](https://bit-integrations.com/wp-docs/actions/mailrelay-integrations/)
 
-* [**Mailup**](https://bit-integrations.com/wp-docs/actions/mailup-integrations/)
+- [**Mailup**](https://bit-integrations.com/wp-docs/actions/mailup-integrations/)
 
-* [**Mailster**](https://bit-integrations.com/wp-docs/actions/mailster-integrations-as-an-action/)
+- [**Mailster**](https://bit-integrations.com/wp-docs/actions/mailster-integrations-as-an-action/)
 
-* [**Mautic**](https://bit-integrations.com/wp-docs/actions/mautic-integrations/)
+- [**Mautic**](https://bit-integrations.com/wp-docs/actions/mautic-integrations/)
 
-* [**Make**](https://bit-integrations.com/wp-docs/actions/make-integrations/)
+- [**Make**](https://bit-integrations.com/wp-docs/actions/make-integrations/)
 
-* [**MasterStudy LMS**](https://bit-integrations.com/wp-docs/actions/masterstudy-lms-integrations-as-an-action/)
+- [**MasterStudy LMS**](https://bit-integrations.com/wp-docs/actions/masterstudy-lms-integrations-as-an-action/)
 
-* [**Memberpress**](https://bit-integrations.com/wp-docs/actions/memberpress-integrations-as-an-action/)
+- [**Memberpress**](https://bit-integrations.com/wp-docs/actions/memberpress-integrations-as-an-action/)
 
-* [**Moosend**](https://bit-integrations.com/wp-docs/actions/moosend-integrations/)
+- [**Moosend**](https://bit-integrations.com/wp-docs/actions/moosend-integrations/)
 
-* [**Moxie**](https://bit-integrations.com/wp-docs/actions/moxie-integrations/)
+- [**Moxie**](https://bit-integrations.com/wp-docs/actions/moxie-integrations/)
 
-* [**N8n**](https://bit-integrations.com/wp-docs/actions/n8n-integrations/)
+- [**N8n**](https://bit-integrations.com/wp-docs/actions/n8n-integrations/)
 
-* [**Newsletter**](https://bit-integrations.com/wp-docs/actions/newsletter-integrations/)
+- [**Newsletter**](https://bit-integrations.com/wp-docs/actions/newsletter-integrations/)
 
-* [**Nimble**](https://bit-integrations.com/wp-docs/actions/nimble-integrations/)
+- [**Nimble**](https://bit-integrations.com/wp-docs/actions/nimble-integrations/)
 
-* [**Notion**](https://bit-integrations.com/wp-docs/actions/notion-integrations/)
+- [**Notion**](https://bit-integrations.com/wp-docs/actions/notion-integrations/)
 
-* [**Nutshell CRM**](https://bit-integrations.com/wp-docs/actions/nutshell-crm-integrations/)
+- [**Nutshell CRM**](https://bit-integrations.com/wp-docs/actions/nutshell-crm-integrations/)
 
-* [**OmniSend**](https://bit-integrations.com/wp-docs/actions/omnisend-integrations/)
+- [**OmniSend**](https://bit-integrations.com/wp-docs/actions/omnisend-integrations/)
 
-* [**OneDrive**](https://bit-integrations.com/wp-docs/actions/onedrive-integrations/)
+- [**OneDrive**](https://bit-integrations.com/wp-docs/actions/onedrive-integrations/)
 
-* [**OneHash CRM**](https://bit-integrations.com/wp-docs/actions/onehash-crm-integrations/)
+- [**OneHash CRM**](https://bit-integrations.com/wp-docs/actions/onehash-crm-integrations/)
 
-* [**Paid Membership Pro**](https://bit-integrations.com/wp-docs/actions/paid-membership-pro-integrations-as-an-action/)
+- [**Paid Membership Pro**](https://bit-integrations.com/wp-docs/actions/paid-membership-pro-integrations-as-an-action/)
 
-* [**Pabbly**](https://bit-integrations.com/wp-docs/actions/pabbly-integrations/)
+- [**Pabbly**](https://bit-integrations.com/wp-docs/actions/pabbly-integrations/)
 
-* [**PCloud**](https://bit-integrations.com/wp-docs/actions/pcloud-integrations/)
+- [**PCloud**](https://bit-integrations.com/wp-docs/actions/pcloud-integrations/)
 
-* [**Perfex CRM**](https://bit-integrations.com/wp-docs/actions/perfex-crm-integrations/)
+- [**Perfex CRM**](https://bit-integrations.com/wp-docs/actions/perfex-crm-integrations/)
 
-* [**PipeDrive**](https://bit-integrations.com/wp-docs/actions/pipedrive-integrations/)
+- [**PipeDrive**](https://bit-integrations.com/wp-docs/actions/pipedrive-integrations/)
 
-* [**Pods**](https://bit-integrations.com/wp-docs/actions/pods-integrations/)
+- [**Pods**](https://bit-integrations.com/wp-docs/actions/pods-integrations/)
 
-* [**Propovoice CRM**](https://bit-integrations.com/wp-docs/actions/propovoice-crm-integrations/)
+- [**Propovoice CRM**](https://bit-integrations.com/wp-docs/actions/propovoice-crm-integrations/)
 
-* [**Post Creation**](https://bit-integrations.com/wp-docs/actions/post-creation-integrations/)
+- [**Post Creation**](https://bit-integrations.com/wp-docs/actions/post-creation-integrations/)
 
-* [**Rapid Mail**](https://bit-integrations.com/wp-docs/actions/rapidmail-integrations/)
+- [**Rapid Mail**](https://bit-integrations.com/wp-docs/actions/rapidmail-integrations/)
 
-* [**Restrict Content**](https://bit-integrations.com/wp-docs/actions/restrict-content-integrations-as-an-action/)
+- [**Restrict Content**](https://bit-integrations.com/wp-docs/actions/restrict-content-integrations-as-an-action/)
 
-* [**Salesforce**](https://bit-integrations.com/wp-docs/actions/salesforce-integrations/)
+- [**Salesforce**](https://bit-integrations.com/wp-docs/actions/salesforce-integrations/)
 
-* [**Salesflare**](https://bit-integrations.com/wp-docs/actions/salesflare-integrations/)
+- [**Salesflare**](https://bit-integrations.com/wp-docs/actions/salesflare-integrations/)
 
-* [**Salesmate**](https://bit-integrations.com/wp-docs/actions/salesmate-integrations/)
+- [**Salesmate**](https://bit-integrations.com/wp-docs/actions/salesmate-integrations/)
 
-* [**Sarbacane(Mailify)**](https://bit-integrations.com/wp-docs/actions/sarbacane-integrations/)
+- [**Sarbacane(Mailify)**](https://bit-integrations.com/wp-docs/actions/sarbacane-integrations/)
 
-* [**Selzy**](https://bit-integrations.com/wp-docs/actions/selzy-integrations/)
+- [**Selzy**](https://bit-integrations.com/wp-docs/actions/selzy-integrations/)
 
-* [**Sendfox**](https://bit-integrations.com/wp-docs/actions/sendfox-integrations/)
+- [**Sendfox**](https://bit-integrations.com/wp-docs/actions/sendfox-integrations/)
 
-* [**SendGrid**](https://bit-integrations.com/wp-docs/actions/sendgrid-integrations/)
+- [**SendGrid**](https://bit-integrations.com/wp-docs/actions/sendgrid-integrations/)
 
-* [**SendPulse**](https://bit-integrations.com/wp-docs/actions/sendpulse-integrations/)
+- [**SendPulse**](https://bit-integrations.com/wp-docs/actions/sendpulse-integrations/)
 
-* [**Sendy**](https://bit-integrations.com/wp-docs/actions/sendy-integrations/)
+- [**Sendy**](https://bit-integrations.com/wp-docs/actions/sendy-integrations/)
 
-* [**Slack**](https://bit-integrations.com/wp-docs/actions/slack-integrations/)
+- [**Slack**](https://bit-integrations.com/wp-docs/actions/slack-integrations/)
 
-* [**SliceWp**](https://bit-integrations.com/wp-docs/actions/slicewp-integrations-as-an-action/)
+- [**SliceWp**](https://bit-integrations.com/wp-docs/actions/slicewp-integrations-as-an-action/)
 
-* [**Smaily**](https://bit-integrations.com/wp-docs/actions/smaily-integrations/)
+- [**Smaily**](https://bit-integrations.com/wp-docs/actions/smaily-integrations/)
 
-* [**SperseIO**](https://bit-integrations.com/wp-docs/actions/sperse-io-integrations/)
+- [**SperseIO**](https://bit-integrations.com/wp-docs/actions/sperse-io-integrations/)
 
-* [**SuiteDash**](https://bit-integrations.com/wp-docs/actions/suitedash-integrations/)
+- [**SuiteDash**](https://bit-integrations.com/wp-docs/actions/suitedash-integrations/)
 
-* [**SureCart**](https://bit-integrations.com/wp-docs/actions/surecart-integrations-as-an-action/)
+- [**SureCart**](https://bit-integrations.com/wp-docs/actions/surecart-integrations-as-an-action/)
 
-* [**SureMembers**](https://bit-integrations.com/wp-docs/actions/suremembers-integrations-as-an-action/)
+- [**SureMembers**](https://bit-integrations.com/wp-docs/actions/suremembers-integrations-as-an-action/)
 
-* [**Suretriggers**](https://bit-integrations.com/wp-docs/actions/suretriggers-integrations/)
+- [**Suretriggers**](https://bit-integrations.com/wp-docs/actions/suretriggers-integrations/)
 
-* [**SyncSpider**](https://bit-integrations.com/wp-docs/actions/syncspider-integrations/)
+- [**SyncSpider**](https://bit-integrations.com/wp-docs/actions/syncspider-integrations/)
 
-* [**Systeme.io**](https://bit-integrations.com/wp-docs/actions/systeme-io-integrations/)
+- [**Systeme.io**](https://bit-integrations.com/wp-docs/actions/systeme-io-integrations/)
 
-* [**The Events Calendar**](https://bit-integrations.com/wp-docs/actions/the-events-calendar-integrations-as-an-action/)
+- [**The Events Calendar**](https://bit-integrations.com/wp-docs/actions/the-events-calendar-integrations-as-an-action/)
 
-* [**Telegram**](https://bit-integrations.com/wp-docs/actions/telegram-integrations/)
+- [**Telegram**](https://bit-integrations.com/wp-docs/actions/telegram-integrations/)
 
-* [**Thrive Automator**](https://bit-integrations.com/wp-docs/actions/thrive-automator-integrations/)
+- [**Thrive Automator**](https://bit-integrations.com/wp-docs/actions/thrive-automator-integrations/)
 
-* [**Trello**](https://bit-integrations.com/wp-docs/actions/trello-integrations/)
+- [**Trello**](https://bit-integrations.com/wp-docs/actions/trello-integrations/)
 
-* [**Tutor LMS**](https://bit-integrations.com/wp-docs/actions/tutor-lms-integrations-as-an-action/)
+- [**Tutor LMS**](https://bit-integrations.com/wp-docs/actions/tutor-lms-integrations-as-an-action/)
 
-* [**Twilio**](https://bit-integrations.com/wp-docs/actions/twilio-integrations/)
+- [**Twilio**](https://bit-integrations.com/wp-docs/actions/twilio-integrations/)
 
-* [**Uncanny Automator**](https://bit-integrations.com/wp-docs/actions/uncanny-automator-integrations/)
+- [**Uncanny Automator**](https://bit-integrations.com/wp-docs/actions/uncanny-automator-integrations/)
 
-* [**Vbout**](https://bit-integrations.com/wp-docs/actions/vbout-integrations/)
+- [**Vbout**](https://bit-integrations.com/wp-docs/actions/vbout-integrations/)
 
-* [**Voxel**](https://bit-integrations.com/wp-docs/actions/voxel-integrations-as-an-action/)
+- [**Voxel**](https://bit-integrations.com/wp-docs/actions/voxel-integrations-as-an-action/)
 
-* [**WP Webhooks**](https://bit-integrations.com/wp-docs/actions/wp-webhooks-integrations/)
+- [**WP Webhooks**](https://bit-integrations.com/wp-docs/actions/wp-webhooks-integrations/)
 
-* [**Webhooks**](https://bit-integrations.com/wp-docs/actions/outgoing-webhooks-integrations/)
+- [**Webhooks**](https://bit-integrations.com/wp-docs/actions/outgoing-webhooks-integrations/)
 
-* [**WP Foro**](https://bit-integrations.com/wp-docs/actions/wpforo-integrations-as-an-action/)
+- [**WP Foro**](https://bit-integrations.com/wp-docs/actions/wpforo-integrations-as-an-action/)
 
-* [**WP Fusion**](https://bit-integrations.com/wp-docs/actions/wp-fusion-integrations/)
+- [**WP Fusion**](https://bit-integrations.com/wp-docs/actions/wp-fusion-integrations/)
 
-* [**WhatsApp**](https://bit-integrations.com/wp-docs/actions/whatsapp-integrations/)
+- [**WhatsApp**](https://bit-integrations.com/wp-docs/actions/whatsapp-integrations/)
 
-* [**WishList**](https://bitapps.pro/docs/bit-integrations/trigger/wishlist/)
+- [**WishList**](https://bitapps.pro/docs/bit-integrations/trigger/wishlist/)
 
-* [**wooCommerce**](https://bit-integrations.com/wp-docs/actions/woocommerce-integrations-as-an-action/)
+- [**wooCommerce**](https://bit-integrations.com/wp-docs/actions/woocommerce-integrations-as-an-action/)
 
-* [**Woodpecker**](https://bit-integrations.com/wp-docs/actions/woodpecker-integrations/)
+- [**Woodpecker**](https://bit-integrations.com/wp-docs/actions/woodpecker-integrations/)
 
-* [**WP Courseware**](https://bit-integrations.com/wp-docs/actions/wp-courseware-integrations-as-an-action/)
+- [**WP Courseware**](https://bit-integrations.com/wp-docs/actions/wp-courseware-integrations-as-an-action/)
 
-* [**Zagomail**](https://bit-integrations.com/wp-docs/actions/zagomail-integrations/)
+- [**Zagomail**](https://bit-integrations.com/wp-docs/actions/zagomail-integrations/)
 
-* [**Zapier**](https://bit-integrations.com/wp-docs/actions/zapier-integrations/)
+- [**Zapier**](https://bit-integrations.com/wp-docs/actions/zapier-integrations/)
 
-* [**Zendesk**](https://bit-integrations.com/wp-docs/actions/zendesk-integrations/)
+- [**Zendesk**](https://bit-integrations.com/wp-docs/actions/zendesk-integrations/)
 
-* [**Zoho Bigin**](https://bit-integrations.com/wp-docs/actions/zoho-bigin-integrations/)
+- [**Zoho Bigin**](https://bit-integrations.com/wp-docs/actions/zoho-bigin-integrations/)
 
-* [**Zoho CRM**](https://bit-integrations.com/wp-docs/actions/zoho-crm-integrations/)
+- [**Zoho CRM**](https://bit-integrations.com/wp-docs/actions/zoho-crm-integrations/)
 
-* [**Zoho Desk**](https://bit-integrations.com/wp-docs/actions/zoho-desk-integrations/)
+- [**Zoho Desk**](https://bit-integrations.com/wp-docs/actions/zoho-desk-integrations/)
 
-* [**Zoho Flow**](https://bit-integrations.com/wp-docs/actions/zoho-flow-integrations/)
+- [**Zoho Flow**](https://bit-integrations.com/wp-docs/actions/zoho-flow-integrations/)
 
-* [**Zoho Recruit**](https://bit-integrations.com/wp-docs/actions/zoho-recruit-integrations/)
+- [**Zoho Recruit**](https://bit-integrations.com/wp-docs/actions/zoho-recruit-integrations/)
 
-* [**Zoho Campaign**](https://bit-integrations.com/wp-docs/actions/zoho-campaigns-integrations/)
+- [**Zoho Campaign**](https://bit-integrations.com/wp-docs/actions/zoho-campaigns-integrations/)
 
-* [**Zoho Marketing Automation(Zoho Marketing Hub)**](https://bit-integrations.com/wp-docs/actions/zoho-marketing-automation-integrations/)
+- [**Zoho Marketing Automation(Zoho Marketing Hub)**](https://bit-integrations.com/wp-docs/actions/zoho-marketing-automation-integrations/)
 
-* [**Zoho Sheet**](https://bit-integrations.com/wp-docs/actions/zoho-sheet-integrations/)
+- [**Zoho Sheet**](https://bit-integrations.com/wp-docs/actions/zoho-sheet-integrations/)
 
-* [**Zoom**](https://bit-integrations.com/wp-docs/actions/zoom-meeting-integrations/)
+- [**Zoom**](https://bit-integrations.com/wp-docs/actions/zoom-meeting-integrations/)
 
-* [**Zoom Webinar**](https://bit-integrations.com/wp-docs/actions/zoom-webinar-integrations/)
+- [**Zoom Webinar**](https://bit-integrations.com/wp-docs/actions/zoom-webinar-integrations/)
 
 ✨ Overview of other products we are offering :
 
@@ -1277,7 +1290,7 @@ Yes, Bit integrations easy to use without require coding knowledge and without r
 = 4. Bit Integrations support Multisite?=
 Yes, Bit Integrations support Multisite.
 = 5. Bit Integrations hampare my website speed and performance?=
-No, Bit Integrations should not hamper your website speed and performance. In fact, our integration solutions are designed to enhance the functionality of your WordPress website without compromising its speed or performance. We use optimized code and best practices to ensure that our integrations  integrate with your website, resulting in a smooth user experience. Additionally, our support team is always available to help with any technical issues or optimizations that may be needed to further improve your website's speed and performance.
+No, Bit Integrations should not hamper your website speed and performance. In fact, our integration solutions are designed to enhance the functionality of your WordPress website without compromising its speed or performance. We use optimized code and best practices to ensure that our integrations integrate with your website, resulting in a smooth user experience. Additionally, our support team is always available to help with any technical issues or optimizations that may be needed to further improve your website's speed and performance.
 = 6. Does automate with Salesforce,HubSpot,Zoho CRM,FluentCRM,Agile CRM?=
 Yes, Bit Integrations support Salesforce,HubSpot,Zoho CRM,FluentCRM,Agile CRM and lot's more.
 = 7. Can I autormate BuddyBoss, LearnDash, LifterLMS, TutorLms , WP Courseware ?
@@ -1300,6 +1313,8 @@ Yes, you can automate WordPress with 110+ trigger and 150+ actions.
 Yes, you can connect plugins with external services like Zapier, Pabbly, N8N with webhook.
 = 16. Does Bit Integrations works as like as Zapier in Wordpress?=
 Yes, It sends data to other platforms from wordpress site. Suppose someone submitted a forminator form, if he sets up an integration with forminator form to google sheet, it will send those data to the sheet.
+= 17. Can I use Bit Integrations for e-commerce automation?=
+Yes! Bit Integrations supports e-commerce integrations with tools like WooCommerce, allowing you to create automated workflows that update customer records, send emails, and more.
 
 == Installation ==
 
@@ -1308,7 +1323,7 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 3. For Uploading the automator plugin click on upload, so you can directly upload your plugin zip file.
 4. Use the browse button to select the plugin zip file that was downloaded, and then click on Install Now.
 5. Once installed the integration plugin, click “Activate”.
-6. Now you can you use the integration plugin where you can automate any form data with lot of platforms. 
+6. Now you can start building your first automated workflow using available platform connectors.
 
 == Screenshots ==
 
@@ -1325,416 +1340,426 @@ Yes, It sends data to other platforms from wordpress site. Suppose someone submi
 _Release Date -6th may 2025_
 
 - **New Feature**
- - SureCart: Enhanced SureCart product purchase module by adding customer information (Pro).
+- SureCart: Enhanced SureCart product purchase module by adding customer information (Pro).
 
 - **Bug Fixes**
- - PerfexCRM: Resolved issue with custom tagify field.
- - WP Courseware: Fixed task fetching problem.
- - WP post: Addressed multiple execution of triggers during WP post update (Pro).
- 
+- PerfexCRM: Resolved issue with custom tagify field.
+- WP Courseware: Fixed task fetching problem.
+- WP post: Addressed multiple execution of triggers during WP post update (Pro).
+
 = 2.5.5 =
 _Release Date -27th April 2025_
 
 - **New Feature**
- - Omnisend: Added support for custom properties (Pro).
+- Omnisend: Added support for custom properties (Pro).
 
 - **New Improvement**
- - FluentSMTP: Added email failed alternative hook (Pro).
- - Bento: Improved utilities tags explode functionality (Pro).
+- FluentSMTP: Added email failed alternative hook (Pro).
+- Bento: Improved utilities tags explode functionality (Pro).
 
 - **Bug Fixes**
- - PerfexCRM: Fixed issue with custom field # tags.
- - WooCommerce (Trigger): Resolved Unicode escape issue in Product Name.
- - SureFeedBack: Fixed comment resolved hook issue (Pro).
+- PerfexCRM: Fixed issue with custom field # tags.
+- WooCommerce (Trigger): Resolved Unicode escape issue in Product Name.
+- SureFeedBack: Fixed comment resolved hook issue (Pro).
 
 = 2.5.4 =
 _Release Date -14th April 2025_
 
 - **New Improvement**
- - Forminator: Replaced uploaded file path with URL. (Pro)
- - WooCommerce: Added product names and quantity fields to the Order module.
+- Forminator: Replaced uploaded file path with URL. (Pro)
+- WooCommerce: Added product names and quantity fields to the Order module.
 
 - **Bug Fixes**
- - Google Sheet: Fixed issue with the integration name input field.
+- Google Sheet: Fixed issue with the integration name input field.
 
 = 2.5.3 =
 _Release Date -6th April 2025_
 
 - **New Triggers**
- - NEX-Forms – 1 new events added (Pro)
- - Profile Builder – 6 new events added (Pro)
- - Quill Forms – 1 new events added (Pro)
- - UserFeedback – 1 new events added (Pro)
- - WooCommerce Memberships – 4 new events added (Pro)
- - WP Simple Pay – 3 new events added (Pro)
+- NEX-Forms – 1 new events added (Pro)
+- Profile Builder – 6 new events added (Pro)
+- Quill Forms – 1 new events added (Pro)
+- UserFeedback – 1 new events added (Pro)
+- WooCommerce Memberships – 4 new events added (Pro)
+- WP Simple Pay – 3 new events added (Pro)
 
 - **New Action**
- - Bento – 2 new events added (Pro)
+- Bento – 2 new events added (Pro)
 
 - **Bug Fixes**
- - Zoom: Fixed an issue causing the field mapping section to re-render unnecessarily.
- - Zendesk: The Company field in the Lead module is now marked as non-required, allowing more flexible submissions.
- - Forminator: Resolved a date format issue for consistent and accurate data capture. (Pro)
- 
+- Zoom: Fixed an issue causing the field mapping section to re-render unnecessarily.
+- Zendesk: The Company field in the Lead module is now marked as non-required, allowing more flexible submissions.
+- Forminator: Resolved a date format issue for consistent and accurate data capture. (Pro)
+
 = 2.5.2 =
 _Release Date -24th March 2025_
 
 - **New Triggers**
- - myCred – 5 new events added (Pro)
- - SureFeedback – 2 new events added (Pro)
- - WP All Import – 3 new events added (Pro)
- - WPLMS – 1 new events added (Pro)
- - WPLoyalty – 1 new events added (Pro)
- - WP-Polls – 1 new events added (Pro)
+- myCred – 5 new events added (Pro)
+- SureFeedback – 2 new events added (Pro)
+- WP All Import – 3 new events added (Pro)
+- WPLMS – 1 new events added (Pro)
+- WPLoyalty – 1 new events added (Pro)
+- WP-Polls – 1 new events added (Pro)
 
 - **Bug Fixes**
- - Webhook (Action): Fixed an issue where the Info Page was showing blank.
- - Fluent Community: Resolved the "invalid argument" issue. (Pro)
- - Voxel (Trigger): Fixed the issue where hooks were incorrectly listed. (Pro)
+- Webhook (Action): Fixed an issue where the Info Page was showing blank.
+- Fluent Community: Resolved the "invalid argument" issue. (Pro)
+- Voxel (Trigger): Fixed the issue where hooks were incorrectly listed. (Pro)
 
 = 2.5.1 =
 _Release Date -12th March 2025_
 
 - **New Triggers**
- - Fluent Boards – 3 new events added (Pro)
- - Jetpack CRM – 10 new events added (Pro)
- - Masteriyo LMS – 4 new events added (Pro)
- - MemberPress Courses – 2 new events added (Pro)
- - Modern Events Calendar – 4 new events added (Pro)
- - Paymattic – 1 new events added (Pro)
- - ProfileGrid – 12 new events added (Pro)
+- Fluent Boards – 3 new events added (Pro)
+- Jetpack CRM – 10 new events added (Pro)
+- Masteriyo LMS – 4 new events added (Pro)
+- MemberPress Courses – 2 new events added (Pro)
+- Modern Events Calendar – 4 new events added (Pro)
+- Paymattic – 1 new events added (Pro)
+- ProfileGrid – 12 new events added (Pro)
 
 - **Bug Fixes**
- - SureCart: Resolved an issue where order cancellation wasn’t executing correctly on specific products. (Pro)
- - Mail: Fixed a glitch in the trigger integration component when editing existing integrations.
+- SureCart: Resolved an issue where order cancellation wasn’t executing correctly on specific products. (Pro)
+- Mail: Fixed a glitch in the trigger integration component when editing existing integrations.
 
 = 2.5.0 =
 _Release Date -5th March 2025_
 
 - **New Triggers**
- - Advanced Custom Fields (ACF) – Unlock custom fields automation. (Pro)
- - LearnPress – WordPress LMS Plugin. (Pro)
- - Presto Player – The Ultimate Video Player For WordPress. (Pro)
- - PeepSo – Free User Profile and Community WordPress Plugin. (Pro)
- - Simply Schedule Appointments – Booking Plugin for WordPress. (Pro)
- - SureMail – WordPress SMTP and Email Logs Plugin. (Pro)
+- Advanced Custom Fields (ACF) – Unlock custom fields automation. (Pro)
+- LearnPress – WordPress LMS Plugin. (Pro)
+- Presto Player – The Ultimate Video Player For WordPress. (Pro)
+- PeepSo – Free User Profile and Community WordPress Plugin. (Pro)
+- Simply Schedule Appointments – Booking Plugin for WordPress. (Pro)
+- SureMail – WordPress SMTP and Email Logs Plugin. (Pro)
 
 - **Security Fixes**
- - Improved validation and sanitization of redirection URLs to prevent unauthorized redirects.
- - Enhanced security measures to restrict redirects to trusted domains only.
+- Improved validation and sanitization of redirection URLs to prevent unauthorized redirects.
+- Enhanced security measures to restrict redirects to trusted domains only.
 
 - **Bug Fixes**
- - SureCart: Resolved an issue where editing dependencies caused unexpected errors. (Pro)
- - SureCart: Fixed a bug where multiple executions occurred unexpectedly. (Pro)
+- SureCart: Resolved an issue where editing dependencies caused unexpected errors. (Pro)
+- SureCart: Fixed a bug where multiple executions occurred unexpectedly. (Pro)
 
 = 2.4.10 =
 _Release Date -25th February 2025_
 
 - **Bug Fixes**
- - Klaviyo: Resolved blank page issue during list selection.
+- Klaviyo: Resolved blank page issue during list selection.
 
 = 2.4.9 =
 _Release Date -24th February 2025_
 
 - **New Triggers**
- - Amelia Booking – Booking for Appointments and Events Calendar. (Pro)
- - bbPress – Enhanced forum interactions with new trigger capabilities. (Pro)
- - FluentSMTP – The Smartest WordPress SMTP Plugin. (Pro)
- - GravityKit – Expanded form data management with new automation options. (Pro)
- - Newsletter – Send awesome emails from WordPress. (Pro)
- - Wishlist Member – WordPress Membership Plugin. (Pro)
+- Amelia Booking – Booking for Appointments and Events Calendar. (Pro)
+- bbPress – Enhanced forum interactions with new trigger capabilities. (Pro)
+- FluentSMTP – The Smartest WordPress SMTP Plugin. (Pro)
+- GravityKit – Expanded form data management with new automation options. (Pro)
+- Newsletter – Send awesome emails from WordPress. (Pro)
+- Wishlist Member – WordPress Membership Plugin. (Pro)
 
 - **New Feature**
- - Klaviyo: Update Profile feature added for enhanced audience segmentation and personalization. (Pro)
+- Klaviyo: Update Profile feature added for enhanced audience segmentation and personalization. (Pro)
 
 - **Bug Fixes**
- - Google Drive: Resolved the file path issue to ensure smoother file handling and syncing.
- - Chore: Conditional Undefined Array Key Handling.
+- Google Drive: Resolved the file path issue to ensure smoother file handling and syncing.
+- Chore: Conditional Undefined Array Key Handling.
 
 = 2.4.8 =
 _Release Date -16th February 2025_
 
 - **New Triggers**
- - Calculated Fields Form: Added a New Trigger to enhance dynamic form functionality. (Pro)
- - Ninja Tables: Introduced a "Row Deleted trigger" for better table management automation. (Pro)
+- Calculated Fields Form: Added a New Trigger to enhance dynamic form functionality. (Pro)
+- Ninja Tables: Introduced a "Row Deleted trigger" for better table management automation. (Pro)
 
 - **New Improvement**
- - Performance Optimization: Improved the captured triggers data functionality to reduce CPU and RAM usage for better performance and efficiency.
+- Performance Optimization: Improved the captured triggers data functionality to reduce CPU and RAM usage for better performance and efficiency.
 
 - **Bug Fixes**
- - Tripetto: Fixed an issue where conditional fields were not fetching data correctly. (Pro)
- - Google Sheets Integration: Removed the redundant reauth component for streamlined authentication.
+- Tripetto: Fixed an issue where conditional fields were not fetching data correctly. (Pro)
+- Google Sheets Integration: Removed the redundant reauth component for streamlined authentication.
 
 = 2.4.7 =
 _Release Date -5th February 2025_
 
 - **New Trigger**
- - Advanced Coupons for WooCommerce: The Best WooCommerce Coupon Plugin. (Pro)
- - Appointment Hour Booking: WordPress Booking Plugin. (Pro)
- - Better Messages: Realtime private messaging system for WordPress. (Pro)
- - Convert Pro: The Best Lead Generation Tool for WordPress. (Pro)
- - FunnelKit Automations CRM: WordPress Marketing Automation Engine. (Pro)
+- Advanced Coupons for WooCommerce: The Best WooCommerce Coupon Plugin. (Pro)
+- Appointment Hour Booking: WordPress Booking Plugin. (Pro)
+- Better Messages: Realtime private messaging system for WordPress. (Pro)
+- Convert Pro: The Best Lead Generation Tool for WordPress. (Pro)
+- FunnelKit Automations CRM: WordPress Marketing Automation Engine. (Pro)
 
 = 2.4.6 =
 _Release Date -3rd February 2025_
 
 - **New Improvements**
- - MailChimp: Fetching of fields has been maximized.
+- MailChimp: Fetching of fields has been maximized.
 
 - **Bug Fixes**
- - BuddyPress: Resolved group permalink issue, ensuring proper redirection and URL structure. (Pro)
- - SureCart: Fixed product fetching issue, improving data retrieval and display functionality. (Pro)
- - OneDrive: Fixed file uploading path issue to ensure accurate file storage and retrieval paths.
- - MailChimp: Corrected issue where contact status updates were not being processed properly.
- - Google Calendar: Resolved blank page issue during calendar operations.
+- BuddyPress: Resolved group permalink issue, ensuring proper redirection and URL structure. (Pro)
+- SureCart: Fixed product fetching issue, improving data retrieval and display functionality. (Pro)
+- OneDrive: Fixed file uploading path issue to ensure accurate file storage and retrieval paths.
+- MailChimp: Corrected issue where contact status updates were not being processed properly.
+- Google Calendar: Resolved blank page issue during calendar operations.
 
 = 2.4.5 =
 _Release Date -25th January 2025_
 
 - **New Feature**
- - MailPoet: Added the update subscriber feature. (Pro)
+- MailPoet: Added the update subscriber feature. (Pro)
 
 - **Bug Fixes**
- - WP Post Creation: Fixed the Edit Page logged-in user post author assignment.
- - Custom API: Resolved API key authentication issue.
- - Dropbox: Fixed issue with retrieving file content.
- - GamiPress: Fixed trigger blank page issue. (Pro)
+- WP Post Creation: Fixed the Edit Page logged-in user post author assignment.
+- Custom API: Resolved API key authentication issue.
+- Dropbox: Fixed issue with retrieving file content.
+- GamiPress: Fixed trigger blank page issue. (Pro)
 
 = 2.4.4 =
 _Release Date -18th January 2025_
 
 - **New Action**
- - SmartSuite – Added support for managing work on a single platform.
+- SmartSuite – Added support for managing work on a single platform.
 
 - **New Triggers**
- - Advanced Ads – Seamless integration for managing ads and AdSense. (Pro)
- - Sensei LMS – Integration for online courses, quizzes, and learning. (Pro)
- - Ninja Tables – Added support for creating and managing easy data tables. (Pro)
- - BuddyPress – Enhanced compatibility with tools for online communities, teams, and groups. (Pro)
+- Advanced Ads – Seamless integration for managing ads and AdSense. (Pro)
+- Sensei LMS – Integration for online courses, quizzes, and learning. (Pro)
+- Ninja Tables – Added support for creating and managing easy data tables. (Pro)
+- BuddyPress – Enhanced compatibility with tools for online communities, teams, and groups. (Pro)
 
 - **Bug Fixes**
- - FluentCRM: Resolved contact & company conflict. (Pro)
- - General: Fixed misbehavior issue with the changelog popup.
+- FluentCRM: Resolved contact & company conflict. (Pro)
+- General: Fixed misbehavior issue with the changelog popup.
 
 = 2.4.3 =
 _Release Date -12th January 2025_
 
 - **New Feature**
- - FluentCRM (Trigger): Added company data, including custom field data, to contacts-related triggers. (Pro)
+- FluentCRM (Trigger): Added company data, including custom field data, to contacts-related triggers. (Pro)
 
 - **New Improvements**
- - BuddyBoss (Action): Added sender and recipient user details in the send private message module.
- - Freshsales: Increased the fetching quantity for accounts and contacts.
+- BuddyBoss (Action): Added sender and recipient user details in the send private message module.
+- Freshsales: Increased the fetching quantity for accounts and contacts.
 
 - **Bug Fixes**
- - CartFlow: Resolved the trigger field format issue. (Pro)
- - WPForms: Fixed the issue with empty upload file objects.
- - Google Sheets: Addressed duplicate header data conflict issues.
+- CartFlow: Resolved the trigger field format issue. (Pro)
+- WPForms: Fixed the issue with empty upload file objects.
+- Google Sheets: Addressed duplicate header data conflict issues.
 
 = 2.4.2 =
 _Release Date -2nd January 2025_
 
 - **New Improvements**
- - WP Post (Trigger): Added post categories fields (Pro).
- - BuddyBoss (Trigger): Updated profile module with custom fields (Pro).
- - FluentCRM: Added profile update functionality on tag insert/remove modules.
- - AffiliateWP (Trigger): Added registration form fields for when an affiliate is approved & a user becomes an affiliate (Pro).
+- WP Post (Trigger): Added post categories fields (Pro).
+- BuddyBoss (Trigger): Updated profile module with custom fields (Pro).
+- FluentCRM: Added profile update functionality on tag insert/remove modules.
+- AffiliateWP (Trigger): Added registration form fields for when an affiliate is approved & a user becomes an affiliate (Pro).
 
 - **Bug Fixes**
- - PipeDrive: Fixed issue with integration name not being editable.
+- PipeDrive: Fixed issue with integration name not being editable.
 
 = 2.4.1 =
 _Release Date -25th December 2024_
 
 - **New Trigger**
- - FluentCommunity: Integration added to support Full-fledged Social Network, Community, and LMS platforms (Pro).
+- FluentCommunity: Integration added to support Full-fledged Social Network, Community, and LMS platforms (Pro).
 
 - **New Feature**
- - BuddyBoss: Added support for Profile Custom Fields (Pro).
+- BuddyBoss: Added support for Profile Custom Fields (Pro).
 
 - **New Improvements**
- - GravityForms: Uploaded file path now changed to URL format for better compatibility (Pro).
+- GravityForms: Uploaded file path now changed to URL format for better compatibility (Pro).
 
 - **Bug Fixes**
- - Webhook & Custom API: Resolved issue with custom raw JSON data submission.
+- Webhook & Custom API: Resolved issue with custom raw JSON data submission.
 
 = 2.4.0 =
 _Release Date -19th December 2024_
 
 - **New Improvements**
- - Salesforce: Updated static fields to dynamic fields for enhanced flexibility.
- - BuddyBoss (Trigger): Added trigger support for user ID fields, improving workflow options.(Pro)
+- Salesforce: Updated static fields to dynamic fields for enhanced flexibility.
+- BuddyBoss (Trigger): Added trigger support for user ID fields, improving workflow options.(Pro)
 
 - **Bug Fixes**
- - Omnisend: Resolved an issue with trailing commas causing errors in integration.
- - MasterStudyLMS (Trigger): Fixed the course completion execution bug for smoother functionality.(Pro)
- - Zoho Marketing Hub: Addressed an execution issue to ensure seamless operation.
- - Freshdesk: Fixed an authorization issue affecting API connectivity.
- - CartFlows: Corrected the field fetching issue during checkout integration.(Pro).
+- Omnisend: Resolved an issue with trailing commas causing errors in integration.
+- MasterStudyLMS (Trigger): Fixed the course completion execution bug for smoother functionality.(Pro)
+- Zoho Marketing Hub: Addressed an execution issue to ensure seamless operation.
+- Freshdesk: Fixed an authorization issue affecting API connectivity.
+- CartFlows: Corrected the field fetching issue during checkout integration.(Pro).
 
 = 2.3.9 =
 _Release Date -10th December 2024_
 
 - **New Trigger**
- - Avada Forms – Allowing users to integrate and automate workflows effectively with the Avada Website Builder. (pro)
+- Avada Forms – Allowing users to integrate and automate workflows effectively with the Avada Website Builder. (pro)
 
 - **Bug Fixes**
- - Groundhogg: Resolved the issue with fetching tags. (pro)
- - GoogleSheet: Authorization page issue fixed.
+- Groundhogg: Resolved the issue with fetching tags. (pro)
+- GoogleSheet: Authorization page issue fixed.
 
 = 2.3.8 =
 _Release Date -5th December 2024_
 
 - **New Feature**
- - Fluent CRM (Action)(Pro): Added support for assigning a company to contacts.
+- Fluent CRM (Action)(Pro): Added support for assigning a company to contacts.
 
 - **New Improvement**
- - Benchmark: Improved integration execution performance.
- - Forminator (Pro): Extended form fetching limit to 1000.
- - Ultimate Member (Pro): Added support for uploading field data URLs.
+- Benchmark: Improved integration execution performance.
+- Forminator (Pro): Extended form fetching limit to 1000.
+- Ultimate Member (Pro): Added support for uploading field data URLs.
 
 - **Bug Fixes**
- - Telegram: Fixed issue with integration name not being editable.
- - Telegram: Resolved issue with HTML message text breaking characters.
- - Telegram: Fixed issue with markdown field input appending incorrectly.
- - Benchmark: Fixed issue with boolean fields not being handled correctly.
- - Slack: Fixed issue with message body field input appending incorrectly.
- - Chore: Corrected the improper call of _load_textdomain_just_in_time.
- - Twilio: Fixed issue with message body field input appending incorrectly.
- - Fluent CRM (Trigger)(Pro): Fixed issue with duplicate trigger execution.
+- Telegram: Fixed issue with integration name not being editable.
+- Telegram: Resolved issue with HTML message text breaking characters.
+- Telegram: Fixed issue with markdown field input appending incorrectly.
+- Benchmark: Fixed issue with boolean fields not being handled correctly.
+- Slack: Fixed issue with message body field input appending incorrectly.
+- Chore: Corrected the improper call of \_load_textdomain_just_in_time.
+- Twilio: Fixed issue with message body field input appending incorrectly.
+- Fluent CRM (Trigger)(Pro): Fixed issue with duplicate trigger execution.
 
-= 2.3.7  =
+= 2.3.7 =
 _Release Date -28th November 2024_
 
 - **Bug Fixes**
- - Google Authorization issue fixed.
+- Google Authorization issue fixed.
 
-= 2.3.6  =
+= 2.3.6 =
 _Release Date -26th November 2024_
 
 - **New Improvement**
- - Asana: Added Tagify input for custom fields.
+- Asana: Added Tagify input for custom fields.
 
 - **Bug Fixes**
- - ARForm (Pro): Resolved the form fetching issue.
- - Fluent Support: Fixed an issue with storing data in custom fields.
- - WP Post (Pro): Prevented multiple hooks from being called when using the "change status" trigger.
- - Chore: Fixed the loading issue in the WP Media Library.
+- ARForm (Pro): Resolved the form fetching issue.
+- Fluent Support: Fixed an issue with storing data in custom fields.
+- WP Post (Pro): Prevented multiple hooks from being called when using the "change status" trigger.
+- Chore: Fixed the loading issue in the WP Media Library.
 
-= 2.3.5  =
+= 2.3.5 =
 _Release Date -20th November 2024_
 
 - **New Trigger**
- - Asgaros (Pro): Added support for the best forum plugin for WordPress.
+- Asgaros (Pro): Added support for the best forum plugin for WordPress.
 
 - **New Action**
- - Voxel: Introduced support for building advanced WordPress dynamic sites and directories.
+- Voxel: Introduced support for building advanced WordPress dynamic sites and directories.
 
 - **Bug Fixes**
- - Telegram: Resolved the issue where markdown appended incorrectly to form fields.
- - Telegram: Fixed the UI conflict related to parse mode settings.
- - Google Sheets: Addressed the issue where custom authentication credentials were missing.
- - SureCart (Pro): Fixed the blank page issue experienced by some users.
+- Telegram: Resolved the issue where markdown appended incorrectly to form fields.
+- Telegram: Fixed the UI conflict related to parse mode settings.
+- Google Sheets: Addressed the issue where custom authentication credentials were missing.
+- SureCart (Pro): Fixed the blank page issue experienced by some users.
 
-= 2.3.4  =
+= 2.3.4 =
 _Release Date -12th November 2024_
 
 - **New Trigger**
- - Pie Forms (Pro): Drag & Drop Builder, Human Face Detector, Pre-built Templates, Spam Protection, User Email Notifications, and more!
+- Pie Forms (Pro): Drag & Drop Builder, Human Face Detector, Pre-built Templates, Spam Protection, User Email Notifications, and more!
 
 - **New Features**
- - Kit (ex ConvertKit): New Module added:
-    "Update Subscriber" - Easily update subscriber details.
-    "Add Tags to a Subscriber" - Assign specific tags to subscribers.
-    "Remove Tags from a Subscriber" - Remove tags from selected subscribers. 
-  - Voxel: Added new tasks to enhance the integrations:
+- Kit (ex ConvertKit): New Module added:
+  "Update Subscriber" - Easily update subscriber details.
+  "Add Tags to a Subscriber" - Assign specific tags to subscribers.
+  "Remove Tags from a Subscriber" - Remove tags from selected subscribers.
+- Voxel: Added new tasks to enhance the integrations:
 
-    Membership (Pro):
-      - Membership Plan Activated
-      - Membership Plan Switched
-      - Membership Plan Canceled
+  Membership (Pro):
 
-    Comments (Pro):
-      - New Comment
-      - New Reply to Comment
+  - Membership Plan Activated
+  - Membership Plan Switched
+  - Membership Plan Canceled
 
-    Profile (Pro):
-      - New Wall Post on Profile
-      - Wall Post by User
+  Comments (Pro):
 
-    Orders (Pro):
-      - New Order Placed
-      - Order Approved by Vendor
-      - Order Declined by Vendor
-      - Order Canceled by Customer
-      - Orders Claim Listing
-      
-    Promotions(pro):
-      - Promotion Activated
-      - Promotion Canceled
+  - New Comment
+  - New Reply to Comment
 
+  Profile (Pro):
+
+  - New Wall Post on Profile
+  - Wall Post by User
+
+  Orders (Pro):
+
+  - New Order Placed
+  - Order Approved by Vendor
+  - Order Declined by Vendor
+  - Order Canceled by Customer
+  - Orders Claim Listing
+
+  Promotions(pro):
+
+  - Promotion Activated
+  - Promotion Canceled
 
 - **New Improvement**
- - Brevo (ex Sendinblue): Enhanced optimization for smoother integration execution.
- - Kit (ex ConvertKit): Improved functionality for adding and updating subscribers.
+- Brevo (ex Sendinblue): Enhanced optimization for smoother integration execution.
+- Kit (ex ConvertKit): Improved functionality for adding and updating subscribers.
 
-= 2.3.3  =
+= 2.3.3 =
 _Release Date -05th November 2024_
 
 - **New Action**
- - License Manager for WooCommerce - An Ideal Add-on that Delivers Robust Solutions for Effortless Software License Sales and Management.
+- License Manager for WooCommerce - An Ideal Add-on that Delivers Robust Solutions for Effortless Software License Sales and Management.
 
 - **New Trigger**
- - Voxel - Build Advanced WordPress Dynamic Sites and Directories with Voxel and Elementor (Pro).
+- Voxel - Build Advanced WordPress Dynamic Sites and Directories with Voxel and Elementor (Pro).
 
 - **New Features**
- - MailChimp: Added utilities to manage Language and GDPR Marketing Preferences for users (Pro).
+- MailChimp: Added utilities to manage Language and GDPR Marketing Preferences for users (Pro).
 
 - **New Improvement**
- - Kit (ConvertKit): Optimized API for handling existing subscribers more efficiently.
+- Kit (ConvertKit): Optimized API for handling existing subscribers more efficiently.
 
 - **Bug Fixes**
- - Telegram Messenger: Resolved an issue with link messages not displaying correctly.
- - GoHighLevel: Fixed a bug where checkbox data was not submitting as expected.
- - Chore: Addressed trigger uniqueKey update issues for various builders and forms, including:
-      - Breakdance
-      - Elementor
-      - Bricks
-      - BrickForge
-      - Brizy
-      - Divi
-      - Divi Form Builder by Divi Engine
-      - Gutena Forms
-      - Kadence Blocks Form
-      - Popup Maker
-      - SiteOrigin Widgets
+- Telegram Messenger: Resolved an issue with link messages not displaying correctly.
+- GoHighLevel: Fixed a bug where checkbox data was not submitting as expected.
+- Chore: Addressed trigger uniqueKey update issues for various builders and forms, including:
+  - Breakdance
+  - Elementor
+  - Bricks
+  - BrickForge
+  - Brizy
+  - Divi
+  - Divi Form Builder by Divi Engine
+  - Gutena Forms
+  - Kadence Blocks Form
+  - Popup Maker
+  - SiteOrigin Widgets
 
-= 2.3.2  =
+= 2.3.2 =
 _Release Date -30th October 2024_
 
 - **New Trigger :**
+
   - WooCommerce Bookings: Added support for WooCommerce Bookings trigger, allowing you to automate workflows based on new bookings and other related events. (Pro)
 
 - **New Features :**
+
   - OneClick Authorization feature added in GoogleSheet Action.
 
 - **New Improvements :**
+
   - WP Post Creation: Enhanced the feature image upload process, now supporting improved handling of third-party public URLs, ensuring more consistent and reliable image integration for WP posts.
 
 - **Note :**
   - Deprecated Old WooCommerce Booking Triggers: Previous WooCommerce booking-based triggers have been deprecated and replaced with a new, comprehensive trigger system, including specific triggers such as "Booking-Created" to provide more effective and detailed management of WooCommerce bookings.
 
-= 2.3.1  =
+= 2.3.1 =
 _Release Date -23th October 2024_
 
 - **New Action :**
+
   - The Events Calendar: Now supports actions for calendars and tickets for WordPress.
 
 - **New Features :**
+
   - The Events Calendar: Added new task for attendee registration with WooCommerce (Pro).
   - Moosend: Added support for custom fields (Pro).
 
 - **New Improvements :**
+
   - Campaign Monitor: Added custom field value support.
   - Mautic: Added functionality for contact owner.
   - Telegram: Enhanced Markdown and HTML message support.
@@ -1745,13 +1770,15 @@ _Release Date -23th October 2024_
   - WpForo: Resolved the blank page issue.
   - Selzy: Resolved the blank page issue.
 
-= 2.3.0  =
+= 2.3.0 =
 _Release Date -16th October 2024_
 
 - **New Trigger :**
+
   - The Events Calendar (Pro): Now supports triggers for calendars and tickets for WordPress.
 
 - **New Features :**
+
   - Trello (Pro): Added support for Custom Fields.
 
 - **New Fixes :**
@@ -1761,28 +1788,31 @@ _Release Date -16th October 2024_
   - WooCommerce: Fixed the custom field value issue.
   - JetEngine (Pro): Resolved the blank page issue.
   - LearnDash (Pro): Resolved the trigger dependency update issue.
-  - ZohoCRM: 
-      1. Addressed the issue with relatedList custom field values.
-      2. Fixed the relatedList key issue.
+  - ZohoCRM:
+    1. Addressed the issue with relatedList custom field values.
+    2. Fixed the relatedList key issue.
 
-= 2.2.9  =
+= 2.2.9 =
 _Release Date -12th October 2024_
 
 - **Note :**
+
   - The name ConvertKit has been updated to Kit (ConvertKit).
 
 - **New Features :**
+
   - Eventin - New tasks added for better event management (Pro):
-      1. Speaker (or Organizer) Created
-      2. Speaker (or Organizer) Updated
-      3. Speaker (or Organizer) Deleted
-      4. Attendee Updated
-      5. Attendee Deleted
-      6. Order Created
-      7. Order Deleted
-      8. Schedule Deleted
+    1. Speaker (or Organizer) Created
+    2. Speaker (or Organizer) Updated
+    3. Speaker (or Organizer) Deleted
+    4. Attendee Updated
+    5. Attendee Deleted
+    6. Order Created
+    7. Order Deleted
+    8. Schedule Deleted
 
 - **New Improvements :**
+
   - Constant Contact: Improved contact update functionality.
   - PipeDrive: Added support for the Organization module and new related lists (Pro).
 
@@ -1791,71 +1821,80 @@ _Release Date -12th October 2024_
   - Zoho CRM: Resolved custom data submission issue.
   - MailPoet: Fixed issue with retrieving form data. (Pro)
 
-= 2.2.8  =
+= 2.2.8 =
 _Release Date -2nd October 2024_
 
 - **New Fixes :**
   - Responsive Design Fix: Improved modal design responsiveness to ensure it adapts smoothly on different screen sizes.
 
-= 2.2.7  =
+= 2.2.7 =
 _Release Date -1st October 2024_
 
 - **Note :**
+
   - Custom Trigger: Moved to the Pro version with an enhanced trigger UI for better user experience, improved data-fetching capabilities.
 
 - **New Triggers :**
+
   - Eventin - Events Manager & Event Tickets Plugin. (Pro)
 
 - **New Improvements :**
+
   - Custom Trigger: Introduced new improvements for modifying selected fields.
 
 - **New Fixes :**
   - ZohoCRM: Resolved issue with Date field not being processed correctly.
   - Kit (ConvertKit): Fixed problem with querying existing subscribers.
 
-= 2.2.6  =
+= 2.2.6 =
 _Release Date -28th September 2024_
 
 - **New Actions :**
+
   - Go High Level: Now available as an action, allowing seamless integration with Go High Level for better automation and CRM workflows.
 
 - **New Triggers :**
+
   - Divi Form Builder: Create complex forms with the Divi Builder and trigger actions based on form submissions. (Pro)
   - WooCommerce Subscriptions: Introduced new triggers to manage various subscription scenarios for physical or virtual products. (Pro)
 
 - **New Features :**
+
   - Zoho Bigin: Added the functionality to add tags to records, enhancing customization and organization within your Zoho Bigin CRM. (Pro)
 
 - **Note :**
   - Deprecated old WooCommerce subscription-based triggers and replaced them with new, more comprehensive subscription-based triggers for managing WooCommerce subscriptions effectively.
-     1. User-Cancel-Subscription-Product
-     2. Expired-Subscription-Product
-     3. Subscription-Product-Status-Change
-     4. Subscription-Trial-Period-End
+    1.  User-Cancel-Subscription-Product
+    2.  Expired-Subscription-Product
+    3.  Subscription-Product-Status-Change
+    4.  Subscription-Trial-Period-End
 
-= 2.2.5  =
+= 2.2.5 =
 _Release Date -19th September 2024_
 
 - **New Fixes :**
   - Klaviyo: Resolved the issue with excessive setState calls, preventing performance bottlenecks.
   - Core: Fixed the Tagify event handling issue.
 
-= 2.2.4  =
+= 2.2.4 =
 _Release Date -17th September 2024_
 
 - **Note :**
+
   - Action Hook trigger moved to pro version.
 
 - **New Features :**
+
   - Klaviyo (Pro): Added support for custom properties.
   - WP Post Creation (Action): JetEngine’s Meta fields are now supported.
   - JetEngine (Actions): Added functionality for updating and deleting Post Type, Custom Content Type, Taxonomy, and Relation.
   - WP Job Manager (Trigger) (Pro): Added triggers for:
-     1. A user’s application is set to a specific status.
-     2. A user’s application for a specific job type is set to a specific status.
-     3. Applies with resume.
+    1.  A user’s application is set to a specific status.
+    2.  A user’s application for a specific job type is set to a specific status.
+    3.  Applies with resume.
 
 - **New Improvements :**
+
   - Plugin Translations Enhanced (Pro): Translation files have been optimized for better accuracy and compatibility across multiple languages. This enhancement improves user experience in non-English locales, making the plugin more globally accessible.
 
 - **New Fixes :**
@@ -1871,14 +1910,16 @@ _Release Date -17th September 2024_
   - Kit (ConvertKit): Resolved the issue with custom field values.
   - CopperCRM: Addressed the issue with custom field values.
 
-= 2.2.3  =
+= 2.2.3 =
 _Release Date -8th September 2024_
-  
+
 - **New Features :**
+
   - MasterStudy LMS: "User earns a point" trigger added for point system integrations (Pro)
   - Registration: The ability to update user role has been added to the User Data Update module, enhancing user management capabilities.
 
 - **New Improvements :**
+
   - Plugin Translations Enhanced: The translation files for the plugin have been optimized, ensuring better accuracy and compatibility across multiple languages. This improvement provides a more seamless experience for users in non-English locales, making the plugin more accessible globally.
 
 - **New Fixes :**
@@ -1887,17 +1928,18 @@ _Release Date -8th September 2024_
   - CapsuleCRM: Resolved API response handling issue
   - Klaviyo: Resolved an issue where the Klaviyo list attribute was returning as undefined
 
-= 2.2.2  =
+= 2.2.2 =
 _Release Date -28th August 2024_
 
 - **New Triggers :**
   - WP Job Manager
-  
 - **New Features :**
+
   - GetResponse: Added the AutoResponder day of cycle feature (Pro).
   - SendPulse: Introduced custom field functionality (Pro)
 
 - **New Improvements :**
+
   - Bricks: Upgraded with new UI/UX functionality (Pro)
   - Perfex CRM: Added the Lead Assigned field
 
@@ -1905,38 +1947,41 @@ _Release Date -28th August 2024_
   - Core: Fixed operator precedence deprecation issue in PHP 8 (Pro)
   - Kit (ConvertKit): Resolved the issue with custom field value mapping
 
-= 2.2.1  =
+= 2.2.1 =
 _Release Date -22th August 2024_
 
 - **New Action :**
   - JetEngine: WordPress Plugin for Elementor, Gutenberg & Bricks
-  
 - **New Features :**
+
   - HubSpot: Added the ability to update Contacts, Companies, Deals, and Tickets (Pro)
 
 - **New Improvements :**
+
   - Brizy: Upgraded with PopUp Form Module (Pro)
   - Action Hook: Enhanced to fetch protected or private class properties
 
 - **New Fixes :**
   - Mail Mint: Fixed issue with updating tags for Contacts
 
-= 2.2.0  =
+= 2.2.0 =
 _Release Date -17th August 2024_
 
 - **New Action :**
   - Dokan – Powerful WooCommerce Multivendor Marketplace Solution – Build Your Own Amazon, eBay, Etsy
-  
 - **New Features :**
+
   - WhatsApp: Text Message, Contact Message & Media Message added (Pro)
   - Fluent Support: Ticket module Attachment field added (Pro)
 
 - **New Improvements :**
+
   - WhatsApp: Template Message imporved
   - Telegram: Charset UTF-8 raw enitity encoded (Local Languages)
 
 - **New Fixes :**
-  - Telegram: HTML Entities parse issue fixed 
+
+  - Telegram: HTML Entities parse issue fixed
 
 - **For Older Changelogs :**
   - [Click Here](https://bitapps.pro/docs/bit-integrations/free-changelogs/)
