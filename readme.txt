@@ -25,10 +25,18 @@ Automate your WordPress workflow with **Bit Integrations**: the automation plugi
 
 https://youtu.be/hgMkLvV-r6k
 
-**Useful Links**
-🚀[Try Full Version Demo](https://towp.io/) | 🚀[Docs](https://bit-integrations.com/wp-docs/) | 🚀[Video Tutorials](https://youtube.com/playlist?list=PL7c6CDwwm-ALMEsKLYKebKb5XLGPWMNue) | 🚀[Support](https://tawk.to/chat/60eac4b6d6e7610a49aab375/1faah0r3e) | 🚀[Facebook Group](https://www.facebook.com/groups/3308027439209387) | 🚀[Upgrade to Pro](https://www.bitapps.pro/bit-integrations) | 🚀[Bit Integrations Repository](https://github.com/Bit-Apps-Pro/bit-integrations)
+## Useful Links
 
-📢 **Join our community [Bit Integrations](https://www.facebook.com/groups/bitapps) & get updates on our plugins.**
+🚀[Try Full Version Demo](https://towp.io/) | 🚀[Docs](https://bit-integrations.com/wp-docs/) | 🚀[Video Tutorials](https://youtube.com/playlist?list=PL7c6CDwwm-ALMEsKLYKebKb5XLGPWMNue) | 🚀[Support](https://tawk.to/chat/60eac4b6d6e7610a49aab375/1faah0r3e) | 🚀[Facebook Group](https://www.facebook.com/groups/3308027439209387) | 🚀[Upgrade to Pro](https://bit-integrations.com/pricing/) | 🚀[Bit Integrations Repository](https://github.com/Bit-Apps-Pro/bit-integrations)
+
+## Quick Links
+
+👉 [Start Automation Now](https://bit-integrations.com/triggers/) to see it in action.  
+💼 Check our [Pricing](https://bit-integrations.com/pricing/) plans and pick the perfect fit.  
+🔗 Explore all supported [Integrations](https://bit-integrations.com/all-integrations/).  
+📚 Need help? Visit our [Documentation](https://bit-integrations.com/wp-docs/).  
+🏠 Or just drop by our [Home](https://bit-integrations.com/) page.  
+📢 Join our [Bit Integrations community](https://www.facebook.com/groups/bitapps) & get updates on our plugins.
 
 **Integrate Elementor Forms to a Notion CRM [with Bit Integrations] – by Jeffrey @ Lytbox**
 
@@ -42,7 +50,7 @@ https://youtu.be/UhTu6LCmh8A
 
 Bit Integrations is more than just a plugin—it's your gateway to seamless automation. Automate everything from simple tasks to complex workflows and watch your productivity soar with powerful automation tools.
 
-**WP Simple Hacks - Wordpress tips and tricks" youtube channels thoughts about WordPress automation plugin **Bit Integrations\*\*
+**WP Simple Hacks - Wordpress tips and tricks" youtube channels thoughts about WordPress automation plugin Bit Integrations.**
 
 https://youtu.be/tLNOuvPdhcY?si=2zWd4yTMYHZUpD7n
 
@@ -332,23 +340,23 @@ Say goodbye to manual work and hello to effortless automation. With Bit Integrat
 
 **Most popular automation use cases below for more understanding about this automation plugin**
 
-- Automate order management, customer data syncing, product updates, and more. Common integrations include **WooCommerce + CRM**, **WooCommerce + Email Marketing**, and **WooCommerce + Google Sheets**.
+- Automate order management, customer data syncing, product updates, and more. Common integrations include [**WooCommerce + Zoho CRM**](https://bit-integrations.com/triggers/woocommerce/connect/zoho-crm), [**WooCommerce + GoHighLevel**](https://bit-integrations.com/triggers/woocommerce/connect/gohighlevel), and [**WooCommerce + Google Sheets**](https://bit-integrations.com/triggers/woocommerce/connect/google-sheets).
 
-- **Mailchimp + WooCommerce** for automated email marketing and **Mailchimp + WPForms** for form-based sign-ups or newsletters.
+- [**WooCommerce + Mailchimp**](https://bit-integrations.com/triggers/woocommerce/connect/mailchimp) for automated email marketing and [**WPForms + Mailchimp** ](https://bit-integrations.com/triggers/wpforms/connect/mailchimp) for form-based sign-ups or newsletters.
 
-- **HubSpot + Bit Form** to automatically sync leads or form submissions with your CRM, and **HubSpot + WooCommerce** to enhance eCommerce customer tracking.
+- [**Bit Form + HubSpot**](https://bit-integrations.com/triggers/bit-form/connect/hubspot) to automatically sync leads or form submissions with your CRM, and [**WooCommerce + HubSpot**](https://bit-integrations.com/triggers/woocommerce/connect/hubspot/) to enhance eCommerce customer tracking.
 
-- **Zapier + Bit Integrations** to extend the platform’s capabilities by connecting to more platforms that aren’t natively supported.
+- [**Bit Integrations + Zapier**](https://bit-integrations.com/triggers/action-hook/connect/zapier) to extend the platform’s capabilities by connecting to more platforms that aren’t natively supported.
 
-- **LearnDash + WooCommerce** for automating course registration and payments, or **LearnDash + CRM** to sync user enrollment data.
+- [**LearnDash + WooCommerce**](https://bit-integrations.com/triggers/learndash-lms/connect/woocommerce) for automating course registration and payments, or [**LearnDash + Perfex CRM**](https://bit-integrations.com/triggers/learndash-lms/connect/perfex-crm) to sync user enrollment data.
 
-- **Google Sheets + WooCommerce** for automating order records, or **Google Sheets + WPForms** for automatically populating form submissions.
+- [**WooCommerce + Google Sheets**](https://bit-integrations.com/triggers/woocommerce/connect/google-sheets) for automating order records, or [**WPForms + Google Sheets**](https://bit-integrations.com/triggers/wpforms/connect/google-sheets) for automatically populating form submissions.
 
-- **ActiveCampaign + Bit Form** to automate the process of adding form submissions to the email list, or **ActiveCampaign + WooCommerce** to trigger marketing campaigns based on purchase behavior.
+- [**Bit Form + ActiveCampaign**](https://bit-integrations.com/triggers/bit-form/connect/activecampaign) to automate the process of adding form submissions to the email list, or [**WooCommerce + ActiveCampaign**](https://bit-integrations.com/triggers/woocommerce/connect/activecampaign) to trigger marketing campaigns based on purchase behavior.
 
-- **Salesforce + WooCommerce** to sync customer and order data, or **Salesforce + Bit Form** to capture leads from forms directly into Salesforce.
+- [**WooCommerce + Salesforce**](https://bit-integrations.com/triggers/woocommerce/connect/salesforce/) to sync customer and order data, or [**Bit Form + Salesforce**](https://bit-integrations.com/triggers/bit-form/connect/salesforce/) to capture leads from forms directly into Salesforce.
 
-- **Trello + WPForms** to create cards or tasks automatically when a form is submitted, or **Trello + WooCommerce** to create tasks or track orders as cards in Trello.
+- [**WPForms + Trello**](https://bit-integrations.com/triggers/wpforms/connect/trello/) to create cards or tasks automatically when a form is submitted, or [**WooCommerce + Trello**](https://bit-integrations.com/triggers/woocommerce/connect/trello) to create tasks or track orders as cards in Trello.
 
 ## ♻ How does this plugin work?
 
@@ -710,17 +718,17 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 - [**Zoom Video Communications**](https://www.youtube.com/playlist?list=PL7c6CDwwm-ALsihVZKhQuq5QGINgro4DB)
 
-### 💥 Don't worry, we give you some [**Trigger's**](https://bitapps.pro/docs/bit-integrations/trigger/) documentation with use cases to help you get started with the plugin.
+### 💥 Don't worry, we give you some [**Trigger's**](https://bit-integrations.com/wp-docs/trigger/) documentation with use cases to help you get started with the plugin.
 
 - [**Advanced Custom Fields (ACF)**](https://bit-integrations.com/wp-docs/trigger/advanced-custom-fields-integrations/)
 
-- [**AffiliateWP**](https://bitapps.pro/docs/bit-integrations/trigger/affiliatewp/)
+- [**AffiliateWP**](https://bit-integrations.com/wp-docs/trigger/affiliatewp-integrations-as-a-trigger/)
 
-- [**Amelia Webhook**](https://bitapps.pro/docs/bit-integrations/trigger/amelia/)
+- [**Amelia Webhook**](https://bit-integrations.com/wp-docs/trigger/amelia-integrations/)
 
 - [**Amelia Booking**](https://bit-integrations.com/wp-docs/trigger/amelia-booking-integrations/)
 
-- [**ARForm**](https://bitapps.pro/docs/bit-integrations/trigger/arform/)
+- [**ARForm**](https://bit-integrations.com/wp-docs/trigger/arforms-integrations/)
 
 - [**Advanced Ads**](https://bit-integrations.com/wp-docs/trigger/advanced-ads-integrations/)
 
@@ -740,53 +748,53 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 - [**bbPress**](https://bit-integrations.com/wp-docs/trigger/bbpress-integrations/)
 
-- [**Beaver Builder**](https://bitapps.pro/docs/bit-integrations/trigger/beaver-builder/)
+- [**Beaver Builder**](https://bit-integrations.com/wp-docs/trigger/beaver-builder-integrations/)
 
 - [**Better Messages**](https://bit-integrations.com/wp-docs/trigger/better-messages-integrations/)
 
-- [**Bit Assist**](https://bitapps.pro/docs/bit-integrations/trigger/bit-assist/)
+- [**Bit Assist**](https://bit-integrations.com/wp-docs/trigger/bit-assist-integrations/)
 
 - [**Bit Form**](https://bit-integrations.com/wp-docs/trigger/bit-form-integrations-as-a-trigger/)
 
-- [**Breakdance**](https://bitapps.pro/docs/bit-integrations/trigger/breakdance/)
+- [**Breakdance**](https://bit-integrations.com/wp-docs/trigger/breakdance-integrations/)
 
-- [**Bricks**](https://bitapps.pro/docs/bit-integrations/trigger/bricks/)
+- [**Bricks**](https://bit-integrations.com/wp-docs/trigger/bricks-integrations/)
 
 - [**BricksForge**](https://bit-integrations.com/wp-docs/trigger/bricksforge-integrations/)
 
-- [**Brizy**](https://bitapps.pro/docs/bit-integrations/trigger/brizy/)
+- [**Brizy**](https://bit-integrations.com/wp-docs/trigger/brizy-integrations/)
 
-- [**BuddyBoss**](https://bitapps.pro/docs/bit-integrations/trigger/buddyboss/)
+- [**BuddyBoss**](https://bit-integrations.com/wp-docs/trigger/buddyboss-integrations-as-a-trigger/)
 
 - [**BuddyPress**](https://bit-integrations.com/wp-docs/trigger/buddypress-integrations/)
 
 - [**Calculated Fields Form**](https://bit-integrations.com/wp-docs/trigger/calculated-fields-form-integrations/)
 
-- [**Cart Flow**](https://bitapps.pro/docs/bit-integrations/trigger/cart-flow/)
+- [**Cart Flow**](https://bit-integrations.com/wp-docs/trigger/cartflows-integrations/)
 
-- [**CoBlocks**](https://bitapps.pro/docs/bit-integrations/trigger/coblocks-integrations/)
+- [**CoBlocks**](https://bit-integrations.com/wp-docs/trigger/coblocks-integrations/)
 
 - [**Convert Pro**](https://bit-integrations.com/wp-docs/trigger/convert-pro-integrations/)
 
-- [**Contact Form 7**](https://bitapps.pro/docs/bit-integrations/trigger/contact-form/)
+- [**Contact Form 7**](https://bit-integrations.com/wp-docs/trigger/contact-form-7-integrations/)
 
 - [**Custom Trigger**](https://bit-integrations.com/wp-docs/trigger/custom-trigger-integrations/)
 
-- [**Divi**](https://bitapps.pro/docs/bit-integrations/trigger/divi/)
+- [**Divi**](https://bit-integrations.com/wp-docs/trigger/divi-integrations/)
 
 - [**Divi Form Builder**](https://bit-integrations.com/wp-docs/trigger/divi-form-builder-by-divi-engine-integrations/)
 
-- [**Dokan**](https://bitapps.pro/docs/bit-integrations/trigger/dokan-integration/)
+- [**Dokan**](https://bit-integrations.com/wp-docs/trigger/dokan-integrations-as-a-trigger/)
 
-- [**Easy Digital Downloads**](https://bitapps.pro/docs/bit-integrations/trigger/easy-digital-downloads/)
+- [**Easy Digital Downloads**](https://bit-integrations.com/wp-docs/trigger/easy-digital-downloads-integrations/)
 
 - [**Everest Forms**](https://bit-integrations.com/wp-docs/trigger/everest-forms-integrations/)
 
 - [**Eventin**](https://bit-integrations.com/wp-docs/trigger/eventin-integrations/)
 
-- [**eForm**](https://bitapps.pro/docs/bit-integrations/trigger/eform/)
+- [**eForm**](https://bit-integrations.com/wp-docs/trigger/eform-integrations/)
 
-- [**Elementor Form**](https://bitapps.pro/docs/bit-integrations/trigger/elementor-form/)
+- [**Elementor Form**](https://bit-integrations.com/wp-docs/trigger/elementor-form-integrations/)
 
 - [**Essential Blocks**](https://bit-integrations.com/wp-docs/trigger/essential-blocks-integrations/)
 
@@ -794,7 +802,7 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 - [**FluentCommunity**](https://bit-integrations.com/wp-docs/trigger/fluentcommunity-integrations/)
 
-- [**Fluent Booking**](https://bitapps.pro/docs/bit-integrations/trigger/fluentbooking-integrations/)
+- [**Fluent Booking**](https://bit-integrations.com/wp-docs/trigger/fluentbooking-integrations/)
 
 - [**Fluent Boards**](https://bit-integrations.com/wp-docs/trigger/fluentboards-integrations/)
 
@@ -1274,7 +1282,7 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 📧 [**Bit SMTP**](https://wordpress.org/plugins/bit-smtp/): Secure and improve your WordPress email deliverability.
 
-📧 [**Webhooks.is**](https://webhook.is/): Test incoming and outgoing webhooks for free.
+📧 [**Webhooks.is**](https://webhook.is/test): Test incoming and outgoing webhooks for free.
 
 📢 **We are open for freelance work/custom development. [Connect](https://bitapps.pro/contact) with us for further information.**
 
@@ -1314,6 +1322,12 @@ Yes, you can connect plugins with external services like Zapier, Pabbly, N8N wit
 Yes, It sends data to other platforms from wordpress site. Suppose someone submitted a forminator form, if he sets up an integration with forminator form to google sheet, it will send those data to the sheet.
 = 17. Can I use Bit Integrations for e-commerce automation?=
 Yes! Bit Integrations supports e-commerce integrations with tools like WooCommerce, allowing you to create automated workflows that update customer records, send emails, and more.
+= 18. Where can I find all supported integrations?=
+Check out our full list here: [All Integrations](https://bit-integrations.com/all-integrations/).
+= 19. How can I start automating right away?=
+Visit [Start Automation Now](https://bit-integrations.com/triggers/) to explore triggers and get started quickly.
+= 20. Is there a free trial or pricing info?=
+Yes! See our plans at [Pricing](https://bit-integrations.com/pricing/).
 
 == Installation ==
 
@@ -1323,6 +1337,8 @@ Yes! Bit Integrations supports e-commerce integrations with tools like WooCommer
 4. Use the browse button to select the plugin zip file that was downloaded, and then click on Install Now.
 5. Once installed the integration plugin, click “Activate”.
 6. Now you can start building your first automated workflow using available platform connectors.
+7. Visit [Start Automation Now](https://bit-integrations.com/triggers/) to create your first automation with triggers.
+8. Refer to the [Documentation](https://bit-integrations.com/wp-docs/) for detailed setup help.
 
 == Screenshots ==
 
@@ -1983,4 +1999,4 @@ _Release Date -17th August 2024_
   - Telegram: HTML Entities parse issue fixed
 
 - **For Older Changelogs :**
-  - [Click Here](https://bitapps.pro/docs/bit-integrations/free-changelogs/)
+  - [Click Here](https://bit-integrations.com/wp-docs/free-changelogs/)
