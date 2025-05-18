@@ -1,8 +1,9 @@
+import { create } from 'mutative'
 import { useState } from 'react'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
-import { useRecoilState, useSetRecoilState } from 'recoil'
-import { $flowStep, $formFields, $newFlow } from '../../GlobalStates'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { $btcbi, $flowStep, $formFields, $newFlow } from '../../GlobalStates'
 import useFetch from '../../hooks/useFetch'
 import bitsFetch from '../../Utils/bitsFetch'
 import { __ } from '../../Utils/i18nwrap'
@@ -10,31 +11,33 @@ import Loader from '../Loaders/Loader'
 import LoaderSm from '../Loaders/LoaderSm'
 import Note from '../Utilities/Note'
 import SnackMsg from '../Utilities/SnackMsg'
-import TriggerMultiOption from './TriggerMultiOption'
 import { FormPluginStateHelper } from './TriggerHelpers/TriggerStateHelper'
-import { create } from 'mutative'
+import TriggerMultiOption from './TriggerMultiOption'
 
 const FormPlugin = () => {
   const [newFlow, setNewFlow] = useRecoilState($newFlow)
   const setFlowStep = useSetRecoilState($flowStep)
   const setFormFields = useSetRecoilState($formFields)
+  const [snack, setSnackbar] = useState({ show: false, msg: '' })
+  const [isLoad, setIsLoad] = useState(false)
+  const btcbi = useRecoilValue($btcbi)
+  const { isPro } = btcbi
+
   const { data, isLoading } = useFetch({
     payload: {},
     action: newFlow.triggerDetail.list.action,
     method: newFlow.triggerDetail.list.method
   })
-  const [snack, setSnackbar] = useState({ show: false, msg: '' })
-  const [isLoad, setIsLoad] = useState(false)
 
   const setFlowData = (val, type) => {
-    setNewFlow((prevState) =>
-      create(prevState, (draft) => {
+    setNewFlow(prevState =>
+      create(prevState, draft => {
         draft.triggerData[type] = val
       })
     )
   }
 
-  const setTriggerData = (val) => {
+  const setTriggerData = val => {
     const tmpNewFlow = { ...newFlow }
 
     if (!val) {
@@ -49,11 +52,11 @@ const FormPlugin = () => {
         newFlow?.triggerDetail?.name === 'PiotnetAddon' ||
         newFlow?.triggerDetail?.name === 'CartFlow'
       ) {
-        const filterData = data?.data?.filter((item) => item.id === val)[0]?.post_id || null
+        const filterData = data?.data?.filter(item => item.id === val)[0]?.post_id || null
         queryData = { ...queryData, postId: filterData }
       }
 
-      bitsFetch(queryData, newFlow.triggerDetail.fields.action).then((resp) => {
+      bitsFetch(queryData, newFlow.triggerDetail.fields.action).then(resp => {
         if (resp.success) {
           tmpNewFlow.triggerData = {
             formID: val,
@@ -80,7 +83,7 @@ const FormPlugin = () => {
   let taskNote = ''
 
   if (newFlow.triggerData?.formID) {
-    const selectedTask = data?.data?.filter((item) => item.id == newFlow.triggerData?.formID)
+    const selectedTask = data?.data?.filter(item => item.id == newFlow.triggerData?.formID)
     if (selectedTask?.length > 0 && selectedTask[0]?.note) {
       taskNote = selectedTask[0].note
     }
@@ -111,11 +114,14 @@ const FormPlugin = () => {
                 <MultiSelect
                   className="msl-wrp-options"
                   defaultValue={newFlow.triggerData?.formID}
-                  options={data?.data?.map((form) => ({
-                    label: form.title,
-                    value: form.id.toString()
+                  options={data?.data?.map(form => ({
+                    label: isFormSelectable(isPro, form?.isPro || false)
+                      ? form?.title
+                      : form?.title + ' (Pro)',
+                    value: form.id.toString(),
+                    disabled: !isFormSelectable(isPro, form?.isPro || false)
                   }))}
-                  onChange={(val) => setTriggerData(val)}
+                  onChange={val => setTriggerData(val)}
                   singleSelect
                   style={{ width: '100%', minWidth: 400, maxWidth: 450 }}
                 />
@@ -150,3 +156,5 @@ const FormPlugin = () => {
   )
 }
 export default FormPlugin
+
+const isFormSelectable = (isProPluginActivated, formIsPro = false) => !formIsPro || isProPluginActivated
