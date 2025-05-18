@@ -128,7 +128,7 @@ class WCHelper
                 'product_sku'   => $productSku,
             ];
 
-            if ($id == 19) {
+            if ($id == WCController::USER_REVIEWS_A_PRODUCT) {
                 $allProducts = [['product_id' => 'any', 'product_title' => __('Any Product', 'bit-integrations'), 'product_type' => '', 'product_sku' => '']] + $allProducts;
             }
         }

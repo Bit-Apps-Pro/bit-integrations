@@ -14,9 +14,9 @@ class WCStaticFields
             $fields = array_merge($fields, static::checkoutUpgradeFields());
         }
 
-        if ($id == 10) {
+        if ($id == WCController::ORDER_SPECIFIC_PRODUCT) {
             $fields = array_merge($fields, static::specificOrderProductFields());
-        } elseif ($id == 17) {
+        } elseif ($id == WCController::ORDER_SPECIFIC_CATEGORY) {
             $fields = array_merge([
                 'specified_product_by_category' => (object) [
                     'fieldKey'  => 'specified_product_by_category',

@@ -74,7 +74,7 @@ final class WCController
 
     public const SUBSCRIPTION_PRODUCT_STATUS_CHANGED = 15;
 
-    public const END_SUBSCRIPTION_TRIAL_PERIOD = 15;
+    public const END_SUBSCRIPTION_TRIAL_PERIOD = 16;
 
     // Deprecated Bookings Events const
     public const BOOKING_CREATED = 18;
@@ -358,8 +358,8 @@ final class WCController
         $customer_metadata = self::formatUserMetaData(get_user_meta($customer_id));
         $customer_values = array_merge_recursive($customer_data, $customer_metadata);
 
-        if (!empty($customer_id) && $flows = Flow::exists('WC', 1)) {
-            Flow::execute('WC', 1, $customer_values, $flows);
+        if (!empty($customer_id) && $flows = Flow::exists('WC', static::CUSTOMER_CREATED)) {
+            Flow::execute('WC', static::CUSTOMER_CREATED, $customer_values, $flows);
         }
     }
 
@@ -382,8 +382,8 @@ final class WCController
         }
         $customer_values = array_merge_recursive($customer_data, $newMeta);
 
-        if (!empty($customer_id) && $flows = Flow::exists('WC', 2)) {
-            Flow::execute('WC', 2, $customer_values, $flows);
+        if (!empty($customer_id) && $flows = Flow::exists('WC', static::CUSTOMER_UPDATED)) {
+            Flow::execute('WC', static::CUSTOMER_UPDATED, $customer_values, $flows);
         }
     }
 
@@ -401,8 +401,8 @@ final class WCController
         }
 
         $customer_data = ['customer_id' => $customer_id];
-        if (!empty($customer_id) && $flows = Flow::exists('WC', 3)) {
-            Flow::execute('WC', 3, $customer_data, $flows);
+        if (!empty($customer_id) && $flows = Flow::exists('WC', static::CUSTOMER_DELETED)) {
+            Flow::execute('WC', static::CUSTOMER_DELETED, $customer_data, $flows);
         }
     }
 
@@ -433,8 +433,8 @@ final class WCController
             add_action('save_post', [WCController::class, 'product_update'], 10, 1);
         } elseif ($old_status === 'publish' && $new_status === 'trash') {
             $data = ['post_id' => $post_id];
-            if (!empty($post_id) && $flows = Flow::exists('WC', 6)) {
-                Flow::execute('WC', 6, $data, $flows);
+            if (!empty($post_id) && $flows = Flow::exists('WC', static::PRODUCT_DELETED)) {
+                Flow::execute('WC', static::PRODUCT_DELETED, $data, $flows);
             }
         } else {
             return false;
@@ -475,8 +475,8 @@ final class WCController
                 $data[$field['_name']] = get_post_meta($post_id, $field['_name'])[0];
             }
         }
-        if (!empty($post_id) && $flows = Flow::exists('WC', 4)) {
-            Flow::execute('WC', 4, $data, $flows);
+        if (!empty($post_id) && $flows = Flow::exists('WC', static::PRODUCT_CREATED)) {
+            Flow::execute('WC', static::PRODUCT_CREATED, $data, $flows);
         }
     }
 
@@ -493,8 +493,8 @@ final class WCController
                 $data[$field['_name']] = get_post_meta($post_id, $field['_name'])[0];
             }
         }
-        if (!empty($post_id) && $flows = Flow::exists('WC', 5)) {
-            Flow::execute('WC', 5, $data, $flows);
+        if (!empty($post_id) && $flows = Flow::exists('WC', static::PRODUCT_UPDATED)) {
+            Flow::execute('WC', static::PRODUCT_UPDATED, $data, $flows);
         }
     }
 
@@ -669,9 +669,18 @@ final class WCController
 
         $order = wc_get_order($order_id);
         $data = self::accessOrderData($order);
-        $triggerd = [8, 9, 11, 12, 13, 14, 15, 16];
         $acfFieldGroups = Helper::acfGetFieldGroups(['shop_order']);
         $checkoutFields = WC()->checkout()->get_checkout_fields();
+        $triggerd = [
+            static::ORDER_UPDATED,
+            static::ORDER_DELETED,
+            static::ORDER_STATUS_CHANGED_TO_SPECIFIC_STATUS,
+            static::USER_SUBSCRIBE_PRODUCT,
+            static::USER_CANCELLED_SUBSCRIPTION_PRODUCT,
+            static::PRODUCT_SUBSCRIPTION_EXPIRED,
+            static::SUBSCRIPTION_PRODUCT_STATUS_CHANGED,
+            static::END_SUBSCRIPTION_TRIAL_PERIOD
+        ];
 
         foreach ($acfFieldGroups as $group) {
             $acfFields = acf_get_fields($group['ID']);
@@ -694,15 +703,16 @@ final class WCController
             $data = array_merge($data, $flexibleFields);
         }
 
-        for ($i = 7; $i <= 17; $i++) {
+        for ($i = static::ORDER_CREATED; $i <= static::ORDER_SPECIFIC_CATEGORY; $i++) {
             if (\in_array($i, $triggerd)) {
                 continue;
             }
-            if ($i == 7) {
-                $flows = Flow::exists('WC', 7);
-                if (!empty($order_id) && $flows = Flow::exists('WC', 7)) {
+            if ($i == static::ORDER_CREATED) {
+                $flows = Flow::exists('WC', static::ORDER_CREATED);
+                if (!empty($order_id) && $flows = Flow::exists('WC', static::ORDER_CREATED)) {
                     $orderedProducts = $data['line_items'];
                     $differId = 1;
+
                     foreach ($orderedProducts as $orderedProduct) {
                         foreach ((array) $orderedProduct as $keys => $value) {
                             $newItem["{$differId}_{$keys}"] = $value;
@@ -710,11 +720,11 @@ final class WCController
                         $differId = $differId + 1;
                         $data = array_merge($data, (array) $newItem);
                     }
-                    Flow::execute('WC', 7, $data, $flows);
+                    Flow::execute('WC', static::ORDER_CREATED, $data, $flows);
                 }
-            } elseif ($i == 10) {
-                if (!empty($order_id) && $flows = Flow::exists('WC', 10)) {
-                    $flows = Flow::exists('WC', 10);
+            } elseif ($i == static::ORDER_SPECIFIC_PRODUCT) {
+                if (!empty($order_id) && $flows = Flow::exists('WC', static::ORDER_SPECIFIC_PRODUCT)) {
+                    $flows = Flow::exists('WC', static::ORDER_SPECIFIC_PRODUCT);
                     foreach ($flows as $flow) {
                         $flowsDetailData = $flow->flow_details;
                         $flowsDetail = json_decode($flowsDetailData);
@@ -727,22 +737,23 @@ final class WCController
                                 $triggerData['line_items'] = [$orderedProduct];
                                 $triggerData = $triggerData + (array) $orderedProduct;
                                 $flowData = [0 => $flow];
-                                Flow::execute('WC', 10, $triggerData, $flowData);
+                                Flow::execute('WC', static::ORDER_SPECIFIC_PRODUCT, $triggerData, $flowData);
 
                                 break;
                             }
                         }
                     }
                 }
-            } elseif ($i == 17) {
-                if (!empty($order_id) && $flows = Flow::exists('WC', 17)) {
-                    $flows = Flow::exists('WC', 17);
+            } elseif ($i == static::ORDER_SPECIFIC_CATEGORY) {
+                if (!empty($order_id) && $flows = Flow::exists('WC', static::ORDER_SPECIFIC_CATEGORY)) {
+                    $flows = Flow::exists('WC', static::ORDER_SPECIFIC_CATEGORY);
 
                     $flowsDetailData = $flows[0]->flow_details;
                     $flowsDetail = json_decode($flowsDetailData);
                     $selectedProductCategory = $flowsDetail->selectedProductCategory;
                     $orderedProducts = $data['line_items'];
                     $filteredByCategory = [];
+
                     foreach ($orderedProducts as $orderedProduct) {
                         $productCategory = wc_get_product($orderedProduct->product_id);
                         $productInfo = $productCategory->get_category_ids();
@@ -750,8 +761,9 @@ final class WCController
                             $filteredByCategory[] = $orderedProduct;
                         }
                     }
+
                     $data['specified_product_by_category'] = $filteredByCategory;
-                    Flow::execute('WC', 17, $data, $flows);
+                    Flow::execute('WC', static::ORDER_SPECIFIC_CATEGORY, $data, $flows);
                 }
             }
         }
@@ -800,8 +812,8 @@ final class WCController
                 $data[$field['_name']] = get_post_meta($order_id, $field['_name'])[0];
             }
         }
-        if (!empty($order_id) && $flows = Flow::exists('WC', 8)) {
-            Flow::execute('WC', 8, $data, $flows);
+        if (!empty($order_id) && $flows = Flow::exists('WC', static::ORDER_UPDATED)) {
+            Flow::execute('WC', static::ORDER_UPDATED, $data, $flows);
         }
     }
 
@@ -816,8 +828,8 @@ final class WCController
             return false;
         }
         $data = ['id' => $order_id];
-        if (!empty($order_id) && $flows = Flow::exists('WC', 9)) {
-            Flow::execute('WC', 9, $data, $flows);
+        if (!empty($order_id) && $flows = Flow::exists('WC', static::ORDER_DELETED)) {
+            Flow::execute('WC', static::ORDER_DELETED, $data, $flows);
         }
     }
 
@@ -827,7 +839,7 @@ final class WCController
             return false;
         }
 
-        $flows = Flow::exists('WC', 11);
+        $flows = Flow::exists('WC', static::ORDER_STATUS_CHANGED_TO_SPECIFIC_STATUS);
 
         if (empty($flows)) {
             return false;
@@ -874,7 +886,7 @@ final class WCController
                     }
                 }
                 if (!empty($order_id)) {
-                    Flow::execute('WC', 11, $data, [$flow]);
+                    Flow::execute('WC', static::ORDER_STATUS_CHANGED_TO_SPECIFIC_STATUS, $data, [$flow]);
                 }
             }
         }
@@ -886,7 +898,7 @@ final class WCController
             return false;
         }
 
-        $flows = Flow::exists('WC', 12);
+        $flows = Flow::exists('WC', static::USER_SUBSCRIBE_PRODUCT);
 
         if (empty($flows)) {
             return false;
@@ -914,13 +926,13 @@ final class WCController
             $data = self::accessSubscription($subscription, $quantity);
 
             if ($selectedSubscription === 'any') {
-                if (!empty($user_id) && $flows = Flow::exists('WC', 12)) {
-                    Flow::execute('WC', 12, $data, $flows);
+                if (!empty($user_id) && $flows = Flow::exists('WC', static::USER_SUBSCRIBE_PRODUCT)) {
+                    Flow::execute('WC', static::USER_SUBSCRIBE_PRODUCT, $data, $flows);
                 }
             }
             if ($product_id === (int) $selectedSubscription) {
-                if (!empty($user_id) && $flows = Flow::exists('WC', 12)) {
-                    Flow::execute('WC', 12, $data, $flows);
+                if (!empty($user_id) && $flows = Flow::exists('WC', static::USER_SUBSCRIBE_PRODUCT)) {
+                    Flow::execute('WC', static::USER_SUBSCRIBE_PRODUCT, $data, $flows);
                 }
             }
         }
@@ -932,7 +944,7 @@ final class WCController
             return false;
         }
 
-        $flows = Flow::exists('WC', 13);
+        $flows = Flow::exists('WC', static::USER_CANCELLED_SUBSCRIPTION_PRODUCT);
         $flowsDetailData = $flows[0]->flow_details;
         $flowsDetail = json_decode($flowsDetailData);
         $selectedSubscription = $flowsDetail->selectedSubscription;
@@ -955,13 +967,13 @@ final class WCController
             $data = self::accessSubscription($subscription, $quantity);
 
             if ($selectedSubscription === 'any') {
-                if (!empty($user_id) && $flows = Flow::exists('WC', 13)) {
-                    Flow::execute('WC', 13, $data, $flows);
+                if (!empty($user_id) && $flows = Flow::exists('WC', static::USER_CANCELLED_SUBSCRIPTION_PRODUCT)) {
+                    Flow::execute('WC', static::USER_CANCELLED_SUBSCRIPTION_PRODUCT, $data, $flows);
                 }
             }
             if ($product_id === (int) $selectedSubscription) {
-                if (!empty($user_id) && $flows = Flow::exists('WC', 13)) {
-                    Flow::execute('WC', 13, $data, $flows);
+                if (!empty($user_id) && $flows = Flow::exists('WC', static::USER_CANCELLED_SUBSCRIPTION_PRODUCT)) {
+                    Flow::execute('WC', static::USER_CANCELLED_SUBSCRIPTION_PRODUCT, $data, $flows);
                 }
             }
         }
@@ -973,7 +985,7 @@ final class WCController
             return false;
         }
 
-        $flows = Flow::exists('WC', 14);
+        $flows = Flow::exists('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED);
         $flowsDetailData = $flows[0]->flow_details;
         $flowsDetail = json_decode($flowsDetailData);
         $selectedSubscription = $flowsDetail->selectedSubscription;
@@ -996,13 +1008,13 @@ final class WCController
             $data = self::accessSubscription($subscription, $quantity);
 
             if ($selectedSubscription === 'any') {
-                if (!empty($user_id) && $flows = Flow::exists('WC', 14)) {
-                    Flow::execute('WC', 14, $data, $flows);
+                if (!empty($user_id) && $flows = Flow::exists('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED)) {
+                    Flow::execute('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED, $data, $flows);
                 }
             }
             if ($product_id === (int) $selectedSubscription) {
-                if (!empty($user_id) && $flows = Flow::exists('WC', 14)) {
-                    Flow::execute('WC', 14, $data, $flows);
+                if (!empty($user_id) && $flows = Flow::exists('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED)) {
+                    Flow::execute('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED, $data, $flows);
                 }
             }
         }
@@ -1014,7 +1026,7 @@ final class WCController
             return false;
         }
 
-        $flows = Flow::exists('WC', 15);
+        $flows = Flow::exists('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED);
         $flowsDetailData = $flows[0]->flow_details;
         $flowsDetail = json_decode($flowsDetailData);
         $selectedSubscription = $flowsDetail->selectedSubscription;
@@ -1039,26 +1051,26 @@ final class WCController
 
             if ($selectedSubscription === 'any') {
                 if ($selectedSubscriptionStatus === 'any_status') {
-                    if (!empty($user_id) && $flows = Flow::exists('WC', 15)) {
-                        Flow::execute('WC', 15, $data, $flows);
+                    if (!empty($user_id) && $flows = Flow::exists('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED)) {
+                        Flow::execute('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED, $data, $flows);
                     }
                 }
                 // ltrim($selectedSubscriptionStatus, 'wc-')
                 if ($new_status === explode('-', $selectedSubscriptionStatus)[1]) {
-                    if (!empty($user_id) && $flows = Flow::exists('WC', 15)) {
-                        Flow::execute('WC', 15, $data, $flows);
+                    if (!empty($user_id) && $flows = Flow::exists('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED)) {
+                        Flow::execute('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED, $data, $flows);
                     }
                 }
             }
             if ($product_id === (int) $selectedSubscription) {
                 if ($selectedSubscriptionStatus === 'any_status') {
-                    if (!empty($user_id) && $flows = Flow::exists('WC', 15)) {
-                        Flow::execute('WC', 15, $data, $flows);
+                    if (!empty($user_id) && $flows = Flow::exists('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED)) {
+                        Flow::execute('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED, $data, $flows);
                     }
                 }
                 if ($new_status === explode('-', $selectedSubscriptionStatus)[1]) {
-                    if (!empty($user_id) && $flows = Flow::exists('WC', 15)) {
-                        Flow::execute('WC', 15, $data, $flows);
+                    if (!empty($user_id) && $flows = Flow::exists('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED)) {
+                        Flow::execute('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED, $data, $flows);
                     }
                 }
             }
@@ -1072,7 +1084,7 @@ final class WCController
         }
 
         $subscription = wcs_get_subscription($subscription_id);
-        $flows = Flow::exists('WC', 16);
+        $flows = Flow::exists('WC', static::END_SUBSCRIPTION_TRIAL_PERIOD);
         $flowsDetailData = $flows[0]->flow_details;
         $flowsDetail = json_decode($flowsDetailData);
         $selectedSubscription = $flowsDetail->selectedSubscription;
@@ -1095,13 +1107,13 @@ final class WCController
             $data = self::accessSubscription($subscription, $quantity);
 
             if ($selectedSubscription === 'any') {
-                if (!empty($user_id) && $flows = Flow::exists('WC', 16)) {
-                    Flow::execute('WC', 16, $data, $flows);
+                if (!empty($user_id) && $flows = Flow::exists('WC', static::END_SUBSCRIPTION_TRIAL_PERIOD)) {
+                    Flow::execute('WC', static::END_SUBSCRIPTION_TRIAL_PERIOD, $data, $flows);
                 }
             }
             if ($product_id === (int) $selectedSubscription) {
-                if (!empty($user_id) && $flows = Flow::exists('WC', 16)) {
-                    Flow::execute('WC', 16, $data, $flows);
+                if (!empty($user_id) && $flows = Flow::exists('WC', static::END_SUBSCRIPTION_TRIAL_PERIOD)) {
+                    Flow::execute('WC', static::END_SUBSCRIPTION_TRIAL_PERIOD, $data, $flows);
                 }
             }
         }
@@ -1122,8 +1134,8 @@ final class WCController
         $productData = $helper->accessBookingProductData($productInfo);
         $finalData = $helper->process_booking_data($productData, $userData, $customer_id);
 
-        if (!empty($customer_id) && $flows = Flow::exists('WC', 18)) {
-            Flow::execute('WC', 18, $finalData, $flows);
+        if (!empty($customer_id) && $flows = Flow::exists('WC', static::BOOKING_CREATED)) {
+            Flow::execute('WC', static::BOOKING_CREATED, $finalData, $flows);
         }
     }
 
@@ -1133,7 +1145,7 @@ final class WCController
             return false;
         }
 
-        $flows = Flow::exists('WC', 19);
+        $flows = Flow::exists('WC', static::USER_REVIEWS_A_PRODUCT);
         if (!$flows) {
             return;
         }
@@ -1167,7 +1179,7 @@ final class WCController
         $flowDetails = json_decode($flows[0]->flow_details);
         $selectedProduct = !empty($flowDetails->selectedProduct) ? $flowDetails->selectedProduct : [];
         if ($flows && ($finalData['product_id'] == $selectedProduct || $selectedProduct === 'any')) {
-            Flow::execute('WC', 19, $finalData, $flows);
+            Flow::execute('WC', static::USER_REVIEWS_A_PRODUCT, $finalData, $flows);
         }
     }
 
@@ -1177,7 +1189,7 @@ final class WCController
             return false;
         }
 
-        $flows = Flow::exists('WC', 20);
+        $flows = Flow::exists('WC', static::USER_PURCHASES_A_VARIABLE_PRODUCT);
 
         if (!$flows) {
             return false;
@@ -1194,7 +1206,7 @@ final class WCController
             foreach ($data['line_items'] as $item) {
                 if ($item->product_id == $selectedVariableProduct || $selectedVariableProduct === 'any') {
                     if ($item->variation_id == $selectedVariation || $selectedVariation === 'any') {
-                        Flow::execute('WC', 20, $data, [$flow]);
+                        Flow::execute('WC', static::USER_PURCHASES_A_VARIABLE_PRODUCT, $data, [$flow]);
                     }
                 }
             }
