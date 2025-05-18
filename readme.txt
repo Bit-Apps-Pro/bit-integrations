@@ -806,53 +806,53 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 - [**Fluent Boards**](https://bit-integrations.com/wp-docs/trigger/fluentboards-integrations/)
 
-- [**Fluent CRM**](https://bitapps.pro/docs/bit-integrations/trigger/fluent-crm/)
+- [**Fluent CRM**](https://bit-integrations.com/wp-docs/trigger/fluentcrm-integrations-as-a-trigger/)
 
-- [**Fluent Forms**](https://bitapps.pro/docs/bit-integrations/trigger/fluent-forms/)
+- [**Fluent Forms**](https://bit-integrations.com/wp-docs/trigger/fluent-forms-integrations/)
 
-- [**Fluent Support**](https://bitapps.pro/docs/bit-integrations/trigger/fluent-support/)
+- [**Fluent Support**](https://bit-integrations.com/wp-docs/trigger/fluent-support-integrations-as-a-trigger/)
 
 - [**FunnelKit Automations CRM**](https://bit-integrations.com/wp-docs/trigger/funnelkit-automation-integrations/)
 
-- [**FormCraft**](https://bitapps.pro/docs/bit-integrations/trigger/formcraft/)
+- [**FormCraft**](https://bit-integrations.com/wp-docs/trigger/formcraft-integrations/)
 
-- [**Formidable Forms**](https://bitapps.pro/docs/bit-integrations/trigger/formidable-forms/)
+- [**Formidable Forms**](https://bit-integrations.com/wp-docs/trigger/formidable-forms-integrations/)
 
-- [**Forminator**](https://bitapps.pro/docs/bit-integrations/trigger/forminator/)
+- [**Forminator**](https://bit-integrations.com/wp-docs/trigger/forminator-forms-integrations/)
 
-- [**GamiPress**](https://bitapps.pro/docs/bit-integrations/trigger/gamipress/)
+- [**GamiPress**](https://bit-integrations.com/wp-docs/trigger/gamipress-integrations-as-a-trigger/)
 
-- [**GiveWP**](https://bitapps.pro/docs/bit-integrations/trigger/givewp/)
+- [**GiveWP**](https://bit-integrations.com/wp-docs/trigger/givewp-integrations-as-a-trigger/)
 
-- [**Gravity Forms**](https://bitapps.pro/docs/bit-integrations/trigger/gravity-forms/)
+- [**Gravity Forms**](https://bit-integrations.com/wp-docs/trigger/gravity-forms-integrations/)
 
 - [**GravityKit**](https://bit-integrations.com/wp-docs/trigger/gravitykit-integrations/)
 
-- [**Groundhogg**](https://bitapps.pro/docs/bit-integrations/trigger/groundhogg/)
+- [**Groundhogg**](https://bit-integrations.com/wp-docs/trigger/groundhogg-integrations-as-a-trigger/)
 
-- [**Gutena Forms**](https://bitapps.pro/docs/bit-integrations/trigger/gutena-forms-integration/)
+- [**Gutena Forms**](https://bit-integrations.com/wp-docs/trigger/gutena-forms-integrations/)
 
-- [**Happy Forms**](https://bitapps.pro/docs/bit-integrations/trigger/happy-forms/)
+- [**Happy Forms**](https://bit-integrations.com/wp-docs/trigger/happyforms-integrations/)
 
-- [**Hustle**](https://bitapps.pro/docs/bit-integrations/trigger/hustle-integration/)
+- [**Hustle**](https://bit-integrations.com/wp-docs/trigger/hustle-integrations/)
 
 - [**JetEngine**](https://bit-integrations.com/wp-docs/trigger/jetengine-integrations-as-a-trigger/)
 
-- [**JetFormBuilder**](https://bitapps.pro/docs/bit-integrations/trigger/jetformbuilder/)
+- [**JetFormBuilder**](https://bit-integrations.com/wp-docs/trigger/jetformbuilder-integrations/)
 
 - [**Jetpack CRM**](https://bit-integrations.com/wp-docs/trigger/jetpack-crm-integrations/)
 
 - [**Kali Forms**](https://bit-integrations.com/wp-docs/trigger/kali-forms-integrations/)
 
-- [**Kadence Blocks**](https://bitapps.pro/docs/bit-integrations/trigger/kadence-blocks-form/)
+- [**Kadence Blocks**](https://bit-integrations.com/wp-docs/trigger/kadence-blocks-form-integrations/)
 
-- [**LearnDash**](https://bitapps.pro/docs/bit-integrations/trigger/learndash-lms/)
+- [**LearnDash**](https://bit-integrations.com/wp-docs/trigger/learndash-lms-integrations-as-a-trigger/)
 
 - [**LearnPress**](https://bit-integrations.com/wp-docs/trigger/learnpress-integrations/)
 
-- [**LifterLMS**](https://bitapps.pro/docs/bit-integrations/trigger/lifterlms/)
+- [**LifterLMS**](https://bit-integrations.com/wp-docs/trigger/lifterlms-integrations-as-a-trigger/)
 
-- [**MB Frontend Submission**](https://bitapps.pro/docs/bit-integrations/trigger/mb-frontend-submission/)
+- [**MB Frontend Submission**](https://bit-integrations.com/wp-docs/trigger/mb-frontend-submission-integrations/)
 
 - [**MailPoet**](https://bit-integrations.com/wp-docs/trigger/mailpoet-integrations-as-a-trigger/)
 
@@ -862,19 +862,19 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 - [**Masteriyo LMS**](https://bit-integrations.com/wp-docs/trigger/masteriyo-lms-integrations/)
 
-- [**Memberpress**](https://bitapps.pro/docs/bit-integrations/trigger/memberpress/)
+- [**Memberpress**](https://bit-integrations.com/wp-docs/trigger/memberpress-integrations-as-a-trigger/)
 
 - [**MemberPress Courses**](https://bit-integrations.com/wp-docs/trigger/memberpress-courses-integrations/)
 
 - [**Modern Events Calendar**](https://bit-integrations.com/wp-docs/trigger/modern-events-calendar-integrations/)
 
-- [**MetForm**](https://bitapps.pro/docs/bit-integrations/trigger/metform/)
+- [**MetForm**](https://bit-integrations.com/wp-docs/trigger/metform-integrations/)
 
 - [**NEX-Forms**](https://bit-integrations.com/wp-docs/trigger/nex-forms-integrations/)
 
 - [**Newsletter**](https://bit-integrations.com/wp-docs/trigger/newsletter-integrations/)
 
-- [**Ninja Form**](https://bitapps.pro/docs/bit-integrations/trigger/ninja-forms/)
+- [**Ninja Form**](https://bit-integrations.com/wp-docs/trigger/ninja-forms-integrations/)
 
 - [**Ninja Tables**](https://bit-integrations.com/wp-docs/trigger/ninja-tables-integrations/)
 
@@ -888,21 +888,21 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 - [**Presto Player**](https://bit-integrations.com/wp-docs/trigger/presto-player-integrations/)
 
-- [**Paid Membership Pro**](https://bitapps.pro/docs/bit-integrations/trigger/paid-membership-pro/)
+- [**Paid Membership Pro**](https://bit-integrations.com/wp-docs/trigger/paid-memberships-pro-integrations-as-a-trigger/)
 
 - [**Pie Forms**](https://bit-integrations.com/wp-docs/trigger/pie-forms-integrations/)
 
-- [**Piotnet Addon For Elementor**](https://bitapps.pro/docs/bit-integrations/trigger/piotnet-addon-for-elementor/)
+- [**Piotnet Addon For Elementor**](https://bit-integrations.com/wp-docs/trigger/piotnet-addons-for-elementor-integrations/)
 
-- [**Piotnet Forms**](https://bitapps.pro/docs/bit-integrations/trigger/piotnet-forms/)
+- [**Piotnet Forms**](https://bit-integrations.com/wp-docs/trigger/piotnet-forms-integrations/)
 
-- [**Popup Maker**](https://bitapps.pro/docs/bit-integrations/trigger/popup-maker-integration/)
+- [**Popup Maker**](https://bit-integrations.com/wp-docs/trigger/popup-maker-integrations/)
 
 - [**Quill Forms**](https://bit-integrations.com/wp-docs/trigger/quill-forms-integrations/)
 
-- [**Rafflepress**](https://bitapps.pro/docs/bit-integrations/trigger/rafflepress/)
+- [**Rafflepress**](https://bit-integrations.com/wp-docs/trigger/rafflepress-integrations/)
 
-- [**Restrict Content**](https://bitapps.pro/docs/bit-integrations/trigger/restrict-content/)
+- [**Restrict Content**](https://bit-integrations.com/wp-docs/trigger/restrict-content-integrations-as-a-trigger/)
 
 - [**UserFeedback**](https://bit-integrations.com/wp-docs/trigger/userfeedback-integrations/)
 
@@ -912,17 +912,17 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 - [**SiteOrigin**](https://bit-integrations.com/wp-docs/trigger/siteorigin-widgets-bundle-integrations/)
 
-- [**SliceWP**](https://bitapps.pro/docs/bit-integrations/trigger/SliceWP/)
+- [**SliceWP**](https://bit-integrations.com/wp-docs/trigger/slicewp-integrations-as-a-trigger/)
 
-- [**Solid Affiliate**](https://bitapps.pro/docs/bit-integrations/trigger/solid-affiliate/)
+- [**Solid Affiliate**](https://bit-integrations.com/wp-docs/trigger/solid-affiliate-integrations/)
 
 - [**Spectra**](https://bit-integrations.com/wp-docs/trigger/spectra-integrations/)
 
-- [**StudioCart**](https://bitapps.pro/docs/bit-integrations/trigger/studiocart/)
+- [**StudioCart**](https://bit-integrations.com/wp-docs/trigger/studiocart-integrations/)
 
 - [**SureMail**](https://bit-integrations.com/wp-docs/trigger/suremail-integrations/)
 
-- [**SureCart**](https://bitapps.pro/docs/bit-integrations/trigger/surecart/)
+- [**SureCart**](https://bit-integrations.com/wp-docs/trigger/surecart-integrations-as-a-trigger/)
 
 - [**SureForms**](https://bit-integrations.com/wp-docs/trigger/sureforms-integrations/)
 
@@ -930,21 +930,21 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 - [**The Events Calendar**](https://bit-integrations.com/wp-docs/trigger/the-events-calendar-integrations-as-a-trigger/)
 
-- [**Tripetto**](https://bitapps.pro/docs/bit-integrations/trigger/tripetto/)
+- [**Tripetto**](https://bit-integrations.com/wp-docs/trigger/tripetto-integrations/)
 
-- [**Tutor LMS**](https://bitapps.pro/docs/bit-integrations/trigger/tutor-lms/)
+- [**Tutor LMS**](https://bit-integrations.com/wp-docs/trigger/tutor-lms-integrations-as-a-trigger/)
 
-- [**User Registration**](https://bitapps.pro/docs/bit-integrations/trigger/user-registration/)
+- [**User Registration**](https://bit-integrations.com/wp-docs/trigger/user-registration-integrations-as-a-trigger/)
 
 - [**Voxel**](https://bit-integrations.com/wp-docs/trigger/voxel-integrations/)
 
-- [**weforms**](https://bitapps.pro/docs/bit-integrations/trigger/WeForms/)
+- [**weforms**](https://bit-integrations.com/wp-docs/trigger/weforms-integrations/)
 
-- [**Webhook**](https://bitapps.pro/docs/bit-integrations/trigger/webhook/)
+- [**Webhook**](https://bit-integrations.com/wp-docs/trigger/incoming-webhooks-integrations/)
 
 - [**Wishlist Member**](https://bit-integrations.com/wp-docs/trigger/wishlist-member-integrations/)
 
-- [**Woocommerce**](https://bitapps.pro/docs/bit-integrations/trigger/woocommerce/)
+- [**Woocommerce**](https://bit-integrations.com/wp-docs/trigger/woocommerce-integrations-as-a-trigger/)
 
 - [**Woocommerce Bookings**](https://bit-integrations.com/wp-docs/trigger/woocommerce-bookings-integrations/)
 
@@ -954,15 +954,15 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 - [**WP Simple Pay**](https://bit-integrations.com/wp-docs/trigger/wp-simple-pay-integrations/)
 
-- [**WP Courseware**](https://bitapps.pro/docs/bit-integrations/trigger/wp-courseware/)
+- [**WP Courseware**](https://bit-integrations.com/wp-docs/trigger/wp-courseware-integrations-as-a-trigger/)
 
-- [**WPForms**](https://bitapps.pro/docs/bit-integrations/trigger/wpforms/)
+- [**WPForms**](https://bit-integrations.com/wp-docs/trigger/wpforms-integrations/)
 
 - [**wpForo Forum**](https://bit-integrations.com/wp-docs/trigger/wpforo-integration-as-a-trigger/)
 
-- [**WP Post**](https://bitapps.pro/docs/bit-integrations/trigger/wp-post/)
+- [**WP Post**](https://bit-integrations.com/wp-docs/trigger/wp-post-integrations/)
 
-- [**WS Form**](https://bitapps.pro/docs/bit-integrations/trigger/ws-form/)
+- [**WS Form**](https://bit-integrations.com/wp-docs/trigger/ws-form-integrations/)
 
 - [**WPFunnels**](https://bit-integrations.com/wp-docs/trigger/wpfunnels-integrations/)
 
@@ -970,7 +970,7 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 - [**Webhooks**](https://bit-integrations.com/wp-docs/trigger/incoming-webhooks-integrations/)
 
-### 💥 Don't worry, we give you some [**Action's**](https://bitapps.pro/docs/bit-integrations/actions/) documentation with use cases to help you get started with the plugin.
+### 💥 Don't worry, we give you some [**Action's**](https://bit-integrations.com/wp-docs/actions/) documentation with use cases to help you get started with the plugin.
 
 - [**AutomatorWP**](https://bit-integrations.com/wp-docs/actions/automatorwp-integrations/)
 
@@ -1012,7 +1012,7 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 - [**Copper CRM**](https://bit-integrations.com/wp-docs/actions/copper-crm-integrations/)
 
-- [**Constant Contact**](https://bitapps.pro/docs/bit-integrations/trigger/constantcontact/)
+- [**Constant Contact**](https://bit-integrations.com/wp-docs/actions/constant-contact-integrations/)
 
 - [**Kit (ConvertKit)**](https://bit-integrations.com/wp-docs/actions/convertkit-integrations/)
 
@@ -1028,7 +1028,7 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 - [**Discord**](https://bit-integrations.com/wp-docs/actions/discord-integrations/)
 
-- [**Drip**](https://bitapps.pro/docs/bit-integrations/actions/drip-integrations/)
+- [**Drip**](https://bit-integrations.com/wp-docs/actions/drip-integrations/)
 
 - [**Dropbox**](https://bit-integrations.com/wp-docs/actions/dropbox-integrations/)
 
@@ -1233,8 +1233,6 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 - [**WP Fusion**](https://bit-integrations.com/wp-docs/actions/wp-fusion-integrations/)
 
 - [**WhatsApp**](https://bit-integrations.com/wp-docs/actions/whatsapp-integrations/)
-
-- [**WishList**](https://bitapps.pro/docs/bit-integrations/trigger/wishlist/)
 
 - [**wooCommerce**](https://bit-integrations.com/wp-docs/actions/woocommerce-integrations-as-an-action/)
 
