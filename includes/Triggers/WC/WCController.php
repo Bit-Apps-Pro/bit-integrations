@@ -11,6 +11,74 @@ use WC_Subscriptions_Product;
 
 final class WCController
 {
+    public const CUSTOMER_CREATED = 1;
+
+    public const CUSTOMER_UPDATED = 2;
+
+    public const CUSTOMER_DELETED = 3;
+
+    public const PRODUCT_CREATED = 4;
+
+    public const PRODUCT_UPDATED = 5;
+
+    public const PRODUCT_DELETED = 6;
+
+    public const ORDER_CREATED = 7;
+
+    public const ORDER_UPDATED = 8;
+
+    public const ORDER_DELETED = 9;
+
+    public const ORDER_SPECIFIC_PRODUCT = 10;
+
+    public const ORDER_STATUS_CHANGED_TO_SPECIFIC_STATUS = 11;
+
+    public const ORDER_SPECIFIC_CATEGORY = 17;
+
+    public const USER_REVIEWS_A_PRODUCT = 19;
+
+    public const USER_PURCHASES_A_VARIABLE_PRODUCT = 20;
+
+    public const RESTORE_ORDER = 21;
+
+    public const RESTORE_PRODUCT = 22;
+
+    public const NEW_COUPON_CREATED = 23;
+
+    public const PRODUCT_STATUS_CHANGED = 24;
+
+    public const PRODUCT_ADD_TO_CART = 25;
+
+    public const PRODUCT_REMOVE_FROM_CART = 26;
+
+    public const ORDER_STATUS_SET_TO_PENDING = 27;
+
+    public const ORDER_STATUS_SET_TO_FAILED = 28;
+
+    public const ORDER_STATUS_SET_TO_ON_HOLD = 29;
+
+    public const ORDER_STATUS_SET_TO_PROCESSING = 30;
+
+    public const ORDER_STATUS_SET_TO_COMPLETED = 31;
+
+    public const ORDER_STATUS_SET_TO_REFUNDED = 32;
+
+    public const ORDER_STATUS_SET_TO_CANCELLED = 33;
+
+    // Deprecated Subscriptions Events const
+    public const USER_SUBSCRIBE_PRODUCT = 12;
+
+    public const USER_CANCELLED_SUBSCRIPTION_PRODUCT = 13;
+
+    public const PRODUCT_SUBSCRIPTION_EXPIRED = 14;
+
+    public const SUBSCRIPTION_PRODUCT_STATUS_CHANGED = 15;
+
+    public const END_SUBSCRIPTION_TRIAL_PERIOD = 15;
+
+    // Deprecated Bookings Events const
+    public const BOOKING_CREATED = 18;
+
     private static $_product_update_trigger_count = 0;
 
     private static $_product_create_trigger_count = 0;
@@ -57,20 +125,33 @@ final class WCController
          * ['id' => 18, 'title' => __('Booking-Created', 'bit-integrations')]
          */
         $wc_action = [
-            (object) ['id' => 1, 'title' => __('Customer-Create', 'bit-integrations')],
-            (object) ['id' => 2, 'title' => __('Customer-Edit', 'bit-integrations')],
-            (object) ['id' => 3, 'title' => __('Customer-Delete', 'bit-integrations')],
-            (object) ['id' => 4, 'title' => __('Product-Create', 'bit-integrations')],
-            (object) ['id' => 5, 'title' => __('Product-Edit', 'bit-integrations')],
-            (object) ['id' => 6, 'title' => __('Product-Delete', 'bit-integrations')],
-            (object) ['id' => 7, 'title' => __('Order-Create', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
-            (object) ['id' => 8, 'title' => __('Order-Edit', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
-            (object) ['id' => 9, 'title' => __('Order-Delete', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
-            (object) ['id' => 10, 'title' => __('Order-Specific-Product', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
-            (object) ['id' => 11, 'title' => __('Order-Status-Change-Specific-Status', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
-            (object) ['id' => 17, 'title' => __('Order-Specific-Category', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
-            (object) ['id' => 19, 'title' => __('User reviews a product', 'bit-integrations')],
-            (object) ['id' => 20, 'title' => __('User purchases a variable product with selected variation', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
+            (object) ['id' => static::CUSTOMER_CREATED, 'title' => __('Customer-Create', 'bit-integrations')],
+            (object) ['id' => static::CUSTOMER_UPDATED, 'title' => __('Customer-Edit', 'bit-integrations')],
+            (object) ['id' => static::CUSTOMER_DELETED, 'title' => __('Customer-Delete', 'bit-integrations')],
+            (object) ['id' => static::PRODUCT_CREATED, 'title' => __('Product-Create', 'bit-integrations')],
+            (object) ['id' => static::PRODUCT_UPDATED, 'title' => __('Product-Edit', 'bit-integrations')],
+            (object) ['id' => static::PRODUCT_DELETED, 'title' => __('Product-Delete', 'bit-integrations')],
+            (object) ['id' => static::RESTORE_PRODUCT, 'title' => __('Restore Product', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::ORDER_CREATED, 'title' => __('Order-Create', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
+            (object) ['id' => static::ORDER_UPDATED, 'title' => __('Order-Edit', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
+            (object) ['id' => static::ORDER_DELETED, 'title' => __('Order-Delete', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
+            (object) ['id' => static::RESTORE_ORDER, 'title' => __('Restore Order', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::NEW_COUPON_CREATED, 'title' => __('New Coupon Created', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::ORDER_STATUS_SET_TO_PENDING, 'title' => __('Order Status Set to Pending', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::ORDER_STATUS_SET_TO_FAILED, 'title' => __('Order Status Set to Failed', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::ORDER_STATUS_SET_TO_ON_HOLD, 'title' => __('Order Status Set to On-hold', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::ORDER_STATUS_SET_TO_PROCESSING, 'title' => __('Order Status Set to Processing', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::ORDER_STATUS_SET_TO_COMPLETED, 'title' => __('Order Status Set to Completed', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::ORDER_STATUS_SET_TO_REFUNDED, 'title' => __('Order Status Set to Refunded', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::ORDER_STATUS_SET_TO_CANCELLED, 'title' => __('Order Status Set to Cancelled', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::ORDER_STATUS_CHANGED_TO_SPECIFIC_STATUS, 'title' => __('Order-Status-Change-Specific-Status', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
+            (object) ['id' => static::PRODUCT_STATUS_CHANGED, 'title' => __('Product Status Changed', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::ORDER_SPECIFIC_PRODUCT, 'title' => __('Order-Specific-Product', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
+            (object) ['id' => static::ORDER_SPECIFIC_CATEGORY, 'title' => __('Order-Specific-Category', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
+            (object) ['id' => static::PRODUCT_ADD_TO_CART, 'title' => __('Product Added to Cart', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::PRODUCT_REMOVE_FROM_CART, 'title' => __('Product Removed from Cart', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::USER_REVIEWS_A_PRODUCT, 'title' => __('User reviews a product', 'bit-integrations')],
+            (object) ['id' => static::USER_PURCHASES_A_VARIABLE_PRODUCT, 'title' => __('User purchases a variable product with selected variation', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
         ];
 
         wp_send_json_success($wc_action);
@@ -90,16 +171,16 @@ final class WCController
 
         $responseData['fields'] = $fields;
 
-        if ($data->id == 10 || $data->id == 19) {
+        if ($data->id == static::ORDER_SPECIFIC_PRODUCT || $data->id == static::USER_REVIEWS_A_PRODUCT) {
             $responseData['products'] = WCHelper::getAllWcProducts($data->id);
         }
 
-        if ($data->id == 11) {
+        if ($data->id == static::ORDER_STATUS_CHANGED_TO_SPECIFIC_STATUS) {
             $orderStatuses = wc_get_order_statuses();
             $responseData['orderStatus'] = $orderStatuses;
         }
 
-        if ($data->id == 17) {
+        if ($data->id == static::ORDER_SPECIFIC_CATEGORY) {
             $orderby = 'name';
             $order = 'asc';
             $hide_empty = false;
@@ -130,13 +211,13 @@ final class WCController
 
     public static function fields($id)
     {
-        if ($id <= 3) {
+        if ($id <= static::CUSTOMER_DELETED) {
             $entity = 'customer';
-        } elseif ($id <= 6) {
+        } elseif ($id <= static::PRODUCT_DELETED) {
             $entity = 'product';
-        } elseif ($id <= 11 || $id == 17 || $id == 20) {
+        } elseif ($id <= static::ORDER_STATUS_CHANGED_TO_SPECIFIC_STATUS || $id == static::ORDER_SPECIFIC_CATEGORY || $id == static::USER_PURCHASES_A_VARIABLE_PRODUCT) {
             $entity = 'order';
-        } elseif ($id <= 19) {
+        } elseif ($id <= static::USER_REVIEWS_A_PRODUCT) {
             $entity = 'review';
         }
 
@@ -149,345 +230,33 @@ final class WCController
                 400
             );
         }
+
         $metabox = self::metaboxFields($entity);
+        switch ($entity) {
+            case 'product':
+                $fields = WCStaticFields::getWCProductFields($metabox);
+                $uploadFields = WCStaticFields::getWCProductUploadFields($metabox);
 
-        if ($entity === 'product') {
-            $fields = [
-                'Product Name' => (object) [
-                    'fieldKey'  => 'post_title',
-                    'fieldName' => __('Product Name', 'bit-integrations'),
-                    'required'  => true
-                ],
-                'Product Description' => (object) [
-                    'fieldKey'  => 'post_content',
-                    'fieldName' => __('Product Description', 'bit-integrations')
-                ],
-                'Product Short Description' => (object) [
-                    'fieldKey'  => 'post_excerpt',
-                    'fieldName' => __('Product Short Description', 'bit-integrations')
-                ],
-                'Product ID' => (object) [
-                    'fieldKey'  => 'post_id',
-                    'fieldName' => __('Product ID', 'bit-integrations')
-                ],
-                'Post Date' => (object) [
-                    'fieldKey'  => 'post_date',
-                    'fieldName' => __('Post Date', 'bit-integrations')
-                ],
-                'Post Date GMT' => (object) [
-                    'fieldKey'  => 'post_date_gmt',
-                    'fieldName' => __('Post Date GMT', 'bit-integrations')
-                ],
-                'Product Status' => (object) [
-                    'fieldKey'  => 'post_status',
-                    'fieldName' => __('Product Status', 'bit-integrations')
-                ],
-                'Product Tag' => (object) [
-                    'fieldKey'  => 'tags_input',
-                    'fieldName' => __('Product Tag', 'bit-integrations')
-                ],
-                'Product Category' => (object) [
-                    'fieldKey'  => 'post_category',
-                    'fieldName' => __('Product Category', 'bit-integrations')
-                ],
-                'Catalog Visibility' => (object) [
-                    'fieldKey'  => '_visibility',
-                    'fieldName' => __('Catalog Visibility', 'bit-integrations')
-                ],
-                'Featured Product' => (object) [
-                    'fieldKey'  => '_featured',
-                    'fieldName' => __('Featured Product', 'bit-integrations')
-                ],
-                'Regular Price' => (object) [
-                    'fieldKey'  => '_regular_price',
-                    'fieldName' => __('Regular Price', 'bit-integrations')
-                ],
-                'Sale Price' => (object) [
-                    'fieldKey'  => '_sale_price',
-                    'fieldName' => __('Sale Price', 'bit-integrations')
-                ],
-                'Sale Price From Date' => (object) [
-                    'fieldKey'  => '_sale_price_dates_from',
-                    'fieldName' => __('Sale Price From Date', 'bit-integrations')
-                ],
-                'Sale Price To Date' => (object) [
-                    'fieldKey'  => '_sale_price_dates_to',
-                    'fieldName' => __('Sale Price To Date', 'bit-integrations')
-                ],
-                'SKU' => (object) [
-                    'fieldKey'  => '_sku',
-                    'fieldName' => __('SKU', 'bit-integrations')
-                ],
-                'Manage Stock' => (object) [
-                    'fieldKey'  => '_manage_stock',
-                    'fieldName' => __('Manage Stock', 'bit-integrations')
-                ],
-                'Stock Quantity' => (object) [
-                    'fieldKey'  => '_stock',
-                    'fieldName' => __('Stock Quantity', 'bit-integrations')
-                ],
-                'Allow Backorders' => (object) [
-                    'fieldKey'  => '_backorders',
-                    'fieldName' => __('Allow Backorders', 'bit-integrations')
-                ],
-                'Low Stock Threshold' => (object) [
-                    'fieldKey'  => '_low_stock_amount',
-                    'fieldName' => __('Low Stock Threshold', 'bit-integrations')
-                ],
-                'Stock Status' => (object) [
-                    'fieldKey'  => '_stock_status',
-                    'fieldName' => __('Stock Status', 'bit-integrations')
-                ],
-                'Sold Individually' => (object) [
-                    'fieldKey'  => '_sold_individually',
-                    'fieldName' => __('Sold Individually', 'bit-integrations')
-                ],
-                'Weight' => (object) [
-                    'fieldKey'  => '_weight',
-                    'fieldName' => __('Weight', 'bit-integrations')
-                ],
-                'Length' => (object) [
-                    'fieldKey'  => '_length',
-                    'fieldName' => __('Length', 'bit-integrations')
-                ],
-                'Width' => (object) [
-                    'fieldKey'  => '_width',
-                    'fieldName' => __('Width', 'bit-integrations')
-                ],
-                'Height' => (object) [
-                    'fieldKey'  => '_height',
-                    'fieldName' => __('Height', 'bit-integrations')
-                ],
-                'Purchase Note' => (object) [
-                    'fieldKey'  => '_purchase_note',
-                    'fieldName' => __('Purchase Note', 'bit-integrations')
-                ],
-                'Menu Order' => (object) [
-                    'fieldKey'  => 'menu_order',
-                    'fieldName' => __('Menu Order', 'bit-integrations')
-                ],
-                'Enable Reviews' => (object) [
-                    'fieldKey'  => 'comment_status',
-                    'fieldName' => __('Enable Reviews', 'bit-integrations')
-                ],
-                'Virtual' => (object) [
-                    'fieldKey'  => '_virtual',
-                    'fieldName' => __('Virtual', 'bit-integrations')
-                ],
-                'Downloadable' => (object) [
-                    'fieldKey'  => '_downloadable',
-                    'fieldName' => __('Downloadable', 'bit-integrations')
-                ],
-                'Download Limit' => (object) [
-                    'fieldKey'  => '_download_limit',
-                    'fieldName' => __('Download Limit', 'bit-integrations')
-                ],
-                'Download Expiry' => (object) [
-                    'fieldKey'  => '_download_expiry',
-                    'fieldName' => __('Download Expiry', 'bit-integrations')
-                ],
-                'Product Type' => (object) [
-                    'fieldKey'  => 'product_type',
-                    'fieldName' => __('Product Type', 'bit-integrations')
-                ],
-                'Product URL' => (object) [
-                    'fieldKey'  => '_product_url',
-                    'fieldName' => __('Product URL', 'bit-integrations')
-                ],
-            ];
+                break;
+            case 'customer':
+                $fields = WCStaticFields::getWCCustomerFields($id);
 
-            $acfFieldGroups = Helper::acfGetFieldGroups(['product']);
-            foreach ($acfFieldGroups as $group) {
-                $acfFields = acf_get_fields($group['ID']);
+                break;
+            case 'order':
+                $fields = WCStaticFields::getWCOrderFields($id);
 
-                foreach ($acfFields as $field) {
-                    $fields[$field['label']] = (object) [
-                        'fieldKey'  => $field['_name'],
-                        'fieldName' => $field['label']
-                    ];
-                }
-            }
+                break;
+            case 'review':
+                $fields = WCHelper::getReviewFields();
 
-            $fields = array_merge($fields, $metabox['meta_fields']);
+                break;
 
-            $uploadFields = [
-                'Product Image' => (object) [
-                    'fieldKey'  => '_product_image',
-                    'fieldName' => 'Product Image'
-                ],
-                'Product Gallery' => (object) [
-                    'fieldKey'  => '_product_gallery',
-                    'fieldName' => 'Product Gallery'
-                ],
-            ];
-            $uploadFields = array_merge($uploadFields, $metabox['upload_fields']);
+            default:
+                $fields = [];
 
-            $required = ['post_title'];
-        } elseif ($entity === 'customer') {
-            if ($id == 1) {
-                $fields = [
-                    'First Name' => (object) [
-                        'fieldKey'  => 'first_name',
-                        'fieldName' => __('First Name', 'bit-integrations')
-                    ],
-                    'Last Name' => (object) [
-                        'fieldKey'  => 'last_name',
-                        'fieldName' => __('Last Name', 'bit-integrations')
-                    ],
-                    'Email' => (object) [
-                        'fieldKey'  => 'user_email',
-                        'fieldName' => __('Email', 'bit-integrations')
-                    ],
-                    'Username' => (object) [
-                        'fieldKey'  => 'user_login',
-                        'fieldName' => __('Username', 'bit-integrations')
-                    ],
-                    'Password' => (object) [
-                        'fieldKey'  => 'user_pass',
-                        'fieldName' => __('Password', 'bit-integrations')
-                    ],
-                    'Display Name' => (object) [
-                        'fieldKey'  => 'display_name',
-                        'fieldName' => __('Display Name', 'bit-integrations')
-                    ],
-                    'Nickname' => (object) [
-                        'fieldKey'  => 'nickname',
-                        'fieldName' => __('Nickname', 'bit-integrations')
-                    ],
-                    'Website' => (object) [
-                        'fieldKey'  => 'user_url',
-                        'fieldName' => __('Website', 'bit-integrations')
-                    ],
-                ];
-            } else {
-                $fields = [
-                    'Customer ID' => (object) [
-                        'fieldKey'  => 'customer_id',
-                        'fieldName' => __('Customer Id', 'bit-integrations')
-                    ],
-                    'First Name' => (object) [
-                        'fieldKey'  => 'first_name',
-                        'fieldName' => __('First Name', 'bit-integrations')
-                    ],
-                    'Last Name' => (object) [
-                        'fieldKey'  => 'last_name',
-                        'fieldName' => __('Last Name', 'bit-integrations')
-                    ],
-                    'Email' => (object) [
-                        'fieldKey'  => 'user_email',
-                        'fieldName' => __('Email', 'bit-integrations')
-                    ],
-                    'Username' => (object) [
-                        'fieldKey'  => 'user_login',
-                        'fieldName' => __('Username', 'bit-integrations')
-                    ],
-                    'Password' => (object) [
-                        'fieldKey'  => 'user_pass',
-                        'fieldName' => __('Password', 'bit-integrations')
-                    ],
-                    'Display Name' => (object) [
-                        'fieldKey'  => 'display_name',
-                        'fieldName' => __('Display Name', 'bit-integrations')
-                    ],
-                    'Nickname' => (object) [
-                        'fieldKey'  => 'nickname',
-                        'fieldName' => __('Nickname', 'bit-integrations')
-                    ],
-                    'Locale' => (object) [
-                        'fieldKey'  => 'locale',
-                        'fieldName' => __('Locale', 'bit-integrations')
-                    ],
-                    'Website' => (object) [
-                        'fieldKey'  => 'user_url',
-                        'fieldName' => __('Website', 'bit-integrations')
-                    ],
-                    'Billing First Name' => (object) [
-                        'fieldKey'  => 'billing_first_name',
-                        'fieldName' => __('Billing First Name', 'bit-integrations')
-                    ],
-                    'Billing Last Name' => (object) [
-                        'fieldKey'  => 'billing_last_name',
-                        'fieldName' => __('Billing Last Name', 'bit-integrations')
-                    ],
-                    'Billing Company' => (object) [
-                        'fieldKey'  => 'billing_company',
-                        'fieldName' => __('Billing Company', 'bit-integrations')
-                    ],
-                    'Billing Address 1' => (object) [
-                        'fieldKey'  => 'billing_address_1',
-                        'fieldName' => __('Billing Address 1', 'bit-integrations')
-                    ],
-                    'Billing Address 2' => (object) [
-                        'fieldKey'  => 'billing_address_2',
-                        'fieldName' => __('Billing Address 2', 'bit-integrations')
-                    ],
-                    'Billing City' => (object) [
-                        'fieldKey'  => 'billing_city',
-                        'fieldName' => __('Billing City', 'bit-integrations')
-                    ],
-                    'Billing Post Code' => (object) [
-                        'fieldKey'  => 'billing_postcode',
-                        'fieldName' => __('Billing Post Code', 'bit-integrations')
-                    ],
-                    'Billing Country' => (object) [
-                        'fieldKey'  => 'billing_country',
-                        'fieldName' => __('Billing Country', 'bit-integrations')
-                    ],
-                    'Billing State' => (object) [
-                        'fieldKey'  => 'billing_state',
-                        'fieldName' => __('Billing State', 'bit-integrations')
-                    ],
-                    'Billing Email' => (object) [
-                        'fieldKey'  => 'billing_email',
-                        'fieldName' => __('Billing Email', 'bit-integrations')
-                    ],
-                    'Billing Phone' => (object) [
-                        'fieldKey'  => 'billing_phone',
-                        'fieldName' => __('Billing Phone', 'bit-integrations')
-                    ],
-                    'Shipping First Name' => (object) [
-                        'fieldKey'  => 'shipping_first_name',
-                        'fieldName' => __('Shipping First Name', 'bit-integrations')
-                    ],
-                    'Shipping Last Name' => (object) [
-                        'fieldKey'  => 'shipping_last_name',
-                        'fieldName' => __('Shipping Last Name', 'bit-integrations')
-                    ],
-                    'Shipping Company' => (object) [
-                        'fieldKey'  => 'shipping_company',
-                        'fieldName' => __('Shipping Company', 'bit-integrations')
-                    ],
-                    'Shipping Address 1' => (object) [
-                        'fieldKey'  => 'shipping_address_1',
-                        'fieldName' => __('Shipping Address 1', 'bit-integrations')
-                    ],
-                    'Shipping Address 2' => (object) [
-                        'fieldKey'  => 'shipping_address_2',
-                        'fieldName' => __('Shipping Address 2', 'bit-integrations')
-                    ],
-                    'Shipping City' => (object) [
-                        'fieldKey'  => 'shipping_city',
-                        'fieldName' => __('Shipping City', 'bit-integrations')
-                    ],
-                    'Shipping Post Code' => (object) [
-                        'fieldKey'  => 'shipping_postcode',
-                        'fieldName' => __('Shipping Post Code', 'bit-integrations')
-                    ],
-                    'Shipping Country' => (object) [
-                        'fieldKey'  => 'shipping_country',
-                        'fieldName' => __('Shipping Country', 'bit-integrations')
-                    ],
-                    'Shipping State' => (object) [
-                        'fieldKey'  => 'shipping_state',
-                        'fieldName' => __('Shipping State', 'bit-integrations')
-                    ],
-                ];
-            }
-        } elseif ($entity === 'order') {
-            $fields = WCStaticFields::getWCOrderFields($id);
-        } elseif ($entity == 'review') {
-            $fields = WCHelper::getReviewFields();
+                break;
         }
+
         uksort($fields, 'strnatcasecmp');
 
         $fieldsNew = [];
