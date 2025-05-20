@@ -23,6 +23,7 @@ Hooks::add('comment_post', [WCController::class, 'handle_insert_comment'], 10, 3
 
 Hooks::add('woocommerce_checkout_order_processed', [WCController::class, 'handle_variable_product_order'], 10, 2);
 Hooks::add('woocommerce_update_coupon', [WCController::class, 'handle_coupon_created'], 10, 2);
+Hooks::add('woocommerce_add_to_cart', [WCController::class, 'handle_add_to_cart'], 10, 6);
 
 // Secondary hook form order create checkout
 Hooks::add('woocommerce_store_api_checkout_order_processed', [WCController::class, 'handle_order_checkout'], 10, 1);

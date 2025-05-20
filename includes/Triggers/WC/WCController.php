@@ -507,17 +507,43 @@ final class WCController
 
         $flows = Flow::exists('WC', static::NEW_COUPON_CREATED);
         if (empty($flows)) {
-            return false;
+            return;
         }
 
         $couponData = WCHelper::getCouponData($couponId, $coupon);
         Flow::execute('WC', static::NEW_COUPON_CREATED, $couponData, $flows);
     }
 
+    public static function handle_add_to_cart($cartItemKey, $productId, $quantity, $variationId, $variation, $cartItemData)
+    {
+        if (empty($cartItemKey) || empty($productId)) {
+            return;
+        }
+
+        $flows = Flow::exists('WC', static::PRODUCT_ADD_TO_CART);
+        if (empty($flows)) {
+            return;
+        }
+
+        $cart = WC()->cart;
+        $cartData = [
+            'cart_item_key'   => $cartItemKey,
+            'product_id'      => $productId,
+            'quantity'        => $quantity,
+            'variation_id'    => $variationId,
+            'variation'       => $variation,
+            'cart_item_data'  => $cartItemData,
+            'cart_total'      => $cart->get_cart_contents_total(),
+            'cart_line_items' => WCHelper::getCartLineItems(),
+        ];
+
+        Flow::execute('WC', static::PRODUCT_ADD_TO_CART, $cartData, $flows);
+    }
+
     public static function handle_order_create($order_id, $fields)
     {
         if (!static::isActivate()) {
-            return false;
+            return;
         }
 
         $data = WCHelper::processOrderData($order_id);

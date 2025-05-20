@@ -166,6 +166,29 @@ class WCHelper
         ];
     }
 
+    public static function getCartLineItems()
+    {
+        $cart = WC()->cart;
+        $cartLineItems = array_map(
+            function ($cartItem) {
+                return [
+                    'product'            => $cartItem['data'],
+                    'product_id'         => $cartItem['product_id'],
+                    'variation_id'       => $cartItem['variation_id'],
+                    'quantity'           => $cartItem['quantity'],
+                    'product_name'       => $cartItem['data']->get_name(),
+                    'tax_class'          => $cartItem['data']->get_tax_class(),
+                    'tax_status'         => $cartItem['data']->get_tax_status(),
+                    'product_sku'        => $cartItem['data']->get_sku(),
+                    'product_unit_price' => $cartItem['data']->get_price(),
+                ];
+            },
+            $cart->get_cart()
+        );
+
+        return wp_json_encode(array_values($cartLineItems));
+    }
+
     public static function processProductData($postId)
     {
         $product = wc_get_product($postId);
