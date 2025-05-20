@@ -135,7 +135,7 @@ final class WCController
             (object) ['id' => static::ORDER_UPDATED, 'title' => __('Order-Edit', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
             (object) ['id' => static::ORDER_DELETED, 'title' => __('Order-Delete', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
             (object) ['id' => static::RESTORE_ORDER, 'title' => __('Restore Order', 'bit-integrations'), 'isPro' => true],
-            (object) ['id' => static::NEW_COUPON_CREATED, 'title' => __('New Coupon Created or Update', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::NEW_COUPON_CREATED, 'title' => __('Coupon Created or Updated', 'bit-integrations'), 'isPro' => true],
             (object) ['id' => static::ORDER_STATUS_SET_TO_PENDING, 'title' => __('Order Status Set to Pending', 'bit-integrations'), 'isPro' => true],
             (object) ['id' => static::ORDER_STATUS_SET_TO_FAILED, 'title' => __('Order Status Set to Failed', 'bit-integrations'), 'isPro' => true],
             (object) ['id' => static::ORDER_STATUS_SET_TO_ON_HOLD, 'title' => __('Order Status Set to On-hold', 'bit-integrations'), 'isPro' => true],
@@ -221,6 +221,8 @@ final class WCController
             $entity = 'review';
         } elseif ($id == static::NEW_COUPON_CREATED) {
             $entity = 'coupon';
+        } elseif ($id == static::PRODUCT_ADD_TO_CART) {
+            $entity = 'add_to_cart';
         }
 
         if (empty($id)) {
@@ -254,6 +256,10 @@ final class WCController
                 break;
             case 'coupon':
                 $fields = WCStaticFields::getCouponFields();
+
+                break;
+            case 'add_to_cart':
+                $fields = WCStaticFields::getAddToCartFields();
 
                 break;
 

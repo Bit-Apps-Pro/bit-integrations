@@ -192,6 +192,44 @@ class WCStaticFields
         ];
     }
 
+    public static function getAddToCartFields()
+    {
+        return [
+            'Cart Item Key' => (object) [
+                'fieldKey'  => 'cart_item_key',
+                'fieldName' => __('Cart Item Key', 'bit-integrations')
+            ],
+            'Product Id' => (object) [
+                'fieldKey'  => 'product_id',
+                'fieldName' => __('Product Id', 'bit-integrations')
+            ],
+            'Quantity' => (object) [
+                'fieldKey'  => 'quantity',
+                'fieldName' => __('Quantity', 'bit-integrations')
+            ],
+            'Variation Id' => (object) [
+                'fieldKey'  => 'variation_id',
+                'fieldName' => __('Variation Id', 'bit-integrations')
+            ],
+            'Variation' => (object) [
+                'fieldKey'  => 'variation',
+                'fieldName' => __('Variation', 'bit-integrations')
+            ],
+            'Cart Item Data' => (object) [
+                'fieldKey'  => 'cart_item_data',
+                'fieldName' => __('Cart Item Data', 'bit-integrations')
+            ],
+            'Cart Total' => (object) [
+                'fieldKey'  => 'cart_total',
+                'fieldName' => __('Cart Total', 'bit-integrations')
+            ],
+            'Cart Line Items' => (object) [
+                'fieldKey'  => 'cart_line_items',
+                'fieldName' => __('Cart Line Items', 'bit-integrations')
+            ]
+        ];
+    }
+
     private static function getOrderACFFields($type = [])
     {
         if (!class_exists('ACF')) {
