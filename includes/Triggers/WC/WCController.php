@@ -215,7 +215,7 @@ final class WCController
             $entity = 'customer';
         } elseif ($id <= static::PRODUCT_DELETED || $id == static::RESTORE_PRODUCT) {
             $entity = 'product';
-        } elseif ($id <= static::ORDER_STATUS_CHANGED_TO_SPECIFIC_STATUS || $id == static::ORDER_SPECIFIC_CATEGORY || $id == static::USER_PURCHASES_A_VARIABLE_PRODUCT) {
+        } elseif ($id <= static::ORDER_STATUS_CHANGED_TO_SPECIFIC_STATUS || $id == static::RESTORE_ORDER || $id == static::ORDER_SPECIFIC_CATEGORY || $id == static::USER_PURCHASES_A_VARIABLE_PRODUCT) {
             $entity = 'order';
         } elseif ($id <= static::USER_REVIEWS_A_PRODUCT) {
             $entity = 'review';
@@ -497,120 +497,13 @@ final class WCController
         }
     }
 
-    public static function accessOrderData($order)
-    {
-        $data = [
-            'id'                          => $order->get_id() ?? '',
-            'order_key'                   => $order->get_order_key() ?? '',
-            'card_tax'                    => $order->get_cart_tax() ?? '',
-            'currency'                    => $order->get_currency() ?? '',
-            'discount_tax'                => $order->get_discount_tax() ?? '',
-            'discount_to_display'         => $order->get_discount_to_display() ?? '',
-            'discount_total'              => $order->get_discount_total() ?? '',
-            'fees'                        => $order->get_fees() ?? '',
-            'shipping_tax'                => $order->get_shipping_tax() ?? '',
-            'shipping_total'              => $order->get_shipping_total() ?? '',
-            'tax_totals'                  => $order->get_tax_totals() ?? '',
-            'total'                       => $order->get_total() ?? '',
-            'total_refunded'              => $order->get_total_refunded() ?? '',
-            'total_tax_refunded'          => $order->get_total_tax_refunded() ?? '',
-            'total_shipping_refunded'     => $order->get_total_shipping_refunded() ?? '',
-            'total_qty_refunded'          => $order->get_total_qty_refunded() ?? '',
-            'remaining_refund_amount'     => $order->get_remaining_refund_amount() ?? '',
-            'shipping_method'             => $order->get_shipping_method() ?? '',
-            'date_created'                => \is_null($order->get_date_created()) ? $order->get_date_created() : $order->get_date_created()->format('Y-m-d H:i:s'),
-            'date_modified'               => \is_null($order->get_date_modified()) ? $order->get_date_modified() : $order->get_date_modified()->format('Y-m-d H:i:s'),
-            'date_completed'              => \is_null($order->get_date_completed()) ? $order->get_date_completed() : $order->get_date_completed()->format('Y-m-d H:i:s'),
-            'date_paid'                   => \is_null($order->get_date_paid()) ? $order->get_date_paid() : $order->get_date_paid()->format('Y-m-d H:i:s'),
-            'customer_id'                 => $order->get_customer_id() ?? '',
-            'created_via'                 => $order->get_created_via() ?? '',
-            'customer_note'               => $order->get_customer_note() ?? '',
-            'billing_first_name'          => $order->get_billing_first_name() ?? '',
-            'billing_last_name'           => $order->get_billing_last_name() ?? '',
-            'billing_company'             => $order->get_billing_company() ?? '',
-            'billing_address_1'           => $order->get_billing_address_1() ?? '',
-            'billing_address_2'           => $order->get_billing_address_2() ?? '',
-            'billing_city'                => $order->get_billing_city() ?? '',
-            'billing_state'               => $order->get_billing_state() ?? '',
-            'billing_postcode'            => $order->get_billing_postcode() ?? '',
-            'billing_country'             => $order->get_billing_country() ?? '',
-            'billing_email'               => $order->get_billing_email() ?? '',
-            'billing_phone'               => $order->get_billing_phone() ?? '',
-            'shipping_first_name'         => $order->get_shipping_first_name() ?? '',
-            'shipping_last_name'          => $order->get_shipping_last_name() ?? '',
-            'shipping_company'            => $order->get_shipping_company() ?? '',
-            'shipping_address_1'          => $order->get_shipping_address_1() ?? '',
-            'shipping_address_2'          => $order->get_shipping_address_2() ?? '',
-            'shipping_city'               => $order->get_shipping_city() ?? '',
-            'shipping_state'              => $order->get_shipping_state() ?? '',
-            'shipping_postcode'           => $order->get_shipping_postcode() ?? '',
-            'shipping_country'            => $order->get_shipping_country() ?? '',
-            'payment_method'              => $order->get_payment_method() ?? '',
-            'payment_method_title'        => $order->get_payment_method_title() ?? '',
-            'status'                      => $order->get_status() ?? '',
-            'checkout_order_received_url' => $order->get_checkout_order_received_url() ?? '',
-            'line_items'                  => [],
-            'product_names'               => '',
-            'line_items_quantity'         => 0
-        ];
-        if (\defined('WC_VERSION') && version_compare(WC_VERSION, '8.5.1', '>=')) {
-            $data += [
-                '_wc_order_attribution_referrer'           => $order->get_meta('_wc_order_attribution_referrer'),
-                '_wc_order_attribution_user_agent'         => $order->get_meta('_wc_order_attribution_user_agent'),
-                '_wc_order_attribution_utm_source'         => $order->get_meta('_wc_order_attribution_utm_source'),
-                '_wc_order_attribution_device_type'        => $order->get_meta('_wc_order_attribution_device_type'),
-                '_wc_order_attribution_source_type'        => $order->get_meta('_wc_order_attribution_source_type'),
-                '_wc_order_attribution_session_count'      => $order->get_meta('_wc_order_attribution_session_count'),
-                '_wc_order_attribution_session_entry'      => $order->get_meta('_wc_order_attribution_session_entry'),
-                '_wc_order_attribution_session_pages'      => $order->get_meta('_wc_order_attribution_session_pages'),
-                '_wc_order_attribution_session_start_time' => $order->get_meta('_wc_order_attribution_session_start_time'),
-            ];
-        }
-
-        foreach ($order->get_items() as $item) {
-            $product_id = $item->get_product_id();
-            $product = $item->get_product();
-            $itemData = [
-                'product_id'         => $product_id,
-                'variation_id'       => $item->get_variation_id() ?? '',
-                'product_name'       => $item->get_name() ?? '',
-                'quantity'           => $item->get_quantity() ?? '',
-                'subtotal'           => $item->get_subtotal() ?? '',
-                'total'              => $item->get_total() ?? '',
-                'subtotal_tax'       => $item->get_subtotal_tax() ?? '',
-                'tax_class'          => $item->get_tax_class() ?? '',
-                'tax_status'         => $item->get_tax_status() ?? '',
-                'product_sku'        => $product->get_sku() ?? '',
-                'product_unit_price' => $product->get_price() ?? '',
-            ];
-
-            $acfFieldGroups = Helper::acfGetFieldGroups(['product']);
-            foreach ($acfFieldGroups as $group) {
-                $acfFields = acf_get_fields($group['ID']);
-
-                foreach ($acfFields as $field) {
-                    $itemData[$field['_name']] = get_post_meta($product_id, $field['_name'])[0] ?? null;
-                }
-            }
-
-            $data['line_items'][] = (object) $itemData;
-        }
-        $data['product_names'] = implode(', ', array_column($data['line_items'], 'product_name'));
-        $data['line_items_quantity'] = \count($data['line_items']);
-
-        return $data;
-    }
-
     public static function handle_order_create($order_id, $fields)
     {
         if (!static::isActivate()) {
             return false;
         }
 
-        $order = wc_get_order($order_id);
-        $data = self::accessOrderData($order);
-        $acfFieldGroups = Helper::acfGetFieldGroups(['shop_order']);
-        $checkoutFields = WC()->checkout()->get_checkout_fields();
+        $data = WCHelper::processOrderData($order_id);
         $triggerd = [
             static::ORDER_UPDATED,
             static::ORDER_DELETED,
@@ -621,27 +514,6 @@ final class WCController
             static::SUBSCRIPTION_PRODUCT_STATUS_CHANGED,
             static::END_SUBSCRIPTION_TRIAL_PERIOD
         ];
-
-        foreach ($acfFieldGroups as $group) {
-            $acfFields = acf_get_fields($group['ID']);
-
-            foreach ($acfFields as $field) {
-                $meta = get_post_meta($order_id, $field['_name']);
-                $data[$field['_name']] = \is_array($meta) && !empty($meta) ? $meta[0] : $meta;
-            }
-        }
-        foreach ($checkoutFields as $group) {
-            foreach ($group as $field) {
-                if (!empty($field['custom']) && $field['custom']) {
-                    $data[$field['name']] = $fields[$field['name']];
-                }
-            }
-        }
-
-        if (Helper::proActionFeatExists('WC', 'getFlexibleCheckoutFieldsValue')) {
-            $flexibleFields = apply_filters('btcbi_woocommerce_flexible_checkout_fields_value', $fields);
-            $data = array_merge($data, $flexibleFields);
-        }
 
         for ($i = static::ORDER_CREATED; $i <= static::ORDER_SPECIFIC_CATEGORY; $i++) {
             if (\in_array($i, $triggerd)) {
@@ -742,7 +614,7 @@ final class WCController
             return false;
         }
 
-        $data = self::accessOrderData($order);
+        $data = WCHelper::accessOrderData($order);
         $acfFieldGroups = Helper::acfGetFieldGroups(['product', 'shop_order']);
 
         foreach ($acfFieldGroups as $group) {
@@ -767,10 +639,29 @@ final class WCController
         if ($post_type !== 'shop_order') {
             return false;
         }
-        $data = ['id' => $order_id];
-        if (!empty($order_id) && $flows = Flow::exists('WC', static::ORDER_DELETED)) {
-            Flow::execute('WC', static::ORDER_DELETED, $data, $flows);
+
+        $flows = Flow::exists('WC', static::ORDER_DELETED);
+        if (empty($flows)) {
+            return false;
         }
+
+        $orderData = WCHelper::processOrderData($order_id);
+        Flow::execute('WC', static::ORDER_DELETED, $orderData, $flows);
+    }
+
+    public static function handle_restore_order($order_id, $oldStatus, $newStatus, $order)
+    {
+        if (!static::isActivate() || empty($order_id) || $oldStatus != 'trash') {
+            return false;
+        }
+
+        $flows = Flow::exists('WC', static::RESTORE_ORDER);
+        if (empty($flows)) {
+            return false;
+        }
+
+        $orderData = WCHelper::processOrderData($order_id);
+        Flow::execute('WC', static::RESTORE_ORDER, $orderData, $flows);
     }
 
     public static function handle_order_status_change($order_id, $from_status, $to_status, $this_order)
@@ -815,7 +706,7 @@ final class WCController
                     return false;
                 }
 
-                $data = self::accessOrderData($order);
+                $data = WCHelper::accessOrderData($order);
                 $acfFieldGroups = Helper::acfGetFieldGroups(['product', 'shop_order']);
 
                 foreach ($acfFieldGroups as $group) {
@@ -1136,7 +1027,7 @@ final class WCController
         }
 
         $order = wc_get_order($order_id);
-        $data = self::accessOrderData($order);
+        $data = WCHelper::accessOrderData($order);
 
         foreach ($flows as $flow) {
             $flowDetails = json_decode($flow->flow_details);

@@ -18,6 +18,7 @@ Hooks::add('woocommerce_checkout_order_processed', [WCController::class, 'handle
 Hooks::add('save_post', [WCController::class, 'handle_order_update'], 10, 3);
 Hooks::add('wp_trash_post', [WCController::class, 'handle_order_delete'], 10, 1);
 Hooks::add('woocommerce_order_status_changed', [WCController::class, 'handle_order_status_change'], 10, 4);
+Hooks::add('woocommerce_order_status_changed', [WCController::class, 'handle_restore_order'], 10, 4);
 Hooks::add('comment_post', [WCController::class, 'handle_insert_comment'], 10, 3);
 
 Hooks::add('woocommerce_checkout_order_processed', [WCController::class, 'handle_variable_product_order'], 10, 2);
