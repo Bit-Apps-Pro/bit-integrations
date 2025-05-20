@@ -466,14 +466,9 @@ final class WCController
         $productData = wc_get_product($post_id);
         $data = WCHelper::accessProductData($productData);
         $acfFieldGroups = Helper::acfGetFieldGroups(['product']);
+        $acfFielddata = Helper::getAcfFieldData($acfFieldGroups, $post_id);
+        $data = array_merge($data, $acfFielddata);
 
-        foreach ($acfFieldGroups as $group) {
-            $acfFields = acf_get_fields($group['ID']);
-
-            foreach ($acfFields as $field) {
-                $data[$field['_name']] = get_post_meta($post_id, $field['_name'])[0];
-            }
-        }
         if (!empty($post_id) && $flows = Flow::exists('WC', static::PRODUCT_CREATED)) {
             Flow::execute('WC', static::PRODUCT_CREATED, $data, $flows);
         }
@@ -484,14 +479,9 @@ final class WCController
         $productData = wc_get_product($post_id);
         $data = WCHelper::accessProductData($productData);
         $acfFieldGroups = Helper::acfGetFieldGroups(['product']);
+        $acfFielddata = Helper::getAcfFieldData($acfFieldGroups, $post_id);
+        $data = array_merge($data, $acfFielddata);
 
-        foreach ($acfFieldGroups as $group) {
-            $acfFields = acf_get_fields($group['ID']);
-
-            foreach ($acfFields as $field) {
-                $data[$field['_name']] = get_post_meta($post_id, $field['_name'])[0];
-            }
-        }
         if (!empty($post_id) && $flows = Flow::exists('WC', static::PRODUCT_UPDATED)) {
             Flow::execute('WC', static::PRODUCT_UPDATED, $data, $flows);
         }
@@ -616,14 +606,9 @@ final class WCController
 
         $data = WCHelper::accessOrderData($order);
         $acfFieldGroups = Helper::acfGetFieldGroups(['product', 'shop_order']);
+        $acfFielddata = Helper::getAcfFieldData($acfFieldGroups, $order_id);
+        $data = array_merge($data, $acfFielddata);
 
-        foreach ($acfFieldGroups as $group) {
-            $acfFields = acf_get_fields($group['ID']);
-
-            foreach ($acfFields as $field) {
-                $data[$field['_name']] = get_post_meta($order_id, $field['_name'])[0];
-            }
-        }
         if (!empty($order_id) && $flows = Flow::exists('WC', static::ORDER_UPDATED)) {
             Flow::execute('WC', static::ORDER_UPDATED, $data, $flows);
         }
@@ -708,14 +693,9 @@ final class WCController
 
                 $data = WCHelper::accessOrderData($order);
                 $acfFieldGroups = Helper::acfGetFieldGroups(['product', 'shop_order']);
+                $acfFielddata = Helper::getAcfFieldData($acfFieldGroups, $order_id);
+                $data = array_merge($data, $acfFielddata);
 
-                foreach ($acfFieldGroups as $group) {
-                    $acfFields = acf_get_fields($group['ID']);
-
-                    foreach ($acfFields as $field) {
-                        $data[$field['_name']] = get_post_meta($order_id, $field['_name'])[0];
-                    }
-                }
                 if (!empty($order_id)) {
                     Flow::execute('WC', static::ORDER_STATUS_CHANGED_TO_SPECIFIC_STATUS, $data, [$flow]);
                 }

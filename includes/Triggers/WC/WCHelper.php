@@ -144,14 +144,123 @@ class WCHelper
     {
         $product = wc_get_product($postId);
         $productData = self::accessProductData($product);
+        $acfFieldGroups = Helper::acfGetFieldGroups(['product']);
+        $acfFielddata = Helper::getAcfFieldData($acfFieldGroups, $postId);
 
-        foreach (Helper::acfGetFieldGroups(['product']) as $group) {
-            foreach (acf_get_fields($group['ID']) as $field) {
-                $productData[$field['_name']] = get_post_meta($postId, $field['_name'])[0];
-            }
+        return array_merge($productData, $acfFielddata);
+    }
+
+    public static function processOrderData($orderId, $order = null, $extra = [])
+    {
+        $order = empty($order) ? wc_get_order($orderId) : $order;
+        $orderData = self::accessOrderData($order);
+
+        $acfFieldGroups = Helper::acfGetFieldGroups(['shop_order']);
+        $acfFielddata = Helper::getAcfFieldData($acfFieldGroups, $orderId);
+        $checkoutFields = Helper::getWCCustomCheckoutData($order);
+
+        $flexibleFields = apply_filters('btcbi_woocommerce_flexible_checkout_fields_value', (array) $order);
+
+        return array_merge($orderData, $acfFielddata, $checkoutFields, $flexibleFields, $extra);
+    }
+
+    public static function accessOrderData($order)
+    {
+        $data = [
+            'id'                          => $order->get_id() ?? '',
+            'order_key'                   => $order->get_order_key() ?? '',
+            'card_tax'                    => $order->get_cart_tax() ?? '',
+            'currency'                    => $order->get_currency() ?? '',
+            'discount_tax'                => $order->get_discount_tax() ?? '',
+            'discount_to_display'         => $order->get_discount_to_display() ?? '',
+            'discount_total'              => $order->get_discount_total() ?? '',
+            'fees'                        => $order->get_fees() ?? '',
+            'shipping_tax'                => $order->get_shipping_tax() ?? '',
+            'shipping_total'              => $order->get_shipping_total() ?? '',
+            'tax_totals'                  => $order->get_tax_totals() ?? '',
+            'total'                       => $order->get_total() ?? '',
+            'total_refunded'              => $order->get_total_refunded() ?? '',
+            'total_tax_refunded'          => $order->get_total_tax_refunded() ?? '',
+            'total_shipping_refunded'     => $order->get_total_shipping_refunded() ?? '',
+            'total_qty_refunded'          => $order->get_total_qty_refunded() ?? '',
+            'remaining_refund_amount'     => $order->get_remaining_refund_amount() ?? '',
+            'shipping_method'             => $order->get_shipping_method() ?? '',
+            'date_created'                => \is_null($order->get_date_created()) ? $order->get_date_created() : $order->get_date_created()->format('Y-m-d H:i:s'),
+            'date_modified'               => \is_null($order->get_date_modified()) ? $order->get_date_modified() : $order->get_date_modified()->format('Y-m-d H:i:s'),
+            'date_completed'              => \is_null($order->get_date_completed()) ? $order->get_date_completed() : $order->get_date_completed()->format('Y-m-d H:i:s'),
+            'date_paid'                   => \is_null($order->get_date_paid()) ? $order->get_date_paid() : $order->get_date_paid()->format('Y-m-d H:i:s'),
+            'customer_id'                 => $order->get_customer_id() ?? '',
+            'created_via'                 => $order->get_created_via() ?? '',
+            'customer_note'               => $order->get_customer_note() ?? '',
+            'billing_first_name'          => $order->get_billing_first_name() ?? '',
+            'billing_last_name'           => $order->get_billing_last_name() ?? '',
+            'billing_company'             => $order->get_billing_company() ?? '',
+            'billing_address_1'           => $order->get_billing_address_1() ?? '',
+            'billing_address_2'           => $order->get_billing_address_2() ?? '',
+            'billing_city'                => $order->get_billing_city() ?? '',
+            'billing_state'               => $order->get_billing_state() ?? '',
+            'billing_postcode'            => $order->get_billing_postcode() ?? '',
+            'billing_country'             => $order->get_billing_country() ?? '',
+            'billing_email'               => $order->get_billing_email() ?? '',
+            'billing_phone'               => $order->get_billing_phone() ?? '',
+            'shipping_first_name'         => $order->get_shipping_first_name() ?? '',
+            'shipping_last_name'          => $order->get_shipping_last_name() ?? '',
+            'shipping_company'            => $order->get_shipping_company() ?? '',
+            'shipping_address_1'          => $order->get_shipping_address_1() ?? '',
+            'shipping_address_2'          => $order->get_shipping_address_2() ?? '',
+            'shipping_city'               => $order->get_shipping_city() ?? '',
+            'shipping_state'              => $order->get_shipping_state() ?? '',
+            'shipping_postcode'           => $order->get_shipping_postcode() ?? '',
+            'shipping_country'            => $order->get_shipping_country() ?? '',
+            'payment_method'              => $order->get_payment_method() ?? '',
+            'payment_method_title'        => $order->get_payment_method_title() ?? '',
+            'status'                      => $order->get_status() ?? '',
+            'checkout_order_received_url' => $order->get_checkout_order_received_url() ?? '',
+            'line_items'                  => [],
+            'product_names'               => '',
+            'line_items_quantity'         => 0
+        ];
+        if (\defined('WC_VERSION') && version_compare(WC_VERSION, '8.5.1', '>=')) {
+            $data += [
+                '_wc_order_attribution_referrer'           => $order->get_meta('_wc_order_attribution_referrer'),
+                '_wc_order_attribution_user_agent'         => $order->get_meta('_wc_order_attribution_user_agent'),
+                '_wc_order_attribution_utm_source'         => $order->get_meta('_wc_order_attribution_utm_source'),
+                '_wc_order_attribution_device_type'        => $order->get_meta('_wc_order_attribution_device_type'),
+                '_wc_order_attribution_source_type'        => $order->get_meta('_wc_order_attribution_source_type'),
+                '_wc_order_attribution_session_count'      => $order->get_meta('_wc_order_attribution_session_count'),
+                '_wc_order_attribution_session_entry'      => $order->get_meta('_wc_order_attribution_session_entry'),
+                '_wc_order_attribution_session_pages'      => $order->get_meta('_wc_order_attribution_session_pages'),
+                '_wc_order_attribution_session_start_time' => $order->get_meta('_wc_order_attribution_session_start_time'),
+            ];
         }
 
-        return $productData;
+        foreach ($order->get_items() as $item) {
+            $productId = $item->get_product_id();
+            $product = $item->get_product();
+            $itemData = [
+                'product_id'         => $productId,
+                'variation_id'       => $item->get_variation_id() ?? '',
+                'product_name'       => $item->get_name() ?? '',
+                'quantity'           => $item->get_quantity() ?? '',
+                'subtotal'           => $item->get_subtotal() ?? '',
+                'total'              => $item->get_total() ?? '',
+                'subtotal_tax'       => $item->get_subtotal_tax() ?? '',
+                'tax_class'          => $item->get_tax_class() ?? '',
+                'tax_status'         => $item->get_tax_status() ?? '',
+                'product_sku'        => $product->get_sku() ?? '',
+                'product_unit_price' => $product->get_price() ?? '',
+            ];
+
+            $acfFieldGroups = Helper::acfGetFieldGroups(['product']);
+            $acfFielddata = Helper::getAcfFieldData($acfFieldGroups, $productId);
+
+            $data['line_items'][] = (object) array_merge($itemData, $acfFielddata);
+        }
+
+        $data['product_names'] = implode(', ', array_column($data['line_items'], 'product_name'));
+        $data['line_items_quantity'] = \count($data['line_items']);
+
+        return $data;
     }
 
     public static function accessProductData($product)
