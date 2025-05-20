@@ -765,6 +765,41 @@ final class WCController
         Flow::execute('WC', static::RESTORE_ORDER, $orderData, $flows);
     }
 
+    public static function handle_order_status_pending($orderId)
+    {
+        return self::executeOrderStatusTrigger($orderId, static::ORDER_STATUS_SET_TO_PENDING);
+    }
+
+    public static function handle_order_status_failed($orderId)
+    {
+        return self::executeOrderStatusTrigger($orderId, static::ORDER_STATUS_SET_TO_FAILED);
+    }
+
+    public static function handle_order_status_on_hold($orderId)
+    {
+        return self::executeOrderStatusTrigger($orderId, static::ORDER_STATUS_SET_TO_ON_HOLD);
+    }
+
+    public static function handle_order_status_processing($orderId)
+    {
+        return self::executeOrderStatusTrigger($orderId, static::ORDER_STATUS_SET_TO_PROCESSING);
+    }
+
+    public static function handle_order_status_completed($orderId)
+    {
+        return self::executeOrderStatusTrigger($orderId, static::ORDER_STATUS_SET_TO_COMPLETED);
+    }
+
+    public static function handle_order_status_refunded($orderId)
+    {
+        return self::executeOrderStatusTrigger($orderId, static::ORDER_STATUS_SET_TO_REFUNDED);
+    }
+
+    public static function handle_order_status_cancelled($orderId)
+    {
+        return self::executeOrderStatusTrigger($orderId, static::ORDER_STATUS_SET_TO_CANCELLED);
+    }
+
     public static function handle_order_status_change($order_id, $from_status, $to_status, $this_order)
     {
         if (!static::isActivate()) {
@@ -1333,6 +1368,21 @@ final class WCController
     {
         $allVariation = WCHelper::getAllVariations($requestPrarams->product_id);
         wp_send_json_success($allVariation, 200);
+    }
+
+    private static function executeOrderStatusTrigger($orderId, $triggeredEntityId)
+    {
+        if (!static::isActivate() || empty($orderId)) {
+            return false;
+        }
+
+        $flows = Flow::exists('WC', $triggeredEntityId);
+        if (empty($flows)) {
+            return false;
+        }
+
+        $orderData = WCHelper::processOrderData($orderId);
+        Flow::execute('WC', $triggeredEntityId, $orderData, $flows);
     }
 
     private static function executeProductTriggers($postId, $triggeredEntityId, $extra = [])
