@@ -546,6 +546,27 @@ final class WCController
         Flow::execute('WC', static::PRODUCT_ADD_TO_CART, $cartData, $flows);
     }
 
+    public static function handle_removed_from_cart($cartItemKey, $cart)
+    {
+        if (empty($cartItemKey) || empty($cart)) {
+            return;
+        }
+
+        $flows = Flow::exists('WC', static::PRODUCT_REMOVE_FROM_CART);
+        if (empty($flows)) {
+            return;
+        }
+
+        $cartData = [
+            'cart_item_key'         => $cartItemKey,
+            'applied_coupons'       => $cart->applied_coupons,
+            'cart_session_data'     => $cart->cart_session_data,
+            'removed_cart_contents' => array_values($cart->removed_cart_contents)
+        ];
+
+        Flow::execute('WC', static::PRODUCT_REMOVE_FROM_CART, $cartData, $flows);
+    }
+
     public static function handle_order_create($order_id, $fields)
     {
         if (!static::isActivate()) {
