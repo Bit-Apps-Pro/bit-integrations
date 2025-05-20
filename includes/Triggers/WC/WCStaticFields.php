@@ -52,6 +52,68 @@ class WCStaticFields
         return $id === WCController::CUSTOMER_CREATED ? self::wcUserFields() : self::wcCustomerFields();
     }
 
+    public static function getReviewFields()
+    {
+        return [
+            'Product Id' => (object) [
+                'fieldKey'  => 'product_id',
+                'fieldName' => __('Product Id', 'bit-integrations')
+            ],
+            'Product Title' => (object) [
+                'fieldKey'  => 'product_title',
+                'fieldName' => __('Product Title', 'bit-integrations')
+            ],
+            'Product Url' => (object) [
+                'fieldKey'  => 'product_url',
+                'fieldName' => __('Product Url', 'bit-integrations')
+            ],
+            'Product Price' => (object) [
+                'fieldKey'  => 'product_price',
+                'fieldName' => __('Product Price', 'bit-integrations')
+            ],
+            'Product Review' => (object) [
+                'fieldKey'  => 'product_review',
+                'fieldName' => __('Product Review', 'bit-integrations')
+            ],
+            'Product Sku' => (object) [
+                'fieldKey'  => 'product_sku',
+                'fieldName' => __('Product Sku', 'bit-integrations')
+            ],
+            'Product Tags' => (object) [
+                'fieldKey'  => 'product_tags',
+                'fieldName' => __('Product Tags', 'bit-integrations')
+            ],
+            'Product Categories' => (object) [
+                'fieldKey'  => 'product_categories',
+                'fieldName' => __('Product Categories', 'bit-integrations')
+            ],
+            'Product Rating' => (object) [
+                'fieldKey'  => 'product_rating',
+                'fieldName' => __('Product Rating', 'bit-integrations')
+            ],
+            'Review Id' => (object) [
+                'fieldKey'  => 'review_id',
+                'fieldName' => __('Review Id', 'bit-integrations')
+            ],
+            'Review Date' => (object) [
+                'fieldKey'  => 'review_date',
+                'fieldName' => __('Review Date', 'bit-integrations')
+            ],
+            'Author Id' => (object) [
+                'fieldKey'  => 'author_id',
+                'fieldName' => __('Author Id', 'bit-integrations')
+            ],
+            'Review Author Name' => (object) [
+                'fieldKey'  => 'review_author_name',
+                'fieldName' => __('Review Author Name', 'bit-integrations')
+            ],
+            'Author Email' => (object) [
+                'fieldKey'  => 'author_email',
+                'fieldName' => __('Author Email', 'bit-integrations')
+            ],
+        ];
+    }
+
     private static function getOrderACFFields($type = [])
     {
         if (!class_exists('ACF')) {

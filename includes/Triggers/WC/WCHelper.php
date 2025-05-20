@@ -2,6 +2,7 @@
 
 namespace BitCode\FI\Triggers\WC;
 
+use BitCode\FI\Core\Util\Helper;
 use WC_Product_Booking;
 
 class WCHelper
@@ -45,68 +46,6 @@ class WCHelper
             'customer_last_name'  => $userData['last_name'],
             'customer_nickname'   => $userData['nickname'],
             'avatar_url'          => $userData['avatar_url'],
-        ];
-    }
-
-    public static function getReviewFields()
-    {
-        return [
-            'Product Id' => (object) [
-                'fieldKey'  => 'product_id',
-                'fieldName' => __('Product Id', 'bit-integrations')
-            ],
-            'Product Title' => (object) [
-                'fieldKey'  => 'product_title',
-                'fieldName' => __('Product Title', 'bit-integrations')
-            ],
-            'Product Url' => (object) [
-                'fieldKey'  => 'product_url',
-                'fieldName' => __('Product Url', 'bit-integrations')
-            ],
-            'Product Price' => (object) [
-                'fieldKey'  => 'product_price',
-                'fieldName' => __('Product Price', 'bit-integrations')
-            ],
-            'Product Review' => (object) [
-                'fieldKey'  => 'product_review',
-                'fieldName' => __('Product Review', 'bit-integrations')
-            ],
-            'Product Sku' => (object) [
-                'fieldKey'  => 'product_sku',
-                'fieldName' => __('Product Sku', 'bit-integrations')
-            ],
-            'Product Tags' => (object) [
-                'fieldKey'  => 'product_tags',
-                'fieldName' => __('Product Tags', 'bit-integrations')
-            ],
-            'Product Categories' => (object) [
-                'fieldKey'  => 'product_categories',
-                'fieldName' => __('Product Categories', 'bit-integrations')
-            ],
-            'Product Rating' => (object) [
-                'fieldKey'  => 'product_rating',
-                'fieldName' => __('Product Rating', 'bit-integrations')
-            ],
-            'Review Id' => (object) [
-                'fieldKey'  => 'review_id',
-                'fieldName' => __('Review Id', 'bit-integrations')
-            ],
-            'Review Date' => (object) [
-                'fieldKey'  => 'review_date',
-                'fieldName' => __('Review Date', 'bit-integrations')
-            ],
-            'Author Id' => (object) [
-                'fieldKey'  => 'author_id',
-                'fieldName' => __('Author Id', 'bit-integrations')
-            ],
-            'Review Author Name' => (object) [
-                'fieldKey'  => 'review_author_name',
-                'fieldName' => __('Review Author Name', 'bit-integrations')
-            ],
-            'Author Email' => (object) [
-                'fieldKey'  => 'author_email',
-                'fieldName' => __('Author Email', 'bit-integrations')
-            ],
         ];
     }
 
@@ -199,5 +138,75 @@ class WCHelper
         }
 
         return $allVariations;
+    }
+
+    public static function processProductData($postId)
+    {
+        $product = wc_get_product($postId);
+        $productData = self::accessProductData($product);
+
+        foreach (Helper::acfGetFieldGroups(['product']) as $group) {
+            foreach (acf_get_fields($group['ID']) as $field) {
+                $productData[$field['_name']] = get_post_meta($postId, $field['_name'])[0];
+            }
+        }
+
+        return $productData;
+    }
+
+    public static function accessProductData($product)
+    {
+        $productId = $product->get_id();
+        $imageUrl = wp_get_attachment_image_url($product->get_image_id(), 'full');
+        $imageIds = $product->get_gallery_image_ids();
+        $galleryImages = [];
+
+        if (\count($imageIds)) {
+            foreach ($imageIds as $id) {
+                $galleryImages[] = wp_get_attachment_image_url($id, 'full');
+            }
+        }
+
+        return [
+            'post_id'                => $productId,
+            'post_title'             => $product->get_name(),
+            'post_content'           => $product->get_description(),
+            'post_excerpt'           => $product->get_short_description(),
+            'post_date'              => $product->get_date_created(),
+            'post_date_gmt'          => $product->get_date_modified(),
+            'post_status'            => $product->get_status(),
+            'tags_input'             => $product->get_tag_ids(),
+            'post_category'          => wc_get_product_category_list($productId),
+            '_visibility'            => $product->get_catalog_visibility(),
+            '_featured'              => $product->get_featured(),
+            '_regular_price'         => $product->get_regular_price(),
+            '_sale_price'            => $product->get_sale_price(),
+            '_sale_price_dates_from' => $product->get_date_on_sale_from(),
+            '_sale_price_dates_to'   => $product->get_date_on_sale_to(),
+            '_sku'                   => $product->get_sku(),
+            '_manage_stock'          => $product->get_manage_stock(),
+            '_stock'                 => $product->get_stock_quantity(),
+            '_backorders'            => $product->get_backorders(),
+            '_low_stock_amount'      => 1,
+            '_stock_status'          => $product->get_stock_status(),
+            '_sold_individually'     => $product->get_sold_individually(),
+            '_weight'                => $product->get_weight(),
+            '_length'                => $product->get_length(),
+            '_width'                 => $product->get_width(),
+            '_height'                => $product->get_height(),
+            '_purchase_note'         => $product->get_purchase_note(),
+            'menu_order'             => $product->get_menu_order(),
+            'comment_status'         => $product->get_reviews_allowed(),
+            '_virtual'               => $product->get_virtual(),
+            '_downloadable'          => $product->get_downloadable(),
+            '_download_limit'        => $product->get_download_limit(),
+            '_download_expiry'       => $product->get_download_expiry(),
+            'product_type'           => $product->get_type(),
+            '_product_url'           => get_permalink($productId),
+            '_tax_status'            => $product->get_tax_status(),
+            '_tax_class'             => $product->get_tax_class(),
+            '_product_image'         => $imageUrl,
+            '_product_gallery'       => $galleryImages,
+        ];
     }
 }
