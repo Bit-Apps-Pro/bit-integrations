@@ -213,7 +213,7 @@ final class WCController
         $entity = null;
         if ($id <= static::CUSTOMER_DELETED) {
             $entity = 'customer';
-        } elseif ($id <= static::PRODUCT_DELETED || $id == static::RESTORE_PRODUCT) {
+        } elseif ($id <= static::PRODUCT_DELETED || $id == static::RESTORE_PRODUCT || $id == static::PRODUCT_STATUS_CHANGED) {
             $entity = 'product';
         } elseif ($id <= static::ORDER_STATUS_CHANGED_TO_SPECIFIC_STATUS || $id == static::RESTORE_ORDER || $id == static::ORDER_SPECIFIC_CATEGORY || $id == static::USER_PURCHASES_A_VARIABLE_PRODUCT) {
             $entity = 'order';
@@ -273,6 +273,19 @@ final class WCController
                 $fields = [];
 
                 break;
+        }
+
+        if ($id == static::PRODUCT_STATUS_CHANGED) {
+            $fields = array_merge($fields, [
+                'Old Status' => (object) [
+                    'fieldKey'  => 'old_status',
+                    'fieldName' => __('Old Status', 'bit-integrations')
+                ],
+                'New Status' => (object) [
+                    'fieldKey'  => 'new_status',
+                    'fieldName' => __('New Status', 'bit-integrations')
+                ],
+            ]);
         }
 
         uksort($fields, 'strnatcasecmp');
@@ -441,11 +454,18 @@ final class WCController
 
         $post_id = $post->ID;
         if ($new_status === 'trash') {
-            return self::handle_deleted_product($post_id);
+            self::handle_deleted_product($post_id);
         }
         if ($old_status === 'trash') {
-            return self::handle_restore_product($post_id);
+            self::handle_restore_product($post_id);
         }
+
+        self::handle_product_status_changed($post_id, $new_status, $old_status);
+    }
+
+    public static function handle_product_status_changed($postId, $newStatus, $oldStatus)
+    {
+        return self::executeProductTriggers($postId, static::PRODUCT_STATUS_CHANGED, ['old_status' => $oldStatus, 'new_status' => $newStatus]);
     }
 
     public static function handle_deleted_product($postId)
@@ -1299,7 +1319,7 @@ final class WCController
         wp_send_json_success($allVariation, 200);
     }
 
-    private static function executeProductTriggers($postId, $triggeredEntityId)
+    private static function executeProductTriggers($postId, $triggeredEntityId, $extra = [])
     {
         if (empty($postId) || empty($triggeredEntityId)) {
             return;
@@ -1310,7 +1330,7 @@ final class WCController
             return;
         }
 
-        $productData = WCHelper::processProductData($postId);
+        $productData = WCHelper::processProductData($postId, $extra);
         Flow::execute('WC', $triggeredEntityId, $productData, $flows);
     }
 

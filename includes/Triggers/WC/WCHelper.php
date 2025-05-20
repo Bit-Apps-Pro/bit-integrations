@@ -189,14 +189,14 @@ class WCHelper
         return wp_json_encode(array_values($cartLineItems));
     }
 
-    public static function processProductData($postId)
+    public static function processProductData($postId, $extra = [])
     {
         $product = wc_get_product($postId);
         $productData = self::accessProductData($product);
         $acfFieldGroups = Helper::acfGetFieldGroups(['product']);
         $acfFielddata = Helper::getAcfFieldData($acfFieldGroups, $postId);
 
-        return array_merge($productData, $acfFielddata);
+        return array_merge($productData, $acfFielddata, $extra);
     }
 
     public static function processOrderData($orderId, $order = null, $extra = [])
