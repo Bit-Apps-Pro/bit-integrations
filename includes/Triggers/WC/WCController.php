@@ -6,7 +6,6 @@ use BitCode\FI\Core\Util\Helper;
 use BitCode\FI\Flow\Flow;
 use WC_Booking;
 use WC_Checkout;
-use WC_Product_Simple;
 use WC_Subscriptions_Product;
 
 final class WCController
@@ -211,9 +210,10 @@ final class WCController
 
     public static function fields($id)
     {
+        $entity = null;
         if ($id <= static::CUSTOMER_DELETED) {
             $entity = 'customer';
-        } elseif ($id <= static::PRODUCT_DELETED) {
+        } elseif ($id <= static::PRODUCT_DELETED || $id == static::RESTORE_PRODUCT) {
             $entity = 'product';
         } elseif ($id <= static::ORDER_STATUS_CHANGED_TO_SPECIFIC_STATUS || $id == static::ORDER_SPECIFIC_CATEGORY || $id == static::USER_PURCHASES_A_VARIABLE_PRODUCT) {
             $entity = 'order';
@@ -247,7 +247,7 @@ final class WCController
 
                 break;
             case 'review':
-                $fields = WCHelper::getReviewFields();
+                $fields = WCStaticFields::getReviewFields();
 
                 break;
 
@@ -408,37 +408,36 @@ final class WCController
 
     public static function handle_product_action($new_status, $old_status, $post)
     {
-        if (!static::isActivate()) {
+        if (!static::isActivate() || $old_status === 'new' || empty($post) || $post->post_type != 'product') {
             return false;
         }
 
-        if ($old_status === 'new') {
-            return false;
-        }
-        $post_id = $post->ID;
-        $productData = wc_get_product($post_id);
-
-        if ($productData == false) {
-            return false;
-        }
-        $type = $productData->post_type;
-        if ($type != 'product') {
-            return false;
-        }
         if (($old_status === 'auto-draft' || $old_status === 'draft') && $new_status === 'publish' && static::$_product_create_trigger_count == 0) {
             static::$_product_create_trigger_count++;
             add_action('save_post', [WCController::class, 'product_create'], 10, 1);
-        } elseif ($old_status != 'auto-draft' && $old_status != 'draft' && $new_status === 'publish' && static::$_product_update_trigger_count == 0) {
+        }
+        if ($old_status != 'auto-draft' && $old_status != 'draft' && $new_status === 'publish' && static::$_product_update_trigger_count == 0) {
             static::$_product_update_trigger_count++;
             add_action('save_post', [WCController::class, 'product_update'], 10, 1);
-        } elseif ($old_status === 'publish' && $new_status === 'trash') {
-            $data = ['post_id' => $post_id];
-            if (!empty($post_id) && $flows = Flow::exists('WC', static::PRODUCT_DELETED)) {
-                Flow::execute('WC', static::PRODUCT_DELETED, $data, $flows);
-            }
-        } else {
-            return false;
         }
+
+        $post_id = $post->ID;
+        if ($new_status === 'trash') {
+            return self::handle_deleted_product($post_id);
+        }
+        if ($old_status === 'trash') {
+            return self::handle_restore_product($post_id);
+        }
+    }
+
+    public static function handle_deleted_product($postId)
+    {
+        return self::executeProductTriggers($postId, static::PRODUCT_DELETED);
+    }
+
+    public static function handle_restore_product($postId)
+    {
+        return self::executeProductTriggers($postId, static::RESTORE_PRODUCT);
     }
 
     public static function handle_product_save_post($post_id, $post, $update)
@@ -465,7 +464,7 @@ final class WCController
     public static function product_create($post_id)
     {
         $productData = wc_get_product($post_id);
-        $data = self::accessProductData($productData);
+        $data = WCHelper::accessProductData($productData);
         $acfFieldGroups = Helper::acfGetFieldGroups(['product']);
 
         foreach ($acfFieldGroups as $group) {
@@ -483,7 +482,7 @@ final class WCController
     public static function product_update($post_id)
     {
         $productData = wc_get_product($post_id);
-        $data = self::accessProductData($productData);
+        $data = WCHelper::accessProductData($productData);
         $acfFieldGroups = Helper::acfGetFieldGroups(['product']);
 
         foreach ($acfFieldGroups as $group) {
@@ -496,65 +495,6 @@ final class WCController
         if (!empty($post_id) && $flows = Flow::exists('WC', static::PRODUCT_UPDATED)) {
             Flow::execute('WC', static::PRODUCT_UPDATED, $data, $flows);
         }
-    }
-
-    public static function accessProductData($product)
-    {
-        if (!$product instanceof WC_Product_Simple) {
-            return [];
-        }
-        $image_id = $product->get_image_id();
-        $image_url = wp_get_attachment_image_url($image_id, 'full');
-
-        $productIds = $product->get_gallery_image_ids();
-        $gallery_images = [];
-        if (\count($productIds)) {
-            foreach ($productIds as $id) {
-                $gallery_images[] = wp_get_attachment_image_url($id, 'full');
-            }
-        }
-
-        return [
-            'post_id'                => $product->get_id(),
-            'post_title'             => $product->get_name(),
-            'post_content'           => $product->get_description(),
-            'post_excerpt'           => $product->get_short_description(),
-            'post_date'              => $product->get_date_created(),
-            'post_date_gmt'          => $product->get_date_modified(),
-            'post_status'            => $product->get_status(),
-            'tags_input'             => $product->get_tag_ids(),
-            'post_category'          => wc_get_product_category_list($product->get_id()),
-            '_visibility'            => $product->get_catalog_visibility(),
-            '_featured'              => $product->get_featured(),
-            '_regular_price'         => $product->get_regular_price(),
-            '_sale_price'            => $product->get_sale_price(),
-            '_sale_price_dates_from' => $product->get_date_on_sale_from(),
-            '_sale_price_dates_to'   => $product->get_date_on_sale_to(),
-            '_sku'                   => $product->get_sku(),
-            '_manage_stock'          => $product->get_manage_stock(),
-            '_stock'                 => $product->get_stock_quantity(),
-            '_backorders'            => $product->get_backorders(),
-            '_low_stock_amount'      => 1,
-            '_stock_status'          => $product->get_stock_status(),
-            '_sold_individually'     => $product->get_sold_individually(),
-            '_weight'                => $product->get_weight(),
-            '_length'                => $product->get_length(),
-            '_width'                 => $product->get_width(),
-            '_height'                => $product->get_height(),
-            '_purchase_note'         => $product->get_purchase_note(),
-            'menu_order'             => $product->get_menu_order(),
-            'comment_status'         => $product->get_reviews_allowed(),
-            '_virtual'               => $product->get_virtual(),
-            '_downloadable'          => $product->get_downloadable(),
-            '_download_limit'        => $product->get_download_limit(),
-            '_download_expiry'       => $product->get_download_expiry(),
-            'product_type'           => $product->get_type(),
-            '_product_url'           => get_permalink($product->get_id()),
-            '_tax_status'            => $product->get_tax_status(),
-            '_tax_class'             => $product->get_tax_class(),
-            '_product_image'         => $image_url,
-            '_product_gallery'       => $gallery_images,
-        ];
     }
 
     public static function accessOrderData($order)
@@ -1406,6 +1346,21 @@ final class WCController
     {
         $allVariation = WCHelper::getAllVariations($requestPrarams->product_id);
         wp_send_json_success($allVariation, 200);
+    }
+
+    private static function executeProductTriggers($postId, $triggeredEntityId)
+    {
+        if (empty($postId) || empty($triggeredEntityId)) {
+            return;
+        }
+
+        $flows = Flow::exists('WC', $triggeredEntityId);
+        if (empty($flows)) {
+            return;
+        }
+
+        $productData = WCHelper::processProductData($postId);
+        Flow::execute('WC', $triggeredEntityId, $productData, $flows);
     }
 
     private static function isPluginActivated()
