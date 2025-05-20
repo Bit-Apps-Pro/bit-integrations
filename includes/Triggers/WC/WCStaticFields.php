@@ -114,6 +114,84 @@ class WCStaticFields
         ];
     }
 
+    public static function getCouponFields()
+    {
+        return [
+            'Coupon Id' => (object) [
+                'fieldKey'  => 'coupon_id',
+                'fieldName' => __('Coupon Id', 'bit-integrations')
+            ],
+            'Coupon Code' => (object) [
+                'fieldKey'  => 'coupon_code',
+                'fieldName' => __('Coupon Code', 'bit-integrations')
+            ],
+            'Coupon Amount' => (object) [
+                'fieldKey'  => 'coupon_amount',
+                'fieldName' => __('Coupon Amount', 'bit-integrations')
+            ],
+            'Coupon Status' => (object) [
+                'fieldKey'  => 'coupon_status',
+                'fieldName' => __('Coupon Status', 'bit-integrations')
+            ],
+            'Discount Type' => (object) [
+                'fieldKey'  => 'discount_type',
+                'fieldName' => __('Discount Type', 'bit-integrations')
+            ],
+            'Description' => (object) [
+                'fieldKey'  => 'description',
+                'fieldName' => __('Description', 'bit-integrations')
+            ],
+            'Date Created' => (object) [
+                'fieldKey'  => 'date_created',
+                'fieldName' => __('Date Created', 'bit-integrations')
+            ],
+            'Website' => (object) [
+                'fieldKey'  => 'date_modified',
+                'fieldName' => __('Website', 'bit-integrations')
+            ],
+            'Date Expires' => (object) [
+                'fieldKey'  => 'date_expires',
+                'fieldName' => __('Date Expires', 'bit-integrations')
+            ],
+            'Usage Count' => (object) [
+                'fieldKey'  => 'usage_count',
+                'fieldName' => __('Usage Count', 'bit-integrations')
+            ],
+            'Usage Limit' => (object) [
+                'fieldKey'  => 'usage_limit',
+                'fieldName' => __('Usage Limit', 'bit-integrations')
+            ],
+            'Usage Limit Per User' => (object) [
+                'fieldKey'  => 'usage_limit_per_user',
+                'fieldName' => __('Usage Limit Per User', 'bit-integrations')
+            ],
+            'Limit Usage To x Items' => (object) [
+                'fieldKey'  => 'limit_usage_to_x_items',
+                'fieldName' => __('Limit Usage To x Items', 'bit-integrations')
+            ],
+            'Free Shipping' => (object) [
+                'fieldKey'  => 'free_shipping',
+                'fieldName' => __('Free Shipping', 'bit-integrations')
+            ],
+            'Exclude Sale Items' => (object) [
+                'fieldKey'  => 'exclude_sale_items',
+                'fieldName' => __('Exclude Sale Items', 'bit-integrations')
+            ],
+            'Minimum Amount' => (object) [
+                'fieldKey'  => 'minimum_amount',
+                'fieldName' => __('Minimum Amount', 'bit-integrations')
+            ],
+            'Maximum Amount' => (object) [
+                'fieldKey'  => 'maximum_amount',
+                'fieldName' => __('Maximum Amount', 'bit-integrations')
+            ],
+            'Virtual' => (object) [
+                'fieldKey'  => 'virtual',
+                'fieldName' => __('Virtual', 'bit-integrations')
+            ],
+        ];
+    }
+
     private static function getOrderACFFields($type = [])
     {
         if (!class_exists('ACF')) {

@@ -135,7 +135,7 @@ final class WCController
             (object) ['id' => static::ORDER_UPDATED, 'title' => __('Order-Edit', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
             (object) ['id' => static::ORDER_DELETED, 'title' => __('Order-Delete', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
             (object) ['id' => static::RESTORE_ORDER, 'title' => __('Restore Order', 'bit-integrations'), 'isPro' => true],
-            (object) ['id' => static::NEW_COUPON_CREATED, 'title' => __('New Coupon Created', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::NEW_COUPON_CREATED, 'title' => __('New Coupon Created or Update', 'bit-integrations'), 'isPro' => true],
             (object) ['id' => static::ORDER_STATUS_SET_TO_PENDING, 'title' => __('Order Status Set to Pending', 'bit-integrations'), 'isPro' => true],
             (object) ['id' => static::ORDER_STATUS_SET_TO_FAILED, 'title' => __('Order Status Set to Failed', 'bit-integrations'), 'isPro' => true],
             (object) ['id' => static::ORDER_STATUS_SET_TO_ON_HOLD, 'title' => __('Order Status Set to On-hold', 'bit-integrations'), 'isPro' => true],
@@ -219,6 +219,8 @@ final class WCController
             $entity = 'order';
         } elseif ($id <= static::USER_REVIEWS_A_PRODUCT) {
             $entity = 'review';
+        } elseif ($id == static::NEW_COUPON_CREATED) {
+            $entity = 'coupon';
         }
 
         if (empty($id)) {
@@ -248,6 +250,10 @@ final class WCController
                 break;
             case 'review':
                 $fields = WCStaticFields::getReviewFields();
+
+                break;
+            case 'coupon':
+                $fields = WCStaticFields::getCouponFields();
 
                 break;
 
@@ -485,6 +491,21 @@ final class WCController
         if (!empty($post_id) && $flows = Flow::exists('WC', static::PRODUCT_UPDATED)) {
             Flow::execute('WC', static::PRODUCT_UPDATED, $data, $flows);
         }
+    }
+
+    public static function handle_coupon_created($couponId, $coupon)
+    {
+        if (empty($couponId)) {
+            return;
+        }
+
+        $flows = Flow::exists('WC', static::NEW_COUPON_CREATED);
+        if (empty($flows)) {
+            return false;
+        }
+
+        $couponData = WCHelper::getCouponData($couponId, $coupon);
+        Flow::execute('WC', static::NEW_COUPON_CREATED, $couponData, $flows);
     }
 
     public static function handle_order_create($order_id, $fields)
