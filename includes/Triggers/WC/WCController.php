@@ -213,9 +213,25 @@ final class WCController
         $entity = null;
         if ($id <= static::CUSTOMER_DELETED) {
             $entity = 'customer';
-        } elseif ($id <= static::PRODUCT_DELETED || $id == static::RESTORE_PRODUCT || $id == static::PRODUCT_STATUS_CHANGED) {
+        } elseif (
+            $id <= static::PRODUCT_DELETED
+            || $id == static::RESTORE_PRODUCT
+            || $id == static::PRODUCT_STATUS_CHANGED
+        ) {
             $entity = 'product';
-        } elseif ($id <= static::ORDER_STATUS_CHANGED_TO_SPECIFIC_STATUS || $id == static::RESTORE_ORDER || $id == static::ORDER_SPECIFIC_CATEGORY || $id == static::USER_PURCHASES_A_VARIABLE_PRODUCT) {
+        } elseif (
+            $id <= static::ORDER_STATUS_CHANGED_TO_SPECIFIC_STATUS
+            || $id == static::RESTORE_ORDER
+            || $id == static::ORDER_SPECIFIC_CATEGORY
+            || $id == static::USER_PURCHASES_A_VARIABLE_PRODUCT
+            || $id == static::ORDER_STATUS_SET_TO_PENDING
+            || $id == static::ORDER_STATUS_SET_TO_FAILED
+            || $id == static::ORDER_STATUS_SET_TO_ON_HOLD
+            || $id == static::ORDER_STATUS_SET_TO_PROCESSING
+            || $id == static::ORDER_STATUS_SET_TO_COMPLETED
+            || $id == static::ORDER_STATUS_SET_TO_REFUNDED
+            || $id == static::ORDER_STATUS_SET_TO_CANCELLED
+        ) {
             $entity = 'order';
         } elseif ($id <= static::USER_REVIEWS_A_PRODUCT) {
             $entity = 'review';
