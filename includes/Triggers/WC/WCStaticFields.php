@@ -230,6 +230,28 @@ class WCStaticFields
         ];
     }
 
+    public static function getRemoveFromCartFields()
+    {
+        return [
+            'Cart Item Key' => (object) [
+                'fieldKey'  => 'cart_item_key',
+                'fieldName' => __('Cart Item Key', 'bit-integrations')
+            ],
+            'Applied Coupons' => (object) [
+                'fieldKey'  => 'applied_coupons',
+                'fieldName' => __('Applied Coupons', 'bit-integrations')
+            ],
+            'Cart Session Data' => (object) [
+                'fieldKey'  => 'cart_session_data',
+                'fieldName' => __('Cart Session Data', 'bit-integrations')
+            ],
+            'Removed Cart Contents' => (object) [
+                'fieldKey'  => 'removed_cart_contents',
+                'fieldName' => __('Removed Cart Contents', 'bit-integrations')
+            ]
+        ];
+    }
+
     private static function getOrderACFFields($type = [])
     {
         if (!class_exists('ACF')) {

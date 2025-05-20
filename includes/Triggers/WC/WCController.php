@@ -223,6 +223,8 @@ final class WCController
             $entity = 'coupon';
         } elseif ($id == static::PRODUCT_ADD_TO_CART) {
             $entity = 'add_to_cart';
+        } elseif ($id == static::PRODUCT_REMOVE_FROM_CART) {
+            $entity = 'remove_from_cart';
         }
 
         if (empty($id)) {
@@ -260,6 +262,10 @@ final class WCController
                 break;
             case 'add_to_cart':
                 $fields = WCStaticFields::getAddToCartFields();
+
+                break;
+            case 'remove_from_cart':
+                $fields = WCStaticFields::getRemoveFromCartFields();
 
                 break;
 
