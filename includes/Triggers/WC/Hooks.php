@@ -18,21 +18,9 @@ Hooks::add('woocommerce_checkout_order_processed', [WCController::class, 'handle
 Hooks::add('save_post', [WCController::class, 'handle_order_update'], 10, 3);
 Hooks::add('wp_trash_post', [WCController::class, 'handle_order_delete'], 10, 1);
 Hooks::add('woocommerce_order_status_changed', [WCController::class, 'handle_order_status_change'], 10, 4);
-Hooks::add('woocommerce_order_status_changed', [WCController::class, 'handle_restore_order'], 10, 4);
 Hooks::add('comment_post', [WCController::class, 'handle_insert_comment'], 10, 3);
 
 Hooks::add('woocommerce_checkout_order_processed', [WCController::class, 'handle_variable_product_order'], 10, 2);
-Hooks::add('woocommerce_update_coupon', [WCController::class, 'handle_coupon_created'], 10, 2);
-Hooks::add('woocommerce_add_to_cart', [WCController::class, 'handle_add_to_cart'], 10, 6);
-Hooks::add('woocommerce_cart_item_removed', [WCController::class, 'handle_removed_from_cart'], 10, 2);
-
-Hooks::add('woocommerce_order_status_pending', [WCController::class, 'handle_order_status_pending'], 10, 1);
-Hooks::add('woocommerce_order_status_failed', [WCController::class, 'handle_order_status_failed'], 10, 1);
-Hooks::add('woocommerce_order_status_on-hold', [WCController::class, 'handle_order_status_on_hold'], 10, 1);
-Hooks::add('woocommerce_order_status_processing', [WCController::class, 'handle_order_status_processing'], 10, 1);
-Hooks::add('woocommerce_order_status_completed', [WCController::class, 'handle_order_status_completed'], 10, 1);
-Hooks::add('woocommerce_order_status_refunded', [WCController::class, 'handle_order_status_refunded'], 10, 1);
-Hooks::add('woocommerce_order_status_cancelled', [WCController::class, 'handle_order_status_cancelled'], 10, 1);
 
 // Secondary hook form order create checkout
 Hooks::add('woocommerce_store_api_checkout_order_processed', [WCController::class, 'handle_order_checkout'], 10, 1);

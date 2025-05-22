@@ -2,8 +2,8 @@
 
 namespace BitCode\FI\Triggers\WC;
 
-use BitCode\FI\Core\Util\Helper;
 use WC_Product_Booking;
+use BitCode\FI\Core\Util\Helper;
 
 class WCHelper
 {
@@ -138,55 +138,6 @@ class WCHelper
         }
 
         return $allVariations;
-    }
-
-    public static function getCouponData($couponId, $coupon)
-    {
-        $couponData = $coupon->get_data();
-
-        return [
-            'coupon_id'              => $couponId,
-            'coupon_code'            => $couponData['code'],
-            'coupon_amount'          => $couponData['amount'],
-            'coupon_status'          => $couponData['status'],
-            'discount_type'          => $couponData['discount_type'],
-            'description'            => $couponData['description'],
-            'date_created'           => \is_null($coupon->get_date_created()) ? $coupon->get_date_created() : $coupon->get_date_created()->format('Y-m-d H:i:s'),
-            'date_modified'          => \is_null($coupon->get_date_modified()) ? $coupon->get_date_modified() : $coupon->get_date_modified()->format('Y-m-d H:i:s'),
-            'date_expires'           => \is_null($coupon->get_date_expires()) ? $coupon->get_date_expires() : $coupon->get_date_expires()->format('Y-m-d H:i:s'),
-            'usage_count'            => $couponData['usage_count'],
-            'usage_limit'            => $couponData['usage_limit'],
-            'usage_limit_per_user'   => $couponData['usage_limit_per_user'],
-            'limit_usage_to_x_items' => $couponData['limit_usage_to_x_items'],
-            'free_shipping'          => $couponData['free_shipping'],
-            'exclude_sale_items'     => $couponData['exclude_sale_items'],
-            'minimum_amount'         => $couponData['minimum_amount'],
-            'maximum_amount'         => $couponData['maximum_amount'],
-            'virtual'                => $couponData['virtual'],
-        ];
-    }
-
-    public static function getCartLineItems()
-    {
-        $cart = WC()->cart;
-        $cartLineItems = array_map(
-            function ($cartItem) {
-                return [
-                    'product'            => $cartItem['data'],
-                    'product_id'         => $cartItem['product_id'],
-                    'variation_id'       => $cartItem['variation_id'],
-                    'quantity'           => $cartItem['quantity'],
-                    'product_name'       => $cartItem['data']->get_name(),
-                    'tax_class'          => $cartItem['data']->get_tax_class(),
-                    'tax_status'         => $cartItem['data']->get_tax_status(),
-                    'product_sku'        => $cartItem['data']->get_sku(),
-                    'product_unit_price' => $cartItem['data']->get_price(),
-                ];
-            },
-            $cart->get_cart()
-        );
-
-        return wp_json_encode(array_values($cartLineItems));
     }
 
     public static function processProductData($postId, $extra = [])

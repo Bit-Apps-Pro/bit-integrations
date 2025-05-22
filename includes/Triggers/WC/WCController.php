@@ -2,11 +2,11 @@
 
 namespace BitCode\FI\Triggers\WC;
 
-use BitCode\FI\Core\Util\Helper;
-use BitCode\FI\Flow\Flow;
 use WC_Booking;
 use WC_Checkout;
+use BitCode\FI\Flow\Flow;
 use WC_Subscriptions_Product;
+use BitCode\FI\Core\Util\Helper;
 
 final class WCController
 {
@@ -463,35 +463,20 @@ final class WCController
             static::$_product_create_trigger_count++;
             add_action('save_post', [WCController::class, 'product_create'], 10, 1);
         }
+
         if ($old_status != 'auto-draft' && $old_status != 'draft' && $new_status === 'publish' && static::$_product_update_trigger_count == 0) {
             static::$_product_update_trigger_count++;
             add_action('save_post', [WCController::class, 'product_update'], 10, 1);
         }
 
-        $post_id = $post->ID;
         if ($new_status === 'trash') {
-            self::handle_deleted_product($post_id);
+            self::handle_deleted_product($post->ID);
         }
-        if ($old_status === 'trash') {
-            self::handle_restore_product($post_id);
-        }
-
-        self::handle_product_status_changed($post_id, $new_status, $old_status);
-    }
-
-    public static function handle_product_status_changed($postId, $newStatus, $oldStatus)
-    {
-        return self::executeProductTriggers($postId, static::PRODUCT_STATUS_CHANGED, ['old_status' => $oldStatus, 'new_status' => $newStatus]);
     }
 
     public static function handle_deleted_product($postId)
     {
         return self::executeProductTriggers($postId, static::PRODUCT_DELETED);
-    }
-
-    public static function handle_restore_product($postId)
-    {
-        return self::executeProductTriggers($postId, static::RESTORE_PRODUCT);
     }
 
     public static function handle_product_save_post($post_id, $post, $update)
@@ -539,68 +524,6 @@ final class WCController
         if (!empty($post_id) && $flows = Flow::exists('WC', static::PRODUCT_UPDATED)) {
             Flow::execute('WC', static::PRODUCT_UPDATED, $data, $flows);
         }
-    }
-
-    public static function handle_coupon_created($couponId, $coupon)
-    {
-        if (empty($couponId)) {
-            return;
-        }
-
-        $flows = Flow::exists('WC', static::NEW_COUPON_CREATED);
-        if (empty($flows)) {
-            return;
-        }
-
-        $couponData = WCHelper::getCouponData($couponId, $coupon);
-        Flow::execute('WC', static::NEW_COUPON_CREATED, $couponData, $flows);
-    }
-
-    public static function handle_add_to_cart($cartItemKey, $productId, $quantity, $variationId, $variation, $cartItemData)
-    {
-        if (empty($cartItemKey) || empty($productId)) {
-            return;
-        }
-
-        $flows = Flow::exists('WC', static::PRODUCT_ADD_TO_CART);
-        if (empty($flows)) {
-            return;
-        }
-
-        $cart = WC()->cart;
-        $cartData = [
-            'cart_item_key'   => $cartItemKey,
-            'product_id'      => $productId,
-            'quantity'        => $quantity,
-            'variation_id'    => $variationId,
-            'variation'       => $variation,
-            'cart_item_data'  => $cartItemData,
-            'cart_total'      => $cart->get_cart_contents_total(),
-            'cart_line_items' => WCHelper::getCartLineItems(),
-        ];
-
-        Flow::execute('WC', static::PRODUCT_ADD_TO_CART, $cartData, $flows);
-    }
-
-    public static function handle_removed_from_cart($cartItemKey, $cart)
-    {
-        if (empty($cartItemKey) || empty($cart)) {
-            return;
-        }
-
-        $flows = Flow::exists('WC', static::PRODUCT_REMOVE_FROM_CART);
-        if (empty($flows)) {
-            return;
-        }
-
-        $cartData = [
-            'cart_item_key'         => $cartItemKey,
-            'applied_coupons'       => $cart->applied_coupons,
-            'cart_session_data'     => $cart->cart_session_data,
-            'removed_cart_contents' => array_values($cart->removed_cart_contents)
-        ];
-
-        Flow::execute('WC', static::PRODUCT_REMOVE_FROM_CART, $cartData, $flows);
     }
 
     public static function handle_order_create($order_id, $fields)
@@ -748,56 +671,6 @@ final class WCController
 
         $orderData = WCHelper::processOrderData($order_id);
         Flow::execute('WC', static::ORDER_DELETED, $orderData, $flows);
-    }
-
-    public static function handle_restore_order($order_id, $oldStatus, $newStatus, $order)
-    {
-        if (!static::isActivate() || empty($order_id) || $oldStatus != 'trash') {
-            return false;
-        }
-
-        $flows = Flow::exists('WC', static::RESTORE_ORDER);
-        if (empty($flows)) {
-            return false;
-        }
-
-        $orderData = WCHelper::processOrderData($order_id);
-        Flow::execute('WC', static::RESTORE_ORDER, $orderData, $flows);
-    }
-
-    public static function handle_order_status_pending($orderId)
-    {
-        return self::executeOrderStatusTrigger($orderId, static::ORDER_STATUS_SET_TO_PENDING);
-    }
-
-    public static function handle_order_status_failed($orderId)
-    {
-        return self::executeOrderStatusTrigger($orderId, static::ORDER_STATUS_SET_TO_FAILED);
-    }
-
-    public static function handle_order_status_on_hold($orderId)
-    {
-        return self::executeOrderStatusTrigger($orderId, static::ORDER_STATUS_SET_TO_ON_HOLD);
-    }
-
-    public static function handle_order_status_processing($orderId)
-    {
-        return self::executeOrderStatusTrigger($orderId, static::ORDER_STATUS_SET_TO_PROCESSING);
-    }
-
-    public static function handle_order_status_completed($orderId)
-    {
-        return self::executeOrderStatusTrigger($orderId, static::ORDER_STATUS_SET_TO_COMPLETED);
-    }
-
-    public static function handle_order_status_refunded($orderId)
-    {
-        return self::executeOrderStatusTrigger($orderId, static::ORDER_STATUS_SET_TO_REFUNDED);
-    }
-
-    public static function handle_order_status_cancelled($orderId)
-    {
-        return self::executeOrderStatusTrigger($orderId, static::ORDER_STATUS_SET_TO_CANCELLED);
     }
 
     public static function handle_order_status_change($order_id, $from_status, $to_status, $this_order)
@@ -1368,21 +1241,6 @@ final class WCController
     {
         $allVariation = WCHelper::getAllVariations($requestPrarams->product_id);
         wp_send_json_success($allVariation, 200);
-    }
-
-    private static function executeOrderStatusTrigger($orderId, $triggeredEntityId)
-    {
-        if (!static::isActivate() || empty($orderId)) {
-            return false;
-        }
-
-        $flows = Flow::exists('WC', $triggeredEntityId);
-        if (empty($flows)) {
-            return false;
-        }
-
-        $orderData = WCHelper::processOrderData($orderId);
-        Flow::execute('WC', $triggeredEntityId, $orderData, $flows);
     }
 
     private static function executeProductTriggers($postId, $triggeredEntityId, $extra = [])
