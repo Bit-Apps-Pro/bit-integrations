@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '6th May 2025'
+const releaseDate = '25th May 2025'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -31,7 +31,13 @@ const changeLog = [
     label: __('New Triggers', 'bit-integrations'),
     headClass: 'new-trigger',
     itemClass: 'integration-list',
-    items: []
+    items: [
+      {
+        label: 'WooCommerce',
+        desc: '13 new events added.',
+        isPro: true
+      }
+    ]
   },
   {
     label: __('New Features', 'bit-integrations'),
@@ -40,7 +46,7 @@ const changeLog = [
     items: [
       {
         label: 'SureCart',
-        desc: 'Enhanced SureCart product purchase module by adding customer information.',
+        desc: 'Now supports custom checkout fields for better data collection and workflows.',
         isPro: true
       }
     ]
@@ -57,18 +63,13 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'PerfexCRM',
-        desc: 'Resolved issue with custom tagify field.',
+        label: 'Omnisend',
+        desc: 'Blank page issue fixed.',
         isPro: false
       },
       {
-        label: 'WP Courseware',
-        desc: 'Fixed task fetching problem.',
-        isPro: false
-      },
-      {
-        label: 'WP post',
-        desc: 'Addressed multiple execution of triggers during WP post update.',
+        label: 'JSON unicode',
+        desc: 'Fixed a JSON unicode escape issue.',
         isPro: true
       }
     ]
