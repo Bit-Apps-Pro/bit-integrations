@@ -2,15 +2,82 @@
 
 namespace BitCode\FI\Triggers\WC;
 
-use BitCode\FI\Core\Util\Helper;
-use BitCode\FI\Flow\Flow;
 use WC_Booking;
 use WC_Checkout;
-use WC_Product_Simple;
+use BitCode\FI\Flow\Flow;
 use WC_Subscriptions_Product;
+use BitCode\FI\Core\Util\Helper;
 
 final class WCController
 {
+    public const CUSTOMER_CREATED = 1;
+
+    public const CUSTOMER_UPDATED = 2;
+
+    public const CUSTOMER_DELETED = 3;
+
+    public const PRODUCT_CREATED = 4;
+
+    public const PRODUCT_UPDATED = 5;
+
+    public const PRODUCT_DELETED = 6;
+
+    public const ORDER_CREATED = 7;
+
+    public const ORDER_UPDATED = 8;
+
+    public const ORDER_DELETED = 9;
+
+    public const ORDER_SPECIFIC_PRODUCT = 10;
+
+    public const ORDER_STATUS_CHANGED_TO_SPECIFIC_STATUS = 11;
+
+    public const ORDER_SPECIFIC_CATEGORY = 17;
+
+    public const USER_REVIEWS_A_PRODUCT = 19;
+
+    public const USER_PURCHASES_A_VARIABLE_PRODUCT = 20;
+
+    public const RESTORE_ORDER = 21;
+
+    public const RESTORE_PRODUCT = 22;
+
+    public const NEW_COUPON_CREATED = 23;
+
+    public const PRODUCT_STATUS_CHANGED = 24;
+
+    public const PRODUCT_ADD_TO_CART = 25;
+
+    public const PRODUCT_REMOVE_FROM_CART = 26;
+
+    public const ORDER_STATUS_SET_TO_PENDING = 27;
+
+    public const ORDER_STATUS_SET_TO_FAILED = 28;
+
+    public const ORDER_STATUS_SET_TO_ON_HOLD = 29;
+
+    public const ORDER_STATUS_SET_TO_PROCESSING = 30;
+
+    public const ORDER_STATUS_SET_TO_COMPLETED = 31;
+
+    public const ORDER_STATUS_SET_TO_REFUNDED = 32;
+
+    public const ORDER_STATUS_SET_TO_CANCELLED = 33;
+
+    // Deprecated Subscriptions Events const
+    public const USER_SUBSCRIBE_PRODUCT = 12;
+
+    public const USER_CANCELLED_SUBSCRIPTION_PRODUCT = 13;
+
+    public const PRODUCT_SUBSCRIPTION_EXPIRED = 14;
+
+    public const SUBSCRIPTION_PRODUCT_STATUS_CHANGED = 15;
+
+    public const END_SUBSCRIPTION_TRIAL_PERIOD = 16;
+
+    // Deprecated Bookings Events const
+    public const BOOKING_CREATED = 18;
+
     private static $_product_update_trigger_count = 0;
 
     private static $_product_create_trigger_count = 0;
@@ -57,20 +124,33 @@ final class WCController
          * ['id' => 18, 'title' => __('Booking-Created', 'bit-integrations')]
          */
         $wc_action = [
-            (object) ['id' => 1, 'title' => __('Customer-Create', 'bit-integrations')],
-            (object) ['id' => 2, 'title' => __('Customer-Edit', 'bit-integrations')],
-            (object) ['id' => 3, 'title' => __('Customer-Delete', 'bit-integrations')],
-            (object) ['id' => 4, 'title' => __('Product-Create', 'bit-integrations')],
-            (object) ['id' => 5, 'title' => __('Product-Edit', 'bit-integrations')],
-            (object) ['id' => 6, 'title' => __('Product-Delete', 'bit-integrations')],
-            (object) ['id' => 7, 'title' => __('Order-Create', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
-            (object) ['id' => 8, 'title' => __('Order-Edit', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
-            (object) ['id' => 9, 'title' => __('Order-Delete', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
-            (object) ['id' => 10, 'title' => __('Order-Specific-Product', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
-            (object) ['id' => 11, 'title' => __('Order-Status-Change-Specific-Status', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
-            (object) ['id' => 17, 'title' => __('Order-Specific-Category', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
-            (object) ['id' => 19, 'title' => __('User reviews a product', 'bit-integrations')],
-            (object) ['id' => 20, 'title' => __('User purchases a variable product with selected variation', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
+            (object) ['id' => static::CUSTOMER_CREATED, 'title' => __('Customer-Create', 'bit-integrations')],
+            (object) ['id' => static::CUSTOMER_UPDATED, 'title' => __('Customer-Edit', 'bit-integrations')],
+            (object) ['id' => static::CUSTOMER_DELETED, 'title' => __('Customer-Delete', 'bit-integrations')],
+            (object) ['id' => static::PRODUCT_CREATED, 'title' => __('Product-Create', 'bit-integrations')],
+            (object) ['id' => static::PRODUCT_UPDATED, 'title' => __('Product-Edit', 'bit-integrations')],
+            (object) ['id' => static::PRODUCT_DELETED, 'title' => __('Product-Delete', 'bit-integrations')],
+            (object) ['id' => static::RESTORE_PRODUCT, 'title' => __('Restore Product', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::ORDER_CREATED, 'title' => __('Order-Create', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
+            (object) ['id' => static::ORDER_UPDATED, 'title' => __('Order-Edit', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
+            (object) ['id' => static::ORDER_DELETED, 'title' => __('Order-Delete', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
+            (object) ['id' => static::RESTORE_ORDER, 'title' => __('Restore Order', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::NEW_COUPON_CREATED, 'title' => __('Coupon Created or Updated', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::ORDER_STATUS_SET_TO_PENDING, 'title' => __('Order Status Set to Pending', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::ORDER_STATUS_SET_TO_FAILED, 'title' => __('Order Status Set to Failed', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::ORDER_STATUS_SET_TO_ON_HOLD, 'title' => __('Order Status Set to On-hold', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::ORDER_STATUS_SET_TO_PROCESSING, 'title' => __('Order Status Set to Processing', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::ORDER_STATUS_SET_TO_COMPLETED, 'title' => __('Order Status Set to Completed', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::ORDER_STATUS_SET_TO_REFUNDED, 'title' => __('Order Status Set to Refunded', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::ORDER_STATUS_SET_TO_CANCELLED, 'title' => __('Order Status Set to Cancelled', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::ORDER_STATUS_CHANGED_TO_SPECIFIC_STATUS, 'title' => __('Order-Status-Change-Specific-Status', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
+            (object) ['id' => static::PRODUCT_STATUS_CHANGED, 'title' => __('Product Status Changed', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::ORDER_SPECIFIC_PRODUCT, 'title' => __('Order-Specific-Product', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
+            (object) ['id' => static::ORDER_SPECIFIC_CATEGORY, 'title' => __('Order-Specific-Category', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
+            (object) ['id' => static::PRODUCT_ADD_TO_CART, 'title' => __('Product Added to Cart', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::PRODUCT_REMOVE_FROM_CART, 'title' => __('Product Removed from Cart', 'bit-integrations'), 'isPro' => true],
+            (object) ['id' => static::USER_REVIEWS_A_PRODUCT, 'title' => __('User reviews a product', 'bit-integrations')],
+            (object) ['id' => static::USER_PURCHASES_A_VARIABLE_PRODUCT, 'title' => __('User purchases a variable product with selected variation', 'bit-integrations'), 'note' => __('Flexible Checkout Fields are a feature available in the Pro version', 'bit-integrations')],
         ];
 
         wp_send_json_success($wc_action);
@@ -90,16 +170,16 @@ final class WCController
 
         $responseData['fields'] = $fields;
 
-        if ($data->id == 10 || $data->id == 19) {
+        if ($data->id == static::ORDER_SPECIFIC_PRODUCT || $data->id == static::USER_REVIEWS_A_PRODUCT) {
             $responseData['products'] = WCHelper::getAllWcProducts($data->id);
         }
 
-        if ($data->id == 11) {
+        if ($data->id == static::ORDER_STATUS_CHANGED_TO_SPECIFIC_STATUS) {
             $orderStatuses = wc_get_order_statuses();
             $responseData['orderStatus'] = $orderStatuses;
         }
 
-        if ($data->id == 17) {
+        if ($data->id == static::ORDER_SPECIFIC_CATEGORY) {
             $orderby = 'name';
             $order = 'asc';
             $hide_empty = false;
@@ -130,14 +210,37 @@ final class WCController
 
     public static function fields($id)
     {
-        if ($id <= 3) {
+        $entity = null;
+        if ($id <= static::CUSTOMER_DELETED) {
             $entity = 'customer';
-        } elseif ($id <= 6) {
+        } elseif (
+            $id <= static::PRODUCT_DELETED
+            || $id == static::RESTORE_PRODUCT
+            || $id == static::PRODUCT_STATUS_CHANGED
+        ) {
             $entity = 'product';
-        } elseif ($id <= 11 || $id == 17 || $id == 20) {
+        } elseif (
+            $id <= static::ORDER_STATUS_CHANGED_TO_SPECIFIC_STATUS
+            || $id == static::RESTORE_ORDER
+            || $id == static::ORDER_SPECIFIC_CATEGORY
+            || $id == static::USER_PURCHASES_A_VARIABLE_PRODUCT
+            || $id == static::ORDER_STATUS_SET_TO_PENDING
+            || $id == static::ORDER_STATUS_SET_TO_FAILED
+            || $id == static::ORDER_STATUS_SET_TO_ON_HOLD
+            || $id == static::ORDER_STATUS_SET_TO_PROCESSING
+            || $id == static::ORDER_STATUS_SET_TO_COMPLETED
+            || $id == static::ORDER_STATUS_SET_TO_REFUNDED
+            || $id == static::ORDER_STATUS_SET_TO_CANCELLED
+        ) {
             $entity = 'order';
-        } elseif ($id <= 19) {
+        } elseif ($id <= static::USER_REVIEWS_A_PRODUCT) {
             $entity = 'review';
+        } elseif ($id == static::NEW_COUPON_CREATED) {
+            $entity = 'coupon';
+        } elseif ($id == static::PRODUCT_ADD_TO_CART) {
+            $entity = 'add_to_cart';
+        } elseif ($id == static::PRODUCT_REMOVE_FROM_CART) {
+            $entity = 'remove_from_cart';
         }
 
         if (empty($id)) {
@@ -149,345 +252,58 @@ final class WCController
                 400
             );
         }
+
         $metabox = self::metaboxFields($entity);
+        switch ($entity) {
+            case 'product':
+                $fields = WCStaticFields::getWCProductFields($metabox);
+                $uploadFields = WCStaticFields::getWCProductUploadFields($metabox);
 
-        if ($entity === 'product') {
-            $fields = [
-                'Product Name' => (object) [
-                    'fieldKey'  => 'post_title',
-                    'fieldName' => __('Product Name', 'bit-integrations'),
-                    'required'  => true
-                ],
-                'Product Description' => (object) [
-                    'fieldKey'  => 'post_content',
-                    'fieldName' => __('Product Description', 'bit-integrations')
-                ],
-                'Product Short Description' => (object) [
-                    'fieldKey'  => 'post_excerpt',
-                    'fieldName' => __('Product Short Description', 'bit-integrations')
-                ],
-                'Product ID' => (object) [
-                    'fieldKey'  => 'post_id',
-                    'fieldName' => __('Product ID', 'bit-integrations')
-                ],
-                'Post Date' => (object) [
-                    'fieldKey'  => 'post_date',
-                    'fieldName' => __('Post Date', 'bit-integrations')
-                ],
-                'Post Date GMT' => (object) [
-                    'fieldKey'  => 'post_date_gmt',
-                    'fieldName' => __('Post Date GMT', 'bit-integrations')
-                ],
-                'Product Status' => (object) [
-                    'fieldKey'  => 'post_status',
-                    'fieldName' => __('Product Status', 'bit-integrations')
-                ],
-                'Product Tag' => (object) [
-                    'fieldKey'  => 'tags_input',
-                    'fieldName' => __('Product Tag', 'bit-integrations')
-                ],
-                'Product Category' => (object) [
-                    'fieldKey'  => 'post_category',
-                    'fieldName' => __('Product Category', 'bit-integrations')
-                ],
-                'Catalog Visibility' => (object) [
-                    'fieldKey'  => '_visibility',
-                    'fieldName' => __('Catalog Visibility', 'bit-integrations')
-                ],
-                'Featured Product' => (object) [
-                    'fieldKey'  => '_featured',
-                    'fieldName' => __('Featured Product', 'bit-integrations')
-                ],
-                'Regular Price' => (object) [
-                    'fieldKey'  => '_regular_price',
-                    'fieldName' => __('Regular Price', 'bit-integrations')
-                ],
-                'Sale Price' => (object) [
-                    'fieldKey'  => '_sale_price',
-                    'fieldName' => __('Sale Price', 'bit-integrations')
-                ],
-                'Sale Price From Date' => (object) [
-                    'fieldKey'  => '_sale_price_dates_from',
-                    'fieldName' => __('Sale Price From Date', 'bit-integrations')
-                ],
-                'Sale Price To Date' => (object) [
-                    'fieldKey'  => '_sale_price_dates_to',
-                    'fieldName' => __('Sale Price To Date', 'bit-integrations')
-                ],
-                'SKU' => (object) [
-                    'fieldKey'  => '_sku',
-                    'fieldName' => __('SKU', 'bit-integrations')
-                ],
-                'Manage Stock' => (object) [
-                    'fieldKey'  => '_manage_stock',
-                    'fieldName' => __('Manage Stock', 'bit-integrations')
-                ],
-                'Stock Quantity' => (object) [
-                    'fieldKey'  => '_stock',
-                    'fieldName' => __('Stock Quantity', 'bit-integrations')
-                ],
-                'Allow Backorders' => (object) [
-                    'fieldKey'  => '_backorders',
-                    'fieldName' => __('Allow Backorders', 'bit-integrations')
-                ],
-                'Low Stock Threshold' => (object) [
-                    'fieldKey'  => '_low_stock_amount',
-                    'fieldName' => __('Low Stock Threshold', 'bit-integrations')
-                ],
-                'Stock Status' => (object) [
-                    'fieldKey'  => '_stock_status',
-                    'fieldName' => __('Stock Status', 'bit-integrations')
-                ],
-                'Sold Individually' => (object) [
-                    'fieldKey'  => '_sold_individually',
-                    'fieldName' => __('Sold Individually', 'bit-integrations')
-                ],
-                'Weight' => (object) [
-                    'fieldKey'  => '_weight',
-                    'fieldName' => __('Weight', 'bit-integrations')
-                ],
-                'Length' => (object) [
-                    'fieldKey'  => '_length',
-                    'fieldName' => __('Length', 'bit-integrations')
-                ],
-                'Width' => (object) [
-                    'fieldKey'  => '_width',
-                    'fieldName' => __('Width', 'bit-integrations')
-                ],
-                'Height' => (object) [
-                    'fieldKey'  => '_height',
-                    'fieldName' => __('Height', 'bit-integrations')
-                ],
-                'Purchase Note' => (object) [
-                    'fieldKey'  => '_purchase_note',
-                    'fieldName' => __('Purchase Note', 'bit-integrations')
-                ],
-                'Menu Order' => (object) [
-                    'fieldKey'  => 'menu_order',
-                    'fieldName' => __('Menu Order', 'bit-integrations')
-                ],
-                'Enable Reviews' => (object) [
-                    'fieldKey'  => 'comment_status',
-                    'fieldName' => __('Enable Reviews', 'bit-integrations')
-                ],
-                'Virtual' => (object) [
-                    'fieldKey'  => '_virtual',
-                    'fieldName' => __('Virtual', 'bit-integrations')
-                ],
-                'Downloadable' => (object) [
-                    'fieldKey'  => '_downloadable',
-                    'fieldName' => __('Downloadable', 'bit-integrations')
-                ],
-                'Download Limit' => (object) [
-                    'fieldKey'  => '_download_limit',
-                    'fieldName' => __('Download Limit', 'bit-integrations')
-                ],
-                'Download Expiry' => (object) [
-                    'fieldKey'  => '_download_expiry',
-                    'fieldName' => __('Download Expiry', 'bit-integrations')
-                ],
-                'Product Type' => (object) [
-                    'fieldKey'  => 'product_type',
-                    'fieldName' => __('Product Type', 'bit-integrations')
-                ],
-                'Product URL' => (object) [
-                    'fieldKey'  => '_product_url',
-                    'fieldName' => __('Product URL', 'bit-integrations')
-                ],
-            ];
+                break;
+            case 'customer':
+                $fields = WCStaticFields::getWCCustomerFields($id);
 
-            $acfFieldGroups = Helper::acfGetFieldGroups(['product']);
-            foreach ($acfFieldGroups as $group) {
-                $acfFields = acf_get_fields($group['ID']);
+                break;
+            case 'order':
+                $fields = WCStaticFields::getWCOrderFields($id);
 
-                foreach ($acfFields as $field) {
-                    $fields[$field['label']] = (object) [
-                        'fieldKey'  => $field['_name'],
-                        'fieldName' => $field['label']
-                    ];
-                }
-            }
+                break;
+            case 'review':
+                $fields = WCStaticFields::getReviewFields();
 
-            $fields = array_merge($fields, $metabox['meta_fields']);
+                break;
+            case 'coupon':
+                $fields = WCStaticFields::getCouponFields();
 
-            $uploadFields = [
-                'Product Image' => (object) [
-                    'fieldKey'  => '_product_image',
-                    'fieldName' => 'Product Image'
-                ],
-                'Product Gallery' => (object) [
-                    'fieldKey'  => '_product_gallery',
-                    'fieldName' => 'Product Gallery'
-                ],
-            ];
-            $uploadFields = array_merge($uploadFields, $metabox['upload_fields']);
+                break;
+            case 'add_to_cart':
+                $fields = WCStaticFields::getAddToCartFields();
 
-            $required = ['post_title'];
-        } elseif ($entity === 'customer') {
-            if ($id == 1) {
-                $fields = [
-                    'First Name' => (object) [
-                        'fieldKey'  => 'first_name',
-                        'fieldName' => __('First Name', 'bit-integrations')
-                    ],
-                    'Last Name' => (object) [
-                        'fieldKey'  => 'last_name',
-                        'fieldName' => __('Last Name', 'bit-integrations')
-                    ],
-                    'Email' => (object) [
-                        'fieldKey'  => 'user_email',
-                        'fieldName' => __('Email', 'bit-integrations')
-                    ],
-                    'Username' => (object) [
-                        'fieldKey'  => 'user_login',
-                        'fieldName' => __('Username', 'bit-integrations')
-                    ],
-                    'Password' => (object) [
-                        'fieldKey'  => 'user_pass',
-                        'fieldName' => __('Password', 'bit-integrations')
-                    ],
-                    'Display Name' => (object) [
-                        'fieldKey'  => 'display_name',
-                        'fieldName' => __('Display Name', 'bit-integrations')
-                    ],
-                    'Nickname' => (object) [
-                        'fieldKey'  => 'nickname',
-                        'fieldName' => __('Nickname', 'bit-integrations')
-                    ],
-                    'Website' => (object) [
-                        'fieldKey'  => 'user_url',
-                        'fieldName' => __('Website', 'bit-integrations')
-                    ],
-                ];
-            } else {
-                $fields = [
-                    'Customer ID' => (object) [
-                        'fieldKey'  => 'customer_id',
-                        'fieldName' => __('Customer Id', 'bit-integrations')
-                    ],
-                    'First Name' => (object) [
-                        'fieldKey'  => 'first_name',
-                        'fieldName' => __('First Name', 'bit-integrations')
-                    ],
-                    'Last Name' => (object) [
-                        'fieldKey'  => 'last_name',
-                        'fieldName' => __('Last Name', 'bit-integrations')
-                    ],
-                    'Email' => (object) [
-                        'fieldKey'  => 'user_email',
-                        'fieldName' => __('Email', 'bit-integrations')
-                    ],
-                    'Username' => (object) [
-                        'fieldKey'  => 'user_login',
-                        'fieldName' => __('Username', 'bit-integrations')
-                    ],
-                    'Password' => (object) [
-                        'fieldKey'  => 'user_pass',
-                        'fieldName' => __('Password', 'bit-integrations')
-                    ],
-                    'Display Name' => (object) [
-                        'fieldKey'  => 'display_name',
-                        'fieldName' => __('Display Name', 'bit-integrations')
-                    ],
-                    'Nickname' => (object) [
-                        'fieldKey'  => 'nickname',
-                        'fieldName' => __('Nickname', 'bit-integrations')
-                    ],
-                    'Locale' => (object) [
-                        'fieldKey'  => 'locale',
-                        'fieldName' => __('Locale', 'bit-integrations')
-                    ],
-                    'Website' => (object) [
-                        'fieldKey'  => 'user_url',
-                        'fieldName' => __('Website', 'bit-integrations')
-                    ],
-                    'Billing First Name' => (object) [
-                        'fieldKey'  => 'billing_first_name',
-                        'fieldName' => __('Billing First Name', 'bit-integrations')
-                    ],
-                    'Billing Last Name' => (object) [
-                        'fieldKey'  => 'billing_last_name',
-                        'fieldName' => __('Billing Last Name', 'bit-integrations')
-                    ],
-                    'Billing Company' => (object) [
-                        'fieldKey'  => 'billing_company',
-                        'fieldName' => __('Billing Company', 'bit-integrations')
-                    ],
-                    'Billing Address 1' => (object) [
-                        'fieldKey'  => 'billing_address_1',
-                        'fieldName' => __('Billing Address 1', 'bit-integrations')
-                    ],
-                    'Billing Address 2' => (object) [
-                        'fieldKey'  => 'billing_address_2',
-                        'fieldName' => __('Billing Address 2', 'bit-integrations')
-                    ],
-                    'Billing City' => (object) [
-                        'fieldKey'  => 'billing_city',
-                        'fieldName' => __('Billing City', 'bit-integrations')
-                    ],
-                    'Billing Post Code' => (object) [
-                        'fieldKey'  => 'billing_postcode',
-                        'fieldName' => __('Billing Post Code', 'bit-integrations')
-                    ],
-                    'Billing Country' => (object) [
-                        'fieldKey'  => 'billing_country',
-                        'fieldName' => __('Billing Country', 'bit-integrations')
-                    ],
-                    'Billing State' => (object) [
-                        'fieldKey'  => 'billing_state',
-                        'fieldName' => __('Billing State', 'bit-integrations')
-                    ],
-                    'Billing Email' => (object) [
-                        'fieldKey'  => 'billing_email',
-                        'fieldName' => __('Billing Email', 'bit-integrations')
-                    ],
-                    'Billing Phone' => (object) [
-                        'fieldKey'  => 'billing_phone',
-                        'fieldName' => __('Billing Phone', 'bit-integrations')
-                    ],
-                    'Shipping First Name' => (object) [
-                        'fieldKey'  => 'shipping_first_name',
-                        'fieldName' => __('Shipping First Name', 'bit-integrations')
-                    ],
-                    'Shipping Last Name' => (object) [
-                        'fieldKey'  => 'shipping_last_name',
-                        'fieldName' => __('Shipping Last Name', 'bit-integrations')
-                    ],
-                    'Shipping Company' => (object) [
-                        'fieldKey'  => 'shipping_company',
-                        'fieldName' => __('Shipping Company', 'bit-integrations')
-                    ],
-                    'Shipping Address 1' => (object) [
-                        'fieldKey'  => 'shipping_address_1',
-                        'fieldName' => __('Shipping Address 1', 'bit-integrations')
-                    ],
-                    'Shipping Address 2' => (object) [
-                        'fieldKey'  => 'shipping_address_2',
-                        'fieldName' => __('Shipping Address 2', 'bit-integrations')
-                    ],
-                    'Shipping City' => (object) [
-                        'fieldKey'  => 'shipping_city',
-                        'fieldName' => __('Shipping City', 'bit-integrations')
-                    ],
-                    'Shipping Post Code' => (object) [
-                        'fieldKey'  => 'shipping_postcode',
-                        'fieldName' => __('Shipping Post Code', 'bit-integrations')
-                    ],
-                    'Shipping Country' => (object) [
-                        'fieldKey'  => 'shipping_country',
-                        'fieldName' => __('Shipping Country', 'bit-integrations')
-                    ],
-                    'Shipping State' => (object) [
-                        'fieldKey'  => 'shipping_state',
-                        'fieldName' => __('Shipping State', 'bit-integrations')
-                    ],
-                ];
-            }
-        } elseif ($entity === 'order') {
-            $fields = WCStaticFields::getWCOrderFields($id);
-        } elseif ($entity == 'review') {
-            $fields = WCHelper::getReviewFields();
+                break;
+            case 'remove_from_cart':
+                $fields = WCStaticFields::getRemoveFromCartFields();
+
+                break;
+
+            default:
+                $fields = [];
+
+                break;
         }
+
+        if ($id == static::PRODUCT_STATUS_CHANGED) {
+            $fields = array_merge($fields, [
+                'Old Status' => (object) [
+                    'fieldKey'  => 'old_status',
+                    'fieldName' => __('Old Status', 'bit-integrations')
+                ],
+                'New Status' => (object) [
+                    'fieldKey'  => 'new_status',
+                    'fieldName' => __('New Status', 'bit-integrations')
+                ],
+            ]);
+        }
+
         uksort($fields, 'strnatcasecmp');
 
         $fieldsNew = [];
@@ -589,8 +405,8 @@ final class WCController
         $customer_metadata = self::formatUserMetaData(get_user_meta($customer_id));
         $customer_values = array_merge_recursive($customer_data, $customer_metadata);
 
-        if (!empty($customer_id) && $flows = Flow::exists('WC', 1)) {
-            Flow::execute('WC', 1, $customer_values, $flows);
+        if (!empty($customer_id) && $flows = Flow::exists('WC', static::CUSTOMER_CREATED)) {
+            Flow::execute('WC', static::CUSTOMER_CREATED, $customer_values, $flows);
         }
     }
 
@@ -613,8 +429,8 @@ final class WCController
         }
         $customer_values = array_merge_recursive($customer_data, $newMeta);
 
-        if (!empty($customer_id) && $flows = Flow::exists('WC', 2)) {
-            Flow::execute('WC', 2, $customer_values, $flows);
+        if (!empty($customer_id) && $flows = Flow::exists('WC', static::CUSTOMER_UPDATED)) {
+            Flow::execute('WC', static::CUSTOMER_UPDATED, $customer_values, $flows);
         }
     }
 
@@ -632,44 +448,35 @@ final class WCController
         }
 
         $customer_data = ['customer_id' => $customer_id];
-        if (!empty($customer_id) && $flows = Flow::exists('WC', 3)) {
-            Flow::execute('WC', 3, $customer_data, $flows);
+        if (!empty($customer_id) && $flows = Flow::exists('WC', static::CUSTOMER_DELETED)) {
+            Flow::execute('WC', static::CUSTOMER_DELETED, $customer_data, $flows);
         }
     }
 
     public static function handle_product_action($new_status, $old_status, $post)
     {
-        if (!static::isActivate()) {
+        if (!static::isActivate() || $old_status === 'new' || empty($post) || $post->post_type != 'product') {
             return false;
         }
 
-        if ($old_status === 'new') {
-            return false;
-        }
-        $post_id = $post->ID;
-        $productData = wc_get_product($post_id);
-
-        if ($productData == false) {
-            return false;
-        }
-        $type = $productData->post_type;
-        if ($type != 'product') {
-            return false;
-        }
         if (($old_status === 'auto-draft' || $old_status === 'draft') && $new_status === 'publish' && static::$_product_create_trigger_count == 0) {
             static::$_product_create_trigger_count++;
             add_action('save_post', [WCController::class, 'product_create'], 10, 1);
-        } elseif ($old_status != 'auto-draft' && $old_status != 'draft' && $new_status === 'publish' && static::$_product_update_trigger_count == 0) {
+        }
+
+        if ($old_status != 'auto-draft' && $old_status != 'draft' && $new_status === 'publish' && static::$_product_update_trigger_count == 0) {
             static::$_product_update_trigger_count++;
             add_action('save_post', [WCController::class, 'product_update'], 10, 1);
-        } elseif ($old_status === 'publish' && $new_status === 'trash') {
-            $data = ['post_id' => $post_id];
-            if (!empty($post_id) && $flows = Flow::exists('WC', 6)) {
-                Flow::execute('WC', 6, $data, $flows);
-            }
-        } else {
-            return false;
         }
+
+        if ($new_status === 'trash') {
+            self::handle_deleted_product($post->ID);
+        }
+    }
+
+    public static function handle_deleted_product($postId)
+    {
+        return self::executeProductTriggers($postId, static::PRODUCT_DELETED);
     }
 
     public static function handle_product_save_post($post_id, $post, $update)
@@ -696,244 +503,57 @@ final class WCController
     public static function product_create($post_id)
     {
         $productData = wc_get_product($post_id);
-        $data = self::accessProductData($productData);
+        $data = WCHelper::accessProductData($productData);
         $acfFieldGroups = Helper::acfGetFieldGroups(['product']);
+        $acfFielddata = Helper::getAcfFieldData($acfFieldGroups, $post_id);
+        $data = array_merge($data, $acfFielddata);
 
-        foreach ($acfFieldGroups as $group) {
-            $acfFields = acf_get_fields($group['ID']);
-
-            foreach ($acfFields as $field) {
-                $data[$field['_name']] = get_post_meta($post_id, $field['_name'])[0];
-            }
-        }
-        if (!empty($post_id) && $flows = Flow::exists('WC', 4)) {
-            Flow::execute('WC', 4, $data, $flows);
+        if (!empty($post_id) && $flows = Flow::exists('WC', static::PRODUCT_CREATED)) {
+            Flow::execute('WC', static::PRODUCT_CREATED, $data, $flows);
         }
     }
 
     public static function product_update($post_id)
     {
         $productData = wc_get_product($post_id);
-        $data = self::accessProductData($productData);
+        $data = WCHelper::accessProductData($productData);
         $acfFieldGroups = Helper::acfGetFieldGroups(['product']);
+        $acfFielddata = Helper::getAcfFieldData($acfFieldGroups, $post_id);
+        $data = array_merge($data, $acfFielddata);
 
-        foreach ($acfFieldGroups as $group) {
-            $acfFields = acf_get_fields($group['ID']);
-
-            foreach ($acfFields as $field) {
-                $data[$field['_name']] = get_post_meta($post_id, $field['_name'])[0];
-            }
+        if (!empty($post_id) && $flows = Flow::exists('WC', static::PRODUCT_UPDATED)) {
+            Flow::execute('WC', static::PRODUCT_UPDATED, $data, $flows);
         }
-        if (!empty($post_id) && $flows = Flow::exists('WC', 5)) {
-            Flow::execute('WC', 5, $data, $flows);
-        }
-    }
-
-    public static function accessProductData($product)
-    {
-        if (!$product instanceof WC_Product_Simple) {
-            return [];
-        }
-        $image_id = $product->get_image_id();
-        $image_url = wp_get_attachment_image_url($image_id, 'full');
-
-        $productIds = $product->get_gallery_image_ids();
-        $gallery_images = [];
-        if (\count($productIds)) {
-            foreach ($productIds as $id) {
-                $gallery_images[] = wp_get_attachment_image_url($id, 'full');
-            }
-        }
-
-        return [
-            'post_id'                => $product->get_id(),
-            'post_title'             => $product->get_name(),
-            'post_content'           => $product->get_description(),
-            'post_excerpt'           => $product->get_short_description(),
-            'post_date'              => $product->get_date_created(),
-            'post_date_gmt'          => $product->get_date_modified(),
-            'post_status'            => $product->get_status(),
-            'tags_input'             => $product->get_tag_ids(),
-            'post_category'          => wc_get_product_category_list($product->get_id()),
-            '_visibility'            => $product->get_catalog_visibility(),
-            '_featured'              => $product->get_featured(),
-            '_regular_price'         => $product->get_regular_price(),
-            '_sale_price'            => $product->get_sale_price(),
-            '_sale_price_dates_from' => $product->get_date_on_sale_from(),
-            '_sale_price_dates_to'   => $product->get_date_on_sale_to(),
-            '_sku'                   => $product->get_sku(),
-            '_manage_stock'          => $product->get_manage_stock(),
-            '_stock'                 => $product->get_stock_quantity(),
-            '_backorders'            => $product->get_backorders(),
-            '_low_stock_amount'      => 1,
-            '_stock_status'          => $product->get_stock_status(),
-            '_sold_individually'     => $product->get_sold_individually(),
-            '_weight'                => $product->get_weight(),
-            '_length'                => $product->get_length(),
-            '_width'                 => $product->get_width(),
-            '_height'                => $product->get_height(),
-            '_purchase_note'         => $product->get_purchase_note(),
-            'menu_order'             => $product->get_menu_order(),
-            'comment_status'         => $product->get_reviews_allowed(),
-            '_virtual'               => $product->get_virtual(),
-            '_downloadable'          => $product->get_downloadable(),
-            '_download_limit'        => $product->get_download_limit(),
-            '_download_expiry'       => $product->get_download_expiry(),
-            'product_type'           => $product->get_type(),
-            '_product_url'           => get_permalink($product->get_id()),
-            '_tax_status'            => $product->get_tax_status(),
-            '_tax_class'             => $product->get_tax_class(),
-            '_product_image'         => $image_url,
-            '_product_gallery'       => $gallery_images,
-        ];
-    }
-
-    public static function accessOrderData($order)
-    {
-        $data = [
-            'id'                          => $order->get_id() ?? '',
-            'order_key'                   => $order->get_order_key() ?? '',
-            'card_tax'                    => $order->get_cart_tax() ?? '',
-            'currency'                    => $order->get_currency() ?? '',
-            'discount_tax'                => $order->get_discount_tax() ?? '',
-            'discount_to_display'         => $order->get_discount_to_display() ?? '',
-            'discount_total'              => $order->get_discount_total() ?? '',
-            'fees'                        => $order->get_fees() ?? '',
-            'shipping_tax'                => $order->get_shipping_tax() ?? '',
-            'shipping_total'              => $order->get_shipping_total() ?? '',
-            'tax_totals'                  => $order->get_tax_totals() ?? '',
-            'total'                       => $order->get_total() ?? '',
-            'total_refunded'              => $order->get_total_refunded() ?? '',
-            'total_tax_refunded'          => $order->get_total_tax_refunded() ?? '',
-            'total_shipping_refunded'     => $order->get_total_shipping_refunded() ?? '',
-            'total_qty_refunded'          => $order->get_total_qty_refunded() ?? '',
-            'remaining_refund_amount'     => $order->get_remaining_refund_amount() ?? '',
-            'shipping_method'             => $order->get_shipping_method() ?? '',
-            'date_created'                => \is_null($order->get_date_created()) ? $order->get_date_created() : $order->get_date_created()->format('Y-m-d H:i:s'),
-            'date_modified'               => \is_null($order->get_date_modified()) ? $order->get_date_modified() : $order->get_date_modified()->format('Y-m-d H:i:s'),
-            'date_completed'              => \is_null($order->get_date_completed()) ? $order->get_date_completed() : $order->get_date_completed()->format('Y-m-d H:i:s'),
-            'date_paid'                   => \is_null($order->get_date_paid()) ? $order->get_date_paid() : $order->get_date_paid()->format('Y-m-d H:i:s'),
-            'customer_id'                 => $order->get_customer_id() ?? '',
-            'created_via'                 => $order->get_created_via() ?? '',
-            'customer_note'               => $order->get_customer_note() ?? '',
-            'billing_first_name'          => $order->get_billing_first_name() ?? '',
-            'billing_last_name'           => $order->get_billing_last_name() ?? '',
-            'billing_company'             => $order->get_billing_company() ?? '',
-            'billing_address_1'           => $order->get_billing_address_1() ?? '',
-            'billing_address_2'           => $order->get_billing_address_2() ?? '',
-            'billing_city'                => $order->get_billing_city() ?? '',
-            'billing_state'               => $order->get_billing_state() ?? '',
-            'billing_postcode'            => $order->get_billing_postcode() ?? '',
-            'billing_country'             => $order->get_billing_country() ?? '',
-            'billing_email'               => $order->get_billing_email() ?? '',
-            'billing_phone'               => $order->get_billing_phone() ?? '',
-            'shipping_first_name'         => $order->get_shipping_first_name() ?? '',
-            'shipping_last_name'          => $order->get_shipping_last_name() ?? '',
-            'shipping_company'            => $order->get_shipping_company() ?? '',
-            'shipping_address_1'          => $order->get_shipping_address_1() ?? '',
-            'shipping_address_2'          => $order->get_shipping_address_2() ?? '',
-            'shipping_city'               => $order->get_shipping_city() ?? '',
-            'shipping_state'              => $order->get_shipping_state() ?? '',
-            'shipping_postcode'           => $order->get_shipping_postcode() ?? '',
-            'shipping_country'            => $order->get_shipping_country() ?? '',
-            'payment_method'              => $order->get_payment_method() ?? '',
-            'payment_method_title'        => $order->get_payment_method_title() ?? '',
-            'status'                      => $order->get_status() ?? '',
-            'checkout_order_received_url' => $order->get_checkout_order_received_url() ?? '',
-            'line_items'                  => [],
-            'product_names'               => '',
-            'line_items_quantity'         => 0
-        ];
-        if (\defined('WC_VERSION') && version_compare(WC_VERSION, '8.5.1', '>=')) {
-            $data += [
-                '_wc_order_attribution_referrer'           => $order->get_meta('_wc_order_attribution_referrer'),
-                '_wc_order_attribution_user_agent'         => $order->get_meta('_wc_order_attribution_user_agent'),
-                '_wc_order_attribution_utm_source'         => $order->get_meta('_wc_order_attribution_utm_source'),
-                '_wc_order_attribution_device_type'        => $order->get_meta('_wc_order_attribution_device_type'),
-                '_wc_order_attribution_source_type'        => $order->get_meta('_wc_order_attribution_source_type'),
-                '_wc_order_attribution_session_count'      => $order->get_meta('_wc_order_attribution_session_count'),
-                '_wc_order_attribution_session_entry'      => $order->get_meta('_wc_order_attribution_session_entry'),
-                '_wc_order_attribution_session_pages'      => $order->get_meta('_wc_order_attribution_session_pages'),
-                '_wc_order_attribution_session_start_time' => $order->get_meta('_wc_order_attribution_session_start_time'),
-            ];
-        }
-
-        foreach ($order->get_items() as $item) {
-            $product_id = $item->get_product_id();
-            $product = $item->get_product();
-            $itemData = [
-                'product_id'         => $product_id,
-                'variation_id'       => $item->get_variation_id() ?? '',
-                'product_name'       => $item->get_name() ?? '',
-                'quantity'           => $item->get_quantity() ?? '',
-                'subtotal'           => $item->get_subtotal() ?? '',
-                'total'              => $item->get_total() ?? '',
-                'subtotal_tax'       => $item->get_subtotal_tax() ?? '',
-                'tax_class'          => $item->get_tax_class() ?? '',
-                'tax_status'         => $item->get_tax_status() ?? '',
-                'product_sku'        => $product->get_sku() ?? '',
-                'product_unit_price' => $product->get_price() ?? '',
-            ];
-
-            $acfFieldGroups = Helper::acfGetFieldGroups(['product']);
-            foreach ($acfFieldGroups as $group) {
-                $acfFields = acf_get_fields($group['ID']);
-
-                foreach ($acfFields as $field) {
-                    $itemData[$field['_name']] = get_post_meta($product_id, $field['_name'])[0] ?? null;
-                }
-            }
-
-            $data['line_items'][] = (object) $itemData;
-        }
-        $data['product_names'] = implode(', ', array_column($data['line_items'], 'product_name'));
-        $data['line_items_quantity'] = \count($data['line_items']);
-
-        return $data;
     }
 
     public static function handle_order_create($order_id, $fields)
     {
         if (!static::isActivate()) {
-            return false;
+            return;
         }
 
-        $order = wc_get_order($order_id);
-        $data = self::accessOrderData($order);
-        $triggerd = [8, 9, 11, 12, 13, 14, 15, 16];
-        $acfFieldGroups = Helper::acfGetFieldGroups(['shop_order']);
-        $checkoutFields = WC()->checkout()->get_checkout_fields();
+        $data = WCHelper::processOrderData($order_id);
+        $triggerd = [
+            static::ORDER_UPDATED,
+            static::ORDER_DELETED,
+            static::ORDER_STATUS_CHANGED_TO_SPECIFIC_STATUS,
+            static::USER_SUBSCRIBE_PRODUCT,
+            static::USER_CANCELLED_SUBSCRIPTION_PRODUCT,
+            static::PRODUCT_SUBSCRIPTION_EXPIRED,
+            static::SUBSCRIPTION_PRODUCT_STATUS_CHANGED,
+            static::END_SUBSCRIPTION_TRIAL_PERIOD
+        ];
 
-        foreach ($acfFieldGroups as $group) {
-            $acfFields = acf_get_fields($group['ID']);
-
-            foreach ($acfFields as $field) {
-                $meta = get_post_meta($order_id, $field['_name']);
-                $data[$field['_name']] = \is_array($meta) && !empty($meta) ? $meta[0] : $meta;
-            }
-        }
-        foreach ($checkoutFields as $group) {
-            foreach ($group as $field) {
-                if (!empty($field['custom']) && $field['custom']) {
-                    $data[$field['name']] = $fields[$field['name']];
-                }
-            }
-        }
-
-        if (Helper::proActionFeatExists('WC', 'getFlexibleCheckoutFieldsValue')) {
-            $flexibleFields = apply_filters('btcbi_woocommerce_flexible_checkout_fields_value', $fields);
-            $data = array_merge($data, $flexibleFields);
-        }
-
-        for ($i = 7; $i <= 17; $i++) {
+        for ($i = static::ORDER_CREATED; $i <= static::ORDER_SPECIFIC_CATEGORY; $i++) {
             if (\in_array($i, $triggerd)) {
                 continue;
             }
-            if ($i == 7) {
-                $flows = Flow::exists('WC', 7);
-                if (!empty($order_id) && $flows = Flow::exists('WC', 7)) {
+            if ($i == static::ORDER_CREATED) {
+                $flows = Flow::exists('WC', static::ORDER_CREATED);
+                if (!empty($order_id) && $flows = Flow::exists('WC', static::ORDER_CREATED)) {
                     $orderedProducts = $data['line_items'];
                     $differId = 1;
+
                     foreach ($orderedProducts as $orderedProduct) {
                         foreach ((array) $orderedProduct as $keys => $value) {
                             $newItem["{$differId}_{$keys}"] = $value;
@@ -941,11 +561,11 @@ final class WCController
                         $differId = $differId + 1;
                         $data = array_merge($data, (array) $newItem);
                     }
-                    Flow::execute('WC', 7, $data, $flows);
+                    Flow::execute('WC', static::ORDER_CREATED, $data, $flows);
                 }
-            } elseif ($i == 10) {
-                if (!empty($order_id) && $flows = Flow::exists('WC', 10)) {
-                    $flows = Flow::exists('WC', 10);
+            } elseif ($i == static::ORDER_SPECIFIC_PRODUCT) {
+                if (!empty($order_id) && $flows = Flow::exists('WC', static::ORDER_SPECIFIC_PRODUCT)) {
+                    $flows = Flow::exists('WC', static::ORDER_SPECIFIC_PRODUCT);
                     foreach ($flows as $flow) {
                         $flowsDetailData = $flow->flow_details;
                         $flowsDetail = json_decode($flowsDetailData);
@@ -958,22 +578,23 @@ final class WCController
                                 $triggerData['line_items'] = [$orderedProduct];
                                 $triggerData = $triggerData + (array) $orderedProduct;
                                 $flowData = [0 => $flow];
-                                Flow::execute('WC', 10, $triggerData, $flowData);
+                                Flow::execute('WC', static::ORDER_SPECIFIC_PRODUCT, $triggerData, $flowData);
 
                                 break;
                             }
                         }
                     }
                 }
-            } elseif ($i == 17) {
-                if (!empty($order_id) && $flows = Flow::exists('WC', 17)) {
-                    $flows = Flow::exists('WC', 17);
+            } elseif ($i == static::ORDER_SPECIFIC_CATEGORY) {
+                if (!empty($order_id) && $flows = Flow::exists('WC', static::ORDER_SPECIFIC_CATEGORY)) {
+                    $flows = Flow::exists('WC', static::ORDER_SPECIFIC_CATEGORY);
 
                     $flowsDetailData = $flows[0]->flow_details;
                     $flowsDetail = json_decode($flowsDetailData);
                     $selectedProductCategory = $flowsDetail->selectedProductCategory;
                     $orderedProducts = $data['line_items'];
                     $filteredByCategory = [];
+
                     foreach ($orderedProducts as $orderedProduct) {
                         $productCategory = wc_get_product($orderedProduct->product_id);
                         $productInfo = $productCategory->get_category_ids();
@@ -981,8 +602,9 @@ final class WCController
                             $filteredByCategory[] = $orderedProduct;
                         }
                     }
+
                     $data['specified_product_by_category'] = $filteredByCategory;
-                    Flow::execute('WC', 17, $data, $flows);
+                    Flow::execute('WC', static::ORDER_SPECIFIC_CATEGORY, $data, $flows);
                 }
             }
         }
@@ -1021,18 +643,13 @@ final class WCController
             return false;
         }
 
-        $data = self::accessOrderData($order);
+        $data = WCHelper::accessOrderData($order);
         $acfFieldGroups = Helper::acfGetFieldGroups(['product', 'shop_order']);
+        $acfFielddata = Helper::getAcfFieldData($acfFieldGroups, $order_id);
+        $data = array_merge($data, $acfFielddata);
 
-        foreach ($acfFieldGroups as $group) {
-            $acfFields = acf_get_fields($group['ID']);
-
-            foreach ($acfFields as $field) {
-                $data[$field['_name']] = get_post_meta($order_id, $field['_name'])[0];
-            }
-        }
-        if (!empty($order_id) && $flows = Flow::exists('WC', 8)) {
-            Flow::execute('WC', 8, $data, $flows);
+        if (!empty($order_id) && $flows = Flow::exists('WC', static::ORDER_UPDATED)) {
+            Flow::execute('WC', static::ORDER_UPDATED, $data, $flows);
         }
     }
 
@@ -1046,10 +663,14 @@ final class WCController
         if ($post_type !== 'shop_order') {
             return false;
         }
-        $data = ['id' => $order_id];
-        if (!empty($order_id) && $flows = Flow::exists('WC', 9)) {
-            Flow::execute('WC', 9, $data, $flows);
+
+        $flows = Flow::exists('WC', static::ORDER_DELETED);
+        if (empty($flows)) {
+            return false;
         }
+
+        $orderData = WCHelper::processOrderData($order_id);
+        Flow::execute('WC', static::ORDER_DELETED, $orderData, $flows);
     }
 
     public static function handle_order_status_change($order_id, $from_status, $to_status, $this_order)
@@ -1058,7 +679,7 @@ final class WCController
             return false;
         }
 
-        $flows = Flow::exists('WC', 11);
+        $flows = Flow::exists('WC', static::ORDER_STATUS_CHANGED_TO_SPECIFIC_STATUS);
 
         if (empty($flows)) {
             return false;
@@ -1094,18 +715,13 @@ final class WCController
                     return false;
                 }
 
-                $data = self::accessOrderData($order);
+                $data = WCHelper::accessOrderData($order);
                 $acfFieldGroups = Helper::acfGetFieldGroups(['product', 'shop_order']);
+                $acfFielddata = Helper::getAcfFieldData($acfFieldGroups, $order_id);
+                $data = array_merge($data, $acfFielddata);
 
-                foreach ($acfFieldGroups as $group) {
-                    $acfFields = acf_get_fields($group['ID']);
-
-                    foreach ($acfFields as $field) {
-                        $data[$field['_name']] = get_post_meta($order_id, $field['_name'])[0];
-                    }
-                }
                 if (!empty($order_id)) {
-                    Flow::execute('WC', 11, $data, [$flow]);
+                    Flow::execute('WC', static::ORDER_STATUS_CHANGED_TO_SPECIFIC_STATUS, $data, [$flow]);
                 }
             }
         }
@@ -1117,7 +733,7 @@ final class WCController
             return false;
         }
 
-        $flows = Flow::exists('WC', 12);
+        $flows = Flow::exists('WC', static::USER_SUBSCRIBE_PRODUCT);
 
         if (empty($flows)) {
             return false;
@@ -1145,13 +761,13 @@ final class WCController
             $data = self::accessSubscription($subscription, $quantity);
 
             if ($selectedSubscription === 'any') {
-                if (!empty($user_id) && $flows = Flow::exists('WC', 12)) {
-                    Flow::execute('WC', 12, $data, $flows);
+                if (!empty($user_id) && $flows = Flow::exists('WC', static::USER_SUBSCRIBE_PRODUCT)) {
+                    Flow::execute('WC', static::USER_SUBSCRIBE_PRODUCT, $data, $flows);
                 }
             }
             if ($product_id === (int) $selectedSubscription) {
-                if (!empty($user_id) && $flows = Flow::exists('WC', 12)) {
-                    Flow::execute('WC', 12, $data, $flows);
+                if (!empty($user_id) && $flows = Flow::exists('WC', static::USER_SUBSCRIBE_PRODUCT)) {
+                    Flow::execute('WC', static::USER_SUBSCRIBE_PRODUCT, $data, $flows);
                 }
             }
         }
@@ -1163,7 +779,7 @@ final class WCController
             return false;
         }
 
-        $flows = Flow::exists('WC', 13);
+        $flows = Flow::exists('WC', static::USER_CANCELLED_SUBSCRIPTION_PRODUCT);
         $flowsDetailData = $flows[0]->flow_details;
         $flowsDetail = json_decode($flowsDetailData);
         $selectedSubscription = $flowsDetail->selectedSubscription;
@@ -1186,13 +802,13 @@ final class WCController
             $data = self::accessSubscription($subscription, $quantity);
 
             if ($selectedSubscription === 'any') {
-                if (!empty($user_id) && $flows = Flow::exists('WC', 13)) {
-                    Flow::execute('WC', 13, $data, $flows);
+                if (!empty($user_id) && $flows = Flow::exists('WC', static::USER_CANCELLED_SUBSCRIPTION_PRODUCT)) {
+                    Flow::execute('WC', static::USER_CANCELLED_SUBSCRIPTION_PRODUCT, $data, $flows);
                 }
             }
             if ($product_id === (int) $selectedSubscription) {
-                if (!empty($user_id) && $flows = Flow::exists('WC', 13)) {
-                    Flow::execute('WC', 13, $data, $flows);
+                if (!empty($user_id) && $flows = Flow::exists('WC', static::USER_CANCELLED_SUBSCRIPTION_PRODUCT)) {
+                    Flow::execute('WC', static::USER_CANCELLED_SUBSCRIPTION_PRODUCT, $data, $flows);
                 }
             }
         }
@@ -1204,7 +820,7 @@ final class WCController
             return false;
         }
 
-        $flows = Flow::exists('WC', 14);
+        $flows = Flow::exists('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED);
         $flowsDetailData = $flows[0]->flow_details;
         $flowsDetail = json_decode($flowsDetailData);
         $selectedSubscription = $flowsDetail->selectedSubscription;
@@ -1227,13 +843,13 @@ final class WCController
             $data = self::accessSubscription($subscription, $quantity);
 
             if ($selectedSubscription === 'any') {
-                if (!empty($user_id) && $flows = Flow::exists('WC', 14)) {
-                    Flow::execute('WC', 14, $data, $flows);
+                if (!empty($user_id) && $flows = Flow::exists('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED)) {
+                    Flow::execute('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED, $data, $flows);
                 }
             }
             if ($product_id === (int) $selectedSubscription) {
-                if (!empty($user_id) && $flows = Flow::exists('WC', 14)) {
-                    Flow::execute('WC', 14, $data, $flows);
+                if (!empty($user_id) && $flows = Flow::exists('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED)) {
+                    Flow::execute('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED, $data, $flows);
                 }
             }
         }
@@ -1245,7 +861,7 @@ final class WCController
             return false;
         }
 
-        $flows = Flow::exists('WC', 15);
+        $flows = Flow::exists('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED);
         $flowsDetailData = $flows[0]->flow_details;
         $flowsDetail = json_decode($flowsDetailData);
         $selectedSubscription = $flowsDetail->selectedSubscription;
@@ -1270,26 +886,26 @@ final class WCController
 
             if ($selectedSubscription === 'any') {
                 if ($selectedSubscriptionStatus === 'any_status') {
-                    if (!empty($user_id) && $flows = Flow::exists('WC', 15)) {
-                        Flow::execute('WC', 15, $data, $flows);
+                    if (!empty($user_id) && $flows = Flow::exists('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED)) {
+                        Flow::execute('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED, $data, $flows);
                     }
                 }
                 // ltrim($selectedSubscriptionStatus, 'wc-')
                 if ($new_status === explode('-', $selectedSubscriptionStatus)[1]) {
-                    if (!empty($user_id) && $flows = Flow::exists('WC', 15)) {
-                        Flow::execute('WC', 15, $data, $flows);
+                    if (!empty($user_id) && $flows = Flow::exists('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED)) {
+                        Flow::execute('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED, $data, $flows);
                     }
                 }
             }
             if ($product_id === (int) $selectedSubscription) {
                 if ($selectedSubscriptionStatus === 'any_status') {
-                    if (!empty($user_id) && $flows = Flow::exists('WC', 15)) {
-                        Flow::execute('WC', 15, $data, $flows);
+                    if (!empty($user_id) && $flows = Flow::exists('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED)) {
+                        Flow::execute('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED, $data, $flows);
                     }
                 }
                 if ($new_status === explode('-', $selectedSubscriptionStatus)[1]) {
-                    if (!empty($user_id) && $flows = Flow::exists('WC', 15)) {
-                        Flow::execute('WC', 15, $data, $flows);
+                    if (!empty($user_id) && $flows = Flow::exists('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED)) {
+                        Flow::execute('WC', static::PRODUCT_SUBSCRIPTION_EXPIRED, $data, $flows);
                     }
                 }
             }
@@ -1303,7 +919,7 @@ final class WCController
         }
 
         $subscription = wcs_get_subscription($subscription_id);
-        $flows = Flow::exists('WC', 16);
+        $flows = Flow::exists('WC', static::END_SUBSCRIPTION_TRIAL_PERIOD);
         $flowsDetailData = $flows[0]->flow_details;
         $flowsDetail = json_decode($flowsDetailData);
         $selectedSubscription = $flowsDetail->selectedSubscription;
@@ -1326,13 +942,13 @@ final class WCController
             $data = self::accessSubscription($subscription, $quantity);
 
             if ($selectedSubscription === 'any') {
-                if (!empty($user_id) && $flows = Flow::exists('WC', 16)) {
-                    Flow::execute('WC', 16, $data, $flows);
+                if (!empty($user_id) && $flows = Flow::exists('WC', static::END_SUBSCRIPTION_TRIAL_PERIOD)) {
+                    Flow::execute('WC', static::END_SUBSCRIPTION_TRIAL_PERIOD, $data, $flows);
                 }
             }
             if ($product_id === (int) $selectedSubscription) {
-                if (!empty($user_id) && $flows = Flow::exists('WC', 16)) {
-                    Flow::execute('WC', 16, $data, $flows);
+                if (!empty($user_id) && $flows = Flow::exists('WC', static::END_SUBSCRIPTION_TRIAL_PERIOD)) {
+                    Flow::execute('WC', static::END_SUBSCRIPTION_TRIAL_PERIOD, $data, $flows);
                 }
             }
         }
@@ -1353,8 +969,8 @@ final class WCController
         $productData = $helper->accessBookingProductData($productInfo);
         $finalData = $helper->process_booking_data($productData, $userData, $customer_id);
 
-        if (!empty($customer_id) && $flows = Flow::exists('WC', 18)) {
-            Flow::execute('WC', 18, $finalData, $flows);
+        if (!empty($customer_id) && $flows = Flow::exists('WC', static::BOOKING_CREATED)) {
+            Flow::execute('WC', static::BOOKING_CREATED, $finalData, $flows);
         }
     }
 
@@ -1364,7 +980,7 @@ final class WCController
             return false;
         }
 
-        $flows = Flow::exists('WC', 19);
+        $flows = Flow::exists('WC', static::USER_REVIEWS_A_PRODUCT);
         if (!$flows) {
             return;
         }
@@ -1398,7 +1014,7 @@ final class WCController
         $flowDetails = json_decode($flows[0]->flow_details);
         $selectedProduct = !empty($flowDetails->selectedProduct) ? $flowDetails->selectedProduct : [];
         if ($flows && ($finalData['product_id'] == $selectedProduct || $selectedProduct === 'any')) {
-            Flow::execute('WC', 19, $finalData, $flows);
+            Flow::execute('WC', static::USER_REVIEWS_A_PRODUCT, $finalData, $flows);
         }
     }
 
@@ -1408,14 +1024,14 @@ final class WCController
             return false;
         }
 
-        $flows = Flow::exists('WC', 20);
+        $flows = Flow::exists('WC', static::USER_PURCHASES_A_VARIABLE_PRODUCT);
 
         if (!$flows) {
             return false;
         }
 
         $order = wc_get_order($order_id);
-        $data = self::accessOrderData($order);
+        $data = WCHelper::accessOrderData($order);
 
         foreach ($flows as $flow) {
             $flowDetails = json_decode($flow->flow_details);
@@ -1425,7 +1041,7 @@ final class WCController
             foreach ($data['line_items'] as $item) {
                 if ($item->product_id == $selectedVariableProduct || $selectedVariableProduct === 'any') {
                     if ($item->variation_id == $selectedVariation || $selectedVariation === 'any') {
-                        Flow::execute('WC', 20, $data, [$flow]);
+                        Flow::execute('WC', static::USER_PURCHASES_A_VARIABLE_PRODUCT, $data, [$flow]);
                     }
                 }
             }
@@ -1625,6 +1241,21 @@ final class WCController
     {
         $allVariation = WCHelper::getAllVariations($requestPrarams->product_id);
         wp_send_json_success($allVariation, 200);
+    }
+
+    private static function executeProductTriggers($postId, $triggeredEntityId, $extra = [])
+    {
+        if (empty($postId) || empty($triggeredEntityId)) {
+            return;
+        }
+
+        $flows = Flow::exists('WC', $triggeredEntityId);
+        if (empty($flows)) {
+            return;
+        }
+
+        $productData = WCHelper::processProductData($postId, $extra);
+        Flow::execute('WC', $triggeredEntityId, $productData, $flows);
     }
 
     private static function isPluginActivated()
