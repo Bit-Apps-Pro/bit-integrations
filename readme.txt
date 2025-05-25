@@ -2,9 +2,9 @@
 Contributors: bitpressadmin, rishadbitcode, niloy121, fahimsakib, shuvomohajan, tanvirchy, shakhawathosen, khoaiz, mazharul78
 Tags: automation, automator, Google Sheets, webhooks, zapier, marketing automation, WooCommerce Integration, no-code automation, email marketing automation, ecommerce automation, digital marketing automation, conditional logic
 Requires at least: 5.1
-Tested up to: 6.8
+Tested up to: 6.8.1
 Requires PHP: 7.4
-Stable tag: 2.5.7
+Stable tag: 2.5.8
 License: GPLv2 or later
 
 Automation Plugin for WordPress. Integration of 130+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
@@ -625,7 +625,7 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 
 == Changelog ==
 
-= 2.5.6 =
+= 2.5.6 - 2.5.8 =
 _Release Date -6th may 2025_
 
 - **New Feature**
