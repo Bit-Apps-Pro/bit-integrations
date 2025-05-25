@@ -1,13 +1,13 @@
-import MultiSelect from 'react-multiple-select-dropdown-lite'
 import { useEffect, useRef } from 'react'
+import MultiSelect from 'react-multiple-select-dropdown-lite'
 import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
-import { addFieldMap } from './IntegrationHelpers'
-import OmniSendFieldMap from './OmniSendFieldMap'
-import OmniSendActions from './OmniSendActions'
-import { generateMappedField } from './OmniSendCommonFunc'
 import ActionProFeatureComponent from '../IntegrationHelpers/ActionProFeatureComponent'
 import { ProFeatureTitle } from '../IntegrationHelpers/ActionProFeatureLabels'
+import { addFieldMap } from './IntegrationHelpers'
+import OmniSendActions from './OmniSendActions'
+import { generateMappedField } from './OmniSendCommonFunc'
+import OmniSendFieldMap from './OmniSendFieldMap'
 
 export default function OmniSendIntegLayout({
   formFields,
@@ -18,7 +18,6 @@ export default function OmniSendIntegLayout({
   setLoading,
   setSnackbar
 }) {
-  const isInitialMount = useRef(true)
   const channels = [
     {
       label: __('Email', 'bit-integrations'),
@@ -57,18 +56,10 @@ export default function OmniSendIntegLayout({
       fields[1].required = false
     }
     newConf[type] = val
+    newConf.field_map = generateMappedField(newConf.omniSend_fields)
+
     setOmniSendConf({ ...newConf })
   }
-  useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false
-    } else {
-      const newConf = { ...omniSendConf }
-      const tmp = generateMappedField(newConf)
-      newConf.field_map = tmp
-      setOmniSendConf(newConf)
-    }
-  }, [omniSendConf.channels])
 
   return (
     <>

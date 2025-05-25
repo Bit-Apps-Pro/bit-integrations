@@ -2,12 +2,12 @@
 
 namespace BitCode\FI\Core\Util;
 
+use BitCode\FI\Triggers\TriggerController;
 use DateTime;
+use DateTimeZone;
+use Exception;
 use stdClass;
 use WP_Error;
-use Exception;
-use DateTimeZone;
-use BitCode\FI\Triggers\TriggerController;
 
 /**
  * bit-integration helper class
@@ -297,6 +297,72 @@ final class Helper
         return array_filter(acf_get_field_groups(), function ($group) use ($type) {
             return $group['active'] && isset($group['location'][0][0]['value']) && \is_array($type) && \in_array($group['location'][0][0]['value'], $type);
         });
+    }
+
+    public static function getAcfFieldData($acfFieldGroups, $postId)
+    {
+        if (!class_exists('ACF')) {
+            return [];
+        }
+
+        $data = [];
+
+        foreach ($acfFieldGroups as $group) {
+            foreach (acf_get_fields($group['ID']) as $field) {
+                $data[$field['_name']] = get_post_meta($postId, $field['_name'])[0];
+            }
+        }
+
+        return $data;
+    }
+
+    public static function getWCCustomCheckoutData($order)
+    {
+        if (!class_exists('WooCommerce')) {
+            return [];
+        }
+
+        $data = [];
+        $order = \is_object($order) ? (array) $order : $order;
+        $checkoutFields = WC()->checkout()->get_checkout_fields();
+
+        foreach ($checkoutFields as $group) {
+            foreach ($group as $field) {
+                if (!empty($field['custom'])) {
+                    $data[$field['name']] = $order[$field['name']];
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    public static function getFlexibleCheckoutData($order)
+    {
+        if (!class_exists('WooCommerce')) {
+            return [];
+        }
+
+        $data = [];
+        $order = \is_object($order) ? (array) $order : $order;
+        $checkoutFields = WC()->checkout()->get_checkout_fields();
+
+        foreach ($checkoutFields as $groupKey => $group) {
+            if ($groupKey == 'shipping') {
+                continue;
+            }
+
+            foreach ($group as $fieldKey => $field) {
+                if (empty($field['custom_field'])) {
+                    continue;
+                }
+
+                $fieldKey = $field['name'] ?? $fieldKey;
+                $data[$fieldKey] = $order[$fieldKey] ?? '';
+            }
+        }
+
+        return $data;
     }
 
     public static function isPrimaryKeysMatch($recordData, $PrimaryKeys)
