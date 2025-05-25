@@ -4,10 +4,10 @@ Tags: automation, automator, Google Sheets, webhooks, zapier, marketing automati
 Requires at least: 5.1
 Tested up to: 6.8.1
 Requires PHP: 7.4
-Stable tag: 2.5.8
+Stable tag: 2.5.9
 License: GPLv2 or later
 
-Automation Plugin for WordPress. Integration of 130+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress
+Automation Plugin for WordPress. Integration of 130+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress.
 
 == Description ==
 
@@ -624,6 +624,19 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 6. All integration list
 
 == Changelog ==
+
+= 2.5.9 =
+_Release Date -25th may 2025_
+
+- **New Triggers**
+- WooCommerce – 13 new events added (Pro).
+
+- **New Feature**
+- SureCart: Now supports custom checkout fields for better data collection and workflows (Pro).
+
+- **Bug Fixes**
+- Omnisend: Blank page issue fixed.
+- Chore: Fixed a JSON unicode escape issue in the Pro version (Pro).
 
 = 2.5.6 - 2.5.8 =
 _Release Date -6th may 2025_
