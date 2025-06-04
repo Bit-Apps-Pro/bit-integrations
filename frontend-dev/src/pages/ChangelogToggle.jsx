@@ -33,8 +33,13 @@ const changeLog = [
     itemClass: 'integration-list',
     items: [
       {
-        label: 'WooCommerce',
-        desc: '13 new events added.',
+        label: 'WooCommerce Memberships',
+        desc: '11 new events added.',
+        isPro: true
+      },
+      {
+        label: 'Paymattic',
+        desc: '4 new events added.',
         isPro: true
       }
     ]
@@ -43,13 +48,7 @@ const changeLog = [
     label: __('New Features', 'bit-integrations'),
     headClass: 'new-feature',
     itemClass: 'feature-list',
-    items: [
-      {
-        label: 'SureCart',
-        desc: 'Now supports custom checkout fields for better data collection and workflows.',
-        isPro: true
-      }
-    ]
+    items: []
   },
   {
     label: __('Improvements', 'bit-integrations'),
@@ -63,13 +62,28 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'Omnisend',
-        desc: 'Blank page issue fixed.',
+        label: 'Telegram',
+        desc: 'Fixed issue with fetching chat list.',
         isPro: false
       },
       {
-        label: 'JSON unicode',
-        desc: 'Fixed a JSON unicode escape issue.',
+        label: 'Telegram',
+        desc: 'Resolved image-to-HTML converter bug.',
+        isPro: false
+      },
+      {
+        label: 'Kadence Block',
+        desc: 'Fixed null value issue in form fields.',
+        isPro: true
+      },
+      {
+        label: 'WooCommerce Memberships',
+        desc: 'User role update issue resolved.',
+        isPro: true
+      },
+      {
+        label: 'Action Hook',
+        desc: 'Routes now correctly fixed and functioning.',
         isPro: true
       }
     ]
