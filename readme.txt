@@ -1,25 +1,86 @@
-=== Easy automation- automate CRM, Email marketing tools, Ecommerce, Forms - Integrate Webhook and 290+ platforms - Bit integrations ===
-Contributors: bitpressadmin, rishadbitcode, niloy121, fahimsakib, shuvomohajan, tanvirchy, shakhawathosen, khoaiz, mazharul78
+=== Bit integrations - Easy Automator with no-code automation, integrate Webhook and automate 290+ Platform ===
+Contributors: bitpressadmin, akaioum, rishadbitcode, niloy121, fahimsakib, shuvomohajan, tanvirchy, shakhawathosen, khoaiz, mazharul78
 Tags: automation, automator, Google Sheets, webhooks, zapier, marketing automation, WooCommerce Integration, no-code automation, email marketing automation, ecommerce automation, digital marketing automation, conditional logic
 Requires at least: 5.1
-Tested up to: 6.8.1
+Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.5.9
+Stable tag: 2.6.0
 License: GPLv2 or later
 
-Automation Plugin for WordPress. Integration of 130+ Triggers & 150+ Actions.The #1 highest no-code platform Automator plugin in WordPress.
+Perfect Automation and integration plugin: Connect 290+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
 
 == Description ==
 
-**Bit Integrations is a powerful no-code automation plugin built for WordPress users who want to simplify workflows and boost productivity — without writing a single line of code. Whether you're running a small business, automating e-commerce store, or scaling your digital marketing automation, Bit Integrations helps you connect apps, collect data, and trigger actions automatically.**
+# 🚀 Bit Integrations — The Ultimate No-Code Automation & Automator Plugin for WordPress
 
-**no-code automation plugin for WordPress, enabling flawless workflows with webhooks, WooCommerce, CRM, LMS, Zapier and more | Best Automation Plugin for WordPress.**
+**Bit Integrations** is a powerful no-code automation plugin and workflow automator built for WordPress users who want to simplify workflows and boost productivity — _without writing a single line of code_.
 
-**Seamlessly connect with form builders, email marketing tools, and CRMs. Use webhooks integration, REST API integration, and platform connectors to create real-time data sync between your favorite apps.**
+Whether you're:
 
-**Design custom triggers, custom action, add conditional logic, handle errors smoothly for flexible data mapping — all through an intuitive UI.**
+- Running a small business  
+- Automating an eCommerce store  
+- Scaling your digital marketing automation  
 
-Automate your WordPress workflow with **Bit Integrations**: the automation plugin for sending data authomatically to WooCommerce, form builders, CRM, LMS, bookings, spreadsheets, webhooks, social media, email marketing and automation platforms like Zapier and others. No technical knowledge needed. Automate tasks across 290+ platforms effortlessly.
+**Bit Integrations** helps you **connect apps, collect data, and trigger actions automatically**.
+
+---
+
+## 🔌 Seamless Integration Across Your WordPress Stack
+
+> No-code automation and automator plugin for WordPress, enabling flawless workflows with Webhooks, WooCommerce, CRMs, LMS, Zapier, and more.
+
+- Connect effortlessly with:
+  - **WooCommerce**
+  - **Form builders**
+  - **Email marketing tools**
+  - **CRM**
+  - **Learning Management Systems (LMS)**
+  - **Spreadsheets and Booking tools**
+
+- Use powerful automation and automator features like:
+  - **Webhooks**
+  - **REST API**
+  - **Platform connectors**
+
+- Design your workflows with:
+  - **Custom triggers**
+  - **Custom actions**
+  - **Conditional logic**
+  - **Error handling**
+  - **Flexible data mapping**
+
+All through a **clean, intuitive UI** your complete **WordPress automator dashboard**, no technical skills required.
+
+---
+
+## ⚙️ Automate Everything from One Dashboard
+
+Automate your WordPress workflow with **Bit Integrations** — the ultimate **no-code automation tool** and **plugin-based automator** for sending data automatically to:
+
+- WooCommerce  
+- Form Builders  
+- CRM  
+- LMS  
+- Bookings  
+- Spreadsheets  
+- Webhooks  
+- Social Media  
+- Email Marketing Tools  
+- Automation Platforms like **Zapier** and more
+
+> **Over 290+ platforms supported — all without code.**
+> Bit Integrations is the **automator plugin WordPress users rely on** for smart, scalable automation.
+
+---
+
+### 🎯 Why Bit Integrations?
+
+Because time is money, and automation is freedom.
+
+---
+
+💡 _Ready to build smarter, faster WordPress workflows using a powerful automation engine and built-in automator tools?_ 
+👉 [Try Bit Integrations Pro Now](https://bit-integrations.com/pricing/) – No coding. No hassle. Just results.
 
 **Easy WordPress Automation with Bit Integrations – by WPTuts**
 
@@ -27,7 +88,10 @@ https://youtu.be/hgMkLvV-r6k
 
 ## Useful Links
 
-🚀[Try Full Version Demo](https://towp.io/) | 🚀[Docs](https://bit-integrations.com/wp-docs/) | 🚀[Video Tutorials](https://youtube.com/playlist?list=PL7c6CDwwm-ALMEsKLYKebKb5XLGPWMNue) | 🚀[Support](https://tawk.to/chat/60eac4b6d6e7610a49aab375/1faah0r3e) | 🚀[Facebook Group](https://www.facebook.com/groups/3308027439209387) | 🚀[Upgrade to Pro](https://bit-integrations.com/pricing/) | 🚀[Bit Integrations Repository](https://github.com/Bit-Apps-Pro/bit-integrations)
+🧪 [Try Pro Version Demo](https://towp.io/)
+🙋 [Support](https://tawk.to/chat/60eac4b6d6e7610a49aab375/1faah0r3e)
+🚀 [Upgrade to Pro](https://bit-integrations.com/pricing/)
+🐱 [Bit Integrations Repository](https://github.com/Bit-Apps-Pro/bit-integrations)
 
 ## Quick Links
 
@@ -35,8 +99,9 @@ https://youtu.be/hgMkLvV-r6k
 💼 Check our [Pricing](https://bit-integrations.com/pricing/) plans and pick the perfect fit.  
 🔗 Explore all supported [Integrations](https://bit-integrations.com/all-integrations/).  
 📚 Need help? Visit our [Documentation](https://bit-integrations.com/wp-docs/).  
+▶️ Need help? Visit our [Video Tutorials](https://youtube.com/playlist?list=PL7c6CDwwm-ALMEsKLYKebKb5XLGPWMNue).
 🏠 Or just drop by our [Home](https://bit-integrations.com/) page.  
-📢 Join our [Bit Integrations community](https://www.facebook.com/groups/bitapps) & get updates on our plugins.
+📢 Join our [Bit Apps Community](https://www.facebook.com/groups/bitapps) & get updates on our plugins.
 
 **Integrate Elementor Forms to a Notion CRM [with Bit Integrations] – by Jeffrey @ Lytbox**
 
@@ -54,7 +119,7 @@ Bit Integrations is more than just a plugin—it's your gateway to seamless auto
 
 https://youtu.be/tLNOuvPdhcY?si=2zWd4yTMYHZUpD7n
 
-Simplify your workflow with Bit Integrations, the go-to automation plugin for WordPress, enabling you to automate tasks and enhance productivity without the need for coding.
+Simplify your workflow with Bit Integrations, the go-to automation and automator plugin for WordPress, enabling you to automate tasks and enhance productivity without the need for coding.
 
 **Connect WordPress Automatically To All Your Favorite Marketing Platforms - Bit Integrations – by SaaS Master**
 
@@ -210,7 +275,7 @@ Say goodbye to manual work and hello to effortless automation. With Bit Integrat
 - **Webhooks**
 - [**... See More**](https://bit-integrations.com/all-integrations/)
 
-**Most popular automation use cases below for more understanding about this automation plugin**
+**Most popular integrations use cases below for more understanding about this automation plugin**
 
 - Automate order management, customer data syncing, product updates, and more. Common integrations include [**WooCommerce + Zoho CRM**](https://bit-integrations.com/triggers/woocommerce/connect/zoho-crm), [**WooCommerce + GoHighLevel**](https://bit-integrations.com/triggers/woocommerce/connect/gohighlevel), and [**WooCommerce + Google Sheets**](https://bit-integrations.com/triggers/woocommerce/connect/google-sheets).
 
@@ -265,7 +330,7 @@ Wp-Telemetry **DOES NOT IMMEDIATELY** start gathering data, rather it will gathe
 
 ### 💥 In the free version, you can create unlimited integrations using free triggers, while the pro version offers unlimited integration capabilities using all triggers.
 
-### ⚡ Key Features:
+### ✅ Key Features:
 
 - ⚡ **No-code automation**: No-code automation for small businesses, marketers, and eCommerce sites.
 
@@ -624,6 +689,20 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 6. All integration list
 
 == Changelog ==
+
+= 2.6.0 =
+_Release Date -4th June 2025_
+
+- **New Triggers**
+ - WooCommerce Memberships:  11 new events added (Pro).  
+ - Paymattic: 4 new events added (Pro).
+
+- **Bug Fixes**
+ - Telegram: Fixed issue with fetching chat list  
+ - Telegram: Resolved image-to-HTML converter bug  
+ - Kadence Block Form: Fixed null value issue in form fields (Pro).  
+ - WooCommerce Memberships: User role update issue resolved (Pro).
+ - Action Hook: Routes now correctly fixed and functioning (Pro).
 
 = 2.5.9 =
 _Release Date -25th may 2025_

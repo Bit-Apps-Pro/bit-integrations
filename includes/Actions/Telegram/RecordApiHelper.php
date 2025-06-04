@@ -120,7 +120,7 @@ class RecordApiHelper
             '/<li>(.*?)<\/li>/s'                                                  => "• $1\n", // List item
             '/<a title="(.*)" href="(.*?)" target="(.*)" rel="(.*)">(.*?)<\/a>/s' => '[$1]($2)', // Links
             '/<a(.*)href="(.*?)"(.*)>(.*?)<\/a>/s'                                => '[$1]($2)', // Links
-            '/<img(.*)src="(.*?)"(.*)alt="(.*?)"(.*)>/s'                          => '[$1]($2)', // Images
+            '/<img(.*)src="(.*?)"(.*)alt="(.*?)"(.*)>/s'                          => '$2', // Images
             '/<code>(.*?)<\/code>/s'                                              => "```\n$1\n```", // Code blocks
             '/<pre>(.*?)<\/pre>/s'                                                => "```\n$1\n```", // Preformatted text
             '/<h1>(.*?)<\/h1>/s'                                                  => "$1\n", // Heading 1

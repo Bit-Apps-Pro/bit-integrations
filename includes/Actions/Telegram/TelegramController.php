@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\Telegram;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use WP_Error;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Telegram integration
@@ -88,26 +88,24 @@ class TelegramController
         $authorizationHeader['Accept'] = 'application/json';
         $telegramResponse = HttpHelper::get($apiEndpoint, null, $authorizationHeader);
 
-        $allList = [];
-        if (!is_wp_error($telegramResponse) && $telegramResponse->ok) {
-            $telegramChatLists = $telegramResponse->result;
-
-            foreach ($telegramChatLists as $list) {
-                $allList[$list->my_chat_member->chat->title] = (object) [
-                    'id'   => $list->my_chat_member->chat->id,
-                    'name' => $list->my_chat_member->chat->title,
-                ];
-            }
-            uksort($allList, 'strnatcasecmp');
-
-            $response['telegramChatLists'] = $allList;
-        } else {
-            wp_send_json_error(
-                $telegramResponse->description,
-                400
-            );
+        if (is_wp_error($telegramResponse) || empty($telegramResponse->ok)) {
+            wp_send_json_error($telegramResponse->description, 400);
         }
-        wp_send_json_success($response, 200);
+
+        $allList = [];
+        foreach ($telegramResponse->result as $list) {
+            if (empty($list->my_chat_member)) {
+                continue;
+            }
+
+            $allList[$list->my_chat_member->chat->title] = (object) [
+                'id'   => $list->my_chat_member->chat->id,
+                'name' => $list->my_chat_member->chat->title,
+            ];
+        }
+        uksort($allList, 'strnatcasecmp');
+
+        wp_send_json_success(['telegramChatLists' => $allList], 200);
     }
 
     public function execute($integrationData, $fieldValues)
