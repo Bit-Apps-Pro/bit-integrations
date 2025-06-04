@@ -1,8 +1,8 @@
 === Bit integrations - Easy Automator with no-code automation, integrate Webhook and automate 290+ Platform ===
-Contributors: bitpressadmin, rishadbitcode, niloy121, fahimsakib, shuvomohajan, tanvirchy, shakhawathosen, khoaiz, mazharul78
+Contributors: bitpressadmin, akaioum, rishadbitcode, niloy121, fahimsakib, shuvomohajan, tanvirchy, shakhawathosen, khoaiz, mazharul78
 Tags: automation, automator, Google Sheets, webhooks, zapier, marketing automation, WooCommerce Integration, no-code automation, email marketing automation, ecommerce automation, digital marketing automation, conditional logic
 Requires at least: 5.1
-Tested up to: 6.8.1
+Tested up to: 6.8
 Requires PHP: 7.4
 Stable tag: 2.6.0
 License: GPLv2 or later
