@@ -29,14 +29,7 @@ function EditMailMint({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, mailMintConf, setMailMintConf)}
-          name="name"
-          value={mailMintConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, mailMintConf, setMailMintConf)} name="name" value={mailMintConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
       <br />
@@ -45,9 +38,7 @@ function EditMailMint({ allIntegURL }) {
       <MailMintIntegLayout
         formID={formID}
         formFields={formFields}
-        handleInput={(e) =>
-          handleInput(e, mailMintConf, setMailMintConf, setIsLoading, setSnackbar)
-        }
+        handleInput={(e) => handleInput(e, mailMintConf, setMailMintConf, setIsLoading, setSnackbar)}
         mailMintConf={mailMintConf}
         setMailMintConf={setMailMintConf}
         isLoading={isLoading}
@@ -57,17 +48,7 @@ function EditMailMint({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            allIntegURL,
-            conf: mailMintConf,
-            navigate,
-            edit: 1,
-            setIsLoading,
-            setSnackbar
-          })
-        }
+        saveConfig={() => saveActionConf({ flow, allIntegURL, conf: mailMintConf, navigate, edit: 1, setIsLoading, setSnackbar })}
         disabled={!mailMintConf.mainAction || isLoading}
         isLoading={isLoading}
         dataConf={mailMintConf}

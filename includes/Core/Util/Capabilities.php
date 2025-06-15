@@ -1,5 +1,4 @@
 <?php
-
 namespace BitCode\FI\Core\Util;
 
 final class Capabilities

@@ -7,6 +7,7 @@ if (!defined('ABSPATH')) {
 use BitCode\FI\Actions\Flowlu\FlowluController;
 use BitCode\FI\Core\Util\Route;
 
+
 Route::post('flowlu_authentication', [FlowluController::class, 'authentication']);
 Route::post('Flowlu_all_fields', [FlowluController::class, 'getAllFields']);
 Route::post('flowlu_fetch_all_account_categories', [FlowluController::class, 'getAllAccountCategories']);

@@ -5,24 +5,13 @@ import Loader from '../../Loaders/Loader'
 import { getAllCourses, getAllLesson } from './TutorLmsCommonFunc'
 import Note from '../../Utilities/Note'
 
-export default function TutorLmsIntegLayout({
-  tutorlmsConf,
-  setTutorlmsConf,
-  isLoading,
-  setIsLoading
-}) {
+export default function TutorLmsIntegLayout({ tutorlmsConf, setTutorlmsConf, isLoading, setIsLoading }) {
   const action = [
-    { value: 'enroll-course', label: __('Enroll the user in a course', 'bit-integrations') },
-    { value: 'unenroll-course', label: __('Unenroll user from a course', 'bit-integrations') },
-    {
-      value: 'complete-course',
-      label: __('Mark a course complete for the user', 'bit-integrations')
-    },
-    {
-      value: 'complete-lesson',
-      label: __('Mark a lesson complete for the user', 'bit-integrations')
-    },
-    { value: 'reset-course', label: __('Reset the user progress in a course', 'bit-integrations') }
+    { value: 'enroll-course', label: 'Enroll the user in a course' },
+    { value: 'unenroll-course', label: 'Unenroll user from a course' },
+    { value: 'complete-course', label: 'Mark a course complete for the user' },
+    { value: 'complete-lesson', label: 'Mark a lesson complete for the user' },
+    { value: 'reset-course', label: 'Reset the user progress in a course' },
   ]
 
   const handleAction = (e) => {
@@ -39,12 +28,7 @@ export default function TutorLmsIntegLayout({
       if (newConf?.selectedAllCourse) delete newConf.selectedAllCourse
       setTutorlmsConf({ ...newConf })
 
-      if (
-        value === 'enroll-course' ||
-        value === 'unenroll-course' ||
-        value === 'complete-course' ||
-        value === 'reset-course'
-      ) {
+      if (value === 'enroll-course' || value === 'unenroll-course' || value === 'complete-course' || value === 'reset-course') {
         getAllCourses(newConf, setTutorlmsConf, setIsLoading, value)
       } else if (value === 'complete-lesson') {
         getAllLesson(newConf, setTutorlmsConf, setIsLoading)
@@ -72,96 +56,75 @@ export default function TutorLmsIntegLayout({
       <br />
       <div className="flx">
         <b className="wdt-200 d-in-b">{__('Action:', 'bit-integrations')}</b>
-        <select
-          onChange={handleAction}
-          name="actionName"
-          value={tutorlmsConf?.actionName}
-          className="btcd-paper-inp w-5">
+        <select onChange={handleAction} name="actionName" value={tutorlmsConf?.actionName} className="btcd-paper-inp w-5">
           <option value="">{__('Select Action', 'bit-integrations')}</option>
-          {action.map(({ label, value }) => (
-            <option key={label} value={value}>
-              {label}
-            </option>
-          ))}
+          {
+            action.map(({ label, value }) => (
+              <option key={label} value={value}>
+                {label}
+              </option>
+            ))
+          }
         </select>
       </div>
       <br />
 
-      {(tutorlmsConf?.actionName === 'enroll-course' ||
-        tutorlmsConf?.actionName === 'unenroll-course' ||
-        tutorlmsConf?.actionName === 'complete-course' ||
-        tutorlmsConf?.actionName === 'reset-course') && (
-        <div className="flx">
-          <b className="wdt-200 d-in-b">{__('Select Course:', 'bit-integrations')}</b>
-          <MultiSelect
-            defaultValue={tutorlmsConf?.selectedCourse}
-            className="btcd-paper-drpdwn w-5"
-            options={
-              tutorlmsConf?.default?.courses &&
-              tutorlmsConf.default.courses.map((course) => ({
-                label: course.courseTitle,
-                value: course.courseId.toString()
-              }))
-            }
-            onChange={(val) => setChanges(val, 'selectedCourse')}
-            singleSelect={
-              tutorlmsConf?.actionName === 'complete-course' ||
-              tutorlmsConf?.actionName === 'reset-course'
-            }
-          />
-          <button
-            onClick={() =>
-              getAllCourses(tutorlmsConf, setTutorlmsConf, setIsLoading, tutorlmsConf?.actionName)
-            }
-            className="icn-btn sh-sm ml-2 mr-2 tooltip"
-            style={{ '--tooltip-txt': `${__('Refresh Courses', 'bit-integrations')}'` }}
-            type="button"
-            disabled={isLoading}>
-            &#x21BB;
-          </button>
-        </div>
-      )}
-      {tutorlmsConf?.actionName === 'complete-lesson' && (
-        <div className="flx">
-          <b className="wdt-200 d-in-b">{__('Select Lessons:', 'bit-integrations')}</b>
-          <MultiSelect
-            defaultValue={tutorlmsConf?.selectedLesson}
-            className="btcd-paper-drpdwn w-5"
-            options={
-              tutorlmsConf?.default?.lessons &&
-              tutorlmsConf.default.lessons.map((lesson) => ({
-                label: lesson.lessonTitle,
-                value: lesson.lessonId.toString()
-              }))
-            }
-            onChange={(val) => setChanges(val, 'selectedLesson')}
-            singleSelect
-          />
-          <button
-            onClick={() => getAllLesson(tutorlmsConf, setTutorlmsConf, setIsLoading)}
-            className="icn-btn sh-sm ml-2 mr-2 tooltip"
-            style={{ '--tooltip-txt': `${__('Refresh Courses', 'bit-integrations')}'` }}
-            type="button"
-            disabled={isLoading}>
-            &#x21BB;
-          </button>
-        </div>
-      )}
+      {
+        (tutorlmsConf?.actionName === 'enroll-course' || tutorlmsConf?.actionName === 'unenroll-course' || tutorlmsConf?.actionName === 'complete-course' || tutorlmsConf?.actionName === 'reset-course')
+        && (
+
+          <div className="flx">
+            <b className="wdt-200 d-in-b">{__('Select Course: ', 'bit-integrations')}</b>
+            <MultiSelect
+              defaultValue={tutorlmsConf?.selectedCourse}
+              className="btcd-paper-drpdwn w-5"
+              options={tutorlmsConf?.default?.courses && tutorlmsConf.default.courses.map(course => ({ label: course.courseTitle, value: course.courseId.toString() }))}
+              onChange={val => setChanges(val, 'selectedCourse')}
+              singleSelect={tutorlmsConf?.actionName === 'complete-course' || tutorlmsConf?.actionName === 'reset-course'}
+            />
+            <button onClick={() => getAllCourses(tutorlmsConf, setTutorlmsConf, setIsLoading, tutorlmsConf?.actionName)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `${__('Refresh Courses', 'bit-integrations')}'` }} type="button" disabled={isLoading}>&#x21BB;</button>
+
+          </div>
+
+        )
+      }
+      {
+        (tutorlmsConf?.actionName === 'complete-lesson')
+        && (
+
+          <div className="flx">
+            <b className="wdt-200 d-in-b">{__('Select Lessons: ', 'bit-integrations')}</b>
+            <MultiSelect
+              defaultValue={tutorlmsConf?.selectedLesson}
+              className="btcd-paper-drpdwn w-5"
+              options={tutorlmsConf?.default?.lessons && tutorlmsConf.default.lessons.map(lesson => ({ label: lesson.lessonTitle, value: lesson.lessonId.toString() }))}
+              onChange={val => setChanges(val, 'selectedLesson')}
+              singleSelect
+            />
+            <button onClick={() => getAllLesson(tutorlmsConf, setTutorlmsConf, setIsLoading)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `${__('Refresh Courses', 'bit-integrations')}'` }} type="button" disabled={isLoading}>&#x21BB;</button>
+
+          </div>
+
+        )
+      }
 
       <br />
       <br />
-      {isLoading && (
-        <Loader
-          style={{
+      {
+        isLoading && (
+          <Loader style={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             height: 100,
-            transform: 'scale(0.7)'
+            transform: 'scale(0.7)',
           }}
-        />
-      )}
-      <Note note={__('This integration will only work for logged-in users.', 'bit-integrations')} />
+          />
+        )
+      }
+      <Note
+        note="This integration will only work for logged-in users."
+      />
     </>
   )
 }

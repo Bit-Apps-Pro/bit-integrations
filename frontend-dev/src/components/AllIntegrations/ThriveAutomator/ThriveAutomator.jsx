@@ -21,25 +21,27 @@ function ThriveAutomator({ formFields, setFlow, flow, allIntegURL }) {
     name: 'ThriveAutomator Web Hooks',
     type: 'ThriveAutomator',
     method: 'POST',
-    url: ''
+    url: process.env.NODE_ENV === 'development' ? 'https://connect.thriveAutomator.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D' : '',
   })
 
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={2} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={2} active={step} /></div>
 
       {/* STEP 1 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
+      <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
         {thriveAutomatorLinks?.youTubeLink && (
-          <TutorialLink title="Thrive Automator" youTubeLink={thriveAutomatorLinks?.youTubeLink} />
+          <TutorialLink
+            title={thriveAutomatorLinks?.title}
+            youTubeLink={thriveAutomatorLinks?.youTubeLink}
+          />
         )}
         {thriveAutomatorLinks?.docLink && (
-          <TutorialLink title="Thrive Automator" docLink={thriveAutomatorLinks?.docLink} />
+          <TutorialLink
+            title={thriveAutomatorLinks?.title}
+            docLink={thriveAutomatorLinks?.docLink}
+          />
         )}
 
         <WebHooksIntegration
@@ -55,16 +57,14 @@ function ThriveAutomator({ formFields, setFlow, flow, allIntegURL }) {
       </div>
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
+
         <WebHooksStepTwo
           step={step}
-          saveConfig={() =>
-            saveIntegConfig(flow, setFlow, allIntegURL, thriveAutomator, navigate, '', '', setIsLoading)
-          }
+          saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, thriveAutomator, navigate, '', '', setIsLoading)}
           isLoading={isLoading}
         />
+
       </div>
     </div>
   )

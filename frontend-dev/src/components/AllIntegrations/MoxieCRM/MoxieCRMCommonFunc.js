@@ -1,37 +1,39 @@
 /* eslint-disable no-console */
 /* eslint-disable no-else-return */
-import toast from 'react-hot-toast'
-import bitsFetch from '../../../Utils/bitsFetch'
-import { __ } from '../../../Utils/i18nwrap'
+import toast from "react-hot-toast";
+import bitsFetch from "../../../Utils/bitsFetch";
+import { __ } from "../../../Utils/i18nwrap";
 
 export const handleInput = (e, moxiecrmConf, setMoxieCRMConf) => {
-  const newConf = { ...moxiecrmConf }
-  const { name } = e.target
-  if (e.target.value !== '') {
-    newConf[name] = e.target.value
+  const newConf = { ...moxiecrmConf };
+  const { name } = e.target;
+  if (e.target.value !== "") {
+    newConf[name] = e.target.value;
   } else {
-    delete newConf[name]
+    delete newConf[name];
   }
-  setMoxieCRMConf({ ...newConf })
-}
+  setMoxieCRMConf({ ...newConf });
+};
 
 export const generateMappedField = (moxiecrmConf) => {
-  let allRequiredFields = []
-  if (moxiecrmConf.actionName === 'client') {
-    allRequiredFields = moxiecrmConf?.clientFields
-  } else if (moxiecrmConf.actionName === 'contact') {
-    allRequiredFields = moxiecrmConf?.contactFields
-  } else if (moxiecrmConf.actionName === 'opportunity') {
-    allRequiredFields = moxiecrmConf?.opportunityFields
+  let allRequiredFields = [];
+  if (moxiecrmConf.actionName === "client") {
+    allRequiredFields = moxiecrmConf?.clientFields;
+  } else if (moxiecrmConf.actionName === "contact") {
+    allRequiredFields = moxiecrmConf?.contactFields;
+  } else if (moxiecrmConf.actionName === "opportunity") {
+    allRequiredFields = moxiecrmConf?.opportunityFields;
   }
-  const requiredFlds = allRequiredFields?.filter((fld) => fld.required === true)
+  const requiredFlds = allRequiredFields?.filter(
+    (fld) => fld.required === true
+  );
   return requiredFlds.length > 0
     ? requiredFlds.map((field) => ({
-        formField: '',
-        moxiecrmFormField: field.key
+        formField: "",
+        moxiecrmFormField: field.key,
       }))
-    : [{ formField: '', moxiecrmFormField: '' }]
-}
+    : [{ formField: "", moxiecrmFormField: "" }];
+};
 
 export const checkMappedFields = (moxiecrmConf) => {
   const mappedFields = moxiecrmConf?.field_map
@@ -39,15 +41,16 @@ export const checkMappedFields = (moxiecrmConf) => {
         (mappedField) =>
           !mappedField.formField ||
           !mappedField.moxiecrmFormField ||
-          (mappedField.formField === 'custom' && !mappedField.customValue) ||
-          (mappedField.moxiecrmFormField === 'customFieldKey' && !mappedField.customFieldKey)
+          (mappedField.formField === "custom" && !mappedField.customValue) ||
+          (mappedField.moxiecrmFormField === "customFieldKey" &&
+            !mappedField.customFieldKey)
       )
-    : []
+    : [];
   if (mappedFields.length > 0) {
-    return false
+    return false;
   }
-  return true
-}
+  return true;
+};
 
 export const moxiecrmAuthentication = (
   confTmp,
@@ -59,33 +62,40 @@ export const moxiecrmAuthentication = (
 ) => {
   if (!confTmp.api_url || !confTmp.api_key) {
     setError({
-      api_url: !confTmp.api_url ? __("API URL can't be empty", 'bit-integrations') : '',
-      api_key: !confTmp.api_key ? __("API Key can't be empty", 'bit-integrations') : ''
-    })
-    return
+      api_url: !confTmp.api_url
+        ? __("API Url can't be empty", "bit-integrations")
+        : "",
+      api_key: !confTmp.api_key
+        ? __("Api Key can't be empty", "bit-integrations")
+        : "",
+    });
+    return;
   }
 
-  setError({})
-  setLoading({ ...loading, auth: true })
+  setError({});
+  setLoading({ ...loading, auth: true });
 
   const requestParams = {
     api_key: confTmp.api_key,
-    api_url: confTmp.api_url
-  }
+    api_url: confTmp.api_url,
+  };
 
-  bitsFetch(requestParams, 'moxiecrm_authentication').then((result) => {
+  bitsFetch(requestParams, "moxiecrm_authentication").then((result) => {
     if (result && result.success) {
-      setIsAuthorized(true)
-      setLoading({ ...loading, auth: false })
-      toast.success(__('Authorized Successfully', 'bit-integrations'))
-      return
+      setIsAuthorized(true);
+      setLoading({ ...loading, auth: false });
+      toast.success(__("Authorized successfully", "bit-integrations"));
+      return;
     }
-    setLoading({ ...loading, auth: false })
+    setLoading({ ...loading, auth: false });
     toast.error(
-      __('Authorized failed, Please enter valid api_url name & API key', 'bit-integrations')
-    )
-  })
-}
+      __(
+        "Authorized failed, Please enter valid api_url name & API key",
+        "bit-integrations"
+      )
+    );
+  });
+};
 
 // export const getCustomFields = (confTmp, setConf, setLoading) => {
 //   setLoading({ ...setLoading, customFields: true });
@@ -118,53 +128,60 @@ export const moxiecrmAuthentication = (
 //   });
 // };
 
+
 export const getAllClients = (confTmp, setConf, setLoading) => {
-  setLoading({ ...setLoading, clients: true })
-
-  const requestParams = {
-    api_key: confTmp.api_key,
-    api_url: confTmp.api_url
-  }
-
-  bitsFetch(requestParams, 'moxiecrm_fetch_all_clients').then((result) => {
-    if (result && result.success) {
-      const newConf = { ...confTmp }
-      if (result.data) {
-        newConf.clients = result.data
-      }
-      setConf(newConf)
-      setLoading({ ...setLoading, clients: false })
-
-      toast.success(__('Clients fetched successfully', 'bit-integrations'))
-      return
-    }
-    setLoading({ ...setLoading, clients: false })
-    toast.error(__('Clients fetching failed', 'bit-integrations'))
-  })
-}
-
-export const getAllPipelineStages = (confTmp, setConf, setLoading) => {
-  setLoading({ ...setLoading, pipelineStages: true })
+  setLoading({ ...setLoading, clients: true });
 
   const requestParams = {
     api_key: confTmp.api_key,
     api_url: confTmp.api_url,
-    action_name: confTmp.actionName
-  }
+  };
 
-  bitsFetch(requestParams, 'moxiecrm_fetch_all_pipelineStages').then((result) => {
+  bitsFetch(requestParams, "moxiecrm_fetch_all_clients").then((result) => {
     if (result && result.success) {
-      const newConf = { ...confTmp }
+      const newConf = { ...confTmp };
       if (result.data) {
-        newConf.pipelineStages = result.data
+        newConf.clients = result.data;
       }
-      setConf(newConf)
-      setLoading({ ...setLoading, pipelineStages: false })
+      setConf(newConf);
+      setLoading({ ...setLoading, clients: false });
 
-      toast.success(__('PipelineStages fetched successfully', 'bit-integrations'))
-      return
+      toast.success(__("Clients fetched successfully", "bit-integrations"));
+      return;
     }
-    setLoading({ ...setLoading, pipelineStages: false })
-    toast.error(__('PipelineStages fetching failed', 'bit-integrations'))
-  })
-}
+    setLoading({ ...setLoading, clients: false });
+    toast.error(__("Clients fetching failed", "bit-integrations"));
+  });
+};
+
+
+export const getAllPipelineStages = (confTmp, setConf, setLoading) => {
+  setLoading({ ...setLoading, pipelineStages: true });
+
+  const requestParams = {
+    api_key: confTmp.api_key,
+    api_url: confTmp.api_url,
+    action_name: confTmp.actionName,
+  };
+
+  bitsFetch(requestParams, "moxiecrm_fetch_all_pipelineStages").then(
+    (result) => {
+      if (result && result.success) {
+        const newConf = { ...confTmp };
+        if (result.data) {
+          newConf.pipelineStages = result.data;
+        }
+        setConf(newConf);
+        setLoading({ ...setLoading, pipelineStages: false });
+
+        toast.success(
+          __("PipelineStages fetched successfully", "bit-integrations")
+        );
+        return;
+      }
+      setLoading({ ...setLoading, pipelineStages: false });
+      toast.error(__("PipelineStages fetching failed", "bit-integrations"));
+    }
+  );
+};
+

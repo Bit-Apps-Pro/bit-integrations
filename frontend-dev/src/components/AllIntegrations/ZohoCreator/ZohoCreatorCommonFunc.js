@@ -4,11 +4,9 @@ import bitsFetch from '../../../Utils/bitsFetch'
 export const setGrantTokenResponse = () => {
   const grantTokenResponse = {}
   const authWindowLocation = window.location.href
-  const queryParams = authWindowLocation
-    .replace(`${window.opener.location.href}/redirect`, '')
-    .split('&')
+  const queryParams = authWindowLocation.replace(`${window.opener.location.href}/redirect`, '').split('&')
   if (queryParams) {
-    queryParams.forEach((element) => {
+    queryParams.forEach(element => {
       const gtKeyValue = element.split('=')
       if (gtKeyValue[1]) {
         // eslint-disable-next-line prefer-destructuring
@@ -20,25 +18,17 @@ export const setGrantTokenResponse = () => {
   window.close()
 }
 
-export const handleAuthorize = (
-  confTmp,
-  setConf,
-  setError,
-  setisAuthorized,
-  setIsLoading,
-  setSnackbar
-) => {
+export const handleAuthorize = (confTmp, setConf, setError, setisAuthorized, setIsLoading, setSnackbar) => {
   if (!confTmp.dataCenter || !confTmp.clientId || !confTmp.clientSecret) {
     setError({
-      dataCenter: !confTmp.dataCenter ? __("Data center can't be empty", 'bit-integrations') : '',
-      clientId: !confTmp.clientId ? __("Client Id can't be empty", 'bit-integrations') : '',
-      clientSecret: !confTmp.clientSecret ? __("Secret key can't be empty", 'bit-integrations') : ''
+      dataCenter: !confTmp.dataCenter ? __('Data center cann\'t be empty', 'bit-integrations') : '',
+      clientId: !confTmp.clientId ? __('Client ID cann\'t be empty', 'bit-integrations') : '',
+      clientSecret: !confTmp.clientSecret ? __('Secret key cann\'t be empty', 'bit-integrations') : '',
     })
     return
   }
   setIsLoading(true)
-  const scopes =
-    'ZohoCreator.dashboard.READ,ZohoCreator.meta.application.READ,ZohoCreator.meta.form.READ,ZohoCreator.form.CREATE,ZohoCreator.report.CREATE,ZohoCreator.report.UPDATE'
+  const scopes = 'ZohoCreator.dashboard.READ,ZohoCreator.meta.application.READ,ZohoCreator.meta.form.READ,ZohoCreator.form.CREATE,ZohoCreator.report.CREATE,ZohoCreator.report.UPDATE'
   const apiEndpoint = `https://accounts.zoho.${confTmp.dataCenter}/oauth/v2/auth?scope=${scopes}&response_type=code&client_id=${confTmp.clientId}&prompt=Consent&access_type=offline&redirect_uri=${encodeURIComponent(window.location.href)}/redirect`
   const authWindow = window.open(apiEndpoint, 'zohoCreator', 'width=400,height=609,toolbar=off')
   const popupURLCheckTimer = setInterval(() => {
@@ -52,29 +42,14 @@ export const handleAuthorize = (
         grantTokenResponse = JSON.parse(bitformsZoho)
         localStorage.removeItem('__zohoCreator')
       }
-      if (
-        !grantTokenResponse.code ||
-        grantTokenResponse.error ||
-        !grantTokenResponse ||
-        !isauthRedirectLocation
-      ) {
+      if (!grantTokenResponse.code || grantTokenResponse.error || !grantTokenResponse || !isauthRedirectLocation) {
         const errorCause = grantTokenResponse.error ? `Cause: ${grantTokenResponse.error}` : ''
-        setSnackbar({
-          show: true,
-          msg: `${__('Authorization Failed', 'bit-integrations')} ${errorCause}. ${__('please try again', 'bit-integrations')}`
-        })
+        setSnackbar({ show: true, msg: `${__('Authorization failed', 'bit-integrations')} ${errorCause}. ${__('please try again', 'bit-integrations')}` })
         setIsLoading(false)
       } else {
         const newConf = { ...confTmp }
         newConf.accountServer = grantTokenResponse['accounts-server']
-        tokenHelper(
-          grantTokenResponse,
-          newConf,
-          setConf,
-          setisAuthorized,
-          setIsLoading,
-          setSnackbar
-        )
+        tokenHelper(grantTokenResponse, newConf, setConf, setisAuthorized, setIsLoading, setSnackbar)
       }
     }
   }, 500)
@@ -87,43 +62,24 @@ const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, setIsLoading
   tokenRequestParams.clientSecret = confTmp.clientSecret
   tokenRequestParams.redirectURI = `${encodeURIComponent(window.location.href)}/redirect`
   bitsFetch(tokenRequestParams, 'zcreator_generate_token')
-    .then((result) => result)
-    .then((result) => {
+    .then(result => result)
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...confTmp }
         newConf.tokenDetails = result.data
         setConf(newConf)
         setisAuthorized(true)
         setSnackbar({ show: true, msg: __('Authorized Successfully', 'bit-integrations') })
-      } else if (
-        (result && result.data && result.data.data) ||
-        (!result.success && typeof result.data === 'string')
-      ) {
-        setSnackbar({
-          show: true,
-          msg: `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}`
-        })
+      } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
+        setSnackbar({ show: true, msg: `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}` })
       } else {
-        setSnackbar({
-          show: true,
-          msg: __('Authorization failed. please try again', 'bit-integrations')
-        })
+        setSnackbar({ show: true, msg: __('Authorization failed. please try again', 'bit-integrations') })
       }
       setIsLoading(false)
     })
 }
 
-export const handleInput = (
-  e,
-  creatorConf,
-  setCreatorConf,
-  formID,
-  setIsLoading,
-  setSnackbar,
-  isNew,
-  error,
-  setError
-) => {
+export const handleInput = (e, creatorConf, setCreatorConf, formID, setIsLoading, setSnackbar, isNew, error, setError) => {
   let newConf = { ...creatorConf }
   if (isNew) {
     const rmError = { ...error }
@@ -145,13 +101,7 @@ export const handleInput = (
   setCreatorConf({ ...newConf })
 }
 
-export const applicationChange = (
-  creatorConf,
-  formID,
-  setCreatorConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const applicationChange = (creatorConf, formID, setCreatorConf, setIsLoading, setSnackbar) => {
   const newConf = { ...creatorConf }
   newConf.department = ''
   newConf.field_map = [{ formField: '', zohoFormField: '' }]
@@ -173,23 +123,14 @@ export const formChange = (creatorConf, formID, setCreatorConf, setIsLoading, se
     refreshFields(formID, newConf, setCreatorConf, setIsLoading, setSnackbar)
   } else {
     newConf.field_map = generateMappedField(newConf)
-    if (
-      Object.keys(newConf.default.fields[newConf.applicationId][newConf.formId].fileUploadFields)
-        .length > 0
-    ) {
+    if (Object.keys(newConf.default.fields[newConf.applicationId][newConf.formId].fileUploadFields).length > 0) {
       newConf.upload_field_map = generateMappedField(newConf, true)
     }
   }
   return newConf
 }
 
-export const refreshApplications = (
-  formID,
-  creatorConf,
-  setCreatorConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const refreshApplications = (formID, creatorConf, setCreatorConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   const refreshApplicationsRequestParams = {
     formID,
@@ -197,10 +138,10 @@ export const refreshApplications = (
     dataCenter: creatorConf.dataCenter,
     clientId: creatorConf.clientId,
     clientSecret: creatorConf.clientSecret,
-    tokenDetails: creatorConf.tokenDetails
+    tokenDetails: creatorConf.tokenDetails,
   }
   bitsFetch(refreshApplicationsRequestParams, 'zcreator_refresh_applications')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...creatorConf }
         if (result.data.applications) {
@@ -208,19 +149,10 @@ export const refreshApplications = (
         }
         setSnackbar({ show: true, msg: __('Applications refreshed', 'bit-integrations') })
         setCreatorConf({ ...newConf })
-      } else if (
-        (result && result.data && result.data.data) ||
-        (!result.success && typeof result.data === 'string')
-      ) {
-        setSnackbar({
-          show: true,
-          msg: `${__('Applications refresh failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}`
-        })
+      } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
+        setSnackbar({ show: true, msg: `${__('Applications refresh failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}` })
       } else {
-        setSnackbar({
-          show: true,
-          msg: __('Applications refresh failed. please try again', 'bit-integrations')
-        })
+        setSnackbar({ show: true, msg: __('Applications refresh failed. please try again', 'bit-integrations') })
       }
       setIsLoading(false)
     })
@@ -238,10 +170,10 @@ export const refreshForms = (formID, creatorConf, setCreatorConf, setIsLoading, 
     clientSecret: creatorConf.clientSecret,
     tokenDetails: creatorConf.tokenDetails,
     accountOwner,
-    applicationId
+    applicationId,
   }
   bitsFetch(refreshFormsRequestParams, 'zcreator_refresh_forms')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...creatorConf }
         if (!newConf.default.forms) {
@@ -255,19 +187,10 @@ export const refreshForms = (formID, creatorConf, setCreatorConf, setIsLoading, 
         }
         setSnackbar({ show: true, msg: __('Forms refreshed', 'bit-integrations') })
         setCreatorConf({ ...newConf })
-      } else if (
-        (result && result.data && result.data.data) ||
-        (!result.success && typeof result.data === 'string')
-      ) {
-        setSnackbar({
-          show: true,
-          msg: `${__('Forms refresh failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}`
-        })
+      } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
+        setSnackbar({ show: true, msg: `${__('Forms refresh failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}` })
       } else {
-        setSnackbar({
-          show: true,
-          msg: __('Forms refresh failed. please try again', 'bit-integrations')
-        })
+        setSnackbar({ show: true, msg: __('Forms refresh failed. please try again', 'bit-integrations') })
       }
       setIsLoading(false)
     })
@@ -285,10 +208,10 @@ export const refreshFields = (formID, creatorConf, setCreatorConf, setIsLoading,
     tokenDetails: creatorConf.tokenDetails,
     accountOwner,
     applicationId,
-    formId
+    formId,
   }
   bitsFetch(refreshFieldsRequestParams, 'zcreator_refresh_fields')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...creatorConf }
         if (result.data.fields) {
@@ -308,10 +231,7 @@ export const refreshFields = (formID, creatorConf, setCreatorConf, setIsLoading,
           }
           setSnackbar({ show: true, msg: __('Fields refreshed', 'bit-integrations') })
         } else {
-          setSnackbar({
-            show: true,
-            msg: `${__('Fields refresh failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}`
-          })
+          setSnackbar({ show: true, msg: `${__('Fields refresh failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}` })
         }
 
         if (result.data.tokenDetails) {
@@ -319,10 +239,7 @@ export const refreshFields = (formID, creatorConf, setCreatorConf, setIsLoading,
         }
         setCreatorConf({ ...newConf })
       } else {
-        setSnackbar({
-          show: true,
-          msg: __('Fields refresh failed. please try again', 'bit-integrations')
-        })
+        setSnackbar({ show: true, msg: __('Fields refresh failed. please try again', 'bit-integrations') })
       }
       setIsLoading(false)
     })
@@ -332,42 +249,14 @@ export const refreshFields = (formID, creatorConf, setCreatorConf, setIsLoading,
 export const generateMappedField = (creatorConf, uploadFields) => {
   const { applicationId, formId } = creatorConf
   if (uploadFields) {
-    return creatorConf.default.fields[applicationId][formId].requiredFileUploadFields.length > 0
-      ? creatorConf.default.fields[applicationId][formId].requiredFileUploadFields.map((field) => ({
-          formField: '',
-          zohoFormField: field
-        }))
-      : [{ formField: '', zohoFormField: '' }]
+    return creatorConf.default.fields[applicationId][formId].requiredFileUploadFields.length > 0 ? creatorConf.default.fields[applicationId][formId].requiredFileUploadFields.map(field => ({ formField: '', zohoFormField: field })) : [{ formField: '', zohoFormField: '' }]
   }
-  return creatorConf.default.fields[applicationId][formId].required.length > 0
-    ? creatorConf.default.fields[applicationId][formId].required.map((field) => ({
-        formField: '',
-        zohoFormField: field
-      }))
-    : [{ formField: '', zohoFormField: '' }]
+  return creatorConf.default.fields[applicationId][formId].required.length > 0 ? creatorConf.default.fields[applicationId][formId].required.map(field => ({ formField: '', zohoFormField: field })) : [{ formField: '', zohoFormField: '' }]
 }
 
-export const checkMappedFields = (creatorConf) => {
-  const mappedFields = creatorConf?.field_map
-    ? creatorConf.field_map.filter(
-        (mappedField) =>
-          !mappedField.formField &&
-          mappedField.zohoFormField &&
-          creatorConf?.default?.fields?.[creatorConf.applicationId]?.[
-            creatorConf.formId
-          ]?.required.indexOf(mappedField.zohoFormField) !== -1
-      )
-    : []
-  const mappedUploadFields = creatorConf?.upload_field_map
-    ? creatorConf.upload_field_map.filter(
-        (mappedField) =>
-          !mappedField.formField &&
-          mappedField.zohoFormField &&
-          creatorConf?.default?.fields?.[creatorConf.applicationId]?.[
-            creatorConf.formId
-          ]?.requiredFileUploadFields.indexOf(mappedField.zohoFormField) !== -1
-      )
-    : []
+export const checkMappedFields = creatorConf => {
+  const mappedFields = creatorConf?.field_map ? creatorConf.field_map.filter(mappedField => (!mappedField.formField && mappedField.zohoFormField && creatorConf?.default?.fields?.[creatorConf.applicationId]?.[creatorConf.formId]?.required.indexOf(mappedField.zohoFormField) !== -1)) : []
+  const mappedUploadFields = creatorConf?.upload_field_map ? creatorConf.upload_field_map.filter(mappedField => (!mappedField.formField && mappedField.zohoFormField && creatorConf?.default?.fields?.[creatorConf.applicationId]?.[creatorConf.formId]?.requiredFileUploadFields.indexOf(mappedField.zohoFormField) !== -1)) : []
   if (mappedFields.length > 0 || mappedUploadFields.length > 0) {
     return false
   }

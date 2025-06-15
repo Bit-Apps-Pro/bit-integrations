@@ -22,68 +22,61 @@ function Salesflare({ formFields, setFlow, flow, allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const accountFields = [
-    { key: 'name', label: __('Account name', 'bit-integrations'), required: true },
-    { key: 'website', label: __('Account website', 'bit-integrations'), required: false },
-    { key: 'description', label: __('Description', 'bit-integrations'), required: false },
-    { key: 'size', label: __('Size', 'bit-integrations'), required: false },
-    { key: 'email', label: __('Account email', 'bit-integrations'), required: false },
-    { key: 'phone_number', label: __('Phone', 'bit-integrations'), required: false },
-    { key: 'street', label: __('Street', 'bit-integrations'), required: false },
-    { key: 'zip', label: __('Zip/Postal Code', 'bit-integrations'), required: false },
-    { key: 'city', label: __('City', 'bit-integrations'), required: false },
-    { key: 'region', label: __('State/Region', 'bit-integrations'), required: false },
-    { key: 'country', label: __('Country', 'bit-integrations'), required: false }
+    { key: 'name', label: 'Account name', required: true },
+    { key: 'website', label: 'Account website', required: false },
+    { key: 'description', label: 'Description', required: false },
+    { key: 'size', label: 'Size', required: false },
+    { key: 'email', label: 'Account email', required: false },
+    { key: 'phone_number', label: 'Phone', required: false },
+    { key: 'street', label: 'Street', required: false },
+    { key: 'zip', label: 'Zip/Postal Code', required: false },
+    { key: 'city', label: 'City', required: false },
+    { key: 'region', label: 'State/Region', required: false },
+    { key: 'country', label: 'Country', required: false },
   ]
 
   const contactFields = [
-    { key: 'firstname', label: __('First Name', 'bit-integrations'), required: true },
-    { key: 'Prefix', label: __('Prefix', 'bit-integrations'), required: false },
-    { key: 'middle', label: __('Middle Name', 'bit-integrations'), required: false },
-    { key: 'lastname', label: __('Last Name', 'bit-integrations'), required: false },
-    { key: 'email', label: __('Email Address', 'bit-integrations'), required: true },
-    { key: 'suffix', label: __('Suffix', 'bit-integrations'), required: false },
-    { key: 'phone_number', label: __('Phone Number', 'bit-integrations'), required: false },
-    { key: 'role', label: __('Role', 'bit-integrations'), required: false },
-    { key: 'organisation', label: __('Organisation', 'bit-integrations'), required: false },
-    { key: 'street', label: __('Street', 'bit-integrations'), required: false },
-    { key: 'zip', label: __('Zip/Postal Code', 'bit-integrations'), required: false },
-    { key: 'city', label: __('City', 'bit-integrations'), required: false },
-    { key: 'region', label: __('State/Region', 'bit-integrations'), required: false },
-    { key: 'country', label: __('Country', 'bit-integrations'), required: false }
+    { key: 'firstname', label: 'First Name', required: true },
+    { key: 'Prefix', label: 'Prefix', required: false },
+    { key: 'middle', label: 'Middle Name', required: false },
+    { key: 'lastname', label: 'Last Name', required: false },
+    { key: 'email', label: 'Email Address', required: true },
+    { key: 'suffix', label: 'Suffix', required: false },
+    { key: 'phone_number', label: 'Phone Number', required: false },
+    { key: 'role', label: 'Role', required: false },
+    { key: 'organisation', label: 'Organisation', required: false },
+    { key: 'street', label: 'Street', required: false },
+    { key: 'zip', label: 'Zip/Postal Code', required: false },
+    { key: 'city', label: 'City', required: false },
+    { key: 'region', label: 'State/Region', required: false },
+    { key: 'country', label: 'Country', required: false },
   ]
 
   const opportunitiyFields = [
-    { key: 'name', label: __('Opportunity name', 'bit-integrations'), required: true },
-    { key: 'value', label: __('Value', 'bit-integrations'), required: false },
-    { key: 'start_date', label: __('Start Date', 'bit-integrations'), required: false },
-    { key: 'close_date', label: __('Close Date', 'bit-integrations'), required: false }
+    { key: 'name', label: 'Opportunity name', required: true },
+    { key: 'value', label: 'Value', required: false },
+    { key: 'start_date', label: 'Start date', required: false },
+    { key: 'close_date', label: 'Close date', required: false },
   ]
 
   const [salesflareConf, setSalesflareConf] = useState({
     name: 'Salesflare',
     type: 'Salesflare',
-    api_key: '',
-    field_map: [{ formField: '', salesflareFormField: '' }],
+    api_key: process.env.NODE_ENV === 'development' ? 'qL2oAebEsF6UM-QZ84t6WgeYm4aBQ1cwkPPOQfwDPM_wD' : '',
+    field_map: [
+      { formField: '', salesflareFormField: '' },
+    ],
     actionName: '',
     actionId: '',
     accountFields,
     contactFields,
     opportunitiyFields,
-    actions: {}
+    actions: {},
   })
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      salesflareConf,
-      navigate,
-      '',
-      '',
-      setIsLoading
-    )
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, salesflareConf, navigate, '', '', setIsLoading)
     resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
@@ -94,27 +87,27 @@ function Salesflare({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = pageNo => {
+  const nextPage = (pageNo) => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
     if (!checkMappedFields(salesflareConf)) {
-      toast.error(__('Please map mandatory fields', 'bit-integrations'))
+      toast.error('Please map mandatory fields')
       return
     }
 
     if (salesflareConf.actionName === 'opportunities') {
       if (!salesflareConf.selectedAccount) {
-        toast.error(__('Please select an Account', 'bit-integrations'))
+        toast.error('Please select an Account')
         return
       }
       if (!salesflareConf.selectedPipeline) {
-        toast.error(__('Please select a Pipeline', 'bit-integrations'))
+        toast.error('Please select a Pipeline')
         return
       }
       if (salesflareConf.selectedPipeline && !salesflareConf.selectedStage) {
-        toast.error(__('Please select a Stage', 'bit-integrations'))
+        toast.error('Please select a Stage')
         return
       }
     }
@@ -125,9 +118,7 @@ function Salesflare({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={3} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
 
       {/* STEP 1 */}
       <SalesflareAuthorization
@@ -141,12 +132,11 @@ function Salesflare({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+
         <SalesflareIntegLayout
           formFields={formFields}
-          handleInput={e => handleInput(e, salesflareConf, setSalesflareConf, setLoading, setSnackbar)}
+          handleInput={(e) => handleInput(e, salesflareConf, setSalesflareConf, setLoading, setSnackbar)}
           salesflareConf={salesflareConf}
           setSalesflareConf={setSalesflareConf}
           loading={loading}
@@ -159,10 +149,13 @@ function Salesflare({ formFields, setFlow, flow, allIntegURL }) {
         {salesflareConf?.actionName && (
           <button
             onClick={() => nextPage(3)}
-            disabled={!checkMappedFields(salesflareConf)}
-            className="btn f-right btcd-btn-lg purple sh-sm flx"
-            type="button">
-            {__('Next', 'bit-integrations')} &nbsp;
+            disabled={!(checkMappedFields(salesflareConf))}
+            className="btn f-right btcd-btn-lg green sh-sm flx"
+            type="button"
+          >
+            {__('Next', 'bit-integrations')}
+            {' '}
+            &nbsp;
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         )}

@@ -6,6 +6,9 @@
 
 namespace BitCode\FI\Actions\ZohoBigin;
 
+use WP_Error;
+use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Flow\FlowController;
 use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\controller\ZohoAuthController;
 
@@ -24,7 +27,7 @@ class ZohoBiginController
     /**
      * Process ajax request for refresh bigin modules
      *
-     * @param object $queryParams Params to refresh  modules
+     * @param Object $queryParams Params to refresh  modules
      *
      * @return JSON bigin module data
      */
@@ -56,9 +59,9 @@ class ZohoBiginController
             $retriveModuleData = $modulesMetaResponse->modules;
             $allModules = [];
             foreach ($retriveModuleData as $module) {
-                if (!\in_array($module->api_name, ['Activities', 'Social', 'Associated_Products', 'Notes', 'Attachments'])) {
+                if (!in_array($module->api_name, ['Activities', 'Social', 'Associated_Products', 'Notes', 'Attachments'])) {
                     $allModules[$module->plural_label] = (object) [
-                        'api_name'     => $module->api_name,
+                        'api_name' => $module->api_name,
                         'plural_label' => $module->plural_label
                     ];
                 }
@@ -80,7 +83,7 @@ class ZohoBiginController
     /**
      * Process ajax request for refresh bigin modules
      *
-     * @param object $queryParams Params to refresh  modules
+     * @param Object $queryParams Params to refresh  modules
      *
      * @return JSON bigin module data
      */
@@ -114,7 +117,7 @@ class ZohoBiginController
             foreach ($retriveLayoutsData as $layout) {
                 $allLayouts[] = (object) [
                     'display_label' => $layout->display_label,
-                    'name'          => $layout->name
+                    'name' => $layout->name
                 ];
             }
             uksort($allLayouts, 'strnatcasecmp');
@@ -134,7 +137,7 @@ class ZohoBiginController
     /**
      * Process ajax request for refresh bigin modules
      *
-     * @param object $queryParams Params to refresh related lists
+     * @param Object $queryParams Params to refresh related lists
      *
      * @return JSON bigin module data
      */
@@ -160,15 +163,15 @@ class ZohoBiginController
 
         $allModules = [
             'Tasks' => (object) [
-                'api_name'     => 'Tasks',
+                'api_name' => 'Tasks',
                 'plural_label' => 'Tasks'
             ],
             'Events' => (object) [
-                'api_name'     => 'Events',
+                'api_name' => 'Events',
                 'plural_label' => 'Events'
             ],
             'Calls' => (object) [
-                'api_name'     => 'Calls',
+                'api_name' => 'Calls',
                 'plural_label' => 'Calls'
             ],
         ];
@@ -180,7 +183,7 @@ class ZohoBiginController
         foreach ($allModules as $module) {
             if ($module->api_name !== $queryParams->module) {
                 $relatedModules[$module->plural_label] = (object) [
-                    'api_name'     => $module->api_name,
+                    'api_name' => $module->api_name,
                     'plural_label' => $module->plural_label
                 ];
             }
@@ -197,7 +200,7 @@ class ZohoBiginController
     /**
      * Process ajax request for refresh bigin layouts
      *
-     * @param object $queryParams Params to fetch fields of module
+     * @param Object $queryParams Params to fetch fields of module
      *
      * @return JSON bigin layout data
      */
@@ -236,11 +239,11 @@ class ZohoBiginController
             $requiredFileUploadFiles = [];
             foreach ($retriveFieldsData as $field) {
                 $fields[$field->api_name] = (object) [
-                    'api_name'      => $field->api_name,
+                    'api_name' => $field->api_name,
                     'display_label' => $field->display_label,
-                    'data_type'     => $field->data_type,
-                    'length'        => $field->length,
-                    'required'      => $field->system_mandatory
+                    'data_type' => $field->data_type,
+                    'length' => $field->length,
+                    'required' => $field->system_mandatory
                 ];
                 if ($field->system_mandatory) {
                     $requiredFields[] = $field->api_name;
@@ -262,9 +265,9 @@ class ZohoBiginController
             usort($requiredFileUploadFiles, 'strnatcasecmp');
 
             $fieldDetails = (object) [
-                'fields'                   => $fields,
-                'fileUploadFields'         => $fileUploadFields,
-                'required'                 => $requiredFields,
+                'fields' => $fields,
+                'fileUploadFields' => $fileUploadFields,
+                'required' => $requiredFields,
                 'requiredFileUploadFields' => $requiredFileUploadFiles
             ];
             $response['fieldDetails'] = $fieldDetails;
@@ -281,7 +284,7 @@ class ZohoBiginController
         wp_send_json_success($response, 200);
     }
 
-    public static function getTagList($queryParams)
+    public function getTagList($queryParams)
     {
         if (
             empty($queryParams->tokenDetails)
@@ -308,10 +311,29 @@ class ZohoBiginController
         $authorizationHeader['Authorization'] = "Zoho-oauthtoken {$queryParams->tokenDetails->access_token}";
         $tagsMetaResponse = HttpHelper::get($tagsMetaApiEndpoint, null, $authorizationHeader);
 
+        if (!is_wp_error($tagsMetaResponse)) {
+            $tags = $tagsMetaResponse->tags;
+
+            if (count($tags) > 0) {
+                $allTags = [];
+                foreach ($tags as $tag) {
+                    $allTags[$tag->name] = (object) [
+                        'tagId' => $tag->id,
+                        'tagName' => $tag->name
+                    ];
+                }
+                uksort($allTags, 'strnatcasecmp');
+                $response['tags'] = $allTags;
+            }
+        } else {
+            wp_send_json_error(
+                empty($tagsMetaResponse->data) ? 'Unknown' : $tagsMetaResponse->error,
+                400
+            );
+        }
         if (!empty($response['tokenDetails']) && !empty($queryParams->id)) {
             ZohoAuthController::_saveRefreshedToken($queryParams->id, $response['tokenDetails'], $response['lists']);
         }
-
         wp_send_json_success($response, 200);
     }
 
@@ -344,11 +366,11 @@ class ZohoBiginController
         if (!is_wp_error($usersMetaResponse)) {
             $users = $usersMetaResponse->users;
 
-            if (\count($users) > 0) {
+            if (count($users) > 0) {
                 $allUsers = [];
                 foreach ($users as $user) {
                     $allUsers[$user->full_name] = (object) [
-                        'userId'   => $user->id,
+                        'userId' => $user->id,
                         'userName' => $user->full_name
                     ];
                 }

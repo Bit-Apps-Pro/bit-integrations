@@ -2,6 +2,7 @@
 
 /**
  * UncannyAutomator Integration
+ *
  */
 
 namespace BitCode\FI\Actions\UncannyAutomator;

@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { __ } from '@wordpress/i18n'
-import bitsFetch from '../../../Utils/bitsFetch'
+import { __ } from "@wordpress/i18n"
+import bitsFetch from "../../../Utils/bitsFetch"
 
 export const handleInput = (e, campaignMonitorConf, setCampaignMonitorConf) => {
   const newConf = { ...campaignMonitorConf }
@@ -13,15 +13,15 @@ export const refreshCampaignMonitorLists = (
   campaignMonitorConf,
   setCampaignMonitorConf,
   setIsLoading,
-  setSnackbar
+  setSnackbar,
 ) => {
   setIsLoading(true)
   const refreshListsRequestParams = {
     client_id: campaignMonitorConf.client_id,
-    api_key: campaignMonitorConf.api_key
+    api_key: campaignMonitorConf.api_key,
   }
 
-  bitsFetch(refreshListsRequestParams, 'campaign_monitor_lists')
+  bitsFetch(refreshListsRequestParams, "campaign_monitor_lists")
     .then((result) => {
       if (result && result.success) {
         const newConf = { ...campaignMonitorConf }
@@ -32,15 +32,15 @@ export const refreshCampaignMonitorLists = (
           newConf.default.campaignMonitorLists = result.data
           setSnackbar({
             show: true,
-            msg: __('CampaignMonitor Lists refreshed', 'bit-integrations')
+            msg: __("CampaignMonitor Lists refreshed", "bit-integrations"),
           })
         } else {
           setSnackbar({
             show: true,
             msg: __(
-              'No CampaignMonitor Lists found. Try changing the header row number or try again',
-              'bit-integrations'
-            )
+              "No CampaignMonitor Lists found. Try changing the header row number or try again",
+              "bit-integrations"
+            ),
           })
         }
 
@@ -48,7 +48,10 @@ export const refreshCampaignMonitorLists = (
       } else {
         setSnackbar({
           show: true,
-          msg: __('CampaignMonitor Lists refresh failed. please try again', 'bit-integrations')
+          msg: __(
+            "CampaignMonitor Lists refresh failed. please try again",
+            "bit-integrations"
+          ),
         })
       }
       setIsLoading(false)
@@ -61,33 +64,36 @@ export const refreshCampaignMonitorFields = (
   campaignMonitorConf,
   setCampaignMonitorConf,
   setIsLoading,
-  setSnackbar
+  setSnackbar,
 ) => {
   setIsLoading(true)
   const refreshListsRequestParams = {
     client_id: campaignMonitorConf.client_id,
     api_key: campaignMonitorConf.api_key,
-    listId: campaignMonitorConf.listId
+    listId: campaignMonitorConf.listId,
   }
 
-  bitsFetch(refreshListsRequestParams, 'campaign_monitor_custom_fields')
+  bitsFetch(refreshListsRequestParams, "campaign_monitor_custom_fields")
     .then((result) => {
       if (result && result.success) {
-        setCampaignMonitorConf((prevConf) => {
+        setCampaignMonitorConf(prevConf => {
           prevConf.customFields = result.data ? result.data : []
           return prevConf
         })
         setSnackbar({
           show: true,
-          msg: __('CampaignMonitor Custom fields refreshed.', 'bit-integrations')
+          msg: __(
+            "CampaignMonitor Custom fields refreshed.",
+            "bit-integrations"
+          ),
         })
       } else {
         setSnackbar({
           show: true,
           msg: __(
-            'CampaignMonitor Custom fields refresh failed. please try again',
-            'bit-integrations'
-          )
+            "CampaignMonitor Custom fields refresh failed. please try again",
+            "bit-integrations"
+          ),
         })
       }
       setIsLoading(false)
@@ -97,21 +103,24 @@ export const refreshCampaignMonitorFields = (
 
 export const generateMappedField = (campaignMonitorConf) => {
   let allFields = campaignMonitorConf.subscriberFields
-  const requiredFlds = allFields && allFields.filter((fld) => fld.required === true)
+  const requiredFlds = allFields && allFields.filter(
+    (fld) => fld.required === true,
+  )
   return requiredFlds.length > 0
     ? requiredFlds.map((field) => ({
-        formField: '',
-        campaignMonitorField: field.key
-      }))
+      formField: '',
+      campaignMonitorField: field.key,
+    }))
     : [{ formField: '', campaignMonitorField: '' }]
 }
 
 export const checkMappedFields = (campaignMonitorConf) => {
   const mappedFields = campaignMonitorConf?.field_map
     ? campaignMonitorConf.field_map.filter(
-        (mappedField) =>
-          !mappedField.formField && mappedField.campaignMonitorField && mappedField.required
-      )
+      (mappedField) => !mappedField.formField
+        && mappedField.campaignMonitorField
+        && mappedField.required
+    )
     : []
   if (mappedFields.length > 0) {
     return false

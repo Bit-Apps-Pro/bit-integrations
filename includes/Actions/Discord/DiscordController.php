@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\Discord;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use WP_Error;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for discord integration
@@ -19,8 +19,7 @@ class DiscordController
     /**
      * Process ajax request for generate_token
      *
-     * @param object $requestsParams     Params to authorize
-     * @param mixed  $tokenRequestParams
+     * @param Object $requestsParams Params to authorize
      *
      * @return JSON discord api response and status
      */
@@ -53,6 +52,7 @@ class DiscordController
         wp_send_json_success($apiResponse, 200);
     }
 
+
     public static function fetchServers($tokenRequestParams)
     {
         if (
@@ -73,7 +73,7 @@ class DiscordController
 
         $apiResponse = HttpHelper::get($apiEndpoint, null, $header);
 
-        if (\count($apiResponse) > 0) {
+        if (count($apiResponse) > 0) {
             foreach ($apiResponse as $server) {
                 $servers[] = [
                     'id'   => (string) $server->id,
@@ -82,9 +82,10 @@ class DiscordController
             }
             wp_send_json_success($servers, 200);
         } else {
-            wp_send_json_error(__('Servers fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Servers fetching failed', 400);
         }
     }
+
 
     public static function fetchChannels($tokenRequestParams)
     {
@@ -106,7 +107,7 @@ class DiscordController
 
         $apiResponse = HttpHelper::get($apiEndpoint, null, $header);
 
-        if (\count($apiResponse) > 0) {
+        if (count($apiResponse) > 0) {
             foreach ($apiResponse as $channel) {
                 $channels[] = [
                     'id'   => (string) $channel->id,
@@ -115,9 +116,10 @@ class DiscordController
             }
             wp_send_json_success($channels, 200);
         } else {
-            wp_send_json_error(__('Channels fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Channels fetching failed', 400);
         }
     }
+
 
     public function execute($integrationData, $fieldValues)
     {
@@ -138,7 +140,7 @@ class DiscordController
             || empty($channel_id)
             || empty($body)
         ) {
-            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Discord'));
+            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for Discord api', 'bit-integrations'));
         }
         $recordApiHelper = new RecordApiHelper(self::APIENDPOINT, $access_token, $integrationId);
         $discordApiResponse = $recordApiHelper->execute(
@@ -149,7 +151,6 @@ class DiscordController
         if (is_wp_error($discordApiResponse)) {
             return $discordApiResponse;
         }
-
         return $discordApiResponse;
     }
 }

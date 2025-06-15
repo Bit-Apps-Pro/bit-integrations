@@ -7,16 +7,14 @@ import { handleOmniSendAuthorize } from './OmniSendCommonFunc'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 
-export default function OmniSendAuthorization({
-  omniSendConf,
+export default function OmniSendAuthorization({ omniSendConf,
   setOmniSendConf,
   step,
   setstep,
   loading,
   setLoading,
   setSnackbar,
-  isInfo
-}) {
+  isInfo }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', api_key: '' })
   const { omniSend } = tutorialLinks
@@ -37,11 +35,11 @@ export default function OmniSendAuthorization({
     setOmniSendConf(newConf)
   }
   const note = `
-    <h4>${__('Step of generate API token:', 'bit-integrations')}</h4>
+    <h4> Step of generate API token:</h4>
     <ul>
-      <li>${__('Goto', 'bit-integrations')} <a href="https://app.omnisend.com/o/my-account/integrations/api-keys">${__('Generate API Token', 'bit-integrations')}</a></li>
-      <li>${__('Copy the <b>Token</b> and paste into <b>API Token</b> field of your authorization form.', 'bit-integrations')}</li>
-      <li>${__('Finally, click <b>Authorize</b> button.', 'bit-integrations')}</li>
+      <li>Goto <a href="https://app.omnisend.com/o/my-account/integrations/api-keys">Generate API Token</a></li>
+      <li>Copy the <b>Token</b> and paste into <b>API Token</b> field of your authorization form.</li>
+      <li>Finally, click <b>Authorize</b> button.</li>
   </ul>
   `
 
@@ -50,12 +48,21 @@ export default function OmniSendAuthorization({
       className="btcd-stp-page"
       style={{
         ...{ width: step === 1 && 900 },
-        ...{ height: step === 1 && 'auto' }
-      }}>
+        ...{ height: step === 1 && 'auto' },
+      }}
+    >
       {omniSend?.youTubeLink && (
-        <TutorialLink title="Omnisend" youTubeLink={omniSend?.youTubeLink} />
+        <TutorialLink
+          title={omniSend?.title}
+          youTubeLink={omniSend?.youTubeLink}
+        />
       )}
-      {omniSend?.docLink && <TutorialLink title="Omnisend" docLink={omniSend?.docLink} />}
+      {omniSend?.docLink && (
+        <TutorialLink
+          title={omniSend?.title}
+          docLink={omniSend?.docLink}
+        />
+      )}
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>
@@ -85,13 +92,14 @@ export default function OmniSendAuthorization({
       <div style={{ color: 'red', fontSize: '15px' }}>{error.api_key}</div>
 
       <small className="d-blk mt-3">
-        {__('To Get API Token, Please Visit', 'bit-integrations')}
+        {__('To Get API token, Please Visit', 'bit-integrations')}
         &nbsp;
         <a
           className="btcd-link"
           href="https://app.omnisend.com/o/my-account/integrations/api-keys"
           target="_blank"
-          rel="noreferrer">
+          rel="noreferrer"
+        >
           {__('OmniSend API Token', 'bit-integrations')}
         </a>
       </small>
@@ -101,30 +109,32 @@ export default function OmniSendAuthorization({
       {!isInfo && (
         <div>
           <button
-            onClick={() =>
-              handleOmniSendAuthorize(
-                omniSendConf,
-                setOmniSendConf,
-                setError,
-                setisAuthorized,
-                loading,
-                setLoading
-              )
-            }
-            className="btn btcd-btn-lg purple sh-sm flx"
+            onClick={() => handleOmniSendAuthorize(
+              omniSendConf,
+              setOmniSendConf,
+              setError,
+              setisAuthorized,
+              loading,
+              setLoading,
+            )}
+            className="btn btcd-btn-lg green sh-sm flx"
             type="button"
-            disabled={isAuthorized || loading.auth}>
+            disabled={isAuthorized || loading.auth}
+          >
             {isAuthorized
               ? __('Authorized ✔', 'bit-integrations')
               : __('Authorize', 'bit-integrations')}
-            {loading.auth && <LoaderSm size="20" clr="#022217" className="ml-2" />}
+            {loading.auth && (
+              <LoaderSm size="20" clr="#022217" className="ml-2" />
+            )}
           </button>
           <br />
           <button
             onClick={nextPage}
-            className="btn ml-auto btcd-btn-lg purple sh-sm flx"
+            className="btn ml-auto btcd-btn-lg green sh-sm flx"
             type="button"
-            disabled={!isAuthorized}>
+            disabled={!isAuthorized}
+          >
             {__('Next', 'bit-integrations')}
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>

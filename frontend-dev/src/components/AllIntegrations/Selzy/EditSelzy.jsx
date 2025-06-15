@@ -21,7 +21,7 @@ function EditSelzy({ allIntegURL }) {
     list: false,
     tag: false,
     page: false,
-    update: false
+    update: false,
   })
 
   const setUpdateLoading = (value) => {
@@ -33,14 +33,7 @@ function EditSelzy({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          name="name"
-          onChange={(e) => handleInput(e, selzyConf, setSelzyConf, error, setError)}
-          value={selzyConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" name="name" onChange={(e) => handleInput(e, selzyConf, setSelzyConf, error, setError)} value={selzyConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <div className="my-3">
         <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
@@ -56,15 +49,14 @@ function EditSelzy({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() => {
-          saveUpdateConfig(flow, allIntegURL, selzyConf, navigate, { edit: 1 }, setUpdateLoading)
-        }}
+        saveConfig={() => { saveUpdateConfig(flow, allIntegURL, selzyConf, navigate, { edit: 1 }, setUpdateLoading) }}
         isLoading={loading.update}
         disabled={selzyConf.field_map.length < 1}
         dataConf={selzyConf}
         setDataConf={setSelzyConf}
         formFields={formFields}
       />
+
     </div>
   )
 }

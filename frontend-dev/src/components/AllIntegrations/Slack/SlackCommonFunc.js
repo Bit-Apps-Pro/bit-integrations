@@ -13,18 +13,9 @@ export const handleInput = (e, slackConf, setSlackConf) => {
   setSlackConf({ ...newConf })
 }
 
-export const getAllChannels = (
-  confTmp,
-  setConf,
-  setError,
-  setisAuthorized,
-  setIsLoading,
-  setSnackbar
-) => {
+export const getAllChannels = (confTmp, setConf, setError, setisAuthorized, setIsLoading, setSnackbar) => {
   if (!confTmp.accessToken) {
-    setError({
-      accessToken: !confTmp.accessToken ? __("Access Token can't be empty", 'bit-integrations') : ''
-    })
+    setError({ accessToken: !confTmp.accessToken ? __('Access Token can\'t be empty', 'bit-integrations') : '' })
     return
   }
 
@@ -34,44 +25,26 @@ export const getAllChannels = (
   const tokenRequestParams = { accessToken: confTmp.accessToken }
 
   bitsFetch(tokenRequestParams, 'slack_authorization')
-    .then((result) => result)
-    .then((result) => {
+    .then(result => result)
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...confTmp }
         newConf.tokenDetails = result.data
         setConf(newConf)
         setisAuthorized(true)
         setSnackbar({ show: true, msg: __('Authorized Successfully', 'bit-integrations') })
-      } else if (
-        (result && result.data && result.data.data) ||
-        (!result.success && typeof result.data === 'string')
-      ) {
-        setSnackbar({
-          show: true,
-          msg: `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}`
-        })
+      } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
+        setSnackbar({ show: true, msg: `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}` })
       } else {
-        setSnackbar({
-          show: true,
-          msg: __('Authorization failed. please try again', 'bit-integrations')
-        })
+        setSnackbar({ show: true, msg: __('Authorization failed. please try again', 'bit-integrations') })
       }
       setIsLoading(false)
     })
 }
 
-export const handleAuthorize = (
-  confTmp,
-  setConf,
-  setError,
-  setisAuthorized,
-  setIsLoading,
-  setSnackbar
-) => {
+export const handleAuthorize = (confTmp, setConf, setError, setisAuthorized, setIsLoading, setSnackbar) => {
   if (!confTmp.accessToken) {
-    setError({
-      accessToken: !confTmp.accessToken ? __("Access Token can't be empty", 'bit-integrations') : ''
-    })
+    setError({ accessToken: !confTmp.accessToken ? __('Access Token can\'t be empty', 'bit-integrations') : '' })
     return
   }
 
@@ -81,27 +54,18 @@ export const handleAuthorize = (
   const tokenRequestParams = { accessToken: confTmp.accessToken }
 
   bitsFetch(tokenRequestParams, 'slack_authorization_and_fetch_channels')
-    .then((result) => result)
-    .then((result) => {
+    .then(result => result)
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...confTmp }
         newConf.tokenDetails = result.data
         setConf(newConf)
         setisAuthorized(true)
         setSnackbar({ show: true, msg: __('Authorized Successfully', 'bit-integrations') })
-      } else if (
-        (result && result.data && result.data.data) ||
-        (!result.success && typeof result.data === 'string')
-      ) {
-        setSnackbar({
-          show: true,
-          msg: `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}`
-        })
+      } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
+        setSnackbar({ show: true, msg: `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}` })
       } else {
-        setSnackbar({
-          show: true,
-          msg: __('Authorization failed. please try again', 'bit-integrations')
-        })
+        setSnackbar({ show: true, msg: __('Authorization failed. please try again', 'bit-integrations') })
       }
       setIsLoading(false)
     })

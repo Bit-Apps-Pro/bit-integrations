@@ -74,7 +74,7 @@ export default function NimbleActions({ nimbleConf, setNimbleConf, loading, setL
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="purple"
+        btnClass="blue"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'xofEmployees'}
         close={clsActionMdl}
@@ -100,7 +100,7 @@ export default function NimbleActions({ nimbleConf, setNimbleConf, loading, setL
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="purple"
+        btnClass="blue"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'rating'}
         close={clsActionMdl}
@@ -126,7 +126,7 @@ export default function NimbleActions({ nimbleConf, setNimbleConf, loading, setL
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="purple"
+        btnClass="blue"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'leadStatus'}
         close={clsActionMdl}
@@ -152,7 +152,7 @@ export default function NimbleActions({ nimbleConf, setNimbleConf, loading, setL
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="purple"
+        btnClass="blue"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'leadSource'}
         close={clsActionMdl}
@@ -178,7 +178,7 @@ export default function NimbleActions({ nimbleConf, setNimbleConf, loading, setL
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="purple"
+        btnClass="blue"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'leadType'}
         close={clsActionMdl}

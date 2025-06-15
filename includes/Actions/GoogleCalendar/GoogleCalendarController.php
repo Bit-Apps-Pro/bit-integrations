@@ -1,5 +1,4 @@
 <?php
-
 namespace BitCode\FI\Actions\GoogleCalendar;
 
 use BitCode\FI\Actions\GoogleCalendar\RecordApiHelper as GoogleCalendarRecordApiHelper;
@@ -38,7 +37,7 @@ class GoogleCalendarController
         if (is_wp_error($apiResponse) || !empty($apiResponse->error)) {
             wp_send_json_error(empty($apiResponse->error_description) ? 'Unknown' : $apiResponse->error_description, 400);
         }
-        $apiResponse->generates_on = time();
+        $apiResponse->generates_on = \time();
         wp_send_json_success($apiResponse, 200);
     }
 
@@ -52,9 +51,9 @@ class GoogleCalendarController
         $lists = self::getGoogleCalendarList($token->access_token);
 
         $data = [];
-        if (\is_array($lists->items)) {
+        if (is_array($lists->items)) {
             foreach ($lists->items as $list) {
-                $data[] = (object) [
+                $data[] = (object)[
                     'id'         => $list->id,
                     'name'       => isset($list->summary) ? $list->summary : $list->id,
                     'accessRole' => isset($list->accessRole) ? $list->accessRole : '',
@@ -65,37 +64,6 @@ class GoogleCalendarController
         $response['googleCalendarLists'] = $data;
         $response['tokenDetails'] = $token;
         wp_send_json_success($response, 200);
-    }
-
-    public function execute($integrationData, $fieldValues)
-    {
-        if (empty($integrationData->flow_details->tokenDetails->access_token)) {
-            LogHandler::save($this->integrationID, wp_json_encode(['type' => 'record', 'type_name' => 'insert']), 'error', wp_sprintf(__('Not Authorization By %s', 'bit-integrations'), 'GoogleCalendar'));
-
-            return false;
-        }
-
-        $integrationDetails = $integrationData->flow_details;
-        $actions = $integrationDetails->actions;
-        $timeZone = $integrationDetails->timeZone;
-        $fieldMap = $integrationDetails->field_map;
-        $calendarId = $integrationDetails->calendarId;
-        $reminderFieldMap = $integrationDetails->reminder_field_map;
-        $tokenDetails = self::tokenExpiryCheck($integrationDetails->tokenDetails, $integrationDetails->clientId, $integrationDetails->clientSecret);
-        if ($tokenDetails->access_token !== $integrationDetails->tokenDetails->access_token) {
-            $this->saveRefreshedToken($this->integrationID, $tokenDetails);
-        }
-
-        if (empty($fieldMap)) {
-            $error = new WP_Error('REQ_FIELD_EMPTY', __('Required fields not mapped', 'bit-integrations'));
-            LogHandler::save($this->integrationID, 'record', 'validation', $error);
-
-            return $error;
-        }
-
-        (new GoogleCalendarRecordApiHelper($tokenDetails->access_token, $calendarId, $timeZone))->executeRecordApi($this->integrationID, $fieldValues, $fieldMap, $reminderFieldMap, $actions);
-
-        return true;
     }
 
     protected static function getGoogleCalendarList($token)
@@ -113,7 +81,6 @@ class GoogleCalendarController
         if (is_wp_error($apiResponse) || !empty($apiResponse->error)) {
             return false;
         }
-
         return $apiResponse;
     }
 
@@ -123,7 +90,7 @@ class GoogleCalendarController
             return false;
         }
 
-        if ((\intval($token->generates_on) + (55 * 60)) < time()) {
+        if ((intval($token->generates_on) + (55 * 60)) < time()) {
             $refreshToken = self::refreshToken($token->refresh_token, $clientId, $clientSecret);
             if (is_wp_error($refreshToken) || !empty($refreshToken->error)) {
                 return false;
@@ -133,7 +100,6 @@ class GoogleCalendarController
             $token->expires_in = $refreshToken->expires_in;
             $token->generates_on = $refreshToken->generates_on;
         }
-
         return $token;
     }
 
@@ -152,8 +118,7 @@ class GoogleCalendarController
             return false;
         }
         $token = $apiResponse;
-        $token->generates_on = time();
-
+        $token->generates_on = \time();
         return $token;
     }
 
@@ -171,6 +136,34 @@ class GoogleCalendarController
 
         $newDetails = json_decode($googleCalendarDetails[0]->flow_details);
         $newDetails->tokenDetails = $tokenDetails;
-        $flow->update($integrationID, ['flow_details' => wp_json_encode($newDetails)]);
+        $flow->update($integrationID, ['flow_details' => \json_encode($newDetails)]);
+    }
+
+    public function execute($integrationData, $fieldValues)
+    {
+        if (empty($integrationData->flow_details->tokenDetails->access_token)) {
+            LogHandler::save($this->integrationID, wp_json_encode(['type' => 'record', 'type_name' => 'insert']), 'error', 'Not Authorization By GoogleCalendar.');
+            return false;
+        }
+
+        $integrationDetails = $integrationData->flow_details;
+        $actions = $integrationDetails->actions;
+        $timeZone = $integrationDetails->timeZone;
+        $fieldMap = $integrationDetails->field_map;
+        $calendarId = $integrationDetails->calendarId;
+        $reminderFieldMap = $integrationDetails->reminder_field_map;
+        $tokenDetails = self::tokenExpiryCheck($integrationDetails->tokenDetails, $integrationDetails->clientId, $integrationDetails->clientSecret);
+        if ($tokenDetails->access_token !== $integrationDetails->tokenDetails->access_token) {
+            $this->saveRefreshedToken($this->integrationID, $tokenDetails);
+        }
+
+        if (empty($fieldMap)) {
+            $error = new WP_Error('REQ_FIELD_EMPTY', __('Required fields not mapped.', 'bit-integrations'));
+            LogHandler::save($this->integrationID, 'record', 'validation', $error);
+            return $error;
+        }
+
+        (new GoogleCalendarRecordApiHelper($tokenDetails->access_token, $calendarId, $timeZone))->executeRecordApi($this->integrationID, $fieldValues, $fieldMap, $reminderFieldMap, $actions);
+        return true;
     }
 }

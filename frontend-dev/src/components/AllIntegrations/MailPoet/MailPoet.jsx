@@ -19,8 +19,10 @@ export default function MailPoet({ formFields, setFlow, flow, allIntegURL }) {
   const [mailPoetConf, setMailPoetConf] = useState({
     name: 'Mail Poet',
     type: 'Mail Poet',
-    field_map: [{ formField: '', mailPoetField: '' }],
-    actions: {}
+    field_map: [
+      { formField: '', mailPoetField: '' },
+    ],
+    actions: {},
   })
 
   const nextPage = (val) => {
@@ -29,10 +31,7 @@ export default function MailPoet({ formFields, setFlow, flow, allIntegURL }) {
     }, 300)
     if (val === 3) {
       if (!checkMappedFields(mailPoetConf)) {
-        setSnackbar({
-          show: true,
-          msg: __('Please map all required fields to continue.', 'bit-integrations')
-        })
+        setSnackbar({ show: true, msg: 'Please map all required fields to continue.' })
         return
       }
       if (mailPoetConf.name !== '' && mailPoetConf.field_map.length > 0) {
@@ -49,7 +48,9 @@ export default function MailPoet({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">{/* <Steps step={3} active={step} /> */}</div>
+      <div className="txt-center mt-2">
+        {/* <Steps step={3} active={step} /> */}
+      </div>
 
       {/* STEP 1 */}
       <MailPoetAuthorization
@@ -64,13 +65,7 @@ export default function MailPoet({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{
-          width: step === 2 && 900,
-          height: step === 2 && 'auto',
-          minHeight: step === 2 && `${200}px`
-        }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto', minHeight: step === 2 && `${200}px` }}>
         <MailPoetIntegLayout
           formID={formID}
           formFields={formFields}
@@ -85,8 +80,9 @@ export default function MailPoet({ formFields, setFlow, flow, allIntegURL }) {
         <button
           onClick={() => nextPage(3)}
           disabled={mailPoetConf.lists === '' || mailPoetConf.field_map.length < 1}
-          className="btn f-right btcd-btn-lg purple sh-sm flx"
-          type="button">
+          className="btn f-right btcd-btn-lg green sh-sm flx"
+          type="button"
+        >
           {__('Next', 'bit-integrations')}
           <BackIcn className="ml-1 rev-icn" />
         </button>
@@ -95,9 +91,7 @@ export default function MailPoet({ formFields, setFlow, flow, allIntegURL }) {
       {/* STEP 3 */}
       <IntegrationStepThree
         step={step}
-        saveConfig={() =>
-          saveIntegConfig(flow, setFlow, allIntegURL, mailPoetConf, navigate, '', '', setIsLoading)
-        }
+        saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, mailPoetConf, navigate, '', '', setIsLoading)}
         isLoading={isLoading}
         dataConf={mailPoetConf}
         setDataConf={setMailPoetConf}

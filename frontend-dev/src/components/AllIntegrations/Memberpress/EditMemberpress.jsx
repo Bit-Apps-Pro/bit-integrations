@@ -26,11 +26,7 @@ function EditMemberpress({ allIntegURL }) {
   function isDisabled() {
     switch (memberpressConf.mainAction) {
       case '1':
-        return (
-          memberpressConf.statusId === undefined ||
-          memberpressConf.gatewayId === undefined ||
-          memberpressConf.selectedMembership === undefined
-        )
+        return memberpressConf.statusId === undefined || memberpressConf.gatewayId === undefined || memberpressConf.selectedMembership === undefined
       default:
         return false
     }
@@ -42,14 +38,7 @@ function EditMemberpress({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, memberpressConf, setMemberpressConf)}
-          name="name"
-          value={memberpressConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, memberpressConf, setMemberpressConf)} name="name" value={memberpressConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
       <br />
@@ -58,9 +47,7 @@ function EditMemberpress({ allIntegURL }) {
       <MemberpressIntegLayout
         formID={formID}
         formFields={formFields}
-        handleInput={(e) =>
-          handleInput(e, memberpressConf, setMemberpressConf, setIsLoading, setSnackbar)
-        }
+        handleInput={(e) => handleInput(e, memberpressConf, setMemberpressConf, setIsLoading, setSnackbar)}
         memberpressConf={memberpressConf}
         setMemberpressConf={setMemberpressConf}
         isLoading={isLoading}
@@ -70,17 +57,7 @@ function EditMemberpress({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            allIntegURL,
-            conf: memberpressConf,
-            navigate,
-            edit: 1,
-            setIsLoading,
-            setSnackbar
-          })
-        }
+        saveConfig={() => saveActionConf({ flow, allIntegURL, conf: memberpressConf, navigate, edit: 1, setIsLoading, setSnackbar })}
         disabled={!memberpressConf.mainAction || isLoading || isDisabled()}
         isLoading={isLoading}
         dataConf={memberpressConf}

@@ -7,6 +7,7 @@ if (!defined('ABSPATH')) {
 use BitCode\FI\Actions\Salesmate\SalesmateController;
 use BitCode\FI\Core\Util\Route;
 
+
 Route::post('salesmate_authentication', [SalesmateController::class, 'authentication']);
 Route::post('Salesmate_fields', [SalesmateController::class, 'getAllFields']);
 Route::post('salesmate_fetch_all_CRMSources', [SalesmateController::class, 'getAllCRMSources']);

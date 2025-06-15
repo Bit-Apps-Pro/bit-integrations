@@ -23,24 +23,15 @@ function Livestorm({ formFields, setFlow, flow, allIntegURL }) {
   const [livestormConf, setLivestormConf] = useState({
     name: 'Livestorm',
     type: 'Livestorm',
-    api_key: '',
-    field_map: [{ formField: '', livestormFormField: '' }],
+    api_key: process.env.NODE_ENV === 'development' ? 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGkubGl2ZXN0b3JtLmNvIiwianRpIjoiZTVkMzUwZTEtZjQyZi00ODM3LWExZjctMDhjZDJkNGQ0MmFjIiwiaWF0IjoxNjg4MzYwMDg4LCJvcmciOiJhOWEwYTdjNy1jNzMzLTRjMzEtOTc0Yi1mODI3NzM4OTVjYTcifQ.rejNMN0nQ3rT-32Yy0WGOIpzoc4T5EE6KiEe4IDXpF8' : '',
+    field_map: [{ formField: "", livestormFormField: "" }],
     actionName: 'addPeopletoEventSession',
-    actions: {}
+    actions: {},
   })
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      livestormConf,
-      navigate,
-      '',
-      '',
-      setIsLoading
-    )
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, livestormConf, navigate, '', '', setIsLoading)
     resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
@@ -51,22 +42,22 @@ function Livestorm({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = pageNo => {
+  const nextPage = (pageNo) => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
     if (!checkMappedFields(livestormConf)) {
-      toast.error(__('Please map mandatory fields', 'bit-integrations'))
+      toast.error('Please map mandatory fields')
       return
     }
 
     if (!livestormConf.selectedEvent) {
-      toast.error(__('Please select an Event', 'bit-integrations'))
+      toast.error('Please select an Event')
       return
     }
     if (!livestormConf.selectedSession) {
-      toast.error(__('Please select a Session', 'bit-integrations'))
+      toast.error('Please select a Session')
       return
     }
 
@@ -92,9 +83,8 @@ function Livestorm({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+
         <LivestormIntegLayout
           formFields={formFields}
           livestormConf={livestormConf}
@@ -109,10 +99,13 @@ function Livestorm({ formFields, setFlow, flow, allIntegURL }) {
         {livestormConf?.actionName && (
           <button
             onClick={() => nextPage(3)}
-            disabled={!checkMappedFields(livestormConf)}
-            className="btn f-right btcd-btn-lg purple sh-sm flx"
-            type="button">
-            {__('Next', 'bit-integrations')} &nbsp;
+            disabled={!(checkMappedFields(livestormConf))}
+            className="btn f-right btcd-btn-lg green sh-sm flx"
+            type="button"
+          >
+            {__('Next', 'bit-integrations')}
+            {' '}
+            &nbsp;
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         )}

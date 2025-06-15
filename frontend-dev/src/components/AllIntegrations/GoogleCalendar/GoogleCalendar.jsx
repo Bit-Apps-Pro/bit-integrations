@@ -20,23 +20,23 @@ function GoogleCalendar({ formFields, setFlow, flow, allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const defaultCalendarFields = [
-    { key: 'start', label: __('Start Date Time', 'bit-integrations'), required: true },
-    { key: 'end', label: __('End Date Time', 'bit-integrations'), required: true },
-    { key: 'summary', label: __('Title', 'bit-integrations'), required: false },
-    { key: 'location', label: __('Location', 'bit-integrations'), required: false },
-    { key: 'description', label: __('Description', 'bit-integrations'), required: false }
+    { key: 'start', label: 'Start Date Time', required: true },
+    { key: 'end', label: 'End Date Time', required: true },
+    { key: 'summary', label: 'Title', required: false },
+    { key: 'location', label: 'Location', required: false },
+    { key: 'description', label: 'Description', required: false },
   ]
 
   const [googleCalendarConf, setGoogleCalendarConf] = useState({
     name: 'Google Calendar',
     type: 'Google Calendar',
-    clientId: '',
-    clientSecret: '',
+    clientId: process.env.NODE_ENV === 'development' ? '169745940494-ambvaatv48bcnoebo0cqqg6u4427mbcf.apps.googleusercontent.com' : '',
+    clientSecret: process.env.NODE_ENV === 'development' ? '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' : '',
     field_map: [{ formField: '', googleCalendarFormField: '' }],
     reminder_field_map: [{ method: 'popup', minutes: '30' }],
     default: defaultCalendarFields,
     calendarLists: [],
-    actions: {}
+    actions: {},
   })
 
   useEffect(() => {
@@ -44,15 +44,7 @@ function GoogleCalendar({ formFields, setFlow, flow, allIntegURL }) {
   }, [])
 
   const saveConfig = () => {
-    saveActionConf({
-      flow,
-      setFlow,
-      allIntegURL,
-      conf: googleCalendarConf,
-      navigate,
-      setIsLoading,
-      setSnackbar
-    })
+    saveActionConf({ flow, setFlow, allIntegURL, conf: googleCalendarConf, navigate, setIsLoading, setSnackbar })
   }
 
   return (
@@ -77,7 +69,8 @@ function GoogleCalendar({ formFields, setFlow, flow, allIntegURL }) {
       {/* STEP 2 */}
       <div
         className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}
+      >
         <GoogleCalendarIntegLayout
           flowID={flowID}
           formFields={formFields}
@@ -98,17 +91,21 @@ function GoogleCalendar({ formFields, setFlow, flow, allIntegURL }) {
 
       <div
         className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}
+      >
         <button
           onClick={() => setStep(3)}
           disabled={
-            !googleCalendarConf?.calendarId ||
-            !googleCalendarConf?.timeZone ||
-            !checkMappedFields(googleCalendarConf?.field_map)
+            !googleCalendarConf?.calendarId
+            || !googleCalendarConf?.timeZone
+            || !checkMappedFields(googleCalendarConf?.field_map)
           }
-          className="btn ml-auto btcd-btn-lg purple sh-sm flx"
-          type="button">
-          {__('Next', 'bit-integrations')} <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
+          className="btn ml-auto btcd-btn-lg green sh-sm flx"
+          type="button"
+        >
+          {__('Next', 'bit-integrations')}
+          {' '}
+          <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
         </button>
       </div>
     </div>

@@ -16,16 +16,14 @@ use BitCode\FI\Core\Util\HttpHelper;
 class RecordApiHelper
 {
     private $_defaultHeader;
-
     private $_apiDomain;
-
     private $_tokenDetails;
     private $_integrationID;
 
     public function __construct($tokenDetails, $integId)
     {
         $this->_defaultHeader['Authorization'] = "Zoho-oauthtoken {$tokenDetails->access_token}";
-        $this->_apiDomain = urldecode($tokenDetails->api_domain);
+        $this->_apiDomain = \urldecode($tokenDetails->api_domain);
         $this->_tokenDetails = $tokenDetails;
         $this->_integrationID = $integId;
     }
@@ -53,7 +51,6 @@ class RecordApiHelper
                 // $this->_logResponse->apiResponse($this->_logID, $this->_integrationID, ['type' => 'record', 'type_name' => 'field'], 'validation', $error);
 
                 LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'record', 'type_name' => 'field']), 'error', wp_json_encode($error));
-
                 return $error;
             }
         }
@@ -64,7 +61,6 @@ class RecordApiHelper
         } else {
             LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'list'], 'success', $recordApiResponse);
         }
-
         return $recordApiResponse;
     }
 }

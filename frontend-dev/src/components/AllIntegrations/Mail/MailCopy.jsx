@@ -34,16 +34,16 @@ function Mail({ allIntegURL, isInfo, edit }) {
     if (emailInFormField()) {
       const flds = []
 
-      formFields.map((fld) => {
+      formFields.map(fld => {
         if (fld.type === 'email') {
           flds.push({ label: fld.label, value: `\${${fld.name}}` })
         }
       })
-      mail.push({ title: __('Form Fields', 'bit-integrations'), type: 'group', childs: flds })
+      mail.push({ title: 'Form Fields', type: 'group', childs: flds })
     }
 
     if (userMail && Array.isArray(userMail)) {
-      mail.push({ title: __('WP Emails', 'bit-integrations'), type: 'group', childs: userMail })
+      mail.push({ title: 'WP Emails', type: 'group', childs: userMail })
     }
 
     return mail
@@ -63,7 +63,11 @@ function Mail({ allIntegURL, isInfo, edit }) {
         tmpConf.condition = {
           action_behavior: '',
           actions: [{ field: '', action: 'value' }],
-          logics: [{ field: '', logic: '', val: '' }, 'or', { field: '', logic: '', val: '' }]
+          logics: [
+            { field: '', logic: '', val: '' },
+            'or',
+            { field: '', logic: '', val: '' },
+          ],
         }
         setConf(tmpConf)
       }
@@ -127,23 +131,21 @@ function Mail({ allIntegURL, isInfo, edit }) {
   }
 
   const addFieldToSubject = ({ target: { value } }) => {
-    setConf((prv) => ({ ...prv, subject: (prv.subject !== undefined ? prv.subject : '') + value }))
-    setTimeout(() => {
-      value = ''
-    }, 100)
+    setConf(prv => ({ ...prv, subject: (prv.subject !== undefined ? prv.subject : '') + value }))
+    setTimeout(() => { value = '' }, 100)
   }
 
   const saveConfig = () => {
     if (!conf.name) {
-      setSnackbar({ show: true, msg: __("Integration Name can't be empty", 'bit-integrations') })
+      setSnackbar({ show: true, msg: __('Integration Name cann\'t be empty', 'bit-integrations') })
       return
     }
     if (!conf.to) {
-      setSnackbar({ show: true, msg: __("Email Receiver can't be empty", 'bit-integrations') })
+      setSnackbar({ show: true, msg: __('Email Receiver cann\'t be empty', 'bit-integrations') })
       return
     }
     const resp = saveIntegConfig(flow, setFlow, allIntegURL, conf, navigate, '', edit, setIsLoading)
-    resp.then((res) => {
+    resp.then(res => {
       if (res.success) {
         if (edit) {
           toast.success('Integration Updated Successfully')
@@ -156,7 +158,7 @@ function Mail({ allIntegURL, isInfo, edit }) {
   }
 
   const onChangeHandler = (val) => {
-    setConf((prv) => ({ ...prv, body: val }))
+    setConf(prv => ({ ...prv, body: val }))
     // setEmailSetting('body', val)
   }
 
@@ -170,27 +172,23 @@ function Mail({ allIntegURL, isInfo, edit }) {
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
       <span className="f-m wdt-200 d-in-b">{__('Integration Name', 'bit-integration')}</span>
-      <input
-        className="btcd-paper-inp w-5 mt-1"
-        onChange={(e) => setEmailSetting('name', e.target.value)}
-        name="name"
-        value={conf.name}
-        type="text"
-        placeholder={__('Integration Name...', 'bit-integrations')}
-        disabled={isInfo}
-      />
+      <input className="btcd-paper-inp w-5 mt-1" onChange={(e) => setEmailSetting('name', e.target.value)} name="name" value={conf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} disabled={isInfo} />
 
       <br />
       <br />
       {flow.triggered_entity === 'Webhook' && flow?.flow_details && (
-        <EditWebhookInteg setSnackbar={setSnackbar} />
+        <EditWebhookInteg
+          setSnackbar={setSnackbar}
+        />
       )}
       {flow.triggered_entity !== 'Webhook' && flow?.flow_details && (
-        <EditFormInteg setSnackbar={setSnackbar} />
+        <EditFormInteg
+          setSnackbar={setSnackbar}
+        />
       )}
 
       <DropDown
-        action={(val) => setEmailSetting('from', val)}
+        action={val => setEmailSetting('from', val)}
         placeholder={__('Add mail from address', 'bit-integrations')}
         value={conf.from}
         title={<span className="f-m wdt-200 d-in-b">{__('From', 'bit-integrations')}</span>}
@@ -200,7 +198,7 @@ function Mail({ allIntegURL, isInfo, edit }) {
         options={mailOptions(conf.from)}
       />
       <DropDown
-        action={(val) => setEmailSetting('to', val)}
+        action={val => setEmailSetting('to', val)}
         value={conf.to}
         placeholder={__('Add Email Receiver', 'bit-integrations')}
         title={<span className="f-m wdt-200 d-in-b">{__('To', 'bit-integrations')}</span>}
@@ -211,7 +209,7 @@ function Mail({ allIntegURL, isInfo, edit }) {
         options={mailOptions(conf.to)}
       />
       <DropDown
-        action={(val) => setEmailSetting('cc', val)}
+        action={val => setEmailSetting('cc', val)}
         value={conf.cc}
         placeholder={__('Add Email CC', 'bit-integrations')}
         title={<span className="f-m wdt-200 d-in-b">{__('CC', 'bit-integrations')}</span>}
@@ -222,7 +220,7 @@ function Mail({ allIntegURL, isInfo, edit }) {
         options={mailOptions(conf.cc)}
       />
       <DropDown
-        action={(val) => setEmailSetting('bcc', val)}
+        action={val => setEmailSetting('bcc', val)}
         placeholder={__('Add Email BCC', 'bit-integrations')}
         value={conf.bcc}
         title={<span className="f-m wdt-200 d-in-b">{__('BCC', 'bit-integrations')}</span>}
@@ -233,7 +231,7 @@ function Mail({ allIntegURL, isInfo, edit }) {
         options={mailOptions(conf.bcc)}
       />
       <DropDown
-        action={(val) => setEmailSetting('replyto', val)}
+        action={val => setEmailSetting('replyto', val)}
         placeholder={__('Reply To', 'bit-integrations')}
         value={conf.replyto}
         title={<span className="f-m wdt-200 d-in-b">{__('Reply To', 'bit-integrations')}</span>}
@@ -244,7 +242,7 @@ function Mail({ allIntegURL, isInfo, edit }) {
         options={mailOptions(conf.replyto)}
       />
       <DropDown
-        action={(value) => setEmailSetting('attachment', value)}
+        action={value => setEmailSetting('attachment', value)}
         placeholder={__('Attachment', 'bit-integrations')}
         value={conf?.attachment || []}
         title={<span className="f-m wdt-200 d-in-b">{__('Attachment', 'bit-integrations')}</span>}
@@ -258,40 +256,20 @@ function Mail({ allIntegURL, isInfo, edit }) {
       />
       <div className="mt-2 mb-4 flx">
         <span className="f-m wdt-200 d-in-b">Subject:</span>
-        <input
-          onChange={(e) => setEmailSetting('subject', e.target.value)}
-          name="sub"
-          type="text"
-          className="btcd-paper-inp w-5"
-          placeholder="Email Subject Here"
-          value={conf.subject}
-        />
-        <select
-          onChange={addFieldToSubject}
-          className="btcd-paper-inp ml-2"
-          style={{ width: '20%' }}>
+        <input onChange={e => setEmailSetting('subject', e.target.value)} name="sub" type="text" className="btcd-paper-inp w-5" placeholder="Email Subject Here" value={conf.subject} />
+        <select onChange={addFieldToSubject} className="btcd-paper-inp ml-2" style={{ width: '20%' }}>
           {/* <option value="">{__('Add form field', 'bit-integrations')}</option>
           {formFields !== null && formFields.map(f => !f.type.match(/^(file|recaptcha)$/) && <option key={f.name} value={`\${${f.name}}`}>{f.label}</option>)} */}
           <option value="">{__('Add field', 'bit-integrations')}</option>
-          <optgroup label={__('Form Fields', 'bit-integrations')}>
-            {formFields !== null &&
-              formFields.map(
-                (f) =>
-                  !f.type.match(/^(file|recaptcha)$/) && (
-                    <option key={f.name} value={`\${${f.name}}`}>
-                      {f.label}
-                    </option>
-                  )
-              )}
+          <optgroup label="Form Fields">
+            {formFields !== null && formFields.map(f => !f.type.match(/^(file|recaptcha)$/) && <option key={f.name} value={`\${${f.name}}`}>{f.label}</option>)}
           </optgroup>
-          <optgroup
-            label={`${__('General Smart Codes', 'bit-integrations')} ${isPro ? '' : `(${__('Pro', 'bit-integrations')})`}`}>
-            {isPro &&
-              SmartTagField?.map((f) => (
-                <option key={`ff-rm-${f.name}`} value={`\${${f.name}}`}>
-                  {f.label}
-                </option>
-              ))}
+          <optgroup label={`General Smart Codes ${isPro ? '' : '(PRO)'}`}>
+            {isPro && SmartTagField?.map(f => (
+              <option key={`ff-rm-${f.name}`} value={`\${${f.name}}`}>
+                {f.label}
+              </option>
+            ))}
           </optgroup>
         </select>
       </div>
@@ -306,49 +284,44 @@ function Mail({ allIntegURL, isInfo, edit }) {
       {conf?.condition && (
         <>
           <div className="flx">
-            <TableCheckBox
-              onChange={(e) => checkedCondition(e.target.value, e.target.checked)}
-              checked={conf?.condition?.action_behavior === 'cond'}
-              className="wdt-200 mt-4 mr-2"
-              value="cond"
-              title={__('Conditional Logics', 'bit_integration')}
-            />
+            <TableCheckBox onChange={e => checkedCondition(e.target.value, e.target.checked)} checked={conf?.condition?.action_behavior === 'cond'} className="wdt-200 mt-4 mr-2" value="cond" title={__('Conditional Logics', 'bit_integration')} />
           </div>
           <br />
           {conf?.condition?.action_behavior === 'cond' && (
+
             <ConditionalLogic formFields={formFields} dataConf={conf} setDataConf={setConf} />
           )}
         </>
       )}
 
-      <SaveButton saveConfig={saveConfig} isLoading={isLoading} edit={flow?.flow_details && true} />
+      <SaveButton
+        saveConfig={saveConfig}
+        isLoading={isLoading}
+        edit={flow?.flow_details && true}
+      />
     </div>
   )
 }
 
 export default Mail
 
-const SaveButton = ({ saveConfig, edit, isLoading }) =>
-  edit ? (
-    <div className="txt-center w-9 mt-3">
-      <button
-        onClick={saveConfig}
-        className="btn btcd-btn-lg purple sh-sm flx"
-        type="button"
-        disabled={isLoading}>
-        {__('Update', 'bit-integrations')}
-        {isLoading && <LoaderSm size={20} clr="#022217" className="ml-2" />}
-      </button>
-    </div>
-  ) : (
-    <div className="btcd-stp-page txt-center" style={{ width: '100%', height: 'auto' }}>
-      <button
-        onClick={saveConfig}
-        className="btn btcd-btn-lg purple sh-sm"
-        type="button"
-        disabled={isLoading}>
-        {__('Save', 'bit-integrations')}✔
-        {isLoading && <LoaderSm size={20} clr="#022217" className="ml-2" />}
-      </button>
-    </div>
-  )
+const SaveButton = ({ saveConfig, edit, isLoading }) => (
+  edit
+    ? (
+      <div className="txt-center w-9 mt-3">
+        <button onClick={saveConfig} className="btn btcd-btn-lg green sh-sm flx" type="button" disabled={isLoading}>
+          {__('Update', 'bit-integrations')}
+          {isLoading && <LoaderSm size={20} clr="#022217" className="ml-2" />}
+        </button>
+      </div>
+    )
+    : (
+      <div className="btcd-stp-page txt-center" style={{ width: '100%', height: 'auto' }}>
+        <button onClick={saveConfig} className="btn btcd-btn-lg green sh-sm" type="button" disabled={isLoading}>
+          {__('Save ', 'bit-integrations')}
+          ✔
+          {isLoading && <LoaderSm size={20} clr="#022217" className="ml-2" />}
+        </button>
+      </div>
+    )
+)

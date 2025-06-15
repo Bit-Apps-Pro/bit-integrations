@@ -24,14 +24,12 @@ const Webhook = () => {
   const { api } = useRecoilValue($btcbi)
   const [showResponse, setShowResponse] = useState(false)
   const intervalRef = useRef(null)
-  let controller = new AbortController()
-  const signal = controller.signal
 
   const setTriggerData = () => {
     const tmpNewFlow = { ...newFlow }
     tmpNewFlow.triggerData = {
       formID: hookID,
-      fields: tmpNewFlow.triggerDetail.data
+      fields: tmpNewFlow.triggerDetail.data,
     }
     tmpNewFlow.triggered_entity_id = hookID
     setFields(tmpNewFlow.triggerDetail.data)
@@ -43,34 +41,36 @@ const Webhook = () => {
       setHookID(newFlow.triggerDetail?.hook_id)
       window.hook_id = newFlow.triggerDetail?.hook_id
     } else {
-      bitsFetch({ hook_id: hookID }, 'webhook/new', null, 'get').then((resp) => {
-        if (resp.success) {
-          setHookID(resp.data.hook_id)
-          window.hook_id = resp.data.hook_id
-        }
-      })
+      bitsFetch({ hook_id: hookID }, 'webhook/new', null, 'get').then(
+        (resp) => {
+          if (resp.success) {
+            setHookID(resp.data.hook_id)
+            window.hook_id = resp.data.hook_id
+          }
+        },
+      )
     }
     return () => {
-      intervalRef?.current && clearInterval(intervalRef.current)
-      controller.abort()
-      bitsFetch({ hook_id: window.hook_id }, 'webhook/test/remove').then((resp) => {
-        delete window.hook_id
-      })
+      bitsFetch({ hook_id: window.hook_id }, 'webhook/test/remove').then(
+        (resp) => {
+          delete window.hook_id
+          intervalRef.current && clearInterval(intervalRef.current)
+        },
+      )
     }
   }, [])
 
   const handleFetch = () => {
     setIsLoading(true)
     intervalRef.current = setInterval(() => {
-      bitsFetch({ hook_id: hookID }, 'webhook/test', null, 'post', signal)
-        .then((resp) => {
-          if (resp.success) {
-            controller.abort()
-            clearInterval(intervalRef.current)
-            const tmpNewFlow = { ...newFlow }
-            const data = resp.data.webhook
+      bitsFetch({ hook_id: hookID }, 'webhook/test').then((resp) => {
+        if (resp.success) {
+          clearInterval(intervalRef.current)
+          const tmpNewFlow = { ...newFlow }
+          const data = resp.data.webhook
 
-            let convertedData = Object.entries(data).reduce((outObj, item) => {
+          let convertedData = Object.entries(data).reduce(
+            (outObj, item) => {
               const [name, obj] = item
               if (typeof obj === 'object' && obj !== null && obj !== undefined) {
                 const objArr = Object.entries(obj)
@@ -82,30 +82,28 @@ const Webhook = () => {
                 return { ...outObj, ...inObj }
               }
               return data
-            }, {})
+            },
+            {},
+          )
 
-            if (typeof resp.data.webhook === 'object') {
-              convertedData = Object.keys(convertedData).map((fld) => ({
-                name: fld,
-                label: `${convertedData[fld]}-${fld}`,
-                type: 'text'
-              }))
-            }
+          if (typeof resp.data.webhook === 'object') {
+            convertedData = Object.keys(convertedData).map(fld => (
+              { name: fld, label: `${convertedData[fld]}-${fld}`, type: 'text' }
+            ))
+          }
 
-            tmpNewFlow.triggerDetail.tmp = resp.data.webhook
-            tmpNewFlow.triggerDetail.data = convertedData
-            tmpNewFlow.triggerDetail.hook_id = hookID
-            setNewFlow(tmpNewFlow)
-            setIsLoading(false)
-            setShowResponse(true)
-            bitsFetch({ hook_id: window.hook_id, reset: true }, 'webhook/test/remove', null, 'post')
-          }
-        })
-        .catch((err) => {
-          if (err.name === 'AbortError') {
-            console.log(__('AbortError: Fetch request aborted', 'bit-integrations'))
-          }
-        })
+          tmpNewFlow.triggerDetail.tmp = resp.data.webhook
+          tmpNewFlow.triggerDetail.data = convertedData
+          tmpNewFlow.triggerDetail.hook_id = hookID
+          setNewFlow(tmpNewFlow)
+          setIsLoading(false)
+          setShowResponse(true)
+          bitsFetch(
+            { hook_id: window.hook_id, reset: true },
+            'webhook/test/remove',
+          )
+        }
+      })
     }, 1500)
   }
 
@@ -113,13 +111,14 @@ const Webhook = () => {
     setShowResponse((prevState) => !prevState)
   }
 
-  const info = `${__('You can test any kind of webhook using', 'bit-integrations')} <a href="https://webhook.is/" target="_blank" rel="noreferrer">${__('webhook.is', 'bit-integrations')}</a>
-            <h4>${__('Setup', 'bit-integrations')}</h4>
+  const info = `You can test any kind of webhook using <a href="https://webhook.is/" target="_blank" rel="noreferrer">webhook.is</a>
+            <h4>Setup</h4>
             <a className="btcd-link" href="https://bitapps.pro/docs/bit-integrations/trigger/webhook-integrations" target="_blank" rel="noreferrer">${__('Details on Documentation', 'bit-integrations')}</a>
             <ul>
-                <li>${__('Click on the <b>Fetch</b> button & Submit your <b>Form</b> to get the form data', 'bit-integrations')}</li>
+                <li>Click on the <b>Fetch</b> button & Submit your <b>Form</b> to get the form data</li>
             </ul>
   `
+
 
   return (
     <div className="trigger-webhook-width">
@@ -136,41 +135,59 @@ const Webhook = () => {
       <div className="flx flx-between">
         <button
           onClick={handleFetch}
-          className="btn btcd-btn-lg purple sh-sm flx"
+          className="btn btcd-btn-lg green sh-sm flx"
           type="button"
-          disabled={!hookID}>
+          disabled={!hookID}
+        >
           {newFlow.triggerDetail?.data
             ? __('Fetched ✔', 'bit-integrations')
             : __('Fetch', 'bit-integrations')}
-          {isLoading && <LoaderSm size="20" clr="#022217" className="ml-2" />}
+          {isLoading && (
+            <LoaderSm size="20" clr="#022217" className="ml-2" />
+          )}
         </button>
         {newFlow.triggerDetail?.data && (
-          <button onClick={showResponseTable} className="btn btcd-btn-lg sh-sm flx">
+          <button
+            onClick={showResponseTable}
+            className="btn btcd-btn-lg sh-sm flx"
+          >
             <span className="txt-webhook-resbtn font-inter-500">
-              {showResponse
-                ? __('Hide Response', 'bit-integrations')
-                : __('View Response', 'bit-integrations')}
+              {showResponse ? 'Hide Response' : 'View Response'}
             </span>
             {!showResponse ? (
-              <EyeIcn width="20" height="20" strokeColor="#000000" />
+              <EyeIcn
+                width="20"
+                height="20"
+                strokeColor="#000000"
+              />
             ) : (
-              <EyeOffIcn width="20" height="20" strokeColor="#000000" />
+              <EyeOffIcn
+                width="20"
+                height="20"
+                strokeColor="#000000"
+              />
             )}
           </button>
         )}
       </div>
       {showResponse && (
-        <WebhookDataTable data={newFlow?.triggerDetail?.data} flow={newFlow} setFlow={setNewFlow} />
+        <WebhookDataTable
+          data={newFlow?.triggerDetail?.data}
+          flow={newFlow}
+          setFlow={setNewFlow}
+        />
       )}
       <button
         onClick={setTriggerData}
-        className="btn btcd-btn-lg purple sh-sm flx"
+        className="btn btcd-btn-lg green sh-sm flx"
         type="button"
-        disabled={!newFlow.triggerDetail?.data}>
-        {__('Set Action', 'bit-integrations')}
+        disabled={!newFlow.triggerDetail?.data}
+      >
+        Set Action
       </button>
       <Note note={info} />
     </div>
   )
 }
 export default Webhook
+

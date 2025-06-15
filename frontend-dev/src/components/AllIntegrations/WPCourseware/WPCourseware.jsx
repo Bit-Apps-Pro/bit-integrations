@@ -8,6 +8,7 @@ import Steps from '../../Utilities/Steps'
 import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import WPCoursewareAuthorization from './WPCoursewareAuthorization'
+import { getWPCoursewareActions } from './WPCoursewareCommonFunc'
 import WPCoursewareIntegLayout from './WPCoursewareIntegLayout'
 
 export default function WPCourseware({ formFields, setFlow, flow, allIntegURL }) {
@@ -19,15 +20,18 @@ export default function WPCourseware({ formFields, setFlow, flow, allIntegURL })
   const [wpCoursewareConf, setWPCoursewareConf] = useState({
     name: 'WP Courseware',
     type: 'WP Courseware',
-    field_map: [{ formField: '', wpCoursewareField: '' }],
+    field_map: [
+      { formField: '', wpCoursewareField: '' },
+    ],
     default: {},
     action: '',
     course: [],
-    actions: {}
+    actions: {},
   })
 
-  const nextPage = val => {
+  const nextPage = (val) => {
     if (val === 2 && wpCoursewareConf.name !== '') {
+      getWPCoursewareActions(wpCoursewareConf, setWPCoursewareConf)
       setStep(val)
     } else if (val === 3 && wpCoursewareConf.action !== '' && wpCoursewareConf.course.length > 0) {
       setStep(val)
@@ -56,14 +60,7 @@ export default function WPCourseware({ formFields, setFlow, flow, allIntegURL })
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{
-          overflow: step === 2 && 'initial',
-          width: step === 2 && 900,
-          height: step === 2 && 'auto',
-          minHeight: step === 2 && `${200}px`
-        }}>
+      <div className="btcd-stp-page" style={{ overflow: step === 2 && 'initial', width: step === 2 && 900, height: step === 2 && 'auto', minHeight: step === 2 && `${200}px` }}>
         <WPCoursewareIntegLayout
           formID={formID}
           formFields={formFields}
@@ -77,35 +74,20 @@ export default function WPCourseware({ formFields, setFlow, flow, allIntegURL })
       {/* STEP 3 */}
       <IntegrationStepThree
         step={step}
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            setFlow,
-            allIntegURL,
-            conf: wpCoursewareConf,
-            navigate,
-            setIsLoading,
-            setSnackbar
-          })
-        }
+        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, conf: wpCoursewareConf, navigate, setIsLoading, setSnackbar })}
         isLoading={isLoading}
         dataConf={wpCoursewareConf}
         setDataConf={setWPCoursewareConf}
         formFields={formFields}
       />
 
-      <div
-        className="btcd-stp-page"
-        style={{
-          width: step === 2 && 900,
-          height: step === 2 && 'auto',
-          minHeight: step === 2 && `${200}px`
-        }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto', minHeight: step === 2 && `${200}px` }}>
         <button
           onClick={() => nextPage(3)}
           disabled={wpCoursewareConf.action === '' || wpCoursewareConf.course.length === 0}
-          className="btn f-right btcd-btn-lg purple sh-sm flx"
-          type="button">
+          className="btn f-right btcd-btn-lg green sh-sm flx"
+          type="button"
+        >
           {__('Next', 'bit-integrations')}
           <BackIcn className="ml-1 rev-icn" />
         </button>

@@ -1,87 +1,101 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-else-return */
-import toast from 'react-hot-toast'
-import bitsFetch from '../../../Utils/bitsFetch'
-import { __ } from '../../../Utils/i18nwrap'
-import { saveActionConf, saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
+import toast from "react-hot-toast";
+import bitsFetch from "../../../Utils/bitsFetch";
+import { __ } from "../../../Utils/i18nwrap";
+import {
+  saveActionConf,
+  saveIntegConfig,
+} from "../IntegrationHelpers/IntegrationHelpers";
 
 export const editHandleInput = (e, conf, setConf) => {
-  const newConf = { ...conf }
-  const { name } = e.target
-  if (e.target.value !== '') {
-    newConf[name] = e.target.value
+  const newConf = { ...conf };
+  const { name } = e.target;
+  if (e.target.value !== "") {
+    newConf[name] = e.target.value;
   } else {
-    delete newConf[name]
+    delete newConf[name];
   }
-  setConf({ ...newConf })
-}
+  setConf({ ...newConf });
+};
 
-export const handleAuthorize = (conf, setConf, setError, setisAuthorized, loading, setLoading) => {
+export const handleAuthorize = (
+  conf,
+  setConf,
+  setError,
+  setisAuthorized,
+  loading,
+  setLoading
+) => {
   if (!conf.authKey) {
     setError({
-      authKey: !conf.authKey ? __("API Key can't be empty", 'bit-integrations') : ''
-    })
-    return
+      authKey: !conf.authKey
+        ? __("API key can't be empty", "bit-integrations")
+        : "",
+    });
+    return;
   }
-  setError({})
-  setLoading({ ...loading, auth: true })
+  setError({});
+  setLoading({ ...loading, auth: true });
 
-  const requestParams = { authKey: conf.authKey }
+  const requestParams = { authKey: conf.authKey };
 
-  bitsFetch(requestParams, 'klaviyo_handle_authorize').then((result) => {
+  bitsFetch(requestParams, "klaviyo_handle_authorize").then((result) => {
     if (result && result.success) {
-      const newConf = { ...conf }
+      const newConf = { ...conf };
       if (result.data) {
         if (!newConf.default) {
-          newConf.default = {}
+          newConf.default = {};
         }
-        newConf.default.lists = result.data
+        newConf.default.lists = result.data;
       }
-      setConf(newConf)
-      setisAuthorized(true)
-      setLoading({ ...loading, auth: false })
-      toast.success(__('Authorized Successfully', 'bit-integrations'))
-      return
+      setConf(newConf);
+      setisAuthorized(true);
+      setLoading({ ...loading, auth: false });
+      toast.success(__("Authorized successfully", "bit-integrations"));
+      return;
     }
-    setLoading({ ...loading, auth: false })
-    toast.error(__('Authorized failed', 'bit-integrations'))
-  })
-}
+    setLoading({ ...loading, auth: false });
+    toast.error(__("Authorized failed", "bit-integrations"));
+  });
+};
 
 export const getAllLists = (conf, setConf, loading, setLoading) => {
-  setLoading({ ...loading, list: true })
+  setLoading({ ...loading, list: true });
 
-  const requestParams = { authKey: conf.authKey }
+  const requestParams = { authKey: conf.authKey };
 
-  bitsFetch(requestParams, 'klaviyo_handle_authorize').then((result) => {
+  bitsFetch(requestParams, "klaviyo_handle_authorize").then((result) => {
     if (result && result.success) {
-      const newConf = { ...conf }
+      const newConf = { ...conf };
       if (result.data) {
         if (!newConf.default) {
-          newConf.default = {}
+          newConf.default = {};
         }
-        newConf.default.lists = result.data
+        newConf.default.lists = result.data;
       }
-      setConf(newConf)
-      setLoading({ ...loading, list: false })
+      setConf(newConf);
+      setLoading({ ...loading, list: false });
 
-      toast.success(__('List refresh successfully', 'bit-integrations'))
-      return
+      toast.success(__("List refresh successfully", "bit-integrations"));
+      return;
     }
-    setLoading({ ...loading, list: false })
-    toast.error(__('List refresh failed', 'bit-integrations'))
-  })
-}
+    setLoading({ ...loading, list: false });
+    toast.error(__("List refresh failed", "bit-integrations"));
+  });
+};
 
 export const generateMappedField = (klaviyoConf) => {
-  const requiredFlds = klaviyoConf?.klaviyoFields.filter((fld) => fld.required === true)
+  const requiredFlds = klaviyoConf?.klaviyoFields.filter(
+    (fld) => fld.required === true
+  );
   return requiredFlds.length > 0
     ? requiredFlds.map((field) => ({
-        formField: '',
-        klaviyoFormField: field.key
+        formField: "",
+        klaviyoFormField: field.key,
       }))
-    : [{ formField: '', klaviyoFormField: '' }]
-}
+    : [{ formField: "", klaviyoFormField: "" }];
+};
 
 export const checkMappedFields = (klaviyoConf) => {
   const mappedFields = klaviyoConf?.field_map
@@ -89,67 +103,71 @@ export const checkMappedFields = (klaviyoConf) => {
         (mappedField) =>
           !mappedField.formField ||
           !mappedField.klaviyoFormField ||
-          (!mappedField.formField === 'custom' && !mappedField.customValue)
+          (!mappedField.formField === "custom" && !mappedField.customValue)
       )
-    : []
+    : [];
   if (mappedFields.length > 0) {
-    return false
+    return false;
   }
-  return true
-}
+  return true;
+};
 
 export const nextPage = (conf, setStep, pageNo) => {
   setTimeout(() => {
-    document.getElementById('btcd-settings-wrp').scrollTop = 0
-  }, 300)
+    document.getElementById("btcd-settings-wrp").scrollTop = 0;
+  }, 300);
 
   if (!checkMappedFields(conf)) {
-    toast.error(__('Please map mandatory fields', 'bit-integrations'))
-    return
+    toast.error("Please map mandatory fields");
+    return;
   }
-  conf.field_map.length > 0 && setStep(pageNo)
-}
+  conf.field_map.length > 0 && setStep(pageNo);
+};
 
-export const saveConfig = (flow, setFlow, allIntegURL, conf, navigate, setIsLoading) => {
-  setIsLoading(true)
-  const resp = saveIntegConfig(flow, setFlow, allIntegURL, conf, navigate, '', '', setIsLoading)
+export const saveConfig = (
+  flow,
+  setFlow,
+  allIntegURL,
+  conf,
+  navigate,
+  setIsLoading
+) => {
+  setIsLoading(true);
+  const resp = saveIntegConfig(
+    flow,
+    setFlow,
+    allIntegURL,
+    conf,
+    navigate,
+    "",
+    "",
+    setIsLoading
+  );
   resp.then((res) => {
     if (res.success) {
-      toast.success(res.data?.msg)
-      navigate(allIntegURL)
+      toast.success(res.data?.msg);
+      navigate(allIntegURL);
     } else {
-      toast.error(res.data || res)
+      toast.error(res.data || res);
     }
-  })
-}
+  });
+};
 
-export const saveUpdateConfig = (flow, allIntegURL, conf, navigate, edit, setIsLoading) => {
+export const saveUpdateConfig = (
+  flow,
+  allIntegURL,
+  conf,
+  navigate,
+  edit,
+  setIsLoading
+) => {
   if (!checkMappedFields(conf)) {
-    toast.error(__('Please map mandatory fields', 'bit-integrations'))
-    return
+    toast.error("Please map mandatory fields");
+    return;
   }
-  if (checkMappedFields(conf) === 'required') {
-    toast.error(__('You must select email or phone in klaviyo fields', 'bit-integrations'))
-    return
+  if (checkMappedFields(conf) === "required") {
+    toast.error("You must select email or phone in klaviyo fields");
+    return;
   }
-  saveActionConf({ flow, allIntegURL, conf, navigate, edit, setIsLoading })
-}
-
-export const addFieldMap = (i, confTmp, setConf, type) => {
-  const newConf = { ...confTmp }
-  if (!newConf[type]) {
-    newConf[type] = []
-  }
-
-  newConf[type].splice(i, 0, {})
-  setConf({ ...newConf })
-}
-
-export const delFieldMap = (i, confTmp, setConf, type) => {
-  const newConf = { ...confTmp }
-  if (newConf[type].length > 1) {
-    newConf[type].splice(i, 1)
-  }
-
-  setConf({ ...newConf })
-}
+  saveActionConf({ flow, allIntegURL, conf, navigate, edit, setIsLoading });
+};

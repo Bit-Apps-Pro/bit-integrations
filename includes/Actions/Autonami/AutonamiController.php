@@ -34,7 +34,7 @@ class AutonamiController
         $lists = BWFCRM_Lists::get_lists();
         $autonamiList = [];
         foreach ($lists as $list) {
-            $autonamiList[$list['name']] = (object) [
+            $autonamiList[$list['name']] = (object)[
                 'id'    => $list['ID'],
                 'title' => $list['name']
             ];
@@ -43,7 +43,7 @@ class AutonamiController
         $tags = BWFCRM_Tag::get_tags();
         $autonamiTags = [];
         foreach ($tags as $tag) {
-            $autonamiTags[$tag['name']] = (object) [
+            $autonamiTags[$tag['name']] = (object)[
                 'id'    => $tag['ID'],
                 'title' => $tag['name']
             ];
@@ -59,21 +59,21 @@ class AutonamiController
         self::checkedExistsAutonami();
 
         $fieldOptions = [];
-        $fieldOptions['Email'] = (object) [
+        $fieldOptions['Email'] = (object)[
             'key'      => 'email',
             'label'    => 'Email',
             'type'     => 'primary',
             'required' => true
         ];
         foreach (BWFCRM_Fields::get_default_fields() as $key => $column) {
-            $fieldOptions[$column] = (object) [
+            $fieldOptions[$column] = (object)[
                 'key'   => $key,
                 'label' => $column,
                 'type'  => 'primary'
             ];
         }
         foreach (BWFCRM_Fields::get_custom_fields(1, 1) as $field) {
-            $fieldOptions[$field['slug']] = (object) [
+            $fieldOptions[$field['slug']] = (object)[
                 'key'   => $field['slug'],
                 'label' => $field['name'],
                 'type'  => 'custom',
@@ -95,8 +95,7 @@ class AutonamiController
     public function execute($integrationData, $fieldValues)
     {
         if (!class_exists('BWFCRM_Contact')) {
-            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'insert'], 'error', __('Autonami Pro Plugins not found', 'bit-integrations'));
-
+            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'insert'], 'error', 'Autonami Pro Plugins not found');
             return false;
         }
 
@@ -107,16 +106,15 @@ class AutonamiController
         $actions = $integrationDetails->actions;
 
         $triggers = ['PiotnetForms'];
-        if (\in_array($fieldValues['bit-integrator%trigger_data%']['triggered_entity'], $triggers)) {
+        if (in_array($fieldValues['bit-integrator%trigger_data%']['triggered_entity'], $triggers)) {
             $fieldValues = Helper::splitStringToarray($fieldValues);
         }
 
         if (empty($fieldMap)) {
-            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Autonami'));
+            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for Autonami api', 'bit-integrations'));
         }
 
         $recordApiHelper = new RecordApiHelper($this->_integrationID);
-
         return $recordApiHelper->execute($fieldValues, $fieldMap, $actions, $lists, $tags);
     }
 }

@@ -14,16 +14,18 @@ function Mailercloud({ formFields, setFlow, flow, allIntegURL }) {
   const [loading, setLoading] = useState({
     auth: false,
     list: false,
-    page: false
+    page: false,
   })
   const [mailercloudConf, setMailercloudConf] = useState({
     name: 'Mailercloud',
     type: 'Mailercloud',
-    authKey: '',
-    field_map: [{ formFields: '', mailercloudFormField: '' }],
+    authKey: process.env.NODE_ENV === 'development' ? 'bxYcg-12c3341e0a6a661d6c6aa19d6b2f6f3e-0a996276fb753a6d2408e62226380d31' : '',
+    field_map: [
+      { formFields: '', mailercloudFormField: '' },
+    ],
     listId: '',
     contactType: '',
-    actions: {}
+    actions: {},
     // mailercloudFields: [
     //   { key: 'city', label: 'City', required: false },
     //   { key: 'country', label: 'Country', required: false },
@@ -42,15 +44,14 @@ function Mailercloud({ formFields, setFlow, flow, allIntegURL }) {
     //   { key: 'state', label: 'State', required: false },
     //   { key: 'zip', label: 'Zip', required: false },
     // ],
+
   })
-  const setSavePageLoad = value => {
+  const setSavePageLoad = (value) => {
     setLoading({ ...loading, page: value })
   }
   return (
     <div>
-      <div className="txt-center mt-2">
-        <Steps step={3} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
 
       {/* --- STEP 1 --- */}
 
@@ -65,7 +66,11 @@ function Mailercloud({ formFields, setFlow, flow, allIntegURL }) {
 
       {/* --- STEP 2 --- */}
 
-      <StepPage step={step} stepNo={2} style={{ width: 900, height: 'auto', overflow: 'visible' }}>
+      <StepPage
+        step={step}
+        stepNo={2}
+        style={{ width: 900, height: 'auto', overflow: 'visible' }}
+      >
         <MailercloudIntegLayout
           mailercloudConf={mailercloudConf}
           setMailercloudConf={setMailercloudConf}
@@ -77,28 +82,30 @@ function Mailercloud({ formFields, setFlow, flow, allIntegURL }) {
           <button
             onClick={() => nextPage(mailercloudConf, setStep, 3)}
             disabled={!mailercloudConf.listId || mailercloudConf.field_map.length < 1}
-            className="btn f-right btcd-btn-lg purple sh-sm flx"
-            type="button">
+            className="btn f-right btcd-btn-lg green sh-sm flx"
+            type="button"
+          >
             {__('Next')}
             &nbsp;
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         )}
+
       </StepPage>
 
       {/* --- STEP 3 --- */}
 
       {mailercloudConf.listId && (
+
         <IntegrationStepThree
           step={step}
-          saveConfig={() =>
-            saveConfig(flow, setFlow, allIntegURL, mailercloudConf, navigate, setSavePageLoad)
-          }
+          saveConfig={() => saveConfig(flow, setFlow, allIntegURL, mailercloudConf, navigate, setSavePageLoad)}
           isLoading={loading.page}
           dataConf={mailercloudConf}
           setDataConf={setMailercloudConf}
           formFields={formFields}
         />
+
       )}
     </div>
   )

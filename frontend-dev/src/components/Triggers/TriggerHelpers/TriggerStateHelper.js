@@ -51,20 +51,6 @@ export const FormPluginStateHelper = (val, tmpNewFlow, resp, setNewFlow) => {
     UltimateMemberStateFP(val, tmpNewFlow, resp, setNewFlow)
   } else if (tmpNewFlow?.triggered_entity === 'AcademyLms') {
     academylmsStateFP(val, tmpNewFlow, resp, setNewFlow)
-  } else if (tmpNewFlow?.triggered_entity === 'FluentBooking') {
-    fluentBookingStateFP(val, tmpNewFlow, resp, setNewFlow)
-  } else if (tmpNewFlow?.triggered_entity === 'SureMembers') {
-    SureMembersStateFP(val, tmpNewFlow, resp, setNewFlow)
-  } else if (tmpNewFlow?.triggered_entity === 'WPForo') {
-    wpForoStateFP(val, tmpNewFlow, resp, setNewFlow)
-  } else if (tmpNewFlow?.triggered_entity === 'WPJobManager') {
-    wpJobManagerStateFP(val, tmpNewFlow, resp, setNewFlow)
-  } else if (tmpNewFlow?.triggered_entity === 'EventsCalendar') {
-    eventsCalendarStateFP(val, tmpNewFlow, resp, setNewFlow)
-  } else if (tmpNewFlow?.triggered_entity === 'Voxel') {
-    voxelStateFP(val, tmpNewFlow, resp, setNewFlow)
-  } else if (tmpNewFlow?.triggered_entity === 'WCSubscriptions') {
-    WCSubscriptionsStateFP(val, tmpNewFlow, resp, setNewFlow)
   } else {
     setNewFlow(tmpNewFlow)
   }
@@ -75,19 +61,19 @@ export const fluentCrmStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
     tmpNewFlow.triggerData = {
       ...tmpNewFlow.triggerData,
       tags: resp.data.tags,
-      selectedTag: 'any'
+      selectedTag: 'any',
     }
   } else if (val === 'fluentcrm-3' || val === 'fluentcrm-4') {
     tmpNewFlow.triggerData = {
       ...tmpNewFlow.triggerData,
       lists: resp.data.lists,
-      selectedList: 'any'
+      selectedList: 'any',
     }
   } else if (val === 'fluentcrm-5') {
     tmpNewFlow.triggerData = {
       ...tmpNewFlow.triggerData,
       status: resp.data.status,
-      selectedStatus: 'any'
+      selectedStatus: 'any',
     }
   }
   setNewFlow(tmpNewFlow)
@@ -107,172 +93,18 @@ export const tutorlmsStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   setNewFlow(tmpNewFlow)
 }
 
-export const fluentBookingStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
-  if (val) {
-    tmpNewFlow.triggerData.events = resp.data.events
-  }
-  setNewFlow(tmpNewFlow)
-}
-
-export const SureMembersStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
-  if (val) {
-    tmpNewFlow.triggerData.groups = resp.data.groups
-  }
-  setNewFlow(tmpNewFlow)
-}
-
-export const wpForoStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
-  if (val === 'wpforo-1') {
-    tmpNewFlow.triggerData = {
-      ...tmpNewFlow.triggerData,
-      forums: resp.data.forums,
-      selectedForum: 'any'
-    }
-  }
-
-  if (
-    val === 'wpforo-2' ||
-    val === 'wpforo-3' ||
-    val === 'wpforo-4' ||
-    val === 'wpforo-5' ||
-    val === 'wpforo-6' ||
-    val === 'wpforo-11'
-  ) {
-    tmpNewFlow.triggerData = {
-      ...tmpNewFlow.triggerData,
-      topics: resp.data.topics,
-      selectedTopic: 'any'
-    }
-  }
-
-  if (
-    val === 'wpforo-7' ||
-    val === 'wpforo-8' ||
-    val === 'wpforo-9' ||
-    val === 'wpforo-10' ||
-    val === 'wpforo-12'
-  ) {
-    tmpNewFlow.triggerData = {
-      ...tmpNewFlow.triggerData,
-      users: resp.data.users,
-      selectedUser: 'any'
-    }
-  }
-
-  setNewFlow(tmpNewFlow)
-}
-
-export const wpJobManagerStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
-  if (
-    val === 'wp_job_manager-1' ||
-    val === 'wp_job_manager-4' ||
-    val === 'wp_job_manager-5' ||
-    val === 'wp_job_manager-8'
-  ) {
-    tmpNewFlow.triggerData = {
-      ...tmpNewFlow.triggerData,
-      jobTypes: resp.data.jobTypes,
-      selectedJobType: 'any'
-    }
-  }
-  if (
-    val === 'wp_job_manager-2' ||
-    val === 'wp_job_manager-3' ||
-    val === 'wp_job_manager-6' ||
-    val === 'wp_job_manager-7' ||
-    val === 'wp_job_manager-11'
-  ) {
-    tmpNewFlow.triggerData = {
-      ...tmpNewFlow.triggerData,
-      jobList: resp.data.jobList,
-      selectedJob: 'any'
-    }
-  }
-  if (val === 'wp_job_manager-9') {
-    tmpNewFlow.triggerData = {
-      ...tmpNewFlow.triggerData,
-      statusList: resp.data.statusList,
-      selectedStatus: 'any'
-    }
-  }
-
-  if (val === 'wp_job_manager-10') {
-    tmpNewFlow.triggerData = {
-      ...tmpNewFlow.triggerData,
-      jobTypes: resp.data.jobTypes,
-      selectedJobType: 'any',
-      statusList: resp.data.statusList,
-      selectedStatus: 'any'
-    }
-  }
-
-  setNewFlow(tmpNewFlow)
-}
-
-export const eventsCalendarStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
-  if (
-    val === 'events_calendar-1' ||
-    val === 'events_calendar-2' ||
-    val === 'events_calendar-3' ||
-    val === 'events_calendar-4'
-  ) {
-    tmpNewFlow.triggerData = {
-      ...tmpNewFlow.triggerData,
-      events: resp.data.events,
-      selectedEvent: 'any'
-    }
-  }
-
-  setNewFlow(tmpNewFlow)
-}
-
-export const voxelStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
-  if (val === 'voxel-7' || val === 'voxel-8' || val === 'voxel-9' || val === 'voxel-10' || val === 'voxel-11' || val === 'voxel-20') {
-    tmpNewFlow.triggerData = {
-      ...tmpNewFlow.triggerData,
-      postTypes: resp.data.postTypes,
-      selectedPostType: ''
-    }
-  }
-
-  setNewFlow(tmpNewFlow)
-}
-
-export const WCSubscriptionsStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
-  if (['user_subscribes_to_product', 'user_purchases_variable_subscription'].includes(val)) {
-    tmpNewFlow.triggerData = {
-      ...tmpNewFlow.triggerData,
-      allSubscriptionProducts: resp.data.allSubscriptionProducts,
-      selectedProduct: 'any'
-    }
-  } else if (val === 'user_subscription_status_updated') {
-    tmpNewFlow.triggerData = {
-      ...tmpNewFlow.triggerData,
-      allSubscriptions: resp.data.allSubscriptions,
-      allSubscriptionProducts: resp.data.allSubscriptionProducts,
-      selectedSubscription: 'any',
-      selectedProduct: 'any',
-      selectedStatus: 'any'
-    }
-  } else {
-    tmpNewFlow.triggerData = {
-      ...tmpNewFlow.triggerData,
-      allSubscriptions: resp.data.allSubscriptions,
-      allSubscriptionProducts: resp.data.allSubscriptionProducts,
-      selectedSubscription: 'any',
-      selectedProduct: 'any'
-    }
-  }
-
-  setNewFlow(tmpNewFlow)
-}
-
 export const WooCommerceStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val === '10' || val === '19') {
     tmpNewFlow.triggerData.products = resp.data.products
   }
   if (val === '11') {
     tmpNewFlow.triggerData.orderStatus = resp.data.orderStatus
+  }
+  if (val === '12' || val === '13' || val === '14' || val === '15' || val === '16') {
+    tmpNewFlow.triggerData.subscriptions = resp.data.subscriptions
+  }
+  if (val === '15') {
+    tmpNewFlow.triggerData.subscriptionStatus = resp.data.subscription_statuses
   }
   if (val === '17') {
     tmpNewFlow.triggerData.allProductCategories = resp.data.allProductCategories
@@ -299,13 +131,7 @@ export const RestrictContentStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
 export const buddybossStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val.toString() === '3') {
     tmpNewFlow.triggerData.forums = resp.data.forums
-  } else if (
-    val.toString() === '9' ||
-    val.toString() === '10' ||
-    val.toString() === '11' ||
-    val.toString() === '12' ||
-    val.toString() === '13'
-  ) {
+  } else if (val.toString() === '9' || val.toString() === '10' || val.toString() === '11' || val.toString() === '12' || val.toString() === '13') {
     tmpNewFlow.triggerData.groups = resp.data.groups
   } else if (val.toString() === '4') {
     tmpNewFlow.triggerData.forums = resp.data.forums
@@ -333,9 +159,6 @@ export const MasterStudyLmsStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   }
   if (['1', '3', '4', '5'].includes(val.toString())) {
     tmpNewFlow.triggerData.allCourse = resp.data.allCourse
-  }
-  if (val.toString() === '6') {
-    tmpNewFlow.triggerData.allDistribution = resp.data.allDistribution
   }
   if (val.toString() === '4' || val.toString() === '5') {
     tmpNewFlow.triggerData.allQuiz = resp.data.allQuiz
@@ -403,13 +226,13 @@ export const postStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
     tmpNewFlow.triggerData = {
       ...tmpNewFlow.triggerData,
       types: resp.data.types,
-      selectedPostType: 'any'
+      selectedPostType: 'any',
     }
   } else if ([4, 5, 7, 8, 9].includes(val)) {
     tmpNewFlow.triggerData = {
       ...tmpNewFlow.triggerData,
       posts: resp.data.posts,
-      selectedPostId: 'any-post'
+      selectedPostId: 'any-post',
     }
   }
   setNewFlow(tmpNewFlow)
@@ -420,7 +243,7 @@ export const JetEngineStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
     tmpNewFlow.triggerData = {
       ...tmpNewFlow.triggerData,
       types: resp.data.types,
-      selectedPostType: 'any-post-type'
+      selectedPostType: 'any-post-type',
     }
   }
   setNewFlow(tmpNewFlow)
@@ -480,196 +303,35 @@ export const wpCoursewareStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
     tmpNewFlow.triggerData = {
       ...tmpNewFlow.triggerData,
       courses: resp.data.courses,
-      selectedCourse: 'any'
+      selectedCourse: 'any',
     }
   } else if (val === 'moduleCompleted') {
     tmpNewFlow.triggerData = {
       ...tmpNewFlow.triggerData,
       modules: resp.data.modules,
-      selectedModule: 'any'
+      selectedModule: 'any',
     }
   } else if (val === 'unitCompleted') {
     tmpNewFlow.triggerData = {
       ...tmpNewFlow.triggerData,
       units: resp.data.units,
-      selectedUnit: 'any'
+      selectedUnit: 'any',
     }
   }
   setNewFlow(tmpNewFlow)
 }
 
-export const fluentCrmStateIH = (tmpConf, flowData, triggered_entity_id) => {
-  const formId = flowData.formID ? flowData.formID : triggered_entity_id
-  if (formId === 'fluentcrm-1' || formId === 'fluentcrm-2') {
+export const fluentCrmStateIH = (tmpConf, flowData) => {
+  if (flowData.formID === 'fluentcrm-1' || flowData.formID === 'fluentcrm-2') {
     tmpConf.selectedTag = flowData?.selectedTag
     tmpConf.tags = flowData.tags
-  } else if (formId === 'fluentcrm-3' || formId === 'fluentcrm-4') {
+  } else if (flowData.formID === 'fluentcrm-3' || flowData.formID === 'fluentcrm-4') {
     tmpConf.selectedList = flowData?.selectedList
     tmpConf.lists = flowData.lists
-  } else if (formId === 'fluentcrm-5') {
+  } else if (flowData.formID === 'fluentcrm-5') {
     tmpConf.selectedStatus = flowData?.selectedStatus
     tmpConf.status = flowData.status
   }
-  return tmpConf
-}
-
-export const fluentBookingStateIH = (tmpConf, flowData, triggered_entity_id) => {
-  const formId = flowData.formID ? flowData.formID : triggered_entity_id
-
-  if (formId) {
-    tmpConf.selectedEvent = flowData.selectedEvent
-    tmpConf.events = flowData.events
-  }
-
-  return tmpConf
-}
-
-export const SureMembersStateIH = (tmpConf, flowData, triggered_entity_id) => {
-  const formId = flowData.formID ? flowData.formID : triggered_entity_id
-
-  if (formId) {
-    tmpConf.selectedGroup = flowData.selectedGroup
-    tmpConf.groups = flowData.groups
-  }
-
-  return tmpConf
-}
-
-export const wpForoStateIH = (tmpConf, flowData, triggered_entity_id) => {
-  const formId = flowData.formID ? flowData.formID : triggered_entity_id
-
-  if (formId === 'wpforo-1') {
-    tmpConf.selectedForum = flowData.selectedForum
-    tmpConf.forums = flowData.forums
-  }
-
-  if (
-    formId === 'wpforo-2' ||
-    formId === 'wpforo-3' ||
-    formId === 'wpforo-4' ||
-    formId === 'wpforo-5' ||
-    formId === 'wpforo-6' ||
-    formId === 'wpforo-11'
-  ) {
-    tmpConf.selectedTopic = flowData.selectedTopic
-    tmpConf.topics = flowData.topics
-  }
-
-  if (
-    formId === 'wpforo-7' ||
-    formId === 'wpforo-8' ||
-    formId === 'wpforo-9' ||
-    formId === 'wpforo-10' ||
-    formId === 'wpforo-12'
-  ) {
-    tmpConf.selectedUser = flowData.selectedUser
-    tmpConf.users = flowData.users
-  }
-
-  return tmpConf
-}
-
-export const wpJobManagerStateIH = (tmpConf, flowData, triggered_entity_id) => {
-  const formId = flowData.formID ? flowData.formID : triggered_entity_id
-
-  if (
-    formId === 'wp_job_manager-1' ||
-    formId === 'wp_job_manager-4' ||
-    formId === 'wp_job_manager-5' ||
-    formId === 'wp_job_manager-10'
-  ) {
-    tmpConf.selectedJobType = flowData.selectedJobType
-    tmpConf.jobTypes = flowData.jobTypes
-  }
-  if (
-    formId === 'wp_job_manager-2' ||
-    formId === 'wp_job_manager-3' ||
-    formId === 'wp_job_manager-6' ||
-    formId === 'wp_job_manager-7' ||
-    formId === 'wp_job_manager-11'
-  ) {
-    tmpConf.selectedJob = flowData.selectedJob
-    tmpConf.jobList = flowData.jobList
-  }
-  if (formId === 'wp_job_manager-9' || formId === 'wp_job_manager-10') {
-    tmpConf.selectedStatus = flowData.selectedStatus
-    tmpConf.statusList = flowData.statusList
-  }
-
-  return tmpConf
-}
-
-export const eventsCalendarIH = (tmpConf, flowData, triggered_entity_id) => {
-  const formId = flowData.formID ? flowData.formID : triggered_entity_id
-
-  if (
-    formId === 'events_calendar-1' ||
-    formId === 'events_calendar-2' ||
-    formId === 'events_calendar-3' ||
-    formId === 'events_calendar-4'
-  ) {
-    tmpConf.selectedEvent = flowData.selectedEvent
-    tmpConf.events = flowData.events
-  }
-
-  return tmpConf
-}
-
-export const voxelIH = (tmpConf, flowData, triggered_entity_id) => {
-  const formId = flowData.formID ? flowData.formID : triggered_entity_id
-
-  if (formId === 'voxel-7' || formId === 'voxel-8' || formId === 'voxel-9' || formId === 'voxel-10' || formId === 'voxel-11' || formId === 'voxel-20') {
-    tmpConf.selectedPostType = flowData.selectedPostType
-    tmpConf.postTypes = flowData.postTypes
-  }
-
-  return tmpConf
-}
-
-export const WCSubscriptionsStateIH = (tmpConf, flowData, triggered_entity_id) => {
-  const formId = flowData.formID ? flowData.formID : triggered_entity_id
-
-  tmpConf.selectedProduct = flowData.selectedProduct
-  tmpConf.allSubscriptionProducts = flowData.allSubscriptionProducts
-  tmpConf.fields = flowData?.fields
-
-  if (!['user_subscribes_to_product', 'user_purchases_variable_subscription'].includes(formId)) {
-    tmpConf.selectedSubscription = flowData.selectedSubscription
-    tmpConf.allSubscriptions = flowData.allSubscriptions
-  }
-  if (formId === 'user_subscription_status_updated') {
-    tmpConf.selectedStatus = flowData.selectedStatus
-    tmpConf.allStatus = [
-      { label: 'Any Status', value: 'any' },
-      { label: 'Active', value: 'active' },
-      { label: 'On Hold', value: 'on-hold' },
-      { label: 'Pending', value: 'pending' },
-      { label: 'Cancelled', value: 'cancelled' },
-      { label: 'Pending Cancel', value: 'pending-cancel' }
-    ]
-  }
-
-  return tmpConf
-}
-
-export const WCBookingsStateIH = (tmpConf, flowData, triggered_entity_id) => {
-  const formId = flowData.formID ? flowData.formID : triggered_entity_id
-  tmpConf.fields = flowData?.fields
-
-  if (formId === 'booking_status_changed') {
-    tmpConf.selectedStatus = flowData.selectedStatus
-    tmpConf.allStatus = [
-      { label: 'Any Status', value: 'any' },
-      { label: 'Unpaid', value: 'unpaid' },
-      { label: 'Pending Confirmation', value: 'pending-confirmation' },
-      { label: 'Confirmed', value: 'confirmed' },
-      { label: 'Paid', value: 'paid' },
-      { label: 'Complete', value: 'complete' },
-      { label: 'In Cart', value: 'in-cart' },
-      { label: 'Cancelled', value: 'cancelled' }
-    ]
-  }
-
   return tmpConf
 }
 
@@ -688,37 +350,34 @@ export const tutorlmsStateIH = (tmpConf, flowData) => {
   return tmpConf
 }
 
-export const wooCommerceStateIH = (tmpConf, flowData, triggered_entity_id) => {
-  const formId = flowData.formID ? flowData.formID : triggered_entity_id
-
-  if (formId === '10' || formId === '19') {
+export const wooCommerceStateIH = (tmpConf, flowData) => {
+  if (flowData.formID === '10' || flowData.formID === '19') {
     tmpConf.selectedProduct = flowData.selectedProduct
     tmpConf.products = flowData.products
   }
-  if (formId === '11') {
+  if (flowData.formID === '11') {
     tmpConf.selectedOrderStatus = flowData.selectedOrderStatus
     tmpConf.orderStatus = flowData.orderStatus
   }
 
-  if (formId === '12' || formId === '13' || formId === '14' || formId === '15' || formId === '16') {
+  if (flowData.formID === '12' || flowData.formID === '13' || flowData.formID === '14' || flowData.formID === '15' || flowData.formID === '16') {
     tmpConf.selectedSubscription = flowData.selectedSubscription
     tmpConf.subscriptions = flowData.subscriptions
   }
-  if (formId === '15') {
+  if (flowData.formID === '15') {
     tmpConf.selectedSubscriptionStatus = flowData.selectedSubscriptionStatus
     tmpConf.subscriptionStatus = flowData.subscriptionStatus
   }
-  if (formId === '17') {
+  if (flowData.formID === '17') {
     tmpConf.selectedProductCategory = flowData.selectedProductCategory
     tmpConf.allProductCategories = flowData.allProductCategories
   }
-  if (formId === '20') {
+  if (flowData.formID === '20') {
     tmpConf.selectedVariableProduct = flowData.selectedVariableProduct
     tmpConf.allVariableProduct = flowData.allVariableProduct
     tmpConf.selectedVariation = flowData.selectedVariation
     tmpConf.allVariation = flowData.allVariation
   }
-
   return tmpConf
 }
 
@@ -739,13 +398,7 @@ export const buddybossStateIH = (tmpConf, flowData) => {
   if (flowData.formID === '3') {
     tmpConf.selectedForum = flowData.selectedForum
     tmpConf.forums = flowData.forums
-  } else if (
-    flowData.formID === '9' ||
-    flowData.formID === '10' ||
-    flowData.formID === '11' ||
-    flowData.formID === '12' ||
-    flowData.formID === '13'
-  ) {
+  } else if (flowData.formID === '9' || flowData.formID === '10' || flowData.formID === '11' || flowData.formID === '12' || flowData.formID === '13') {
     tmpConf.selectedGroup = flowData.selectedGroup
     tmpConf.groups = flowData.groups
   } else if (flowData.formID === '4') {
@@ -757,37 +410,34 @@ export const buddybossStateIH = (tmpConf, flowData) => {
   return tmpConf
 }
 
-export const learndashStateIH = (tmpConf, flowData, formId) => {
-  const formID = flowData?.formID || formId
-
-  if (formID === '1') {
+export const learndashStateIH = (tmpConf, flowData) => {
+  if (flowData.formID === '1') {
     tmpConf.selectedCourse = flowData.selectedCourse
     tmpConf.courses = flowData.courses
-  } else if (formID === '2') {
+  } else if (flowData.formID === '2') {
     tmpConf.unenrollCourse = flowData.unenrollCourse
     tmpConf.courses = flowData.courses
-  } else if (formID === '3') {
+  } else if (flowData.formID === '3') {
     tmpConf.completeCourse = flowData.completeCourse
     tmpConf.courses = flowData.courses
-  } else if (formID === '4' || formID === '11') {
+  } else if (flowData.formID === '4' || flowData.formID === '11') {
     tmpConf.selectedLesson = flowData.selectedLesson
     tmpConf.courses = flowData.courses
     tmpConf.lessons = flowData.lessons
-  } else if (formID === '5') {
+  } else if (flowData.formID === '5') {
     tmpConf.selectedCourse = flowData.selectedCourse
     tmpConf.selectedLesson = flowData.selectedLesson
     tmpConf.selectedTopic = flowData.selectedTopic
     tmpConf.courses = flowData.courses
     tmpConf.lessons = flowData.lessons
     tmpConf.topics = flowData.topics
-  } else if (formID === '6' || formID === '7' || formID === '8') {
+  } else if (flowData.formID === '6' || flowData.formID === '7' || flowData.formID === '8') {
     tmpConf.selectedQuiz = flowData.selectedQuiz
     tmpConf.quizes = flowData.quizes
-  } else if (formID === '9' || formID === '10') {
+  } else if (flowData.formID === '9' || flowData.formID === '10') {
     tmpConf.selectedGroup = flowData.selectedGroup
     tmpConf.groups = flowData.groups
   }
-
   return tmpConf
 }
 
@@ -889,10 +539,11 @@ export const SliceWpStateIH = (tmpConf, flowData) => {
 }
 
 export const SureCartStateIH = (tmpConf, flowData) => {
-
-  tmpConf.selectedProduct = flowData.selectedProduct
-  tmpConf.allProduct = flowData.allProduct
-
+  const val = Number(flowData.formID)
+  if (val === 1 || val === 2 || val === 3) {
+    tmpConf.selectedProduct = flowData.selectedProduct
+    tmpConf.allProduct = flowData.allProduct
+  }
   return tmpConf
 }
 
@@ -926,8 +577,8 @@ export const LifterLmsStateIH = (tmpConf, flowData) => {
   }
   return tmpConf
 }
-export const MasterStudyLmsStateIH = (tmpConf, flowData, formID) => {
-  const val = Number(formID)
+export const MasterStudyLmsStateIH = (tmpConf, flowData) => {
+  const val = Number(flowData.formID)
   if (val === 2) {
     tmpConf.selectedLesson = flowData.selectedLesson
     tmpConf.allLesson = flowData.allLesson
@@ -940,11 +591,6 @@ export const MasterStudyLmsStateIH = (tmpConf, flowData, formID) => {
     tmpConf.selectedQuiz = flowData.selectedQuiz
     tmpConf.allQuiz = flowData.allQuiz
   }
-  if (val === 6) {
-    tmpConf.selectedDistribution = flowData.selectedDistribution
-    tmpConf.allDistribution = flowData.allDistribution
-  }
-
   return tmpConf
 }
 
@@ -953,7 +599,8 @@ export const ThriveApprenticeStateIH = (tmpConf, flowData) => {
   if (val === 1) {
     tmpConf.selectedCourse = flowData.selectedCourse
     tmpConf.allCourse = flowData.allCourse
-  } else if (val === 2) {
+  }
+  else if (val === 2) {
     tmpConf.selectedLesson = flowData.selectedLesson
     tmpConf.allLesson = flowData.allLesson
   }
@@ -994,6 +641,7 @@ export const ARMemberStateIH = (tmpConf, flowData) => {
   return tmpConf
 }
 
+
 export const academylmsStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val === '2') {
     tmpNewFlow.triggerData.quizzes = resp.data.quizzes
@@ -1006,31 +654,4 @@ export const academylmsStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
     tmpNewFlow.triggerData.percentageCondition = resp.data.percentageCondition
   }
   setNewFlow(tmpNewFlow)
-}
-
-export const actionHookStateIH = (dataFlow, tmpConf) => {
-  tmpConf['primaryKey'] = dataFlow?.primaryKey
-  tmpConf['fields'] = dataFlow?.fields
-  tmpConf['rawData'] = dataFlow?.rawData
-  tmpConf['fetch'] = dataFlow?.fetch || ''
-  tmpConf['fetch_remove'] = dataFlow?.fetch_remove || ''
-
-  return tmpConf
-}
-
-export const customTriggerStateIH = (dataFlow, tmpConf) => {
-  tmpConf['fields'] = dataFlow?.fields
-  tmpConf['rawData'] = dataFlow?.rawData
-
-  return tmpConf
-}
-
-export const CFSStateIH = (dataFlow, tmpConf) => {
-  tmpConf['primaryKey'] = dataFlow?.primaryKey
-  tmpConf['fields'] = dataFlow?.fields
-  tmpConf['tasks'] = dataFlow?.tasks || ''
-  tmpConf['fetch'] = dataFlow?.fetch || ''
-  tmpConf['fetch_remove'] = dataFlow?.fetch_remove || ''
-
-  return tmpConf
 }

@@ -2,22 +2,23 @@
 
 /**
  * Rapidmail Integration
+ *
  */
 
 namespace BitCode\FI\Actions\Rapidmail;
 
-use BitCode\FI\Actions\Rapidmail\RecordApiHelper as RapidmailRecordApiHelper;
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Log\LogHandler;
+use stdClass;
 use WP_Error;
+use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Actions\Rapidmail\RecordApiHelper as RapidmailRecordApiHelper;
+
 
 final class RapidmailController
 {
-    public static $apiBaseUri = 'https://apiv3.emailsys.net/v1';
-
-    protected $_defaultHeader;
-
     private $_integrationID;
+    public static $apiBaseUri = 'https://apiv3.emailsys.net/v1';
+    protected $_defaultHeader;
 
     public function __construct($integrationID)
     {
@@ -26,6 +27,8 @@ final class RapidmailController
 
     public static function checkAuthorization($tokenRequestParams)
     {
+
+
         if (
             empty($tokenRequestParams->username)
             || empty($tokenRequestParams->password)
@@ -39,11 +42,12 @@ final class RapidmailController
             );
         }
         $header = [
-            'Authorization' => 'Basic ' . base64_encode("{$tokenRequestParams->username}:{$tokenRequestParams->password}"),
-            'Accept'        => '*/*',
-            'verify'        => false
+            'Authorization' => 'Basic ' . base64_encode("$tokenRequestParams->username:$tokenRequestParams->password"),
+            'Accept' => '*/*',
+            'verify' => false
         ];
         $apiEndpoint = self::$apiBaseUri . '/apiusers';
+
 
         $apiResponse = HttpHelper::get($apiEndpoint, null, $header);
         if (!(property_exists($apiResponse, '_embedded') && property_exists($apiResponse->_embedded, 'apiusers'))) {
@@ -53,11 +57,10 @@ final class RapidmailController
                 400
             );
         } else {
-            $apiResponse->generates_on = time();
+            $apiResponse->generates_on = \time();
             wp_send_json_success($apiResponse, 200);
         }
     }
-
     /**
      * Process request for getting recipientlists from rapidmail
      *
@@ -80,9 +83,9 @@ final class RapidmailController
             );
         }
         $header = [
-            'Authorization' => 'Basic ' . base64_encode("{$queryParams->username}:{$queryParams->password}"),
-            'Accept'        => '*/*',
-            'verify'        => false
+            'Authorization' => 'Basic ' . base64_encode("$queryParams->username:$queryParams->password"),
+            'Accept' => '*/*',
+            'verify' => false
         ];
         $recipientApiEndpoint = self::$apiBaseUri . '/recipientlists';
         $apiResponse = HttpHelper::get($recipientApiEndpoint, null, $header);
@@ -91,7 +94,7 @@ final class RapidmailController
 
         foreach ($tempRecipient as $list) {
             $data[] = (object) [
-                'id'   => $list->id,
+                'id' => $list->id,
                 'name' => $list->name
             ];
         }
@@ -114,9 +117,9 @@ final class RapidmailController
             );
         }
         $header = [
-            'Authorization' => 'Basic ' . base64_encode("{$queryParams->username}:{$queryParams->password}"),
-            'Accept'        => '*/*',
-            'verify'        => false
+            'Authorization' => 'Basic ' . base64_encode("$queryParams->username:$queryParams->password"),
+            'Accept' => '*/*',
+            'verify' => false
         ];
         $recipientApiEndpoint = self::$apiBaseUri . '/recipientlists';
         $apiResponse = HttpHelper::get($recipientApiEndpoint, null, $header);
@@ -125,7 +128,7 @@ final class RapidmailController
 
         foreach ($tempRecipient as $list) {
             $data[] = (object) [
-                'id'   => $list->id,
+                'id' => $list->id,
                 'name' => $list->name
             ];
         }
@@ -150,13 +153,11 @@ final class RapidmailController
         ) {
             $error = new WP_Error('REQ_FIELD_EMPTY', __('username, password, fields are required for rapidmail api', 'bit-integrations'));
             LogHandler::save($this->_integrationID, 'record', 'validation', $error);
-
             return $error;
         }
         if (empty($recipientLists)) {
             $error = new WP_Error('REQ_FIELD_EMPTY', __('Recipient List are required for rapidmail api', 'bit-integrations'));
             LogHandler::save($this->_integrationID, 'record', 'validation', $error);
-
             return $error;
         }
 
@@ -172,7 +173,6 @@ final class RapidmailController
         if (is_wp_error($rapidmailResponse)) {
             return $rapidmailResponse;
         }
-
         return $rapidmailResponse;
     }
 }

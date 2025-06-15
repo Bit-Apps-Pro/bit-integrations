@@ -29,14 +29,7 @@ function EditGamiPress({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, gamiPressConf, setGamiPressConf)}
-          name="name"
-          value={gamiPressConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, gamiPressConf, setGamiPressConf)} name="name" value={gamiPressConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
       <br />
@@ -45,9 +38,7 @@ function EditGamiPress({ allIntegURL }) {
       <GamiPressIntegLayout
         formID={formID}
         formFields={formFields}
-        handleInput={(e) =>
-          handleInput(e, gamiPressConf, setGamiPressConf, setIsLoading, setSnackbar)
-        }
+        handleInput={(e) => handleInput(e, gamiPressConf, setGamiPressConf, setIsLoading, setSnackbar)}
         gamiPressConf={gamiPressConf}
         setGamiPressConf={setGamiPressConf}
         isLoading={isLoading}
@@ -57,17 +48,7 @@ function EditGamiPress({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            allIntegURL,
-            conf: gamiPressConf,
-            navigate,
-            edit: 1,
-            setIsLoading,
-            setSnackbar
-          })
-        }
+        saveConfig={() => saveActionConf({ flow, allIntegURL, conf: gamiPressConf, navigate, edit: 1, setIsLoading, setSnackbar })}
         disabled={gamiPressConf.mainAction === '' || isLoading}
         isLoading={isLoading}
         dataConf={gamiPressConf}

@@ -21,24 +21,28 @@ function AutomatorWP({ formFields, setFlow, flow, allIntegURL }) {
     name: 'AutomatorWP Web Hooks',
     type: 'AutomatorWP',
     method: 'POST',
-    url: ''
+    url: process.env.NODE_ENV === 'development' ? 'https://connect.automatorWP.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D' : '',
   })
 
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={2} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={2} active={step} /></div>
 
       {/* STEP 1 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
+      <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
         {automator?.youTubeLink && (
-          <TutorialLink title="AutomatorWP" youTubeLink={automator?.youTubeLink} />
+          <TutorialLink
+            title={automator?.title}
+            youTubeLink={automator?.youTubeLink}
+          />
         )}
-        {automator?.docLink && <TutorialLink title="AutomatorWP" docLink={automator?.docLink} />}
+        {automator?.docLink && (
+          <TutorialLink
+            title={automator?.title}
+            docLink={automator?.docLink}
+          />
+        )}
 
         <WebHooksIntegration
           formID={formID}
@@ -53,16 +57,14 @@ function AutomatorWP({ formFields, setFlow, flow, allIntegURL }) {
       </div>
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
+
         <WebHooksStepTwo
           step={step}
-          saveConfig={() =>
-            saveIntegConfig(flow, setFlow, allIntegURL, automatorWP, navigate, '', '', setIsLoading)
-          }
+          saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, automatorWP, navigate, '', '', setIsLoading)}
           isLoading={isLoading}
         />
+
       </div>
     </div>
   )

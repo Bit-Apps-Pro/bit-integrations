@@ -9,14 +9,14 @@ const getSureCartAllProduct = (data, setFlow) => {
       tmpFlow.flow_details.allProduct = result.data
 
       setFlow({ ...tmpFlow })
-      return __('All SureCart product fetched successfully', 'bit-integrations')
+      return 'All SureCart product fetched successfully'
     }
-    return __('SureCart product fetching failed. please try again', 'bit-integrations')
+    return 'SureCart product fetching failed. please try again'
   })
   toast.promise(loadPostTypes, {
     success: (data) => data,
     error: __('Error Occurred', 'bit-integrations'),
-    loading: __('Loading products...')
+    loading: __('Loading products...'),
   })
 }
 

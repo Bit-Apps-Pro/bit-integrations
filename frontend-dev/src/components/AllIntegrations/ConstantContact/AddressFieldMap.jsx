@@ -1,20 +1,8 @@
 import { __ } from '../../../Utils/i18nwrap'
 import MtInput from '../../Utilities/MtInput'
-import {
-  addAddressFieldMap,
-  delAddressFieldMap,
-  handleAddress,
-  handleAddressCustomValue
-} from '../IntegrationHelpers/ConstantContactIntegrationHelpers'
+import { addAddressFieldMap, delAddressFieldMap, handleAddress, handleAddressCustomValue } from '../IntegrationHelpers/ConstantContactIntegrationHelpers'
 
-export default function AddressFieldMap({
-  i,
-  formFields,
-  field,
-  constantContactConf,
-  setConstantContactConf,
-  addressField
-}) {
+export default function AddressFieldMap({ i, formFields, field, constantContactConf, setConstantContactConf, addressField }) {
   const isRequired = field.required
   const address = addressField.filter((addr) => !addr.required)
   return (
@@ -25,23 +13,28 @@ export default function AddressFieldMap({
             className="btcd-paper-inp mr-2"
             name="formField"
             value={field.formField || ''}
-            onChange={(ev) => handleAddress(ev, i, constantContactConf, setConstantContactConf)}>
+            onChange={(ev) => handleAddress(ev, i, constantContactConf, setConstantContactConf)}
+          >
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             {formFields.map(
-              (f) =>
-                f.type !== 'file' && (
-                  <option key={`ff-zhcrm-${f.name}`} value={f.name}>
-                    {f.label}
-                  </option>
-                )
+              (f) => f.type !== 'file' && (
+                <option key={`ff-zhcrm-${f.name}`} value={f.name}>
+                  {f.label}
+                </option>
+              ),
             )}
-            <option value="custom">{__('Custom...', 'bit-integrations')}</option>
+            <option value="custom">
+              {__('Custom...', 'bit-integrations')}
+            </option>
           </select>
           {field.formField === 'custom' && (
             <MtInput
-              onChange={(e) =>
-                handleAddressCustomValue(e, i, constantContactConf, setConstantContactConf)
-              }
+              onChange={(e) => handleAddressCustomValue(
+                e,
+                i,
+                constantContactConf,
+                setConstantContactConf,
+              )}
               label={__('Custom Value', 'bit-integrations')}
               className="mr-2"
               type="text"
@@ -53,22 +46,27 @@ export default function AddressFieldMap({
             className="btcd-paper-inp"
             name="constantContactAddressField"
             value={field.constantContactAddressField || ''}
-            onChange={(ev) =>
-              handleAddress(ev, i, constantContactConf, setConstantContactConf, addressField)
-            }
-            disabled={isRequired}>
+            onChange={(ev) => handleAddress(
+              ev,
+              i,
+              constantContactConf,
+              setConstantContactConf,
+              addressField,
+            )}
+            disabled={isRequired}
+          >
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             {isRequired
               ? Object.values(addressField).map((listField, indx) => (
-                  <option key={`add-${indx * 2}`} value={listField.tag}>
-                    {listField.name}
-                  </option>
-                ))
+                <option key={`add-${indx * 2}`} value={listField.tag}>
+                  {listField.name}
+                </option>
+              ))
               : Object.values(address).map((listField, indx) => (
-                  <option key={`add-${indx * 2}`} value={listField.tag}>
-                    {listField.name}
-                  </option>
-                ))}
+                <option key={`add-${indx * 2}`} value={listField.tag}>
+                  {listField.name}
+                </option>
+              ))}
           </select>
         </div>
       </div>
@@ -76,9 +74,14 @@ export default function AddressFieldMap({
         <>
           {constantContactConf?.address_field.length < 5 && (
             <button
-              onClick={() => addAddressFieldMap(i, constantContactConf, setConstantContactConf)}
+              onClick={() => addAddressFieldMap(
+                i,
+                constantContactConf,
+                setConstantContactConf,
+              )}
               className="icn-btn sh-sm ml-2 mr-1"
-              type="button">
+              type="button"
+            >
               +
             </button>
           )}
@@ -86,7 +89,8 @@ export default function AddressFieldMap({
             onClick={() => delAddressFieldMap(i, constantContactConf, setConstantContactConf)}
             className="icn-btn sh-sm ml-1"
             type="button"
-            aria-label="btn">
+            aria-label="btn"
+          >
             <span className="btcd-icn icn-trash-2" />
           </button>
         </>

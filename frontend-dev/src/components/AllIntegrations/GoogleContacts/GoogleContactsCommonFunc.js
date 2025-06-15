@@ -14,21 +14,20 @@ export const handleInput = (e, googleContactsConf, setGoogleContactsConf) => {
   setGoogleContactsConf({ ...newConf })
 }
 
-export const checkMappedFields = (fieldsMapped) => {
+export const checkMappedFields = fieldsMapped => {
   const checkedField = fieldsMapped
-    ? fieldsMapped.filter((item) => !item.formField || !item.googleContactsFormField)
+    ? fieldsMapped.filter(item => (!item.formField || !item.googleContactsFormField))
     : []
   if (checkedField.length > 0) return false
   return true
 }
 
+
 export const handleAuthorize = (confTmp, setConf, setIsAuthorized, setIsLoading, setError) => {
   if (!confTmp.clientId || !confTmp.clientSecret) {
     setError({
-      clientId: !confTmp.clientId ? __("Client Id can't be empty", 'bit-integrations') : '',
-      clientSecret: !confTmp.clientSecret
-        ? __("Client Secret can't be empty", 'bit-integrations')
-        : ''
+      clientId: !confTmp.clientId ? __('Client Id can\'t be empty', 'bit-integrations') : '',
+      clientSecret: !confTmp.clientSecret ? __('Client Secret can\'t be empty', 'bit-integrations') : '',
     })
     return
   }
@@ -48,16 +47,9 @@ export const handleAuthorize = (confTmp, setConf, setIsAuthorized, setIsLoading,
         grantTokenResponse = JSON.parse(bitsGoogleCalendar)
         localStorage.removeItem('__googleContacts')
       }
-      if (
-        !grantTokenResponse.code ||
-        grantTokenResponse.error ||
-        !grantTokenResponse ||
-        !isAuthRedirectLocation
-      ) {
+      if (!grantTokenResponse.code || grantTokenResponse.error || !grantTokenResponse || !isAuthRedirectLocation) {
         const errorCause = grantTokenResponse.error ? `Cause: ${grantTokenResponse.error}` : ''
-        toast.error(
-          `${__('Authorization Failed', 'bit-integrations')} ${errorCause}. ${__('please try again', 'bit-integrations')}`
-        )
+        toast.error(`${__('Authorization failed', 'bit-integrations')} ${errorCause}. ${__('please try again', 'bit-integrations')}`)
         setIsLoading(false)
       } else {
         const newConf = { ...confTmp }
@@ -75,30 +67,25 @@ const tokenHelper = (grantToken, confTmp, setConf, setIsAuthorized, setIsLoading
   // eslint-disable-next-line no-undef
   tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
 
-  bitsFetch(tokenRequestParams, 'googleContacts_authorization').then((result) => {
-    if (result && result.success) {
-      const newConf = { ...confTmp }
-      newConf.tokenDetails = result.data
-      setConf(newConf)
-      setIsAuthorized(true)
-      toast.success(__('Authorized Successfully', 'bit-integrations'))
-    } else if (
-      (result && result.data && result.data.data) ||
-      (!result.success && typeof result.data === 'string')
-    ) {
-      toast.error(
-        `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}`
-      )
-    } else {
-      toast.error(__('Authorization failed. please try again', 'bit-integrations'))
-    }
-    setIsLoading(false)
-  })
+  bitsFetch(tokenRequestParams, 'googleContacts_authorization')
+    .then(result => {
+      if (result && result.success) {
+        const newConf = { ...confTmp }
+        newConf.tokenDetails = result.data
+        setConf(newConf)
+        setIsAuthorized(true)
+        toast.success(__('Authorized Successfully', 'bit-integrations'))
+      } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
+        toast.error(`${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}`)
+      } else {
+        toast.error(__('Authorization failed. please try again', 'bit-integrations'))
+      }
+      setIsLoading(false)
+    })
 }
 
 export const generateMappedField = (googleContactsConf) => {
-  const requiredFlds = googleContactsConf?.default.filter((fld) => fld.required === true)
-  return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({ formField: '', googleContactsFormField: field.key }))
-    : [{ formField: '', googleContactsFormField: '' }]
+  const requiredFlds = googleContactsConf?.default.filter(fld => fld.required === true)
+  return requiredFlds.length > 0 ? requiredFlds.map(field => ({ formField: '', googleContactsFormField: field.key })) : [{ formField: '', googleContactsFormField: '' }]
 }
+

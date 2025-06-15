@@ -22,86 +22,67 @@ function CompanyHub({ formFields, setFlow, flow, allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const contactFields = [
-    { label: __('First Name', 'bit-integrations'), key: 'FirstName', required: false },
-    { label: __('Last Name', 'bit-integrations'), key: 'LastName', required: true },
-    { label: __('Email Address', 'bit-integrations'), key: 'Email', required: false },
-    { label: __('Company', 'bit-integrations'), key: 'Company', required: false },
-    { label: __('Phone Number', 'bit-integrations'), key: 'Phone', required: false },
-    { label: __('Job Title', 'bit-integrations'), key: 'Designation', required: false },
-    { label: __('Description', 'bit-integrations'), key: 'Description', required: false },
-    { label: __('Source', 'bit-integrations'), key: 'Source', required: false },
-    {
-      label: __('Next Follow Up Date', 'bit-integrations'),
-      key: 'NextFollowUpDate',
-      required: false
-    },
-    { label: __('Twitter', 'bit-integrations'), key: 'Twitter', required: false },
-    { label: __('LinkedIn', 'bit-integrations'), key: 'LinkedIn', required: false },
-    { label: __('GooglePlus', 'bit-integrations'), key: 'GooglePlus', required: false },
-    { label: __('Facebook', 'bit-integrations'), key: 'Facebook', required: false },
-    { label: __('Skype', 'bit-integrations'), key: 'Skype', required: false },
-    { label: __('Street', 'bit-integrations'), key: 'Street', required: false },
-    { label: __('City', 'bit-integrations'), key: 'City', required: false },
-    { label: __('State', 'bit-integrations'), key: 'State', required: false },
-    { label: __('Country', 'bit-integrations'), key: 'Country', required: false },
-    { label: __('Postal Code', 'bit-integrations'), key: 'PostalCode', required: false },
-    { label: __('Postal Code', 'bit-integrations'), key: 'PostalCode', required: false }
+    { label: "First Name", key: "FirstName", required: false },
+    { label: "Last Name", key: "LastName", required: true },
+    { label: "Email Address", key: "Email", required: false },
+    { label: "Company", key: "Company", required: false },
+    { label: "Phone Number", key: "Phone", required: false },
+    { label: "Job Title", key: "Designation", required: false },
+    { label: "Description", key: "Description", required: false },
+    { label: "Source", key: "Source", required: false },
+    { label: "Next Follow Up Date", key: "NextFollowUpDate", required: false },
+    { label: "Twitter", key: "Twitter", required: false },
+    { label: "LinkedIn", key: "LinkedIn", required: false },
+    { label: "GooglePlus", key: "GooglePlus", required: false },
+    { label: "Facebook", key: "Facebook", required: false },
+    { label: "Skype", key: "Skype", required: false },
+    { label: "Street", key: "Street", required: false },
+    { label: "City", key: "City", required: false },
+    { label: "State", key: "State", required: false },
+    { label: "Country", key: "Country", required: false },
+    { label: "Postal Code", key: "PostalCode", required: false },
+    { label: "Postal Code", key: "PostalCode", required: false }
   ]
   const companyFields = [
-    { label: __('Company Name', 'bit-integrations'), key: 'Name', required: true },
-    { label: __('Website', 'bit-integrations'), key: 'Website', required: false },
-    { label: __('Phone Number', 'bit-integrations'), key: 'Phone', required: false },
-    { label: __('Description', 'bit-integrations'), key: 'Description', required: false },
-    { label: __('Billing Street', 'bit-integrations'), key: 'BillingStreet', required: false },
-    { label: __('Billing City', 'bit-integrations'), key: 'BillingCity', required: false },
-    { label: __('Billing State', 'bit-integrations'), key: 'BillingState', required: false },
-    { label: __('Billing Country', 'bit-integrations'), key: 'BillingCountry', required: false },
-    {
-      label: __('Billing Postal Code', 'bit-integrations'),
-      key: 'BillingPostalCode',
-      required: false
-    },
-    { label: __('Shipping Street', 'bit-integrations'), key: 'ShippingStreet', required: false },
-    { label: __('Shipping City', 'bit-integrations'), key: 'ShippingCity', required: false },
-    { label: __('Shipping State', 'bit-integrations'), key: 'ShippingState', required: false },
-    { label: __('Shipping Country', 'bit-integrations'), key: 'ShippingCountry', required: false },
-    {
-      label: __('Shipping Postal Code', 'bit-integrations'),
-      key: 'ShippingPostalCode',
-      required: false
-    }
+    { label: "Company Name", key: "Name", required: true },
+    { label: "Website", key: "Website", required: false },
+    { label: "Phone Number", key: "Phone", required: false },
+    { label: "Description", key: "Description", required: false },
+    { label: "Billing Street", key: "BillingStreet", required: false },
+    { label: "Billing City", key: "BillingCity", required: false },
+    { label: "Billing State", key: "BillingState", required: false },
+    { label: "Billing Country", key: "BillingCountry", required: false },
+    { label: "Billing Postal Code", key: "BillingPostalCode", required: false },
+    { label: "Shipping Street", key: "ShippingStreet", required: false },
+    { label: "Shipping City", key: "ShippingCity", required: false },
+    { label: "Shipping State", key: "ShippingState", required: false },
+    { label: "Shipping Country", key: "ShippingCountry", required: false },
+    { label: "Shipping Postal Code", key: "ShippingPostalCode", required: false }
   ]
   const dealFields = [
-    { label: __('Deal Name', 'bit-integrations'), key: 'Name', required: true },
-    { label: __('Amount', 'bit-integrations'), key: 'Amount', required: false },
-    { label: __('Close Date', 'bit-integrations'), key: 'CloseDate', required: false }
+    { label: "Deal Name", key: "Name", required: true },
+    { label: "Amount", key: "Amount", required: false },
+    { label: "Close Date", key: "CloseDate", required: false }
   ]
 
   const [companyHubConf, setCompanyHubConf] = useState({
     name: 'CompanyHub',
     type: 'CompanyHub',
-    sub_domain: '',
-    api_key: '',
-    field_map: [{ formField: '', companyHubFormField: '' }],
+    sub_domain: process.env.NODE_ENV === 'development' ? 'bitcode' : '',
+    api_key: process.env.NODE_ENV === 'development' ? 'Q0t71Oef8Y9yHj2JLayU' : '',
+    field_map: [
+      { formField: '', companyHubFormField: '' },
+    ],
     actionName: '',
     contactFields,
     companyFields,
     dealFields,
-    actions: {}
+    actions: {},
   })
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      companyHubConf,
-      navigate,
-      '',
-      '',
-      setIsLoading
-    )
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, companyHubConf, navigate, '', '', setIsLoading)
     resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
@@ -112,19 +93,19 @@ function CompanyHub({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = pageNo => {
+  const nextPage = (pageNo) => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
     if (!checkMappedFields(companyHubConf)) {
-      toast.error(__('Please map mandatory fields', 'bit-integrations'))
+      toast.error('Please map mandatory fields')
       return
     }
 
     if (companyHubConf.actionName === 'deal') {
       if (!companyHubConf.selectedStage) {
-        toast.error(__('Please select a Deal Stage', 'bit-integrations'))
+        toast.error('Please select a Deal Stage')
         return
       }
     }
@@ -135,9 +116,7 @@ function CompanyHub({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={3} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
 
       {/* STEP 1 */}
       <CompanyHubAuthorization
@@ -151,9 +130,8 @@ function CompanyHub({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+
         <CompanyHubIntegLayout
           formFields={formFields}
           companyHubConf={companyHubConf}
@@ -168,10 +146,13 @@ function CompanyHub({ formFields, setFlow, flow, allIntegURL }) {
         {companyHubConf?.actionName && (
           <button
             onClick={() => nextPage(3)}
-            disabled={!checkMappedFields(companyHubConf)}
-            className="btn f-right btcd-btn-lg purple sh-sm flx"
-            type="button">
-            {__('Next', 'bit-integrations')} &nbsp;
+            disabled={!(checkMappedFields(companyHubConf))}
+            className="btn f-right btcd-btn-lg green sh-sm flx"
+            type="button"
+          >
+            {__('Next', 'bit-integrations')}
+            {' '}
+            &nbsp;
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         )}

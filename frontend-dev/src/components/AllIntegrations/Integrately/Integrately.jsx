@@ -21,26 +21,28 @@ function Integrately({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Integrately Web Hooks',
     type: 'Integrately',
     method: 'POST',
-    url: '',
-    apiConsole: 'https://app.integrately.com/'
+    url: process.env.NODE_ENV === 'development' ? 'https://connect.pabbly.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D' : '',
+    apiConsole: 'https://app.integrately.com/',
   })
 
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={2} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={2} active={step} /></div>
 
       {/* STEP 1 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
+      <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
         {integratelyLinks?.youTubeLink && (
-          <TutorialLink title="Integrately" youTubeLink={integratelyLinks?.youTubeLink} />
+          <TutorialLink
+            title={integratelyLinks?.title}
+            youTubeLink={integratelyLinks?.youTubeLink}
+          />
         )}
         {integratelyLinks?.docLink && (
-          <TutorialLink title="Integrately" docLink={integratelyLinks?.docLink} />
+          <TutorialLink
+            title={integratelyLinks?.title}
+            docLink={integratelyLinks?.docLink}
+          />
         )}
 
         <WebHooksIntegration
@@ -56,19 +58,17 @@ function Integrately({ formFields, setFlow, flow, allIntegURL }) {
       </div>
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && '100%', height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && '100%', height: step === 2 && 'auto' }}>
+
         <WebHooksStepTwo
           step={step}
-          saveConfig={() =>
-            saveIntegConfig(flow, setFlow, allIntegURL, integrately, navigate, '', '', setIsLoading)
-          }
+          saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, integrately, navigate, '', '', setIsLoading)}
           isLoading={isLoading}
           dataConf={integrately}
           setDataConf={setIntegrately}
           formFields={formFields}
         />
+
       </div>
     </div>
   )

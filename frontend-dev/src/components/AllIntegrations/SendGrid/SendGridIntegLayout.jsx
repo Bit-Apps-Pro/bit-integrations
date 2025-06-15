@@ -10,14 +10,7 @@ import { sendGridAuthentication } from './SendGridCommonFunc'
 import SendGridFieldMap from './SendGridFieldMap'
 import { addFieldMap } from './IntegrationHelpers'
 
-export default function SendGridIntegLayout({
-  formFields,
-  sendGridConf,
-  setSendGridConf,
-  loading,
-  setLoading,
-  setSnackbar
-}) {
+export default function SendGridIntegLayout({ formFields, sendGridConf, setSendGridConf, loading, setLoading, setSnackbar }) {
   const [error, setError] = useState({ name: '', auth_token: '' })
   const [isAuthorized, setIsAuthorized] = useState(false)
 
@@ -33,45 +26,31 @@ export default function SendGridIntegLayout({
         <b className="wdt-100">
           {__('Field Map', 'bit-integrations')}
           <button
-            onClick={() =>
-              sendGridAuthentication(
-                sendGridConf,
-                setSendGridConf,
-                setError,
-                setIsAuthorized,
-                loading,
-                setLoading,
-                'refreshLists'
-              )
-            }
+            onClick={() => sendGridAuthentication(sendGridConf, setSendGridConf, setError, setIsAuthorized, loading, setLoading, 'refreshLists')}
             className="icn-btn sh-sm ml-2 mr-2 tooltip"
             style={{ '--tooltip-txt': `'${__('Refresh custom fields', 'bit-integrations')}'` }}
             type="button"
-            disabled={loading.customFields}>
+            disabled={loading.customFields}
+          >
             &#x21BB;
           </button>
         </b>
       </div>
-      {loading.customFields && (
-        <Loader
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: 100,
-            transform: 'scale(0.7)'
-          }}
+      {(loading.customFields) && (
+        <Loader style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: 100,
+          transform: 'scale(0.7)',
+        }}
         />
       )}
       <br />
       <div className="btcd-hr mt-1" />
       <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
-        <div className="txt-dp">
-          <b>{__('Form Fields', 'bit-integrations')}</b>
-        </div>
-        <div className="txt-dp">
-          <b>{__('SendGrid Fields', 'bit-integrations')}</b>
-        </div>
+        <div className="txt-dp"><b>{__('Form Fields', 'bit-integrations')}</b></div>
+        <div className="txt-dp"><b>{__('SendGrid Fields', 'bit-integrations')}</b></div>
       </div>
 
       {sendGridConf?.field_map.map((itm, i) => (
@@ -86,21 +65,10 @@ export default function SendGridIntegLayout({
         />
       ))}
       <div>
-        <div className="txt-center btcbi-field-map-button mt-2">
-          <button
-            onClick={() =>
-              addFieldMap(sendGridConf.field_map.length, sendGridConf, setSendGridConf, false)
-            }
-            className="icn-btn sh-sm"
-            type="button">
-            +
-          </button>
-        </div>
+        <div className="txt-center btcbi-field-map-button mt-2"><button onClick={() => addFieldMap(sendGridConf.field_map.length, sendGridConf, setSendGridConf, false)} className="icn-btn sh-sm" type="button">+</button></div>
         <br />
         <br />
-        <div className="mt-4">
-          <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
-        </div>
+        <div className="mt-4"><b className="wdt-100">{__('Actions', 'bit-integrations')}</b></div>
         <div className="btcd-hr mt-1" />
         <SendGridActions
           sendGridConf={sendGridConf}

@@ -53,10 +53,10 @@ class ZohoDeskController
             $allOrganizations = [];
             $organizations = $organizationsMetaResponse->data;
 
-            if (\count($organizations) > 0) {
+            if (count($organizations) > 0) {
                 foreach ($organizations as $organization) {
                     $allOrganizations[$organization->companyName] = (object) [
-                        'orgId'      => $organization->id,
+                        'orgId' => $organization->id,
                         'portalName' => $organization->companyName
                     ];
                 }
@@ -86,8 +86,6 @@ class ZohoDeskController
 
     /**
      * Process ajax request for refresh crm modules
-     *
-     * @param mixed $queryParams
      *
      * @return JSON crm module data
      */
@@ -123,10 +121,10 @@ class ZohoDeskController
             $allDepartments = [];
             $departments = $departmentsMetaResponse->data;
 
-            if (\count($departments) > 0) {
+            if (count($departments) > 0) {
                 foreach ($departments as $department) {
                     $allDepartments[$department->name] = (object) [
-                        'departmentId'   => $department->id,
+                        'departmentId' => $department->id,
                         'departmentName' => $department->name
                     ];
                 }
@@ -148,7 +146,7 @@ class ZohoDeskController
     /**
      * Process ajax request for refresh crm layouts
      *
-     * @param object $queryParams Params to fetch fields
+     * @param  Object $queryParams Params to fetch fields
      *
      * @return JSON crm layout data
      */
@@ -183,18 +181,18 @@ class ZohoDeskController
         if (!is_wp_error($fieldsMetaResponse)) {
             $fields = $fieldsMetaResponse->data;
 
-            if (\count($fields) > 0) {
+            if (count($fields) > 0) {
                 $response['fields']['Contact Name - Last Name'] = (object) [
-                    'apiName'       => 'lastName',
-                    'displayLabel'  => __('Contact Name - Last Name', 'bit-integrations'),
+                    'apiName' => 'lastName',
+                    'displayLabel' => 'Contact Name - Last Name',
                     'isCustomField' => false,
-                    'required'      => true
+                    'required' => true
                 ];
                 $response['fields']['Contact Name - First Name'] = (object) [
-                    'apiName'       => 'firstName',
-                    'displayLabel'  => __('Contact Name - First Name', 'bit-integrations'),
+                    'apiName' => 'firstName',
+                    'displayLabel' => 'Contact Name - First Name',
                     'isCustomField' => false,
-                    'required'      => false
+                    'required' => false
                 ];
                 $response['required'][] = 'lastName';
                 foreach ($fields as $field) {
@@ -202,10 +200,10 @@ class ZohoDeskController
                         continue;
                     }
                     $response['fields'][$field->displayLabel] = (object) [
-                        'apiName'       => $field->apiName,
-                        'displayLabel'  => $field->displayLabel,
+                        'apiName' => $field->apiName,
+                        'displayLabel' => $field->displayLabel,
                         'isCustomField' => $field->isCustomField,
-                        'required'      => $field->isMandatory
+                        'required' => $field->isMandatory
                     ];
 
                     if ($field->isMandatory) {
@@ -231,7 +229,7 @@ class ZohoDeskController
     /**
      * Process ajax request for refresh crm modules
      *
-     * @param object $queryParams Params to refresh ticket owner
+     * @param  Object $queryParams Params to refresh ticket owner
      *
      * @return JSON crm module data
      */
@@ -266,10 +264,10 @@ class ZohoDeskController
         if (!is_wp_error($ownersMetaResponse)) {
             $owners = $ownersMetaResponse->data;
 
-            if (\count($owners) > 0) {
+            if (count($owners) > 0) {
                 foreach ($owners as $owner) {
                     $response['owners'][] = (object) [
-                        'ownerId'   => $owner->id,
+                        'ownerId' => $owner->id,
                         'ownerName' => $owner->name
                     ];
                 }
@@ -289,7 +287,7 @@ class ZohoDeskController
     /**
      * Process ajax request for refresh crm modules
      *
-     * @param object $queryParams Params to refresh ticket Products
+     * @param  Object $queryParams Params to refresh ticket Products
      *
      * @return JSON crm module data
      */
@@ -326,10 +324,10 @@ class ZohoDeskController
         if (!is_wp_error($productsMetaResponse)) {
             $products = $productsMetaResponse->data;
 
-            if (\count($products) > 0) {
+            if (count($products) > 0) {
                 foreach ($products as $product) {
                     $response['products'][] = (object) [
-                        'productId'   => $product->id,
+                        'productId' => $product->id,
                         'productName' => $product->productName
                     ];
                 }

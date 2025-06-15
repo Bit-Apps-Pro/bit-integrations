@@ -19,8 +19,8 @@ function ConfirmModal({ close, action, mainMdlCls, style, cssTransStyle, show, b
           {children}
         </div>
         <div className={`txt-center ${warning && 'mt-3'}`}>
-          {!btn2Txt && <button onClick={close} className={`btn btcd-btn-o-white purple w-4 mr-2 br-50 ${!className && 'btn-lg'}`} type="button">{__('Cancel', 'bit-integrations')}</button>}
-          {btn2Txt && <button onClick={btn2Action} className={`btn purple w-4 mr-2 br-50 ${!className && 'btn-lg'}`} type="button">{btn2Txt}</button>}
+          {!btn2Txt && <button onClick={close} className={`btn btcd-btn-o-gray green w-4 mr-2 br-50 ${!className && 'btn-lg'}`} type="button">{__('Cancel', 'bit-integrations')}</button>}
+          {btn2Txt && <button onClick={btn2Action} className={`btn green w-4 mr-2 br-50 ${!className && 'btn-lg'}`} type="button">{btn2Txt}</button>}
           <button onClick={action} className={`btn ${btnClass || 'red'} w-4 br-50 ${!className && 'btn-lg'}`} type="button">{btnTxt}</button>
         </div>
       </div>

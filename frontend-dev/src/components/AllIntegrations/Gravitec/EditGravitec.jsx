@@ -30,15 +30,7 @@ function EditGravitec({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
-    saveActionConf({
-      flow,
-      allIntegURL,
-      conf: gravitecConf,
-      navigate,
-      edit: 1,
-      setLoading,
-      setSnackbar
-    })
+    saveActionConf({ flow, allIntegURL, conf: gravitecConf, navigate, edit: 1, setLoading, setSnackbar })
   }
 
   return (
@@ -47,14 +39,7 @@ function EditGravitec({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, gravitecConf, setGravitecConf)}
-          name="name"
-          value={gravitecConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, gravitecConf, setGravitecConf)} name="name" value={gravitecConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
 

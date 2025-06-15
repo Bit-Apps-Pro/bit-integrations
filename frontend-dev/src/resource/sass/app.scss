@@ -1,5 +1,5 @@
 :root {
-  --tooltip-txt: '';
+  --tooltip-txt: "";
   --tt-left: 50%;
   --tt-width: auto;
   --tt-wrap: nowrap;
@@ -11,20 +11,16 @@
 
 //$blue: #0a8dff;
 //$blue: #0083f3;
-// $dp-purple: #0b1655;
+// $dp-blue: #0b1655;
 //$light-bg: #f2f3f7;
 //$light-bg: #eaf0f7;
 // $bg: #f2f3f7;
-$purple: #7902f8;
-$light-purple: #6c11f9;
-// $purple: #7f57ef;
 $bdr-rad: 0px;
 $prim: #99e3ff;
 $blue: #0069ff;
-$green: #36fcb3;
-$light-purple-bg: #371f4a;
-$dp-purple: #391794;
-$dp-bg: #2a054f;
+$light-blue-bg: #f0f5ff;
+$dp-blue: #031b4e;
+$dp-bg: #13233c;
 $light-bg: #fff;
 $light-txt: #8fa4bd;
 $bg: #f7f8fc;
@@ -46,14 +42,14 @@ a {
 
 a:active,
 a:hover {
-  color: #4000a7;
+  color: #005ca7;
   box-shadow: none;
 }
 
 #btcd-app {
-  color: #031b4e;
+  color: $dp-blue;
   direction: ltr !important;
-  font-family: 'Montserrat', sans-serif !important;
+  font-family: "Montserrat", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 82vh;
@@ -114,7 +110,7 @@ a:hover {
 }
 
 .media-toolbar .button-primary {
-  background: $purple !important;
+  background: $blue !important;
   color: white !important;
   border-radius: 20px !important;
 
@@ -125,7 +121,7 @@ a:hover {
 
 .wp-core-ui .button-primary:disabled,
 .wp-core-ui .button-primary[disabled] {
-  background: transparentize($purple, 0.6) !important;
+  background: transparentize($blue, 0.6) !important;
   color: white !important;
 }
 
@@ -143,23 +139,23 @@ a:hover {
 }
 
 button.check {
-  background: $purple !important;
+  background: $blue !important;
 }
 
 .media-modal {
   & * {
-    font-family: 'Montserrat', sans-serif !important;
+    font-family: "Montserrat", sans-serif !important;
   }
 
   & a {
-    color: $purple !important;
+    color: $blue !important;
   }
 
   & button {
     box-shadow: none !important;
 
     &:hover {
-      color: $purple !important;
+      color: $blue !important;
     }
 
     &:focus {
@@ -179,22 +175,20 @@ button.check {
     }
 
     &:focus {
-      border-color: $purple !important;
-      box-shadow:
-        0 0 0 0px $purple,
-        0 0 0 4px rgba(0, 131, 243, 0.1) !important;
+      border-color: $blue !important;
+      box-shadow: 0 0 0 0px $blue, 0 0 0 4px rgba(0, 131, 243, 0.1) !important;
     }
   }
 }
 
-input[type='checkbox']:disabled:checked:before,
-input[type='checkbox'].disabled:checked:before {
+input[type="checkbox"]:disabled:checked:before,
+input[type="checkbox"].disabled:checked:before {
   opacity: 0 !important;
 }
 
 .wp-core-ui .attachment.details,
 .attachment:focus {
-  box-shadow: 0 0 0 2px $purple !important;
+  box-shadow: 0 0 0 2px $blue !important;
 }
 
 /* .setting input,
@@ -252,12 +246,8 @@ input[type='checkbox'].disabled:checked:before {
   color: $blue;
 }
 
-.txt-purple {
-  color: $purple;
-}
-
 .txt-pro {
-  color: rgb(255, 255, 255);
+  color: crimson;
 }
 
 .bg-pro {
@@ -291,27 +281,14 @@ input[type='checkbox'].disabled:checked:before {
   cursor: grab;
 }
 
-.pro-btn {
-  background-color: #7902f8;
-  color: white;
-  padding: 2px 4px;
-  text-align: center;
-  border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-}
-
 .pro-blur {
   background: #07316f38;
   position: absolute;
   top: -15px;
   left: -20px;
-  height: 110%;
-  min-height: min-content;
+  height: 115%;
   justify-content: center;
-  width: 110%;
+  width: 115%;
   border-radius: 8px;
   -webkit-backdrop-filter: blur(1px);
   backdrop-filter: blur(1px);
@@ -323,14 +300,6 @@ input[type='checkbox'].disabled:checked:before {
     border-radius: 10px;
     background-color: white;
     box-shadow: 0px 0 29px -9px rgb(30, 29, 63);
-
-    & > a {
-      color: #344054;
-    }
-
-    .txt-pro {
-      color: #ff4646;
-    }
   }
 }
 
@@ -374,12 +343,12 @@ input[type='checkbox'].disabled:checked:before {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: $dp-bg;
+  background: $dp-blue;
 }
 
 //scroll bar style end
 
-[draggable='true'] {
+[draggable="true"] {
   -khtml-user-drag: element;
   -webkit-user-drag: element;
 }
@@ -392,14 +361,6 @@ input[type='checkbox'].disabled:checked:before {
   }
 }
 
-.green {
-  background-color: #20c588 !important;
-
-  &:hover {
-    background: #20c588;
-  }
-}
-
 .blue {
   //background: $blue !important;
   background: linear-gradient(145deg, $blue, #097fe6) !important;
@@ -407,57 +368,33 @@ input[type='checkbox'].disabled:checked:before {
 
   &:hover {
     //background: #016fcf !important;
-    background: linear-gradient(145deg, darken($blue, 2), darken($blue, 5)) !important;
+    background: linear-gradient(
+      145deg,
+      darken($blue, 2),
+      darken($blue, 5)
+    ) !important;
   }
 
   &:active {
     // background: #0062b8;
-    background: linear-gradient(145deg, darken($blue, 4), darken($blue, 7)) !important;
+    background: linear-gradient(
+      145deg,
+      darken($blue, 4),
+      darken($blue, 7)
+    ) !important;
   }
 }
 
-.dp-purple {
+.dp-blue {
   background: $dp-bg !important;
   color: white !important;
 
   &:hover {
-    background: rgb(57, 22, 109) !important;
+    background: rgb(28, 43, 83) !important;
   }
 
   &:active {
-    background: #321e69;
-  }
-}
-
-.purple {
-  //background: $purple !important;
-  background: linear-gradient(145deg, $purple, #6049f2) !important;
-  color: white !important;
-
-  &:hover {
-    //background: #016fcf !important;
-    background: linear-gradient(145deg, darken($purple, 2), darken($purple, 5)) !important;
-  }
-
-  &:active {
-    // background: #0062b8;
-    background: linear-gradient(145deg, darken($purple, 4), darken($purple, 7)) !important;
-  }
-}
-
-.gray {
-  //background: $purple !important;
-  background: linear-gradient(145deg, $gray, #e1dcfc) !important;
-  color: rgb(94, 88, 88) !important;
-
-  &:hover {
-    //background: #016fcf !important;
-    background: linear-gradient(145deg, darken($gray, 2), darken($gray, 5)) !important;
-  }
-
-  &:active {
-    // background: #0062b8;
-    background: linear-gradient(145deg, darken($gray, 4), darken($gray, 7)) !important;
+    background: #0062b8;
   }
 }
 
@@ -516,24 +453,6 @@ input[type='checkbox'].disabled:checked:before {
   }
 }
 
-.purple-sh {
-  box-shadow: 3px 3px 7px -2px rgba(158, 73, 255, 0.4);
-  transition: box-shadow 0.3s !important;
-
-  &:hover {
-    box-shadow: 2px 2px 4px 0 rgba(125, 73, 255, 0.4);
-  }
-}
-
-.gray-sh {
-  box-shadow: 3px 3px 7px -2px rgba(252, 250, 254, 0.4);
-  transition: box-shadow 0.3s !important;
-
-  &:hover {
-    box-shadow: 2px 2px 4px 0 rgba(229, 219, 253, 0.4);
-  }
-}
-
 .red-sh {
   box-shadow: 3px 3px 12px 0px transparentize($red, 0.7);
   transition: box-shadow 0.2s;
@@ -559,10 +478,10 @@ input[type='checkbox'].disabled:checked:before {
   margin-top: 20px;
   margin-bottom: 20px;
   min-width: 300px;
-  max-width: 450px;
+  max-width: 400px;
 
   .note-text {
-    color: #333333;
+    color: #888;
 
     & * {
       line-height: 22px !important;
@@ -570,15 +489,11 @@ input[type='checkbox'].disabled:checked:before {
 
     ul {
       margin-left: 15px;
-      list-style: decimal;
+      list-style: disc;
     }
 
     b {
-      color: #292929;
-    }
-
-    h5 {
-      margin-bottom: 0;
+      color: #777;
     }
   }
 }
@@ -667,7 +582,7 @@ input[type='checkbox'].disabled:checked:before {
 .tools {
   display: flex;
   background: white;
-  color: $dp-purple;
+  color: $dp-blue;
   font-weight: 500;
   font-size: 15px;
   white-space: nowrap;
@@ -686,20 +601,20 @@ input[type='checkbox'].disabled:checked:before {
 
   & > span {
     display: flex;
-    color: $dp-purple;
+    color: $dp-blue;
     font-size: 25px;
     margin-right: 5px;
   }
 
   &:hover,
   &:focus {
-    color: $purple;
+    color: $blue;
     outline: none;
     transform: scale(1.05);
     box-shadow: 0 1px 11px -4px #b1b1b1;
 
     & > span {
-      color: $purple;
+      color: $blue;
     }
   }
 }
@@ -764,12 +679,12 @@ input[type='checkbox'].disabled:checked:before {
 }
 
 .btcd-ck-wrp:hover input ~ .btcd-mrk {
-  border-color: $purple !important;
+  border-color: $blue !important;
 }
 
 .btcd-ck-wrp input:checked ~ .btcd-mrk {
-  background-color: $purple;
-  border-color: $purple !important;
+  background-color: $blue;
+  border-color: $blue !important;
 }
 
 .btc-range {
@@ -783,19 +698,19 @@ input[type='checkbox'].disabled:checked:before {
   & .inp-grp {
     &:hover {
       .icn {
-        color: $purple;
-        background-color: transparentize($purple, 0.92);
+        color: $blue;
+        background-color: transparentize($blue, 0.92);
 
         & .line-icn {
-          stroke: $purple;
+          stroke: $blue;
         }
 
         & .fill-icn {
-          fill: $purple;
+          fill: $blue;
         }
 
         .border-icn {
-          border-color: $purple;
+          border-color: $blue;
         }
       }
     }
@@ -811,7 +726,7 @@ input[type='checkbox'].disabled:checked:before {
     justify-content: center;
   }
 
-  & input[type='number'] {
+  & input[type="number"] {
     width: 55px;
     line-height: 1 !important;
     outline: none;
@@ -830,7 +745,7 @@ input[type='checkbox'].disabled:checked:before {
 
 .btc-range {
   $track-color: #eceff1 !default;
-  $thumb-color: transparentize($dp-purple, 0.2) !default;
+  $thumb-color: transparentize($dp-blue, 0.2) !default;
 
   $thumb-radius: 12px !default;
   $thumb-height: 13px !default;
@@ -855,8 +770,7 @@ input[type='checkbox'].disabled:checked:before {
   $ie-bottom-track-color: darken($track-color, $contrast) !default;
 
   @mixin shadow($shadow-size, $shadow-blur, $shadow-color) {
-    box-shadow:
-      $shadow-size $shadow-size $shadow-blur $shadow-color,
+    box-shadow: $shadow-size $shadow-size $shadow-blur $shadow-color,
       0 0 $shadow-size lighten($shadow-color, 5%);
   }
 
@@ -875,10 +789,14 @@ input[type='checkbox'].disabled:checked:before {
     cursor: pointer;
     height: $thumb-height;
     width: $thumb-width;
-    @include shadow($thumb-shadow-size, $thumb-shadow-blur, $thumb-shadow-color);
+    @include shadow(
+      $thumb-shadow-size,
+      $thumb-shadow-blur,
+      $thumb-shadow-color
+    );
   }
 
-  [type='range'] {
+  [type="range"] {
     background: transparent;
     -webkit-appearance: none;
     margin: calc($thumb-height / 2) 0;
@@ -923,12 +841,18 @@ input[type='checkbox'].disabled:checked:before {
       border: $track-border-width solid $track-border-color;
       border-radius: $track-radius;
       @include track;
-      @include shadow($track-shadow-size, $track-shadow-blur, $track-shadow-color);
+      @include shadow(
+        $track-shadow-size,
+        $track-shadow-blur,
+        $track-shadow-color
+      );
     }
 
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
-      margin-top: calc(($track-border-width * 2 + $track-height) / 2 - ($thumb-height / 2));
+      margin-top: calc(
+        ($track-border-width * 2 + $track-height) / 2 - ($thumb-height / 2)
+      );
       @include thumb;
     }
 
@@ -937,7 +861,11 @@ input[type='checkbox'].disabled:checked:before {
       border: $track-border-width solid $track-border-color;
       border-radius: $track-radius;
       height: calc($track-height / 2);
-      @include shadow($track-shadow-size, $track-shadow-blur, $track-shadow-color);
+      @include shadow(
+        $track-shadow-size,
+        $track-shadow-blur,
+        $track-shadow-color
+      );
       @include track;
     }
 
@@ -957,14 +885,22 @@ input[type='checkbox'].disabled:checked:before {
       background: $ie-bottom-track-color;
       border: $track-border-width solid $track-border-color;
       border-radius: calc($track-radius * 2);
-      @include shadow($track-shadow-size, $track-shadow-blur, $track-shadow-color);
+      @include shadow(
+        $track-shadow-size,
+        $track-shadow-blur,
+        $track-shadow-color
+      );
     }
 
     &::-ms-fill-upper {
       background: $track-color;
       border: $track-border-width solid $track-border-color;
       border-radius: calc($track-radius * 2);
-      @include shadow($track-shadow-size, $track-shadow-blur, $track-shadow-color);
+      @include shadow(
+        $track-shadow-size,
+        $track-shadow-blur,
+        $track-shadow-color
+      );
     }
 
     &::-ms-thumb {
@@ -988,7 +924,7 @@ input[type='checkbox'].disabled:checked:before {
 .btcd-mrk:after {
   display: none;
   position: absolute;
-  content: '';
+  content: "";
 }
 
 .btcd-ck-wrp input:checked ~ .btcd-mrk:after {
@@ -1051,7 +987,7 @@ input[type='checkbox'].disabled:checked:before {
     position: absolute;
     top: 47vh;
     left: -2px;
-    content: '\02551';
+    content: "\02551";
     height: 64px;
     text-align: center;
   }
@@ -1067,7 +1003,7 @@ input[type='checkbox'].disabled:checked:before {
   pointer-events: none;
 
   &::before {
-    content: '';
+    content: "";
   }
 
   &:hover {
@@ -1083,7 +1019,7 @@ input[type='checkbox'].disabled:checked:before {
     width: 8px;
 
     & > div {
-      border-left: 3px solid $purple;
+      border-left: 3px solid $blue;
       width: 12px;
     }
   }
@@ -1109,7 +1045,7 @@ input[type='checkbox'].disabled:checked:before {
     }
 
     &:hover {
-      background: transparentize($purple, 0.95);
+      background: transparentize($blue, 0.95);
     }
   }
 
@@ -1208,9 +1144,9 @@ input[type='checkbox'].disabled:checked:before {
   }
 
   & button.active {
-    background: $purple;
+    background: $blue;
     color: white;
-    border-color: $purple;
+    border-color: $blue;
 
     & .line-icn {
       stroke: white;
@@ -1227,11 +1163,11 @@ input[type='checkbox'].disabled:checked:before {
     width: 13px;
 
     & .line-icn {
-      stroke: $dp-purple;
+      stroke: $dp-blue;
     }
 
     & .fill-icn {
-      fill: $dp-purple;
+      fill: $dp-blue;
     }
   }
 }
@@ -1251,7 +1187,7 @@ input[type='checkbox'].disabled:checked:before {
 
   & > button {
     background: transparent;
-    color: $dp-purple;
+    color: $dp-blue;
     width: 22px;
     height: 22px;
     border-radius: 3px;
@@ -1336,10 +1272,6 @@ input[type='checkbox'].disabled:checked:before {
 }
 
 .btcd-inte-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
   position: relative;
   cursor: pointer;
   width: 160px;
@@ -1348,16 +1280,9 @@ input[type='checkbox'].disabled:checked:before {
   overflow: hidden;
   border-radius: 15px;
   outline: none;
-  border: 1px solid #dce7ff;
-  // box-shadow: 0px 2px 3px #d7e0ed;
+  box-shadow: 0px 2px 3px #d7e0ed;
   background-color: aliceblue;
-  transition:
-    box-shadow 0.2s,
-    transform 0.3s;
-
-  & > .txt-center {
-    word-break: break-word;
-  }
+  transition: box-shadow 0.2s, transform 0.3s;
 
   & > .btcd-inte-atn {
     background: white;
@@ -1414,7 +1339,7 @@ input[type='checkbox'].disabled:checked:before {
 
   &:hover:not(.btcd-inte-dis, .btcd-inte-pro, .pro-filter) {
     transform: scale(1.02);
-    box-shadow: 0 2px 4px #bfc7dc;
+    box-shadow: 2px 2px 7px #cdd4e7;
 
     & > .btcd-inte-atn {
       height: 42px;
@@ -1435,12 +1360,11 @@ input[type='checkbox'].disabled:checked:before {
 .inte-sm {
   background: aliceblue;
   position: relative;
-  width: 115px;
-  height: 150px;
+  width: 110px;
+  height: 130px;
   border-radius: 15px;
   font-size: 12px;
   letter-spacing: 0.3px;
-  font-weight: 600;
 
   & img {
     width: 100px;
@@ -1448,9 +1372,8 @@ input[type='checkbox'].disabled:checked:before {
     max-width: 100px;
     max-height: 100px;
     object-fit: contain;
-    // margin: 0 auto;
-    // margin-top: 12px;
-    // padding: 12px;
+    margin: 0 auto;
+    padding: 12px;
   }
 
   &:before {
@@ -1460,16 +1383,15 @@ input[type='checkbox'].disabled:checked:before {
     position: absolute;
     justify-content: center;
     align-items: center;
-    font-size: 80px;
+    font-size: 100px;
     width: 100%;
-    filter: drop-shadow(0, 2px, 5px, grey);
     height: 100%;
     z-index: 9;
   }
 
   &:hover:not(.btcd-inte-dis, .btcd-inte-pro, .pro-filter, .inte-edit) {
     &:before {
-      content: '+';
+      content: "+";
     }
   }
 }
@@ -1490,7 +1412,7 @@ input[type='checkbox'].disabled:checked:before {
     background: rgba(17, 27, 76, 0.67);
     position: absolute;
     z-index: 9;
-    content: 'Coming Soon';
+    content: "Coming Soon";
     font-size: 12px;
     font-weight: 500;
     text-shadow: 0px 0px 4px black;
@@ -1502,64 +1424,41 @@ input[type='checkbox'].disabled:checked:before {
 }
 
 .btcd-inte-pro {
-  // pointer-events: none;
+  pointer-events: none;
   -ms-user-select: none;
   -webkit-user-select: none;
   user-select: none;
-  opacity: 0.6;
-
-  &:hover {
-    opacity: 1;
-    transform: scale(1.02);
-    box-shadow: 0 2px 4px #bfc7dc;
-
-    &::before {
-      visibility: visible;
-    }
-  }
-
-  &::before {
-    visibility: hidden;
-    display: flex;
-    background: rgba(4, 37, 155, 0.18);
-    color: #fff;
-    position: absolute;
-    justify-content: center;
-    align-items: center;
-    font-size: 80px;
-    width: 100%;
-    filter: drop-shadow(0, 2px, 5px, grey);
-    height: 100%;
-    z-index: 9;
-    content: '+';
-  }
 
   & .pro-filter {
     display: flex;
-    // background: #4e5a9447;
+    background: #4e5a9447;
     position: absolute;
-    text-align: right;
-    align-items: right;
-    justify-content: right;
-    flex-direction: row;
-    // height: 100%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
     width: 100%;
     z-index: 9;
-    top: 0;
+
+    & div {
+      background: #ffffff78;
+      color: #000000;
+      width: auto;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 7px 5px;
+    }
 
     & .txt-pro {
-      background: rgb(80 5 255);
-      padding: 7px;
+      background: transparentize(white, 0.1);
+      padding: 8px;
       pointer-events: all;
-      font-size: 10px;
+      font-size: 14px;
       font-weight: 600;
-      margin-top: 0px;
-      border-radius: 22px 15px 12px 30px;
-      z-index: 1;
-      box-shadow: 0px 2px 4px #e1d4ff;
-      transition:
-        box-shadow 0.2s,
-        transform 0.3s;
+      margin-top: 5px;
+      border-radius: 5px;
+      z-index: 4;
     }
   }
 }
@@ -1578,19 +1477,6 @@ input[type='checkbox'].disabled:checked:before {
   }
 }
 
-#modal-title-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Outfit', sans-serif;
-  background-image: url(../img/bit-social-promo.png);
-  background-repeat: no-repeat;
-  background-position: left;
-  color: #fff;
-  padding: 35px;
-}
-
 .opt {
   background: #ecf1f9;
   margin-top: 20px;
@@ -1598,42 +1484,9 @@ input[type='checkbox'].disabled:checked:before {
   border-radius: 8px;
 }
 
-input[type='radio']:checked::before {
-  content: '';
-  border-radius: 50%;
-  width: 0.5rem;
-  height: 0.5rem;
-  margin: 0.1875rem;
-  background-color: $purple !important;
-  line-height: 1.14285714;
-}
-
-input[type='checkbox']:focus,
-input[type='color']:focus,
-input[type='date']:focus,
-input[type='datetime-local']:focus,
-input[type='datetime']:focus,
-input[type='email']:focus,
-input[type='month']:focus,
-input[type='number']:focus,
-input[type='password']:focus,
-input[type='radio']:focus,
-input[type='search']:focus,
-input[type='tel']:focus,
-input[type='text']:focus,
-input[type='time']:focus,
-input[type='url']:focus,
-input[type='week']:focus,
-select:focus,
-textarea:focus {
-  border-color: $purple;
-  box-shadow: 0 0 0 1px $purple;
-  outline: 2px solid transparent;
-}
-
 .btn {
   display: inline-flex;
-  color: white;
+  color: inherit;
   border: none;
   padding: 7px 10px;
   border-radius: 8px;
@@ -1666,23 +1519,6 @@ textarea:focus {
   }
 }
 
-.btcd-btn-o-purple {
-  background: transparent;
-  color: $purple !important;
-  border: 1px solid $purple;
-  transition: background 0.2s !important;
-
-  &:hover {
-    background: $purple;
-    color: white !important;
-  }
-}
-
-.btcd-btn-purple-active {
-  background-color: $purple;
-  color: white;
-}
-
 .btcd-btn-o-red {
   background: transparent;
   color: $red !important;
@@ -1704,18 +1540,6 @@ textarea:focus {
   &:hover {
     background: #f7f7f7;
     color: black !important;
-  }
-}
-
-.btcd-btn-o-white {
-  background: transparent;
-  color: #ffffff !important;
-  border: 1px solid #9c9c9c;
-  transition: background 0.2s !important;
-
-  &:hover {
-    background: #f7f7f7;
-    color: rgb(228, 228, 228) !important;
   }
 }
 
@@ -1798,14 +1622,6 @@ textarea:focus {
   padding: 5px 20px;
   height: 30px;
 }
-button:disabled {
-  cursor: not-allowed;
-  background: rgb(195, 194, 194) !important;
-  color: #ffffff;
-  opacity: 50%;
-  // box-shadow: 0 0 0 1px $purple !important;
-  outline: 2px solid transparent !important;
-}
 
 .btn-lg {
   padding: 7px 60px;
@@ -1843,16 +1659,18 @@ nav.top-nav {
 .logo {
   background: white;
   height: 40px;
+  width: 40px;
   overflow: hidden;
   border-radius: 15px;
   box-shadow: 2px 2px 5px 0px #444444;
-  transition:
-    width 0.4s,
-    border-radius 0.4s;
-  width: 190px;
+  transition: width 0.4s, border-radius 0.4s;
+
+  &:hover {
+    width: 190px;
+  }
 
   & img {
-    width: 35px;
+    width: 25px;
   }
 
   & span {
@@ -1864,7 +1682,7 @@ nav.top-nav {
 }
 
 .nav-wrp {
-  background: #1f003f;
+  background: $dp-bg;
   height: 230px;
   padding: 20px;
 }
@@ -1884,7 +1702,7 @@ nav.top-nav {
 
 .top-nav > a {
   display: inline-flex;
-  background: #44297c;
+  background: $dp-bg;
   color: #fff;
   align-items: center;
   justify-content: center;
@@ -1925,13 +1743,13 @@ nav.top-nav {
   font-size: 14px;
 }
 
-.f-table [data-sticky-first-right-td='true'],
-.f-table [data-sticky-last-left-td='true'] {
+.f-table [data-sticky-first-right-td="true"],
+.f-table [data-sticky-last-left-td="true"] {
   position: -webkit-sticky !important;
   position: sticky !important;
 }
 
-[data-sticky-first-right-td='true'] {
+[data-sticky-first-right-td="true"] {
   box-shadow: -5px 0px 6px -5px #cdcdcd;
 }
 
@@ -1959,7 +1777,7 @@ nav.top-nav {
 
   &:hover {
     background: #f0f2f8;
-    color: $dp-purple;
+    color: $dp-blue;
   }
 }
 
@@ -2035,7 +1853,7 @@ nav.top-nav {
 .btc-line-icn {
   & .line-icn {
     fill: none;
-    stroke: $dp-purple;
+    stroke: $dp-blue;
     stroke-width: 16px;
   }
 }
@@ -2062,7 +1880,11 @@ nav.top-nav {
   width: 100%;
 
   &:hover {
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 27%);
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 1) 27%
+    );
     width: 172px;
   }
 }
@@ -2141,7 +1963,7 @@ nav.top-nav {
       &:focus {
         background: transparentize($color: #fff, $amount: 0.4);
         color: black !important;
-        box-shadow: 0 0 0 1px transparentize($dp-purple, 0.8);
+        box-shadow: 0 0 0 1px transparentize($dp-blue, 0.8);
         padding: 0 4px;
       }
     }
@@ -2187,8 +2009,8 @@ nav.top-nav {
 }
 
 .icn-btn {
-  background: #fffdfd;
-  color: #9736ff;
+  background: transparent;
+  color: $dp-blue;
   position: relative;
   cursor: pointer;
   font-size: 20px;
@@ -2284,7 +2106,7 @@ nav.top-nav {
 }
 
 .btcd-active-bg {
-  background: $purple;
+  background: $blue;
   position: absolute;
   top: 0;
   left: 0;
@@ -2322,7 +2144,7 @@ nav.top-nav {
 
   & input {
     background: whitesmoke;
-    color: $dp-purple;
+    color: $dp-blue;
     height: 22px;
     margin: 0;
     font-weight: normal;
@@ -2377,7 +2199,7 @@ nav.top-nav {
   }
 
   & button {
-    color: $dp-purple;
+    color: $dp-blue;
     position: relative;
     cursor: pointer;
     height: 39px;
@@ -2387,8 +2209,8 @@ nav.top-nav {
     border-radius: 0 8px 8px 0;
 
     &:hover {
-      background: $light-purple-bg;
-      color: $purple;
+      background: $light-blue-bg;
+      color: $blue;
     }
   }
 }
@@ -2396,12 +2218,12 @@ nav.top-nav {
 .tooltip {
   &::after {
     display: block;
-    background: $purple;
+    background: $dp-blue;
     color: white;
     position: absolute;
     top: 110%;
     left: var(--tt-left);
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     line-height: 1;
     white-space: pre-wrap;
     font-size: 13px;
@@ -2419,9 +2241,7 @@ nav.top-nav {
     -webkit-user-select: none;
     -webkit-user-drag: none;
     opacity: 0;
-    transition:
-      transform 100ms,
-      opacity 300ms,
+    transition: transform 100ms, opacity 300ms,
       border-radius cubic-bezier(0, 0, 0, 1) 500ms;
   }
 
@@ -2431,9 +2251,7 @@ nav.top-nav {
     transform-origin: 0%;
     opacity: 1;
     transform: scale(1) translate(-50%, 0);
-    transition:
-      transform 400ms,
-      border-radius cubic-bezier(0, 0, 0, 1) 500ms;
+    transition: transform 400ms, border-radius cubic-bezier(0, 0, 0, 1) 500ms;
   }
 }
 
@@ -2453,7 +2271,7 @@ nav.top-nav {
 .btcd-prgrs {
   height: inherit;
   border-radius: inherit;
-  background-color: $purple;
+  background-color: $blue;
 }
 
 .btcd-menu {
@@ -2471,11 +2289,7 @@ nav.top-nav {
   overflow: hidden;
   z-index: 999;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.22);
-  transition:
-    left 200ms,
-    width 0.3s,
-    height 0.3s,
-    border-radius 0.5s;
+  transition: left 200ms, width 0.3s, height 0.3s, border-radius 0.5s;
 
   & > a,
   button {
@@ -2514,7 +2328,7 @@ nav.top-nav {
 
 .btcd-menu-btn {
   background: #ffffff;
-  color: $purple;
+  color: $blue;
   position: relative;
   margin-right: 10px;
   border: none;
@@ -2531,7 +2345,7 @@ nav.top-nav {
   transition: all 0.3s;
 
   &:hover {
-    background: $purple;
+    background: $blue;
     color: white;
   }
 }
@@ -2541,20 +2355,20 @@ nav.top-nav {
 
   &:hover {
     background: #f0f4ff;
-    color: $purple;
+    color: $blue;
   }
 
   &::after {
-    content: '\02261';
+    content: "\02261";
   }
 
   &:focus {
-    background: $purple;
+    background: $blue;
     color: #fff;
   }
 
   &:focus::after {
-    content: '\000D7';
+    content: "\000D7";
   }
 }
 
@@ -2566,10 +2380,6 @@ nav.top-nav {
   & .btcd-modal {
     transform: scale(0);
     border-radius: 300px;
-    -webkit-transform: scale(0);
-    -moz-transform: scale(0);
-    -ms-transform: scale(0);
-    -o-transform: scale(0);
   }
 }
 
@@ -2577,9 +2387,7 @@ nav.top-nav {
   & .btcd-modal {
     border-radius: 20px;
     transform: scale(1);
-    transition:
-      transform 0.1s,
-      border-radius 0.2s;
+    transition: transform 0.1s, border-radius 0.2s;
   }
 }
 
@@ -2588,39 +2396,32 @@ nav.top-nav {
 }
 
 .btcd-modal-wrp {
-  display: flex;
   background: rgba(18, 21, 60, 0.53);
   position: fixed;
   top: 0;
   left: 0;
   height: 100%;
+  z-index: 9999;
   width: 100%;
-  z-index: 99999;
-  align-items: center;
   justify-content: center;
   overflow: auto;
-  padding: 30px;
   -webkit-backdrop-filter: blur(1px);
   backdrop-filter: blur(1px);
 }
 
 .btcd-modal {
-  display: inline-table;
-  margin: auto;
   background: #fff;
   border-radius: 20px;
   overflow: hidden;
   width: 700px;
   height: 70%;
-  transition:
-    transform 0.3s,
-    border-radius 0.5s ease;
+  transition: transform 0.3s, border-radius 0.5s ease;
   box-shadow: 0 0 14px 1px rgba(0, 0, 0, 0.64);
 }
 
 .btcd-m-sm {
   width: 400px !important;
-  height: auto;
+  height: auto !important;
 
   & .content {
     height: 100%;
@@ -2630,7 +2431,6 @@ nav.top-nav {
 .btcd-m-md {
   width: 500px !important;
   height: auto !important;
-  min-height: 10% !important;
 
   & .content {
     height: 100%;
@@ -2664,15 +2464,6 @@ nav.top-nav {
 
 .btcd-mdl-subtitle {
   color: #737f94;
-}
-
-.submit-btn {
-  background: #1296ef;
-  // position: absolute;
-  margin: 25px;
-  position: absolute;
-  bottom: 0;
-  right: 0;
 }
 
 .btcd-mdl-close {
@@ -2713,7 +2504,7 @@ nav.top-nav {
   }
 
   &:hover {
-    border: 2px solid $purple;
+    border: 2px solid $blue;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.29);
   }
 
@@ -2732,7 +2523,7 @@ nav.top-nav {
 
 .btcd-hid-btn {
   display: block;
-  background: $purple;
+  background: $blue;
   position: absolute;
   bottom: -53px;
   left: 0;
@@ -2751,20 +2542,18 @@ nav.top-nav {
 
   &:hover {
     background: #f1f1f1;
-    color: $purple;
+    color: $blue;
   }
 
   &:active {
     background: #e4e4e4;
-    color: $purple;
+    color: $blue;
   }
 }
 
 .btcd-builder-wrp {
-  background:
-    linear-gradient(90deg, #ffffff 12px, transparent 1%) center,
-    linear-gradient(#ffffff 12px, transparent 1%) center,
-    #000000;
+  background: linear-gradient(90deg, #ffffff 12px, transparent 1%) center,
+    linear-gradient(#ffffff 12px, transparent 1%) center, #000000;
   // background: white !important;
   position: fixed !important;
   top: 80px !important;
@@ -2885,7 +2674,7 @@ nav.top-nav {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.76);
 
     &:disabled {
-      background: transparentize($purple, 0.5) !important;
+      background: transparentize($blue, 0.5) !important;
     }
   }
 
@@ -2949,22 +2738,8 @@ nav.top-nav {
 
 .app-link-active {
   background: $light-bg !important;
+  color: #0e112f !important;
   font-weight: bold !important;
-  line-height: 25px;
-}
-.blink {
-  animation: blink 2s linear infinite;
-}
-@keyframes blink {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 .btcd-f-settings {
@@ -2982,7 +2757,7 @@ nav.top-nav {
   &::before {
     position: absolute;
     right: -15px;
-    content: '';
+    content: "";
     height: 15px;
     width: 15px;
     background-color: transparent;
@@ -3019,7 +2794,7 @@ nav.top-nav {
 
 .btcd-f-a {
   background: $light-bg;
-  color: $dp-purple !important;
+  color: $dp-blue !important;
   box-shadow: -4px 2px 3px 0 black;
 
   &:before {
@@ -3027,7 +2802,7 @@ nav.top-nav {
     position: absolute;
     top: -18px;
     right: 0;
-    content: '';
+    content: "";
     width: 15px;
     height: 18px;
     border-radius: 0 0 15px 0;
@@ -3039,7 +2814,7 @@ nav.top-nav {
     position: absolute;
     right: 0;
     bottom: -18px;
-    content: '';
+    content: "";
     width: 15px;
     height: 18px;
     border-radius: 0 15px 0 0;
@@ -3059,24 +2834,24 @@ nav.top-nav {
   margin-top: 10px;
 
   &:hover:not(.btcd-f-c-t-o-a) {
-    border-color: transparentize($purple, 0.6);
+    border-color: transparentize($blue, 0.6);
   }
 }
 
 .btcd-f-c-t-o-a {
-  color: $purple;
+  color: $blue;
   position: relative;
-  border-color: $purple;
+  border-color: $blue;
 
   &:after {
     position: absolute;
     top: 100%;
     left: 50%;
-    content: '';
+    content: "";
     margin-left: -10px;
     border-width: 8px;
     border-style: solid;
-    border-color: $purple transparent transparent transparent;
+    border-color: $blue transparent transparent transparent;
   }
 }
 
@@ -3096,7 +2871,7 @@ nav.top-nav {
   border: 2px solid #c6e5ff;
 
   &:focus {
-    border: 2px solid $purple;
+    border: 2px solid $blue;
   }
 }
 
@@ -3132,10 +2907,8 @@ nav.top-nav {
   }
 
   &:focus {
-    border-color: $purple !important;
-    box-shadow:
-      0 0 0 0px $purple,
-      0 0 0 4px rgba(0, 131, 243, 0.1) !important;
+    border-color: $blue !important;
+    box-shadow: 0 0 0 0px $blue, 0 0 0 4px rgba(0, 131, 243, 0.1) !important;
   }
 
   &:disabled {
@@ -3187,10 +2960,6 @@ nav.top-nav {
   --menu-max-height: 250px !important;
 }
 
-.msl-vars.msl-wrp-options.height-s {
-  --menu-max-height: 150px !important;
-}
-
 select.btcd-paper-inp {
   background: url($select-arrow) no-repeat right #fff;
   color: $dp-bg !important;
@@ -3199,14 +2968,11 @@ select.btcd-paper-inp {
   height: auto !important;
   padding: 10px 24px 10px 10px !important;
   appearance: none;
-  transition:
-    background-position-y 0.2s,
-    border 0.2s,
-    box-shadow 0.2s !important;
+  transition: background-position-y 0.2s, border 0.2s, box-shadow 0.2s !important;
 
   &:hover:not(:disabled),
   :focus {
-    color: $dp-purple !important;
+    color: $dp-blue !important;
     background-position-y: 12px;
   }
 }
@@ -3221,10 +2987,8 @@ select.btcd-paper-inp {
   border: 1px solid #e2e2e2 !important;
 
   &:focus {
-    border-color: $purple !important;
-    box-shadow:
-      0 0 0 0px $purple,
-      0 0 0 4px rgba(0, 131, 243, 0.1) !important;
+    border-color: $blue !important;
+    box-shadow: 0 0 0 0px $blue, 0 0 0 4px rgba(0, 131, 243, 0.1) !important;
   }
 
   &:hover:not(:disabled, :focus) {
@@ -3300,7 +3064,7 @@ select.btcd-paper-inp {
   }
 
   & > tbody > tr > td {
-    color: $dp-purple;
+    color: $dp-blue;
     padding: 10px 0 10px 10px;
     border-bottom: 1px solid #c9d6e2;
 
@@ -3311,15 +3075,15 @@ select.btcd-paper-inp {
 }
 
 .btcd-tabl-lnk {
-  color: $purple;
+  color: $blue;
   text-decoration: none;
 
   &:hover {
-    color: $dp-purple;
+    color: $dp-blue;
   }
 
   &:focus {
-    color: $dp-purple !important;
+    color: $dp-blue !important;
     outline: none !important;
     box-shadow: none !important;
   }
@@ -3337,11 +3101,11 @@ select.btcd-paper-inp {
     &:checked {
       + {
         .btcd-t-cbx {
-          border-color: $purple;
+          border-color: $blue;
 
           svg {
             path {
-              fill: $purple;
+              fill: $blue;
             }
 
             polyline {
@@ -3355,7 +3119,7 @@ select.btcd-paper-inp {
     &:indeterminate {
       + {
         .btcd-t-cbx {
-          border-color: $purple;
+          border-color: $blue;
 
           svg {
             path {
@@ -3397,7 +3161,7 @@ select.btcd-paper-inp {
 
       path {
         fill: none;
-        stroke: $purple;
+        stroke: $blue;
         stroke-width: 2;
         stroke-linecap: round;
         stroke-linejoin: round;
@@ -3418,7 +3182,7 @@ select.btcd-paper-inp {
       }
 
       line {
-        stroke: $purple;
+        stroke: $blue;
         stroke-width: 0;
         stroke-linecap: round;
       }
@@ -3582,7 +3346,7 @@ select.btcd-paper-inp {
       text-decoration: none;
 
       &:hover {
-        color: $purple;
+        color: $blue;
       }
     }
   }
@@ -3630,8 +3394,8 @@ select.btcd-paper-inp {
 }
 
 .btcd-pill {
-  background: transparentize($purple, 0.8);
-  color: $dp-purple;
+  background: transparentize($blue, 0.8);
+  color: $dp-blue;
   padding: 5px;
   border-radius: 5px;
 }
@@ -3656,23 +3420,17 @@ select.btcd-paper-inp {
   font-size: 0.875rem;
   padding: 10px 15px;
   border-radius: 5px;
-  transition:
-    bottom 0.5s,
-    transform 0.5s;
+  transition: bottom 0.5s, transform 0.5s;
   z-index: 999999;
   transform: scale(0);
-  box-shadow:
-    0px 3px 5px -1px rgba(0, 0, 0, 0.2),
-    0px 6px 10px 0px rgba(0, 0, 0, 0.14),
-    0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2),
+    0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
 }
 
 .btcd-snack-a-enter-active {
   bottom: 30px;
   transform: scale(1);
-  transition:
-    bottom 0.5s,
-    transform 0.5s;
+  transition: bottom 0.5s, transform 0.5s;
 }
 
 .btcd-snack-cls {
@@ -3773,7 +3531,7 @@ select.btcd-paper-inp {
 
 .btcd-s-tab-link {
   background: transparent;
-  color: $dp-purple;
+  color: $dp-blue;
   position: relative;
   cursor: pointer;
   font-size: 15px;
@@ -3789,8 +3547,8 @@ select.btcd-paper-inp {
   }
 
   &:hover {
-    background: transparentize($purple, 0.95) !important;
-    color: $purple;
+    background: transparentize($blue, 0.95) !important;
+    color: $blue;
   }
 
   &:focus {
@@ -3809,21 +3567,25 @@ select.btcd-paper-inp {
 
 .bit-logo {
   background: rgb(15, 16, 49);
-  background: linear-gradient(43deg, rgba(15, 16, 49, 1) 0%, rgba(29, 58, 75, 1) 100%);
+  background: linear-gradient(
+    43deg,
+    rgba(15, 16, 49, 1) 0%,
+    rgba(29, 58, 75, 1) 100%
+  );
   padding: 15px 15px 15px 19px;
   border-radius: 28px;
   box-shadow: 0 0 22px -7px #9498ce;
 }
 
 .s-t-l-active {
-  color: $purple;
+  color: $blue;
   position: relative;
 
   &::before {
-    background: $purple;
+    background: $blue;
     position: absolute;
     top: 94%;
-    content: '';
+    content: "";
     border-radius: 10px 10px 0 0;
     height: 4px;
     width: 85%;
@@ -3846,7 +3608,7 @@ select.btcd-paper-inp {
 
   & .lft-icn {
     background: #f5f5f5;
-    color: $dp-purple;
+    color: $dp-blue;
     min-width: 40px;
     min-height: 40px;
     border-radius: 30;
@@ -3854,18 +3616,18 @@ select.btcd-paper-inp {
   }
 
   &:hover {
-    color: $purple;
+    color: $blue;
 
     & .lft-icn {
-      background: $light-purple-bg;
-      color: $purple;
+      background: $light-blue-bg;
+      color: $blue;
 
       & .line-icn {
-        stroke: $purple;
+        stroke: $blue;
       }
 
       & .fill-icn {
-        fill: $purple;
+        fill: $blue;
       }
     }
   }
@@ -3944,10 +3706,8 @@ select.btcd-paper-inp {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
-  caret-color: $purple;
-  transition:
-    border 0.2s,
-    box-shadow 0.2s;
+  caret-color: $blue;
+  transition: border 0.2s, box-shadow 0.2s;
 }
 
 /* Span */
@@ -3966,10 +3726,7 @@ select.btcd-paper-inp {
   font-size: 75%;
   line-height: 15px;
   cursor: text;
-  transition:
-    color 0.2s,
-    font-size 0.2s,
-    line-height 0.2s;
+  transition: color 0.2s, font-size 0.2s, line-height 0.2s;
 }
 
 /* Corners */
@@ -3978,7 +3735,7 @@ select.btcd-paper-inp {
 .btcd-mt-inp > textarea + span::before,
 .btcd-mt-inp > textarea + span::after {
   display: block;
-  content: '';
+  content: "";
   box-sizing: border-box;
   margin-top: 6px;
   border-top: solid 1px;
@@ -3987,9 +3744,7 @@ select.btcd-paper-inp {
   height: 8px;
   pointer-events: none;
   box-shadow: inset 0 1px transparent;
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .btcd-mt-inp > input + span::before,
@@ -4048,26 +3803,23 @@ select.btcd-paper-inp {
 /* Focus */
 .btcd-mt-inp > input:focus,
 .btcd-mt-inp > textarea:focus {
-  border-color: $purple;
+  border-color: $blue;
   border-top-color: transparent;
-  box-shadow:
-    inset 2px 0 $purple,
-    inset -2px 0 $purple,
-    inset 0 -2px $purple;
+  box-shadow: inset 2px 0 $blue, inset -2px 0 $blue, inset 0 -2px $blue;
   outline: none;
 }
 
 .btcd-mt-inp > input:focus + span,
 .btcd-mt-inp > textarea:focus + span {
-  color: $purple;
+  color: $blue;
 }
 
 .btcd-mt-inp > input:focus + span::before,
 .btcd-mt-inp > input:focus + span::after,
 .btcd-mt-inp > textarea:focus + span::before,
 .btcd-mt-inp > textarea:focus + span::after {
-  border-top-color: $purple !important;
-  box-shadow: inset 0 2px $purple;
+  border-top-color: $blue !important;
+  box-shadow: inset 0 2px $blue;
 }
 
 /* Disabled */
@@ -4149,20 +3901,17 @@ select.btcd-paper-inp {
     padding: 10px;
     outline: none;
     border: 1px solid $gray;
-    transition:
-      background-position-y 0.2s,
-      border 0.2s,
-      box-shadow 0.2s;
+    transition: background-position-y 0.2s, border 0.2s, box-shadow 0.2s;
     appearance: none;
     font-size: 16px;
 
     &:focus {
-      border-color: $purple;
+      border-color: $blue;
       background-position-y: 12px;
-      box-shadow: 0 0 0 2px $purple inset;
+      box-shadow: 0 0 0 2px $blue inset;
 
       & ~ small {
-        color: $purple;
+        color: $blue;
       }
     }
 
@@ -4193,17 +3942,14 @@ select.btcd-paper-inp {
 
   &:focus {
     border: 0;
-    box-shadow: 0 0 0 3px $purple inset !important;
+    box-shadow: 0 0 0 3px $blue inset !important;
   }
 }
 
 select.btcd-ud-inp {
   background: url($select-arrow) no-repeat right #fff;
   appearance: none;
-  transition:
-    background-position-y 0.2s,
-    border 0.2s,
-    box-shadow 0.2s;
+  transition: background-position-y 0.2s, border 0.2s, box-shadow 0.2s;
 }
 
 .btcd-lgc {
@@ -4230,7 +3976,7 @@ select.btcd-ud-inp {
   border: 1px solid #b9c5ff;
 
   &:hover {
-    border-color: $purple;
+    border-color: $blue;
   }
 }
 
@@ -4337,7 +4083,7 @@ select.btcd-ud-inp {
       padding-left: 5px;
 
       & a:hover {
-        color: $dp-purple;
+        color: $dp-blue;
       }
 
       &:hover:not(:last-child) {
@@ -4358,24 +4104,20 @@ select.btcd-ud-inp {
   color: $dp-bg;
   text-decoration: none;
   cursor: pointer;
-  box-shadow:
-    6px 6px 10px rgba(120, 136, 194, 0.4),
+  box-shadow: 6px 6px 10px rgba(120, 136, 194, 0.4),
     -6px -6px 10px rgba(255, 255, 255, 0.9);
   border-radius: 10px;
   padding: 10px;
   border: none;
   outline: none;
-  transition:
-    transform 0.2s,
-    box-shadow 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
 
   &:hover {
     background-color: darken($light-bg, 5);
   }
 
   &:active {
-    box-shadow:
-      3px 3px 6px rgba(120, 136, 194, 0.4),
+    box-shadow: 3px 3px 6px rgba(120, 136, 194, 0.4),
       -6px -6px 10px rgba(255, 255, 255, 0.9);
     transform: scale(0.9);
   }
@@ -4389,8 +4131,7 @@ select.btcd-ud-inp {
 }
 
 .btcd-neu-btn.neu-sh-sm {
-  box-shadow:
-    3px 3px 6px rgba(120, 136, 194, 0.4),
+  box-shadow: 3px 3px 6px rgba(120, 136, 194, 0.4),
     -3px -3px 6px rgba(255, 255, 255, 0.9);
 }
 
@@ -4406,14 +4147,11 @@ select.btcd-ud-inp {
     border: 3px solid $light-bg;
     outline: none;
     margin: 0;
-    transition:
-      box-shadow 0.2s,
-      border 0.2s;
+    transition: box-shadow 0.2s, border 0.2s;
 
     &:focus {
       background: white;
-      box-shadow:
-        1px 1px 2px rgba(120, 136, 194, 0.4) inset,
+      box-shadow: 1px 1px 2px rgba(120, 136, 194, 0.4) inset,
         -1px -1px 2px rgba(255, 255, 255, 0.9) inset;
       border: 3px solid darken($light-bg, 7);
     }
@@ -4432,9 +4170,9 @@ select.btcd-ud-inp {
   border-radius: 30px;
 
   &.stp-a {
-    background: transparentize($purple, 0.9);
-    color: $purple;
-    border-color: $purple;
+    background: transparentize($blue, 0.9);
+    color: $blue;
+    border-color: $blue;
   }
 }
 
@@ -4445,7 +4183,7 @@ select.btcd-ud-inp {
   height: 3px;
 
   &.stp-line-a {
-    background: $purple;
+    background: $blue;
   }
 }
 
@@ -4455,9 +4193,7 @@ select.btcd-ud-inp {
   width: 0;
   height: 0;
   transition-delay: height 1s;
-  transition:
-    width 0.4s,
-    height 0.4s;
+  transition: width 0.4s, height 0.4s;
 }
 
 .error-404 {
@@ -4501,7 +4237,7 @@ select.btcd-ud-inp {
 
   & img {
     margin-top: 10px;
-    width: 500px;
+    width: 600px;
   }
 
   & > h2 {
@@ -4548,7 +4284,7 @@ select.btcd-ud-inp {
 
     &:focus {
       color: transparentize(#fff, 0);
-      box-shadow: 0 0 0 2px $purple;
+      box-shadow: 0 0 0 2px $blue;
     }
   }
 
@@ -4574,9 +4310,9 @@ select.btcd-ud-inp {
 
   & button {
     background: transparent;
-    color: $purple;
+    color: $blue;
     outline: none;
-    border: 1px solid $purple;
+    border: 1px solid $blue;
     width: 22px;
     height: 22px;
     padding: 3px;
@@ -4584,7 +4320,7 @@ select.btcd-ud-inp {
     justify-content: center;
 
     &:hover {
-      background: transparentize($purple, 0.9);
+      background: transparentize($blue, 0.9);
     }
   }
 }
@@ -4651,7 +4387,7 @@ select.btcd-ud-inp {
 // for IE11
 
 _:-ms-fullscreen,
-:root .f-table [data-sticky-first-right-td='true'] {
+:root .f-table [data-sticky-first-right-td="true"] {
   position: relative;
 }
 
@@ -4677,7 +4413,7 @@ _:-ms-fullscreen,
     background: white;
     position: absolute;
     top: 60%;
-    content: 'Coming Soon';
+    content: "Coming Soon";
     padding: 5px 7px;
     font-size: 15px;
     border-radius: 10px;
@@ -4781,10 +4517,6 @@ _:-ms-fullscreen,
   justify-content: start;
 }
 
-.flx-end {
-  justify-content: end;
-}
-
 .w-nwrp {
   white-space: nowrap;
 }
@@ -4795,10 +4527,6 @@ _:-ms-fullscreen,
 
 .m-1 {
   margin: 5px;
-}
-
-.m-2 {
-  margin: 10px;
 }
 
 .m-0 {
@@ -4941,158 +4669,6 @@ _:-ms-fullscreen,
   margin-left: 150px !important;
 }
 
-.p-a {
-  padding: auto;
-}
-
-.p-1 {
-  padding: 5px;
-}
-
-.p-2 {
-  padding: 10px;
-}
-
-.p-0 {
-  padding: 0 !important;
-}
-
-.px-0 {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
-
-.py-1 {
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-
-.py-2 {
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-.py-3 {
-  padding-top: 15px;
-  padding-bottom: 15px;
-}
-
-.pb-0 {
-  padding-bottom: 0;
-}
-
-.pb-1 {
-  padding-bottom: 5px;
-}
-
-.pb-2 {
-  padding-bottom: 10px;
-}
-
-.pb-3 {
-  padding-bottom: 15px;
-}
-
-.pb-4 {
-  padding-bottom: 20px;
-}
-
-.pb-25 {
-  padding-bottom: 125px;
-}
-
-.pb-50 {
-  padding-bottom: 250px;
-}
-
-.pt-0 {
-  padding-top: 0 !important;
-}
-
-.pt-1 {
-  padding-top: 5px;
-}
-
-.pt-2 {
-  padding-top: 10px;
-}
-
-.pt-3 {
-  padding-top: 15px;
-}
-
-.pt-4 {
-  padding-top: 20px;
-}
-
-.pt-5 {
-  padding-top: 25px;
-}
-
-.pt-i-3 {
-  padding-top: 15px !important;
-}
-
-.pr-1 {
-  padding-right: 5px;
-}
-
-.pr-2 {
-  padding-right: 10px;
-}
-
-.pr-4 {
-  padding-right: 20px;
-}
-
-.pr-8 {
-  padding-right: 40px;
-}
-
-.pr-16 {
-  padding-right: 80px;
-}
-
-.pr-18 {
-  padding-right: 93px;
-}
-
-.pr-24 {
-  padding-right: 118px;
-}
-
-.pl-0 {
-  padding-left: 0 !important;
-}
-
-.pl-1 {
-  padding-left: 5px;
-}
-
-.pl-2 {
-  padding-left: 10px;
-}
-
-.pl-4 {
-  padding-left: 20px !important;
-}
-
-.pl-5 {
-  padding-left: 25px !important;
-}
-
-.pl-6 {
-  padding-left: 30px !important;
-}
-
-.pl-7 {
-  padding-left: 35px !important;
-}
-
-.pl-30 {
-  padding-left: 150px !important;
-}
-
 .w-md {
   width: 900px;
 }
@@ -5171,14 +4747,6 @@ _:-ms-fullscreen,
 
 .p-2 {
   padding: 10px;
-}
-
-.pt-1 {
-  padding-top: 5px;
-}
-
-.pt-2 {
-  padding-top: 10px;
 }
 
 .pl-2 {
@@ -5263,9 +4831,9 @@ _:-ms-fullscreen,
 }
 
 .txt-body {
-  line-height: 1.3;
+  line-height: 1.2;
   font-weight: 100;
-  font-family: 'Titillium Web', sans-serif;
+  font-family: "Titillium Web", sans-serif;
 }
 
 .cooltip-link {
@@ -5400,8 +4968,7 @@ _:-ms-fullscreen,
     border-top-left-radius: 5px;
 
     &.active {
-      box-shadow:
-        -1px -1px 4px 0px rgba(#0069ff, 0.2),
+      box-shadow: -1px -1px 4px 0px rgba(#0069ff, 0.2),
         1px 0 4px 0px rgba(#0069ff, 0.2);
     }
   }
@@ -5491,116 +5058,6 @@ _:-ms-fullscreen,
   }
 }
 
-.user-radio-input {
-  .auth-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .auth-item {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background: #f9f9f9;
-    position: relative;
-  }
-
-  .auth-item.active {
-    border-color: purple;
-    background: #e0dff9;
-  }
-
-  .auth-label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    width: 100%;
-  }
-
-  .radio-input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-  }
-
-  .auth-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .user-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
-
-  .user-name {
-    font-weight: bold;
-  }
-
-  .user-email {
-    font-size: 14px;
-    color: #666;
-  }
-
-  .delete-button {
-    background: none;
-    border: none;
-    color: red;
-    font-size: 20px;
-    cursor: pointer;
-    margin-left: auto;
-  }
-
-  .confirmation-popover {
-    position: absolute;
-    top: 50%;
-    left: calc(80% + 10px); /* Show it to the right of the delete button */
-    transform: translateY(-50%);
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-  }
-
-  .confirmation-popover p {
-    margin: 0;
-    font-size: 1em;
-    color: #333;
-  }
-
-  .confirm-button,
-  .cancel-button {
-    background-color: #f10000;
-    border: none;
-    border-radius: 4px;
-    padding: 5px 10px;
-    color: white;
-    cursor: pointer;
-    margin-right: 5px;
-    font-size: 0.9em;
-    transition: background-color 0.3s;
-  }
-
-  .confirm-button:hover {
-    background-color: #ce0000;
-  }
-
-  .cancel-button {
-    background-color: #6c757d;
-  }
-
-  .cancel-button:hover {
-    background-color: #5a6268;
-  }
-}
-
 .changelog-toggle {
   .changelog-btn {
     border-radius: 12px;
@@ -5609,8 +5066,7 @@ _:-ms-fullscreen,
   }
 
   .changelog {
-    // max-height: calc(100vh - 210px);
-    // overflow-y: auto;
+    padding: 0px 30px;
 
     .changelog-notif {
       background-color: #ff000012;
@@ -5629,56 +5085,20 @@ _:-ms-fullscreen,
     }
 
     .changelog-content {
-      max-height: 30vh;
-      overflow-y: auto;
-      padding-top: 5px;
-      // min-height: 220px;
-
-      & ul {
-        margin-left: 35px;
-      }
-
-      li {
-        line-height: 1.3;
-      }
-
-      .new-integration,
-      .new-note,
-      .new-trigger,
-      .new-improvement,
-      .new-feature,
-      .fixes {
-        padding: 2px 13px;
-      }
+      margin-top: 10px;
 
       .new-integration {
-        background-color: #c3e2f2;
-        text-align: center;
-        border-radius: 5px;
-      }
-
-      .new-note {
-        background-color: #406af9f7;
-        color: rgb(255, 255, 255);
-        text-align: center;
-        border-radius: 5px;
-      }
-
-      .new-trigger {
-        background-color: #f6cbff;
-        text-align: center;
-        border-radius: 5px;
-      }
-
-      .new-improvement {
-        background-color: #00ffbf;
+        background-color: #1ab944a3;
+        color: white;
+        padding: 4px 8px;
         text-align: center;
         border-radius: 5px;
       }
 
       .new-feature {
-        background-color: #6518b6;
+        background-color: #1ab981a3;
         color: white;
+        padding: 4px 8px;
         text-align: center;
         border-radius: 5px;
       }
@@ -5687,12 +5107,14 @@ _:-ms-fullscreen,
         margin: 0px 0px 25px 0px;
 
         & > ul {
-          list-style-type: disc;
+          list-style-type: decimal;
         }
       }
 
       .fixes {
-        background-color: #ffd000;
+        background-color: rgb(0 173 255 / 66%);
+        color: white;
+        padding: 4px 8px;
         text-align: center;
         border-radius: 5px;
       }
@@ -5706,41 +5128,26 @@ _:-ms-fullscreen,
       }
 
       .fixes-list {
-        margin: 0px 0px 25px 0px;
+        margin: 0px 0px 35px 0px;
 
         & > ul {
-          list-style-type: circle;
+          list-style-type: decimal;
         }
       }
 
       .feature-list {
-        margin: 0px 0px 25px 0px;
+        margin: 0px 0px 35px 0px;
 
         & > ul {
           list-style-type: disc;
         }
       }
     }
-    .txt-sm {
-      line-height: 1.5;
-      font-weight: 20;
-      font-size: small;
-      font-family: 'Titillium Web', sans-serif;
-    }
 
     .footer {
       margin: 0px 5px 5px;
     }
   }
-}
-
-.analytics {
-  font-size: 14px;
-}
-
-.terms {
-  margin-left: 43px;
-  font-size: 14px;
 }
 
 .tutoriallink {
@@ -5770,63 +5177,4 @@ _:-ms-fullscreen,
 
 .youtube a {
   color: #000;
-}
-
-.trigger-task-note {
-  padding: 5px 5px 0px 5px;
-  max-width: 400px;
-  display: inline-block;
-  word-break: break-word;
-  text-align: justify;
-  line-height: 1.2;
-  margin-top: 5px;
-}
-
-.action-delete-task-note {
-  background-color: rgba(212, 212, 0, 0.333);
-  padding: 2px;
-}
-
-.actions-note {
-  background-color: rgba(212, 212, 0, 0.333);
-  padding: 2px;
-  margin-top: 5px;
-}
-
-.field-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-
-  .field-wrapper {
-    position: relative;
-    display: inline-block;
-    height: 30px;
-
-    .field {
-      background-color: #f0f0f0;
-      //background-color: lightgray;
-      border-radius: 12px 0px 12px;
-      padding: 8px 12px;
-      border: none;
-      cursor: pointer;
-      font-size: 14px;
-      -webkit-border-radius: 12px 0px 12px;
-      -moz-border-radius: 12px 0px 12px;
-      -ms-border-radius: 12px 0px 12px;
-      -o-border-radius: 12px 0px 12px;
-    }
-
-    .remove-field {
-      background-color: transparent;
-      border: none;
-      color: #d31f1f;
-      cursor: pointer;
-      padding: 7px;
-      line-height: 5px;
-      position: absolute;
-      right: -10px;
-      top: -8px;
-    }
-  }
 }

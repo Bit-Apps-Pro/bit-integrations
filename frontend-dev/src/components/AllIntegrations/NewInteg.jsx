@@ -7,7 +7,6 @@ import { useRecoilState } from 'recoil'
 import { $newFlow } from '../../GlobalStates'
 import { __ } from '../../Utils/i18nwrap'
 import Loader from '../Loaders/Loader'
-import { getRecoil } from 'recoil-nexus'
 
 const CustomAction = lazy(() => import('./CustomAction/CustomAction'))
 const PaidMembershipPro = lazy(() => import('./PaidMembershipPro/PaidMembershipPro'))
@@ -49,6 +48,7 @@ const Getgist = lazy(() => import('./Getgist/Getgist'))
 const ElasticEmail = lazy(() => import('./ElasticEmail/ElasticEmail'))
 const WPCourseware = lazy(() => import('./WPCourseware/WPCourseware'))
 const TutorLms = lazy(() => import('./TutorLms/TutorLms'))
+const WishList = lazy(() => import('./WishList/WishList'))
 const Autonami = lazy(() => import('./Autonami/Autonami'))
 const Dropbox = lazy(() => import('./Dropbox/Dropbox'))
 const GoogleDrive = lazy(() => import('./GoogleDrive/GoogleDrive'))
@@ -151,18 +151,6 @@ const NutshellCRM = lazy(() => import('./NutshellCRM/NutshellCRM'))
 const SystemeIO = lazy(() => import('./SystemeIO/SystemeIO'))
 const Discord = lazy(() => import('./Discord/Discord'))
 const ZagoMail = lazy(() => import('./ZagoMail/ZagoMail'))
-const Newsletter = lazy(() => import('./Newsletter/Newsletter'))
-const SureMembers = lazy(() => import('./SureMembers/SureMembers'))
-const Mailster = lazy(() => import('./Mailster/Mailster'))
-const WPForo = lazy(() => import('./WPForo/WPForo'))
-const Dokan = lazy(() => import('./Dokan/Dokan'))
-const JetEngine = lazy(() => import('./JetEngine/JetEngine'))
-const HighLevel = lazy(() => import('./HighLevel/HighLevel'))
-const TheEventsCalendar = lazy(() => import('./TheEventsCalendar/TheEventsCalendar'))
-const LMFWC = lazy(() => import('./LMFWC/LMFWC'))
-const Voxel = lazy(() => import('./Voxel/Voxel'))
-const SmartSuite = lazy(() => import('./SmartSuite/SmartSuite'))
-const Bento = lazy(() => import('./Bento/Bento'))
 
 export default function NewInteg({ allIntegURL }) {
   const { integUrlName } = useParams()
@@ -174,1393 +162,291 @@ export default function NewInteg({ allIntegURL }) {
   const NewIntegs = () => {
     switch (integUrlName) {
       case 'Zoho CRM':
-        return (
-          <ZohoCRM
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <ZohoCRM allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'SliceWp':
-        return (
-          <SliceWp
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <SliceWp allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'OneDrive':
-        return (
-          <OneDrive
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <OneDrive allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Rapidmail':
-        return (
-          <Rapidmail
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Rapidmail allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Zoho Recruit':
-        return (
-          <ZohoRecruit
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <ZohoRecruit allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Zoho Campaigns':
-        return (
-          <ZohoCampaigns
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <ZohoCampaigns allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Zoho Marketing Hub':
-        return (
-          <ZohoMarketingHub
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <ZohoMarketingHub allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Zoho Bigin':
-        return (
-          <ZohoBigin
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <ZohoBigin allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Google Sheet':
-        return (
-          <GoogleSheet
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <GoogleSheet allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Mail Chimp':
-        return (
-          <MailChimp
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <MailChimp allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Mail':
-        return (
-          <Mail
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Mail allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Mail Poet':
-        return (
-          <MailPoet
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <MailPoet allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'SendinBlue':
-        return (
-          <Sendinblue
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Sendinblue allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'WooCommerce':
-        return (
-          <WooCommerce
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <WooCommerce allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'ActiveCampaign':
-        return (
-          <ActiveCampaign
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <ActiveCampaign allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Web Hooks':
-        return (
-          <WebHooks
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <WebHooks allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Zapier':
-        return (
-          <Zapier
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Zapier allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Integromat':
-        return (
-          <Integromat
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Integromat allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Integrately':
-        return (
-          <Integrately
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Integrately allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Pabbly':
-        return (
-          <Pabbly
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Pabbly allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'N8n':
-        return (
-          <N8n
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <N8n allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'SyncSpider':
-        return (
-          <SyncSpider
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <SyncSpider allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'KonnectzIT':
-        return (
-          <KonnectzIT
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <KonnectzIT allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Ant Apps':
-        return (
-          <AntApps
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <AntApps allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Pods':
-        return (
-          <Pods
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Pods allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Zoho Flow':
-        return (
-          <ZohoFlow
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <ZohoFlow allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Telegram':
-        return (
-          <Telegram
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Telegram allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Fluent CRM':
-        return (
-          <FluentCrm
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <FluentCrm allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Autonami':
-        return (
-          <Autonami
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Autonami allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Dropbox':
-        return (
-          <Dropbox
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Dropbox allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Google Drive':
-        return (
-          <GoogleDrive
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <GoogleDrive allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Google Calendar':
-        return (
-          <GoogleCalendar
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <GoogleCalendar allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Encharge':
-        return (
-          <Encharge
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
-      case 'WP User Registration':
-        return (
-          <Registration
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Encharge allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
+      case 'Registration':
+        return <Registration allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Getgist':
-        return (
-          <Getgist
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Getgist allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'ElasticEmail':
-        return (
-          <ElasticEmail
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <ElasticEmail allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'WP Courseware':
-        return (
-          <WPCourseware
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <WPCourseware allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Tutor Lms':
-        return (
-          <TutorLms
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <TutorLms allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
+      case 'WishList':
+        return <WishList allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'RestrictContent':
-        return (
-          <RestrictContent
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
-      case 'WP Post Creation':
-        return (
-          <Post
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <RestrictContent allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
+      case 'Post Creation':
+        return <Post allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Slack':
-        return (
-          <Slack
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Slack allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Trello':
-        return (
-          <Trello
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Trello allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Mautic':
-        return (
-          <Mautic
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Mautic allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Keap':
-        return (
-          <Keap
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Keap allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Hubspot':
-        return (
-          <Hubspot
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Hubspot allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Freshdesk':
-        return (
-          <Freshdesk
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Freshdesk allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Zoho Desk':
-        return (
-          <ZohoDesk
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <ZohoDesk allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Sendy':
-        return (
-          <Sendy
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Sendy allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Zoom':
-        return (
-          <Zoom
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Zoom allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Zoom Webinar':
-        return (
-          <ZoomWebinar
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <ZoomWebinar allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Fluent Support':
-        return (
-          <FluentSupport
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <FluentSupport allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Bit Form':
-        return (
-          <BitForm
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <BitForm allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Acumbamail':
-        return (
-          <Acumbamail
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Acumbamail allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Groundhogg':
-        return (
-          <Groundhogg
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Groundhogg allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'SendFox':
-        return (
-          <SendFox
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <SendFox allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Twilio':
-        return (
-          <Twilio
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Twilio allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'MailerLite':
-        return (
-          <MailerLite
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <MailerLite allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Vbout':
-        return (
-          <Vbout
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Vbout allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'WhatsApp':
-        return (
-          <WhatsApp
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <WhatsApp allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'LearnDash':
-        return (
-          <LearnDesh
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <LearnDesh allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Affiliate':
-        return (
-          <Affiliate
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Affiliate allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'BuddyBoss':
-        return (
-          <BuddyBoss
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <BuddyBoss allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'GamiPress':
-        return (
-          <GamiPress
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <GamiPress allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Google Contacts':
-        return (
-          <GoogleContacts
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <GoogleContacts allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Kirim Email':
-        return (
-          <KirimEmail
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <KirimEmail allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Salesforce':
-        return (
-          <Salesforce
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Salesforce allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Klaviyo':
-        return (
-          <Klaviyo
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Klaviyo allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Selzy':
-        return (
-          <Selzy
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Selzy allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Mailercloud':
-        return (
-          <Mailercloud
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Mailercloud allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Moosend':
-        return (
-          <Moosend
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Moosend allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Memberpress':
-        return (
-          <Memberpress
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Memberpress allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'GetResponse':
-        return (
-          <GetResponse
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <GetResponse allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'PaidMembershipPro':
-        return (
-          <PaidMembershipPro
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <PaidMembershipPro allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'MailBluster':
-        return (
-          <MailBluster
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <MailBluster allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'MailRelay':
-        return (
-          <MailRelay
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <MailRelay allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Mailup':
-        return (
-          <Mailup
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Mailup allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Notion':
-        return (
-          <Notion
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Notion allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'ConstantContact':
-        return (
-          <ConstantContact
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <ConstantContact allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'OmniSend':
-        return (
-          <OmniSend
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <OmniSend allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Mailjet':
-        return (
-          <Mailjet
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Mailjet allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'SendGrid':
-        return (
-          <SendGrid
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <SendGrid allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'PCloud':
-        return (
-          <PCloud
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <PCloud allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'EmailOctopus':
-        return (
-          <EmailOctopus
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <EmailOctopus allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'CustomAction':
-        return (
-          <CustomAction
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <CustomAction allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'PipeDrive':
-        return (
-          <PipeDrive
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <PipeDrive allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Smaily':
-        return (
-          <Smaily
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Smaily allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'CustomApi':
-        return (
-          <CustomApi
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <CustomApi allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'SureCart':
-        return (
-          <SureCart
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <SureCart allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Agiled CRM':
-        return (
-          <Agiled
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Agiled allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'ConvertKit':
-      case 'Kit(ConvertKit)':
-        return (
-          <ConvertKit
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <ConvertKit allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'BenchMark':
-        return (
-          <BenchMark
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <BenchMark allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'IFTTT':
-        return (
-          <IFTTT
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <IFTTT allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'DirectIq':
-        return (
-          <DirectIq
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <DirectIq allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'SendPulse':
-        return (
-          <SendPulse
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <SendPulse allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'GiveWp':
-        return (
-          <GiveWp
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <GiveWp allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Airtable':
-        return (
-          <Airtable
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Airtable allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Zoho Sheet':
-        return (
-          <ZohoSheet
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <ZohoSheet allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'LifterLms':
-        return (
-          <LifterLms
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <LifterLms allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'FreshSales':
-        return (
-          <FreshSales
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <FreshSales allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Insightly':
-        return (
-          <Insightly
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Insightly allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'CapsuleCRM':
-        return (
-          <CapsuleCRM
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <CapsuleCRM allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'MasterStudyLms':
-        return (
-          <MasterStudyLms
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <MasterStudyLms allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Zendesk':
-        return (
-          <Zendesk
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Zendesk allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Asana':
-        return (
-          <Asana
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Asana allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Propovoice CRM':
-        return (
-          <PropovoiceCrm
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <PropovoiceCrm allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Mail Mint':
-        return (
-          <MailMint
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <MailMint allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Clickup':
-        return (
-          <Clickup
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Clickup allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'ClinchPad':
-        return (
-          <ClinchPad
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <ClinchPad allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'CopperCRM':
-        return (
-          <CopperCRM
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <CopperCRM allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Drip':
-        return (
-          <Drip
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Drip allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Mailify':
-        return (
-          <Mailify
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Mailify allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Lemlist':
-        return (
-          <Lemlist
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Lemlist allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'LionDesk':
-        return (
-          <LionDesk
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <LionDesk allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'CampaignMonitor':
-        return (
-          <CampaignMonitor
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <CampaignMonitor allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Salesmate':
-        return (
-          <Salesmate
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Salesmate allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'SuiteDash':
-        return (
-          <SuiteDash
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <SuiteDash allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Gravitec':
-        return (
-          <Gravitec
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Gravitec allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'CompanyHub':
-        return (
-          <CompanyHub
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <CompanyHub allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Demio':
-        return (
-          <Demio
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Demio allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Flowlu':
-        return (
-          <Flowlu
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Flowlu allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Livestorm':
-        return (
-          <Livestorm
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Livestorm allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Nimble':
-        return (
-          <Nimble
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Nimble allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Albato':
-        return (
-          <Albato
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Albato allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'SperseIO':
-        return (
-          <SperseIO
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <SperseIO allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'FlowMattic':
-        return (
-          <FlowMattic
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <FlowMattic allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'AutomatorWP':
-        return (
-          <AutomatorWP
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <AutomatorWP allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'UncannyAutomator':
-        return (
-          <UncannyAutomator
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <UncannyAutomator allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'ThriveAutomator':
-        return (
-          <ThriveAutomator
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <ThriveAutomator allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'WPWebhooks':
-        return (
-          <WPWebhooks
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <WPWebhooks allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'AdvancedFormIntegration':
-        return (
-          <AdvancedFormIntegration
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <AdvancedFormIntegration allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'PerfexCRM':
-        return (
-          <PerfexCRM
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <PerfexCRM allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'SureTriggers':
-      case 'OttoKit (SureTriggers)':
-        return (
-          <SureTriggers
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <SureTriggers allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'OneHashCRM':
-        return (
-          <OneHashCRM
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <OneHashCRM allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Salesflare':
-        return (
-          <Salesflare
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Salesflare allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'AcademyLms':
-        return (
-          <AcademyLms
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <AcademyLms allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'MoxieCRM':
-        return (
-          <MoxieCRM
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <MoxieCRM allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'WPFusion':
-        return (
-          <WPFusion
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <WPFusion allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Woodpecker':
-        return (
-          <Woodpecker
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Woodpecker allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'NutshellCRM':
-        return (
-          <NutshellCRM
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <NutshellCRM allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'SystemeIO':
-        return (
-          <SystemeIO
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <SystemeIO allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'Discord':
-        return (
-          <Discord
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <Discord allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       case 'ZagoMail':
-        return (
-          <ZagoMail
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
-      case 'Newsletter':
-        return (
-          <Newsletter
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
-      case 'SureMembers':
-        return (
-          <SureMembers
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
-      case 'Mailster':
-        return (
-          <Mailster
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
-      case 'WPForo':
-        return (
-          <WPForo
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
-      case 'Dokan':
-        return (
-          <Dokan
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
-      case 'JetEngine':
-        return (
-          <JetEngine
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
-      case 'GoHighLevel':
-        return (
-          <HighLevel
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
-      case 'The Events Calendar':
-        return (
-          <TheEventsCalendar
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
-      case 'License Manager For WooCommerce':
-        return (
-          <LMFWC
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
-      case 'Voxel':
-        return (
-          <Voxel
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
-      case 'SmartSuite':
-        return (
-          <SmartSuite
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
-      case 'Bento':
-        return (
-          <Bento
-            allIntegURL={allIntegURL}
-            formFields={flow?.triggerData?.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
-        )
+        return <ZagoMail allIntegURL={allIntegURL} formFields={flow?.triggerData?.fields} flow={flow} setFlow={setFlow} />
       default:
         return <></>
     }
@@ -1581,12 +467,6 @@ export default function NewInteg({ allIntegURL }) {
     case 'Zoho Marketing Hub':
       integrationName = 'Zoho Marketing Automation(Zoho Marketing Hub)'
       break
-    case 'ConvertKit':
-      integrationName = 'Kit(ConvertKit)'
-      break
-    case 'SureTriggers':
-      integrationName = 'OttoKit (SureTriggers)'
-      break
 
     default:
       integrationName = integUrlName
@@ -1599,13 +479,16 @@ export default function NewInteg({ allIntegURL }) {
     setFlow(tmpFlow)
     navigate(-1)
   }
-
   return (
     <div>
       <div className="flx">
-        <button type="button" className="f-left btn btcd-btn-o-gray" onClick={goBack}>
+        <button
+          type="button"
+          className="f-left btn btcd-btn-o-gray"
+          onClick={goBack}
+        >
           <span className="btcd-icn icn-chevron-left" />
-          &nbsp;{__('Back', 'bit-integrations')}
+          &nbsp;Back
         </button>
         <div className="w-10 txt-center" style={{ marginRight: '73px' }}>
           <div className="mb-2">
@@ -1615,7 +498,9 @@ export default function NewInteg({ allIntegURL }) {
         </div>
       </div>
 
-      <Suspense fallback={<Loader className="g-c" style={{ height: '82vh' }} />}>
+      <Suspense
+        fallback={<Loader className="g-c" style={{ height: '82vh' }} />}
+      >
         <NewIntegs />
       </Suspense>
     </div>

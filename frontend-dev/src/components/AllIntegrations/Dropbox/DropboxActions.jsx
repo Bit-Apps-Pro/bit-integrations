@@ -24,7 +24,10 @@ export default function DropboxActions({ dropboxConf, setDropboxConf }) {
         className="mt-4 mr-2"
         value="delete_from_wp"
         title={__('Delete File From Wordpress', 'bit-integrations')}
-        subTitle={__('Delete file from Wordpress after upload in Dropbox', 'bit-integrations')}
+        subTitle={__(
+          'Delete file from Wordpress after upload in Dropbox',
+          'bit-integrations',
+        )}
       />
     </div>
   )

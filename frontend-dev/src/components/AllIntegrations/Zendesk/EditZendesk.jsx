@@ -34,28 +34,20 @@ function EditZendesk({ allIntegURL }) {
 
     if (zendeskConf.actionName === 'lead' || zendeskConf.actionName === 'deal') {
       if (!zendeskConf.selectedCRMCompany) {
-        toast.error(__('Please select a company', 'bit-integrations'))
+        toast.error('Please select a company')
         return
       }
       if (!zendeskConf.selectedCRMContact) {
-        toast.error(__('Please select a contact', 'bit-integrations'))
+        toast.error('Please select a contact')
         return
       }
       if (!zendeskConf.selectedCRMSources && zendeskConf.actionName === 'lead') {
-        toast.error(__('Please select a Source', 'bit-integrations'))
+        toast.error('Please select a Source')
         return
       }
     }
 
-    saveActionConf({
-      flow,
-      allIntegURL,
-      conf: zendeskConf,
-      navigate,
-      edit: 1,
-      setLoading,
-      setSnackbar
-    })
+    saveActionConf({ flow, allIntegURL, conf: zendeskConf, navigate, edit: 1, setLoading, setSnackbar })
   }
 
   return (
@@ -64,14 +56,7 @@ function EditZendesk({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, zendeskConf, setZendeskConf)}
-          name="name"
-          value={zendeskConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, zendeskConf, setZendeskConf)} name="name" value={zendeskConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
 

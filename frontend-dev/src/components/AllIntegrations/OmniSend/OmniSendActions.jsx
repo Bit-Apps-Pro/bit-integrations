@@ -8,14 +8,8 @@ import ConfirmModal from '../../Utilities/ConfirmModal'
 import TableCheckBox from '../../Utilities/TableCheckBox'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 
-export default function OmniSendActions({
-  omniSendConf,
-  setOmniSendConf,
-  formFields,
-  loading,
-  setLoading
-}) {
-  const [actionMdl, setActionMdl] = useState({ show: false, action: () => {} })
+export default function OmniSendActions({ omniSendConf, setOmniSendConf, formFields, loading, setLoading }) {
+  const [actionMdl, setActionMdl] = useState({ show: false, action: () => { } })
   const actionHandler = (e, type) => {
     const newConf = { ...omniSendConf }
     if (type === 'tag') {
@@ -47,25 +41,19 @@ export default function OmniSendActions({
   return (
     <>
       <div className="pos-rel d-flx w-8">
-        <TableCheckBox
-          checked={omniSendConf?.actions.tag || false}
-          onChange={(e) => actionHandler(e, 'tag')}
-          className="wdt-200 mt-4 mr-2"
-          value="tags"
-          title={__('Tags', 'bit-integrations')}
-          subTitle={__('Add Custom Tags', 'bit-integrations')}
-        />
+        <TableCheckBox checked={omniSendConf?.actions.tag || false} onChange={(e) => actionHandler(e, 'tag')} className="wdt-200 mt-4 mr-2" value="tags" title={__('Tags', 'bit-integrations')} subTitle={__('Add Custom Tags', 'bit-integrations')} />
       </div>
 
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="purple"
+        btnClass="blue"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'tag'}
         close={clsActionMdl}
         action={clsActionMdl}
-        title={__('Add Custom Tags', 'bit-integrations')}>
+        title={__('Add Custom Tags', 'bit-integrations')}
+      >
         <div className="btcd-hr mt-2 mb-2" />
 
         <div className="flx flx-between mt-2">
@@ -73,11 +61,14 @@ export default function OmniSendActions({
             className="msl-wrp-options"
             defaultValue={omniSendConf?.selected_tags}
             options={[]}
-            onChange={(val) => setChanges(val, 'selected_tags')}
+            onChange={val => setChanges(val, 'selected_tags')}
             customValue
           />
         </div>
+
       </ConfirmModal>
+
     </>
+
   )
 }

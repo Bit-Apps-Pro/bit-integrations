@@ -34,24 +34,16 @@ function EditAsana({ allIntegURL }) {
 
     if (asanaConf.actionName === 'task') {
       if (!asanaConf.selectedProject) {
-        toast.error(__('Please select a project', 'bit-integrations'))
+        toast.error('Please select a project')
         return
       }
       if (!asanaConf.selectedSections && asanaConf.actionName === 'task') {
-        toast.error(__('Please select a Section', 'bit-integrations'))
+        toast.error('Please select a Section')
         return
       }
     }
 
-    saveActionConf({
-      flow,
-      allIntegURL,
-      conf: asanaConf,
-      navigate,
-      edit: 1,
-      setLoading,
-      setSnackbar
-    })
+    saveActionConf({ flow, allIntegURL, conf: asanaConf, navigate, edit: 1, setLoading, setSnackbar })
   }
 
   return (
@@ -60,14 +52,7 @@ function EditAsana({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, asanaConf, setAsanaConf)}
-          name="name"
-          value={asanaConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, asanaConf, setAsanaConf)} name="name" value={asanaConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
 

@@ -21,17 +21,15 @@ const GiveWpHelper = ({ flow, setFlowData, edit = false }) => {
   const triggerData = !edit ? newFlow?.triggerData : flow.flow_details
   return (
     <div>
-      {(id === '1' || id === '*') && (
+      { (id === '1' || id === '*') && (
         <div className={edit ? 'flx mt-3' : ''}>
-          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
-            {__('Select a Donation Form', 'bit-integrations')}
-          </b>
+          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>Select a Donation Form</b>
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={triggerData?.selectedDonationForm}
             options={triggerData?.allDonationForms?.map((list) => ({
               label: list.post_title,
-              value: list.ID.toString()
+              value: list.ID.toString(),
             }))}
             onChange={(val) => setFlowData(val, 'selectedDonationForm')}
             singleSelect
@@ -39,17 +37,15 @@ const GiveWpHelper = ({ flow, setFlowData, edit = false }) => {
           />
         </div>
       )}
-      {id === '2' && (
+      { (id === '2') && (
         <div className={edit ? 'flx mt-3' : ''}>
-          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
-            {__('Select a Recurring Donation Form', 'bit-integrations')}
-          </b>
+          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>Select a Recurring Donation Form</b>
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={triggerData?.selectedRecurringDonationForm}
             options={triggerData?.allRecurringForms?.map((list) => ({
               label: list.post_title,
-              value: list.ID.toString()
+              value: list.ID.toString(),
             }))}
             onChange={(val) => setFlowData(val, 'selectedRecurringDonationForm')}
             singleSelect
@@ -58,6 +54,7 @@ const GiveWpHelper = ({ flow, setFlowData, edit = false }) => {
         </div>
       )}
     </div>
+
   )
 }
 export default GiveWpHelper

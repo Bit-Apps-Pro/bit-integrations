@@ -13,15 +13,13 @@ const PaidMembershipProHelper = ({ flow, setFlowData, edit = false }) => {
     <div>
       {(id === '1' || id === '2' || id === '3' || id === '4') && (
         <div className={edit ? 'flx mt-3' : ''}>
-          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
-            {__('Select membership', 'bit-integrations')}
-          </b>
+          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>Select membership</b>
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={triggerData?.selectedMembershipLevel}
             options={triggerData?.AllMembershipLevels?.map((list) => ({
               label: list.membershipTitle,
-              value: list.membershipId.toString()
+              value: list.membershipId.toString(),
             }))}
             onChange={(val) => setFlowData(val, 'selectedMembershipLevel')}
             singleSelect

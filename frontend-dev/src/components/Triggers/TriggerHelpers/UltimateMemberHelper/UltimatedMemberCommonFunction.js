@@ -9,13 +9,16 @@ export const getAllUMrole = (data, setFlow) => {
       tmpFlow.flow_details.allRole = result.data
 
       setFlow({ ...tmpFlow })
-      return __('All Ultimate member role fetched successfully', 'bit-integrations')
+      return 'All Ultimate member role fetched successfully'
     }
-    return __('Ultimate member fetching failed. please try again', 'bit-integrations')
+    return 'Ultimate member fetching failed. please try again'
   })
   toast.promise(loadPostTypes, {
     success: (data) => data,
     error: __('Error Occurred', 'bit-integrations'),
-    loading: __('Loading role...')
+    loading: __('Loading role...'),
   })
 }
+
+
+

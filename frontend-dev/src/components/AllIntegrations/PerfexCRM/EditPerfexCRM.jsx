@@ -33,54 +33,41 @@ function EditPerfexCRM({ allIntegURL }) {
     }
 
     if (perfexCRMConf.actionName === 'contact' && !perfexCRMConf.selectedCustomer) {
-      toast.error(__('Please select a Customer', 'bit-integrations'))
+      toast.error('Please select a Customer')
       return
     }
-    if (
-      perfexCRMConf.actionName === 'lead' &&
-      (!perfexCRMConf.selectedLeadStatusId ||
-        !perfexCRMConf.selectedLeadSourceId ||
-        !perfexCRMConf.selectedStaff)
-    ) {
-      toast.error(__('Lead Status Id and Lead Source Id are required!', 'bit-integrations'))
+    if (perfexCRMConf.actionName === 'lead' && (!perfexCRMConf.selectedLeadStatusId || !perfexCRMConf.selectedLeadSourceId)) {
+      toast.error('Lead Status Id and Lead Source Id are required!')
       return
     }
     if (perfexCRMConf.actionName === 'project') {
       if (!perfexCRMConf.selectedProjectStatus) {
-        toast.error(__('Please select Project status', 'bit-integrations'))
+        toast.error('Please select Project status')
         return
       }
       if (!perfexCRMConf.selectedProjectType) {
-        toast.error(__('Please select Project Related With...', 'bit-integrations'))
+        toast.error('Please select Project Related With...')
         return
       }
       if (!perfexCRMConf.selectedbillingType) {
-        toast.error(__('Please select a Billing type', 'bit-integrations'))
+        toast.error('Please select a Billing type')
         return
       }
       if (!perfexCRMConf.selectedCustomer) {
-        toast.error(__('Please select a Customer', 'bit-integrations'))
+        toast.error('Please select a Customer')
         return
       }
       if (Number(perfexCRMConf.selectedbillingType) === 1 && !perfexCRMConf.totalRate) {
-        toast.error(__('Please select a Total Rate', 'bit-integrations'))
+        toast.error('Please select a Total Rate')
         return
       }
       if (Number(perfexCRMConf.selectedbillingType) === 2 && !perfexCRMConf.ratePerHour) {
-        toast.error(__('Please select a Rate Per Hour', 'bit-integrations'))
+        toast.error('Please select a Rate Per Hour')
         return
       }
     }
 
-    saveActionConf({
-      flow,
-      allIntegURL,
-      conf: perfexCRMConf,
-      navigate,
-      edit: 1,
-      setIsLoading,
-      setSnackbar
-    })
+    saveActionConf({ flow, allIntegURL, conf: perfexCRMConf, navigate, edit: 1, setIsLoading, setSnackbar })
   }
 
   return (
@@ -89,14 +76,7 @@ function EditPerfexCRM({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, perfexCRMConf, setPerfexCRMConf)}
-          name="name"
-          value={perfexCRMConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, perfexCRMConf, setPerfexCRMConf)} name="name" value={perfexCRMConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
 
@@ -104,9 +84,7 @@ function EditPerfexCRM({ allIntegURL }) {
       <PerfexCRMIntegLayout
         formID={flow.triggered_entity_id}
         formFields={formField}
-        handleInput={(e) =>
-          handleInput(e, perfexCRMConf, setPerfexCRMConf, setLoading, setSnackbar)
-        }
+        handleInput={(e) => handleInput(e, perfexCRMConf, setPerfexCRMConf, setLoading, setSnackbar)}
         perfexCRMConf={perfexCRMConf}
         setPerfexCRMConf={setPerfexCRMConf}
         loading={loading}

@@ -21,30 +21,23 @@ function SystemeIO({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
 
-  const systemeIOFields = [{ label: 'Email Address', key: 'email', required: true }]
+  const systemeIOFields = [
+    { label: 'Email Address', key: 'email', required: true },
+  ]
 
   const [systemeIOConf, setSystemeIOConf] = useState({
     name: 'SystemeIO',
     type: 'SystemeIO',
-    api_key: '',
+    api_key: process.env.NODE_ENV === 'development' ? '649rpkoa4945nrj36ilr4jswz2f1k6mzc50f22y527jvnlihb73s3td555h3u28i' : '',
     field_map: generateMappedField(systemeIOFields),
     actionName: 'registerPeopletoWabinar',
     systemeIOFields,
-    actions: {}
+    actions: {},
   })
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      systemeIOConf,
-      navigate,
-      '',
-      '',
-      setIsLoading
-    )
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, systemeIOConf, navigate, '', '', setIsLoading)
     resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
@@ -55,18 +48,18 @@ function SystemeIO({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = pageNo => {
+  const nextPage = (pageNo) => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
     if (!checkMappedFields(systemeIOConf)) {
-      toast.error(__('Please map mandatory fields', 'bit-integrations'))
+      toast.error('Please map mandatory fields')
       return
     }
 
     if (!systemeIOConf.selectedTag) {
-      toast.error(__('Please select a Tag', 'bit-integrations'))
+      toast.error('Please select a Tag')
       return
     }
 
@@ -92,9 +85,8 @@ function SystemeIO({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+
         <SystemeIOIntegLayout
           formFields={formFields}
           systemeIOConf={systemeIOConf}
@@ -109,10 +101,13 @@ function SystemeIO({ formFields, setFlow, flow, allIntegURL }) {
         {systemeIOConf?.actionName && (
           <button
             onClick={() => nextPage(3)}
-            disabled={!checkMappedFields(systemeIOConf)}
-            className="btn f-right btcd-btn-lg purple sh-sm flx"
-            type="button">
-            {__('Next', 'bit-integrations')} &nbsp;
+            disabled={!(checkMappedFields(systemeIOConf))}
+            className="btn f-right btcd-btn-lg green sh-sm flx"
+            type="button"
+          >
+            {__('Next', 'bit-integrations')}
+            {' '}
+            &nbsp;
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         )}

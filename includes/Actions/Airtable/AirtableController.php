@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\Airtable;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use WP_Error;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Airtable integration
@@ -22,9 +22,9 @@ class AirtableController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->auth_token;
+        $apiKey      = $fieldsRequestParams->auth_token;
         $apiEndpoint = 'https://api.airtable.com/v0/meta/bases';
-        $header = [
+        $header      = [
             'Authorization' => "Bearer {$apiKey}"
         ];
 
@@ -41,7 +41,7 @@ class AirtableController
             }
             wp_send_json_success($bases, 200);
         } else {
-            wp_send_json_error(__('Authentication failed', 'bit-integrations'), 400);
+            wp_send_json_error('Authentication failed', 400);
         }
     }
 
@@ -51,10 +51,10 @@ class AirtableController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->auth_token;
-        $baseId = $fieldsRequestParams->baseId;
+        $apiKey      = $fieldsRequestParams->auth_token;
+        $baseId      = $fieldsRequestParams->baseId;
         $apiEndpoint = "https://api.airtable.com/v0/meta/bases/{$baseId}/tables/";
-        $header = [
+        $header      = [
             'Authorization' => "Bearer {$apiKey}"
         ];
 
@@ -69,7 +69,7 @@ class AirtableController
             }
             wp_send_json_success($tables, 200);
         } else {
-            wp_send_json_error(__('Tables fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Tables fetching failed', 400);
         }
     }
 
@@ -79,22 +79,22 @@ class AirtableController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->auth_token;
-        $baseId = $fieldsRequestParams->baseId;
-        $tableId = $fieldsRequestParams->tableId;
+        $apiKey      = $fieldsRequestParams->auth_token;
+        $baseId      = $fieldsRequestParams->baseId;
+        $tableId     = $fieldsRequestParams->tableId;
         $apiEndpoint = "https://api.airtable.com/v0/meta/bases/{$baseId}/tables/";
-        $header = [
+        $header      = [
             'Authorization' => "Bearer {$apiKey}"
         ];
 
-        $response = HttpHelper::get($apiEndpoint, null, $header);
+        $response      = HttpHelper::get($apiEndpoint, null, $header);
         $acceptedTypes = ['singleLineText', 'multilineText', 'singleSelect', 'multipleSelects', 'multipleAttachments', 'date', 'phoneNumber', 'email', 'url', 'number', 'currency', 'percent', 'duration', 'rating', 'barcode'];
 
         if (isset($response->tables)) {
             foreach ($response->tables as $table) {
                 if ($table->id === $tableId) {
                     foreach ($table->fields as $field) {
-                        if (\in_array($field->type, $acceptedTypes)) {
+                        if (in_array($field->type, $acceptedTypes)) {
                             $fields[] = [
                                 'key'      => $field->id . '{btcbi}' . $field->type,
                                 'label'    => $field->name,
@@ -106,28 +106,27 @@ class AirtableController
             }
             wp_send_json_success($fields, 200);
         } else {
-            wp_send_json_error(__('Table fields fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Table fields fetching failed', 400);
         }
     }
 
     public function execute($integrationData, $fieldValues)
     {
         $integrationDetails = $integrationData->flow_details;
-        $integId = $integrationData->id;
-        $auth_token = $integrationDetails->auth_token;
-        $fieldMap = $integrationDetails->field_map;
+        $integId            = $integrationData->id;
+        $auth_token         = $integrationDetails->auth_token;
+        $fieldMap           = $integrationDetails->field_map;
 
         if (empty($fieldMap) || empty($auth_token)) {
             return new WP_Error('REQ_FIELD_EMPTY', __('fields are required for Airtable api', 'bit-integrations'));
         }
 
-        $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
+        $recordApiHelper     = new RecordApiHelper($integrationDetails, $integId);
         $airtableApiResponse = $recordApiHelper->execute($fieldValues, $fieldMap);
 
         if (is_wp_error($airtableApiResponse)) {
             return $airtableApiResponse;
         }
-
         return $airtableApiResponse;
     }
 }

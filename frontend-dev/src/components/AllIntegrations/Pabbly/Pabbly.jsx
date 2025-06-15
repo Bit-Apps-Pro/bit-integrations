@@ -21,25 +21,29 @@ function Pabbly({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Pabbly Web Hooks',
     type: 'Pabbly',
     method: 'POST',
-    url: '',
-    apiConsole: 'https://connect.pabbly.com/dashboard'
+    url: process.env.NODE_ENV === 'development' ? 'https://connect.pabbly.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D' : '',
+    apiConsole: 'https://connect.pabbly.com/dashboard',
   })
 
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={2} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={2} active={step} /></div>
 
       {/* STEP 1 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
+      <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
         {pabblyLinks?.youTubeLink && (
-          <TutorialLink title="Pabbly" youTubeLink={pabblyLinks?.youTubeLink} />
+          <TutorialLink
+            title={pabblyLinks?.title}
+            youTubeLink={pabblyLinks?.youTubeLink}
+          />
         )}
-        {pabblyLinks?.docLink && <TutorialLink title="Pabbly" docLink={pabblyLinks?.docLink} />}
+        {pabblyLinks?.docLink && (
+          <TutorialLink
+            title={pabblyLinks?.title}
+            docLink={pabblyLinks?.docLink}
+          />
+        )}
 
         <WebHooksIntegration
           formID={formID}
@@ -54,16 +58,14 @@ function Pabbly({ formFields, setFlow, flow, allIntegURL }) {
       </div>
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
+
         <WebHooksStepTwo
           step={step}
-          saveConfig={() =>
-            saveIntegConfig(flow, setFlow, allIntegURL, pabbly, navigate, '', '', setIsLoading)
-          }
+          saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, pabbly, navigate, '', '', setIsLoading)}
           isLoading={isLoading}
         />
+
       </div>
     </div>
   )

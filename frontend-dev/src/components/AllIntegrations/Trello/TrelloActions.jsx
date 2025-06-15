@@ -46,7 +46,7 @@ export default function TrelloActions({ trelloConf, setTrelloConf, formFields })
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="purple"
+        btnClass="blue"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'tag'}
         close={clsActionMdl}

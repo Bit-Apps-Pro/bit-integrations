@@ -22,23 +22,14 @@ function EditGroundhogg({ allIntegURL }) {
   const formFields = useRecoilValue($formFields)
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
-  const isDisabled = !(
-    groundhoggConf.mainAction === '2' && groundhoggConf.addTagToUser !== ('' || undefined)
-  )
+  const isDisabled = !((groundhoggConf.mainAction === '2' && groundhoggConf.addTagToUser !== ('' || undefined)))
   return (
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, groundhoggConf, setGroundhoggConf)}
-          name="name"
-          value={groundhoggConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, groundhoggConf, setGroundhoggConf)} name="name" value={groundhoggConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
       <br />
@@ -47,9 +38,7 @@ function EditGroundhogg({ allIntegURL }) {
       <GroundhoggIntegLayout
         formID={formID}
         formFields={formFields}
-        handleInput={(e) =>
-          handleInput(e, groundhoggConf, setGroundhoggConf, setIsLoading, setSnackbar)
-        }
+        handleInput={(e) => handleInput(e, groundhoggConf, setGroundhoggConf, setIsLoading, setSnackbar)}
         groundhoggConf={groundhoggConf}
         setGroundhoggConf={setGroundhoggConf}
         isLoading={isLoading}
@@ -58,22 +47,8 @@ function EditGroundhogg({ allIntegURL }) {
       />
       <IntegrationStepThree
         edit
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            allIntegURL,
-            conf: groundhoggConf,
-            navigate,
-            edit: 1,
-            setIsLoading,
-            setSnackbar
-          })
-        }
-        disabled={
-          (groundhoggConf.mainAction === '2'
-            ? isDisabled
-            : !(groundhoggConf.field_map?.length >= 1)) || isLoading
-        }
+        saveConfig={() => saveActionConf({ flow, allIntegURL, conf: groundhoggConf, navigate, edit: 1, setIsLoading, setSnackbar })}
+        disabled={(groundhoggConf.mainAction === '2' ? isDisabled : (!((groundhoggConf.field_map?.length >= 1)))) || isLoading}
         isLoading={isLoading}
         dataConf={groundhoggConf}
         setDataConf={setGroundhoggConf}

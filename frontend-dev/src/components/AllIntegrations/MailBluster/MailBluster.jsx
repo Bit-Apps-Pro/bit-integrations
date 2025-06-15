@@ -18,43 +18,36 @@ function MailBluster({ formFields, setFlow, flow, allIntegURL }) {
   const [isLoading, setIsLoading] = useState(false)
   const [loading, setLoading] = useState({
     auth: false,
-    customFields: false
+    customFields: false,
   })
 
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
   const staticFields = [
-    { key: 'email', label: __('Email', 'bit-integrations'), required: true },
-    { key: 'firstName', label: __('First Name', 'bit-integrations'), required: false },
-    { key: 'lastName', label: __('Last Name', 'bit-integrations'), required: false },
-    { key: 'timezone', label: __('Timezone', 'bit-integrations'), required: false },
-    { key: 'ipAddress', label: __('IP Address', 'bit-integrations'), required: false }
+    { key: 'email', label: 'Email', required: true },
+    { key: 'firstName', label: 'First Name', required: false },
+    { key: 'lastName', label: 'Last Name', required: false },
+    { key: 'timezone', label: 'Timezone', required: false },
+    { key: 'ipAddress', label: 'Ip Address', required: false },
   ]
 
   const [mailBlusterConf, setMailBlusterConf] = useState({
     name: 'MailBluster',
     type: 'MailBluster',
-    auth_token: '',
-    field_map: [{ formField: '', mailBlusterFormField: '' }],
+    auth_token: process.env.NODE_ENV === 'development' ? '394bebe6-e8dc-4070-a028-d3fd36eacf9e' : '',
+    field_map: [
+      { formField: '', mailBlusterFormField: '' },
+    ],
     staticFields,
     subscribed: '',
     customFields: [],
     selectedTags: [],
-    actions: {}
+    actions: {},
   })
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      mailBlusterConf,
-      navigate,
-      '',
-      '',
-      setIsLoading
-    )
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, mailBlusterConf, navigate, '', '', setIsLoading)
     resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
@@ -65,13 +58,13 @@ function MailBluster({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = pageNo => {
+  const nextPage = (pageNo) => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
     if (!checkMappedFields(mailBlusterConf)) {
-      toast.error(__('Please map mandatory fields', 'bit-integrations'))
+      toast.error('Please map mandatory fields')
       return
     }
     mailBlusterConf.field_map.length > 0 && setStep(pageNo)
@@ -80,9 +73,7 @@ function MailBluster({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={3} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
 
       {/* STEP 1 */}
       <MailBlusterAuthorization
@@ -96,12 +87,11 @@ function MailBluster({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+
         <MailBlusterIntegLayout
           formFields={formFields}
-          handleInput={e => handleInput(e, mailBlusterConf, setMailBlusterConf, setLoading, setSnackbar)}
+          handleInput={(e) => handleInput(e, mailBlusterConf, setMailBlusterConf, setLoading, setSnackbar)}
           mailBlusterConf={mailBlusterConf}
           setMailBlusterConf={setMailBlusterConf}
           loading={loading}
@@ -113,9 +103,12 @@ function MailBluster({ formFields, setFlow, flow, allIntegURL }) {
           <button
             onClick={() => nextPage(3)}
             disabled={!mailBlusterConf?.subscribed}
-            className="btn f-right btcd-btn-lg purple sh-sm flx"
-            type="button">
-            {__('Next', 'bit-integrations')} &nbsp;
+            className="btn f-right btcd-btn-lg green sh-sm flx"
+            type="button"
+          >
+            {__('Next', 'bit-integrations')}
+            {' '}
+            &nbsp;
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         )}

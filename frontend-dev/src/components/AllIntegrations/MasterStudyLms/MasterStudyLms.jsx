@@ -23,20 +23,22 @@ function MasterStudyLms({ formFields, setFlow, flow, allIntegURL, isInfo, edit }
   const [snack, setSnackbar] = useState({ show: false })
 
   const allActions = [
-    { key: '1', label: __('Course complete for the user', 'bit-integrations') },
-    { key: '2', label: __('Lesson complete for the user', 'bit-integrations') },
-    { key: '3', label: __('Quiz complete for the user', 'bit-integrations') },
-    { key: '4', label: __('Reset user course', 'bit-integrations') },
-    { key: '5', label: __('Reset user lesson', 'bit-integrations') }
+    { key: '1', label: 'Course complete for the user' },
+    { key: '2', label: 'Lesson complete for the user' },
+    { key: '3', label: 'Quiz complete for the user' },
+    { key: '4', label: 'Reset user course' },
+    { key: '5', label: 'Reset user lesson' },
   ]
 
   const [msLmsConf, setMsLmsConf] = useState({
     name: 'MasterStudyLms',
     type: 'MasterStudyLms',
     mainAction: '',
-    field_map: [{ formField: '', msLmsFormField: '' }],
+    field_map: [
+      { formField: '', msLmsFormField: '' },
+    ],
     allActions,
-    actions: {}
+    actions: {},
   })
 
   const nextPage = () => {
@@ -69,9 +71,7 @@ function MasterStudyLms({ formFields, setFlow, flow, allIntegURL, isInfo, edit }
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={3} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
 
       {/* STEP 1 */}
       <MasterStudyLmsAuthorization
@@ -86,14 +86,11 @@ function MasterStudyLms({ formFields, setFlow, flow, allIntegURL, isInfo, edit }
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+
         <MasterStudyLmsIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, msLmsConf, setMsLmsConf, setIsLoading, setSnackbar, formID)
-          }
+          handleInput={(e) => handleInput(e, msLmsConf, setMsLmsConf, setIsLoading, setSnackbar, formID)}
           msLmsConf={msLmsConf}
           setMsLmsConf={setMsLmsConf}
           isLoading={isLoading}
@@ -107,8 +104,9 @@ function MasterStudyLms({ formFields, setFlow, flow, allIntegURL, isInfo, edit }
         <button
           onClick={() => nextPage(3)}
           disabled={!msLmsConf.mainAction || isLoading || isDisabled()}
-          className="btn f-right btcd-btn-lg purple sh-sm flx"
-          type="button">
+          className="btn f-right btcd-btn-lg green sh-sm flx"
+          type="button"
+        >
           {__('Next', 'bit-integrations')}
           &nbsp;
           <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
@@ -117,22 +115,13 @@ function MasterStudyLms({ formFields, setFlow, flow, allIntegURL, isInfo, edit }
       {/* STEP 3 */}
       <IntegrationStepThree
         step={step}
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            setFlow,
-            allIntegURL,
-            navigate,
-            conf: msLmsConf,
-            setIsLoading,
-            setSnackbar
-          })
-        }
+        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, navigate, conf: msLmsConf, setIsLoading, setSnackbar })}
         isLoading={isLoading}
         dataConf={msLmsConf}
         setDataConf={setMsLmsConf}
         formFields={formFields}
       />
+
     </div>
   )
 }

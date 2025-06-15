@@ -19,17 +19,19 @@ function PaidMembershipPro({ formFields, setFlow, flow, allIntegURL, isInfo, edi
   const [snack, setSnackbar] = useState({ show: false })
 
   const allActions = [
-    { key: '1', label: __('Add the user to a membership', 'bit-integrations') },
-    { key: '2', label: __('Remove the user from a membership', 'bit-integrations') }
+    { key: '1', label: 'Add the user to a membership' },
+    { key: '2', label: 'Remove the user from a membership' },
   ]
 
   const [paidMembershipProConf, setPaidMembershipProConf] = useState({
     name: 'Paid Membership Pro',
     type: 'PaidMembershipPro',
     mainAction: '',
-    field_map: [{ formField: '', paidmembershipproFormField: '' }],
+    field_map: [
+      { formField: '', paidmembershipproFormField: '' },
+    ],
     allActions,
-    actions: {}
+    actions: {},
   })
   const nextPage = () => {
     setTimeout(() => {
@@ -43,9 +45,7 @@ function PaidMembershipPro({ formFields, setFlow, flow, allIntegURL, isInfo, edi
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={3} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
 
       {/* STEP 1 */}
       <PaidMembershipProAuthorization
@@ -60,21 +60,11 @@ function PaidMembershipPro({ formFields, setFlow, flow, allIntegURL, isInfo, edi
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, minHeight: '350px', overflow: 'visible' }) }}>
+      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, minHeight: '350px', overflow: 'visible' }) }}>
+
         <PaidMembershipProIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(
-              e,
-              paidMembershipProConf,
-              setPaidMembershipProConf,
-              setIsLoading,
-              setSnackbar,
-              formID
-            )
-          }
+          handleInput={(e) => handleInput(e, paidMembershipProConf, setPaidMembershipProConf, setIsLoading, setSnackbar, formID)}
           paidMembershipProConf={paidMembershipProConf}
           setPaidMembershipProConf={setPaidMembershipProConf}
           isLoading={isLoading}
@@ -87,38 +77,27 @@ function PaidMembershipPro({ formFields, setFlow, flow, allIntegURL, isInfo, edi
 
         <button
           onClick={() => nextPage(3)}
-          disabled={
-            !paidMembershipProConf.mainAction ||
-            isLoading ||
-            paidMembershipProConf.selectedMembership === undefined
-          }
-          className="btn f-left btcd-btn-lg purple sh-sm flx"
-          type="button">
+          disabled={!paidMembershipProConf.mainAction || isLoading || paidMembershipProConf.selectedMembership === undefined}
+          className="btn f-left btcd-btn-lg green sh-sm flx"
+          type="button"
+        >
           {__('Next', 'bit-integrations')}
           &nbsp;
           <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
         </button>
+
       </div>
       {/* STEP 3 */}
 
       <IntegrationStepThree
         step={step}
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            setFlow,
-            allIntegURL,
-            navigate,
-            conf: paidMembershipProConf,
-            setIsLoading,
-            setSnackbar
-          })
-        }
+        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, navigate, conf: paidMembershipProConf, setIsLoading, setSnackbar })}
         isLoading={isLoading}
         dataConf={paidMembershipProConf}
         setDataConf={setPaidMembershipProConf}
         formFields={formFields}
       />
+
     </div>
   )
 }

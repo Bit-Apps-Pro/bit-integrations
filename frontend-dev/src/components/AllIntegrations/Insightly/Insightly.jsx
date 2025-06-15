@@ -22,188 +22,98 @@ function Insightly({ formFields, setFlow, flow, allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const organisationFields = [
-    { key: 'ORGANISATION_NAME', label: __('Name', 'bit-integrations'), required: true },
-    { key: 'PHONE', label: __('Phone', 'bit-integrations'), required: false },
-    { key: 'PHONE_FAX', label: __('Fax', 'bit-integrations'), required: false },
-    { key: 'WEBSITE', label: __('Website', 'bit-integrations'), required: false },
-    { key: 'SOCIAL_FACEBOOK', label: __('Facebook', 'bit-integrations'), required: false },
-    { key: 'SOCIAL_LINKEDIN', label: __('Linkedin', 'bit-integrations'), required: false },
-    { key: 'SOCIAL_TWITTER', label: __('Twitter', 'bit-integrations'), required: false },
-    {
-      key: 'ADDRESS_BILLING_STREET',
-      label: __('Address Billing Street', 'bit-integrations'),
-      required: false
-    },
-    {
-      key: 'ADDRESS_BILLING_CITY',
-      label: __('Address Billing City', 'bit-integrations'),
-      required: false
-    },
-    {
-      key: 'ADDRESS_BILLING_STATE',
-      label: __('Address Billing State', 'bit-integrations'),
-      required: false
-    },
-    {
-      key: 'ADDRESS_BILLING_COUNTRY',
-      label: __('Address Billing Country', 'bit-integrations'),
-      required: false
-    },
-    {
-      key: 'ADDRESS_BILLING_POSTCODE',
-      label: __('Address Billing Postcode', 'bit-integrations'),
-      required: false
-    },
-    {
-      key: 'ADDRESS_SHIP_STREET',
-      label: __('Address Shipping Street', 'bit-integrations'),
-      required: false
-    },
-    {
-      key: 'ADDRESS_SHIP_STATE',
-      label: __('Address Shipping State', 'bit-integrations'),
-      required: false
-    },
-    {
-      key: 'ADDRESS_SHIP_POSTCODE',
-      label: __('Address Shipping Postcode', 'bit-integrations'),
-      required: false
-    },
-    {
-      key: 'ADDRESS_SHIP_COUNTRY',
-      label: __('Address Shipping Country', 'bit-integrations'),
-      required: false
-    }
+    { key: 'ORGANISATION_NAME', label: 'Name', required: true },
+    { key: 'PHONE', label: 'Phone', required: false },
+    { key: 'PHONE_FAX', label: 'Fax', required: false },
+    { key: 'WEBSITE', label: 'Website', required: false },
+    { key: 'SOCIAL_FACEBOOK', label: 'Facebook', required: false },
+    { key: 'SOCIAL_LINKEDIN', label: 'Linkedin', required: false },
+    { key: 'SOCIAL_TWITTER', label: 'Twitter', required: false },
+    { key: 'ADDRESS_BILLING_STREET', label: 'Address Billing Street', required: false },
+    { key: 'ADDRESS_BILLING_CITY', label: 'Address Billing City', required: false },
+    { key: 'ADDRESS_BILLING_STATE', label: 'Address Billing State', required: false },
+    { key: 'ADDRESS_BILLING_COUNTRY', label: 'Address Billing Country', required: false },
+    { key: 'ADDRESS_BILLING_POSTCODE', label: 'Address Billing Postcode', required: false },
+    { key: 'ADDRESS_SHIP_STREET', label: 'Address Shipping Street', required: false },
+    { key: 'ADDRESS_SHIP_STATE', label: 'Address Shipping State', required: false },
+    { key: 'ADDRESS_SHIP_POSTCODE', label: 'Address Shipping Postcode', required: false },
+    { key: 'ADDRESS_SHIP_COUNTRY', label: 'Address Shipping Country', required: false },
   ]
 
   const taskFields = [
-    { key: 'TITLE', label: __('Task Name', 'bit-integrations'), required: true },
-    { key: 'DUE_DATE', label: __('Due Date', 'bit-integrations'), required: false },
-    { key: 'COMPLETED_DATE_UTC', label: __('Completed Date', 'bit-integrations'), required: false },
-    { key: 'DETAILS', label: __('Description', 'bit-integrations'), required: false },
-    { key: 'PERCENT_COMPLETE', label: __('Progress ( % )', 'bit-integrations'), required: false },
-    { key: 'START_DATE', label: __('Start Date', 'bit-integrations'), required: false }
+    { key: 'TITLE', label: 'Task Name', required: true },
+    { key: 'DUE_DATE', label: 'Due Date', required: false },
+    { key: 'COMPLETED_DATE_UTC', label: 'Completed Date', required: false },
+    { key: 'DETAILS', label: 'Description', required: false },
+    { key: 'PERCENT_COMPLETE', label: 'Progress ( % )', required: false },
+    { key: 'START_DATE', label: 'Start Date', required: false },
   ]
 
   const leadFields = [
-    { key: 'FIRST_NAME', label: __('First Name', 'bit-integrations'), required: false },
-    { key: 'LAST_NAME', label: __('Last Name', 'bit-integrations'), required: true },
-    { key: 'TITLE', label: __('Title', 'bit-integrations'), required: false },
-    { key: 'ORGANISATION_NAME', label: __('Organization', 'bit-integrations'), required: false },
-    { key: 'LEAD_RATING', label: __('Lead Rating', 'bit-integrations'), required: false },
-    { key: 'EMAIL', label: __('Email Address', 'bit-integrations'), required: false },
-    { key: 'PHONE', label: __('Phone', 'bit-integrations'), required: false },
-    { key: 'MOBILE', label: __('Mobile Phone', 'bit-integrations'), required: false },
-    { key: 'FAX', label: __('Fax', 'bit-integrations'), required: false },
-    { key: 'WEBSITE', label: __('Website', 'bit-integrations'), required: false },
-    { key: 'INDUSTRY', label: __('Industry', 'bit-integrations'), required: false },
-    {
-      key: 'EMPLOYEE_COUNT',
-      label: __('Number of Employees', 'bit-integrations'),
-      required: false
-    },
-    { key: 'ADDRESS_STREET', label: __('Address Street', 'bit-integrations'), required: false },
-    { key: 'ADDRESS_CITY', label: __('Address City', 'bit-integrations'), required: false },
-    { key: 'ADDRESS_STATE', label: __('Address State', 'bit-integrations'), required: false },
-    { key: 'ADDRESS_POSTCODE', label: __('Address Postcode', 'bit-integrations'), required: false },
-    { key: 'ADDRESS_COUNTRY', label: __('Address Country', 'bit-integrations'), required: false },
-    { key: 'LEAD_DESCRIPTION', label: __('Description', 'bit-integrations'), required: false }
+    { key: 'FIRST_NAME', label: 'First Name', required: false },
+    { key: 'LAST_NAME', label: 'Last Name', required: true },
+    { key: 'TITLE', label: 'Title', required: false },
+    { key: 'ORGANISATION_NAME', label: 'Organization', required: false },
+    { key: 'LEAD_RATING', label: 'Lead Rating', required: false },
+    { key: 'EMAIL', label: 'Email Address', required: false },
+    { key: 'PHONE', label: 'Phone', required: false },
+    { key: 'MOBILE', label: 'Mobile Phone', required: false },
+    { key: 'FAX', label: 'Fax', required: false },
+    { key: 'WEBSITE', label: 'Website', required: false },
+    { key: 'INDUSTRY', label: 'Industry', required: false },
+    { key: 'EMPLOYEE_COUNT', label: 'Number of Employees', required: false },
+    { key: 'ADDRESS_STREET', label: 'Address Street', required: false },
+    { key: 'ADDRESS_CITY', label: 'Address City', required: false },
+    { key: 'ADDRESS_STATE', label: 'Address State', required: false },
+    { key: 'ADDRESS_POSTCODE', label: 'Address Postcode', required: false },
+    { key: 'ADDRESS_COUNTRY', label: 'Address Country', required: false },
+    { key: 'LEAD_DESCRIPTION', label: 'Description', required: false },
   ]
 
   const contactFields = [
-    { key: 'FIRST_NAME', label: __('First Name', 'bit-integrations'), required: true },
-    { key: 'EMAIL_ADDRESS', label: __('Email', 'bit-integrations'), required: true },
-    { key: 'LAST_NAME', label: __('Last Name', 'bit-integrations'), required: false },
-    { key: 'TITLE', label: __('Title', 'bit-integrations'), required: false },
-    { key: 'PHONE', label: __('Phone', 'bit-integrations'), required: false },
-    { key: 'PHONE_FAX', label: __('Fax', 'bit-integrations'), required: false },
-    { key: 'DATE_OF_BIRTH', label: __('Date of Birth', 'bit-integrations'), required: false },
-    { key: 'SOCIAL_FACEBOOK', label: __('Facebook', 'bit-integrations'), required: false },
-    { key: 'SOCIAL_LINKEDIN', label: __('Linkedin', 'bit-integrations'), required: false },
-    { key: 'SOCIAL_TWITTER', label: __('Twitter', 'bit-integrations'), required: false },
-    {
-      key: 'ADDRESS_MAIL_STREET',
-      label: __('Address Mail Street', 'bit-integrations'),
-      required: false
-    },
-    {
-      key: 'ADDRESS_MAIL_CITY',
-      label: __('Address Mail City', 'bit-integrations'),
-      required: false
-    },
-    {
-      key: 'ADDRESS_MAIL_STATE',
-      label: __('Address Mail State', 'bit-integrations'),
-      required: false
-    },
-    {
-      key: 'ADDRESS_MAIL_COUNTRY',
-      label: __('Address Mail Country', 'bit-integrations'),
-      required: false
-    },
-    {
-      key: 'ADDRESS_MAIL_POSTCODE',
-      label: __('Address Mail Postcode', 'bit-integrations'),
-      required: false
-    },
-    {
-      key: 'ADDRESS_OTHER_STREET',
-      label: __('Address Other Street', 'bit-integrations'),
-      required: false
-    },
-    {
-      key: 'ADDRESS_OTHER_STATE',
-      label: __('Address Other State', 'bit-integrations'),
-      required: false
-    },
-    {
-      key: 'ADDRESS_OTHER_POSTCODE',
-      label: __('Address Other Postcode', 'bit-integrations'),
-      required: false
-    },
-    {
-      key: 'ADDRESS_OTHER_COUNTRY',
-      label: __('Address Other Country', 'bit-integrations'),
-      required: false
-    }
+    { key: 'FIRST_NAME', label: 'First Name', required: true },
+    { key: 'EMAIL_ADDRESS', label: 'Email', required: true },
+    { key: 'LAST_NAME', label: 'Last Name', required: false },
+    { key: 'TITLE', label: 'Title', required: false },
+    { key: 'PHONE', label: 'Phone', required: false },
+    { key: 'PHONE_FAX', label: 'Fax', required: false },
+    { key: 'DATE_OF_BIRTH', label: 'Date of Birth', required: false },
+    { key: 'SOCIAL_FACEBOOK', label: 'Facebook', required: false },
+    { key: 'SOCIAL_LINKEDIN', label: 'Linkedin', required: false },
+    { key: 'SOCIAL_TWITTER', label: 'Twitter', required: false },
+    { key: 'ADDRESS_MAIL_STREET', label: 'Address Mail Street', required: false },
+    { key: 'ADDRESS_MAIL_CITY', label: 'Address Mail City', required: false },
+    { key: 'ADDRESS_MAIL_STATE', label: 'Address Mail State', required: false },
+    { key: 'ADDRESS_MAIL_COUNTRY', label: 'Address Mail Country', required: false },
+    { key: 'ADDRESS_MAIL_POSTCODE', label: 'Address Mail Postcode', required: false },
+    { key: 'ADDRESS_OTHER_STREET', label: 'Address Other Street', required: false },
+    { key: 'ADDRESS_OTHER_STATE', label: 'Address Other State', required: false },
+    { key: 'ADDRESS_OTHER_POSTCODE', label: 'Address Other Postcode', required: false },
+    { key: 'ADDRESS_OTHER_COUNTRY', label: 'Address Other Country', required: false },
   ]
 
   const opportunityFields = [
-    { key: 'OPPORTUNITY_NAME', label: __('Opportunity Name', 'bit-integrations'), required: true },
-    {
-      key: 'OPPORTUNITY_DETAILS',
-      label: __('Opportunity Details', 'bit-integrations'),
-      required: false
-    },
-    { key: 'BID_AMOUNT', label: __('Bid Amount', 'bit-integrations'), required: false },
-    {
-      key: 'ACTUAL_CLOSE_DATE',
-      label: __('Actual Close Date', 'bit-integrations'),
-      required: false
-    },
-    {
-      key: 'PROBABILITY',
-      label: __('Probability Of Winning', 'bit-integrations'),
-      required: false
-    },
-    {
-      key: 'FORECAST_CLOSE_DATE',
-      label: __('Forecast Close Date', 'bit-integrations'),
-      required: false
-    }
+    { key: 'OPPORTUNITY_NAME', label: 'Opportunity Name', required: true },
+    { key: 'OPPORTUNITY_DETAILS', label: 'Opportunity Details', required: false },
+    { key: 'BID_AMOUNT', label: 'Bid Amount', required: false },
+    { key: 'ACTUAL_CLOSE_DATE', label: 'Actual Close Date', required: false },
+    { key: 'PROBABILITY', label: 'Probability Of Winning', required: false },
+    { key: 'FORECAST_CLOSE_DATE', label: 'Forecast Close Date', required: false },
   ]
 
   const projectFields = [
-    { key: 'PROJECT_NAME', label: __('Project Name', 'bit-integrations'), required: true },
-    { key: 'PROJECT_DETAILS', label: __('Description', 'bit-integrations'), required: false }
+    { key: 'PROJECT_NAME', label: 'Project Name', required: true },
+    { key: 'PROJECT_DETAILS', label: 'Description', required: false },
   ]
 
   const [insightlyConf, setInsightlyConf] = useState({
     name: 'Insightly',
     type: 'Insightly',
-    api_key: '',
-    api_url: '',
-    field_map: [{ formField: '', insightlyFormField: '' }],
+    api_key: process.env.NODE_ENV === 'development' ? 'ce8c4bf8-df7a-428a-8080-cfd701592114' : '',
+    api_url: process.env.NODE_ENV === 'development' ? 'na1.insightly.com' : '',
+    field_map: [
+      { formField: '', insightlyFormField: '' },
+    ],
     actionName: '',
     organisationFields,
     contactFields,
@@ -211,21 +121,12 @@ function Insightly({ formFields, setFlow, flow, allIntegURL }) {
     leadFields,
     opportunityFields,
     projectFields,
-    actions: {}
+    actions: {},
   })
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      insightlyConf,
-      navigate,
-      '',
-      '',
-      setIsLoading
-    )
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, insightlyConf, navigate, '', '', setIsLoading)
     resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
@@ -236,29 +137,29 @@ function Insightly({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = pageNo => {
+  const nextPage = (pageNo) => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
     if (!checkMappedFields(insightlyConf)) {
-      toast.error(__('Please map mandatory fields', 'bit-integrations'))
+      toast.error('Please map mandatory fields')
       return
     }
 
     if (insightlyConf.actionName === 'opportunity' || insightlyConf.actionName === 'project') {
       if (!insightlyConf.selectedCRMPipeline) {
-        toast.error(__('Please select a pipeline', 'bit-integrations'))
+        toast.error('Please select a pipeline')
         return
       }
       if (!insightlyConf.selectedCRMPipelineStages) {
-        toast.error(__('Please select a pipeline stage', 'bit-integrations'))
+        toast.error('Please select a pipeline stage')
         return
       }
     }
 
     if (insightlyConf.actionName === 'lead' && !checkRequiredFields(insightlyConf)) {
-      toast.error(__('Please select Lead Status or Lead Source', 'bit-integrations'))
+      toast.error('Please select Lead Status or Lead Source')
       return
     }
 
@@ -268,9 +169,7 @@ function Insightly({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={3} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
 
       {/* STEP 1 */}
       <InsightlyAuthorization
@@ -284,12 +183,11 @@ function Insightly({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+
         <InsightlyIntegLayout
           formFields={formFields}
-          handleInput={e => handleInput(e, insightlyConf, setInsightlyConf, setLoading, setSnackbar)}
+          handleInput={(e) => handleInput(e, insightlyConf, setInsightlyConf, setLoading, setSnackbar)}
           insightlyConf={insightlyConf}
           setInsightlyConf={setInsightlyConf}
           loading={loading}
@@ -300,10 +198,13 @@ function Insightly({ formFields, setFlow, flow, allIntegURL }) {
         {insightlyConf?.actionName && (
           <button
             onClick={() => nextPage(3)}
-            disabled={!checkMappedFields(insightlyConf)}
-            className="btn f-right btcd-btn-lg purple sh-sm flx"
-            type="button">
-            {__('Next', 'bit-integrations')} &nbsp;
+            disabled={!(checkMappedFields(insightlyConf))}
+            className="btn f-right btcd-btn-lg green sh-sm flx"
+            type="button"
+          >
+            {__('Next', 'bit-integrations')}
+            {' '}
+            &nbsp;
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         )}

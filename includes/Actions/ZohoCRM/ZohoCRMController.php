@@ -64,7 +64,7 @@ final class ZohoCRMController
                 );
             }
         }
-        $zohosIntegratedModules = [
+        $zohosIntegratedModules = array(
             'zohosign__ZohoSign_Document_Events',
             'zohoshowtime__ShowTime_Sessions',
             'zohoshowtime__Zoho_ShowTime',
@@ -84,39 +84,40 @@ final class ZohoCRMController
             if (!is_wp_error($modulesMetaResponse) && (empty($modulesMetaResponse->status) || (!empty($modulesMetaResponse->status) && $modulesMetaResponse->status !== 'error'))) {
                 $retriveModuleData = $modulesMetaResponse->modules;
 
-        $modulesMetaResponse = HttpHelper::get($modulesMetaApiEndpoint, null, $authorizationHeader);
-        if (!is_wp_error($modulesMetaResponse) && (empty($modulesMetaResponse->status) || (!empty($modulesMetaResponse->status) && $modulesMetaResponse->status !== 'error'))) {
-            $retriveModuleData = $modulesMetaResponse->modules;
-
-            $allModules = [];
-            foreach ($retriveModuleData as $key => $value) {
-                if ((!empty($value->inventory_template_supported) && $value->inventory_template_supported) || \in_array($value->api_name, $zohosIntegratedModules) || \count((array) $value->parent_module) > 0) {
-                    continue;
+                $allModules = [];
+                foreach ($retriveModuleData as $key => $value) {
+                    if ((!empty($value->inventory_template_supported) && $value->inventory_template_supported) || \in_array($value->api_name, $zohosIntegratedModules) || count((array)$value->parent_module) > 0) {
+                        continue;
+                    }
+                    if (!empty($value->api_supported) && $value->api_supported && !empty($value->editable) && $value->editable) {
+                        $allModules[$value->api_name] = (object) array(
+                            'plural_label' => $value->plural_label,
+                            'triggers_supported' => $value->triggers_supported,
+                            'quick_create' => $value->quick_create,
+                        );
+                    }
                 }
-                if (!empty($value->api_supported) && $value->api_supported && !empty($value->editable) && $value->editable) {
-                    $allModules[$value->api_name] = (object) [
-                        'plural_label'       => $value->plural_label,
-                        'triggers_supported' => $value->triggers_supported,
-                        'quick_create'       => $value->quick_create,
-                    ];
-                }
+                uksort($allModules, 'strnatcasecmp');
+            } else {
+                wp_send_json_error(
+                    empty($modulesMetaResponse->message) ? 'Unknown' : $modulesMetaResponse->message,
+                    400
+                );
             }
-            uksort($allModules, 'strnatcasecmp');
         } else {
-            wp_send_json_error(
-                empty($modulesMetaResponse->message) ? 'Unknown' : $modulesMetaResponse->message,
-                400
+            $allModules['Leads'] = (object) array(
+                'plural_label' => 'Leads',
+                'triggers_supported' => true,
+                'quick_create' => true,
             );
         }
-
-        $response['modules'] = $allModules;
+        $response["modules"] = $allModules;
 
         if (!empty($response['tokenDetails']) && !empty($queryParams->id)) {
             ZohoAuthController::_saveRefreshedToken($queryParams->id, $response['tokenDetails'], $response['modules']);
         }
         wp_send_json_success($response, 200);
     }
-
     /**
      * Process ajax request for refresh crm layouts
      *
@@ -149,14 +150,19 @@ final class ZohoCRMController
         $authorizationHeader["Authorization"] = "Zoho-oauthtoken {$queryParams->tokenDetails->access_token}";
         $requiredParams['module'] = $queryParams->module;
         $layoutsMetaResponse = HttpHelper::get($layoutsMetaApiEndpoint, $requiredParams, $authorizationHeader);
-        error_log(print_r($layoutsMetaResponse, true));
         if (!is_wp_error($layoutsMetaResponse) && (empty($layoutsMetaResponse->status) || (!empty($layoutsMetaResponse->status) && $layoutsMetaResponse->status !== 'error'))) {
             $retriveLayoutsData = $layoutsMetaResponse->layouts;
             $layouts = [];
+            $isProVersion = Plugin::instance()->isProVer();
+            if ($isProVersion) {
+                $isBitFiLicActive =  \BitApps\BTCBI_PRO\Plugin::instance()->isLicenseActive();
+            } else {
+                $isBitFiLicActive = false;
+            }
             foreach ($retriveLayoutsData as $layoutKey => $layoutValue) {
-                // if ($layoutValue->name !== 'Standard') {
-                //     continue;
-                // }
+                if (!$isBitFiLicActive && $layoutValue->name !== 'Standard') {
+                    continue;
+                }
                 $fields = [];
                 $fileUploadFields = [];
                 $requiredFields = [];
@@ -166,9 +172,9 @@ final class ZohoCRMController
 
                 foreach ($layoutValue->sections as $sectionKey => $sectionValue) {
                     foreach ($sectionValue->fields as $fieldKey => $fieldDetails) {
-                        // if (!\in_array($fieldDetails->api_name, $fieldToShow)) {
-                        //     continue;
-                        // }
+                        if (!$isBitFiLicActive && !in_array($fieldDetails->api_name, $fieldToShow)) {
+                            continue;
+                        }
                         if (
                             empty($fieldDetails->subform)
                             && !empty($fieldDetails->api_name)
@@ -177,23 +183,23 @@ final class ZohoCRMController
                             && $fieldDetails->data_type !== 'ownerlookup'
                         ) {
                             if ($fieldDetails->data_type === 'fileupload' || $fieldDetails->data_type === 'imageupload') {
-                                $fileUploadFields[$fieldDetails->api_name] = (object) [
+                                $fileUploadFields[$fieldDetails->api_name] = (object) array(
                                     'display_label' => $fieldDetails->display_label,
-                                    'length'        => $fieldDetails->length,
-                                    'visible'       => $fieldDetails->visible,
-                                    'json_type'     => !empty($fieldDetails->json_type) ? $fieldDetails->json_type : null,
-                                    'data_type'     => $fieldDetails->data_type,
-                                    'required'      => $fieldDetails->required
-                                ];
+                                    'length' => $fieldDetails->length,
+                                    'visible' => $fieldDetails->visible,
+                                    'json_type' => !empty($fieldDetails->json_type) ? $fieldDetails->json_type : null,
+                                    'data_type' => $fieldDetails->data_type,
+                                    'required' => $fieldDetails->required
+                                );
                             } else {
-                                $fields[$fieldDetails->api_name] = (object) [
+                                $fields[$fieldDetails->api_name] = (object) array(
                                     'display_label' => $fieldDetails->display_label,
-                                    'length'        => $fieldDetails->length,
-                                    'visible'       => $fieldDetails->visible,
-                                    'json_type'     => !empty($fieldDetails->json_type) ? $fieldDetails->json_type : null,
-                                    'data_type'     => $fieldDetails->data_type,
-                                    'required'      => $fieldDetails->required
-                                ];
+                                    'length' => $fieldDetails->length,
+                                    'visible' => $fieldDetails->visible,
+                                    'json_type' => !empty($fieldDetails->json_type) ? $fieldDetails->json_type : null,
+                                    'data_type' => $fieldDetails->data_type,
+                                    'required' => $fieldDetails->required
+                                );
                             }
 
                             if (!empty($fieldDetails->required) && $fieldDetails->required) {
@@ -203,7 +209,7 @@ final class ZohoCRMController
                                     $requiredFields[] = $fieldDetails->api_name;
                                 }
                             }
-                            if (!empty($fieldDetails->unique) && \count((array) $fieldDetails->unique)) {
+                            if (!empty($fieldDetails->unique) && count((array)$fieldDetails->unique)) {
                                 $uniqueFields[] = $fieldDetails->api_name;
                             }
                         }
@@ -214,18 +220,18 @@ final class ZohoCRMController
                 usort($requiredFields, 'strnatcasecmp');
                 usort($requiredFileUploadFiles, 'strnatcasecmp');
 
-                $layouts[$layoutValue->name] = (object) [
-                    'visible'                  => $layoutValue->visible,
-                    'fields'                   => $fields,
-                    'required'                 => $requiredFields,
-                    'unique'                   => $uniqueFields,
-                    'id'                       => $layoutValue->id,
-                    'fileUploadFields'         => $fileUploadFields,
+                $layouts[$layoutValue->name] = (object) array(
+                    'visible' => $layoutValue->visible,
+                    'fields' => $fields,
+                    'required' => $requiredFields,
+                    'unique' => $uniqueFields,
+                    'id' => $layoutValue->id,
+                    'fileUploadFields' => $fileUploadFields,
                     'requiredFileUploadFields' => $requiredFileUploadFiles
-                ];
+                );
             }
             uksort($layouts, 'strnatcasecmp');
-            $response['layouts'] = $layouts;
+            $response["layouts"] = $layouts;
         } else {
             wp_send_json_error(
                 $layoutsMetaResponse->status === 'error' ? $layoutsMetaResponse->message : 'Unknown',
@@ -241,8 +247,6 @@ final class ZohoCRMController
 
     /**
      * Process ajax request to get assignment rules of a Zoho CRM module
-     *
-     * @param mixed $queryParams
      *
      * @return JSON crm assignment rules data
      */
@@ -276,12 +280,12 @@ final class ZohoCRMController
         ) {
             $rules = (array) $assignmentRulesResponse;
             uksort($rules, 'strnatcasecmp');
-            $response['assignmentRules'] = $rules;
+            $response["assignmentRules"] = $rules;
         } else {
             wp_send_json_error(
                 !empty($assignmentRulesResponse->status)
-                    && $assignmentRulesResponse->status === 'error'
-                    ? $assignmentRulesResponse->message : (empty($assignmentRulesResponse) ? __('Assignment rules is empty', 'bit-integrations') : 'Unknown'),
+                    && $assignmentRulesResponse->status === 'error' ?
+                    $assignmentRulesResponse->message : (empty($assignmentRulesResponse) ? __('Assignment rules is empty', 'bit-integrations') : 'Unknown'),
                 empty($assignmentRulesResponse) ? 204 : 400
             );
         }
@@ -290,7 +294,6 @@ final class ZohoCRMController
         }
         wp_send_json_success($response, 200);
     }
-
     /**
      * Process ajax request to get realted lists of a Zoho CRM module
      *
@@ -324,16 +327,16 @@ final class ZohoCRMController
         if (
             !is_wp_error($relatedListResponse)
             && !empty($relatedListResponse)
-            && \is_array($relatedListResponse)
+            && is_array($relatedListResponse)
         ) {
             uksort($relatedListResponse, 'strnatcasecmp');
-            $response['relatedLists'] = $relatedListResponse;
+            $response["relatedLists"] = $relatedListResponse;
         } else {
             wp_send_json_error(
-                \is_object($relatedListResponse->status)
+                is_object($relatedListResponse->status)
                     && !empty($relatedListResponse->status)
-                    && $relatedListResponse->status === 'error'
-                    ? $relatedListResponse->message : (empty($relatedListResponse) ? __('RelatedList is empty', 'bit-integrations') : 'Unknown'),
+                    && $relatedListResponse->status === 'error' ?
+                    $relatedListResponse->message : (empty($relatedListResponse) ? __('RelatedList is empty', 'bit-integrations') : 'Unknown'),
                 empty($relatedListResponse) ? 204 : 400
             );
         }
@@ -342,7 +345,6 @@ final class ZohoCRMController
         }
         wp_send_json_success($response, 200);
     }
-
     /**
      * Process ajax request for refresh crm users
      *
@@ -376,15 +378,15 @@ final class ZohoCRMController
         $usersResponse = null;
         do {
             $requiredParams = [];
-            if ($usersResponse instanceof stdClass && !empty($usersResponse->users)) {
+            if ($usersResponse instanceof \stdClass && !empty($usersResponse->users)) {
                 if (!empty($retrivedUsersData)) {
                     $retrivedUsersData = array_merge($retrivedUsersData, $usersResponse->users);
                 } else {
                     $retrivedUsersData = $usersResponse->users;
                 }
             }
-            if ($usersResponse instanceof stdClass && !empty($usersResponse->info->more_records) && $usersResponse->info->more_records) {
-                $requiredParams['page'] = \intval($usersResponse->info->page) + 1;
+            if ($usersResponse instanceof \stdClass && !empty($usersResponse->info->more_records) && $usersResponse->info->more_records) {
+                $requiredParams["page"] = intval($usersResponse->info->page) + 1;
             }
             $usersResponse = HttpHelper::get($usersApiEndpoint, $requiredParams, $authorizationHeader);
         } while ($usersResponse == null || (!empty($usersResponse->info->more_records) && $usersResponse->info->more_records));
@@ -394,13 +396,13 @@ final class ZohoCRMController
         if (!is_wp_error($usersResponse) && !empty($retrivedUsersData)) {
             $users = [];
             foreach ($retrivedUsersData as $userKey => $userValue) {
-                $users[$userValue->full_name] = (object) [
+                $users[$userValue->full_name] = (object) array(
                     'full_name' => $userValue->full_name,
-                    'id'        => $userValue->id,
-                ];
+                    'id' => $userValue->id,
+                );
             }
             uksort($users, 'strnatcasecmp');
-            $response['users'] = $users;
+            $response["users"] = $users;
         } else {
             wp_send_json_error(
                 $usersResponse->status === 'error' ? $usersResponse->message : 'Unknown',
@@ -412,7 +414,6 @@ final class ZohoCRMController
         }
         wp_send_json_success($response, 200);
     }
-
     /**
      * Process ajax request for refresh tags of a module
      *
@@ -446,7 +447,7 @@ final class ZohoCRMController
         $tagListApiResponse = $tagApiHelper->getTagList();
         if (!is_wp_error($tagListApiResponse)) {
             usort($tagListApiResponse, 'strnatcasecmp');
-            $response['tags'] = $tagListApiResponse;
+            $response["tags"] = $tagListApiResponse;
         } else {
             wp_send_json_error(
                 is_wp_error($tagListApiResponse) ? $tagListApiResponse->get_error_message() : (empty($tagListApiResponse) ? __('Tag is empty', 'bit-integrations') : 'Unknown'),
@@ -463,62 +464,62 @@ final class ZohoCRMController
     {
         foreach ($integrationDetails->relatedlists as $relatedlist) {
             // Related List apis..
-            $relatedListModule = !empty($relatedlist->module) ? $relatedlist->module : '';
-            $relatedListLayout = !empty($relatedlist->layout) ? $relatedlist->layout : '';
+            $relatedListModule =  !empty($relatedlist->module) ? $relatedlist->module : '';
+            $relatedListLayout =  !empty($relatedlist->layout) ? $relatedlist->layout : '';
             $defaultDataConf = $integrationDetails->default;
             if (empty($relatedListModule) || empty($relatedListLayout)) {
                 return new WP_Error('REQ_FIELD_EMPTY', __('module, layout are required for zoho crm relatedlist', 'bit-integrations'));
             }
             $module = $integrationDetails->module;
-            $moduleSingular = substr($module, 0, \strlen($module) - 1);
+            $moduleSingular = \substr($module, 0, \strlen($module) - 1);
             if (isset($defaultDataConf->layouts->{$relatedListModule}->{$relatedListLayout}->fields->{$module})) {
                 $moduleSingular = $module;
             } elseif (!isset($defaultDataConf->layouts->{$relatedListModule}->{$relatedListLayout}->fields->{$moduleSingular})) {
                 $moduleSingular = '';
             }
-            $relatedListRequired = !empty($defaultDataConf->layouts->{$relatedListModule}->{$relatedListLayout}->required)
-                ? $defaultDataConf->layouts->{$relatedListModule}->{$relatedListLayout}->required : [];
+            $relatedListRequired = !empty($defaultDataConf->layouts->{$relatedListModule}->{$relatedListLayout}->required) ?
+                $defaultDataConf->layouts->{$relatedListModule}->{$relatedListLayout}->required : [];
             $recordID = $zcrmApiResponse->data[0]->details->id;
-            $defaultDataConf->layouts->{$relatedListModule}->{$relatedListLayout}->fields->{'$se_module'} = (object) [
-                'length'    => 200,
-                'visible'   => true,
+            $defaultDataConf->layouts->{$relatedListModule}->{$relatedListLayout}->fields->{'$se_module'} = (object) array(
+                'length' => 200,
+                'visible' => true,
                 'json_type' => 'string',
                 'data_type' => 'string',
-            ];
+            );
             $fieldValues['$se_module'] = $module;
             $relatedlist->field_map[] = (object)
-            [
-                'formField'     => '$se_module',
+            array(
+                'formField' => '$se_module',
                 'zohoFormField' => '$se_module'
-            ];
+            );
             if (isset($defaultDataConf->layouts->{$relatedListModule}->{$relatedListLayout}->fields->Parent_Id)) {
                 $fieldValues['Parent_Id'] = (object) ['id' => $recordID];
                 $relatedlist->field_map[] = (object)
-                [
-                    'formField'     => 'Parent_Id',
-                    'zohoFormField' => 'Parent_Id'
-                ];
+                array(
+                    'formField' => "Parent_Id",
+                    'zohoFormField' => "Parent_Id"
+                );
             } elseif (!empty($moduleSingular)) {
                 $fieldValues[$moduleSingular] = ['id' => $recordID];
                 $relatedlist->field_map[] = (object)
-                [
-                    'formField'     => $moduleSingular,
+                array(
+                    'formField' => $moduleSingular,
                     'zohoFormField' => $moduleSingular
-                ];
+                );
             } elseif ($module === 'Contacts') {
                 $fieldValues['Who_Id'] = (object) ['id' => $recordID];
                 $relatedlist->field_map[] = (object)
-                [
-                    'formField'     => 'Who_Id',
+                array(
+                    'formField' => 'Who_Id',
                     'zohoFormField' => 'Who_Id'
-                ];
+                );
             } else {
                 $fieldValues['What_Id'] = (object) ['id' => $recordID];
                 $relatedlist->field_map[] = (object)
-                [
-                    'formField'     => 'What_Id',
+                array(
+                    'formField' => 'What_Id',
                     'zohoFormField' => 'What_Id'
-                ];
+                );
             }
 
             $zcrmRelatedlistApiResponse = $recordApiHelper->execute(
@@ -556,16 +557,14 @@ final class ZohoCRMController
         ) {
             $error = new WP_Error('REQ_FIELD_EMPTY', __('module, layout, fields are required for zoho crm api', 'bit-integrations'));
             LogHandler::save($this->_integrationID, 'record', 'validation', $error);
-
             return $error;
         }
         if (empty($defaultDataConf->layouts->{$module}->{$layout}->fields) || empty($defaultDataConf->modules->{$module})) {
             $error = new WP_Error('REQ_FIELD_EMPTY', __('module, layout, fields are required for zoho crm api', 'bit-integrations'));
             LogHandler::save($this->_integrationID, 'record', 'validation', $error);
-
             return $error;
         }
-        if ((\intval($tokenDetails->generates_on) + (55 * 60)) < time()) {
+        if ((intval($tokenDetails->generates_on) + (55 * 60)) < time()) {
             $requiredParams['clientId'] = $integrationDetails->clientId;
             $requiredParams['clientSecret'] = $integrationDetails->clientSecret;
             $requiredParams['dataCenter'] = $integrationDetails->dataCenter;
@@ -575,14 +574,13 @@ final class ZohoCRMController
                 ZohoAuthController::_saveRefreshedToken($this->_integrationID, $newTokenDetails);
                 $tokenDetails = $newTokenDetails;
             } else {
-                LogHandler::save($this->_integrationID, 'token', 'error', __('Failed to refresh access token', 'bit-integrations'));
-
+                LogHandler::save($this->_integrationID, 'token', 'error', 'Failed to refresh access token');
                 return;
             }
         }
 
-        $required = !empty($defaultDataConf->layouts->{$module}->{$layout}->required)
-            ? $defaultDataConf->layouts->{$module}->{$layout}->required : [];
+        $required = !empty($defaultDataConf->layouts->{$module}->{$layout}->required) ?
+            $defaultDataConf->layouts->{$module}->{$layout}->required : [];
         $actions = $integrationDetails->actions;
         $recordApiHelper = new RecordApiHelper($tokenDetails);
         $zcrmApiResponse = $recordApiHelper->execute(
@@ -603,83 +601,10 @@ final class ZohoCRMController
             !empty($zcrmApiResponse->data)
             && !empty($zcrmApiResponse->data[0]->code)
             && $zcrmApiResponse->data[0]->code === 'SUCCESS'
-            && \count($integrationDetails->relatedlists)
+            && count($integrationDetails->relatedlists)
         ) {
             self::addRelatedList($zcrmApiResponse, $this->_integrationID, $fieldValues, $integrationDetails, $recordApiHelper);
         }
-
         return $zcrmApiResponse;
-    }
-
-    /**
-     * Helps to refresh zoho crm access_token
-     *
-     * @param object $apiData Contains required data for refresh access token
-     *
-     * @return JSON $tokenDetails API token details
-     */
-    protected static function _refreshAccessToken($apiData)
-    {
-        if (
-            empty($apiData->dataCenter)
-            || empty($apiData->clientId)
-            || empty($apiData->clientSecret)
-            || empty($apiData->tokenDetails)
-        ) {
-            return false;
-        }
-        $tokenDetails = $apiData->tokenDetails;
-
-        $dataCenter = $apiData->dataCenter;
-        $apiEndpoint = "https://accounts.zoho.{$dataCenter}/oauth/v2/token";
-        $requestParams = [
-            'grant_type'    => 'refresh_token',
-            'client_id'     => $apiData->clientId,
-            'client_secret' => $apiData->clientSecret,
-            'refresh_token' => $tokenDetails->refresh_token,
-        ];
-
-        $apiResponse = HttpHelper::post($apiEndpoint, $requestParams);
-        if (is_wp_error($apiResponse) || !empty($apiResponse->error)) {
-            return false;
-        }
-        $tokenDetails->generates_on = time();
-        $tokenDetails->access_token = $apiResponse->access_token;
-
-        return $tokenDetails;
-    }
-
-    /**
-     * Save updated access_token to avoid unnecessary token generation
-     *
-     * @param int        $integrationID ID of Zoho crm Integration
-     * @param object     $tokenDetails  refreshed token info
-     * @param null|mixed $others
-     *
-     * @return null
-     */
-    private static function _saveRefreshedToken($integrationID, $tokenDetails, $others = null)
-    {
-        if (empty($integrationID)) {
-            return;
-        }
-
-        $flow = new FlowController();
-        $zcrmDetails = $flow->get(['id' => $integrationID]);
-
-        if (is_wp_error($zcrmDetails)) {
-            return;
-        }
-        $newDetails = json_decode($zcrmDetails[0]->flow_details);
-
-        $newDetails->tokenDetails = $tokenDetails;
-        if (!empty($others['modules'])) {
-            $newDetails->default->modules = $others['modules'];
-        }
-        if (!empty($others['layouts']) && !empty($others['queryModule'])) {
-            $newDetails->default->layouts->{$others['queryModule']} = $others['layouts'];
-        }
-
-        $flow->update($integrationID, ['flow_details' => wp_json_encode($newDetails)]);
     }
 }

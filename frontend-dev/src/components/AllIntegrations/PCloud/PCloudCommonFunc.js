@@ -16,11 +16,7 @@ export const handleInput = (e, pCloudConf, setPCloudConf) => {
 }
 
 export const checkMappedFields = (pCloudConf) => {
-  const mappedFields = pCloudConf?.field_map
-    ? pCloudConf.field_map.filter(
-        (mappedField) => !mappedField.formField || !mappedField.pCloudFormField
-      )
-    : []
+  const mappedFields = pCloudConf?.field_map ? pCloudConf.field_map.filter(mappedField => (!mappedField.formField || !mappedField.pCloudFormField)) : []
   if (mappedFields.length > 0) {
     return false
   }
@@ -29,35 +25,34 @@ export const checkMappedFields = (pCloudConf) => {
 
 export const getAllPCloudFolders = (pCloudConf, setPCloudConf, type) => {
   const queryParams = { tokenDetails: pCloudConf.tokenDetails }
-  const loadPostTypes = bitsFetch(queryParams, 'pCloud_get_all_folders').then((result) => {
-    if (result && result.success) {
-      const newConf = { ...pCloudConf }
-      if (result.data) {
-        newConf.foldersList = result.data
+  const loadPostTypes = bitsFetch(queryParams, 'pCloud_get_all_folders')
+    .then(result => {
+      if (result && result.success) {
+        const newConf = { ...pCloudConf }
+        if (result.data) {
+          newConf.foldersList = result.data
+        }
+        setPCloudConf(newConf)
+        if (type === 'fetch') {
+          return 'Folders fetched successfully'
+        }
+        return 'Folders refreshed successfully'
+      } else {
+        return 'Folders refresh failed. please try again'
       }
-      setPCloudConf(newConf)
-      if (type === 'fetch') {
-        return __('Folders fetched successfully', 'bit-integrations')
-      }
-      return __('Folders refreshed successfully', 'bit-integrations')
-    } else {
-      return __('Folders refresh failed. please try again', 'bit-integrations')
-    }
-  })
+    })
   toast.promise(loadPostTypes, {
-    success: (data) => data,
+    success: data => data,
     error: __('Error Occurred', 'bit-integrations'),
-    loading: __('Loading PCloud Folders List...', 'bit-integrations')
+    loading: __('Loading PCloud Folders List...', 'bit-integrations'),
   })
 }
 
 export const handleAuthorization = (confTmp, setConf, setIsAuthorized, setIsLoading, setError) => {
   if (!confTmp.clientId || !confTmp.clientSecret) {
     setError({
-      clientId: !confTmp.clientId ? __("Client Id can't be empty", 'bit-integrations') : '',
-      clientSecret: !confTmp.clientSecret
-        ? __("Client Secret can't be empty", 'bit-integrations')
-        : ''
+      clientId: !confTmp.clientId ? __('Client Id can\'t be empty', 'bit-integrations') : '',
+      clientSecret: !confTmp.clientSecret ? __('Client Secret can\'t be empty', 'bit-integrations') : '',
     })
     return
   }
@@ -76,16 +71,9 @@ export const handleAuthorization = (confTmp, setConf, setIsAuthorized, setIsLoad
         grantTokenResponse = JSON.parse(bitsPCloud)
         localStorage.removeItem('__pCloud')
       }
-      if (
-        !grantTokenResponse.code ||
-        grantTokenResponse.error ||
-        !grantTokenResponse ||
-        !isAuthRedirectLocation
-      ) {
+      if (!grantTokenResponse.code || grantTokenResponse.error || !grantTokenResponse || !isAuthRedirectLocation) {
         const errorCause = grantTokenResponse.error ? `Cause: ${grantTokenResponse.error}` : ''
-        toast.error(
-          `${__('Authorization Failed', 'bit-integrations')} ${errorCause}. ${__('please try again', 'bit-integrations')}`
-        )
+        toast.error(`${__('Authorization failed', 'bit-integrations')} ${errorCause}. ${__('please try again', 'bit-integrations')}`)
         setIsLoading(false)
       } else {
         const newConf = { ...confTmp }
@@ -103,20 +91,19 @@ const tokenHelper = (grantToken, confTmp, setConf, setIsAuthorized, setIsLoading
   // eslint-disable-next-line no-undef
   tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
 
-  bitsFetch(tokenRequestParams, 'pCloud_authorization').then((result) => {
-    if (result && result.success) {
-      const newConf = { ...confTmp }
-      newConf.tokenDetails = result.data
-      setConf(newConf)
-      setIsAuthorized(true)
-      toast.success(__('Authorized Successfully', 'bit-integrations'))
-    } else if ((result && result.data) || (!result.success && typeof result.data === 'string')) {
-      toast.error(
-        `${__('Authorization failed Cause:', 'bit-integrations')}${result.data}. ${__('please try again', 'bit-integrations')}`
-      )
-    } else {
-      toast.error(__('Authorization failed. please try again', 'bit-integrations'))
-    }
-    setIsLoading(false)
-  })
+  bitsFetch(tokenRequestParams, 'pCloud_authorization')
+    .then(result => {
+      if (result && result.success) {
+        const newConf = { ...confTmp }
+        newConf.tokenDetails = result.data
+        setConf(newConf)
+        setIsAuthorized(true)
+        toast.success(__('Authorized Successfully', 'bit-integrations'))
+      } else if ((result && result.data) || (!result.success && typeof result.data === 'string')) {
+        toast.error(`${__('Authorization failed Cause:', 'bit-integrations')}${result.data}. ${__('please try again', 'bit-integrations')}`)
+      } else {
+        toast.error(__('Authorization failed. please try again', 'bit-integrations'))
+      }
+      setIsLoading(false)
+    })
 }

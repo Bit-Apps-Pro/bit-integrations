@@ -2,6 +2,7 @@
 
 /**
  * AutomatorWP Integration
+ *
  */
 
 namespace BitCode\FI\Actions\AutomatorWP;

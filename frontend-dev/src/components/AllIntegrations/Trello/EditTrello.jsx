@@ -29,14 +29,7 @@ function EditTrello({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, trelloConf, setTrelloConf)}
-          name="name"
-          value={trelloConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, trelloConf, setTrelloConf)} name="name" value={trelloConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
       <br />
@@ -55,17 +48,7 @@ function EditTrello({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            allIntegURL,
-            conf: trelloConf,
-            navigate,
-            edit: 1,
-            setIsLoading,
-            setSnackbar
-          })
-        }
+        saveConfig={() => saveActionConf({ flow, allIntegURL, conf: trelloConf, navigate, edit: 1, setIsLoading, setSnackbar })}
         disabled={trelloConf.listId === '' || isLoading}
         isLoading={isLoading}
         dataConf={trelloConf}

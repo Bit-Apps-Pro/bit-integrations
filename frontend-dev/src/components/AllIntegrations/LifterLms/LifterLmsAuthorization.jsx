@@ -2,21 +2,19 @@ import { useState } from 'react'
 import BackIcn from '../../../Icons/BackIcn'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { deepCopy } from '../../../Utils/Helpers'
-import { __, sprintf } from '../../../Utils/i18nwrap'
+import { __ } from '../../../Utils/i18nwrap'
 import LoaderSm from '../../Loaders/LoaderSm'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 
-export default function LifterLmsAuthorization({
-  formID,
+export default function LifterLmsAuthorization({ formID,
   lifterLmsConf,
   setLifterLmsConf,
   step,
   setStep,
   isLoading,
   setIsLoading,
-  setSnackbar
-}) {
+  setSnackbar }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
   const { lifterLms } = tutorialLinks
@@ -26,10 +24,7 @@ export default function LifterLmsAuthorization({
     bitsFetch({}, 'lifterLms_authorize').then((result) => {
       if (result?.success) {
         setisAuthorized(true)
-        setSnackbar({
-          show: true,
-          msg: __('Connected with LifterLms Successfully', 'bit-integrations')
-        })
+        setSnackbar({ show: true, msg: __('Connected with LifterLms Successfully', 'bit-integrations') })
       }
       setIsLoading(false)
       setShowAuthMsg(true)
@@ -47,12 +42,21 @@ export default function LifterLmsAuthorization({
       className="btcd-stp-page"
       style={{
         width: step === 1 && 900,
-        height: step === 1 && 'auto'
-      }}>
+        height: step === 1 && 'auto',
+      }}
+    >
       {lifterLms?.youTubeLink && (
-        <TutorialLink title="LifterLMS" youTubeLink={lifterLms?.youTubeLink} />
+        <TutorialLink
+          title={lifterLms?.title}
+          youTubeLink={lifterLms?.youTubeLink}
+        />
       )}
-      {lifterLms?.docLink && <TutorialLink title="LifterLMS" docLink={lifterLms?.docLink} />}
+      {lifterLms?.docLink && (
+        <TutorialLink
+          title={lifterLms?.title}
+          docLink={lifterLms?.docLink}
+        />
+      )}
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>
@@ -78,31 +82,18 @@ export default function LifterLmsAuthorization({
           <span className="btcd-icn mr-2" style={{ fontSize: 30, marginTop: -5 }}>
             &times;
           </span>
-          {sprintf(
-            __(
-              '%s plugin must be activated to integrate with Bit Integrations',
-              'bit-integrations'
-            ),
-            'LifterLms'
-          )}
+          LifterLms plugin must be activated to integrate with Bit Integrations.
         </div>
       )}
 
       {!isAuthorized && (
-        <button
-          onClick={authorizeHandler}
-          className="btn btcd-btn-lg purple sh-sm flx mt-5"
-          type="button">
+        <button onClick={authorizeHandler} className="btn btcd-btn-lg green sh-sm flx mt-5" type="button">
           {__('Connect', 'bit-integrations')}
         </button>
       )}
 
       {isAuthorized && (
-        <button
-          onClick={() => setStep(2)}
-          className="btn btcd-btn-lg purple sh-sm flx mt-5"
-          type="button"
-          disabled={!isAuthorized}>
+        <button onClick={() => setStep(2)} className="btn btcd-btn-lg green sh-sm flx mt-5" type="button" disabled={!isAuthorized}>
           {__('Next', 'bit-integrations')}
           <BackIcn className="ml-1 rev-icn" />
         </button>

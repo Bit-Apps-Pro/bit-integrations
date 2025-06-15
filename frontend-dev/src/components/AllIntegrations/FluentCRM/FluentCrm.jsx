@@ -22,8 +22,10 @@ export default function FluentCrm({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Fluent CRM',
     type: 'Fluent Crm',
     actionName: '',
-    field_map: [{ formField: '', fluentCRMField: '' }],
-    actions: {}
+    field_map: [
+      { formField: '', fluentCRMField: '' },
+    ],
+    actions: {},
   })
 
   const nextPage = (val) => {
@@ -32,14 +34,11 @@ export default function FluentCrm({ formFields, setFlow, flow, allIntegURL }) {
     }, 300)
     if (val === 3) {
       if (!checkMappedFields(fluentCrmConf)) {
-        setSnackbar({
-          show: true,
-          msg: __('Please map all required fields to continue.', 'bit-integrations')
-        })
+        setSnackbar({ show: true, msg: 'Please map all required fields to continue.' })
         return
       }
       if (fluentCrmConf?.actionName === 'add-user' && !fluentCrmConf.list_id) {
-        setSnackbar({ show: true, msg: __('Please select list to continue.', 'bit-integrations') })
+        setSnackbar({ show: true, msg: 'Please select list to continue.' })
         return
       }
       if (fluentCrmConf.name !== '' && fluentCrmConf.field_map.length > 0) {
@@ -73,13 +72,7 @@ export default function FluentCrm({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{
-          width: step === 2 && 900,
-          height: step === 2 && 'auto',
-          minHeight: step === 2 && `${200}px`
-        }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto', minHeight: step === 2 && `${200}px` }}>
         <FluentCrmIntegLayout
           formID={formID}
           formFields={formFields}
@@ -97,8 +90,9 @@ export default function FluentCrm({ formFields, setFlow, flow, allIntegURL }) {
         <button
           onClick={() => nextPage(3)}
           disabled={fluentCrmConf.field_map.length < 1}
-          className="btn f-right btcd-btn-lg purple sh-sm flx"
-          type="button">
+          className="btn f-right btcd-btn-lg green sh-sm flx"
+          type="button"
+        >
           {__('Next', 'bit-integrations')}
           <BackIcn className="ml-1 rev-icn" />
         </button>
@@ -107,9 +101,7 @@ export default function FluentCrm({ formFields, setFlow, flow, allIntegURL }) {
       {/* STEP 3 */}
       <IntegrationStepThree
         step={step}
-        saveConfig={() =>
-          saveIntegConfig(flow, setFlow, allIntegURL, fluentCrmConf, navigate, '', '', setIsLoading)
-        }
+        saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, fluentCrmConf, navigate, '', '', setIsLoading)}
         isLoading={isLoading}
         dataConf={fluentCrmConf}
         setDataConf={setFluentCrmConf}

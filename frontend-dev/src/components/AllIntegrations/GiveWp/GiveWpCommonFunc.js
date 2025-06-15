@@ -16,16 +16,12 @@ export const handleInput = (e, giveWpConf, setGiveWpConf, setIsLoading, setSnack
 }
 
 export const generateMappedField = (giveWpConf) => {
-  const requiredFlds = giveWpConf?.giveWpFields.filter((fld) => fld.required === true)
-  return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({ formField: '', giveWpFormField: field.key }))
-    : [{ formField: '', giveWpFormField: '' }]
+  const requiredFlds = giveWpConf?.giveWpFields.filter(fld => fld.required === true)
+  return requiredFlds.length > 0 ? requiredFlds.map(field => ({ formField: '', giveWpFormField: field.key })) : [{ formField: '', giveWpFormField: '' }]
 }
 
 export const checkMappedFields = (giveWpConf) => {
-  const mappedFleld = giveWpConf.field_map
-    ? giveWpConf.field_map.filter((mapped) => !mapped.formField || !mapped.giveWpFormField)
-    : []
+  const mappedFleld = giveWpConf.field_map ? giveWpConf.field_map.filter((mapped) => !mapped.formField || !mapped.giveWpFormField) : []
   if (mappedFleld.length > 0) {
     return false
   }

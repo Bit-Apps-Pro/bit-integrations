@@ -13,8 +13,8 @@ class RecordApiHelper
     public function __construct($integrationDetails, $integId, $access_token)
     {
         $this->_integrationDetails = $integrationDetails;
-        $this->_integrationID = $integId;
-        $this->_defaultHeader = [
+        $this->_integrationID      = $integId;
+        $this->_defaultHeader      = [
             'Authorization' => 'Bearer ' . $access_token,
             'Content-Type'  => 'application/json'
         ];
@@ -33,19 +33,19 @@ class RecordApiHelper
         }
 
         if (empty($finalData['Email'])) {
-            return ['success' => false, 'message' => __('Required field Email is empty', 'bit-integrations'), 'code' => 400];
+            return ['success' => false, 'message' => 'Required field Email is empty', 'code' => 400];
         }
 
         $requestParams = [];
-        $customFields = [];
+        $customFields  = [];
 
         foreach ($finalData as $key => $value) {
             if ($key == 'Email') {
                 $requestParams[$key] = $value;
             } else {
                 $customFields[] = (object) [
-                    'Id'    => $key,
-                    'Value' => $value
+                    "Id"    => $key,
+                    "Value" => $value
                 ];
             }
         }
@@ -53,8 +53,7 @@ class RecordApiHelper
         if (!empty($customFields)) {
             $requestParams['Fields'] = $customFields;
         }
-
-        return HttpHelper::post($apiEndpoints, wp_json_encode($requestParams), $this->_defaultHeader);
+        return HttpHelper::post($apiEndpoints,  json_encode($requestParams), $this->_defaultHeader);
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
@@ -62,29 +61,27 @@ class RecordApiHelper
         $dataFinal = [];
         foreach ($fieldMap as $value) {
             $triggerValue = $value->formField;
-            $actionValue = $value->mailupFormField;
+            $actionValue  = $value->mailupFormField;
             if ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!\is_null($data[$triggerValue])) {
+            } elseif (!is_null($data[$triggerValue])) {
                 $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
-
         return $dataFinal;
     }
 
     public function execute($selectedList, $selectedGroup, $fieldValues, $fieldMap)
     {
-        $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
+        $finalData   = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
         $apiResponse = $this->addSubscriber($selectedList, $selectedGroup, $finalData);
 
-        if (\gettype($apiResponse) === 'integer') {
-            $res = ['message' => __('Subscriber added successfully', 'bit-integrations')];
-            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'subscriber', 'type_name' => 'Subscriber added']), 'success', wp_json_encode($res));
+        if (gettype($apiResponse) === "integer") {
+            $res = ['message' => 'Subscriber added successfully'];
+            LogHandler::save($this->_integrationID, json_encode(['type' => 'subscriber', 'type_name' => 'Subscriber added']), 'success', json_encode($res));
         } else {
-            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'subscriber', 'type_name' => 'Adding Subscriber']), 'error', wp_json_encode($apiResponse));
+            LogHandler::save($this->_integrationID, json_encode(['type' => 'subscriber', 'type_name' => 'Adding Subscriber']), 'error', json_encode($apiResponse));
         }
-
         return $apiResponse;
     }
 }

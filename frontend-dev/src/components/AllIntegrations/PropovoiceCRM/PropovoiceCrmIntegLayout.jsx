@@ -8,16 +8,7 @@ import { getAllLeadLabel, getAllLeadTags } from './PropovoiceCrmCommonFunc'
 import PropovoiceCrmFieldMap from './PropovoiceCrmFieldMap'
 import PropovoiceCrmActions from './PropovoiceCrmAction'
 
-export default function PropovoiceCrmIntegLayout({
-  formID,
-  formFields,
-  handleInput,
-  propovoiceCrmConf,
-  setPropovoiceCrmConf,
-  isLoading,
-  setIsLoading,
-  setSnackbar
-}) {
+export default function PropovoiceCrmIntegLayout({ formID, formFields, handleInput, propovoiceCrmConf, setPropovoiceCrmConf, isLoading, setIsLoading, setSnackbar }) {
   const inputHandler = (e) => {
     const newConf = { ...propovoiceCrmConf }
     const { name } = e.target
@@ -41,45 +32,37 @@ export default function PropovoiceCrmIntegLayout({
     <>
       <br />
       <b className="wdt-200 d-in-b">{__('Actions:', 'bit-integrations')}</b>
-      <select
-        onChange={inputHandler}
-        name="mainAction"
-        value={propovoiceCrmConf?.mainAction}
-        className="btcd-paper-inp w-5">
+      <select onChange={inputHandler} name="mainAction" value={propovoiceCrmConf?.mainAction} className="btcd-paper-inp w-5">
         <option value="">{__('Select Actions', 'bit-integrations')}</option>
-        {propovoiceCrmConf?.allActions &&
-          propovoiceCrmConf.allActions.map(({ key, label }) => (
+        {
+          propovoiceCrmConf?.allActions && propovoiceCrmConf.allActions.map(({ key, label }) => (
             <option key={key} value={key}>
               {label}
             </option>
-          ))}
+          ))
+        }
       </select>
       <br />
       <br />
       {isLoading && (
-        <Loader
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: 100,
-            transform: 'scale(0.7)'
-          }}
+        <Loader style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: 100,
+          transform: 'scale(0.7)',
+        }}
         />
       )}
-      {propovoiceCrmConf.mainAction && !isLoading && (
+      {propovoiceCrmConf.mainAction && !isLoading &&
         <>
           <div className="mt-4">
             <b className="wdt-100">{__('Map Fields', 'bit-integrations')}</b>
           </div>
           <div className="btcd-hr mt-1" />
           <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
-            <div className="txt-dp">
-              <b>{__('Form Fields', 'bit-integrations')}</b>
-            </div>
-            <div className="txt-dp">
-              <b>{__('Propovice CRM Fields', 'bit-integrations')}</b>
-            </div>
+            <div className="txt-dp"><b>{__('Form Fields', 'bit-integrations')}</b></div>
+            <div className="txt-dp"><b>{__('Propovice CRM Fields', 'bit-integrations')}</b></div>
           </div>
 
           {propovoiceCrmConf.field_map.map((itm, i) => (
@@ -93,25 +76,10 @@ export default function PropovoiceCrmIntegLayout({
             />
           ))}
           <br />
-          <div className="txt-center btcbi-field-map-button mt-2">
-            <button
-              onClick={() =>
-                addFieldMap(
-                  propovoiceCrmConf.field_map.length,
-                  propovoiceCrmConf,
-                  setPropovoiceCrmConf
-                )
-              }
-              className="icn-btn sh-sm"
-              type="button">
-              +
-            </button>
-          </div>
+          <div className="txt-center btcbi-field-map-button mt-2"><button onClick={() => addFieldMap(propovoiceCrmConf.field_map.length, propovoiceCrmConf, setPropovoiceCrmConf)} className="icn-btn sh-sm" type="button">+</button></div>
         </>
-      )}
-      <div className="mt-4">
-        <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
-      </div>
+      }
+      <div className="mt-4"><b className="wdt-100">{__('Actions', 'bit-integrations')}</b></div>
       <div className="btcd-hr mt-1" />
       <PropovoiceCrmActions
         propovoiceCrmConf={propovoiceCrmConf}

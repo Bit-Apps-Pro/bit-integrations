@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\MailerLite;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -16,13 +16,9 @@ use BitCode\FI\Core\Util\HttpHelper;
 class RecordApiHelper
 {
     private $_integrationID;
-
     private $_integrationDetails;
-
     private $_defaultHeader;
-
     private $_baseUrl;
-
     private $_actions;
 
     public function __construct($auth_token, $integrationDetails, $integId, $actions, $version)
@@ -32,12 +28,12 @@ class RecordApiHelper
         if ('v2' === $version) {
             $this->_baseUrl = 'https://connect.mailerlite.com/api/';
             $this->_defaultHeader = [
-                'Authorization' => "Bearer {$auth_token}"
+              'Authorization' => "Bearer $auth_token"
             ];
         } else {
             $this->_baseUrl = 'https://api.mailerlite.com/api/v2/';
             $this->_defaultHeader = [
-                'X-Mailerlite-Apikey' => $auth_token
+              'X-Mailerlite-Apikey' => $auth_token
             ];
         }
         $this->_actions = $actions;
@@ -55,13 +51,14 @@ class RecordApiHelper
             );
         }
 
-        $apiEndpoints = $this->_baseUrl . "subscribers/{$email}";
+        $apiEndpoints = $this->_baseUrl . "subscribers/$email";
 
         $response = HttpHelper::get($apiEndpoints, null, $this->_defaultHeader);
-
-        return ! (property_exists($response, 'error') || 'Resource not found.' === $response->message)
-
-        ;
+        if (property_exists($response, 'error') || 'Resource not found.' === $response->message) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public function enableDoubleOptIn($auth_token)
@@ -93,23 +90,27 @@ class RecordApiHelper
         }
 
         if (empty($finalData['email'])) {
-            return ['success' => false, 'message' => __('Required field Email is empty', 'bit-integrations'), 'code' => 400];
+            return ['success'=>false, 'message'=>'Required field Email is empty', 'code'=>400];
         }
         if ('https://connect.mailerlite.com/api/' === $this->_baseUrl) {
             $requestParams = [
-                'email'  => $finalData['email'],
-                'status' => $type ? $type : 'active',
+              'email'   => $finalData['email'],
+              'status'  => $type ? $type : 'active',
             ];
         } else {
             $requestParams = [
-                'email' => $finalData['email'],
-                'type'  => $type ? $type : 'active',
+              'email' => $finalData['email'],
+              'type'  => $type ? $type : 'active',
             ];
         }
 
         foreach ($finalData as $key => $value) {
             if ('email' !== $key) {
-                $requestParams['fields'][$key] = $value;
+                if ('name' === $key) {
+                    $requestParams[$key] = $value;
+                } else {
+                    $requestParams['fields'][$key] = $value;
+                }
             }
         }
         $requestParams['fields'] = !empty($requestParams['fields']) ? (object) $requestParams['fields'] : [];
@@ -126,18 +127,17 @@ class RecordApiHelper
                     $requestParams['groups'] = $splitGroupIds;
                     $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
                 } else {
-                    for ($i = 0; $i < \count($splitGroupIds); $i++) {
+                    for ($i = 0; $i < count($splitGroupIds); $i++) {
                         $apiEndpoints = $this->_baseUrl . 'groups/' . $splitGroupIds[$i] . '/subscribers';
                         $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
-                    }
+                    };
                 }
-
                 return $response;
             }
             $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
             $response->update = true;
         } elseif ($isExist && empty($this->_actions->update)) {
-            return ['success' => false, 'message' => __('Subscriber already exist', 'bit-integrations'), 'code' => 400];
+            return ['success'=>false, 'message'=>'Subscriber already exist', 'code'=>400];
         } else {
             if (!empty($this->_actions->double_opt_in)) {
                 $this->enableDoubleOptIn($auth_token);
@@ -147,17 +147,15 @@ class RecordApiHelper
                     $requestParams['groups'] = $splitGroupIds;
                     $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
                 } else {
-                    for ($i = 0; $i < \count($splitGroupIds); $i++) {
+                    for ($i = 0; $i < count($splitGroupIds); $i++) {
                         $apiEndpoints = $this->_baseUrl . 'groups/' . $splitGroupIds[$i] . '/subscribers';
                         $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
-                    }
+                    };
                 }
-
                 return $response;
             }
             $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
         }
-
         return $response;
     }
 
@@ -170,7 +168,7 @@ class RecordApiHelper
             $actionValue = $value->mailerLiteFormField;
             if ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!\is_null($data[$triggerValue])) {
+            } elseif (!is_null($data[$triggerValue])) {
                 $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
@@ -189,12 +187,11 @@ class RecordApiHelper
         $apiResponse = $this->addSubscriber($auth_token, $groupId, $type, $finalData);
 
         if (isset($apiResponse->data->id) || isset($apiResponse->id)) {
-            $res = ['success' => true, 'message' => isset($apiResponse->update) ? __('Subscriber updated successfully', 'bit-integrations') : __('Subscriber created successfully', 'bit-integrations'), 'code' => 200];
-            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'subscriber', 'type_name' => 'add-subscriber']), 'success', wp_json_encode($res));
+            $res = ['success'=>true, 'message'=>isset($apiResponse->update) ? 'Subscriber updated successfully' : 'Subscriber created successfully', 'code'=>200];
+            LogHandler::save($this->_integrationID, json_encode(['type' => 'subscriber', 'type_name' => 'add-subscriber']), 'success', json_encode($res));
         } else {
-            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'subscriber', 'type_name' => 'add-subscriber']), 'error', wp_json_encode($apiResponse));
+            LogHandler::save($this->_integrationID, json_encode(['type' => 'subscriber', 'type_name' => 'add-subscriber']), 'error', json_encode($apiResponse));
         }
-
         return $apiResponse;
     }
 }

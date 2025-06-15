@@ -11,14 +11,10 @@ import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import WooCommerceAuthorization from './WooCommerceAuthorization'
 import { checkMappedFields, handleInput } from './WooCommerceCommonFunc'
 import WooCommerceIntegLayout from './WooCommerceIntegLayout'
-import { useRecoilValue } from 'recoil'
-import { $btcbi } from '../../../GlobalStates'
 
 export default function WooCommerce({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
   const { formID } = useParams()
-  const btcbi = useRecoilValue($btcbi)
-  const { isPro } = btcbi
   const [isLoading, setIsLoading] = useState(false)
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
@@ -28,7 +24,7 @@ export default function WooCommerce({ formFields, setFlow, flow, allIntegURL }) 
     field_map: [],
     upload_field_map: [],
     line_field_map: [{ formField: '', wcField: '' }],
-    actions: {}
+    actions: {},
   })
 
   const nextPage = () => {
@@ -38,13 +34,7 @@ export default function WooCommerce({ formFields, setFlow, flow, allIntegURL }) 
       const fieldMapLine = checkMappedFields(wcConf.line_item.field_map)
       const fieldMapCustomer = checkMappedFields(wcConf.customer.field_map)
 
-      status = !fieldMap
-        ? 'Order Field Map'
-        : !fieldMapLine
-          ? 'Line Item Field Map'
-          : !fieldMapCustomer
-            ? 'Customer Field Map'
-            : ''
+      status = !fieldMap ? ('Order Field Map') : (!fieldMapLine ? ('Line Item Field Map') : (!fieldMapCustomer ? ('Customer Field Map') : ''))
       if (!(fieldMap && fieldMapLine && fieldMapCustomer)) {
         setSnackbar({ show: true, msg: `${status} can'\t be empty` })
       }
@@ -52,24 +42,18 @@ export default function WooCommerce({ formFields, setFlow, flow, allIntegURL }) 
       const fieldMap = checkMappedFields(wcConf.customer.field_map)
       if (!fieldMap) {
         status = 'Customer Field Map'
-        setSnackbar({
-          show: true,
-          msg: __("Customer Field Map can't be empty", 'bit-integrations')
-        })
+        setSnackbar({ show: true, msg: 'Customer Field Map can\'t be empty' })
       }
     } else if (wcConf?.module === 'product') {
       const fieldMap = checkMappedFields(wcConf.product.field_map)
       if (!fieldMap) {
         status = 'Product Field Map'
-        setSnackbar({ show: true, msg: __("Product Field Map can't be empty", 'bit-integrations') })
+        setSnackbar({ show: true, msg: 'Product Field Map can\'t be empty' })
       }
     } else if (wcConf?.module === 'changestatus') {
       const fieldMap = checkMappedFields(wcConf.changestatus.field_map)
       if (!fieldMap) {
-        setSnackbar({
-          show: true,
-          msg: __("Change Status Field Map can't be empty", 'bit-integrations')
-        })
+        setSnackbar({ show: true, msg: 'Change Status Field Map can\'t be empty' })
       }
     }
 
@@ -99,14 +83,12 @@ export default function WooCommerce({ formFields, setFlow, flow, allIntegURL }) 
         setSnackbar={setSnackbar}
       />
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && 1000, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && 1000, height: step === 2 && 'auto' }}>
         <WooCommerceIntegLayout
           wcConf={wcConf}
           setWcConf={setWcConf}
           formFields={formFields}
-          handleInput={(e) => handleInput(e, wcConf, setWcConf, setIsLoading, setSnackbar, isPro)}
+          handleInput={(e) => handleInput(e, wcConf, setWcConf, setIsLoading, setSnackbar)}
           isLoading={isLoading}
           setIsLoading={setIsLoading}
         />
@@ -114,8 +96,9 @@ export default function WooCommerce({ formFields, setFlow, flow, allIntegURL }) 
         <button
           onClick={nextPage}
           // disabled={wcConf.workspace === '' || wcConf.table === '' || wcConf.field_map.length < 1}
-          className="btn f-right btcd-btn-lg purple sh-sm flx"
-          type="button">
+          className="btn f-right btcd-btn-lg green sh-sm flx"
+          type="button"
+        >
           {__('Next', 'bit-integrations')}
           <BackIcn className="ml-1 rev-icn" />
         </button>
@@ -124,9 +107,7 @@ export default function WooCommerce({ formFields, setFlow, flow, allIntegURL }) 
       {/* STEP 3 */}
       <IntegrationStepThree
         step={step}
-        saveConfig={() =>
-          saveIntegConfig(flow, setFlow, allIntegURL, wcConf, navigate, '', '', setIsLoading)
-        }
+        saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, wcConf, navigate, '', '', setIsLoading)}
         isLoading={isLoading}
         dataConf={wcConf}
         setDataConf={setWcConf}

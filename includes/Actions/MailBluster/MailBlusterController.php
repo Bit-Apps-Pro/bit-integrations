@@ -6,17 +6,16 @@
 
 namespace BitCode\FI\Actions\MailBluster;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use WP_Error;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for MailBluster integration
  */
 class MailBlusterController
 {
-    protected $_defaultHeader;
-
     private $baseUrl = 'https://api.mailbluster.com/api/';
+    protected $_defaultHeader;
 
     public function authentication($fieldsRequestParams)
     {
@@ -31,12 +30,12 @@ class MailBlusterController
         }
 
         $apiEndpoints = $this->baseUrl . 'fields';
-        $apiKey = $fieldsRequestParams->auth_token;
-        $header = [
+        $apiKey       = $fieldsRequestParams->auth_token;
+        $header       = [
             'Authorization' => $apiKey,
         ];
 
-        $response = HttpHelper::get($apiEndpoints, null, $header);
+        $response     = HttpHelper::get($apiEndpoints, null, $header);
         $customFields = [];
 
         foreach ($response->fields as $field) {
@@ -50,24 +49,24 @@ class MailBlusterController
         if (property_exists($response, 'fields')) {
             wp_send_json_success($customFields, 200);
         } else {
-            wp_send_json_error(__('Please enter valid API key', 'bit-integrations'), 400);
+            wp_send_json_error('Please enter valid API key', 400);
         }
     }
 
     public function execute($integrationData, $fieldValues)
     {
         $integrationDetails = $integrationData->flow_details;
-        $integId = $integrationData->id;
-        $auth_token = $integrationDetails->auth_token;
-        $selectedTags = $integrationDetails->selectedTags;
-        $fieldMap = $integrationDetails->field_map;
-        $subscribed = $integrationDetails->subscribed;
+        $integId            = $integrationData->id;
+        $auth_token         = $integrationDetails->auth_token;
+        $selectedTags       = $integrationDetails->selectedTags;
+        $fieldMap           = $integrationDetails->field_map;
+        $subscribed         = $integrationDetails->subscribed;
 
         if (
             empty($fieldMap)
             || empty($auth_token) || empty($subscribed)
         ) {
-            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'GetResponse'));
+            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for GetResponse api', 'bit-integrations'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
         $mailBlusterApiResponse = $recordApiHelper->execute(
@@ -80,7 +79,6 @@ class MailBlusterController
         if (is_wp_error($mailBlusterApiResponse)) {
             return $mailBlusterApiResponse;
         }
-
         return $mailBlusterApiResponse;
     }
 }

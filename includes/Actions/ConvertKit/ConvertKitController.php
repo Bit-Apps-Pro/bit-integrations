@@ -6,8 +6,9 @@
 
 namespace BitCode\FI\Actions\ConvertKit;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use WP_Error;
+use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Actions\ConvertKit\RecordApiHelper;
 
 /**
  * Provide functionality for ZohoCrm integration
@@ -58,6 +59,7 @@ class ConvertKitController
         wp_send_json_success(true);
     }
 
+
     /**
      * Process ajax request for refresh Forms
      *
@@ -86,7 +88,7 @@ class ConvertKitController
 
             foreach ($allForms as $form) {
                 $forms[$form->name] = (object) [
-                    'formId'   => $form->id,
+                    'formId' => $form->id,
                     'formName' => $form->name,
                 ];
             }
@@ -124,7 +126,7 @@ class ConvertKitController
 
             foreach ($allTags as $key => $tag) {
                 $tags[$key] = (object) [
-                    'tagId'   => $tag->id,
+                    'tagId' => $tag->id,
                     'tagName' => $tag->name,
                 ];
             }
@@ -153,7 +155,8 @@ class ConvertKitController
             );
         }
 
-        $apiEndpoint = self::_apiEndpoint('custom_fields', $queryParams->api_secret);
+
+        $apiEndpoint =  self::_apiEndpoint('custom_fields', $queryParams->api_secret);
 
         $convertKitResponse = HttpHelper::get($apiEndpoint, null);
 
@@ -163,9 +166,9 @@ class ConvertKitController
 
             foreach ($allFields as $field) {
                 $fields[$field->key] = (object) [
-                    'fieldId'   => $field->key,
+                    'fieldId' => $field->key,
                     'fieldName' => $field->key,
-                    'required'  => false
+                    'required' =>  false
                 ];
             }
             $fields['FirstName'] = (object) ['fieldId' => 'firstName', 'fieldName' => 'First Name', 'required' => false];
@@ -184,15 +187,15 @@ class ConvertKitController
         $fieldMap = $integrationDetails->field_map;
         $actions = $integrationDetails->actions;
         $formId = $integrationDetails->formId;
-        $tags = $integrationDetails->tagIds ?? null;
+        $tags = $integrationDetails->tagIds;
 
         if (
             empty($api_secret)
             || empty($fieldMap)
         ) {
-            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Kit(ConvertKit)'));
+            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for Sendinblue api', 'bit-integrations'));
         }
-        $recordApiHelper = new RecordApiHelper($integrationDetails, $api_secret, $this->_integrationID);
+        $recordApiHelper = new RecordApiHelper($api_secret, $this->_integrationID);
 
         $convertKitApiResponse = $recordApiHelper->execute(
             $fieldValues,
@@ -205,7 +208,6 @@ class ConvertKitController
         if (is_wp_error($convertKitApiResponse)) {
             return $convertKitApiResponse;
         }
-
         return $convertKitApiResponse;
     }
 }

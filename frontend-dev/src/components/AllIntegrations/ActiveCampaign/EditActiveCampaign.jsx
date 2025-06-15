@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { __ } from '../../../Utils/i18nwrap'
+import { __ } from '@wordpress/i18n'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useRecoilState, useRecoilValue } from 'recoil'
@@ -30,14 +30,7 @@ function EditActiveCampaign({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, activeCampaingConf, setActiveCampaingConf)}
-          name="name"
-          value={activeCampaingConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, activeCampaingConf, setActiveCampaingConf)} name="name" value={activeCampaingConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
 
@@ -54,18 +47,7 @@ function EditActiveCampaign({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            setFlow,
-            allIntegURL,
-            navigate,
-            conf: activeCampaingConf,
-            edit: 1,
-            setIsLoading,
-            setSnackbar
-          })
-        }
+        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, navigate, conf: activeCampaingConf, edit: 1, setIsLoading, setSnackbar })}
         disabled={activeCampaingConf.field_map.length < 1}
         isLoading={isLoading}
         dataConf={activeCampaingConf}

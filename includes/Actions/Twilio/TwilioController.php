@@ -2,21 +2,19 @@
 
 /**
  * Rapidmail Integration
+ *
  */
-
 namespace BitCode\FI\Actions\Twilio;
 
+use WP_Error;
 use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Log\LogHandler;
-use WP_Error;
 
 final class TwilioController
 {
-    public static $apiBaseUri = 'https://api.twilio.com/2010-04-01';
-
-    protected $_defaultHeader;
-
     private $_integrationID;
+    public static $apiBaseUri = 'https://api.twilio.com/2010-04-01';
+    protected $_defaultHeader;
 
     public function __construct($integrationID)
     {
@@ -39,19 +37,19 @@ final class TwilioController
             );
         }
         $header = [
-            'Authorization' => 'Basic ' . base64_encode("{$tokenRequestParams->sid}:{$tokenRequestParams->token}"),
-            'Accept'        => '*/*',
-            'verify'        => false
+            'Authorization' => 'Basic ' . base64_encode("$tokenRequestParams->sid:$tokenRequestParams->token"),
+            'Accept' => '*/*',
+            'verify' => false
         ];
         $apiEndpoint = self::$apiBaseUri . '/Accounts';
 
         $apiResponse = HttpHelper::get($apiEndpoint, null, $header);
 
         $xml = simplexml_load_string($apiResponse);
-        $json = wp_json_encode($xml);
+        $json = json_encode($xml);
         $response = json_decode($json, true);
 
-        if (\array_key_exists('RestException', $response)) {
+        if (array_key_exists('RestException', $response)) {
             wp_send_json_error(
                 'Unauthorize',
                 400
@@ -77,16 +75,15 @@ final class TwilioController
         ) {
             $error = new WP_Error('REQ_FIELD_EMPTY', __('SID, Auth Token,From Number and mapping fields are required for rapidmail api', 'bit-integrations'));
             LogHandler::save($this->_integrationID, 'twilio sms sending', 'validation', $error);
-
             return $error;
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $sid, $token, $from_num);
-
-        return $recordApiHelper->executeRecordApi(
+        $twilioResponse = $recordApiHelper->executeRecordApi(
             $this->_integrationID,
             $fieldValues,
             $fieldMap,
             $integrationDetails
         );
+        return $twilioResponse;
     }
 }

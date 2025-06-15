@@ -8,17 +8,7 @@ import { refreshBenchMarkList, refreshBenchMarkHeader } from './BenchMarkCommonF
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 
-export default function BenchMarkAuthorization({
-  formID,
-  benchMarkConf,
-  setBenchMarkConf,
-  step,
-  setstep,
-  setSnackbar,
-  isInfo,
-  isLoading,
-  setIsLoading
-}) {
+export default function BenchMarkAuthorization({ formID, benchMarkConf, setBenchMarkConf, step, setstep, setSnackbar, isInfo, isLoading, setIsLoading }) {
   const { benchMark } = tutorialLinks
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', api_secret: '' })
@@ -28,27 +18,26 @@ export default function BenchMarkAuthorization({
     const newConf = { ...benchMarkConf }
     if (!newConf.name || !newConf.api_secret) {
       setError({
-        name: !newConf.name ? __("Integration name can't be empty", 'bit-integrations') : '',
-        api_secret: !newConf.api_secret
-          ? __("Access API Secret Key can't be empty", 'bit-integrations')
-          : ''
+        name: !newConf.name ? __('Integration name cann\'t be empty', 'bit-integrations') : '',
+        api_secret: !newConf.api_secret ? __('Access API Secret Key cann\'t be empty', 'bit-integrations') : '',
       })
       return
     }
     setIsLoading('auth')
     const data = {
-      api_secret: newConf.api_secret
+      api_secret: newConf.api_secret,
     }
-    bitsFetch(data, 'benchMark_authorize').then((result) => {
-      if (result?.success) {
-        setisAuthorized(true)
-        setSnackbar({ show: true, msg: __('Authorized Successfully', 'bit-integrations') })
-      }
-      setShowAuthMsg(true)
-      setIsLoading(false)
-    })
+    bitsFetch(data, 'benchMark_authorize')
+      .then(result => {
+        if (result?.success) {
+          setisAuthorized(true)
+          setSnackbar({ show: true, msg: __('Authorized Successfully', 'bit-integrations') })
+        }
+        setShowAuthMsg(true)
+        setIsLoading(false)
+      })
   }
-  const handleInput = (e) => {
+  const handleInput = e => {
     const newConf = { ...benchMarkConf }
     const rmError = { ...error }
     rmError[e.target.name] = ''
@@ -67,59 +56,39 @@ export default function BenchMarkAuthorization({
   }
 
   const ActiveInstructions = `
-            <h4>${__('Get api secret key', 'bit-integrations')}</h4>
+            <h4>Get api secret key</h4>
             <ul>
-                <li>${__('First go to your BenchMark dashboard.', 'bit-integrations')}</li>
-                <li>${__('Click "Integrations", Then click "API Key"', 'bit-integrations')}</li>
+                <li>First go to your BenchMark dashboard.</li>
+                <li>Click "Integrations", Then click "API Key"</li>
             </ul>`
 
   return (
-    <div
-      className="btcd-stp-page"
-      style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
+    <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
       {benchMark?.youTubeLink && (
-        <TutorialLink title="Benchmark Email" youTubeLink={benchMark?.youTubeLink} />
+        <TutorialLink
+          title={benchMark?.title}
+          youTubeLink={benchMark?.youTubeLink}
+        />
       )}
-      {benchMark?.docLink && <TutorialLink title="Benchmark Email" docLink={benchMark?.docLink} />}
+      {benchMark?.docLink && (
+        <TutorialLink
+          title={benchMark?.title}
+          docLink={benchMark?.docLink}
+        />
+      )}
 
-      <div className="mt-3 wdt-200">
-        <b>{__('Integration Name:', 'bit-integrations')}</b>
-      </div>
-      <input
-        className="btcd-paper-inp w-6 mt-1"
-        onChange={handleInput}
-        name="name"
-        value={benchMarkConf.name}
-        type="text"
-        placeholder={__('Integration Name...', 'bit-integrations')}
-        disabled={isInfo}
-      />
+      <div className="mt-3 wdt-200"><b>{__('Integration Name:', 'bit-integrations')}</b></div>
+      <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="name" value={benchMarkConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} disabled={isInfo} />
       <div style={{ color: 'red', fontSize: '15px' }}>{error.name}</div>
 
-      <div className="mt-3 wdt-200">
-        <b>{__('Access API Secret Key:', 'bit-integrations')}</b>
-      </div>
-      <input
-        className="btcd-paper-inp w-6 mt-1"
-        onChange={handleInput}
-        name="api_secret"
-        value={benchMarkConf.api_secret}
-        type="text"
-        placeholder={__('Access API Secret Key...', 'bit-integrations')}
-        disabled={isInfo}
-      />
+      <div className="mt-3 wdt-200"><b>{__('Access API Secret Key:', 'bit-integrations')}</b></div>
+      <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="api_secret" value={benchMarkConf.api_secret} type="text" placeholder={__('Access API Secret Key...', 'bit-integrations')} disabled={isInfo} />
       <div style={{ color: 'red', fontSize: '15px' }}>{error.api_secret}</div>
 
       <small className="d-blk mt-3">
         {__('To Get API Secret Key, Please Visit', 'bit-integrations')}
         &nbsp;
-        <a
-          className="btcd-link"
-          href="https://ui.benchmarkemail.com/Integrate#API"
-          target="_blank"
-          rel="noreferrer">
-          {__('BenchMark API Token', 'bit-integrations')}
-        </a>
+        <a className="btcd-link" href="https://ui.benchmarkemail.com/Integrate#API" target="_blank" rel="noreferrer">{__('BenchMark API Token', 'bit-integrations')}</a>
       </small>
       <br />
       <br />
@@ -131,38 +100,30 @@ export default function BenchMarkAuthorization({
         </div>
       )}
 
-      {showAuthMsg && !isAuthorized && !isLoading && (
+      {(showAuthMsg && !isAuthorized && !isLoading) && (
         <div className="flx mt-5" style={{ color: 'red' }}>
           <span className="btcd-icn mr-2" style={{ fontSize: 30, marginTop: -5 }}>
             &times;
           </span>
-          {__('Sorry, API Secret key is invalid', 'bit-integrations')}
+          Sorry, API Secret key is invalid
         </div>
       )}
       {!isInfo && (
         <>
-          <button
-            onClick={handleAuthorize}
-            className="btn btcd-btn-lg purple sh-sm flx"
-            type="button"
-            disabled={isAuthorized || isLoading}>
-            {isAuthorized
-              ? __('Authorized ✔', 'bit-integrations')
-              : __('Authorize', 'bit-integrations')}
+          <button onClick={handleAuthorize} className="btn btcd-btn-lg green sh-sm flx" type="button" disabled={isAuthorized || isLoading}>
+            {isAuthorized ? __('Authorized ✔', 'bit-integrations') : __('Authorize', 'bit-integrations')}
             {isLoading && <LoaderSm size={20} clr="#022217" className="ml-2" />}
           </button>
           <br />
-          <button
-            onClick={() => nextPage(2)}
-            className="btn f-right btcd-btn-lg purple sh-sm flx"
-            type="button"
-            disabled={!isAuthorized}>
+          <button onClick={() => nextPage(2)} className="btn f-right btcd-btn-lg green sh-sm flx" type="button" disabled={!isAuthorized}>
             {__('Next', 'bit-integrations')}
             <BackIcn className="ml-1 rev-icn" />
           </button>
         </>
       )}
-      <Note note={ActiveInstructions} />
+      <Note
+        note={ActiveInstructions}
+      />
     </div>
   )
 }

@@ -32,7 +32,6 @@
 .tree-node__branch {
   position: relative;
   cursor: pointer;
-  z-index: 9;
 }
 
 .checkbox .tree,

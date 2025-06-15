@@ -6,16 +6,7 @@ import { getAllDropboxFolders, handleAuthorize } from './DropboxCommonFunc'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 
-export default function DropboxAuthorization({
-  flowID,
-  dropboxConf,
-  setDropboxConf,
-  step,
-  setStep,
-  isLoading,
-  setIsLoading,
-  isInfo
-}) {
+export default function DropboxAuthorization({ flowID, dropboxConf, setDropboxConf, step, setStep, isLoading, setIsLoading, isInfo }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ clientId: '', clientSecret: '' })
   const { dropbox } = tutorialLinks
@@ -29,7 +20,7 @@ export default function DropboxAuthorization({
     setStep(2)
   }
 
-  const handleInput = (e) => {
+  const handleInput = e => {
     const newConf = { ...dropboxConf }
     const rmError = { ...error }
     rmError[e.target.name] = ''
@@ -41,125 +32,64 @@ export default function DropboxAuthorization({
   const getAccessCode = () => {
     if (!dropboxConf.clientId || !dropboxConf.clientSecret) {
       setError({
-        clientId: !dropboxConf.clientId ? __("Client Id can't be empty", 'bit-integrations') : '',
-        clientSecret: !dropboxConf.clientSecret
-          ? __("Client Secret can't be empty", 'bit-integrations')
-          : ''
+        clientId: !dropboxConf.clientId ? __('Client Id can\'t be empty', 'bit-integrations') : '',
+        clientSecret: !dropboxConf.clientSecret ? __('Client Secret can\'t be empty', 'bit-integrations') : '',
       })
       return
     }
-    window.open(
-      `https://www.dropbox.com/oauth2/authorize?client_id=${dropboxConf.clientId}&token_access_type=offline&response_type=code`,
-      '_blank'
-    )
+    window.open(`https://www.dropbox.com/oauth2/authorize?client_id=${dropboxConf.clientId}&token_access_type=offline&response_type=code`, '_blank')
   }
 
   return (
-    <div
-      className="btcd-stp-page"
-      style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {dropbox?.youTubeLink && <TutorialLink title="Dropbox" youTubeLink={dropbox?.youTubeLink} />}
-      {dropbox?.docLink && <TutorialLink title="Dropbox" docLink={dropbox?.docLink} />}
+    <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
+      {dropbox?.youTubeLink && (
+        <TutorialLink
+          title={dropbox?.title}
+          youTubeLink={dropbox?.youTubeLink}
+        />
+      )}
+      {dropbox?.docLink && (
+        <TutorialLink
+          title={dropbox?.title}
+          docLink={dropbox?.docLink}
+        />
+      )}
 
-      <div className="mt-3">
-        <b>{__('Integration Name:', 'bit-integrations')}</b>
-      </div>
-      <input
-        className="btcd-paper-inp w-6 mt-1"
-        onChange={handleInput}
-        name="name"
-        value={dropboxConf.name}
-        type="text"
-        placeholder={__('Integration Name...', 'bit-integrations')}
-        disabled={isInfo}
-      />
+      <div className="mt-3"><b>{__('Integration Name:', 'bit-integrations')}</b></div>
+      <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="name" value={dropboxConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} disabled={isInfo} />
 
       <small className="d-blk mt-3">
         {__('To Get Client Id & Secret, Please Visit', 'bit-integrations')}
         &nbsp;
-        <a
-          className="btcd-link"
-          rel="noreferrer"
-          target="_blank"
-          href="https://www.dropbox.com/developers/apps/create?_tk=pilot_lp&_ad=ctabtn1&_camp=create">
-          {__('Dropbox API Console', 'bit-integrations')}
-        </a>
+        <a className="btcd-link" rel="noreferrer" target="_blank" href="https://www.dropbox.com/developers/apps/create?_tk=pilot_lp&_ad=ctabtn1&_camp=create">{__('Dropbox API Console', 'bit-integrations')}</a>
       </small>
 
-      <div className="mt-3">
-        <b>{__('Dropbox Client id:', 'bit-integrations')}</b>
-      </div>
-      <input
-        className="btcd-paper-inp w-6 mt-1"
-        onChange={handleInput}
-        name="clientId"
-        value={dropboxConf.clientId}
-        type="text"
-        placeholder={__('client ID...', 'bit-integrations')}
-        disabled={isInfo}
-      />
+      <div className="mt-3"><b>{__('Dropbox Client Id:', 'bit-integrations')}</b></div>
+      <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="clientId" value={dropboxConf.clientId} type="text" placeholder={__('Client Id...', 'bit-integrations')} disabled={isInfo} />
       <div style={{ color: 'red' }}>{error.clientId}</div>
 
-      <div className="mt-3">
-        <b>{__('Dropbox Client Secret:', 'bit-integrations')}</b>
-      </div>
-      <input
-        className="btcd-paper-inp w-6 mt-1"
-        onChange={handleInput}
-        name="clientSecret"
-        value={dropboxConf.clientSecret}
-        type="text"
-        placeholder={__('client Secret...', 'bit-integrations')}
-        disabled={isInfo}
-      />
+      <div className="mt-3"><b>{__('Dropbox Client Secret:', 'bit-integrations')}</b></div>
+      <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="clientSecret" value={dropboxConf.clientSecret} type="text" placeholder={__('Client Secret...', 'bit-integrations')} disabled={isInfo} />
       <div style={{ color: 'red' }}>{error.clientSecret}</div>
 
       <small className="d-blk mt-3">
         {__('To Get Access Code, Please Visit', 'bit-integrations')}
         &nbsp;
-        <span
-          className="btcd-link"
-          style={{ cursor: 'pointer' }}
-          onClick={getAccessCode}
-          aria-hidden="true">
-          {__('Dropbox Access Code', 'bit-integrations')}
-        </span>
+        <span className="btcd-link" style={{ cursor: 'pointer' }} onClick={getAccessCode} aria-hidden="true">{__('Dropbox Access Code', 'bit-integrations')}</span>
       </small>
 
-      <div className="mt-3">
-        <b>{__('Dropbox Access Code:', 'bit-integrations')}</b>
-      </div>
-      <input
-        className="btcd-paper-inp w-6 mt-1"
-        onChange={handleInput}
-        name="accessCode"
-        value={dropboxConf.accessCode}
-        type="text"
-        placeholder={__('Access Code...', 'bit-integrations')}
-        disabled={isInfo}
-      />
+      <div className="mt-3"><b>{__('Dropbox Access Code:', 'bit-integrations')}</b></div>
+      <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="accessCode" value={dropboxConf.accessCode} type="text" placeholder={__('Access Code...', 'bit-integrations')} disabled={isInfo} />
       <div style={{ color: 'red' }}>{error.accessCode}</div>
 
       {!isInfo && (
         <>
-          <button
-            onClick={() =>
-              handleAuthorize(dropboxConf, setDropboxConf, setIsAuthorized, setIsLoading, setError)
-            }
-            className="btn btcd-btn-lg purple sh-sm flx"
-            type="button"
-            disabled={isAuthorized || isLoading}>
-            {isAuthorized
-              ? __('Authorized ✔', 'bit-integrations')
-              : __('Authorize', 'bit-integrations')}
+          <button onClick={() => handleAuthorize(dropboxConf, setDropboxConf, setIsAuthorized, setIsLoading, setError)} className="btn btcd-btn-lg green sh-sm flx" type="button" disabled={isAuthorized || isLoading}>
+            {isAuthorized ? __('Authorized ✔', 'bit-integrations') : __('Authorize', 'bit-integrations')}
             {isLoading && <LoaderSm size="20" clr="#022217" className="ml-2" />}
           </button>
           <br />
-          <button
-            onClick={nextPage}
-            className="btn f-right btcd-btn-lg purple sh-sm flx"
-            type="button"
-            disabled={!isAuthorized}>
+          <button onClick={nextPage} className="btn f-right btcd-btn-lg green sh-sm flx" type="button" disabled={!isAuthorized}>
             {__('Next', 'bit-integrations')}
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>

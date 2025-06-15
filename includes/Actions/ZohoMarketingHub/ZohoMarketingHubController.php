@@ -8,6 +8,7 @@ namespace BitCode\FI\Actions\ZohoMarketingHub;
 
 use WP_Error;
 use BitCode\FI\Core\Util\IpTool;
+
 use BitCode\FI\Flow\FlowController;
 use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\controller\ZohoAuthController;
@@ -28,7 +29,7 @@ class ZohoMarketingHubController
     /**
      * Process ajax request for refresh crm modules
      *
-     * @param object $queryParams Params to refresh lists
+     * @param Object $queryParams Params to refresh lists
      *
      * @return JSON crm module data
      */
@@ -55,14 +56,14 @@ class ZohoMarketingHubController
 
         $listsMetaApiEndpoint = "https://marketinghub.{$queryParams->dataCenter}/api/v1/getmailinglists?resfmt=JSON&range=100";
 
-        $authorizationHeader['Authorization'] = "Zoho-oauthtoken {$queryParams->tokenDetails->access_token}";
+        $authorizationHeader["Authorization"] = "Zoho-oauthtoken {$queryParams->tokenDetails->access_token}";
         $listsMetaResponse = HttpHelper::get($listsMetaApiEndpoint, null, $authorizationHeader);
 
         $allLists = [];
         if (!is_wp_error($listsMetaResponse)) {
             $lists = $listsMetaResponse->list_of_details;
 
-            if (\count($lists) > 0) {
+            if (count($lists) > 0) {
                 foreach ($lists as $list) {
                     $allLists[$list->listname] = (object) array(
                         'listkey' => $list->listkey,
@@ -87,7 +88,7 @@ class ZohoMarketingHubController
     /**
      * Process ajax request for refesh crm layouts
      *
-     * @param object $queryParams Params to refresh contact list
+     * @param Object $queryParams Params to refresh contact list
      *
      * @return JSON crm layout data
      */
@@ -115,14 +116,14 @@ class ZohoMarketingHubController
 
         $contactFieldsMetaApiEndpoint = "https://marketinghub.{$queryParams->dataCenter}/api/v1/lead/allfields?type=json";
 
-        $authorizationHeader['Authorization'] = "Zoho-oauthtoken {$queryParams->tokenDetails->access_token}";
+        $authorizationHeader["Authorization"] = "Zoho-oauthtoken {$queryParams->tokenDetails->access_token}";
         $contactFieldsMetaResponse = HttpHelper::get($contactFieldsMetaApiEndpoint, null, $authorizationHeader);
 
         if (!is_wp_error($contactFieldsMetaResponse)) {
             $allFields = [];
             $fields = $contactFieldsMetaResponse->response->fieldnames->fieldname;
 
-            if (\count($fields) > 0) {
+            if (count($fields) > 0) {
                 foreach ($fields as $field) {
                     $allFields[] = $field->DISPLAY_NAME;
                 }

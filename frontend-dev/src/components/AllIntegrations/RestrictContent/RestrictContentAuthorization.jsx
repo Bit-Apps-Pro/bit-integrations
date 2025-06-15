@@ -2,20 +2,13 @@ import { useState } from 'react'
 import BackIcn from '../../../Icons/BackIcn'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { deepCopy } from '../../../Utils/Helpers'
-import { __, sprintf } from '../../../Utils/i18nwrap'
+import { __ } from '../../../Utils/i18nwrap'
 import LoaderSm from '../../Loaders/LoaderSm'
 import { getAllLevels } from './RestrictContentCommonFunc'
 import TutorialLink from '../../Utilities/TutorialLink'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 
-export default function RestrictContentAuthorization({
-  formID,
-  restrictConf,
-  setRestrictConf,
-  step,
-  setStep,
-  setSnackbar
-}) {
+export default function RestrictContentAuthorization({ formID, restrictConf, setRestrictConf, step, setStep, setSnackbar }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
@@ -26,10 +19,7 @@ export default function RestrictContentAuthorization({
     bitsFetch({}, 'restrict_authorize').then((result) => {
       if (result?.success) {
         setisAuthorized(true)
-        setSnackbar({
-          show: true,
-          msg: __('Connected with Restrict Content Successfully', 'bit-integrations')
-        })
+        setSnackbar({ show: true, msg: __('Connected with Restrict Content Successfully', 'bit-integrations') })
       }
       setIsLoading(false)
       setShowAuthMsg(true)
@@ -55,13 +45,20 @@ export default function RestrictContentAuthorization({
       className="btcd-stp-page"
       style={{
         width: step === 1 && 900,
-        height: step === 1 && 'auto'
-      }}>
+        height: step === 1 && 'auto',
+      }}
+    >
       {restrictContent?.youTubeLink && (
-        <TutorialLink title="Restrict Content" youTubeLink={restrictContent?.youTubeLink} />
+        <TutorialLink
+          title={restrictContent?.title}
+          youTubeLink={restrictContent?.youTubeLink}
+        />
       )}
       {restrictContent?.docLink && (
-        <TutorialLink title="Restrict Content" docLink={restrictContent?.docLink} />
+        <TutorialLink
+          title={restrictContent?.title}
+          docLink={restrictContent?.docLink}
+        />
       )}
 
       <div className="mt-3">
@@ -88,31 +85,18 @@ export default function RestrictContentAuthorization({
           <span className="btcd-icn mr-2" style={{ fontSize: 30, marginTop: -5 }}>
             &times;
           </span>
-          {sprintf(
-            __(
-              '%s plugin must be activated to integrate with Bit Integrations',
-              'bit-integrations'
-            ),
-            'RestrictContent'
-          )}
+          RestrictContent plugin must be activated to integrate with Bit Integrations.
         </div>
       )}
 
       {!isAuthorized && (
-        <button
-          onClick={authorizeHandler}
-          className="btn btcd-btn-lg purple sh-sm flx mt-5"
-          type="button">
+        <button onClick={authorizeHandler} className="btn btcd-btn-lg green sh-sm flx mt-5" type="button">
           {__('Connect', 'bit-integrations')}
         </button>
       )}
 
       {isAuthorized && (
-        <button
-          onClick={() => nextPage(2)}
-          className="btn btcd-btn-lg purple sh-sm flx mt-5"
-          type="button"
-          disabled={!isAuthorized}>
+        <button onClick={() => nextPage(2)} className="btn btcd-btn-lg green sh-sm flx mt-5" type="button" disabled={!isAuthorized}>
           {__('Next', 'bit-integrations')}
           <BackIcn className="ml-1 rev-icn" />
         </button>

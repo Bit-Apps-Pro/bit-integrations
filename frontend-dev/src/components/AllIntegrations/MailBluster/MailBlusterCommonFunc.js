@@ -16,40 +16,21 @@ export const handleInput = (e, mailBlusterConf, setMailBlusterConf) => {
 }
 
 export const generateMappedField = (mailBlusterConf) => {
-  const requiredFlds = mailBlusterConf?.staticFields.filter((fld) => fld.required === true)
-  return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({ formField: '', mailBlusterFormField: field.key }))
-    : [{ formField: '', mailBlusterFormField: '' }]
+  const requiredFlds = mailBlusterConf?.staticFields.filter(fld => fld.required === true)
+  return requiredFlds.length > 0 ? requiredFlds.map(field => ({ formField: '', mailBlusterFormField: field.key })) : [{ formField: '', mailBlusterFormField: '' }]
 }
 
 export const checkMappedFields = (mailBlusterConf) => {
-  const mappedFields = mailBlusterConf?.field_map
-    ? mailBlusterConf.field_map.filter(
-        (mappedField) =>
-          !mappedField.formField ||
-          !mappedField.mailBlusterFormField ||
-          (!mappedField.formField === 'custom' && !mappedField.customValue)
-      )
-    : []
+  const mappedFields = mailBlusterConf?.field_map ? mailBlusterConf.field_map.filter(mappedField => (!mappedField.formField || !mappedField.mailBlusterFormField || (!mappedField.formField === 'custom' && !mappedField.customValue))) : []
   if (mappedFields.length > 0) {
     return false
   }
   return true
 }
 
-export const mailBlusterAuthentication = (
-  confTmp,
-  setConf,
-  setError,
-  setIsAuthorized,
-  loading,
-  setLoading,
-  type
-) => {
+export const mailBlusterAuthentication = (confTmp, setConf, setError, setIsAuthorized, loading, setLoading, type) => {
   if (!confTmp.auth_token) {
-    setError({
-      auth_token: !confTmp.auth_token ? __("Api Key can't be empty", 'bit-integrations') : ''
-    })
+    setError({ auth_token: !confTmp.auth_token ? __('Api Key can\'t be empty', 'bit-integrations') : '' })
     return
   }
 
@@ -63,30 +44,31 @@ export const mailBlusterAuthentication = (
   }
   const requestParams = { auth_token: confTmp.auth_token }
 
-  bitsFetch(requestParams, 'mailBluster_authentication').then((result) => {
-    if (result && result.success) {
-      const newConf = { ...confTmp }
-      if (result.data) {
-        newConf.campaigns = result.data
-      }
-      setConf(newConf)
-      setIsAuthorized(true)
-      if (type === 'authentication') {
+  bitsFetch(requestParams, 'mailBluster_authentication')
+    .then(result => {
+      if (result && result.success) {
+        const newConf = { ...confTmp }
         if (result.data) {
-          newConf.customFields = result.data
+          newConf.campaigns = result.data
         }
-        setLoading({ ...loading, auth: false })
-        toast.success(__('Authorized Successfully', 'bit-integrations'))
-      } else if (type === 'refreshCustomFields') {
-        if (result.data) {
-          newConf.customFields = result.data
+        setConf(newConf)
+        setIsAuthorized(true)
+        if (type === 'authentication') {
+          if (result.data) {
+            newConf.customFields = result.data
+          }
+          setLoading({ ...loading, auth: false })
+          toast.success(__('Authorized successfully', 'bit-integrations'))
+        } else if (type === 'refreshCustomFields') {
+          if (result.data) {
+            newConf.customFields = result.data
+          }
+          setLoading({ ...loading, customFields: false })
+          toast.success(__('Custom fields fectched successfully', 'bit-integrations'))
         }
-        setLoading({ ...loading, customFields: false })
-        toast.success(__('Custom fields fectched successfully', 'bit-integrations'))
+        return
       }
-      return
-    }
-    setLoading({ ...loading, auth: false })
-    toast.error(__('Authorized failed', 'bit-integrations'))
-  })
+      setLoading({ ...loading, auth: false })
+      toast.error(__('Authorized failed', 'bit-integrations'))
+    })
 }

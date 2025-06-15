@@ -15,35 +15,34 @@ use BitCode\FI\Core\Util\HttpHelper;
 final class FilesApiHelper
 {
     private $_defaultHeader;
-
     private $_apiDomain;
-
     private $_payloadBoundary;
 
     /**
-     * @param object $tokenDetails Api token details
-     * @param int    $integId      ID of the flow to execute
+     *
+     * @param Object  $tokenDetails Api token details
+     * @param Integer $integId      ID of the flow to execute
      */
     public function __construct($tokenDetails, $integId)
     {
         $this->_integId = $integId;
         $this->_payloadBoundary = wp_generate_password(24);
         $this->_defaultHeader['Authorization'] = "Zoho-oauthtoken {$tokenDetails->access_token}";
-        $this->_defaultHeader['content-type'] = 'multipart/form; boundary=' . $this->_payloadBoundary;
-        $this->_apiDomain = urldecode($tokenDetails->api_domain);
+        $this->_defaultHeader['content-type'] = "multipart/form; boundary=" . $this->_payloadBoundary;
+        $this->_apiDomain = \urldecode($tokenDetails->api_domain);
     }
 
     /**
      * Helps to execute upload files api
      *
-     * @param mixed  $files        Files path
-     * @param string $uploadType   Type of upload field. CRM has two type of
+     * @param Mixed  $files        Files path
+     * @param String $uploadType   Type of upload field. CRM has two type of
      *                             upload field: fileupload | imageupload
-     * @param bool   $isAttachment Check upload type
-     * @param mixed  $module       Attachment Module name
-     * @param mixed  $recordID     Record id
+     * @param Bool   $isAttachment Check upload type
+     * @param Mixed  $module       Attachment Module name
+     * @param Mixed  $recordID     Record id
      *
-     * @return array $uploadedFiles ID's of uploaded file in Zoho CRM
+     * @return Array $uploadedFiles ID's of uploaded file in Zoho CRM
      */
     public function uploadFiles($files, $uploadType, $isAttachment = false, $module = '', $recordID = 0)
     {
@@ -51,7 +50,7 @@ final class FilesApiHelper
             "{$this->_apiDomain}/crm/v6/{$module}/{$recordID}/Attachments"
             : "{$this->_apiDomain}/crm/v6/files";
         $payload = '';
-        if (\is_array($files)) {
+        if (is_array($files)) {
             foreach ($files as $fileIndex => $file) {
                 $payload .= $this->preparePayload($file);
             }
@@ -72,15 +71,13 @@ final class FilesApiHelper
                     }
                 }
             }
-            if (isset($uploadResponse->status) && $uploadResponse->status === 'error') {
+            if (isset($uploadResponse->status) &&  $uploadResponse->status === 'error') {
                 LogHandler::save($this->_integId, wp_json_encode(['type' => 'upload', 'type_name' => 'file']), 'error', wp_json_encode($uploadResponse));
             } else {
                 LogHandler::save($this->_integId, wp_json_encode(['type' => 'upload', 'type_name' => 'file']), 'success', wp_json_encode($uploadResponse));
             }
-
             return $uploadedFiles;
         }
-
         return $uploadResponse;
     }
 
@@ -89,16 +86,16 @@ final class FilesApiHelper
      *
      * @param $file File path
      *
-     * @return string
+     * @return String
      */
     public function preparePayload($file)
     {
         $payload = '';
-        if ((is_readable("{$file}") && !is_dir("{$file}")) || filter_var($file, FILTER_VALIDATE_URL)) {
+        if ((is_readable("{$file}") && !is_dir("{$file}"))  || filter_var($file, FILTER_VALIDATE_URL)) {
             $payload .= '--' . $this->_payloadBoundary;
             $payload .= "\r\n";
-            $payload .= 'Content-Disposition: form-data; name="' . 'file'
-                . '"; filename="' . basename("{$file}") . '"' . "\r\n";
+            $payload .= 'Content-Disposition: form-data; name="' . 'file' .
+                '"; filename="' . basename("{$file}") . '"' . "\r\n";
             $payload .= "\r\n";
             $payload .= file_get_contents("{$file}");
             $payload .= "\r\n";
@@ -107,21 +104,22 @@ final class FilesApiHelper
         return $payload;
     }
 
+
     /**
      * Sets file id by file upload type
      *
-     * @param string $id         ID received from Files API
-     * @param string $uploadType Type of upload field. CRM has two type of
+     * @param String $id         ID received from Files API
+     * @param String $uploadType Type of upload field. CRM has two type of
      *                           upload field: fileupload | imageupload
      *
-     * @return object
+     * @return Object
      */
     public function setIdByUploadType($id, $uploadType)
     {
         if ($uploadType === 'imageupload') {
             return (object) ['Encrypted_Id' => $id];
+        } else {
+            return (object) ['file_id' => $id];
         }
-
-        return (object) ['file_id' => $id];
     }
 }

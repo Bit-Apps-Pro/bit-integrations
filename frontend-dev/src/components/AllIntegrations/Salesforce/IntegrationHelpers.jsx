@@ -24,3 +24,4 @@ export const handleFieldMapping = (event, index, conftTmp, setConf) => {
   }
   setConf({ ...newConf })
 }
+

@@ -26,22 +26,10 @@ function EditFluentCrm({ allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
   const saveConfig = () => {
     if (!checkMappedFields(fluentCrmConf)) {
-      setSnackbar({
-        show: true,
-        msg: __('Please map all required fields to continue.', 'bit-integrations')
-      })
+      setSnackbar({ show: true, msg: 'Please map all required fields to continue.' })
       return
     }
-    saveActionConf({
-      flow,
-      setFlow,
-      allIntegURL,
-      conf: fluentCrmConf,
-      navigate,
-      edit: 1,
-      setIsLoading,
-      setSnackbar
-    })
+    saveActionConf({ flow, setFlow, allIntegURL, conf: fluentCrmConf, navigate, edit: 1, setIsLoading, setSnackbar })
   }
 
   return (
@@ -50,14 +38,7 @@ function EditFluentCrm({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, fluentCrmConf, setFluentCrmConf)}
-          name="name"
-          value={fluentCrmConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, fluentCrmConf, setFluentCrmConf)} name="name" value={fluentCrmConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
 

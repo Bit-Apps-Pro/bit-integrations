@@ -26,7 +26,7 @@ export default function Error404() {
         {sec}
         <br />
         <br />
-        <Link to="/" className="btn dp-purple btcd-btn-lg">{__('Go Home', 'bit-integrations')}</Link>
+        <Link to="/" className="btn dp-blue btcd-btn-lg">{__('Go Home', 'bit-integrations')}</Link>
       </div>
       <img src={space} alt="404 not found" />
     </div>

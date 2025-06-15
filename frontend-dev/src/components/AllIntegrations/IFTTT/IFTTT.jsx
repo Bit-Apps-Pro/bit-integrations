@@ -21,22 +21,28 @@ function IFTTT({ formFields, setFlow, flow, allIntegURL }) {
     name: 'IFTTT Web Hooks',
     type: 'IFTTT',
     method: 'POST',
-    url: '',
-    apiConsole: ''
+    url: process.env.NODE_ENV === 'development' ? '' : '',
+    apiConsole: '',
   })
 
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={2} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={2} active={step} /></div>
       {/* STEP 1 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-        {iFTTT?.youTubeLink && <TutorialLink title="IFTTT" youTubeLink={iFTTT?.youTubeLink} />}
-        {iFTTT?.docLink && <TutorialLink title="IFTTT" docLink={iFTTT?.docLink} />}
+      <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
+        {iFTTT?.youTubeLink && (
+          <TutorialLink
+            title={iFTTT?.title}
+            youTubeLink={iFTTT?.youTubeLink}
+          />
+        )}
+        {iFTTT?.docLink && (
+          <TutorialLink
+            title={iFTTT?.title}
+            docLink={iFTTT?.docLink}
+          />
+        )}
 
         <WebHooksIntegration
           formID={formID}
@@ -51,16 +57,14 @@ function IFTTT({ formFields, setFlow, flow, allIntegURL }) {
       </div>
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
+
         <WebHooksStepTwo
           step={step}
-          saveConfig={() =>
-            saveIntegConfig(flow, setFlow, allIntegURL, ifttt, navigate, '', '', setIsLoading)
-          }
+          saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, ifttt, navigate, '', '', setIsLoading)}
           isLoading={isLoading}
         />
+
       </div>
     </div>
   )

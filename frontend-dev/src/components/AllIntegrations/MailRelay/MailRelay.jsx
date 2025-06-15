@@ -19,51 +19,43 @@ function MailRelay({ formFields, setFlow, flow, allIntegURL }) {
   const [loading, setLoading] = useState({
     auth: false,
     groups: false,
-    customFields: false
+    customFields: false,
   })
 
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
   const staticFields = [
-    { key: 'email', label: __('Email', 'bit-integrations'), required: true },
-    { key: 'name', label: __('Name', 'bit-integrations'), required: false },
-    { key: 'sms_phone', label: __('SMS Phone', 'bit-integrations'), required: false },
-    { key: 'address', label: __('Address', 'bit-integrations'), required: false },
-    { key: 'city', label: __('City', 'bit-integrations'), required: false },
-    { key: 'state', label: __('State', 'bit-integrations'), required: false },
-    { key: 'country', label: __('Country', 'bit-integrations'), required: false },
-    { key: 'birthday', label: __('Birthday', 'bit-integrations'), required: false },
-    { key: 'website', label: __('Website', 'bit-integrations'), required: false },
-    { key: 'locale', label: __('Locale', 'bit-integrations'), required: false },
-    { key: 'time_zone', label: __('Time Zone', 'bit-integrations'), required: false }
+    { key: 'email', label: 'Email', required: true },
+    { key: 'name', label: 'Name', required: false },
+    { key: 'address', label: 'Address', required: false },
+    { key: 'city', label: 'City', required: false },
+    { key: 'state', label: 'State', required: false },
+    { key: 'country', label: 'Country', required: false },
+    { key: 'birthday', label: 'Birthday', required: false },
+    { key: 'website', label: 'Website', required: false },
+    { key: 'locale', label: 'Locale', required: false },
+    { key: 'time_zone', label: 'Time Zone', required: false },
   ]
 
   const [mailRelayConf, setMailRelayConf] = useState({
     name: 'MailRelay',
     type: 'MailRelay',
-    auth_token: '',
-    domain: '',
-    field_map: [{ formField: '', mailRelayFormField: '' }],
+    auth_token: process.env.NODE_ENV === 'development' ? 'hQyMgwXg9iqNdS_1F6hHfKZhrPsxnTnyfxhGYkBy' : '',
+    domain: process.env.NODE_ENV === 'development' ? 'bitcode' : '',
+    field_map: [
+      { formField: '', mailRelayFormField: '' },
+    ],
     staticFields,
     status: '',
     customFields: [],
     groups: [],
     selectedGroups: [],
-    actions: {}
+    actions: {},
   })
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      mailRelayConf,
-      navigate,
-      '',
-      '',
-      setIsLoading
-    )
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, mailRelayConf, navigate, '', '', setIsLoading)
     resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
@@ -74,13 +66,13 @@ function MailRelay({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = pageNo => {
+  const nextPage = (pageNo) => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
     if (!checkMappedFields(mailRelayConf)) {
-      toast.error(__('Please map mandatory fields', 'bit-integrations'))
+      toast.error('Please map mandatory fields')
       return
     }
     mailRelayConf.field_map.length > 0 && setStep(pageNo)
@@ -89,9 +81,7 @@ function MailRelay({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={3} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
 
       {/* STEP 1 */}
       <MailRelayAuthorization
@@ -105,18 +95,11 @@ function MailRelay({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{
-          ...(step === 2 && {
-            width: 900,
-            height: 'auto',
-            overflow: 'visible'
-          })
-        }}>
+      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+
         <MailRelayIntegLayout
           formFields={formFields}
-          handleInput={e => handleInput(e, mailRelayConf, setMailRelayConf, setLoading, setSnackbar)}
+          handleInput={(e) => handleInput(e, mailRelayConf, setMailRelayConf, setLoading, setSnackbar)}
           mailRelayConf={mailRelayConf}
           setMailRelayConf={setMailRelayConf}
           loading={loading}
@@ -128,9 +111,12 @@ function MailRelay({ formFields, setFlow, flow, allIntegURL }) {
           <button
             onClick={() => nextPage(3)}
             disabled={!mailRelayConf?.status}
-            className="btn f-right btcd-btn-lg purple sh-sm flx"
-            type="button">
-            {__('Next', 'bit-integrations')} &nbsp;
+            className="btn f-right btcd-btn-lg green sh-sm flx"
+            type="button"
+          >
+            {__('Next', 'bit-integrations')}
+            {' '}
+            &nbsp;
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         )}

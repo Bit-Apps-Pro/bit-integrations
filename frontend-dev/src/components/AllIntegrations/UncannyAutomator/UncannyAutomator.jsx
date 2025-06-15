@@ -21,25 +21,27 @@ function UncannyAutomator({ formFields, setFlow, flow, allIntegURL }) {
     name: 'UncannyAutomator Web Hooks',
     type: 'UncannyAutomator',
     method: 'POST',
-    url: ''
+    url: process.env.NODE_ENV === 'development' ? 'https://connect.uncannyAutomator.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D' : '',
   })
 
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={2} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={2} active={step} /></div>
 
       {/* STEP 1 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
+      <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
         {uncannyAutomatorLinks?.youTubeLink && (
-          <TutorialLink title="Uncanny Automator" youTubeLink={uncannyAutomatorLinks?.youTubeLink} />
+          <TutorialLink
+            title={uncannyAutomatorLinks?.title}
+            youTubeLink={uncannyAutomatorLinks?.youTubeLink}
+          />
         )}
         {uncannyAutomatorLinks?.docLink && (
-          <TutorialLink title="Uncanny Automator" docLink={uncannyAutomatorLinks?.docLink} />
+          <TutorialLink
+            title={uncannyAutomatorLinks?.title}
+            docLink={uncannyAutomatorLinks?.docLink}
+          />
         )}
 
         <WebHooksIntegration
@@ -55,16 +57,14 @@ function UncannyAutomator({ formFields, setFlow, flow, allIntegURL }) {
       </div>
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
+
         <WebHooksStepTwo
           step={step}
-          saveConfig={() =>
-            saveIntegConfig(flow, setFlow, allIntegURL, uncannyAutomator, navigate, '', '', setIsLoading)
-          }
+          saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, uncannyAutomator, navigate, '', '', setIsLoading)}
           isLoading={isLoading}
         />
+
       </div>
     </div>
   )

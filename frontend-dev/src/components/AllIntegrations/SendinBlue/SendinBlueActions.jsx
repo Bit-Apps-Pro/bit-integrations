@@ -3,12 +3,7 @@ import { __ } from '../../../Utils/i18nwrap'
 import TableCheckBox from '../../Utilities/TableCheckBox'
 import { refreshTemplate } from './SendinBlueCommonFunc'
 
-export default function SendinBlueActions({
-  sendinBlueConf,
-  setSendinBlueConf,
-  setIsLoading,
-  setSnackbar
-}) {
+export default function SendinBlueActions({ sendinBlueConf, setSendinBlueConf, setIsLoading, setSnackbar }) {
   const actionHandler = (e, type) => {
     const newConf = { ...sendinBlueConf }
     if (type === 'update') {
@@ -34,23 +29,10 @@ export default function SendinBlueActions({
   }
 
   return (
+
     <div className="pos-rel d-flx w-8">
-      <TableCheckBox
-        checked={sendinBlueConf.actions?.update || false}
-        onChange={(e) => actionHandler(e, 'update')}
-        className="wdt-200 mt-4 mr-2"
-        value="user_share"
-        title={__('Update Brevo(Sendinblue)', 'bit-integrations')}
-        subTitle={__('Update Responses with Sendinblue existing email?', 'bit-integrations')}
-      />
-      <TableCheckBox
-        checked={sendinBlueConf.actions?.double_optin || false}
-        onChange={(e) => actionHandler(e, 'double_optin')}
-        className="wdt-200 mt-4 mr-2"
-        value="double_optin"
-        title={__('Double Opt-in', 'bit-integrations')}
-        subTitle={__('Double Opt-In for confirm subscription.', 'bit-integrations')}
-      />
+      <TableCheckBox checked={sendinBlueConf.actions?.update || false} onChange={(e) => actionHandler(e, 'update')} className="wdt-200 mt-4 mr-2" value="user_share" title={__('Update Sendinblue', 'bit-integrations')} subTitle={__('Update Responses with Sendinblue existing email?', 'bit-integrations')} />
+      <TableCheckBox checked={sendinBlueConf.actions?.double_optin || false} onChange={(e) => actionHandler(e, 'double_optin')} className="wdt-200 mt-4 mr-2" value="double_optin" title={__('Double Opt-in', 'bit-integrations')} subTitle={__('Double Opt-In for confirm subscription.', 'bit-integrations')} />
     </div>
   )
 }

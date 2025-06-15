@@ -21,24 +21,16 @@ export const handleFieldMapping = (fldProp, event, index, conftTmp, setConf) => 
   setConf({ ...newConf })
 }
 
-export const checkMappedPostFields = (data) => {
-  const mappedFields = data?.post_map
-    ? data.post_map.filter(
-        (mappedField) => !mappedField.formField && mappedField.postFormField && mappedField.required
-      )
-    : []
+export const checkMappedPostFields = data => {
+  const mappedFields = data?.post_map ? data.post_map.filter(mappedField => !mappedField.formField && mappedField.postFormField && mappedField.required) : []
   if (mappedFields.length > 0) {
     return false
   }
 
   return true
 }
-export const checkMappedPodFields = (data) => {
-  const mappedFields = data?.pod_map
-    ? data.pod_map.filter(
-        (mappedField) => !mappedField.formField && mappedField.podFormField && mappedField.required
-      )
-    : []
+export const checkMappedPodFields = data => {
+  const mappedFields = data?.pod_map ? data.pod_map.filter(mappedField => !mappedField.formField && mappedField.podFormField && mappedField.required) : []
   if (mappedFields.length > 0) {
     return false
   }

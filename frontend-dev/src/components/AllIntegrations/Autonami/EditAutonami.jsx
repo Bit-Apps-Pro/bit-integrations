@@ -27,27 +27,20 @@ function EditAutonami({ allIntegURL }) {
     if (!checkMappedFields(autonamiConf)) {
       setSnackbar({
         show: true,
-        msg: __('Please map all required fields to continue.', 'bit-integrations')
+        msg: 'Please map all required fields to continue.',
       })
       return
     }
-    saveActionConf({
-      flow,
-      setFlow,
-      allIntegURL,
-      conf: autonamiConf,
-      navigate,
-      edit: 1,
-      setIsLoading,
-      setSnackbar
-    })
+    saveActionConf({ flow, setFlow, allIntegURL, conf: autonamiConf, navigate, edit: 1, setIsLoading, setSnackbar })
   }
   return (
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
 
       <div className="flx mt-3">
-        <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
+        <b className="wdt-200 d-in-b">
+          {__('Integration Name:', 'bit-integrations')}
+        </b>
         <input
           className="btcd-paper-inp w-5"
           onChange={(e) => handleInput(e, autonamiConf, setAutonamiConf)}

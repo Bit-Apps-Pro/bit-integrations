@@ -9,16 +9,8 @@ import ConfirmModal from '../../Utilities/ConfirmModal'
 import TableCheckBox from '../../Utilities/TableCheckBox'
 import { getAllContactLists, getContactTags } from './ConstantContactCommonFunc'
 
-export default function ConstantContactActions({
-  id,
-  constantContactConf,
-  setConstantContactConf,
-  address,
-  phone,
-  isLoading,
-  setIsLoading
-}) {
-  const [actionMdl, setActionMdl] = useState({ show: false, action: () => {} })
+export default function ConstantContactActions({ id, constantContactConf, setConstantContactConf, address, phone, isLoading, setIsLoading }) {
+  const [actionMdl, setActionMdl] = useState({ show: false, action: () => { } })
   const actionHandler = (e, type) => {
     const newConf = { ...constantContactConf }
     if (type === 'update') {
@@ -29,7 +21,13 @@ export default function ConstantContactActions({
       }
     }
     if (type === 'list_ids') {
-      getAllContactLists(id, constantContactConf, setConstantContactConf, isLoading, setIsLoading)
+      getAllContactLists(
+        id,
+        constantContactConf,
+        setConstantContactConf,
+        isLoading,
+        setIsLoading,
+      )
       if (e.target.checked) {
         newConf.actions.list = true
       } else {
@@ -38,7 +36,13 @@ export default function ConstantContactActions({
       setActionMdl({ show: type })
     }
     if (type === 'tag_ids') {
-      getContactTags(id, constantContactConf, setConstantContactConf, isLoading, setIsLoading)
+      getContactTags(
+        id,
+        constantContactConf,
+        setConstantContactConf,
+        isLoading,
+        setIsLoading,
+      )
       if (e.target.checked) {
         newConf.actions.tag = true
       } else {
@@ -54,7 +58,7 @@ export default function ConstantContactActions({
           .map((adr) => ({
             formField: '',
             constantContactAddressField: adr.tag,
-            required: true
+            required: true,
           }))
       } else if (constantContactConf.address_type === '') {
         delete newConf.actions.address
@@ -70,7 +74,7 @@ export default function ConstantContactActions({
           .map((ph) => ({
             formField: '',
             constantContactPhoneField: ph.tag,
-            required: true
+            required: true,
           }))
       } else if (constantContactConf.phone_type === '') {
         delete newConf.actions.phone
@@ -89,6 +93,7 @@ export default function ConstantContactActions({
     const newConf = { ...constantContactConf }
     if (type === 'list_ids' && val.length) {
       newConf.actions.list = true
+      newConf.actions.update = true
     } else if (type === 'list_ids' && val.length < 1) {
       delete newConf.actions.list
     }
@@ -110,42 +115,41 @@ export default function ConstantContactActions({
 
   const addressTypes = [
     {
-      label: __('Home', 'bit-integrations'),
-      value: 'home'
+      label: 'Home',
+      value: 'home',
     },
     {
-      label: __('Work', 'bit-integrations'),
-      value: 'work'
+      label: 'Work',
+      value: 'work',
     },
 
     {
-      label: __('Other', 'bit-integrations'),
-      value: 'other'
-    }
+      label: 'Other',
+      value: 'other',
+    },
   ]
 
   const phoneTypes = [
     {
-      label: __('Home', 'bit-integrations'),
-      value: 'home'
+      label: 'Home',
+      value: 'home',
     },
     {
-      label: __('Work', 'bit-integrations'),
-      value: 'work'
+      label: 'Work',
+      value: 'work',
     },
     {
-      label: __('Mobile', 'bit-integrations'),
-      value: 'mobile'
-    },
-    {
-      label: __('Fax', 'bit-integrations'),
-      value: 'fax'
+      label: 'Mobile',
+      value: 'mobile',
+    }, {
+      label: 'Fax',
+      value: 'fax',
     },
 
     {
-      label: __('Other', 'bit-integrations'),
-      value: 'other'
-    }
+      label: 'Other',
+      value: 'other',
+    },
   ]
 
   return (
@@ -183,24 +187,18 @@ export default function ConstantContactActions({
           title={__('Lists', 'bit-integrations')}
           subTitle={__('Add Lists', 'bit-integrations')}
         />
-        <TableCheckBox
-          checked={constantContactConf?.actions?.update || false}
-          onChange={(e) => actionHandler(e, 'update')}
-          className="wdt-200 mt-4 mr-2"
-          value="update"
-          title={__('Update Contact', 'bit-integrations')}
-          subTitle={__('Update Contact', 'bit-integrations')}
-        />
+
       </div>
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="purple"
+        btnClass="blue"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'address_type'}
         close={clsActionMdl}
         action={clsActionMdl}
-        title={__('Address Type', 'bit-integrations')}>
+        title={__('Address Type', 'bit-integrations')}
+      >
         <div className="btcd-hr mt-2 mb-2" />
 
         <div className="flx flx-between mt-2">
@@ -209,7 +207,7 @@ export default function ConstantContactActions({
             defaultValue={constantContactConf?.address_type}
             options={addressTypes.map((type) => ({
               label: type.label,
-              value: type.value
+              value: type.value,
             }))}
             onChange={(val) => setChanges(val, 'address_type')}
             customValue
@@ -220,12 +218,13 @@ export default function ConstantContactActions({
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="purple"
+        btnClass="blue"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'phone_type'}
         close={clsActionMdl}
         action={clsActionMdl}
-        title={__('Phone Type', 'bit-integrations')}>
+        title={__('Phone Type', 'bit-integrations')}
+      >
         <div className="btcd-hr mt-2 mb-2" />
 
         <div className="flx flx-between mt-2">
@@ -234,7 +233,7 @@ export default function ConstantContactActions({
             defaultValue={constantContactConf?.phone_type}
             options={phoneTypes.map((type) => ({
               label: type.label,
-              value: type.value
+              value: type.value,
             }))}
             onChange={(val) => setChanges(val, 'phone_type')}
             customValue
@@ -245,12 +244,13 @@ export default function ConstantContactActions({
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="purple"
+        btnClass="blue"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'list_ids'}
         close={clsActionMdl}
         action={clsActionMdl}
-        title={__('Lists', 'bit-integrations')}>
+        title={__('Lists', 'bit-integrations')}
+      >
         <div className="btcd-hr mt-2 mb-2" />
 
         {isLoading.list ? (
@@ -260,7 +260,7 @@ export default function ConstantContactActions({
               justifyContent: 'center',
               alignItems: 'center',
               height: 45,
-              transform: 'scale(0.5)'
+              transform: 'scale(0.5)',
             }}
           />
         ) : (
@@ -270,38 +270,39 @@ export default function ConstantContactActions({
               defaultValue={constantContactConf?.list_ids}
               options={constantContactConf?.lists?.map((list) => ({
                 label: list.listName,
-                value: list.listId
+                value: list.listId,
               }))}
               onChange={(val) => setChanges(val, 'list_ids')}
               customValue
             />
             <button
-              onClick={() =>
-                getAllContactLists(
-                  constantContactConf,
-                  setConstantContactConf,
-                  isLoading,
-                  setIsLoading
-                )
-              }
+              onClick={() => getAllContactLists(
+                constantContactConf,
+                setConstantContactConf,
+                isLoading,
+                setIsLoading,
+              )}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `${__('Refresh Lists', 'bit-integrations')}'` }}
+              style={{ '--tooltip-txt': `${__('Refresh Lists ', 'bit-integrations')}'` }}
               type="button"
-              disabled={isLoading.list}>
+              disabled={isLoading.list}
+            >
               &#x21BB;
             </button>
           </div>
         )}
-      </ConfirmModal>{' '}
+      </ConfirmModal>
+      {' '}
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="purple"
+        btnClass="blue"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'tag_ids'}
         close={clsActionMdl}
         action={clsActionMdl}
-        title={__('Tags', 'bit-integrations')}>
+        title={__('Tags', 'bit-integrations')}
+      >
         <div className="btcd-hr mt-2 mb-2" />
 
         {isLoading.tag ? (
@@ -311,7 +312,7 @@ export default function ConstantContactActions({
               justifyContent: 'center',
               alignItems: 'center',
               height: 45,
-              transform: 'scale(0.5)'
+              transform: 'scale(0.5)',
             }}
           />
         ) : (
@@ -321,19 +322,23 @@ export default function ConstantContactActions({
               defaultValue={constantContactConf?.tag_ids}
               options={constantContactConf?.tags?.map((tag) => ({
                 label: tag.tagName,
-                value: tag.tagId
+                value: tag.tagId,
               }))}
               onChange={(val) => setChanges(val, 'tag_ids')}
               customValue
             />
             <button
-              onClick={() =>
-                getContactTags(constantContactConf, setConstantContactConf, isLoading, setIsLoading)
-              }
+              onClick={() => getContactTags(
+                constantContactConf,
+                setConstantContactConf,
+                isLoading,
+                setIsLoading,
+              )}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `${__('Refresh Tags', 'bit-integrations')}'` }}
+              style={{ '--tooltip-txt': `${__('Refresh Tags ', 'bit-integrations')}'` }}
               type="button"
-              disabled={isLoading.tag}>
+              disabled={isLoading.tag}
+            >
               &#x21BB;
             </button>
           </div>

@@ -23,10 +23,7 @@ export default function MailjetActions({ mailjetConf, setMailjetConf }) {
         className="wdt-200 mt-4 mr-2"
         value="update_subscriber"
         title={__('Is excluded from campaigns', 'bit-integrations')}
-        subTitle={__(
-          'Indicates whether the contact is added to the exclusion list for campaigns or not. An excluded contact will not be receiving any marketing emails.',
-          'bit-integrations'
-        )}
+        subTitle={__('Indicates whether the contact is added to the exclusion list for campaigns or not. An excluded contact will not be receiving any marketing emails.', 'bit-integrations')}
       />
     </div>
   )

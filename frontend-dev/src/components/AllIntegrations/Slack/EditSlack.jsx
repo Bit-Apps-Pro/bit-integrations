@@ -28,14 +28,7 @@ function EditSlack({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, slackConf, setSlackConf)}
-          name="name"
-          value={slackConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, slackConf, setSlackConf)} name="name" value={slackConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
       <br />
@@ -53,17 +46,7 @@ function EditSlack({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            allIntegURL,
-            conf: slackConf,
-            navigate,
-            edit: 1,
-            setIsLoading,
-            setSnackbar
-          })
-        }
+        saveConfig={() => saveActionConf({ flow, allIntegURL, conf: slackConf, navigate, edit: 1, setIsLoading, setSnackbar })}
         disabled={slackConf.channel_id === '' || isLoading}
         isLoading={isLoading}
         dataConf={slackConf}

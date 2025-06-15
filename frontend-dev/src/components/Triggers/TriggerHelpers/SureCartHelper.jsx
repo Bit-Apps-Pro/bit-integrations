@@ -22,17 +22,15 @@ const SureCartHelper = ({ flow, setFlowData, edit = false }) => {
   const triggerData = !edit ? newFlow?.triggerData : flow.flow_details
   return (
     <div>
-      {(id === '1' || id === '2' || id === '3') && (
+      { (id === '1' || id === '2' || id === '3') && (
         <div className={edit ? 'flx mt-3' : ''}>
-          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
-            {__('Select a Product', 'bit-integrations')}
-          </b>
+          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>Select a Product</b>
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={triggerData?.selectedProduct}
             options={triggerData?.allProduct?.map((list) => ({
-              label: list?.product_name,
-              value: list?.product_id?.toString()
+              label: list.product_name,
+              value: list.product_id.toString(),
             }))}
             onChange={(val) => setFlowData(val, 'selectedProduct')}
             singleSelect
@@ -41,6 +39,7 @@ const SureCartHelper = ({ flow, setFlowData, edit = false }) => {
         </div>
       )}
     </div>
+
   )
 }
 export default SureCartHelper

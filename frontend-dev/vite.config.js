@@ -4,13 +4,16 @@ import path from 'path'
 import fs from 'fs'
 import { defineConfig } from 'vite'
 import { normalizePath } from 'vite'
-// import { viteStaticCopy } from "vite-plugin-static-copy";
 
 let chunkCount = 0
 const newBuildHash = hash()
 
 export default defineConfig(({ mode }) => ({
-  plugins: [react(), storeBuildHash(mode), copyStatics(mode)],
+
+  plugins: [
+    react(),
+    storeBuildHash(mode),
+  ],
 
   root: 'src',
   base: mode === 'development' ? '/' : '',
@@ -32,7 +35,7 @@ export default defineConfig(({ mode }) => ({
         compact: true,
         validate: true,
         generatedCode: {
-          arrowFunctions: true
+          arrowFunctions: true,
           // objectShorthand: true
         },
         chunkFileNames: () => `bi.${hash()}.${chunkCount++}.js`,
@@ -47,31 +50,11 @@ export default defineConfig(({ mode }) => ({
             return 'logo.svg'
           }
 
-          const fileExt = fileName.split('.').pop()
-
-          if (
-            fileExt === 'webp' ||
-            fileExt === 'svg' ||
-            fileExt === 'jpg' ||
-            fileExt === 'jpeg' ||
-            fileExt === 'png' ||
-            fileExt === 'ttf' ||
-            fileExt === 'woff' ||
-            fileExt === 'eot' ||
-            fileExt === 'gif'
-          ) {
-            return fileName
-          }
-
-          // if (fileExt === 'css') {
-          //   return `${fileName}.[hash].[ext]`
-          // }
-
           return `${fileName}.${hash()}.${chunkCount++}.[ext]`
-        }
-      }
+        },
+      },
     },
-    commonjsOptions: { transformMixedEsModules: true }
+    commonjsOptions: { transformMixedEsModules: true },
   },
 
   server: {
@@ -82,8 +65,8 @@ export default defineConfig(({ mode }) => ({
     strictPort: true,
     port: 3000,
     hmr: { host: 'localhost' },
-    commonjsOptions: { transformMixedEsModules: true }
-  }
+    commonjsOptions: { transformMixedEsModules: true },
+  },
 }))
 
 function hash() {
@@ -98,19 +81,4 @@ function storeBuildHash(mode) {
 }
 function absPath(relativePath) {
   return normalizePath(path.resolve(__dirname, relativePath))
-}
-
-function copyStatics(mode) {
-  return {
-    name: 'copy-static-files',
-    closeBundle() {
-      if (!fs.existsSync(path.resolve('../assets'))) {
-        fs.mkdirSync(path.resolve('../assets'))
-      }
-
-      fs.readdirSync(path.resolve('./static')).forEach((file) => {
-        fs.copyFileSync(path.resolve(`./static/${file}`), path.resolve(`../assets/${file}`))
-      })
-    }
-  }
 }

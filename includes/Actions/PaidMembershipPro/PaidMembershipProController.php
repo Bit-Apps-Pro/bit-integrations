@@ -11,7 +11,6 @@ class PaidMembershipProController
         if (is_plugin_active('paid-memberships-pro/paid-memberships-pro.php')) {
             return $option === 'get_name' ? 'paid-memberships-pro/paid-memberships-pro.php' : true;
         }
-
         return false;
     }
 
@@ -20,18 +19,18 @@ class PaidMembershipProController
         if (self::pluginActive()) {
             wp_send_json_success(true, 200);
         }
-        wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'Paid Membership'));
+        wp_send_json_error(__('Paid Membership must be activated!', 'bit-integrations'));
     }
 
     public static function getAllPaidMembershipProLevel()
     {
         global $wpdb;
-        $levels = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->pmpro_membership_levels} ORDER BY id ASC"));
+        $levels = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->pmpro_membership_levels ORDER BY id ASC"));
         $allLevels = [];
         if ($levels) {
             foreach ($levels as $level) {
                 $allLevels[] = [
-                    'membershipId'    => $level->id,
+                    'membershipId' => $level->id,
                     'membershipTitle' => $level->name,
                 ];
             }
@@ -51,8 +50,8 @@ class PaidMembershipProController
         $mainAction = $integrationDetails->mainAction;
         $selectedMembership = $integrationDetails->selectedMembership;
         if (
-            empty($integId)
-            || empty($mainAction) || empty($selectedMembership)
+            empty($integId) ||
+            empty($mainAction) || empty($selectedMembership)
         ) {
             return new WP_Error('REQ_FIELD_EMPTY', __('module, There is an some error.', 'bit-integrations'));
         }
@@ -65,7 +64,6 @@ class PaidMembershipProController
         if (is_wp_error($paidMemberpressApiResponse)) {
             return $paidMemberpressApiResponse;
         }
-
         return $paidMemberpressApiResponse;
     }
 }

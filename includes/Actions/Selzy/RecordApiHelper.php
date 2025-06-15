@@ -16,8 +16,8 @@ use BitCode\FI\Log\LogHandler;
 class RecordApiHelper
 {
     private $_integrationID;
-
     private $baseUrl = 'https://api.selzy.com/en/api/';
+
 
     public function __construct($integrationDetails, $integId)
     {
@@ -34,7 +34,7 @@ class RecordApiHelper
             $actionValue = $value->selzyFormField;
             if ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!\is_null($data[$triggerValue])) {
+            } elseif (!is_null($data[$triggerValue])) {
                 $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
@@ -45,8 +45,7 @@ class RecordApiHelper
     public function response($status, $code, $type, $typeName, $apiResponse)
     {
         $res = ['success' => $code === 200 ? true : false, 'message' => $apiResponse, 'code' => $code];
-        LogHandler::save($this->_integrationID, wp_json_encode(['type' => $type, 'type_name' => $typeName]), $status, wp_json_encode($res));
-
+        LogHandler::save($this->_integrationID, json_encode(['type' => $type, 'type_name' => $typeName]), $status, json_encode($res));
         return $res;
     }
 
@@ -55,23 +54,23 @@ class RecordApiHelper
         $data = '';
         foreach ($formData as $key => $field) {
             $field = str_replace(' ', '+', $field);
-            $data .= "&fields[{$key}]={$field}";
+            $data .= "&fields[$key]=$field";
         }
         $query = http_build_query(
             [
-                'format'       => 'json',
-                'api_key'      => $authKey,
-                'list_ids'     => $listIds,
-                'tags'         => $tags,
-                'double_optin' => $option,
-                'overwrite'    => $overwrite
+              'format' => 'json',
+              'api_key' => $authKey,
+              'list_ids' => $listIds,
+              'tags' => $tags,
+              'double_optin' => $option,
+              'overwrite' => $overwrite
             ]
         );
 
-        $apiEndpoint = "{$this->baseUrl}subscribe?" . $query . $data;
+        $apiEndpoint = "{$this->baseUrl}subscribe?".$query . $data  ;
 
-        $headers = [
-            'Content-Type' => 'application/json'
+        $headers     = [
+          'Content-Type' => 'application/json'
         ];
 
         return HttpHelper::post($apiEndpoint, null, $headers);
@@ -81,9 +80,8 @@ class RecordApiHelper
     {
         $apiEndpoints = "{$this->baseUrl}exclude?format=json&api_key={$authKey}&list_ids={$listIds}&contact_type=email&contact={$formData->email}";
         $headers = [
-            'Content-Type' => 'application/json'
+          'Content-Type' => 'application/json'
         ];
-
         return HttpHelper::post($apiEndpoints, null, $headers);
     }
 
@@ -113,7 +111,6 @@ class RecordApiHelper
                 } else {
                     $this->response('success', 200, 'subscribe', $type_name, $apiResponse);
                 }
-
                 break;
             case 2:
                 $apiResponse = $this->unsubscribe($authKey, $listIds, $finalData);
@@ -122,10 +119,8 @@ class RecordApiHelper
                 } else {
                     $this->response('success', 200, 'unsubscribe', 'remove-contact', $apiResponse);
                 }
-
                 break;
         }
-
         return $apiResponse;
     }
 }

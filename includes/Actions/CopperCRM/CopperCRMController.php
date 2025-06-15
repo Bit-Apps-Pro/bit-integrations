@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\CopperCRM;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use WP_Error;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for CopperCRM integration
@@ -15,12 +15,11 @@ use WP_Error;
 class CopperCRMController
 {
     protected $_defaultHeader;
-
     protected $apiEndpoint;
 
     public function __construct()
     {
-        $this->apiEndpoint = 'https://api.copper.com/developer_api/v1';
+        $this->apiEndpoint = "https://api.copper.com/developer_api/v1";
     }
 
     public function authentication($fieldsRequestParams)
@@ -29,22 +28,22 @@ class CopperCRMController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->api_key;
-        $apiEmail = $fieldsRequestParams->api_email;
-        $apiEndpoint = $this->apiEndpoint . '/account';
+        $apiKey      = $fieldsRequestParams->api_key;
+        $apiEmail     = $fieldsRequestParams->api_email;
+        $apiEndpoint = $this->apiEndpoint . "/account";
         $headers = [
-            'X-PW-AccessToken' => $apiKey,
-            'X-PW-Application' => 'developer_api',
-            'X-PW-UserEmail'   => $apiEmail,
-            'Content-Type'     => 'application/json'
+            "X-PW-AccessToken"  => $apiKey,
+            "X-PW-Application"  => "developer_api",
+            "X-PW-UserEmail"    => $apiEmail,
+            "Content-Type"      => "application/json"
         ];
 
         $response = HttpHelper::get($apiEndpoint, null, $headers);
 
         if (!isset($response->error)) {
-            wp_send_json_success(__('Authentication successful', 'bit-integrations'), 200);
+            wp_send_json_success('Authentication successful', 200);
         } else {
-            wp_send_json_error(__('Please enter valid API key', 'bit-integrations'), 400);
+            wp_send_json_error('Please enter valid API key', 400);
         }
     }
 
@@ -54,9 +53,9 @@ class CopperCRMController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->api_key;
-        $action = $fieldsRequestParams->action;
-        $apiEmail = $fieldsRequestParams->api_email;
+        $apiKey      = $fieldsRequestParams->api_key;
+        $action      = $fieldsRequestParams->action;
+        $apiEmail    = $fieldsRequestParams->api_email;
         // if ($action == 'person' || $action == 'company') {
         //     $apiEndpoint = $this->apiEndpoint."/peoples/fields/definitions";
         // } elseif ($action == 'opportunity') {
@@ -65,27 +64,27 @@ class CopperCRMController
         //     $apiEndpoint = $this->apiEndpoint."/kases/fields/definitions";
         // }
 
-        $apiEndpoint = $this->apiEndpoint . '/custom_field_definitions';
+        $apiEndpoint = $this->apiEndpoint . "/custom_field_definitions";
         $headers = [
-            'X-PW-AccessToken' => $apiKey,
-            'X-PW-Application' => 'developer_api',
-            'X-PW-UserEmail'   => $apiEmail,
-            'Content-Type'     => 'application/json'
+            "X-PW-AccessToken"  => $apiKey,
+            "X-PW-Application"  => "developer_api",
+            "X-PW-UserEmail"    => $apiEmail,
+            "Content-Type"      => "application/json"
         ];
 
         $response = HttpHelper::get($apiEndpoint, null, $headers);
         if (isset($response)) {
             foreach ($response as $customField) {
-                if (\in_array($action, $customField->available_on)) {
+                if (in_array($action, $customField->available_on)) {
                     $customFields[] = [
-                        'key'   => $customField->id,
+                        'key' => $customField->id,
                         'label' => $customField->name,
                     ];
                 }
             }
             wp_send_json_success($customFields, 200);
         } else {
-            wp_send_json_error(__('Custom field fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Custom field fetching failed', 400);
         }
     }
 
@@ -95,10 +94,10 @@ class CopperCRMController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->api_key;
-        $apiEndpoint = $this->apiEndpoint . '/opportunities';
+        $apiKey      = $fieldsRequestParams->api_key;
+        $apiEndpoint = $this->apiEndpoint . "/opportunities";
         $headers = [
-            'Authorization' => 'Bearer ' . $apiKey,
+            "Authorization" => 'Bearer ' . $apiKey,
         ];
 
         $response = HttpHelper::get($apiEndpoint, null, $headers);
@@ -112,7 +111,7 @@ class CopperCRMController
             }
             wp_send_json_success($opportunities, 200);
         } else {
-            wp_send_json_error(__('Opportunity fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Opportunity fetching failed', 400);
         }
     }
 
@@ -121,14 +120,14 @@ class CopperCRMController
         if (empty($fieldsRequestParams->api_key)) {
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
-        $apiKey = $fieldsRequestParams->api_key;
-        $apiEmail = $fieldsRequestParams->api_email;
-        $apiEndpoint = $this->apiEndpoint . '/users';
+        $apiKey      = $fieldsRequestParams->api_key;
+        $apiEmail     = $fieldsRequestParams->api_email;
+        $apiEndpoint = $this->apiEndpoint . "/users";
         $headers = [
-            'X-PW-AccessToken' => $apiKey,
-            'X-PW-Application' => 'developer_api',
-            'X-PW-UserEmail'   => $apiEmail,
-            'Content-Type'     => 'application/json'
+            "X-PW-AccessToken"  => $apiKey,
+            "X-PW-Application"  => "developer_api",
+            "X-PW-UserEmail"    => $apiEmail,
+            "Content-Type"      => "application/json"
         ];
 
         $response = HttpHelper::get($apiEndpoint, null, $headers);
@@ -142,7 +141,7 @@ class CopperCRMController
             }
             wp_send_json_success($owners, 200);
         } else {
-            wp_send_json_error(__('Owners fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Owners fetching failed', 400);
         }
     }
 
@@ -151,14 +150,14 @@ class CopperCRMController
         if (empty($fieldsRequestParams->api_key)) {
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
-        $apiKey = $fieldsRequestParams->api_key;
-        $apiEmail = $fieldsRequestParams->api_email;
-        $apiEndpoint = $this->apiEndpoint . '/companies/search';
+        $apiKey      = $fieldsRequestParams->api_key;
+        $apiEmail     = $fieldsRequestParams->api_email;
+        $apiEndpoint = $this->apiEndpoint . "/companies/search";
         $headers = [
-            'X-PW-AccessToken' => $apiKey,
-            'X-PW-Application' => 'developer_api',
-            'X-PW-UserEmail'   => $apiEmail,
-            'Content-Type'     => 'application/json'
+            "X-PW-AccessToken"  => $apiKey,
+            "X-PW-Application"  => "developer_api",
+            "X-PW-UserEmail"    => $apiEmail,
+            "Content-Type"      => "application/json"
         ];
 
         $response = HttpHelper::post($apiEndpoint, null, $headers);
@@ -172,7 +171,7 @@ class CopperCRMController
             }
             wp_send_json_success($companies, 200);
         } else {
-            wp_send_json_error(__('Companies fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Companies fetching failed', 400);
         }
     }
 
@@ -182,14 +181,14 @@ class CopperCRMController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->api_key;
-        $apiEmail = $fieldsRequestParams->api_email;
-        $apiEndpoint = $this->apiEndpoint . '/pipeline_stages';
+        $apiKey      = $fieldsRequestParams->api_key;
+        $apiEmail     = $fieldsRequestParams->api_email;
+        $apiEndpoint = $this->apiEndpoint . "/pipeline_stages";
         $headers = [
-            'X-PW-AccessToken' => $apiKey,
-            'X-PW-Application' => 'developer_api',
-            'X-PW-UserEmail'   => $apiEmail,
-            'Content-Type'     => 'application/json'
+            "X-PW-AccessToken"  => $apiKey,
+            "X-PW-Application"  => "developer_api",
+            "X-PW-UserEmail"    => $apiEmail,
+            "Content-Type"      => "application/json"
         ];
 
         $response = HttpHelper::get($apiEndpoint, null, $headers);
@@ -203,7 +202,7 @@ class CopperCRMController
             }
             wp_send_json_success($pipelineStages, 200);
         } else {
-            wp_send_json_error(__('PipelineStages fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('PipelineStages fetching failed', 400);
         }
     }
 
@@ -213,14 +212,14 @@ class CopperCRMController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->api_key;
-        $apiEmail = $fieldsRequestParams->api_email;
-        $apiEndpoint = $this->apiEndpoint . '/people/search';
+        $apiKey      = $fieldsRequestParams->api_key;
+        $apiEmail     = $fieldsRequestParams->api_email;
+        $apiEndpoint = $this->apiEndpoint . "/people/search";
         $headers = [
-            'X-PW-AccessToken' => $apiKey,
-            'X-PW-Application' => 'developer_api',
-            'X-PW-UserEmail'   => $apiEmail,
-            'Content-Type'     => 'application/json'
+            "X-PW-AccessToken"  => $apiKey,
+            "X-PW-Application"  => "developer_api",
+            "X-PW-UserEmail"    => $apiEmail,
+            "Content-Type"      => "application/json"
         ];
 
         $response = HttpHelper::post($apiEndpoint, null, $headers);
@@ -234,7 +233,7 @@ class CopperCRMController
             }
             wp_send_json_success($peoples, 200);
         } else {
-            wp_send_json_error(__('Peoples fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Peoples fetching failed', 400);
         }
     }
 
@@ -244,14 +243,14 @@ class CopperCRMController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->api_key;
-        $apiEmail = $fieldsRequestParams->api_email;
-        $apiEndpoint = $this->apiEndpoint . '/pipelines';
+        $apiKey      = $fieldsRequestParams->api_key;
+        $apiEmail     = $fieldsRequestParams->api_email;
+        $apiEndpoint = $this->apiEndpoint . "/pipelines";
         $headers = [
-            'X-PW-AccessToken' => $apiKey,
-            'X-PW-Application' => 'developer_api',
-            'X-PW-UserEmail'   => $apiEmail,
-            'Content-Type'     => 'application/json'
+            "X-PW-AccessToken"  => $apiKey,
+            "X-PW-Application"  => "developer_api",
+            "X-PW-UserEmail"    => $apiEmail,
+            "Content-Type"      => "application/json"
         ];
 
         $response = HttpHelper::get($apiEndpoint, null, $headers);
@@ -265,29 +264,28 @@ class CopperCRMController
             }
             wp_send_json_success($pipelines, 200);
         } else {
-            wp_send_json_error(__('Pipelines fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Pipelines fetching failed', 400);
         }
     }
 
     public function execute($integrationData, $fieldValues)
     {
         $integrationDetails = $integrationData->flow_details;
-        $integId = $integrationData->id;
-        $authToken = $integrationDetails->api_key;
-        $fieldMap = $integrationDetails->field_map;
-        $actionName = $integrationDetails->actionName;
+        $integId            = $integrationData->id;
+        $authToken          = $integrationDetails->api_key;
+        $fieldMap           = $integrationDetails->field_map;
+        $actionName         = $integrationDetails->actionName;
 
         if (empty($fieldMap) || empty($authToken) || empty($actionName)) {
-            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Copper CRM'));
+            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for CopperCRM api', 'bit-integrations'));
         }
 
-        $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
+        $recordApiHelper   = new RecordApiHelper($integrationDetails, $integId);
         $coppercrmApiResponse = $recordApiHelper->execute($fieldValues, $fieldMap, $actionName);
 
         if (is_wp_error($coppercrmApiResponse)) {
             return $coppercrmApiResponse;
         }
-
         return $coppercrmApiResponse;
     }
 }

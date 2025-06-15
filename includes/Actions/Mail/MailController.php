@@ -1,5 +1,4 @@
 <?php
-
 namespace BitCode\FI\Actions\Mail;
 
 use BitCode\FI\Core\Util\Common;
@@ -10,8 +9,8 @@ final class MailController
     /**
      * Helps to execute integration flow for Mail action
      *
-     * @param object $integrationData Details of flow
-     * @param array  $fieldValues     Data to use in send mail
+     * @param Object $integrationData Details of flow
+     * @param Array  $fieldValues     Data to use in send mail
      *
      * @return null
      */
@@ -40,7 +39,7 @@ final class MailController
                 $attachments = [];
                 if (!empty($flow->attachment)) {
                     $files = $flow->attachment;
-                    if (\is_array($files)) {
+                    if (is_array($files)) {
                         foreach ($files as $file) {
                             $attachments = array_merge($attachments, $this->processAttachment($file, $fieldValues));
                         }
@@ -56,9 +55,9 @@ final class MailController
                     $status = wp_mail($mailTo, $mailSubject, $mailBody, $mailHeaders);
                 }
                 if (!$status) {
-                    LogHandler::save($integrationData->id, 'Send Mail', 'failed', wp_sprintf(__('%s failed sends mail to %s', 'bit-integrations'), $flow->name, implode(', ', $mailTo)));
+                    LogHandler::save($integrationData->id, 'Send Mail', 'failed', "[$flow->name] failed sends mail to " . implode(', ', $mailTo));
                 } else {
-                    LogHandler::save($integrationData->id, 'Send Mail', 'success', wp_sprintf(__('%s successfully sends mail to %s', 'bit-integrations'), $flow->name, implode(', ', $mailTo)));
+                    LogHandler::save($integrationData->id, 'Send Mail', 'success', "[$flow->name] successfully sends mail to " . implode(', ', $mailTo));
                 }
 
                 remove_filter('wp_mail_content_type', [self::class, 'filterMailContentType']);
@@ -73,7 +72,7 @@ final class MailController
 
     public function validateAddresses($emailAddresses, $fieldValues)
     {
-        if (!\is_array($emailAddresses)) {
+        if (!is_array($emailAddresses)) {
             return [Common::replaceFieldWithValue($emailAddresses, $fieldValues)];
         }
         foreach ($emailAddresses as $key => $email) {
@@ -84,7 +83,6 @@ final class MailController
                 $emailAddresses[$key] = $email;
             }
         }
-
         return $emailAddresses;
     }
 
@@ -92,14 +90,13 @@ final class MailController
     {
         $headers = [];
         $addresses = $this->validateAddresses($address, $fields);
-        if (\is_array($addresses)) {
+        if (is_array($addresses)) {
             foreach ($addresses as $address) {
-                $headers[] = "{$type}: " . explode('@', $address)[0] . '<' . sanitize_email($address) . '>';
+                $headers[] = "$type: " . explode('@', $address)[0] . '<' . sanitize_email($address) . '>';
             }
         } else {
-            $headers[] = "{$type}: " . explode('@', $addresses)[0] . '<' . sanitize_email($addresses) . '>';
+            $headers[] = "$type: " . explode('@', $addresses)[0] . '<' . sanitize_email($addresses) . '>';
         }
-
         return $headers;
     }
 
@@ -107,17 +104,16 @@ final class MailController
     {
         $attachments = [];
         if (isset($fields[$file])) {
-            if (\is_array($fields[$file])) {
+            if (is_array($fields[$file])) {
                 foreach ($fields[$file] as $singleFile) {
-                    if (is_readable("{$singleFile}")) {
+                    if (\is_readable("{$singleFile}")) {
                         $attachments[] = "{$singleFile}";
                     }
                 }
-            } elseif (is_readable("{$fields[$file]}")) {
+            } elseif (\is_readable("{$fields[$file]}")) {
                 $attachments[] = "{$fields[$file]}";
             }
         }
-
         return $attachments;
     }
 }

@@ -22,17 +22,16 @@ const AffiliateHelper = ({ flow, setFlowData, edit = false }) => {
   const triggerData = !edit ? newFlow?.triggerData : flow.flow_details
   return (
     <div>
-      {(id === '4' || id === '5' || id === '3') && (
+      { (id === '4' || id === '5' || id === '3') && (
+
         <div className={edit ? 'flx mt-3' : ''}>
-          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
-            {__('Select a Type', 'bit-integrations')}
-          </b>
+          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>Select a Type</b>
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={triggerData?.selectedType}
             options={triggerData?.allType?.map((list) => ({
               label: list.type_name,
-              value: list.type_id.toString()
+              value: list.type_id.toString(),
             }))}
             onChange={(val) => setFlowData(val, 'selectedType')}
             singleSelect
@@ -41,6 +40,7 @@ const AffiliateHelper = ({ flow, setFlowData, edit = false }) => {
         </div>
       )}
     </div>
+
   )
 }
 export default AffiliateHelper

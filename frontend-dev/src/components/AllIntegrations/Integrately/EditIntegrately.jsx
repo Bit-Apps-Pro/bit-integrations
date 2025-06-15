@@ -37,18 +37,7 @@ function EditIntegrately({ allIntegURL }) {
 
       <WebHooksStepTwo
         edit
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            setFlow,
-            allIntegURL,
-            conf: integrately,
-            navigate,
-            edit: 1,
-            setIsLoading,
-            setSnackbar
-          })
-        }
+        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, conf: integrately, navigate, edit: 1, setIsLoading, setSnackbar })}
         isLoading={isLoading}
       />
       <br />

@@ -19,58 +19,47 @@ function SendGrid({ formFields, setFlow, flow, allIntegURL }) {
   const [loading, setLoading] = useState({
     auth: false,
     customFields: false,
-    lists: false
+    lists: false,
   })
 
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
   const staticFields = [
-    { key: 'email', label: __('Email', 'bit-integrations'), required: true },
-    { key: 'first_name', label: __('First Name', 'bit-integrations'), required: false },
-    { key: 'last_name', label: __('Last Name', 'bit-integrations'), required: false },
-    { key: 'alternate_emails', label: __('Alternate Emails', 'bit-integrations'), required: false },
-    { key: 'address_line_1', label: __('Address Line 1', 'bit-integrations'), required: false },
-    { key: 'address_line_2', label: __('Address Line 2', 'bit-integrations'), required: false },
-    { key: 'city', label: __('City', 'bit-integrations'), required: false },
-    {
-      key: 'state_province_region',
-      label: __('State Province Region', 'bit-integrations'),
-      required: false
-    },
-    { key: 'postal_code', label: __('Postal Code', 'bit-integrations'), required: false },
-    { key: 'country', label: __('Country', 'bit-integrations'), required: false },
-    { key: 'phone_number', label: __('Phone Number', 'bit-integrations'), required: false },
-    { key: 'whatsapp', label: __('Whatsapp', 'bit-integrations'), required: false },
-    { key: 'line', label: __('Line', 'bit-integrations'), required: false },
-    { key: 'facebook', label: __('Facebook', 'bit-integrations'), required: false },
-    { key: 'unique_name', label: __('Unique Name', 'bit-integrations'), required: false }
+    { key: 'email', label: 'Email', required: true },
+    { key: 'first_name', label: 'First Name', required: false },
+    { key: 'last_name', label: 'Last Name', required: false },
+    { key: 'alternate_emails', label: 'Alternate Emails', required: false },
+    { key: 'address_line_1', label: 'Address Line 1', required: false },
+    { key: 'address_line_2', label: 'Address Line 2', required: false },
+    { key: 'city', label: 'City', required: false },
+    { key: 'state_province_region', label: 'State Province Region', required: false },
+    { key: 'postal_code', label: 'Postal Code', required: false },
+    { key: 'country', label: 'Country', required: false },
+    { key: 'phone_number', label: 'Phone Number', required: false },
+    { key: 'whatsapp', label: 'Whatsapp', required: false },
+    { key: 'line', label: 'Line', required: false },
+    { key: 'facebook', label: 'Facebook', required: false },
+    { key: 'unique_name', label: 'Unique Name', required: false },
   ]
 
   const [sendGridConf, setSendGridConf] = useState({
     name: 'SendGrid',
     type: 'SendGrid',
-    apiKey: '',
-    field_map: [{ formField: '', sendGridFormField: '' }],
+    apiKey: process.env.NODE_ENV === 'development' ? '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' : '',
+    field_map: [
+      { formField: '', sendGridFormField: '' },
+    ],
     staticFields,
     lists: [],
     customFields: [],
     selectedLists: '',
     groups: [],
-    actions: {}
+    actions: {},
   })
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      sendGridConf,
-      navigate,
-      '',
-      '',
-      setIsLoading
-    )
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, sendGridConf, navigate, '', '', setIsLoading)
     resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
@@ -81,13 +70,13 @@ function SendGrid({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = pageNo => {
+  const nextPage = (pageNo) => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
     if (!checkMappedFields(sendGridConf)) {
-      toast.error(__('Please map mandatory fields', 'bit-integrations'))
+      toast.error('Please map mandatory fields')
       return
     }
     sendGridConf.field_map.length > 0 && setStep(pageNo)
@@ -96,9 +85,7 @@ function SendGrid({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={3} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
 
       {/* STEP 1 */}
       <SendGridAuthorization
@@ -112,9 +99,8 @@ function SendGrid({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+
         <SendGridIntegLayout
           formFields={formFields}
           sendGridConf={sendGridConf}
@@ -126,9 +112,12 @@ function SendGrid({ formFields, setFlow, flow, allIntegURL }) {
         <button
           onClick={() => nextPage(3)}
           disabled={!checkMappedFields(sendGridConf)}
-          className="btn f-right btcd-btn-lg purple sh-sm flx"
-          type="button">
-          {__('Next', 'bit-integrations')} &nbsp;
+          className="btn f-right btcd-btn-lg green sh-sm flx"
+          type="button"
+        >
+          {__('Next', 'bit-integrations')}
+          {' '}
+          &nbsp;
           <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
         </button>
       </div>

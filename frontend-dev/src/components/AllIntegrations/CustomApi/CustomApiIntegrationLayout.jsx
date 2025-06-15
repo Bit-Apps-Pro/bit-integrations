@@ -12,23 +12,15 @@ import Params from '../IntegrationHelpers/WebHook/Params'
 import RequestHeaders from '../IntegrationHelpers/WebHook/RequestHeaders'
 import Body from '../IntegrationHelpers/WebHook/Body'
 
-const CustomApiIntegrationLayout = ({
-  formID,
-  formFields,
-  customApiConf,
-  setCustomApiConf,
-  isInfo,
-  create,
-  step,
-  setStep
-}) => {
+
+const CustomApiIntegrationLayout = ({ formID, formFields, customApiConf, setCustomApiConf, isInfo, create, step, setStep }) => {
   const [tab, setTab] = useState(1)
   const actionMethods = [
-    { value: 'GET', label: __('GET', 'bit-integrations') },
-    { value: 'POST', label: __('POST', 'bit-integrations') },
-    { value: 'PUT', label: __('PUT', 'bit-integrations') },
-    { value: 'DELETE', label: __('DELETE', 'bit-integrations') },
-    { value: 'PATCH', label: __('PATCH', 'bit-integrations') }
+    { value: 'GET', label: 'GET' },
+    { value: 'POST', label: 'POST' },
+    { value: 'PUT', label: 'PUT' },
+    { value: 'DELETE', label: 'DELETE' },
+    { value: 'PATCH', label: 'PATCH' }
   ]
 
   // const contentTypes = [
@@ -46,7 +38,7 @@ const CustomApiIntegrationLayout = ({
     }
     setCustomApiConf({ ...newConf })
   }
-  const handleInput = (e) => {
+  const handleInput = e => {
     const newConf = deepCopy(customApiConf)
     newConf[e.target.name] = e.target.value
     setCustomApiConf(newConf)
@@ -63,18 +55,18 @@ const CustomApiIntegrationLayout = ({
     <>
       <br />
       <div className="d-flx">
-        <b className="wdt-200 d-in-b mt-3">{__('Select Method:', 'bit-integrations')}</b>
+        <b className="wdt-200 d-in-b mt-3">{__('Select Method: ', 'bit-integrations')}</b>
         <MultiSelect
           defaultValue={customApiConf.actionMethod}
           className="btcd-paper-drpdwn w-5"
           singleSelect
           options={actionMethods}
-          onChange={(val) => setValue(val, 'actionMethod')}
+          onChange={val => setValue(val, 'actionMethod')}
         />
       </div>
       {/* <br /> */}
       {/* <div className="d-flx">
-            <b className="wdt-200 d-in-b mt-3">{__('Select Content Type:', 'bit-integrations')}</b>
+            <b className="wdt-200 d-in-b mt-3">{__('Select Content Type: ', 'bit-integrations')}</b>
             <MultiSelect
               defaultValue={customApiConf.contentType}
               className="btcd-paper-drpdwn w-5"
@@ -84,18 +76,9 @@ const CustomApiIntegrationLayout = ({
             />
         </div> */}
       <br />
-      <div className="d-flx">
-        <div className="wdt-200 d-in-b mt-3">
-          <b>{__('Api endpoint:', 'bit-integrations')}</b>
-        </div>
-        <input
-          className="btcd-paper-inp w-6 mt-1"
-          onChange={handleInput}
-          name="url"
-          value={customApiConf.url}
-          type="text"
-          placeholder={__('api endpoint', 'bit-integrations')}
-        />
+      <div className='d-flx'>
+        <div className="wdt-200 d-in-b mt-3"><b>{__('Api endpoint:', 'bit-integrations')}</b></div>
+        <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="url" value={customApiConf.url} type="text" placeholder={__('api endpoint', 'bit-integrations')} />
       </div>
       <br />
       <br />
@@ -119,40 +102,24 @@ const CustomApiIntegrationLayout = ({
         </div>
         <div className="btcd-hr" />
         <Panel>
-          <Params
-            webHooks={customApiConf}
-            setWebHooks={setCustomApiConf}
-            formFields={formFields}
-            isInfo={isInfo}
-            setTab={setTab}
-          />
+          <Params webHooks={customApiConf} setWebHooks={setCustomApiConf} formFields={formFields} isInfo={isInfo} setTab={setTab} />
         </Panel>
         <Panel>
-          <RequestHeaders
-            webHooks={customApiConf}
-            setWebHooks={setCustomApiConf}
-            formFields={formFields}
-            isInfo={isInfo}
-            setTab={setTab}
-          />
+          <RequestHeaders webHooks={customApiConf} setWebHooks={setCustomApiConf} formFields={formFields} isInfo={isInfo} setTab={setTab} />
         </Panel>
         <Panel>
-          <Body
-            webHooks={customApiConf}
-            setWebHooks={setCustomApiConf}
-            formFields={formFields}
-            isInfo={isInfo}
-            setTab={setTab}
-          />
+          <Body webHooks={customApiConf} setWebHooks={setCustomApiConf} formFields={formFields} isInfo={isInfo} setTab={setTab} />
         </Panel>
       </Tabs>
 
       {/* {create && (
-        <button onClick={() => nextPage()} className="btn btcd-btn-lg purple sh-sm flx" type="button">
+        <button onClick={() => nextPage()} className="btn btcd-btn-lg green sh-sm flx" type="button">
           {__('Next', 'bit-integrations')}
           <BackIcn className="ml-1 rev-icn" />
         </button>
       )} */}
+
+
     </>
   )
 }

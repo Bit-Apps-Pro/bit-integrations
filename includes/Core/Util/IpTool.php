@@ -9,26 +9,6 @@ namespace BitCode\FI\Core\Util;
 final class IpTool
 {
     /**
-     * Provide user details
-     *
-     * @return _setUserDetail user details array
-     */
-    public static function getUserDetail()
-    {
-        return IpTool::_setUserDetail();
-    }
-
-    /**
-     * Provide user IP address
-     *
-     * @return ip
-     */
-    public static function getIP()
-    {
-        return IpTool::_checkIP();
-    }
-
-    /**
      * Check ip address
      *
      * @return string IP address of current visitor
@@ -48,7 +28,6 @@ final class IpTool
         } else {
             $ip = sanitize_text_field($_SERVER['REMOTE_ADDR']);
         }
-
         return $ip;
     }
 
@@ -59,12 +38,11 @@ final class IpTool
      */
     private static function _checkDevice()
     {
-        if (isset($_SERVER, $_SERVER['HTTP_USER_AGENT'])) {
+        if (isset($_SERVER) && isset($_SERVER['HTTP_USER_AGENT'])) {
             $user_agent = sanitize_text_field($_SERVER['HTTP_USER_AGENT']);
         } else {
             $user_agent = '';
         }
-
         return IpTool::_getBrowserName($user_agent) . '|' . IpTool::_getOS($user_agent);
     }
 
@@ -154,8 +132,6 @@ final class IpTool
      *
      * @link https://stackoverflow.com/questions/18070154/get-operating-system-info
      *
-     * @param mixed $user_agent
-     *
      * @return void
      */
     private static function _getOS($user_agent)
@@ -177,8 +153,8 @@ final class IpTool
         $ros[] = ['(win)([0-9]{2})', 'Windows'];
         $ros[] = ['(windows)([0-9x]{2})', 'Windows'];
         // Doesn't seem like these are necessary...not totally sure though..
-        // $ros[] = array('(winnt)([0-9]{1,2}\.[0-9]{1,2}){0,1}', 'Windows NT');
-        // $ros[] = array('(windows nt)(([0-9]{1,2}\.[0-9]{1,2}){0,1})', 'Windows NT'); // fix by bg
+        //$ros[] = array('(winnt)([0-9]{1,2}\.[0-9]{1,2}){0,1}', 'Windows NT');
+        //$ros[] = array('(windows nt)(([0-9]{1,2}\.[0-9]{1,2}){0,1})', 'Windows NT'); // fix by bg
         $ros[] = ['Windows ME', 'Windows ME'];
         $ros[] = ['Win 9x 4.90', 'Windows ME'];
         $ros[] = ['Windows 98|Win98', 'Windows 98'];
@@ -189,7 +165,7 @@ final class IpTool
         $ros[] = ['(Solaris)([0-9]{1,2}\.[0-9x]{1,2}){0,1}', 'Solaris'];
         $ros[] = ['dos x86', 'DOS'];
         $ros[] = ['unix', 'Unix'];
-        // Android
+        //Android
         $ros[] = ['SM', 'Samsung'];
         $ros[] = ['HTC', 'HTC'];
         $ros[] = ['LG', 'LG'];
@@ -200,7 +176,7 @@ final class IpTool
         $ros[] = ['Android', 'Android'];
         $ros[] = ['android', 'Android'];
 
-        // iPhone
+        //iPhone
         $ros[] = ['iPhone', 'iPhone'];
 
         $ros[] = ['Mac OS X', 'Mac OS X'];
@@ -237,15 +213,15 @@ final class IpTool
         $ros[] = ['(Red Hat)', 'Linux - Red Hat'];
         // Loads of Linux machines will be detected as unix.
         // Actually, all of the linux machines I've checked have the 'X11' in the User Agent.
-        // $ros[] = array('X11', 'Unix');
+        //$ros[] = array('X11', 'Unix');
         $ros[] = ['(linux)', 'Linux'];
         $ros[] = ['(amigaos)([0-9]{1,2}\.[0-9]{1,2})', 'AmigaOS'];
         $ros[] = ['amiga-aweb', 'AmigaOS'];
         $ros[] = ['amiga', 'Amiga'];
         $ros[] = ['AvantGo', 'PalmOS'];
-        // $ros[] = array('(Linux)([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,3}(rel\.[0-9]{1,2}){0,1}-([0-9]{1,2}) i([0-9]{1})86){1}', 'Linux');
-        // $ros[] = array('(Linux)([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,3}(rel\.[0-9]{1,2}){0,1} i([0-9]{1}86)){1}', 'Linux');
-        // $ros[] = array('(Linux)([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,3}(rel\.[0-9]{1,2}){0,1})', 'Linux');
+        //$ros[] = array('(Linux)([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,3}(rel\.[0-9]{1,2}){0,1}-([0-9]{1,2}) i([0-9]{1})86){1}', 'Linux');
+        //$ros[] = array('(Linux)([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,3}(rel\.[0-9]{1,2}){0,1} i([0-9]{1}86)){1}', 'Linux');
+        //$ros[] = array('(Linux)([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,3}(rel\.[0-9]{1,2}){0,1})', 'Linux');
         $ros[] = ['[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,3})', 'Linux'];
         $ros[] = ['(webtv)/([0-9]{1,2}\.[0-9]{1,2})', 'WebTV'];
         $ros[] = ['Dreamcast', 'Dreamcast OS'];
@@ -269,7 +245,7 @@ final class IpTool
         $ros[] = ['Java', 'Unknown'];
         $ros[] = ['flashget', 'Windows'];
         // delete next line if the script show not the right OS
-        // $ros[] = array('(PHP)/([0-9]{1,2}.[0-9]{1,2})', 'PHP');
+        //$ros[] = array('(PHP)/([0-9]{1,2}.[0-9]{1,2})', 'PHP');
         $ros[] = ['MS FrontPage', 'Windows'];
         $ros[] = ['(msproxy)/([0-9]{1,2}.[0-9]{1,2})', 'Windows'];
         $ros[] = ['(msie)([0-9]{1,2}.[0-9]{1,2})', 'Windows'];
@@ -277,32 +253,50 @@ final class IpTool
         $ros[] = ['UP.Browser', 'Windows CE'];
         $ros[] = ['NetAnts', 'Windows'];
         $ros[] = ['Android', 'Android'];
-        $file = \count($ros);
+        $file = count($ros);
         $os = '';
         for ($n = 0; $n < $file; $n++) {
             if (@preg_match('/' . $ros[$n][0] . '/i', $user_agent)) {
                 $os = @$ros[$n][1];
-
                 break;
             }
         }
-
         return trim($os);
     }
 
     /**
      * Set user details ip,cdevice, user_id, user's visited page, current mysql formatted time
      *
-     * @return array of user details
+     * @return Array of user details
      */
     private static function _setUserDetail()
     {
         $user_details['ip'] = ip2long(IpTool::_checkIP());
         $user_details['device'] = IpTool::_checkDevice();
         $user_details['id'] = get_current_user_id();
-        $user_details['page'] = \is_object(get_post()) ? get_permalink(get_post()->ID) : null;
+        $user_details['page'] = is_object(get_post()) ? get_permalink(get_post()->ID) : null;
         $user_details['time'] = current_time('mysql');
 
         return $user_details;
+    }
+
+    /**
+     * Provide user details
+     *
+     * @return _setUserDetail user details array
+     */
+    public static function getUserDetail()
+    {
+        return IpTool::_setUserDetail();
+    }
+
+    /**
+     * Provide user IP address
+     *
+     * @return ip
+     */
+    public static function getIP()
+    {
+        return IpTool::_checkIP();
     }
 }

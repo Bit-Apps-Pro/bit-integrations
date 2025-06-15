@@ -2,6 +2,7 @@
 
 /**
  * AdvancedFormIntegration Integration
+ *
  */
 
 namespace BitCode\FI\Actions\AdvancedFormIntegration;

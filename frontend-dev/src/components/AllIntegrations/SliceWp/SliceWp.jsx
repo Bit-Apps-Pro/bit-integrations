@@ -20,25 +20,27 @@ function SliceWp({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const allActions = [
-    { key: '1', label: __("Add commission to user's affiliate", 'bit-integrations') }
-    // { key: '2', label: __('Remove the user from a membership','bit-integrations') },
+    { key: '1', label: 'Add commission to user\'s affiliate' },
+    // { key: '2', label: 'Remove the user from a membership' },
   ]
 
   // for action 1
   const sliceWpFields = [
-    { key: 'commission_date', label: __('commission_date', 'bit-integrations'), required: true },
-    { key: 'reference', label: __('Reference', 'bit-integrations'), required: false },
-    { key: 'amount', label: __('Amount', 'bit-integrations'), required: false }
+    { key: 'commission_date', label: 'commission_date', required: true },
+    { key: 'reference', label: 'Reference', required: false },
+    { key: 'amount', label: 'Amount', required: false },
   ]
 
   const [sliceWpConf, setSliceWpConf] = useState({
     name: 'SliceWp',
     type: 'SliceWp',
     mainAction: '',
-    field_map: [{ formField: '', slicewpFormField: '' }],
+    field_map: [
+      { formField: '', slicewpFormField: '' },
+    ],
     allActions,
     sliceWpFields,
-    actions: {}
+    actions: {},
   })
   const nextPage = () => {
     setTimeout(() => {
@@ -57,9 +59,7 @@ function SliceWp({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={3} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
 
       {/* STEP 1 */}
       <SliceWpAuthorization
@@ -74,14 +74,11 @@ function SliceWp({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+
         <SliceWpIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, sliceWpConf, setSliceWpConf, setIsLoading, setSnackbar, formID)
-          }
+          handleInput={(e) => handleInput(e, sliceWpConf, setSliceWpConf, setIsLoading, setSnackbar, formID)}
           sliceWpConf={sliceWpConf}
           setSliceWpConf={setSliceWpConf}
           isLoading={isLoading}
@@ -95,33 +92,26 @@ function SliceWp({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
         <button
           onClick={() => nextPage(3)}
           disabled={!sliceWpConf.mainAction || isLoading || sliceWpConf.statusId === undefined}
-          className="btn f-right btcd-btn-lg purple sh-sm flx"
-          type="button">
+          className="btn f-right btcd-btn-lg green sh-sm flx"
+          type="button"
+        >
           {__('Next', 'bit-integrations')}
           &nbsp;
           <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
         </button>
+
       </div>
       {/* STEP 3 */}
 
       <IntegrationStepThree
         step={step}
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            setFlow,
-            allIntegURL,
-            navigate,
-            conf: sliceWpConf,
-            setIsLoading,
-            setSnackbar
-          })
-        }
+        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, navigate, conf: sliceWpConf, setIsLoading, setSnackbar })}
         isLoading={isLoading}
         dataConf={sliceWpConf}
         setDataConf={setSliceWpConf}
         formFields={formFields}
       />
+
     </div>
   )
 }

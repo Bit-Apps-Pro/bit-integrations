@@ -7,15 +7,7 @@ import { refreshEnchargeHeader } from './EnchargeCommonFunc'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 
-export default function EnchargeAuthorization({
-  formID,
-  enchargeConf,
-  setEnchargeConf,
-  step,
-  setstep,
-  setSnackbar,
-  isInfo
-}) {
+export default function EnchargeAuthorization({ formID, enchargeConf, setEnchargeConf, step, setstep, setSnackbar, isInfo }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', api_key: '' })
   const [showAuthMsg, setShowAuthMsg] = useState(false)
@@ -26,23 +18,24 @@ export default function EnchargeAuthorization({
     const newConf = { ...enchargeConf }
     if (!newConf.name || !newConf.api_key) {
       setError({
-        name: !newConf.name ? __("Integration name can't be empty", 'bit-integrations') : '',
-        api_key: !newConf.api_key ? __("API Key can't be empty", 'bit-integrations') : ''
+        name: !newConf.name ? __('Integration name cann\'t be empty', 'bit-integrations') : '',
+        api_key: !newConf.api_key ? __('API Key cann\'t be empty', 'bit-integrations') : '',
       })
       return
     }
     setIsLoading('auth')
     const data = { api_key: newConf.api_key }
-    bitsFetch(data, 'encharge_authorize').then((result) => {
-      if (result?.success) {
-        setisAuthorized(true)
-        setSnackbar({ show: true, msg: __('Authorized Successfully', 'bit-integrations') })
-      }
-      setShowAuthMsg(true)
-      setIsLoading(false)
-    })
+    bitsFetch(data, 'encharge_authorize')
+      .then(result => {
+        if (result?.success) {
+          setisAuthorized(true)
+          setSnackbar({ show: true, msg: __('Authorized Successfully', 'bit-integrations') })
+        }
+        setShowAuthMsg(true)
+        setIsLoading(false)
+      })
   }
-  const handleInput = (e) => {
+  const handleInput = e => {
     const newConf = { ...enchargeConf }
     const rmError = { ...error }
     rmError[e.target.name] = ''
@@ -60,84 +53,55 @@ export default function EnchargeAuthorization({
   }
 
   return (
-    <div
-      className="btcd-stp-page"
-      style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
+    <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
       {encharge?.youTubeLink && (
-        <TutorialLink title="Encharge" youTubeLink={encharge?.youTubeLink} />
+        <TutorialLink
+          title={encharge?.title}
+          youTubeLink={encharge?.youTubeLink}
+        />
       )}
-      {encharge?.docLink && <TutorialLink title="Encharge" docLink={encharge?.docLink} />}
+      {encharge?.docLink && (
+        <TutorialLink
+          title={encharge?.title}
+          docLink={encharge?.docLink}
+        />
+      )}
 
-      <div className="mt-3">
-        <b>{__('Integration Name:', 'bit-integrations')}</b>
-      </div>
-      <input
-        className="btcd-paper-inp w-6 mt-1"
-        onChange={handleInput}
-        name="name"
-        value={enchargeConf.name}
-        type="text"
-        placeholder={__('Integration Name...', 'bit-integrations')}
-        disabled={isInfo}
-      />
+      <div className="mt-3"><b>{__('Integration Name:', 'bit-integrations')}</b></div>
+      <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="name" value={enchargeConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} disabled={isInfo} />
       <div style={{ color: 'red', fontSize: '15px' }}>{error.name}</div>
 
-      <div className="mt-3">
-        <b>{__('API Key:', 'bit-integrations')}</b>
-      </div>
-      <input
-        className="btcd-paper-inp w-6 mt-1"
-        onChange={handleInput}
-        name="api_key"
-        value={enchargeConf.api_key}
-        type="text"
-        placeholder={__('API key', 'bit-integrations')}
-        disabled={isInfo}
-      />
+      <div className="mt-3"><b>{__('API Key:', 'bit-integrations')}</b></div>
+      <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="api_key" value={enchargeConf.api_key} type="text" placeholder={__('API key', 'bit-integrations')} disabled={isInfo} />
       <div style={{ color: 'red', fontSize: '15px' }}>{error.api_key}</div>
       <small className="d-blk mt-5">
-        {__('To get API , Please Visit', 'bit-integrations')}{' '}
-        <a
-          className="btcd-link"
-          href="https://app.encharge.io/account/info"
-          target="_blank"
-          rel="noreferrer">
-          {__('Encharge API Console', 'bit-integrations')}
-        </a>
+        {__('To get API , Please Visit', 'bit-integrations')}
+        {' '}
+        <a className="btcd-link" href="https://app.encharge.io/account/info" target="_blank" rel="noreferrer">{__('Encharge API Console', 'bit-integrations')}</a>
       </small>
       {isLoading === 'auth' && (
         <div className="flx mt-5">
           <LoaderSm size={25} clr="#022217" className="mr-2" />
-          {__('Checking API Key!!!', 'bit-integrations')}
+          Checking API Key!!!
         </div>
       )}
 
-      {showAuthMsg && !isAuthorized && !isLoading && (
+      {(showAuthMsg && !isAuthorized && !isLoading) && (
         <div className="flx mt-5" style={{ color: 'red' }}>
           <span className="btcd-icn mr-2" style={{ fontSize: 30, marginTop: -5 }}>
             &times;
           </span>
-          {__('Sorry, Api key is invalid', 'bit-integrations')}
+          Sorry, API key is invalid
         </div>
       )}
       {!isInfo && (
         <>
-          <button
-            onClick={handleAuthorize}
-            className="btn btcd-btn-lg purple sh-sm flx"
-            type="button"
-            disabled={isAuthorized || isLoading}>
-            {isAuthorized
-              ? __('Authorized ✔', 'bit-integrations')
-              : __('Authorize', 'bit-integrations')}
+          <button onClick={handleAuthorize} className="btn btcd-btn-lg green sh-sm flx" type="button" disabled={isAuthorized || isLoading}>
+            {isAuthorized ? __('Authorized ✔', 'bit-integrations') : __('Authorize', 'bit-integrations')}
             {isLoading && <LoaderSm size={20} clr="#022217" className="ml-2" />}
           </button>
           <br />
-          <button
-            onClick={() => nextPage(2)}
-            className="btn f-right btcd-btn-lg purple sh-sm flx"
-            type="button"
-            disabled={!isAuthorized}>
+          <button onClick={() => nextPage(2)} className="btn f-right btcd-btn-lg green sh-sm flx" type="button" disabled={!isAuthorized}>
             {__('Next', 'bit-integrations')}
             <BackIcn className="ml-1 rev-icn" />
           </button>

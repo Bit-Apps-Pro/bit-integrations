@@ -28,14 +28,7 @@ function EditFreshdesk({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, freshdeskConf, setFreshdeskConf)}
-          name="name"
-          value={freshdeskConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, freshdeskConf, setFreshdeskConf)} name="name" value={freshdeskConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
       <br />
@@ -53,25 +46,8 @@ function EditFreshdesk({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            allIntegURL,
-            conf: freshdeskConf,
-            navigate,
-            edit: 1,
-            setIsLoading,
-            setSnackbar
-          })
-        }
-        disabled={
-          !freshdeskConf.priority ||
-          !freshdeskConf.status ||
-          !checkMappedFields(freshdeskConf?.field_map) ||
-          (freshdeskConf.contactShow &&
-            !checkMappedFieldsContact(freshdeskConf?.field_map_contact)) ||
-          isLoading
-        }
+        saveConfig={() => saveActionConf({ flow, allIntegURL, conf: freshdeskConf, navigate, edit: 1, setIsLoading, setSnackbar })}
+        disabled={!freshdeskConf.priority || !freshdeskConf.status || !checkMappedFields(freshdeskConf?.field_map) || (freshdeskConf.contactShow && !checkMappedFieldsContact(freshdeskConf?.field_map_contact)) || isLoading}
         isLoading={isLoading}
         dataConf={freshdeskConf}
         setDataConf={setFreshdeskConf}

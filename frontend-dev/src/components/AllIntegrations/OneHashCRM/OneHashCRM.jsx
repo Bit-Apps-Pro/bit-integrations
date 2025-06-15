@@ -22,85 +22,70 @@ function OneHashCRM({ formFields, setFlow, flow, allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const customerFields = [
-    { key: 'customer_name', label: __('Full Name', 'bit-integrations'), required: true },
-    { key: 'mobile_no', label: __('Mobile Number', 'bit-integrations'), required: false },
-    { key: 'email_id', label: __('Email Address', 'bit-integrations'), required: false },
-    { key: 'primary_address', label: __('Primary Address', 'bit-integrations'), required: false },
-    {
-      key: 'customer_primary_contact',
-      label: __('customer Primary Contact', 'bit-integrations'),
-      required: false
-    },
-    {
-      key: 'customer_primary_address',
-      label: __('customer Primary Address', 'bit-integrations'),
-      required: false
-    }
+    { key: 'customer_name', label: 'Full Name', required: true },
+    { key: 'mobile_no', label: 'Mobile Number', required: false },
+    { key: 'email_id', label: 'Email Address', required: false },
+    { key: 'primary_address', label: 'Primary Address', required: false },
+    { key: 'customer_primary_contact', label: 'customer Primary Contact', required: false },
+    { key: 'customer_primary_address', label: 'customer Primary Address', required: false }
   ]
 
   const contactFields = [
-    { key: 'first_name', label: __('First Name', 'bit-integrations'), required: true },
-    { key: 'middle_name', label: __('Middle Name', 'bit-integrations'), required: false },
-    { key: 'last_name', label: __('Last Name', 'bit-integrations'), required: false },
-    { key: 'email_id', label: __('Email Address', 'bit-integrations'), required: false },
-    { key: 'designation', label: __('Designation', 'bit-integrations'), required: false },
-    { key: 'phone', label: __('Phone Number', 'bit-integrations'), required: false },
-    { key: 'mobile_no', label: __('Mobile Number', 'bit-integrations'), required: false },
-    { key: 'gender', label: __('Gender', 'bit-integrations'), required: false },
-    { key: 'department', label: __('Department', 'bit-integrations'), required: false },
-    { key: 'company_name', label: __('Company Name', 'bit-integrations'), required: false }
+    { key: 'first_name', label: 'First Name', required: true },
+    { key: 'middle_name', label: 'Middle Name', required: false },
+    { key: 'last_name', label: 'Last Name', required: false },
+    { key: 'email_id', label: 'Email Address', required: false },
+    { key: 'designation', label: 'Designation', required: false },
+    { key: 'phone', label: 'Phone Number', required: false },
+    { key: 'mobile_no', label: 'Mobile Number', required: false },
+    { key: 'gender', label: 'Gender', required: false },
+    { key: 'department', label: 'Department', required: false },
+    { key: 'company_name', label: 'Company Name', required: false },
   ]
 
   const leadFields = [
-    { key: 'lead_name', label: __('Person Name', 'bit-integrations'), required: true },
-    { key: 'company_name', label: __('Organization Name', 'bit-integrations'), required: true },
-    { key: 'email_id', label: __('Email Address', 'bit-integrations'), required: false },
-    { key: 'title', label: __('Title', 'bit-integrations'), required: false },
-    { key: 'phone', label: __('Phone Number', 'bit-integrations'), required: false },
-    { key: 'mobile_no', label: __('Mobile Number', 'bit-integrations'), required: false },
-    { key: 'fax', label: __('Fax', 'bit-integrations'), required: false },
-    { key: 'designation', label: __('Designation', 'bit-integrations'), required: false },
-    { key: 'gender', label: __('Gender', 'bit-integrations'), required: false },
-    { key: 'campaign_name', label: __('Campaign Name', 'bit-integrations'), required: false },
-    { key: 'website', label: __('Website', 'bit-integrations'), required: false },
-    { key: 'notes', label: __('Notes', 'bit-integrations'), required: false },
-    { key: 'address_title', label: __('Address Title', 'bit-integrations'), required: false },
-    { key: 'address_line1', label: __('Address Line 1', 'bit-integrations'), required: false },
-    { key: 'address_line2', label: __('Address Line 2', 'bit-integrations'), required: false },
-    { key: 'city', label: __('City', 'bit-integrations'), required: false },
-    { key: 'county', label: __('County', 'bit-integrations'), required: false },
-    { key: 'state', label: __('State', 'bit-integrations'), required: false },
-    { key: 'pincode', label: __('Postal Code', 'bit-integrations'), required: false },
-    { key: 'country', label: __('Country', 'bit-integrations'), required: false }
+    { key: 'lead_name', label: 'Person Name', required: true },
+    { key: 'company_name', label: 'Organization Name', required: true },
+    { key: 'email_id', label: 'Email Address', required: false },
+    { key: 'title', label: 'Title', required: false },
+    { key: 'phone', label: 'Phone Number', required: false },
+    { key: 'mobile_no', label: 'Mobile Number', required: false },
+    { key: 'fax', label: 'Fax', required: false },
+    { key: 'designation', label: 'Designation', required: false },
+    { key: 'gender', label: 'Gender', required: false },
+    { key: 'campaign_name', label: 'Campaign Name', required: false },
+    { key: 'website', label: 'Website', required: false },
+    { key: 'notes', label: 'Notes', required: false },
+    { key: 'address_title', label: 'Address Title', required: false },
+    { key: 'address_line1', label: 'Address Line 1', required: false },
+    { key: 'address_line2', label: 'Address Line 2', required: false },
+    { key: 'city', label: 'City', required: false },
+    { key: 'county', label: 'County', required: false },
+    { key: 'state', label: 'State', required: false },
+    { key: 'pincode', label: 'Postal Code', required: false },
+    { key: 'country', label: 'Country', required: false },
   ]
 
   const [oneHashCRMConf, setOneHashCRMConf] = useState({
     name: 'OneHashCRM',
     type: 'OneHashCRM',
-    api_key: '',
-    api_secret: '',
-    domain: '',
-    field_map: [{ formField: '', oneHashCRMFormField: '' }],
+    api_key: process.env.NODE_ENV === 'development' ? '5949cd9c3985169' : '',
+    api_secret: process.env.NODE_ENV === 'development' ? '8846dcd0bf4a44c' : '',
+    domain: process.env.NODE_ENV === 'development' ? 'https://bitcode.onehash.is' : '',
+    field_map: [
+      { formField: '', oneHashCRMFormField: '' },
+    ],
     actionName: '',
     actionId: '',
     customerFields,
     contactFields,
     leadFields,
-    actions: {}
+    actions: {},
   })
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      oneHashCRMConf,
-      navigate,
-      '',
-      '',
-      setIsLoading
-    )
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, oneHashCRMConf, navigate, '', '', setIsLoading)
     resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
@@ -111,22 +96,22 @@ function OneHashCRM({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = pageNo => {
+  const nextPage = (pageNo) => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
     if (!checkMappedFields(oneHashCRMConf)) {
-      toast.error(__('Please map mandatory fields', 'bit-integrations'))
+      toast.error('Please map mandatory fields')
       return
     }
 
     if (oneHashCRMConf.actionName === 'customer' && !oneHashCRMConf.selectedCustomerType) {
-      toast.error(__('Please select Customer Type', 'bit-integrations'))
+      toast.error('Please select Customer Type')
       return
     }
     if (oneHashCRMConf.actionName === 'lead' && !oneHashCRMConf.selectedLeadStatus) {
-      toast.error(__('Please select Lead Status', 'bit-integrations'))
+      toast.error('Please select Lead Status')
       return
     }
 
@@ -136,9 +121,7 @@ function OneHashCRM({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={3} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
 
       {/* STEP 1 */}
       <OneHashCRMAuthorization
@@ -152,12 +135,11 @@ function OneHashCRM({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+
         <OneHashCRMIntegLayout
           formFields={formFields}
-          handleInput={e => handleInput(e, oneHashCRMConf, setOneHashCRMConf, setLoading, setSnackbar)}
+          handleInput={(e) => handleInput(e, oneHashCRMConf, setOneHashCRMConf, setLoading, setSnackbar)}
           oneHashCRMConf={oneHashCRMConf}
           setOneHashCRMConf={setOneHashCRMConf}
           loading={loading}
@@ -170,10 +152,13 @@ function OneHashCRM({ formFields, setFlow, flow, allIntegURL }) {
         {oneHashCRMConf?.actionName && (
           <button
             onClick={() => nextPage(3)}
-            disabled={!checkMappedFields(oneHashCRMConf)}
-            className="btn f-right btcd-btn-lg purple sh-sm flx"
-            type="button">
-            {__('Next', 'bit-integrations')} &nbsp;
+            disabled={!(checkMappedFields(oneHashCRMConf))}
+            className="btn f-right btcd-btn-lg green sh-sm flx"
+            type="button"
+          >
+            {__('Next', 'bit-integrations')}
+            {' '}
+            &nbsp;
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         )}

@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { __ } from '../../../Utils/i18nwrap'
+import { __ } from '@wordpress/i18n'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useRecoilState, useRecoilValue } from 'recoil'
@@ -23,12 +23,6 @@ function EditDrip({ allIntegURL }) {
   const formFields = useRecoilValue($formFields)
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
-  const [loading, setLoading] = useState({
-    auth: false,
-    customFields: false,
-    accounts: false,
-    tags: false
-  })
 
   return (
     <div style={{ width: 900 }}>
@@ -36,14 +30,7 @@ function EditDrip({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, dripConf, setDripConf)}
-          name="name"
-          value={dripConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, dripConf, setDripConf)} name="name" value={dripConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
 
@@ -53,24 +40,14 @@ function EditDrip({ allIntegURL }) {
         formFields={formFields}
         dripConf={dripConf}
         setDripConf={setDripConf}
-        loading={loading}
-        setLoading={setLoading}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+        setSnackbar={setSnackbar}
       />
 
       <IntegrationStepThree
         edit
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            setFlow,
-            allIntegURL,
-            navigate,
-            conf: dripConf,
-            edit: 1,
-            setIsLoading,
-            setSnackbar
-          })
-        }
+        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, navigate, conf: dripConf, edit: 1, setIsLoading, setSnackbar })}
         disabled={dripConf.field_map.length < 1}
         isLoading={isLoading}
         dataConf={dripConf}

@@ -2,6 +2,7 @@
 
 /**
  * SureTriggers Integration
+ *
  */
 
 namespace BitCode\FI\Actions\SureTriggers;

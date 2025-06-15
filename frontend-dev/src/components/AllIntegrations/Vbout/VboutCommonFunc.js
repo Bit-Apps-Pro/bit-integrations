@@ -5,114 +5,102 @@ import bitsFetch from '../../../Utils/bitsFetch'
 import { create } from 'mutative'
 
 export const handleInput = (e, vboutConf, setVboutConf) => {
-  setVboutConf((prevConf) =>
-    create(prevConf, (draftConfig) => {
-      const { name } = e.target
-      if (e.target.value !== '') {
-        draftConfig[name] = e.target.value
-      } else {
-        delete draftConfig[name]
-      }
-    })
-  )
+  setVboutConf(prevConf => create(prevConf, (draftConfig) => {
+    const { name } = e.target
+    if (e.target.value !== '') {
+      draftConfig[name] = e.target.value
+    } else {
+      delete draftConfig[name]
+    }
+  }))
 }
 
+
+
 export const generateMappedField = (vboutConf) => {
-  const requiredFlds = vboutConf?.VboutFields.filter((fld) => fld.required === true)
-  return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({ formField: '', VboutFormField: field.key }))
-    : [{ formField: '', VboutFormField: '' }]
+  const requiredFlds = vboutConf?.VboutFields.filter(fld => fld.required === true)
+  return requiredFlds.length > 0 ? requiredFlds.map(field => ({ formField: '', VboutFormField: field.key })) : [{ formField: '', VboutFormField: '' }]
 }
 
 export const checkMappedFields = (vboutConf) => {
-  const mappedFields = vboutConf?.field_map
-    ? vboutConf.field_map.filter(
-        (mappedField) =>
-          !mappedField.formField ||
-          !mappedField.VboutFormField ||
-          (!mappedField.formField === 'custom' && !mappedField.customValue)
-      )
-    : []
+  const mappedFields = vboutConf?.field_map ? vboutConf.field_map.filter(mappedField => (!mappedField.formField || !mappedField.VboutFormField || (!mappedField.formField === 'custom' && !mappedField.customValue))) : []
   if (mappedFields.length > 0) {
     return false
   }
   return true
 }
-export const handleAuthorize = (
-  confTmp,
-  setConf,
-  setError,
-  setisAuthorized,
-  loading,
-  setLoading
-) => {
+export const handleAuthorize = (confTmp, setConf, setError, setisAuthorized, loading, setLoading) => {
   if (!confTmp.auth_token) {
-    setError({
-      auth_token: !confTmp.auth_token ? __("Api Key can't be empty", 'bit-integrations') : ''
-    })
+    setError({ auth_token: !confTmp.auth_token ? __('Api Key can\'t be empty', 'bit-integrations') : '' })
     return
   }
   setError({})
   setLoading({ ...loading, auth: true })
 
+
   const requestParams = { auth_token: confTmp.auth_token }
-  bitsFetch(requestParams, 'vbout_handle_authorize').then((result) => {
-    if (result && result.success) {
-      const newConf = { ...confTmp }
-      setConf(newConf)
-      setisAuthorized(true)
+  bitsFetch(requestParams, 'vbout_handle_authorize')
+    .then(result => {
+      if (result && result.success) {
+        const newConf = { ...confTmp }
+        setConf(newConf)
+        setisAuthorized(true)
+        setLoading({ ...loading, auth: false })
+        toast.success(__('Authorized successfully', 'bit-integrations'))
+        return
+      }
       setLoading({ ...loading, auth: false })
-      toast.success(__('Authorized Successfully', 'bit-integrations'))
-      return
-    }
-    setLoading({ ...loading, auth: false })
-    toast.error(__('Authorized failed', 'bit-integrations'))
-  })
+      toast.error(__('Authorized failed', 'bit-integrations'))
+    })
 }
+
 
 export const VboutRefreshFields = (confTmp, setConf, loading, setLoading) => {
   setLoading({ ...loading, field: true })
 
   const requestParams = { auth_token: confTmp.auth_token, list_id: confTmp.list_id }
 
-  bitsFetch(requestParams, 'vbout_refresh_fields').then((result) => {
-    if (result && result.success) {
-      const newConf = { ...confTmp }
-      if (result.data) {
-        newConf.VboutFields = result.data
+  bitsFetch(requestParams, 'vbout_refresh_fields')
+    .then(result => {
+      if (result && result.success) {
+        const newConf = { ...confTmp }
+        if (result.data) {
+          newConf.VboutFields = result.data
+        }
+        newConf['field_map'] = generateMappedField(newConf)
+        setConf(newConf)
+        setLoading({ ...loading, field: false })
+        toast.success(__('Fields refresh successfully', 'bit-integrations'))
+        return
       }
-      newConf['field_map'] = generateMappedField(newConf)
-      setConf(newConf)
       setLoading({ ...loading, field: false })
-      toast.success(__('Fields refresh successfully', 'bit-integrations'))
-      return
-    }
-    setLoading({ ...loading, field: false })
-    toast.error(__('Fields refresh failed', 'bit-integrations'))
-  })
+      toast.error(__('Fields refresh failed', 'bit-integrations'))
+    })
 }
 
-export const getAllLists = (confTmp, setConf, loading, setLoading) => {
+export const getAllLists = (confTmp, setConf, loading, setLoading,) => {
   setLoading({ ...loading, list: true })
 
   const requestParams = { auth_token: confTmp.auth_token }
 
-  bitsFetch(requestParams, 'vbout_fetch_all_lists').then((result) => {
-    if (result && result.success) {
-      const newConf = { ...confTmp }
-      if (result.data) {
-        if (!newConf.default) {
-          newConf.default = {}
+  bitsFetch(requestParams, 'vbout_fetch_all_lists')
+    .then(result => {
+      if (result && result.success) {
+        const newConf = { ...confTmp }
+        if (result.data) {
+          if (!newConf.default) {
+            newConf.default = {}
+          }
+          newConf.default.lists = result.data
         }
-        newConf.default.lists = result.data
-      }
-      setConf(newConf)
-      setLoading({ ...loading, list: false })
+        setConf(newConf)
+        setLoading({ ...loading, list: false })
 
-      toast.success(__('List refresh successfully', 'bit-integrations'))
-      return
-    }
-    setLoading({ ...loading, list: false })
-    toast.error(__('List refresh failed', 'bit-integrations'))
-  })
+        toast.success(__('List refresh successfully', 'bit-integrations'))
+        return
+      }
+      setLoading({ ...loading, list: false })
+      toast.error(__('List refresh failed', 'bit-integrations'))
+    })
+
 }

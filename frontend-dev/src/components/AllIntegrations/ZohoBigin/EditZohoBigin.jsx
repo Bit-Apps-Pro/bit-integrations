@@ -33,16 +33,7 @@ function EditZohoBigin({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please select a layout', 'bit-integrations') })
       return
     }
-    saveActionConf({
-      flow,
-      setFlow,
-      allIntegURL,
-      conf: biginConf,
-      navigate,
-      edit: 1,
-      setIsLoading,
-      setSnackbar
-    })
+    saveActionConf({ flow, setFlow, allIntegURL, conf: biginConf, navigate, edit: 1, setIsLoading, setSnackbar })
   }
 
   return (
@@ -50,14 +41,7 @@ function EditZohoBigin({ allIntegURL }) {
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(event) => handleInput(event, tab, biginConf, setBiginConf)}
-          name="name"
-          value={biginConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={event => handleInput(event, tab, biginConf, setBiginConf)} name="name" value={biginConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
 
@@ -66,9 +50,7 @@ function EditZohoBigin({ allIntegURL }) {
         tab={tab}
         settab={settab}
         formID={formID}
-        handleInput={(e) =>
-          handleInput(e, tab, biginConf, setBiginConf, formID, setIsLoading, setSnackbar)
-        }
+        handleInput={(e) => handleInput(e, tab, biginConf, setBiginConf, formID, setIsLoading, setSnackbar)}
         isLoading={isLoading}
         setIsLoading={setIsLoading}
         setSnackbar={setSnackbar}

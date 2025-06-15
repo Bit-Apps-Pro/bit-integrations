@@ -1,12 +1,11 @@
 import { useState } from 'react'
 import { __ } from '../../../Utils/i18nwrap'
 import LoaderSm from '../../Loaders/LoaderSm'
-import { getCustomFields, handleAuthorize } from './FluentSupportCommonFunc'
+import { handleAuthorize } from './FluentSupportCommonFunc'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 
-export default function FluentSupportAuthorization({
-  formID,
+export default function FluentSupportAuthorization({ formID,
   fluentSupportConf,
   setFluentSupportConf,
   step,
@@ -15,8 +14,7 @@ export default function FluentSupportAuthorization({
   setIsLoading,
   setSnackbar,
   redirectLocation,
-  isInfo
-}) {
+  isInfo }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ api_key: '' })
   const { fluentSupport } = tutorialLinks
@@ -25,7 +23,6 @@ export default function FluentSupportAuthorization({
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
-    getCustomFields(fluentSupportConf, setFluentSupportConf, setIsLoading, setSnackbar)
     setstep(2)
   }
   const handleInput = (e) => {
@@ -42,13 +39,20 @@ export default function FluentSupportAuthorization({
       className="btcd-stp-page"
       style={{
         ...{ width: step === 1 && 900 },
-        ...{ height: step === 1 && 'auto' }
-      }}>
+        ...{ height: step === 1 && 'auto' },
+      }}
+    >
       {fluentSupport?.youTubeLink && (
-        <TutorialLink title="Fluent Support" youTubeLink={fluentSupport?.youTubeLink} />
+        <TutorialLink
+          title={fluentSupport?.title}
+          youTubeLink={fluentSupport?.youTubeLink}
+        />
       )}
       {fluentSupport?.docLink && (
-        <TutorialLink title="Fluent Support" docLink={fluentSupport?.docLink} />
+        <TutorialLink
+          title={fluentSupport?.title}
+          docLink={fluentSupport?.docLink}
+        />
       )}
 
       <div className="mt-3">
@@ -67,19 +71,18 @@ export default function FluentSupportAuthorization({
       {!isInfo && (
         <>
           <button
-            onClick={() =>
-              handleAuthorize(
-                fluentSupportConf,
-                setFluentSupportConf,
-                setError,
-                setisAuthorized,
-                setIsLoading,
-                setSnackbar
-              )
-            }
-            className="btn btcd-btn-lg purple sh-sm flx"
+            onClick={() => handleAuthorize(
+              fluentSupportConf,
+              setFluentSupportConf,
+              setError,
+              setisAuthorized,
+              setIsLoading,
+              setSnackbar,
+            )}
+            className="btn btcd-btn-lg green sh-sm flx"
             type="button"
-            disabled={isAuthorized || isLoading}>
+            disabled={isAuthorized || isLoading}
+          >
             {isAuthorized
               ? __('Connected ✔', 'bit-integrations')
               : __('Connect to Fluent Support', 'bit-integrations')}
@@ -88,14 +91,16 @@ export default function FluentSupportAuthorization({
           <br />
           <button
             onClick={nextPage}
-            className="btn f-right btcd-btn-lg purple sh-sm flx"
+            className="btn f-right btcd-btn-lg green sh-sm flx"
             type="button"
-            disabled={!isAuthorized}>
+            disabled={!isAuthorized}
+          >
             {__('Next', 'bit-integrations')}
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         </>
       )}
+
     </div>
   )
 }

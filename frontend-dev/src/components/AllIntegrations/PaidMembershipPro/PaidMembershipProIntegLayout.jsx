@@ -4,18 +4,7 @@ import Loader from '../../Loaders/Loader'
 import { getAllPaidMemberShipProLevel } from './PaidMembershipProCommonFunc'
 import Note from '../../Utilities/Note'
 
-export default function PaidMembershipProIntegLayout({
-  formFields,
-  handleInput,
-  paidMembershipProConf,
-  setPaidMembershipProConf,
-  isLoading,
-  setIsLoading,
-  setSnackbar,
-  allIntegURL,
-  isInfo,
-  edit
-}) {
+export default function PaidMembershipProIntegLayout({ formFields, handleInput, paidMembershipProConf, setPaidMembershipProConf, isLoading, setIsLoading, setSnackbar, allIntegURL, isInfo, edit }) {
   const changeHandler = (val, name) => {
     const newConf = { ...paidMembershipProConf }
     if (name === 'selectedMembership') {
@@ -32,53 +21,30 @@ export default function PaidMembershipProIntegLayout({
     <>
       <br />
       <b className="wdt-200 d-in-b">{__('Actions:', 'bit-integrations')}</b>
-      <select
-        onChange={handleInput}
-        name="mainAction"
-        value={paidMembershipProConf?.mainAction}
-        className="btcd-paper-inp w-5">
+      <select onChange={handleInput} name="mainAction" value={paidMembershipProConf?.mainAction} className="btcd-paper-inp w-5">
         <option value="">{__('Select Actions', 'bit-integrations')}</option>
-        {paidMembershipProConf?.allActions &&
-          paidMembershipProConf.allActions.map(({ key, label }) => (
+        {
+          paidMembershipProConf?.allActions && paidMembershipProConf.allActions.map(({ key, label }) => (
             <option key={key} value={key}>
               {label}
             </option>
-          ))}
+          ))
+        }
       </select>
       <br />
       {['1', '2'].includes(paidMembershipProConf?.mainAction) && (
         <>
           <br />
           <div className="flx mt-4">
-            <b className="wdt-200 d-in-b">{__('Select Membership:', 'bit-integrations')}</b>
+            <b className="wdt-200 d-in-b">{__('Select Membership: ', 'bit-integrations')}</b>
             <MultiSelect
               className="w-5"
               defaultValue={paidMembershipProConf?.selectedMembership}
-              options={
-                paidMembershipProConf?.default?.allMemberShipLevel &&
-                paidMembershipProConf.default.allMemberShipLevel.map((item) => ({
-                  label: item.membershipTitle,
-                  value: item.membershipId.toString()
-                }))
-              }
+              options={paidMembershipProConf?.default?.allMemberShipLevel && paidMembershipProConf.default.allMemberShipLevel.map((item) => ({ label: item.membershipTitle, value: item.membershipId.toString() }))}
               onChange={(val) => changeHandler(val, 'selectedMembership')}
               singleSelect
             />
-            <button
-              onClick={() =>
-                getAllPaidMemberShipProLevel(
-                  paidMembershipProConf,
-                  setPaidMembershipProConf,
-                  setIsLoading,
-                  setSnackbar
-                )
-              }
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `'${__('Fetch All Membership', 'bit-integrations')}'` }}
-              type="button"
-              disabled={isLoading}>
-              &#x21BB;
-            </button>
+            <button onClick={() => getAllPaidMemberShipProLevel(paidMembershipProConf, setPaidMembershipProConf, setIsLoading, setSnackbar)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `'${__('Fetch All Membership', 'bit-integrations')}'` }} type="button" disabled={isLoading}>&#x21BB;</button>
           </div>
         </>
       )}
@@ -86,18 +52,19 @@ export default function PaidMembershipProIntegLayout({
       <br />
       <br />
       {isLoading && (
-        <Loader
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: 100,
-            transform: 'scale(0.7)'
-          }}
+        <Loader style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: 100,
+          transform: 'scale(0.7)',
+        }}
         />
       )}
       <br />
-      <Note note={__('This integration will only work for logged-in users.', 'bit-integrations')} />
+      <Note
+        note="This integration will only work for logged-in users."
+      />
     </>
   )
 }

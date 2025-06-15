@@ -25,15 +25,7 @@ function EditMailup({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
-    saveActionConf({
-      flow,
-      allIntegURL,
-      conf: mailupConf,
-      navigate,
-      edit: 1,
-      setIsLoading,
-      setSnackbar
-    })
+    saveActionConf({ flow, allIntegURL, conf: mailupConf, navigate, edit: 1, setIsLoading, setSnackbar })
   }
 
   return (
@@ -42,14 +34,7 @@ function EditMailup({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, mailupConf, setMailupConf)}
-          name="name"
-          value={mailupConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, mailupConf, setMailupConf)} name="name" value={mailupConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
 

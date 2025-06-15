@@ -6,9 +6,8 @@
 
 namespace BitCode\FI\Actions\CopperCRM;
 
-use BitCode\FI\Log\LogHandler;
-use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -16,45 +15,41 @@ use BitCode\FI\Core\Util\HttpHelper;
 class RecordApiHelper
 {
     private $integrationDetails;
-
     private $integrationId;
-
     private $apiEmail;
-
     private $defaultHeader;
-
     private $type;
-
     private $typeName;
 
     public function __construct($integrationDetails, $integId)
     {
         $this->integrationDetails = $integrationDetails;
-        $this->integrationId = $integId;
-        $this->apiEmail = 'https://api.copper.com/developer_api/v1';
-        $this->defaultHeader = [
-            'X-PW-AccessToken' => $integrationDetails->api_key,
-            'X-PW-Application' => 'developer_api',
-            'X-PW-UserEmail'   => $integrationDetails->api_email,
-            'Content-Type'     => 'application/json'
+        $this->integrationId      = $integId;
+        $this->apiEmail             = "https://api.copper.com/developer_api/v1";
+        $this->defaultHeader      = [
+            "X-PW-AccessToken"  => $integrationDetails->api_key,
+            "X-PW-Application"  => "developer_api",
+            "X-PW-UserEmail"    => $integrationDetails->api_email,
+            "Content-Type"      => "application/json"
         ];
     }
+
 
     public function addCompany($finalData)
     {
         if (empty($finalData['name'])) {
-            return ['success' => false, 'message' => __('Required field Name is empty', 'bit-integrations'), 'code' => 400];
+            return ['success' => false, 'message' => 'Required field Name is empty', 'code' => 400];
         }
 
         $staticFieldsKeys = ['name', 'email_domain', 'details', 'street', 'city', 'state', 'postal_code', 'country',  'phone_numbers', 'websites'];
 
         foreach ($finalData as $key => $value) {
-            if (\in_array($key, $staticFieldsKeys)) {
+            if (in_array($key, $staticFieldsKeys)) {
                 if (($key == 'street' || $key == 'city' || $key == 'state' || $key == 'postal_code' || $key == 'country')) {
-                    $requestParams['address'][$key] = $value;
+                    $requestParams['address'][$key] =   $value;
                 } elseif (($key == 'websites')) {
                     $requestParams['websites'][] = (object) [
-                        'url'      => $value,
+                        'url'   => $value,
                         'category' => 'work'
                     ];
                 } elseif ($key == 'phone_numbers') {
@@ -66,44 +61,44 @@ class RecordApiHelper
                 }
             } else {
                 $requestParams['custom_fields'][] = (object) [
-                    'value'                      => $value,
+                    'value'   => $value,
                     'custom_field_definition_id' => $key
                 ];
             }
         }
 
         if ($this->integrationDetails->actions->owner) {
-            $requestParams['assignee_id'] = (int) ($this->integrationDetails->selectedOwner);
+            $requestParams['assignee_id'] = (int)($this->integrationDetails->selectedOwner);
         }
 
-        $this->type = 'Company';
+        $this->type     = 'Company';
         $this->typeName = 'Company created';
 
-        $apiEndpoint = $this->apiEmail . '/companies';
+        $apiEndpoint = $this->apiEmail . "/companies";
 
-        return $response = HttpHelper::post($apiEndpoint, wp_json_encode($requestParams), $this->defaultHeader);
+        return $response = HttpHelper::post($apiEndpoint, json_encode($requestParams), $this->defaultHeader);
     }
 
     public function addPerson($finalData)
     {
         if (empty($finalData['name'])) {
-            return ['success' => false, 'message' => __('Required field Name is empty', 'bit-integrations'), 'code' => 400];
+            return ['success' => false, 'message' => 'Required field Name is empty', 'code' => 400];
         }
 
         $staticFieldsKeys = ['name', 'title', 'details', 'email', 'email_domain', 'phone_numbers', 'street', 'city', 'state', 'postal_code', 'country', 'websites'];
 
         foreach ($finalData as $key => $value) {
-            if (\in_array($key, $staticFieldsKeys)) {
+            if (in_array($key, $staticFieldsKeys)) {
                 if (($key == 'street' || $key == 'city' || $key == 'state' || $key == 'postal_code' || $key == 'country')) {
-                    $requestParams['address'][$key] = $value;
+                    $requestParams['address'][$key] =   $value;
                 } elseif (($key == 'websites')) {
                     $requestParams['websites'][] = (object) [
-                        'url'      => $value,
+                        'url'   => $value,
                         'category' => 'work'
                     ];
                 } elseif ($key === 'email' || $key === 'email_domain') {
                     $requestParams['emails'][] = (object) [
-                        'email'    => $value,
+                        'email'   => $value,
                         'category' => 'work'
                     ];
                 } elseif ($key == 'phone_numbers') {
@@ -115,103 +110,104 @@ class RecordApiHelper
                 }
             } else {
                 $requestParams['custom_fields'][] = (object) [
-                    'value'                      => $value,
+                    'value'   => $value,
                     'custom_field_definition_id' => $key
                 ];
             }
         }
 
         if ($this->integrationDetails->actions->owner) {
-            $requestParams['assignee_id'] = (int) ($this->integrationDetails->selectedOwner);
+            $requestParams['assignee_id'] = (int)($this->integrationDetails->selectedOwner);
         }
 
-        $this->type = 'Person';
+        $this->type     = 'Person';
         $this->typeName = 'Person created';
 
-        $apiEndpoint = $this->apiEmail . '/people';
+        $apiEndpoint = $this->apiEmail . "/people";
 
-        return $response = HttpHelper::post($apiEndpoint, wp_json_encode($requestParams), $this->defaultHeader);
+
+        return $response = HttpHelper::post($apiEndpoint, json_encode($requestParams), $this->defaultHeader);
     }
 
     public function addOpportunity($finalData)
     {
         if (empty($finalData['name'])) {
-            return ['success' => false, 'message' => __('Required field opportunity name is empty', 'bit-integrations'), 'code' => 400];
+            return ['success' => false, 'message' => 'Required field opportunity name is empty', 'code' => 400];
         }
-        $staticFieldsKeys = ['name', 'close_date', 'details', 'monetary_value'];
+        $staticFieldsKeys = ['name', 'close_date', "details", 'monetary_value'];
 
         foreach ($finalData as $key => $value) {
-            if (\in_array($key, $staticFieldsKeys)) {
+            if (in_array($key, $staticFieldsKeys)) {
                 if ($key == 'close_date') {
-                    $requestParams['close_date'] = date('m/d/Y', strtotime($value));
+                    $requestParams['close_date'] = date("m/d/Y", strtotime($value));
                 } else {
                     $requestParams[$key] = $value;
                 }
             } else {
                 $requestParams['custom_fields'][] = (object) [
-                    'value'                      => $value,
+                    'value'   => $value,
                     'custom_field_definition_id' => $key
                 ];
             }
         }
 
         if (!empty($this->integrationDetails->selectedCRMPeople)) {
-            $requestParams['primary_contact_id'] = (int) ($this->integrationDetails->selectedCRMPeople);
+            $requestParams['primary_contact_id'] = (int)($this->integrationDetails->selectedCRMPeople);
         }
         if (!empty($this->integrationDetails->selectedCRMPipelines)) {
-            $requestParams['pipeline_id'] = (int) ($this->integrationDetails->selectedCRMPipelines);
+            $requestParams['pipeline_id'] = (int)($this->integrationDetails->selectedCRMPipelines);
         }
         if ($this->integrationDetails->actions->owner) {
-            $requestParams['assignee_id'] = (int) ($this->integrationDetails->selectedOwner);
+            $requestParams['assignee_id'] = (int)($this->integrationDetails->selectedOwner);
         }
         if ($this->integrationDetails->actions->company) {
-            $requestParams['company_id'] = (int) ($this->integrationDetails->selectedCompany);
+            $requestParams['company_id'] = (int)($this->integrationDetails->selectedCompany);
         }
         if (!empty($this->integrationDetails->actions->pipelineStage)) {
-            $requestParams['pipeline_stage_id'] = (int) ($this->integrationDetails->selectedPipelineStage);
+            $requestParams['pipeline_stage_id'] =  (int)($this->integrationDetails->selectedPipelineStage);
         }
 
-        $this->type = 'Opportunity';
+        $this->type     = 'Opportunity';
         $this->typeName = 'Opportunity created';
 
-        $apiEndpoint = $this->apiEmail . '/opportunities';
+        $apiEndpoint = $this->apiEmail . "/opportunities";
 
-        return $response = HttpHelper::post($apiEndpoint, wp_json_encode($requestParams), $this->defaultHeader);
+        return $response = HttpHelper::post($apiEndpoint, json_encode($requestParams), $this->defaultHeader);
     }
 
     public function addTask($finalData)
     {
         if (empty($finalData['name'])) {
-            return ['success' => false, 'message' => __('Required field task name is empty', 'bit-integrations'), 'code' => 400];
+            return ['success' => false, 'message' => 'Required field task name is empty', 'code' => 400];
         }
 
-        $staticFieldsKeys = ['name', 'due_date', 'reminder_date', 'details'];
+        $staticFieldsKeys = ['name', 'due_date', "reminder_date", "details"];
 
         foreach ($finalData as $key => $value) {
-            if (\in_array($key, $staticFieldsKeys)) {
+            if (in_array($key, $staticFieldsKeys)) {
                 if ($key == 'due_date' || $key == 'reminder_date') {
-                    $requestParams[$key] = strtotime($value);
+                    $requestParams[$key] =  strtotime($value);
                 } else {
                     $requestParams[$key] = $value;
                 }
             } else {
                 $requestParams['custom_fields'][] = (object) [
-                    'value'                      => $value,
+                    'value'   => $value,
                     'custom_field_definition_id' => $key
                 ];
             }
         }
 
         if ($this->integrationDetails->actions->owner) {
-            $requestParams['assignee_id'] = (int) ($this->integrationDetails->selectedOwner);
+            $requestParams['assignee_id'] = (int)($this->integrationDetails->selectedOwner);
         }
 
-        $this->type = 'Task';
+        $this->type     = 'Task';
         $this->typeName = 'Task created';
 
-        $apiEndpoint = $this->apiEmail . '/tasks';
+        $apiEndpoint = $this->apiEmail . "/tasks";
 
-        return $response = HttpHelper::post($apiEndpoint, wp_json_encode($requestParams), $this->defaultHeader);
+        return $response = HttpHelper::post($apiEndpoint, json_encode($requestParams), $this->defaultHeader);
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
@@ -219,14 +215,14 @@ class RecordApiHelper
         $dataFinal = [];
         foreach ($fieldMap as $value) {
             $triggerValue = $value->formField;
-            $actionValue = $value->coppercrmFormField;
+            $actionValue  = $value->coppercrmFormField;
             if ($triggerValue === 'custom') {
                 if ($actionValue === 'custom_fields') {
-                    $dataFinal[$value->customFieldKey] = Common::replaceFieldWithValue($value->customValue, $data);
+                    $dataFinal[$value->customFieldKey] = $value->customValue;
                 } else {
-                    $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
+                    $dataFinal[$actionValue] = $value->customValue;
                 }
-            } elseif (!\is_null($data[$triggerValue])) {
+            } elseif (!is_null($data[$triggerValue])) {
                 if ($actionValue === 'custom_fields') {
                     $dataFinal[$value->customFieldKey] = $data[$triggerValue];
                 } else {
@@ -234,13 +230,12 @@ class RecordApiHelper
                 }
             }
         }
-
         return $dataFinal;
     }
 
     public function execute($fieldValues, $fieldMap, $actionName)
     {
-        $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
+        $finalData   = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
         if ($actionName === 'company') {
             $apiResponse = $this->addCompany($finalData);
         } elseif ($actionName === 'person') {
@@ -253,11 +248,10 @@ class RecordApiHelper
 
         if ($apiResponse->id || $apiResponse->status === 'success') {
             $res = [$this->typeName . ' successfully'];
-            LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->typeName]), 'success', wp_json_encode($res));
+            LogHandler::save($this->integrationId, json_encode(['type' => $this->type, 'type_name' => $this->typeName]), 'success', json_encode($res));
         } else {
-            LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->type . ' creating']), 'error', wp_json_encode($apiResponse));
+            LogHandler::save($this->integrationId, json_encode(['type' => $this->type, 'type_name' => $this->type . ' creating']), 'error', json_encode($apiResponse));
         }
-
         return $apiResponse;
     }
 }

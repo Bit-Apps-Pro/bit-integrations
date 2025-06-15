@@ -1,26 +1,24 @@
-import { __ } from '../i18nwrap'
-
 // eslint-disable-next-line import/prefer-default-export
 export const postFields = [
   {
     key: 'post_title',
-    name: __('Post Title', 'bit-integrations'),
-    required: true
+    name: 'Post Title',
+    required: true,
   },
   {
     key: 'post_name',
-    name: __('Post Name', 'bit-integrations')
+    name: 'Post Name',
   },
   {
     key: 'post_content',
-    name: __('Post Content', 'bit-integrations')
+    name: 'Post Content',
   },
   {
     key: 'post_excerpt',
-    name: __('Post Excerpt', 'bit-integrations')
+    name: 'Post Excerpt',
   },
   {
     key: '_thumbnail_id',
-    name: __('Featured Image', 'bit-integrations')
-  }
+    name: 'Featured Image',
+  },
 ]

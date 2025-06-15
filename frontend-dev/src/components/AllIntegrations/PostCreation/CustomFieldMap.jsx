@@ -7,41 +7,24 @@ import { addFieldMap, delFieldMap, handleFieldMapping } from './PostHelperFuncti
 import { $btcbi } from '../../../GlobalStates'
 import TagifyInput from '../../Utilities/TagifyInput'
 
-export default function CustomFieldMap({
-  i,
-  type,
-  formFields,
-  field,
-  postConf,
-  setPostConf,
-  customFields,
-  fieldType
-}) {
+export default function CustomFieldMap({ i, type, formFields, field, postConf, setPostConf, customFields, fieldType }) {
   const fldType = {
     acf: {
       propName: 'acf_map',
-      fldName: 'acfField'
+      fldName: 'acfField',
     },
     acfFile: {
       propName: 'acf_file_map',
-      fldName: 'acfFileUpload'
+      fldName: 'acfFileUpload',
     },
     metabox: {
       propName: 'metabox_map',
-      fldName: 'metaboxField'
+      fldName: 'metaboxField',
     },
     metaboxFile: {
       propName: 'metabox_file_map',
-      fldName: 'metaboxFileUpload'
+      fldName: 'metaboxFileUpload',
     },
-    jeCPTFields: {
-      propName: 'je_cpt_meta_map',
-      fldName: 'jeCPTField'
-    },
-    jeCPTFiles: {
-      propName: 'je_cpt_file_map',
-      fldName: 'jeCPTFile'
-    }
   }
 
   const { propName, fldName } = fldType[type]
@@ -52,18 +35,13 @@ export default function CustomFieldMap({
     setConf({ ...newConf })
   }
 
-  const isRequired =
-    customFields.length > 0 && !!customFields.find((fl) => fl.key === field[fldName] && fl.required)
+  const isRequired = customFields.length > 0 && !!customFields.find(fl => fl.key === field[fldName] && fl.required)
   const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
   return (
     <div className="flx mt-2 mb-2 btcbi-field-map">
       <div className="flx integ-fld-wrp">
-        <select
-          className="btcd-paper-inp mr-2"
-          name="formField"
-          value={field.formField || ''}
-          onChange={(ev) => handleFieldMapping(propName, ev, i, postConf, setPostConf)}>
+        <select className="btcd-paper-inp mr-2" name="formField" value={field.formField || ''} onChange={(ev) => handleFieldMapping(propName, ev, i, postConf, setPostConf)}>
           <option value="">{__('Select Field', 'bit-integrations')}</option>
           {fieldType === 'fields' ? (
             <>
@@ -71,85 +49,54 @@ export default function CustomFieldMap({
               { formFields?.map(f => (
                 <option key={`ff-zhcrm-${f.name}`} value={f.name}>{f.label}</option>
               ))} */}
-              <optgroup label={__('Form Fields', 'bit-integrations')}>
-                {formFields?.map(
-                  (f) =>
-                    f.type !== 'file' && (
-                      <option key={`ff-zhcrm-${f.name}`} value={f.name}>
-                        {f.label}
-                      </option>
-                    )
-                )}
+              <optgroup label="Form Fields">
+                { formFields?.map(f => f.type !== 'file' && (
+                  <option key={`ff-zhcrm-${f.name}`} value={f.name}>{f.label}</option>
+                ))}
               </optgroup>
               <option value="custom">{__('Custom...', 'bit-integrations')}</option>
-              <optgroup
-                label={sprintf(
-                  __('General Smart Codes %s', 'bit-integrations'),
-                  isPro ? '' : `(${__('Pro', 'bit-integrations')})`
-                )}>
-                {isPro &&
-                  SmartTagField?.map((f) => (
-                    <option key={`ff-zhcrm-${f.name}`} value={f.name}>
-                      {f.label}
-                    </option>
-                  ))}
-              </optgroup>
-            </>
-          ) : (
-            formFields?.map(
-              (f) =>
-                f.type === 'file' && (
+              <optgroup label={`General Smart Codes ${isPro ? '' : '(PRO)'}`}>
+                {isPro && SmartTagField?.map(f => (
                   <option key={`ff-zhcrm-${f.name}`} value={f.name}>
                     {f.label}
                   </option>
-                )
-            )
-          )}
+                ))}
+              </optgroup>
+            </>
+          ) : (
+            formFields?.map(f => f.type === 'file' && <option key={`ff-zhcrm-${f.name}`} value={f.name}>{f.label}</option>)
+          ) }
         </select>
-        {field.formField === 'custom' && (
-          <TagifyInput
-            onChange={(e) => handleCustomValue(e, i, postConf, setPostConf)}
-            label={__('Custom Value', 'bit-integrations')}
-            className="mr-2"
-            type="text"
-            value={field.customValue || ''}
-            placeholder={__('Custom Value', 'bit-integrations')}
-            formFields={formFields}
-          />
-        )}
-        <select
-          className="btcd-paper-inp"
-          name={fldName}
-          value={field[fldName] || ''}
-          onChange={(ev) => handleFieldMapping(propName, ev, i, postConf, setPostConf)}
-          disabled={isRequired}>
+        {field.formField === 'custom' && <TagifyInput onChange={e => handleCustomValue(e, i, postConf, setPostConf)} label={__('Custom Value', 'bit-integrations')} className="mr-2" type="text" value={field.customValue || ''} placeholder={__('Custom Value', 'bit-integrations')} formFields={formFields} />}
+        <select className="btcd-paper-inp" name={fldName} value={field[fldName] || ''} onChange={(ev) => handleFieldMapping(propName, ev, i, postConf, setPostConf)} disabled={isRequired}>
           <option value="">{__('Select Field', 'bit-integrations')}</option>
-          {customFields.length > 0 &&
-            customFields?.map((header) => (
+          {
+            customFields.length > 0 && customFields?.map(header => (
               <option key={`${header.key}-1`} value={header.key}>
                 {`${header.name}`}
               </option>
-            ))}
+            ))
+          }
         </select>
+
       </div>
 
-      {!isRequired && (
-        <>
-          <button
-            onClick={() => addFieldMap(propName, i, postConf, setPostConf)}
-            className="icn-btn sh-sm ml-2 mr-1"
-            type="button">
-            +
-          </button>
-          <button
-            onClick={() => delFieldMap(propName, i, postConf, setPostConf)}
-            className="icn-btn sh-sm ml-1"
-            type="button"
-            aria-label="btn">
-            <TrashIcn />
-          </button>
-        </>
-      )}
+      {!isRequired
+        && (
+          <>
+            <button
+              onClick={() => addFieldMap(propName, i, postConf, setPostConf)}
+              className="icn-btn sh-sm ml-2 mr-1"
+              type="button"
+            >
+              +
+            </button>
+            <button onClick={() => delFieldMap(propName, i, postConf, setPostConf)} className="icn-btn sh-sm ml-1" type="button" aria-label="btn">
+              <TrashIcn />
+            </button>
+          </>
+        )}
+
     </div>
   )
 }

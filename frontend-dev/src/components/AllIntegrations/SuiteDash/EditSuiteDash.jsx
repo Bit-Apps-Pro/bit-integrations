@@ -35,15 +35,7 @@ function EditSuiteDash({ allIntegURL }) {
       toast.error('Please select a Role')
       return
     }
-    saveActionConf({
-      flow,
-      allIntegURL,
-      conf: suiteDashConf,
-      navigate,
-      edit: 1,
-      setLoading,
-      setSnackbar
-    })
+    saveActionConf({ flow, allIntegURL, conf: suiteDashConf, navigate, edit: 1, setLoading, setSnackbar })
   }
 
   return (
@@ -52,14 +44,7 @@ function EditSuiteDash({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, suiteDashConf, setSuiteDashConf)}
-          name="name"
-          value={suiteDashConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, suiteDashConf, setSuiteDashConf)} name="name" value={suiteDashConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
 

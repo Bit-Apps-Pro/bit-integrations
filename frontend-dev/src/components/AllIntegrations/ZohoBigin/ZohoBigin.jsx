@@ -32,12 +32,14 @@ function ZohoBigin({ allIntegURL }) {
     setBiginConf({
       name: 'Zoho Bigin',
       type: 'Zoho Bigin',
-      clientId: '',
-      clientSecret: '',
+      clientId: process.env.NODE_ENV === 'development' ? '1000.TUNG7UIFO7DNSI1BNATM0SXJ2KRFKF' : '',
+      clientSecret: process.env.NODE_ENV === 'development' ? '946ab847ed5e6d6426adea379a4c51c24a4e92d47d' : '',
       module: '',
-      field_map: [{ formField: '', zohoFormField: '' }],
+      field_map: [
+        { formField: '', zohoFormField: '' },
+      ],
       relatedlists: [],
-      actions: {}
+      actions: {},
     })
   }, [])
 
@@ -67,9 +69,7 @@ function ZohoBigin({ allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={3} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
 
       {/* STEP 1 */}
       <ZohoAuthorization
@@ -87,13 +87,12 @@ function ZohoBigin({ allIntegURL }) {
 
       {/* STEP 2 */}
       <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+
         <ZohoBiginIntegLayout
           tab={tab}
           settab={settab}
           formID={formID}
-          handleInput={e =>
-            handleInput(e, tab, biginConf, setBiginConf, formID, setIsLoading, setSnackbar)
-          }
+          handleInput={(e) => handleInput(e, tab, biginConf, setBiginConf, formID, setIsLoading, setSnackbar)}
           isLoading={isLoading}
           setIsLoading={setIsLoading}
           setSnackbar={setSnackbar}
@@ -102,27 +101,19 @@ function ZohoBigin({ allIntegURL }) {
         <button
           onClick={() => nextPage(3)}
           // disabled={biginConf.module === '' || biginConf.field_map.length < 1}
-          className="btn f-right btcd-btn-lg purple sh-sm flx"
-          type="button">
+          className="btn f-right btcd-btn-lg green sh-sm flx"
+          type="button"
+        >
           {__('Next', 'bit-integrations')}
           <BackIcn className="ml-1 rev-icn" />
         </button>
+
       </div>
 
       {/* STEP 3 */}
       <IntegrationStepThree
         step={step}
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            setFlow,
-            allIntegURL,
-            conf: biginConf,
-            navigate,
-            setIsLoading,
-            setSnackbar
-          })
-        }
+        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, conf: biginConf, navigate, setIsLoading, setSnackbar })}
         isLoading={isLoading}
         dataConf={biginConf}
         setDataConf={setBiginConf}

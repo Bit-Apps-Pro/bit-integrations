@@ -3,9 +3,9 @@
 /**
  * OmniSend Integration
  */
-
 namespace BitCode\FI\Actions\OmniSend;
 
+use BitCode\FI\Actions\OmniSend\RecordApiHelper;
 use WP_Error;
 use BitCode\FI\Core\Util\HttpHelper;
 
@@ -14,9 +14,8 @@ use BitCode\FI\Core\Util\HttpHelper;
  */
 class OmniSendController
 {
-    protected $_defaultHeader;
-
     private $baseUrl = 'https://api.omnisend.com/v3/';
+    protected $_defaultHeader;
 
     public function authorization($requestParams)
     {
@@ -54,7 +53,6 @@ class OmniSendController
         $api_key = $integrationDetails->api_key;
         $channels = $integrationDetails->channels;
         $fieldMap = $integrationDetails->field_map;
-        $customFieldMap = $integrationDetails->custom_field_map ?? [];
         $emailStatus = $integrationDetails->email_status;
         $smsStatus = $integrationDetails->sms_status;
 
@@ -62,7 +60,7 @@ class OmniSendController
             empty($fieldMap)
              || empty($api_key)
         ) {
-            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'OmniSend'));
+            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for OmniSend api', 'bit-integrations'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
 
@@ -71,14 +69,12 @@ class OmniSendController
             $emailStatus,
             $smsStatus,
             $fieldValues,
-            $fieldMap,
-            $customFieldMap
+            $fieldMap
         );
 
         if (is_wp_error($omniSendApiResponse)) {
             return $omniSendApiResponse;
         }
-
         return $omniSendApiResponse;
     }
 }

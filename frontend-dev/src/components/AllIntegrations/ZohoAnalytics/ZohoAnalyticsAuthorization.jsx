@@ -8,43 +8,23 @@ import BackIcn from '../../../Icons/BackIcn'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 
-export default function ZohoAnalyticsAuthorization({
-  formID,
-  analyticsConf,
-  setAnalyticsConf,
-  step,
-  setStep,
-  isLoading,
-  setIsLoading,
-  setSnackbar,
-  redirectLocation,
-  isInfo
-}) {
+export default function ZohoAnalyticsAuthorization({ formID, analyticsConf, setAnalyticsConf, step, setStep, isLoading, setIsLoading, setSnackbar, redirectLocation, isInfo }) {
   const [isAuthorized, setisAuthorized] = useState(false)
-  const [error, setError] = useState({
-    dataCenter: '',
-    clientId: '',
-    clientSecret: '',
-    ownerEmail: ''
-  })
+  const [error, setError] = useState({ dataCenter: '', clientId: '', clientSecret: '', ownerEmail: '' })
   const { analytics } = tutorialLinks
   const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
     if (!checkValidEmail(analyticsConf.ownerEmail)) {
-      setError({
-        ownerEmail: !checkValidEmail(analyticsConf.ownerEmail)
-          ? __('Email is invalid', 'bit-integrations')
-          : ''
-      })
+      setError({ ownerEmail: !checkValidEmail(analyticsConf.ownerEmail) ? __('Email is invalid', 'bit-integrations') : '' })
       return
     }
     setStep(2)
     refreshWorkspaces(formID, analyticsConf, setAnalyticsConf, setIsLoading, setSnackbar)
   }
 
-  const handleInput = (e) => {
+  const handleInput = e => {
     const newConf = { ...analyticsConf }
     const rmError = { ...error }
     rmError[e.target.name] = ''
@@ -54,36 +34,25 @@ export default function ZohoAnalyticsAuthorization({
   }
 
   return (
-    <div
-      className="btcd-stp-page"
-      style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
+    <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
       {analytics?.youTubeLink && (
-        <TutorialLink title="Zoho Analytics" youTubeLink={analytics?.youTubeLink} />
+        <TutorialLink
+          title={analytics?.title}
+          youTubeLink={analytics?.youTubeLink}
+        />
       )}
-      {analytics?.docLink && <TutorialLink title="Zoho Analytics" docLink={analytics?.docLink} />}
+      {analytics?.docLink && (
+        <TutorialLink
+          title={analytics?.title}
+          docLink={analytics?.docLink}
+        />
+      )}
 
-      <div className="mt-3">
-        <b>{__('Integration Name:', 'bit-integrations')}</b>
-      </div>
-      <input
-        className="btcd-paper-inp w-6 mt-1"
-        onChange={handleInput}
-        name="name"
-        value={analyticsConf.name}
-        type="text"
-        placeholder={__('Integration Name...', 'bit-integrations')}
-        disabled={isInfo}
-      />
+      <div className="mt-3"><b>{__('Integration Name:', 'bit-integrations')}</b></div>
+      <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="name" value={analyticsConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} disabled={isInfo} />
 
-      <div className="mt-3">
-        <b>{__('Data Center:', 'bit-integrations')}</b>
-      </div>
-      <select
-        onChange={handleInput}
-        name="dataCenter"
-        value={analyticsConf.dataCenter}
-        className="btcd-paper-inp w-6 mt-1"
-        disabled={isInfo}>
+      <div className="mt-3"><b>{__('Data Center:', 'bit-integrations')}</b></div>
+      <select onChange={handleInput} name="dataCenter" value={analyticsConf.dataCenter} className="btcd-paper-inp w-6 mt-1" disabled={isInfo}>
         <option value="">{__('--Select a data center--', 'bit-integrations')}</option>
         <option value="com">zoho.com</option>
         <option value="eu">zoho.eu</option>
@@ -93,103 +62,37 @@ export default function ZohoAnalyticsAuthorization({
       </select>
       <div style={{ color: 'red' }}>{error.dataCenter}</div>
 
-      <div className="mt-3">
-        <b>{__('Homepage URL:', 'bit-integrations')}</b>
-      </div>
-      <CopyText
-        value={`${window.location.origin}`}
-        className="field-key-cpy w-6 ml-0"
-        readOnly={isInfo}
-      />
+      <div className="mt-3"><b>{__('Homepage URL:', 'bit-integrations')}</b></div>
+      <CopyText value={`${window.location.origin}`} className="field-key-cpy w-6 ml-0" readOnly={isInfo} />
 
-      <div className="mt-3">
-        <b>{__('Authorized Redirect URIs:', 'bit-integrations')}</b>
-      </div>
-      <CopyText
-        value={redirectLocation || `${window.location.href}/redirect`}
-        className="field-key-cpy w-6 ml-0"
-        readOnly={isInfo}
-      />
+      <div className="mt-3"><b>{__('Authorized Redirect URIs:', 'bit-integrations')}</b></div>
+      <CopyText value={redirectLocation || `${window.location.href}/redirect`} className="field-key-cpy w-6 ml-0" readOnly={isInfo} />
 
       <small className="d-blk mt-5">
-        {__('To get Client ID and SECRET , Please Visit', 'bit-integrations')}{' '}
-        <a
-          className="btcd-link"
-          href={`https://api-console.zoho.${analyticsConf?.dataCenter || 'com'}/`}
-          target="_blank"
-          rel="noreferrer">
-          {__('Zoho API Console', 'bit-integrations')}
-        </a>
+        {__('To get Client ID and SECRET , Please Visit', 'bit-integrations')}
+        {' '}
+        <a className="btcd-link" href={`https://api-console.zoho.${analyticsConf?.dataCenter || 'com'}/`} target="_blank" rel="noreferrer">{__('Zoho API Console', 'bit-integrations')}</a>
       </small>
 
-      <div className="mt-3">
-        <b>{__('Client id:', 'bit-integrations')}</b>
-      </div>
-      <input
-        className="btcd-paper-inp w-6 mt-1"
-        onChange={handleInput}
-        name="clientId"
-        value={analyticsConf.clientId}
-        type="text"
-        placeholder={__('client ID...', 'bit-integrations')}
-        disabled={isInfo}
-      />
+      <div className="mt-3"><b>{__('Client id:', 'bit-integrations')}</b></div>
+      <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="clientId" value={analyticsConf.clientId} type="text" placeholder={__('Client id...', 'bit-integrations')} disabled={isInfo} />
       <div style={{ color: 'red' }}>{error.clientId}</div>
 
-      <div className="mt-3">
-        <b>{__('Client secret:', 'bit-integrations')}</b>
-      </div>
-      <input
-        className="btcd-paper-inp w-6 mt-1"
-        onChange={handleInput}
-        name="clientSecret"
-        value={analyticsConf.clientSecret}
-        type="text"
-        placeholder={__('client Secret...', 'bit-integrations')}
-        disabled={isInfo}
-      />
+      <div className="mt-3"><b>{__('Client secret:', 'bit-integrations')}</b></div>
+      <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="clientSecret" value={analyticsConf.clientSecret} type="text" placeholder={__('Client secret...', 'bit-integrations')} disabled={isInfo} />
       <div style={{ color: 'red' }}>{error.clientSecret}</div>
-      <div className="mt-3">
-        <b>{__('Zoho Analytics Owner Email:', 'bit-integrations')}</b>
-      </div>
-      <input
-        className="btcd-paper-inp w-6 mt-1"
-        onChange={handleInput}
-        name="ownerEmail"
-        value={analyticsConf.ownerEmail}
-        type="email"
-        placeholder={__('Owner Email', 'bit-integrations')}
-        disabled={isInfo}
-      />
+      <div className="mt-3"><b>{__('Zoho Analytics Owner Email:', 'bit-integrations')}</b></div>
+      <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="ownerEmail" value={analyticsConf.ownerEmail} type="email" placeholder={__('Owner Email', 'bit-integrations')} disabled={isInfo} />
       <div style={{ color: 'red' }}>{error.ownerEmail}</div>
 
       {!isInfo && (
         <>
-          <button
-            onClick={() =>
-              handleAuthorize(
-                analyticsConf,
-                setAnalyticsConf,
-                setError,
-                setisAuthorized,
-                setIsLoading,
-                setSnackbar
-              )
-            }
-            className="btn btcd-btn-lg purple sh-sm flx"
-            type="button"
-            disabled={isAuthorized || isLoading}>
-            {isAuthorized
-              ? __('Authorized ✔', 'bit-integrations')
-              : __('Authorize', 'bit-integrations')}
+          <button onClick={() => handleAuthorize(analyticsConf, setAnalyticsConf, setError, setisAuthorized, setIsLoading, setSnackbar)} className="btn btcd-btn-lg green sh-sm flx" type="button" disabled={isAuthorized || isLoading}>
+            {isAuthorized ? __('Authorized ✔', 'bit-integrations') : __('Authorize', 'bit-integrations')}
             {isLoading && <LoaderSm size={20} clr="#022217" className="ml-2" />}
           </button>
           <br />
-          <button
-            onClick={nextPage}
-            className="btn f-right btcd-btn-lg purple sh-sm flx"
-            type="button"
-            disabled={!isAuthorized}>
+          <button onClick={nextPage} className="btn f-right btcd-btn-lg green sh-sm flx" type="button" disabled={!isAuthorized}>
             {__('Next', 'bit-integrations')}
             <BackIcn className="ml-1 rev-icn" />
           </button>

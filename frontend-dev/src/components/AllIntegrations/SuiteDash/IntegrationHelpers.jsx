@@ -37,3 +37,4 @@ export const handleCustomField = (event, index, conftTmp, setConf, fieldValue) =
   newConf.field_map[index][fieldValue] = event.target.value
   setConf({ ...newConf })
 }
+

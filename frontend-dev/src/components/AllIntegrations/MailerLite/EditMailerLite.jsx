@@ -24,7 +24,7 @@ function EditMailerLite({ allIntegURL }) {
     list: false,
     field: false,
     auth: false,
-    group: false
+    group: false,
   })
   const [snack, setSnackbar] = useState({ show: false })
   const formField = useRecoilValue($formFields)
@@ -34,15 +34,7 @@ function EditMailerLite({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
-    saveActionConf({
-      flow,
-      allIntegURL,
-      conf: mailerLiteConf,
-      navigate,
-      edit: 1,
-      setLoading,
-      setSnackbar
-    })
+    saveActionConf({ flow, allIntegURL, conf: mailerLiteConf, navigate, edit: 1, setLoading, setSnackbar })
   }
 
   return (
@@ -51,14 +43,7 @@ function EditMailerLite({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, mailerLiteConf, setMailerLiteConf)}
-          name="name"
-          value={mailerLiteConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, mailerLiteConf, setMailerLiteConf)} name="name" value={mailerLiteConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
 
@@ -66,9 +51,7 @@ function EditMailerLite({ allIntegURL }) {
       <MailerLiteIntegLayout
         formID={flow.triggered_entity_id}
         formFields={formField}
-        handleInput={(e) =>
-          handleInput(e, mailerLiteConf, setMailerLiteConf, setLoading, setSnackbar)
-        }
+        handleInput={(e) => handleInput(e, mailerLiteConf, setMailerLiteConf, setLoading, setSnackbar)}
         mailerLiteConf={mailerLiteConf}
         setMailerLiteConf={setMailerLiteConf}
         loading={loading}

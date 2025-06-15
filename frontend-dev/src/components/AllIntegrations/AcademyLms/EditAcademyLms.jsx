@@ -23,28 +23,14 @@ function EditAcademyLms({ allIntegURL }) {
   const formField = useRecoilValue($formFields)
 
   const saveConfig = () => {
-    saveActionConf({
-      flow,
-      allIntegURL,
-      conf: academyLmsConf,
-      navigate,
-      edit: 1,
-      setIsLoading,
-      setSnackbar
-    })
+    saveActionConf({ flow, allIntegURL, conf: academyLmsConf, navigate, edit: 1, setIsLoading, setSnackbar })
   }
   return (
     <div style={{ width: 900 }}>
+
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, academyLmsConf, setAcademyLmsConf)}
-          name="name"
-          value={academyLmsConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, academyLmsConf, setAcademyLmsConf)} name="name" value={academyLmsConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
 

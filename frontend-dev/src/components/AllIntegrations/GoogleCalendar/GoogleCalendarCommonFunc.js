@@ -14,9 +14,9 @@ export const handleInput = (e, googleCalendarConf, setGoogleCalendarConf) => {
   setGoogleCalendarConf({ ...newConf })
 }
 
-export const checkMappedFields = (fieldsMapped) => {
+export const checkMappedFields = fieldsMapped => {
   const checkedField = fieldsMapped
-    ? fieldsMapped.filter((item) => !item.formField || !item.googleCalendarFormField)
+    ? fieldsMapped.filter(item => (!item.formField || !item.googleCalendarFormField))
     : []
   if (checkedField.length > 0) return false
   return true
@@ -27,36 +27,35 @@ export const getAllGoogleCalendarLists = (flowID, googleCalendarConf, setGoogleC
     flowID: flowID ?? null,
     clientId: googleCalendarConf.clientId,
     clientSecret: googleCalendarConf.clientSecret,
-    tokenDetails: googleCalendarConf.tokenDetails
+    tokenDetails: googleCalendarConf.tokenDetails,
   }
-  const loadPostTypes = bitsFetch(queryParams, 'googleCalendar_get_all_lists').then((result) => {
-    if (result && result.success) {
-      const newConf = { ...googleCalendarConf }
-      if (result.data.googleCalendarLists) {
-        newConf.calendarLists = result.data.googleCalendarLists
-        newConf.tokenDetails = result.data.tokenDetails
-      }
+  const loadPostTypes = bitsFetch(queryParams, 'googleCalendar_get_all_lists')
+    .then(result => {
+      if (result && result.success) {
+        const newConf = { ...googleCalendarConf }
+        if (result.data.googleCalendarLists) {
+          newConf.calendarLists = result.data.googleCalendarLists
+          newConf.tokenDetails = result.data.tokenDetails
+        }
 
-      setGoogleCalendarConf(newConf)
-      return __('Google Calendar List refreshed successfully', 'bit-integrations')
-    } else {
-      return __('Google Calendar List refresh failed. please try again', 'bit-integrations')
-    }
-  })
+        setGoogleCalendarConf(newConf)
+        return 'Google Calendar List refreshed successfully'
+      } else {
+        return 'Google Calendar List refresh failed. please try again'
+      }
+    })
   toast.promise(loadPostTypes, {
-    success: (data) => data,
+    success: data => data,
     error: __('Error Occurred', 'bit-integrations'),
-    loading: __('Loading Google Calendar List...', 'bit-integrations')
+    loading: __('Loading Google Calendar List...', 'bit-integrations'),
   })
 }
 
 export const handleAuthorize = (confTmp, setConf, setIsAuthorized, setIsLoading, setError) => {
   if (!confTmp.clientId || !confTmp.clientSecret) {
     setError({
-      clientId: !confTmp.clientId ? __("Client Id can't be empty", 'bit-integrations') : '',
-      clientSecret: !confTmp.clientSecret
-        ? __("Client Secret can't be empty", 'bit-integrations')
-        : ''
+      clientId: !confTmp.clientId ? __('Client Id can\'t be empty', 'bit-integrations') : '',
+      clientSecret: !confTmp.clientSecret ? __('Client Secret can\'t be empty', 'bit-integrations') : '',
     })
     return
   }
@@ -76,16 +75,9 @@ export const handleAuthorize = (confTmp, setConf, setIsAuthorized, setIsLoading,
         grantTokenResponse = JSON.parse(bitsGoogleCalendar)
         localStorage.removeItem('__googleCalendar')
       }
-      if (
-        !grantTokenResponse.code ||
-        grantTokenResponse.error ||
-        !grantTokenResponse ||
-        !isAuthRedirectLocation
-      ) {
+      if (!grantTokenResponse.code || grantTokenResponse.error || !grantTokenResponse || !isAuthRedirectLocation) {
         const errorCause = grantTokenResponse.error ? `Cause: ${grantTokenResponse.error}` : ''
-        toast.error(
-          `${__('Authorization Failed', 'bit-integrations')} ${errorCause}. ${__('please try again', 'bit-integrations')}`
-        )
+        toast.error(`${__('Authorization failed', 'bit-integrations')} ${errorCause}. ${__('please try again', 'bit-integrations')}`)
         setIsLoading(false)
       } else {
         const newConf = { ...confTmp }
@@ -103,23 +95,19 @@ const tokenHelper = (grantToken, confTmp, setConf, setIsAuthorized, setIsLoading
   // eslint-disable-next-line no-undef
   tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
 
-  bitsFetch(tokenRequestParams, 'googleCalendar_authorization').then((result) => {
-    if (result && result.success) {
-      const newConf = { ...confTmp }
-      newConf.tokenDetails = result.data
-      setConf(newConf)
-      setIsAuthorized(true)
-      toast.success(__('Authorized Successfully', 'bit-integrations'))
-    } else if (
-      (result && result.data && result.data.data) ||
-      (!result.success && typeof result.data === 'string')
-    ) {
-      toast.error(
-        `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}`
-      )
-    } else {
-      toast.error(__('Authorization failed. please try again', 'bit-integrations'))
-    }
-    setIsLoading(false)
-  })
+  bitsFetch(tokenRequestParams, 'googleCalendar_authorization')
+    .then(result => {
+      if (result && result.success) {
+        const newConf = { ...confTmp }
+        newConf.tokenDetails = result.data
+        setConf(newConf)
+        setIsAuthorized(true)
+        toast.success(__('Authorized Successfully', 'bit-integrations'))
+      } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
+        toast.error(`${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}`)
+      } else {
+        toast.error(__('Authorization failed. please try again', 'bit-integrations'))
+      }
+      setIsLoading(false)
+    })
 }

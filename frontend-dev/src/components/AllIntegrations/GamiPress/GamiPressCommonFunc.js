@@ -3,14 +3,7 @@ import bitsFetch from '../../../Utils/bitsFetch'
 import { deepCopy } from '../../../Utils/Helpers'
 import { sprintf, __ } from '../../../Utils/i18nwrap'
 
-export const handleInput = (
-  e,
-  gamiPressConf,
-  setGamiPressConf,
-  setIsLoading,
-  setSnackbar,
-  formID
-) => {
+export const handleInput = (e, gamiPressConf, setGamiPressConf, setIsLoading, setSnackbar, formID) => {
   const newConf = { ...gamiPressConf }
   const { name } = e.target
   if (e.target.value !== '') {
@@ -27,7 +20,7 @@ export const fetchAllRankType = (gamiPressConf, setGamiPressConf, setIsLoading, 
   setIsLoading(true)
   const requestParams = { domainName: gamiPressConf.domainName }
   bitsFetch(requestParams, 'gamiPress_fetch_all_rank_type')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...gamiPressConf }
         if (!newConf.default) {
@@ -48,15 +41,10 @@ export const fetchAllRankType = (gamiPressConf, setGamiPressConf, setIsLoading, 
     .catch(() => setIsLoading(false))
 }
 
-export const fetchAllAchievementType = (
-  gamiPressConf,
-  setGamiPressConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const fetchAllAchievementType = (gamiPressConf, setGamiPressConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   bitsFetch(null, 'gamiPress_fetch_all_achievement_type')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...gamiPressConf }
         if (!newConf.default) {
@@ -76,16 +64,11 @@ export const fetchAllAchievementType = (
 
     .catch(() => setIsLoading(false))
 }
-export const fetchAllAchievementByType = (
-  gamiPressConf,
-  setGamiPressConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const fetchAllAchievementByType = (gamiPressConf, setGamiPressConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   const requestParams = { achievementType: gamiPressConf.selectedAchievementType }
   bitsFetch(requestParams, 'gamiPress_fetch_all_achievement_by_type')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...gamiPressConf }
         if (!newConf.default) {
@@ -110,7 +93,7 @@ export const fetchAllRankByType = (gamiPressConf, setGamiPressConf, setIsLoading
   setIsLoading(true)
   const requestParams = { domainName: gamiPressConf.rankType }
   bitsFetch(requestParams, 'gamiPress_fetch_all_rank_by_type')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...gamiPressConf }
         if (!newConf.default) {
@@ -135,7 +118,7 @@ export const fetchAllPointType = (gamiPressConf, setGamiPressConf, setIsLoading,
   setIsLoading(true)
   const requestParams = { domainName: gamiPressConf.rankType }
   bitsFetch(requestParams, 'gamiPress_fetch_all_point_type')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...gamiPressConf }
         if (!newConf.default) {
@@ -157,16 +140,12 @@ export const fetchAllPointType = (gamiPressConf, setGamiPressConf, setIsLoading,
 }
 
 export const generateMappedField = (gamiPressConf) => {
-  const requiredFlds = gamiPressConf?.pointFields.filter((fld) => fld.required === true)
-  return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({ formField: '', gamiPressFormField: field.key }))
-    : [{ formField: '', gamiPressFormField: '' }]
+  const requiredFlds = gamiPressConf?.pointFields.filter(fld => fld.required === true)
+  return requiredFlds.length > 0 ? requiredFlds.map(field => ({ formField: '', gamiPressFormField: field.key })) : [{ formField: '', gamiPressFormField: '' }]
 }
 
 export const checkMappedFields = (gamiPressConf) => {
-  const mappedFleld = gamiPressConf.field_map
-    ? gamiPressConf.field_map.filter((mapped) => !mapped.formField && !mapped.gamiPressFormField)
-    : []
+  const mappedFleld = gamiPressConf.field_map ? gamiPressConf.field_map.filter(mapped => (!mapped.formField && !mapped.gamiPressFormField)) : []
   if (mappedFleld.length > 0) {
     return false
   }

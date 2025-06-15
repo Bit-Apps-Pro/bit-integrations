@@ -2,11 +2,11 @@
 
 namespace BitCode\FI\Core\Hooks;
 
+use FilesystemIterator;
 use BitCode\FI\Admin\AdminAjax;
 use BitCode\FI\Core\Util\Hooks;
 use BitCode\FI\Core\Util\Request;
 use BitCode\FI\Core\Util\StoreInCache;
-use FilesystemIterator;
 
 class HookService
 {
@@ -31,28 +31,6 @@ class HookService
     }
 
     /**
-     * Helps to register integration ajax
-     *
-     * @return void
-     */
-    public function loadActionsHooks()
-    {
-        $this->_includeActionTaskHooks('Actions');
-    }
-
-    /**
-     * Loads API routes
-     *
-     * @return null
-     */
-    public function loadApi()
-    {
-        if (is_readable(BTCBI_PLUGIN_BASEDIR . 'includes' . DIRECTORY_SEPARATOR . 'Routes' . DIRECTORY_SEPARATOR . 'api.php')) {
-            include BTCBI_PLUGIN_BASEDIR . 'includes' . DIRECTORY_SEPARATOR . 'Routes' . DIRECTORY_SEPARATOR . 'api.php';
-        }
-    }
-
-    /**
      * Helps to register App hooks
      *
      * @return null
@@ -74,22 +52,34 @@ class HookService
      */
     protected function loadTriggersHooks()
     {
-        $activeTrigger = StoreInCache::getActiveFlowEntities() ?? [];
-
+        $storeInCacheInstance = new StoreInCache();
+        $activeTrigger = $storeInCacheInstance::getTransientData('activeCurrentTrigger');
+        if (empty($activeTrigger)) {
+            $activeTrigger = $storeInCacheInstance::getActiveFlow();
+        }
         if (!$activeTrigger) {
             $activeTrigger = [];
         }
-
-        $listedTriggers = ['ActionHook', 'Spectra', 'EssentialBlocks', 'Elementor', 'FallbackTrigger'];
-        $activeTrigger = array_merge($activeTrigger, $listedTriggers);
-
-        if (empty($activeTrigger) || !\is_array($activeTrigger)) {
+        $activeTrigger[] = 'CustomTrigger';
+        $activeTrigger[] = 'ActionHook';
+        $activeTrigger[] = 'Spectra';
+        $activeTrigger[] = 'EssentialBlocks';
+        if (empty($activeTrigger) || !is_array($activeTrigger)) {
             return;
         }
-
         foreach ($activeTrigger as $key => $triggerName) {
             $this->_includeTriggerTaskHooks($triggerName);
         }
+    }
+
+    /**
+     * Helps to register integration ajax
+     *
+     * @return void
+     */
+    public function loadActionsHooks()
+    {
+        $this->_includeActionTaskHooks('Actions');
     }
 
     /**
@@ -138,6 +128,18 @@ class HookService
                     include $task_path . 'Hooks.php';
                 }
             }
+        }
+    }
+
+    /**
+     * Loads API routes
+     *
+     * @return null
+     */
+    public function loadApi()
+    {
+        if (is_readable(BTCBI_PLUGIN_BASEDIR . 'includes' . DIRECTORY_SEPARATOR . 'Routes' . DIRECTORY_SEPARATOR . 'api.php')) {
+            include BTCBI_PLUGIN_BASEDIR . 'includes' . DIRECTORY_SEPARATOR . 'Routes' . DIRECTORY_SEPARATOR . 'api.php';
         }
     }
 }

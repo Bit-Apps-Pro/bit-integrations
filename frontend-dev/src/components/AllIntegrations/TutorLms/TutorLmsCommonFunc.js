@@ -34,50 +34,52 @@ export const moduleChange = (tutorlmsConf, setTutorlmsConf, setIsLoading, setSna
 export const getAllCourses = (tutorlmsConf, setTutorlmsConf, setIsLoading, value = null) => {
   setIsLoading(true)
   const queryParams = { type: value }
-  const loadPostTypes = bitsFetch(null, 'tutor_all_course', queryParams, 'GET').then((result) => {
-    if (result && result.success) {
-      const newConf = { ...tutorlmsConf }
-      if (!newConf.default) newConf.default = {}
-      newConf.default.courses = result.data
-      setTutorlmsConf({ ...newConf })
+  const loadPostTypes = bitsFetch(null, 'tutor_all_course', queryParams, 'GET')
+    .then(result => {
+      if (result && result.success) {
+        const newConf = { ...tutorlmsConf }
+        if (!newConf.default) newConf.default = {}
+        newConf.default.courses = result.data
+        setTutorlmsConf({ ...newConf })
+        setIsLoading(false)
+        return 'Courses fetched successfully'
+      }
       setIsLoading(false)
-      return __('Courses fetched successfully', 'bit-integrations')
-    }
-    setIsLoading(false)
-    return __('Courses fetch failed. please try again', 'bit-integrations')
-  })
+      return 'Courses fetch failed. please try again'
+    })
   toast.promise(loadPostTypes, {
-    success: (data) => data,
+    success: data => data,
     error: __('Error Occurred', 'bit-integrations'),
-    loading: __('Loading Courses...')
+    loading: __('Loading Courses...'),
   })
 }
 
 export const getAllLesson = (tutorlmsConf, setTutorlmsConf, setIsLoading) => {
   setIsLoading(true)
-  const loadPostTypes = bitsFetch(null, 'tutor_all_lesson', '', 'GET').then((result) => {
-    if (result && result.success) {
-      const newConf = { ...tutorlmsConf }
-      if (!newConf.default) newConf.default = {}
-      newConf.default.lessons = result.data
-      setTutorlmsConf({ ...newConf })
+  const loadPostTypes = bitsFetch(null, 'tutor_all_lesson', '', 'GET')
+    .then(result => {
+      if (result && result.success) {
+        const newConf = { ...tutorlmsConf }
+        if (!newConf.default) newConf.default = {}
+        newConf.default.lessons = result.data
+        setTutorlmsConf({ ...newConf })
+        setIsLoading(false)
+        return 'Lessons fetched successfully'
+      }
       setIsLoading(false)
-      return __('Lessons fetched successfully', 'bit-integrations')
-    }
-    setIsLoading(false)
-    return __('Lessons fetch failed, please try again...', 'bit-integrations')
-  })
+      return 'Lessons fetch failed, please try again...'
+    })
   toast.promise(loadPostTypes, {
-    success: (data) => data,
+    success: data => data,
     error: __('Error Occurred', 'bit-integrations'),
-    loading: __('Loading Lessons...')
+    loading: __('Loading Lessons...'),
   })
 }
 
-const generateMappedFields = (tutorlmsConf) => {
+const generateMappedFields = tutorlmsConf => {
   const newConf = deepCopy(tutorlmsConf)
-  newConf.default.fields[newConf.module].required.forEach((reqFld) => {
-    if (!newConf.field_map.find((fld) => fld.wcField === reqFld)) {
+  newConf.default.fields[newConf.module].required.forEach(reqFld => {
+    if (!newConf.field_map.find(fld => fld.wcField === reqFld)) {
       newConf.field_map.unshift({ formField: '', wcField: reqFld, required: true })
     }
   })

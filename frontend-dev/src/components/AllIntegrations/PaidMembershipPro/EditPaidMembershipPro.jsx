@@ -29,14 +29,7 @@ function EditPaidMembershipPro({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, paidMembershipProConf, setPaidMembershipProConf)}
-          name="name"
-          value={paidMembershipProConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, paidMembershipProConf, setPaidMembershipProConf)} name="name" value={paidMembershipProConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
       <br />
@@ -45,9 +38,7 @@ function EditPaidMembershipPro({ allIntegURL }) {
       <PaidMembershipProIntegLayout
         formID={formID}
         formFields={formFields}
-        handleInput={(e) =>
-          handleInput(e, paidMembershipProConf, setPaidMembershipProConf, setIsLoading, setSnackbar)
-        }
+        handleInput={(e) => handleInput(e, paidMembershipProConf, setPaidMembershipProConf, setIsLoading, setSnackbar)}
         paidMembershipProConf={paidMembershipProConf}
         setPaidMembershipProConf={setPaidMembershipProConf}
         isLoading={isLoading}
@@ -57,22 +48,8 @@ function EditPaidMembershipPro({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            allIntegURL,
-            conf: paidMembershipProConf,
-            navigate,
-            edit: 1,
-            setIsLoading,
-            setSnackbar
-          })
-        }
-        disabled={
-          !paidMembershipProConf.mainAction ||
-          isLoading ||
-          paidMembershipProConf.selectedMembership === undefined
-        }
+        saveConfig={() => saveActionConf({ flow, allIntegURL, conf: paidMembershipProConf, navigate, edit: 1, setIsLoading, setSnackbar })}
+        disabled={!paidMembershipProConf.mainAction || isLoading || paidMembershipProConf.selectedMembership === undefined}
         isLoading={isLoading}
         dataConf={paidMembershipProConf}
         setDataConf={setPaidMembershipProConf}

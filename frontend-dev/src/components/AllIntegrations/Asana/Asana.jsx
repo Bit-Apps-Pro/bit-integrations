@@ -22,20 +22,22 @@ function Asana({ formFields, setFlow, flow, allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const taskFields = [
-    { key: 'name', label: __('Name', 'bit-integrations'), required: true },
-    { key: 'due_at', label: __('Due At', 'bit-integrations'), required: false },
-    { key: 'due_on', label: __('Due On', 'bit-integrations'), required: false },
-    { key: 'notes', label: __('Notes', 'bit-integrations'), required: false }
+    { key: 'name', label: 'Name', required: true },
+    { key: 'due_at', label: 'Due At', required: false },
+    { key: 'due_on', label: 'Due On', required: false },
+    { key: 'notes', label: 'Notes', required: false },
   ]
 
   const [asanaConf, setAsanaConf] = useState({
     name: 'Asana',
     type: 'Asana',
-    api_key: '',
-    field_map: [{ formField: '', asanaFormField: '' }],
+    api_key: process.env.NODE_ENV === 'development' ? '1/1204059769132541:4f2eba544ecafbc29df397dec56c457c' : '',
+    field_map: [
+      { formField: '', asanaFormField: '' },
+    ],
     actionName: '',
     taskFields,
-    actions: {}
+    actions: {},
   })
 
   const saveConfig = () => {
@@ -51,23 +53,23 @@ function Asana({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = pageNo => {
+  const nextPage = (pageNo) => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
     if (!checkMappedFields(asanaConf)) {
-      toast.error(__('Please map mandatory fields', 'bit-integrations'))
+      toast.error('Please map mandatory fields')
       return
     }
 
     if (asanaConf.actionName === 'task') {
       if (!asanaConf.selectedProject) {
-        toast.error(__('Please select a project', 'bit-integrations'))
+        toast.error('Please select a project')
         return
       }
       if (!asanaConf.selectedSections && asanaConf.actionName === 'task') {
-        toast.error(__('Please select a Section', 'bit-integrations'))
+        toast.error('Please select a Section')
         return
       }
     }
@@ -78,9 +80,7 @@ function Asana({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={3} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
 
       {/* STEP 1 */}
       <AsanaAuthorization
@@ -94,12 +94,11 @@ function Asana({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+
         <AsanaIntegLayout
           formFields={formFields}
-          handleInput={e => handleInput(e, asanaConf, setAsanaConf, setLoading, setSnackbar)}
+          handleInput={(e) => handleInput(e, asanaConf, setAsanaConf, setLoading, setSnackbar)}
           asanaConf={asanaConf}
           setAsanaConf={setAsanaConf}
           loading={loading}
@@ -110,10 +109,13 @@ function Asana({ formFields, setFlow, flow, allIntegURL }) {
         {asanaConf?.actionName && (
           <button
             onClick={() => nextPage(3)}
-            disabled={!checkMappedFields(asanaConf)}
-            className="btn f-right btcd-btn-lg purple sh-sm flx"
-            type="button">
-            {__('Next', 'bit-integrations')} &nbsp;
+            disabled={!(checkMappedFields(asanaConf))}
+            className="btn f-right btcd-btn-lg green sh-sm flx"
+            type="button"
+          >
+            {__('Next', 'bit-integrations')}
+            {' '}
+            &nbsp;
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         )}

@@ -14,7 +14,7 @@ const BuddyBossHelper = ({ flow, setFlowData, edit = false }) => {
 
   // rubel vai code
   const setFlowDataDepend = (val, type, isLoad = true) => {
-    const tmpFlow = create(flow, (draftChangeData) => {
+    const tmpFlow = create(flow, draftChangeData => {
       if (!edit) {
         draftChangeData.triggerData[type] = val
       } else {
@@ -46,15 +46,13 @@ const BuddyBossHelper = ({ flow, setFlowData, edit = false }) => {
     <>
       {(id === '3' || id === '4') && (
         <div className={edit ? 'flx mt-3' : ''}>
-          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
-            {__('Select a Forum', 'bit-integrations')}
-          </b>
+          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>Select a Forum</b>
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={triggerData?.selectedForum}
             options={triggerData?.forums?.map((list) => ({
               label: list.forum_title,
-              value: list.forum_id.toString()
+              value: list.forum_id.toString(),
             }))}
             onChange={(val) => setFlowDataDepend(val, 'selectedForum')}
             singleSelect
@@ -62,17 +60,15 @@ const BuddyBossHelper = ({ flow, setFlowData, edit = false }) => {
           />
         </div>
       )}
-      {id === '4' && triggerData?.topics && (
+      {(id === '4' && triggerData?.topics) && (
         <div className={edit ? 'flx mt-3' : ''}>
-          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
-            {__('Select a Topic', 'bit-integrations')}
-          </b>
+          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>Select a Topic</b>
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={triggerData?.selectedTopic}
             options={triggerData?.topics?.map((list) => ({
               label: list.topic_title,
-              value: list.topic_id.toString()
+              value: list.topic_id.toString(),
             }))}
             onChange={(val) => setFlowData(val, 'selectedTopic')}
             singleSelect
@@ -82,15 +78,13 @@ const BuddyBossHelper = ({ flow, setFlowData, edit = false }) => {
       )}
       {(id === '9' || id === '10' || id === '11' || id === '12' || id === '13') && (
         <div className={edit ? 'flx mt-3' : ''}>
-          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
-            {__('Select a Group', 'bit-integrations')}
-          </b>
+          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>Select a Group</b>
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={triggerData?.selectedGroup}
             options={triggerData?.groups?.map((list) => ({
               label: list.group_title,
-              value: list.group_id.toString()
+              value: list.group_id.toString(),
             }))}
             onChange={(val) => setFlowData(val, 'selectedGroup')}
             singleSelect

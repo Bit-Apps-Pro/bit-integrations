@@ -12,7 +12,7 @@ const LifterLmsHelper = ({ flow, setFlowData, edit = false }) => {
   const triggerData = !edit ? newFlow?.triggerData : flow.flow_details
 
   const setFlowDataDepend = (val, type, isLoad = true) => {
-    const tmpFlow = create(flow, (draftChangeData) => {
+    const tmpFlow = create(flow, draftChangeData => {
       if (!edit) {
         draftChangeData.triggerData[type] = val
       } else {
@@ -29,15 +29,13 @@ const LifterLmsHelper = ({ flow, setFlowData, edit = false }) => {
     <>
       {(id === '1' || id === '2' || id === '3') && (
         <div className={edit ? 'flx mt-3' : ''}>
-          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
-            {__('Select a quiz', 'bit-integrations')}
-          </b>
+          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>Select a quiz.</b>
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={triggerData?.selectedQuiz}
             options={triggerData?.allQuiz?.map((list) => ({
               label: list.post_title,
-              value: list.ID.toString()
+              value: list.ID.toString(),
             }))}
             onChange={(val) => setFlowDataDepend(val, 'selectedQuiz')}
             singleSelect
@@ -45,17 +43,15 @@ const LifterLmsHelper = ({ flow, setFlowData, edit = false }) => {
           />
         </div>
       )}
-      {id === '4' && (
+      {(id === '4') && (
         <div className={edit ? 'flx mt-3' : ''}>
-          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
-            {__('Select a Lesson', 'bit-integrations')}
-          </b>
+          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>Select a Lesson</b>
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={triggerData?.selectedLesson}
             options={triggerData?.allLesson?.map((list) => ({
               label: list.post_title,
-              value: list.ID.toString()
+              value: list.ID.toString(),
             }))}
             onChange={(val) => setFlowData(val, 'selectedLesson')}
             singleSelect
@@ -65,15 +61,13 @@ const LifterLmsHelper = ({ flow, setFlowData, edit = false }) => {
       )}
       {(id === '5' || id === '6' || id === '7') && (
         <div className={edit ? 'flx mt-3' : ''}>
-          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
-            {__('Select a Course', 'bit-integrations')}
-          </b>
+          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>Select a Course</b>
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={triggerData?.selectedCourse}
             options={triggerData?.allCourse?.map((list) => ({
               label: list.post_title,
-              value: list.ID.toString()
+              value: list.ID.toString(),
             }))}
             onChange={(val) => setFlowData(val, 'selectedCourse')}
             singleSelect
@@ -81,17 +75,15 @@ const LifterLmsHelper = ({ flow, setFlowData, edit = false }) => {
           />
         </div>
       )}
-      {id === '8' && (
+      {(id === '8') && (
         <div className={edit ? 'flx mt-3' : ''}>
-          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
-            {__('Select a Membership', 'bit-integrations')}
-          </b>
+          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>Select a Membership</b>
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={triggerData?.selectedMembership}
             options={triggerData?.allMembership?.map((list) => ({
               label: list.post_title,
-              value: list.ID.toString()
+              value: list.ID.toString(),
             }))}
             onChange={(val) => setFlowData(val, 'selectedMembership')}
             singleSelect

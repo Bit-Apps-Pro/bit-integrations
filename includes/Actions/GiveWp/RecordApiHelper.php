@@ -4,7 +4,6 @@ namespace BitCode\FI\Actions\GiveWp;
 
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Log\LogHandler;
-use Give_Donor;
 
 class RecordApiHelper
 {
@@ -17,19 +16,18 @@ class RecordApiHelper
             $actionValue = $value->giveWpFormField;
             if ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!\is_null($data[$triggerValue])) {
+            } elseif (!is_null($data[$triggerValue])) {
                 $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
-
         return $dataFinal;
     }
 
     public function createGiveWpDonar($finalData)
     {
-        $donor = new Give_Donor();
-
-        return $donor->create($finalData);
+        $donor = new \Give_Donor();
+        $donor_id = $donor->create($finalData);
+        return $donor_id;
     }
 
     public function execute(
@@ -45,9 +43,9 @@ class RecordApiHelper
         if ($mainAction === '1') {
             $response = $this->createGiveWpDonar($finalData);
             if (!empty($response)) {
-                LogHandler::save($integId, wp_json_encode(['type' => 'create-donar', 'type_name' => 'create-donar-giveWp']), 'success', wp_json_encode(wp_sprintf(__('Donar crated successfully and id is %s', 'bit-integrations'), $response)));
+                LogHandler::save($integId, json_encode(['type' => 'create-donar', 'type_name' => 'create-donar-giveWp']), 'success', json_encode('Donar crated successfully and id is' . $response));
             } else {
-                LogHandler::save($integId, wp_json_encode(['type' => 'create-donar', 'type_name' => 'create-donar-giveWp']), 'error', wp_json_encode(__('Failed to create donar', 'bit-integrations')));
+                LogHandler::save($integId, json_encode(['type' => 'create-donar', 'type_name' => 'create-donar-giveWp']), 'error', json_encode('Failed to create donar'));
             }
         }
 

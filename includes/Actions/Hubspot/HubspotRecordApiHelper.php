@@ -6,14 +6,15 @@
 
 namespace BitCode\FI\Actions\Hubspot;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Core\Util\Helper;
+use BitCode\FI\Core\Util\DateTimeHelper;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert,upsert
  */
+
 class HubspotRecordApiHelper
 {
     private $defaultHeader;
@@ -22,8 +23,47 @@ class HubspotRecordApiHelper
     {
         $this->defaultHeader = [
             'Content-Type'  => 'application/json',
-            'authorization' => "Bearer {$accessToken}"
+            'authorization' => "Bearer $accessToken"
         ];
+    }
+
+    public function insertContact($data)
+    {
+        $finalData['properties'] = $data;
+        $apiEndpoint             = 'https://api.hubapi.com/crm/v3/objects/contacts';
+
+        return HttpHelper::post($apiEndpoint, json_encode($finalData), $this->defaultHeader);
+    }
+
+    public function insertDeal($finalData)
+    {
+        foreach ($finalData['associations'] as $key => $association) {
+            $associations[$key] = $association;
+        }
+
+        foreach ($finalData['properties'] as $key => $property) {
+            $properties[] = (object) [
+                'name'  => $key,
+                'value' => $property
+            ];
+        }
+
+        $data = [
+            'properties'   => $properties,
+            'associations' => (object) $associations
+        ];
+
+        $apiEndpoint = 'https://api.hubapi.com/deals/v1/deal';
+
+        return HttpHelper::post($apiEndpoint, json_encode($data), $this->defaultHeader);
+    }
+
+    public function insertTicket($finalData)
+    {
+        $data        = json_encode(['properties' => $finalData]);
+        $apiEndpoint = 'https://api.hubapi.com/crm/v3/objects/tickets';
+
+        return HttpHelper::post($apiEndpoint, $data, $this->defaultHeader);
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap, $integrationDetails)
@@ -32,15 +72,30 @@ class HubspotRecordApiHelper
 
         foreach ($fieldMap as $value) {
             $triggerValue = $value->formField;
-            $actionValue = $value->hubspotField;
+            $actionValue  = $value->hubspotField;
             if ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!\is_null($data[$triggerValue])) {
-                $dataFinal[$actionValue] = \is_array($data[$triggerValue]) ? implode(';', $data[$triggerValue]) : $data[$triggerValue];
+            } elseif (!is_null($data[$triggerValue])) {
+                $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
 
-        $dataFinal = array_merge($dataFinal, static::setActions($integrationDetails));
+        $action = $integrationDetails->actions;
+
+        if (property_exists($action, 'lead_status')) {
+            $status = $integrationDetails->lead_status;
+            $dataFinal['hs_lead_status'] = $status;
+        }
+
+        if (property_exists($action, 'lifecycle_stage')) {
+            $stage = $integrationDetails->lifecycle_stage;
+            $dataFinal['lifecyclestage'] = $stage;
+        }
+
+        if (property_exists($action, 'contact_owner')) {
+            $owner = $integrationDetails->contact_owner;
+            $dataFinal['hubspot_owner_id'] = $owner;
+        }
 
         return $dataFinal;
     }
@@ -51,44 +106,57 @@ class HubspotRecordApiHelper
 
         foreach ($fieldMap as $value) {
             $triggerValue = $value->formField;
-            $actionValue = $value->hubspotField;
+            $actionValue  = $value->hubspotField;
             if ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!\is_null($data[$triggerValue])) {
-                if (!\is_array($data[$triggerValue]) && strtotime($data[$triggerValue])) {
+            } elseif (!is_null($data[$triggerValue])) {
+                if (strtotime($data[$triggerValue])) {
                     $formated = strtotime($data[$triggerValue]);
                     $dataFinal[$actionValue] = $formated;
                 } else {
-                    $dataFinal[$actionValue] = \is_array($data[$triggerValue]) ? implode(';', $data[$triggerValue]) : $data[$triggerValue];
+                    $dataFinal[$actionValue] = $data[$triggerValue];
                 }
             }
         }
 
-        if (!empty($integrationDetails->pipeline)) {
-            $dataFinal['pipeline'] = $integrationDetails->pipeline;
-        }
-        if (!empty($integrationDetails->stage)) {
-            $dataFinal['dealstage'] = $integrationDetails->stage;
-        }
+        $pipeline = $integrationDetails->pipeline;
+        $stage    = $integrationDetails->stage;
+        $action   = $integrationDetails->actions;
+
+        if (!empty($pipeline)) $dataFinal['pipeline'] = $pipeline;
+        if (!empty($stage)) $dataFinal['dealstage']   = $stage;
 
         $dataForAssosciations = [];
 
-        if (isset($integrationDetails->company)) {
+        if (property_exists($action, 'contact_owner')) {
+            $owner = $integrationDetails->contact_owner;
+            $dataFinal['hubspot_owner_id'] = $owner;
+        }
+
+        if (property_exists($action, 'deal_type')) {
+            $dealType = $integrationDetails->deal_type;
+            $dataFinal['dealtype'] = $dealType;
+        }
+
+        if (property_exists($action, 'priority')) {
+            $priority = $integrationDetails->priority;
+            $dataFinal['hs_priority'] = $priority;
+        }
+
+        if (property_exists($action, 'company')) {
             $companyIds = explode(',', $integrationDetails->company);
             $dataForAssosciations['associatedCompanyIds'] = $companyIds;
         }
 
-        if (isset($integrationDetails->contact)) {
+        if (property_exists($action, 'contact')) {
             $contactIds = explode(',', $integrationDetails->contact);
             $dataForAssosciations['associatedVids'] = $contactIds;
         }
 
         $finalData = [];
-        $finalData['properties'] = array_merge($dataFinal, static::setActions($integrationDetails));
+        $finalData['properties'] = $dataFinal;
 
-        if (!empty($dataForAssosciations)) {
-            $finalData['associations'] = $dataForAssosciations;
-        }
+        if (!empty($dataForAssosciations)) $finalData['associations'] = $dataForAssosciations;
 
         return $finalData;
     }
@@ -99,22 +167,37 @@ class HubspotRecordApiHelper
 
         foreach ($fieldMap as $value) {
             $triggerValue = $value->formField;
-            $actionValue = $value->hubspotField;
+            $actionValue  = $value->hubspotField;
             if ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!\is_null($data[$triggerValue])) {
-                $dataFinal[$actionValue] = \is_array($data[$triggerValue]) ? implode(';', $data[$triggerValue]) : $data[$triggerValue];
+            } elseif (!is_null($data[$triggerValue])) {
+                $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
 
-        if (!empty($integrationDetails->pipeline)) {
-            $dataFinal['hs_pipeline'] = $integrationDetails->pipeline;
-        }
-        if (!empty($integrationDetails->stage)) {
-            $dataFinal['hs_pipeline_stage'] = $integrationDetails->stage;
+        $pipeline = $integrationDetails->pipeline;
+        $stage    = $integrationDetails->stage;
+        $action   = $integrationDetails->actions;
+
+        $dataFinal['hs_pipeline']       = $pipeline;
+        $dataFinal['hs_pipeline_stage'] = $stage;
+
+        if (property_exists($action, 'contact_owner')) {
+            $owner = $integrationDetails->contact_owner;
+            $dataFinal['hubspot_owner_id'] = $owner;
         }
 
-        $dataFinal = array_merge($dataFinal, static::setActions($integrationDetails));
+        if (property_exists($action, 'priority')) {
+            $priority = $integrationDetails->priority;
+            if ($priority == 'low') {
+                $priority = 'LOW';
+            } elseif ($priority == 'medium') {
+                $priority = 'MEDIUM';
+            } else {
+                $priority = 'HIGH';
+            }
+            $dataFinal['hs_ticket_priority'] = $priority;
+        }
 
         return $dataFinal;
     }
@@ -122,25 +205,24 @@ class HubspotRecordApiHelper
     public function executeRecordApi($integId, $integrationDetails, $fieldValues, $fieldMap)
     {
         $actionName = $integrationDetails->actionName;
-        $update = isset($integrationDetails->actions->update) ? $integrationDetails->actions->update : false;
-        $type = '';
-        $typeName = '';
+        $type       = '';
+        $typeName   = '';
 
-        if ($actionName === 'contact' || $actionName === 'company') {
-            $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap, $integrationDetails);
-            $type = $actionName;
-            $typeName = "{$actionName}-add";
-            $apiResponse = $this->handleContactOrCompany($finalData, $actionName, $typeName, $update);
+        if ($actionName === 'contact') {
+            $finalData   = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap, $integrationDetails);
+            $apiResponse = $this->insertContact($finalData);
+            $type        = 'contact';
+            $typeName    = 'contact-add';
         } elseif ($actionName === 'deal') {
-            $type = 'deal';
-            $typeName = 'deal-add';
-            $finalData = $this->formatDealFieldMap($fieldValues, $fieldMap, $integrationDetails);
-            $apiResponse = $this->handleDeal($finalData, $typeName, $update);
+            $finalData   = $this->formatDealFieldMap($fieldValues, $fieldMap, $integrationDetails);
+            $apiResponse = $this->insertDeal($finalData);
+            $type        = 'deal';
+            $typeName    = 'deal-add';
         } elseif ($actionName === 'ticket') {
-            $type = 'ticket';
-            $typeName = 'ticket-add';
-            $finalData = $this->formatTicketFieldMap($fieldValues, $fieldMap, $integrationDetails);
-            $apiResponse = $this->handleTicket($finalData, $typeName, $update);
+            $finalData   = $this->formatTicketFieldMap($fieldValues, $fieldMap, $integrationDetails);
+            $apiResponse = $this->insertTicket($finalData);
+            $type        = 'ticket';
+            $typeName    = 'ticket-add';
         }
 
         if (!isset($apiResponse->properties)) {
@@ -150,159 +232,5 @@ class HubspotRecordApiHelper
         }
 
         return $apiResponse;
-    }
-
-    private function handleTicket($data, &$typeName, $update = false)
-    {
-        $finalData = ['properties' => $data];
-
-        if ($update && Helper::proActionFeatExists('Hubspot', 'updateEntity')) {
-            $id = $this->existsEntity('tickets', 'subject', $data['subject']);
-
-            return empty($id)
-                ? $this->insertTicket($finalData, $typeName)
-                : $this->updateEntity($id, $finalData, 'tickets', $typeName);
-        }
-
-        return $this->insertTicket($finalData, $typeName);
-    }
-
-    private function insertTicket($finalData, &$typeName)
-    {
-        $typeName = 'Ticket-add';
-        $apiEndpoint = 'https://api.hubapi.com/crm/v3/objects/tickets';
-
-        return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->defaultHeader);
-    }
-
-    private function handleDeal($finalData, &$typeName, $update = false)
-    {
-        if ($update && Helper::proActionFeatExists('Hubspot', 'updateEntity')) {
-            $id = $this->existsEntity('deals', 'dealname', $finalData['dealname']);
-
-            return empty($id)
-                ? $this->insertDeal($finalData, $typeName)
-                : $this->updateEntity($id, $finalData, 'deals', $typeName);
-        }
-
-        return $this->insertDeal($finalData, $typeName);
-    }
-
-    private function insertDeal($finalData, &$typeName)
-    {
-        $typeName = 'Deal-add';
-        $apiEndpoint = 'https://api.hubapi.com/crm/v3/objects/deals';
-
-        return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->defaultHeader);
-    }
-
-    private function handleContactOrCompany($data, $actionName, &$typeName, $update = false)
-    {
-        $finalData = ['properties' => $data];
-        $actionName = $actionName === 'contact' ? 'contacts' : 'companies';
-
-        if ($update) {
-            $identifier = $actionName === 'contacts' ? $data['email'] : $data['name'];
-            $idProperty = $actionName === 'contacts' ? 'email' : 'name';
-            $id = $this->existsEntity($actionName, $idProperty, $identifier);
-
-            return empty($id)
-                ? $this->insertContactOrCompany($finalData, $actionName, $typeName)
-                : $this->updateEntity($id, $finalData, $actionName, $typeName);
-        }
-
-        return $this->insertContactOrCompany($finalData, $actionName, $typeName);
-    }
-
-    private function existsEntity($actionName, $idProperty, $identifier)
-    {
-        $apiEndpoint = "https://api.hubapi.com/crm/v3/objects/{$actionName}/search";
-        $data = [
-            'query'      => $identifier,
-            'properties' => [$idProperty]
-        ];
-
-        $response = HttpHelper::post($apiEndpoint, wp_json_encode($data), $this->defaultHeader);
-
-        if (is_wp_error($response) || empty($response->results) || (isset($response->status) && $response->status == 'error')) {
-            return;
-        }
-
-        return $response->results[0]->id ?? false;
-    }
-
-    private function insertContactOrCompany($finalData, $actionName, &$typeName)
-    {
-        $typeName = "{$actionName}-add";
-        $apiEndpoint = "https://api.hubapi.com/crm/v3/objects/{$actionName}";
-
-        return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->defaultHeader);
-    }
-
-    private function updateEntity($id, $finalData, $actionName, &$typeName)
-    {
-        $typeName = "{$actionName}-update";
-        $response = apply_filters('btcbi_hubspot_update_entity', $id, $finalData, $actionName, $this->defaultHeader);
-
-        if (\is_string($response) && $response == $id) {
-            return (object) ['errors' => wp_sprintf(__('%s is not active or not installed', 'bit-integrations'), 'Bit Integration Pro')];
-        }
-
-        return $response;
-    }
-
-    private static function setActions($integrationDetails)
-    {
-        $actions = [];
-
-        if (isset($integrationDetails->contact_owner)) {
-            $actions['hubspot_owner_id'] = $integrationDetails->contact_owner;
-        }
-
-        if ($integrationDetails->actionName === 'contact' || $integrationDetails->actionName === 'company') {
-            if (isset($integrationDetails->lead_status)) {
-                $actions['hs_lead_status'] = $integrationDetails->lead_status;
-            }
-
-            if (isset($integrationDetails->lifecycle_stage)) {
-                $actions['lifecyclestage'] = $integrationDetails->lifecycle_stage;
-            }
-        }
-
-        if ($integrationDetails->actionName === 'company') {
-            if (isset($integrationDetails->company_type)) {
-                $actions['type'] = $integrationDetails->company_type;
-            }
-
-            if (isset($integrationDetails->industry)) {
-                $actions['industry'] = $integrationDetails->industry;
-            }
-        }
-
-        if ($integrationDetails->actionName === 'company') {
-            if (isset($integrationDetails->deal_type)) {
-                $dealType = $integrationDetails->deal_type;
-                $actions['dealtype'] = $dealType;
-            }
-
-            if (isset($integrationDetails->priority)) {
-                $priority = $integrationDetails->priority;
-                $actions['hs_priority'] = $priority;
-            }
-        }
-
-        if ($integrationDetails->actionName === 'ticket' && isset($integrationDetails->priority)) {
-            $priority = $integrationDetails->priority;
-            if ($priority == 'low') {
-                $priority = 'LOW';
-            } elseif ($priority == 'medium') {
-                $priority = 'MEDIUM';
-            } else {
-                $priority = 'HIGH';
-            }
-            $actions['hs_ticket_priority'] = $priority;
-        }
-
-        return $actions;
     }
 }

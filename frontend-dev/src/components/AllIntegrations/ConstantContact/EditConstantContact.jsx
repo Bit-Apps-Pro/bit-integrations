@@ -26,25 +26,17 @@ function EditConstantContact({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, constantContactConf, setConstantContactConf)}
-          name="name"
-          value={constantContactConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, constantContactConf, setConstantContactConf)} name="name" value={constantContactConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
+
 
       <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
 
       <ConstantContactIntegLayout
         id={id}
         formFields={formFields}
-        handleInput={(e) =>
-          handleInput(e, constantContactConf, setConstantContactConf, id, setIsLoading, setSnackbar)
-        }
+        handleInput={(e) => handleInput(e, constantContactConf, setConstantContactConf, id, setIsLoading, setSnackbar)}
         constantContactConf={constantContactConf}
         setConstantContactConf={setConstantContactConf}
         isLoading={isLoading}
@@ -54,18 +46,7 @@ function EditConstantContact({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            setFlow,
-            allIntegURL,
-            conf: constantContactConf,
-            navigate,
-            edit: 1,
-            setIsLoading,
-            setSnackbar
-          })
-        }
+        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, conf: constantContactConf, navigate, edit: 1, setIsLoading, setSnackbar })}
         disabled={constantContactConf.listId === '' || constantContactConf.field_map.length < 1}
         // eslint-disable-next-line no-unneeded-ternary
         isLoading={isLoading === true ? true : false}

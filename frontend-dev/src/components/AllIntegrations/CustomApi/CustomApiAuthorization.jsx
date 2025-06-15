@@ -8,18 +8,7 @@ import MultiSelect from 'react-multiple-select-dropdown-lite'
 import TutorialLink from '../../Utilities/TutorialLink'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 
-export default function CustomApiAuthorization({
-  formID,
-  customApiConf,
-  setCustomApiConf,
-  step,
-  setStep,
-  isLoading,
-  setIsLoading,
-  setSnackbar,
-  redirectLocation,
-  isInfo
-}) {
+export default function CustomApiAuthorization({ formID, customApiConf, setCustomApiConf, step, setStep, isLoading, setIsLoading, setSnackbar, redirectLocation, isInfo }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const { customApi } = tutorialLinks
   const nextPage = () => {
@@ -29,17 +18,18 @@ export default function CustomApiAuthorization({
     setStep(2)
   }
   const authType = [
-    { label: __('API Key', 'bit-integrations'), value: 'apikey' },
-    { label: __('Bearer Token', 'bit-integrations'), value: 'bearer' },
-    { label: __('Basic Auth', 'bit-integrations'), value: 'basic' }
+    { label: 'API Key', value: 'apikey' },
+    { label: 'Bearer Token', value: 'bearer' },
+    { label: 'Basic Auth', value: 'basic' },
+    // { label: 'OAuth 2.0', value: 'oauth2' },
   ]
 
   const apiKeyAddTo = [
-    { label: __('Header', 'bit-integrations'), value: 'header' },
-    { label: __('Query String', 'bit-integrations'), value: 'query' }
+    { label: 'Header', value: 'header' },
+    { label: 'Query String', value: 'query' },
   ]
 
-  const handleInput = (e) => {
+  const handleInput = e => {
     const newConf = { ...customApiConf }
     newConf[e.target.name] = e.target.value
     setCustomApiConf(newConf)
@@ -69,126 +59,75 @@ export default function CustomApiAuthorization({
   }
 
   return (
-    <div
-      className="btcd-stp-page"
-      style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && '1000px' } }}>
+    <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && '1000px' } }}>
       {customApi?.youTubeLink && (
-        <TutorialLink title="Custom Api" youTubeLink={customApi?.youTubeLink} />
-      )}
-      {customApi?.docLink && <TutorialLink title="Custom Api" docLink={customApi?.docLink} />}
-
-      <div className="d-flx">
-        <div className="wdt-200 d-in-b mt-3">
-          <b>{__('Integration Name:', 'bit-integrations')}</b>
-        </div>
-        <input
-          className="btcd-paper-inp w-6 mt-1"
-          onChange={handleInput}
-          name="name"
-          value={customApiConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-          disabled={isInfo}
+        <TutorialLink
+          title={customApi?.title}
+          youTubeLink={customApi?.youTubeLink}
         />
+      )}
+      {customApi?.docLink && (
+        <TutorialLink
+          title={customApi?.title}
+          docLink={customApi?.docLink}
+        />
+      )}
+
+      <div className='d-flx'>
+
+        <div className="wdt-200 d-in-b mt-3"><b>{__('Integration Name:', 'bit-integrations')}</b></div>
+        <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="name" value={customApiConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} disabled={isInfo} />
       </div>
       <br />
       <div className="d-flx">
-        <b className="wdt-200 d-in-b mt-3">{__('Select Auth Protocol:', 'bit-integrations')}</b>
+        <b className="wdt-200 d-in-b mt-3">{__('Select Auth Protocol: ', 'bit-integrations')}</b>
         <MultiSelect
           defaultValue={customApiConf.authType}
           className="btcd-paper-drpdwn w-5"
           singleSelect
           options={authType}
-          onChange={(val) => setValue(val, 'authType')}
+          onChange={val => setValue(val, 'authType')}
         />
       </div>
       {customApiConf.authType === 'apikey' && (
         <div>
           <div>
-            <div className="mt-3">
-              <b>{__('Key:', 'bit-integrations')}</b>
-            </div>
-            <input
-              className="btcd-paper-inp w-6 mt-2"
-              onChange={handleInput}
-              name="key"
-              value={customApiConf.key}
-              type="text"
-              placeholder={__('Key', 'bit-integrations')}
-              disabled={isInfo}
-            />
+            <div className="mt-3"><b>{__('Key:', 'bit-integrations')}</b></div>
+            <input className="btcd-paper-inp w-6 mt-2" onChange={handleInput} name="key" value={customApiConf.key} type="text" placeholder={__('key', 'bit-integrations')} disabled={isInfo} />
           </div>
           <div>
-            <div className="mt-3">
-              <b>{__('Value:', 'bit-integrations')}</b>
-            </div>
-            <input
-              className="btcd-paper-inp w-6 mt-2"
-              onChange={handleInput}
-              name="value"
-              value={customApiConf.value}
-              type="text"
-              placeholder={__('Value', 'bit-integrations')}
-              disabled={isInfo}
-            />
+            <div className="mt-3"><b>{__('Value:', 'bit-integrations')}</b></div>
+            <input className="btcd-paper-inp w-6 mt-2" onChange={handleInput} name="value" value={customApiConf.value} type="text" placeholder={__('value', 'bit-integrations')} disabled={isInfo} />
           </div>
-          <b className="wdt-200 d-in-b mt-3">{__('Add to:', 'bit-integrations')}</b>
+          <b className="wdt-200 d-in-b mt-3">{__('Add to: ', 'bit-integrations')}</b>
           <MultiSelect
             defaultValue={customApiConf.apiKeyAddTo}
             className="btcd-paper-drpdwn w-5 mt-2"
             singleSelect
             options={apiKeyAddTo}
-            onChange={(val) => setValue(val, 'apiKeyAddTo')}
+            onChange={val => setValue(val, 'apiKeyAddTo')}
           />
+
         </div>
       )}
       {customApiConf.authType === 'bearer' && (
         <div>
           <div>
-            <div className="mt-3">
-              <b>{__('Key:', 'bit-integrations')}</b>
-            </div>
-            <input
-              className="btcd-paper-inp w-6 mt-2"
-              onChange={handleInput}
-              name="key"
-              value={customApiConf.key}
-              type="text"
-              placeholder={__('Key', 'bit-integrations')}
-              disabled={isInfo}
-            />
+            <div className="mt-3"><b>{__('Key:', 'bit-integrations')}</b></div>
+            <input className="btcd-paper-inp w-6 mt-2" onChange={handleInput} name="key" value={customApiConf.key} type="text" placeholder={__('key', 'bit-integrations')} disabled={isInfo} />
           </div>
           <div>
-            <div className="mt-3">
-              <b>{__('Token:', 'bit-integrations')}</b>
-            </div>
-            <input
-              className="btcd-paper-inp w-6 mt-2"
-              onChange={handleInput}
-              name="token"
-              value={customApiConf.token}
-              type="text"
-              placeholder={__('Token', 'bit-integrations')}
-              disabled={isInfo}
-            />
+            <div className="mt-3"><b>{__('Token:', 'bit-integrations')}</b></div>
+            <input className="btcd-paper-inp w-6 mt-2" onChange={handleInput} name="token" value={customApiConf.token} type="text" placeholder={__('Token', 'bit-integrations')} disabled={isInfo} />
           </div>
         </div>
       )}
       {customApiConf.authType === 'basic' && (
+
         <div>
           <div>
-            <div className="mt-3">
-              <b>{__('Key:', 'bit-integrations')}</b>
-            </div>
-            <input
-              className="btcd-paper-inp w-6 mt-2"
-              onChange={handleInput}
-              name="key"
-              value={customApiConf.key}
-              type="text"
-              placeholder={__('Key', 'bit-integrations')}
-              disabled={isInfo}
-            />
+            <div className="mt-3"><b>{__('Key:', 'bit-integrations')}</b></div>
+            <input className="btcd-paper-inp w-6 mt-2" onChange={handleInput} name="key" value={customApiConf.key} type="text" placeholder={__('key', 'bit-integrations')} disabled={isInfo} />
           </div>
           <div className="mt-3">
             <b>{__('User Name:', 'bit-integrations')}</b>
@@ -204,7 +143,7 @@ export default function CustomApiAuthorization({
           />
 
           <div className="mt-3">
-            <b>{__('Password:', 'bit-integrations')}</b>
+            <b>{__('password:', 'bit-integrations')}</b>
           </div>
           <input
             className="btcd-paper-inp w-6 mt-1"
@@ -212,7 +151,7 @@ export default function CustomApiAuthorization({
             name="password"
             value={customApiConf.password}
             type="text"
-            placeholder={__('Password...', 'bit-integrations')}
+            placeholder={__('password...', 'bit-integrations')}
             disabled={isInfo}
           />
         </div>
@@ -222,8 +161,9 @@ export default function CustomApiAuthorization({
         <button
           onClick={() => setStep(2)}
           disabled={isDisabled(customApiConf.authType) || isLoading}
-          className="btn btcd-btn-lg purple sh-sm "
-          type="button">
+          className="btn btcd-btn-lg green sh-sm "
+          type="button"
+        >
           {__('Next', 'bit-integrations')}
           <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
         </button>
@@ -231,3 +171,5 @@ export default function CustomApiAuthorization({
     </div>
   )
 }
+
+

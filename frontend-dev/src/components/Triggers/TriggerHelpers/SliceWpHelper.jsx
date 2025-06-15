@@ -13,15 +13,13 @@ const SliceWpHelper = ({ flow, setFlowData, edit = false }) => {
     <div>
       {id === '2' && (
         <div className={edit ? 'flx mt-3' : ''}>
-          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
-            {__('Select a commission type', 'bit-integrations')}
-          </b>
+          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>Select a commission type</b>
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={triggerData?.selectedCommissionType}
             options={triggerData?.AllCommissionType?.map((list) => ({
               label: list.type_label,
-              value: list.type_id.toString()
+              value: list.type_id.toString(),
             }))}
             onChange={(val) => setFlowData(val, 'selectedCommissionType')}
             singleSelect

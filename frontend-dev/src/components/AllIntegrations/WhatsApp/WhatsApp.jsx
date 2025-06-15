@@ -10,10 +10,8 @@ import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 // import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 // import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import WhatsAppAuthorization from './WhatsAppAuthorization'
-import { handleInput, generateMappedField, checkDisabledButton } from './WhatsAppCommonFunc'
+import { handleInput, checkMappedFields } from './WhatsAppCommonFunc'
 import WhatsAppIntegLayout from './WhatsAppIntegLayout'
-import { useRecoilValue } from 'recoil'
-import { $btcbi } from '../../../GlobalStates'
 
 function WhatsApp({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
@@ -21,53 +19,29 @@ function WhatsApp({ formFields, setFlow, flow, allIntegURL }) {
   const [isLoading, setIsLoading] = useState(false)
   const [step, setstep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
-  const btcbi = useRecoilValue($btcbi)
-  const { isPro } = btcbi
-  const whatsAppFields = [{ key: 'phone', label: "Recipient's Phone", required: true }]
-  const messageTypes = [
-    { name: 'template', label: __('Template Message', 'bit-integrations'), is_pro: false },
-    { name: 'text', label: __('Text Message', 'bit-integrations'), is_pro: true },
-    { name: 'contact', label: __('Contact Message', 'bit-integrations'), is_pro: true },
-    { name: 'media', label: __('Media Message', 'bit-integrations'), is_pro: true }
+  const whatsAppFields = [
+    { key: 'phone', label: 'Phone', required: true },
   ]
-  const mediaTypes = [
-    'image/jpeg',
-    'image/png',
-    'text/plain',
-    'application/pdf',
-    'application/vnd.ms-powerpoint',
-    'application/msword',
-    'application/vnd.ms-excel',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    'audio/aac',
-    'audio/mp4',
-    'audio/mpeg',
-    'audio/amr',
-    'audio/ogg',
-    'audio/opus',
-    'video/mp4',
-    'video/3gp',
-    'image/webp'
+  const messageType = [
+    // { id: '1', label: 'Text' },
+    { id: '2', label: 'Template' },
   ]
-
   const [whatsAppConf, setWhatsAppConf] = useState({
     name: 'WhatsApp',
     type: 'WhatsApp',
-    numberID: '',
-    businessAccountID: '',
-    messageTypes,
-    mediaTypes,
-    messageType: '',
+    numberID: process.env.NODE_ENV === 'development' ? '104197922315552' : '',
+    businessAccountID: process.env.NODE_ENV === 'development' ? '105802232151489' : '',
+    messageType,
+    messageTypeId: '',
     body: '',
     templateName: '',
-    token: '',
-    field_map: generateMappedField(whatsAppFields),
+    token: process.env.NODE_ENV === 'development' ? 'EAAGKszJZAruMBAPbn3NeQ6YUe6THJHTv5qBhTr5ZAGmOhNsekyRnjYSUf2BZAZB1QotIJCKnyuikZCP0MQW4Izs65yLLSKuY8IxZBZCEaMsZBth5mqyxS4fllAZAmDRRCLZC7pMeESMBLgfyXfqs3SXgQ3tTD44XSGFee63m3sAP0UEG7U1zjeZCKsIJlxvRCCQZBKQgzXr5yNF3DgZDZD' : '',
+    field_map: [
+      { formField: '', whatsAppFormField: '' },
+    ],
     whatsAppFields,
     address_field: [],
     actions: {},
-    allTemplates: []
   })
 
   const nextPage = () => {
@@ -75,20 +49,21 @@ function WhatsApp({ formFields, setFlow, flow, allIntegURL }) {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
-    if (checkDisabledButton(whatsAppConf)) {
-      setSnackbar({ show: true, msg: __('Please map fields to continue.', 'bit-integrations') })
+    if (checkMappedFields(whatsAppConf)) {
+      setSnackbar({ show: true, msg: 'Please map fields to continue.' })
       return
     }
     setstep(3)
   }
 
+  const disabledButton = whatsAppConf.messageTypeId === '1' ? whatsAppConf.body === '' : whatsAppConf.templateName === ''
+
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={3} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
 
+      {/* STEP 1 */}
       <WhatsAppAuthorization
         formID={formID}
         whatsAppConf={whatsAppConf}
@@ -101,12 +76,11 @@ function WhatsApp({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+
         <WhatsAppIntegLayout
           formFields={formFields}
-          handleInput={e => handleInput(e, whatsAppConf, setWhatsAppConf, setIsLoading, setSnackbar)}
+          handleInput={(e) => handleInput(e, whatsAppConf, setWhatsAppConf, setIsLoading, setSnackbar)}
           whatsAppConf={whatsAppConf}
           setWhatsAppConf={setWhatsAppConf}
           isLoading={isLoading}
@@ -116,32 +90,26 @@ function WhatsApp({ formFields, setFlow, flow, allIntegURL }) {
 
         <button
           onClick={() => nextPage(3)}
-          disabled={checkDisabledButton(whatsAppConf)}
-          className="btn f-right btcd-btn-lg purple sh-sm flx"
-          type="button">
-          {__('Next', 'bit-integrations')} &nbsp;
+          disabled={disabledButton}
+          className="btn f-right btcd-btn-lg green sh-sm flx"
+          type="button"
+        >
+          {__('Next', 'bit-integrations')}
+          {' '}
+          &nbsp;
           <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
         </button>
       </div>
       {/* STEP 3 */}
       <IntegrationStepThree
         step={step}
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            setFlow,
-            allIntegURL,
-            navigate,
-            conf: whatsAppConf,
-            setIsLoading,
-            setSnackbar
-          })
-        }
+        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, navigate, conf: whatsAppConf, setIsLoading, setSnackbar })}
         isLoading={isLoading}
         dataConf={whatsAppConf}
         setDataConf={setWhatsAppConf}
         formFields={formFields}
       />
+
     </div>
   )
 }

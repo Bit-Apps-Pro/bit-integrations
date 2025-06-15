@@ -20,34 +20,33 @@ function GoogleContacts({ formFields, setFlow, flow, allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const allActions = [
-    { key: '1', label: __('Create a contact', 'bit-integrations') },
-    { key: '2', label: __('Update a contact', 'bit-integrations') }
+    { key: '1', label: 'Create a contact' },
+    { key: '2', label: 'Update a contact' },
   ]
 
   const defaultContactsFields = [
-    { key: 'phoneNumber', label: __('Phone Number', 'bit-integrations'), required: true },
-    { key: 'name', label: __('First Name', 'bit-integrations'), required: true },
-    { key: 'lastName', label: __('Last Name', 'bit-integrations'), required: true },
-    { key: 'biographies', label: __('Biographies', 'bit-integrations'), required: false },
-    { key: 'nickname', label: __('Nickname', 'bit-integrations'), required: false },
-    { key: 'city', label: __('City', 'bit-integrations'), required: false },
-    { key: 'country', label: __('Country', 'bit-integrations'), required: false },
-    { key: 'locations', label: __('Locations', 'bit-integrations'), required: false },
-    { key: 'email', label: __('Email', 'bit-integrations'), required: false },
-    { key: 'occupation', label: __('Occupation', 'bit-integrations'), required: false },
-    { key: 'organization', label: __('Organization', 'bit-integrations'), required: false }
+    { key: 'phoneNumber', label: 'Phone Number', required: true },
+    { key: 'name', label: 'Name', required: true },
+    { key: 'biographies', label: 'Biographies', required: false },
+    { key: 'nickname', label: 'Nickname', required: false },
+    { key: 'city', label: 'City', required: false },
+    { key: 'country', label: 'Country', required: false },
+    { key: 'locations', label: 'Locations', required: false },
+    { key: 'email', label: 'email', required: false },
+    { key: 'occupation', label: 'Occupation', required: false },
+    { key: 'organization', label: 'Organization', required: false },
   ]
 
   const [googleContactsConf, setGoogleContactsConf] = useState({
     name: 'Google Contacts',
     type: 'Google Contacts',
     mainAction: '',
-    clientId: '',
-    clientSecret: '',
+    clientId: process.env.NODE_ENV === 'development' ? '266670391931-688o26jcfb8iqqos8fvlusqifmjtv2on.apps.googleusercontent.com' : '',
+    clientSecret: process.env.NODE_ENV === 'development' ? '1M7oVG0Y_4kjvnNnxe2b0Xyi' : '',
     field_map: [{ formField: '', googleContactsFormField: '' }],
     default: defaultContactsFields,
     allActions,
-    actions: {}
+    actions: {},
   })
 
   useEffect(() => {
@@ -55,15 +54,7 @@ function GoogleContacts({ formFields, setFlow, flow, allIntegURL }) {
   }, [])
 
   const saveConfig = () => {
-    saveActionConf({
-      flow,
-      setFlow,
-      allIntegURL,
-      conf: googleContactsConf,
-      navigate,
-      setIsLoading,
-      setSnackbar
-    })
+    saveActionConf({ flow, setFlow, allIntegURL, conf: googleContactsConf, navigate, setIsLoading, setSnackbar })
   }
 
   return (
@@ -88,7 +79,8 @@ function GoogleContacts({ formFields, setFlow, flow, allIntegURL }) {
       {/* STEP 2 */}
       <div
         className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}
+      >
         <GoogleContactsIntegLayout
           flowID={flowID}
           formFields={formFields}
@@ -109,16 +101,14 @@ function GoogleContacts({ formFields, setFlow, flow, allIntegURL }) {
 
       <div
         className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}
+      >
         <button
           onClick={() => setStep(3)}
-          disabled={
-            !checkMappedFields(googleContactsConf?.field_map) ||
-            googleContactsConf.mainAction === '' ||
-            isLoading
-          }
-          className="btn ml-auto btcd-btn-lg purple sh-sm flx"
-          type="button">
+          disabled={!checkMappedFields(googleContactsConf?.field_map) || googleContactsConf.mainAction === '' || isLoading}
+          className="btn ml-auto btcd-btn-lg green sh-sm flx"
+          type="button"
+        >
           {__('Next', 'bit-integrations')}
           <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
         </button>

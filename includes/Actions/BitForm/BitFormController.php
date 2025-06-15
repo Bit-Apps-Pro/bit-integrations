@@ -6,14 +6,17 @@
 
 namespace BitCode\FI\Actions\BitForm;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use WP_Error;
+use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Actions\BitForm\RecordApiHelper;
+
 
 /**
  * Provide functionality for BitForm integration
  */
 class BitFormController
 {
+
     public function bitFormAuthorization($requestParams)
     {
         if (
@@ -36,6 +39,7 @@ class BitFormController
         $apiResponse = HttpHelper::get($apiEndpoint, null, $authorizationHeader, ['sslverify' => false]);
 
         if ($apiResponse->success) {
+            $apiResponse;
             wp_send_json_success($apiResponse, 200);
         } else {
             wp_send_json_error(
@@ -123,7 +127,7 @@ class BitFormController
             );
         }
         $response = [];
-        $apiEndpoint = $this->baseUrl . 'members/me?key=' . $queryParams->clientId . '&token=' . $queryParams->accessToken;
+        $apiEndpoint = $this->baseUrl . "members/me?key=" . $queryParams->clientId . '&token=' . $queryParams->accessToken;
         $getUserInfoResponse = HttpHelper::get($apiEndpoint, null);
         $apiEndpoint = $this->baseUrl . 'members/' . $getUserInfoResponse->username . '/boards?key=' . $queryParams->clientId . '&token=' . $queryParams->accessToken;
         $allBoardResponse = HttpHelper::get($apiEndpoint, null);
@@ -132,10 +136,10 @@ class BitFormController
         if (!is_wp_error($allBoardResponse) && empty($allBoardResponse->response->error)) {
             $boardLists = $allBoardResponse;
             foreach ($boardLists as $boardList) {
-                $allList[] = (object) [
-                    'boardId'   => $boardList->id,
+                $allList[] = (object) array(
+                    'boardId' => $boardList->id,
                     'boardName' => $boardList->name
-                ];
+                );
             }
             uksort($allList, 'strnatcasecmp');
             $response['allBoardlist'] = $allList;
@@ -164,17 +168,17 @@ class BitFormController
         }
         $response = [];
 
-        $apiEndpoint = $this->baseUrl . 'boards/' . $queryParams->boardId . '/lists?key=' . $queryParams->clientId . '&token=' . $queryParams->accessToken;
+        $apiEndpoint = $this->baseUrl  . "boards/" . $queryParams->boardId . "/lists?key=" . $queryParams->clientId . '&token=' . $queryParams->accessToken;
         $getListsResponse = HttpHelper::get($apiEndpoint, null);
 
         $allList = [];
         if (!is_wp_error($getListsResponse) && empty($getListsResponse->response->error)) {
             $singleBoardLists = $getListsResponse;
             foreach ($singleBoardLists as $singleBoardList) {
-                $allList[] = (object) [
-                    'listId'   => $singleBoardList->id,
+                $allList[] = (object) array(
+                    'listId' => $singleBoardList->id,
                     'listName' => $singleBoardList->name
-                ];
+                );
             }
             uksort($allList, 'strnatcasecmp');
             $response['alllists'] = $allList;
@@ -190,8 +194,8 @@ class BitFormController
     /**
      * Save updated access_token to avoid unnecessary token generation
      *
-     * @param object $integrationData Details of flow
-     * @param array  $fieldValues     Data to send Mail Chimp
+     * @param Object $integrationData Details of flow
+     * @param Array  $fieldValues     Data to send Mail Chimp
      *
      * @return null
      */
@@ -212,7 +216,7 @@ class BitFormController
             || empty($domainName)
             || empty($formId)
         ) {
-            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Bit From'));
+            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for Bit From api', 'bit-integrations'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
         $bitFormApiResponse = $recordApiHelper->execute(
@@ -227,7 +231,6 @@ class BitFormController
         if (is_wp_error($bitFormApiResponse)) {
             return $bitFormApiResponse;
         }
-
         return $bitFormApiResponse;
     }
 }

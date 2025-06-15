@@ -34,20 +34,12 @@ function EditSalesmate({ allIntegURL }) {
 
     if (salesmateConf.actionName === 'lead') {
       if (!salesmateConf.selectedCRMPipeline) {
-        toast.error(__('Please select a pipeline', 'bit-integrations'))
+        toast.error('Please select a pipeline')
         return
       }
     }
 
-    saveActionConf({
-      flow,
-      allIntegURL,
-      conf: salesmateConf,
-      navigate,
-      edit: 1,
-      setLoading,
-      setSnackbar
-    })
+    saveActionConf({ flow, allIntegURL, conf: salesmateConf, navigate, edit: 1, setLoading, setSnackbar })
   }
 
   return (
@@ -56,14 +48,7 @@ function EditSalesmate({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, salesmateConf, setSalesmateConf)}
-          name="name"
-          value={salesmateConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, salesmateConf, setSalesmateConf)} name="name" value={salesmateConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
 
@@ -71,9 +56,7 @@ function EditSalesmate({ allIntegURL }) {
       <SalesmateIntegLayout
         formID={flow.triggered_entity_id}
         formFields={formField}
-        handleInput={(e) =>
-          handleInput(e, salesmateConf, setSalesmateConf, setLoading, setSnackbar)
-        }
+        handleInput={(e) => handleInput(e, salesmateConf, setSalesmateConf, setLoading, setSnackbar)}
         salesmateConf={salesmateConf}
         setSalesmateConf={setSalesmateConf}
         loading={loading}

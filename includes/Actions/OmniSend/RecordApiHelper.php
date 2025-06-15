@@ -16,11 +16,8 @@ use BitCode\FI\Core\Util\HttpHelper;
 class RecordApiHelper
 {
     private $_integrationID;
-
     private $_integrationDetails;
-
     private $_defaultHeader;
-
     private $baseUrl = 'https://api.omnisend.com/v3/';
 
     public function __construct($integrationDetails, $integId)
@@ -36,40 +33,38 @@ class RecordApiHelper
         $channels,
         $emailStatus,
         $smsStatus,
-        $finalData,
-        $customProperties
+        $finalData
     ) {
         $apiEndpoints = $this->baseUrl . 'contacts';
         $splitChannels = [];
         if (!empty($channels)) {
             $splitChannels = explode(',', $channels);
         } else {
-            return ['success' => false, 'message' => __('At least one channel is required', 'bit-integrations'), 'code' => 400];
+            return ['success' => false, 'message' => 'At least one channel is required', 'code' => 400];
         }
         $email = $finalData['email'];
         $phone = $finalData['phone_number'];
 
         $identifires = [];
-        if (\count($splitChannels)) {
+        if (count($splitChannels)) {
             foreach ($splitChannels as $channel) {
                 $status = $channel === 'email' ? $emailStatus : $smsStatus;
                 $type = $channel === 'email' ? 'email' : 'phone';
                 $id = $channel === 'email' ? $email : $phone;
-                $identifires[] = (object) [
+                array_push($identifires, (object) [
                     'channels' => [
                         $channel => [
                             'status' => $status
                         ]
                     ],
                     'type' => $type,
-                    'id'   => $id
+                    'id'  => $id
 
-                ];
+                ]);
             }
         }
 
         $requestParams['identifiers'] = $identifires;
-        $requestParams['customProperties'] = $customProperties;
 
         if ($this->_integrationDetails->actions->tag && !empty($this->_integrationDetails->selected_tags)) {
             $requestParams['tags'] = explode(',', $this->_integrationDetails->selected_tags);
@@ -80,8 +75,9 @@ class RecordApiHelper
                 $requestParams[$key] = $value;
             }
         }
-        
-        return HttpHelper::post($apiEndpoints, wp_json_encode($requestParams), $this->_defaultHeader);
+
+        $response = HttpHelper::post($apiEndpoints, json_encode($requestParams), $this->_defaultHeader);
+        return $response;
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
@@ -92,7 +88,7 @@ class RecordApiHelper
             $actionValue = $value->omniSendFormField;
             if ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!\is_null($data[$triggerValue])) {
+            } elseif (!is_null($data[$triggerValue])) {
                 $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
@@ -106,22 +102,19 @@ class RecordApiHelper
         $smsStatus,
         $fieldValues,
         $fieldMap,
-        $customFieldMap
     ) {
         $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
-        $customProperties = apply_filters('btcbi_omnisend_custom_properties', (object) [], $customFieldMap,$fieldValues);
         $apiResponse = $this->addContact(
             $channels,
             $emailStatus,
             $smsStatus,
-            $finalData,
-            $customProperties
+            $finalData
         );
 
         if (isset($apiResponse->error)) {
-            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'contact', 'type_name' => 'add-contact']), 'error', wp_json_encode($apiResponse));
+            LogHandler::save($this->_integrationID, json_encode(['type' => 'contact', 'type_name' => 'add-contact']), 'error', json_encode($apiResponse));
         } else {
-            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'contact', 'type_name' => 'add-contact']), 'success', wp_json_encode($apiResponse));
+            LogHandler::save($this->_integrationID, json_encode(['type' => 'contact', 'type_name' => 'add-contact']), 'success', json_encode($apiResponse));
         }
 
         return $apiResponse;

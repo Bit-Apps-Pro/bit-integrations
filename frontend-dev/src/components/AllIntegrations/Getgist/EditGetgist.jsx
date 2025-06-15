@@ -24,32 +24,17 @@ function EditGetgist({ allIntegURL }) {
 
   const saveConfig = () => {
     if (!checkMappedFields(getgistConf)) {
-      toast.error(__('Please map mandatory fields', 'bit-integrations'))
+      toast.error('Please map mandatory fields')
       return
     }
-    saveActionConf({
-      flow,
-      allIntegURL,
-      conf: getgistConf,
-      navigate,
-      edit: 1,
-      setIsLoading,
-      setSnackbar
-    })
+    saveActionConf({ flow, allIntegURL, conf: getgistConf, navigate, edit: 1, setIsLoading, setSnackbar })
   }
 
   return (
     <div style={{ width: 900 }}>
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, getgistConf, setGetgistConf)}
-          name="name"
-          value={getgistConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, getgistConf, setGetgistConf)} name="name" value={getgistConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
 

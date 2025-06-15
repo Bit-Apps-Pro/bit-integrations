@@ -1,11 +1,11 @@
 <?php
 
+
+
 namespace BitCode\FI\Actions\ZohoDesk;
 
-use DateTime;
 use WP_Error;
 use BitCode\FI\Log\LogHandler;
-use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
 
 /**
@@ -14,7 +14,6 @@ use BitCode\FI\Core\Util\HttpHelper;
 class RecordApiHelper
 {
     private $_defaultHeader;
-
     private $_tokenDetails;
     private $_apiDomain;
     private $_integrationID;
@@ -22,9 +21,9 @@ class RecordApiHelper
     public function __construct($tokenDetails, $orgId, $integId)
     {
         $this->_defaultHeader['Authorization'] = "Zoho-oauthtoken {$tokenDetails->access_token}";
-        $this->_defaultHeader['Content-Type'] = 'application/json';
+        $this->_defaultHeader['Content-Type'] = "application/json";
         $this->_defaultHeader['orgId'] = $orgId;
-        $this->_apiDomain = urldecode($tokenDetails->api_domain);
+        $this->_apiDomain = \urldecode($tokenDetails->api_domain);
         $this->_tokenDetails = $tokenDetails;
         $this->_integrationID = $integId;
     }
@@ -57,14 +56,14 @@ class RecordApiHelper
         foreach ($fieldMap as $fieldKey => $fieldPair) {
             if (!empty($fieldPair->zohoFormField)) {
                 if ($fieldPair->formField === 'custom' && isset($fieldPair->customValue)) {
-                    if (strtok($fieldPair->zohoFormField, '_') === 'cf') {
-                        $customFieldData[$fieldPair->zohoFormField] = Common::replaceFieldWithValue($fieldPair->customValue, $fieldValues);
+                    if (strtok($fieldPair->zohoFormField, "_") === 'cf') {
+                        $customFieldData[$fieldPair->zohoFormField] = $fieldPair->customValue;
                     } else {
-                        $fieldData[$fieldPair->zohoFormField] = Common::replaceFieldWithValue($fieldPair->customValue, $fieldValues);
+                        $fieldData[$fieldPair->zohoFormField] = $fieldPair->customValue;
                     }
                 } else {
-                    if (strtok($fieldPair->zohoFormField, '_') === 'cf') {
-                        $customFieldData[$fieldPair->zohoFormField] = \is_array($fieldValues[$fieldPair->formField]) ? implode(',', $fieldValues[$fieldPair->formField]) : $fieldValues[$fieldPair->formField];
+                    if (strtok($fieldPair->zohoFormField, "_") === 'cf') {
+                        $customFieldData[$fieldPair->zohoFormField] = is_array($fieldValues[$fieldPair->formField]) ? implode(',', $fieldValues[$fieldPair->formField]) : $fieldValues[$fieldPair->formField];
                     } else {
                         $fieldData[$fieldPair->zohoFormField] = $fieldValues[$fieldPair->formField];
                     }
@@ -73,28 +72,27 @@ class RecordApiHelper
 
             if (empty($fieldData[$fieldPair->zohoFormField]) && \in_array($fieldPair->zohoFormField, $required)) {
                 $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('%s is required for zoho bigin', 'bit-integrations'), $fieldPair->zohoFormField));
-
-                return LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'ticket-create'], 'error', $error);
+                return LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => "ticket-create"], 'error', $error);
             }
         }
         if (isset($fieldData['dueDate'])) {
             $originalDate = $fieldData['dueDate'];
-            $date = new DateTime($originalDate);
+            $date = new \DateTime($originalDate);
             $ans = $date->format("Y-m-d\TH:i:s.n\Z");
             $fieldData['dueDate'] = $ans;
         }
 
-        $contactData = [
+        $contactData = array(
             'lastName' => $fieldData['lastName']
-        ];
+        );
 
-        if (\array_key_exists('firstName', $fieldData)) {
+        if (array_key_exists('firstName', $fieldData)) {
             $contactData['firstName'] = $fieldData['firstName'];
         }
 
         $contactId = '';
 
-        if (\array_key_exists('email', $fieldData)) {
+        if (array_key_exists('email', $fieldData)) {
             $contactData['email'] = $fieldData['email'];
 
             $contactApiResponse = $this->searchContact($dataCenter, $contactData['email']);
@@ -107,9 +105,10 @@ class RecordApiHelper
         if ($contactId === '') {
             $contactApiResponse = $this->createContact($dataCenter, wp_json_encode($contactData));
             if (isset($contactApiResponse->errorCode)) {
-                return LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'contact-create'], 'error', $contactApiResponse);
+                return LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => "contact-create"], 'error', $contactApiResponse);
+            } else {
+                LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => "contact-create"], 'success', $contactApiResponse);
             }
-            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'contact-create'], 'success', $contactApiResponse);
 
             $contactId = $contactApiResponse->id;
         }
@@ -132,9 +131,9 @@ class RecordApiHelper
         $ticketApiResponse = $this->insertRecord($dataCenter, wp_json_encode($ticketData));
 
         if (isset($ticketApiResponse->errorCode)) {
-            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'ticket-create'], 'error', $ticketApiResponse);
+            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => "ticket-create"], 'error', $ticketApiResponse);
         } else {
-            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'ticket-create'], 'success', $ticketApiResponse);
+            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => "ticket-create"], 'success', $ticketApiResponse);
         }
 
         if (!empty($actions->attachments)) {
@@ -142,11 +141,11 @@ class RecordApiHelper
             $fileFound = 0;
             $responseType = 'success';
             $attachmentApiResponses = [];
-            $attachments = explode(',', $actions->attachments);
+            $attachments = explode(",", $actions->attachments);
             foreach ($attachments as $fileField) {
                 if (isset($fieldValues[$fileField]) && !empty($fieldValues[$fileField])) {
                     $fileFound = 1;
-                    if (\is_array($fieldValues[$fileField])) {
+                    if (is_array($fieldValues[$fileField])) {
                         foreach ($fieldValues[$fileField] as $singleFile) {
                             $attachmentApiResponse = $filesApiHelper->uploadFiles($singleFile, $ticketApiResponse->id, $dataCenter);
                             if (isset($attachmentApiResponse->errorCode)) {

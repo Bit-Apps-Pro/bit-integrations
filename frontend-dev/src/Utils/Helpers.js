@@ -1,5 +1,3 @@
-import { __ } from './i18nwrap'
-
 /* eslint-disable no-param-reassign */
 export const hideWpMenu = () => {
   document.getElementsByTagName('body')[0].style.overflow = 'hidden'
@@ -27,7 +25,7 @@ export const showWpMenu = () => {
   }
 }
 
-export const getNewId = (flds) => {
+export const getNewId = flds => {
   let largestNumberFld = 0
   let num = 0
   for (const fld in flds) {
@@ -59,10 +57,7 @@ export const multiAssign = (obj, assignArr) => {
   for (let i = 0; i < assignArr.length; i += 1) {
     if (assignArr[i].delProp) {
       delete obj?.[assignArr[i].cls]?.[assignArr[i].property]
-      if (
-        obj[assignArr[i]?.cls]?.constructor === Object &&
-        Object.keys(obj?.[assignArr[i]?.cls]).length === 0
-      ) {
+      if (obj[assignArr[i]?.cls]?.constructor === Object && Object.keys(obj?.[assignArr[i]?.cls]).length === 0) {
         delete obj[assignArr[i].cls]
       }
     } else {
@@ -105,12 +100,11 @@ export const deepCopy = (target, map = new WeakMap()) => {
   return cloneTarget
 }
 
-export const sortArrOfObj = (data, sortLabel) =>
-  data.sort((a, b) => {
-    if (a?.[sortLabel]?.toLowerCase() < b?.[sortLabel]?.toLowerCase()) return -1
-    if (a?.[sortLabel]?.toLowerCase() > b?.[sortLabel]?.toLowerCase()) return 1
-    return 0
-  })
+export const sortArrOfObj = (data, sortLabel) => data.sort((a, b) => {
+  if (a?.[sortLabel]?.toLowerCase() < b?.[sortLabel]?.toLowerCase()) return -1
+  if (a?.[sortLabel]?.toLowerCase() > b?.[sortLabel]?.toLowerCase()) return 1
+  return 0
+})
 
 export const dateTimeFormatter = (dateStr, format) => {
   const newDate = new Date(dateStr)
@@ -149,14 +143,8 @@ export const dateTimeFormatter = (dateStr, format) => {
   // Hour
   const g = newDate.toLocaleTimeString('en-US', { hour12: true, hour: 'numeric' }).split(' ')[0]
   const h = newDate.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit' }).split(' ')[0]
-  const G = newDate.toLocaleTimeString('en-US', {
-    hour12: false,
-    hour: 'numeric'
-  })
-  const H = newDate.toLocaleTimeString('en-US', {
-    hour12: false,
-    hour: '2-digit'
-  })
+  const G = newDate.toLocaleTimeString('en-US', { hour12: false, hour: 'numeric' })
+  const H = newDate.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit' })
   // Minute
   const i = newDate.toLocaleTimeString('en-US', { minute: '2-digit' })
   // Second
@@ -167,31 +155,7 @@ export const dateTimeFormatter = (dateStr, format) => {
   const r = newDate.toUTCString()
   const U = newDate.valueOf()
   let formattedDate = ''
-  const allFormatObj = {
-    a,
-    A,
-    c,
-    d,
-    D,
-    F,
-    g,
-    G,
-    h,
-    H,
-    i,
-    j,
-    l,
-    m,
-    M,
-    n,
-    r,
-    s,
-    S,
-    T,
-    U,
-    y,
-    Y
-  }
+  const allFormatObj = { a, A, c, d, D, F, g, G, h, H, i, j, l, m, M, n, r, s, S, T, U, y, Y }
 
   const allFormatkeys = Object.keys(allFormatObj)
 
@@ -200,7 +164,7 @@ export const dateTimeFormatter = (dateStr, format) => {
       v += 1
       formattedDate += format[v]
     } else {
-      const formatKey = allFormatkeys.find((key) => key === format[v])
+      const formatKey = allFormatkeys.find(key => key === format[v])
       formattedDate += formatKey ? format[v].replace(formatKey, allFormatObj[formatKey]) : format[v]
     }
   }
@@ -220,45 +184,37 @@ export const dateTimeFormatter = (dateStr, format) => {
 //   script.id = type
 //   document.body.appendChild(script)
 // })
-export const loadScript = ({
-  src,
-  integrity,
-  id,
-  scriptInGrid = false,
-  attr = {},
-  callback = null
-}) =>
-  new Promise((resolve) => {
-    const script = document.createElement('script')
-    script.src = src
-    if (integrity) {
-      script.integrity = integrity
-      script.crossOrigin = 'anonymous'
-    }
-    script.id = id
-    if (attr) {
-      Object.entries(attr).forEach(([key, val]) => {
-        script.setAttribute(key, val)
-      })
-    }
-    script.onload = () => {
-      resolve(true)
-      if (callback) callback()
-    }
-    script.onerror = () => {
-      resolve(false)
-    }
+export const loadScript = ({ src, integrity, id, scriptInGrid = false, attr = {}, callback = null }) => new Promise((resolve) => {
+  const script = document.createElement('script')
+  script.src = src
+  if (integrity) {
+    script.integrity = integrity
+    script.crossOrigin = 'anonymous'
+  }
+  script.id = id
+  if (attr) {
+    Object.entries(attr).forEach(([key, val]) => {
+      script.setAttribute(key, val)
+    })
+  }
+  script.onload = () => {
+    resolve(true)
+    if (callback) callback()
+  }
+  script.onerror = () => {
+    resolve(false)
+  }
 
-    removeScript(id, scriptInGrid)
+  removeScript(id, scriptInGrid)
 
-    let bodyElm = document.body
+  let bodyElm = document.body
 
-    if (scriptInGrid) {
-      bodyElm = document.getElementById('bit-grid-layout')?.contentWindow?.document.body
-    }
+  if (scriptInGrid) {
+    bodyElm = document.getElementById('bit-grid-layout')?.contentWindow?.document.body
+  }
 
-    bodyElm.appendChild(script)
-  })
+  bodyElm.appendChild(script)
+})
 
 export const removeScript = (id, scriptInGrid = false) => {
   let bodyElm = document.body
@@ -274,26 +230,30 @@ export const removeScript = (id, scriptInGrid = false) => {
   }
 }
 
-const cipher = (salt) => {
-  const textToChars = (text) => text.split('').map((c) => c.charCodeAt(0))
-  const byteHex = (n) => `0${Number(n).toString(16)}`.substr(-2)
+const cipher = salt => {
+  const textToChars = text => text.split('').map(c => c.charCodeAt(0))
+  const byteHex = n => (`0${Number(n).toString(16)}`).substr(-2)
   // eslint-disable-next-line no-bitwise
-  const applySaltToChar = (code) => textToChars(salt).reduce((a, b) => a ^ b, code)
+  const applySaltToChar = code => textToChars(salt).reduce((a, b) => a ^ b, code)
 
-  return (text) => text.split('').map(textToChars).map(applySaltToChar).map(byteHex).join('')
+  return text => text
+    .split('')
+    .map(textToChars)
+    .map(applySaltToChar)
+    .map(byteHex)
+    .join('')
 }
 
-const decipher = (salt) => {
-  const textToChars = (text) => text.split('').map((c) => c.charCodeAt(0))
+const decipher = salt => {
+  const textToChars = text => text.split('').map(c => c.charCodeAt(0))
   // eslint-disable-next-line no-bitwise
-  const applySaltToChar = (code) => textToChars(salt).reduce((a, b) => a ^ b, code)
-  return (encoded) =>
-    encoded
-      .match(/.{1,2}/g)
-      .map((hex) => parseInt(hex, 16))
-      .map(applySaltToChar)
-      .map((charCode) => String.fromCharCode(charCode))
-      .join('')
+  const applySaltToChar = code => textToChars(salt).reduce((a, b) => (a ^ b), code)
+  return encoded => encoded
+    .match(/.{1,2}/g)
+    .map(hex => parseInt(hex, 16))
+    .map(applySaltToChar)
+    .map(charCode => String.fromCharCode(charCode))
+    .join('')
 }
 
 export const bitCipher = cipher('btcd')
@@ -309,52 +269,26 @@ export function spreadIn4Value(value) {
   return value
 }
 
-export const checkValidEmail = (email) => {
+export const checkValidEmail = email => {
   if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
     return true
   }
   return false
 }
 
-export const sortByField = (array, fieldKey, typ) =>
-  array.sort((a, b) => {
-    const x = a[fieldKey]
-    const y = b[fieldKey]
-    if (typ === 'ASC') {
-      return x < y ? -1 : x > y ? 1 : 0
-    }
-    return y < x ? -1 : y > x ? 1 : 0
-  })
+export const sortByField = (array, fieldKey, typ) => array.sort((a, b) => {
+  const x = a[fieldKey]
+  const y = b[fieldKey]
+  if (typ === 'ASC') {
+    return ((x < y) ? -1 : ((x > y) ? 1 : 0))
+  }
+  return ((y < x) ? -1 : ((y > x) ? 1 : 0))
+})
 
-export const sortObj = (obj) =>
-  Object.keys(obj)
-    .sort()
-    .reduce((result, key) => {
-      result[key] = obj[key]
-      return result
-    }, {})
-
-export const sortFreeProd = (obj) => {
-  const newData = deepCopy(obj)
-  const sortedTriggers = sortObj(newData)
-  const freeProd = []
-  Object.keys(obj).forEach((key) => {
-    if (!obj[key].isPro) {
-      freeProd.push(key)
-    }
-  })
-
-  const freeProductData = freeProd.reduce((accr, curr) => {
-    const tempAccr = { ...accr }
-    if (newData[curr]) {
-      tempAccr[curr] = newData[curr]
-      delete newData[curr]
-    }
-    return tempAccr
-  }, {})
-
-  return { ...freeProductData, ...sortedTriggers }
-}
+export const sortObj = (obj) => Object.keys(obj).sort().reduce((result, key) => {
+  result[key] = obj[key]
+  return result
+}, {})
 
 export const extractValueFromPath = (json, path) => {
   const parts = Array.isArray(path) ? path : path.split('.')
@@ -366,7 +300,7 @@ export const extractValueFromPath = (json, path) => {
   if (Array.isArray(json)) {
     const index = parseInt(currentPart, 10)
     if (isNaN(index) || index >= json.length) {
-      toast.error(__('Index out of bounds or invalid', 'bit-integrations'))
+      toast.error('Index out of bounds or invalid')
       return
     }
 
@@ -375,28 +309,13 @@ export const extractValueFromPath = (json, path) => {
 
   if (json && typeof json === 'object') {
     if (!(currentPart in json)) {
-      toast.error(__('Invalid path', 'bit-integrations'))
+      toast.error('Invalid path')
       retrun
     }
 
     return extractValueFromPath(json[currentPart], parts)
   }
 
-  toast.error(__('Invalid path', 'bit-integrations'))
+  toast.error('Invalid path')
   return
-}
-
-export const isLinkEmpty = (link) => {
-  return link === '' || link === '#'
-}
-
-export const TriggerDocLink = (doc, youtube) => {
-  return !isLinkEmpty(doc) || !isLinkEmpty(youtube)
-    ? `<h5>
-          ${__('More Details on', 'bit-integrations')} 
-          ${!isLinkEmpty(doc) ? `<a className="btcd-link" href=${doc} target="_blank" rel="noreferrer">${__('Documentation', 'bit-integrations')}</a>` : ''}
-          ${!isLinkEmpty(doc) && !isLinkEmpty(youtube) ? __('or', 'bit-integrations') : ''}
-          ${!isLinkEmpty(youtube) ? `<a className="btcd-link" href=${youtube} target="_blank" rel="noreferrer">${__('Youtube Tutorials', 'bit-integrations')}</a>` : ''}
-        </h5 > `
-    : ''
 }

@@ -2,22 +2,20 @@
 
 namespace BitCode\FI\Actions\SendPulse;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 
 class RecordApiHelper
 {
     private $_integrationID;
-
     private $_integrationDetails;
-
     private $_defaultHeader;
 
     public function __construct($integrationDetails, $integId, $access_token)
     {
         $this->_integrationDetails = $integrationDetails;
-        $this->_integrationID = $integId;
-        $this->_defaultHeader = [
+        $this->_integrationID      = $integId;
+        $this->_defaultHeader      = [
             'Authorization' => 'Bearer ' . $access_token,
             'Content-Type'  => 'application/json'
         ];
@@ -27,18 +25,18 @@ class RecordApiHelper
     {
         $apiEndpoints = "https://api.sendpulse.com/addressbooks/{$selectedList}/emails";
 
-        $variables = array_filter($finalData, fn ($key) => $key !== 'email', ARRAY_FILTER_USE_KEY);
+        $body = '{
+                    "emails":[{
+                        "email":"' . $finalData['email'] . '",
+                        "variables":{
+                            "name":"' . $finalData['name'] . '",
+                            "Phone":"' . $finalData['phone'] . '"
+                        }
+                    }]
+                }';
 
-        $body = [
-            'emails' => [
-                [
-                    'email'     => $finalData['email'],
-                    'variables' => $variables
-                ]
-            ]
-        ];
-
-        return HttpHelper::post($apiEndpoints, wp_json_encode($body), $this->_defaultHeader);
+        $res =  HttpHelper::post($apiEndpoints, $body, $this->_defaultHeader);
+        return $res;
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
@@ -46,11 +44,11 @@ class RecordApiHelper
         $dataFinal = [];
         foreach ($fieldMap as $value) {
             $triggerValue = $value->formField;
-            $actionValue = $value->sendPulseField;
+            $actionValue  = $value->sendPulseField;
 
             if ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = $value->customValue;
-            } elseif (!\is_null($data[$triggerValue])) {
+            } elseif (!is_null($data[$triggerValue])) {
                 $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
@@ -60,17 +58,16 @@ class RecordApiHelper
 
     public function execute($selectedList, $fieldValues, $fieldMap)
     {
-        $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
+        $finalData   = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
 
         $apiResponse = $this->addContact($selectedList, $finalData);
 
         if ($apiResponse->result == true) {
-            $res = ['message' => __('Contact Added Successfully', 'bit-integrations')];
-            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'contact', 'type_name' => 'Contact added']), 'success', wp_json_encode($res));
+            $res = ['message' => 'Contact added successfully'];
+            LogHandler::save($this->_integrationID, json_encode(['type' => 'contact', 'type_name' => 'Contact added']), 'success', json_encode($res));
         } else {
-            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'contact', 'type_name' => 'Adding Contact']), 'error', wp_json_encode($apiResponse));
+            LogHandler::save($this->_integrationID, json_encode(['type' => 'contact', 'type_name' => 'Adding Contact']), 'error', json_encode($apiResponse));
         }
-
         return $apiResponse;
     }
 }

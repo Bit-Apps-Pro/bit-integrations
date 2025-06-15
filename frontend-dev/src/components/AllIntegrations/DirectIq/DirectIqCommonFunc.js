@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { __ } from '../../../Utils/i18nwrap'
+import { __ } from '@wordpress/i18n'
 import bitsFetch from '../../../Utils/bitsFetch'
 
 export const handleInput = (e, directIqConf, setDirectIqConf) => {
@@ -12,7 +12,7 @@ export const handleInput = (e, directIqConf, setDirectIqConf) => {
 export const refreshDirectIqList = (directIqConf, setDirectIqConf, setIsLoading, setSnackbar) => {
   const refreshListsRequestParams = {
     client_id: directIqConf.client_id,
-    client_secret: directIqConf.client_secret
+    client_secret: directIqConf.client_secret,
   }
   bitsFetch(refreshListsRequestParams, 'directIq_lists')
     .then((result) => {
@@ -25,15 +25,15 @@ export const refreshDirectIqList = (directIqConf, setDirectIqConf, setIsLoading,
           newConf.default.directIqLists = result.data.directIqLists
           setSnackbar({
             show: true,
-            msg: __('DirectIQ lists refreshed', 'bit-integrations')
+            msg: __('DirectIQ lists refreshed', 'bit-integrations'),
           })
         } else {
           setSnackbar({
             show: true,
             msg: __(
               'No DirectIQ lists found. Try changing the header row number or try again',
-              'bit-integrations'
-            )
+              'bit-integrations',
+            ),
           })
         }
 
@@ -41,7 +41,10 @@ export const refreshDirectIqList = (directIqConf, setDirectIqConf, setIsLoading,
       } else {
         setSnackbar({
           show: true,
-          msg: __('DirectIQ lists refresh failed. please try again', 'bit-integrations')
+          msg: __(
+            'DirectIQ lists refresh failed. please try again',
+            'bit-integrations',
+          ),
         })
       }
       setIsLoading(false)
@@ -51,6 +54,7 @@ export const refreshDirectIqList = (directIqConf, setDirectIqConf, setIsLoading,
 
 // refreshMappedFields
 export const refreshDirectIqHeader = (directIqConf, setDirectIqConf, setIsLoading, setSnackbar) => {
+
   const refreshListsRequestParams = {
     client_id: directIqConf.client_id,
     client_secret: directIqConf.client_secret,
@@ -72,19 +76,19 @@ export const refreshDirectIqHeader = (directIqConf, setDirectIqConf, setIsLoadin
             .map((f) => ({
               formField: '',
               directIqField: f.fieldId,
-              required: true
+              required: true,
             }))
           setSnackbar({
             show: true,
-            msg: __('DirectIQ fields refreshed', 'bit-integrations')
+            msg: __('DirectIQ fields refreshed', 'bit-integrations'),
           })
         } else {
           setSnackbar({
             show: true,
             msg: __(
               'No DirectIQ fields found. Try changing the header row number or try again',
-              'bit-integrations'
-            )
+              'bit-integrations',
+            ),
           })
         }
 
@@ -92,7 +96,10 @@ export const refreshDirectIqHeader = (directIqConf, setDirectIqConf, setIsLoadin
       } else {
         setSnackbar({
           show: true,
-          msg: __('DirectIQ fields refresh failed. please try again', 'bit-integrations')
+          msg: __(
+            'DirectIQ fields refresh failed. please try again',
+            'bit-integrations',
+          ),
         })
       }
       setIsLoading(false)
@@ -103,8 +110,10 @@ export const refreshDirectIqHeader = (directIqConf, setDirectIqConf, setIsLoadin
 export const checkMappedFields = (directIqConf) => {
   const mappedFields = directIqConf?.field_map
     ? directIqConf.field_map.filter(
-        (mappedField) => !mappedField.formField && mappedField.directIqField && mappedField.required
-      )
+      (mappedField) => !mappedField.formField
+          && mappedField.directIqField
+          && mappedField.required,
+    )
     : []
   if (mappedFields.length > 0) {
     return false

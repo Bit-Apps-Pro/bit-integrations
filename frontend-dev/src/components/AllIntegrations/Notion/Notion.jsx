@@ -23,26 +23,24 @@ function Notion({ formFields, setFlow, flow, allIntegURL }) {
     auth: false,
     list: false,
     page: false,
-    field: false
+    field: false,
   })
   const [notionConf, setNotionConf] = useState({
     name: 'Notion',
     type: 'Notion',
-    clientId: '',
-    clientSecret: '',
+    clientId: process.env.NODE_ENV === 'development' ? '3666dc6d-8e41-4e04-b0d7-c652b0fccfaa' : '',
+    clientSecret: process.env.NODE_ENV === 'development' ? 'secret_hU4uEb602cEHr8F9r612UBcNfSDJBcn6uXod7F262c8' : '',
     databaseId: '',
     field_map: [{ formFields: '', notionFormFields: '' }],
-    notionFields: ''
+    notionFields: '',
   })
-  const setSavePageLoad = value => {
+  const setSavePageLoad = (value) => {
     setLoading({ ...loading, page: value })
   }
 
   return (
     <div>
-      <div className="txt-center mt-2">
-        <Steps step={3} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
       <NotionAuthorization
         step={step}
         setStep={setStep}
@@ -54,7 +52,11 @@ function Notion({ formFields, setFlow, flow, allIntegURL }) {
 
       {/* --- STEP 2 --- */}
 
-      <StepPage step={step} stepNo={2} style={{ width: 900, height: 'auto', overflow: 'visible' }}>
+      <StepPage
+        step={step}
+        stepNo={2}
+        style={{ width: 900, height: 'auto', overflow: 'visible' }}
+      >
         <NotionIntegLayout
           notionConf={notionConf}
           setNotionConf={setNotionConf}
@@ -66,8 +68,9 @@ function Notion({ formFields, setFlow, flow, allIntegURL }) {
           <button
             onClick={() => nextPage(notionConf, setStep, 3)}
             disabled={!notionConf.databaseId || notionConf.field_map.length < 1}
-            className="btn f-right btcd-btn-lg purple sh-sm flx"
-            type="button">
+            className="btn f-right btcd-btn-lg green sh-sm flx"
+            type="button"
+          >
             {__('Next')}
             &nbsp;
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
@@ -76,16 +79,16 @@ function Notion({ formFields, setFlow, flow, allIntegURL }) {
       </StepPage>
 
       {notionConf.databaseId && (
+
         <IntegrationStepThree
           step={step}
-          saveConfig={() =>
-            saveConfig(flow, setFlow, allIntegURL, notionConf, navigate, setSavePageLoad)
-          }
+          saveConfig={() => saveConfig(flow, setFlow, allIntegURL, notionConf, navigate, setSavePageLoad)}
           isLoading={loading.page}
           dataConf={notionConf}
           setDataConf={setNotionConf}
           formFields={formFields}
         />
+
       )}
     </div>
   )

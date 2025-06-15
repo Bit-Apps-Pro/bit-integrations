@@ -17,33 +17,26 @@ export const handleInput = (e, slackConf, setSlackConf) => {
 export const checkMappedFields = (propovoiceCrmConf) => {
   const mappedFields = propovoiceCrmConf?.field_map
     ? propovoiceCrmConf.field_map.filter(
-        (mappedField) =>
-          mappedField.formField === '' ||
-          mappedField.salesflareFormField === '' ||
-          (mappedField.formField === 'custom' && mappedField.customValue === '') ||
-          (mappedField.salesflareFormField === 'customFieldKey' &&
-            mappedField.customFieldKey === '')
-      )
-    : []
+      (mappedField) =>
+        mappedField.formField === '' ||
+        mappedField.salesflareFormField === '' ||
+        (mappedField.formField === "custom" && mappedField.customValue === '') ||
+        (mappedField.salesflareFormField === "customFieldKey" &&
+          mappedField.customFieldKey === '')
+    )
+    : [];
   if (mappedFields.length > 0) {
-    return false
+    return false;
   }
-  return true
-}
+  return true;
+};
 
 export const generateMappedField = (propovoiceCrmConf) => {
-  const requiredFlds = propovoiceCrmConf?.leadFields.filter((fld) => fld.required === true)
-  return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({ formField: '', propovoiceCrmFormField: field.key }))
-    : [{ formField: '', propovoiceCrmFormField: '' }]
+  const requiredFlds = propovoiceCrmConf?.leadFields.filter(fld => fld.required === true)
+  return requiredFlds.length > 0 ? requiredFlds.map(field => ({ formField: '', propovoiceCrmFormField: field.key })) : [{ formField: '', propovoiceCrmFormField: '' }]
 }
 
-export const getALLPropovoiceFields = (
-  propovoiceCrmConf,
-  setPropovoiceCrmConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const getALLPropovoiceFields = (propovoiceCrmConf, setPropovoiceCrmConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   bitsFetch(null, 'propovoice_crm_fetch_all_fields')
     .then((result) => {

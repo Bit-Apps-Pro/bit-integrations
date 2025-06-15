@@ -7,15 +7,7 @@ import { capsulecrmAuthentication } from './CapsuleCRMCommonFunc'
 import TutorialLink from '../../Utilities/TutorialLink'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 
-export default function CapsuleCRMAuthorization({
-  capsulecrmConf,
-  setCapsuleCRMConf,
-  step,
-  setStep,
-  loading,
-  setLoading,
-  isInfo
-}) {
+export default function CapsuleCRMAuthorization({ capsulecrmConf, setCapsuleCRMConf, step, setStep, loading, setLoading, isInfo }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ api_key: '', api_url: '' })
   const { capsulecrm } = tutorialLinks
@@ -29,7 +21,7 @@ export default function CapsuleCRMAuthorization({
     setStep(2)
   }
 
-  const handleInput = (e) => {
+  const handleInput = e => {
     const newConf = { ...capsulecrmConf }
     const rmError = { ...error }
     rmError[e.target.name] = ''
@@ -39,67 +31,37 @@ export default function CapsuleCRMAuthorization({
   }
 
   return (
-    <div
-      className="btcd-stp-page"
-      style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
+    <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
       {capsulecrm?.youTubeLink && (
-        <TutorialLink title="Capsule CRM" youTubeLink={capsulecrm?.youTubeLink} />
+        <TutorialLink
+          title={capsulecrm?.title}
+          youTubeLink={capsulecrm?.youTubeLink}
+        />
       )}
-      {capsulecrm?.docLink && <TutorialLink title="Capsule CRM" docLink={capsulecrm?.docLink} />}
+      {capsulecrm?.docLink && (
+        <TutorialLink
+          title={capsulecrm?.title}
+          docLink={capsulecrm?.docLink}
+        />
+      )}
 
-      <div className="mt-3">
-        <b>{__('Integration Name:', 'bit-integrations')}</b>
-      </div>
-      <input
-        className="btcd-paper-inp w-6 mt-1"
-        onChange={handleInput}
-        name="name"
-        value={capsulecrmConf.name}
-        type="text"
-        placeholder={__('Integration Name...', 'bit-integrations')}
-        disabled={isInfo}
-      />
+      <div className="mt-3"><b>{__('Integration Name:', 'bit-integrations')}</b></div>
+      <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="name" value={capsulecrmConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} disabled={isInfo} />
 
-      <div className="mt-3">
-        <b>{__('Your API URL:', 'bit-integrations')}</b>
-      </div>
-      <input
-        className="btcd-paper-inp w-6 mt-1"
-        onChange={handleInput}
-        name="api_url"
-        value={capsulecrmConf.api_url}
-        type="text"
-        placeholder={__('Your Organisation...', 'bit-integrations')}
-        disabled={isInfo}
-      />
+      <div className="mt-3"><b>{__('Your API URL:', 'bit-integrations')}</b></div>
+      <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="api_url" value={capsulecrmConf.api_url} type="text" placeholder={__('Your Organisation...', 'bit-integrations')} disabled={isInfo} />
       <div style={{ color: 'red', fontSize: '15px' }}>{error.api_url}</div>
       <small className="d-blk mt-3">
         {__('Example: {name}.capsulecrm.com', 'bit-integrations')}
       </small>
-      <div className="mt-3">
-        <b>{__('API Key:', 'bit-integrations')}</b>
-      </div>
-      <input
-        className="btcd-paper-inp w-6 mt-1"
-        onChange={handleInput}
-        name="api_key"
-        value={capsulecrmConf.api_key}
-        type="text"
-        placeholder={__('API Token...', 'bit-integrations')}
-        disabled={isInfo}
-      />
+      <div className="mt-3"><b>{__('API Key:', 'bit-integrations')}</b></div>
+      <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="api_key" value={capsulecrmConf.api_key} type="text" placeholder={__('API Token...', 'bit-integrations')} disabled={isInfo} />
       <div style={{ color: 'red', fontSize: '15px' }}>{error.api_key}</div>
       {capsulecrmConf.api_url && (
         <small className="d-blk mt-3">
-          {__('To Get API Token, Please Visit', 'bit-integrations')}
+          {__('To Get API token, Please Visit', 'bit-integrations')}
           &nbsp;
-          <a
-            className="btcd-link"
-            href={`https://${capsulecrmConf.api_url}/preferences/tokens`}
-            target="_blank"
-            rel="noreferrer">
-            {__('CapsuleCRM API Token', 'bit-integrations')}
-          </a>
+          <a className="btcd-link" href={`https://${capsulecrmConf.api_url}/preferences/tokens`} target="_blank" rel="noreferrer">{__('CapsuleCRM API Token', 'bit-integrations')}</a>
         </small>
       )}
       <br />
@@ -107,31 +69,12 @@ export default function CapsuleCRMAuthorization({
 
       {!isInfo && (
         <div>
-          <button
-            onClick={() =>
-              capsulecrmAuthentication(
-                capsulecrmConf,
-                setCapsuleCRMConf,
-                setError,
-                setIsAuthorized,
-                loading,
-                setLoading
-              )
-            }
-            className="btn btcd-btn-lg purple sh-sm flx"
-            type="button"
-            disabled={isAuthorized || loading.auth}>
-            {isAuthorized
-              ? __('Authorized ✔', 'bit-integrations')
-              : __('Authorize', 'bit-integrations')}
+          <button onClick={() => capsulecrmAuthentication(capsulecrmConf, setCapsuleCRMConf, setError, setIsAuthorized, loading, setLoading)} className="btn btcd-btn-lg green sh-sm flx" type="button" disabled={isAuthorized || loading.auth}>
+            {isAuthorized ? __('Authorized ✔', 'bit-integrations') : __('Authorize', 'bit-integrations')}
             {loading.auth && <LoaderSm size="20" clr="#022217" className="ml-2" />}
           </button>
           <br />
-          <button
-            onClick={nextPage}
-            className="btn ml-auto btcd-btn-lg purple sh-sm flx"
-            type="button"
-            disabled={!isAuthorized}>
+          <button onClick={nextPage} className="btn ml-auto btcd-btn-lg green sh-sm flx" type="button" disabled={!isAuthorized}>
             {__('Next', 'bit-integrations')}
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>

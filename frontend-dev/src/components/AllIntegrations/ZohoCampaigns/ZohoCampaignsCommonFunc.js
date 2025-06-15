@@ -4,11 +4,9 @@ import bitsFetch from '../../../Utils/bitsFetch'
 export const setGrantTokenResponse = () => {
   const grantTokenResponse = {}
   const authWindowLocation = window.location.href
-  const queryParams = authWindowLocation
-    .replace(`${window.opener.location.href}/redirect`, '')
-    .split('&')
+  const queryParams = authWindowLocation.replace(`${window.opener.location.href}/redirect`, '').split('&')
   if (queryParams) {
-    queryParams.forEach((element) => {
+    queryParams.forEach(element => {
       const gtKeyValue = element.split('=')
       if (gtKeyValue[1]) {
         // eslint-disable-next-line prefer-destructuring
@@ -20,14 +18,7 @@ export const setGrantTokenResponse = () => {
   window.close()
 }
 
-export const handleInput = (
-  e,
-  formID,
-  campaignsConf,
-  setCampaignsConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const handleInput = (e, formID, campaignsConf, setCampaignsConf, setIsLoading, setSnackbar) => {
   let newConf = { ...campaignsConf }
   newConf[e.target.name] = e.target.value
 
@@ -51,13 +42,7 @@ export const listChange = (campaignsConf, formID, setCampaignsConf, setIsLoading
   return newConf
 }
 
-export const refreshLists = (
-  formID,
-  campaignsConf,
-  setCampaignsConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const refreshLists = (formID, campaignsConf, setCampaignsConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   const refreshListsRequestParams = {
     formID,
@@ -65,10 +50,10 @@ export const refreshLists = (
     dataCenter: campaignsConf.dataCenter,
     clientId: campaignsConf.clientId,
     clientSecret: campaignsConf.clientSecret,
-    tokenDetails: campaignsConf.tokenDetails
+    tokenDetails: campaignsConf.tokenDetails,
   }
   bitsFetch(refreshListsRequestParams, 'zcampaigns_refresh_lists')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...campaignsConf }
         if (result.data.lists) {
@@ -79,32 +64,17 @@ export const refreshLists = (
         }
         setSnackbar({ show: true, msg: __('Lists refreshed', 'bit-integrations') })
         setCampaignsConf({ ...newConf })
-      } else if (
-        (result && result.data && result.data.data) ||
-        (!result.success && typeof result.data === 'string')
-      ) {
-        setSnackbar({
-          show: true,
-          msg: `${__('Lists refresh failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}`
-        })
+      } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
+        setSnackbar({ show: true, msg: `${__('Lists refresh failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}` })
       } else {
-        setSnackbar({
-          show: true,
-          msg: __('Lists refresh failed. please try again', 'bit-integrations')
-        })
+        setSnackbar({ show: true, msg: __('Lists refresh failed. please try again', 'bit-integrations') })
       }
       setIsLoading(false)
     })
     .catch(() => setIsLoading(false))
 }
 
-export const refreshContactFields = (
-  formID,
-  campaignsConf,
-  setCampaignsConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const refreshContactFields = (formID, campaignsConf, setCampaignsConf, setIsLoading, setSnackbar) => {
   const { list } = campaignsConf
   if (!list) {
     return
@@ -117,10 +87,10 @@ export const refreshContactFields = (
     dataCenter: campaignsConf.dataCenter,
     clientId: campaignsConf.clientId,
     clientSecret: campaignsConf.clientSecret,
-    tokenDetails: campaignsConf.tokenDetails
+    tokenDetails: campaignsConf.tokenDetails,
   }
   bitsFetch(refreshContactFieldsRequestParams, 'zcampaigns_refresh_contact_fields')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...campaignsConf }
         if (result.data.fields) {
@@ -133,10 +103,7 @@ export const refreshContactFields = (
           }
           setSnackbar({ show: true, msg: __('Contact Fields refreshed', 'bit-integrations') })
         } else {
-          setSnackbar({
-            show: true,
-            msg: __("Zoho didn't provide fields names for this list", 'bit-integrations')
-          })
+          setSnackbar({ show: true, msg: __('Zoho didn\'t provide fields names for this list', 'bit-integrations') })
         }
 
         if (result.data.tokenDetails) {
@@ -144,10 +111,7 @@ export const refreshContactFields = (
         }
         setCampaignsConf({ ...newConf })
       } else {
-        setSnackbar({
-          show: true,
-          msg: __('Contact Fields refresh failed. please try again', 'bit-integrations')
-        })
+        setSnackbar({ show: true, msg: __('Contact Fields refresh failed. please try again', 'bit-integrations') })
       }
       setIsLoading(false)
     })
@@ -155,16 +119,7 @@ export const refreshContactFields = (
 }
 
 export const checkMappedFields = (campaignsConf) => {
-  const mappedFields = campaignsConf?.field_map
-    ? campaignsConf.field_map.filter(
-        (mappedField) =>
-          !mappedField.formField &&
-          mappedField.zohoFormField &&
-          campaignsConf?.default?.fields?.[campaignsConf.list]?.required.indexOf(
-            mappedField.zohoFormField
-          ) !== -1
-      )
-    : []
+  const mappedFields = campaignsConf?.field_map ? campaignsConf.field_map.filter(mappedField => (!mappedField.formField && mappedField.zohoFormField && campaignsConf?.default?.fields?.[campaignsConf.list]?.required.indexOf(mappedField.zohoFormField) !== -1)) : []
   if (mappedFields.length > 0) {
     return false
   }

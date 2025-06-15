@@ -16,11 +16,8 @@ use BitCode\FI\Log\LogHandler;
 class RecordApiHelper
 {
     private $_integrationID;
-
     private $_integrationDetails;
-
     private $apiResponseSuccess;
-
     private $apiResponseError;
 
     public function __construct($integrationDetails, $integId)
@@ -38,12 +35,11 @@ class RecordApiHelper
                 $actionValue = $value->GroundhoggMapField;
                 if ($triggerValue === 'custom') {
                     $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-                } elseif (isset($data[$triggerValue]) && !\is_null($data[$triggerValue])) {
+                } elseif (isset($data[$triggerValue]) && !is_null($data[$triggerValue])) {
                     $dataFinal[$actionValue] = $data[$triggerValue];
                 }
             }
         }
-
         return $dataFinal;
     }
 
@@ -55,13 +51,13 @@ class RecordApiHelper
             $actionValue = $value->GroundhoggMetaMapField;
             if ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customMetaFormValue, $data);
-            } elseif (!\is_null($data[$triggerValue])) {
+            } elseif (!is_null($data[$triggerValue])) {
+
                 $dataFinal[$actionValue] = $data[$triggerValue];
             } else {
                 $dataFinal[$actionValue] = $triggerValue;
             }
         }
-
         return $dataFinal;
     }
 
@@ -78,17 +74,17 @@ class RecordApiHelper
         }
 
         $authorizationHeader = [
-            'Gh-Token'      => $integrationDetails->token,
+            'Gh-Token' => $integrationDetails->token,
             'Gh-Public-Key' => $integrationDetails->public_key
         ];
-        $finalData['optin_status'] = (int) $integrationDetails->optin_status;
+        $finalData['optin_status'] = (int)$integrationDetails->optin_status;
         $apiEndpoint = $integrationDetails->domainName . '/index.php?rest_route=/gh/v3/contacts';
 
         if (isset($finalData['note'])) {
             $noteData = [
                 'object_type' => 'contact',
-                'type'        => 'note',
-                'content'     => $finalData['note'],
+                'type' => 'note',
+                'content' => $finalData['note'],
             ];
         }
 
@@ -96,11 +92,10 @@ class RecordApiHelper
         if (isset($noteData)) {
             $noteData[0]['object_id'] = $response->contact->ID;
             $apiEndpoint = $integrationDetails->domainName . '/index.php?rest_route=/gh/v4/notes/';
-
-            return $response = HttpHelper::post($apiEndpoint, wp_json_encode(['data' => $noteData]), $authorizationHeader);
+            return $response = HttpHelper::post($apiEndpoint, json_encode(['data' => $noteData]), $authorizationHeader);
+        } else {
+            return $response;
         }
-
-        return $response;
     }
 
     public static function createTag($diffTags, $integrationDetails)
@@ -116,19 +111,18 @@ class RecordApiHelper
         }
 
         $authorizationHeader = [
-            'Gh-Token'      => $integrationDetails->token,
+            'Gh-Token' => $integrationDetails->token,
             'Gh-Public-Key' => $integrationDetails->public_key
         ];
 
         $apiEndpoint = $integrationDetails->domainName . '/index.php?rest_route=/gh/v3/tags';
-
         return HttpHelper::post($apiEndpoint, $diffTags, $authorizationHeader);
     }
 
     public static function checkExitsTagsOrCreate($integrationDetails, $finalReorganizedTags)
     {
         $authorizationParams = [
-            'Gh-Token'      => $integrationDetails->token,
+            'Gh-Token' => $integrationDetails->token,
             'Gh-Public-Key' => $integrationDetails->public_key
         ];
         $exitsTags = [];
@@ -138,11 +132,11 @@ class RecordApiHelper
         if ($apiResponse->status === 'success') {
             $tags = $apiResponse->tags;
             foreach ($tags as $tag) {
-                $exitsTags[] = $tag->tag_name;
+                array_push($exitsTags, $tag->tag_name);
             }
         } else {
-            return;
-        }
+            return null;
+        };
 
         $diffTags['tags'] = array_diff($finalReorganizedTags, $exitsTags);
 
@@ -154,15 +148,14 @@ class RecordApiHelper
     public static function addTagsToExitsUser($addTagsToUser, $integrationDetails, $addTagToEmail)
     {
         $authorizationParams = [
-            'Gh-Token'      => $integrationDetails->token,
+            'Gh-Token' => $integrationDetails->token,
             'Gh-Public-Key' => $integrationDetails->public_key
         ];
         $prePraperData = [
             'id_or_email' => $addTagToEmail,
-            'tags'        => $addTagsToUser,
+            'tags' => $addTagsToUser,
         ];
         $apiEndpoint = $integrationDetails->domainName . '/index.php?rest_route=/gh/v3/contacts/apply_tags';
-
         return HttpHelper::request($apiEndpoint, 'PUT', $prePraperData, $authorizationParams);
     }
 
@@ -177,6 +170,7 @@ class RecordApiHelper
         $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
         // 1 = create contact with tag
         if ($mainAction === '1') {
+
             if ($integrationDetails->showMeta) {
                 $fieldMapMeta = $integrationDetails->field_map_meta;
                 $metaData = $this->generateMetaDataFromFieldMap($fieldValues, $fieldMapMeta);
@@ -193,7 +187,7 @@ class RecordApiHelper
                         $sanitize = ltrim($tag, 'ground-');
                         $finalReorganizedTags[] = $sanitize;
                     }
-                }
+                };
                 $finalData['tags'] = $finalReorganizedTags;
                 $this->checkExitsTagsOrCreate($integrationDetails, $finalReorganizedTags);
             }
@@ -206,7 +200,7 @@ class RecordApiHelper
             $allSelectedEmails = explode(',', $integrationDetails->emailAddress);
             foreach ($allSelectedEmails as $emailAddress) {
                 // $addTagToEmails[] = $fieldValues[$emailAddress];
-                $addTagToEmails[] = $fieldValues[$emailAddress];
+                array_push($addTagToEmails, $fieldValues[$emailAddress]);
             }
 
             if ($integrationDetails->addTagToUser) {
@@ -218,7 +212,7 @@ class RecordApiHelper
                         $sanitize = ltrim($tag, 'ground-');
                         $addTagsToUser[] = $sanitize;
                     }
-                }
+                };
                 $finalData['tags'] = $addTagsToUser;
             }
             $this->checkExitsTagsOrCreate($integrationDetails, $addTagsToUser);
@@ -246,7 +240,6 @@ class RecordApiHelper
                 LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'contact', 'type_name' => 'add-tags-contact']), 'error', $apiResponseError);
             }
         }
-
         return $apiResponse;
     }
 }

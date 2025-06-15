@@ -21,25 +21,27 @@ function FlowMattic({ formFields, setFlow, flow, allIntegURL }) {
     name: 'FlowMattic Web Hooks',
     type: 'FlowMattic',
     method: 'POST',
-    url: ''
+    url: process.env.NODE_ENV === 'development' ? 'https://connect.flowMattic.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D' : '',
   })
 
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={2} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={2} active={step} /></div>
 
       {/* STEP 1 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
+      <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
         {flowMatticLinks?.youTubeLink && (
-          <TutorialLink title="FlowMattic" youTubeLink={flowMatticLinks?.youTubeLink} />
+          <TutorialLink
+            title={flowMatticLinks?.title}
+            youTubeLink={flowMatticLinks?.youTubeLink}
+          />
         )}
         {flowMatticLinks?.docLink && (
-          <TutorialLink title="FlowMattic" docLink={flowMatticLinks?.docLink} />
+          <TutorialLink
+            title={flowMatticLinks?.title}
+            docLink={flowMatticLinks?.docLink}
+          />
         )}
 
         <WebHooksIntegration
@@ -55,16 +57,14 @@ function FlowMattic({ formFields, setFlow, flow, allIntegURL }) {
       </div>
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
+
         <WebHooksStepTwo
           step={step}
-          saveConfig={() =>
-            saveIntegConfig(flow, setFlow, allIntegURL, flowMattic, navigate, '', '', setIsLoading)
-          }
+          saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, flowMattic, navigate, '', '', setIsLoading)}
           isLoading={isLoading}
         />
+
       </div>
     </div>
   )

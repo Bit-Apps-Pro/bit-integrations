@@ -26,7 +26,7 @@ class ZohoRecruitController
     /**
      * Process ajax request for refresh recruit modules
      *
-     * @param object $queryParams Params to refresh module
+     * @param Object $queryParams Params to refresh module
      *
      * @return JSON recruit module data
      */
@@ -65,22 +65,22 @@ class ZohoRecruitController
             $allModules = [
                 'Tasks' => (object) [
                     'aMod' => 'Tasks',
-                    'pl'   => 'Tasks'
+                    'pl' => 'Tasks'
                 ],
                 'Events' => (object) [
                     'aMod' => 'Events',
-                    'pl'   => 'Events'
+                    'pl' => 'Events'
                 ],
                 'Calls' => (object) [
                     'aMod' => 'Calls',
-                    'pl'   => 'Calls'
+                    'pl' => 'Calls'
                 ],
             ];
             foreach ($retriveModuleData as $value) {
                 if (preg_match('/CustomModule/', $value->aMod) || preg_match('/Candidates/', $value->aMod)) {
                     $allModules[$value->aMod] = (object) [
                         'aMod' => $value->aMod,
-                        'pl'   => $value->pl
+                        'pl' => $value->pl
                     ];
                 }
             }
@@ -131,7 +131,7 @@ class ZohoRecruitController
             $allNoteTypes = [];
             foreach ($retriveModuleData as $value) {
                 $allNoteTypes[$value->FL[0]->dv] = (object) [
-                    'noteTypeId'   => $value->FL[1]->content,
+                    'noteTypeId' => $value->FL[1]->content,
                     'noteTypeName' => $value->FL[0]->dv
                 ];
             }
@@ -151,8 +151,6 @@ class ZohoRecruitController
 
     /**
      * Process ajax request for refresh recruit modules
-     *
-     * @param mixed $queryParams
      *
      * @return JSON recruit module data
      */
@@ -178,15 +176,15 @@ class ZohoRecruitController
         $allModules = [
             'Tasks' => (object) [
                 'aMod' => 'Tasks',
-                'pl'   => 'Tasks'
+                'pl' => 'Tasks'
             ],
             'Events' => (object) [
                 'aMod' => 'Events',
-                'pl'   => 'Events'
+                'pl' => 'Events'
             ],
             'Calls' => (object) [
                 'aMod' => 'Calls',
-                'pl'   => 'Calls'
+                'pl' => 'Calls'
             ],
             // 'Notes' => (object) array(
             //     'aMod' => 'Notes',
@@ -197,7 +195,7 @@ class ZohoRecruitController
             if ($module->aMod !== $queryParams->module) {
                 $relatedModules[$module->aMod] = (object) [
                     'aMod' => $module->aMod,
-                    'pl'   => $module->pl
+                    'pl' => $module->pl
                 ];
             }
         }
@@ -289,8 +287,6 @@ class ZohoRecruitController
     /**
      * Process ajax request for refesh recruit layouts
      *
-     * @param mixed $queryParams
-     *
      * @return JSON recruit layout data
      */
     public static function getFields($queryParams)
@@ -321,7 +317,7 @@ class ZohoRecruitController
 
         if (!is_wp_error($fieldsMetaResponse) && (empty($fieldsMetaResponse->status) || (!empty($fieldsMetaResponse->status) && $fieldsMetaResponse->status !== 'error'))) {
             $retriveFieldsData = $fieldsMetaResponse->{$queryParams->module}->section;
-            if (!\is_array($retriveFieldsData)) {
+            if (!is_array($retriveFieldsData)) {
                 $retriveFieldsData = [$retriveFieldsData];
             }
             $fields = [];
@@ -330,13 +326,13 @@ class ZohoRecruitController
             $requiredFileUploadFiles = [];
             if ($queryParams->module === 'Candidates') {
                 $fileUploadFields['Candidate Photo'] = (object) [
-                    'display_label' => __('Candidate Profile Photo', 'bit-integrations'),
-                    'length'        => 1000,
-                    'data_type'     => 'UploadText',
-                    'required'      => 'false'
+                    'display_label' => 'Candidate Profile Photo',
+                    'length' => 1000,
+                    'data_type' => 'UploadText',
+                    'required' => 'false'
                 ];
             }
-            if (\count($retriveFieldsData)) {
+            if (count($retriveFieldsData)) {
                 foreach ($retriveFieldsData as $fieldValue) {
                     foreach ($fieldValue->FL as $sectionValue) {
                         if ($sectionValue->dv === null) {
@@ -345,9 +341,9 @@ class ZohoRecruitController
                         if ($sectionValue->type === 'UploadText') {
                             $fileUploadFields[$sectionValue->dv] = (object) [
                                 'display_label' => $sectionValue->dv,
-                                'length'        => $sectionValue->maxlength,
-                                'data_type'     => $sectionValue->type,
-                                'required'      => $sectionValue->req
+                                'length' => $sectionValue->maxlength,
+                                'data_type' => $sectionValue->type,
+                                'required' => $sectionValue->req
                             ];
                             if ($sectionValue->req === 'true') {
                                 $requiredFileUploadFiles[] = $sectionValue->dv;
@@ -355,9 +351,9 @@ class ZohoRecruitController
                         } else {
                             $fields[$sectionValue->dv] = (object) [
                                 'display_label' => $sectionValue->dv,
-                                'length'        => $sectionValue->maxlength,
-                                'data_type'     => $sectionValue->type,
-                                'required'      => $sectionValue->req
+                                'length' => $sectionValue->maxlength,
+                                'data_type' => $sectionValue->type,
+                                'required' => $sectionValue->req
                             ];
                             if ($sectionValue->req === 'true') {
                                 $requiredFields[] = $sectionValue->dv;
@@ -373,17 +369,17 @@ class ZohoRecruitController
                     if ($sectionValue->aMod === 'Candidates') {
                         $fileUploadFields[$sectionValue->dv] = (object) [
                             'display_label' => 'Candidate Profile Photo',
-                            'length'        => 1000,
-                            'data_type'     => 'UploadText',
-                            'required'      => 'false'
+                            'length' => 1000,
+                            'data_type' => 'UploadText',
+                            'required' => 'false'
                         ];
                     }
                     if ($sectionValue->type === 'UploadText') {
                         $fileUploadFields[$sectionValue->dv] = (object) [
                             'display_label' => $sectionValue->dv,
-                            'length'        => $sectionValue->maxlength,
-                            'data_type'     => $sectionValue->type,
-                            'required'      => $sectionValue->req
+                            'length' => $sectionValue->maxlength,
+                            'data_type' => $sectionValue->type,
+                            'required' => $sectionValue->req
                         ];
                         if ($sectionValue->req === 'true') {
                             $requiredFileUploadFiles[] = $sectionValue->dv;
@@ -391,9 +387,9 @@ class ZohoRecruitController
                     } else {
                         $fields[$sectionValue->dv] = (object) [
                             'display_label' => $sectionValue->dv,
-                            'length'        => $sectionValue->maxlength,
-                            'data_type'     => $sectionValue->type,
-                            'required'      => $sectionValue->req
+                            'length' => $sectionValue->maxlength,
+                            'data_type' => $sectionValue->type,
+                            'required' => $sectionValue->req
                         ];
                         if ($sectionValue->req === 'true') {
                             $requiredFields[] = $sectionValue->dv;
@@ -413,9 +409,9 @@ class ZohoRecruitController
             usort($requiredFileUploadFiles, 'strnatcasecmp');
 
             $fieldDetails = (object) [
-                'fields'                   => $fields,
-                'fileUploadFields'         => $fileUploadFields,
-                'required'                 => $requiredFields,
+                'fields' => $fields,
+                'fileUploadFields' => $fileUploadFields,
+                'required' => $requiredFields,
                 'requiredFileUploadFields' => $requiredFileUploadFiles
             ];
             $response['fieldDetails'] = $fieldDetails;

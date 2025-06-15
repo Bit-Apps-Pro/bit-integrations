@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\Clickup;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use WP_Error;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Clickup integration
@@ -15,12 +15,11 @@ use WP_Error;
 class ClickupController
 {
     protected $_defaultHeader;
-
     protected $apiEndpoint;
 
     public function __construct()
     {
-        $this->apiEndpoint = 'https://api.clickup.com/api/v2/';
+        $this->apiEndpoint = "https://api.clickup.com/api/v2/";
     }
 
     public function authentication($fieldsRequestParams)
@@ -29,18 +28,18 @@ class ClickupController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->api_key;
-        $apiEndpoint = $this->apiEndpoint . 'user';
+        $apiKey      = $fieldsRequestParams->api_key;
+        $apiEndpoint = $this->apiEndpoint."user";
         $headers = [
-            'Authorization' => $apiKey,
+            "Authorization" =>$apiKey,
         ];
 
         $response = HttpHelper::get($apiEndpoint, null, $headers);
 
         if (isset($response->user)) {
-            wp_send_json_success(__('Authentication successful', 'bit-integrations'), 200);
+            wp_send_json_success('Authentication successful', 200);
         } else {
-            wp_send_json_error(__('Please enter valid API key', 'bit-integrations'), 400);
+            wp_send_json_error('Please enter valid API key', 400);
         }
     }
 
@@ -50,32 +49,30 @@ class ClickupController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->api_key;
-        $action = $fieldsRequestParams->action;
-        $listId = $fieldsRequestParams->list_id;
+        $apiKey      = $fieldsRequestParams->api_key;
+        $action      = $fieldsRequestParams->action;
+        $listId      = $fieldsRequestParams->list_id;
         if ($action == 'task') {
-            $apiEndpoint = $this->apiEndpoint . 'list/' . $listId . '/field';
+            $apiEndpoint = $this->apiEndpoint."list/".$listId."/field";
         }
 
         $headers = [
-            'Authorization' => $apiKey,
+            "Authorization" =>$apiKey,
         ];
 
         $response = HttpHelper::get($apiEndpoint, null, $headers);
         if (isset($response->fields)) {
             foreach ($response->fields as $customField) {
-                if ($customField->type != 'attachment') {
-                    $customFields[] = [
-                        'key'      => $customField->id,
-                        'label'    => $customField->name,
-                        'type'     => $customField->type,
-                        'required' => $customField->required,
-                    ];
-                }
+                $customFields[] = [
+                    'key' => $customField->id,
+                    'label' => $customField->name,
+                    'type' => $customField->type,
+                    'required' => $customField->required,
+                ];
             }
             wp_send_json_success($customFields, 200);
         } else {
-            wp_send_json_error(__('Custom field fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Custom field fetching failed', 400);
         }
     }
 
@@ -85,10 +82,10 @@ class ClickupController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->api_key;
-        $apiEndpoint = $this->apiEndpoint . '/tasks';
+        $apiKey      = $fieldsRequestParams->api_key;
+        $apiEndpoint = $this->apiEndpoint."/tasks";
         $headers = [
-            'Authorization' => $apiKey,
+            "Authorization" =>$apiKey,
         ];
 
         $response = HttpHelper::get($apiEndpoint, null, $headers);
@@ -101,9 +98,10 @@ class ClickupController
             }
             wp_send_json_success($tasks, 200);
         } else {
-            wp_send_json_error(__('Task fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Task fetching failed', 400);
         }
     }
+
 
     public function getAllTeams($fieldsRequestParams)
     {
@@ -111,13 +109,14 @@ class ClickupController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->api_key;
-        $apiEndpoint = $this->apiEndpoint . 'team';
+        $apiKey      = $fieldsRequestParams->api_key;
+        $apiEndpoint = $this->apiEndpoint."team";
         $headers = [
-            'Authorization' => $apiKey,
+            "Authorization" =>$apiKey,
         ];
 
         $response = HttpHelper::get($apiEndpoint, null, $headers);
+
 
         if (!empty($response->teams)) {
             foreach ($response->teams as $team) {
@@ -128,7 +127,7 @@ class ClickupController
             }
             wp_send_json_success($teams, 200);
         } else {
-            wp_send_json_error(__('Teams fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Teams fetching failed', 400);
         }
     }
 
@@ -138,11 +137,11 @@ class ClickupController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->api_key;
-        $teamId = $fieldsRequestParams->team_id;
-        $apiEndpoint = $this->apiEndpoint . 'team/' . $teamId . '/space';
+        $apiKey      = $fieldsRequestParams->api_key;
+        $teamId     = $fieldsRequestParams->team_id;
+        $apiEndpoint = $this->apiEndpoint."team/".$teamId."/space";
         $headers = [
-            'Authorization' => $apiKey,
+            "Authorization" =>$apiKey,
         ];
 
         $response = HttpHelper::get($apiEndpoint, null, $headers);
@@ -156,7 +155,7 @@ class ClickupController
             }
             wp_send_json_success($spaces, 200);
         } else {
-            wp_send_json_error(__('Spaces fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Spaces fetching failed', 400);
         }
     }
 
@@ -166,14 +165,15 @@ class ClickupController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->api_key;
-        $spaceId = $fieldsRequestParams->space_id;
-        $apiEndpoint = $this->apiEndpoint . 'space/' . $spaceId . '/folder';
+        $apiKey      = $fieldsRequestParams->api_key;
+        $spaceId     = $fieldsRequestParams->space_id;
+        $apiEndpoint = $this->apiEndpoint."space/".$spaceId."/folder";
         $headers = [
-            'Authorization' => $apiKey,
+            "Authorization" =>$apiKey,
         ];
 
         $response = HttpHelper::get($apiEndpoint, null, $headers);
+
 
         if (!empty($response->folders)) {
             foreach ($response->folders as $folder) {
@@ -184,9 +184,10 @@ class ClickupController
             }
             wp_send_json_success($folders, 200);
         } else {
-            wp_send_json_error(__('Folders fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Folders fetching failed', 400);
         }
     }
+
 
     public function getAllLists($fieldsRequestParams)
     {
@@ -194,11 +195,11 @@ class ClickupController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->api_key;
-        $folderId = $fieldsRequestParams->folder_id;
-        $apiEndpoint = $this->apiEndpoint . 'folder/' . $folderId . '/list';
+        $apiKey      = $fieldsRequestParams->api_key;
+        $folderId     = $fieldsRequestParams->folder_id;
+        $apiEndpoint = $this->apiEndpoint."folder/".$folderId."/list";
         $headers = [
-            'Authorization' => $apiKey,
+            "Authorization" =>$apiKey,
         ];
 
         $response = HttpHelper::get($apiEndpoint, null, $headers);
@@ -212,7 +213,7 @@ class ClickupController
             }
             wp_send_json_success($lists, 200);
         } else {
-            wp_send_json_error(__('Lists fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Lists fetching failed', 400);
         }
     }
 
@@ -222,11 +223,11 @@ class ClickupController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->api_key;
-        $spaceId = $fieldsRequestParams->space_id;
-        $apiEndpoint = $this->apiEndpoint . 'space/' . $spaceId . '/tag';
+        $apiKey      = $fieldsRequestParams->api_key;
+        $spaceId     = $fieldsRequestParams->space_id;
+        $apiEndpoint = $this->apiEndpoint."space/".$spaceId."/tag";
         $headers = [
-            'Authorization' => $apiKey,
+            "Authorization" =>$apiKey,
         ];
 
         $response = HttpHelper::get($apiEndpoint, null, $headers);
@@ -239,29 +240,29 @@ class ClickupController
             }
             wp_send_json_success($tags, 200);
         } else {
-            wp_send_json_error(__('Tags fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Tags fetching failed', 400);
         }
     }
+
 
     public function execute($integrationData, $fieldValues)
     {
         $integrationDetails = $integrationData->flow_details;
-        $integId = $integrationData->id;
-        $authToken = $integrationDetails->api_key;
-        $fieldMap = $integrationDetails->field_map;
-        $actionName = $integrationDetails->actionName;
+        $integId            = $integrationData->id;
+        $authToken          = $integrationDetails->api_key;
+        $fieldMap           = $integrationDetails->field_map;
+        $actionName         = $integrationDetails->actionName;
 
         if (empty($fieldMap) || empty($authToken) || empty($actionName)) {
-            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Clickup'));
+            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for Clickup api', 'bit-integrations'));
         }
 
-        $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
+        $recordApiHelper   = new RecordApiHelper($integrationDetails, $integId);
         $clickupApiResponse = $recordApiHelper->execute($fieldValues, $fieldMap, $actionName);
 
         if (is_wp_error($clickupApiResponse)) {
             return $clickupApiResponse;
         }
-
         return $clickupApiResponse;
     }
 }

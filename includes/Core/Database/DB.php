@@ -4,7 +4,6 @@
  * Class For Database Migration
  *
  * @category Database
- *
  * @author   BitCode Developer <developer@bitcode.pro>
  */
 
@@ -28,10 +27,10 @@ final class DB
 
         if ($wpdb->has_cap('collation')) {
             if (!empty($wpdb->charset)) {
-                $collate .= "DEFAULT CHARACTER SET {$wpdb->charset}";
+                $collate .= "DEFAULT CHARACTER SET $wpdb->charset";
             }
             if (!empty($wpdb->collate)) {
-                $collate .= " COLLATE {$wpdb->collate}";
+                $collate .= " COLLATE $wpdb->collate";
             }
         }
         $table_schema = [
@@ -45,7 +44,7 @@ final class DB
                 `created_at` DATETIME NOT NULL,
                 PRIMARY KEY (`id`),
                 KEY `flow_id` (`flow_id`)
-            ) {$collate};",
+            ) $collate;",
 
             "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}btcbi_flow` (
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -59,17 +58,7 @@ final class DB
                 `created_at` datetime DEFAULT NULL,
                 `updated_at` datetime DEFAULT NULL,
                 PRIMARY KEY (`id`)
-            ) {$collate};",
-
-            "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}btcbi_auth` (
-                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                `action_name` varchar(255) DEFAULT NULL,
-                `tokenDetails` longtext DEFAULT NULL,
-                `userInfo` longtext DEFAULT NULL,
-                `created_at` datetime DEFAULT NULL,
-                `updated_at` datetime DEFAULT NULL,
-                PRIMARY KEY (`id`)
-            ) {$collate};"
+            ) $collate;"
         ];
 
         include_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -87,13 +76,11 @@ final class DB
     {
         global $wpdb;
         $wpdb->query("RENAME TABLE `{$wpdb->prefix}btcfi_log` TO `{$wpdb->prefix}btcbi_log`, 
-                                   `{$wpdb->prefix}btcfi_flow` TO `{$wpdb->prefix}btcbi_flow`
-                                   `{$wpdb->prefix}btcfi_auth` TO `{$wpdb->prefix}btcbi_auth`
-                                   ;");
+                                   `{$wpdb->prefix}btcfi_flow` TO `{$wpdb->prefix}btcbi_flow`;");
         $options = [
             'btcfi_db_version' => 'btcbi_db_version',
-            'btcfi_installed'  => 'btcbi_installed',
-            'btcfi_version'    => 'btcbi_version'
+            'btcfi_installed' => 'btcbi_installed',
+            'btcfi_version' => 'btcbi_version'
         ];
 
         foreach ($options as $key => $option) {

@@ -6,7 +6,6 @@
 
 namespace BitCode\FI\Actions\Drip;
 
-use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Log\LogHandler;
 
@@ -16,95 +15,61 @@ use BitCode\FI\Log\LogHandler;
 class RecordApiHelper
 {
     private $_defaultHeader;
-
     private $_integrationID;
+    private $_apiEndpoint;
 
     public function __construct($api_token, $integId)
     {
-        $this->_defaultHeader = [
-            'Authorization' => 'Basic ' . base64_encode("{$api_token}:"),
-            'Content-Type'  => 'application/json'
-        ];
-
+        $this->_defaultHeader['Authorization'] = 'Basic ' . base64_encode("$api_token:");
+        ;
         $this->_integrationID = $integId;
+        $this->_apiEndpoint = "https://api.getdrip.com/v2";
     }
 
-    public function upsertSubscriber($accountId, $finalData, $selectedStatus, $selectedTags, $selectedRemoveTags)
+    // for adding a contact to a campaign.
+    public function storeOrModifyRecord($method, $campaignId, $data, $account_id)
     {
-        if (empty($accountId)) {
-            return ['success' => false, 'message' => __('Account id is Required', 'bit-integrations'), 'code' => 400];
-        }
+        $insertRecordEndpoint = "{$this->_apiEndpoint}/{$account_id}/{$method}";
 
-        $apiEndpoints = 'https://api.getdrip.com/v2/' . $accountId . '/subscribers';
-
-        if (empty($finalData['email'])) {
-            return ['success' => false, 'message' => __('Required field Email is empty', 'bit-integrations'), 'code' => 400];
-        }
-
-        $subscriberData = $customFieldsData = [];
-        $staticFieldsKey = ['email', 'first_name', 'last_name', 'address1', 'address2', 'city', 'state', 'zip', 'country', 'phone', 'time_zone', 'ip_address'];
-
-        foreach ($finalData as $key => $value) {
-            if (\in_array($key, $staticFieldsKey)) {
-                $subscriberData[$key] = $value;
-            } else {
-                $customFieldsData[$key] = $value;
-            }
-        }
-
-        if (!empty($customFieldsData)) {
-            $subscriberData['custom_fields'] = (object) $customFieldsData;
-        }
-
-        if (!empty($selectedStatus)) {
-            $subscriberData['status'] = $selectedStatus;
-        }
-
-        if (!empty($selectedTags)) {
-            $subscriberData['tags'] = explode(',', $selectedTags);
-        }
-
-        if (!empty($selectedRemoveTags)) {
-            $subscriberData['remove_tags'] = explode(',', $selectedRemoveTags);
-        }
-
-        $requestParams = (object) [
-            'subscribers' => [
-                (object) $subscriberData
-            ]
-        ];
-
-        return HttpHelper::post($apiEndpoints, wp_json_encode($requestParams), $this->_defaultHeader);
+        $res = HttpHelper::post($insertRecordEndpoint, $data, $this->_defaultHeader);
+        return $res;
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
     {
         $dataFinal = [];
-        foreach ($fieldMap as $value) {
+
+        foreach ($fieldMap as $key => $value) {
             $triggerValue = $value->formField;
             $actionValue = $value->dripField;
             if ($triggerValue === 'custom') {
-                $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!\is_null($data[$triggerValue])) {
+                $dataFinal[$actionValue] = $value->customValue;
+            } elseif (!is_null($data[$triggerValue])) {
                 $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
-
         return $dataFinal;
     }
 
-    public function execute($fieldValues, $fieldMap, $accountId, $selectedStatus, $selectedTags, $selectedRemoveTags)
+    public function execute($fieldValues, $fieldMap, $actions, $campaignId, $account_id)
     {
-        $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
-        $apiResponse = $this->upsertSubscriber($accountId, $finalData, $selectedStatus, $selectedTags, $selectedRemoveTags);
+        $fieldData = [];
+        $customFields = [];
 
-        if (isset($apiResponse->subscribers)) {
-            $res = ['message' => __('Subscriber upserted successfully', 'bit-integrations')];
-            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'subscriber', 'type_name' => 'Subscriber upsert']), 'success', wp_json_encode($res));
+        $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
+
+        $drip = (object) $finalData;
+
+        $recordApiResponse = $this->storeOrModifyRecord('subscribers', $campaignId, $drip, $account_id);
+
+        $type = 'insert';
+
+        if ($recordApiResponse !== 200) {
+            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => $type], 'error', "There is an error while inserting record");
         } else {
-            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'subscriber', 'type_name' => 'Subscriber upsert']), 'error', wp_json_encode($apiResponse));
+            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => $type], 'success', "Record inserted successfully");
         }
 
-        return $apiResponse;
+        return $recordApiResponse;
     }
 }

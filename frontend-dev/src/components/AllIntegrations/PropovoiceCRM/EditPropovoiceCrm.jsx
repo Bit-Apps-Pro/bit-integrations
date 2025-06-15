@@ -28,14 +28,7 @@ function EditPropovoiceCrm({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, propovoiceCrmConf, setPropovoiceCrmConf)}
-          name="name"
-          value={propovoiceCrmConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, propovoiceCrmConf, setPropovoiceCrmConf)} name="name" value={propovoiceCrmConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
       <br />
@@ -53,17 +46,7 @@ function EditPropovoiceCrm({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            allIntegURL,
-            conf: propovoiceCrmConf,
-            navigate,
-            edit: 1,
-            setIsLoading,
-            setSnackbar
-          })
-        }
+        saveConfig={() => saveActionConf({ flow, allIntegURL, conf: propovoiceCrmConf, navigate, edit: 1, setIsLoading, setSnackbar })}
         disabled={isLoading}
         isLoading={isLoading}
         dataConf={propovoiceCrmConf}

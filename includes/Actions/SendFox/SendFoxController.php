@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\SendFox;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use WP_Error;
+use BitCode\FI\Core\Util\HttpHelper;
 
 class SendFoxController
 {
@@ -28,7 +28,7 @@ class SendFoxController
 
         $requestParams = [
             'Authorization' => "Bearer {$requestParams->access_token}",
-            'Accept'        => 'application/json',
+            'Accept' => 'application/json',
         ];
 
         $response = HttpHelper::get($apiEndpoints, null, $requestParams);
@@ -57,7 +57,7 @@ class SendFoxController
 
         $requestParams = [
             'Authorization' => "Bearer {$requestParams->access_token}",
-            'Accept'        => 'application/json',
+            'Accept' => 'application/json',
         ];
 
         $response = HttpHelper::get($apiEndpoints, null, $requestParams);
@@ -85,7 +85,7 @@ class SendFoxController
             // empty($fieldMap)||
             empty($access_token)
         ) {
-            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'SendFox'));
+            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for SendFox api', 'bit-integrations'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
         $acumbamailApiResponse = $recordApiHelper->execute(
@@ -99,7 +99,6 @@ class SendFoxController
         if (is_wp_error($acumbamailApiResponse)) {
             return $acumbamailApiResponse;
         }
-
         return $acumbamailApiResponse;
     }
 }

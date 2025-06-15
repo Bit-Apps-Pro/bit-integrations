@@ -7,25 +7,19 @@ import ConfirmModal from '../../Utilities/ConfirmModal'
 import TableCheckBox from '../../Utilities/TableCheckBox'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import Loader from '../../Loaders/Loader'
-import {
-  getAllLeads,
-  getAllParentOrganizations,
-  getAllTeams,
-  getAllCurrencies,
-  getAllStages
-} from './ZendeskCommonFunc'
+import { getAllLeads, getAllParentOrganizations, getAllTeams, getAllCurrencies, getAllStages } from './ZendeskCommonFunc'
 
 export default function ZendeskActions({ zendeskConf, setZendeskConf, loading, setLoading }) {
-  const [actionMdl, setActionMdl] = useState({ show: false, action: () => {} })
+  const [actionMdl, setActionMdl] = useState({ show: false, action: () => { } })
 
   const followUps = [
-    { label: __('Yes', 'bit-integrations'), value: 'yes' },
-    { label: __('No', 'bit-integrations'), value: 'no' }
+    { label: 'Yes', value: 'yes' },
+    { label: 'No', value: 'no' },
   ]
 
   const leadTypes = [
-    { label: __('New Business', 'bit-integrations'), value: 'New Business' },
-    { label: __('Existing Business', 'bit-integrations'), value: 'Existing Business' }
+    { label: 'New Business', value: 'New Business' },
+    { label: 'Existing Business', value: 'Existing Business' },
   ]
 
   const actionHandler = (e, type) => {
@@ -103,253 +97,219 @@ export default function ZendeskActions({ zendeskConf, setZendeskConf, loading, s
 
   return (
     <div className="pos-rel d-flx flx-wrp">
-      {zendeskConf.actionName === 'organization' && (
-        <TableCheckBox
-          checked={zendeskConf?.selectedParentOrganization?.length || false}
-          onChange={(e) => actionHandler(e, 'parentOrganization')}
-          className="wdt-200 mt-4 mr-2"
-          value="parentOrganization"
-          title={__('Add ParentOrganization', 'bit - integrations')}
-          subTitle={__('Add an parentOrganization')}
-        />
-      )}
+      {(zendeskConf.actionName === 'organization') && <TableCheckBox checked={zendeskConf?.selectedParentOrganization?.length || false} onChange={(e) => actionHandler(e, 'parentOrganization')} className="wdt-200 mt-4 mr-2" value="parentOrganization" title={__('Add ParentOrganization', 'bit - integrations')} subTitle={__('Add an parentOrganization')} />}
       {/* {(zendeskConf.actionName === 'deal') && <TableCheckBox checked={zendeskConf?.selectedTeam?.length || false} onChange={(e) => actionHandler(e, 'team')} className="wdt-200 mt-4 mr-2" value="team" title={__('Add Team', 'bit - integrations')} subTitle={__('Add an team')} />} */}
       {/* {(zendeskConf.actionName === 'lead') && <TableCheckBox checked={zendeskConf?.selectedCurrency?.length || false} onChange={(e) => actionHandler(e, 'currency')} className="wdt-200 mt-4 mr-2" value="currency" title={__('Add Currency', 'bit - integrations')} subTitle={__('Add a currency')} />} */}
-      {zendeskConf.actionName === 'deal' && (
-        <TableCheckBox
-          checked={zendeskConf?.selectedStage?.length || false}
-          onChange={(e) => actionHandler(e, 'stage')}
-          className="wdt-200 mt-4 mr-2"
-          value="stage"
-          title={__('Add Stage', 'bit - integrations')}
-          subTitle={__('Add a stage')}
-        />
-      )}
+      {(zendeskConf.actionName === 'deal') && <TableCheckBox checked={zendeskConf?.selectedStage?.length || false} onChange={(e) => actionHandler(e, 'stage')} className="wdt-200 mt-4 mr-2" value="stage" title={__('Add Stage', 'bit - integrations')} subTitle={__('Add a stage')} />}
 
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="purple"
+        btnClass="blue"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'lead'}
         close={clsActionMdl}
         action={clsActionMdl}
-        title={__('Leads', 'bit-integrations')}>
+        title={__('Leads', 'bit-integrations')}
+      >
         <div className="btcd-hr mt-2 mb-2" />
-        <div className="mt-2">{__('Select Lead', 'bit-integrations')}</div>
-        {loading.leads ? (
-          <Loader
-            style={{
+        <div className="mt-2">
+          {__('Select Lead', 'bit-integrations')}
+        </div>
+        {
+          loading.leads ? (
+            <Loader style={{
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               height: 45,
-              transform: 'scale(0.5)'
+              transform: 'scale(0.5)',
             }}
-          />
-        ) : (
-          <div className="flx flx-between mt-2">
-            <MultiSelect
-              options={zendeskConf?.leads?.map((lead) => ({ label: lead.name, value: lead.id }))}
-              className="msl-wrp-options"
-              defaultValue={zendeskConf?.selectedLead}
-              onChange={(val) => setChanges(val, 'selectedLead')}
-              singleSelect
             />
-            <button
-              onClick={() => getAllLeads(zendeskConf, setZendeskConf, setLoading)}
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `${__('Refresh Leads', 'bit-integrations')}'` }}
-              type="button">
-              &#x21BB;
-            </button>
-          </div>
-        )}
+          )
+            : (
+              <div className="flx flx-between mt-2">
+                <MultiSelect
+                  options={zendeskConf?.leads?.map(lead => ({ label: lead.name, value: lead.id }))}
+                  className="msl-wrp-options"
+                  defaultValue={zendeskConf?.selectedLead}
+                  onChange={val => setChanges(val, 'selectedLead')}
+                  singleSelect
+                />
+                <button onClick={() => getAllLeads(zendeskConf, setZendeskConf, setLoading)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `${__('Refresh Leads', 'bit-integrations')}'` }} type="button">&#x21BB;</button>
+              </div>
+            )
+        }
       </ConfirmModal>
 
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="purple"
+        btnClass="blue"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'parentOrganization'}
         close={clsActionMdl}
         action={clsActionMdl}
-        title={__('ParentOrganizations', 'bit-integrations')}>
+        title={__('ParentOrganizations', 'bit-integrations')}
+      >
         <div className="btcd-hr mt-2 mb-2" />
-        <div className="mt-2">{__('Select ParentOrganization', 'bit-integrations')}</div>
-        {loading.parentOrganizations ? (
-          <Loader
-            style={{
+        <div className="mt-2">
+          {__('Select ParentOrganization', 'bit-integrations')}
+        </div>
+        {
+          loading.parentOrganizations ? (
+            <Loader style={{
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               height: 45,
-              transform: 'scale(0.5)'
+              transform: 'scale(0.5)',
             }}
-          />
-        ) : (
-          <div className="flx flx-between mt-2">
-            <MultiSelect
-              options={zendeskConf?.parentOrganizations?.map((parentOrganization) => ({
-                label: parentOrganization.name,
-                value: parentOrganization.id
-              }))}
-              className="msl-wrp-options"
-              defaultValue={zendeskConf?.selectedParentOrganization}
-              onChange={(val) => setChanges(val, 'selectedParentOrganization')}
-              singleSelect
             />
-            <button
-              onClick={() => getAllParentOrganizations(zendeskConf, setZendeskConf, setLoading)}
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{
-                '--tooltip-txt': `${__('Refresh ParentOrganizations', 'bit-integrations')}'`
-              }}
-              type="button">
-              &#x21BB;
-            </button>
-          </div>
-        )}
+          )
+            : (
+              <div className="flx flx-between mt-2">
+                <MultiSelect
+                  options={zendeskConf?.parentOrganizations?.map(parentOrganization => ({ label: parentOrganization.name, value: parentOrganization.id }))}
+                  className="msl-wrp-options"
+                  defaultValue={zendeskConf?.selectedParentOrganization}
+                  onChange={val => setChanges(val, 'selectedParentOrganization')}
+                  singleSelect
+                />
+                <button onClick={() => getAllParentOrganizations(zendeskConf, setZendeskConf, setLoading)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `${__('Refresh ParentOrganizations', 'bit-integrations')}'` }} type="button">&#x21BB;</button>
+              </div>
+            )
+        }
       </ConfirmModal>
 
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="purple"
+        btnClass="blue"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'team'}
         close={clsActionMdl}
         action={clsActionMdl}
-        title={__('Teams', 'bit-integrations')}>
+        title={__('Teams', 'bit-integrations')}
+      >
         <div className="btcd-hr mt-2 mb-2" />
-        <div className="mt-2">{__('Select Team', 'bit-integrations')}</div>
-        {loading.teams ? (
-          <Loader
-            style={{
+        <div className="mt-2">
+          {__('Select Team', 'bit-integrations')}
+        </div>
+        {
+          loading.teams ? (
+            <Loader style={{
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               height: 45,
-              transform: 'scale(0.5)'
+              transform: 'scale(0.5)',
             }}
-          />
-        ) : (
-          <div className="flx flx-between mt-2">
-            <MultiSelect
-              options={zendeskConf?.teams?.map((team) => ({ label: team.name, value: team.id }))}
-              className="msl-wrp-options"
-              defaultValue={zendeskConf?.selectedTeam}
-              onChange={(val) => setChanges(val, 'selectedTeam')}
-              singleSelect
             />
-            <button
-              onClick={() => getAllTeams(zendeskConf, setZendeskConf, setLoading)}
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `${__('Refresh Teams', 'bit-integrations')}'` }}
-              type="button">
-              &#x21BB;
-            </button>
-          </div>
-        )}
+          )
+            : (
+              <div className="flx flx-between mt-2">
+                <MultiSelect
+                  options={zendeskConf?.teams?.map(team => ({ label: team.name, value: team.id }))}
+                  className="msl-wrp-options"
+                  defaultValue={zendeskConf?.selectedTeam}
+                  onChange={val => setChanges(val, 'selectedTeam')}
+                  singleSelect
+                />
+                <button onClick={() => getAllTeams(zendeskConf, setZendeskConf, setLoading)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `${__('Refresh Teams', 'bit-integrations')}'` }} type="button">&#x21BB;</button>
+              </div>
+            )
+        }
       </ConfirmModal>
 
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="purple"
+        btnClass="blue"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'currency'}
         close={clsActionMdl}
         action={clsActionMdl}
-        title={__('Currencies', 'bit-integrations')}>
+        title={__('Currencies', 'bit-integrations')}
+      >
         <div className="btcd-hr mt-2 mb-2" />
-        <div className="mt-2">{__('Select Currency', 'bit-integrations')}</div>
-        {loading.currencies ? (
-          <Loader
-            style={{
+        <div className="mt-2">
+          {__('Select Currency', 'bit-integrations')}
+        </div>
+        {
+          loading.currencies ? (
+            <Loader style={{
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               height: 45,
-              transform: 'scale(0.5)'
+              transform: 'scale(0.5)',
             }}
-          />
-        ) : (
-          <div className="flx flx-between mt-2">
-            <MultiSelect
-              options={zendeskConf?.currencies?.map((currency) => ({
-                label: currency.name,
-                value: currency.id
-              }))}
-              className="msl-wrp-options"
-              defaultValue={zendeskConf?.selectedCurrency}
-              onChange={(val) => setChanges(val, 'selectedCurrency')}
-              singleSelect
             />
-            <button
-              onClick={() => getAllCurrencies(zendeskConf, setZendeskConf, setLoading)}
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `${__('Refresh Currencies', 'bit-integrations')}'` }}
-              type="button">
-              &#x21BB;
-            </button>
-          </div>
-        )}
+          )
+            : (
+              <div className="flx flx-between mt-2">
+                <MultiSelect
+                  options={zendeskConf?.currencies?.map(currency => ({ label: currency.name, value: currency.id }))}
+                  className="msl-wrp-options"
+                  defaultValue={zendeskConf?.selectedCurrency}
+                  onChange={val => setChanges(val, 'selectedCurrency')}
+                  singleSelect
+                />
+                <button onClick={() => getAllCurrencies(zendeskConf, setZendeskConf, setLoading)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `${__('Refresh Currencies', 'bit-integrations')}'` }} type="button">&#x21BB;</button>
+              </div>
+            )
+        }
       </ConfirmModal>
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="purple"
+        btnClass="blue"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'stage'}
         close={clsActionMdl}
         action={clsActionMdl}
-        title={__('Stages', 'bit-integrations')}>
+        title={__('Stages', 'bit-integrations')}
+      >
         <div className="btcd-hr mt-2 mb-2" />
-        <div className="mt-2">{__('Select Stage', 'bit-integrations')}</div>
-        {loading.stages ? (
-          <Loader
-            style={{
+        <div className="mt-2">
+          {__('Select Stage', 'bit-integrations')}
+        </div>
+        {
+          loading.stages ? (
+            <Loader style={{
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               height: 45,
-              transform: 'scale(0.5)'
+              transform: 'scale(0.5)',
             }}
-          />
-        ) : (
-          <div className="flx flx-between mt-2">
-            <MultiSelect
-              options={zendeskConf?.stages?.map((stage) => ({
-                label: stage.name,
-                value: stage.id
-              }))}
-              className="msl-wrp-options"
-              defaultValue={zendeskConf?.selectedStage}
-              onChange={(val) => setChanges(val, 'selectedStage')}
-              singleSelect
             />
-            <button
-              onClick={() => getAllStages(zendeskConf, setZendeskConf, setLoading)}
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `${__('Refresh Stages', 'bit-integrations')}'` }}
-              type="button">
-              &#x21BB;
-            </button>
-          </div>
-        )}
+          )
+            : (
+              <div className="flx flx-between mt-2">
+                <MultiSelect
+                  options={zendeskConf?.stages?.map(stage => ({ label: stage.name, value: stage.id }))}
+                  className="msl-wrp-options"
+                  defaultValue={zendeskConf?.selectedStage}
+                  onChange={val => setChanges(val, 'selectedStage')}
+                  singleSelect
+                />
+                <button onClick={() => getAllStages(zendeskConf, setZendeskConf, setLoading)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `${__('Refresh Stages', 'bit-integrations')}'` }} type="button">&#x21BB;</button>
+              </div>
+            )
+        }
       </ConfirmModal>
 
       {/* <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="purple"
+        btnClass="blue"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'status'}
         close={clsActionMdl}
         action={clsActionMdl}
-        title={__('Status', 'bit-integrations')}
+        title={__('Statuses', 'bit-integrations')}
       >
         <div className="btcd-hr mt-2 mb-2" />
         <div className="mt-2">
@@ -384,22 +344,20 @@ export default function ZendeskActions({ zendeskConf, setZendeskConf, loading, s
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="purple"
+        btnClass="blue"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'followUp'}
         close={clsActionMdl}
         action={clsActionMdl}
-        title={__('Follow Up', 'bit-integrations')}>
+        title={__('Follow Up', 'bit-integrations')}
+      >
         <div className="btcd-hr mt-2 mb-2" />
         <div className="flx flx-center mt-2">
           <MultiSelect
-            options={followUps?.map((followUp) => ({
-              label: followUp.label,
-              value: followUp.value
-            }))}
+            options={followUps?.map(followUp => ({ label: followUp.label, value: followUp.value }))}
             className="msl-wrp-options"
             defaultValue={zendeskConf?.selectedFollowUp}
-            onChange={(val) => setChanges(val, 'selectedFollowUp')}
+            onChange={val => setChanges(val, 'selectedFollowUp')}
             singleSelect
           />
         </div>
@@ -408,22 +366,20 @@ export default function ZendeskActions({ zendeskConf, setZendeskConf, loading, s
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="purple"
+        btnClass="blue"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'leadType'}
         close={clsActionMdl}
         action={clsActionMdl}
-        title={__('Lead types', 'bit-integrations')}>
+        title={__('Lead types', 'bit-integrations')}
+      >
         <div className="btcd-hr mt-2 mb-2" />
         <div className="flx flx-center mt-2">
           <MultiSelect
-            options={leadTypes?.map((leadType) => ({
-              label: leadType.label,
-              value: leadType.value
-            }))}
+            options={leadTypes?.map(leadType => ({ label: leadType.label, value: leadType.value }))}
             className="msl-wrp-options"
             defaultValue={zendeskConf?.selectedLeadType}
-            onChange={(val) => setChanges(val, 'selectedLeadType')}
+            onChange={val => setChanges(val, 'selectedLeadType')}
             singleSelect
           />
         </div>

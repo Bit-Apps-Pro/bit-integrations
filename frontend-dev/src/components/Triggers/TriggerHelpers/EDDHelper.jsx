@@ -12,7 +12,7 @@ const EDDHelper = ({ flow, setFlowData, edit = false }) => {
   const triggerData = !edit ? newFlow?.triggerData : flow.flow_details
 
   const setFlowDataDepend = (val, type, isLoad = true) => {
-    const tmpFlow = create(flow, (draftChangeData) => {
+    const tmpFlow = create(flow, draftChangeData => {
       if (!edit) {
         draftChangeData.triggerData[type] = val
       } else {
@@ -23,17 +23,15 @@ const EDDHelper = ({ flow, setFlowData, edit = false }) => {
   }
   return (
     <>
-      {id === '1' && (
+      {(id === '1') && (
         <div className={edit ? 'flx mt-3' : ''}>
-          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
-            {__('Select a product', 'bit-integrations')}
-          </b>
+          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>Select a product.</b>
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={triggerData?.selectedProduct}
             options={triggerData?.allProduct?.map((list) => ({
               label: list.title,
-              value: list.id.toString()
+              value: list.id.toString(),
             }))}
             onChange={(val) => setFlowDataDepend(val, 'selectedProduct')}
             singleSelect
@@ -41,17 +39,15 @@ const EDDHelper = ({ flow, setFlowData, edit = false }) => {
           />
         </div>
       )}
-      {id === '2' && (
+      {(id === '2') && (
         <div className={edit ? 'flx mt-3' : ''}>
-          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
-            {__('Select a discount code', 'bit-integrations')}
-          </b>
+          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>Select a discount code</b>
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={triggerData?.selectedDiscount}
             options={triggerData?.allDiscountCode?.map((list) => ({
               label: list.title,
-              value: list.id.toString()
+              value: list.id.toString(),
             }))}
             onChange={(val) => setFlowData(val, 'selectedDiscount')}
             singleSelect

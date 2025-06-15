@@ -29,14 +29,7 @@ function EditSendinBlue({ allIntegURL }) {
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, sendinBlueConf, setSendinBlueConf)}
-          name="name"
-          value={sendinBlueConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, sendinBlueConf, setSendinBlueConf)} name="name" value={sendinBlueConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
 
@@ -55,18 +48,7 @@ function EditSendinBlue({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            setFlow,
-            allIntegURL,
-            conf: sendinBlueConf,
-            navigate,
-            edit: 1,
-            setIsLoading,
-            setSnackbar
-          })
-        }
+        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, conf: sendinBlueConf, navigate, edit: 1, setIsLoading, setSnackbar })}
         disabled={sendinBlueConf.listId === '' || sendinBlueConf.field_map.length < 1}
         isLoading={isLoading}
         dataConf={sendinBlueConf}

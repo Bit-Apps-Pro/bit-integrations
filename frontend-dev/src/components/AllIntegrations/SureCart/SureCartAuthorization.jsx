@@ -5,8 +5,7 @@ import { handleAuthorize } from './SureCartCommonFunc'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 
-export default function SureCartAuthorization({
-  formID,
+export default function SureCartAuthorization({ formID,
   sureCartConf,
   setSureCartConf,
   step,
@@ -15,8 +14,7 @@ export default function SureCartAuthorization({
   setIsLoading,
   setSnackbar,
   redirectLocation,
-  isInfo
-}) {
+  isInfo }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ api_key: '' })
   const { sureCart } = tutorialLinks
@@ -41,12 +39,21 @@ export default function SureCartAuthorization({
       className="btcd-stp-page"
       style={{
         ...{ width: step === 1 && 900 },
-        ...{ height: step === 1 && 'auto' }
-      }}>
+        ...{ height: step === 1 && 'auto' },
+      }}
+    >
       {sureCart?.youTubeLink && (
-        <TutorialLink title="SureCart" youTubeLink={sureCart?.youTubeLink} />
+        <TutorialLink
+          title={sureCart?.title}
+          youTubeLink={sureCart?.youTubeLink}
+        />
       )}
-      {sureCart?.docLink && <TutorialLink title="SureCart" docLink={sureCart?.docLink} />}
+      {sureCart?.docLink && (
+        <TutorialLink
+          title={sureCart?.title}
+          docLink={sureCart?.docLink}
+        />
+      )}
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>
@@ -75,12 +82,13 @@ export default function SureCartAuthorization({
       />
       <div style={{ color: 'red' }}>{error.api_key}</div>
       <small className="d-blk mt-5">
-        {__('To get Api key , Please Visit  ', 'bit-integrations')}
+        {__('To get Api key , Please Visit   ', 'bit-integrations')}
         <a
           className="btcd-link"
           href="https://app.surecart.com/developer"
           target="_blank"
-          rel="noreferrer">
+          rel="noreferrer"
+        >
           {__('SureCart', 'bit-integrations')}
         </a>
       </small>
@@ -90,19 +98,18 @@ export default function SureCartAuthorization({
       {!isInfo && (
         <>
           <button
-            onClick={() =>
-              handleAuthorize(
-                sureCartConf,
-                setSureCartConf,
-                setError,
-                setIsAuthorized,
-                setIsLoading,
-                setSnackbar
-              )
-            }
-            className="btn btcd-btn-lg purple sh-sm flx"
+            onClick={() => handleAuthorize(
+              sureCartConf,
+              setSureCartConf,
+              setError,
+              setIsAuthorized,
+              setIsLoading,
+              setSnackbar,
+            )}
+            className="btn btcd-btn-lg green sh-sm flx"
             type="button"
-            disabled={isAuthorized || isLoading}>
+            disabled={isAuthorized || isLoading}
+          >
             {isAuthorized
               ? __('Authorized ✔', 'bit-integrations')
               : __('Authorize', 'bit-integrations')}
@@ -111,14 +118,16 @@ export default function SureCartAuthorization({
           <br />
           <button
             onClick={nextPage}
-            className="btn f-right btcd-btn-lg purple sh-sm flx"
+            className="btn f-right btcd-btn-lg green sh-sm flx"
             type="button"
-            disabled={!isAuthorized}>
+            disabled={!isAuthorized}
+          >
             {__('Next', 'bit-integrations')}
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         </>
       )}
+
     </div>
   )
 }

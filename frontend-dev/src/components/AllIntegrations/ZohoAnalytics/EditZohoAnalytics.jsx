@@ -23,14 +23,7 @@ function EditZohoRecruit({ allIntegURL, formFields, flow, setFlow }) {
 
       <div className="flx mt-3">
         <b className="wdt-100 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-7"
-          onChange={(e) => handleInput(e, analyticsConf, setAnalyticsConf)}
-          name="name"
-          value={analyticsConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-7" onChange={e => handleInput(e, analyticsConf, setAnalyticsConf)} name="name" value={analyticsConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
       <br />
@@ -38,9 +31,7 @@ function EditZohoRecruit({ allIntegURL, formFields, flow, setFlow }) {
       <ZohoAnalyticsIntegLayout
         formID={formID}
         formFields={formFields}
-        handleInput={(e) =>
-          handleInput(e, analyticsConf, setAnalyticsConf, formID, setIsLoading, setSnackbar)
-        }
+        handleInput={(e) => handleInput(e, analyticsConf, setAnalyticsConf, formID, setIsLoading, setSnackbar)}
         analyticsConf={analyticsConf}
         setAnalyticsConf={setAnalyticsConf}
         isLoading={isLoading}
@@ -51,14 +42,8 @@ function EditZohoRecruit({ allIntegURL, formFields, flow, setFlow }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() =>
-          saveIntegConfig(flow, setFlow, allIntegURL, analyticsConf, navigate, id, 1, setIsLoading)
-        }
-        disabled={
-          analyticsConf.workspace === '' ||
-          analyticsConf.table === '' ||
-          analyticsConf.field_map.length < 1
-        }
+        saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, analyticsConf, navigate, id, 1, setIsLoading)}
+        disabled={analyticsConf.workspace === '' || analyticsConf.table === '' || analyticsConf.field_map.length < 1}
       />
       <br />
     </div>

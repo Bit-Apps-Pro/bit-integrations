@@ -26,7 +26,7 @@ class ZohoSheetController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $token = self::tokenExpiryCheck($requestParams->tokenDetails, $requestParams->clientId, $requestParams->clientSecret, $requestParams->dataCenter);
+        $token   = self::tokenExpiryCheck($requestParams->tokenDetails, $requestParams->clientId, $requestParams->clientSecret, $requestParams->dataCenter);
         $headers = [
             'Authorization' => 'Zoho-oauthtoken ' . $token->access_token,
         ];
@@ -56,7 +56,7 @@ class ZohoSheetController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $token = self::tokenExpiryCheck($requestParams->tokenDetails, $requestParams->clientId, $requestParams->clientSecret, $requestParams->dataCenter);
+        $token   = self::tokenExpiryCheck($requestParams->tokenDetails, $requestParams->clientId, $requestParams->clientSecret, $requestParams->dataCenter);
         $headers = [
             'Authorization' => 'Zoho-oauthtoken ' . $token->access_token,
         ];
@@ -87,7 +87,7 @@ class ZohoSheetController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $token = self::tokenExpiryCheck($requestParams->tokenDetails, $requestParams->clientId, $requestParams->clientSecret, $requestParams->dataCenter);
+        $token   = self::tokenExpiryCheck($requestParams->tokenDetails, $requestParams->clientId, $requestParams->clientSecret, $requestParams->dataCenter);
         $headers = [
             'Authorization' => 'Zoho-oauthtoken ' . $token->access_token,
         ];
@@ -97,7 +97,7 @@ class ZohoSheetController
 
         if (isset($apiResponse->records)) {
             if (!empty($apiResponse->records)) {
-                $allHeaders = array_diff(array_keys((array) $apiResponse->records[0]), ['row_index']);
+                $allHeaders  = array_diff(array_keys((array) $apiResponse->records[0]), ['row_index']);
                 foreach ($allHeaders as $header) {
                     $sheetHeaders[] = [
                         'key'      => $header,
@@ -107,10 +107,10 @@ class ZohoSheetController
                 }
                 wp_send_json_success($sheetHeaders, 200);
             } else {
-                wp_send_json_error(__('No header found', 'bit-integrations'), 400);
+                wp_send_json_error('No header found', 400);
             }
         } else {
-            wp_send_json_error(__('Header fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Header fetching failed', 400);
         }
     }
 
@@ -126,10 +126,9 @@ class ZohoSheetController
                 return false;
             }
             $token->access_token = $refreshToken->access_token;
-            $token->expires_in = $refreshToken->expires_in;
+            $token->expires_in   = $refreshToken->expires_in;
             $token->generates_on = $refreshToken->generates_on;
         }
-
         return $token;
     }
 

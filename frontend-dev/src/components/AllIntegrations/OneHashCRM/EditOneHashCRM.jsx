@@ -33,23 +33,15 @@ function EditOneHashCRM({ allIntegURL }) {
     }
 
     if (oneHashCRMConf.actionName === 'customer' && !oneHashCRMConf.selectedCustomerType) {
-      toast.error(__('Please select Customer Type', 'bit-integrations'))
+      toast.error('Please select Customer Type')
       return
     }
     if (oneHashCRMConf.actionName === 'lead' && !oneHashCRMConf.selectedLeadStatus) {
-      toast.error(__('Please select Lead Status', 'bit-integrations'))
+      toast.error('Please select Lead Status')
       return
     }
 
-    saveActionConf({
-      flow,
-      allIntegURL,
-      conf: oneHashCRMConf,
-      navigate,
-      edit: 1,
-      setIsLoading,
-      setSnackbar
-    })
+    saveActionConf({ flow, allIntegURL, conf: oneHashCRMConf, navigate, edit: 1, setIsLoading, setSnackbar })
   }
 
   return (
@@ -58,14 +50,7 @@ function EditOneHashCRM({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, oneHashCRMConf, setOneHashCRMConf)}
-          name="name"
-          value={oneHashCRMConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, oneHashCRMConf, setOneHashCRMConf)} name="name" value={oneHashCRMConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
 
@@ -73,9 +58,7 @@ function EditOneHashCRM({ allIntegURL }) {
       <OneHashCRMIntegLayout
         formID={flow.triggered_entity_id}
         formFields={formField}
-        handleInput={(e) =>
-          handleInput(e, oneHashCRMConf, setOneHashCRMConf, setLoading, setSnackbar)
-        }
+        handleInput={(e) => handleInput(e, oneHashCRMConf, setOneHashCRMConf, setLoading, setSnackbar)}
         oneHashCRMConf={oneHashCRMConf}
         setOneHashCRMConf={setOneHashCRMConf}
         loading={loading}

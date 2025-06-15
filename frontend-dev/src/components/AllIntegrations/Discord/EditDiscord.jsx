@@ -28,14 +28,7 @@ function EditDiscord({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, discordConf, setDiscordConf)}
-          name="name"
-          value={discordConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, discordConf, setDiscordConf)} name="name" value={discordConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
       <br />
@@ -53,20 +46,8 @@ function EditDiscord({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            allIntegURL,
-            conf: discordConf,
-            navigate,
-            edit: 1,
-            setIsLoading,
-            setSnackbar
-          })
-        }
-        disabled={
-          discordConf.selectedChannel === '' || discordConf.selectedServer === '' || isLoading
-        }
+        saveConfig={() => saveActionConf({ flow, allIntegURL, conf: discordConf, navigate, edit: 1, setIsLoading, setSnackbar })}
+        disabled={discordConf.selectedChannel === '' || discordConf.selectedServer === '' || isLoading}
         isLoading={isLoading}
         dataConf={discordConf}
         setDataConf={setDiscordConf}

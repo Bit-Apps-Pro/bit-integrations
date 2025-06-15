@@ -6,73 +6,38 @@ import { __ } from '../../../Utils/i18nwrap'
 import CustomField from './CustomField'
 import { addFieldMap, delFieldMap, handleFieldMapping } from './IntegrationHelpers'
 
-export default function SalesmateFieldMap({
-  i,
-  formFields,
-  field,
-  salesmateConf,
-  setSalesmateConf
-}) {
-  const nonDisplayFields = [
-    'owner',
-    'pipeline',
-    'stage',
-    'primaryContact',
-    'type',
-    'tags',
-    'lostReason',
-    'source',
-    'status',
-    'priority',
-    'currency',
-    'isActive',
-    'primaryCompany'
-  ]
-  const requiredFields =
-    (salesmateConf?.salesmateFields &&
-      salesmateConf?.salesmateFields.filter(
-        (fld) => fld.required === true && !nonDisplayFields.includes(fld.key)
-      )) ||
-    []
-  const allNonRequiredFields =
-    (salesmateConf?.salesmateFields &&
-      salesmateConf?.salesmateFields.filter(
-        (fld) => fld.required === false && !nonDisplayFields.includes(fld.key)
-      )) ||
-    []
+export default function SalesmateFieldMap({ i, formFields, field, salesmateConf, setSalesmateConf }) {
+  const nonDisplayFields = ['owner', 'pipeline', 'stage', 'primaryContact', 'type', 'tags', 'lostReason', 'source', 'status', 'priority', 'currency', 'isActive', 'primaryCompany']
+  const requiredFields = salesmateConf?.salesmateFields && salesmateConf?.salesmateFields.filter(fld => fld.required === true && !nonDisplayFields.includes(fld.key)) || []
+  const allNonRequiredFields = salesmateConf?.salesmateFields && salesmateConf?.salesmateFields.filter(fld => fld.required === false && !nonDisplayFields.includes(fld.key)) || []
 
   const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
 
   return (
-    <div className="flx mt-2 mb-2 btcbi-field-map">
+    <div
+      className="flx mt-2 mb-2 btcbi-field-map"
+    >
       <div className="pos-rel flx">
         <div className="flx integ-fld-wrp">
-          <select
-            className="btcd-paper-inp mr-2"
-            name="formField"
-            value={field.formField || ''}
-            onChange={(ev) => handleFieldMapping(ev, i, salesmateConf, setSalesmateConf)}>
+          <select className="btcd-paper-inp mr-2" name="formField" value={field.formField || ''} onChange={(ev) => handleFieldMapping(ev, i, salesmateConf, setSalesmateConf)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
-            <optgroup label={__('Form Fields', 'bit-integrations')}>
-              {formFields?.map((f) => (
+            <optgroup label="Form Fields">
+              {
+                formFields?.map(f => (
+                  <option key={`ff-rm-${f.name}`} value={f.name}>
+                    {f.label}
+                  </option>
+                ))
+              }
+            </optgroup>
+            <option value="custom">{__('Custom...', 'bit-integrations')}</option>
+            <optgroup label={`General Smart Codes ${isPro ? '' : '(PRO)'}`}>
+              {isPro && SmartTagField?.map(f => (
                 <option key={`ff-rm-${f.name}`} value={f.name}>
                   {f.label}
                 </option>
               ))}
-            </optgroup>
-            <option value="custom">{__('Custom...', 'bit-integrations')}</option>
-            <optgroup
-              label={sprintf(
-                __('General Smart Codes %s', 'bit-integrations'),
-                isPro ? '' : `(${__('Pro', 'bit-integrations')})`
-              )}>
-              {isPro &&
-                SmartTagField?.map((f) => (
-                  <option key={`ff-rm-${f.name}`} value={f.name}>
-                    {f.label}
-                  </option>
-                ))}
             </optgroup>
           </select>
 
@@ -88,48 +53,41 @@ export default function SalesmateFieldMap({
             />
           )}
 
-          <select
-            className="btcd-paper-inp"
-            disabled={i < requiredFields.length}
-            name="salesmateFormField"
-            value={
-              i < requiredFields.length
-                ? requiredFields[i].key || ''
-                : field.salesmateFormField || ''
-            }
-            onChange={(ev) => handleFieldMapping(ev, i, salesmateConf, setSalesmateConf)}>
+          <select className="btcd-paper-inp" disabled={i < requiredFields.length} name="salesmateFormField" value={i < requiredFields.length ? (requiredFields[i].key || '') : (field.salesmateFormField || '')} onChange={(ev) => handleFieldMapping(ev, i, salesmateConf, setSalesmateConf)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
-            {i < requiredFields.length ? (
-              <option key={requiredFields[i].key} value={requiredFields[i].key}>
-                {requiredFields[i].label}
-              </option>
-            ) : (
-              allNonRequiredFields.map(({ key, label }) => (
-                <option key={key} value={key}>
-                  {label}
+            {
+              i < requiredFields.length ? (
+                <option key={requiredFields[i].key} value={requiredFields[i].key}>
+                  {requiredFields[i].label}
                 </option>
-              ))
-            )}
+              ) : (
+                allNonRequiredFields.map(({ key, label }) => (
+                  <option key={key} value={key}>
+                    {label}
+                  </option>
+                ))
+              )
+            }
           </select>
         </div>
-        {i >= requiredFields.length && (
-          <>
-            <button
-              onClick={() => addFieldMap(i, salesmateConf, setSalesmateConf)}
-              className="icn-btn sh-sm ml-2 mr-1"
-              type="button">
-              +
-            </button>
-            <button
-              onClick={() => delFieldMap(i, salesmateConf, setSalesmateConf)}
-              className="icn-btn sh-sm ml-1"
-              type="button"
-              aria-label="btn">
-              <span className="btcd-icn icn-trash-2" />
-            </button>
-          </>
-        )}
+        {
+          i >= requiredFields.length && (
+            <>
+              <button
+                onClick={() => addFieldMap(i, salesmateConf, setSalesmateConf)}
+                className="icn-btn sh-sm ml-2 mr-1"
+                type="button"
+              >
+                +
+              </button>
+              <button onClick={() => delFieldMap(i, salesmateConf, setSalesmateConf)} className="icn-btn sh-sm ml-1" type="button" aria-label="btn">
+                <span className="btcd-icn icn-trash-2" />
+              </button>
+            </>
+          )
+        }
       </div>
     </div>
   )
 }
+

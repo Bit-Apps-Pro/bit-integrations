@@ -1,145 +1,146 @@
-import { __ } from '../i18nwrap'
-
 /* eslint-disable import/prefer-default-export */
 export const SmartTagField = [
   {
     name: '_bi_current_time',
-    label: __('Current Date Time', 'bit-integrations')
+    label: 'Current Date Time',
   },
   {
     name: '_bi_admin_email',
-    label: __('Administrator Email', 'bit-integrations')
+    label: 'Administrator Email',
   },
   {
     name: '_bi_date_default',
-    label: __('Date (default format)', 'bit-integrations')
+    label: 'Date (default format)',
   },
   {
     name: '_bi_date.m/d/y',
-    label: __('Date(mm/dd/yyy)', 'bit-integrations')
+    label: 'Date(mm/dd/yyy)',
   },
   {
     name: '_bi_date.d/m/y',
-    label: __('Date(dd/mm/yyy)', 'bit-integrations')
+    label: 'Date(dd/mm/yyy)',
   },
   {
     name: '_bi_date.y/m/d',
-    label: __('Date(Y-m-d)', 'bit-integrations')
+    label: 'Date(Y-m-d)',
   },
   {
     name: '_bi_time',
-    label: __('Time', 'bit-integrations')
+    label: 'Time',
   },
   {
     name: '_bi_weekday',
-    label: __('Weekday', 'bit-integrations')
+    label: 'Weekday',
   },
   {
     name: '_bi_http_referer_url',
-    label: __('Referer URL', 'bit-integrations')
+    label: 'Referer URL',
   },
   {
     name: '_bi_ip_address',
-    label: __('User IP Address', 'bit-integrations')
+    label: 'User IP Address',
   },
   {
     name: '_bi_browser_name',
-    label: __('User Browser Name', 'bit-integrations')
+    label: 'User Browser Name',
   },
   {
     name: '_bi_operating_system',
-    label: __('User Operating System', 'bit-integrations')
+    label: 'User Operating System',
   },
   {
     name: '_bi_random_digit_num',
-    label: __('Random Digit Number', 'bit-integrations')
+    label: 'Random Digit Number',
   },
   {
     name: '_bi_user_id',
-    label: __('User ID', 'bit-integrations')
+    label: 'User ID',
   },
   {
     name: '_bi_user_first_name',
-    label: __('User First Name', 'bit-integrations')
+    label: 'User First Name',
   },
   {
     name: '_bi_user_last_name',
-    label: __('User Last Name', 'bit-integrations')
+    label: 'User Last Name',
   },
   {
     name: '_bi_user_display_name',
-    label: __('User Display Name', 'bit-integrations')
+    label: 'User Display Name',
   },
   {
     name: '_bi_user_nice_name',
-    label: __('User Nice Name', 'bit-integrations')
+    label: 'User Nice Name',
   },
   {
     name: '_bi_user_login_name',
-    label: __('User Login Name', 'bit-integrations')
+    label: 'User Login Name',
   },
   {
     name: '_bi_user_email',
-    label: __('User Email', 'bit-integrations')
+    label: 'User Email',
+
   },
   {
     name: '_bi_user_url',
-    label: __('User Url', 'bit-integrations')
+    label: 'User Url',
+
   },
   {
     name: '_bi_current_user_role',
-    label: __('Current User Role', 'bit-integrations')
+    label: 'Current User Role',
   },
   {
     name: '_bi_author_id',
-    label: __('Post Author ID', 'bit-integrations')
+    label: 'Post Author ID',
   },
   {
     name: '_bi_author_display',
-    label: __('Post Author Display Name', 'bit-integrations')
+    label: 'Post Author Display Name',
   },
   {
     name: '_bi_author_email',
-    label: __('Post Author Email', 'bit-integrations')
+    label: 'Post Author Email',
   },
   {
     name: '_bi_site_title',
-    label: __('Site Title', 'bit-integrations')
+    label: 'Site Title',
   },
   {
     name: '_bi_site_description',
-    label: __('Site Description', 'bit-integrations')
+    label: 'Site Description',
   },
   {
     name: '_bi_site_url',
-    label: __('Site URL', 'bit-integrations')
+    label: 'Site URL',
   },
   {
     name: '_bi_wp_local_codes',
-    label: __('WordPress Locale Code', 'bit-integrations')
+    label: 'WordPress Locale Code',
   },
   {
     name: '_bi_post_id',
-    label: __('Embedded Page / Post ID', 'bit-integrations')
+    label: 'Embedded Page / Post ID',
   },
   {
     name: '_bi_post_name',
-    label: __('Embedded Page / Post Name', 'bit-integrations')
+    label: 'Embedded Page / Post Name',
   },
   {
     name: '_bi_post_title',
-    label: __('Embedded Page / Post Title', 'bit-integrations')
+    label: 'Embedded Page / Post Title',
   },
   {
     name: '_bi_post_url',
-    label: __('Embedded Page / Post URL', 'bit-integrations')
+    label: 'Embedded Page / Post URL',
   },
   {
     name: '_bi_post_date',
-    label: __('Post Publish Date', 'bit-integrations')
+    label: 'Post Publish Date',
   },
   {
     name: '_bi_post_modified_date',
-    label: __('Post Modified Date', 'bit-integrations')
-  }
+    label: 'Post Modified Date',
+  },
+
 ]

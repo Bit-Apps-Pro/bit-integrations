@@ -7,14 +7,17 @@
 namespace BitCode\FI\Actions\GoogleSheet;
 
 use WP_Error;
-use BitCode\FI\Flow\FlowController;
+use BitCode\FI\Core\Util\IpTool;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Actions\GoogleSheet\RecordApiHelper;
+use BitCode\FI\Flow\FlowController;
 
 /**
  * Provide functionality for ZohoCrm integration
  */
 class GoogleSheetController
 {
+    
     private $_integrationID;
 
     public function __construct($integrationID)
@@ -29,18 +32,17 @@ class GoogleSheetController
      */
     public static function registerAjax()
     {
-        add_action('wp_ajax_gsheet_generate_token', [__CLASS__, 'generateTokens']);
-        add_action('wp_ajax_gsheet_refresh_spreadsheets', [__CLASS__, 'refreshSpreadsheetsAjaxHelper']);
-        add_action('wp_ajax_gsheet_refresh_worksheets', [__CLASS__, 'refreshWorksheetsAjaxHelper']);
-        add_action('wp_ajax_gsheet_refresh_worksheet_headers', [__CLASS__, 'refreshWorksheetHeadersAjaxHelper']);
-        add_action('wp_ajax_gsheet_get_credentials', [__CLASS__, 'getCredentials']);
+        add_action('wp_ajax_gsheet_generate_token', array(__CLASS__, 'generateTokens'));
+        add_action('wp_ajax_gsheet_refresh_spreadsheets', array(__CLASS__, 'refreshSpreadsheetsAjaxHelper'));
+        add_action('wp_ajax_gsheet_refresh_worksheets', array(__CLASS__, 'refreshWorksheetsAjaxHelper'));
+        add_action('wp_ajax_gsheet_refresh_worksheet_headers', array(__CLASS__, 'refreshWorksheetHeadersAjaxHelper'));
     }
 
     /**
      * Process ajax request for generate_token
      *
-     * @param object $requestsParams
-     *
+     * @param Object $requestsParams 
+     * 
      * @return JSON zoho crm api response and status
      */
     public static function generateTokens($requestsParams)
@@ -60,15 +62,14 @@ class GoogleSheetController
         }
 
         $apiEndpoint = 'https://oauth2.googleapis.com/token';
-        $authorizationHeader['Content-Type'] = 'application/x-www-form-urlencoded';
-        $requestParams = [
-            'grant_type'    => 'authorization_code',
-            'client_id'     => $requestsParams->clientId,
-            'client_secret' => $requestsParams->clientSecret,
-            'redirect_uri'  => urldecode($requestsParams->redirectURI),
-            'code'          => urldecode($requestsParams->code)
-        ];
-
+        $authorizationHeader["Content-Type"] = 'application/x-www-form-urlencoded';
+        $requestParams = array(
+            "grant_type" => "authorization_code",
+            "client_id" => $requestsParams->clientId,
+            "client_secret" => $requestsParams->clientSecret,
+            "redirect_uri" => \urldecode($requestsParams->redirectURI),
+            "code" => urldecode($requestsParams->code)
+        );
         $apiResponse = HttpHelper::post($apiEndpoint, $requestParams, $authorizationHeader);
 
         if (is_wp_error($apiResponse) || !empty($apiResponse->error)) {
@@ -77,20 +78,21 @@ class GoogleSheetController
                 400
             );
         }
-        $apiResponse->generates_on = time();
+        $apiResponse->generates_on = \time();
         wp_send_json_success($apiResponse, 200);
     }
-
     /**
      * Process ajax request for refresh crm modules
      *
-     * @param object $queryParams Request Params
-     *
+     * @param Object $queryParams Request Params
+     * 
      * @return JSON crm module data
      */
     public static function refreshSpreadsheetsAjaxHelper($queryParams)
     {
         if (empty($queryParams->tokenDetails)
+            || empty($queryParams->clientId)
+            || empty($queryParams->clientSecret)
         ) {
             wp_send_json_error(
                 __(
@@ -100,30 +102,30 @@ class GoogleSheetController
                 400
             );
         }
-        $spreadSheets = "https://www.googleapis.com/drive/v3/files?q=mimeType%20%3D%20'application%2Fvnd.google-apps.spreadsheet'";
         $response = [];
-        if ((\intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
+        if ((intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $response['tokenDetails'] = GoogleSheetController::refreshAccessToken($queryParams);
-            $authorizationHeader['Authorization'] = 'Bearer ' . $response['tokenDetails']->access_token;
-        } else {
-            $authorizationHeader['Authorization'] = "Bearer {$queryParams->tokenDetails->access_token}";
         }
 
-        $spreadSheetResponse = HttpHelper::get($spreadSheets, null, $authorizationHeader);
+        $workSheets = "https://www.googleapis.com/drive/v3/files?q=mimeType%20%3D%20'application%2Fvnd.google-apps.spreadsheet'";
+
+        $authorizationHeader["Authorization"] = "Bearer {$queryParams->tokenDetails->access_token}";
+        $workSheetResponse = HttpHelper::get($workSheets, null, $authorizationHeader);
+
         $allSpreadsheet = [];
-        if (!is_wp_error($spreadSheetResponse) && empty($spreadSheetResponse->response->error)) {
-            $spreadsheets = $spreadSheetResponse->files;
+        if (!is_wp_error($workSheetResponse) && empty($workSheetResponse->response->error)) {
+            $spreadsheets = $workSheetResponse->files;
             foreach ($spreadsheets as $spreadsheet) {
-                $allSpreadsheet[$spreadsheet->name] = (object) [
-                    'spreadsheetId'   => $spreadsheet->id,
+                $allSpreadsheet[$spreadsheet->name] = (object) array(
+                    'spreadsheetId' => $spreadsheet->id,
                     'spreadsheetName' => $spreadsheet->name
-                ];
+                );
             }
             uksort($allSpreadsheet, 'strnatcasecmp');
             $response['spreadsheets'] = $allSpreadsheet;
         } else {
             wp_send_json_error(
-                $spreadSheetResponse->response->error->message,
+                $workSheetResponse->response->error->message,
                 400
             );
         }
@@ -132,17 +134,18 @@ class GoogleSheetController
         }
         wp_send_json_success($response, 200);
     }
-
     /**
      * Process ajax request for refesh crm layouts
      *
-     * @param object $queryParams Request Params
-     *
+     * @param Object $queryParams Request Params
+     * 
      * @return JSON crm layout data
      */
     public static function refreshWorksheetsAjaxHelper($queryParams)
     {
-        if (empty($queryParams->tokenDetails)
+
+        if (empty($queryParams->clientId)
+            || empty($queryParams->clientSecret)
             || empty($queryParams->spreadsheetId)
         ) {
             wp_send_json_error(
@@ -154,13 +157,13 @@ class GoogleSheetController
             );
         }
         $response = [];
-        if ((\intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
+        if ((intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $response['tokenDetails'] = GoogleSheetController::refreshAccessToken($queryParams);
         }
 
-        $worksheetsMetaApiEndpoint = "https://sheets.googleapis.com/v4/spreadsheets/{$queryParams->spreadsheetId}?&fields=sheets.properties";
+        $worksheetsMetaApiEndpoint = "https://sheets.googleapis.com/v4/spreadsheets/$queryParams->spreadsheetId?&fields=sheets.properties";
 
-        $authorizationHeader['Authorization'] = "Bearer {$queryParams->tokenDetails->access_token}";
+        $authorizationHeader["Authorization"] = "Bearer {$queryParams->tokenDetails->access_token}";
         $worksheetsMetaResponse = HttpHelper::get($worksheetsMetaApiEndpoint, null, $authorizationHeader);
 
         if (!is_wp_error($worksheetsMetaResponse)) {
@@ -174,7 +177,7 @@ class GoogleSheetController
             );
         }
         if (!empty($response['tokenDetails']) && $response['tokenDetails'] && !empty($queryParams->id)) {
-            $response['queryWorkbook'] = $queryParams->workbook;
+            $response["queryWorkbook"] = $queryParams->workbook;
             GoogleSheetController::saveRefreshedToken($queryParams->id, $response['tokenDetails'], $response);
         }
         wp_send_json_success($response, 200);
@@ -182,15 +185,17 @@ class GoogleSheetController
 
     /**
      * Process ajax request for refesh crm layouts
-     *
-     * @param object $queryParams Request Params
-     *
+     * 
+     * @param Object $queryParams Request Params
+     * 
      * @return JSON crm layout data
      */
     public static function refreshWorksheetHeadersAjaxHelper($queryParams)
     {
         if (empty($queryParams->worksheetName)
             || empty($queryParams->tokenDetails)
+            || empty($queryParams->clientId)
+            || empty($queryParams->clientSecret)
             || empty($queryParams->header)
             || empty($queryParams->headerRow)
         ) {
@@ -203,7 +208,7 @@ class GoogleSheetController
             );
         }
         $response = [];
-        if ((\intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
+        if ((intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $response['tokenDetails'] = GoogleSheetController::refreshAccessToken($queryParams);
         }
         $headerRow = $queryParams->headerRow;
@@ -217,92 +222,40 @@ class GoogleSheetController
 
         $worksheetHeadersMetaApiEndpoint = "https://sheets.googleapis.com/v4/spreadsheets/{$queryParams->spreadsheetId}/values/{$queryParams->worksheetName}!{$range}?majorDimension={$queryParams->header}";
 
-        $authorizationHeader['Authorization'] = "Bearer {$queryParams->tokenDetails->access_token}";
+        $authorizationHeader["Authorization"] = "Bearer {$queryParams->tokenDetails->access_token}";
         $worksheetHeadersMetaResponse = HttpHelper::get($worksheetHeadersMetaApiEndpoint, null, $authorizationHeader);
 
-        if (is_wp_error($worksheetHeadersMetaResponse)) {
+        // wp_send_json_success($worksheetHeadersMetaResponse, 200);
+
+
+        if (!is_wp_error($worksheetHeadersMetaResponse)) {
+
+            $allHeaders = $worksheetHeadersMetaResponse->values[0];
+
+            if ($allHeaders === null) {
+                $response['worksheet_headers'] = [];
+            } else {
+                $response['worksheet_headers'] = $allHeaders;
+            }
+        } else {
             wp_send_json_error(
                 $worksheetHeadersMetaResponse->status === 'error' ? $worksheetHeadersMetaResponse->message : 'Unknown',
                 400
             );
         }
-
-        $response['worksheet_headers'] = [];
-        $allHeaders = empty($worksheetHeadersMetaResponse->values[0]) ? [] : $worksheetHeadersMetaResponse->values[0];
-
-        foreach ($allHeaders as $key => $header) {
-            $response['worksheet_headers'][] = "{$header}_{$key}";
-        }
-
         if (!empty($response['tokenDetails']) && $response['tokenDetails'] && !empty($queryParams->id)) {
-            $response['queryModule'] = $queryParams->module;
+            $response["queryModule"] = $queryParams->module;
             GoogleSheetController::saveRefreshedToken($queryParams->id, $response['tokenDetails'], $response);
         }
-
         wp_send_json_success($response, 200);
-    }
-
-    public function execute($integrationData, $fieldValues)
-    {
-        $integrationDetails = $integrationData->flow_details;
-
-        //    wp_send_json_success($integrationDetails);
-
-        $tokenDetails = $integrationDetails->tokenDetails;
-        $spreadsheetId = $integrationDetails->spreadsheetId;
-        $worksheetName = $integrationDetails->worksheetName;
-        $headerRow = $integrationDetails->headerRow;
-        $header = $integrationDetails->header;
-        $fieldMap = $integrationDetails->field_map;
-        $actions = $integrationDetails->actions;
-        $defaultDataConf = $integrationDetails->default;
-        // wp_send_json_success($fieldMap);
-        if (empty($tokenDetails)
-            || empty($spreadsheetId)
-            || empty($worksheetName)
-            || empty($fieldMap)
-        ) {
-            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Google sheet'));
-        }
-
-        if ((\intval($tokenDetails->generates_on) + (55 * 60)) < time()) {
-            $requiredParams['clientId'] = $integrationDetails->clientId;
-            $requiredParams['clientSecret'] = $integrationDetails->clientSecret;
-            $requiredParams['tokenDetails'] = $tokenDetails;
-            $newTokenDetails = GoogleSheetController::refreshAccessToken((object) $requiredParams);
-            if ($newTokenDetails) {
-                GoogleSheetController::saveRefreshedToken($this->_integrationID, $newTokenDetails);
-                $tokenDetails = $newTokenDetails;
-            }
-        }
-
-        // $actions = $integrationDetails->actions;
-        $recordApiHelper = new RecordApiHelper($tokenDetails, $this->_integrationID);
-
-        $gsheetApiResponse = $recordApiHelper->execute(
-            $spreadsheetId,
-            $worksheetName,
-            $headerRow,
-            $header,
-            $actions,
-            $defaultDataConf,
-            $fieldValues,
-            $fieldMap
-        );
-
-        if (is_wp_error($gsheetApiResponse)) {
-            return $gsheetApiResponse;
-        }
-
-        return $gsheetApiResponse;
     }
 
     /**
      * Helps to refresh zoho crm access_token
      *
-     * @param array $apiData Contains required data for refresh access token
-     *
-     * @return JSON $tokenDetails API token details
+     * @param Array $apiData Contains required data for refresh access token
+     * 
+     * @return JSON  $tokenDetails API token details
      */
     protected static function refreshAccessToken($apiData)
     {
@@ -314,30 +267,28 @@ class GoogleSheetController
         }
         $tokenDetails = $apiData->tokenDetails;
 
-        $apiEndpoint = 'https://oauth2.googleapis.com/token';
-        $requestParams = [
-            'grant_type'    => 'refresh_token',
-            'client_id'     => $apiData->clientId,
-            'client_secret' => $apiData->clientSecret,
-            'refresh_token' => $tokenDetails->refresh_token,
-        ];
+        $apiEndpoint = "https://oauth2.googleapis.com/token";
+        $requestParams = array(
+            "grant_type" => "refresh_token",
+            "client_id" => $apiData->clientId,
+            "client_secret" => $apiData->clientSecret,
+            "refresh_token" => $tokenDetails->refresh_token,
+        );
 
         $apiResponse = HttpHelper::post($apiEndpoint, $requestParams);
         if (is_wp_error($apiResponse) || !empty($apiResponse->error)) {
             return false;
         }
-        $tokenDetails->generates_on = time();
+        $tokenDetails->generates_on = \time();
         $tokenDetails->access_token = $apiResponse->access_token;
-
         return $tokenDetails;
     }
 
     /**
      * Save updated access_token to avoid unnecessary token generation
      *
-     * @param int        $integrationID ID of Google Sheet Integration
-     * @param Obeject    $tokenDetails  refreshed token info
-     * @param null|mixed $others
+     * @param Integer $integrationID ID of Google Sheet Integration
+     * @param Obeject $tokenDetails  refreshed token info
      *
      * @return null
      */
@@ -366,6 +317,61 @@ class GoogleSheetController
             $newDetails->default->worksheets->headers->{$others['worksheet']} = $others['worksheet_headers'];
         }
 
-        $flow->update($integrationID, ['flow_details' => wp_json_encode($newDetails)]);
+        $flow->update($integrationID, ['flow_details' => \json_encode($newDetails)]);
+    }
+
+    public function execute($integrationData, $fieldValues)
+    {
+
+        $integrationDetails = $integrationData->flow_details;
+
+        //    wp_send_json_success($integrationDetails);
+
+        $tokenDetails = $integrationDetails->tokenDetails;
+        $spreadsheetId = $integrationDetails->spreadsheetId;
+        $worksheetName = $integrationDetails->worksheetName;
+        $headerRow = $integrationDetails->headerRow;
+        $header = $integrationDetails->header;
+        $fieldMap = $integrationDetails->field_map;
+        $actions = $integrationDetails->actions;
+        $defaultDataConf = $integrationDetails->default;
+        // wp_send_json_success($fieldMap);
+        if (empty($tokenDetails)
+            || empty($spreadsheetId)
+            || empty($worksheetName)
+            || empty($fieldMap)
+        ) {
+            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for Google sheet api', 'bit-integrations'));
+        }
+
+        if ((intval($tokenDetails->generates_on) + (55 * 60)) < time()) {
+            $requiredParams['clientId'] = $integrationDetails->clientId;
+            $requiredParams['clientSecret'] = $integrationDetails->clientSecret;
+            $requiredParams['tokenDetails'] = $tokenDetails;
+            $newTokenDetails = GoogleSheetController::refreshAccessToken((object)$requiredParams);
+            if ($newTokenDetails) {
+                GoogleSheetController::saveRefreshedToken($this->_integrationID, $newTokenDetails);
+                $tokenDetails = $newTokenDetails;
+            }
+        }
+
+        // $actions = $integrationDetails->actions;
+        $recordApiHelper = new RecordApiHelper($tokenDetails, $this->_integrationID);
+
+        $gsheetApiResponse = $recordApiHelper->execute(
+            $spreadsheetId,
+            $worksheetName,
+            $headerRow,
+            $header,
+            $actions,
+            $defaultDataConf,
+            $fieldValues,
+            $fieldMap
+        );
+
+        if (is_wp_error($gsheetApiResponse)) {
+            return $gsheetApiResponse;
+        }
+        return $gsheetApiResponse;
     }
 }

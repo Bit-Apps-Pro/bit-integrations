@@ -22,7 +22,7 @@ function EditVbout({ allIntegURL }) {
   const [loading, setLoading] = useState({
     list: false,
     field: false,
-    auth: false
+    auth: false,
   })
 
   const [snack, setSnackbar] = useState({ show: false })
@@ -33,15 +33,7 @@ function EditVbout({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
-    saveActionConf({
-      flow,
-      allIntegURL,
-      conf: vboutConf,
-      navigate,
-      edit: 1,
-      setIsLoading,
-      setSnackbar
-    })
+    saveActionConf({ flow, allIntegURL, conf: vboutConf, navigate, edit: 1, setIsLoading, setSnackbar })
   }
 
   return (
@@ -50,14 +42,7 @@ function EditVbout({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, vboutConf, setVboutConf)}
-          name="name"
-          value={vboutConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, vboutConf, setVboutConf)} name="name" value={vboutConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
 

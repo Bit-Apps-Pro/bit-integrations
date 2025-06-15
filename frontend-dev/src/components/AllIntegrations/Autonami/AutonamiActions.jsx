@@ -24,7 +24,10 @@ export default function AutonamiActions({ autonamiConf, setAutonamiConf }) {
         className="wdt-200 mt-4 mr-2"
         value="skip_if_exists"
         title={__('Skip exist Contact', 'bit-integrations')}
-        subTitle={__('Skip if contact already exist in Autonami', 'bit-integrations')}
+        subTitle={__(
+          'Skip if contact already exist in Autonami',
+          'bit-integrations',
+        )}
       />
     </div>
   )

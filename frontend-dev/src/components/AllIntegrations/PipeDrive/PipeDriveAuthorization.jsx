@@ -7,15 +7,7 @@ import { handleAuthorize } from './PipeDriveCommonFunc'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 
-export default function PipeDriveAuthorization({
-  pipeDriveConf,
-  setPipeDriveConf,
-  step,
-  setstep,
-  isLoading,
-  setIsLoading,
-  isInfo
-}) {
+export default function PipeDriveAuthorization({ pipeDriveConf, setPipeDriveConf, step, setstep, isLoading, setIsLoading, isInfo }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', api_key: '' })
   const { pipeDrive } = tutorialLinks
@@ -36,11 +28,11 @@ export default function PipeDriveAuthorization({
     setPipeDriveConf(newConf)
   }
   const note = `
-    <h4>${__('Step of generate API token:', 'bit-integrations')}</h4>
+    <h4> Step of generate API token:</h4>
     <ul>
-      <li>${__('Goto', 'bit-integrations')} <a href="https://app.pipedrive.com/settings/api">${__('Generate API Token', 'bit-integrations')}</a></li>
-      <li>${__('Copy the <b>Token</b> and paste into <b>API Token</b> field of your authorization form.', 'bit-integrations')}</li>
-      <li>${__('Finally, click <b>Authorize</b> button.', 'bit-integrations')}</li>
+      <li>Goto <a href="https://app.pipedrive.com/settings/api">Generate API Token</a></li>
+      <li>Copy the <b>Token</b> and paste into <b>API Token</b> field of your authorization form.</li>
+      <li>Finally, click <b>Authorize</b> button.</li>
   </ul>
   `
 
@@ -49,12 +41,21 @@ export default function PipeDriveAuthorization({
       className="btcd-stp-page"
       style={{
         ...{ width: step === 1 && 900 },
-        ...{ height: step === 1 && 'auto' }
-      }}>
+        ...{ height: step === 1 && 'auto' },
+      }}
+    >
       {pipeDrive?.youTubeLink && (
-        <TutorialLink title="Pipedrive" youTubeLink={pipeDrive?.youTubeLink} />
+        <TutorialLink
+          title={pipeDrive?.title}
+          youTubeLink={pipeDrive?.youTubeLink}
+        />
       )}
-      {pipeDrive?.docLink && <TutorialLink title="Pipedrive" docLink={pipeDrive?.docLink} />}
+      {pipeDrive?.docLink && (
+        <TutorialLink
+          title={pipeDrive?.title}
+          docLink={pipeDrive?.docLink}
+        />
+      )}
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>
@@ -84,13 +85,14 @@ export default function PipeDriveAuthorization({
       <div style={{ color: 'red', fontSize: '15px' }}>{error.api_key}</div>
 
       <small className="d-blk mt-3">
-        {__('To Get API Token, Please Visit', 'bit-integrations')}
+        {__('To Get API token, Please Visit', 'bit-integrations')}
         &nbsp;
         <a
           className="btcd-link"
           href="https://app.pipedrive.com/settings/api"
           target="_blank"
-          rel="noreferrer">
+          rel="noreferrer"
+        >
           {__('PipeDrive API Token', 'bit-integrations')}
         </a>
       </small>
@@ -100,21 +102,30 @@ export default function PipeDriveAuthorization({
       {!isInfo && (
         <div>
           <button
-            onClick={() => handleAuthorize(pipeDriveConf, setError, setisAuthorized, setIsLoading)}
-            className="btn btcd-btn-lg purple sh-sm flx"
+            onClick={() => handleAuthorize(
+              pipeDriveConf,
+              setError,
+              setisAuthorized,
+              setIsLoading,
+            )}
+            className="btn btcd-btn-lg green sh-sm flx"
             type="button"
-            disabled={isAuthorized || isLoading}>
+            disabled={isAuthorized || isLoading}
+          >
             {isAuthorized
               ? __('Authorized ✔', 'bit-integrations')
               : __('Authorize', 'bit-integrations')}
-            {isLoading && <LoaderSm size="20" clr="#022217" className="ml-2" />}
+            {isLoading && (
+              <LoaderSm size="20" clr="#022217" className="ml-2" />
+            )}
           </button>
           <br />
           <button
             onClick={nextPage}
-            className="btn ml-auto btcd-btn-lg purple sh-sm flx"
+            className="btn ml-auto btcd-btn-lg green sh-sm flx"
             type="button"
-            disabled={!isAuthorized}>
+            disabled={!isAuthorized}
+          >
             {__('Next', 'bit-integrations')}
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>

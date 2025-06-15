@@ -3,11 +3,11 @@
 /**
  * Trello Integration
  */
-
 namespace BitCode\FI\Actions\Trello;
 
 use WP_Error;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Actions\Trello\RecordApiHelper;
 
 /**
  * Provide functionality for Trello integration
@@ -15,9 +15,7 @@ use BitCode\FI\Core\Util\HttpHelper;
 class TrelloController
 {
     private $baseUrl = 'https://api.trello.com/1/';
-
     private $_integrationID;
-
     private $accessToken;
 
     public function fetchAllBoards($queryParams)
@@ -45,7 +43,7 @@ class TrelloController
             $boardLists = $allBoardResponse;
             foreach ($boardLists as $boardList) {
                 $allList[] = (object) [
-                    'boardId'   => $boardList->id,
+                    'boardId' => $boardList->id,
                     'boardName' => $boardList->name
                 ];
             }
@@ -84,7 +82,7 @@ class TrelloController
             $singleBoardLists = $getListsResponse;
             foreach ($singleBoardLists as $singleBoardList) {
                 $allList[] = (object) [
-                    'listId'   => $singleBoardList->id,
+                    'listId' => $singleBoardList->id,
                     'listName' => $singleBoardList->name
                 ];
             }
@@ -92,37 +90,18 @@ class TrelloController
             $response['alllists'] = $allList;
         } else {
             wp_send_json_error(
-                $getListsResponse->response->error->message,
+                $allBoardResponse->response->error->message,
                 400
             );
         }
         wp_send_json_success($response, 200);
     }
 
-    public function fetchAllCustomFields($queryParams)
-    {
-        if (
-            empty($queryParams->accessToken)
-            || empty($queryParams->clientId)
-        ) {
-            wp_send_json_error(
-                __(
-                    'Requested parameter is empty',
-                    'bit-integrations'
-                ),
-                400
-            );
-        }
-
-        $allFields = apply_filters('btcbi_trello_get_all_custom_fields', [], $queryParams->boardId, $queryParams->clientId, $queryParams->accessToken);
-        wp_send_json_success($allFields, 200);
-    }
-
     /**
      * Save updated access_token to avoid unnecessary token generation
      *
-     * @param object $integrationData Details of flow
-     * @param array  $fieldValues     Data to send Mail Chimp
+     * @param Object $integrationData Details of flow
+     * @param Array  $fieldValues     Data to send Mail Chimp
      *
      * @return null
      */
@@ -130,24 +109,32 @@ class TrelloController
     {
         $integrationDetails = $integrationData->flow_details;
         $integId = $integrationData->id;
+        $listId = $integrationDetails->listId;
+        $tags = $integrationDetails->tags;
         $fieldMap = $integrationDetails->field_map;
-        $customFieldMap = $integrationDetails->custom_field_map ?? [];
+        $actions = $integrationDetails->actions;
         $defaultDataConf = $integrationDetails->default;
 
         if (
-            empty($integrationDetails->listId)
+            empty($listId)
             || empty($fieldMap)
             || empty($defaultDataConf)
         ) {
-            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Trello'));
+            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for Trello api', 'bit-integrations'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
-        $trelloApiResponse = $recordApiHelper->execute($fieldValues, $fieldMap, $customFieldMap);
+        $trelloApiResponse = $recordApiHelper->execute(
+            $listId,
+            $tags,
+            $defaultDataConf,
+            $fieldValues,
+            $fieldMap,
+            $actions
+        );
 
         if (is_wp_error($trelloApiResponse)) {
             return $trelloApiResponse;
         }
-
         return $trelloApiResponse;
     }
 }

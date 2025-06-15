@@ -3,12 +3,11 @@
 /**
  * ZohoRecruit Record Api
  */
-
 namespace BitCode\FI\Actions\ZohoAnalytics;
 
-use BitCode\FI\Core\Util\ApiResponse as UtilApiResponse;
-use BitCode\FI\Core\Util\FieldValueHandler;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Core\Util\FieldValueHandler;
+use BitCode\FI\Core\Util\ApiResponse as UtilApiResponse;
 use BitCode\FI\Log\LogHandler;
 
 /**
@@ -17,15 +16,13 @@ use BitCode\FI\Log\LogHandler;
 class RecordApiHelper
 {
     private $_defaultHeader;
-
     private $_apiDomain;
-
     private $_tokenDetails;
 
     public function __construct($tokenDetails, $integId, $logID)
     {
         $this->_defaultHeader['Authorization'] = "Zoho-oauthtoken {$tokenDetails->access_token}";
-        $this->_apiDomain = urldecode($tokenDetails->api_domain);
+        $this->_apiDomain = \urldecode($tokenDetails->api_domain);
         $this->_tokenDetails = $tokenDetails;
         $this->_integrationID = $integId;
         $this->_logID = $logID;
@@ -35,7 +32,6 @@ class RecordApiHelper
     public function insertRecord($workspace, $table, $ownerEmail, $dataCenter, $data)
     {
         $insertRecordEndpoint = "https://analyticsapi.zoho.{$dataCenter}/api/{$ownerEmail}/{$workspace}/{$table}?ZOHO_ACTION=ADDROW&ZOHO_OUTPUT_FORMAT=JSON&ZOHO_ERROR_FORMAT=JSON&ZOHO_API_VERSION=1.0";
-
         return HttpHelper::post($insertRecordEndpoint, $data, $this->_defaultHeader);
     }
 

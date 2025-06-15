@@ -9,7 +9,7 @@ import GoogleCalendarReminderFieldMap from './GoogleCalendarReminderFieldMap'
 import { addReminderFieldMap } from './IntegrationHelpers'
 
 export default function GoogleCalendarActions({ googleCalendarConf, setGoogleCalendarConf }) {
-  const [actionMdl, setActionMdl] = useState({ show: false, action: () => {} })
+  const [actionMdl, setActionMdl] = useState({ show: false, action: () => { } })
   const actionHandler = (e, type) => {
     const newConf = { ...googleCalendarConf }
     if (e.target.checked) {
@@ -20,18 +20,11 @@ export default function GoogleCalendarActions({ googleCalendarConf, setGoogleCal
       }
       if (type === 'allDayEvent' && newConf.actions.skipIfSlotNotEmpty === true) {
         newConf.actions.allDayEvent = false
-        toast.error(
-          __('"skip if slot not free" can\'t be selected for this action.', 'bit-integrations')
-        )
+        toast.error(__('"skip if slot not free" can\'t be selected for this action.', 'bit-integrations'))
       }
       if (type === 'skipIfSlotNotEmpty' && newConf.actions.allDayEvent === true) {
         newConf.actions.skipIfSlotNotEmpty = false
-        toast.error(
-          __(
-            'Slot checking only work for event with dateTime, please unselect "all day event".',
-            'bit-integrations'
-          )
-        )
+        toast.error(__('Slot checking only work for event with dateTime, please unselect "all day event".', 'bit-integrations'))
       }
     } else {
       delete newConf.actions[type]
@@ -55,7 +48,10 @@ export default function GoogleCalendarActions({ googleCalendarConf, setGoogleCal
         className={`wdt-200 mt-4 mr-2 ${googleCalendarConf.actions?.skipIfSlotNotEmpty ? 'input-disable' : ''}`}
         value="allDayEvent"
         title={__('All Day Event', 'bit-integrations')}
-        subTitle={__('If checked, Events will create without time', 'bit-integrations')}
+        subTitle={__(
+          'If checked, Events will create without time',
+          'bit-integrations',
+        )}
       />
 
       <TableCheckBox
@@ -64,7 +60,10 @@ export default function GoogleCalendarActions({ googleCalendarConf, setGoogleCal
         className={`wdt-200 mt-4 mr-2 ${googleCalendarConf.actions?.allDayEvent ? 'input-disable' : ''}`}
         value="skipIfSlotNotEmpty"
         title={__('Skip If Slot Not Free', 'bit-integrations')}
-        subTitle={__('If checked, Event create will skip if slot not free', 'bit-integrations')}
+        subTitle={__(
+          'If checked, Event create will skip if slot not free',
+          'bit-integrations',
+        )}
       />
 
       <TitleModal action={openReminderMdl}>
@@ -76,43 +75,16 @@ export default function GoogleCalendarActions({ googleCalendarConf, setGoogleCal
           title={__('Set Reminders', 'bit-integrations')}
         />
       </TitleModal>
-      <Modal
-        md
-        show={actionMdl.show === 'reminders'}
-        setModal={clsActionMdl}
-        title={__('Set Reminders', 'bit-integrations')}>
+      <Modal md show={actionMdl.show === 'reminders'} setModal={clsActionMdl} title={__('Set Reminders', 'bit-integrations')}>
         <div className="flx flx-around mt-4 mb-2" style={{ marginRight: 40 }}>
-          <div className="txt-dp">
-            <b>{__('Notification Type', 'bit-integrations')}</b>
-          </div>
-          <div className="txt-dp">
-            <b>{__('Minutes', 'bit-integrations')}</b>
-          </div>
+          <div className="txt-dp"><b>{__('Notification Type', 'bit-integrations')}</b></div>
+          <div className="txt-dp"><b>{__('Minutes', 'bit-integrations')}</b></div>
         </div>
-        {googleCalendarConf.reminder_field_map &&
-          googleCalendarConf.reminder_field_map.map((reminderItem, rIndex) => (
-            <GoogleCalendarReminderFieldMap
-              key={`r-fm-${rIndex + 9}`}
-              rIndex={rIndex}
-              reminderField={reminderItem}
-              googleCalendarConf={googleCalendarConf}
-              setGoogleCalendarConf={setGoogleCalendarConf}
-            />
-          ))}
+        {googleCalendarConf.reminder_field_map && googleCalendarConf.reminder_field_map.map((reminderItem, rIndex) => (
+          <GoogleCalendarReminderFieldMap key={`r-fm-${rIndex + 9}`} rIndex={rIndex} reminderField={reminderItem} googleCalendarConf={googleCalendarConf} setGoogleCalendarConf={setGoogleCalendarConf} />
+        ))}
         <div className="txt-center mt-2" style={{ marginRight: 28 }}>
-          <button
-            onClick={() =>
-              addReminderFieldMap(
-                googleCalendarConf.reminder_field_map.length,
-                googleCalendarConf,
-                setGoogleCalendarConf,
-                false
-              )
-            }
-            className="icn-btn sh-sm"
-            type="button">
-            +
-          </button>
+          <button onClick={() => addReminderFieldMap(googleCalendarConf.reminder_field_map.length, googleCalendarConf, setGoogleCalendarConf, false)} className="icn-btn sh-sm" type="button">+</button>
         </div>
       </Modal>
     </div>

@@ -46,35 +46,19 @@ function RequestHeaders({ formFields, webHooks, setWebHooks, isInfo, setTab }) {
           {webHooks.headers?.map((itm, childindx) => (
             <div className="tr" key={`fu-1${childindx * 3}`}>
               <div className="td">
-                <input
-                  className="btcd-paper-inp p-i-sm"
-                  onChange={(e) => handleHeader(e, childindx)}
-                  name="key"
-                  type="text"
-                  value={itm.key}
-                  disabled={isInfo}
-                />
+                <input className="btcd-paper-inp p-i-sm" onChange={e => handleHeader(e, childindx)} name="key" type="text" value={itm.key} disabled={isInfo} />
               </div>
               <div className="td">
-                <input
-                  className="btcd-paper-inp p-i-sm"
-                  onChange={(e) => handleHeader(e, childindx)}
-                  name="value"
-                  type="text"
-                  value={itm.value}
-                  disabled={isInfo}
-                />
+                <input className="btcd-paper-inp p-i-sm" onChange={e => handleHeader(e, childindx)} name="value" type="text" value={itm.value} disabled={isInfo} />
               </div>
               {!isInfo && (
                 <div className="flx p-atn">
-                  <Button onClick={() => delParam(childindx)} icn>
-                    <TrashIcn size={16} />
-                  </Button>
+                  <Button onClick={() => delParam(childindx)} icn><TrashIcn size={16} /></Button>
                   <MultiSelect
-                    options={formFields.map((f) => ({ label: f.label, value: `\${${f.name}}` }))}
+                    options={formFields.map(f => ({ label: f.label, value: `\${${f.name}}` }))}
                     className="btcd-paper-drpdwn wdt-200 ml-2"
                     singleSelect
-                    onChange={(val) => setFromField(val, childindx)}
+                    onChange={val => setFromField(val, childindx)}
                     defaultValue={itm.value}
                   />
                 </div>
@@ -82,9 +66,7 @@ function RequestHeaders({ formFields, webHooks, setWebHooks, isInfo, setTab }) {
             </div>
           ))}
           {!isInfo && (
-            <Button onClick={() => addParam(webHooks, setWebHooks)} className="add-pram" icn>
-              <CloseIcn size="14" className="icn-rotate-45" />
-            </Button>
+            <Button onClick={() => addParam(webHooks, setWebHooks)} className="add-pram" icn><CloseIcn size="14" className="icn-rotate-45" /></Button>
           )}
         </div>
       </div>

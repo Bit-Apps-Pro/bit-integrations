@@ -7,15 +7,7 @@ import { sendGridAuthentication } from './SendGridCommonFunc'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 
-export default function SendGridAuthorization({
-  sendGridConf,
-  setSendGridConf,
-  step,
-  setStep,
-  loading,
-  setLoading,
-  isInfo
-}) {
+export default function SendGridAuthorization({ sendGridConf, setSendGridConf, step, setStep, loading, setLoading, isInfo }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', secretKey: '' })
   const { sendGrid } = tutorialLinks
@@ -29,7 +21,7 @@ export default function SendGridAuthorization({
     setStep(2)
   }
 
-  const handleInput = (e) => {
+  const handleInput = e => {
     const newConf = { ...sendGridConf }
     const rmError = { ...error }
     rmError[e.target.name] = ''
@@ -39,84 +31,42 @@ export default function SendGridAuthorization({
   }
 
   return (
-    <div
-      className="btcd-stp-page"
-      style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
+    <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
       {sendGrid?.youTubeLink && (
-        <TutorialLink title="SendGrid" youTubeLink={sendGrid?.youTubeLink} />
+        <TutorialLink
+          title={sendGrid?.title}
+          youTubeLink={sendGrid?.youTubeLink}
+        />
       )}
-      {sendGrid?.docLink && <TutorialLink title="SendGrid" docLink={sendGrid?.docLink} />}
+      {sendGrid?.docLink && (
+        <TutorialLink
+          title={sendGrid?.title}
+          docLink={sendGrid?.docLink}
+        />
+      )}
 
-      <div className="mt-3">
-        <b>{__('Integration Name:', 'bit-integrations')}</b>
-      </div>
-      <input
-        className="btcd-paper-inp w-6 mt-1"
-        onChange={handleInput}
-        name="name"
-        value={sendGridConf.name}
-        type="text"
-        placeholder={__('Integration Name...', 'bit-integrations')}
-        disabled={isInfo}
-      />
+      <div className="mt-3"><b>{__('Integration Name:', 'bit-integrations')}</b></div>
+      <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="name" value={sendGridConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} disabled={isInfo} />
 
-      <div className="mt-3">
-        <b>{__('API Key:', 'bit-integrations')}</b>
-      </div>
-      <input
-        className="btcd-paper-inp w-6 mt-1"
-        onChange={handleInput}
-        name="apiKey"
-        value={sendGridConf.apiKey}
-        type="text"
-        placeholder={__('Your Api Key', 'bit-integrations')}
-        disabled={isInfo}
-      />
-      <div className="mt-3" style={{ color: 'red', fontSize: '15px' }}>
-        {error.apiKey}
-      </div>
+      <div className="mt-3"><b>{__('API Key:', 'bit-integrations')}</b></div>
+      <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="apiKey" value={sendGridConf.apiKey} type="text" placeholder={__('Your Api Key', 'bit-integrations')} disabled={isInfo} />
+      <div className="mt-3" style={{ color: 'red', fontSize: '15px' }}>{error.apiKey}</div>
       <small className="d-blk mt-3">
         {__('To Get API key & Secret Key, Please Visit', 'bit-integrations')}
         &nbsp;
-        <a
-          className="btcd-link"
-          href="https://app.sendgrid.com/settings/api_keys"
-          target="_blank"
-          rel="noreferrer">
-          {__('SendGrid API Token', 'bit-integrations')}
-        </a>
+        <a className="btcd-link" href="https://app.sendgrid.com/settings/api_keys" target="_blank" rel="noreferrer">{__('SendGrid API Token', 'bit-integrations')}</a>
       </small>
       <br />
       <br />
 
       {!isInfo && (
         <div>
-          <button
-            onClick={() =>
-              sendGridAuthentication(
-                sendGridConf,
-                setSendGridConf,
-                setError,
-                setIsAuthorized,
-                loading,
-                setLoading,
-                'authentication'
-              )
-            }
-            className="btn btcd-btn-lg purple sh-sm flx"
-            type="button"
-            disabled={isAuthorized || loading.auth}>
-            {isAuthorized
-              ? __('Authorized ✔', 'bit-integrations')
-              : __('Authorize', 'bit-integrations')}
+          <button onClick={() => sendGridAuthentication(sendGridConf, setSendGridConf, setError, setIsAuthorized, loading, setLoading, 'authentication')} className="btn btcd-btn-lg green sh-sm flx" type="button" disabled={isAuthorized || loading.auth}>
+            {isAuthorized ? __('Authorized ✔', 'bit-integrations') : __('Authorize', 'bit-integrations')}
             {loading.auth && <LoaderSm size="20" clr="#022217" className="ml-2" />}
           </button>
           <br />
-          <button
-            onClick={nextPage}
-            className="btn ml-auto btcd-btn-lg purple sh-sm flx"
-            type="button"
-            disabled={!isAuthorized}>
+          <button onClick={nextPage} className="btn ml-auto btcd-btn-lg green sh-sm flx" type="button" disabled={!isAuthorized}>
             {__('Next', 'bit-integrations')}
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>

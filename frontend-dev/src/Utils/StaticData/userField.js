@@ -1,50 +1,40 @@
-import { __ } from '../i18nwrap'
-
 // eslint-disable-next-line import/prefer-default-export
 export const userFields = [
   {
     key: 'user_email',
-    name: __('Email', 'bit-integrations'),
-    required: true
+    name: 'Email',
+    required: true,
   },
   {
     key: 'user_login',
-    name: __('Username', 'bit-integrations'),
-    required: false
+    name: 'Username',
   },
   {
     key: 'nickname',
-    name: __('Nickname', 'bit-integrations'),
-    required: false
+    name: 'Nickname',
   },
   {
     key: 'display_name',
-    name: __('Display Name', 'bit-integrations'),
-    required: false
+    name: 'Display Name',
   },
   {
     key: 'first_name',
-    name: __('First Name', 'bit-integrations'),
-    required: false
+    name: 'First Name',
   },
   {
     key: 'last_name',
-    name: __('Last Name', 'bit-integrations'),
-    required: false
+    name: 'Last Name',
   },
   {
     key: 'user_pass',
-    name: __('Password', 'bit-integrations'),
-    required: false
+    name: 'Password',
   },
   {
     key: 'user_url',
-    name: __('Website', 'bit-integrations'),
-    required: false
+    name: 'Website',
   },
   {
     key: 'description',
-    name: __('Biographical Info', 'bit-integrations'),
-    required: false
-  }
+    name: 'Biographical Info',
+  },
 ]

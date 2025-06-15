@@ -4,7 +4,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { __ } from '../../../Utils/i18nwrap'
 import SnackMsg from '../../Utilities/SnackMsg'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
-import { checkMappedFields, handleInput } from './MailChimpCommonFunc'
+import { handleInput } from './MailChimpCommonFunc'
 import MailChimpIntegLayout from './MailChimpIntegLayout'
 import EditFormInteg from '../EditFormInteg'
 import SetEditIntegComponents from '../IntegrationHelpers/SetEditIntegComponents'
@@ -16,9 +16,8 @@ function EditMailChimp({ allIntegURL }) {
   const navigate = useNavigate()
   const { id, formID } = useParams()
 
-  const [mailChimpConf, setMailChimpConf] = useRecoilState($actionConf)
+  const [sheetConf, setSheetConf] = useRecoilState($actionConf)
   const [flow, setFlow] = useRecoilState($newFlow)
-  const [loading, setLoading] = useState({})
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
   const formFields = useRecoilValue($formFields)
@@ -28,66 +27,31 @@ function EditMailChimp({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, mailChimpConf, setMailChimpConf)}
-          name="name"
-          value={mailChimpConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, sheetConf, setSheetConf)} name="name" value={sheetConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
+
 
       <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
 
       <MailChimpIntegLayout
         formID={formID}
         formFields={formFields}
-        handleInput={(e) =>
-          handleInput(
-            e,
-            mailChimpConf,
-            setMailChimpConf,
-            formID,
-            loading,
-            setLoading,
-            setSnackbar,
-            setIsLoading
-          )
-        }
-        mailChimpConf={mailChimpConf}
-        setMailChimpConf={setMailChimpConf}
+        handleInput={(e) => handleInput(e, sheetConf, setSheetConf, formID, setIsLoading, setSnackbar)}
+        sheetConf={sheetConf}
+        setSheetConf={setSheetConf}
         isLoading={isLoading}
         setIsLoading={setIsLoading}
         setSnackbar={setSnackbar}
-        loading={loading}
-        setLoading={setLoading}
       />
 
       <IntegrationStepThree
         edit
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            setFlow,
-            allIntegURL,
-            conf: mailChimpConf,
-            navigate,
-            edit: 1,
-            setIsLoading,
-            setSnackbar
-          })
-        }
-        disabled={
-          mailChimpConf.module === '' ||
-          mailChimpConf.listId === '' ||
-          mailChimpConf.field_map.length < 1 ||
-          !checkMappedFields(mailChimpConf)
-        }
+        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, conf: sheetConf, navigate, edit: 1, setIsLoading, setSnackbar })}
+        disabled={sheetConf.listId === '' || sheetConf.field_map.length < 1}
         isLoading={isLoading}
-        dataConf={mailChimpConf}
-        setDataConf={setMailChimpConf}
+        dataConf={sheetConf}
+        setDataConf={setSheetConf}
         formFields={formFields}
       />
       <br />

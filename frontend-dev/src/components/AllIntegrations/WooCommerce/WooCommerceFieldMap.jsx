@@ -6,23 +6,13 @@ import MtInput from '../../Utilities/MtInput'
 import TagifyInput from '../../Utilities/TagifyInput'
 import { create } from 'mutative'
 
-export default function WooCommerceFieldMap({
-  i,
-  formFields,
-  field,
-  wcConf,
-  setWcConf,
-  uploadFields,
-  module
-}) {
+export default function WooCommerceFieldMap({ i, formFields, field, wcConf, setWcConf, uploadFields, module }) {
   const isRequired = field.required === true
 
   const addFieldMap = (indx) => {
     // const newConf = deepCopy(wcConf)
     const newConf = { ...wcConf }
-    uploadFields
-      ? newConf[module].upload_field_map.splice(indx, 0, {})
-      : newConf[module].field_map.splice(indx, 0, {})
+    uploadFields ? newConf[module].upload_field_map.splice(indx, 0, {}) : newConf[module].field_map.splice(indx, 0, {})
 
     setWcConf(newConf)
   }
@@ -61,92 +51,61 @@ export default function WooCommerceFieldMap({
   // }
 
   const handleCustomValue = (event, index) => {
-    setWcConf((prevConf) =>
-      create(prevConf, (draftConf) => {
-        draftConf[module].field_map[index].customValue = event
-      })
-    )
+    setWcConf(prevConf => create(prevConf, draftConf => {
+      draftConf[module].field_map[index].customValue = event
+    }))
   }
 
   return (
-    <div className="flx mt-2 mb-2 btcbi-field-map">
+    <div
+      className="flx mt-2 mb-2 btcbi-field-map"
+    >
       <div className="flx integ-fld-wrp">
-        <select
-          className="btcd-paper-inp mr-2"
-          name="formField"
-          value={field.formField || ''}
-          onChange={(ev) => handleFieldMapping(ev, i)}>
+        <select className="btcd-paper-inp mr-2" name="formField" value={field.formField || ''} onChange={(ev) => handleFieldMapping(ev, i)}>
           <option value="">{__('Select Field', 'bit-integrations')}</option>
-          {uploadFields
-            ? formFields.map(
-                (f) =>
-                  f.type === 'file' && (
-                    <option key={`ff-zhcrm-${f.name}`} value={f.name}>
-                      {f.label}
-                    </option>
-                  )
-              )
-            : formFields.map(
-                (f) =>
-                  f.type !== 'file' && (
-                    <option key={`ff-zhcrm-${f.name}`} value={f.name}>
-                      {f.label}
-                    </option>
-                  )
-              )}
+          {
+            uploadFields
+              ? formFields.map(f => f.type === 'file' && <option key={`ff-zhcrm-${f.name}`} value={f.name}>{f.label}</option>)
+              : formFields.map(f => f.type !== 'file' && <option key={`ff-zhcrm-${f.name}`} value={f.name}>{f.label}</option>)
+          }
           {!uploadFields && <option value="custom">{__('Custom...', 'bit-integrations')}</option>}
         </select>
 
-        {field.formField === 'custom' && (
-          <TagifyInput
-            onChange={(e) => handleCustomValue(e, i)}
-            label={__('Custom Value', 'bit-integrations')}
-            className="mr-2"
-            type="text"
-            value={field.customValue}
-            placeholder={__('Custom Value', 'bit-integrations')}
-            formFields={formFields}
-          />
-        )}
+        {field.formField === 'custom' && <TagifyInput onChange={(e) => handleCustomValue(e, i)} label={__('Custom Value', 'bit-integrations')} className="mr-2" type="text" value={field.customValue} placeholder={__('Custom Value', 'bit-integrations')} formFields={formFields} />}
 
-        <select
-          className="btcd-paper-inp"
-          name="wcField"
-          value={field.wcField || ''}
-          onChange={(ev) => handleFieldMapping(ev, i)}
-          disabled={isRequired}>
+        <select className="btcd-paper-inp" name="wcField" value={field.wcField || ''} onChange={(ev) => handleFieldMapping(ev, i)} disabled={isRequired}>
           <option value="">{__('Select Field', 'bit-integrations')}</option>
-          {Object.values(
-            wcConf.default.fields[module][uploadFields ? 'uploadFields' : 'fields']
-          ).map((fld) => {
-            if (isRequired) {
-              if (fld.required && fld.fieldKey === field.wcField) {
+          {
+            Object.values(wcConf.default.fields[module][uploadFields ? 'uploadFields' : 'fields']).map(fld => {
+              if (isRequired) {
+                if (fld.required && fld.fieldKey === field.wcField) {
+                  return (
+                    <option key={`${fld.fieldKey}-1`} value={fld.fieldKey}>
+                      {fld.fieldName}
+                    </option>
+                  )
+                }
+              } else if (!fld.required) {
                 return (
                   <option key={`${fld.fieldKey}-1`} value={fld.fieldKey}>
                     {fld.fieldName}
                   </option>
                 )
               }
-            } else if (!fld.required) {
-              return (
-                <option key={`${fld.fieldKey}-1`} value={fld.fieldKey}>
-                  {fld.fieldName}
-                </option>
-              )
-            }
-          })}
+            })
+          }
         </select>
       </div>
       {!isRequired && (
         <>
-          <button onClick={() => addFieldMap(i)} className="icn-btn sh-sm ml-2 mr-1" type="button">
+          <button
+            onClick={() => addFieldMap(i)}
+            className="icn-btn sh-sm ml-2 mr-1"
+            type="button"
+          >
             +
           </button>
-          <button
-            onClick={() => delFieldMap(i)}
-            className="icn-btn sh-sm ml-2"
-            type="button"
-            aria-label="btn">
+          <button onClick={() => delFieldMap(i)} className="icn-btn sh-sm ml-2" type="button" aria-label="btn">
             <TrashIcn />
           </button>
         </>

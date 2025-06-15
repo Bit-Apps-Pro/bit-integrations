@@ -6,7 +6,7 @@ import { __ } from '../../../Utils/i18nwrap'
 import { create } from 'mutative'
 
 export const handleInput = (e, mailjetConf, setMailjetConf) => {
-  const newConf = create(mailjetConf, (draftConf) => {
+  const newConf = create(mailjetConf, draftConf => {
     const { name } = e.target
     if (e.target.value !== '') {
       draftConf[name] = e.target.value
@@ -19,44 +19,25 @@ export const handleInput = (e, mailjetConf, setMailjetConf) => {
 }
 
 export const generateMappedField = (mailjetConf) => {
-  const requiredFlds = mailjetConf?.staticFields.filter((fld) => fld.required === true)
-  return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({ formField: '', mailjetFormField: field.key }))
-    : [{ formField: '', mailjetFormField: '' }]
+  const requiredFlds = mailjetConf?.staticFields.filter(fld => fld.required === true)
+  return requiredFlds.length > 0 ? requiredFlds.map(field => ({ formField: '', mailjetFormField: field.key })) : [{ formField: '', mailjetFormField: '' }]
 }
 
 export const checkMappedFields = (mailjetConf) => {
-  const mappedFields = mailjetConf?.field_map
-    ? mailjetConf.field_map.filter(
-        (mappedField) =>
-          !mappedField.formField ||
-          !mappedField.mailjetFormField ||
-          (!mappedField.formField === 'custom' && !mappedField.customValue)
-      )
-    : []
+  const mappedFields = mailjetConf?.field_map ? mailjetConf.field_map.filter(mappedField => (!mappedField.formField || !mappedField.mailjetFormField || (!mappedField.formField === 'custom' && !mappedField.customValue))) : []
   if (mappedFields.length > 0) {
     return false
   }
   return true
 }
 
-export const mailjetAuthentication = (
-  confTmp,
-  setConf,
-  setError,
-  setIsAuthorized,
-  loading,
-  setLoading,
-  type
-) => {
+export const mailjetAuthentication = (confTmp, setConf, setError, setIsAuthorized, loading, setLoading, type) => {
   if (!confTmp.apiKey) {
-    setError({ apiKey: !confTmp.apiKey ? __("API key can't be empty", 'bit-integrations') : '' })
+    setError({ apiKey: !confTmp.apiKey ? __('API key can\'t be empty', 'bit-integrations') : '' })
     return
   }
   if (!confTmp.secretKey) {
-    setError({
-      secretKey: !confTmp.secretKey ? __("Secret key can't be empty", 'bit-integrations') : ''
-    })
+    setError({ secretKey: !confTmp.secretKey ? __('Secret key can\'t be empty', 'bit-integrations') : '' })
     return
   }
 
@@ -70,30 +51,31 @@ export const mailjetAuthentication = (
   }
   const requestParams = { apiKey: confTmp.apiKey, secretKey: confTmp.secretKey }
 
-  bitsFetch(requestParams, 'mailjet_authentication').then((result) => {
-    if (result && result.success) {
-      const newConf = { ...confTmp }
-      setIsAuthorized(true)
-      if (type === 'authentication') {
-        if (result.data) {
-          newConf.lists = result.data
+  bitsFetch(requestParams, 'mailjet_authentication')
+    .then(result => {
+      if (result && result.success) {
+        const newConf = { ...confTmp }
+        setIsAuthorized(true)
+        if (type === 'authentication') {
+          if (result.data) {
+            newConf.lists = result.data
+          }
+          setLoading({ ...loading, auth: false })
+          toast.success(__('Authorized successfully', 'bit-integrations'))
+          getCustomFields(newConf, setConf, setLoading)
+        } else if (type === 'refreshLists') {
+          if (result.data) {
+            newConf.lists = result.data
+            setConf(newConf)
+          }
+          setLoading({ ...loading, lists: false })
+          toast.success(__('All lists fectched successfully', 'bit-integrations'))
         }
-        setLoading({ ...loading, auth: false })
-        toast.success(__('Authorized Successfully', 'bit-integrations'))
-        getCustomFields(newConf, setConf, setLoading)
-      } else if (type === 'refreshLists') {
-        if (result.data) {
-          newConf.lists = result.data
-          setConf(newConf)
-        }
-        setLoading({ ...loading, lists: false })
-        toast.success(__('All lists fectched successfully', 'bit-integrations'))
+        return
       }
-      return
-    }
-    setLoading({ ...loading, auth: false })
-    toast.error(__('Authorized failed', 'bit-integrations'))
-  })
+      setLoading({ ...loading, auth: false })
+      toast.error(__('Authorized failed', 'bit-integrations'))
+    })
 }
 
 export const getCustomFields = (confTmp, setConf, setLoading) => {
@@ -101,19 +83,20 @@ export const getCustomFields = (confTmp, setConf, setLoading) => {
 
   const requestParams = { apiKey: confTmp.apiKey, secretKey: confTmp.secretKey }
 
-  bitsFetch(requestParams, 'mailjet_fetch_all_custom_fields').then((result) => {
-    if (result && result.success) {
-      const newConf = { ...confTmp }
-      if (result.data) {
-        newConf.customFields = result.data
-      }
-      setConf(newConf)
-      setLoading({ ...setLoading, customFields: false })
+  bitsFetch(requestParams, 'mailjet_fetch_all_custom_fields')
+    .then(result => {
+      if (result && result.success) {
+        const newConf = { ...confTmp }
+        if (result.data) {
+          newConf.customFields = result.data
+        }
+        setConf(newConf)
+        setLoading({ ...setLoading, customFields: false })
 
-      toast.success(__('Custom fields fetch successfully', 'bit-integrations'))
-      return
-    }
-    setLoading({ ...setLoading, customFields: false })
-    toast.error(__('Custom fields fetch failed', 'bit-integrations'))
-  })
+        toast.success(__('Custom fields fetch successfully', 'bit-integrations'))
+        return
+      }
+      setLoading({ ...setLoading, customFields: false })
+      toast.error(__('Custom fields fetch failed', 'bit-integrations'))
+    })
 }

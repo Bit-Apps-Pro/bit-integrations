@@ -26,13 +26,15 @@ function ZohoCRM({ formFields, setFlow, flow, allIntegURL }) {
   const [crmConf, setCrmConf] = useState({
     name: 'Zoho CRM',
     type: 'Zoho CRM',
-    clientId: '',
-    clientSecret: '',
+    clientId: process.env.NODE_ENV === 'development' ? '1000.K74DBY9N0MEW6C4G0153AIXOIVW0ME' : '',
+    clientSecret: process.env.NODE_ENV === 'development' ? '27daa2acedc21c988641d079a16ed7fab9135dcf0f' : '',
     module: '',
     layout: '',
-    field_map: [{ formField: '', zohoFormField: '' }],
+    field_map: [
+      { formField: '', zohoFormField: '' },
+    ],
     relatedlists: [],
-    actions: {}
+    actions: {},
   })
 
   useEffect(() => {
@@ -40,17 +42,9 @@ function ZohoCRM({ formFields, setFlow, flow, allIntegURL }) {
   }, [])
 
   const saveConfig = () => {
-    saveActionConf({
-      flow,
-      setFlow,
-      allIntegURL,
-      conf: crmConf,
-      navigate,
-      setIsLoading,
-      setSnackbar
-    })
+    saveActionConf({ flow, setFlow, allIntegURL, conf: crmConf, navigate, setIsLoading, setSnackbar })
   }
-  const nextPage = pageNo => {
+  const nextPage = (pageNo) => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -72,9 +66,7 @@ function ZohoCRM({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={3} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
 
       {/* STEP 1 */}
       <ZohoAuthorization
@@ -91,15 +83,14 @@ function ZohoCRM({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+
         <ZohoCRMIntegLayout
           tab={tab}
           settab={settab}
           formID={formID}
           formFields={formFields}
-          handleInput={e => handleInput(e, tab, crmConf, setCrmConf, formID, setIsLoading, setSnackbar)}
+          handleInput={(e) => handleInput(e, tab, crmConf, setCrmConf, formID, setIsLoading, setSnackbar)}
           crmConf={crmConf}
           setCrmConf={setCrmConf}
           isLoading={isLoading}
@@ -110,9 +101,12 @@ function ZohoCRM({ formFields, setFlow, flow, allIntegURL }) {
         <button
           onClick={() => nextPage(3)}
           disabled={crmConf.module === '' || crmConf.layout === '' || crmConf.field_map.length < 1}
-          className="btn f-right btcd-btn-lg purple sh-sm flx"
-          type="button">
-          {__('Next', 'bit-integrations')} &nbsp;
+          className="btn f-right btcd-btn-lg green sh-sm flx"
+          type="button"
+        >
+          {__('Next', 'bit-integrations')}
+          {' '}
+          &nbsp;
           <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
         </button>
       </div>

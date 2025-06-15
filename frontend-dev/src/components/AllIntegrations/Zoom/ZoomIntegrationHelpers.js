@@ -1,23 +1,13 @@
 import { __ } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
 
-export const saveIntegConfig = async (
-  flow,
-  setFlow,
-  allIntegURL,
-  confTmp,
-  navigate,
-  index,
-  edit
-) => {
+export const saveIntegConfig = async (flow, setFlow, allIntegURL, confTmp, navigate, index, edit) => {
   let action = 'flow/save'
   const data = {
     name: confTmp.name,
     trigger: flow.triggered_entity,
-    triggered_entity_id: flow?.triggerData?.formID
-      ? flow.triggerData.formID
-      : flow.triggered_entity_id || 0,
-    flow_details: confTmp
+    triggered_entity_id: flow?.triggerData?.formID ? flow.triggerData.formID : (flow.triggered_entity_id || 0),
+    flow_details: confTmp,
   }
   if (flow.id) {
     data.id = flow.id
@@ -45,7 +35,7 @@ export const setGrantTokenResponse = (integ) => {
   const authWindowLocation = window.location.href
   const queryParams = authWindowLocation.replace(`${window.opener.location.href}`, '').split('&')
   if (queryParams) {
-    queryParams.forEach((element) => {
+    queryParams.forEach(element => {
       const gtKeyValue = element.split('=')
       if (gtKeyValue[1]) {
         // eslint-disable-next-line prefer-destructuring
@@ -60,9 +50,7 @@ export const setGrantTokenResponse = (integ) => {
 export const addFieldMap = (i, confTmp, setConf, uploadFields, tab) => {
   const newConf = { ...confTmp }
   if (tab) {
-    uploadFields
-      ? newConf.relatedlists[tab - 1].upload_field_map.splice(i, 0, {})
-      : newConf.relatedlists[tab - 1].field_map.splice(i, 0, {})
+    uploadFields ? newConf.relatedlists[tab - 1].upload_field_map.splice(i, 0, {}) : newConf.relatedlists[tab - 1].field_map.splice(i, 0, {})
   } else {
     uploadFields ? newConf.upload_field_map.splice(i, 0, {}) : newConf.field_map.splice(i, 0, {})
   }
@@ -94,8 +82,7 @@ export const delFieldMap = (i, confTmp, setConf, uploadFields, tab) => {
 export const handleFieldMapping = (event, index, conftTmp, setConf, uploadFields, tab) => {
   const newConf = { ...conftTmp }
   if (tab) {
-    if (uploadFields)
-      newConf.relatedlists[tab - 1].upload_field_map[index][event.target.name] = event.target.value
+    if (uploadFields) newConf.relatedlists[tab - 1].upload_field_map[index][event.target.name] = event.target.value
     else newConf.relatedlists[tab - 1].field_map[index][event.target.name] = event.target.value
   } else if (uploadFields) newConf.upload_field_map[index][event.target.name] = event.target.value
   else newConf.field_map[index][event.target.name] = event.target.value

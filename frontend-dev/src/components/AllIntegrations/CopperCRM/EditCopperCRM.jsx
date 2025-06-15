@@ -34,24 +34,16 @@ function EditCopperCRM({ allIntegURL }) {
 
     if (coppercrmConf.actionName === 'opportunity') {
       if (!coppercrmConf.selectedCRMPeople) {
-        toast.error(__('Please select a people', 'bit-integrations'))
+        toast.error('Please select a people')
         return
       }
       if (!coppercrmConf.selectedCRMPipelines && coppercrmConf.actionName === 'opportunity') {
-        toast.error(__('Please select a Pipeline', 'bit-integrations'))
+        toast.error('Please select a Pipeline')
         return
       }
     }
 
-    saveActionConf({
-      flow,
-      allIntegURL,
-      conf: coppercrmConf,
-      navigate,
-      edit: 1,
-      setLoading,
-      setSnackbar
-    })
+    saveActionConf({ flow, allIntegURL, conf: coppercrmConf, navigate, edit: 1, setLoading, setSnackbar })
   }
 
   return (
@@ -60,14 +52,7 @@ function EditCopperCRM({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, coppercrmConf, setCopperCRMConf)}
-          name="name"
-          value={coppercrmConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, coppercrmConf, setCopperCRMConf)} name="name" value={coppercrmConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
 
@@ -75,9 +60,7 @@ function EditCopperCRM({ allIntegURL }) {
       <CopperCRMIntegLayout
         formID={flow.triggered_entity_id}
         formFields={formField}
-        handleInput={(e) =>
-          handleInput(e, coppercrmConf, setCopperCRMConf, setLoading, setSnackbar)
-        }
+        handleInput={(e) => handleInput(e, coppercrmConf, setCopperCRMConf, setLoading, setSnackbar)}
         coppercrmConf={coppercrmConf}
         setCopperCRMConf={setCopperCRMConf}
         loading={loading}

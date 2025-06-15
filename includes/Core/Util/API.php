@@ -7,23 +7,20 @@ use WP_REST_Server;
 
 final class API extends WP_REST_Controller
 {
-    public const READABLE = WP_REST_Server::READABLE;
-
-    public const CREATABLE = WP_REST_Server::CREATABLE;
-
-    public const EDITABLE = WP_REST_Server::EDITABLE;
-
-    public const DELETABLE = WP_REST_Server::DELETABLE;
-
     private const BASE = 'bit-integrations';
-
     private const VERSION = 'v1/';
+
+
+    public const READABLE = WP_REST_Server::READABLE;
+    public const CREATABLE = WP_REST_Server::CREATABLE;
+    public const EDITABLE = WP_REST_Server::EDITABLE;
+    public const DELETABLE = WP_REST_Server::DELETABLE;
 
     /**
      * Registers api route
      *
-     * @param string $route api route
-     * @param array  $args  Rest route method,callback,permissions
+     * @param String $route api route
+     * @param Array  $args  Rest route method,callback,permissions
      *
      * @return null
      */
@@ -39,21 +36,21 @@ final class API extends WP_REST_Controller
     /**
      * Registers api route
      *
-     * @param string       $route      api route
-     * @param array|string $callback   callback function
-     * @param array|string $permission permission callback function
-     * @param array        $validation validation
+     * @param String         $route      api route
+     * @param Array | String $callback   callback function
+     * @param Array | String $permission permission callback function
+     * @param Array          $validation validation
      *
      * @return null
      */
     public static function get($route, $callback, $permission = null, $validation = null)
     {
         $args = [
-            'methods'             => self::READABLE,
-            'callback'            => $callback,
-            'permission_callback' => $permission ? $permission : '__return_true',
+            'methods'   => self::READABLE,
+            'callback'  => $callback,
+            'permission_callback' =>  $permission ? $permission : '__return_true',
         ];
-        if (!\is_null($validation)) {
+        if (!is_null($validation)) {
             $args['args'] = $validation;
         }
         static::register(
@@ -65,21 +62,21 @@ final class API extends WP_REST_Controller
     /**
      * Registers api route
      *
-     * @param string       $route      api route
-     * @param array|string $callback   callback function
-     * @param array|string $permission permission callback function
-     * @param array        $validation validation
+     * @param String         $route      api route
+     * @param Array | String $callback   callback function
+     * @param Array | String $permission permission callback function
+     * @param Array          $validation validation
      *
      * @return null
      */
     public static function post($route, $callback, $permission = null, $validation = null)
     {
         $args = [
-            'methods'             => self::CREATABLE,
-            'callback'            => $callback,
-            'permission_callback' => $permission ? $permission : '__return_true',
+            'methods'   => self::CREATABLE,
+            'callback'  => $callback,
+            'permission_callback' =>  $permission ? $permission : '__return_true',
         ];
-        if (!\is_null($validation)) {
+        if (!is_null($validation)) {
             $args['args'] = $validation;
         }
         static::register(
@@ -91,11 +88,11 @@ final class API extends WP_REST_Controller
     /**
      * Registers api route
      *
-     * @param array        $method     request methods
-     * @param string       $route      api route
-     * @param array|string $callback   callback function
-     * @param array|string $permission permission callback function
-     * @param array        $validation validation
+     * @param Array          $method     request methods
+     * @param String         $route      api route
+     * @param Array | String $callback   callback function
+     * @param Array | String $permission permission callback function
+     * @param Array          $validation validation
      *
      * @return null
      */
@@ -104,11 +101,11 @@ final class API extends WP_REST_Controller
         $args = [];
         foreach ($method as $k => $m) {
             $arg = [
-                'methods'             => self::getMethod($m),
-                'callback'            => isset($callback[$k]) && \is_array($callback[$k]) ? $callback[$k] : $callback,
-                'permission_callback' => $permission ? (isset($permission[$k]) && \is_array($permission[$k]) ? $permission[$k] : $permission) : '__return_true',
+                'methods'   => self::getMethod($m),
+                'callback'  => isset($callback[$k]) && is_array($callback[$k]) ? $callback[$k] : $callback,
+                'permission_callback' =>  $permission ? (isset($permission[$k]) && is_array($permission[$k]) ? $permission[$k] : $permission) : '__return_true',
             ];
-            if (!\is_null($validation)) {
+            if (!is_null($validation)) {
                 $arg['args'] = $validation;
             }
             $args[] = $arg;

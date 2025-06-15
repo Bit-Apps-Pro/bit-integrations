@@ -2,6 +2,7 @@
 
 /**
  * Albato Integration
+ *
  */
 
 namespace BitCode\FI\Actions\Albato;

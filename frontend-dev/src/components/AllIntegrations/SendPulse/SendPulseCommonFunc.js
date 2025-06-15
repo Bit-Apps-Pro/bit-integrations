@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { __ } from '../../../Utils/i18nwrap'
+import { __ } from '@wordpress/i18n'
 import bitsFetch from '../../../Utils/bitsFetch'
 
 export const handleInput = (e, sendPulseConf, setSendPulseConf) => {
@@ -9,12 +9,8 @@ export const handleInput = (e, sendPulseConf, setSendPulseConf) => {
 }
 
 // refreshMappedLists
-export const refreshSendPulseList = (
-  sendPulseConf,
-  setSendPulseConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const refreshSendPulseList = (sendPulseConf, setSendPulseConf, setIsLoading, setSnackbar) => {
+
   const refreshListsRequestParams = {
     client_id: sendPulseConf.client_id,
     client_secret: sendPulseConf.client_secret,
@@ -31,15 +27,15 @@ export const refreshSendPulseList = (
           newConf.default.sendPulseLists = result.data
           setSnackbar({
             show: true,
-            msg: __('SendPulse lists refreshed', 'bit-integrations')
+            msg: __('SendPulse lists refreshed', 'bit-integrations'),
           })
         } else {
           setSnackbar({
             show: true,
             msg: __(
               'No SendPulse lists found. Try changing the header row number or try again',
-              'bit-integrations'
-            )
+              'bit-integrations',
+            ),
           })
         }
 
@@ -47,7 +43,10 @@ export const refreshSendPulseList = (
       } else {
         setSnackbar({
           show: true,
-          msg: __('SendPulse lists refresh failed. please try again', 'bit-integrations')
+          msg: __(
+            'SendPulse lists refresh failed. please try again',
+            'bit-integrations',
+          ),
         })
       }
       setIsLoading(false)
@@ -56,12 +55,8 @@ export const refreshSendPulseList = (
 }
 
 // refreshMappedFields
-export const refreshSendPulseHeader = (
-  sendPulseConf,
-  setSendPulseConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const refreshSendPulseHeader = (sendPulseConf, setSendPulseConf, setIsLoading, setSnackbar) => {
+
   const refreshListsRequestParams = {
     client_id: sendPulseConf.client_id,
     client_secret: sendPulseConf.client_secret,
@@ -84,26 +79,29 @@ export const refreshSendPulseHeader = (
             .map((f) => ({
               formField: '',
               sendPulseField: f.fieldValue,
-              required: true
+              required: true,
             }))
           setSnackbar({
             show: true,
-            msg: __('SendPulse fields refreshed', 'bit-integrations')
+            msg: __('SendPulse fields refreshed', 'bit-integrations'),
           })
         } else {
           setSnackbar({
             show: true,
             msg: __(
               'No SendPulse fields found. Try changing the header row number or try again',
-              'bit-integrations'
-            )
+              'bit-integrations',
+            ),
           })
         }
         setSendPulseConf({ ...newConf })
       } else {
         setSnackbar({
           show: true,
-          msg: __('SendPulse fields refresh failed. please try again', 'bit-integrations')
+          msg: __(
+            'SendPulse fields refresh failed. please try again',
+            'bit-integrations',
+          ),
         })
       }
       setIsLoading(false)
@@ -114,9 +112,10 @@ export const refreshSendPulseHeader = (
 export const checkMappedFields = (sendPulseConf) => {
   const mappedFields = sendPulseConf?.field_map
     ? sendPulseConf.field_map.filter(
-        (mappedField) =>
-          !mappedField.formField && mappedField.sendPulseField && mappedField.required
-      )
+      (mappedField) => !mappedField.formField
+          && mappedField.sendPulseField
+          && mappedField.required,
+    )
     : []
   if (mappedFields.length > 0) {
     return false

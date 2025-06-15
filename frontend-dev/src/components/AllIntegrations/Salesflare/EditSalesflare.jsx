@@ -34,28 +34,20 @@ function EditSalesflare({ allIntegURL }) {
 
     if (salesflareConf.actionName === 'opportunities') {
       if (!salesflareConf.selectedAccount) {
-        toast.error(__('Please select an Account', 'bit-integrations'))
+        toast.error('Please select an Account')
         return
       }
       if (!salesflareConf.selectedPipeline) {
-        toast.error(__('Please select a Pipeline', 'bit-integrations'))
+        toast.error('Please select a Pipeline')
         return
       }
       if (salesflareConf.selectedPipeline && !salesflareConf.selectedStage) {
-        toast.error(__('Please select a Stage', 'bit-integrations'))
+        toast.error('Please select a Stage')
         return
       }
     }
 
-    saveActionConf({
-      flow,
-      allIntegURL,
-      conf: salesflareConf,
-      navigate,
-      edit: 1,
-      setIsLoading,
-      setSnackbar
-    })
+    saveActionConf({ flow, allIntegURL, conf: salesflareConf, navigate, edit: 1, setIsLoading, setSnackbar })
   }
 
   return (
@@ -64,14 +56,7 @@ function EditSalesflare({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input
-          className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, salesflareConf, setSalesflareConf)}
-          name="name"
-          value={salesflareConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
+        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, salesflareConf, setSalesflareConf)} name="name" value={salesflareConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
       </div>
       <br />
 
@@ -79,9 +64,7 @@ function EditSalesflare({ allIntegURL }) {
       <SalesflareIntegLayout
         formID={flow.triggered_entity_id}
         formFields={formField}
-        handleInput={(e) =>
-          handleInput(e, salesflareConf, setSalesflareConf, setLoading, setSnackbar)
-        }
+        handleInput={(e) => handleInput(e, salesflareConf, setSalesflareConf, setLoading, setSnackbar)}
         salesflareConf={salesflareConf}
         setSalesflareConf={setSalesflareConf}
         loading={loading}

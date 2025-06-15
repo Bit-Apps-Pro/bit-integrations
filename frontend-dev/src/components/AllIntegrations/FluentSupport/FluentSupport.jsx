@@ -17,38 +17,39 @@ function FluentSupport({ formFields, setFlow, flow, allIntegURL }) {
   const [isLoading, setIsLoading] = useState(false)
   const [step, setstep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
-  const basicFields = [
-    { key: 'title', label: __('Title', 'bit-integrations'), required: true },
-    { key: 'content', label: __('Content', 'bit-integrations'), required: true },
-    { key: 'first_name', label: __('First Name', 'bit-integrations'), required: true },
-    { key: 'last_name', label: __('Last Name', 'bit-integrations'), required: true },
-    { key: 'email', label: __('Email', 'bit-integrations'), required: true },
-    { key: 'city', label: __('City', 'bit-integrations'), required: false },
-    { key: 'zip', label: __('Zip', 'bit-integrations'), required: false },
-    { key: 'state', label: __('State', 'bit-integrations'), required: false },
-    { key: 'country', label: __('Country', 'bit-integrations'), required: false },
-    { key: 'note', label: __('Note', 'bit-integrations'), required: false },
-    { key: 'description', label: __('Description', 'bit-integrations'), required: false }
+  const fluentSupportFields = [
+    { key: 'title', label: 'Title', required: true },
+    { key: 'content', label: 'Content', required: true },
+    { key: 'first_name', label: 'First Name', required: true },
+    { key: 'last_name', label: 'Last Name', required: true },
+    { key: 'email', label: 'Email', required: true },
+    { key: 'city', label: 'City', required: false },
+    { key: 'zip', label: 'Zip', required: false },
+    { key: 'state', label: 'State', required: false },
+    { key: 'country', label: 'Country', required: false },
+    { key: 'note', label: 'Note', required: false },
+    { key: 'description', label: 'Description', required: false },
   ]
   const [fluentSupportConf, setFluentSupportConf] = useState({
     name: 'Fluent Support',
     type: 'Fluent Support',
-    field_map: [{ formField: '', fluentSupportFormField: '' }],
-    basicFields,
-    fluentSupportFields: [],
+    field_map: [
+      { formField: '', fluentSupportFormField: '' },
+    ],
+    fluentSupportFields,
     address_field: [],
-    actions: {}
+    actions: {},
   })
   const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
     if (!checkMappedFields(fluentSupportConf)) {
-      setSnackbar({ show: true, msg: __('Please map fields to continue.', 'bit-integrations') })
+      setSnackbar({ show: true, msg: 'Please map fields to continue.' })
       return
     }
     if (!fluentSupportConf.actions.support_staff) {
-      setSnackbar({ show: true, msg: __('Support Staff is required!', 'bit-integrations') })
+      setSnackbar({ show: true, msg: 'Support Staff is required!' })
       return
     }
     if (fluentSupportConf.listId !== '') {
@@ -59,9 +60,7 @@ function FluentSupport({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={3} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
 
       {/* STEP 1 */}
       <FluentSupportAuthorization
@@ -76,22 +75,12 @@ function FluentSupport({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+
         <FluentSupportIntegLayout
           formID={formID}
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(
-              e,
-              fluentSupportConf,
-              setFluentSupportConf,
-              formID,
-              setIsLoading,
-              setSnackbar
-            )
-          }
+          handleInput={(e) => handleInput(e, fluentSupportConf, setFluentSupportConf, formID, setIsLoading, setSnackbar)}
           fluentSupportConf={fluentSupportConf}
           setFluentSupportConf={setFluentSupportConf}
           isLoading={isLoading}
@@ -101,36 +90,26 @@ function FluentSupport({ formFields, setFlow, flow, allIntegURL }) {
 
         <button
           onClick={() => nextPage(3)}
-          disabled={
-            isLoading ||
-            fluentSupportConf.field_map.length < 1 ||
-            !checkMappedFields(fluentSupportConf)
-          }
-          className="btn f-right btcd-btn-lg purple sh-sm flx"
-          type="button">
-          {__('Next', 'bit-integrations')} &nbsp;
+          disabled={isLoading || fluentSupportConf.field_map.length < 1 || !checkMappedFields(fluentSupportConf)}
+          className="btn f-right btcd-btn-lg green sh-sm flx"
+          type="button"
+        >
+          {__('Next', 'bit-integrations')}
+          {' '}
+          &nbsp;
           <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
         </button>
       </div>
       {/* STEP 3 */}
       <IntegrationStepThree
         step={step}
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            setFlow,
-            allIntegURL,
-            navigate,
-            conf: fluentSupportConf,
-            setIsLoading,
-            setSnackbar
-          })
-        }
+        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, navigate, conf: fluentSupportConf, setIsLoading, setSnackbar })}
         isLoading={isLoading}
         dataConf={fluentSupportConf}
         setDataConf={setFluentSupportConf}
         formFields={formFields}
       />
+
     </div>
   )
 }

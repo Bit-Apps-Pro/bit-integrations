@@ -16,16 +16,14 @@ use BitCode\FI\Core\Util\HttpHelper;
 class RecordApiHelper
 {
     private $_defaultHeader;
-
     private $_apiDomain;
-
     private $_tokenDetails;
     private $_integrationID;
 
     public function __construct($tokenDetails, $integId)
     {
         $this->_defaultHeader['Authorization'] = "Zoho-oauthtoken {$tokenDetails->access_token}";
-        $this->_apiDomain = urldecode($tokenDetails->api_domain);
+        $this->_apiDomain = \urldecode($tokenDetails->api_domain);
         $this->_tokenDetails = $tokenDetails;
         $this->_integrationID = $integId;
     }
@@ -52,18 +50,16 @@ class RecordApiHelper
             if (empty($fieldData[$fieldPair->zohoFormField]) && \in_array($fieldPair->zohoFormField, $required)) {
                 $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('%s is required for zoho marketing hub', 'bit-integrations'), $fieldPair->zohoFormField));
                 LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'field'], 'validation', $error);
-
                 return $error;
             }
         }
 
         $recordApiResponse = $this->insertRecord($list, $dataCenter, wp_json_encode($fieldData));
-        if (isset($recordApiResponse->status) && $recordApiResponse->status === 'success') {
+        if (isset($recordApiResponse->status) &&  $recordApiResponse->status === 'success') {
             LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'list'], 'success', $recordApiResponse);
         } else {
             LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'list'], 'error', $recordApiResponse);
         }
-
         return $recordApiResponse;
     }
 }

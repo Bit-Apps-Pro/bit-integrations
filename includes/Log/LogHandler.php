@@ -2,9 +2,7 @@
 
 namespace BitCode\FI\Log;
 
-use BitCode\FI\Flow\Flow;
 use BitCode\FI\Core\Database\LogModel;
-use BitCode\FI\Core\Util\Capabilities;
 
 final class LogHandler
 {
@@ -15,12 +13,8 @@ final class LogHandler
 
     public function get($data)
     {
-        if (!(Capabilities::Check('manage_options') || Capabilities::Check('bit_integrations_manage_integrations'))) {
-            wp_send_json_error(__('User don\'t have permission to access this page', 'bit-integrations'));
-        }
-
         if (!isset($data->id)) {
-            wp_send_json_error(__('Integration Id can\'t be empty', 'bit-integrations'));
+            wp_send_json_error('Integration Id cann\'t be empty');
         }
         $logModel = new LogModel();
         $countResult = $logModel->count(['flow_id' => $data->id]);
@@ -28,7 +22,7 @@ final class LogHandler
             wp_send_json_success(
                 [
                     'count' => 0,
-                    'data'  => [],
+                    'data' => [],
                 ]
             );
         }
@@ -37,7 +31,7 @@ final class LogHandler
             wp_send_json_success(
                 [
                     'count' => 0,
-                    'data'  => [],
+                    'data' => [],
                 ]
             );
         }
@@ -58,35 +52,28 @@ final class LogHandler
             wp_send_json_success(
                 [
                     'count' => 0,
-                    'data'  => [],
+                    'data' => [],
                 ]
             );
         }
         wp_send_json_success(
             [
-                'count' => \intval($count),
-                'data'  => $result,
+                'count' => intval($count),
+                'data' => $result,
             ]
         );
     }
 
     public static function save($flow_id, $api_type, $response_type, $response_obj)
     {
-        if (empty($flow_id)) {
-            return;
-        }
-
-        $flow = new Flow();
-        $flow->authorizationStatusChange($flow_id, $response_type == 'success' ? true : false);
-
         $logModel = new LogModel();
         $logModel->insert(
             [
-                'flow_id'       => $flow_id,
-                'api_type'      => \is_string($api_type) ? $api_type : wp_json_encode($api_type),
-                'response_type' => \is_string($response_type) ? $response_type : wp_json_encode($response_type),
-                'response_obj'  => \is_string($response_obj) ? $response_obj : wp_json_encode($response_obj),
-                'created_at'    => current_time('mysql')
+                'flow_id' => $flow_id,
+                'api_type' => is_string($api_type) ? $api_type : json_encode($api_type),
+                'response_type' => is_string($response_type) ? $response_type : json_encode($response_type),
+                'response_obj' => is_string($response_obj) ? $response_obj : json_encode($response_obj),
+                'created_at' => current_time("mysql")
             ]
         );
     }
@@ -94,7 +81,7 @@ final class LogHandler
     public static function deleteLog($data)
     {
         if (empty($data->id) && empty($data->flow_id)) {
-            wp_send_json_error(__('Integration Id or Log Id required', 'bit-integrations'));
+            wp_send_json_error('Integration Id or Log Id required');
         }
         $deleteStatus = self::delete($data);
         if (is_wp_error($deleteStatus)) {
@@ -105,14 +92,11 @@ final class LogHandler
 
     public static function delete($data)
     {
-        if (!(Capabilities::Check('manage_options') || Capabilities::Check('bit_integrations_manage_integrations'))) {
-            wp_send_json_error(__('User don\'t have permission to access this page', 'bit-integrations'));
-        }
         $condition = null;
         if (!empty($data->id)) {
-            if (\is_array($data->id)) {
+            if (is_array($data->id)) {
                 $condition = [
-                    'id' => $data->id
+                    'id' =>  $data->id
                 ];
             } else {
                 $condition = [
@@ -126,15 +110,13 @@ final class LogHandler
             ];
         }
         $logModel = new LogModel();
-
         return $logModel->bulkDelete($condition);
     }
 
     public static function logAutoDelte($intervalDate)
     {
-        $condition = "DATE_ADD(date(created_at), INTERVAL {$intervalDate} DAY) < CURRENT_DATE";
+        $condition = "DATE_ADD(date(created_at), INTERVAL $intervalDate DAY) < CURRENT_DATE";
         $logModel = new LogModel();
-
         return $logModel->autoLogDelete($condition);
     }
 }

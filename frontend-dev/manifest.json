@@ -14,4 +14,21 @@
   "display": "minimal-ui",
   "theme_color": "#13233c",
   "background_color": "#13233c"
+},
+{
+  "name": "Zoho CRM for WPForms",
+  "version": "1.0.0",
+  "short_name": "CF7-Zoho CRM",
+  "description": "Sends WPForms entries to Zoho CRM",
+  "icons": [
+    {
+      "src": "../img/logo.svg",
+      "sizes": "256x256",
+      "type": "image/svg"
+    }
+  ],
+  "start_url": ".",
+  "display": "minimal-ui",
+  "theme_color": "#13233c",
+  "background_color": "#13233c"
 }

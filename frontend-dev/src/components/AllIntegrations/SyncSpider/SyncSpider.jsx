@@ -21,26 +21,28 @@ function SyncSpider({ formFields, setFlow, flow, allIntegURL }) {
     name: 'SyncSpider Web Hooks',
     type: 'SyncSpider',
     method: 'POST',
-    url: '',
-    apiConsole: 'https://app.syncspider.com/app/'
+    url: process.env.NODE_ENV === 'development' ? 'https://app.syncspider.com/api/v1/external_api/webhook/4NmDKfEn3ic7MyJoIejHRJ7SjH9RmD3SnnWcpNur' : '',
+    apiConsole: 'https://app.syncspider.com/app/',
   })
 
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={2} active={step} />
-      </div>
+      <div className="txt-center mt-2"><Steps step={2} active={step} /></div>
 
       {/* STEP 1 */}
-      <div
-        className="btcd-stp-page"
-        style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
+      <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
         {syncSpiderLinks?.youTubeLink && (
-          <TutorialLink title="SyncSpider" youTubeLink={syncSpiderLinks?.youTubeLink} />
+          <TutorialLink
+            title={syncSpiderLinks?.title}
+            youTubeLink={syncSpiderLinks?.youTubeLink}
+          />
         )}
         {syncSpiderLinks?.docLink && (
-          <TutorialLink title="SyncSpider" docLink={syncSpiderLinks?.docLink} />
+          <TutorialLink
+            title={syncSpiderLinks?.title}
+            docLink={syncSpiderLinks?.docLink}
+          />
         )}
 
         <WebHooksIntegration
@@ -56,16 +58,14 @@ function SyncSpider({ formFields, setFlow, flow, allIntegURL }) {
       </div>
 
       {/* STEP 2 */}
-      <div
-        className="btcd-stp-page"
-        style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
+      <div className="btcd-stp-page" style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
+
         <WebHooksStepTwo
           step={step}
-          saveConfig={() =>
-            saveIntegConfig(flow, setFlow, allIntegURL, syncSpider, navigate, '', '', setIsLoading)
-          }
+          saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, syncSpider, navigate, '', '', setIsLoading)}
           isLoading={isLoading}
         />
+
       </div>
     </div>
   )

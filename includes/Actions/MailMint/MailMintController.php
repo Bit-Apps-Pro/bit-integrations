@@ -11,9 +11,10 @@ class MailMintController
 {
     public static function pluginActive()
     {
-        return (bool) (class_exists('MailMint'))
-
-        ;
+        if (class_exists('MailMint')) {
+            return true;
+        }
+        return false;
     }
 
     public static function authorizeMailMint()
@@ -21,17 +22,17 @@ class MailMintController
         if (self::pluginActive()) {
             wp_send_json_success(true, 200);
         }
-        wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'Mail Mint'));
+        wp_send_json_error(__('Mail Mint must be activated!', 'bit-integrations'));
     }
 
     public static function allCustomFields()
     {
         if (class_exists('Mint\MRM\DataBase\Models\ContactGroupModel')) {
             global $wpdb;
-            $allFields = [];
-            $fields_table = $wpdb->prefix . CustomFieldSchema::$table_name;
-            $primaryFields = get_option('mint_contact_primary_fields', Constants::$primary_contact_fields);
-            $customFields = $wpdb->get_results($wpdb->prepare('SELECT title, slug, type, group_id FROM %s ', $fields_table), ARRAY_A);
+            $allFields      = [];
+            $fields_table   = $wpdb->prefix . CustomFieldSchema::$table_name;
+            $primaryFields  = get_option('mint_contact_primary_fields', Constants::$primary_contact_fields);
+            $customFields   = $wpdb->get_results($wpdb->prepare('SELECT title, slug, type, group_id FROM %1s ', $fields_table), ARRAY_A);
 
             if (!empty($customFields)) {
                 $primaryFields['other'] = array_merge($primaryFields['other'], $customFields);
@@ -40,15 +41,15 @@ class MailMintController
             foreach ($primaryFields as $moduleKey => $module) {
                 foreach ($module as $field) {
                     $allFields[] = (object) [
-                        'key'      => $moduleKey !== 'other' ? $field['slug'] : 'custom_meta_field_' . $field['slug'],
-                        'label'    => $field['title'],
-                        'required' => $field['slug'] == 'email' ? true : false
+                        'key'       => $moduleKey !== 'other' ? $field['slug'] : 'custom_meta_field_' . $field['slug'],
+                        'label'     => $field['title'],
+                        'required'  => $field['slug'] == 'email' ? true : false
                     ];
                 }
             }
             wp_send_json_success($allFields, 200);
         }
-        wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'Mail Mint'));
+        wp_send_json_error(__('Mail Mint must be activated!', 'bit-integrations'));
     }
 
     public static function getAllList()
@@ -60,7 +61,7 @@ class MailMintController
             if (!empty($listData)) {
                 foreach ($listData['data'] as $list) {
                     $allLists[] = [
-                        'id'   => $list['id'],
+                        'id' => $list['id'],
                         'name' => $list['title'],
                     ];
                 }
@@ -78,7 +79,7 @@ class MailMintController
             if (!empty($tagData)) {
                 foreach ($tagData['data'] as $tag) {
                     $allTags[] = [
-                        'id'   => $tag['id'],
+                        'id' => $tag['id'],
                         'name' => $tag['title'],
                     ];
                 }
@@ -94,10 +95,10 @@ class MailMintController
         $mainAction = $integrationDetails->mainAction;
         $fieldMap = $integrationDetails->field_map;
         if (
-            empty($integId)
-            || empty($mainAction)
+            empty($integId) ||
+            empty($mainAction)
         ) {
-            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Mail Mint'));
+            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for Mail Mint api', 'bit-integrations'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
         $mailMintApiResponse = $recordApiHelper->execute(
@@ -110,7 +111,6 @@ class MailMintController
         if (is_wp_error($mailMintApiResponse)) {
             return $mailMintApiResponse;
         }
-
         return $mailMintApiResponse;
     }
 }

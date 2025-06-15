@@ -1,7 +1,7 @@
 {
-    "name": "bitapps/bit-integrations",
+    "name": "bitcode/btcbi",
     "description": "An Integration plugin for wordpress",
-    "license": "GPL-2.0-or-later",
+    "license": "gpl-2",
     "autoload": {
         "psr-4": {
             "BitCode\\FI\\": "includes/"
@@ -9,25 +9,14 @@
     },
     "require-dev": {
         "phpcompatibility/phpcompatibility-wp": "*",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
-        "friendsofphp/php-cs-fixer": "^3.54"
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7"
     },
     "scripts": {
         "version-checker": "phpcs -p --standard=PHPCompatibilityWP --runtime-set testVersion 5.6- includes"
     },
     "config": {
         "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true,
-            "typisttech/imposter-plugin": true
-        }
-    },
-    "require": {
-        "bitapps/wp-telemetry": "v0.0.9",
-        "typisttech/imposter-plugin": "*"
-    },
-  "extra": {
-        "imposter": {
-        "namespace": "BTCBI\\Deps\\"
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     }
 }

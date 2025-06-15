@@ -9,7 +9,7 @@ import Steps from '../../Utilities/Steps'
 import { saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import OmniSendAuthorization from './OmniSendAuthorization'
-import { checkMappedFields, generateMappedField, handleInput } from './OmniSendCommonFunc'
+import { checkMappedFields, handleInput } from './OmniSendCommonFunc'
 import OmniSendIntegLayout from './OmniSendIntegLayout'
 
 function OmniSend({ formFields, setFlow, flow, allIntegURL }) {
@@ -18,7 +18,7 @@ function OmniSend({ formFields, setFlow, flow, allIntegURL }) {
   const [loading, setLoading] = useState({
     channel: false,
     field: false,
-    auth: false
+    auth: false,
   })
 
   const [step, setstep] = useState(1)
@@ -26,78 +26,80 @@ function OmniSend({ formFields, setFlow, flow, allIntegURL }) {
   const omniSendFields = [
     {
       key: 'email',
-      label: __('Email', 'bit-integrations'),
-      required: false
+      label: 'Email',
+      required: false,
     },
     {
       key: 'phone_number',
-      label: __('Phone Number', 'bit-integrations'),
-      required: false
+      label: 'Phone Number',
+      required: false,
     },
     {
       key: 'firstName',
-      label: __('First Name', 'bit-integrations'),
-      required: false
+      label: 'First Name',
+      required: false,
     },
     {
       key: 'lastName',
-      label: __('Last Name', 'bit-integrations'),
-      required: false
+      label: 'Last Name',
+      required: false,
     },
     {
       key: 'country',
-      label: __('Country', 'bit-integrations'),
-      required: false
+      label: 'Country',
+      required: false,
     },
 
     {
       key: 'countryCode',
-      label: __('Country Code', 'bit-integrations'),
-      required: false
+      label: 'Country Code',
+      required: false,
     },
     {
       key: 'state',
-      label: __('State', 'bit-integrations'),
-      required: false
+      label: 'State',
+      required: false,
     },
     {
       key: 'city',
-      label: __('City', 'bit-integrations'),
-      required: false
+      label: 'City',
+      required: false,
     },
     {
       key: 'address',
-      label: __('Address', 'bit-integrations'),
-      required: false
+      label: 'Address',
+      required: false,
     },
     {
       key: 'postalCode',
-      label: __('Postal Code', 'bit-integrations'),
-      required: false
+      label: 'Postal Code',
+      required: false,
     },
     {
       key: 'gender',
-      label: __('Gender', 'bit-integrations'),
-      required: false
+      label: 'Gender',
+      required: false,
     },
     {
       key: 'birthdate',
-      label: __('Birth Date', 'bit-integrations'),
-      required: false
-    }
+      label: 'Birth Date',
+      required: false,
+    },
   ]
   const [omniSendConf, setOmniSendConf] = useState({
     name: 'OmniSend',
     type: 'OmniSend',
-    api_key: '',
-    field_map: generateMappedField(omniSendFields),
-    custom_field_map: [{ formField: '', omniSendFormField: '' }],
+    api_key:
+      process.env.NODE_ENV === 'development'
+        ? '6368ea4de67810becfd7638c-TeHA6oan0eO092kBbJh0BiepvUYzn5sehgbbSfhO4hXgPLax1v'
+        : '',
+    field_map: [{ formField: '', omniSendFormField: '' }],
     channels: '',
     channel_types: [],
     email_status: '',
     sms_status: '',
     omniSend_fields: omniSendFields,
-    actions: {}
+    actions: {},
   })
 
   const saveConfig = () => {
@@ -110,9 +112,9 @@ function OmniSend({ formFields, setFlow, flow, allIntegURL }) {
       navigate,
       '',
       '',
-      setIsLoading
+      setIsLoading,
     )
-    resp.then(res => {
+    resp.then((res) => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -121,13 +123,13 @@ function OmniSend({ formFields, setFlow, flow, allIntegURL }) {
       }
     })
   }
-  const nextPage = pageNo => {
+  const nextPage = (pageNo) => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
     if (!checkMappedFields(omniSendConf)) {
-      toast.error(__('Please map mandatory fields', 'bit-integrations'))
+      toast.error('Please map mandatory fields')
       return
     }
     omniSendConf.field_map.length > 0 && setstep(pageNo)
@@ -159,12 +161,19 @@ function OmniSend({ formFields, setFlow, flow, allIntegURL }) {
           ...(step === 2 && {
             width: 900,
             height: 'auto',
-            overflow: 'visible'
-          })
-        }}>
+            overflow: 'visible',
+          }),
+        }}
+      >
         <OmniSendIntegLayout
           formFields={formFields}
-          handleInput={e => handleInput(e, omniSendConf, setOmniSendConf, setLoading, setSnackbar)}
+          handleInput={(e) => handleInput(
+            e,
+            omniSendConf,
+            setOmniSendConf,
+            setLoading,
+            setSnackbar,
+          )}
           omniSendConf={omniSendConf}
           setOmniSendConf={setOmniSendConf}
           loading={loading}
@@ -174,9 +183,12 @@ function OmniSend({ formFields, setFlow, flow, allIntegURL }) {
 
         <button
           onClick={() => nextPage(3)}
-          className="btn f-right btcd-btn-lg purple sh-sm flx"
-          type="button">
-          {__('Next', 'bit-integrations')} &nbsp;
+          className="btn f-right btcd-btn-lg green sh-sm flx"
+          type="button"
+        >
+          {__('Next', 'bit-integrations')}
+          {' '}
+          &nbsp;
           <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
         </button>
       </div>

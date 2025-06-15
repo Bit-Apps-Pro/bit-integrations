@@ -16,7 +16,6 @@ use BitCode\FI\Core\Util\HttpHelper;
 class RecordApiHelper
 {
     private $_integrationID;
-
     private $_integrationDetails;
 
     public function __construct($integrationDetails, $integId)
@@ -29,7 +28,7 @@ class RecordApiHelper
     {
         $header = [
             'Authorization' => 'Bearer ' . $tokenDetails->access_token,
-            'Content-Type'  => 'application/json'
+            'Content-Type' => 'application/json'
         ];
         $endPoint = "https://api.zoom.us/v2/meetings/{$meetingId}/registrants";
 
@@ -40,7 +39,6 @@ class RecordApiHelper
         foreach ($getRegistrants->registrants as $registrant) {
             if ($registrant->email == $finalData['email']) {
                 $registrantId = $registrant->id;
-
                 break;
             }
         }
@@ -48,7 +46,7 @@ class RecordApiHelper
         if ($registrantId !== null) {
             $headerDel = [
                 'Authorization' => 'Bearer ' . $tokenDetails->access_token,
-                'Content-Type'  => 'application/json'
+                'Content-Type' => 'application/json'
             ];
             $endPointDelete = "https://api.zoom.us/v2/meetings/{$meetingId}/registrants/{$registrantId}";
             HttpHelper::request($endPointDelete, 'DELETE', null, $headerDel);
@@ -57,11 +55,10 @@ class RecordApiHelper
 
     public function createMeetingRegistrant($meetingId, $data, $tokenDetails)
     {
-        $data = \is_string($data) ? $data : wp_json_encode((object) $data);
+        $data = \is_string($data) ? $data : \json_encode((object)$data);
         $header['Authorization'] = 'Bearer ' . $tokenDetails->access_token;
         $header['Content-Type'] = 'application/json';
         $createMeetingRegistrantEndpoint = 'https://api.zoom.us/v2/meetings/' . $meetingId . '/registrants';
-
         return HttpHelper::post($createMeetingRegistrantEndpoint, $data, $header);
     }
 
@@ -69,39 +66,45 @@ class RecordApiHelper
     {
         $dataFinal = [];
         foreach ($fieldMap as $key => $value) {
-            $triggerValue = $value->formField;
-            $actionValue = $value->zoomField;
+            $triggerValue   = $value->formField;
+            $actionValue    = $value->zoomField;
 
             if (str_starts_with($actionValue, 'custom_questions_') && $triggerValue === 'custom') {
-                $dataFinal['custom_questions'][] = self::setCustomFieldMap(str_replace('custom_questions_', '', $value->zoomField), Common::replaceFieldWithValue($value->customValue, $data));
+                $dataFinal['custom_questions'][] =  self::setCustomFieldMap(str_replace('custom_questions_', '', $value->zoomField), Common::replaceFieldWithValue($value->customValue, $data));
             } elseif (str_starts_with($actionValue, 'custom_questions_')) {
-                $dataFinal['custom_questions'][] = self::setCustomFieldMap(str_replace('custom_questions_', '', $value->zoomField), $data[$triggerValue]);
+                $dataFinal['custom_questions'][] =  self::setCustomFieldMap(str_replace('custom_questions_', '', $value->zoomField), $data[$triggerValue]);
             } elseif ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!\is_null($data[$triggerValue])) {
+            } elseif (!is_null($data[$triggerValue])) {
                 $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
-
         return $dataFinal;
+    }
+
+    private static function setCustomFieldMap($title, $value)
+    {
+        return (object) [
+            "title" => $title,
+            "value" => $value,
+        ];
     }
 
     public function createUser($meetingId, $finalData, $tokenDetails)
     {
         $dataCreateUser = [
-            'action'    => 'create',
+            'action' => 'create',
             'user_info' => [
-                'email'      => $finalData['email'],
+                'email' => $finalData['email'],
                 'first_name' => $finalData['first_name'],
-                'last_name'  => $finalData['last_name'],
-                'type'       => 1
+                'last_name' => $finalData['last_name'],
+                'type' => 1
             ]
         ];
-        $data = \is_string($dataCreateUser) ? $dataCreateUser : wp_json_encode((object) $dataCreateUser);
+        $data = \is_string($dataCreateUser) ? $dataCreateUser : \json_encode((object)$dataCreateUser);
         $header['Authorization'] = 'Bearer ' . $tokenDetails->access_token;
         $header['Content-Type'] = 'application/json';
         $createUserEndpoint = 'https://api.zoom.us/v2/users';
-
         return HttpHelper::post($createUserEndpoint, $data, $header);
     }
 
@@ -109,7 +112,7 @@ class RecordApiHelper
     {
         $header = [
             'Authorization' => 'Bearer ' . $tokenDetails->access_token,
-            'Content-Type'  => 'application/json'
+            'Content-Type' => 'application/json'
         ];
         $endPoint = 'https://api.zoom.us/v2/users';
 
@@ -118,7 +121,6 @@ class RecordApiHelper
         foreach ($getAllUsers->users as $user) {
             if ($user->email == $finalData['email']) {
                 $userId = $user->id;
-
                 break;
             }
         }
@@ -126,7 +128,7 @@ class RecordApiHelper
         if ($userId !== null) {
             $headerDel = [
                 'Authorization' => 'Bearer ' . $tokenDetails->access_token,
-                'Content-Type'  => 'application/json'
+                'Content-Type' => 'application/json'
             ];
             $endPointDelete = "https://api.zoom.us/v2/users/{$userId}";
             HttpHelper::request($endPointDelete, 'DELETE', null, $headerDel);
@@ -147,13 +149,13 @@ class RecordApiHelper
         $apiResponse = null;
         if ($selectedAction === 'Delete User') {
             $this->deleteUser($finalData, $tokenDetails);
-            $apiResponse = __('User deleted successfully', 'bit-integrations');
+            $apiResponse = 'User deleted successfully';
         }
 
         // Delete registrant if email is present in the form
         if ($selectedAction === 'Delete Attendee') {
             $this->deleteMeetingRegistrant($meetingId, $finalData, $tokenDetails);
-            $apiResponse = __('Attendee deleted successfully', 'bit-integrations');
+            $apiResponse = 'Attendee deleted successfully';
         }
 
         // Create user
@@ -170,15 +172,6 @@ class RecordApiHelper
         } else {
             LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'add-contact'], 'success', $apiResponse);
         }
-
         return $apiResponse;
-    }
-
-    private static function setCustomFieldMap($title, $value)
-    {
-        return (object) [
-            'title' => $title,
-            'value' => $value,
-        ];
     }
 }

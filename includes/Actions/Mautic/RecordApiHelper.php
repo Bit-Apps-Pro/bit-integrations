@@ -2,24 +2,21 @@
 
 namespace BitCode\FI\Actions\Mautic;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
+
 
 class RecordApiHelper
 {
     private $_defaultHeader;
-
     private $_tokenDetails;
-
     private $_integrationID;
-
-    private $_baseUrl;
 
     public function __construct($tokenDetails, $integId, $baseUrl)
     {
         $this->_defaultHeader['Authorization'] = "Bearer {$tokenDetails->access_token}";
-        $this->_defaultHeader['Content-Type'] = 'application/json';
+        $this->_defaultHeader['Content-Type'] = "application/json";
         $this->_tokenDetails = $tokenDetails;
         $this->_integrationID = $integId;
         $this->_baseUrl = $baseUrl;
@@ -27,9 +24,8 @@ class RecordApiHelper
 
     public function insertRecord($data)
     {
-        $data = \is_string($data) ? $data : wp_json_encode((object) $data);
-        $insertRecordEndpoint = "{$this->_baseUrl}/api/contacts/new";
-
+        $data = \is_string($data) ? $data : \json_encode((object)$data);
+        $insertRecordEndpoint = "$this->_baseUrl/api/contacts/new";;
         return HttpHelper::post($insertRecordEndpoint, $data, $this->_defaultHeader);
     }
 
@@ -42,33 +38,29 @@ class RecordApiHelper
             $actionValue = $value->mauticField;
             if ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!\is_null($data[$triggerValue])) {
+            } else if (!is_null($data[$triggerValue])) {
                 $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
-
         return $dataFinal;
     }
 
     public function execute($integrationDetails, $defaultConf, $fieldValues, $fieldMap, $actions)
     {
+        $tags = [];
+        if (property_exists($integrationDetails, "tag")) {
+            $tags = $integrationDetails->tag;
+        }
+
         $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
-
-        if (property_exists($integrationDetails, 'tag')) {
-            $finalData['tags'] = $integrationDetails->tag;
-        }
-        if (property_exists($integrationDetails, 'owner')) {
-            $finalData['owner'] = $integrationDetails->owner;
-        }
-
+        $finalData['tags'] = $tags;
         $apiResponse = $this->insertRecord($finalData);
 
         if (isset($apiResponse->errors)) {
-            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'contact', 'type_name' => 'add-contact']), 'error', wp_json_encode($apiResponse));
+            LogHandler::save($this->_integrationID, json_encode(['type' =>  'contact', 'type_name' => 'add-contact']), 'error', json_encode($apiResponse));
         } else {
-            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'contact', 'type_name' => 'add-contact']), 'success', wp_json_encode(__('Contact Added Successfully', 'bit-integrations')));
+            LogHandler::save($this->_integrationID, json_encode(['type' =>  'contact', 'type_name' => 'add-contact']), 'success', json_encode("Contact Added Successfully"));
         }
-
         return $apiResponse;
     }
 }

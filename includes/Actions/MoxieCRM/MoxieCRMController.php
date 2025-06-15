@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\MoxieCRM;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use WP_Error;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for MoxieCRM integration
@@ -15,7 +15,6 @@ use WP_Error;
 class MoxieCRMController
 {
     protected $_defaultHeader;
-
     protected $apiEndpoint;
 
     // public function __construct()
@@ -29,19 +28,19 @@ class MoxieCRMController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->api_key;
-        $apiEndpoint = 'https://' . $fieldsRequestParams->api_url . '/api/public/action/users/list';
+        $apiKey      = $fieldsRequestParams->api_key;
+        $apiEndpoint = 'https://'.$fieldsRequestParams->api_url . "/api/public/action/users/list";
         $headers = [
-            'X-API-KEY'    => $apiKey,
-            'Content-Type' => 'application/json'
+            "X-API-KEY"  => $apiKey,
+            "Content-Type"      => "application/json"
         ];
 
         $response = HttpHelper::get($apiEndpoint, null, $headers);
 
         if (!isset($response->error)) {
-            wp_send_json_success(__('Authentication successful', 'bit-integrations'), 200);
+            wp_send_json_success('Authentication successful', 200);
         } else {
-            wp_send_json_error(__('Please enter valid API key', 'bit-integrations'), 400);
+            wp_send_json_error('Please enter valid API key', 400);
         }
     }
 
@@ -73,7 +72,7 @@ class MoxieCRMController
     //         }
     //         wp_send_json_success($customFields, 200);
     //     } else {
-    //         wp_send_json_error(__('Custom field fetching failed', 'bit-integrations'), 400);
+    //         wp_send_json_error('Custom field fetching failed', 400);
     //     }
     // }
 
@@ -83,10 +82,10 @@ class MoxieCRMController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->api_key;
-        $apiEndpoint = $this->apiEndpoint . '/opportunities';
+        $apiKey      = $fieldsRequestParams->api_key;
+        $apiEndpoint = $this->apiEndpoint . "/opportunities";
         $headers = [
-            'Authorization' => 'Bearer ' . $apiKey,
+            "Authorization" => 'Bearer ' . $apiKey,
         ];
 
         $response = HttpHelper::get($apiEndpoint, null, $headers);
@@ -100,7 +99,7 @@ class MoxieCRMController
             }
             wp_send_json_success($opportunities, 200);
         } else {
-            wp_send_json_error(__('Opportunity fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Opportunity fetching failed', 400);
         }
     }
 
@@ -109,13 +108,14 @@ class MoxieCRMController
         if (empty($fieldsRequestParams->api_key)) {
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
-        $apiKey = $fieldsRequestParams->api_key;
-        $apiUrl = $fieldsRequestParams->api_url;
-        $apiEndpoint = 'https://' . $apiUrl . '/api/public/action/clients/list';
+        $apiKey      = $fieldsRequestParams->api_key;
+        $apiUrl     = $fieldsRequestParams->api_url;
+        $apiEndpoint = 'https://'. $apiUrl . "/api/public/action/clients/list";
         $headers = [
-            'X-API-KEY'    => $apiKey,
-            'Content-Type' => 'application/json'
+            "X-API-KEY"  => $apiKey,
+            "Content-Type"      => "application/json"
         ];
+
 
         $response = HttpHelper::get($apiEndpoint, null, $headers);
 
@@ -128,9 +128,10 @@ class MoxieCRMController
             }
             wp_send_json_success($clients, 200);
         } else {
-            wp_send_json_error(__('Clients fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Clients fetching failed', 400);
         }
     }
+
 
     public function getAllPipelineStages($fieldsRequestParams)
     {
@@ -138,11 +139,11 @@ class MoxieCRMController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->api_key;
-        $apiEndpoint = 'https://' . $fieldsRequestParams->api_url . '/api/public/action/pipelineStages/list';
+        $apiKey      = $fieldsRequestParams->api_key;
+        $apiEndpoint = 'https://'.$fieldsRequestParams->api_url . "/api/public/action/pipelineStages/list";
         $headers = [
-            'X-API-KEY'    => $apiKey,
-            'Content-Type' => 'application/json'
+            "X-API-KEY"  => $apiKey,
+            "Content-Type"      => "application/json"
         ];
 
         $response = HttpHelper::get($apiEndpoint, null, $headers);
@@ -156,7 +157,7 @@ class MoxieCRMController
             }
             wp_send_json_success($pipelineStages, 200);
         } else {
-            wp_send_json_error(__('PipelineStages fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('PipelineStages fetching failed', 400);
         }
     }
 
@@ -166,12 +167,12 @@ class MoxieCRMController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->api_key;
-        $apiUrl = $fieldsRequestParams->api_url;
-        $apiEndpoint = $this->apiEndpoint . '/people/search';
+        $apiKey      = $fieldsRequestParams->api_key;
+        $apiUrl     = $fieldsRequestParams->api_url;
+        $apiEndpoint = $this->apiEndpoint . "/people/search";
         $headers = [
-            'X-API-KEY'    => $apiKey,
-            'Content-Type' => 'application/json'
+            "X-API-KEY"  => $apiKey,
+            "Content-Type"      => "application/json"
         ];
 
         $response = HttpHelper::post($apiEndpoint, null, $headers);
@@ -185,7 +186,7 @@ class MoxieCRMController
             }
             wp_send_json_success($peoples, 200);
         } else {
-            wp_send_json_error(__('Peoples fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Peoples fetching failed', 400);
         }
     }
 
@@ -195,12 +196,12 @@ class MoxieCRMController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->api_key;
-        $apiUrl = $fieldsRequestParams->api_url;
-        $apiEndpoint = $this->apiEndpoint . '/pipelines';
+        $apiKey      = $fieldsRequestParams->api_key;
+        $apiUrl     = $fieldsRequestParams->api_url;
+        $apiEndpoint = $this->apiEndpoint . "/pipelines";
         $headers = [
-            'X-API-KEY'    => $apiKey,
-            'Content-Type' => 'application/json'
+            "X-API-KEY"  => $apiKey,
+            "Content-Type"      => "application/json"
         ];
 
         $response = HttpHelper::get($apiEndpoint, null, $headers);
@@ -214,29 +215,28 @@ class MoxieCRMController
             }
             wp_send_json_success($pipelines, 200);
         } else {
-            wp_send_json_error(__('Pipelines fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error('Pipelines fetching failed', 400);
         }
     }
 
     public function execute($integrationData, $fieldValues)
     {
         $integrationDetails = $integrationData->flow_details;
-        $integId = $integrationData->id;
-        $authToken = $integrationDetails->api_key;
-        $fieldMap = $integrationDetails->field_map;
-        $actionName = $integrationDetails->actionName;
+        $integId            = $integrationData->id;
+        $authToken          = $integrationDetails->api_key;
+        $fieldMap           = $integrationDetails->field_map;
+        $actionName         = $integrationDetails->actionName;
 
         if (empty($fieldMap) || empty($authToken) || empty($actionName)) {
-            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'MoxieCRM'));
+            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for MoxieCRM api', 'bit-integrations'));
         }
 
-        $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
+        $recordApiHelper   = new RecordApiHelper($integrationDetails, $integId);
         $moxiecrmApiResponse = $recordApiHelper->execute($fieldValues, $fieldMap, $actionName);
 
         if (is_wp_error($moxiecrmApiResponse)) {
             return $moxiecrmApiResponse;
         }
-
         return $moxiecrmApiResponse;
     }
 }

@@ -6,9 +6,8 @@
 
 namespace BitCode\FI\Actions\MailPoet;
 
-use Exception;
 use BitCode\FI\Log\LogHandler;
-use BitCode\FI\Core\Util\Common;
+use \MailPoet\API\MP\v1\APIException;
 
 /**
  * Provide functionality for Record insert,upsert
@@ -17,132 +16,65 @@ class RecordApiHelper
 {
     private $_integrationID;
 
-    private static $mailPoet_api;
 
     public function __construct($integId)
     {
-        if (!class_exists(\MailPoet\API\API::class)) {
-            return;
-        }
-
         $this->_integrationID = $integId;
-        static::$mailPoet_api = \MailPoet\API\API::MP('v1');
     }
 
-    public function insertRecord($subscriber, $lists, $actions)
+    public function insertRecord($subscriber, $lists)
     {
+        $mailpoet_api = \MailPoet\API\API::MP('v1');
+
         try {
             // try to find if user is already a subscriber
-            $existingSubscriber = static::$mailPoet_api->getSubscriber($subscriber['email']);
-
-            if (!$existingSubscriber) {
-                return static::addSubscriber($subscriber, $lists);
+            $existing_subscriber = \MailPoet\Models\Subscriber::findOne($subscriber['email']);
+            if (!$existing_subscriber) {
+                $response       = $mailpoet_api->addSubscriber($subscriber, $lists);
+                $subscriber_id  = $response['id'];
+            } else {
+                $response       = $mailpoet_api->subscribeToLists($existing_subscriber->id, $lists);
+                $subscriber_id  = $existing_subscriber->id;
             }
 
-            if (!empty($actions->update)) {
-                $response = apply_filters('btcbi_mailpoet_update_subscriber', $existingSubscriber['id'], $subscriber);
-
-                if ($response === $existingSubscriber['id']) {
-                    $errorMessages = wp_sprintf(__('%s is not active or not installed', 'bit-integrations'), 'Bit Integration Pro');
-                } elseif (!$response['success']) {
-                    $errorMessages = $response('message');
-                }
-
-                if (isset($errorMessages)) {
-                    LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'update'], 'error', $errorMessages);
-                }
-            }
-
-            return static::addSubscribeToLists($existingSubscriber['id'], $lists);
+            $response = [
+                'success'   => true,
+                'id'        => $subscriber_id
+            ];
         } catch (\MailPoet\API\MP\v1\APIException $e) {
-            if ($e->getCode() == 4) {
-                // Handle the case where the subscriber doesn't exist
-                return static::addSubscriber($subscriber, $lists);
-            }
-
-            return [
+            $response = [
                 'success' => false,
-                'code'    => $e->getCode(),
+                'code' => $e->getCode(),
                 'message' => $e->getMessage()
             ];
-        } catch (Exception $e) {
-            // Handle other unexpected exceptions
-            return [
-                'success' => false,
-                'code'    => $e->getCode(),
-                'message' => $e->getMessage(),
-            ];
         }
+        return $response;
     }
 
-    public function execute($fieldValues, $fieldMap, $lists, $actions)
+    public function execute($fieldValues, $fieldMap, $lists)
     {
         if (!class_exists(\MailPoet\API\API::class)) {
             return;
         }
+        $fieldData = [];
 
-        $fieldData = static::setFieldMap($fieldMap, $fieldValues);
-        $recordApiResponse = $this->insertRecord($fieldData, $lists, $actions);
+        foreach ($fieldMap as $fieldKey => $fieldPair) {
+            if (!empty($fieldPair->mailPoetField)) {
+                if ($fieldPair->formField === 'custom' && isset($fieldPair->customValue)) {
+                    $fieldData[$fieldPair->mailPoetField] = $fieldPair->customValue;
+                } else {
+                    $fieldData[$fieldPair->mailPoetField] = $fieldValues[$fieldPair->formField];
+                }
+            }
+        }
 
+        $recordApiResponse = $this->insertRecord($fieldData, $lists);
         if ($recordApiResponse['success']) {
-            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'insert'], 'success', $recordApiResponse);
+            LogHandler::save($this->_integrationID, ['type' =>  'record', 'type_name' => 'insert'], 'success', $recordApiResponse);
         } else {
-            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'insert'], 'error', $recordApiResponse);
+            LogHandler::save($this->_integrationID, ['type' =>  'record', 'type_name' => 'insert'], 'error', $recordApiResponse);
         }
 
         return $recordApiResponse;
-    }
-
-    private static function setFieldMap($fieldMap, $fieldValues)
-    {
-        $fieldData = [];
-
-        foreach ($fieldMap as $fieldPair) {
-            if (empty($fieldPair->mailPoetField)) {
-                continue;
-            }
-
-            $fieldData[$fieldPair->mailPoetField] = ($fieldPair->formField == 'custom' && !empty($fieldPair->customValue))
-                ? Common::replaceFieldWithValue($fieldPair->customValue, $fieldValues)
-                : $fieldValues[$fieldPair->formField];
-        }
-
-        return $fieldData;
-    }
-
-    private static function addSubscriber($subscriber, $lists)
-    {
-        try {
-            $subscriber = static::$mailPoet_api->addSubscriber($subscriber, $lists);
-
-            return [
-                'success' => true,
-                'id'      => $subscriber['id'],
-            ];
-        } catch (\MailPoet\API\MP\v1\APIException $e) {
-            return [
-                'success' => false,
-                'code'    => $e->getCode(),
-                'message' => $e->getMessage(),
-            ];
-        }
-    }
-
-    private static function addSubscribeToLists($subscriber_id, $lists)
-    {
-        try {
-            $subscriber = static::$mailPoet_api->subscribeToLists($subscriber_id, $lists);
-
-            return [
-                'success' => true,
-                'id'      => $subscriber['id'],
-            ];
-        } catch (\MailPoet\API\MP\v1\APIException $e) {
-            return [
-                'success' => false,
-                'code'    => $e->getCode(),
-                'message' => $e->getMessage(),
-            ];
-        }
     }
 }

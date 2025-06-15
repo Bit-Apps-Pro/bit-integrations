@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect } from 'react'
-import { __ } from '../../Utils/i18nwrap'
 
 export default function Menu(props) {
   const [isComponentVisible, setIsComponentVisible] = useState(false)
@@ -26,16 +25,7 @@ export default function Menu(props) {
 
   return (
     <div className="btcd-menu">
-      <button
-        ref={ref}
-        onClick={handleMenu}
-        className="icn-btn btcd-icn-lg tooltip"
-        style={{
-          '--tooltip-txt': `'${__('Column  Visibility', 'bit-integrations')}'`,
-          '--tt-left': '148%'
-        }}
-        aria-label="icon-btn"
-        type="button">
+      <button ref={ref} onClick={handleMenu} className="icn-btn btcd-icn-lg tooltip" style={{ '--tooltip-txt': '"Column  Visibility"', '--tt-left': '148%' }} aria-label="icon-btn" type="button">
         <span className={`btcd-icn ${props.icn}`} />
         {props.title}
       </button>

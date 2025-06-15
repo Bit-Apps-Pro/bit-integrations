@@ -2,21 +2,19 @@ import { useState } from 'react'
 import BackIcn from '../../../Icons/BackIcn'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { deepCopy } from '../../../Utils/Helpers'
-import { __, sprintf } from '../../../Utils/i18nwrap'
+import { __ } from '../../../Utils/i18nwrap'
 import LoaderSm from '../../Loaders/LoaderSm'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 
-export default function PaidMembershipProAuthorization({
-  formID,
+export default function PaidMembershipProAuthorization({ formID,
   paidMembershipProConf,
   setPaidMembershipProConf,
   step,
   setStep,
   isLoading,
   setIsLoading,
-  setSnackbar
-}) {
+  setSnackbar }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
   const { paidMembershipPro } = tutorialLinks
@@ -26,10 +24,7 @@ export default function PaidMembershipProAuthorization({
     bitsFetch({}, 'paid_membership_pro_authorize').then((result) => {
       if (result?.success) {
         setisAuthorized(true)
-        setSnackbar({
-          show: true,
-          msg: __('Connected with Paid Membership Pro Successfully', 'bit-integrations')
-        })
+        setSnackbar({ show: true, msg: __('Connected with Paid Membership Pro Successfully', 'bit-integrations') })
       }
       setIsLoading(false)
       setShowAuthMsg(true)
@@ -47,13 +42,20 @@ export default function PaidMembershipProAuthorization({
       className="btcd-stp-page"
       style={{
         width: step === 1 && 900,
-        height: step === 1 && 'auto'
-      }}>
+        height: step === 1 && 'auto',
+      }}
+    >
       {paidMembershipPro?.youTubeLink && (
-        <TutorialLink title="Paid Memberships Pro" youTubeLink={paidMembershipPro?.youTubeLink} />
+        <TutorialLink
+          title={paidMembershipPro?.title}
+          youTubeLink={paidMembershipPro?.youTubeLink}
+        />
       )}
       {paidMembershipPro?.docLink && (
-        <TutorialLink title="Paid Memberships Pro" docLink={paidMembershipPro?.docLink} />
+        <TutorialLink
+          title={paidMembershipPro?.title}
+          docLink={paidMembershipPro?.docLink}
+        />
       )}
 
       <div className="mt-3">
@@ -71,7 +73,7 @@ export default function PaidMembershipProAuthorization({
       {isLoading === 'auth' && (
         <div className="flx mt-5">
           <LoaderSm size={25} clr="#022217" className="mr-2" />
-          {__('Checking if Paid Membership Pro is active!!!', 'bit-integrations')}
+          Checking if Paid Membership Pro is active!!!
         </div>
       )}
 
@@ -80,31 +82,18 @@ export default function PaidMembershipProAuthorization({
           <span className="btcd-icn mr-2" style={{ fontSize: 30, marginTop: -5 }}>
             &times;
           </span>
-          {sprintf(
-            __(
-              '%s plugin must be activated to integrate with Bit Integrations',
-              'bit-integrations'
-            ),
-            'Paid Membership Pro'
-          )}
+          Paid Membership Pro plugin must be activated to integrate with Bit Integrations.
         </div>
       )}
 
       {!isAuthorized && (
-        <button
-          onClick={authorizeHandler}
-          className="btn btcd-btn-lg purple sh-sm flx mt-5"
-          type="button">
+        <button onClick={authorizeHandler} className="btn btcd-btn-lg green sh-sm flx mt-5" type="button">
           {__('Connect', 'bit-integrations')}
         </button>
       )}
 
       {isAuthorized && (
-        <button
-          onClick={() => setStep(2)}
-          className="btn btcd-btn-lg purple sh-sm flx mt-5"
-          type="button"
-          disabled={!isAuthorized}>
+        <button onClick={() => setStep(2)} className="btn btcd-btn-lg green sh-sm flx mt-5" type="button" disabled={!isAuthorized}>
           {__('Next', 'bit-integrations')}
           <BackIcn className="ml-1 rev-icn" />
         </button>

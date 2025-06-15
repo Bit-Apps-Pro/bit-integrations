@@ -1,14 +1,10 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import Tagify from '@yaireo/tagify'
 import '@yaireo/tagify/dist/tagify.css'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react';
 
-function TagifyInput({ label, onChange, value, disabled, type, textarea, className, formFields }) {
-  const fields = formFields
-    ? formFields
-        .filter((itm) => itm.label !== undefined)
-        .map((item) => ({ name: item.label, value: item.name }))
-    : []
+function TagifyInput({ label, onChange, value, disabled, type, textarea, className ,formFields }) {
+  const fields = formFields ? formFields.filter(itm => itm.label !== undefined).map(item => ({ name: item.label, value: item.name })) : []
 
   const targetRef = useRef(null)
 
@@ -21,27 +17,24 @@ function TagifyInput({ label, onChange, value, disabled, type, textarea, classNa
     if (tagifyRef.current) {
       tagifyRef.current.destroy()
     }
-
     tagifyRef.current = new Tagify(input, tagifySettings)
     tagifyRef.current.DOM.originalInput.value = value
 
     tagifyRef.current.on('input', onInput)
     tagifyRef.current.on('add', onAddTag)
     tagifyRef.current.on('remove', onRemoveTag)
-    tagifyRef.current.on('change', onAddTag)
   }, [])
 
-  const modifyTagifyData = (val) => {
+  const modifyTagifyData = val => {
     const matchedBraces = val.match(/(\${{.*?"value":".*?)"}}/g)
     let replacedData = val
     if (matchedBraces) {
-      matchedBraces.forEach((item) => {
+      matchedBraces.forEach(item => {
         const itm = item.slice(2, -1)
         const parseData = JSON.parse(itm)
         replacedData = replacedData.replace(item, `\${${parseData.value}}`)
       })
     }
-
     onChange(replacedData)
   }
 
@@ -60,15 +53,16 @@ function TagifyInput({ label, onChange, value, disabled, type, textarea, classNa
     setTimeout(() => {
       modifyTagifyData(e.detail.tagify.DOM.originalInput.value)
     }, 100)
+
   }
 
-  const onAddTag = (e) => {
+  const onAddTag = e => {
     setTimeout(() => {
       modifyTagifyData(e.detail.tagify.DOM.originalInput.value)
     }, 100)
   }
 
-  const onRemoveTag = (e) => {
+  const onRemoveTag = e => {
     setTimeout(() => {
       modifyTagifyData(e.detail.tagify.DOM.originalInput.value)
     }, 100)
@@ -76,9 +70,9 @@ function TagifyInput({ label, onChange, value, disabled, type, textarea, classNa
 
   const tagifySettings = {
     mixTagsInterpolator: ['${', '}'],
-    mode: 'mix',
+    mode: 'mix', 
     mixMode: { insertAfterTag: ' ' },
-    pattern: /#/,
+    pattern:  /#/,
     placeholder: label,
     tagTextProp: 'value',
     duplicates: true,
@@ -93,7 +87,7 @@ function TagifyInput({ label, onChange, value, disabled, type, textarea, classNa
       highlightFirst: true,
       searchKeys: ['label', 'value'],
       closeOnSelect: true,
-      placeAbove: false
+      placeAbove: false,
     },
     callbacks: {
       add: () => {
@@ -101,8 +95,8 @@ function TagifyInput({ label, onChange, value, disabled, type, textarea, classNa
       },
       remove: () => {
         modifyTagifyData(tagifyRef.current.DOM.originalInput.value)
-      }
-    }
+      },
+    },
   }
   return (
     <div>

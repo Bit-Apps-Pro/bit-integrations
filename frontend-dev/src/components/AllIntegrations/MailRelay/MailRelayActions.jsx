@@ -10,7 +10,7 @@ import Loader from '../../Loaders/Loader'
 import { getAllGroups } from './MailRelayCommonFunc'
 
 export default function MailRelayActions({ mailRelayConf, setMailRelayConf, loading, setLoading }) {
-  const [actionMdl, setActionMdl] = useState({ show: false, action: () => {} })
+  const [actionMdl, setActionMdl] = useState({ show: false, action: () => { } })
   const actionHandler = (e, type) => {
     const newConf = { ...mailRelayConf }
     if (type === 'group') {
@@ -52,63 +52,45 @@ export default function MailRelayActions({ mailRelayConf, setMailRelayConf, load
 
   return (
     <div className="pos-rel d-flx w-8">
-      <TableCheckBox
-        checked={mailRelayConf?.selectedGroups.length || false}
-        onChange={(e) => actionHandler(e, 'group')}
-        className="wdt-200 mt-4 mr-2"
-        value="group"
-        title={__('Add Groups', 'bit - integrations')}
-        subTitle={__('Add Groups')}
-      />
-      <TableCheckBox
-        checked={mailRelayConf.actions?.update || false}
-        onChange={(e) => actionHandler(e, 'update')}
-        className="wdt-200 mt-4 mr-2"
-        value="update_subscriber"
-        title={__('Update subscriber', 'bit-integrations')}
-        subTitle={__('Override the existing subscriber info by responses.', 'bit-integrations')}
-      />
+      <TableCheckBox checked={mailRelayConf?.selectedGroups.length || false} onChange={(e) => actionHandler(e, 'group')} className="wdt-200 mt-4 mr-2" value="group" title={__('Add Groups', 'bit - integrations')} subTitle={__('Add Groups')} />
+      <TableCheckBox checked={mailRelayConf.actions?.update || false} onChange={(e) => actionHandler(e, 'update')} className="wdt-200 mt-4 mr-2" value="update_subscriber" title={__('Update subscriber', 'bit-integrations')} subTitle={__('Override the existing subscriber info by responses.', 'bit-integrations')} />
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="purple"
+        btnClass="blue"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'group'}
         close={clsActionMdl}
         action={clsActionMdl}
-        title={__('Groups', 'bit-integrations')}>
+        title={__('Groups', 'bit-integrations')}
+      >
         <div className="btcd-hr mt-2 mb-2" />
-        <div className="mt-2">{__('Select groups', 'bit-integrations')}</div>
-        {loading.groups ? (
-          <Loader
-            style={{
+        <div className="mt-2">
+          {__('Select groups', 'bit-integrations')}
+        </div>
+        {
+          loading.groups ? (
+            <Loader style={{
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               height: 45,
-              transform: 'scale(0.5)'
+              transform: 'scale(0.5)',
             }}
-          />
-        ) : (
-          <div className="flx flx-between mt-2">
-            <MultiSelect
-              options={mailRelayConf?.groups?.map((group) => ({
-                label: group.name,
-                value: group.id
-              }))}
-              className="msl-wrp-options"
-              defaultValue={mailRelayConf?.selectedGroups}
-              onChange={(val) => setChanges(val)}
             />
-            <button
-              onClick={() => getAllGroups(mailRelayConf, setMailRelayConf, setLoading)}
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `${__('Refresh Groups', 'bit-integrations')}'` }}
-              type="button">
-              &#x21BB;
-            </button>
-          </div>
-        )}
+          )
+            : (
+              <div className="flx flx-between mt-2">
+                <MultiSelect
+                  options={mailRelayConf?.groups?.map(group => ({ label: group.name, value: group.id }))}
+                  className="msl-wrp-options"
+                  defaultValue={mailRelayConf?.selectedGroups}
+                  onChange={val => setChanges(val)}
+                />
+                <button onClick={() => getAllGroups(mailRelayConf, setMailRelayConf, setLoading)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `${__('Refresh Groups', 'bit-integrations')}'` }} type="button">&#x21BB;</button>
+              </div>
+            )
+        }
       </ConfirmModal>
     </div>
   )

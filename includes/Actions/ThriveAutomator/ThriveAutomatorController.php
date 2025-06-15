@@ -2,6 +2,7 @@
 
 /**
  * ThriveAutomator Integration
+ *
  */
 
 namespace BitCode\FI\Actions\ThriveAutomator;

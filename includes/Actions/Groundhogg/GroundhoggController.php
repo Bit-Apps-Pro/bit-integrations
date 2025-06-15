@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\Groundhogg;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use WP_Error;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Groundhogg integration
@@ -30,7 +30,7 @@ class GroundhoggController
         }
 
         $authorizationHeader = [
-            'Gh-Token'      => $requestParams->token,
+            'Gh-Token' => $requestParams->token,
             'Gh-Public-Key' => $requestParams->public_key
         ];
 
@@ -38,6 +38,7 @@ class GroundhoggController
         $apiResponse = HttpHelper::get($apiEndpoint, null, $authorizationHeader);
 
         if ($apiResponse->status === 'success') {
+            $apiResponse;
             wp_send_json_success($apiResponse, 200);
         } else {
             wp_send_json_error(
@@ -63,7 +64,7 @@ class GroundhoggController
         }
 
         $authorizationHeader = [
-            'Gh-Token'      => $requestParams->token,
+            'Gh-Token' => $requestParams->token,
             'Gh-Public-Key' => $requestParams->public_key
         ];
         $apiEndpoint = $requestParams->domainName . '/index.php?rest_route=/gh/v4/contacts';
@@ -71,6 +72,7 @@ class GroundhoggController
         $apiResponse = HttpHelper::get($apiEndpoint, null, $authorizationHeader);
 
         if ($apiResponse->status === 'success') {
+            $apiResponse;
             wp_send_json_success($apiResponse, 200);
         } else {
             wp_send_json_error(
@@ -90,7 +92,7 @@ class GroundhoggController
         if (
             empty($fieldMap)
         ) {
-            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Groundhogg'));
+            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for Groundhogg api', 'bit-integrations'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
         $groundhoggApiResponse = $recordApiHelper->execute(
@@ -103,7 +105,6 @@ class GroundhoggController
         if (is_wp_error($groundhoggApiResponse)) {
             return $groundhoggApiResponse;
         }
-
         return $groundhoggApiResponse;
     }
 }

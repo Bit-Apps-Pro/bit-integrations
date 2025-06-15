@@ -3,14 +3,7 @@ import bitsFetch from '../../../Utils/bitsFetch'
 import { deepCopy } from '../../../Utils/Helpers'
 import { sprintf, __ } from '../../../Utils/i18nwrap'
 
-export const handleInput = (
-  e,
-  paidMembershipProConf,
-  setPaidMembershipProConf,
-  setIsLoading,
-  setSnackbar,
-  formID
-) => {
+export const handleInput = (e, paidMembershipProConf, setPaidMembershipProConf, setIsLoading, setSnackbar, formID) => {
   const newConf = { ...paidMembershipProConf }
   const { name, value } = e.target
   if (e.target.value !== '') {
@@ -22,12 +15,7 @@ export const handleInput = (
   getAllPaidMemberShipProLevel(newConf, setPaidMembershipProConf, setIsLoading, setSnackbar)
 }
 
-export const getAllPaidMemberShipProLevel = (
-  paidMembershipProConf,
-  setPaidMembershipProConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const getAllPaidMemberShipProLevel = (paidMembershipProConf, setPaidMembershipProConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   bitsFetch(null, 'fetch_all_paid_membership_pro_level')
     .then((result) => {
@@ -50,9 +38,7 @@ export const getAllPaidMemberShipProLevel = (
         return
       }
       setIsLoading(false)
-      toast.error(
-        __('Paid Membership pro level fetch failed. please try again', 'bit-integrations')
-      )
+      toast.error(__('Paid Membership pro level fetch failed. please try again', 'bit-integrations'))
     })
     .catch(() => setIsLoading(false))
 }
