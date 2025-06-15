@@ -12,15 +12,17 @@ const UltimateMemberHelper = ({ flow, setFlowData, edit = false }) => {
 
   return (
     <>
-      {(id === 'roleSpecificChange') && (
+      {id === 'roleSpecificChange' && (
         <div className={edit ? 'flx mt-3' : ''}>
-          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>Select a role</b>
+          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
+            {__('Select a role', 'bit-integrations')}
+          </b>
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={triggerData?.selectedRole}
             options={triggerData?.allRole?.map((list) => ({
               label: list.label,
-              value: list.name.toString(),
+              value: list.name.toString()
             }))}
             onChange={(val) => setFlowData(val, 'selectedRole')}
             singleSelect

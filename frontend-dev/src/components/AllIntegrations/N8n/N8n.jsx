@@ -21,29 +21,23 @@ function N8n({ formFields, setFlow, flow, allIntegURL }) {
     name: 'N8n Web Hooks',
     type: 'N8n',
     method: 'POST',
-    url: process.env.NODE_ENV === 'development' ? 'https://connect.n8n.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D' : '',
-    apiConsole: 'https://connect.n8n.com/dashboard',
+    url: '',
+    apiConsole: 'https://connect.n8n.com/dashboard'
   })
 
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={2} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={2} active={step} />
+      </div>
 
       {/* STEP 1 */}
-      <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
-        {n8nLinks?.youTubeLink && (
-          <TutorialLink
-            title={n8nLinks?.title}
-            youTubeLink={n8nLinks?.youTubeLink}
-          />
-        )}
-        {n8nLinks?.docLink && (
-          <TutorialLink
-            title={n8nLinks?.title}
-            docLink={n8nLinks?.docLink}
-          />
-        )}
+      <div
+        className="btcd-stp-page"
+        style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
+        {n8nLinks?.youTubeLink && <TutorialLink title="n8n.io" youTubeLink={n8nLinks?.youTubeLink} />}
+        {n8nLinks?.docLink && <TutorialLink title="n8n.io" docLink={n8nLinks?.docLink} />}
 
         <WebHooksIntegration
           formID={formID}
@@ -58,14 +52,16 @@ function N8n({ formFields, setFlow, flow, allIntegURL }) {
       </div>
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
-
+      <div
+        className="btcd-stp-page"
+        style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
         <WebHooksStepTwo
           step={step}
-          saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, n8n, navigate, '', '', setIsLoading)}
+          saveConfig={() =>
+            saveIntegConfig(flow, setFlow, allIntegURL, n8n, navigate, '', '', setIsLoading)
+          }
           isLoading={isLoading}
         />
-
       </div>
     </div>
   )

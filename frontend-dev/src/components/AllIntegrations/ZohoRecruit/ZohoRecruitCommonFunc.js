@@ -1,5 +1,5 @@
-import { sprintf, __ } from "../../../Utils/i18nwrap";
-import bitsFetch from "../../../Utils/bitsFetch";
+import { sprintf, __ } from '../../../Utils/i18nwrap'
+import bitsFetch from '../../../Utils/bitsFetch'
 
 export const handleInput = (
   e,
@@ -13,35 +13,28 @@ export const handleInput = (
   error,
   setError
 ) => {
-  let newConf = { ...recruitConf };
+  let newConf = { ...recruitConf }
 
   if (recordTab === 0) {
     if (isNew) {
-      const rmError = { ...error };
-      rmError[e.target.name] = "";
-      setError({ ...rmError });
+      const rmError = { ...error }
+      rmError[e.target.name] = ''
+      setError({ ...rmError })
     }
-    newConf[e.target.name] = e.target.value;
+    newConf[e.target.name] = e.target.value
   } else {
-    newConf.relatedlists[recordTab - 1][e.target.name] = e.target.value;
+    newConf.relatedlists[recordTab - 1][e.target.name] = e.target.value
   }
 
   switch (e.target.name) {
-    case "module":
-      newConf = moduleChange(
-        recordTab,
-        newConf,
-        formID,
-        setRecruitConf,
-        setIsLoading,
-        setSnackbar
-      );
-      break;
+    case 'module':
+      newConf = moduleChange(recordTab, newConf, formID, setRecruitConf, setIsLoading, setSnackbar)
+      break
     default:
-      break;
+      break
   }
-  setRecruitConf({ ...newConf });
-};
+  setRecruitConf({ ...newConf })
+}
 
 export const handleTabChange = (
   recordTab,
@@ -54,17 +47,11 @@ export const handleTabChange = (
 ) => {
   if (recordTab) {
     !recruitConf?.default?.relatedlists?.[recruitConf.module] &&
-      refreshRelatedList(
-        formID,
-        recruitConf,
-        setRecruitConf,
-        setIsLoading,
-        setSnackbar
-      );
+      refreshRelatedList(formID, recruitConf, setRecruitConf, setIsLoading, setSnackbar)
   }
 
-  settab(recordTab);
-};
+  settab(recordTab)
+}
 
 export const moduleChange = (
   recordTab,
@@ -74,435 +61,328 @@ export const moduleChange = (
   setIsLoading,
   setSnackbar
 ) => {
-  const newConf = { ...recruitConf };
-  const module =
-    recordTab === 0
-      ? newConf.module
-      : newConf.relatedlists[recordTab - 1].module;
+  const newConf = { ...recruitConf }
+  const module = recordTab === 0 ? newConf.module : newConf.relatedlists[recordTab - 1].module
 
   if (recordTab === 0) {
-    newConf.actions = {};
-    newConf.field_map = [{ formField: "", zohoFormField: "" }];
-    newConf.upload_field_map = [{ formField: "", zohoFormField: "" }];
+    newConf.actions = {}
+    newConf.field_map = [{ formField: '', zohoFormField: '' }]
+    newConf.upload_field_map = [{ formField: '', zohoFormField: '' }]
 
-    if (recordTab) newConf.relatedlists[recordTab - 1] = {};
+    if (recordTab) newConf.relatedlists[recordTab - 1] = {}
   } else {
-    newConf.relatedlists[recordTab - 1].field_map = [
-      { formField: "", zohoFormField: "" },
-    ];
-    newConf.relatedlists[recordTab - 1].upload_field_map = [
-      { formField: "", zohoFormField: "" },
-    ];
-    newConf.relatedlists[recordTab - 1].actions = {};
+    newConf.relatedlists[recordTab - 1].field_map = [{ formField: '', zohoFormField: '' }]
+    newConf.relatedlists[recordTab - 1].upload_field_map = [{ formField: '', zohoFormField: '' }]
+    newConf.relatedlists[recordTab - 1].actions = {}
   }
 
   if (!newConf.default?.moduleData?.[module]) {
-    getFields(
-      recordTab,
-      formID,
-      newConf,
-      setRecruitConf,
-      setIsLoading,
-      setSnackbar
-    );
+    getFields(recordTab, formID, newConf, setRecruitConf, setIsLoading, setSnackbar)
   } else if (recordTab === 0) {
-    newConf.field_map = generateMappedField(recordTab, newConf);
-    if (
-      Object.keys(newConf.default.moduleData[module].fileUploadFields).length >
-      0
-    ) {
-      newConf.upload_field_map = generateMappedField(recordTab, newConf, true);
+    newConf.field_map = generateMappedField(recordTab, newConf)
+    if (Object.keys(newConf.default.moduleData[module].fileUploadFields).length > 0) {
+      newConf.upload_field_map = generateMappedField(recordTab, newConf, true)
     }
   } else {
-    newConf.relatedlists[recordTab - 1].field_map = generateMappedField(
-      recordTab,
-      newConf
-    );
-    if (
-      Object.keys(newConf.default.moduleData[module].fileUploadFields).length >
-      0
-    ) {
-      newConf.relatedlists[recordTab - 1].upload_field_map =
-        generateMappedField(recordTab, newConf, true);
+    newConf.relatedlists[recordTab - 1].field_map = generateMappedField(recordTab, newConf)
+    if (Object.keys(newConf.default.moduleData[module].fileUploadFields).length > 0) {
+      newConf.relatedlists[recordTab - 1].upload_field_map = generateMappedField(
+        recordTab,
+        newConf,
+        true
+      )
     }
   }
 
-  return newConf;
-};
+  return newConf
+}
 
-export const refreshModules = (
-  formID,
-  recruitConf,
-  setRecruitConf,
-  setIsLoading,
-  setSnackbar
-) => {
-  setIsLoading(true);
+export const refreshModules = (formID, recruitConf, setRecruitConf, setIsLoading, setSnackbar) => {
+  setIsLoading(true)
   const refreshModulesRequestParams = {
     formID,
     id: recruitConf.id,
     dataCenter: recruitConf.dataCenter,
     clientId: recruitConf.clientId,
     clientSecret: recruitConf.clientSecret,
-    tokenDetails: recruitConf.tokenDetails,
-  };
-  bitsFetch(refreshModulesRequestParams, "zrecruit_refresh_modules")
-    .then((result) => {
+    tokenDetails: recruitConf.tokenDetails
+  }
+  bitsFetch(refreshModulesRequestParams, 'zrecruit_refresh_modules')
+    .then(result => {
       if (result && result.success) {
-        const newConf = { ...recruitConf };
+        const newConf = { ...recruitConf }
         if (!newConf.default) {
-          newConf.default = {};
+          newConf.default = {}
         }
         if (result.data.modules) {
-          newConf.default.modules = result.data.modules;
+          newConf.default.modules = result.data.modules
         }
         if (result.data.tokenDetails) {
-          newConf.tokenDetails = result.data.tokenDetails;
+          newConf.tokenDetails = result.data.tokenDetails
         }
-        setRecruitConf({ ...newConf });
-        setSnackbar({
-          show: true,
-          msg: __("Modules refreshed", "bit-integrations"),
-        });
+        setRecruitConf({ ...newConf })
+        setSnackbar({ show: true, msg: __('Modules refreshed', 'bit-integrations') })
       } else if (
         (result && result.data && result.data.data) ||
-        (!result.success && typeof result.data === "string")
+        (!result.success && typeof result.data === 'string')
       ) {
         setSnackbar({
           show: true,
           msg: sprintf(
-            __(
-              "Modules refresh failed Cause: %s. please try again",
-              "bit-integrations"
-            ),
+            __('Modules refresh failed Cause: %s. please try again', 'bit-integrations'),
             result.data.data || result.data
-          ),
-        });
+          )
+        })
       } else {
         setSnackbar({
           show: true,
-          msg: __(
-            "Modules refresh failed. please try again",
-            "bit-integrations"
-          ),
-        });
+          msg: __('Modules refresh failed. please try again', 'bit-integrations')
+        })
       }
-      setIsLoading(false);
+      setIsLoading(false)
     })
-    .catch(() => setIsLoading(false));
-};
+    .catch(() => setIsLoading(false))
+}
 
-export const refreshOwners = (
-  formID,
-  recruitConf,
-  setRecruitConf,
-  setIsLoading,
-  setSnackbar
-) => {
-  setIsLoading(true);
+export const refreshOwners = (formID, recruitConf, setRecruitConf, setIsLoading, setSnackbar) => {
+  setIsLoading(true)
   const getOwnersParams = {
     module: recruitConf.module,
     dataCenter: recruitConf.dataCenter,
     clientId: recruitConf.clientId,
     clientSecret: recruitConf.clientSecret,
-    tokenDetails: recruitConf.tokenDetails,
-  };
-  bitsFetch(getOwnersParams, "zrecruit_refresh_users")
-    .then((result) => {
+    tokenDetails: recruitConf.tokenDetails
+  }
+  bitsFetch(getOwnersParams, 'zrecruit_refresh_users')
+    .then(result => {
       if (result?.success) {
-        const newConf = { ...recruitConf };
-        newConf.default.recruitOwner = result.data.users;
+        const newConf = { ...recruitConf }
+        newConf.default.recruitOwner = result.data.users
         if (result.data.tokenDetails) {
-          newConf.tokenDetails = result.data.tokenDetails;
+          newConf.tokenDetails = result.data.tokenDetails
         }
-        setRecruitConf({ ...newConf });
+        setRecruitConf({ ...newConf })
         setSnackbar({
           show: true,
-          msg: __("Owners refreshed", "bit-integrations"),
-        });
+          msg: __('Owners refreshed', 'bit-integrations')
+        })
       } else {
         setSnackbar({
           show: true,
-          msg: __(
-            "Owners refresh failed. please try again",
-            "bit-integrations"
-          ),
-        });
+          msg: __('Owners refresh failed. please try again', 'bit-integrations')
+        })
       }
-      setIsLoading(false);
+      setIsLoading(false)
     })
-    .catch(() => setIsLoading(false));
-};
+    .catch(() => setIsLoading(false))
+}
 
-export const refreshNoteTypes = (
-  formID,
-  recruitConf,
-  setRecruitConf,
-  setIsLoading,
-  setSnackbar
-) => {
-  setIsLoading(true);
+export const refreshNoteTypes = (formID, recruitConf, setRecruitConf, setIsLoading, setSnackbar) => {
+  setIsLoading(true)
   const refreshModulesRequestParams = {
     formID,
     id: recruitConf.id,
     dataCenter: recruitConf.dataCenter,
     clientId: recruitConf.clientId,
     clientSecret: recruitConf.clientSecret,
-    tokenDetails: recruitConf.tokenDetails,
-  };
-  bitsFetch(refreshModulesRequestParams, "zrecruit_refresh_notetypes")
-    .then((result) => {
+    tokenDetails: recruitConf.tokenDetails
+  }
+  bitsFetch(refreshModulesRequestParams, 'zrecruit_refresh_notetypes')
+    .then(result => {
       if (result && result.success) {
-        const newConf = { ...recruitConf };
+        const newConf = { ...recruitConf }
         if (!newConf.default) {
-          newConf.default = {};
+          newConf.default = {}
         }
         if (result.data.noteTypes) {
-          newConf.default.noteTypes = result.data.noteTypes;
+          newConf.default.noteTypes = result.data.noteTypes
         }
         if (result.data.tokenDetails) {
-          newConf.tokenDetails = result.data.tokenDetails;
+          newConf.tokenDetails = result.data.tokenDetails
         }
-        setRecruitConf({ ...newConf });
-        setSnackbar({
-          show: true,
-          msg: __("Note Types refreshed", "bit-integrations"),
-        });
+        setRecruitConf({ ...newConf })
+        setSnackbar({ show: true, msg: __('Note Types refreshed', 'bit-integrations') })
       } else if (
         (result && result.data && result.data.data) ||
-        (!result.success && typeof result.data === "string")
+        (!result.success && typeof result.data === 'string')
       ) {
         setSnackbar({
           show: true,
           msg: sprintf(
-            __(
-              "Note Types refresh failed Cause: %s. please try again",
-              "bit-integrations"
-            ),
+            __('Note Types refresh failed Cause: %s. please try again', 'bit-integrations'),
             result.data.data || result.data
-          ),
-        });
+          )
+        })
       } else {
         setSnackbar({
           show: true,
-          msg: __(
-            "Note Types refresh failed. please try again",
-            "bit-integrations"
-          ),
-        });
+          msg: __('Note Types refresh failed. please try again', 'bit-integrations')
+        })
       }
-      setIsLoading(false);
+      setIsLoading(false)
     })
-    .catch(() => setIsLoading(false));
-};
+    .catch(() => setIsLoading(false))
+}
 
-export const refreshRelatedList = (
-  formID,
-  recruitConf,
-  setRecruitConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const refreshRelatedList = (formID, recruitConf, setRecruitConf, setIsLoading, setSnackbar) => {
   if (!recruitConf.module) {
-    return;
+    return
   }
-  setIsLoading(true);
+  setIsLoading(true)
   const relatedListRequestParams = {
     formID,
     module: recruitConf.module,
     dataCenter: recruitConf.dataCenter,
     clientId: recruitConf.clientId,
     clientSecret: recruitConf.clientSecret,
-    tokenDetails: recruitConf.tokenDetails,
-  };
-  bitsFetch(relatedListRequestParams, "zrecruit_refresh_related_lists")
-    .then((result) => {
+    tokenDetails: recruitConf.tokenDetails
+  }
+  bitsFetch(relatedListRequestParams, 'zrecruit_refresh_related_lists')
+    .then(result => {
       if (result && result.success) {
-        const newConf = { ...recruitConf };
+        const newConf = { ...recruitConf }
         if (result.data.related_modules) {
           if (!newConf.default.relatedlists) {
-            newConf.default.relatedlists = {};
+            newConf.default.relatedlists = {}
           }
-          newConf.default.relatedlists[newConf.module] =
-            result.data.related_modules;
+          newConf.default.relatedlists[newConf.module] = result.data.related_modules
         }
         if (result.data.tokenDetails) {
-          newConf.tokenDetails = result.data.tokenDetails;
+          newConf.tokenDetails = result.data.tokenDetails
         }
-        setRecruitConf({ ...newConf });
-        setSnackbar({
-          show: true,
-          msg: __("RelatedLists refreshed", "bit-integrations"),
-        });
-      } else if (
-        result?.data?.data ||
-        (!result.success && typeof result.data === "string")
-      ) {
+        setRecruitConf({ ...newConf })
+        setSnackbar({ show: true, msg: __('RelatedLists refreshed', 'bit-integrations') })
+      } else if (result?.data?.data || (!result.success && typeof result.data === 'string')) {
         setSnackbar({
           show: true,
           msg: sprintf(
-            __(
-              "RelatedLists refresh failed Cause: %s. please try again",
-              "bit-integrations"
-            ),
+            __('RelatedLists refresh failed Cause: %s. please try again', 'bit-integrations'),
             result.data.data || result.data
-          ),
-        });
+          )
+        })
       } else {
         setSnackbar({
           show: true,
-          msg: __(
-            "RelatedLists refresh failed. please try again",
-            "bit-integrations"
-          ),
-        });
+          msg: __('RelatedLists refresh failed. please try again', 'bit-integrations')
+        })
       }
-      setIsLoading(false);
+      setIsLoading(false)
     })
-    .catch(() => setIsLoading(false));
-};
+    .catch(() => setIsLoading(false))
+}
 
-export const getFields = (
-  recordTab,
-  formID,
-  recruitConf,
-  setRecruitConf,
-  setIsLoading,
-  setSnackbar
-) => {
-  const module =
-    recordTab === 0
-      ? recruitConf.module
-      : recruitConf.relatedlists[recordTab - 1].module;
+export const getFields = (recordTab, formID, recruitConf, setRecruitConf, setIsLoading, setSnackbar) => {
+  const module = recordTab === 0 ? recruitConf.module : recruitConf.relatedlists[recordTab - 1].module
   if (!module) {
-    return;
+    return
   }
 
-  setIsLoading(true);
+  setIsLoading(true)
   const getFieldsRequestParams = {
     formID,
     module,
     dataCenter: recruitConf.dataCenter,
     clientId: recruitConf.clientId,
     clientSecret: recruitConf.clientSecret,
-    tokenDetails: recruitConf.tokenDetails,
-  };
-  bitsFetch(getFieldsRequestParams, "zrecruit_get_fields")
-    .then((result) => {
+    tokenDetails: recruitConf.tokenDetails
+  }
+  bitsFetch(getFieldsRequestParams, 'zrecruit_get_fields')
+    .then(result => {
       if (result && result.success) {
-        const newConf = { ...recruitConf };
+        const newConf = { ...recruitConf }
         if (result.data.fieldDetails) {
           if (!newConf.default.moduleData) {
-            newConf.default.moduleData = {};
+            newConf.default.moduleData = {}
           }
-          newConf.default.moduleData[module] = result.data.fieldDetails;
+          newConf.default.moduleData[module] = result.data.fieldDetails
           if (recordTab === 0) {
-            newConf.field_map = generateMappedField(recordTab, newConf);
-            if (
-              Object.keys(newConf.default.moduleData[module].fileUploadFields)
-                .length > 0
-            ) {
-              newConf.upload_field_map = generateMappedField(
+            newConf.field_map = generateMappedField(recordTab, newConf)
+            if (Object.keys(newConf.default.moduleData[module].fileUploadFields).length > 0) {
+              newConf.upload_field_map = generateMappedField(recordTab, newConf, true)
+            }
+          } else {
+            newConf.relatedlists[recordTab - 1].field_map = generateMappedField(recordTab, newConf)
+            if (Object.keys(newConf.default.moduleData[module].fileUploadFields).length > 0) {
+              newConf.relatedlists[recordTab - 1].upload_field_map = generateMappedField(
                 recordTab,
                 newConf,
                 true
-              );
-            }
-          } else {
-            newConf.relatedlists[recordTab - 1].field_map = generateMappedField(
-              recordTab,
-              newConf
-            );
-            if (
-              Object.keys(newConf.default.moduleData[module].fileUploadFields)
-                .length > 0
-            ) {
-              newConf.relatedlists[recordTab - 1].upload_field_map =
-                generateMappedField(recordTab, newConf, true);
+              )
             }
           }
         }
 
         if (result.data.tokenDetails) {
-          newConf.tokenDetails = result.data.tokenDetails;
+          newConf.tokenDetails = result.data.tokenDetails
         }
-        setRecruitConf({ ...newConf });
+        setRecruitConf({ ...newConf })
       } else {
         setSnackbar({
           show: true,
-          msg: __(
-            "Fields refresh failed. please try again",
-            "bit-integrations"
-          ),
-        });
+          msg: __('Fields refresh failed. please try again', 'bit-integrations')
+        })
       }
-      setIsLoading(false);
+      setIsLoading(false)
     })
-    .catch(() => setIsLoading(false));
-};
+    .catch(() => setIsLoading(false))
+}
 
 export const generateMappedField = (recordTab, recruitConf, uploadFields) => {
-  const module =
-    recordTab === 0
-      ? recruitConf.module
-      : recruitConf.relatedlists[recordTab - 1].module;
+  const module = recordTab === 0 ? recruitConf.module : recruitConf.relatedlists[recordTab - 1].module
   if (uploadFields) {
-    return recruitConf.default.moduleData[module].requiredFileUploadFields
-      .length > 0
-      ? recruitConf.default.moduleData[module].requiredFileUploadFields?.map(
-          (field) => ({ formField: "", zohoFormField: field })
-        )
-      : [{ formField: "", zohoFormField: "" }];
+    return recruitConf.default.moduleData[module].requiredFileUploadFields.length > 0
+      ? recruitConf.default.moduleData[module].requiredFileUploadFields?.map(field => ({
+          formField: '',
+          zohoFormField: field
+        }))
+      : [{ formField: '', zohoFormField: '' }]
   }
   return recruitConf.default.moduleData[module].required.length > 0
-    ? recruitConf.default.moduleData[module].required?.map((field) => ({
-        formField: "",
-        zohoFormField: field,
+    ? recruitConf.default.moduleData[module].required?.map(field => ({
+        formField: '',
+        zohoFormField: field
       }))
-    : [{ formField: "", zohoFormField: "" }];
-};
+    : [{ formField: '', zohoFormField: '' }]
+}
 
-export const checkMappedFields = (recruitConf) => {
+export const checkMappedFields = recruitConf => {
   const mappedFields = recruitConf?.field_map
     ? recruitConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField &&
           mappedField.zohoFormField &&
-          recruitConf?.default?.moduleData?.[
-            recruitConf.module
-          ]?.required.indexOf(mappedField.zohoFormField) !== -1
+          recruitConf?.default?.moduleData?.[recruitConf.module]?.required.indexOf(
+            mappedField.zohoFormField
+          ) !== -1
       )
-    : [];
+    : []
   const mappedUploadFields = recruitConf?.upload_field_map
     ? recruitConf.upload_field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField &&
           mappedField.zohoFormField &&
-          recruitConf?.default?.moduleData?.[
-            recruitConf.module
-          ]?.requiredFileUploadFields.indexOf(mappedField.zohoFormField) !== -1
+          recruitConf?.default?.moduleData?.[recruitConf.module]?.requiredFileUploadFields.indexOf(
+            mappedField.zohoFormField
+          ) !== -1
       )
-    : [];
-  const mappedRelatedFields = recruitConf.relatedlists.map((relatedlist) =>
-    relatedlist.field_map.filter(
-      (mappedField) => !mappedField.formField && mappedField.zohoFormField
+    : []
+  const mappedRelatedFields = recruitConf.relatedlists.map(relatedlist =>
+    relatedlist.field_map.filter(mappedField => !mappedField.formField && mappedField.zohoFormField)
+  )
+  const mappedRelatedUploadFields = recruitConf.relatedlists.map(relatedlist =>
+    relatedlist.upload_field_map.filter(
+      mappedField => !mappedField.formField && mappedField.zohoFormField
     )
-  );
-  const mappedRelatedUploadFields = recruitConf.relatedlists.map(
-    (relatedlist) =>
-      relatedlist.upload_field_map.filter(
-        (mappedField) => !mappedField.formField && mappedField.zohoFormField
-      )
-  );
+  )
 
   if (
     mappedFields.length > 0 ||
     mappedUploadFields.length > 0 ||
-    mappedRelatedFields.some((relatedField) => relatedField.length) ||
-    mappedRelatedUploadFields.some((relatedField) => relatedField.length)
+    mappedRelatedFields.some(relatedField => relatedField.length) ||
+    mappedRelatedUploadFields.some(relatedField => relatedField.length)
   ) {
-    return false;
+    return false
   }
 
-  return true;
-};
+  return true
+}

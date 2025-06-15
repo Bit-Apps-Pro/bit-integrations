@@ -29,7 +29,14 @@ function EditAffiliate({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, affiliateConf, setAffiliateConf)} name="name" value={affiliateConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, affiliateConf, setAffiliateConf)}
+          name="name"
+          value={affiliateConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
       <br />
@@ -38,7 +45,9 @@ function EditAffiliate({ allIntegURL }) {
       <AffiliateIntegLayout
         formID={formID}
         formFields={formFields}
-        handleInput={(e) => handleInput(e, affiliateConf, setAffiliateConf, setIsLoading, setSnackbar)}
+        handleInput={(e) =>
+          handleInput(e, affiliateConf, setAffiliateConf, setIsLoading, setSnackbar)
+        }
         affiliateConf={affiliateConf}
         setAffiliateConf={setAffiliateConf}
         isLoading={isLoading}
@@ -48,8 +57,23 @@ function EditAffiliate({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() => saveActionConf({ flow, allIntegURL, conf: affiliateConf, navigate, edit: 1, setIsLoading, setSnackbar })}
-        disabled={!checkMappedFields(affiliateConf) || !affiliateConf.statusId || !affiliateConf.referralId || isLoading}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            allIntegURL,
+            conf: affiliateConf,
+            navigate,
+            edit: 1,
+            setIsLoading,
+            setSnackbar
+          })
+        }
+        disabled={
+          !checkMappedFields(affiliateConf) ||
+          !affiliateConf.statusId ||
+          !affiliateConf.referralId ||
+          isLoading
+        }
         isLoading={isLoading}
         dataConf={affiliateConf}
         setDataConf={setAffiliateConf}

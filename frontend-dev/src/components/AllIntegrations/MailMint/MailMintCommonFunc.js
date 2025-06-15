@@ -3,7 +3,14 @@ import bitsFetch from '../../../Utils/bitsFetch'
 import { deepCopy } from '../../../Utils/Helpers'
 import { sprintf, __ } from '../../../Utils/i18nwrap'
 
-export const handleInput = (e, mailMintConf, setMailMintConf, setIsLoading, setSnackbar, formID) => {
+export const handleInput = (
+  e,
+  mailMintConf,
+  setMailMintConf,
+  setIsLoading,
+  setSnackbar,
+  formID
+) => {
   const newConf = { ...mailMintConf }
   const { name } = e.target
   if (e.target.value !== '') {
@@ -92,12 +99,16 @@ export const getAllTags = (mailMintConf, setMailMintConf, setIsLoading, setSnack
 }
 
 export const generateMappedField = (mailMintConf) => {
-  const requiredFlds = mailMintConf?.mailMintContactFields.filter(fld => fld.required === true)
-  return requiredFlds.length > 0 ? requiredFlds.map(field => ({ formField: '', mailMintFormField: field.key })) : [{ formField: '', mailMintFormField: '' }]
+  const requiredFlds = mailMintConf?.mailMintContactFields.filter((fld) => fld.required === true)
+  return requiredFlds.length > 0
+    ? requiredFlds.map((field) => ({ formField: '', mailMintFormField: field.key }))
+    : [{ formField: '', mailMintFormField: '' }]
 }
 
 export const checkMappedFields = (mailMintConf) => {
-  const mappedFleld = mailMintConf.field_map ? mailMintConf.field_map.filter((mapped) => !mapped.formField && !mapped.mailMintFormField) : []
+  const mappedFleld = mailMintConf.field_map
+    ? mailMintConf.field_map.filter((mapped) => !mapped.formField && !mapped.mailMintFormField)
+    : []
   if (mappedFleld.length > 0) {
     return false
   }

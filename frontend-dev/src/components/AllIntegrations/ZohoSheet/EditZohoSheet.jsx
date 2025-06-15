@@ -26,7 +26,7 @@ function EditZohoSheet({ allIntegURL }) {
     header: false,
     workbooks: false,
     worksheets: false,
-    workSheetHeaders: true,
+    workSheetHeaders: true
   })
   const [snack, setSnackbar] = useState({ show: false })
   const formField = useRecoilValue($formFields)
@@ -36,7 +36,15 @@ function EditZohoSheet({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
-    saveActionConf({ flow, allIntegURL, conf: zohoSheetConf, navigate, edit: 1, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: zohoSheetConf,
+      navigate,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -45,7 +53,14 @@ function EditZohoSheet({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, zohoSheetConf, setZohoSheetConf)} name="name" value={zohoSheetConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, zohoSheetConf, setZohoSheetConf)}
+          name="name"
+          value={zohoSheetConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 

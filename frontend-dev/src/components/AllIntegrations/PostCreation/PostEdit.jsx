@@ -14,7 +14,14 @@ import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import SetEditIntegComponents from '../IntegrationHelpers/SetEditIntegComponents'
 import CustomField from './CustomField'
 import FieldMap from './FieldMap'
-import { addFieldMap, checkMappedAcfFields, checkMappedMbFields, checkMappedPostFields, refreshPostTypes } from './PostHelperFunction'
+import {
+  addFieldMap,
+  checkMappedAcfFields,
+  checkMappedJEFields,
+  checkMappedMbFields,
+  checkMappedPostFields,
+  refreshPostTypes
+} from './PostHelperFunction'
 
 function Post({ allIntegURL }) {
   const [users, setUsers] = useState([])
@@ -28,6 +35,7 @@ function Post({ allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
   const [acf, setAcf] = useState({ fields: [], files: [] })
   const [mb, setMb] = useState({ fields: [], files: [] })
+  const [jeCPTMeta, setJeCPTMeta] = useState({ fields: [], files: [] })
   // const [postConf, setPostConf] = useState({ ...flow.flow_details })
 
   const handleInput = (typ, val) => {
@@ -37,29 +45,21 @@ function Post({ allIntegURL }) {
   }
   useEffect(() => {
     const tmpData = deepCopy({ ...postConf })
-    bitsFetch(
-      {},
-      'user/list',
-    ).then((res) => {
+    bitsFetch({}, 'user/list').then((res) => {
       const { data } = res
       setUsers(data)
     })
 
-    bitsFetch(
-      {},
-      'post-types/list',
-    ).then((res) => {
+    bitsFetch({}, 'post-types/list').then((res) => {
       const { data } = res
       setPostTypes(data)
     })
 
-    bitsFetch(
-      { post_type: postConf?.post_type },
-      'customfield/list',
-    ).then((res) => {
+    bitsFetch({ post_type: postConf?.post_type }, 'customfield/list').then((res) => {
       const { data } = res
       setAcf({ fields: data.acf_fields, files: data.acf_files })
       setMb({ fields: data.mb_fields, files: data.mb_files })
+      setJeCPTMeta({ fields: data.je_cpt_fields, files: data.je_cpt_files })
     })
     // setLoad(false)
     setPostConf(tmpData)
@@ -68,24 +68,34 @@ function Post({ allIntegURL }) {
   const getCustomFields = (typ, val) => {
     const tmpData = { ...postConf }
     tmpData[typ] = val
-    bitsFetch(
-      { post_type: val },
-      'customfield/list',
-    ).then((res) => {
+    bitsFetch({ post_type: val }, 'customfield/list').then((res) => {
       const { data } = res
       setAcf({ fields: data.acf_fields, files: data.acf_files })
       setMb({ fields: data.mb_fields, files: data.mb_files })
+      setJeCPTMeta({ fields: data.je_cpt_fields, files: data.je_cpt_files })
       if (data?.acf_fields) {
-        tmpData.acf_map = data.acf_fields.filter(fld => fld.required).map(fl => ({ formField: '', acfField: fl.key, required: fl.required }))
+        tmpData.acf_map = data.acf_fields
+          .filter((fld) => fld.required)
+          .map((fl) => ({ formField: '', acfField: fl.key, required: fl.required }))
         if (tmpData.acf_map.length < 1) {
           tmpData.acf_map = [{}]
         }
       }
       if (data?.mb_fields) {
-        tmpData.metabox_map = data.mb_fields.filter(fld => fld.required).map(fl => ({ formField: '', metaboxField: fl.key, required: fl.required }))
+        tmpData.metabox_map = data.mb_fields
+          .filter((fld) => fld.required)
+          .map((fl) => ({ formField: '', metaboxField: fl.key, required: fl.required }))
         if (tmpData.metabox_map.length < 1) {
           tmpData.metabox_map = [{}]
         }
+      }
+      if (data?.je_cpt_fields) {
+        tmpData.je_cpt_meta_map = data.je_cpt_fields
+          .filter((fld) => fld.required)
+          .map((fl) => ({ formField: '', jeCPTField: fl.key, required: fl.required }))
+      }
+      if (tmpData.je_cpt_meta_map.length < 1) {
+        tmpData.je_cpt_meta_map = [{}]
       }
     })
     setPostConf(tmpData)
@@ -105,9 +115,22 @@ function Post({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
+    if (!checkMappedJEFields(postConf)) {
+      setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
+      return
+    }
     setIsLoading(true)
-    const resp = saveIntegConfig(flow, setFlow, allIntegURL, postConf, navigate, id, 1, setIsLoading)
-    resp.then(res => {
+    const resp = saveIntegConfig(
+      flow,
+      setFlow,
+      allIntegURL,
+      postConf,
+      navigate,
+      id,
+      1,
+      setIsLoading
+    )
+    resp.then((res) => {
       if (res.success) {
         setSnackbar({ show: true, msg: res.data })
         // navigate(allIntegURL)
@@ -121,9 +144,17 @@ function Post({ allIntegURL }) {
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
       <div style={{ width: 900 }}>
-
-        <div className="mt-3"><b>{__('Integration Name ', 'bit-integrations')}</b></div>
-        <input className="btcd-paper-inp w-5 mt-1" onChange={(e) => handleInput(e.target.name, e.target.value)} name="name" value={postConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <div className="mt-3">
+          <b>{__('Integration Name', 'bit-integrations')}</b>
+        </div>
+        <input
+          className="btcd-paper-inp w-5 mt-1"
+          onChange={(e) => handleInput(e.target.name, e.target.value)}
+          name="name"
+          value={postConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
         <br />
         <br />
         <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
@@ -132,73 +163,119 @@ function Post({ allIntegURL }) {
           <b>{__('Post Type', 'bit-integrations')}</b>
           <Cooltip width={250} icnSize={17} className="ml-2">
             <div className="txt-body">
-              Select one of the defined WordPress post types Or custom post types for the post.
+              {__(
+                'Select one of the defined WordPress post types Or custom post types for the post',
+                'bit-integrations'
+              )}
               <br />
             </div>
           </Cooltip>
         </div>
         <div>
-          <select name="post_type" value={postConf?.post_type} onChange={(e) => getCustomFields(e.target.name, e.target.value)} className="btcd-paper-inp w-5 mt-1">
-            <option disabled selected>Select Post Type</option>
+          <select
+            name="post_type"
+            value={postConf?.post_type}
+            onChange={(e) => getCustomFields(e.target.name, e.target.value)}
+            className="btcd-paper-inp w-5 mt-1">
+            <option disabled selected>
+              {__('Select Post Type', 'bit-integrations')}
+            </option>
             {postTypes?.map((postType, key) => (
-              <option key={`acf-${key * 2}`} value={postType?.id}>{postType?.title}</option>
+              <option key={`acf-${key * 2}`} value={postType?.id}>
+                {postType?.title}
+              </option>
             ))}
           </select>
-          <button onClick={() => refreshPostTypes(postTypes, setPostTypes)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `'${__('Refresh Post Types', 'bit-integrations')}'` }} type="button">&#x21BB;</button>
+          <button
+            onClick={() => refreshPostTypes(postTypes, setPostTypes)}
+            className="icn-btn sh-sm ml-2 mr-2 tooltip"
+            style={{ '--tooltip-txt': `'${__('Refresh Post Types', 'bit-integrations')}'` }}
+            type="button">
+            &#x21BB;
+          </button>
         </div>
 
         <div className="mt-3">
           <b>{__('Post Status', 'bit-integrations')}</b>
           <Cooltip width={250} icnSize={17} className="ml-2">
             <div className="txt-body">
-              Select the status for the post. If published status is selected and the post date is in the future, it will automatically be changed to scheduled
+              {__(
+                'Select the status for the post. If published status is selected and the post date is in the future, it will automatically be changed to scheduled',
+                'bit-integrations'
+              )}
               <br />
             </div>
           </Cooltip>
         </div>
-        <select name="post_status" value={postConf?.post_status} onChange={(e) => handleInput(e.target.name, e.target.value)} className="btcd-paper-inp w-5 mt-2">
-          <option disabled selected>{__('Select Status', 'bit-integrations')}</option>
-          <option value="publish">Publish</option>
-          <option value="draft">Draft</option>
-          <option value="auto-draft">Auto-Draft</option>
-          <option value="private">Private</option>
-          <option value="pending">Pending</option>
+        <select
+          name="post_status"
+          value={postConf?.post_status}
+          onChange={(e) => handleInput(e.target.name, e.target.value)}
+          className="btcd-paper-inp w-5 mt-2">
+          <option disabled selected>
+            {__('Select Status', 'bit-integrations')}
+          </option>
+          <option value="publish">{__('Publish', 'bit-integrations')}</option>
+          <option value="draft">{__('Draft', 'bit-integrations')}</option>
+          <option value="auto-draft">{__('Auto-Draft', 'bit-integrations')}</option>
+          <option value="private">{__('Private', 'bit-integrations')}</option>
+          <option value="pending">{__('Pending', 'bit-integrations')}</option>
         </select>
 
         <div className="mt-3 flx">
           <b>{__('Author', 'bit-integrations')}</b>
           <Cooltip width={250} icnSize={17} className="ml-2">
             <div className="txt-body">
-              Select the user to be assigned to the post.
+              {__('Select the user to be assigned to the post', 'bit-integrations')}
               <br />
             </div>
           </Cooltip>
         </div>
         <div>
-          <select name="post_author" value={postConf?.post_author} onChange={(e) => handleInput(e.target.name, e.target.value)} className="btcd-paper-inp w-5 mt-2">
-            <option disabled selected>{__('Select Author', 'bit-integrations')}</option>
+          <select
+            name="post_author"
+            value={postConf?.post_author}
+            onChange={(e) => handleInput(e.target.name, e.target.value)}
+            className="btcd-paper-inp w-5 mt-2">
+            <option disabled selected>
+              {__('Select Author', 'bit-integrations')}
+            </option>
+            <option value="logged_in_user">{__('Logged In User', 'bit-integrations')}</option>
             {users?.map((user, key) => (
-              <option key={`acf-${key * 2}`} value={user.ID}>{user.display_name}</option>
+              <option key={`acf-${key * 2}`} value={user.ID}>
+                {user.display_name}
+              </option>
             ))}
           </select>
         </div>
 
         <div className="mt-3">
           <b>{__('Comment Status', 'bit-integrations')}</b>
-
         </div>
-        <select name="comment_status" value={postConf?.comment_status} onChange={(e) => handleInput(e.target.name, e.target.value)} className="btcd-paper-inp w-5 mt-2">
-          <option disabled selected>{__('Select Status', 'bit-integrations')}</option>
-          <option value="open">Open</option>
-          <option value="closed">Closed</option>
+        <select
+          name="comment_status"
+          value={postConf?.comment_status}
+          onChange={(e) => handleInput(e.target.name, e.target.value)}
+          className="btcd-paper-inp w-5 mt-2">
+          <option disabled selected>
+            {__('Select Status', 'bit-integrations')}
+          </option>
+          <option value="open">{__('Open', 'bit-integrations')}</option>
+          <option value="closed">{__('Closed', 'bit-integrations')}</option>
         </select>
 
         <div>
-          <div className="mt-3 mb-1"><b>{__('Post Field Mapping', 'bit-integrations')}</b></div>
+          <div className="mt-3 mb-1">
+            <b>{__('Post Field Mapping', 'bit-integrations')}</b>
+          </div>
           <div className="btcd-hr" />
           <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
-            <div className="txt-dp"><b>{__('Form Fields', 'bit-integrations')}</b></div>
-            <div className="txt-dp"><b>{__('Post Fields', 'bit-integrations')}</b></div>
+            <div className="txt-dp">
+              <b>{__('Form Fields', 'bit-integrations')}</b>
+            </div>
+            <div className="txt-dp">
+              <b>{__('Post Fields', 'bit-integrations')}</b>
+            </div>
           </div>
         </div>
 
@@ -215,14 +292,22 @@ function Post({ allIntegURL }) {
           />
         ))}
 
-        <div className="txt-center btcbi-field-map-button mt-2"><button onClick={() => addFieldMap('post_map', postConf.post_map.length, postConf, setPostConf)} className="icn-btn sh-sm" type="button">+</button></div>
-
+        <div className="txt-center btcbi-field-map-button mt-2">
+          <button
+            onClick={() => addFieldMap('post_map', postConf.post_map.length, postConf, setPostConf)}
+            className="icn-btn sh-sm"
+            type="button">
+            +
+          </button>
+        </div>
       </div>
       <div>
         <CustomField
           formID={formID}
           formFields={formFields}
-          handleInput={(e) => handleInput(e, postConf, setPostConf, formID, setIsLoading, setSnackbar)}
+          handleInput={(e) =>
+            handleInput(e, postConf, setPostConf, formID, setIsLoading, setSnackbar)
+          }
           postConf={postConf}
           setPostConf={setPostConf}
           isLoading={isLoading}
@@ -230,8 +315,8 @@ function Post({ allIntegURL }) {
           setSnackbar={setSnackbar}
           acfFields={acf}
           mbFields={mb}
+          jeCPTFields={jeCPTMeta}
         />
-
       </div>
       <IntegrationStepThree
         edit

@@ -24,16 +24,23 @@ function EditWPCourseware({ allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const saveConfig = () => {
-    saveActionConf({ flow, setFlow, allIntegURL, conf: wpCoursewareConf, navigate, edit: 1, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      setFlow,
+      allIntegURL,
+      conf: wpCoursewareConf,
+      navigate,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
   }
   return (
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
 
       <div className="flx mt-3">
-        <b className="wdt-200 d-in-b">
-          {__('Integration Name:', 'bit-integrations')}
-        </b>
+        <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
         <input
           className="btcd-paper-inp w-5"
           onChange={(e) => handleInput(e, wpCoursewareConf, setWPCoursewareConf)}

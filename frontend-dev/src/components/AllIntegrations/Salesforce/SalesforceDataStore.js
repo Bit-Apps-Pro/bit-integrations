@@ -1,91 +1,89 @@
+import { __ } from '@wordpress/i18n'
+
 export const opportunityStage = [
-  { label: 'None', value: 'None' },
-  { label: 'Prospecting', value: 'Prospecting' },
-  { label: 'Qualification', value: 'Qualification' },
-  { label: 'Needs Analysis', value: 'Needs Analysis' },
-  { label: 'Value Proposition', value: 'Value Proposition' },
-  { label: 'Id. Decision Makers', value: 'Id. Decision Makers' },
-  { label: 'Perception Analysis', value: 'Perception Analysis' },
-  { label: 'Proposal/Price Quote', value: 'Proposal/Price Quote' },
-  { label: 'Negotiation/Review', value: 'Negotiation/Review' },
-  { label: 'Closed Won', value: 'Closed Won' },
-  { label: 'Closed Lost', value: 'Closed Lost' },
+  { label: __('None', 'bit-integrations'), value: 'None' },
+  { label: __('Prospecting', 'bit-integrations'), value: 'Prospecting' },
+  { label: __('Qualification', 'bit-integrations'), value: 'Qualification' },
+  { label: __('Needs Analysis', 'bit-integrations'), value: 'Needs Analysis' },
+  { label: __('Value Proposition', 'bit-integrations'), value: 'Value Proposition' },
+  { label: __('Id. Decision Makers', 'bit-integrations'), value: 'Id. Decision Makers' },
+  { label: __('Perception Analysis', 'bit-integrations'), value: 'Perception Analysis' },
+  { label: __('Proposal/Price Quote', 'bit-integrations'), value: 'Proposal/Price Quote' },
+  { label: __('Negotiation/Review', 'bit-integrations'), value: 'Negotiation/Review' },
+  { label: __('Closed Won', 'bit-integrations'), value: 'Closed Won' },
+  { label: __('Closed Lost', 'bit-integrations'), value: 'Closed Lost' }
 ]
 
 export const opportunityType = [
-  { label: 'None', value: 'None' },
-  { label: 'Existing Customer - Upgrade', value: 'ExistingCustomerUpgrade' },
-  { label: 'Existing Customer - Replacement', value: 'ExistingCustomerReplacement' },
-  { label: 'Existing Customer - Downgrade', value: 'ExistingCustomerDowngrade' },
-  { label: 'New Customer', value: 'NewCustomer' },
+  { label: __('None', 'bit-integrations'), value: 'None' },
+  {
+    label: __('Existing Customer - Upgrade', 'bit-integrations'),
+    value: 'ExistingCustomerUpgrade'
+  },
+  {
+    label: __('Existing Customer - Replacement', 'bit-integrations'),
+    value: 'ExistingCustomerReplacement'
+  },
+  {
+    label: __('Existing Customer - Downgrade', 'bit-integrations'),
+    value: 'ExistingCustomerDowngrade'
+  },
+  { label: __('New Customer', 'bit-integrations'), value: 'NewCustomer' }
 ]
 
 export const opportunityLeadSource = [
-  { label: 'None', value: 'None' },
-  { label: 'Web', value: 'Web' },
-  { label: 'Phone Inquiry', value: 'PhoneInquiry' },
-  { label: 'Partner Referral', value: 'PartnerReferral' },
-  { label: 'Purchased List', value: 'PurchasedList' },
-  { label: 'Other', value: 'Other' },
-
+  { label: __('None', 'bit-integrations'), value: 'None' },
+  { label: __('Web', 'bit-integrations'), value: 'Web' },
+  { label: __('Phone Inquiry', 'bit-integrations'), value: 'PhoneInquiry' },
+  { label: __('Partner Referral', 'bit-integrations'), value: 'PartnerReferral' },
+  { label: __('Purchased List', 'bit-integrations'), value: 'PurchasedList' },
+  { label: __('Other', 'bit-integrations'), value: 'Other' }
 ]
 
 export const eventSubject = [
-  { label: 'Call', value: 'Call' },
-  { label: 'Email', value: 'Email' },
-  { label: 'Meeting', value: 'Meeting' },
-  { label: 'Send a Letter', value: 'Send a Letter' },
-  { label: 'Other', value: 'Other' },
-]
-
-export const caseStatus = [
-  { label: 'New', value: 'New' },
-  { label: 'Working', value: 'Working' },
-  { label: 'Escalated', value: 'Escalated' },
-]
-
-export const caseOrigin = [
-  { label: 'Phone', value: 'Phone' },
-  { label: 'Email', value: 'Email' },
-  { label: 'Web', value: 'Web' },
+  { label: __('Call', 'bit-integrations'), value: 'Call' },
+  { label: __('Email', 'bit-integrations'), value: 'Email' },
+  { label: __('Meeting', 'bit-integrations'), value: 'Meeting' },
+  { label: __('Send a Letter', 'bit-integrations'), value: 'Send a Letter' },
+  { label: __('Other', 'bit-integrations'), value: 'Other' }
 ]
 
 export const casePriority = [
-  { label: 'None', value: 'None' },
-  { label: 'Low', value: 'Low' },
-  { label: 'Medium', value: 'Medium' },
-  { label: 'High', value: 'High' },
+  { label: __('None', 'bit-integrations'), value: 'None' },
+  { label: __('Low', 'bit-integrations'), value: 'Low' },
+  { label: __('Medium', 'bit-integrations'), value: 'Medium' },
+  { label: __('High', 'bit-integrations'), value: 'High' }
 ]
 
 export const potentialLiability = [
-  { label: 'None', value: 'None' },
-  { label: 'No', value: 'No' },
-  { label: 'Yes', value: 'Yes' },
+  { label: __('None', 'bit-integrations'), value: 'None' },
+  { label: __('No', 'bit-integrations'), value: 'No' },
+  { label: __('Yes', 'bit-integrations'), value: 'Yes' }
 ]
 
 export const slaViolation = [
-  { label: 'None', value: 'None' },
-  { label: 'No', value: 'No' },
-  { label: 'Yes', value: 'Yes' },
+  { label: __('None', 'bit-integrations'), value: 'None' },
+  { label: __('No', 'bit-integrations'), value: 'No' },
+  { label: __('Yes', 'bit-integrations'), value: 'Yes' }
 ]
 
 export const taskSubject = [
-  { label: 'Call', value: 'Call' },
-  { label: 'Email', value: 'Email' },
-  { label: 'SendLetter', value: 'SendLetter' },
-  { label: 'SendQuote', value: 'SendQuote' },
-  { label: 'Other', value: 'Other' },
+  { label: __('Call', 'bit-integrations'), value: 'Call' },
+  { label: __('Email', 'bit-integrations'), value: 'Email' },
+  { label: __('SendLetter', 'bit-integrations'), value: 'SendLetter' },
+  { label: __('SendQuote', 'bit-integrations'), value: 'SendQuote' },
+  { label: __('Other', 'bit-integrations'), value: 'Other' }
 ]
 export const taskPriority = [
-  { label: 'Low', value: 'Low' },
-  { label: 'Normal', value: 'Normal' },
-  { label: 'High', value: 'High' },
+  { label: __('Low', 'bit-integrations'), value: 'Low' },
+  { label: __('Normal', 'bit-integrations'), value: 'Normal' },
+  { label: __('High', 'bit-integrations'), value: 'High' }
 ]
 
 export const taskStatus = [
-  { label: 'Not Started', value: 'Not Started' },
-  { label: 'In Progress', value: 'In Progress' },
-  { label: 'Completed', value: 'Completed' },
-  { label: 'Waiting on someone else', value: 'Waiting on someone else' },
-  { label: 'Deferred', value: 'Deferred' },
+  { label: __('Not Started', 'bit-integrations'), value: 'Not Started' },
+  { label: __('In Progress', 'bit-integrations'), value: 'In Progress' },
+  { label: __('Completed', 'bit-integrations'), value: 'Completed' },
+  { label: __('Waiting on someone else', 'bit-integrations'), value: 'Waiting on someone else' },
+  { label: __('Deferred', 'bit-integrations'), value: 'Deferred' }
 ]

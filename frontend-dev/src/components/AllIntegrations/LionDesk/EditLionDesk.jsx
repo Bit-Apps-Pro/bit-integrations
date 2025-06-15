@@ -30,7 +30,15 @@ function EditLionDesk({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
-    saveActionConf({ flow, allIntegURL, conf: lionDeskConf, navigate, edit: 1, setLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: lionDeskConf,
+      navigate,
+      edit: 1,
+      setLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -39,7 +47,14 @@ function EditLionDesk({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, lionDeskConf, setLionDeskConf)} name="name" value={lionDeskConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, lionDeskConf, setLionDeskConf)}
+          name="name"
+          value={lionDeskConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 

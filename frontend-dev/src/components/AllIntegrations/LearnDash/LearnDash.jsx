@@ -24,54 +24,62 @@ function LearnDash({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const allActions = [
-    { key: '1', label: 'Create Group' },
-    { key: '2', label: 'Add the user to a group pro' },
-    { key: '3', label: 'Enroll the user in a course' },
-    { key: '4', label: 'Make the user the leader of group' },
-    { key: '5', label: 'Mark a course complete for the user' },
-    { key: '6', label: 'Mark a lesson complete for the user' },
-    { key: '7', label: 'Mark a lesson not complete for the user pro' },
-    { key: '8', label: 'Mark a topic complete for the user' },
-    { key: '9', label: 'Mark a topic not complete for the user pro' },
-    { key: '10', label: 'Remove the Leader from a group and its children pro' },
-    { key: '11', label: 'Remove the user from a group pro' },
-    { key: '12', label: 'Remove the user from a group and its children pro' },
-    { key: '13', label: 'Reset the users attempts for a quiz pro ' },
-    { key: '14', label: 'Reset the users progress in a course pro' },
-    // { key: '15', label: 'Send a certificate pro' },
-    { key: '16', label: 'Send an email to the users group leaders' },
-    { key: '17', label: 'Unenroll the user from a course pro' },
+    { key: '1', label: __('Create Group', 'bit-integrations') },
+    { key: '2', label: __('Add the user to a group pro', 'bit-integrations') },
+    { key: '3', label: __('Enroll the user in a course', 'bit-integrations') },
+    { key: '4', label: __('Make the user the leader of group', 'bit-integrations') },
+    { key: '5', label: __('Mark a course complete for the user', 'bit-integrations') },
+    { key: '6', label: __('Mark a lesson complete for the user', 'bit-integrations') },
+    { key: '7', label: __('Mark a lesson not complete for the user pro', 'bit-integrations') },
+    { key: '8', label: __('Mark a topic complete for the user', 'bit-integrations') },
+    { key: '9', label: __('Mark a topic not complete for the user pro', 'bit-integrations') },
+    {
+      key: '10',
+      label: __('Remove the Leader from a group and its children pro', 'bit-integrations')
+    },
+    { key: '11', label: __('Remove the user from a group pro', 'bit-integrations') },
+    {
+      key: '12',
+      label: __('Remove the user from a group and its children pro', 'bit-integrations')
+    },
+    { key: '13', label: __('Reset the users attempts for a quiz pro', 'bit-integrations') },
+    { key: '14', label: __('Reset the users progress in a course pro', 'bit-integrations') },
+    // { key: '15', label: __('Send a certificate pro', 'bit-integrations')},
+    { key: '16', label: __('Send an email to the users group leaders', 'bit-integrations') },
+    { key: '17', label: __('Unenroll the user from a course pro', 'bit-integrations') }
   ]
 
   const groupUserRole = [
-    { key: '1', label: 'Do not add group leader role' },
-    { key: '2', label: 'Add the role to their exiting role' },
-    { key: '3', label: 'Replace their existing role(s) with the Group Leader role' },
+    { key: '1', label: __('Do not add group leader role', 'bit-integrations') },
+    { key: '2', label: __('Add the role to their exiting role', 'bit-integrations') },
+    {
+      key: '3',
+      label: __('Replace their existing role(s) with the Group Leader role', 'bit-integrations')
+    }
   ]
 
   const groupOfLeader4 = [
-    { key: '1', label: 'Do nothing' },
-    { key: '2', label: 'Add the role to their exiting role' },
-    { key: '3', label: 'Replace their existing role(s) with the Group Leader role' },
+    { key: '1', label: __('Do nothing', 'bit-integrations') },
+    { key: '2', label: __('Add the role to their exiting role', 'bit-integrations') },
+    {
+      key: '3',
+      label: __('Replace their existing role(s) with the Group Leader role', 'bit-integrations')
+    }
   ]
 
-  const createGroupFields = [
-    { key: 'title', label: 'Title', required: true },
-  ]
+  const createGroupFields = [{ key: 'title', label: 'Title', required: true }]
   const [learnDashConf, setLearnDashConf] = useState({
     name: 'LearnDash',
     type: 'LearnDash',
     mainAction: '',
     courseId: '',
     domainName: siteURL,
-    field_map: [
-      { formField: '', learnDeshFormField: '' },
-    ],
+    field_map: [{ formField: '', learnDeshFormField: '' }],
     allActions,
     groupUserRole,
     groupOfLeader4,
     createGroupFields,
-    actions: {},
+    actions: {}
   })
 
   const nextPage = () => {
@@ -79,7 +87,7 @@ function LearnDash({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
     if (learnDashConf.mainAction === '1' && !checkMappedFields(learnDashConf)) {
-      setSnackbar({ show: true, msg: 'Please map fields to continue.' })
+      setSnackbar({ show: true, msg: __('Please map fields to continue.', 'bit-integrations') })
       return
     }
     if (learnDashConf.mainAction !== '') {
@@ -90,7 +98,9 @@ function LearnDash({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={3} active={step} />
+      </div>
 
       {/* STEP 1 */}
       <LearnDashAuthorization
@@ -105,11 +115,14 @@ function LearnDash({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
       />
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
-
+      <div
+        className="btcd-stp-page"
+        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <LearnDashIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, learnDashConf, setLearnDashConf, setIsLoading, setSnackbar, formID)}
+          handleInput={(e) =>
+            handleInput(e, learnDashConf, setLearnDashConf, setIsLoading, setSnackbar, formID)
+          }
           learnDashConf={learnDashConf}
           setLearnDashConf={setLearnDashConf}
           isLoading={isLoading}
@@ -124,9 +137,8 @@ function LearnDash({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
           <button
             onClick={() => nextPage(3)}
             disabled={!learnDashConf.mainAction || isLoading}
-            className="btn f-right btcd-btn-lg green sh-sm flx"
-            type="button"
-          >
+            className="btn f-right btcd-btn-lg purple sh-sm flx"
+            type="button">
             {__('Next', 'bit-integrations')}
             &nbsp;
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
@@ -137,14 +149,23 @@ function LearnDash({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
       {learnDashConf.mainAction !== '16' && (
         <IntegrationStepThree
           step={step}
-          saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, navigate, conf: learnDashConf, setIsLoading, setSnackbar })}
+          saveConfig={() =>
+            saveActionConf({
+              flow,
+              setFlow,
+              allIntegURL,
+              navigate,
+              conf: learnDashConf,
+              setIsLoading,
+              setSnackbar
+            })
+          }
           isLoading={isLoading}
           dataConf={learnDashConf}
           setDataConf={setLearnDashConf}
           formFields={formFields}
         />
       )}
-
     </div>
   )
 }

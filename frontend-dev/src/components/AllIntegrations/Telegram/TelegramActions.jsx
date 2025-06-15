@@ -9,7 +9,7 @@ import TableCheckBox from '../../Utilities/TableCheckBox'
 export default function TelegramActions({ formFields, telegramConf, setTelegramConf }) {
   const [actionMdl, setActionMdl] = useState({ show: false })
   const actionHandler = (e) => {
-    const newConf =  deepCopy(telegramConf)
+    const newConf = deepCopy(telegramConf)
     if (e.target.value !== '') {
       newConf.actions.attachments = e.target.value
     } else {
@@ -20,13 +20,13 @@ export default function TelegramActions({ formFields, telegramConf, setTelegramC
   return (
     <div className="pos-rel">
       <div className="d-flx flx-wrp">
-        <TableCheckBox onChange={() => setActionMdl({ show: 'attachments' })} checked={'attachments' in telegramConf.actions} className="wdt-200 mt-4 mr-2" value="Attachment" title={__('Attachments', 'bit-integrations')} subTitle={__('Add attachments from BitForm to send Telegram.', 'bit-integrations')} />
+        <TableCheckBox onChange={() => setActionMdl({ show: 'attachments' })} checked={'attachments' in telegramConf.actions} className="wdt-200 mt-4 mr-2" value="Attachment" title={__('Attachments', 'bit-integrations')} subTitle={__('Add attachments from Bit Integrations to send Telegram.', 'bit-integrations')} />
       </div>
 
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="blue"
+        btnClass="purple"
         btnTxt="Ok"
         show={actionMdl.show === 'attachments'}
         close={() => setActionMdl({ show: false })}

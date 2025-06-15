@@ -31,10 +31,18 @@ function EditSystemeIO({ allIntegURL }) {
       return
     }
     if (!systemeIOConf.selectedTag) {
-      toast.error('Please select a Tag')
+      toast.error(__('Please select a Tag', 'bit-integrations'))
       return
     }
-    saveActionConf({ flow, allIntegURL, conf: systemeIOConf, navigate, edit: 1, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: systemeIOConf,
+      navigate,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -43,7 +51,14 @@ function EditSystemeIO({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, systemeIOConf, setSystemeIOConf)} name="name" value={systemeIOConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, systemeIOConf, setSystemeIOConf)}
+          name="name"
+          value={systemeIOConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 

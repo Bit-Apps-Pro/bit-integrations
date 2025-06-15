@@ -7,78 +7,91 @@
 namespace BitCode\FI\Actions\Klaviyo;
 
 use WP_Error;
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Core\Util\Helper;
 use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Klaviyo integration
  */
-
 class KlaviyoController
 {
-  private $baseUrl = 'https://a.klaviyo.com/api/';
+    private $baseUrl = 'https://a.klaviyo.com/api/';
 
-  public function handleAuthorize($requestParams)
-  {
-    if (empty($requestParams->authKey)) {
-      wp_send_json_error(
-        __(
+    public function handleAuthorize($requestParams)
+    {
+        if (empty($requestParams->authKey)) {
+            wp_send_json_error(
+                __(
+                    'Requested parameter is empty',
+                    'bit-integrations'
+                ),
+                400
+            );
+        }
 
-          'Requested parameter is empty',
-          'bit-integrations'
-        ),
-        400
-      );
+        $response = static::fetchLists($requestParams->authKey, $this->baseUrl . 'lists');
+
+        if (empty($response)) {
+            wp_send_json_error(
+                __(
+                    'Invalid token',
+                    'bit-integrations'
+                ),
+                400
+            );
+        }
+
+        wp_send_json_success($response, 200);
     }
 
-    $headers = [
-      'Authorization' => "Klaviyo-API-Key {$requestParams->authKey}",
-      'accept'        => 'application/json',
-      'revision'      => '2024-02-15',
-    ];
+    public function execute($integrationData, $fieldValues)
+    {
+        $integrationDetails = $integrationData->flow_details;
+        $integId = $integrationData->id;
+        $authKey = $integrationDetails->authKey;
+        $listId = $integrationDetails->listId;
+        $field_map = $integrationDetails->field_map;
 
-    $apiEndpoints = $this->baseUrl . 'lists';
-    $response     = HttpHelper::get($apiEndpoints, null, $headers);
+        if (
+            empty($field_map)
+            || empty($authKey)
+        ) {
+            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Klaviyo'));
+        }
+        $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
+        $klaviyoApiResponse = $recordApiHelper->execute(
+            $listId,
+            $fieldValues,
+            $field_map,
+            $authKey
+        );
 
-    if (!isset($response->data)) {
-      wp_send_json_error(
-        __(
-          'Invalid token',
-          'bit-integrations'
-        ),
-        400
-      );
+        if (is_wp_error($klaviyoApiResponse)) {
+            return $klaviyoApiResponse;
+        }
+
+        return $klaviyoApiResponse;
     }
 
-    wp_send_json_success($response->data, 200);
-  }
+    private static function fetchLists($authKey, $apiEndpoints, $data = [])
+    {
+        $headers = [
+            'Authorization' => "Klaviyo-API-Key {$authKey}",
+            'accept'        => 'application/json',
+            'revision'      => '2024-02-15',
+        ];
 
-  public function execute($integrationData, $fieldValues)
-  {
-    $integrationDetails = $integrationData->flow_details;
-    $integId = $integrationData->id;
-    $authKey = $integrationDetails->authKey;
-    $listId = $integrationDetails->listId;
-    $field_map = $integrationDetails->field_map;
+        $response = HttpHelper::get($apiEndpoints, null, $headers);
 
-    if (
-      empty($field_map)
-      || empty($authKey)
-    ) {
-      return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for Klaviyo api', 'bit-integrations'));
+        if (is_wp_error($response) || empty($response->data)) {
+            return $data;
+        }
+
+        $data = array_merge($data, $response->data);
+
+        if (!empty($response->links->next)) {
+            return static::fetchLists($authKey, $response->links->next, $data);
+        }
+
+        return $data;
     }
-    $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
-    $klaviyoApiResponse = $recordApiHelper->execute(
-      $listId,
-      $fieldValues,
-      $field_map,
-      $authKey
-    );
-
-    if (is_wp_error($klaviyoApiResponse)) {
-      return $klaviyoApiResponse;
-    }
-    return $klaviyoApiResponse;
-  }
 }

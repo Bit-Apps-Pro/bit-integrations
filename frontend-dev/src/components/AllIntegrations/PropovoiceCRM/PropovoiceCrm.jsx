@@ -20,27 +20,25 @@ function PropovoiceCrm({ formFields, setFlow, flow, allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const leadFields = [
-    { key: 'first_name', label: 'First Name', required: true },
-    { key: 'email', label: 'Email', required: true },
-    { key: 'mobile', label: 'Mobile', required: false },
-    { key: 'org_name', label: 'Organization Name', required: false },
-    { key: 'person_id', label: 'Person Id ', required: false },
-    { key: 'org_id', label: 'Organization Id', required: false },
-    { key: 'budget', label: 'Budget', required: false },
-    { key: 'currency', label: 'Currency', required: false },
-    { key: 'note', label: 'Note', required: false },
-    { key: 'country', label: 'Country', required: false },
-    { key: 'region', label: 'State / Province / Region', required: false },
-    { key: 'address', label: 'Address', required: false },
-    { key: 'city', label: 'City', required: false },
-    { key: 'zip', label: 'ZIP Code', required: false },
-    { key: 'desc', label: 'Description', required: false },
-    { key: 'img', label: 'Contact Image', required: false },
+    { key: 'first_name', label: __('First Name', 'bit-integrations'), required: true },
+    { key: 'email', label: __('Email', 'bit-integrations'), required: true },
+    { key: 'mobile', label: __('Mobile', 'bit-integrations'), required: false },
+    { key: 'org_name', label: __('Organization Name', 'bit-integrations'), required: false },
+    { key: 'person_id', label: __('Person Id', 'bit-integrations'), required: false },
+    { key: 'org_id', label: __('Organization Id', 'bit-integrations'), required: false },
+    { key: 'budget', label: __('Budget', 'bit-integrations'), required: false },
+    { key: 'currency', label: __('Currency', 'bit-integrations'), required: false },
+    { key: 'note', label: __('Note', 'bit-integrations'), required: false },
+    { key: 'country', label: __('Country', 'bit-integrations'), required: false },
+    { key: 'region', label: __('State / Province / Region', 'bit-integrations'), required: false },
+    { key: 'address', label: __('Address', 'bit-integrations'), required: false },
+    { key: 'city', label: __('City', 'bit-integrations'), required: false },
+    { key: 'zip', label: __('ZIP Code', 'bit-integrations'), required: false },
+    { key: 'desc', label: __('Description', 'bit-integrations'), required: false },
+    { key: 'img', label: __('Contact Image', 'bit-integrations'), required: false }
   ]
 
-  const allActions = [
-    { key: '1', label: 'Create lead' },
-  ]
+  const allActions = [{ key: '1', label: __('Create lead', 'bit-integrations') }]
 
   const [propovoiceCrmConf, setPropovoiceCrmConf] = useState({
     name: 'Propovoice CRM',
@@ -49,7 +47,7 @@ function PropovoiceCrm({ formFields, setFlow, flow, allIntegURL }) {
     field_map: [{ formField: '', propovoiceCrmFormField: '' }],
     leadFields,
     allActions,
-    actions: {},
+    actions: {}
   })
   const nextPage = (val) => {
     setTimeout(() => {
@@ -85,13 +83,14 @@ function PropovoiceCrm({ formFields, setFlow, flow, allIntegURL }) {
           ...(step === 2 && {
             width: 900,
             height: 'auto',
-            overflow: 'visible',
-          }),
-        }}
-      >
+            overflow: 'visible'
+          })
+        }}>
         <PropovoiceCrmIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, propovoiceCrmConf, setPropovoiceCrmConf, setIsLoading, setSnackbar)}
+          handleInput={(e) =>
+            handleInput(e, propovoiceCrmConf, setPropovoiceCrmConf, setIsLoading, setSnackbar)
+          }
           propovoiceCrmConf={propovoiceCrmConf}
           setPropovoiceCrmConf={setPropovoiceCrmConf}
           isLoading={isLoading}
@@ -101,9 +100,8 @@ function PropovoiceCrm({ formFields, setFlow, flow, allIntegURL }) {
         <button
           onClick={() => nextPage(3)}
           disabled={!checkMappedFields(propovoiceCrmConf)}
-          className="btn f-right btcd-btn-lg green sh-sm flx"
-          type="button"
-        >
+          className="btn f-right btcd-btn-lg purple sh-sm flx"
+          type="button">
           {__('Next', 'bit-integrations')}
           <BackIcn className="ml-1 rev-icn" />
         </button>
@@ -113,7 +111,17 @@ function PropovoiceCrm({ formFields, setFlow, flow, allIntegURL }) {
 
       <IntegrationStepThree
         step={step}
-        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, conf: propovoiceCrmConf, navigate, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            setFlow,
+            allIntegURL,
+            conf: propovoiceCrmConf,
+            navigate,
+            setIsLoading,
+            setSnackbar
+          })
+        }
         isLoading={isLoading}
         dataConf={propovoiceCrmConf}
         setDataConf={setPropovoiceCrmConf}

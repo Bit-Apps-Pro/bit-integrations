@@ -6,12 +6,12 @@
 
 namespace BitCode\FI\Actions\ZohoCRM;
 
+use stdClass;
 use WP_Error;
 use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Core\Util\DateTimeHelper;
-use BitCode\FI\Actions\ZohoCRM\TagApiHelper;
-use BitCode\FI\Actions\ZohoCRM\FilesApiHelper;
 
 /**
  * Provide functionality for Record insert,upsert
@@ -19,7 +19,9 @@ use BitCode\FI\Actions\ZohoCRM\FilesApiHelper;
 class RecordApiHelper
 {
     private $_defaultHeader;
+
     private $_apiDomain;
+
     private $_tokenDetails;
 
     public function __construct($tokenDetails)
@@ -32,21 +34,24 @@ class RecordApiHelper
     public function upsertRecord($module, $data)
     {
         $insertRecordEndpoint = "{$this->_apiDomain}/{$module}/upsert";
-        $data = \is_string($data) ? $data : \json_encode($data);
+        $data = \is_string($data) ? $data : wp_json_encode($data);
+
         return HttpHelper::post($insertRecordEndpoint, $data, $this->_defaultHeader);
     }
 
     public function insertRecord($module, $data)
     {
         $insertRecordEndpoint = "{$this->_apiDomain}/{$module}";
-        $data = \is_string($data) ? $data : \json_encode($data);
+        $data = \is_string($data) ? $data : wp_json_encode($data);
+
         return HttpHelper::post($insertRecordEndpoint, $data, $this->_defaultHeader);
     }
 
     public function searchRecord($module, $searchCriteria)
     {
         $searchRecordEndpoint = "{$this->_apiDomain}/{$module}/search";
-        return HttpHelper::get($searchRecordEndpoint, ["criteria" => "({$searchCriteria})"], $this->_defaultHeader);
+
+        return HttpHelper::get($searchRecordEndpoint, ['criteria' => "({$searchCriteria})"], $this->_defaultHeader);
     }
 
     public function execute($integId, $defaultConf, $module, $layout, $fieldValues, $fieldMap, $actions, $required, $fileMap = [], $isRelated = false)
@@ -59,25 +64,27 @@ class RecordApiHelper
                     continue;
                 }
                 if ($fieldPair->formField === 'custom' && isset($fieldPair->customValue)) {
-                    $fieldData[$fieldPair->zohoFormField] = $this->formatFieldValue($fieldPair->customValue, $defaultConf->layouts->{$module}->{$layout}->fields->{$fieldPair->zohoFormField});
+                    $fieldData[$fieldPair->zohoFormField] = $this->formatFieldValue(Common::replaceFieldWithValue($fieldPair->customValue, $fieldValues), $defaultConf->layouts->{$module}->{$layout}->fields->{$fieldPair->zohoFormField});
                 } else {
                     $fieldData[$fieldPair->zohoFormField] = $this->formatFieldValue($fieldValues[$fieldPair->formField], $defaultConf->layouts->{$module}->{$layout}->fields->{$fieldPair->zohoFormField});
                 }
                 if (empty($fieldData[$fieldPair->zohoFormField]) && \in_array($fieldPair->zohoFormField, $required)) {
                     $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('%s is required for zoho crm, %s module', 'bit-integrations'), $fieldPair->zohoFormField, $module));
                     LogHandler::save($integId, wp_json_encode(['type' => 'record', 'type_name' => 'field']), 'validation', wp_json_encode($error));
+
                     return $error;
                 }
                 if (!empty($fieldData[$fieldPair->zohoFormField])) {
                     $requiredLength = $defaultConf->layouts->{$module}->{$layout}->fields->{$fieldPair->zohoFormField}->length;
-                    if (is_array($fieldData[$fieldPair->zohoFormField]) || is_object($fieldData[$fieldPair->zohoFormField])) {
-                        $currentLength = is_countable($fieldData[$fieldPair->zohoFormField]) ? count($fieldData[$fieldPair->zohoFormField]) : count(get_object_vars($fieldData[$fieldPair->zohoFormField]));
+                    if (\is_array($fieldData[$fieldPair->zohoFormField]) || \is_object($fieldData[$fieldPair->zohoFormField])) {
+                        $currentLength = is_countable($fieldData[$fieldPair->zohoFormField]) ? \count($fieldData[$fieldPair->zohoFormField]) : \count(get_object_vars($fieldData[$fieldPair->zohoFormField]));
                     } else {
-                        $currentLength = strlen($fieldData[$fieldPair->zohoFormField]);
+                        $currentLength = \strlen($fieldData[$fieldPair->zohoFormField]);
                     }
                     if ($currentLength > $requiredLength) {
                         $error = new WP_Error('REQ_FIELD_LENGTH_EXCEEDED', wp_sprintf(__('zoho crm field %s\'s maximum length is %s, Given %s', 'bit-integrations'), $fieldPair->zohoFormField, $module));
                         LogHandler::save($integId, wp_json_encode(['type' => 'length', 'type_name' => 'field']), 'validation', wp_json_encode($error));
+
                         return $error;
                     }
                 }
@@ -93,8 +100,8 @@ class RecordApiHelper
                     $files = $fieldValues[$filePair->formField];
 
                     $fileLength = $defaultConf->layouts->{$module}->{$layout}->fileUploadFields->{$filePair->zohoFormField}->length;
-                    if (\is_array($files) && count($files) !== $fileLength) {
-                        $files = array_slice($fieldValues[$filePair->formField], 0, $fileLength);
+                    if (\is_array($files) && \count($files) !== $fileLength) {
+                        $files = \array_slice($fieldValues[$filePair->formField], 0, $fileLength);
                     }
                     $uploadsIDs = $filesApiHelper->uploadFiles(
                         $files,
@@ -116,7 +123,7 @@ class RecordApiHelper
             } elseif (isset($fieldValues['zc_gad'])) {
                 $gclid = $fieldValues['zc_gad'];
             } elseif (isset($_REQUEST['zc_gad'])) {
-                $gclid = $_REQUEST['zc_gad'];
+                $gclid = sanitize_text_field($_REQUEST['zc_gad']);
             }
             if (!empty($gclid)) {
                 $fieldData['$gclid'] = $gclid;
@@ -192,10 +199,10 @@ class RecordApiHelper
         ) {
             if (!empty($actions->tag_rec) && class_exists('BitCode\FI\Actions\ZohoCRM\TagApiHelper')) {
                 $tags = '';
-                $tag_rec = \explode(",", $actions->tag_rec);
+                $tag_rec = explode(',', $actions->tag_rec);
                 foreach ($tag_rec as $tag) {
-                    if (is_string($tag) && substr($tag, 0, 2) === '${' && $tag[strlen($tag) - 1] === '}') {
-                        $tags .= (!empty($tags) ? ',' : '') . $fieldValues[substr($tag, 2, strlen($tag) - 3)];
+                    if (\is_string($tag) && substr($tag, 0, 2) === '${' && $tag[\strlen($tag) - 1] === '}') {
+                        $tags .= (!empty($tags) ? ',' : '') . $fieldValues[substr($tag, 2, \strlen($tag) - 3)];
                     } else {
                         $tags .= (!empty($tags) ? ',' : '') . $tag;
                     }
@@ -260,18 +267,21 @@ class RecordApiHelper
         switch ($formatSpecs->json_type) {
             case 'jsonarray':
                 $apiFormat = 'array';
+
                 break;
             case 'jsonobject':
                 $apiFormat = 'object';
+
                 break;
 
             default:
                 $apiFormat = $formatSpecs->json_type;
+
                 break;
         }
         $formatedValue = '';
-        $fieldFormat = gettype($value);
-        if ($fieldFormat === $apiFormat && $formatSpecs->data_type !== 'datetime') {
+        $fieldFormat = \gettype($value);
+        if ($fieldFormat === $apiFormat && $formatSpecs->data_type !== 'datetime' && $formatSpecs->data_type !== 'date') {
             $formatedValue = $fieldFormat === 'string' ? html_entity_decode($value) : $value;
         } else {
             if ($apiFormat === 'array' || $apiFormat === 'object') {
@@ -281,7 +291,7 @@ class RecordApiHelper
                     } else {
                         $formatedValue = explode(',', $value);
                     }
-                    $formatedValue = is_null($formatedValue) && !is_null($value) ? [$value] : $formatedValue;
+                    $formatedValue = \is_null($formatedValue) && !\is_null($value) ? [$value] : $formatedValue;
                 } else {
                     $formatedValue = $value;
                 }
@@ -290,51 +300,55 @@ class RecordApiHelper
                     $formatedValue = (object) $formatedValue;
                 }
             } elseif ($apiFormat === 'string' && $formatSpecs->data_type !== 'datetime' && $formatSpecs->data_type !== 'date') {
-                $formatedValue = is_array($value) || is_object($value) ? implode(",", (array)$value) : html_entity_decode($value);
+                $formatedValue = \is_array($value) || \is_object($value) ? implode(',', (array) $value) : html_entity_decode($value);
             } elseif ($formatSpecs->data_type === 'datetime') {
-                $getDateFormat  = self::setDateFormat($value);
-                $date_format    = $getDateFormat['date_format'];
-                $value          = $getDateFormat['value'];
+                $getDateFormat = self::setDateFormat($value);
+                $date_format = $getDateFormat['date_format'];
+                $value = $getDateFormat['value'];
 
                 $dateTimeHelper = new DateTimeHelper();
-                $formatedValue  = $dateTimeHelper->getFormated($value, $date_format, wp_timezone(), 'Y-m-d\TH:i:sP', null);
-                $formatedValue  = !$formatedValue ? null : $formatedValue;
+                $formatedValue = $dateTimeHelper->getFormated($value, $date_format, wp_timezone(), 'Y-m-d\TH:i:sP', null);
+                $formatedValue = !$formatedValue ? null : $formatedValue;
             } elseif ($formatSpecs->data_type === 'date') {
-                $getDateFormat  = self::setDateFormat($value);
-                $date_format    = $getDateFormat['date_format'];
-                $value          = $getDateFormat['value'];
+                $getDateFormat = self::setDateFormat($value);
+                $date_format = $getDateFormat['date_format'];
+                $value = $getDateFormat['value'];
 
                 $dateTimeHelper = new DateTimeHelper();
-                $formatedValue  = $dateTimeHelper->getFormated($value, $date_format, wp_timezone(), 'Y-m-d', null);
-                $formatedValue  = !$formatedValue ? null : $formatedValue;
+                $formatedValue = $dateTimeHelper->getFormated($value, $date_format, wp_timezone(), 'Y-m-d', null);
+                $formatedValue = !$formatedValue ? null : $formatedValue;
             } else {
-                $stringyfieldValue = is_array($value) || is_object($value) ? implode(",", (array)$value) : $value;
+                $stringyfieldValue = \is_array($value) || \is_object($value) ? implode(',', (array) $value) : $value;
 
                 switch ($apiFormat) {
                     case 'double':
                         $formatedValue = (float) $stringyfieldValue;
+
                         break;
 
                     case 'boolean':
                         $formatedValue = (bool) $stringyfieldValue;
+
                         break;
 
                     case 'integer':
                         $formatedValue = (int) $stringyfieldValue;
+
                         break;
                     default:
                         $formatedValue = $stringyfieldValue;
+
                         break;
                 }
             }
         }
         if ($apiFormat === 'array' || $apiFormat === 'object') {
-            $formatedValueLenght = is_countable($formatedValue) ? \count($formatedValue) : count(get_object_vars($formatedValue));
+            $formatedValueLenght = is_countable($formatedValue) ? \count($formatedValue) : \count(get_object_vars($formatedValue));
         } else {
             $formatedValueLenght = \strlen($formatedValue);
         }
         if ($formatedValueLenght > $formatSpecs->length) {
-            $formatedValue = $apiFormat === 'array' || $apiFormat === 'object' ? array_slice($formatedValue, 0, $formatSpecs->length) : substr($formatedValue, 0, $formatSpecs->length);
+            $formatedValue = $apiFormat === 'array' || $apiFormat === 'object' ? \array_slice($formatedValue, 0, $formatSpecs->length) : substr($formatedValue, 0, $formatSpecs->length);
         }
 
         return $formatedValue;
@@ -342,8 +356,8 @@ class RecordApiHelper
 
     private static function setDateFormat($value)
     {
-        if (is_array($value)) {
-            if (isset($value['time']) && isset($value['date'])) {
+        if (\is_array($value)) {
+            if (isset($value['time'], $value['date'])) {
                 $value = isset($value['date']) . ' ' . $value['time'];
                 $date_format = 'm/d/Y H:i A';
             } elseif (isset($value['date'])) {
@@ -361,6 +375,7 @@ class RecordApiHelper
         }
 
         $value = date($date_format, strtotime($value));
+
         return ['value' => $value, 'date_format' => $date_format];
     }
 }

@@ -25,7 +25,7 @@ class WebHooksController
                 400
             );
         }
-        wp_send_json_success(__('webhook executed succcessfully', 'bit-integrations'), 200);
+        wp_send_json_success(__('Test webhook executed succcessfully', 'bit-integrations'), 200);
     }
 
     public static function execute($integrationDetails, $fieldValues)
@@ -43,14 +43,17 @@ class WebHooksController
             switch (strtoupper($method)) {
                 case 'GET':
                     $response = HttpHelper::get($url, [], $headers);
+
                     break;
 
                 case 'POST':
                     $response = HttpHelper::post($url, $payload, $headers);
+
                     break;
 
                 default:
                     $response = HttpHelper::request($url, $method, $payload, $headers);
+
                     break;
             }
         }
@@ -79,11 +82,11 @@ class WebHooksController
         $Port = isset($parsedURL['port']) ? ':' . $parsedURL['port'] : null;
         $Path = isset($parsedURL['path']) ? $parsedURL['path'] : null;
         $Query = isset($parsedURL['query']) ? $parsedURL['query'] : null;
-        $Pass = ($Pass || $Usr) ? "$Pass@" : null;
+        $Pass = ($Pass || $Usr) ? "{$Pass}@" : null;
 
-        $cleanURL = "$Scheme$Usr$Pass$Host$Port$Path";
+        $cleanURL = "{$Scheme}{$Usr}{$Pass}{$Host}{$Port}{$Path}";
         $params = [];
-        foreach (explode('&', $Query) as $keyValue) {
+        foreach (explode('&', (string) $Query) as $keyValue) {
             if (empty($keyValue)) {
                 continue;
             }
@@ -104,7 +107,7 @@ class WebHooksController
 
         $params = Common::replaceFieldWithValue($params, $fieldValues);
         $params = http_build_query($params);
-        $cleanURL .= "?$params";
+        $cleanURL .= "?{$params}";
 
         return $cleanURL;
     }
@@ -119,6 +122,7 @@ class WebHooksController
                 $headers['Content-Type'] = $details->body->type === 'raw' ? 'application/json' : $details->body->type;
             }
         }
+
         return $headers;
     }
 
@@ -134,32 +138,35 @@ class WebHooksController
             $payload = self::processKeyValue($details->body->data, $fieldValues);
         }
         if (isset($details->body->type) && $details->body->type === 'application/json' || $details->body->type === 'raw') {
-            $payload = json_encode((object) $payload, JSON_PRETTY_PRINT);
+            $payload = wp_json_encode((object) $payload, JSON_PRETTY_PRINT);
         } elseif ('multipart/form-data' === $details->body->type) {
             if (!empty($payload)) {
                 $payloadString = '';
                 foreach ($payload as $key => $value) {
                     $payloadString .= '--' . $boundary;
                     $payloadString .= "\r\n";
-                    $payloadString .= 'Content-Disposition: form-data; name="' . $key .
-                        '"' . "\r\n\r\n";
+                    $payloadString .= 'Content-Disposition: form-data; name="' . $key
+                        . '"' . "\r\n\r\n";
                     $payloadString .= $value;
                     $payloadString .= "\r\n";
                 }
                 $payloadString .= '--' . $boundary . '--';
+
                 return $payloadString;
             }
         }
+
         return $payload;
     }
 
     private static function pushMissingFields($fieldValues, $fields)
     {
         foreach ($fields as $field) {
-            if (!isset($fieldValues[$field->key])) {
+            if (isset($field->key) && !isset($fieldValues[$field->key])) {
                 $fieldValues[$field->key] = '';
             }
         }
+
         return $fieldValues;
     }
 
@@ -169,21 +176,23 @@ class WebHooksController
         foreach ($data as $keyValuePair) {
             $processedData[$keyValuePair->key] = Common::replaceFieldWithValue(sanitize_text_field($keyValuePair->value), $fieldValues);
         }
+
         return $processedData;
     }
 
     private static function iterate($array)
     {
         $ar = [];
-        if (is_array($array)) {
+        if (\is_array($array)) {
             foreach ($array as $k => $v) {
-                if (is_string($v)) {
+                if (\is_string($v)) {
                     $ar[$k] = str_replace("\'", "'", $v);
                 } else {
                     $ar[$k] = $v;
                 }
             }
         }
+
         return $ar;
     }
 }

@@ -3,11 +3,12 @@
 /**
  * Vbout Integration
  */
+
 namespace BitCode\FI\Actions\Vbout;
 
-use WP_Error;
 use BitCode\FI\Core\Util\HttpHelper;
-    
+use WP_Error;
+
 /**
  * Provide functionality for Vbout integration
  */
@@ -26,10 +27,10 @@ class VboutController
                 400
             );
         }
-        $apiEndpoints=$this->baseUrl . 'app/me.json?key=' . $requestParams->auth_token;
+        $apiEndpoints = $this->baseUrl . 'app/me.json?key=' . $requestParams->auth_token;
 
         $response = HttpHelper::post($apiEndpoints, null);
-        if ($response->response->header->status !== "ok") {
+        if ($response->response->header->status !== 'ok') {
             wp_send_json_error(
                 __(
                     'Invalid token',
@@ -52,27 +53,27 @@ class VboutController
                 400
             );
         }
-        $apiEndpoints=$this->baseUrl . 'emailmarketing/getlists.json?key=' . $requestParams->auth_token;
+        $apiEndpoints = $this->baseUrl . 'emailmarketing/getlists.json?key=' . $requestParams->auth_token;
 
         $response = HttpHelper::post($apiEndpoints, null);
-   
+
         $formattedResponse = [];
-        if ($response->response->header->status !== "ok") {
+        if ($response->response->header->status !== 'ok') {
             wp_send_json_error(
                 'The token is invalid',
                 400
             );
         } else {
             foreach ($response->response->data->lists->items as $value) {
-                $formattedResponse[] =
-    [
+                $formattedResponse[]
+    = [
         'list_id' => $value->id,
-        'name' => $value->name,
-        'fields'=>$value->fields
+        'name'    => $value->name,
+        'fields'  => $value->fields
     ];
             }
         }
- 
+
         wp_send_json_success($formattedResponse, 200);
     }
 
@@ -87,12 +88,12 @@ class VboutController
                 400
             );
         }
-        $apiEndpoints=$this->baseUrl . 'emailmarketing/getlist.json?key=' . $requestParams->auth_token . '&id=' . $requestParams->list_id;
+        $apiEndpoints = $this->baseUrl . 'emailmarketing/getlist.json?key=' . $requestParams->auth_token . '&id=' . $requestParams->list_id;
 
         $response = HttpHelper::post($apiEndpoints, null);
-   
+
         $formattedResponse = [];
-        if ($response->response->header->status !== "ok") {
+        if ($response->response->header->status !== 'ok') {
             wp_send_json_error(
                 'The token is invalid',
                 400
@@ -100,13 +101,13 @@ class VboutController
         } else {
             foreach ($response->response->data->list->fields as $key => $value) {
                 $formattedResponse[] = [
-                    'key' => $key,
-                    'label' => $value,
+                    'key'      => $key,
+                    'label'    => $value,
                     'required' => $value === 'Email Address' ? true : false,
                 ];
             }
         }
- 
+
         wp_send_json_success($formattedResponse, 200);
     }
 
@@ -118,12 +119,12 @@ class VboutController
         $listId = $integrationDetails->list_id;
         $fieldMap = $integrationDetails->field_map;
         $contactStatus = $integrationDetails->contact_status;
-     
+
         if (
-           empty($fieldMap)
-            || empty($auth_token)
+            empty($fieldMap)
+             || empty($auth_token)
         ) {
-            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for MailerLite api', 'bit-integrations'));
+            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'MailerLite'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
         $vboutApiResponse = $recordApiHelper->execute(
@@ -137,6 +138,7 @@ class VboutController
         if (is_wp_error($vboutApiResponse)) {
             return $vboutApiResponse;
         }
+
         return $vboutApiResponse;
     }
 }

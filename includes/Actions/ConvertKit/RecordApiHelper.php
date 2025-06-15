@@ -6,22 +6,26 @@
 
 namespace BitCode\FI\Actions\ConvertKit;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Record insert,update, exist
  */
 class RecordApiHelper
 {
+    private $_integrationDetails;
+
     private $_defaultHeader;
+
     private $_integrationID;
+
     private $_apiEndpoint;
 
-    
-    public function __construct($api_secret, $integId)
+    public function __construct($integrationDetails, $api_secret, $integId)
     {
-        // wp_send_json_success($tokenDetails);
+        $this->_integrationDetails = $integrationDetails;
         $this->_defaultHeader = $api_secret;
         $this->_apiEndpoint = 'https://api.convertkit.com/v3';
         $this->_integrationID = $integId;
@@ -30,92 +34,118 @@ class RecordApiHelper
     // for adding a subscriber
     public function storeOrModifyRecord($method, $formId, $data)
     {
-        $query = [
-            'api_secret' => $this->_defaultHeader,
-            'email' => $data->email,
-            'first_name' => $data->firstName,
-        ];
-
-        foreach ($data as $key=>$value) {
-            $key = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $key));
-            $array_keys = array_keys($query);
-            if (!(in_array($key, $array_keys))) {
-                $query['fields'] = [
-                     $key => $value,
-                ];
-            }
-        }
-
-        $queries= http_build_query($query);
-
+        $queries = $this->httpBuildQuery($data);
         $insertRecordEndpoint = "{$this->_apiEndpoint}/forms/{$formId}/{$method}?{$queries}";
 
-        $res = HttpHelper::post($insertRecordEndpoint, null);
-        return $res;
+        return HttpHelper::post($insertRecordEndpoint, null);
     }
 
-    //for updating subscribers data through email id.
-    public function updateRecord($id, $data, $existSubscriber)
+    // for updating subscribers data through email id.
+    public function updateRecord($id, $data)
     {
-        $subscriberData = $data;
+        $queries = $this->httpBuildQuery($data);
+        $updateRecordEndpoint = "{$this->_apiEndpoint}/subscribers/{$id}?" . $queries;
 
-        foreach ($subscriberData as $key => $value) {
-            if ($value === '') {
-                $subscriberData->$key = $existSubscriber->subscribers[0]->$key;
-            }
-        }
-
-        $query = [
-            'api_secret' => $this->_defaultHeader,
-            'email_address' => $data->email,
-            'first_name' => $data->firstName,
-        ];
-
-        foreach ($data as $key=>$value) {
-            $key = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $key));
-            $array_keys = array_keys($query);
-            if (!(in_array($key, $array_keys))) {
-                $query['fields'] = [
-                     $key => $value,
-                ];
-            }
-        }
-
-        $queries= http_build_query($query);
-
-        $updateRecordEndpoint = "{$this->_apiEndpoint}/subscribers/{$id}?".$queries;
-
-        return  HttpHelper::request($updateRecordEndpoint, 'PUT', null);
+        return HttpHelper::request($updateRecordEndpoint, 'PUT', null);
     }
 
-    //add tag to a subscriber
     public function addTagToSubscriber($email, $tags)
     {
         $queries = http_build_query([
             'api_secret' => $this->_defaultHeader,
-            'email' => $email,
+            'email'      => $email,
         ]);
+
         foreach ($tags as $tagId) {
             $searchEndPoint = "{$this->_apiEndpoint}/tags/{$tagId}/subscribe?{$queries}";
-
-            HttpHelper::post($searchEndPoint, null);
+            $recordApiResponse = HttpHelper::post($searchEndPoint, null);
         }
+
+        return $recordApiResponse;
     }
 
-    //Check if a subscriber exists through email.
-    private function existSubscriber($email)
+    public function removeTagToSubscriber($email, $tags)
     {
         $queries = http_build_query([
             'api_secret' => $this->_defaultHeader,
-            'email_address' => $email,
+            'email'      => $email,
         ]);
-        $searchEndPoint = "{$this->_apiEndpoint}/subscribers?{$queries}";
 
-        return HttpHelper::get($searchEndPoint, null);
+        foreach ($tags as $tagId) {
+            $searchEndPoint = "{$this->_apiEndpoint}/tags/{$tagId}/unsubscribe?{$queries}";
+            $recordApiResponse = HttpHelper::post($searchEndPoint, null);
+        }
+
+        return $recordApiResponse;
     }
 
-
     public function execute($fieldValues, $fieldMap, $actions, $formId, $tags)
+    {
+        $convertKit = (object) $this->setFieldMapping($fieldMap, $fieldValues);
+        $module = empty($this->_integrationDetails->module) ? 'add_subscriber_to_a_form' : $this->_integrationDetails->module;
+        $existSubscriber = !empty($actions->update) ? $this->existSubscriber($convertKit->email) : false;
+        $type = $typeName = null;
+        $recordApiResponse = null;
+
+        switch ($module) {
+            case 'add_subscriber_to_a_form':
+                if (!empty($actions->update) && !empty($existSubscriber)) {
+                    $recordApiResponse = $this->updateRecord($existSubscriber->id, $convertKit);
+                    $typeName = 'update';
+                } elseif (empty($existSubscriber)) {
+                    $recordApiResponse = $this->storeOrModifyRecord('subscribe', $formId, $convertKit);
+                    $typeName = 'insert';
+                } else {
+                    $recordApiResponse = (object) ['error' => __('Email address already exists in the system', 'bit-integrations')];
+                    $typeName = 'insert';
+                }
+                if (isset($tags) && (\count($tags)) > 0 && isset($recordApiResponse) && !isset($recordApiResponse->error)) {
+                    $this->addTagToSubscriber($convertKit->email, $tags);
+                }
+
+                $type = 'Add subscriber to a form';
+
+                break;
+
+            case 'update_a_subscriber':
+                $recordApiResponse = $existSubscriber ? $this->updateRecord($existSubscriber->id, $convertKit) : (object) ['error' => 'Subscriber not found!'];
+
+                if (isset($tags) && (\count($tags)) > 0 && isset($recordApiResponse) && !isset($recordApiResponse->error)) {
+                    $this->addTagToSubscriber($convertKit->email, $tags);
+                }
+
+                $type = 'Update subscriber';
+                $typeName = 'update';
+
+                break;
+
+            case 'add_tags_to_a_subscriber':
+                $recordApiResponse = $this->addTagToSubscriber($convertKit->email, $tags);
+                $type = 'Add tags to subscriber';
+                $typeName = 'insert';
+
+                break;
+
+            case 'remove_tags_to_a_subscriber':
+                $recordApiResponse = $this->removeTagToSubscriber($convertKit->email, $tags);
+                $type = 'Remove tags from subscriber';
+                $typeName = 'insert';
+
+                break;
+        }
+
+        if (isset($existSubscriber->error)) {
+            LogHandler::save($this->_integrationID, ['type' => $type, 'type_name' => 'insert'], 'error', $existSubscriber->error);
+        } elseif ($recordApiResponse && isset($recordApiResponse->error)) {
+            LogHandler::save($this->_integrationID, ['type' => $type, 'type_name' => $typeName], 'error', $recordApiResponse->error);
+        } else {
+            LogHandler::save($this->_integrationID, ['type' => $type, 'type_name' => $typeName], 'success', $recordApiResponse);
+        }
+
+        return $recordApiResponse;
+    }
+
+    private function setFieldMapping($fieldMap, $fieldValues)
     {
         $fieldData = [];
         $customFields = [];
@@ -123,11 +153,11 @@ class RecordApiHelper
         foreach ($fieldMap as $fieldKey => $fieldPair) {
             if (!empty($fieldPair->convertKitField)) {
                 if ($fieldPair->formField === 'custom' && isset($fieldPair->customValue) && !is_numeric($fieldPair->convertKitField)) {
-                    $fieldData[$fieldPair->convertKitField] = $fieldPair->customValue;
+                    $fieldData[$fieldPair->convertKitField] = Common::replaceFieldWithValue($fieldPair->customValue, $fieldValues);
                 } elseif (is_numeric($fieldPair->convertKitField) && $fieldPair->formField === 'custom' && isset($fieldPair->customValue)) {
-                    array_push($customFields, ['field' => (int) $fieldPair->convertKitField, 'value' => $fieldPair->customValue]);
+                    $customFields[] = ['field' => (int) $fieldPair->convertKitField, 'value' => Common::replaceFieldWithValue($fieldPair->customValue, $fieldValues)];
                 } elseif (is_numeric($fieldPair->convertKitField)) {
-                    array_push($customFields, ['field' => (int) $fieldPair->convertKitField, 'value' => $fieldValues[$fieldPair->formField]]);
+                    $customFields[] = ['field' => (int) $fieldPair->convertKitField, 'value' => $fieldValues[$fieldPair->formField]];
                 } else {
                     $fieldData[$fieldPair->convertKitField] = $fieldValues[$fieldPair->formField];
                 }
@@ -137,38 +167,44 @@ class RecordApiHelper
         if (!empty($customFields)) {
             $fieldData['fieldValues'] = $customFields;
         }
-        $convertKit = (object) $fieldData;
 
-        $existSubscriber = $this->existSubscriber($convertKit->email);
+        return $fieldData;
+    }
 
-        if ((count($existSubscriber->subscribers)) !== 1) {
-            $recordApiResponse = $this->storeOrModifyRecord('subscribe', $formId, $convertKit);
-            if (isset($tags) && (count($tags)) > 0 && $recordApiResponse) {
-                $this->addTagToSubscriber($convertKit->email, $tags);
-            }
-            $type = 'insert';
-        } else {
-            if ($actions->update == 'true') {
-                $this->updateRecord($existSubscriber->subscribers[0]->id, $convertKit, $existSubscriber);
-                $type = 'update';
-            } else {
-                LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'insert'], 'error', 'Email address already exists in the system');
+    private function httpBuildQuery($data)
+    {
+        $query = [
+            'api_secret' => $this->_defaultHeader,
+            'email'      => $data->email,
+            'first_name' => $data->firstName,
+        ];
 
-                wp_send_json_error(
-                    __(
-                        $this->_errorMessage,
-                        'bit-integrations'
-                    ),
-                    400
-                );
+        foreach ($data as $key => $value) {
+            $key = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $key));
+            $array_keys = array_keys($query);
+            if (!(\in_array($key, $array_keys))) {
+                $query['fields'][$key] = $value;
             }
         }
 
-        if (($recordApiResponse && isset($recordApiResponse->errors)) || isset($this->_errorMessage)) {
-            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => $type], 'error', $recordApiResponse->errors);
-        } else {
-            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => $type], 'success', $recordApiResponse);
+        return http_build_query($query);
+    }
+
+    private function existSubscriber($email, $page = 1)
+    {
+        $queries = http_build_query([
+            'api_secret'    => $this->_defaultHeader,
+            'email_address' => $email,
+            'page'          => 1,
+            'status'        => 'all',
+        ]);
+
+        $response = HttpHelper::get("{$this->_apiEndpoint}/subscribers?{$queries}", null);
+
+        if (is_wp_error($response) || empty($response->subscribers)) {
+            return false;
         }
-        return $recordApiResponse;
+
+        return \is_array($response->subscribers) && \count($response->subscribers) > 0 ? $response->subscribers[0] : $response->subscribers;
     }
 }

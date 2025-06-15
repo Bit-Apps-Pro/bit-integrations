@@ -2,11 +2,16 @@ import bitsFetch from '../../../Utils/bitsFetch'
 import { deepCopy } from '../../../Utils/Helpers'
 import { sprintf, __ } from '../../../Utils/i18nwrap'
 
-export const handleInput = (e, trelloConf, setTrelloConf) => {
+export const handleInput = (e, trelloConf, setTrelloConf, setIsLoading, setSnackbar) => {
   const newConf = { ...trelloConf }
   const { name } = e.target
   if (e.target.value !== '') {
     newConf[name] = e.target.value
+
+    if (name === 'boardId') {
+      fetchAllList(newConf, setTrelloConf, setIsLoading, setSnackbar)
+      fetchAllCustomFields(newConf, setTrelloConf, setIsLoading, setSnackbar)
+    }
   } else {
     delete newConf[name]
   }
@@ -18,10 +23,10 @@ export const fetchAllBoard = (formID, trelloConf, setTrelloConf, setIsLoading, s
   const fetchBoardModulesRequestParams = {
     formID,
     clientId: trelloConf.clientId,
-    accessToken: trelloConf.accessToken,
+    accessToken: trelloConf.accessToken
   }
   bitsFetch(fetchBoardModulesRequestParams, 'trello_fetch_all_board')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...trelloConf }
         if (!newConf.default) {
@@ -35,10 +40,22 @@ export const fetchAllBoard = (formID, trelloConf, setTrelloConf, setIsLoading, s
         // }
         setSnackbar({ show: true, msg: __('Board list refreshed', 'bit-integrations') })
         setTrelloConf({ ...newConf })
-      } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
-        setSnackbar({ show: true, msg: sprintf(__('Board list refresh failed Cause: %s. please try again', 'bit-integrations'), result.data.data || result.data) })
+      } else if (
+        (result && result.data && result.data.data) ||
+        (!result.success && typeof result.data === 'string')
+      ) {
+        setSnackbar({
+          show: true,
+          msg: sprintf(
+            __('Board list refresh failed Cause: %s. please try again', 'bit-integrations'),
+            result.data.data || result.data
+          )
+        })
       } else {
-        setSnackbar({ show: true, msg: __('Board list failed. please try again', 'bit-integrations') })
+        setSnackbar({
+          show: true,
+          msg: __('Board list failed. please try again', 'bit-integrations')
+        })
       }
       setIsLoading(false)
     })
@@ -50,12 +67,11 @@ export const fetchAllList = (trelloConf, setTrelloConf, setIsLoading, setSnackba
   const fetchListModulesRequestParams = {
     clientId: trelloConf.clientId,
     boardId: trelloConf.boardId,
-    accessToken: trelloConf.accessToken,
+    accessToken: trelloConf.accessToken
   }
 
   bitsFetch(fetchListModulesRequestParams, 'trello_fetch_all_list_Individual_board')
-
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...trelloConf }
         if (!newConf.default) {
@@ -66,10 +82,61 @@ export const fetchAllList = (trelloConf, setTrelloConf, setIsLoading, setSnackba
         }
         setSnackbar({ show: true, msg: __('Board list refreshed', 'bit-integrations') })
         setTrelloConf({ ...newConf })
-      } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
-        setSnackbar({ show: true, msg: sprintf(__('Board list refresh failed Cause: %s. please try again', 'bit-integrations'), result.data.data || result.data) })
+      } else if (
+        (result && result.data && result.data.data) ||
+        (!result.success && typeof result.data === 'string')
+      ) {
+        setSnackbar({
+          show: true,
+          msg: sprintf(
+            __('Board list refresh failed Cause: %s. please try again', 'bit-integrations'),
+            result.data.data || result.data
+          )
+        })
       } else {
-        setSnackbar({ show: true, msg: __('Board list failed. please try again', 'bit-integrations') })
+        setSnackbar({
+          show: true,
+          msg: __('Board list failed. please try again', 'bit-integrations')
+        })
+      }
+      setIsLoading(false)
+    })
+    .catch(() => setIsLoading(false))
+}
+
+export const fetchAllCustomFields = (trelloConf, setTrelloConf, setIsLoading, setSnackbar) => {
+  setIsLoading(true)
+  const requestParams = {
+    clientId: trelloConf.clientId,
+    boardId: trelloConf.boardId,
+    accessToken: trelloConf.accessToken
+  }
+
+  bitsFetch(requestParams, 'trello_fetch_all_custom_fields')
+    .then((result) => {
+      if (result && result.success) {
+        const newConf = { ...trelloConf }
+        newConf.customFields = result.data
+        newConf.custom_field_map = generateMappedField(result.data)
+
+        setSnackbar({ show: true, msg: __('Custom Fields refreshed', 'bit-integrations') })
+        setTrelloConf({ ...newConf })
+      } else if (
+        (result && result.data && result.data.data) ||
+        (!result.success && typeof result.data === 'string')
+      ) {
+        setSnackbar({
+          show: true,
+          msg: sprintf(
+            __('Custom Fields refresh failed Cause: %s. please try again', 'bit-integrations'),
+            result.data.data || result.data
+          )
+        })
+      } else {
+        setSnackbar({
+          show: true,
+          msg: __('Custom Fields failed. please try again', 'bit-integrations')
+        })
       }
       setIsLoading(false)
     })
@@ -81,7 +148,7 @@ export const setGrantTokenResponse = (integ) => {
   const authWindowLocation = window.location.href
   const queryParams = authWindowLocation.replace(`${window.opener.location.href}`, '').split('&')
   if (queryParams) {
-    queryParams.forEach(element => {
+    queryParams.forEach((element) => {
       const gtKeyValue = element.split('=')
       if (gtKeyValue[1]) {
         // eslint-disable-next-line prefer-destructuring
@@ -93,9 +160,20 @@ export const setGrantTokenResponse = (integ) => {
   window.close()
 }
 
-export const handleTrelloAuthorize = (integ, ajaxInteg, confTmp, setConf, setError, setisAuthorized, setIsLoading, setSnackbar) => {
+export const handleTrelloAuthorize = (
+  integ,
+  ajaxInteg,
+  confTmp,
+  setConf,
+  setError,
+  setisAuthorized,
+  setIsLoading,
+  setSnackbar
+) => {
   if (!confTmp.clientId) {
-    setError({ clientId: !confTmp.clientId ? __('Client ID cann\'t be empty', 'bit-integrations') : '' })
+    setError({
+      clientId: !confTmp.clientId ? __("Client Id can't be empty", 'bit-integrations') : ''
+    })
     return
   }
   setIsLoading(true)
@@ -119,9 +197,17 @@ export const handleTrelloAuthorize = (integ, ajaxInteg, confTmp, setConf, setErr
           grantTokenResponse.code = grantTokenResponse.token
         }
       }
-      if (!grantTokenResponse.code || grantTokenResponse.error || !grantTokenResponse || !isauthRedirectLocation) {
+      if (
+        !grantTokenResponse.code ||
+        grantTokenResponse.error ||
+        !grantTokenResponse ||
+        !isauthRedirectLocation
+      ) {
         const errorCause = grantTokenResponse.error ? `Cause: ${grantTokenResponse.error}` : ''
-        setSnackbar({ show: true, msg: `${__('Authorization failed', 'bit-integrations')} ${errorCause}. ${__('please try again', 'bit-integrations')}` })
+        setSnackbar({
+          show: true,
+          msg: `${__('Authorization Failed', 'bit-integrations')} ${errorCause}. ${__('please try again', 'bit-integrations')}`
+        })
         setIsLoading(false)
       } else {
         const newConf = { ...confTmp }
@@ -134,13 +220,18 @@ export const handleTrelloAuthorize = (integ, ajaxInteg, confTmp, setConf, setErr
     setIsLoading(false)
   }, 500)
 }
-export const generateMappedField = (trelloConf) => {
-  const requiredFlds = trelloConf?.cardFields.filter(fld => fld.required === true)
-  return requiredFlds.length > 0 ? requiredFlds.map(field => ({ formField: '', trelloFormField: field.key })) : [{ formField: '', trelloFormField: '' }]
+export const generateMappedField = (cardFields) => {
+  const requiredFlds = cardFields.filter((fld) => fld.required === true)
+
+  return requiredFlds.length > 0
+    ? requiredFlds.map((field) => ({ formField: '', trelloFormField: field.key }))
+    : [{ formField: '', trelloFormField: '' }]
 }
 
 export const checkMappedFields = (trelloConf) => {
-  const mappedFleld = trelloConf.field_map ? trelloConf.field_map.filter(mapped => (!mapped.formField && !mapped.trelloFormField)) : []
+  const mappedFleld = trelloConf.field_map
+    ? trelloConf.field_map.filter((mapped) => !mapped.formField && !mapped.trelloFormField)
+    : []
   if (mappedFleld.length > 0) {
     return false
   }

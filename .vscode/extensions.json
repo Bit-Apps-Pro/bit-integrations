@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "junstyle.php-cs-fixer",
+    "bmewburn.vscode-intelephense-client",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "stylelint.vscode-stylelint",
+    "cipchk.cssrem"
+  ]
+}

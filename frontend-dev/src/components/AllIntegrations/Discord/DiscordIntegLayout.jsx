@@ -8,10 +8,13 @@ import DiscordActions from './DiscordActions'
 import { getAllChannels, getAllServers } from './DiscordCommonFunc'
 import { useEffect } from 'react'
 
-export default function DiscordIntegLayout({ formFields,
+export default function DiscordIntegLayout({
+  formFields,
   discordConf,
   setDiscordConf,
-  isLoading, setIsLoading }) {
+  isLoading,
+  setIsLoading
+}) {
   const { id } = useParams()
   const handleInput = (e) => {
     const newConf = { ...discordConf }
@@ -19,12 +22,15 @@ export default function DiscordIntegLayout({ formFields,
     setDiscordConf(newConf)
   }
 
-
   const setChanges = (val, name) => {
     const newConf = { ...discordConf }
     newConf[name] = val
 
-    if (name === 'selectedServer' && (newConf.selectedServer !== '' || newConf.selectedServer !== null) && val) {
+    if (
+      name === 'selectedServer' &&
+      (newConf.selectedServer !== '' || newConf.selectedServer !== null) &&
+      val
+    ) {
       newConf.selectedChannel = ''
       getAllChannels(newConf, setDiscordConf, setIsLoading)
     }
@@ -49,10 +55,13 @@ export default function DiscordIntegLayout({ formFields,
       <div className="flx">
         <b className="wdt-200 d-in-b">{__('Select Servers:', 'bit-integrations')}</b>
         <MultiSelect
-          options={discordConf?.servers?.map(Server => ({ label: Server.name, value: Server.id }))}
+          options={discordConf?.servers?.map((Server) => ({
+            label: Server.name,
+            value: Server.id
+          }))}
           className="msl-wrp-options dropdown-custom-width"
           defaultValue={discordConf?.selectedServer}
-          onChange={val => setChanges(val, 'selectedServer')}
+          onChange={(val) => setChanges(val, 'selectedServer')}
           disabled={isLoading.Servers}
           singleSelect
         />
@@ -61,8 +70,7 @@ export default function DiscordIntegLayout({ formFields,
           className="icn-btn sh-sm ml-2 mr-2 tooltip"
           style={{ '--tooltip-txt': `'${__('Refresh Server List', 'bit-integrations')}'` }}
           type="button"
-          disabled={isLoading.servers}
-        >
+          disabled={isLoading.servers}>
           &#x21BB;
         </button>
       </div>
@@ -72,10 +80,13 @@ export default function DiscordIntegLayout({ formFields,
           <div className="flx">
             <b className="wdt-200 d-in-b">{__('Select Channels:', 'bit-integrations')}</b>
             <MultiSelect
-              options={discordConf?.channels?.map(Channel => ({ label: Channel.name, value: Channel.id }))}
+              options={discordConf?.channels?.map((Channel) => ({
+                label: Channel.name,
+                value: Channel.id
+              }))}
               className="msl-wrp-options dropdown-custom-width"
               defaultValue={discordConf?.selectedChannel}
-              onChange={val => setChanges(val, 'selectedChannel')}
+              onChange={(val) => setChanges(val, 'selectedChannel')}
               disabled={isLoading.Channels}
               singleSelect
             />
@@ -84,8 +95,7 @@ export default function DiscordIntegLayout({ formFields,
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `'${__('Refresh Channel List', 'bit-integrations')}'` }}
               type="button"
-              disabled={isLoading.channels}
-            >
+              disabled={isLoading.channels}>
               &#x21BB;
             </button>
           </div>
@@ -99,16 +109,14 @@ export default function DiscordIntegLayout({ formFields,
             justifyContent: 'center',
             alignItems: 'center',
             height: 100,
-            transform: 'scale(0.7)',
+            transform: 'scale(0.7)'
           }}
         />
       )}
       {discordConf?.selectedChannel && discordConf?.selectedServer && (
         <>
           <div className="flx mt-4">
-            <b className="wdt-200 d-in-b mr-16">
-              {__('Messages: ', 'bit-integrations')}
-            </b>
+            <b className="wdt-200 d-in-b mr-16">{__('Messages:', 'bit-integrations')}</b>
             <textarea
               className="w-7"
               onChange={handleInput}
@@ -125,7 +133,7 @@ export default function DiscordIntegLayout({ formFields,
             />
           </div>
           <div className="mt-4">
-            <b className="wdt-100">{__('Actions', 'bit-integrations')}</b>
+            <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
           </div>
           <div className="btcd-hr mt-1" />
           <DiscordActions

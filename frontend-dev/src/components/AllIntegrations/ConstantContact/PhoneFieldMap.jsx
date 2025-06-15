@@ -1,14 +1,20 @@
 import TrashIcn from '../../../Icons/TrashIcn'
 import { __ } from '../../../Utils/i18nwrap'
 import MtInput from '../../Utilities/MtInput'
-import { delPhoneFieldMap, handlePhone, handlePhoneCustomValue } from '../IntegrationHelpers/ConstantContactIntegrationHelpers'
+import {
+  delPhoneFieldMap,
+  handlePhone,
+  handlePhoneCustomValue
+} from '../IntegrationHelpers/ConstantContactIntegrationHelpers'
 
-export default function PhoneFieldMap({ i,
+export default function PhoneFieldMap({
+  i,
   formFields,
   field,
   constantContactConf,
   setConstantContactConf,
-  phoneField }) {
+  phoneField
+}) {
   const isRequired = field.required
   const phone = phoneField.filter((addr) => !addr.required)
   return (
@@ -19,28 +25,23 @@ export default function PhoneFieldMap({ i,
             className="btcd-paper-inp mr-2"
             name="formField"
             value={field.formField || ''}
-            onChange={(ev) => handlePhone(ev, i, constantContactConf, setConstantContactConf)}
-          >
+            onChange={(ev) => handlePhone(ev, i, constantContactConf, setConstantContactConf)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             {formFields.map(
-              (f) => f.type !== 'file' && (
-                <option key={`ff-zhcrm-${f.name}`} value={f.name}>
-                  {f.label}
-                </option>
-              ),
+              (f) =>
+                f.type !== 'file' && (
+                  <option key={`ff-zhcrm-${f.name}`} value={f.name}>
+                    {f.label}
+                  </option>
+                )
             )}
-            <option value="custom">
-              {__('Custom...', 'bit-integrations')}
-            </option>
+            <option value="custom">{__('Custom...', 'bit-integrations')}</option>
           </select>
           {field.formField === 'custom' && (
             <MtInput
-              onChange={(e) => handlePhoneCustomValue(
-                e,
-                i,
-                constantContactConf,
-                setConstantContactConf,
-              )}
+              onChange={(e) =>
+                handlePhoneCustomValue(e, i, constantContactConf, setConstantContactConf)
+              }
               label={__('Custom Value', 'bit-integrations')}
               className="mr-2"
               type="text"
@@ -52,27 +53,22 @@ export default function PhoneFieldMap({ i,
             className="btcd-paper-inp"
             name="constantContactPhoneField"
             value={field.constantContactPhoneField || ''}
-            onChange={(ev) => handlePhone(
-              ev,
-              i,
-              constantContactConf,
-              setConstantContactConf,
-              phoneField,
-            )}
-            disabled={isRequired}
-          >
+            onChange={(ev) =>
+              handlePhone(ev, i, constantContactConf, setConstantContactConf, phoneField)
+            }
+            disabled={isRequired}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             {isRequired
               ? Object.values(phoneField).map((listField, indx) => (
-                <option key={`add-${indx * 2}`} value={listField.tag}>
-                  {listField.name}
-                </option>
-              ))
+                  <option key={`add-${indx * 2}`} value={listField.tag}>
+                    {listField.name}
+                  </option>
+                ))
               : Object.values(phone).map((listField, indx) => (
-                <option key={`add-${indx * 2}`} value={listField.tag}>
-                  {listField.name}
-                </option>
-              ))}
+                  <option key={`add-${indx * 2}`} value={listField.tag}>
+                    {listField.name}
+                  </option>
+                ))}
           </select>
         </div>
       </div>
@@ -81,8 +77,7 @@ export default function PhoneFieldMap({ i,
           onClick={() => delPhoneFieldMap(i, constantContactConf, setConstantContactConf)}
           className="icn-btn sh-sm ml-1"
           type="button"
-          aria-label="btn"
-        >
+          aria-label="btn">
           <TrashIcn />
         </button>
       )}

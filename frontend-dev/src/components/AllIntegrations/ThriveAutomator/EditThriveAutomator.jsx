@@ -26,13 +26,9 @@ function EditThriveAutomator({ allIntegURL }) {
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
       {flow.triggered_entity !== 'Webhook' ? (
-        <EditFormInteg
-          setSnackbar={setSnackbar}
-        />
+        <EditFormInteg setSnackbar={setSnackbar} />
       ) : (
-        <EditWebhookInteg
-          setSnackbar={setSnackbar}
-        />
+        <EditWebhookInteg setSnackbar={setSnackbar} />
       )}
 
       <div className="mt-3">
@@ -47,7 +43,17 @@ function EditThriveAutomator({ allIntegURL }) {
 
       <WebHooksStepTwo
         edit
-        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, conf: thriveAutomator, edit: 1, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            setFlow,
+            allIntegURL,
+            conf: thriveAutomator,
+            edit: 1,
+            setIsLoading,
+            setSnackbar
+          })
+        }
         isLoading={isLoading}
       />
       <br />

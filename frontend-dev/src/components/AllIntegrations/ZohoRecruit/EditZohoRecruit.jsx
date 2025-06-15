@@ -29,7 +29,16 @@ function EditZohoRecruit({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
-    saveActionConf({ flow, setFlow, allIntegURL, conf: recruitConf, navigate, edit: 1, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      setFlow,
+      allIntegURL,
+      conf: recruitConf,
+      navigate,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -37,7 +46,14 @@ function EditZohoRecruit({ allIntegURL }) {
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={event => handleInput(event, tab, recruitConf, setRecruitConf)} name="name" value={recruitConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(event) => handleInput(event, tab, recruitConf, setRecruitConf)}
+          name="name"
+          value={recruitConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 
@@ -47,7 +63,9 @@ function EditZohoRecruit({ allIntegURL }) {
         settab={settab}
         formID={formID}
         formFields={formFields}
-        handleInput={(e) => handleInput(e, tab, recruitConf, setRecruitConf, formID, setIsLoading, setSnackbar)}
+        handleInput={(e) =>
+          handleInput(e, tab, recruitConf, setRecruitConf, formID, setIsLoading, setSnackbar)
+        }
         recruitConf={recruitConf}
         setRecruitConf={setRecruitConf}
         isLoading={isLoading}

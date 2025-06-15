@@ -6,22 +6,22 @@
 /**
  * External dependencies
  */
-const gettextParser = require('gettext-parser');
-const { isEmpty } = require('lodash');
-const fs = require('fs');
+const gettextParser = require('gettext-parser')
+const { isEmpty } = require('lodash')
+const fs = require('fs')
 
-const TAB = '    ';
-const NEWLINE = '\n';
-const args = process.argv.slice(2);
-const fileHeader = [
-        '<?php',
-        '/* THIS IS A GENERATED FILE. DO NOT EDIT DIRECTLY. */',
-        `\$${args[2].replace(/[|&;$%@"<>()+-_,]/g, "_")}_i18n_strings = array(`,
-    ].join(NEWLINE) + NEWLINE;
+const TAB = '    '
+const NEWLINE = '\n'
+const args = process.argv.slice(2)
+const fileHeader =
+  [
+    '<?php',
+    "if(!defined('ABSPATH')) exit;",
+    '/* THIS IS A GENERATED FILE. DO NOT EDIT DIRECTLY. */',
+    `\$${args[2].replace(/[|&;$%@"<>()+-_,]/g, '_')}_i18n_strings = array(`,
+  ].join(NEWLINE) + NEWLINE
 
-const fileFooter = NEWLINE
-    + [');', '/* THIS IS THE END OF THE GENERATED FILE */'].join(NEWLINE)
-    + NEWLINE;
+const fileFooter = NEWLINE + [');', '/* THIS IS THE END OF THE GENERATED FILE */'].join(NEWLINE) + NEWLINE
 
 /**
  * Escapes single quotes.
@@ -30,7 +30,7 @@ const fileFooter = NEWLINE
  * @return {string} The escaped string.
  */
 function escapeSingleQuotes(input) {
-    return input.replace(/'/g, "\\'");
+  return input.replace(/'/g, "\\'")
 }
 
 /**
@@ -42,65 +42,55 @@ function escapeSingleQuotes(input) {
  * @return {string} Lines of PHP that match the translation.
  */
 function convertTranslationToPHP(translation, textdomain, context = '') {
-    let php = '';
+  let php = ''
 
-    // The format of gettext-js matches the terminology in gettext itself.
-    let original = translation.msgid;
+  // The format of gettext-js matches the terminology in gettext itself.
+  let original = translation.msgid
 
-    if (original !== '') {
-        original = escapeSingleQuotes(original);
+  if (original !== '') {
+    original = escapeSingleQuotes(original)
 
-        if (isEmpty(translation.msgid_plural)) {
-            if (isEmpty(context)) {
-                php += `${TAB }'${ original }' => __('${ original }', '${ textdomain }')`;
-            } else {
-                php
-                    += `${TAB
-                     }'${ original }' => _x('${ original }', '${ translation.msgctxt }', '${ textdomain }')`;
-            }
-        } else {
-            const plural = escapeSingleQuotes(translation.msgid_plural);
+    if (isEmpty(translation.msgid_plural)) {
+      if (isEmpty(context)) {
+        php += `${TAB}'${original}' => __('${original}', '${textdomain}')`
+      } else {
+        php += `${TAB}'${original}' => _x('${original}', '${translation.msgctxt}', '${textdomain}')`
+      }
+    } else {
+      const plural = escapeSingleQuotes(translation.msgid_plural)
 
-            if (isEmpty(context)) {
-                php
-                    += `${TAB
-                     }'${ original }' => _n_noop('${ original }', '${ plural }', '${ textdomain }')`;
-            } else {
-                php
-                    += `${TAB
-                     }'${ original }' => _nx_noop('${ original }',  '${ plural }', '${ translation.msgctxt }', '${ textdomain }')`;
-            }
-        }
+      if (isEmpty(context)) {
+        php += `${TAB}'${original}' => _n_noop('${original}', '${plural}', '${textdomain}')`
+      } else {
+        php += `${TAB}'${original}' => _nx_noop('${original}',  '${plural}', '${translation.msgctxt}', '${textdomain}')`
+      }
     }
+  }
 
-    return php;
+  return php
 }
 
 function convertPOTToPHP(potFile, phpFile, options) {
-    const poContents = fs.readFileSync(potFile);
-    const parsedPO = gettextParser.po.parse(poContents);
+  const poContents = fs.readFileSync(potFile)
+  const parsedPO = gettextParser.po.parse(poContents)
 
-    let output = [];
+  let output = []
 
-    for (const context of Object.keys(parsedPO.translations)) {
-        const translations = parsedPO.translations[context];
+  for (const context of Object.keys(parsedPO.translations)) {
+    const translations = parsedPO.translations[context]
 
-        const newOutput = Object.values(translations)
-            .map((translation) => convertTranslationToPHP(
-                    translation,
-                    options.textdomain,
-                    context,
-                ))
-            .filter((php) => php !== '');
+    const newOutput = Object.values(translations)
+      .map((translation) => convertTranslationToPHP(translation, options.textdomain, context))
+      .filter((php) => php !== '')
 
-        output = [...output, ...newOutput];
-    }
+    output = [...output, ...newOutput]
+  }
 
-    const fileOutput = fileHeader + output.join(`,${ NEWLINE }${NEWLINE}`) + fileFooter;
+  const fileOutput = fileHeader + output.join(`,${NEWLINE}${NEWLINE}`) + fileFooter
 
-    fs.writeFileSync(phpFile, fileOutput);
+  fs.writeFileSync(phpFile, fileOutput)
 }
 
 convertPOTToPHP(args[0], args[1], {
-    textdomain: args[2],
-});
+  textdomain: args[2],
+})

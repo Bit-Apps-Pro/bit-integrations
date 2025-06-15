@@ -32,7 +32,7 @@ const CustomAction = ({ formFields, setFlow, flow, allIntegURL }) => {
     //write here your custom function
   }  
   yourFunctionName($trigger);`,
-    value: '',
+    value: ''
   })
   useEffect(() => {
     const newConf = { ...customActionConf }
@@ -47,7 +47,7 @@ const CustomAction = ({ formFields, setFlow, flow, allIntegURL }) => {
     setStep(2)
   }
 
-  const handleInput = e => {
+  const handleInput = (e) => {
     const newConf = { ...customActionConf }
     newConf[e.target.name] = e.target.value
     setCustomActionConf(newConf)
@@ -56,25 +56,32 @@ const CustomAction = ({ formFields, setFlow, flow, allIntegURL }) => {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={2} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={2} active={step} />
+      </div>
 
-      <div className="btcd-stp-page" style={{ ...(step === 1 && { width: '70%', height: 'auto', overflow: 'visible' }) }}>
+      <div
+        className="btcd-stp-page"
+        style={{ ...(step === 1 && { width: '70%', height: 'auto', overflow: 'visible' }) }}>
         {customAction?.youTubeLink && (
-          <TutorialLink
-            title={customAction?.title}
-            youTubeLink={customAction?.youTubeLink}
-          />
+          <TutorialLink title="Custom Action" youTubeLink={customAction?.youTubeLink} />
         )}
         {customAction?.docLink && (
-          <TutorialLink
-            title={customAction?.title}
-            docLink={customAction?.docLink}
-          />
+          <TutorialLink title="Custom Action" docLink={customAction?.docLink} />
         )}
 
-        <div className='d-flx my-3'>
-          <div className="wdt-200 d-in-b mt-3"><b>{__('Integration Name:', 'bit-integrations')}</b></div>
-          <input className="btcd-paper-inp mt-1" onChange={handleInput} name="name" value={customActionConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <div className="d-flx my-3">
+          <div className="wdt-200 d-in-b mt-3">
+            <b>{__('Integration Name:', 'bit-integrations')}</b>
+          </div>
+          <input
+            className="btcd-paper-inp mt-1"
+            onChange={handleInput}
+            name="name"
+            value={customActionConf.name}
+            type="text"
+            placeholder={__('Integration Name...', 'bit-integrations')}
+          />
         </div>
         <CustomFuncEditor
           customActionConf={customActionConf}
@@ -82,31 +89,44 @@ const CustomAction = ({ formFields, setFlow, flow, allIntegURL }) => {
           formFields={formFields}
         />
         <button
-          onClick={() => checkFunctionValidity(customActionConf, setCustomActionConf, loading, setLoading)}
+          onClick={() =>
+            checkFunctionValidity(customActionConf, setCustomActionConf, loading, setLoading)
+          }
           disabled={!customActionConf.value || loading?.validate}
-          className="btn f-left btcd-btn-lg green sh-sm flx mt-5"
-          type="button"
-        >
-          {customActionConf?.isValid ? __('Validated ✔', 'bit-integrations') : __('Validated', 'bit-integrations')}
+          className="btn f-left btcd-btn-lg purple sh-sm flx mt-5"
+          type="button">
+          {customActionConf?.isValid
+            ? __('Validated ✔', 'bit-integrations')
+            : __('Validated', 'bit-integrations')}
           {loading?.validate && <LoaderSm size="20" clr="#022217" className="ml-2" />}
         </button>
         <button
           onClick={() => nextPage(2)}
           disabled={!customActionConf.isValid}
-          className="btn f-right btcd-btn-lg green sh-sm flx mt-5"
-          type="button"
-        >
-          {__('Next', 'bit-integrations')}
-          {' '}
-          &nbsp;
+          className="btn f-right btcd-btn-lg purple sh-sm flx mt-5"
+          type="button">
+          {__('Next', 'bit-integrations')} &nbsp;
           <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
         </button>
       </div>
 
-      <div className="btcd-stp-page" style={{ width: step === 2 && '100%', height: step === 2 && 'auto' }}>
+      <div
+        className="btcd-stp-page"
+        style={{ width: step === 2 && '100%', height: step === 2 && 'auto' }}>
         <CustomActionStepTwo
           step={step}
-          saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, customActionConf, navigate, '', '', setIsLoading)}
+          saveConfig={() =>
+            saveIntegConfig(
+              flow,
+              setFlow,
+              allIntegURL,
+              customActionConf,
+              navigate,
+              '',
+              '',
+              setIsLoading
+            )
+          }
           isLoading={isLoading}
         />
       </div>

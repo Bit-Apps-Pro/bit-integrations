@@ -51,7 +51,6 @@ const EditIntegromat = lazy(() => import('./Integromat/EditIntegromat'))
 const EditSlack = lazy(() => import('./Slack/EditSlack'))
 const EditElasticEmail = lazy(() => import('./ElasticEmail/EditElasticEmail'))
 const EditWPCourseware = lazy(() => import('./WPCourseware/EditWPCourseware'))
-const EditWishList = lazy(() => import('./WishList/EditWishList'))
 const EditMautic = lazy(() => import('./Mautic/EditMautic'))
 const EditTrello = lazy(() => import('./Trello/EditTrello'))
 const EditHubspot = lazy(() => import('./Hubspot/EditHubspot'))
@@ -138,7 +137,9 @@ const EditAutomatorWP = lazy(() => import('./AutomatorWP/EditAutomatorWP'))
 const EditUncannyAutomator = lazy(() => import('./UncannyAutomator/EditUncannyAutomator'))
 const EditThriveAutomator = lazy(() => import('./ThriveAutomator/EditThriveAutomator'))
 const EditWPWebhooks = lazy(() => import('./WPWebhooks/EditWPWebhooks'))
-const EditAdvancedFormIntegration = lazy(() => import('./AdvancedFormIntegration/EditAdvancedFormIntegration'))
+const EditAdvancedFormIntegration = lazy(
+  () => import('./AdvancedFormIntegration/EditAdvancedFormIntegration')
+)
 const EditPerfexCRM = lazy(() => import('./PerfexCRM/EditPerfexCRM'))
 const EditSureTriggers = lazy(() => import('./SureTriggers/EditSureTriggers'))
 const EditOneHashCRM = lazy(() => import('./OneHashCRM/EditOneHashCRM'))
@@ -151,19 +152,31 @@ const EditNutshellCRM = lazy(() => import('./NutshellCRM/EditNutshellCRM'))
 const EditSystemeIO = lazy(() => import('./SystemeIO/EditSystemeIO'))
 const EditDiscord = lazy(() => import('./Discord/EditDiscord'))
 const EditZagoMail = lazy(() => import('./ZagoMail/EditZagoMail'))
+const EditNewsletter = lazy(() => import('./Newsletter/EditNewsletter'))
+const EditSureMembers = lazy(() => import('./SureMembers/EditSureMembers'))
+const EditMailster = lazy(() => import('./Mailster/EditMailster'))
+const EditWPForo = lazy(() => import('./WPForo/EditWPForo'))
+const EditDokan = lazy(() => import('./Dokan/EditDokan'))
+const EditJetEngine = lazy(() => import('./JetEngine/EditJetEngine'))
+const EditHighLevel = lazy(() => import('./HighLevel/EditHighLevel'))
+const EditTheEventsCalendar = lazy(() => import('./TheEventsCalendar/EditTheEventsCalendar'))
+const EditLMFWC = lazy(() => import('./LMFWC/EditLMFWC'))
+const EditVoxel = lazy(() => import('./Voxel/EditVoxel'))
+const EditSmartSuite = lazy(() => import('./SmartSuite/EditSmartSuite'))
+const EditBento = lazy(() => import('./Bento/EditBento'))
 
 const loaderStyle = {
   display: 'flex',
   height: '82vh',
   justifyContent: 'center',
-  alignItems: 'center',
+  alignItems: 'center'
 }
 
 export default function EditInteg({ allIntegURL }) {
   const { id } = useParams()
   const { data, isLoading, isError } = useFetch({
     payload: { id },
-    action: ['flow/get', id],
+    action: ['flow/get', id]
   })
   const [flow, setFlow] = useRecoilState($newFlow)
   const [actionConfig, setActionConfig] = useRecoilState($actionConf)
@@ -177,7 +190,7 @@ export default function EditInteg({ allIntegURL }) {
       if (data?.data?.integration?.fields?.length === 0) {
         setSnackbar({
           show: true,
-          msg: __('Trigger Form Is Deleted', 'bit-integrations'),
+          msg: __('Trigger Form Is Deleted', 'bit-integrations')
         })
       }
       setFlow(data.data?.integration)
@@ -196,7 +209,11 @@ export default function EditInteg({ allIntegURL }) {
   }
 
   if (!data.success) {
-    return <div style={loaderStyle}>{data.data}</div>
+    return (
+      <div style={loaderStyle}>
+        <h1 className="txt-center mt-5">{data?.data}</h1>
+      </div>
+    )
   }
   return (
     <div>
@@ -204,23 +221,16 @@ export default function EditInteg({ allIntegURL }) {
         <SnackMsg snack={snack} setSnackbar={setSnackbar} />
         <Link to={allIntegURL} className="btn btcd-btn-o-gray">
           <span className="btcd-icn icn-chevron-left" />
-          &nbsp;Back
+          &nbsp;{__('Back', 'bit-integrations')}
         </Link>
         <div className="w-10 txt-center" style={{ marginRight: '73px' }}>
           <b className="f-lg mb-2">{flow.flow_details?.type}</b>
           <div>{__('Integration Settings', 'bit-integrations')}</div>
         </div>
       </div>
-      <Suspense
-        fallback={<Loader className="g-c" style={{ height: '82vh' }} />}
-      >
+      <Suspense fallback={<Loader className="g-c" style={{ height: '82vh' }} />}>
         {actionConfig && Object.keys(actionConfig).length && (
-          <IntegType
-            allIntegURL={allIntegURL}
-            formFields={flow.fields}
-            flow={flow}
-            setFlow={setFlow}
-          />
+          <IntegType allIntegURL={allIntegURL} formFields={flow.fields} flow={flow} setFlow={setFlow} />
         )}
       </Suspense>
     </div>
@@ -242,7 +252,8 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditZohoRecruit allIntegURL={allIntegURL} />
     case 'Zoho Campaigns':
       return <EditZohoCampaigns allIntegURL={allIntegURL} />
-    case 'Zoho Marketing Hub': case 'Zoho Marketing Automation(Zoho Marketing Hub)':
+    case 'Zoho Marketing Hub':
+    case 'Zoho Marketing Automation(Zoho Marketing Hub)':
       return <EditZohoMarketingHub allIntegURL={allIntegURL} />
     case 'Zoho Bigin':
       return <EditZohoBigin allIntegURL={allIntegURL} />
@@ -256,7 +267,8 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditPod allIntegURL={allIntegURL} />
     case 'Mail Poet':
       return <EditMailPoet allIntegURL={allIntegURL} />
-    case 'SendinBlue': case 'Brevo(Sendinblue)':
+    case 'SendinBlue':
+    case 'Brevo(Sendinblue)':
       return <EditSendinBlue allIntegURL={allIntegURL} />
     case 'WooCommerce':
       return <EditWooCommerce allIntegURL={allIntegURL} />
@@ -280,7 +292,8 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditAntApps allIntegURL={allIntegURL} />
     case 'Integrately':
       return <EditIntegrately allIntegURL={allIntegURL} />
-    case 'Integromat': case 'Make(Integromat)':
+    case 'Integromat':
+    case 'Make(Integromat)':
       return <EditIntegromat allIntegURL={allIntegURL} />
     case 'Zoho Flow':
       return <EditZohoFlow allIntegURL={allIntegURL} />
@@ -291,6 +304,7 @@ const IntegType = memo(({ allIntegURL, flow }) => {
     case 'Encharge':
       return <EditEncharge allIntegURL={allIntegURL} />
     case 'Registration':
+    case 'WP User Registration':
       return <EditRegistration allIntegURL={allIntegURL} />
     case 'Autonami':
       return <EditAutonami allIntegURL={allIntegURL} />
@@ -301,6 +315,7 @@ const IntegType = memo(({ allIntegURL, flow }) => {
     case 'Google Calendar':
       return <EditGoogleCalendar allIntegURL={allIntegURL} />
     case 'Post Creation':
+    case 'WP Post Creation':
       return <EditPost allIntegURL={allIntegURL} />
     case 'Slack':
       return <EditSlack allIntegURL={allIntegURL} />
@@ -310,8 +325,6 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditWPCourseware allIntegURL={allIntegURL} />
     case 'Tutor Lms':
       return <EditTutorLms allIntegURL={allIntegURL} />
-    case 'WishList':
-      return <EditWishList allIntegURL={allIntegURL} />
     case 'Mautic':
       return <EditMautic allIntegURL={allIntegURL} />
     case 'Trello':
@@ -409,6 +422,7 @@ const IntegType = memo(({ allIntegURL, flow }) => {
     case 'Agiled CRM':
       return <EditAgiled allIntegURL={allIntegURL} />
     case 'ConvertKit':
+    case 'Kit(ConvertKit)':
       return <EditConvertKit allIntegURL={allIntegURL} />
     case 'BenchMark':
       return <EditBenchMark allIntegURL={allIntegURL} />
@@ -450,7 +464,8 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditCustomApi allIntegURL={allIntegURL} />
     case 'Drip':
       return <EditDrip allIntegURL={allIntegURL} />
-    case 'Mailify': case 'Sarbacane(Mailify)':
+    case 'Mailify':
+    case 'Sarbacane(Mailify)':
       return <EditMailify allIntegURL={allIntegURL} />
     case 'Lemlist':
       return <EditLemlist allIntegURL={allIntegURL} />
@@ -493,6 +508,7 @@ const IntegType = memo(({ allIntegURL, flow }) => {
     case 'PerfexCRM':
       return <EditPerfexCRM allIntegURL={allIntegURL} />
     case 'SureTriggers':
+    case 'OttoKit (SureTriggers)':
       return <EditSureTriggers allIntegURL={allIntegURL} />
     case 'OneHashCRM':
       return <EditOneHashCRM allIntegURL={allIntegURL} />
@@ -514,6 +530,30 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditDiscord allIntegURL={allIntegURL} />
     case 'ZagoMail':
       return <EditZagoMail allIntegURL={allIntegURL} />
+    case 'Newsletter':
+      return <EditNewsletter allIntegURL={allIntegURL} />
+    case 'SureMembers':
+      return <EditSureMembers allIntegURL={allIntegURL} />
+    case 'Mailster':
+      return <EditMailster allIntegURL={allIntegURL} />
+    case 'WPForo':
+      return <EditWPForo allIntegURL={allIntegURL} />
+    case 'Dokan':
+      return <EditDokan allIntegURL={allIntegURL} />
+    case 'JetEngine':
+      return <EditJetEngine allIntegURL={allIntegURL} />
+    case 'GoHighLevel':
+      return <EditHighLevel allIntegURL={allIntegURL} />
+    case 'The Events Calendar':
+      return <EditTheEventsCalendar allIntegURL={allIntegURL} />
+    case 'License Manager For WooCommerce':
+      return <EditLMFWC allIntegURL={allIntegURL} />
+    case 'Voxel':
+      return <EditVoxel allIntegURL={allIntegURL} />
+    case 'SmartSuite':
+      return <EditSmartSuite allIntegURL={allIntegURL} />
+    case 'Bento':
+      return <EditBento allIntegURL={allIntegURL} />
     default:
       return <Loader style={loaderStyle} />
   }

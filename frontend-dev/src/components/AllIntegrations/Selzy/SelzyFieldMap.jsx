@@ -19,16 +19,21 @@ function selzyFieldMap({ i, field, formFields, selzyConf, setSelzyConf }) {
     setSelzyConf(newConf)
   }
 
-  const requiredFields = selzyConf?.selzyFields.filter(fld => fld.required === true) || []
+  const requiredFields = selzyConf?.selzyFields.filter((fld) => fld.required === true) || []
 
-  const nonRequiredStaticFields = selzyConf.method === '1' ? selzyConf?.selzyFields?.filter(fld => fld.required === false) || [] : []
-  const nonRequiredCustomFields = selzyConf.method === '1' ? selzyConf?.default?.customFields?.filter(fld => fld.required === false) || [] : []
-  const nonRequiredFields = selzyConf.method === '1' ? [...nonRequiredStaticFields, ...nonRequiredCustomFields] || [] : []
+  const nonRequiredStaticFields =
+    selzyConf.method === '1'
+      ? selzyConf?.selzyFields?.filter((fld) => fld.required === false) || []
+      : []
+  const nonRequiredCustomFields =
+    selzyConf.method === '1'
+      ? selzyConf?.default?.customFields?.filter((fld) => fld.required === false) || []
+      : []
+  const nonRequiredFields =
+    selzyConf.method === '1' ? [...nonRequiredStaticFields, ...nonRequiredCustomFields] || [] : []
 
   return (
-    <div
-      className="flx mt-2 mb-2 btcbi-field-map"
-    >
+    <div className="flx mt-2 mb-2 btcbi-field-map">
       <div className="pos-rel flx">
         <div className="flx integ-fld-wrp">
           <select
@@ -37,30 +42,41 @@ function selzyFieldMap({ i, field, formFields, selzyConf, setSelzyConf }) {
             onChange={(event) => {
               handleFieldMapping(event, i, selzyConf, setSelzyConf)
             }}
-            value={field.formField || ''}
-          >
+            value={field.formField || ''}>
             <option value="">{__('Select Field')}</option>
-            <optgroup label="Form Fields">
-              {
-                formFields?.map(f => (
-                  <option key={`ff-rm-${f.name}`} value={f.name}>
-                    {f.label}
-                  </option>
-                ))
-              }
-            </optgroup>
-            <option value="custom">{__('Custom...')}</option>
-            <optgroup label={`General Smart Codes ${isPro ? '' : '(PRO)'}`}>
-              {isPro && SmartTagField?.map(f => (
+            <optgroup label={__('Form Fields', 'bit-integrations')}>
+              {formFields?.map((f) => (
                 <option key={`ff-rm-${f.name}`} value={f.name}>
                   {f.label}
                 </option>
               ))}
             </optgroup>
-
+            <option value="custom">{__('Custom...')}</option>
+            <optgroup
+              label={sprintf(
+                __('General Smart Codes %s', 'bit-integrations'),
+                isPro ? '' : `(${__('Pro', 'bit-integrations')})`
+              )}>
+              {isPro &&
+                SmartTagField?.map((f) => (
+                  <option key={`ff-rm-${f.name}`} value={f.name}>
+                    {f.label}
+                  </option>
+                ))}
+            </optgroup>
           </select>
 
-          {field.formField === 'custom' && <TagifyInput onChange={e => handleCustomValue(e, i, selzyConf, setSelzyConf)} label={__('Custom Value', 'bit-integrations')} className="mr-2" type="text" value={field.customValue} placeholder={__('Custom Value', 'bit-integrations')} formFields={formFields} />}
+          {field.formField === 'custom' && (
+            <TagifyInput
+              onChange={(e) => handleCustomValue(e, i, selzyConf, setSelzyConf)}
+              label={__('Custom Value', 'bit-integrations')}
+              className="mr-2"
+              type="text"
+              value={field.customValue}
+              placeholder={__('Custom Value', 'bit-integrations')}
+              formFields={formFields}
+            />
+          )}
 
           <select
             className="btcd-paper-inp"
@@ -69,22 +85,21 @@ function selzyFieldMap({ i, field, formFields, selzyConf, setSelzyConf }) {
             onChange={(event) => {
               handleFieldMapping(event, i, selzyConf, setSelzyConf)
             }}
-            value={i < requiredFields.length ? (requiredFields[i].key || '') : (field.selzyFormField || '')}
-          >
+            value={
+              i < requiredFields.length ? requiredFields[i].key || '' : field.selzyFormField || ''
+            }>
             <option value="">{__('Select Field')}</option>
-            {
-              i < requiredFields.length ? (
-                <option key={requiredFields[i].key} value={requiredFields[i].key}>
-                  {requiredFields[i].label}
+            {i < requiredFields.length ? (
+              <option key={requiredFields[i].key} value={requiredFields[i].key}>
+                {requiredFields[i].label}
+              </option>
+            ) : (
+              nonRequiredFields.map(({ key, label }) => (
+                <option key={key} value={key}>
+                  {label}
                 </option>
-              ) : (
-                nonRequiredFields.map(({ key, label }) => (
-                  <option key={key} value={key}>
-                    {label}
-                  </option>
-                ))
-              )
-            }
+              ))
+            )}
           </select>
         </div>
         {selzyConf?.method === '1' && (
@@ -92,11 +107,14 @@ function selzyFieldMap({ i, field, formFields, selzyConf, setSelzyConf }) {
             <button
               onClick={() => addFieldMap(i, selzyConf, setSelzyConf)}
               className="icn-btn sh-sm ml-2 mr-1"
-              type="button"
-            >
+              type="button">
               +
             </button>
-            <button onClick={() => delFieldMap(i, selzyConf, setSelzyConf)} className="icn-btn sh-sm ml-1" type="button" aria-label="btn">
+            <button
+              onClick={() => delFieldMap(i, selzyConf, setSelzyConf)}
+              className="icn-btn sh-sm ml-1"
+              type="button"
+              aria-label="btn">
               <span className="btcd-icn icn-trash-2" />
             </button>
           </>

@@ -6,7 +6,9 @@ namespace BitCode\FI\Core\Util;
  * Class handling plugin uninstallation.
  *
  * @since 1.0.0
+ *
  * @access private
+ *
  * @ignore
  */
 final class UnInstallation
@@ -20,7 +22,7 @@ final class UnInstallation
     {
         $option = get_option('btcbi_app_conf');
         if (isset($option->erase_db)) {
-            add_action('btcbi_uninstall', array($this, 'uninstall'));
+            add_action('btcbi_uninstall', [$this, 'uninstall']);
         }
     }
 
@@ -28,18 +30,18 @@ final class UnInstallation
     {
         global $wpdb;
         $freeVersionInstalled = get_option('btcbi_installed');
-        $columns = ["btcbi_db_version", "btcbi_installed", "btcbi_version"];
+        $columns = ['btcbi_db_version', 'btcbi_installed', 'btcbi_version'];
 
         if (!$freeVersionInstalled) {
             $tableArray = [
-                $wpdb->prefix . "btcbi_flow",
-                $wpdb->prefix . "btcbi_log",
+                $wpdb->prefix . 'btcbi_flow',
+                $wpdb->prefix . 'btcbi_log',
             ];
             foreach ($tableArray as $tablename) {
-                $wpdb->query($wpdb->prepare("DROP TABLE IF EXISTS $tablename"));
+                $wpdb->query($wpdb->prepare("DROP TABLE IF EXISTS {$tablename}"));
             }
 
-            $columns = $columns + ["btcbi_app_conf"];
+            $columns = $columns + ['btcbi_app_conf'];
         }
 
         foreach ($columns as $column) {

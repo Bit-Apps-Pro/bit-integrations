@@ -21,38 +21,44 @@ function Hubspot({ formFields, setFlow, flow, allIntegURL }) {
   const [loading, setLoading] = useState({
     auth: false,
     customFields: false,
-    hubSpotFields: false,
+    hubSpotFields: false
   })
 
   const [hubspotConf, setHubspotConf] = useState({
     name: 'Hubspot',
     type: 'Hubspot',
-    api_key: process.env.NODE_ENV === 'development' ? 'pat-na1-728747ce-3594-48f0-801b-494f537ba7ef' : '',
-    field_map: [
-      { formField: '', hubspotField: '' },
-    ],
+    api_key: '',
+    field_map: [{ formField: '', hubspotField: '' }],
     hubSpotFields: [],
-    actions: {},
+    actions: {}
   })
 
   const saveConfig = () => {
     setIsLoading(true)
-    saveActionConf({ flow, setFlow, allIntegURL, conf: hubspotConf, navigate, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      setFlow,
+      allIntegURL,
+      conf: hubspotConf,
+      navigate,
+      setIsLoading,
+      setSnackbar
+    })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     if (!checkMappedFields(hubspotConf)) {
-      toast.error('Please map mandatory fields')
+      toast.error(__('Please map mandatory fields', 'bit-integrations'))
       return
     }
 
     if (hubspotConf.actionName === 'ticket') {
       if (hubspotConf.pipeline === undefined) {
-        toast.error('Please select a pipeline')
+        toast.error(__('Please select a pipeline', 'bit-integrations'))
         return
       }
       if (hubspotConf.stage === undefined) {
-        toast.error('Please select a stage')
+        toast.error(__('Please select a stage', 'bit-integrations'))
         return
       }
     }
@@ -63,7 +69,9 @@ function Hubspot({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={3} active={step} />
+      </div>
 
       {/* STEP 1 */}
       <HubspotAuthorization
@@ -76,11 +84,12 @@ function Hubspot({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
-
+      <div
+        className="btcd-stp-page"
+        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <HubspotIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, hubspotConf, setHubspotConf, setIsLoading, setSnackbar)}
+          handleInput={e => handleInput(e, hubspotConf, setHubspotConf, setIsLoading, setSnackbar)}
           hubspotConf={hubspotConf}
           setHubspotConf={setHubspotConf}
           setSnackbar={setSnackbar}
@@ -92,12 +101,9 @@ function Hubspot({ formFields, setFlow, flow, allIntegURL }) {
           <button
             onClick={() => nextPage(3)}
             disabled={!checkMappedFields(hubspotConf)}
-            className="btn f-right btcd-btn-lg green sh-sm flx"
-            type="button"
-          >
-            {__('Next', 'bit-integrations')}
-            {' '}
-            &nbsp;
+            className="btn f-right btcd-btn-lg purple sh-sm flx"
+            type="button">
+            {__('Next', 'bit-integrations')} &nbsp;
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         )}

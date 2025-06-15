@@ -26,7 +26,7 @@ function EditHubspot({ allIntegURL }) {
   const [loading, setLoading] = useState({
     auth: false,
     customFields: false,
-    hubSpotFields: true,
+    hubSpotFields: true
   })
 
   const saveConfig = () => {
@@ -37,16 +37,24 @@ function EditHubspot({ allIntegURL }) {
 
     if (hubspotConf.actionName === 'ticket') {
       if (hubspotConf.pipeline === undefined) {
-        toast.error('Please select a pipeline')
+        toast.error(__('Please select a pipeline', 'bit-integrations'))
         return
       }
       if (hubspotConf.stage === undefined) {
-        toast.error('Please select a stage')
+        toast.error(__('Please select a stage', 'bit-integrations'))
         return
       }
     }
 
-    saveActionConf({ flow, allIntegURL, conf: hubspotConf, navigate, edit: 1, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: hubspotConf,
+      navigate,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -55,7 +63,14 @@ function EditHubspot({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, hubspotConf, setHubspotConf)} name="name" value={hubspotConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, hubspotConf, setHubspotConf)}
+          name="name"
+          value={hubspotConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 

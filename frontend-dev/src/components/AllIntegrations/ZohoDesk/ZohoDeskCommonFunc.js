@@ -1,7 +1,17 @@
 import { __, sprintf } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
 
-export const handleInput = (e, deskConf, setDeskConf, formID, setIsLoading, setSnackbar, isNew, error, setError) => {
+export const handleInput = (
+  e,
+  deskConf,
+  setDeskConf,
+  formID,
+  setIsLoading,
+  setSnackbar,
+  isNew,
+  error,
+  setError
+) => {
   let newConf = { ...deskConf }
   if (isNew) {
     const rmError = { ...error }
@@ -31,7 +41,8 @@ export const portalChange = (deskConf, formID, setDeskConf, setIsLoading, setSna
 
   if (!newConf?.default?.departments?.[newConf.orgId]) {
     refreshDepartments(formID, newConf, setDeskConf, setIsLoading, setSnackbar)
-  } else if (newConf?.default?.departments?.[newConf.orgId].length === 1) newConf.field_map = generateMappedField(newConf)
+  } else if (newConf?.default?.departments?.[newConf.orgId].length === 1)
+    newConf.field_map = generateMappedField(newConf)
   return newConf
 }
 
@@ -56,10 +67,10 @@ export const refreshOrganizations = (formID, deskConf, setDeskConf, setIsLoading
     dataCenter: deskConf.dataCenter,
     clientId: deskConf.clientId,
     clientSecret: deskConf.clientSecret,
-    tokenDetails: deskConf.tokenDetails,
+    tokenDetails: deskConf.tokenDetails
   }
   bitsFetch(refreshOrganizationsRequestParams, 'zdesk_refresh_organizations')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...deskConf }
         if (result.data.organizations) {
@@ -70,10 +81,19 @@ export const refreshOrganizations = (formID, deskConf, setDeskConf, setIsLoading
         }
         setSnackbar({ show: true, msg: __('Portals refreshed', 'bit-integrations') })
         setDeskConf({ ...newConf })
-      } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
-        setSnackbar({ show: true, msg: `${__('Portals refresh failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}` })
+      } else if (
+        (result && result.data && result.data.data) ||
+        (!result.success && typeof result.data === 'string')
+      ) {
+        setSnackbar({
+          show: true,
+          msg: `${__('Portals refresh failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}`
+        })
       } else {
-        setSnackbar({ show: true, msg: __('Portals refresh failed. please try again', 'bit-integrations') })
+        setSnackbar({
+          show: true,
+          msg: __('Portals refresh failed. please try again', 'bit-integrations')
+        })
       }
       setIsLoading(false)
     })
@@ -89,10 +109,10 @@ export const refreshDepartments = (formID, deskConf, setDeskConf, setIsLoading, 
     clientId: deskConf.clientId,
     clientSecret: deskConf.clientSecret,
     tokenDetails: deskConf.tokenDetails,
-    orgId: deskConf.orgId,
+    orgId: deskConf.orgId
   }
   bitsFetch(refreshDepartmentsRequestParams, 'zdesk_refresh_departments')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...deskConf }
         if (!newConf.default.departments) {
@@ -103,17 +123,30 @@ export const refreshDepartments = (formID, deskConf, setDeskConf, setIsLoading, 
         }
         if (result.data.departments.length === 1) {
           newConf.department = result.data.departments[newConf.orgId][0].departmentName
-          !newConf.default?.fields?.[newConf.orgId] && refreshFields(formID, newConf, setDeskConf, setIsLoading, setSnackbar)
+          !newConf.default?.fields?.[newConf.orgId] &&
+            refreshFields(formID, newConf, setDeskConf, setIsLoading, setSnackbar)
         }
         if (result.data.tokenDetails) {
           newConf.tokenDetails = result.data.tokenDetails
         }
         setSnackbar({ show: true, msg: __('Departments refreshed', 'bit-integrations') })
         setDeskConf({ ...newConf })
-      } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
-        setSnackbar({ show: true, msg: sprintf(__('Departments refresh failed Cause: %s. please try again', 'bit-integrations'), result.data.data || result.data) })
+      } else if (
+        (result && result.data && result.data.data) ||
+        (!result.success && typeof result.data === 'string')
+      ) {
+        setSnackbar({
+          show: true,
+          msg: sprintf(
+            __('Departments refresh failed Cause: %s. please try again', 'bit-integrations'),
+            result.data.data || result.data
+          )
+        })
       } else {
-        setSnackbar({ show: true, msg: __('Departments refresh failed. please try again', 'bit-integrations') })
+        setSnackbar({
+          show: true,
+          msg: __('Departments refresh failed. please try again', 'bit-integrations')
+        })
       }
       setIsLoading(false)
     })
@@ -128,10 +161,10 @@ export const refreshFields = (formID, deskConf, setDeskConf, setIsLoading, setSn
     clientId: deskConf.clientId,
     clientSecret: deskConf.clientSecret,
     tokenDetails: deskConf.tokenDetails,
-    orgId: deskConf.orgId,
+    orgId: deskConf.orgId
   }
   bitsFetch(refreshFieldsRequestParams, 'zdesk_refresh_fields')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...deskConf }
         if (result.data.fields) {
@@ -145,7 +178,10 @@ export const refreshFields = (formID, deskConf, setDeskConf, setIsLoading, setSn
           }
           setSnackbar({ show: true, msg: __('Fields refreshed', 'bit-integrations') })
         } else {
-          setSnackbar({ show: true, msg: `${__('Fields refresh failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}` })
+          setSnackbar({
+            show: true,
+            msg: `${__('Fields refresh failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}`
+          })
         }
 
         if (result.data.tokenDetails) {
@@ -153,7 +189,10 @@ export const refreshFields = (formID, deskConf, setDeskConf, setIsLoading, setSn
         }
         setDeskConf({ ...newConf })
       } else {
-        setSnackbar({ show: true, msg: __('Fields refresh failed. please try again', 'bit-integrations') })
+        setSnackbar({
+          show: true,
+          msg: __('Fields refresh failed. please try again', 'bit-integrations')
+        })
       }
       setIsLoading(false)
     })
@@ -169,10 +208,10 @@ export const refreshOwners = (formID, deskConf, setDeskConf, setIsLoading, setSn
     clientId: deskConf.clientId,
     clientSecret: deskConf.clientSecret,
     tokenDetails: deskConf.tokenDetails,
-    orgId: deskConf.orgId,
+    orgId: deskConf.orgId
   }
   bitsFetch(refreshOwnersRequestParams, 'zdesk_refresh_owners')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...deskConf }
         if (!newConf.default.owners) {
@@ -186,10 +225,19 @@ export const refreshOwners = (formID, deskConf, setDeskConf, setIsLoading, setSn
         }
         setSnackbar({ show: true, msg: __('Owners refreshed', 'bit-integrations') })
         setDeskConf({ ...newConf })
-      } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
-        setSnackbar({ show: true, msg: `${__('Owners refresh failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}` })
+      } else if (
+        (result && result.data && result.data.data) ||
+        (!result.success && typeof result.data === 'string')
+      ) {
+        setSnackbar({
+          show: true,
+          msg: `${__('Owners refresh failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}`
+        })
       } else {
-        setSnackbar({ show: true, msg: __('Owners refresh failed. please try again', 'bit-integrations') })
+        setSnackbar({
+          show: true,
+          msg: __('Owners refresh failed. please try again', 'bit-integrations')
+        })
       }
       setIsLoading(false)
     })
@@ -206,10 +254,10 @@ export const refreshProducts = (formID, deskConf, setDeskConf, setIsLoading, set
     clientSecret: deskConf.clientSecret,
     tokenDetails: deskConf.tokenDetails,
     orgId: deskConf.orgId,
-    departmentId: deskConf.department,
+    departmentId: deskConf.department
   }
   bitsFetch(refreshProductsRequestParams, 'zdesk_refresh_products')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...deskConf }
         if (!newConf.default.products) {
@@ -223,24 +271,47 @@ export const refreshProducts = (formID, deskConf, setDeskConf, setIsLoading, set
         }
         setSnackbar({ show: true, msg: __('Products refreshed', 'bit-integrations') })
         setDeskConf({ ...newConf })
-      } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
-        setSnackbar({ show: true, msg: `${__('Products refresh failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}` })
+      } else if (
+        (result && result.data && result.data.data) ||
+        (!result.success && typeof result.data === 'string')
+      ) {
+        setSnackbar({
+          show: true,
+          msg: `${__('Products refresh failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}`
+        })
       } else {
-        setSnackbar({ show: true, msg: __('Products refresh failed. please try again', 'bit-integrations') })
+        setSnackbar({
+          show: true,
+          msg: __('Products refresh failed. please try again', 'bit-integrations')
+        })
       }
       setIsLoading(false)
     })
     .catch(() => setIsLoading(false))
 }
 
-export const generateMappedField = deskConf => (deskConf.default.fields[deskConf.orgId].required.length > 0 ? deskConf.default.fields[deskConf.orgId].required?.map(field => ({ formField: '', zohoFormField: field })) : [{ formField: '', zohoFormField: '' }])
+export const generateMappedField = (deskConf) =>
+  deskConf.default.fields[deskConf.orgId].required.length > 0
+    ? deskConf.default.fields[deskConf.orgId].required?.map((field) => ({
+        formField: '',
+        zohoFormField: field
+      }))
+    : [{ formField: '', zohoFormField: '' }]
 
-export const checkMappedFields = deskConf => {
-  const mappedFields = deskConf?.field_map ? deskConf.field_map.filter(mappedField => (!mappedField.formField && mappedField.zohoFormField && deskConf?.default?.fields?.[deskConf.orgId]?.required.indexOf(mappedField.zohoFormField) !== -1)) : []
+export const checkMappedFields = (deskConf) => {
+  const mappedFields = deskConf?.field_map
+    ? deskConf.field_map.filter(
+        (mappedField) =>
+          !mappedField.formField &&
+          mappedField.zohoFormField &&
+          deskConf?.default?.fields?.[deskConf.orgId]?.required.indexOf(
+            mappedField.zohoFormField
+          ) !== -1
+      )
+    : []
   if (mappedFields.length > 0) {
     return false
   }
 
   return true
 }
-

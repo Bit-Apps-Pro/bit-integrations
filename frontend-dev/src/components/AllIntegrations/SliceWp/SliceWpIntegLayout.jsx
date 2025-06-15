@@ -4,35 +4,50 @@ import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
 import { addFieldMap } from '../IntegrationHelpers/IntegrationHelpers'
 import SliceWpActions from './SliceWpActions'
-import { } from './SliceWpCommonFunc'
+import {} from './SliceWpCommonFunc'
 import SliceWpFieldMap from './SliceWpFieldMap'
 import Note from '../../Utilities/Note'
 
-export default function SliceWpIntegLayout({ formFields, handleInput, sliceWpConf, setSliceWpConf, isLoading, setIsLoading, setSnackbar, allIntegURL, isInfo, edit }) {
+export default function SliceWpIntegLayout({
+  formFields,
+  handleInput,
+  sliceWpConf,
+  setSliceWpConf,
+  isLoading,
+  setIsLoading,
+  setSnackbar,
+  allIntegURL,
+  isInfo,
+  edit
+}) {
   return (
     <>
       <br />
       <b className="wdt-200 d-in-b">{__('Actions:', 'bit-integrations')}</b>
-      <select onChange={handleInput} name="mainAction" value={sliceWpConf?.mainAction} className="btcd-paper-inp w-5">
+      <select
+        onChange={handleInput}
+        name="mainAction"
+        value={sliceWpConf?.mainAction}
+        className="btcd-paper-inp w-5">
         <option value="">{__('Select Actions', 'bit-integrations')}</option>
-        {
-          sliceWpConf?.allActions && sliceWpConf.allActions.map(({ key, label }) => (
+        {sliceWpConf?.allActions &&
+          sliceWpConf.allActions.map(({ key, label }) => (
             <option key={key} value={key}>
               {label}
             </option>
-          ))
-        }
+          ))}
       </select>
       <br />
       <br />
       {isLoading && (
-        <Loader style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: 100,
-          transform: 'scale(0.7)',
-        }}
+        <Loader
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 100,
+            transform: 'scale(0.7)'
+          }}
         />
       )}
 
@@ -44,8 +59,12 @@ export default function SliceWpIntegLayout({ formFields, handleInput, sliceWpCon
             </div>
             <div className="btcd-hr mt-1" />
             <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
-              <div className="txt-dp"><b>{__('Form Fields', 'bit-integrations')}</b></div>
-              <div className="txt-dp"><b>{__('SliceWp Fields', 'bit-integrations')}</b></div>
+              <div className="txt-dp">
+                <b>{__('Form Fields', 'bit-integrations')}</b>
+              </div>
+              <div className="txt-dp">
+                <b>{__('SliceWp Fields', 'bit-integrations')}</b>
+              </div>
             </div>
             {sliceWpConf.field_map.map((itm, i) => (
               <SliceWpFieldMap
@@ -57,14 +76,25 @@ export default function SliceWpIntegLayout({ formFields, handleInput, sliceWpCon
                 setSliceWpConf={setSliceWpConf}
               />
             ))}
-            <div className="txt-center btcbi-field-map-button mt-2"><button onClick={() => addFieldMap(sliceWpConf.field_map.length, sliceWpConf, setSliceWpConf)} className="icn-btn sh-sm" type="button">+</button></div>
+            <div className="txt-center btcbi-field-map-button mt-2">
+              <button
+                onClick={() =>
+                  addFieldMap(sliceWpConf.field_map.length, sliceWpConf, setSliceWpConf)
+                }
+                className="icn-btn sh-sm"
+                type="button">
+                +
+              </button>
+            </div>
           </>
         )}
         <br />
         <br />
         {sliceWpConf.mainAction === '1' && (
           <>
-            <div className="mt-4"><b className="wdt-100">{__('Actions', 'bit-integrations')}</b></div>
+            <div className="mt-4">
+              <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
+            </div>
             <div className="btcd-hr mt-1" />
             <SliceWpActions
               sliceWpConf={sliceWpConf}
@@ -76,7 +106,7 @@ export default function SliceWpIntegLayout({ formFields, handleInput, sliceWpCon
       </>
       <br />
       <Note
-        note="Some integrations will only work for logged-in users."
+        note={__('Some integrations will only work for logged-in users.', 'bit-integrations')}
       />
     </>
   )

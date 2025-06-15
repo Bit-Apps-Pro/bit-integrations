@@ -9,8 +9,13 @@ import 'react-multiple-select-dropdown-lite/dist/index.css'
 import Loader from '../../Loaders/Loader'
 import { getAllTags } from './EmailOctopusCommonFunc'
 
-export default function EmailOctopusActions({ emailOctopusConf, setEmailOctopusConf, loading, setLoading }) {
-  const [actionMdl, setActionMdl] = useState({ show: false, action: () => { } })
+export default function EmailOctopusActions({
+  emailOctopusConf,
+  setEmailOctopusConf,
+  loading,
+  setLoading
+}) {
+  const [actionMdl, setActionMdl] = useState({ show: false, action: () => {} })
   const actionHandler = (e, type) => {
     const newConf = { ...emailOctopusConf }
     if (type === 'tag') {
@@ -52,46 +57,68 @@ export default function EmailOctopusActions({ emailOctopusConf, setEmailOctopusC
 
   return (
     <div className="pos-rel d-flx w-8">
-      <TableCheckBox checked={emailOctopusConf?.selectedTags.length || false} onChange={(e) => actionHandler(e, 'tag')} className="wdt-200 mt-4 mr-2" value="tags" title={__('Add Tags', 'bit - integrations')} subTitle={__('Selects tags for contact')} />
-      <TableCheckBox checked={emailOctopusConf.actions?.update || false} onChange={(e) => actionHandler(e, 'update')} className="wdt-200 mt-4 mr-2" value="update_contact" title={__('Update contact', 'bit-integrations')} subTitle={__('Update an existing contact\'s info by responses.', 'bit-integrations')} />
-      <TableCheckBox checked={emailOctopusConf.actions?.status || false} onChange={(e) => actionHandler(e, 'status')} className="wdt-200 mt-4 mr-2" value="subscriber_status" title={__('Unsubscribe contact', 'bit-integrations')} subTitle={__('Set the contact status to "unsubscribed".', 'bit-integrations')} />
+      <TableCheckBox
+        checked={emailOctopusConf?.selectedTags.length || false}
+        onChange={(e) => actionHandler(e, 'tag')}
+        className="wdt-200 mt-4 mr-2"
+        value="tags"
+        title={__('Add Tags', 'bit - integrations')}
+        subTitle={__('Selects tags for contact')}
+      />
+      <TableCheckBox
+        checked={emailOctopusConf.actions?.update || false}
+        onChange={(e) => actionHandler(e, 'update')}
+        className="wdt-200 mt-4 mr-2"
+        value="update_contact"
+        title={__('Update Contact', 'bit-integrations')}
+        subTitle={__("Update an existing contact's info by responses.", 'bit-integrations')}
+      />
+      <TableCheckBox
+        checked={emailOctopusConf.actions?.status || false}
+        onChange={(e) => actionHandler(e, 'status')}
+        className="wdt-200 mt-4 mr-2"
+        value="subscriber_status"
+        title={__('Unsubscribe contact', 'bit-integrations')}
+        subTitle={__('Set the contact status to "unsubscribed".', 'bit-integrations')}
+      />
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="blue"
+        btnClass="purple"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'tag'}
         close={clsActionMdl}
         action={clsActionMdl}
-        title={__('Tags', 'bit-integrations')}
-      >
+        title={__('Tags', 'bit-integrations')}>
         <div className="btcd-hr mt-2 mb-2" />
-        <div className="mt-2">
-          {__('Select tags', 'bit-integrations')}
-        </div>
-        {
-          loading.tags ? (
-            <Loader style={{
+        <div className="mt-2">{__('Select tags', 'bit-integrations')}</div>
+        {loading.tags ? (
+          <Loader
+            style={{
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               height: 45,
-              transform: 'scale(0.5)',
+              transform: 'scale(0.5)'
             }}
+          />
+        ) : (
+          <div className="flx flx-between mt-2">
+            <MultiSelect
+              options={emailOctopusConf?.tags?.map((tag) => ({ label: tag.name, value: tag.name }))}
+              className="msl-wrp-options"
+              defaultValue={emailOctopusConf?.selectedTags}
+              onChange={(val) => setChanges(val)}
             />
-          )
-            : (
-              <div className="flx flx-between mt-2">
-                <MultiSelect
-                  options={emailOctopusConf?.tags?.map(tag => ({ label: tag.name, value: tag.name }))}
-                  className="msl-wrp-options"
-                  defaultValue={emailOctopusConf?.selectedTags}
-                  onChange={val => setChanges(val)}
-                />
-                <button onClick={() => getAllTags(emailOctopusConf, setEmailOctopusConf, setLoading)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `${__('Refresh Groups', 'bit-integrations')}'` }} type="button">&#x21BB;</button>
-              </div>
-            )
-        }
+            <button
+              onClick={() => getAllTags(emailOctopusConf, setEmailOctopusConf, setLoading)}
+              className="icn-btn sh-sm ml-2 mr-2 tooltip"
+              style={{ '--tooltip-txt': `${__('Refresh Groups', 'bit-integrations')}'` }}
+              type="button">
+              &#x21BB;
+            </button>
+          </div>
+        )}
       </ConfirmModal>
     </div>
   )

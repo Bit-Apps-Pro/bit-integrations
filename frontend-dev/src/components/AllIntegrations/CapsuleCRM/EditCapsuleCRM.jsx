@@ -34,16 +34,24 @@ function EditCapsuleCRM({ allIntegURL }) {
 
     if (capsulecrmConf.actionName === 'opportunity' || capsulecrmConf.actionName === 'project') {
       if (!capsulecrmConf.selectedCRMParty) {
-        toast.error('Please select a party')
+        toast.error(__('Please select a party', 'bit-integrations'))
         return
       }
       if (!capsulecrmConf.selectedCRMMilestones && capsulecrmConf.actionName === 'opportunity') {
-        toast.error('Please select a Milestone')
+        toast.error(__('Please select a Milestone', 'bit-integrations'))
         return
       }
     }
 
-    saveActionConf({ flow, allIntegURL, conf: capsulecrmConf, navigate, edit: 1, setLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: capsulecrmConf,
+      navigate,
+      edit: 1,
+      setLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -52,7 +60,14 @@ function EditCapsuleCRM({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, capsulecrmConf, setCapsuleCRMConf)} name="name" value={capsulecrmConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, capsulecrmConf, setCapsuleCRMConf)}
+          name="name"
+          value={capsulecrmConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 
@@ -60,7 +75,9 @@ function EditCapsuleCRM({ allIntegURL }) {
       <CapsuleCRMIntegLayout
         formID={flow.triggered_entity_id}
         formFields={formField}
-        handleInput={(e) => handleInput(e, capsulecrmConf, setCapsuleCRMConf, setLoading, setSnackbar)}
+        handleInput={(e) =>
+          handleInput(e, capsulecrmConf, setCapsuleCRMConf, setLoading, setSnackbar)
+        }
         capsulecrmConf={capsulecrmConf}
         setCapsuleCRMConf={setCapsuleCRMConf}
         loading={loading}

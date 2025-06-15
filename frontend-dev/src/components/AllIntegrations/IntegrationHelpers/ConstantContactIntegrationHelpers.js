@@ -5,9 +5,7 @@ export const addFieldMap = (i, confTmp, setConf, uploadFields, tab) => {
       ? newConf.relatedlists[tab - 1].upload_field_map.splice(i, 0, {})
       : newConf.relatedlists[tab - 1].field_map.splice(i, 0, {})
   } else {
-    uploadFields
-      ? newConf.upload_field_map.splice(i, 0, {})
-      : newConf.field_map.splice(i, 0, {})
+    uploadFields ? newConf.upload_field_map.splice(i, 0, {}) : newConf.field_map.splice(i, 0, {})
   }
 
   setConf({ ...newConf })
@@ -34,18 +32,17 @@ export const delFieldMap = (i, confTmp, setConf, uploadFields, tab) => {
   setConf({ ...newConf })
 }
 
-export const handleFieldMapping = (
-  event,
-  index,
-  conftTmp,
-  setConf,
-  uploadFields,
-  tab,
-) => {
+export const handleFieldMapping = (event, index, conftTmp, setConf, uploadFields, tab) => {
   const newConf = { ...conftTmp }
   if (tab) {
-    if (uploadFields) { newConf.relatedlists[tab - 1].upload_field_map[index][event.target.name] = event.target.value } else { newConf.relatedlists[tab - 1].field_map[index][event.target.name] = event.target.value }
-  } else if (uploadFields) { newConf.upload_field_map[index][event.target.name] = event.target.value } else newConf.field_map[index][event.target.name] = event.target.value
+    if (uploadFields) {
+      newConf.relatedlists[tab - 1].upload_field_map[index][event.target.name] = event.target.value
+    } else {
+      newConf.relatedlists[tab - 1].field_map[index][event.target.name] = event.target.value
+    }
+  } else if (uploadFields) {
+    newConf.upload_field_map[index][event.target.name] = event.target.value
+  } else newConf.field_map[index][event.target.name] = event.target.value
 
   if (event.target.value === 'custom') {
     if (tab) {
@@ -78,14 +75,7 @@ export const handlePhoneCustomValue = (event, index, conftTmp, setConf) => {
   setConf({ ...newConf })
 }
 
-export const handleAddress = (
-  event,
-  index,
-  confTmp,
-  setConf,
-  addressField,
-  tab,
-) => {
+export const handleAddress = (event, index, confTmp, setConf, addressField, tab) => {
   const newConf = { ...confTmp }
   newConf.address_field[index][event.target.name] = event.target.value
   setConf({ ...newConf })
@@ -106,7 +96,9 @@ export const addAddressFieldMap = (i, confTmp, setConf) => {
 
 export const delAddressFieldMap = (i, confTmp, setConf) => {
   const newConf = { ...confTmp }
-  if (newConf.address_field && newConf.address_field.length > 1) { newConf.address_field.splice(i, 1) }
+  if (newConf.address_field && newConf.address_field.length > 1) {
+    newConf.address_field.splice(i, 1)
+  }
   setConf({ ...newConf })
 }
 
@@ -119,6 +111,8 @@ export const addPhoneFieldMap = (i, confTmp, setConf) => {
 
 export const delPhoneFieldMap = (i, confTmp, setConf) => {
   const newConf = { ...confTmp }
-  if (newConf.phone_field && newConf.phone_field.length > 1) { newConf.phone_field.splice(i, 1) }
+  if (newConf.phone_field && newConf.phone_field.length > 1) {
+    newConf.phone_field.splice(i, 1)
+  }
   setConf({ ...newConf })
 }

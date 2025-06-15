@@ -20,10 +20,8 @@ function CustomApi({ formFields, setFlow, flow, allIntegURL }) {
     name: 'CustomApi',
     type: 'CustomApi',
     url: '',
-    field_map: [
-      { formField: '', customApiFormField: '' },
-    ],
-    actions: {},
+    field_map: [{ formField: '', customApiFormField: '' }],
+    actions: {}
   })
 
   const nextPage = () => {
@@ -36,7 +34,9 @@ function CustomApi({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={3} active={step} />
+      </div>
 
       {/* STEP 1 */}
       <CustomApiAuthorization
@@ -52,8 +52,7 @@ function CustomApi({ formFields, setFlow, flow, allIntegURL }) {
 
       <div
         className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, height: '1000px', overflow: 'visible' }) }}
-      >
+        style={{ ...(step === 2 && { width: 900, height: '1000px', overflow: 'visible' }) }}>
         <CustomApiIntegrationLayout
           formID={formID}
           formFields={formFields}
@@ -65,9 +64,8 @@ function CustomApi({ formFields, setFlow, flow, allIntegURL }) {
         />
         <button
           onClick={() => nextPage(3)}
-          className="btn btcd-btn-lg green sh-sm flx"
-          type="button"
-        >
+          className="btn btcd-btn-lg purple sh-sm flx"
+          type="button">
           {__('Next', 'bit-integrations')}
           &nbsp;
           <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
@@ -77,13 +75,22 @@ function CustomApi({ formFields, setFlow, flow, allIntegURL }) {
 
       <IntegrationStepThree
         step={step}
-        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, navigate, conf: customApiConf, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            setFlow,
+            allIntegURL,
+            navigate,
+            conf: customApiConf,
+            setIsLoading,
+            setSnackbar
+          })
+        }
         isLoading={isLoading}
         dataConf={customApiConf}
         setDataConf={setCustomApiConf}
         formFields={formFields}
       />
-
     </div>
   )
 }

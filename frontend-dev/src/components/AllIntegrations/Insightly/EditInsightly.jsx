@@ -34,16 +34,24 @@ function EditInsightly({ allIntegURL }) {
 
     if (insightlyConf.actionName === 'opportunity' || insightlyConf.actionName === 'project') {
       if (!insightlyConf.selectedCRMPipeline) {
-        toast.error('Please select a pipeline')
+        toast.error(__('Please select a pipeline', 'bit-integrations'))
         return
       }
       if (!insightlyConf.selectedCRMPipelineStages) {
-        toast.error('Please select a pipeline stage')
+        toast.error(__('Please select a pipeline stage', 'bit-integrations'))
         return
       }
     }
 
-    saveActionConf({ flow, allIntegURL, conf: insightlyConf, navigate, edit: 1, setLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: insightlyConf,
+      navigate,
+      edit: 1,
+      setLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -52,7 +60,14 @@ function EditInsightly({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, insightlyConf, setInsightlyConf)} name="name" value={insightlyConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, insightlyConf, setInsightlyConf)}
+          name="name"
+          value={insightlyConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 
@@ -60,7 +75,9 @@ function EditInsightly({ allIntegURL }) {
       <InsightlyIntegLayout
         formID={flow.triggered_entity_id}
         formFields={formField}
-        handleInput={(e) => handleInput(e, insightlyConf, setInsightlyConf, setLoading, setSnackbar)}
+        handleInput={(e) =>
+          handleInput(e, insightlyConf, setInsightlyConf, setLoading, setSnackbar)
+        }
         insightlyConf={insightlyConf}
         setInsightlyConf={setInsightlyConf}
         loading={loading}

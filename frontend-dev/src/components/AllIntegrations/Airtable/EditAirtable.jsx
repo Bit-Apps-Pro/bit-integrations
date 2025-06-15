@@ -26,7 +26,7 @@ function EditAirtable({ allIntegURL }) {
     customFields: false,
     bases: false,
     tables: false,
-    airtableFields: true,
+    airtableFields: true
   })
   const [snack, setSnackbar] = useState({ show: false })
   const formField = useRecoilValue($formFields)
@@ -36,7 +36,15 @@ function EditAirtable({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
-    saveActionConf({ flow, allIntegURL, conf: airtableConf, navigate, edit: 1, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: airtableConf,
+      navigate,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -45,7 +53,14 @@ function EditAirtable({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, airtableConf, setAirtableConf)} name="name" value={airtableConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, airtableConf, setAirtableConf)}
+          name="name"
+          value={airtableConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 

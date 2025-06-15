@@ -2,71 +2,103 @@
 
 namespace BitCode\FI\Triggers\Elementor;
 
+use BitCode\FI\Core\Util\Helper;
+
 class ElementorHelper
 {
-    public static function get_all_inner_forms($elements)
+    public static function extractRecordData($record)
     {
-        $block_is_on_page = array();
-        if (!empty($elements)) {
-            foreach ($elements as $element) {
-                if ('widget' === $element->elType && ('form' === $element->widgetType || 'global' === $element->widgetType)) {
-                    $block_is_on_page[] = $element;
-                }
-                if (!empty($element->elements)) {
-                    $inner_block_is_on_page = self::get_all_inner_forms($element->elements);
-                    if (!empty($inner_block_is_on_page)) {
-                        $block_is_on_page = array_merge($block_is_on_page, $inner_block_is_on_page);
-                    }
-                }
-            }
-        }
-
-        return $block_is_on_page;
+        return [
+            'id'           => $record->get_form_settings('id'),
+            'form_post_id' => $record->get_form_settings('form_post_id'),
+            'edit_post_id' => $record->get_form_settings('edit_post_id'),
+            'fields'       => $record->get('fields'),
+            'files'        => $record->get('files'),
+        ];
     }
 
-    public static function all_elementor_forms($label = null, $option_code = 'ELEMFORMS', $args = array())
+    public static function fetchFlows($formId, $reOrganizeId)
     {
-        $AllForms = [];
         global $wpdb;
-        $post_metas = $wpdb->get_results(
+
+        return $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT pm.post_id, pm.meta_value, p.post_title
-FROM $wpdb->postmeta pm
-    LEFT JOIN $wpdb->posts p
-        ON p.ID = pm.post_id
-WHERE p.post_type IS NOT NULL
-  AND p.post_type NOT LIKE %s
-  AND p.post_status NOT IN('trash', 'inherit', 'auto-draft')
-  AND pm.meta_key = %s
-  AND pm.`meta_value` LIKE %s",
-                'revision',
-                '_elementor_data',
-                '%%form_fields%%'
+                "SELECT * FROM {$wpdb->prefix}btcbi_flow
+                WHERE status = true 
+                AND triggered_entity = %s 
+                AND (triggered_entity_id = %s
+                OR triggered_entity_id = %s
+                OR triggered_entity_id = %s)",
+                'Elementor',
+                'elementor_pro/forms/new_record',
+                $formId,
+                $reOrganizeId
             )
         );
+    }
 
-        if (!empty($post_metas)) {
-            foreach ($post_metas as $post_meta) {
-                $inner_forms = self::get_all_inner_forms(json_decode($post_meta->meta_value));
-                if (!empty($inner_forms)) {
-                    foreach ($inner_forms as $form) {
-                        $AllForms[] = [
-                            'id'            => $form->id,
-                            'post_id'       => isset($form->templateID) ? $form->templateID : $post_meta->post_id,
-                            'title'         => "{$form->settings->form_name} ({$post_meta->post_title})->{$post_meta->post_id}",
-                            'form_fields'   => $form->settings->form_fields
-                        ];
-                    }
-                }
+    public static function isPrimaryKeysMatch($recordData, $flowDetails)
+    {
+        foreach ($flowDetails->primaryKey as $primaryKey) {
+            if ($primaryKey->value != Helper::extractValueFromPath($recordData, $primaryKey->key, 'Breakdance')) {
+                return false;
             }
         }
 
-        return $AllForms;
-    } //end if
+        return true;
+    }
 
-    public static function all_forms()
+    public static function prepareDataForFlow($record)
     {
-        $formsDetails = self::all_elementor_forms();
-        return $formsDetails;
+        $data = [];
+        foreach ($record->get('fields') as $field) {
+            if ($field['type'] == 'upload') {
+                $data[$field['id']] = explode(',', $field['value']);
+            } else {
+                $data[$field['id']] = $field['value'];
+            }
+        }
+
+        return $data;
+    }
+
+    public static function setFields($formData)
+    {
+        $allFields = [
+            ['name' => 'id', 'type' => 'text', 'label' => wp_sprintf(__('Form Id (%s)', 'bit-integrations'), $formData['id']), 'value' => $formData['id']],
+            ['name' => 'form_post_id', 'type' => 'text', 'label' => wp_sprintf(__('Form Post Id (%s)', 'bit-integrations'), $formData['form_post_id']), 'value' => $formData['form_post_id']],
+            ['name' => 'edit_post_id', 'type' => 'text', 'label' => wp_sprintf(__('Edit Post Id (%s)', 'bit-integrations'), $formData['edit_post_id']), 'value' => $formData['edit_post_id']],
+        ];
+
+        // Process fields data
+        foreach ($formData['fields'] as $key => $field) {
+            if ($field['type'] != 'upload') {
+                $value = $field['type'] == 'checkbox' && \is_array($field['raw_value']) && \count($field['raw_value']) == 1 ? $field['raw_value'][0] : $field['raw_value'];
+                $labelValue = \is_string($value) && \strlen($value) > 20 ? substr($value, 0, 20) . '...' : $value;
+
+                $allFields[] = [
+                    'name'  => "fields.{$key}.raw_value",
+                    'type'  => $field['type'],
+                    'label' => $field['title'] . ' (' . $labelValue . ')',
+                    'value' => $value
+                ];
+            }
+        }
+
+        // Process files data
+        foreach ($formData['files'] as $key => $file) {
+            if (!empty($file)) {
+                $fieldTitle = !empty($formData['fields'][$key]['title']) ? $formData['fields'][$key]['title'] : 'Files';
+
+                $allFields[] = [
+                    'name'  => "files.{$key}.url",
+                    'type'  => 'file',
+                    'label' => $fieldTitle,
+                    'value' => $file['url']
+                ];
+            }
+        }
+
+        return $allFields;
     }
 }

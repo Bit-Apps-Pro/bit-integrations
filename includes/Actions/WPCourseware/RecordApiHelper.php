@@ -18,13 +18,13 @@ class RecordApiHelper
         $type = $action === 'enroll' ? 'add' : 'sync';
         $courses = [];
         $tempCourses = [];
-        $courseArray = in_array('select_all_course', $course) && !empty($allCourse) ? $allCourse : $course;
+        $courseArray = \in_array('select_all_course', $course) && !empty($allCourse) ? $allCourse : $course;
         $wpcwCourses = $action === 'enroll'
-            ? (function_exists('wpcw_get_courses') ? wpcw_get_courses() : [])
-            : (function_exists('WPCW_users_getUserCourseList') ? WPCW_users_getUserCourseList($userId) : []);
+            ? (\function_exists('wpcw_get_courses') ? wpcw_get_courses() : [])
+            : (\function_exists('WPCW_users_getUserCourseList') ? WPCW_users_getUserCourseList($userId) : []);
 
         if (empty($wpcwCourses)) {
-            return ['success' => false, 'messages' => 'No Course Available!'];
+            return ['success' => false, 'messages' => __('No Course Available!', 'bit-integrations')];
         }
 
         foreach ($wpcwCourses as $tempCourse) {
@@ -33,7 +33,7 @@ class RecordApiHelper
 
         if ($action === 'enroll') {
             foreach ($courseArray as $singleCourse) {
-                if ($singleCourse !== 'select_all_course' && array_key_exists($singleCourse, $tempCourses)) {
+                if ($singleCourse !== 'select_all_course' && \array_key_exists($singleCourse, $tempCourses)) {
                     $courses[$singleCourse] = $singleCourse;
                 }
             }
@@ -41,11 +41,13 @@ class RecordApiHelper
             $courses = array_diff($tempCourses, $courseArray);
         }
 
-        if (function_exists('WPCW_courses_syncUserAccess')) {
+        if (\function_exists('WPCW_courses_syncUserAccess')) {
             WPCW_courses_syncUserAccess($userId, $courses, $type);
-            return ['success' => true, 'messages' => 'Insert successfully!'];
+
+            return ['success' => true, 'messages' => __('Insert successfully!', 'bit-integrations')];
         }
-        return ['success' => false, 'messages' => 'Somethings wrong, please try again!'];
+
+        return ['success' => false, 'messages' => __('Somethings wrong, please try again!', 'bit-integrations')];
     }
 
     public function execute($action, $course, $userId, $allCourse)
@@ -53,10 +55,11 @@ class RecordApiHelper
         $recordApiResponse = $this->enrollAndUnroll($action, $course, $userId, $allCourse);
 
         if (isset($recordApiResponse['success']) && $recordApiResponse['success']) {
-            LogHandler::save($this->integrationID, ['type' =>  'record', 'type_name' => 'insert'], 'success', $recordApiResponse);
+            LogHandler::save($this->integrationID, ['type' => 'record', 'type_name' => 'insert'], 'success', $recordApiResponse);
         } else {
-            LogHandler::save($this->integrationID, ['type' =>  'record', 'type_name' => 'insert'], 'error', $recordApiResponse);
+            LogHandler::save($this->integrationID, ['type' => 'record', 'type_name' => 'insert'], 'error', $recordApiResponse);
         }
+
         return $recordApiResponse;
     }
 }

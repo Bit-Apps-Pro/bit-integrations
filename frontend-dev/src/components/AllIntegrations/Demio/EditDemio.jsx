@@ -31,10 +31,18 @@ function EditDemio({ allIntegURL }) {
       return
     }
     if (!demioConf.selectedEvent) {
-      toast.error('Please select a Event')
+      toast.error(__('Please select a Event', 'bit-integrations'))
       return
     }
-    saveActionConf({ flow, allIntegURL, conf: demioConf, navigate, edit: 1, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: demioConf,
+      navigate,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -43,7 +51,14 @@ function EditDemio({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, demioConf, setDemioConf)} name="name" value={demioConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, demioConf, setDemioConf)}
+          name="name"
+          value={demioConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 

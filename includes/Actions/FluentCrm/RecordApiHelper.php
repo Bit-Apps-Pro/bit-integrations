@@ -8,7 +8,6 @@ namespace BitCode\FI\Actions\FluentCrm;
 
 use BitCode\FI\Log\LogHandler;
 use FluentCrm\App\Models\Subscriber;
-use FluentCrm\Includes\Helpers\Arr;
 
 /**
  * Provide functionality for Record insert
@@ -16,6 +15,7 @@ use FluentCrm\Includes\Helpers\Arr;
 class RecordApiHelper
 {
     private $_integrationID;
+
     public function __construct($integId)
     {
         $this->_integrationID = $integId;
@@ -23,14 +23,13 @@ class RecordApiHelper
 
     public function insertRecord($data, $actions)
     {
-
         // for exsist user
         $subscriber = Subscriber::where('email', $data['email'])->first();
 
         if ($subscriber && isset($actions->skip_if_exists) && $actions->skip_if_exists) {
             $response = [
-                'success' => false,
-                'messages' => 'Contact already exists!'
+                'success'  => false,
+                'messages' => __('Contact already exists!', 'bit-integrations')
             ];
         } else {
             // for subscirber
@@ -48,17 +47,16 @@ class RecordApiHelper
                 }
                 if ($subscriber) {
                     $response = [
-                        'success' => true,
-                        'messages' => 'Insert successfully!'
+                        'success'  => true,
+                        'messages' => __('Insert successfully!', 'bit-integrations')
                     ];
                 } else {
                     $response = [
-                        'success' => false,
-                        'messages' => 'Something wrong!'
+                        'success'  => false,
+                        'messages' => __('Something wrong!', 'bit-integrations')
                     ];
                 }
             } else {
-
                 $hasDouBleOptIn = isset($actions->double_opt_in) && $actions->double_opt_in;
 
                 $forceSubscribed = !$hasDouBleOptIn && ($subscriber->status != 'subscribed');
@@ -74,17 +72,18 @@ class RecordApiHelper
                 }
                 if ($subscriber) {
                     $response = [
-                        'success' => true,
-                        'messages' => 'Insert successfully!'
+                        'success'  => true,
+                        'messages' => __('Insert successfully!', 'bit-integrations')
                     ];
                 } else {
                     $response = [
-                        'success' => false,
-                        'messages' => 'Something wrong!'
+                        'success'  => false,
+                        'messages' => __('Something wrong!', 'bit-integrations')
                     ];
                 }
             }
         }
+
         return $response;
     }
 
@@ -93,29 +92,23 @@ class RecordApiHelper
         $subscriber = Subscriber::where('email', $data['email'])->first();
 
         if (!$subscriber) {
-            return $response = [
-                'success' => false,
-                'messages' => "Contact doesn't exists!"
-            ];
+            return ['success' => false, 'messages' => __("Contact doesn't exists!", 'bit-integrations')];
         }
 
         $tags = $data['tags'];
 
         if ($actionName === 'add-tag') {
             $subscriber->attachTags($tags);
-
-            return $response = [
-                'success' => true,
-                'messages' => 'Tag added successfully!'
-            ];
+            $message = __('Tag added successfully!', 'bit-integrations');
         } else {
             $subscriber->detachTags($tags);
-
-            return $response = [
-                'success' => true,
-                'messages' => 'Tag remove successfully!'
-            ];
+            $message = __('Tag remove successfully!', 'bit-integrations');
         }
+
+        unset($data['tags']);
+        FluentCrmApi('contacts')->createOrUpdate($data, false, false);
+
+        return ['success' => true, 'messages' => $message];
     }
 
     public function removeUser($data)
@@ -124,8 +117,8 @@ class RecordApiHelper
 
         if (!$subscriber) {
             return $response = [
-                'success' => false,
-                'messages' => "Contact doesn't exists!"
+                'success'  => false,
+                'messages' => __("Contact doesn't exists!", 'bit-integrations')
             ];
         }
 
@@ -134,14 +127,14 @@ class RecordApiHelper
         $subscriber->detachLists($listId);
 
         return $response = [
-            'success' => true,
-            'messages' => 'User remove from list successfully!'
+            'success'  => true,
+            'messages' => __('User remove from list successfully!', 'bit-integrations')
         ];
     }
 
     public function execute($fieldValues, $fieldMap, $actions, $list_id, $tags, $actionName)
     {
-        $fieldData = [];
+        $fieldData = apply_filters('fluent_crm_assign_company', [], (array) $actions);
 
         foreach ($fieldMap as $fieldKey => $fieldPair) {
             if (!empty($fieldPair->fluentCRMField)) {
@@ -153,31 +146,35 @@ class RecordApiHelper
             }
         }
 
-        if (!is_null($list_id)) {
+        if (!\is_null($list_id)) {
             $fieldData['lists'] = [$list_id];
         }
-        if (!is_null($tags)) {
+        if (!\is_null($tags)) {
             $fieldData['tags'] = $tags;
         }
 
         switch ($actionName) {
-            case "add-tag":
-            case "remove-tag":
+            case 'add-tag':
+            case 'remove-tag':
                 $recordApiResponse = $this->insertDeleteTag($fieldData, $actionName);
+
                 break;
-            case "add-user":
+            case 'add-user':
                 $recordApiResponse = $this->insertRecord($fieldData, $actions);
+
                 break;
-            case "remove-user":
+            case 'remove-user':
                 $recordApiResponse = $this->removeUser($fieldData);
+
                 break;
         }
 
         if ($recordApiResponse['success']) {
-            LogHandler::save($this->_integrationID, ['type' =>  'record', 'type_name' => $actionName], 'success', $recordApiResponse);
+            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => $actionName], 'success', $recordApiResponse);
         } else {
-            LogHandler::save($this->_integrationID, ['type' =>  'record', 'type_name' => $actionName], 'error', $recordApiResponse);
+            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => $actionName], 'error', $recordApiResponse);
         }
+
         return $recordApiResponse;
     }
 }

@@ -1,9 +1,8 @@
 <?php
+
 namespace BitCode\FI\Actions\SureCart;
 
 use WP_Error;
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Actions\SureCart\RecordApiHelper;
 
 class SureCartController
 {
@@ -28,22 +27,22 @@ class SureCartController
         $request_data = [
             'webhook_endpoint' => [
                 'description' => 'Authorization',
-                'enabled' => true,
+                'enabled'     => true,
                 'destination' => 'wordpress',
-                'url' => $webhook_url,
+                'url'         => $webhook_url,
             ],
         ];
 
         $headers = [
             'headers' => [
                 'Authorization' => 'Bearer ' . $apiKey,
-                'User-Agent' => 'bit-integrations',
-                'Content-Type' => 'application/json',
+                'User-Agent'    => 'bit-integrations',
+                'Content-Type'  => 'application/json',
             ],
-            'timeout' => 60,
-            'sslverify' => false,
+            'timeout'     => 60,
+            'sslverify'   => false,
             'data_format' => 'body',
-            'body' => wp_json_encode($request_data),
+            'body'        => wp_json_encode($request_data),
         ];
 
         $request = wp_remote_post($this->api_url . 'webhook_endpoints', $headers);
@@ -68,22 +67,21 @@ class SureCartController
         $mainAction = $integrationDetails->mainAction;
 
         if (
-            empty($api_key) ||
-            empty($integrationDetails)
+            empty($api_key)
+            || empty($integrationDetails)
             || empty($fieldMap)
 
         ) {
-            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for sureCart', 'bit-integrations'));
+            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'sureCart'));
         }
         $recordApiHelper = new RecordApiHelper($integrationId);
-        $sureCartResponse = $recordApiHelper->execute(
+
+        return $recordApiHelper->execute(
             $api_key,
             $fieldValues,
             $fieldMap,
             $integrationDetails,
             $mainAction
         );
-
-        return $sureCartResponse;
     }
 }

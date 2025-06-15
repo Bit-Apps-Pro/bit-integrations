@@ -8,44 +8,67 @@ import { __ } from '../Utils/i18nwrap'
 
 function Settings() {
   const [appConf, setAppConf] = useState({})
+  const [showAnalyticsOptin, setShowAnalyticsOptin] = useState([])
   const [snack, setSnackbar] = useState({ show: false })
 
   useEffect(() => {
-    const loadFetch = bitsFetch({}, 'get/config', null, 'GET')
-      .then(res => {
-        if ('success' in res && res.success) {
-          setAppConf(res.data)
-        }
-        if (res?.success) return 'Successfully fetched'
-        return 'Error'
-      })
+    // Fetch analytics/check
+    const fetchAnalytics = bitsFetch({}, 'analytics/check', '', 'GET').then((res) => {
+      setShowAnalyticsOptin(res.data)
+    })
 
-    toast.promise(loadFetch, {
-      success: data => data,
+    // Fetch get/config
+    const fetchConfig = bitsFetch({}, 'get/config', null, 'GET').then((res) => {
+      if ('success' in res && res.success) {
+        setAppConf(res.data)
+      }
+      if (res?.success) return __('Successfully fetched', 'bit-integrations')
+      return 'Error'
+    })
+
+    // Execute both fetches in parallel
+    Promise.all([fetchAnalytics, fetchConfig]).catch((err) => {
+      console.error(err)
+    })
+
+    toast.promise(fetchConfig, {
+      success: (data) => data,
       error: __('Error Occurred', 'bit-integrations'),
-      loading: __('Fetching...'),
+      loading: __('Fetching...')
     })
   }, [])
 
   const updatePluginConfig = (name) => {
     const config = { ...appConf }
     const loadSaving = bitsFetch({ data: config }, 'app/config')
-      .then(res => {
+      .then((res) => {
         if ('success' in res && res.success) {
-          return 'Save successfully done'
+          return __('Save successfully done', 'bit-integrations')
         }
         delete config[name]
         setAppConf({ ...config })
-      }).catch(() => 'Failed to save')
+      })
+      .catch(() => __('Failed to save', 'bit-integrations'))
 
     toast.promise(loadSaving, {
-      success: data => data,
+      success: (data) => data,
       error: __('Error Occurred', 'bit-integrations'),
-      loading: __('Updating...'),
+      loading: __('Updating...')
     })
   }
 
+  const updateAnalytic = (updatedOptin) => {
+    bitsFetch({ isChecked: updatedOptin }, 'analytics/optIn')
+      .then((res) => {
+        toast.success(__('Opt-in status updated', 'bit-integrations'))
+      })
+      .catch(() => {
+        toast.error(__('Failed to save', 'bit-integrations'))
+      })
+  }
+
   const debouncedUpdatePluginConfig = useAsyncDebounce(updatePluginConfig, 500)
+  const debouncedUpdateAnalytic = useAsyncDebounce(updateAnalytic, 500)
 
   const checkboxHandle = ({ target: { name, checked } }) => {
     const config = { ...appConf }
@@ -68,6 +91,13 @@ function Settings() {
     setAppConf(config)
     debouncedUpdatePluginConfig(name)
   }
+
+  const analyticsHandle = () => {
+    const updatedOptin = !showAnalyticsOptin
+    setShowAnalyticsOptin(updatedOptin)
+    debouncedUpdateAnalytic(updatedOptin)
+  }
+
   return (
     <div className="btcd-f-settings">
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
@@ -80,7 +110,33 @@ function Settings() {
                 {__('Erase all data of this plugin in deletion', 'bit-integrations')}
               </b>
             </div>
-            <SingleToggle2 action={checkboxHandle} name="erase_db" checked={appConf?.erase_db} className="flx" />
+            <SingleToggle2
+              action={checkboxHandle}
+              name="erase_db"
+              checked={appConf?.erase_db}
+              className="flx"
+            />
+          </div>
+          <br />
+        </div>
+        <div className="w-6 mt-3">
+          <div className="flx flx-between sh-sm br-10 btcd-setting-opt">
+            <div className='flx flx-start'>
+              <span className="btcd-icn  icn-trash-fill mr-2" />
+              <div>
+                <b>
+                  {__('Opt In Telemetry Data', 'bit-integrations')}
+                </b>
+                <br />
+                <small>{__('If you turn off, Bit Integrations will no longer collect any telemetry data', 'bit-integrations')}</small>
+              </div>
+            </div>
+            <SingleToggle2
+              action={analyticsHandle}
+              name="erase_db"
+              checked={showAnalyticsOptin}
+              className="flx"
+            />
           </div>
           <br />
         </div>
@@ -93,8 +149,22 @@ function Settings() {
               </b>
             </div>
             <div className="flx">
-              <input onChange={inputHandle} name="day" value={appConf?.day} disabled={!appConf.enable_log_del} className="btcd-paper-inp mr-2 wdt-100" placeholder="Day" type="number" min="1" />
-              <SingleToggle2 action={checkboxHandle} name="enable_log_del" checked={appConf?.enable_log_del} className="flx" />
+              <input
+                onChange={inputHandle}
+                name="day"
+                value={appConf?.day}
+                disabled={!appConf.enable_log_del}
+                className="btcd-paper-inp mr-2 wdt-100"
+                placeholder="Day"
+                type="number"
+                min="1"
+              />
+              <SingleToggle2
+                action={checkboxHandle}
+                name="enable_log_del"
+                checked={appConf?.enable_log_del}
+                className="flx"
+              />
             </div>
           </div>
         </div>

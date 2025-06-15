@@ -29,7 +29,15 @@ function EditElasticEmail({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
-    saveActionConf({ flow, allIntegURL, conf: elasticEmailConf, navigate, edit: 1, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: elasticEmailConf,
+      navigate,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -38,7 +46,14 @@ function EditElasticEmail({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, elasticEmailConf, setElasticEmailConf)} name="name" value={elasticEmailConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, elasticEmailConf, setElasticEmailConf)}
+          name="name"
+          value={elasticEmailConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 
@@ -47,7 +62,9 @@ function EditElasticEmail({ allIntegURL }) {
       <ElasticEmailIntegLayout
         formID={flow.triggered_entity_id}
         formFields={formField}
-        handleInput={(e) => handleInput(e, elasticEmailConf, setElasticEmailConf, setIsLoading, setSnackbar)}
+        handleInput={(e) =>
+          handleInput(e, elasticEmailConf, setElasticEmailConf, setIsLoading, setSnackbar)
+        }
         elasticEmailConf={elasticEmailConf}
         setElasticEmailConf={setElasticEmailConf}
         isLoading={isLoading}

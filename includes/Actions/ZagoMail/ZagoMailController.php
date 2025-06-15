@@ -6,9 +6,8 @@
 
 namespace BitCode\FI\Actions\ZagoMail;
 
-use WP_Error;
 use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Actions\ZagoMail\RecordApiHelper;
+use WP_Error;
 
 /**
  * Provide functionality for ZohoCrm integration
@@ -36,8 +35,7 @@ class ZagoMailController
      */
     public static function zagoMailAuthorize($requestsParams)
     {
-        if (empty($requestsParams->api_public_key)
-        ) {
+        if (empty($requestsParams->api_public_key)) {
             wp_send_json_error(
                 __(
                     'Requested parameter is empty',
@@ -51,11 +49,11 @@ class ZagoMailController
             'publicKey' => $requestsParams->api_public_key
         ];
 
-        $header["Content-Type"] = "application/json";
+        $header['Content-Type'] = 'application/json';
 
         $apiEndpoint = self::_apiEndpoint('lists/all-lists');
 
-        $apiResponse = HttpHelper::post($apiEndpoint, json_encode($body), $header);
+        $apiResponse = HttpHelper::post($apiEndpoint, wp_json_encode($body), $header);
 
         if ($apiResponse->status == 'error' || $apiResponse->status !== 'success') {
             wp_send_json_error(
@@ -67,7 +65,6 @@ class ZagoMailController
         wp_send_json_success(true);
     }
 
-
     /**
      * Process ajax request for refresh Lists
      *
@@ -77,8 +74,7 @@ class ZagoMailController
      */
     public static function zagoMailLists($queryParams)
     {
-        if (empty($queryParams->api_public_key)
-        ) {
+        if (empty($queryParams->api_public_key)) {
             wp_send_json_error(
                 __(
                     'Requested parameter is empty',
@@ -92,12 +88,11 @@ class ZagoMailController
             'publicKey' => $queryParams->api_public_key
         ];
 
-        $header["Content-Type"] = "application/json";
+        $header['Content-Type'] = 'application/json';
 
         $apiEndpoint = self::_apiEndpoint('lists/all-lists');
 
-        $zagoMailResponse = HttpHelper::post($apiEndpoint, json_encode($body), $header);
-
+        $zagoMailResponse = HttpHelper::post($apiEndpoint, wp_json_encode($body), $header);
 
         $lists = [];
         if ($zagoMailResponse->status == 'success') {
@@ -105,7 +100,7 @@ class ZagoMailController
 
             foreach ($allLists->records as $list) {
                 $lists[$list->general->name] = (object) [
-                    'listId' => $list->general->list_uid,
+                    'listId'   => $list->general->list_uid,
                     'listName' => $list->general->name,
                 ];
             }
@@ -123,8 +118,7 @@ class ZagoMailController
      */
     public static function zagoMailTags($queryParams)
     {
-        if (empty($queryParams->api_public_key)
-        ) {
+        if (empty($queryParams->api_public_key)) {
             wp_send_json_error(
                 __(
                     'Requested parameter is empty',
@@ -137,12 +131,11 @@ class ZagoMailController
             'publicKey' => $queryParams->api_public_key
         ];
 
-        $header["Content-Type"] = "application/json";
+        $header['Content-Type'] = 'application/json';
 
         $apiEndpoint = self::_apiEndpoint('tags/get-tags');
 
-        $zagoMailResponse = HttpHelper::post($apiEndpoint, json_encode($body), $header);
-
+        $zagoMailResponse = HttpHelper::post($apiEndpoint, wp_json_encode($body), $header);
 
         $tags = [];
         if ($zagoMailResponse->status == 'success') {
@@ -150,7 +143,7 @@ class ZagoMailController
 
             foreach ($allTags as $tag) {
                 $tags[] = [
-                    'tagId' => $tag->ztag_id,
+                    'tagId'   => $tag->ztag_id,
                     'tagName' => $tag->ztag_name,
                 ];
             }
@@ -168,8 +161,7 @@ class ZagoMailController
      */
     public static function zagoMailRefreshFields($queryParams)
     {
-        if (empty($queryParams->api_public_key)
-        ) {
+        if (empty($queryParams->api_public_key)) {
             wp_send_json_error(
                 __(
                     'Requested parameter is empty',
@@ -183,11 +175,11 @@ class ZagoMailController
             'publicKey' => $queryParams->api_public_key
         ];
 
-        $header["Content-Type"] = "application/json";
+        $header['Content-Type'] = 'application/json';
 
-        $apiEndpoint =  self::_apiEndpoint('lists/get-fields?list_uid=' . $queryParams->listId);
+        $apiEndpoint = self::_apiEndpoint('lists/get-fields?list_uid=' . $queryParams->listId);
 
-        $zagoMailResponse = HttpHelper::post($apiEndpoint, json_encode($body), $header);
+        $zagoMailResponse = HttpHelper::post($apiEndpoint, wp_json_encode($body), $header);
 
         $fields = [];
         if ($zagoMailResponse->status == 'success') {
@@ -195,9 +187,9 @@ class ZagoMailController
 
             foreach ($allFields->records as $field) {
                 $fields[$field->tag] = (object) [
-                    'fieldId' => $field->tag,
+                    'fieldId'   => $field->tag,
                     'fieldName' => $field->label,
-                    'required' => $field->required == "yes" ? true : false
+                    'required'  => $field->required == 'yes' ? true : false
                 ];
             }
 
@@ -213,14 +205,16 @@ class ZagoMailController
         $fieldMap = $integrationDetails->field_map;
         $actions = $integrationDetails->actions;
         $listId = $integrationDetails->listId;
-        if (count($integrationDetails->selectedTags) > 0) {
-            $tags = explode(',', $integrationDetails->selectedTags);
+        $tags = null;
+        if (isset($integrationDetails->selectedTags)) {
+            $tags = \is_array($integrationDetails->selectedTags) ? $integrationDetails->selectedTags : explode(',', $integrationDetails->selectedTags);
         }
 
-        if (empty($api_public_key)
+        if (
+            empty($api_public_key)
             || empty($fieldMap)
         ) {
-            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for Sendinblue api', 'bit-integrations'));
+            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Sendinblue'));
         }
         $recordApiHelper = new RecordApiHelper($api_public_key, $this->_integrationID);
 
@@ -235,6 +229,7 @@ class ZagoMailController
         if (is_wp_error($zagoMailApiResponse)) {
             return $zagoMailApiResponse;
         }
+
         return $zagoMailApiResponse;
     }
 }

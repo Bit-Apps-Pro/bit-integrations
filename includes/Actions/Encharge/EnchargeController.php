@@ -6,24 +6,20 @@
 
 namespace BitCode\FI\Actions\Encharge;
 
-use WP_Error;
-use BitCode\FI\Core\Util\IpTool;
 use BitCode\FI\Core\Util\HttpHelper;
-
-use BitCode\FI\Actions\Encharge\RecordApiHelper;
+use WP_Error;
 
 /**
  * Provide functionality for Encharge integration
  */
 class EnchargeController
 {
-    
+    public const APIENDPOINT = 'https://api.encharge.io/v1/';
+
     private $_integrationID;
-    const APIENDPOINT = 'https://api.encharge.io/v1/';
 
     public function __construct($integrationID)
     {
-        
         $this->_integrationID = $integrationID;
     }
 
@@ -47,8 +43,8 @@ class EnchargeController
         }
 
         $apiEndpoint = self::APIENDPOINT . 'accounts/info';
-        $authorizationHeader["Accept"] = 'application/json';
-        $authorizationHeader["X-Encharge-Token"] = $requestsParams->api_key;
+        $authorizationHeader['Accept'] = 'application/json';
+        $authorizationHeader['X-Encharge-Token'] = $requestsParams->api_key;
         $apiResponse = HttpHelper::get($apiEndpoint, null, $authorizationHeader);
 
         if (is_wp_error($apiResponse) || isset($apiResponse->error)) {
@@ -60,6 +56,7 @@ class EnchargeController
 
         wp_send_json_success(true);
     }
+
     /**
      * Process ajax request for refresh crm modules
      *
@@ -79,8 +76,8 @@ class EnchargeController
             );
         }
         $apiEndpoint = self::APIENDPOINT . 'fields';
-        $authorizationHeader["Accept"] = 'application/json';
-        $authorizationHeader["X-Encharge-Token"] = $queryParams->api_key;
+        $authorizationHeader['Accept'] = 'application/json';
+        $authorizationHeader['X-Encharge-Token'] = $queryParams->api_key;
         $enChargeResponse = HttpHelper::get($apiEndpoint, null, $authorizationHeader);
         $fields = [];
         if (!is_wp_error($enChargeResponse)) {
@@ -89,9 +86,9 @@ class EnchargeController
             foreach ($allFields as $field) {
                 $required = $field->name === 'email' ? true : false;
                 $fields[$field->name] = (object) [
-                'fieldId' => $field->name,
-                'fieldName' => ucfirst($field->name),
-                'required' => $required
+                    'fieldId'   => $field->name,
+                    'fieldName' => ucfirst($field->name),
+                    'required'  => $required
                 ];
             }
             $response['enChargeFields'] = $fields;
@@ -106,11 +103,11 @@ class EnchargeController
         $api_key = $integrationDetails->api_key;
         $fieldMap = $integrationDetails->field_map;
         $tags = property_exists($integrationDetails, 'tags') ? $integrationDetails->tags : null;
-  
+
         if (empty($api_key)
             || empty($fieldMap)
         ) {
-            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for Sendinblue api', 'bit-integrations'));
+            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Encharge Controller'));
         }
         $recordApiHelper = new RecordApiHelper($api_key, $this->_integrationID);
         $enchagreApiResponse = $recordApiHelper->execute(
@@ -122,6 +119,7 @@ class EnchargeController
         if (is_wp_error($enchagreApiResponse)) {
             return $enchagreApiResponse;
         }
+
         return $enchagreApiResponse;
     }
 }

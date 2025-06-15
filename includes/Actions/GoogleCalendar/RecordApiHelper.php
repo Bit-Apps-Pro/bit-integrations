@@ -2,14 +2,19 @@
 
 namespace BitCode\FI\Actions\GoogleCalendar;
 
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Core\Util\HttpHelper;
+use DateTime;
+use DateTimeZone;
 use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Core\Util\Helper;
+use BitCode\FI\Core\Util\HttpHelper;
 
 class RecordApiHelper
 {
     protected $token;
+
     protected $timeZone;
+
     protected $calendarId;
 
     public function __construct($token, $calendarId, $timeZone)
@@ -26,7 +31,8 @@ class RecordApiHelper
             'Content-Type'  => 'application/json',
             'Authorization' => 'Bearer ' . $this->token,
         ];
-        return HttpHelper::post($apiEndpoint, json_encode($data), $headers);
+
+        return HttpHelper::post($apiEndpoint, wp_json_encode($data), $headers);
     }
 
     public function freeSlotCheck($startTime, $endTime)
@@ -44,7 +50,8 @@ class RecordApiHelper
                 'id' => $this->calendarId,
             ]],
         ];
-        return HttpHelper::post($apiEndpoint, json_encode($body), $headers);
+
+        return HttpHelper::post($apiEndpoint, wp_json_encode($body), $headers);
     }
 
     public function handleInsert($fieldData, $reminderFieldMap, $actions)
@@ -53,35 +60,36 @@ class RecordApiHelper
         $dateType = 'dateTime';
         foreach ($fieldData as $title => $value) {
             if ($title === 'start' || $title === 'end') {
-                $date = new \DateTime($value, new \DateTimeZone($this->timeZone));
+                $date = new DateTime(Helper::formatToISO8601($value), new DateTimeZone($this->timeZone));
                 if (isset($actions->allDayEvent)) {
-                    $data[$title]['date'] = $date->format('Y-m-d');
+                    $data[$title]['date'] = $title === 'end' ? $date->modify('+1 day')->format('Y-m-d') : $date->format('Y-m-d');
                     $dateType = 'date';
                 } else {
-                    $data[$title]['dateTime'] = $date->format('Y-m-d\TH:i:sP');
+                    $data[$title]['dateTime'] = Helper::formatToISO8601($value, $this->timeZone);
                 }
                 $data[$title]['timeZone'] = $this->timeZone;
+
                 continue;
             }
             $data[$title] = $value;
         }
 
-        if (isset($actions->reminders) && count($reminderFieldMap) > 0) {
+        if (isset($actions->reminders) && \count($reminderFieldMap) > 0) {
             $data['reminders'] = [
                 'useDefault' => false,
                 'overrides'  => $reminderFieldMap
             ];
         }
-
         if (isset($actions->skipIfSlotNotEmpty)) {
             $apiResponse = $this->freeSlotCheck($data['start'][$dateType], $data['end'][$dateType]);
 
             if (is_wp_error($apiResponse) || !empty($apiResponse->error)) {
                 return $apiResponse;
-            };
+            }
             if (empty($apiResponse->calendars->{$this->calendarId}->busy)) {
                 return $this->insertEvent($data);
-            };
+            }
+
             return 'No free slot at this time';
         }
 
@@ -99,7 +107,7 @@ class RecordApiHelper
                         $fieldData[$value->googleCalendarFormField] = $replaceFieldWithValue;
                     }
                 } else {
-                    $fieldData[$value->googleCalendarFormField] = is_array($fieldValues[$value->formField]) ? json_encode($fieldValues[$value->formField]) : $fieldValues[$value->formField];
+                    $fieldData[$value->googleCalendarFormField] = \is_array($fieldValues[$value->formField]) ? wp_json_encode($fieldValues[$value->formField]) : $fieldValues[$value->formField];
                 }
             }
         }
@@ -111,10 +119,9 @@ class RecordApiHelper
             if (isset($apiResponse->error)) {
                 LogHandler::save($integrationId, wp_json_encode(['type' => 'record', 'type_name' => 'insert']), 'error', $apiResponse);
             }
-            LogHandler::save($integrationId, wp_json_encode(['type' => 'record', 'type_name' => 'insert']), 'error', 'Please check if your have access to insert event in this selected calendar.');
+            LogHandler::save($integrationId, wp_json_encode(['type' => 'record', 'type_name' => 'insert']), 'error', __('Please check if your have access to insert event in this selected calendar', 'bit-integrations'));
         } else {
             LogHandler::save($integrationId, wp_json_encode(['type' => 'record', 'type_name' => 'insert']), 'success', $apiResponse);
         }
-        return;
     }
 }

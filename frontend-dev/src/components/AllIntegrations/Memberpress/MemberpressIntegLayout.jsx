@@ -8,7 +8,18 @@ import { getAllMemberShip } from './MemberpressCommonFunc'
 import MemberpressFieldMap from './MemberpressFieldMap'
 import Note from '../../Utilities/Note'
 
-export default function MemberpressIntegLayout({ formFields, handleInput, memberpressConf, setMemberpressConf, isLoading, setIsLoading, setSnackbar, allIntegURL, isInfo, edit }) {
+export default function MemberpressIntegLayout({
+  formFields,
+  handleInput,
+  memberpressConf,
+  setMemberpressConf,
+  isLoading,
+  setIsLoading,
+  setSnackbar,
+  allIntegURL,
+  isInfo,
+  edit
+}) {
   const changeHandler = (val, name) => {
     const newConf = { ...memberpressConf }
     if (name === 'selectedMembership') {
@@ -25,15 +36,18 @@ export default function MemberpressIntegLayout({ formFields, handleInput, member
     <>
       <br />
       <b className="wdt-200 d-in-b">{__('Actions:', 'bit-integrations')}</b>
-      <select onChange={handleInput} name="mainAction" value={memberpressConf?.mainAction} className="btcd-paper-inp w-5">
+      <select
+        onChange={handleInput}
+        name="mainAction"
+        value={memberpressConf?.mainAction}
+        className="btcd-paper-inp w-5">
         <option value="">{__('Select Actions', 'bit-integrations')}</option>
-        {
-          memberpressConf?.allActions && memberpressConf.allActions.map(({ key, label }) => (
+        {memberpressConf?.allActions &&
+          memberpressConf.allActions.map(({ key, label }) => (
             <option key={key} value={key}>
               {label}
             </option>
-          ))
-        }
+          ))}
       </select>
       <br />
       <br />
@@ -41,15 +55,30 @@ export default function MemberpressIntegLayout({ formFields, handleInput, member
         <>
           <br />
           <div className="flx mt-4">
-            <b className="wdt-200 d-in-b">{__('Select Membership: ', 'bit-integrations')}</b>
+            <b className="wdt-200 d-in-b">{__('Select Membership:', 'bit-integrations')}</b>
             <MultiSelect
               className="w-5"
               defaultValue={memberpressConf?.selectedMembership}
-              options={memberpressConf?.default?.allMemberShips && memberpressConf.default.allMemberShips.map((item) => ({ label: item.membershipTitle, value: item.membershipId.toString() }))}
+              options={
+                memberpressConf?.default?.allMemberShips &&
+                memberpressConf.default.allMemberShips.map((item) => ({
+                  label: item.membershipTitle,
+                  value: item.membershipId.toString()
+                }))
+              }
               onChange={(val) => changeHandler(val, 'selectedMembership')}
               singleSelect
             />
-            <button onClick={() => getAllMemberShip(memberpressConf, setMemberpressConf, setIsLoading, setSnackbar)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `'${__('Fetch All Membership', 'bit-integrations')}'` }} type="button" disabled={isLoading}>&#x21BB;</button>
+            <button
+              onClick={() =>
+                getAllMemberShip(memberpressConf, setMemberpressConf, setIsLoading, setSnackbar)
+              }
+              className="icn-btn sh-sm ml-2 mr-2 tooltip"
+              style={{ '--tooltip-txt': `'${__('Fetch All Membership', 'bit-integrations')}'` }}
+              type="button"
+              disabled={isLoading}>
+              &#x21BB;
+            </button>
           </div>
         </>
       )}
@@ -57,13 +86,14 @@ export default function MemberpressIntegLayout({ formFields, handleInput, member
       <br />
       <br />
       {isLoading && (
-        <Loader style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: 100,
-          transform: 'scale(0.7)',
-        }}
+        <Loader
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 100,
+            transform: 'scale(0.7)'
+          }}
         />
       )}
 
@@ -75,8 +105,12 @@ export default function MemberpressIntegLayout({ formFields, handleInput, member
             </div>
             <div className="btcd-hr mt-1" />
             <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
-              <div className="txt-dp"><b>{__('Form Fields', 'bit-integrations')}</b></div>
-              <div className="txt-dp"><b>{__('Memberpress Fields', 'bit-integrations')}</b></div>
+              <div className="txt-dp">
+                <b>{__('Form Fields', 'bit-integrations')}</b>
+              </div>
+              <div className="txt-dp">
+                <b>{__('Memberpress Fields', 'bit-integrations')}</b>
+              </div>
             </div>
             {memberpressConf.field_map.map((itm, i) => (
               <MemberpressFieldMap
@@ -88,14 +122,25 @@ export default function MemberpressIntegLayout({ formFields, handleInput, member
                 setMemberpressConf={setMemberpressConf}
               />
             ))}
-            <div className="txt-center btcbi-field-map-button mt-2"><button onClick={() => addFieldMap(memberpressConf.field_map.length, memberpressConf, setMemberpressConf)} className="icn-btn sh-sm" type="button">+</button></div>
+            <div className="txt-center btcbi-field-map-button mt-2">
+              <button
+                onClick={() =>
+                  addFieldMap(memberpressConf.field_map.length, memberpressConf, setMemberpressConf)
+                }
+                className="icn-btn sh-sm"
+                type="button">
+                +
+              </button>
+            </div>
           </>
         )}
         <br />
         <br />
         {memberpressConf.mainAction === '1' && (
           <>
-            <div className="mt-4"><b className="wdt-100">{__('Actions', 'bit-integrations')}</b></div>
+            <div className="mt-4">
+              <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
+            </div>
             <div className="btcd-hr mt-1" />
             <MemberpressActions
               memberpressConf={memberpressConf}
@@ -107,7 +152,7 @@ export default function MemberpressIntegLayout({ formFields, handleInput, member
       </>
       <br />
       <Note
-        note="Some integrations will only work for logged-in users."
+        note={__('Some integrations will only work for logged-in users.', 'bit-integrations')}
       />
     </>
   )

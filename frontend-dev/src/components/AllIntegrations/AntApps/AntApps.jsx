@@ -21,29 +21,25 @@ function AntApps({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Ants & Apps',
     type: 'Ant Apps',
     method: 'POST',
-    url: process.env.NODE_ENV === 'development' ? 'https://antsandapps.com/....' : '',
-    apiConsole: 'https://my.antsandapps.com/',
+    url: '',
+    apiConsole: 'https://my.antsandapps.com/'
   })
 
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={2} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={2} active={step} />
+      </div>
 
       {/* STEP 1 */}
-      <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
+      <div
+        className="btcd-stp-page"
+        style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
         {antsAndApps?.youTubeLink && (
-          <TutorialLink
-            title={antsAndApps?.title}
-            youTubeLink={antsAndApps?.youTubeLink}
-          />
+          <TutorialLink title="Ants and Apps" youTubeLink={antsAndApps?.youTubeLink} />
         )}
-        {antsAndApps?.docLink && (
-          <TutorialLink
-            title={antsAndApps?.title}
-            docLink={antsAndApps?.docLink}
-          />
-        )}
+        {antsAndApps?.docLink && <TutorialLink title="Ants and Apps" docLink={antsAndApps?.docLink} />}
 
         <WebHooksIntegration
           formID={formID}
@@ -59,13 +55,21 @@ function AntApps({ formFields, setFlow, flow, allIntegURL }) {
 
       {/* STEP 2 */}
       <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
-
         <WebHooksStepTwo
           step={step}
-          saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, conf: antapps, navigate, setIsLoading, setSnackbar })}
+          saveConfig={() =>
+            saveActionConf({
+              flow,
+              setFlow,
+              allIntegURL,
+              conf: antapps,
+              navigate,
+              setIsLoading,
+              setSnackbar
+            })
+          }
           isLoading={isLoading}
         />
-
       </div>
     </div>
   )

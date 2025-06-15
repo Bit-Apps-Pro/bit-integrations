@@ -26,7 +26,7 @@ function EditEmailOctopus({ allIntegURL }) {
     tags: false,
     customFields: false,
     lists: false,
-    emailOctopusFields: true,
+    emailOctopusFields: true
   })
   const [snack, setSnackbar] = useState({ show: false })
   const formField = useRecoilValue($formFields)
@@ -36,7 +36,15 @@ function EditEmailOctopus({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
-    saveActionConf({ flow, allIntegURL, conf: emailOctopusConf, navigate, edit: 1, setLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: emailOctopusConf,
+      navigate,
+      edit: 1,
+      setLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -45,7 +53,14 @@ function EditEmailOctopus({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, emailOctopusConf, setEmailOctopusConf)} name="name" value={emailOctopusConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, emailOctopusConf, setEmailOctopusConf)}
+          name="name"
+          value={emailOctopusConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 
@@ -53,7 +68,9 @@ function EditEmailOctopus({ allIntegURL }) {
       <EmailOctopusIntegLayout
         formID={flow.triggered_entity_id}
         formFields={formField}
-        handleInput={(e) => handleInput(e, emailOctopusConf, setEmailOctopusConf, setLoading, setSnackbar)}
+        handleInput={(e) =>
+          handleInput(e, emailOctopusConf, setEmailOctopusConf, setLoading, setSnackbar)
+        }
         emailOctopusConf={emailOctopusConf}
         setEmailOctopusConf={setEmailOctopusConf}
         loading={loading}

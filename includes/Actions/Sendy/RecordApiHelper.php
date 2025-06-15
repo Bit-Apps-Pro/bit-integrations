@@ -1,9 +1,10 @@
 <?php
+
 namespace BitCode\FI\Actions\Sendy;
 
+use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert,upsert
@@ -11,7 +12,9 @@ use BitCode\FI\Log\LogHandler;
 class RecordApiHelper
 {
     private $_defaultHeader;
+
     private $_tokenDetails;
+
     private $_integrationID;
 
     public function __construct($integId)
@@ -22,8 +25,9 @@ class RecordApiHelper
     public function insertRecord($data, $sendyUrl)
     {
         $header['Content-Type'] = 'application/x-www-form-urlencoded';
-        $insertRecordEndpoint = "$sendyUrl/subscribe";
+        $insertRecordEndpoint = "{$sendyUrl}/subscribe";
         $data['boolean'] = 'true';
+
         return HttpHelper::post($insertRecordEndpoint, $data, $header);
     }
 
@@ -34,12 +38,18 @@ class RecordApiHelper
         foreach ($fieldMap as $key => $value) {
             $triggerValue = $value->formField;
             $actionValue = $value->sendyField;
-            if ($triggerValue === 'custom') {
+
+            if ($triggerValue == 'custom' && $actionValue == 'customFieldKey' && !empty($value->customFieldKey)) {
+                $dataFinal[$value->customFieldKey] = Common::replaceFieldWithValue($value->customValue, $data);
+            } elseif ($triggerValue == 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!is_null($data[$triggerValue])) {
+            } elseif ($actionValue == 'customFieldKey' && !empty($value->customFieldKey)) {
+                $dataFinal[$value->customFieldKey] = $data[$triggerValue];
+            } elseif (!\is_null($data[$triggerValue])) {
                 $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
+
         return $dataFinal;
     }
 
@@ -58,10 +68,11 @@ class RecordApiHelper
         $apiResponse = $this->insertRecord($finalData, $sendyUrl);
 
         if ($apiResponse) {
-            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'add-subscriber'], 'success', json_encode('Subscriber added successfully'));
+            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'add-subscriber'], 'success', wp_json_encode(__('Subscriber added successfully', 'bit-integrations')));
         } else {
-            LogHandler::save($this->_integrationID, ['type' => 'subscriber', 'type_name' => 'add-subscriber'], 'error', json_encode('Failed to add subscriber'));
+            LogHandler::save($this->_integrationID, ['type' => 'subscriber', 'type_name' => 'add-subscriber'], 'error', wp_json_encode(__('Failed to add subscriber', 'bit-integrations')));
         }
+
         return $apiResponse;
     }
 }

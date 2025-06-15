@@ -2,7 +2,17 @@ import { __, sprintf } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { deepCopy } from '../../../Utils/Helpers'
 
-export const handleInput = (e, zoomWebinarConf, setZoomWebinarConf, formID, setIsLoading, setSnackbar, isNew, error, setError) => {
+export const handleInput = (
+  e,
+  zoomWebinarConf,
+  setZoomWebinarConf,
+  formID,
+  setIsLoading,
+  setSnackbar,
+  isNew,
+  error,
+  setError
+) => {
   let newConf = { ...zoomWebinarConf }
   if (isNew) {
     const rmError = { ...error }
@@ -12,7 +22,13 @@ export const handleInput = (e, zoomWebinarConf, setZoomWebinarConf, formID, setI
   newConf[e.target.name] = e.target.value
   setZoomWebinarConf({ ...newConf })
 }
-export const zoomAllWebinar = (formID, zoomWebinarConf, setZoomWebinarConf, setIsLoading, setSnackbar) => {
+export const zoomAllWebinar = (
+  formID,
+  zoomWebinarConf,
+  setZoomWebinarConf,
+  setIsLoading,
+  setSnackbar
+) => {
   setIsLoading(true)
   const fetchWebinarModulesRequestParams = {
     formID,
@@ -20,10 +36,10 @@ export const zoomAllWebinar = (formID, zoomWebinarConf, setZoomWebinarConf, setI
     accessToken: zoomWebinarConf.tokenDetails.access_token,
     clientSecret: zoomWebinarConf.clientSecret,
     refreshToken: zoomWebinarConf.tokenDetails.refresh_token,
-    tokenDetails: zoomWebinarConf.tokenDetails,
+    tokenDetails: zoomWebinarConf.tokenDetails
   }
   bitsFetch(fetchWebinarModulesRequestParams, 'zoom_webinar_fetch_all_webinar')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...zoomWebinarConf }
         if (!newConf.default) {
@@ -37,21 +53,40 @@ export const zoomAllWebinar = (formID, zoomWebinarConf, setZoomWebinarConf, setI
         // }
         setSnackbar({ show: true, msg: __('Webinar list refreshed', 'bit-integrations') })
         setZoomWebinarConf({ ...newConf })
-      } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
-        setSnackbar({ show: true, msg: sprintf(__('All Webinar list refresh failed Cause: %s. please try again', 'bit-integrations'), result.data.data || result.data) })
+      } else if (
+        (result && result.data && result.data.data) ||
+        (!result.success && typeof result.data === 'string')
+      ) {
+        setSnackbar({
+          show: true,
+          msg: sprintf(
+            __('All Webinar list refresh failed Cause: %s. please try again', 'bit-integrations'),
+            result.data.data || result.data
+          )
+        })
       } else {
-        setSnackbar({ show: true, msg: __('All Webinar list failed. please try again', 'bit-integrations') })
+        setSnackbar({
+          show: true,
+          msg: __('All Webinar list failed. please try again', 'bit-integrations')
+        })
       }
       setIsLoading(false)
     })
     .catch(() => setIsLoading(false))
 }
 
-export const handleAuthorize = (confTmp, setConf, setError, setisAuthorized, setIsLoading, setSnackbar) => {
+export const handleAuthorize = (
+  confTmp,
+  setConf,
+  setError,
+  setisAuthorized,
+  setIsLoading,
+  setSnackbar
+) => {
   if (!confTmp.clientId || !confTmp.clientSecret) {
     setError({
-      clientId: !confTmp.clientId ? __('Client ID cann\'t be empty', 'bit-integrations') : '',
-      clientSecret: !confTmp.clientSecret ? __('Secret key cann\'t be empty', 'bit-integrations') : '',
+      clientId: !confTmp.clientId ? __("Client Id can't be empty", 'bit-integrations') : '',
+      clientSecret: !confTmp.clientSecret ? __("Secret key can't be empty", 'bit-integrations') : ''
     })
     return
   }
@@ -69,14 +104,29 @@ export const handleAuthorize = (confTmp, setConf, setError, setisAuthorized, set
         grantTokenResponse = JSON.parse(bitsGoogleSheet)
         localStorage.removeItem('__zoom')
       }
-      if (!grantTokenResponse.code || grantTokenResponse.error || !grantTokenResponse || !isauthRedirectLocation) {
+      if (
+        !grantTokenResponse.code ||
+        grantTokenResponse.error ||
+        !grantTokenResponse ||
+        !isauthRedirectLocation
+      ) {
         const errorCause = grantTokenResponse.error ? `Cause: ${grantTokenResponse.error}` : ''
-        setSnackbar({ show: true, msg: `${__('Authorization failed', 'bit-integrations')} ${errorCause}. ${__('please try again', 'bit-integrations')}` })
+        setSnackbar({
+          show: true,
+          msg: `${__('Authorization Failed', 'bit-integrations')} ${errorCause}. ${__('please try again', 'bit-integrations')}`
+        })
         setIsLoading(false)
       } else {
         const newConf = { ...confTmp }
         newConf.accountServer = grantTokenResponse['accounts-server']
-        tokenHelper(grantTokenResponse, newConf, setConf, setisAuthorized, setIsLoading, setSnackbar)
+        tokenHelper(
+          grantTokenResponse,
+          newConf,
+          setConf,
+          setisAuthorized,
+          setIsLoading,
+          setSnackbar
+        )
       }
     }
   }, 500)
@@ -89,25 +139,36 @@ const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, setIsLoading
   // eslint-disable-next-line no-undef
   tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
   bitsFetch(tokenRequestParams, 'zoom_webinar_generate_token')
-    .then(result => result)
-    .then(result => {
+    .then((result) => result)
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...confTmp }
         newConf.tokenDetails = result.data
         setConf(newConf)
         setisAuthorized(true)
         setSnackbar({ show: true, msg: __('Authorized Successfully', 'bit-integrations') })
-      } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
-        setSnackbar({ show: true, msg: `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}` })
+      } else if (
+        (result && result.data && result.data.data) ||
+        (!result.success && typeof result.data === 'string')
+      ) {
+        setSnackbar({
+          show: true,
+          msg: `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}`
+        })
       } else {
-        setSnackbar({ show: true, msg: __('Authorization failed. please try again', 'bit-integrations') })
+        setSnackbar({
+          show: true,
+          msg: __('Authorization failed. please try again', 'bit-integrations')
+        })
       }
       setIsLoading(false)
     })
 }
 
 export const checkMappedFields = (zoomWebinarConf) => {
-  const mappedFleld = zoomWebinarConf.field_map ? zoomWebinarConf.field_map.filter(mapped => (!mapped.formField && !mapped.zoomWebinarConf)) : []
+  const mappedFleld = zoomWebinarConf.field_map
+    ? zoomWebinarConf.field_map.filter((mapped) => !mapped.formField && !mapped.zoomWebinarConf)
+    : []
   if (mappedFleld.length > 0) {
     return false
   }
@@ -115,6 +176,8 @@ export const checkMappedFields = (zoomWebinarConf) => {
 }
 
 export const generateMappedField = (zoomWebinarConf) => {
-  const requiredFlds = zoomWebinarConf?.zoomWebinarFields.filter(fld => fld.required === true)
-  return requiredFlds.length > 0 ? requiredFlds.map(field => ({ formField: '', zoomField: field.key })) : [{ formField: '', zoomField: '' }]
+  const requiredFlds = zoomWebinarConf?.zoomWebinarFields.filter((fld) => fld.required === true)
+  return requiredFlds.length > 0
+    ? requiredFlds.map((field) => ({ formField: '', zoomField: field.key }))
+    : [{ formField: '', zoomField: '' }]
 }

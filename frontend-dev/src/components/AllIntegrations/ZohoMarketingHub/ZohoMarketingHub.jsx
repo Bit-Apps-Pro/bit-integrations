@@ -23,12 +23,10 @@ function ZohoMarketingHub({ formFields, setFlow, flow, allIntegURL }) {
   const [marketingHubConf, setMarketingHubConf] = useState({
     name: 'Zoho Marketing Automation(Zoho Marketing Hub)',
     type: 'Zoho Marketing Automation(Zoho Marketing Hub)',
-    clientId: process.env.NODE_ENV === 'development' ? '1000.HFCU8M8XENMULNWH12RO937GWC4V9A' : '',
-    clientSecret: process.env.NODE_ENV === 'development' ? '88870e8fe81cdeeb4c452dc953be3973603bd8f87c' : '',
+    clientId: '',
+    clientSecret: '',
     list: '',
-    field_map: [
-      { formField: '', zohoFormField: '' },
-    ],
+    field_map: [{ formField: '', zohoFormField: '' }]
   })
 
   useEffect(() => {
@@ -42,7 +40,11 @@ function ZohoMarketingHub({ formFields, setFlow, flow, allIntegURL }) {
         return
       }
 
-      if (marketingHubConf.list !== '' && marketingHubConf.table !== '' && marketingHubConf.field_map.length > 0) {
+      if (
+        marketingHubConf.list !== '' &&
+        marketingHubConf.table !== '' &&
+        marketingHubConf.field_map.length > 0
+      ) {
         setstep(val)
       }
     } else {
@@ -56,7 +58,9 @@ function ZohoMarketingHub({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={3} active={step} />
+      </div>
 
       {/* STEP 1 */}
       <ZohoAuthorization
@@ -77,7 +81,9 @@ function ZohoMarketingHub({ formFields, setFlow, flow, allIntegURL }) {
         <ZohoMarketingHubIntegLayout
           formID={formID}
           formFields={formFields}
-          handleInput={(e) => handleInput(e, formID, marketingHubConf, setMarketingHubConf, setIsLoading, setSnackbar)}
+          handleInput={e =>
+            handleInput(e, formID, marketingHubConf, setMarketingHubConf, setIsLoading, setSnackbar)
+          }
           marketingHubConf={marketingHubConf}
           setMarketingHubConf={setMarketingHubConf}
           isLoading={isLoading}
@@ -87,20 +93,24 @@ function ZohoMarketingHub({ formFields, setFlow, flow, allIntegURL }) {
 
         <button
           onClick={() => nextPage(3)}
-          disabled={marketingHubConf.list === '' || marketingHubConf.table === '' || marketingHubConf.field_map.length < 1}
-          className="btn f-right btcd-btn-lg green sh-sm flx"
-          type="button"
-        >
+          disabled={
+            marketingHubConf.list === '' ||
+            marketingHubConf.table === '' ||
+            marketingHubConf.field_map.length < 1
+          }
+          className="btn f-right btcd-btn-lg purple sh-sm flx"
+          type="button">
           {__('Next', 'bit-integrations')}
           <BackIcn className="ml-1 rev-icn" />
         </button>
-
       </div>
 
       {/* STEP 3 */}
       <IntegrationStepThree
         step={step}
-        saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, marketingHubConf, navigate, '', '', setIsLoading)}
+        saveConfig={() =>
+          saveIntegConfig(flow, setFlow, allIntegURL, marketingHubConf, navigate, '', '', setIsLoading)
+        }
         isLoading={isLoading}
       />
     </div>

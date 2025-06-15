@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { __ } from '@wordpress/i18n'
+import { __ } from '../../../Utils/i18nwrap'
 import TableCheckBox from '../../Utilities/TableCheckBox'
 
 export default function RapidmailActions({ rapidmailConf, setRapidmailConf }) {
@@ -18,7 +18,14 @@ export default function RapidmailActions({ rapidmailConf, setRapidmailConf }) {
 
   return (
     <div className="pos-rel d-flx w-8">
-      <TableCheckBox checked={rapidmailConf.actions?.send_activationmail || false} onChange={(e) => actionHandler(e, 'send_activationmail')} className="wdt-200 mt-4 mr-2" value="user_share" title={__('Double Opt-in', 'bit-integrations')} subTitle={__('Add Double Opt-in', 'bit-integrations')} />
+      <TableCheckBox
+        checked={rapidmailConf.actions?.send_activationmail || false}
+        onChange={(e) => actionHandler(e, 'send_activationmail')}
+        className="wdt-200 mt-4 mr-2"
+        value="user_share"
+        title={__('Double Opt-in', 'bit-integrations')}
+        subTitle={__('Add Double Opt-in', 'bit-integrations')}
+      />
     </div>
   )
 }

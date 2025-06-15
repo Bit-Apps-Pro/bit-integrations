@@ -6,7 +6,6 @@ export const addFieldMap = (i, confTmp, setConf) => {
   const newConf = { ...confTmp }
   newConf.field_map.splice(i, 0, {})
   setConf({ ...newConf })
-
 }
 
 export const delFieldMap = (i, confTmp, setConf) => {
@@ -26,10 +25,12 @@ export const handleFieldMapping = (event, index, conftTmp, setConf) => {
   //   newConf.field_map[index].customValue = ''
   // }
 
-  setConf(prevConf => create(prevConf, (draftconf) => {
-    draftconf.field_map[index][event.target.name] = event.target.value
-    if (event.target.value === 'custom') {
-      draftconf.field_map[index].customValue = ''
-    }
-  }))
+  setConf((prevConf) =>
+    create(prevConf, (draftconf) => {
+      draftconf.field_map[index][event.target.name] = event.target.value
+      if (event.target.value === 'custom') {
+        draftconf.field_map[index].customValue = ''
+      }
+    })
+  )
 }

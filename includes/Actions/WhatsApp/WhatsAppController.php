@@ -3,6 +3,7 @@
 /**
  * WhatsApp Integration
  */
+
 namespace BitCode\FI\Actions\WhatsApp;
 
 use WP_Error;
@@ -13,94 +14,42 @@ use BitCode\FI\Core\Util\HttpHelper;
  */
 class WhatsAppController
 {
-    private $baseUrl = 'https://api.trello.com/1/';
-    private $_integrationID;
-    private $accessToken;
+    private $baseUrl = 'https://graph.facebook.com/v20.0/';
 
-    // public function fetchAllBoards($queryParams)
-    // {
-    //     if (
-    //         empty($queryParams->accessToken)
-    //         || empty($queryParams->clientId)
-    //     ) {
-    //         wp_send_json_error(
-    //             __(
-    //                 'Requested parameter is empty',
-    //                 'bit-integrations'
-    //             ),
-    //             400
-    //         );
-    //     }
-    //     $response = [];
-    //     $apiEndpoint = $this->baseUrl . 'members/me?key=' . $queryParams->clientId . '&token=' . $queryParams->accessToken;
-    //     $getUserInfoResponse = HttpHelper::get($apiEndpoint, null);
-    //     $apiEndpoint = $this->baseUrl . 'members/' . $getUserInfoResponse->username . '/boards?key=' . $queryParams->clientId . '&token=' . $queryParams->accessToken;
-    //     $allBoardResponse = HttpHelper::get($apiEndpoint, null);
+    public function authorization($requestParams)
+    {
+        static::checkValidation($requestParams);
 
-    //     $allList = [];
-    //     if (!is_wp_error($allBoardResponse) && empty($allBoardResponse->response->error)) {
-    //         $boardLists = $allBoardResponse;
-    //         foreach ($boardLists as $boardList) {
-    //             $allList[] = (object) [
-    //                 'boardId' => $boardList->id,
-    //                 'boardName' => $boardList->name
-    //             ];
-    //         }
-    //         uksort($allList, 'strnatcasecmp');
-    //         $response['allBoardlist'] = $allList;
-    //     } else {
-    //         wp_send_json_error(
-    //             $allBoardResponse->response->error->message,
-    //             400
-    //         );
-    //     }
-    //     wp_send_json_success($response, 200);
-    // }
+        $headers = static::setHeaders($requestParams->token);
+        $apiEndpoint = "{$this->baseUrl}{$requestParams->businessAccountID}";
+        $response = HttpHelper::get($apiEndpoint, null, $headers);
 
-    // public function fetchAllLists($queryParams)
-    // {
-    //     if (
-    //         empty($queryParams->accessToken)
-    //         || empty($queryParams->clientId)
-    //     ) {
-    //         wp_send_json_error(
-    //             __(
-    //                 'Requested parameter is empty',
-    //                 'bit-integrations'
-    //             ),
-    //             400
-    //         );
-    //     }
-    //     $response = [];
+        if (is_wp_error($response) || !isset($response->id)) {
+            wp_send_json_error(isset($response->error->message) ? $response->error->message : 'Authentication failed', 400);
+        } else {
+            wp_send_json_success(__('Authentication successful', 'bit-integrations'), 200);
+        }
+    }
 
-    //     $apiEndpoint = $this->baseUrl . 'boards/' . $queryParams->boardId . '/lists?key=' . $queryParams->clientId . '&token=' . $queryParams->accessToken;
-    //     $getListsResponse = HttpHelper::get($apiEndpoint, null);
+    public function getAllTemplate($requestParams)
+    {
+        static::checkValidation($requestParams);
 
-    //     $allList = [];
-    //     if (!is_wp_error($getListsResponse) && empty($getListsResponse->response->error)) {
-    //         $singleBoardLists = $getListsResponse;
-    //         foreach ($singleBoardLists as $singleBoardList) {
-    //             $allList[] = (object) [
-    //                 'listId' => $singleBoardList->id,
-    //                 'listName' => $singleBoardList->name
-    //             ];
-    //         }
-    //         uksort($allList, 'strnatcasecmp');
-    //         $response['alllists'] = $allList;
-    //     } else {
-    //         wp_send_json_error(
-    //             $allBoardResponse->response->error->message,
-    //             400
-    //         );
-    //     }
-    //     wp_send_json_success($response, 200);
-    // }
+        $apiEndpoint = "{$this->baseUrl}{$requestParams->businessAccountID}/message_templates?fields=name";
+        $allTemplates = static::getTemplate($apiEndpoint, $requestParams->token);
+
+        if (is_wp_error($allTemplates)) {
+            wp_send_json_error(isset($allTemplates->error->message) ? $allTemplates->error->message : 'Template Fetching failed', 400);
+        } else {
+            wp_send_json_success($allTemplates, 200);
+        }
+    }
 
     /**
      * Save updated access_token to avoid unnecessary token generation
      *
-     * @param Object $integrationData Details of flow
-     * @param Array  $fieldValues     Data to send Mail Chimp
+     * @param object $integrationData Details of flow
+     * @param array  $fieldValues     Data to send Mail Chimp
      *
      * @return null
      */
@@ -108,27 +57,60 @@ class WhatsAppController
     {
         $integrationDetails = $integrationData->flow_details;
         $integId = $integrationData->id;
-        $messageTypeId = $integrationDetails->messageTypeId;
-        $fieldMap = $integrationDetails->field_map;
-        $actions = $integrationDetails->actions;
+        $messageType = isset($integrationDetails->messageTypeId) ? $integrationDetails->messageTypeId : $integrationDetails->messageType;
 
-        if (
-            empty($messageTypeId) ||
-            empty($fieldMap)
-        ) {
-            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for WhatsApp api', 'bit-integrations'));
+        if (empty($messageType)) {
+            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'WhatsApp'));
         }
+
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
         $whatsAppApiResponse = $recordApiHelper->execute(
             $fieldValues,
-            $fieldMap,
-            $messageTypeId,
-            $actions
+            $messageType,
         );
 
         if (is_wp_error($whatsAppApiResponse)) {
             return $whatsAppApiResponse;
         }
+
         return $whatsAppApiResponse;
+    }
+
+    private static function getTemplate($apiEndpoint, $token)
+    {
+        $allTemplates = [];
+        $headers = static::setHeaders($token);
+        $response = HttpHelper::get($apiEndpoint, null, $headers);
+
+        if (is_wp_error($response) || !isset($response->data)) {
+            return $response;
+        }
+
+        foreach ($response->data as $template) {
+            $allTemplates[] = $template->name;
+        }
+
+        if (isset($response->paging->next)) {
+            $templates = static::getTemplate($response->paging->next, $token);
+            $allTemplates = array_merge($allTemplates, \is_array($templates) ? $templates : []);
+        }
+
+        return $allTemplates;
+    }
+
+    private static function checkValidation($requestParams)
+    {
+        if (empty($requestParams->numberID) || empty($requestParams->businessAccountID || empty($requestParams->token))) {
+            wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
+        }
+    }
+
+    private static function setHeaders($token)
+    {
+        return
+            [
+                'Authorization' => "Bearer {$token}",
+                'Content-Type'  => 'application/json',
+            ];
     }
 }

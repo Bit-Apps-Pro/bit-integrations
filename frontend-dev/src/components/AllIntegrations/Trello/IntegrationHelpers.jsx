@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-expressions */
+import { create } from 'mutative'
 import { __ } from '../../../Utils/i18nwrap'
 
 export const addFieldMap = (i, confTmp, setConf) => {
   const newConf = { ...confTmp }
   newConf.field_map.splice(i, 0, {})
   setConf({ ...newConf })
- 
 }
 
 export const delFieldMap = (i, confTmp, setConf) => {
@@ -17,19 +17,32 @@ export const delFieldMap = (i, confTmp, setConf) => {
   setConf({ ...newConf })
 }
 
-export const handleFieldMapping = (event, index, conftTmp, setConf) => {
-  const newConf = { ...conftTmp }
-  newConf.field_map[index][event.target.name] = event.target.value
+export const handleFieldMapping = (event, index, setConf, mapKey) => {
+  setConf((prevConf) =>
+    create(prevConf, (draftConf) => {
+      const name = event.target.name
+      const value = event.target.value
 
-  if (event.target.value === 'custom') {
-    newConf.field_map[index].customValue = ''
-  }
-  setConf({ ...newConf })
+      draftConf[mapKey][index][name] = value
+
+      if (value === 'custom') {
+        draftConf[mapKey][index].customValue = ''
+      }
+
+      if (name === 'trelloFormField' && mapKey === 'custom_field_map') {
+        const field = draftConf.customFields?.filter((fld) => fld.key === value)[0] || {}
+
+        draftConf[mapKey][index].type = field?.type
+        draftConf[mapKey][index].options = field?.options
+      }
+    })
+  )
 }
 
-export const handleCustomValue = (event, index, conftTmp, setConf) => {
-  const newConf = { ...conftTmp }
-
-  newConf.field_map[index].customValue = event
-  setConf({ ...newConf })
+export const handleCustomValue = (event, index, setConf, mapKey) => {
+  setConf((prevConf) =>
+    create(prevConf, (draftConf) => {
+      draftConf[mapKey][index].customValue = event
+    })
+  )
 }

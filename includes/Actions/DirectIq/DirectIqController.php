@@ -6,9 +6,8 @@
 
 namespace BitCode\FI\Actions\DirectIq;
 
-use WP_Error;
 use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Actions\DirectIq\RecordApiHelper;
+use WP_Error;
 
 /**
  * Provide functionality for ZohoCrm integration
@@ -36,7 +35,8 @@ class DirectIqController
      */
     public static function directIqAuthorize($requestsParams)
     {
-        if (empty($requestsParams->client_id) || empty($requestsParams->client_secret)
+        if (
+            empty($requestsParams->client_id) || empty($requestsParams->client_secret)
         ) {
             wp_send_json_error(
                 __(
@@ -47,29 +47,11 @@ class DirectIqController
             );
         }
 
-        $curl = curl_init();
+        $endpoint = 'https://rest.directiq.com/subscription/authorize';
+        $header = ['Authorization' => 'Basic ' . base64_encode("{$requestsParams->client_id}:{$requestsParams->client_secret}")];
+        HttpHelper::get($endpoint, null, $header);
 
-        $header = 'Basic ' . base64_encode("$requestsParams->client_id:$requestsParams->client_secret");
-
-        curl_setopt_array($curl, [
-            CURLOPT_URL => "https://rest.directiq.com/subscription/authorize",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => [
-                "authorization: {$header}"
-            ],
-        ]);
-
-        $response = curl_exec($curl);
-        $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-
-        curl_close($curl);
-
-        if ($statusCode !== 200) {
+        if (HttpHelper::$responseCode !== 200) {
             wp_send_json_error(
                 empty($apiResponse) ? 'Unknown' : $apiResponse,
                 400
@@ -88,7 +70,8 @@ class DirectIqController
      */
     public static function directIqLists($queryParams)
     {
-        if (empty($queryParams->client_id) || empty($queryParams->client_secret)
+        if (
+            empty($queryParams->client_id) || empty($queryParams->client_secret)
         ) {
             wp_send_json_error(
                 __(
@@ -99,18 +82,18 @@ class DirectIqController
             );
         }
 
-        $apiEndpoint = "https://rest.directiq.com/contacts/lists/list";
+        $apiEndpoint = 'https://rest.directiq.com/contacts/lists/list';
 
-        $authorizationHeader['authorization'] = 'Basic ' . base64_encode("$queryParams->client_id:$queryParams->client_secret");
+        $authorizationHeader['authorization'] = 'Basic ' . base64_encode("{$queryParams->client_id}:{$queryParams->client_secret}");
         $directIqResponse = HttpHelper::get($apiEndpoint, null, $authorizationHeader);
 
         $lists = [];
         if (!is_wp_error($directIqResponse)) {
             $allLists = ($directIqResponse);
 
-            foreach ($allLists as $key=>$list) {
+            foreach ($allLists as $key => $list) {
                 $lists[$list->name] = (object) [
-                    'listId' => $list->id,
+                    'listId'   => $list->id,
                     'listName' => $list->name,
                 ];
             }
@@ -129,7 +112,8 @@ class DirectIqController
      */
     public static function directIqHeaders($queryParams)
     {
-        if (empty($queryParams->client_id) || empty($queryParams->client_secret)
+        if (
+            empty($queryParams->client_id) || empty($queryParams->client_secret)
         ) {
             wp_send_json_error(
                 __(
@@ -142,11 +126,10 @@ class DirectIqController
 
         $listId = $queryParams->list_id;
 
-        $apiEndpoint = "https://rest.directiq.com/subscription/fields";
+        $apiEndpoint = 'https://rest.directiq.com/subscription/fields';
 
-        $authorizationHeader['authorization'] = 'Basic ' . base64_encode("$queryParams->client_id:$queryParams->client_secret");
+        $authorizationHeader['authorization'] = 'Basic ' . base64_encode("{$queryParams->client_id}:{$queryParams->client_secret}");
         $directIqResponse = HttpHelper::get($apiEndpoint, null, $authorizationHeader);
-
 
         $fields = [];
         if (!is_wp_error($directIqResponse)) {
@@ -154,10 +137,10 @@ class DirectIqController
 
             foreach ($allFields as $field) {
                 $fields[$field->shortCode] = (object) [
-                    'fieldId' => $field->shortCode,
-                    'fieldName' => $field->name,
+                    'fieldId'    => $field->shortCode,
+                    'fieldName'  => $field->name,
                     'fieldValue' => strtolower(str_replace(' ', '_', $field->name)),
-                    'required' =>  strtolower($field->name)=='email' ? true : false
+                    'required'   => strtolower($field->name) == 'email' ? true : false
                 ];
             }
 
@@ -177,9 +160,10 @@ class DirectIqController
         $actions = $integrationDetails->actions;
         $listId = $integrationDetails->listId;
 
-        if (empty($client_id) || empty($client_secret) || empty($fieldMap)
+        if (
+            empty($client_id) || empty($client_secret) || empty($fieldMap)
         ) {
-            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for DirectIQ api', 'bit-integrations'));
+            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'DirectIQ'));
         }
         $recordApiHelper = new RecordApiHelper($client_id, $client_secret, $this->_integrationID);
 
@@ -193,6 +177,7 @@ class DirectIqController
         if (is_wp_error($directIqApiResponse)) {
             return $directIqApiResponse;
         }
+
         return $directIqApiResponse;
     }
 }

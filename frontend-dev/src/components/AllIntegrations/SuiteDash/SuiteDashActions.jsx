@@ -10,7 +10,7 @@ import TableCheckBox from '../../Utilities/TableCheckBox'
 import { getAllCompanies } from './SuiteDashCommonFunc'
 
 export default function SuiteDashActions({ suiteDashConf, setSuiteDashConf, loading, setLoading }) {
-  const [actionMdl, setActionMdl] = useState({ show: false, action: () => { } })
+  const [actionMdl, setActionMdl] = useState({ show: false, action: () => {} })
 
   const actionHandler = (e, type) => {
     const newConf = { ...suiteDashConf }
@@ -24,7 +24,7 @@ export default function SuiteDashActions({ suiteDashConf, setSuiteDashConf, load
         setActionMdl({ show: false })
         delete newConf.actions.company
       }
-    } 
+    }
 
     setActionMdl({ show: type })
     setSuiteDashConf({ ...newConf })
@@ -35,7 +35,7 @@ export default function SuiteDashActions({ suiteDashConf, setSuiteDashConf, load
   }
 
   const setChanges = (val, name) => {
-    setSuiteDashConf(prevConf => {
+    setSuiteDashConf((prevConf) => {
       prevConf[name] = val
       return prevConf
     })
@@ -43,49 +43,60 @@ export default function SuiteDashActions({ suiteDashConf, setSuiteDashConf, load
 
   return (
     <div className="pos-rel d-flx flx-wrp">
-      {suiteDashConf.actionName === 'contact' && <TableCheckBox checked={suiteDashConf?.selectedCompany?.length || false} onChange={(e) => actionHandler(e, 'company')} className="wdt-200 mt-4 mr-2" value="company" title={__('Add Company', 'bit - integrations')} subTitle={__('Add Company')} />}
+      {suiteDashConf.actionName === 'contact' && (
+        <TableCheckBox
+          checked={suiteDashConf?.selectedCompany?.length || false}
+          onChange={(e) => actionHandler(e, 'company')}
+          className="wdt-200 mt-4 mr-2"
+          value="company"
+          title={__('Add Company', 'bit - integrations')}
+          subTitle={__('Add Company')}
+        />
+      )}
 
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="blue"
+        btnClass="purple"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'company'}
         close={clsActionMdl}
         action={clsActionMdl}
-        title={__('company', 'bit-integrations')}
-      >
+        title={__('Company', 'bit-integrations')}>
         <div className="btcd-hr mt-2 mb-2" />
-        <div className="mt-2">
-          {__('Select Company', 'bit-integrations')}
-        </div>
-        {
-          loading.companies ? (
-            <Loader style={{
+        <div className="mt-2">{__('Select Company', 'bit-integrations')}</div>
+        {loading.companies ? (
+          <Loader
+            style={{
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               height: 45,
-              transform: 'scale(0.5)',
+              transform: 'scale(0.5)'
             }}
+          />
+        ) : (
+          <div className="flx flx-between mt-2">
+            <MultiSelect
+              options={suiteDashConf?.companies?.map((company) => ({
+                label: company,
+                value: company
+              }))}
+              className="msl-wrp-options"
+              defaultValue={suiteDashConf.selectedCompany}
+              onChange={(val) => setChanges(val, 'selectedCompany')}
+              singleSelect
             />
-          )
-            : (
-              <div className="flx flx-between mt-2">
-                <MultiSelect
-                  options={suiteDashConf?.companies?.map(company => ({ label: company, value: company }))}
-                  className="msl-wrp-options"
-                  defaultValue={suiteDashConf.selectedCompany}
-                  onChange={val => setChanges(val, 'selectedCompany')}
-                  singleSelect
-                />
-                <button onClick={() => getAllCompanies(suiteDashConf, setSuiteDashConf, setLoading)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `${__('Refresh Companies', 'bit-integrations')}'` }} type="button">&#x21BB;</button>
-              </div>
-            )
-        }
+            <button
+              onClick={() => getAllCompanies(suiteDashConf, setSuiteDashConf, setLoading)}
+              className="icn-btn sh-sm ml-2 mr-2 tooltip"
+              style={{ '--tooltip-txt': `${__('Refresh Companies', 'bit-integrations')}'` }}
+              type="button">
+              &#x21BB;
+            </button>
+          </div>
+        )}
       </ConfirmModal>
-
     </div>
   )
 }
-

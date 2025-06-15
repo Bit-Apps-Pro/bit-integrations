@@ -3,7 +3,14 @@ import bitsFetch from '../../../Utils/bitsFetch'
 import { deepCopy } from '../../../Utils/Helpers'
 import { sprintf, __ } from '../../../Utils/i18nwrap'
 
-export const handleInput = (e, learnDashConf, setLearnDashConf, setIsLoading, setSnackbar, formID) => {
+export const handleInput = (
+  e,
+  learnDashConf,
+  setLearnDashConf,
+  setIsLoading,
+  setSnackbar,
+  formID
+) => {
   const newConf = { ...learnDashConf }
   const { name } = e.target
   if (e.target.value !== '') {
@@ -20,7 +27,7 @@ export const fetchAllCourse = (learnDashConf, setLearnDashConf, setIsLoading, se
   setIsLoading(true)
   const requestParams = { domainName: learnDashConf.domainName }
   bitsFetch(requestParams, 'learDash_fetch_all_course')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...learnDashConf }
         if (!newConf.default) {
@@ -45,7 +52,7 @@ export const fetchAllGroup = (learnDashConf, setLearnDashConf, setIsLoading, set
   setIsLoading(true)
   const requestParams = { domainName: learnDashConf.domainName }
   bitsFetch(requestParams, 'learDash_fetch_all_group')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...learnDashConf }
         if (!newConf.default) {
@@ -65,11 +72,16 @@ export const fetchAllGroup = (learnDashConf, setLearnDashConf, setIsLoading, set
 
     .catch(() => setIsLoading(false))
 }
-export const fetchAllCourseOfLesson = (learnDashConf, setLearnDashConf, setIsLoading, setSnackbar) => {
+export const fetchAllCourseOfLesson = (
+  learnDashConf,
+  setLearnDashConf,
+  setIsLoading,
+  setSnackbar
+) => {
   setIsLoading(true)
   const requestParams = { courseId: learnDashConf.courseId }
   bitsFetch(requestParams, 'learDash_fetch_all_course_of_lesson')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...learnDashConf }
         if (!newConf.default) {
@@ -90,11 +102,16 @@ export const fetchAllCourseOfLesson = (learnDashConf, setLearnDashConf, setIsLoa
     .catch(() => setIsLoading(false))
 }
 
-export const fetchAllTopicOfLesson = (learnDashConf, setLearnDashConf, setIsLoading, setSnackbar) => {
+export const fetchAllTopicOfLesson = (
+  learnDashConf,
+  setLearnDashConf,
+  setIsLoading,
+  setSnackbar
+) => {
   setIsLoading(true)
   const requestParams = { courseId: learnDashConf.courseId, lessonId: learnDashConf.lessonId }
   bitsFetch(requestParams, 'learDash_fetch_all_topic_of_lesson')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...learnDashConf }
         if (!newConf.default) {
@@ -119,7 +136,7 @@ export const fetchAllQuiz = (learnDashConf, setLearnDashConf, setIsLoading, setS
   setIsLoading(true)
   const requestParams = { courseId: learnDashConf.courseId, lessonId: learnDashConf.lessonId }
   bitsFetch(requestParams, 'learDash_fetch_all_quiz')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...learnDashConf }
         if (!newConf.default) {
@@ -139,11 +156,16 @@ export const fetchAllQuiz = (learnDashConf, setLearnDashConf, setIsLoading, setS
 
     .catch(() => setIsLoading(false))
 }
-export const fetchAllCourseUnenroll = (learnDashConf, setLearnDashConf, setIsLoading, setSnackbar) => {
+export const fetchAllCourseUnenroll = (
+  learnDashConf,
+  setLearnDashConf,
+  setIsLoading,
+  setSnackbar
+) => {
   setIsLoading(true)
   const requestParams = { domainName: learnDashConf.domainName }
   bitsFetch(requestParams, 'learDash_fetch_all_course_unenroll')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...learnDashConf }
         if (!newConf.default) {
@@ -164,34 +186,44 @@ export const fetchAllCourseUnenroll = (learnDashConf, setLearnDashConf, setIsLoa
     .catch(() => setIsLoading(false))
 }
 
-export const handleAuthorize = (confTmp, setConf, setError, setisAuthorized, setIsLoading, setSnackbar) => {
+export const handleAuthorize = (
+  confTmp,
+  setConf,
+  setError,
+  setisAuthorized,
+  setIsLoading,
+  setSnackbar
+) => {
   setError({})
   setIsLoading(true)
 
   const requestParams = { domainName: confTmp.domainName }
 
-  bitsFetch(requestParams, 'learnDash_authorize')
-    .then(result => {
-      if (result && result.success) {
-        const newConf = { ...confTmp }
-        setConf(newConf)
-        setisAuthorized(true)
-        setIsLoading(false)
-        toast.success(__('Authorized successfully', 'bit-integrations'))
-        return
-      }
+  bitsFetch(requestParams, 'learnDash_authorize').then((result) => {
+    if (result && result.success) {
+      const newConf = { ...confTmp }
+      setConf(newConf)
+      setisAuthorized(true)
       setIsLoading(false)
-      toast.error(__('Authorized failed', 'bit-integrations'))
-    })
+      toast.success(__('Authorized Successfully', 'bit-integrations'))
+      return
+    }
+    setIsLoading(false)
+    toast.error(__('Authorized failed', 'bit-integrations'))
+  })
 }
 
 export const generateMappedField = (learnDashConf) => {
-  const requiredFlds = learnDashConf?.createGroupFields.filter(fld => fld.required === true)
-  return requiredFlds.length > 0 ? requiredFlds.map(field => ({ formField: '', learnDeshFormField: field.key })) : [{ formField: '', learnDeshFormField: '' }]
+  const requiredFlds = learnDashConf?.createGroupFields.filter((fld) => fld.required === true)
+  return requiredFlds.length > 0
+    ? requiredFlds.map((field) => ({ formField: '', learnDeshFormField: field.key }))
+    : [{ formField: '', learnDeshFormField: '' }]
 }
 
 export const checkMappedFields = (learnDashConf) => {
-  const mappedFleld = learnDashConf.field_map ? learnDashConf.field_map.filter(mapped => (!mapped.formField && !mapped.learnDeshFormField)) : []
+  const mappedFleld = learnDashConf.field_map
+    ? learnDashConf.field_map.filter((mapped) => !mapped.formField && !mapped.learnDeshFormField)
+    : []
   if (mappedFleld.length > 0) {
     return false
   }

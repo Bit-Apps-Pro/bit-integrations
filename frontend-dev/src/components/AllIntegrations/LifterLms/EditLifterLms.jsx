@@ -29,7 +29,14 @@ function EditLifterLms({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, lifterLmsConf, setLifterLmsConf)} name="name" value={lifterLmsConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, lifterLmsConf, setLifterLmsConf)}
+          name="name"
+          value={lifterLmsConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
       <br />
@@ -38,7 +45,9 @@ function EditLifterLms({ allIntegURL }) {
       <LifterLmsIntegLayout
         formID={formID}
         formFields={formFields}
-        handleInput={(e) => handleInput(e, lifterLmsConf, setLifterLmsConf, setIsLoading, setSnackbar)}
+        handleInput={(e) =>
+          handleInput(e, lifterLmsConf, setLifterLmsConf, setIsLoading, setSnackbar)
+        }
         lifterLmsConf={lifterLmsConf}
         setLifterLmsConf={setLifterLmsConf}
         isLoading={isLoading}
@@ -48,7 +57,17 @@ function EditLifterLms({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() => saveActionConf({ flow, allIntegURL, conf: lifterLmsConf, navigate, edit: 1, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            allIntegURL,
+            conf: lifterLmsConf,
+            navigate,
+            edit: 1,
+            setIsLoading,
+            setSnackbar
+          })
+        }
         disabled={lifterLmsConf.mainAction === '' || isLoading}
         isLoading={isLoading}
         dataConf={lifterLmsConf}

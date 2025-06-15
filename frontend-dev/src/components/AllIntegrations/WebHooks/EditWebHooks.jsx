@@ -38,7 +38,18 @@ function EditWebHooks({ allIntegURL }) {
 
       <WebHooksStepTwo
         edit
-        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, conf: webHooks, navigate, edit: 1, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            setFlow,
+            allIntegURL,
+            conf: webHooks,
+            navigate,
+            edit: 1,
+            setIsLoading,
+            setSnackbar
+          })
+        }
         isLoading={isLoading}
       />
       <br />

@@ -31,14 +31,22 @@ function EditLivestorm({ allIntegURL }) {
       return
     }
     if (!livestormConf.selectedEvent) {
-      toast.error('Please select an Event')
+      toast.error(__('Please select an Event', 'bit-integrations'))
       return
     }
     if (!livestormConf.selectedSession) {
-      toast.error('Please select a Session')
+      toast.error(__('Please select a Session', 'bit-integrations'))
       return
     }
-    saveActionConf({ flow, allIntegURL, conf: livestormConf, navigate, edit: 1, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: livestormConf,
+      navigate,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -47,7 +55,14 @@ function EditLivestorm({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, livestormConf, setLivestormConf)} name="name" value={livestormConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, livestormConf, setLivestormConf)}
+          name="name"
+          value={livestormConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 

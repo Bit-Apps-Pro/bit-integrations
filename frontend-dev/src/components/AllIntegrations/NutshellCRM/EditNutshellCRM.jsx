@@ -32,7 +32,15 @@ function EditNutshellCRM({ allIntegURL }) {
       return
     }
 
-    saveActionConf({ flow, allIntegURL, conf: nutshellCRMConf, navigate, edit: 1, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: nutshellCRMConf,
+      navigate,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -41,7 +49,14 @@ function EditNutshellCRM({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, nutshellCRMConf, setNutshellCRMConf)} name="name" value={nutshellCRMConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, nutshellCRMConf, setNutshellCRMConf)}
+          name="name"
+          value={nutshellCRMConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 
@@ -49,7 +64,9 @@ function EditNutshellCRM({ allIntegURL }) {
       <NutshellCRMIntegLayout
         formID={flow.triggered_entity_id}
         formFields={formField}
-        handleInput={(e) => handleInput(e, nutshellCRMConf, setNutshellCRMConf, setLoading, setSnackbar)}
+        handleInput={(e) =>
+          handleInput(e, nutshellCRMConf, setNutshellCRMConf, setLoading, setSnackbar)
+        }
         nutshellCRMConf={nutshellCRMConf}
         setNutshellCRMConf={setNutshellCRMConf}
         loading={loading}

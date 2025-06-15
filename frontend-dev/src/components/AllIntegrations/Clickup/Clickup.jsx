@@ -22,22 +22,20 @@ function Clickup({ formFields, setFlow, flow, allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const taskFields = [
-    { key: 'name', label: 'Name', required: true },
-    { key: 'description', label: 'Description', required: false },
-    { key: 'start_date', label: 'Start Date', required: false },
-    { key: 'due_date', label: 'Due Date', required: false },
+    { key: 'name', label: __('Name', 'bit-integrations'), required: true },
+    { key: 'description', label: __('Description', 'bit-integrations'), required: false },
+    { key: 'start_date', label: __('Start Date', 'bit-integrations'), required: false },
+    { key: 'due_date', label: __('Due Date', 'bit-integrations'), required: false }
   ]
 
   const [clickupConf, setClickupConf] = useState({
     name: 'Clickup',
     type: 'Clickup',
-    api_key: process.env.NODE_ENV === 'development' ? 'pk_49397980_G19CDMAFLTV8V04UR5PNAYN29QB8UG5H' : '',
-    field_map: [
-      { formField: '', clickupFormField: '' },
-    ],
+    api_key: '',
+    field_map: [{ formField: '', clickupFormField: '' }],
     actionName: '',
     taskFields,
-    actions: {},
+    actions: {}
   })
 
   const saveConfig = () => {
@@ -53,31 +51,31 @@ function Clickup({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
     if (!checkMappedFields(clickupConf)) {
-      toast.error('Please map mandatory fields')
+      toast.error(__('Please map mandatory fields', 'bit-integrations'))
       return
     }
 
     if (clickupConf.actionName === 'task') {
       if (!clickupConf.selectedTeam) {
-        toast.error('Please select a team')
+        toast.error(__('Please select a team', 'bit-integrations'))
         return
       }
       if (!clickupConf.selectedSpace) {
-        toast.error('Please select a space')
+        toast.error(__('Please select a space', 'bit-integrations'))
         return
       }
       if (!clickupConf.selectedFolder) {
-        toast.error('Please select a folder')
+        toast.error(__('Please select a folder', 'bit-integrations'))
         return
       }
       if (!clickupConf.selectedList) {
-        toast.error('Please select a list')
+        toast.error(__('Please select a list', 'bit-integrations'))
         return
       }
     }
@@ -88,7 +86,9 @@ function Clickup({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={3} active={step} />
+      </div>
 
       {/* STEP 1 */}
       <ClickupAuthorization
@@ -102,11 +102,12 @@ function Clickup({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
-
+      <div
+        className="btcd-stp-page"
+        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <ClickupIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, clickupConf, setClickupConf, setLoading, setSnackbar)}
+          handleInput={e => handleInput(e, clickupConf, setClickupConf, setLoading, setSnackbar)}
           clickupConf={clickupConf}
           setClickupConf={setClickupConf}
           loading={loading}
@@ -117,13 +118,10 @@ function Clickup({ formFields, setFlow, flow, allIntegURL }) {
         {clickupConf?.actionName && (
           <button
             onClick={() => nextPage(3)}
-            disabled={!(checkMappedFields(clickupConf))}
-            className="btn f-right btcd-btn-lg green sh-sm flx"
-            type="button"
-          >
-            {__('Next', 'bit-integrations')}
-            {' '}
-            &nbsp;
+            disabled={!checkMappedFields(clickupConf)}
+            className="btn f-right btcd-btn-lg purple sh-sm flx"
+            type="button">
+            {__('Next', 'bit-integrations')} &nbsp;
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         )}

@@ -6,7 +6,14 @@ export const handleInput = (e, getgistConf, setGetgistConf, setIsLoading) => {
 }
 
 export const checkMappedFields = (getgistConf) => {
-  const mappedFields = getgistConf?.field_map ? getgistConf.field_map.filter(mappedField => (!mappedField.formField || !mappedField.getgistFormField || (!mappedField.formField === 'custom' && !mappedField.customValue))) : []
+  const mappedFields = getgistConf?.field_map
+    ? getgistConf.field_map.filter(
+        (mappedField) =>
+          !mappedField.formField ||
+          !mappedField.getgistFormField ||
+          (!mappedField.formField === 'custom' && !mappedField.customValue)
+      )
+    : []
   if (mappedFields.length > 0) {
     return false
   }
@@ -14,6 +21,8 @@ export const checkMappedFields = (getgistConf) => {
 }
 
 export const generateMappedField = (getgistConf) => {
-  const requiredFlds = getgistConf?.gistFields.filter(fld => fld.required === true)
-  return requiredFlds.length > 0 ? requiredFlds.map(field => ({ formField: '', getgistFormField: field.key })) : [{ formField: '', getgistFormField: '' }]
+  const requiredFlds = getgistConf?.gistFields.filter((fld) => fld.required === true)
+  return requiredFlds.length > 0
+    ? requiredFlds.map((field) => ({ formField: '', getgistFormField: field.key }))
+    : [{ formField: '', getgistFormField: '' }]
 }

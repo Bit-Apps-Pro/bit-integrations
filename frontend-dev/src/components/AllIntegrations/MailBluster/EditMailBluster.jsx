@@ -24,7 +24,7 @@ function EditMailBluster({ allIntegURL }) {
     list: false,
     field: false,
     auth: false,
-    tags: false,
+    tags: false
   })
   const [snack, setSnackbar] = useState({ show: false })
   const formField = useRecoilValue($formFields)
@@ -34,7 +34,15 @@ function EditMailBluster({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
-    saveActionConf({ flow, allIntegURL, conf: mailBlusterConf, navigate, edit: 1, setLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: mailBlusterConf,
+      navigate,
+      edit: 1,
+      setLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -43,7 +51,14 @@ function EditMailBluster({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, mailBlusterConf, setMailBlusterConf)} name="name" value={mailBlusterConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, mailBlusterConf, setMailBlusterConf)}
+          name="name"
+          value={mailBlusterConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 
@@ -51,7 +66,9 @@ function EditMailBluster({ allIntegURL }) {
       <MailBlusterIntegLayout
         formID={flow.triggered_entity_id}
         formFields={formField}
-        handleInput={(e) => handleInput(e, mailBlusterConf, setMailBlusterConf, setLoading, setSnackbar)}
+        handleInput={(e) =>
+          handleInput(e, mailBlusterConf, setMailBlusterConf, setLoading, setSnackbar)
+        }
         mailBlusterConf={mailBlusterConf}
         setMailBlusterConf={setMailBlusterConf}
         loading={loading}

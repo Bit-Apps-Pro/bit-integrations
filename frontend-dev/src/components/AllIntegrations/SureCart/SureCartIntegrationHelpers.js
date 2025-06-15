@@ -4,7 +4,9 @@ import bitsFetch from '../../../Utils/bitsFetch'
 export const addFieldMap = (i, confTmp, setConf, uploadFields, tab) => {
   const newConf = { ...confTmp }
   if (tab) {
-    uploadFields ? newConf.relatedlists[tab - 1].upload_field_map.splice(i, 0, {}) : newConf.relatedlists[tab - 1].field_map.splice(i, 0, {})
+    uploadFields
+      ? newConf.relatedlists[tab - 1].upload_field_map.splice(i, 0, {})
+      : newConf.relatedlists[tab - 1].field_map.splice(i, 0, {})
   } else {
     uploadFields ? newConf.upload_field_map.splice(i, 0, {}) : newConf.field_map.splice(i, 0, {})
   }
@@ -52,7 +54,8 @@ export const delContactFieldMap = (i, confTmp, setConf) => {
 export const handleFieldMapping = (event, index, conftTmp, setConf, uploadFields, tab) => {
   const newConf = { ...conftTmp }
   if (tab) {
-    if (uploadFields) newConf.relatedlists[tab - 1].upload_field_map[index][event.target.name] = event.target.value
+    if (uploadFields)
+      newConf.relatedlists[tab - 1].upload_field_map[index][event.target.name] = event.target.value
     else newConf.relatedlists[tab - 1].field_map[index][event.target.name] = event.target.value
   } else if (uploadFields) newConf.upload_field_map[index][event.target.name] = event.target.value
   else newConf.field_map[index][event.target.name] = event.target.value
@@ -65,4 +68,3 @@ export const handleFieldMapping = (event, index, conftTmp, setConf, uploadFields
 
   setConf({ ...newConf })
 }
-

@@ -8,8 +8,17 @@ import StepPage from '../../Utilities/StepPage'
 import { getAllLists, handleAuthorize, handleInput } from './MoosendCommonFunc'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
+import { __ } from '../../../Utils/i18nwrap'
 
-function MoosendAuthorization({ moosendConf, setMoosendConf, step, setStep, loading, setLoading, isInfo }) {
+function MoosendAuthorization({
+  moosendConf,
+  setMoosendConf,
+  step,
+  setStep,
+  loading,
+  setLoading,
+  isInfo
+}) {
   const [authorized, setAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', authKey: '' })
   const { moosend } = tutorialLinks
@@ -28,60 +37,47 @@ function MoosendAuthorization({ moosendConf, setMoosendConf, step, setStep, load
   }
 
   const note = `
-  <h4> Step of get API Key:</h4>
+  <h4>${__('Step of get API Key:', 'bit-integrations')}</h4>
   <ul>
-    <li>First login on account.</li>
-    <li>Goto Settings and click on <b>API Key</b></li>
-    <li>Copy the <b>API Key</b> and paste into <b>API Key</b> field of your authorization form.</li>
-    <li>Finally, click <b>Authorize</b> button.</li>
+    <li>${__('First login on account.', 'bit-integrations')}</li>
+    <li>${__('Goto Settings and click on <b>API Key</b>', 'bit-integrations')}</li>
+    <li>${__('Copy the <b>API Key</b> and paste into <b>API Key</b> field of your authorization form.', 'bit-integrations')}</li>
+    <li>${__('Finally, click <b>Authorize</b> button.', 'bit-integrations')}</li>
 </ul>
 `
 
   return (
-    <StepPage
-      step={step}
-      stepNo={1}
-      style={{ width: 900, height: 'auto' }}
-    >
-      {moosend?.youTubeLink && (
-        <TutorialLink
-          title={moosend?.title}
-          youTubeLink={moosend?.youTubeLink}
-        />
-      )}
-      {moosend?.docLink && (
-        <TutorialLink
-          title={moosend?.title}
-          docLink={moosend?.docLink}
-        />
-      )}
+    <StepPage step={step} stepNo={1} style={{ width: 900, height: 'auto' }}>
+      {moosend?.youTubeLink && <TutorialLink title="Moosend" youTubeLink={moosend?.youTubeLink} />}
+      {moosend?.docLink && <TutorialLink title="Moosend" docLink={moosend?.docLink} />}
 
       <div className="mt-2">
-
         {/* Moosend Authorization */}
 
         <Input
-          label="Integration Name"
+          label={__('Integration Name', 'bit-integrations')}
           name="name"
-          placeholder="Integration Name..."
+          placeholder={__('Integration Name...', 'bit-integrations')}
           value={moosendConf.name}
           onchange={(e) => handleInput(e, moosendConf, setMoosendConf, error, setError)}
         />
         <Input
-          label="API key"
+          label={__('API key', 'bit-integrations')}
           name="authKey"
-          placeholder="API key..."
+          placeholder={__('API key...', 'bit-integrations')}
           value={moosendConf.authKey}
           onchange={(e) => handleInput(e, moosendConf, setMoosendConf, error, setError)}
         />
         <GetInfo
           url="https://moosend.com/"
-          info="To get API key, please visit"
+          info={__('To get API key, please visit', 'bit-integrations')}
         />
         <ErrorField error={error.authKey} />
         {!isInfo && (
           <AuthorizeButton
-            onclick={() => handleAuthorize(moosendConf, setError, setAuthorized, loading, setLoading)}
+            onclick={() =>
+              handleAuthorize(moosendConf, setError, setAuthorized, loading, setLoading)
+            }
             nextPage={nextPage}
             auth={authorized}
             loading={loading.auth}

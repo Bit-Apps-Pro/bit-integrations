@@ -6,12 +6,11 @@
 
 namespace BitCode\FI\Actions\Drip;
 
-use WP_Error;
 use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Actions\Drip\RecordApiHelper;
+use WP_Error;
 
 /**
- * Provide functionality for ZohoCrm integration
+ * Provide functionality for Drip integration
  */
 class DripController
 {
@@ -22,13 +21,6 @@ class DripController
         $this->_integrationID = $integrationID;
     }
 
-    /**
-     * Process ajax request
-     *
-     * @param $requestsParams Params to authorize
-     *
-     * @return JSON Drip api response and status
-     */
     public static function dripAuthorize($requestsParams)
     {
         if (empty($requestsParams->api_token)
@@ -42,9 +34,9 @@ class DripController
             );
         }
 
-        $header['Authorization'] = 'Basic ' . base64_encode("$requestsParams->api_token:");
+        $header['Authorization'] = 'Basic ' . base64_encode("{$requestsParams->api_token}:");
 
-        $apiEndpoint = "https://api.getdrip.com/v2/accounts";
+        $apiEndpoint = 'https://api.getdrip.com/v2/accounts';
 
         $response = HttpHelper::get($apiEndpoint, null, $header);
 
@@ -55,132 +47,104 @@ class DripController
             );
         }
 
-        wp_send_json_success($response);
+        $accounts = [];
+
+        foreach ($response->accounts as $account) {
+            $accounts[] = [
+                'accountId'   => $account->id,
+                'accountName' => $account->name . ' (' . $account->url . ')'
+            ];
+        }
+
+        wp_send_json_success($accounts);
     }
 
-    /**
-     * Process ajax request for refresh Campaigns
-     *
-     * @param $queryParams Params to fetch campaign
-     *
-     * @return JSON Drip campaigns data
-     */
-    public static function dripCampaigns($queryParams)
+    public static function getCustomFields($fieldsRequestParams)
     {
-        if (empty($queryParams->api_token)
-        ) {
-            wp_send_json_error(
-                __(
-                    'Requested parameter is empty',
-                    'bit-integrations'
-                ),
-                400
-            );
-        }
-        $accountId = $queryParams->account_id;
-        $header['Authorization'] = 'Basic ' . base64_encode("$queryParams->api_token:");
-
-        $apiEndpoint = "https://api.getdrip.com/v2/{$accountId}/broadcasts";
-
-        $dripResponse = HttpHelper::get($apiEndpoint, null, $header);
-
-        $campaigns = [];
-        if (!is_wp_error($dripResponse->broadcasts)) {
-            $allCampaigns = ($dripResponse->broadcasts);
-
-            foreach ($allCampaigns as $key=>$broadcast) {
-                $campaigns[$broadcast->name] = (object) [
-                    'campaignId' => $broadcast->id,
-                    'campaignName' => $broadcast->name,
-                ];
-            }
-
-            $response['dripCampaigns'] = $campaigns;
-            wp_send_json_success($response);
-        }
-    }
-
-    /**
-     * Process ajax request for refresh crm modules
-     *
-     * @param $queryParams Params to fetch headers
-     *
-     * @return JSON crm module data
-     */
-    public static function dripHeaders($queryParams)
-    {
-        if (empty($queryParams->api_token)
-        ) {
-            wp_send_json_error(
-                __(
-                    'Requested parameter is empty',
-                    'bit-integrations'
-                ),
-                400
-            );
+        if (empty($fieldsRequestParams->apiToken) || empty($fieldsRequestParams->selectedAccountId)) {
+            wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $campaignId = $queryParams->campaign_id;
+        $apiToken = $fieldsRequestParams->apiToken;
+        $accountId = $fieldsRequestParams->selectedAccountId;
+        $apiEndpoints = 'https://api.getdrip.com/v2/' . $accountId . '/custom_field_identifiers';
+        $header = [
+            'Authorization' => 'Basic ' . base64_encode("{$apiToken}:")
+        ];
 
-        $apiEndpoint = "https://rest.directiq.com/subscription/fields";
+        $response = HttpHelper::get($apiEndpoints, null, $header);
 
-        $authorizationHeader['authorization'] = 'Basic ' . base64_encode(":$queryParams->api_token");
+        if (!isset($response->custom_field_identifiers)) {
+            wp_send_json_error(__('Custom fields fetch failed', 'bit-integrations'), 400);
+        }
 
-        $dripResponse = HttpHelper::get($apiEndpoint, null, $authorizationHeader);
-
-
+        $staticFieldsKey = ['email', 'first_name', 'last_name', 'address1', 'address2', 'city', 'state', 'zip', 'country', 'phone', 'time_zone', 'ip_address'];
         $customFields = [];
-        if (!is_wp_error($dripResponse)) {
-            $allFields = $dripResponse;
 
-            foreach ($allFields as $field) {
+        foreach ($response->custom_field_identifiers as $customFieldKey) {
+            if (!\in_array($customFieldKey, $staticFieldsKey)) {
                 $customFields[] = (object) [
-                    'fieldName' => $field->name,
-                    'fieldValue' => strtolower(str_replace(' ', '_', $field->name)),
+                    'key'      => $customFieldKey,
+                    'label'    => ucwords(str_replace('_', ' ', $customFieldKey)),
+                    'required' => false
                 ];
             }
-
-            $defaultFields = array(
-                (object)array('fieldValue' => 'email', 'fieldName' => 'Email', 'required' => true),
-                (object)array('fieldValue' => 'first_name', 'fieldName' => 'First Name', 'required' => false),
-                (object)array('fieldValue' => 'last_name', 'fieldName' => 'Last Name', 'required' => false),
-            );
-
-            $fields = array_merge($defaultFields, $customFields);
-
-            $response['dripField'] = $fields;
-
-            wp_send_json_success($response);
         }
+
+        wp_send_json_success($customFields, 200);
+    }
+
+    public static function getAllTags($fieldsRequestParams)
+    {
+        if (empty($fieldsRequestParams->apiToken) || empty($fieldsRequestParams->selectedAccountId)) {
+            wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
+        }
+
+        $apiToken = $fieldsRequestParams->apiToken;
+        $accountId = $fieldsRequestParams->selectedAccountId;
+        $apiEndpoints = 'https://api.getdrip.com/v2/' . $accountId . '/tags';
+        $header = [
+            'Authorization' => 'Basic ' . base64_encode("{$apiToken}:")
+        ];
+
+        $response = HttpHelper::get($apiEndpoints, null, $header);
+
+        if (isset($response->tags)) {
+            wp_send_json_success($response->tags, 200);
+        }
+
+        wp_send_json_error(__('Tags fetching failed', 'bit-integrations'), 400);
     }
 
     public function execute($integrationData, $fieldValues)
     {
         $integrationDetails = $integrationData->flow_details;
-
         $api_token = $integrationDetails->api_token;
         $fieldMap = $integrationDetails->field_map;
-        $actions = $integrationDetails->actions;
-        $campaignId = $integrationDetails->campaignId;
-        $account_id = $integrationDetails->account_id;
+        $accountId = $integrationDetails->selectedAccountId;
+        $selectedStatus = $integrationDetails->selectedStatus;
+        $selectedTags = $integrationDetails->selectedTags;
+        $selectedRemoveTags = $integrationDetails->selectedRemoveTags;
 
-        if (empty($api_token) || empty($fieldMap)
-        ) {
-            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for Drip api', 'bit-integrations'));
+        if (empty($api_token) || empty($fieldMap) || empty($accountId)) {
+            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Drip'));
         }
+
         $recordApiHelper = new RecordApiHelper($api_token, $this->_integrationID);
 
         $dripApiResponse = $recordApiHelper->execute(
             $fieldValues,
             $fieldMap,
-            $actions,
-            $campaignId,
-            $account_id
+            $accountId,
+            $selectedStatus,
+            $selectedTags,
+            $selectedRemoveTags
         );
 
         if (is_wp_error($dripApiResponse)) {
             return $dripApiResponse;
         }
+
         return $dripApiResponse;
     }
 }

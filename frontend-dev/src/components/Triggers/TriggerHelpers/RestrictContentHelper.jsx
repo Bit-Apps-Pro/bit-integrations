@@ -21,22 +21,22 @@ const RestrictContentHelper = ({ flow, setFlowData, edit = false }) => {
   // const courses = !edit ? newFlow?.triggerData?.courses: flow.flow_details.courses
   const triggerData = !edit ? newFlow?.triggerData : flow.flow_details
   return (
-
     <div className={edit ? 'flx mt-3' : ''}>
-      <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>Select a Membership</b>
+      <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
+        {__('Select a Membership', 'bit-integrations')}
+      </b>
       <MultiSelect
         className="msl-wrp-options"
         defaultValue={triggerData?.selectedMembership}
         options={triggerData?.allMembership?.map((list) => ({
           label: list.level_name,
-          value: list.level_id.toString(),
+          value: list.level_id.toString()
         }))}
         onChange={(val) => setFlowDataDepend(val, 'selectedMembership')}
         singleSelect
         style={{ width: '100%', minWidth: 300, maxWidth: 400 }}
       />
     </div>
-
   )
 }
 

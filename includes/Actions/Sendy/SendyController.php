@@ -3,11 +3,12 @@
 /**
  * MailChimp Integration
  */
+
 namespace BitCode\FI\Actions\Sendy;
 
 use WP_Error;
-use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for MailChimp integration
@@ -24,7 +25,7 @@ class SendyController
     /**
      * Process ajax request for generate_token
      *
-     * @param Object $requestsParams Params for generate token
+     * @param object $requestsParams Params for generate token
      *
      * @return JSON zoho crm api response and status
      */
@@ -45,7 +46,8 @@ class SendyController
         $authorizationHeader['Accept'] = 'application/json';
         // $authorizationHeader["api-key"] = $requestsParams->api_key;
         $apiResponse = HttpHelper::get($apiEndpoint, null, $authorizationHeader);
-        if (is_wp_error($apiResponse) || $apiResponse->status === 'error' || !count($apiResponse)) {
+
+        if (is_wp_error($apiResponse) || !\is_array($apiResponse)) {
             wp_send_json_error(
                 empty($apiResponse->code) ? 'Unknown' : $apiResponse->message,
                 400
@@ -81,7 +83,7 @@ class SendyController
         $response = [];
         foreach ($apiResponse as $list) {
             $response[] = (object) [
-                'brandId' => $list->id,
+                'brandId'   => $list->id,
                 'brandName' => $list->name
             ];
         }
@@ -109,7 +111,7 @@ class SendyController
         $authorizationHeader['Accept'] = 'application/json';
         // $authorizationHeader["api-key"] = $queryParams->api_key;
         $requestsParams = [
-            'api_key' => $apiKey,
+            'api_key'  => $apiKey,
             'brand_id' => $brand_id
         ];
         $apiResponse = HttpHelper::post($apiEndpoint, $requestsParams, $authorizationHeader);
@@ -117,7 +119,7 @@ class SendyController
         $response = [];
         foreach ($apiResponse as $list) {
             $response[] = (object) [
-                'listId' => $list->id,
+                'listId'   => $list->id,
                 'listName' => $list->name,
             ];
         }
@@ -137,6 +139,7 @@ class SendyController
         ) {
             $error = new WP_Error('REQ_FIELD_EMPTY', __('api key, fields map are required for sendy api', 'bit-integrations'));
             LogHandler::save($integId, 'contact', 'validation', $error);
+
             return $error;
         }
         $recordApiHelper = new RecordApiHelper($integId);
@@ -150,6 +153,7 @@ class SendyController
         if (is_wp_error($hubspotResponse)) {
             return $hubspotResponse;
         }
+
         return $hubspotResponse;
     }
 }

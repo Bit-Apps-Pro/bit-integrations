@@ -1,35 +1,33 @@
 /* eslint-disable no-console */
 /* eslint-disable no-else-return */
-import toast from "react-hot-toast";
-import bitsFetch from "../../../Utils/bitsFetch";
-import { __ } from "../../../Utils/i18nwrap";
+import toast from 'react-hot-toast'
+import bitsFetch from '../../../Utils/bitsFetch'
+import { __ } from '../../../Utils/i18nwrap'
 
 export const handleInput = (e, asanaConf, setAsanaConf) => {
-  const newConf = { ...asanaConf };
-  const { name } = e.target;
-  if (e.target.value !== "") {
-    newConf[name] = e.target.value;
+  const newConf = { ...asanaConf }
+  const { name } = e.target
+  if (e.target.value !== '') {
+    newConf[name] = e.target.value
   } else {
-    delete newConf[name];
+    delete newConf[name]
   }
-  setAsanaConf({ ...newConf });
-};
+  setAsanaConf({ ...newConf })
+}
 
 export const generateMappedField = (asanaConf) => {
-  let allRequiredFields = [];
-  if (asanaConf.actionName === "task") {
-    allRequiredFields = asanaConf?.taskFields;
+  let allRequiredFields = []
+  if (asanaConf.actionName === 'task') {
+    allRequiredFields = asanaConf?.taskFields
   }
-  const requiredFlds = allRequiredFields?.filter(
-    (fld) => fld.required === true
-  );
+  const requiredFlds = allRequiredFields?.filter((fld) => fld.required === true)
   return requiredFlds.length > 0
     ? requiredFlds.map((field) => ({
-        formField: "",
-        asanaFormField: field.key,
+        formField: '',
+        asanaFormField: field.key
       }))
-    : [{ formField: "", asanaFormField: "" }];
-};
+    : [{ formField: '', asanaFormField: '' }]
+}
 
 export const checkMappedFields = (asanaConf) => {
   const mappedFields = asanaConf?.field_map
@@ -37,16 +35,15 @@ export const checkMappedFields = (asanaConf) => {
         (mappedField) =>
           !mappedField.formField ||
           !mappedField.asanaFormField ||
-          (mappedField.formField === "custom" && !mappedField.customValue) ||
-          (mappedField.asanaFormField === "customFieldKey" &&
-            !mappedField.customFieldKey)
+          (mappedField.formField === 'custom' && !mappedField.customValue) ||
+          (mappedField.asanaFormField === 'customFieldKey' && !mappedField.customFieldKey)
       )
-    : [];
+    : []
   if (mappedFields.length > 0) {
-    return false;
+    return false
   }
-  return true;
-};
+  return true
+}
 
 export const asanaAuthentication = (
   confTmp,
@@ -58,42 +55,38 @@ export const asanaAuthentication = (
 ) => {
   if (!confTmp.api_key) {
     setError({
-      api_key: !confTmp.api_key
-        ? __("Api Key can't be empty", "bit-integrations")
-        : "",
-    });
-    return;
+      api_key: !confTmp.api_key ? __("API Key can't be empty", 'bit-integrations') : ''
+    })
+    return
   }
 
-  setError({});
-  setLoading({ ...loading, auth: true });
+  setError({})
+  setLoading({ ...loading, auth: true })
 
-  const requestParams = { api_key: confTmp.api_key };
+  const requestParams = { api_key: confTmp.api_key }
 
-  bitsFetch(requestParams, "asana_authentication").then((result) => {
+  bitsFetch(requestParams, 'asana_authentication').then((result) => {
     if (result && result.success) {
-      setIsAuthorized(true);
-      setLoading({ ...loading, auth: false });
-      toast.success(__("Authorized successfully", "bit-integrations"));
-      return;
+      setIsAuthorized(true)
+      setLoading({ ...loading, auth: false })
+      toast.success(__('Authorized Successfully', 'bit-integrations'))
+      return
     }
-    setLoading({ ...loading, auth: false });
-    toast.error(
-      __("Authorized failed, Please enter valid API key", "bit-integrations")
-    );
-  });
-};
+    setLoading({ ...loading, auth: false })
+    toast.error(__('Authorized failed, Please enter valid API key', 'bit-integrations'))
+  })
+}
 
 export const getCustomFields = (confTmp, setConf, setLoading) => {
-  setLoading({ ...setLoading, customFields: true });
+  setLoading({ ...setLoading, customFields: true })
 
   const requestParams = {
     api_key: confTmp.api_key,
     action: confTmp.actionName,
-    project_id: confTmp.selectedProject,
-  };
+    project_id: confTmp.selectedProject
+  }
 
-  bitsFetch(requestParams, "asana_fetch_custom_fields").then((result) => {
+  bitsFetch(requestParams, 'asana_fetch_custom_fields').then((result) => {
     if (result && result.success) {
       // const newConf = { ...confTmp };
       // if (result.data) {
@@ -101,68 +94,66 @@ export const getCustomFields = (confTmp, setConf, setLoading) => {
       // }
       // setConf(newConf);
       setConf((oldConf) => {
-        const newConf = { ...oldConf };
+        const newConf = { ...oldConf }
         if (!newConf.default) {
-          newConf.default = {};
+          newConf.default = {}
         }
         if (result.data) {
-          newConf.customFields = result.data;
+          newConf.customFields = result.data
         }
-        return newConf;
-      });
-      setLoading({ ...setLoading, customFields: false });
+        return newConf
+      })
+      setLoading({ ...setLoading, customFields: false })
       if (!result.data) {
-        toast.error(__("No custom fields found", "bit-integrations"));
+        toast.error(__('No custom fields found', 'bit-integrations'))
       } else {
-        toast.success(
-          __("Custom fields also fetched successfully", "bit-integrations")
-        );
+        toast.success(__('Custom fields also fetched successfully', 'bit-integrations'))
       }
-      return;
+      return
     }
-    setLoading({ ...setLoading, customFields: false });
-    toast.error(__("Custom fields fetching failed", "bit-integrations"));
-  });
-};
+    setLoading({ ...setLoading, customFields: false })
+    toast.error(__('Custom fields fetching failed', 'bit-integrations'))
+  })
+}
 
 export const getAllProjects = (confTmp, setConf, setLoading) => {
-  setLoading({ ...setLoading, Projects: true });
+  setLoading({ ...setLoading, Projects: true })
 
   const requestParams = {
     api_key: confTmp.api_key,
-    action_name: confTmp.actionName,
-  };
+    action_name: confTmp.actionName
+  }
 
-  bitsFetch(requestParams, "asana_fetch_all_Projects").then((result) => {
+  bitsFetch(requestParams, 'asana_fetch_all_Projects').then((result) => {
     if (result && result.success) {
-      const newConf = { ...confTmp };
+      const newConf = { ...confTmp }
       if (result.data) {
-        newConf.Projects = result.data;
+        newConf.Projects = result.data
       }
-      setConf(newConf);
-      setLoading({ ...setLoading, Projects: false });
-      if (confTmp.actionName === "task") {
-        toast.success(__("Projects fetched successfully", "bit-integrations"));
+      setConf(newConf)
+      setLoading({ ...setLoading, Projects: false })
+      if (confTmp.actionName === 'task') {
+        toast.success(__('Projects fetched successfully', 'bit-integrations'))
       }
 
-      return;
+      return
     }
-    setLoading({ ...setLoading, Projects: false });
-    if (confTmp.actionName === "task") {
-      toast.error(__("Projects fetching failed", "bit-integrations"));
+    setLoading({ ...setLoading, Projects: false })
+    if (confTmp.actionName === 'task') {
+      toast.error(__('Projects fetching failed', 'bit-integrations'))
     }
-  });
-};
+  })
+}
 
 export const getAllSections = (confTmp, setConf, setLoading) => {
-  setLoading({ ...setLoading, Sections: true });
+  setLoading({ ...setLoading, Sections: true })
 
   const requestParams = {
     api_key: confTmp.api_key,
-    selected_project: confTmp.selectedProject,
-  };
+    selected_project: confTmp.selectedProject
+  }
 
-  bitsFetch(requestParams, "asana_fetch_all_Sections").then((result) => {
+  bitsFetch(requestParams, 'asana_fetch_all_Sections').then((result) => {
     if (result && result.success) {
       // const newConf = { ...confTmp };
       // if (result.data) {
@@ -171,21 +162,21 @@ export const getAllSections = (confTmp, setConf, setLoading) => {
       // setConf(newConf);
 
       setConf((oldConf) => {
-        const newConf = { ...oldConf };
+        const newConf = { ...oldConf }
         if (!newConf.default) {
-          newConf.default = {};
+          newConf.default = {}
         }
         if (result.data) {
-          newConf.Sections = result.data;
+          newConf.Sections = result.data
         }
-        return newConf;
-      });
-      setLoading({ ...setLoading, Sections: false });
+        return newConf
+      })
+      setLoading({ ...setLoading, Sections: false })
 
-      toast.success(__("Sections fetched successfully", "bit-integrations"));
-      return;
+      toast.success(__('Sections fetched successfully', 'bit-integrations'))
+      return
     }
-    setLoading({ ...setLoading, Sections: false });
-    toast.error(__("Sections fetching failed", "bit-integrations"));
-  });
-};
+    setLoading({ ...setLoading, Sections: false })
+    toast.error(__('Sections fetching failed', 'bit-integrations'))
+  })
+}

@@ -8,7 +8,18 @@ import { getAllAffiliate } from './AffiliateCommonFunc'
 import AffiliateFieldMap from './AffiliateFieldMap'
 import Note from '../../Utilities/Note'
 
-export default function AffiliateIntegLayout({ formFields, handleInput, affiliateConf, setAffiliateConf, isLoading, setIsLoading, setSnackbar, allIntegURL, isInfo, edit }) {
+export default function AffiliateIntegLayout({
+  formFields,
+  handleInput,
+  affiliateConf,
+  setAffiliateConf,
+  isLoading,
+  setIsLoading,
+  setSnackbar,
+  allIntegURL,
+  isInfo,
+  edit
+}) {
   useEffect(() => {
     if (affiliateConf.mainAction === '1') {
       getAllAffiliate(affiliateConf, setAffiliateConf, setIsLoading, setSnackbar)
@@ -25,15 +36,18 @@ export default function AffiliateIntegLayout({ formFields, handleInput, affiliat
     <>
       <br />
       <b className="wdt-200 d-in-b">{__('Actions:', 'bit-integrations')}</b>
-      <select onChange={handleInput} name="mainAction" value={affiliateConf?.mainAction} className="btcd-paper-inp w-5">
+      <select
+        onChange={handleInput}
+        name="mainAction"
+        value={affiliateConf?.mainAction}
+        className="btcd-paper-inp w-5">
         <option value="">{__('Select Actions', 'bit-integrations')}</option>
-        {
-          affiliateConf?.allActions && affiliateConf.allActions.map(({ key, label }) => (
+        {affiliateConf?.allActions &&
+          affiliateConf.allActions.map(({ key, label }) => (
             <option key={key} value={key}>
               {label}
             </option>
-          ))
-        }
+          ))}
       </select>
       <br />
       <br />
@@ -41,15 +55,30 @@ export default function AffiliateIntegLayout({ formFields, handleInput, affiliat
         <>
           <br />
           <div className="flx mt-4">
-            <b className="wdt-200 d-in-b">{__('Select Affiliate: ', 'bit-integrations')}</b>
+            <b className="wdt-200 d-in-b">{__('Select Affiliate:', 'bit-integrations')}</b>
             <MultiSelect
               className="w-5"
               defaultValue={affiliateConf?.affiliate_id}
-              options={affiliateConf?.default?.allAffiliate && affiliateConf.default.allAffiliate.map((item) => ({ label: item.affiliate_name, value: item.affiliate_id.toString() }))}
+              options={
+                affiliateConf?.default?.allAffiliate &&
+                affiliateConf.default.allAffiliate.map((item) => ({
+                  label: item.affiliate_name,
+                  value: item.affiliate_id.toString()
+                }))
+              }
               onChange={(val) => changeHandler(val, 'affiliate_id')}
               singleSelect
             />
-            <button onClick={() => getAllAffiliate(affiliateConf, setAffiliateConf, setIsLoading, setSnackbar)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `'${__('Fetch All Affiliate List', 'bit-integrations')}'` }} type="button" disabled={isLoading}>&#x21BB;</button>
+            <button
+              onClick={() =>
+                getAllAffiliate(affiliateConf, setAffiliateConf, setIsLoading, setSnackbar)
+              }
+              className="icn-btn sh-sm ml-2 mr-2 tooltip"
+              style={{ '--tooltip-txt': `'${__('Fetch All Affiliate List', 'bit-integrations')}'` }}
+              type="button"
+              disabled={isLoading}>
+              &#x21BB;
+            </button>
           </div>
         </>
       )}
@@ -57,13 +86,14 @@ export default function AffiliateIntegLayout({ formFields, handleInput, affiliat
       <br />
       <br />
       {isLoading && (
-        <Loader style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: 100,
-          transform: 'scale(0.7)',
-        }}
+        <Loader
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 100,
+            transform: 'scale(0.7)'
+          }}
         />
       )}
 
@@ -73,8 +103,12 @@ export default function AffiliateIntegLayout({ formFields, handleInput, affiliat
         </div>
         <div className="btcd-hr mt-1" />
         <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
-          <div className="txt-dp"><b>{__('Form Fields', 'bit-integrations')}</b></div>
-          <div className="txt-dp"><b>{__('Affiliate Fields', 'bit-integrations')}</b></div>
+          <div className="txt-dp">
+            <b>{__('Form Fields', 'bit-integrations')}</b>
+          </div>
+          <div className="txt-dp">
+            <b>{__('Affiliate Fields', 'bit-integrations')}</b>
+          </div>
         </div>
         {affiliateConf.field_map.map((itm, i) => (
           <AffiliateFieldMap
@@ -86,11 +120,22 @@ export default function AffiliateIntegLayout({ formFields, handleInput, affiliat
             setAffiliateConf={setAffiliateConf}
           />
         ))}
-        <div className="txt-center btcbi-field-map-button mt-2"><button onClick={() => addFieldMap(affiliateConf.field_map.length, affiliateConf, setAffiliateConf)} className="icn-btn sh-sm" type="button">+</button></div>
+        <div className="txt-center btcbi-field-map-button mt-2">
+          <button
+            onClick={() =>
+              addFieldMap(affiliateConf.field_map.length, affiliateConf, setAffiliateConf)
+            }
+            className="icn-btn sh-sm"
+            type="button">
+            +
+          </button>
+        </div>
 
         <br />
         <br />
-        <div className="mt-4"><b className="wdt-100">{__('Actions', 'bit-integrations')}</b></div>
+        <div className="mt-4">
+          <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
+        </div>
         <div className="btcd-hr mt-1" />
         <AffiliateActions
           affiliateConf={affiliateConf}
@@ -100,7 +145,7 @@ export default function AffiliateIntegLayout({ formFields, handleInput, affiliat
       </>
       <br />
       <Note
-        note="Some integrations will only work for logged-in users."
+        note={__('Some integrations will only work for logged-in users.', 'bit-integrations')}
       />
     </>
   )

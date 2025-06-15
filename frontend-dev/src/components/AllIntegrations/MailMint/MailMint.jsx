@@ -19,26 +19,22 @@ function MailMint({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
 
-  const allActions = [
-    { key: '1', label: 'Add contact' },
-  ]
+  const allActions = [{ key: '1', label: __('Add contact', 'bit-integrations') }]
 
   const mailMintContactFields = [
-    { key: 'email', label: 'Email', required: true },
-    { key: 'first_name', label: 'First Name', required: false },
-    { key: 'last_name', label: 'Last Name', required: false },
+    { key: 'email', label: __('Email', 'bit-integrations'), required: true },
+    { key: 'first_name', label: __('First Name', 'bit-integrations'), required: false },
+    { key: 'last_name', label: __('Last Name', 'bit-integrations'), required: false }
   ]
 
   const [mailMintConf, setMailMintConf] = useState({
     name: 'Mail Mint',
     type: 'Mail Mint',
     mainAction: '',
-    field_map: [
-      { formField: '', mailMintFormField: '' },
-    ],
+    field_map: [{ formField: '', mailMintFormField: '' }],
     allActions,
     mailMintContactFields,
-    actions: {},
+    actions: {}
   })
   const nextPage = () => {
     setTimeout(() => {
@@ -51,7 +47,9 @@ function MailMint({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={3} active={step} />
+      </div>
 
       {/* STEP 1 */}
       <MailMintAuthorization
@@ -66,11 +64,14 @@ function MailMint({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
       />
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
-
+      <div
+        className="btcd-stp-page"
+        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <MailMintIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, mailMintConf, setMailMintConf, setIsLoading, setSnackbar, formID)}
+          handleInput={(e) =>
+            handleInput(e, mailMintConf, setMailMintConf, setIsLoading, setSnackbar, formID)
+          }
           mailMintConf={mailMintConf}
           setMailMintConf={setMailMintConf}
           isLoading={isLoading}
@@ -84,26 +85,33 @@ function MailMint({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
         <button
           onClick={() => nextPage(3)}
           disabled={isLoading}
-          className="btn f-right btcd-btn-lg green sh-sm flx"
-          type="button"
-        >
+          className="btn f-right btcd-btn-lg purple sh-sm flx"
+          type="button">
           {__('Next', 'bit-integrations')}
           &nbsp;
           <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
         </button>
-
       </div>
       {/* STEP 3 */}
 
       <IntegrationStepThree
         step={step}
-        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, navigate, conf: mailMintConf, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            setFlow,
+            allIntegURL,
+            navigate,
+            conf: mailMintConf,
+            setIsLoading,
+            setSnackbar
+          })
+        }
         isLoading={isLoading}
         dataConf={mailMintConf}
         setDataConf={setMailMintConf}
         formFields={formFields}
       />
-
     </div>
   )
 }

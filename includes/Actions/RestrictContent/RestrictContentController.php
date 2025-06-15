@@ -3,10 +3,11 @@
 /**
  * Restrict Content Integration
  */
+
 namespace BitCode\FI\Actions\RestrictContent;
 
-use WP_Error;
 use BitCode\FI\Log\LogHandler;
+use WP_Error;
 
 /**
  * Provide functionality for RestricContent integration
@@ -27,9 +28,9 @@ class RestrictContentController
             return $option === 'get_name' ? 'restrict-content-pro/restrictcontent-pro.php' : true;
         } elseif (is_plugin_active('restrict-content/restrictcontent.php')) {
             return $option === 'get_name' ? 'restrict-content/restrictcontent.php' : true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public static function authorizeRestrictContent()
@@ -38,7 +39,7 @@ class RestrictContentController
         if (self::pluginActive()) {
             wp_send_json_success(true, 200);
         }
-        wp_send_json_error(__('Restrict Content must be activated!', 'bit-integrations'));
+        wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'Restrict Content'));
     }
 
     public static function getAllLevels()
@@ -48,7 +49,7 @@ class RestrictContentController
         if (!empty($levels)) {
             foreach ($levels as $level) {
                 $data[] = (object) [
-                    'id' => $level->get_id(),
+                    'id'   => $level->get_id(),
                     'name' => $level->get_name()
                 ];
             }
@@ -67,6 +68,7 @@ class RestrictContentController
         ) {
             $error = new WP_Error('REQ_FIELD_EMPTY', __('field map are required for restrict content', 'bit-integrations'));
             LogHandler::save($this->_integrationID, 'record', 'validation', $error);
+
             return $error;
         }
 
@@ -81,6 +83,7 @@ class RestrictContentController
         if (is_wp_error($restrictApiResponse)) {
             return $restrictApiResponse;
         }
+
         return $restrictApiResponse;
     }
 }

@@ -13,30 +13,31 @@ function Klaviyo({ formFields, setFlow, flow, allIntegURL }) {
   const [loading, setLoading] = useState({
     list: false,
     field: false,
-    auth: false,
+    auth: false
   })
   const [step, setStep] = useState(1)
   const [klaviyoConf, setKlaviyoConf] = useState({
     name: 'Klaviyo',
     type: 'Klaviyo',
-    authKey: process.env.NODE_ENV === 'development' ? 'pk_d8b5b0537a0358d781f72a474efab0f36e' : '',
-    field_map: [
-      { formField: '', klaviyoFormField: '' },
-    ],
+    authKey: '',
+    field_map: [{ formField: '', klaviyoFormField: '' }],
+    custom_field_map: [{ formField: '', klaviyoFormField: '' }],
     klaviyoFields: [
-      { key: 'email', label: 'Email', required: true },
-      { key: 'first_name', label: 'First Name', required: false },
-      { key: 'last_name', label: 'Last Name', required: false },
-      { key: 'title', label: 'Title', required: false },
-      { key: 'organization', label: 'Organization', required: false },
-      { key: 'phone_number', label: 'Phone Number', required: false },
+      { key: 'email', label: __('Email', 'bit-integrations'), required: true },
+      { key: 'first_name', label: __('First Name', 'bit-integrations'), required: false },
+      { key: 'last_name', label: __('Last Name', 'bit-integrations'), required: false },
+      { key: 'title', label: __('Title', 'bit-integrations'), required: false },
+      { key: 'organization', label: __('Organization', 'bit-integrations'), required: false },
+      { key: 'phone_number', label: __('Phone Number', 'bit-integrations'), required: false }
     ],
     listId: '',
-    actions: {},
+    actions: {}
   })
   return (
     <div>
-      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={3} active={step} />
+      </div>
 
       {/* --- STEP 1 --- */}
 
@@ -51,8 +52,9 @@ function Klaviyo({ formFields, setFlow, flow, allIntegURL }) {
 
       {/* --- STEP 2 --- */}
 
-      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
-
+      <div
+        className="btcd-stp-page"
+        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <KlaviyoIntegLayout
           formFields={formFields}
           klaviyoConf={klaviyoConf}
@@ -64,14 +66,12 @@ function Klaviyo({ formFields, setFlow, flow, allIntegURL }) {
         <button
           onClick={() => nextPage(klaviyoConf, setStep, 3)}
           disabled={!klaviyoConf.listId || klaviyoConf.field_map.length < 1}
-          className="btn f-right btcd-btn-lg green sh-sm flx"
-          type="button"
-        >
+          className="btn f-right btcd-btn-lg purple sh-sm flx"
+          type="button">
           {__('Next', 'bit-integrations')}
           &nbsp;
           <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
         </button>
-
       </div>
 
       <IntegrationStepThree
@@ -83,7 +83,6 @@ function Klaviyo({ formFields, setFlow, flow, allIntegURL }) {
         formFields={formFields}
       />
     </div>
-
   )
 }
 

@@ -21,29 +21,27 @@ function Memberpress({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const allActions = [
-    { key: '1', label: 'Add the user to a membership' },
-    { key: '2', label: 'Remove the user from a membership' },
+    { key: '1', label: __('Add the user to a membership', 'bit-integrations') },
+    { key: '2', label: __('Remove the user from a membership', 'bit-integrations') }
   ]
 
   // for action 1
   const memberpressFields = [
-    { key: 'sub_total', label: 'Sub Total', required: false },
-    { key: 'tax_amount', label: 'Tax Amount', required: false },
-    { key: 'taxrate', label: 'Tax Rate', required: false },
-    // { key: 'status', label: 'Status', required: false },
-    { key: 'expiration_date', label: 'Expiration Date', required: false },
+    { key: 'sub_total', label: __('Sub Total', 'bit-integrations'), required: false },
+    { key: 'tax_amount', label: __('Tax Amount', 'bit-integrations'), required: false },
+    { key: 'taxrate', label: __('Tax Rate', 'bit-integrations'), required: false },
+    // { key: 'status', label: __('Status', 'bit-integrations'), required: false },
+    { key: 'expiration_date', label: __('Expiration Date', 'bit-integrations'), required: false }
   ]
 
   const [memberpressConf, setMemberpressConf] = useState({
     name: 'Memberpress',
     type: 'Memberpress',
     mainAction: '',
-    field_map: [
-      { formField: '', memberpressFormField: '' },
-    ],
+    field_map: [{ formField: '', memberpressFormField: '' }],
     allActions,
     memberpressFields,
-    actions: {},
+    actions: {}
   })
   const nextPage = () => {
     setTimeout(() => {
@@ -57,7 +55,11 @@ function Memberpress({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
   function isDisabled() {
     switch (memberpressConf.mainAction) {
       case '1':
-        return memberpressConf.statusId === undefined || memberpressConf.gatewayId === undefined || memberpressConf.selectedMembership === undefined
+        return (
+          memberpressConf.statusId === undefined ||
+          memberpressConf.gatewayId === undefined ||
+          memberpressConf.selectedMembership === undefined
+        )
       default:
         return false
     }
@@ -66,7 +68,9 @@ function Memberpress({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={3} active={step} />
+      </div>
 
       {/* STEP 1 */}
       <MemberpressAuthorization
@@ -81,11 +85,14 @@ function Memberpress({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
       />
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
-
+      <div
+        className="btcd-stp-page"
+        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <MemberpressIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, memberpressConf, setMemberpressConf, setIsLoading, setSnackbar, formID)}
+          handleInput={(e) =>
+            handleInput(e, memberpressConf, setMemberpressConf, setIsLoading, setSnackbar, formID)
+          }
           memberpressConf={memberpressConf}
           setMemberpressConf={setMemberpressConf}
           isLoading={isLoading}
@@ -99,26 +106,33 @@ function Memberpress({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
         <button
           onClick={() => nextPage(3)}
           disabled={!memberpressConf.mainAction || isLoading || isDisabled()}
-          className="btn f-right btcd-btn-lg green sh-sm flx"
-          type="button"
-        >
+          className="btn f-right btcd-btn-lg purple sh-sm flx"
+          type="button">
           {__('Next', 'bit-integrations')}
           &nbsp;
           <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
         </button>
-
       </div>
       {/* STEP 3 */}
 
       <IntegrationStepThree
         step={step}
-        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, navigate, conf: memberpressConf, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            setFlow,
+            allIntegURL,
+            navigate,
+            conf: memberpressConf,
+            setIsLoading,
+            setSnackbar
+          })
+        }
         isLoading={isLoading}
         dataConf={memberpressConf}
         setDataConf={setMemberpressConf}
         formFields={formFields}
       />
-
     </div>
   )
 }

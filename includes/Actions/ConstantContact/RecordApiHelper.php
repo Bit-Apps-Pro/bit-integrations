@@ -3,19 +3,24 @@
 /**
  * ConstantContact    Record Api
  */
+
 namespace BitCode\FI\Actions\ConstantContact;
 
+use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Log\LogHandler;
-use Requests;
 
 /**
  * Provide functionality for Record insert, upsert
  */
 class RecordApiHelper
 {
+    private $_integrationDetails;
+
     private $_integrationID;
+
+    private $_defaultHeader;
+
     private $baseUrl = 'https://api.cc.email/v3/';
 
     public function __construct($integrationDetails, $integId)
@@ -28,75 +33,16 @@ class RecordApiHelper
         ];
     }
 
-    public function addContact(
-        $listIds,
-        $tagIds,
-        $source_type,
-        $finalData
-    ) {
-        $apiEndpoints = $this->baseUrl . 'contacts';
-        $splitListIds = [];
-        $splitTagIds = [];
-        if (!empty($listIds)) {
-            $splitListIds = explode(',', $listIds);
-        }
-
-        if (!empty($tagIds)) {
-            $splitTagIds = explode(',', $tagIds);
-        }
-        if (empty($finalData['email_address'])) {
-            return ['success' => false, 'message' => 'Required field Email is empty', 'code' => 400];
-        }
-
-        $requestParams = [
-            'email_address' => (object)[
-                'address'            => $finalData['email_address'],
-                'permission_to_send' => 'implicit'
-            ],
-            'create_source'    => $source_type,
-            'list_memberships' => $splitListIds,
-            'taggings'         => $splitTagIds
-        ];
-        $customFields = [];
-        foreach ($finalData as $key => $value) {
-            if ($key !== 'email_address') {
-                if (str_contains($key, 'custom-')) {
-                    $replacedStr = str_replace('custom-', '', $key);
-                    array_push($customFields, [
-                        'custom_field_id' => $replacedStr,
-                        'value'           => $value
-                    ]);
-                } else {
-                    $requestParams[$key] = $value;
-                }
-            }
-        }
-        $requestParams['custom_fields'] = $customFields;
-
-        $apiResponse = HttpHelper::post($apiEndpoints, json_encode((object) $requestParams), $this->_defaultHeader);
-
-        if (gettype($apiResponse) === 'array' && isset($apiResponse[0]->error_key) && $apiResponse[0]->error_key === 'contacts.api.conflict') {
-            $startIndx = strpos($apiResponse[0]->error_message, 'contact');
-            $strLength = strlen($apiResponse[0]->error_message);
-            $contactId = substr($apiResponse[0]->error_message, $startIndx + 8, $strLength);
-            $apiEndpoints = $this->baseUrl . 'contacts/' . $contactId;
-            unset($requestParams['create_source']);
-            $requestParams['update_source'] = $source_type;
-            $apiResponse = Requests::PUT($apiEndpoints, $this->_defaultHeader, json_encode((object) $requestParams));
-        }
-
-        return $apiResponse;
-    }
-
     public function generateReqDataFromFieldMap($data, $fieldMap)
     {
         $dataFinal = [];
         foreach ($fieldMap as $value) {
             $triggerValue = $value->formField;
             $actionValue = $value->constantContactFormField;
+
             if ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!is_null($data[$triggerValue])) {
+            } elseif (!\is_null($data[$triggerValue])) {
                 $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
@@ -104,65 +50,186 @@ class RecordApiHelper
         return $dataFinal;
     }
 
-    public function execute(
-        $listIds,
-        $tagIds,
-        $source_type,
-        $fieldValues,
-        $fieldMap,
-        $addressFields,
-        $phoneFields,
-        $addressType,
-        $phoneType
-    ) {
+    public function execute($listIds, $tagIds, $sourceType, $fieldValues, $fieldMap, $addressFields, $phoneFields, $addressType, $phoneType, $update)
+    {
         $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
-        if (!empty($addressFields)) {
-            $fvalue = [];
-            foreach ($addressFields as $key) {
-                foreach ($fieldValues as $k => $v) {
-                    if ($key->formField == $k) {
-                        $fvalue[$key->constantContactAddressField] = $v;
-                    }
-                    if ($key->formField === 'custom') {
-                        $fvalue[$key->constantContactAddressField] = $key->customValue;
-                    }
-                }
-            }
-            $fvalue['kind'] = $addressType;
-            $finalData['street_addresses'] = [$fvalue];
-        }
-        if (!empty($phoneFields)) {
-            $fvalue = [];
-            foreach ($phoneFields as $key) {
-                foreach ($fieldValues as $k => $v) {
-                    if ($key->formField == $k) {
-                        $fvalue[$key->constantContactPhoneField] = $v;
-                    }
-                    if ($key->formField === 'custom') {
-                        $fvalue[$key->constantContactPhoneField] = $key->customValue;
-                    }
-                }
-            }
-            $fvalue['kind'] = $phoneType;
-            $finalData['phone_numbers'] = [$fvalue];
+
+        if (empty($finalData['email_address'])) {
+            return ['success' => false, 'message' => __('Required field Email is empty', 'bit-integrations'), 'code' => 400];
         }
 
-        $apiResponse = $this->addContact(
-            $listIds,
-            $tagIds,
-            $source_type,
-            $finalData
-        );
+        $this->mapFields($addressFields, $finalData, $fieldValues, 'street_addresses', $addressType, 'constantContactAddressField');
+        $this->mapFields($phoneFields, $finalData, $fieldValues, 'phone_numbers', $phoneType, 'constantContactPhoneField');
 
-        if (isset($apiResponse->error_key) || (gettype($apiResponse) === 'array' && $apiResponse[0]->error_key)) {
-            LogHandler::save($this->_integrationID, json_encode(['source_type' => 'contact', 'type_name' => 'add-contact']), 'error', json_encode($apiResponse));
-        } else {
-            if (isset($apiResponse->contact_id)) {
-                LogHandler::save($this->_integrationID, json_encode(['source_type' => 'contact', 'type_name' => 'add-contact']), 'success', json_encode($apiResponse));
-            } else {
-                LogHandler::save($this->_integrationID, json_encode(['source_type' => 'contact', 'type_name' => 'update-contact']), 'success', json_encode($apiResponse));
-            }
+        $contact = $this->existContact($finalData['email_address']);
+
+        if ($contact && !$update) {
+            LogHandler::save($this->_integrationID, wp_json_encode(['source_type' => 'contact', 'type_name' => 'add-contact']), 'error', __('Email already exists', 'bit-integrations'));
+
+            return $contact;
         }
+
+        $apiResponse = $contact && $update
+            ? $this->updateContact($contact, $listIds, $tagIds, $sourceType, $finalData)
+            : $this->addContact($listIds, $tagIds, $sourceType, $finalData);
+
+        $this->logApiResponse($apiResponse, $update, $contact);
+
         return $apiResponse;
+    }
+
+    private function updateContact($contact, $listIds, $tagIds, $sourceType, $finalData)
+    {
+        return $this->sendContactRequest('contacts/' . $contact->contact_id, $listIds, $tagIds, $sourceType, $finalData, 'update_source', $contact);
+    }
+
+    private function addContact($listIds, $tagIds, $sourceType, $finalData)
+    {
+        return $this->sendContactRequest('contacts', $listIds, $tagIds, $sourceType, $finalData, 'create_source');
+    }
+
+    private function sendContactRequest($endpoint, $listIds, $tagIds, $sourceType, $finalData, $sourceKey, $contact = null)
+    {
+        $requestParams = [
+            'email_address'    => (object) ['address' => $finalData['email_address']],
+            $sourceKey         => $sourceType,
+            'list_memberships' => $this->splitValues($listIds),
+            'taggings'         => $this->splitValues($tagIds),
+        ];
+
+        $apiEndpoint = $this->baseUrl . $endpoint;
+        $requestParams = $this->prepareCustomFields($finalData, $requestParams);
+        $method = $sourceKey === 'create_source' ? 'post' : 'put';
+
+        if ($sourceKey !== 'create_source' && $contact) {
+            $requestParams['taggings'] = array_unique(array_merge($requestParams['taggings'], $contact->taggings ?? []));
+            $requestParams['list_memberships'] = array_unique(array_merge($requestParams['list_memberships'], $contact->list_memberships ?? []));
+            $this->mergeExistingFields($requestParams, $contact);
+
+            foreach ((array) $contact as $key => $value) {
+                if (empty($requestParams[$key]) && !\in_array($key, ['contact_id', 'email_address', 'update_source', 'create_source', 'created_at', 'updated_at', 'custom_fields', 'phone_numbers', 'street_addresses', 'list_memberships', 'taggings', 'notes'])) {
+                    $requestParams[$key] = $value;
+                }
+            }
+        }
+
+        return HttpHelper::$method($apiEndpoint, wp_json_encode((object) $requestParams), $this->_defaultHeader);
+    }
+
+    private function mergeExistingFields(&$requestParams, $contact)
+    {
+        $this->mergeCustomFields($requestParams, $contact);
+        $this->mergePhoneNumbers($requestParams, $contact);
+        $this->mergeStreetAddresses($requestParams, $contact);
+    }
+
+    private function mergeCustomFields(&$requestParams, $contact)
+    {
+        $existingCustomFields = array_column($contact->custom_fields ?? [], 'value', 'custom_field_id');
+        foreach ($existingCustomFields as $key => $value) {
+            if (!isset($requestParams['custom_fields']) || !\array_key_exists($key, $requestParams['custom_fields'])) {
+                $requestParams['custom_fields'][] = ['custom_field_id' => $key, 'value' => $value];
+            }
+        }
+    }
+
+    private function mergePhoneNumbers(&$requestParams, $contact)
+    {
+        foreach ($contact->phone_numbers ?? [] as $number) {
+            if (!isset($requestParams['phone_numbers']) || $requestParams['phone_numbers'][0]['kind'] != $number->kind) {
+                $requestParams['phone_numbers'][] = ['kind' => $number->kind, 'phone_number' => $number->phone_number];
+            }
+        }
+    }
+
+    private function mergeStreetAddresses(&$requestParams, $contact)
+    {
+        foreach ($contact->street_addresses ?? [] as $address) {
+            if (!isset($requestParams['street_addresses']) || $requestParams['street_addresses'][0]['kind'] != $address->kind) {
+                $requestParams['street_addresses'][] = [
+                    'kind'        => $address->kind,
+                    'street'      => $address->street ?? '',
+                    'city'        => $address->city ?? '',
+                    'state'       => $address->state ?? '',
+                    'postal_code' => $address->postal_code ?? '',
+                    'country'     => $address->country ?? '',
+                ];
+            } elseif ($requestParams['street_addresses'][0]['kind'] === $address->kind) {
+                $this->fillEmptyAddressFields($requestParams['street_addresses'][0], $address);
+            }
+        }
+    }
+
+    private function fillEmptyAddressFields(&$target, $source)
+    {
+        $fields = ['street', 'city', 'state', 'postal_code', 'country'];
+        foreach ($fields as $field) {
+            $target[$field] = empty($target[$field]) ? $source->{$field} : $target[$field];
+        }
+    }
+
+    private function splitValues($values)
+    {
+        return !empty($values) ? explode(',', $values) : [];
+    }
+
+    private function prepareCustomFields($data, $requestParams)
+    {
+        $customFields = [];
+        foreach ($data as $key => $value) {
+            if ($key !== 'email_address') {
+                if (str_contains($key, 'custom-')) {
+                    $customFields[] = [
+                        'custom_field_id' => str_replace('custom-', '', $key),
+                        'value'           => $value,
+                    ];
+                } else {
+                    $requestParams[$key] = $value;
+                }
+            }
+        }
+
+        $requestParams['custom_fields'] = $customFields;
+
+        return $requestParams;
+    }
+
+    private function logApiResponse($apiResponse, $update, $contactId = null)
+    {
+        $type = $update && $contactId ? 'update-contact' : 'add-contact';
+
+        if (is_wp_error($apiResponse) || empty($apiResponse->contact_id) || isset($apiResponse->error_key)) {
+            $logLevel = 'error';
+        } else {
+            $logLevel = 'success';
+        }
+
+        LogHandler::save($this->_integrationID, wp_json_encode(['source_type' => 'contact', 'type_name' => $type]), $logLevel, wp_json_encode($apiResponse));
+    }
+
+    private function mapFields($fields, &$finalData, $fieldValues, $key, $type, $formFieldKey)
+    {
+        if (!empty($fields)) {
+            $mappedFields = [];
+            foreach ($fields as $field) {
+                $mappedFields[$field->{$formFieldKey}] = $field->formField === 'custom'
+                    ? Common::replaceFieldWithValue($field->customValue, $fieldValues)
+                    : ($fieldValues[$field->formField] ?? null);
+            }
+            $mappedFields['kind'] = $type;
+            $finalData[$key] = [$mappedFields];
+        }
+    }
+
+    private function existContact($email)
+    {
+        $apiEndpoints = $apiEndpoints = $this->baseUrl . 'contacts?email=' . $email . '&include=custom_fields,list_memberships,taggings,notes,phone_numbers,street_addresses,sms_channel';
+        $apiResponse = HttpHelper::get($apiEndpoints, null, $this->_defaultHeader);
+
+        if (is_wp_error($apiResponse) || empty($apiResponse->contacts) || isset($apiResponse->error_key) || (\gettype($apiResponse) === 'array' && $apiResponse[0]->error_key)) {
+            return false;
+        }
+
+        return $apiResponse->contacts[0] ?? false;
     }
 }

@@ -9,14 +9,14 @@ const getAllCommissionType = (data, setFlow) => {
       tmpFlow.flow_details.AllCommissionType = result.data
 
       setFlow({ ...tmpFlow })
-      return 'All SliceWp commission type fetched successfully'
+      return __('All SliceWp commission type fetched successfully', 'bit-integrations')
     }
-    return 'SliceWp commission type fetching failed. please try again'
+    return __('SliceWp commission type fetching failed. please try again', 'bit-integrations')
   })
   toast.promise(loadPostTypes, {
     success: (data) => data,
     error: __('Error Occurred', 'bit-integrations'),
-    loading: __('Loading type...'),
+    loading: __('Loading type...')
   })
 }
 

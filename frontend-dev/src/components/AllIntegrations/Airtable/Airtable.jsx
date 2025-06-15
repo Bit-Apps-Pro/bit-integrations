@@ -20,7 +20,7 @@ function Airtable({ formFields, setFlow, flow, allIntegURL }) {
     customFields: false,
     bases: false,
     tables: false,
-    airtableFields: false,
+    airtableFields: false
   })
 
   const [step, setStep] = useState(1)
@@ -28,21 +28,28 @@ function Airtable({ formFields, setFlow, flow, allIntegURL }) {
   const [airtableConf, setAirtableConf] = useState({
     name: 'Airtable',
     type: 'Airtable',
-    auth_token: process.env.NODE_ENV === 'development' ? 'patp6nIocOrNJPdbv.e55b897b5524760246509a670df1cdb5fddbf68bb2a2dc24f525727d781e5971' : '',
-    field_map: [
-      { formField: '', airtableFormField: '' },
-    ],
+    auth_token: '',
+    field_map: [{ formField: '', airtableFormField: '' }],
     airtableFields: [],
     bases: [],
     selectedBase: '',
     selectedTable: '',
-    actions: {},
+    actions: {}
   })
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(flow, setFlow, allIntegURL, airtableConf, navigate, '', '', setIsLoading)
-    resp.then(res => {
+    const resp = saveIntegConfig(
+      flow,
+      setFlow,
+      allIntegURL,
+      airtableConf,
+      navigate,
+      '',
+      '',
+      setIsLoading
+    )
+    resp.then((res) => {
       if (res.success) {
         toast.success(res.data?.msg)
         navigate(allIntegURL)
@@ -58,7 +65,7 @@ function Airtable({ formFields, setFlow, flow, allIntegURL }) {
     }, 300)
 
     if (!checkMappedFields(airtableConf)) {
-      toast.error('Please map mandatory airtableFields')
+      toast.error(__('Please map mandatory airtableFields', 'bit-integrations'))
       return
     }
     airtableConf.field_map.length > 0 && setStep(pageNo)
@@ -67,7 +74,9 @@ function Airtable({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={3} active={step} />
+      </div>
 
       {/* STEP 1 */}
       <AirtableAuthorization
@@ -81,11 +90,14 @@ function Airtable({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
-
+      <div
+        className="btcd-stp-page"
+        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <AirtableIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, airtableConf, setAirtableConf, setLoading, setSnackbar)}
+          handleInput={(e) =>
+            handleInput(e, airtableConf, setAirtableConf, setLoading, setSnackbar)
+          }
           airtableConf={airtableConf}
           setAirtableConf={setAirtableConf}
           loading={loading}
@@ -93,23 +105,20 @@ function Airtable({ formFields, setFlow, flow, allIntegURL }) {
           setSnackbar={setSnackbar}
         />
 
-        {(loading.airtableFields && airtableConf.selectedTable) && (
+        {loading.airtableFields && airtableConf.selectedTable && (
           <button
             onClick={() => nextPage(3)}
             disabled={!checkMappedFields(airtableConf)}
-            className="btn f-right btcd-btn-lg green sh-sm flx"
-            type="button"
-          >
-            {__('Next', 'bit-integrations')}
-            {' '}
-            &nbsp;
+            className="btn f-right btcd-btn-lg purple sh-sm flx"
+            type="button">
+            {__('Next', 'bit-integrations')} &nbsp;
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         )}
       </div>
 
       {/* STEP 3 */}
-      {(loading.airtableFields && airtableConf.selectedTable) && (
+      {loading.airtableFields && airtableConf.selectedTable && (
         <IntegrationStepThree
           step={step}
           saveConfig={() => saveConfig()}

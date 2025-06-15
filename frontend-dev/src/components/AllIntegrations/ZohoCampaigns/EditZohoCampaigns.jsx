@@ -28,7 +28,16 @@ function EditZohoCampaigns({ allIntegURL }) {
       return
     }
 
-    saveActionConf({ flow, setFlow, allIntegURL, conf: campaignsConf, navigate, edit: 1, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      setFlow,
+      allIntegURL,
+      conf: campaignsConf,
+      navigate,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -37,7 +46,14 @@ function EditZohoCampaigns({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-100 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-7" onChange={e => handleInput(e, formID, campaignsConf, setCampaignsConf)} name="name" value={campaignsConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-7"
+          onChange={(e) => handleInput(e, formID, campaignsConf, setCampaignsConf)}
+          name="name"
+          value={campaignsConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
       <br />
@@ -46,7 +62,9 @@ function EditZohoCampaigns({ allIntegURL }) {
       <ZohoCampaignsIntegLayout
         formID={formID}
         formFields={formFields}
-        handleInput={(e) => handleInput(e, formID, campaignsConf, setCampaignsConf, setIsLoading, setSnackbar)}
+        handleInput={(e) =>
+          handleInput(e, formID, campaignsConf, setCampaignsConf, setIsLoading, setSnackbar)
+        }
         campaignsConf={campaignsConf}
         setCampaignsConf={setCampaignsConf}
         isLoading={isLoading}
@@ -57,7 +75,11 @@ function EditZohoCampaigns({ allIntegURL }) {
       <IntegrationStepThree
         edit
         saveConfig={saveConfig}
-        disabled={campaignsConf.list === '' || campaignsConf.table === '' || campaignsConf.field_map.length < 1}
+        disabled={
+          campaignsConf.list === '' ||
+          campaignsConf.table === '' ||
+          campaignsConf.field_map.length < 1
+        }
         isLoading={isLoading}
         dataConf={campaignsConf}
         setDataConf={setCampaignsConf}

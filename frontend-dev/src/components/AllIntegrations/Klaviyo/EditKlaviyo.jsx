@@ -7,7 +7,7 @@ import SnackMsg from '../../Utilities/SnackMsg'
 import EditFormInteg from '../EditFormInteg'
 import SetEditIntegComponents from '../IntegrationHelpers/SetEditIntegComponents'
 import EditWebhookInteg from '../EditWebhookInteg'
-import { } from '../IntegrationHelpers/IntegrationHelpers'
+import {} from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import { editHandleInput, saveUpdateConfig } from './KlaviyoCommonFunc'
 import KlaviyoIntegLayout from './KlaviyoIntegLayout'
@@ -22,7 +22,7 @@ function EditKlaviyo({ allIntegURL }) {
   const [loading, setLoading] = useState({
     list: false,
     field: false,
-    auth: false,
+    auth: false
   })
   return (
     <div style={{ width: 900 }}>
@@ -30,7 +30,14 @@ function EditKlaviyo({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" name="name" onChange={(e) => editHandleInput(e, klaviyoConf, setKlaviyoConf)} value={klaviyoConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          name="name"
+          onChange={(e) => editHandleInput(e, klaviyoConf, setKlaviyoConf)}
+          value={klaviyoConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <div className="my-3">
         <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
@@ -45,14 +52,15 @@ function EditKlaviyo({ allIntegURL }) {
       />
       <IntegrationStepThree
         edit
-        saveConfig={() => { saveUpdateConfig(flow, allIntegURL, klaviyoConf, navigate, { edit: 1 }, setIsLoading) }}
+        saveConfig={() => {
+          saveUpdateConfig(flow, allIntegURL, klaviyoConf, navigate, { edit: 1 }, setIsLoading)
+        }}
         disabled={klaviyoConf.field_map.length < 1}
         isLoading={isLoading}
         dataConf={klaviyoConf}
         setDataConf={setKlaviyoConf}
         formFields={formFields}
       />
-
     </div>
   )
 }

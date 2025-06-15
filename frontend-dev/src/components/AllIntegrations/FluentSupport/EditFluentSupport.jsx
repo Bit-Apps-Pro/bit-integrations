@@ -28,7 +28,14 @@ function EditFluentSupport({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, fluentSupportConf, setFluentSupportConf)} name="name" value={fluentSupportConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, fluentSupportConf, setFluentSupportConf)}
+          name="name"
+          value={fluentSupportConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
       <br />
@@ -37,7 +44,9 @@ function EditFluentSupport({ allIntegURL }) {
       <FluentSupportIntegLayout
         formID={formID}
         formFields={formFields}
-        handleInput={(e) => handleInput(e, fluentSupportConf, setFluentSupportConf, null, setIsLoading, setSnackbar)}
+        handleInput={(e) =>
+          handleInput(e, fluentSupportConf, setFluentSupportConf, null, setIsLoading, setSnackbar)
+        }
         fluentSupportConf={fluentSupportConf}
         setFluentSupportConf={setFluentSupportConf}
         isLoading={isLoading}
@@ -47,8 +56,23 @@ function EditFluentSupport({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() => saveActionConf({ flow, allIntegURL, conf: fluentSupportConf, navigate, edit: 1, setIsLoading, setSnackbar })}
-        disabled={isLoading || fluentSupportConf.field_map.length < 1 || !checkMappedFields(fluentSupportConf) || !fluentSupportConf.actions.support_staff}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            allIntegURL,
+            conf: fluentSupportConf,
+            navigate,
+            edit: 1,
+            setIsLoading,
+            setSnackbar
+          })
+        }
+        disabled={
+          isLoading ||
+          fluentSupportConf.field_map.length < 1 ||
+          !checkMappedFields(fluentSupportConf) ||
+          !fluentSupportConf.actions.support_staff
+        }
         isLoading={isLoading}
         dataConf={fluentSupportConf}
         setDataConf={setFluentSupportConf}

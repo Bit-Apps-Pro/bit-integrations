@@ -8,8 +8,17 @@ import StepPage from '../../Utilities/StepPage'
 import { getAllLists, handleAuthorize, handleInput } from './MailercloudCommonFunc'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
+import { __ } from '../../../Utils/i18nwrap'
 
-function MailercloudAuthorization({ mailercloudConf, setMailercloudConf, step, setStep, isInfo, loading, setLoading }) {
+function MailercloudAuthorization({
+  mailercloudConf,
+  setMailercloudConf,
+  step,
+  setStep,
+  isInfo,
+  loading,
+  setLoading
+}) {
   const [authorized, setAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', authKey: '' })
   const { mailercloud } = tutorialLinks
@@ -28,60 +37,49 @@ function MailercloudAuthorization({ mailercloudConf, setMailercloudConf, step, s
   }
 
   const note = `
-  <h4> Step of get API Key:</h4>
+  <h4>${__('Step of get API Key:', 'bit-integrations')}</h4>
   <ul>
-    <li>Goto Account and click on <a href="https://app.mailercloud.com/account/api-integrations" target='_blank'>Integration</a></li>
-    <li>Click on API Integrations .</li>
-    <li>Copy the <b>API Key</b> and paste into <b>API Key</b> field of your authorization form.</li>
-    <li>Finally, click <b>Authorize</b> button.</li>
+    <li>${__('Goto Account and click on', 'bit-integrations')} <a href="https://app.mailercloud.com/account/api-integrations" target='_blank'>${__('Integration', 'bit-integrations')}</a></li>
+    <li>${__('Click on API Integrations .', 'bit-integrations')}</li>
+    <li>${__('Copy the <b>API Key</b> and paste into <b>API Key</b> field of your authorization form.', 'bit-integrations')}</li>
+    <li>${__('Finally, click <b>Authorize</b> button.', 'bit-integrations')}</li>
 </ul>
 `
 
   return (
-    <StepPage
-      step={step}
-      stepNo={1}
-      style={{ width: 900, height: 'auto' }}
-    >
+    <StepPage step={step} stepNo={1} style={{ width: 900, height: 'auto' }}>
       {mailercloud?.youTubeLink && (
-        <TutorialLink
-          title={mailercloud?.title}
-          youTubeLink={mailercloud?.youTubeLink}
-        />
+        <TutorialLink title="Mailercloud" youTubeLink={mailercloud?.youTubeLink} />
       )}
-      {mailercloud?.docLink && (
-        <TutorialLink
-          title={mailercloud?.title}
-          docLink={mailercloud?.docLink}
-        />
-      )}
+      {mailercloud?.docLink && <TutorialLink title="Mailercloud" docLink={mailercloud?.docLink} />}
 
       <div className="mt-2">
-
         {/* Mailercloud Authorization */}
 
         <Input
-          label="Integration Name"
+          label={__('Integration Name', 'bit-integrations')}
           name="name"
-          placeholder="Integration Name..."
+          placeholder={__('Integration Name...', 'bit-integrations')}
           value={mailercloudConf.name}
           onchange={(e) => handleInput(e, mailercloudConf, setMailercloudConf, error, setError)}
         />
         <Input
-          label="API key"
+          label={__('API key', 'bit-integrations')}
           name="authKey"
-          placeholder="API key..."
+          placeholder={__('API key...', 'bit-integrations')}
           value={mailercloudConf.authKey}
           onchange={(e) => handleInput(e, mailercloudConf, setMailercloudConf, error, setError)}
         />
         <ErrorField error={error.authKey} />
         <GetInfo
           url="https://app.mailercloud.com/account/api-integrations"
-          info="To get API key, please visit"
+          info={__('To get API key, please visit', 'bit-integrations')}
         />
         {!isInfo && (
           <AuthorizeButton
-            onclick={() => handleAuthorize(mailercloudConf, setError, setAuthorized, loading, setLoading)}
+            onclick={() =>
+              handleAuthorize(mailercloudConf, setError, setAuthorized, loading, setLoading)
+            }
             nextPage={nextPage}
             auth={authorized}
             loading={loading.auth}

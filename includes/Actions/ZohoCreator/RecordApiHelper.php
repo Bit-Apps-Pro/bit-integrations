@@ -3,13 +3,14 @@
 /**
  * ZohoCreator Record Api
  */
+
 namespace BitCode\FI\Actions\ZohoCreator;
 
-use WP_Error;
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Core\Util\DateTimeHelper;
 use BitCode\FI\Core\Util\ApiResponse as UtilApiResponse;
+use BitCode\FI\Core\Util\DateTimeHelper;
+use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Log\LogHandler;
+use WP_Error;
 
 /**
  * Provide functionality for Record insert,upsert
@@ -17,14 +18,16 @@ use BitCode\FI\Log\LogHandler;
 class RecordApiHelper
 {
     private $_defaultHeader;
+
     private $_apiDomain;
+
     private $_tokenDetails;
 
     public function __construct($tokenDetails, $integId)
     {
         $this->_defaultHeader['Authorization'] = "Zoho-oauthtoken {$tokenDetails->access_token}";
         $this->_defaultHeader['Content-Type'] = 'application/json';
-        $this->_apiDomain = \urldecode($tokenDetails->api_domain);
+        $this->_apiDomain = urldecode($tokenDetails->api_domain);
         $this->_tokenDetails = $tokenDetails;
         $this->_integrationID = $integId;
         $this->_logResponse = new UtilApiResponse();
@@ -44,21 +47,6 @@ class RecordApiHelper
         return HttpHelper::request($insertRecordEndpoint, 'PATCH', $data, $this->_defaultHeader);
     }
 
-    private function getAllReports($dataCenter, $accountOwner, $applicationId)
-    {
-        $getReportsEndpoint = "https://creator.zoho.{$dataCenter}/api/v2/{$accountOwner}/{$applicationId}/reports";
-
-        return HttpHelper::get($getReportsEndpoint, null, $this->_defaultHeader);
-    }
-
-    private function testDate($date)
-    {
-        if ($date && date('Y-m-d', strtotime($date)) == $date) {
-            return true;
-        }
-        return false;
-    }
-
     public function execute($formID, $entryID, $fieldValues, $integrationDetails)
     {
         $dataCenter = $integrationDetails->dataCenter;
@@ -74,6 +62,7 @@ class RecordApiHelper
         foreach ($integrationDetails->default->applications as $defaultApplication) {
             if ($defaultApplication->applicationId === $applicationId) {
                 $dateFormat = $defaultApplication->date_format;
+
                 break;
             }
         }
@@ -95,7 +84,7 @@ class RecordApiHelper
                         if ($defaultField->apiName === 'Url') {
                             $fieldData['data']['Url']['url'] = $fieldPair->customValue;
                         } elseif (isset($defaultField->type)) {
-                            $fieldData['data'][$fieldPair->zohoFormField] = gettype($fieldPair->customValue) === 'string' ? explode(',', $fieldPair->customValue) : $fieldPair->customValue;
+                            $fieldData['data'][$fieldPair->zohoFormField] = \gettype($fieldPair->customValue) === 'string' ? explode(',', $fieldPair->customValue) : $fieldPair->customValue;
                         } else {
                             $fieldData['data'][$fieldPair->zohoFormField] = $this->testDate($fieldPair->customValue) ? date_format(date_create($fieldPair->customValue), $convertedDateFormat) : $fieldPair->customValue;
                         }
@@ -103,7 +92,7 @@ class RecordApiHelper
                         if ($defaultField->apiName === 'Url') {
                             $fieldData['data']['Url']['url'] = $fieldValues[$fieldPair->formField];
                         } elseif (isset($defaultField->type)) {
-                            $fieldData['data'][$fieldPair->zohoFormField] = gettype($fieldValues[$fieldPair->formField]) === 'string' ? explode(',', $fieldValues[$fieldPair->formField]) : $fieldValues[$fieldPair->formField];
+                            $fieldData['data'][$fieldPair->zohoFormField] = \gettype($fieldValues[$fieldPair->formField]) === 'string' ? explode(',', $fieldValues[$fieldPair->formField]) : $fieldValues[$fieldPair->formField];
                         } else {
                             $fieldData['data'][$fieldPair->zohoFormField] = $this->testDate($fieldValues[$fieldPair->formField]) ? date_format(date_create($fieldValues[$fieldPair->formField]), $convertedDateFormat) : $fieldValues[$fieldPair->formField];
                         }
@@ -188,6 +177,20 @@ class RecordApiHelper
         return $recordApiResponse;
     }
 
+    private function getAllReports($dataCenter, $accountOwner, $applicationId)
+    {
+        $getReportsEndpoint = "https://creator.zoho.{$dataCenter}/api/v2/{$accountOwner}/{$applicationId}/reports";
+
+        return HttpHelper::get($getReportsEndpoint, null, $this->_defaultHeader);
+    }
+
+    private function testDate($date)
+    {
+        return (bool) ($date && date('Y-m-d', strtotime($date)) == $date)
+
+        ;
+    }
+
     private function uploadFileToRecord($uploadFieldMap, $fieldValues, $dataCenter, $formID, $entryID, $accountOwner, $applicationId, $reportId, $recordId)
     {
         $fileFound = 0;
@@ -198,7 +201,7 @@ class RecordApiHelper
                 $filesApiHelper = new FilesApiHelper($this->_tokenDetails, $formID, $entryID);
                 if (isset($fieldValues[$uploadField->formField]) && !empty($fieldValues[$uploadField->formField])) {
                     $fileFound = 1;
-                    if (is_array($fieldValues[$uploadField->formField])) {
+                    if (\is_array($fieldValues[$uploadField->formField])) {
                         foreach ($fieldValues[$uploadField->formField] as $singleFile) {
                             $fileApiResponse = $filesApiHelper->uploadFiles($dataCenter, $singleFile, $accountOwner, $applicationId, $reportId, $recordId, $uploadField->zohoFormField);
                             if (isset($fileApiResponse->code) && $fileApiResponse->code !== 3000) {

@@ -5,13 +5,24 @@ import Loader from '../../Loaders/Loader'
 import { getAllCourses, getAllLesson } from './AcademyLmsCommonFunc'
 import Note from '../../Utilities/Note'
 
-export default function AcademyLmsIntegLayout({ academyLmsConf, setAcademyLmsConf, isLoading, setIsLoading }) {
+export default function AcademyLmsIntegLayout({
+  academyLmsConf,
+  setAcademyLmsConf,
+  isLoading,
+  setIsLoading
+}) {
   const action = [
-    { value: 'enroll-course', label: 'Enroll the user in a course' },
-    { value: 'unenroll-course', label: 'Unenroll user from a course' },
-    { value: 'complete-course', label: 'Mark a course complete for the user' },
-    { value: 'complete-lesson', label: 'Mark a lesson complete for the user' },
-    { value: 'reset-course', label: 'Reset the user progress in a course' },
+    { value: 'enroll-course', label: __('Enroll the user in a course', 'bit-integrations') },
+    { value: 'unenroll-course', label: __('Unenroll user from a course', 'bit-integrations') },
+    {
+      value: 'complete-course',
+      label: __('Mark a course complete for the user', 'bit-integrations')
+    },
+    {
+      value: 'complete-lesson',
+      label: __('Mark a lesson complete for the user', 'bit-integrations')
+    },
+    { value: 'reset-course', label: __('Reset the user progress in a course', 'bit-integrations') }
   ]
 
   const handleAction = (e) => {
@@ -57,73 +68,104 @@ export default function AcademyLmsIntegLayout({ academyLmsConf, setAcademyLmsCon
       <br />
       <div className="flx">
         <b className="wdt-200 d-in-b">{__('Action:', 'bit-integrations')}</b>
-        <select onChange={handleAction} name="actionName" value={academyLmsConf?.actionName} className="btcd-paper-inp w-5">
+        <select
+          onChange={handleAction}
+          name="actionName"
+          value={academyLmsConf?.actionName}
+          className="btcd-paper-inp w-5">
           <option value="">{__('Select Action', 'bit-integrations')}</option>
-          {
-            action.map(({ label, value }) => (
-              <option key={label} value={value}>
-                {label}
-              </option>
-            ))
-          }
+          {action.map(({ label, value }) => (
+            <option key={label} value={value}>
+              {label}
+            </option>
+          ))}
         </select>
       </div>
       <br />
 
-      {
-        (academyLmsConf?.actionName === 'enroll-course' || academyLmsConf?.actionName === 'unenroll-course' || academyLmsConf?.actionName === 'complete-course' || academyLmsConf?.actionName === 'reset-course' || academyLmsConf?.actionName === 'complete-lesson')
-        && (
-          <div className="flx">
-            <b className="wdt-200 d-in-b">{__('Select Course: ', 'bit-integrations')}</b>
-            <MultiSelect
-              defaultValue={academyLmsConf?.selectedCourse}
-              className="btcd-paper-drpdwn w-5"
-              options={academyLmsConf?.default?.courses && academyLmsConf.default.courses.map(course => ({ label: course.courseTitle, value: course.courseId.toString() }))}
-              onChange={val => setChanges(val, 'selectedCourse')}
-              singleSelect={academyLmsConf?.actionName === 'complete-course' || academyLmsConf?.actionName === 'complete-lesson' || academyLmsConf?.actionName === 'reset-course'}
-            />
-            <button onClick={() => getAllCourses(academyLmsConf, setAcademyLmsConf, setIsLoading, academyLmsConf?.actionName)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `${__('Refresh Courses', 'bit-integrations')}'` }} type="button" disabled={isLoading}>&#x21BB;</button>
-          </div>
-        )
-      }
+      {(academyLmsConf?.actionName === 'enroll-course' ||
+        academyLmsConf?.actionName === 'unenroll-course' ||
+        academyLmsConf?.actionName === 'complete-course' ||
+        academyLmsConf?.actionName === 'reset-course' ||
+        academyLmsConf?.actionName === 'complete-lesson') && (
+        <div className="flx">
+          <b className="wdt-200 d-in-b">{__('Select Course:', 'bit-integrations')}</b>
+          <MultiSelect
+            defaultValue={academyLmsConf?.selectedCourse}
+            className="btcd-paper-drpdwn w-5"
+            options={
+              academyLmsConf?.default?.courses &&
+              academyLmsConf.default.courses.map((course) => ({
+                label: course.courseTitle,
+                value: course.courseId.toString()
+              }))
+            }
+            onChange={(val) => setChanges(val, 'selectedCourse')}
+            singleSelect={
+              academyLmsConf?.actionName === 'complete-course' ||
+              academyLmsConf?.actionName === 'complete-lesson' ||
+              academyLmsConf?.actionName === 'reset-course'
+            }
+          />
+          <button
+            onClick={() =>
+              getAllCourses(
+                academyLmsConf,
+                setAcademyLmsConf,
+                setIsLoading,
+                academyLmsConf?.actionName
+              )
+            }
+            className="icn-btn sh-sm ml-2 mr-2 tooltip"
+            style={{ '--tooltip-txt': `${__('Refresh Courses', 'bit-integrations')}'` }}
+            type="button"
+            disabled={isLoading}>
+            &#x21BB;
+          </button>
+        </div>
+      )}
       <br />
-      {
-        (academyLmsConf?.actionName === 'complete-lesson')
-        && (
-
-          <div className="flx">
-            <b className="wdt-200 d-in-b">{__('Select Lessons: ', 'bit-integrations')}</b>
-            <MultiSelect
-              defaultValue={academyLmsConf?.selectedLesson}
-              className="btcd-paper-drpdwn w-5"
-              options={academyLmsConf?.default?.lessons && academyLmsConf.default.lessons.map(lesson => ({ label: lesson.lessonTitle, value: lesson.lessonId.toString() }))}
-              onChange={val => setChanges(val, 'selectedLesson')}
-              singleSelect
-            />
-            <button onClick={() => getAllLesson(academyLmsConf, setAcademyLmsConf, setIsLoading)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `${__('Refresh Courses', 'bit-integrations')}'` }} type="button" disabled={isLoading}>&#x21BB;</button>
-
-          </div>
-
-        )
-      }
+      {academyLmsConf?.actionName === 'complete-lesson' && (
+        <div className="flx">
+          <b className="wdt-200 d-in-b">{__('Select Lessons:', 'bit-integrations')}</b>
+          <MultiSelect
+            defaultValue={academyLmsConf?.selectedLesson}
+            className="btcd-paper-drpdwn w-5"
+            options={
+              academyLmsConf?.default?.lessons &&
+              academyLmsConf.default.lessons.map((lesson) => ({
+                label: lesson.lessonTitle,
+                value: lesson.lessonId.toString()
+              }))
+            }
+            onChange={(val) => setChanges(val, 'selectedLesson')}
+            singleSelect
+          />
+          <button
+            onClick={() => getAllLesson(academyLmsConf, setAcademyLmsConf, setIsLoading)}
+            className="icn-btn sh-sm ml-2 mr-2 tooltip"
+            style={{ '--tooltip-txt': `${__('Refresh Courses', 'bit-integrations')}'` }}
+            type="button"
+            disabled={isLoading}>
+            &#x21BB;
+          </button>
+        </div>
+      )}
 
       <br />
       <br />
-      {
-        isLoading && (
-          <Loader style={{
+      {isLoading && (
+        <Loader
+          style={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             height: 100,
-            transform: 'scale(0.7)',
+            transform: 'scale(0.7)'
           }}
-          />
-        )
-      }
-      <Note
-        note="This integration will only work for logged-in users."
-      />
+        />
+      )}
+      <Note note={__('This integration will only work for logged-in users.', 'bit-integrations')} />
     </>
   )
 }

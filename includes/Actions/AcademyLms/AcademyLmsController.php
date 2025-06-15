@@ -28,13 +28,13 @@ class AcademyLmsController
             wp_send_json_success(true, 200);
         }
 
-        wp_send_json_error(__('Academy Lms must be activated!', 'bit-integrations'));
+        wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'Academy Lms'));
     }
 
     public static function getAllLesson()
     {
         if (!class_exists('Academy')) {
-            wp_send_json_error(__('Academy Lms is not installed or activated', 'bit-integrations'));
+            wp_send_json_error(wp_sprintf(__('%s is not installed or activated', 'bit-integrations'), 'Academy Lms'));
         }
 
         $lessons = [];
@@ -43,7 +43,7 @@ class AcademyLmsController
 
         foreach ($lessonList as $key => $val) {
             $lessons[] = [
-                'lessonId' => $val->ID,
+                'lessonId'    => $val->ID,
                 'lessonTitle' => $val->lesson_title,
             ];
         }
@@ -54,26 +54,25 @@ class AcademyLmsController
     {
         $action = $queryParams->type;
         if (!class_exists('Academy')) {
-            wp_send_json_error(__('Academy Lms is not installed or activated', 'bit-integrations'));
+            wp_send_json_error(wp_sprintf(__('%s is not installed or activated', 'bit-integrations'), 'Academy Lms'));
         }
 
-
         $courseList = get_posts([
-            'post_type' => 'academy_courses',
+            'post_type'   => 'academy_courses',
             'post_status' => 'publish',
             'numberposts' => -1
         ]);
 
         if ($action !== 'complete-course' && $action !== 'reset-course' && $action !== 'complete-lesson') {
             $courses[] = [
-                'courseId' => "all-course",
-                'courseTitle' => "All Course",
+                'courseId'    => 'all-course',
+                'courseTitle' => __('All Course', 'bit-integrations')
             ];
         }
 
         foreach ($courseList as $key => $val) {
             $courses[] = [
-                'courseId' => $val->ID,
+                'courseId'    => $val->ID,
                 'courseTitle' => $val->post_title,
             ];
         }
@@ -84,7 +83,7 @@ class AcademyLmsController
     {
         $course_ids = [];
 
-        if (count($selectedAllCourse)) {
+        if (\count($selectedAllCourse)) {
             foreach ($selectedAllCourse as $course) {
                 if ($course->courseId !== 'all-course') {
                     $course_ids[] = $course->courseId;
@@ -95,23 +94,24 @@ class AcademyLmsController
         }
 
         $user_id = get_current_user_id();
-        if (!count($course_ids)) {
+        if (!\count($course_ids)) {
             return;
         }
 
-        if ($type === "enroll") {
+        if ($type === 'enroll') {
             foreach ($course_ids as $course_id) {
                 add_filter('is_course_purchasable', '__return_false', 10);
                 \Academy\Helper::do_enroll($course_id, $user_id);
                 remove_filter('is_course_purchasable', '__return_false', 10);
             }
-            return "course enrolled";
-        } else {
-            foreach ($course_ids as $course_id) {
-                \Academy\Helper::cancel_course_enroll($course_id, $user_id);
-            }
-            return "course unenrolled";
+
+            return 'course enrolled';
         }
+        foreach ($course_ids as $course_id) {
+            \Academy\Helper::cancel_course_enroll($course_id, $user_id);
+        }
+
+        return 'course unenrolled';
     }
 
     public static function completeLesson($selectedCourse, $selectedLesson)
@@ -119,7 +119,7 @@ class AcademyLmsController
         $user_id = get_current_user_id();
         $topic_id = $selectedLesson[0];
         $course_id = $selectedCourse[0];
-        $topic_type = "lesson";
+        $topic_type = 'lesson';
 
         do_action('academy/frontend/before_mark_topic_complete', $topic_type, $course_id, $topic_id, $user_id);
 
@@ -134,7 +134,8 @@ class AcademyLmsController
         $saved_topics_lists = wp_json_encode($saved_topics_lists);
         update_user_meta($user_id, $option_name, $saved_topics_lists);
         do_action('academy/frontend/after_mark_topic_complete', $topic_type, $course_id, $topic_id, $user_id);
-        return "Lesson Completed";
+
+        return 'Lesson Completed';
     }
 
     public static function completeCourse($selectedCourse)
@@ -148,7 +149,7 @@ class AcademyLmsController
 
         // hash is unique.
         do {
-            $hash    = substr(md5(wp_generate_password(32) . $date . $course_id . $user_id), 0, 16);
+            $hash = substr(md5(wp_generate_password(32) . $date . $course_id . $user_id), 0, 16);
             $hasHash = (int) $wpdb->get_var(
                 $wpdb->prepare(
                     "SELECT COUNT(comment_ID) from {$wpdb->comments} 
@@ -158,7 +159,7 @@ class AcademyLmsController
             );
         } while ($hasHash > 0);
 
-        $data = array(
+        $data = [
             'comment_post_ID'  => $course_id,
             'comment_author'   => $user_id,
             'comment_date'     => $date,
@@ -168,7 +169,7 @@ class AcademyLmsController
             'comment_agent'    => 'academy',
             'comment_type'     => 'course_completed',
             'user_id'          => $user_id,
-        );
+        ];
         $is_complete = $wpdb->insert($wpdb->comments, $data);
 
         do_action('academy/admin/course_complete_after', $course_id, $user_id);
@@ -176,7 +177,6 @@ class AcademyLmsController
         if ($is_complete) {
             return 'Course Completed.';
         }
-        return;
     }
 
     public static function resetCourse($selectedCourse)
@@ -198,7 +198,8 @@ class AcademyLmsController
             $wpdb->query($wpdb->prepare("DELETE from {$wpdb->prefix}academy_quiz_attempt_answers WHERE user_id = %d AND quiz_id in (%s) ", $user_id, $QuizIds));
         }
         $wpdb->query($wpdb->prepare("DELETE from {$wpdb->comments} WHERE comment_agent = 'academy' AND comment_type = 'course_completed' AND comment_post_ID = %d AND user_id = %d", $course_id, $user_id));
-        return "Course progress reseted";
+
+        return 'Course progress reseted';
     }
 
     public function execute($integrationData, $fieldValues)
@@ -207,10 +208,10 @@ class AcademyLmsController
         $actionName = $integrationData->flow_details->actionName;
         $response = [];
         switch ($actionName) {
-            case "enroll-course":
-            case "unenroll-course":
-            case "complete-course":
-            case "reset-course":
+            case 'enroll-course':
+            case 'unenroll-course':
+            case 'complete-course':
+            case 'reset-course':
                 $selectedCourse = $integrationData->flow_details->selectedCourse;
                 $selectedAllCourse = [];
                 if ($actionName !== 'complete-course' && property_exists($integrationData->flow_details, 'selectedAllCourse')) {
@@ -218,18 +219,20 @@ class AcademyLmsController
                 }
                 if ($actionName === 'complete-course') {
                     $response = self::completeCourse($selectedCourse);
-                } else if ($actionName === 'reset-course') {
+                } elseif ($actionName === 'reset-course') {
                     $response = self::resetCourse($selectedCourse);
-                } else if ($actionName === 'enroll-course') {
-                    $response = self::enrollCourse($selectedCourse, $selectedAllCourse, "enroll");
+                } elseif ($actionName === 'enroll-course') {
+                    $response = self::enrollCourse($selectedCourse, $selectedAllCourse, 'enroll');
                 } else {
-                    $response = self::enrollCourse($selectedCourse, $selectedAllCourse, "unenroll");
+                    $response = self::enrollCourse($selectedCourse, $selectedAllCourse, 'unenroll');
                 }
+
                 break;
-            case "complete-lesson":
+            case 'complete-lesson':
                 $selectedCourse = $integrationData->flow_details->selectedCourse;
                 $selectedLesson = $integrationData->flow_details->selectedLesson;
                 $response = self::completeLesson($selectedCourse, $selectedLesson);
+
                 break;
         }
 

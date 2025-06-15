@@ -4,9 +4,11 @@ import { __ } from '../../../Utils/i18nwrap'
 export const setGrantTokenResponse = (integ) => {
   const grantTokenResponse = {}
   const authWindowLocation = window.location.href
-  const queryParams = authWindowLocation.replace(`${window.opener.location.href}/redirect`, '').split('&')
+  const queryParams = authWindowLocation
+    .replace(`${window.opener.location.href}/redirect`, '')
+    .split('&')
   if (queryParams) {
-    queryParams.forEach(element => {
+    queryParams.forEach((element) => {
       const gtKeyValue = element.split('=')
       if (gtKeyValue[1]) {
         // eslint-disable-next-line prefer-destructuring
@@ -18,11 +20,21 @@ export const setGrantTokenResponse = (integ) => {
   window.close()
 }
 
-export const handleGoogleAuthorize = (integ, ajaxInteg, scopes, confTmp, setConf, setError, setisAuthorized, setIsLoading, setSnackbar) => {
+export const handleGoogleAuthorize = (
+  integ,
+  ajaxInteg,
+  scopes,
+  confTmp,
+  setConf,
+  setError,
+  setisAuthorized,
+  setIsLoading,
+  setSnackbar
+) => {
   if (!confTmp.clientId || !confTmp.clientSecret) {
     setError({
-      clientId: !confTmp.clientId ? __('Client ID cann\'t be empty', 'bit-integrations') : '',
-      clientSecret: !confTmp.clientSecret ? __('Secret key cann\'t be empty', 'bit-integrations') : '',
+      clientId: !confTmp.clientId ? __("Client Id can't be empty", 'bit-integrations') : '',
+      clientSecret: !confTmp.clientSecret ? __("Secret key can't be empty", 'bit-integrations') : ''
     })
     return
   }
@@ -41,20 +53,44 @@ export const handleGoogleAuthorize = (integ, ajaxInteg, scopes, confTmp, setConf
         grantTokenResponse = JSON.parse(bitsGoogleSheet)
         localStorage.removeItem(`__${integ}`)
       }
-      if (!grantTokenResponse.code || grantTokenResponse.error || !grantTokenResponse || !isauthRedirectLocation) {
+      if (
+        !grantTokenResponse.code ||
+        grantTokenResponse.error ||
+        !grantTokenResponse ||
+        !isauthRedirectLocation
+      ) {
         const errorCause = grantTokenResponse.error ? `Cause: ${grantTokenResponse.error}` : ''
-        setSnackbar({ show: true, msg: `${__('Authorization failed', 'bit-integrations')} ${errorCause}. ${__('please try again', 'bit-integrations')}` })
+        setSnackbar({
+          show: true,
+          msg: `${__('Authorization Failed', 'bit-integrations')} ${errorCause}. ${__('please try again', 'bit-integrations')}`
+        })
         setIsLoading(false)
       } else {
         const newConf = { ...confTmp }
         newConf.accountServer = grantTokenResponse['accounts-server']
-        tokenHelper(ajaxInteg, grantTokenResponse, newConf, setConf, setisAuthorized, setIsLoading, setSnackbar)
+        tokenHelper(
+          ajaxInteg,
+          grantTokenResponse,
+          newConf,
+          setConf,
+          setisAuthorized,
+          setIsLoading,
+          setSnackbar
+        )
       }
     }
   }, 500)
 }
 
-const tokenHelper = (ajaxInteg, grantToken, confTmp, setConf, setisAuthorized, setIsLoading, setSnackbar) => {
+const tokenHelper = (
+  ajaxInteg,
+  grantToken,
+  confTmp,
+  setConf,
+  setisAuthorized,
+  setIsLoading,
+  setSnackbar
+) => {
   const tokenRequestParams = { ...grantToken }
   tokenRequestParams.clientId = confTmp.clientId
   tokenRequestParams.clientSecret = confTmp.clientSecret
@@ -62,18 +98,27 @@ const tokenHelper = (ajaxInteg, grantToken, confTmp, setConf, setisAuthorized, s
   tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
 
   bitsFetch(tokenRequestParams, `${ajaxInteg}_generate_token`)
-    .then(result => result)
-    .then(result => {
+    .then((result) => result)
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...confTmp }
         newConf.tokenDetails = result.data
         setConf(newConf)
         setisAuthorized(true)
         setSnackbar({ show: true, msg: __('Authorized Successfully', 'bit-integrations') })
-      } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
-        setSnackbar({ show: true, msg: `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}` })
+      } else if (
+        (result && result.data && result.data.data) ||
+        (!result.success && typeof result.data === 'string')
+      ) {
+        setSnackbar({
+          show: true,
+          msg: `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}`
+        })
       } else {
-        setSnackbar({ show: true, msg: __('Authorization failed. please try again', 'bit-integrations') })
+        setSnackbar({
+          show: true,
+          msg: __('Authorization failed. please try again', 'bit-integrations')
+        })
       }
       setIsLoading(false)
     })
@@ -82,7 +127,9 @@ const tokenHelper = (ajaxInteg, grantToken, confTmp, setConf, setisAuthorized, s
 export const addFieldMap = (i, confTmp, setConf, uploadFields, tab) => {
   const newConf = { ...confTmp }
   if (tab) {
-    uploadFields ? newConf.relatedlists[tab - 1].upload_field_map.splice(i, 0, {}) : newConf.relatedlists[tab - 1].field_map.splice(i, 0, {})
+    uploadFields
+      ? newConf.relatedlists[tab - 1].upload_field_map.splice(i, 0, {})
+      : newConf.relatedlists[tab - 1].field_map.splice(i, 0, {})
   } else {
     uploadFields ? newConf.upload_field_map.splice(i, 0, {}) : newConf.field_map.splice(i, 0, {})
   }
@@ -114,7 +161,8 @@ export const delFieldMap = (i, confTmp, setConf, uploadFields, tab) => {
 export const handleFieldMapping = (event, index, conftTmp, setConf, uploadFields, tab) => {
   const newConf = { ...conftTmp }
   if (tab) {
-    if (uploadFields) newConf.relatedlists[tab - 1].upload_field_map[index][event.target.name] = event.target.value
+    if (uploadFields)
+      newConf.relatedlists[tab - 1].upload_field_map[index][event.target.name] = event.target.value
     else newConf.relatedlists[tab - 1].field_map[index][event.target.name] = event.target.value
   } else if (uploadFields) newConf.upload_field_map[index][event.target.name] = event.target.value
   else newConf.field_map[index][event.target.name] = event.target.value

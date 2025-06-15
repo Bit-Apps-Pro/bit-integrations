@@ -19,41 +19,24 @@ function Freshdesk({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setstep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
 
-  const ticketFields = [
-    { key: 'email', label: 'email ', required: true },
-    { key: 'subject', label: 'subject', required: true },
-    { key: 'description', label: 'description', required: true },
-    { key: 'name', label: 'name', required: false },
-    { key: 'phone', label: 'phone ', required: false },
-  ]
-
-  const contactFields = [
-    { key: 'name', label: 'Name', required: true },
-    { key: 'email', label: 'Email ', required: true },
-    { key: 'phone', label: 'Phone ', required: false },
-    { key: 'address', label: 'Address', required: false },
-    { key: 'description', label: 'Description', required: false },
-    { key: 'job_title', label: 'Job_title', required: false },
-  ]
-
   const [freshdeskConf, setFreshdeskConf] = useState({
     name: 'Freshdesk',
     type: 'Freshdesk',
     app_domain: '',
-    api_key: process.env.NODE_ENV === 'development' ? 'RfPqlzHcProz1o9kjGj' : '',
+    api_key: '',
     field_map: [{ formField: '', freshdeskFormField: '' }],
     field_map_contact: [{ formField: '', contactFreshdeskFormField: '' }],
     freshdesk_id: '',
-    ticketFields,
-    contactFields,
+    ticketFields: [],
+    contactFields: [],
     contactShow: '',
     status: '',
     priority: '',
     updateContact: '',
-    actions: {},
+    actions: {}
   })
-  // checkMappedFields(freshdeskConf?.field_map_contact)
-  const nextPage = (val) => {
+
+  const nextPage = val => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -92,13 +75,12 @@ function Freshdesk({ formFields, setFlow, flow, allIntegURL }) {
           ...(step === 2 && {
             width: 900,
             height: 'auto',
-            overflow: 'visible',
-          }),
-        }}
-      >
+            overflow: 'visible'
+          })
+        }}>
         <FreshdeskIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, freshdeskConf, setFreshdeskConf, setIsLoading, setSnackbar)}
+          handleInput={e => handleInput(e, freshdeskConf, setFreshdeskConf, setIsLoading, setSnackbar)}
           freshdeskConf={freshdeskConf}
           setFreshdeskConf={setFreshdeskConf}
           isLoading={isLoading}
@@ -108,11 +90,14 @@ function Freshdesk({ formFields, setFlow, flow, allIntegURL }) {
         {checkMappedFields(freshdeskConf?.field_map_contact)}
         <button
           onClick={() => nextPage(3)}
-          // disabled={!freshdeskConf.priority || !freshdeskConf.status || !checkMappedFields(freshdeskConf?.field_map)}
-          disabled={!freshdeskConf.priority || !freshdeskConf.status || !checkMappedFields(freshdeskConf?.field_map) || (freshdeskConf.contactShow && !checkMappedFieldsContact(freshdeskConf?.field_map_contact))}
-          className="btn f-right btcd-btn-lg green sh-sm flx"
-          type="button"
-        >
+          disabled={
+            !freshdeskConf.priority ||
+            !freshdeskConf.status ||
+            !checkMappedFields(freshdeskConf?.field_map) ||
+            (freshdeskConf.contactShow && !checkMappedFieldsContact(freshdeskConf?.field_map_contact))
+          }
+          className="btn f-right btcd-btn-lg purple sh-sm flx"
+          type="button">
           {__('Next', 'bit-integrations')}
           <BackIcn className="ml-1 rev-icn" />
         </button>
@@ -121,7 +106,17 @@ function Freshdesk({ formFields, setFlow, flow, allIntegURL }) {
       {/* STEP 3 */}
       <IntegrationStepThree
         step={step}
-        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, conf: freshdeskConf, navigate, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            setFlow,
+            allIntegURL,
+            conf: freshdeskConf,
+            navigate,
+            setIsLoading,
+            setSnackbar
+          })
+        }
         isLoading={isLoading}
         dataConf={freshdeskConf}
         setDataConf={setFreshdeskConf}

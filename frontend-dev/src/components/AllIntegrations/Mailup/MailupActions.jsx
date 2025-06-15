@@ -16,10 +16,15 @@ export default function MailupActions({ mailupConf, setMailupConf }) {
   }
 
   return (
-
     <div className="pos-rel d-flx w-8">
-      <TableCheckBox checked={mailupConf.actions?.doubleOptIn || false} onChange={(e) => actionHandler(e)} className="wdt-200 mt-4 mr-2" value="doubleOptIn" title={__('Double Opt-in', 'bit-integrations')} subTitle={__('Add Double Opt-in', 'bit-integrations')} />
-
+      <TableCheckBox
+        checked={mailupConf.actions?.doubleOptIn || false}
+        onChange={(e) => actionHandler(e)}
+        className="wdt-200 mt-4 mr-2"
+        value="doubleOptIn"
+        title={__('Double Opt-in', 'bit-integrations')}
+        subTitle={__('Add Double Opt-in', 'bit-integrations')}
+      />
     </div>
   )
 }

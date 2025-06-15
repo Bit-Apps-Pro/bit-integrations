@@ -20,137 +20,41 @@ function Salesforce({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
 
-  const contactFields = [
-    { key: 'LastName', label: 'Last Name', required: true },
-    { key: 'FirstName', label: 'First Name', required: false },
-    { key: 'Email', label: 'Email', required: false },
-    { key: 'Salutation', label: 'Salutation', required: false },
-    { key: 'OtherStreet', label: 'Other Street', required: false },
-    { key: 'OtherCity', label: 'Other City', required: false },
-    { key: 'Title', label: 'Title', required: false },
-    { key: 'Department', label: 'Department', required: false },
-    { key: 'MailingStreet', label: 'Mailing Street', required: false },
-    { key: 'MailingCity', label: 'Mailing City', required: false },
-    { key: 'MailingCountry', label: 'Mailing Country', required: false },
-  ]
-  const leadFields = [
-    { key: 'LastName', label: 'Last Name', required: true },
-    { key: 'Email', label: 'Email', required: true },
-    { key: 'Company', label: 'Company', required: true },
-    { key: 'FirstName', label: 'First Name', required: false },
-    { key: 'City', label: 'City', required: false },
-    { key: 'State', label: 'State', required: false },
-    { key: 'Salutation', label: 'Salutation', required: false },
-    { key: 'Title', label: 'Title', required: false },
-    { key: 'URL', label: 'URL', required: false },
-    { key: 'Phone', label: 'Phone', required: false },
-    { key: 'Mobile', label: 'Mobile', required: false },
-    { key: 'Fax', label: 'Fax', required: false },
-    { key: 'Street', label: 'Street', required: false },
-    { key: 'Zip', label: 'Zip', required: false },
-    { key: 'Country', label: 'Country', required: false },
-    { key: 'Description', label: 'Description', required: false },
-    { key: 'LeadSource', label: 'Lead source', required: false },
-    { key: 'Industry', label: 'Industry', required: false },
-    { key: 'Rating', label: 'Rating', required: false },
-    { key: 'Revenue', label: 'Revenue', required: false },
-    { key: 'Employees', label: 'Employees', required: false },
-  ]
-
-  const accountFields = [
-    { key: 'Name', label: 'Account Name', required: true },
-    { key: 'Phone', label: 'Phone', required: false },
-    { key: 'BillingStreet', label: 'Billing Street', required: false },
-    { key: 'BillingCity', label: 'Billing City', required: false },
-    { key: 'BillingState', label: 'Billing State', required: false },
-    { key: 'BillingPostalCode', label: 'Billing Postal Code', required: false },
-    { key: 'BillingCountry', label: 'Billing Country', required: false },
-    { key: 'ShippingStreet', label: 'Shipping Street', required: false },
-    { key: 'ShippingCity', label: 'Shipping City', required: false },
-    { key: 'ShippingState', label: 'Shipping State', required: false },
-    { key: 'ShippingPostalCode', label: 'Shipping Postal Code', required: false },
-    { key: 'ShippingCountry', label: 'Shipping Country', required: false },
-    { key: 'Website', label: 'Website', required: false },
-    { key: 'Industry', label: 'Industry', required: false },
-    { key: 'NumberOfEmployees', label: 'Number Of Employees', required: false },
-    { key: 'Description', label: 'Description', required: false },
-    { key: 'Rating', label: 'Rating', required: false },
-    { key: 'Site', label: 'Site', required: false },
-    { key: 'CleanStatus', label: 'Clean Status', required: false },
-    { key: 'NaicsDesc', label: 'Naics Desc', required: false },
-    { key: 'SicDesc', label: 'Sic Desc', required: false },
-    { key: 'Fax', label: 'Fax', required: false },
-    { key: 'TickerSymbol', label: 'Ticker Symbol', required: false },
-    { key: 'AnnualRevenue', label: 'Annual Revenue', required: false },
-  ]
-
-  const campaignFields = [
-    { key: 'Name', label: 'Name', required: true },
-    { key: 'Type', label: 'Type', required: false },
-    { key: 'Description', label: 'Description', required: false },
-    { key: 'Status', label: 'Status', required: false },
-    { key: 'StartDate', label: 'StartDate', required: false },
-    { key: 'EndDate', label: 'EndDate', required: false },
-    { key: 'ExpectedRevenue', label: 'ExpectedRevenue', required: false },
-    { key: 'BudgetedCost', label: 'BudgetedCost', required: false },
-    { key: 'ActualCost', label: 'ActualCost', required: false },
-  ]
-
-  const campaignMemberStatus = [
-    { label: 'Planned', value: 'Planned' },
-    { label: 'Received', value: 'Received' },
-    { label: 'Responded', value: 'Responded' },
-    { label: 'Sent', value: 'Sent' },
-  ]
-
-  const opportunityFields = [
-    { key: 'Name', label: 'Name', required: true },
-    { key: 'CloseDate', label: 'Close Date', required: true },
-    { key: 'Description', label: 'Description', required: false },
-    { key: 'Amount', label: 'Amount', required: false },
-  ]
-
-  const eventFields = [
-    { key: 'StartDateTime', label: 'Start Date', required: true },
-    { key: 'EndDateTime', label: 'End Date', required: true },
-    { key: 'Location', label: 'Location', required: false },
-    { key: 'Description', label: 'Description', required: false },
-
-  ]
-
-  const caseFields = [
-    { key: 'SuppliedName', label: 'Name', required: true },
-    { key: 'SuppliedEmail', label: 'Email', required: false },
-    { key: 'SuppliedPhone', label: 'Phone', required: false },
-    { key: 'SuppliedCompany', label: 'Company', required: false },
-    { key: 'Subject', label: 'Subject', required: false },
-    { key: 'Description', label: 'Description', required: false },
-
+  const action_modules = [
+    { label: __('Create Contact', 'bit-integrations'), value: 'contact-create' },
+    { label: __('Create lead', 'bit-integrations'), value: 'lead-create' },
+    { label: __('Create Account', 'bit-integrations'), value: 'account-create' },
+    { label: __('Create Campaign', 'bit-integrations'), value: 'campaign-create' },
+    { label: __('Add campaign member', 'bit-integrations'), value: 'add-campaign-member' },
+    { label: __('Create Task', 'bit-integrations'), value: 'task-create' },
+    { label: __('Oportunity Create', 'bit-integrations'), value: 'opportunity-create' },
+    { label: __('Event Create', 'bit-integrations'), value: 'event-create' },
+    { label: __('Create Case', 'bit-integrations'), value: 'case-create' }
   ]
 
   const [salesforceConf, setSalesforceConf] = useState({
     name: 'Salesforce',
     type: 'Salesforce',
-    clientId: process.env.NODE_ENV === 'development' ? '3MVG9fe4g9fhX0E44ebIn.zn5KgPBKCuDGqLDPSpP5dIg8pf3XIPRMooVLLpLp5UvPMWegD00Vv_PE4_oQLGN' : '',
-    clientSecret: process.env.NODE_ENV === 'development' ? '558BA6981F35209E3A89F617BD25C017E6354188F3C8C776E76EF116307AB522' : '',
-    field_map: [
-      { formField: '', selesforceField: '' },
-    ],
-    contactFields,
-    leadFields,
-    accountFields,
-    campaignFields,
-    campaignMemberStatus,
-    opportunityFields,
-    eventFields,
-    caseFields,
-    actions: {},
+    clientId: '',
+    clientSecret: '',
+    field_map: [{ formField: '', selesforceField: '' }],
+    selesforceActionModules: action_modules,
+    action_modules,
+    actions: {}
   })
   useEffect(() => {
     window.opener && setGrantTokenResponse('salesforce')
   }, [])
 
-  const checkedActionFieldsMapType = ['contact-create', 'lead-create', 'account-create', 'campaign-create', 'opportunity-create', 'event-create', 'case-create'].includes(salesforceConf?.actionName)
+  const checkedActionFieldsMapType = [
+    'contact-create',
+    'lead-create',
+    'account-create',
+    'campaign-create',
+    'opportunity-create',
+    'event-create',
+    'case-create'
+  ].includes(salesforceConf?.actionName)
 
   const nextPage = val => {
     if (checkedActionFieldsMapType && !checkMappedFields(salesforceConf)) {
@@ -175,7 +79,9 @@ function Salesforce({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={3} active={step} />
+      </div>
 
       {/* STEP 1 */}
       <SalesforceAuthorization
@@ -194,7 +100,9 @@ function Salesforce({ formFields, setFlow, flow, allIntegURL }) {
         <SelesforceIntegLayout
           formID={formID}
           formFields={formFields}
-          handleInput={(e) => handleInput(e, salesforceConf, setSalesforceConf, formID, setIsLoading, setSnackbar)}
+          handleInput={e =>
+            handleInput(e, salesforceConf, setSalesforceConf, formID, setIsLoading, setSnackbar)
+          }
           salesforceConf={salesforceConf}
           setSalesforceConf={setSalesforceConf}
           isLoading={isLoading}
@@ -205,19 +113,27 @@ function Salesforce({ formFields, setFlow, flow, allIntegURL }) {
         <button
           onClick={() => nextPage(3)}
           disabled={isDisabled() || isLoading}
-          className="btn f-right btcd-btn-lg green sh-sm flx"
-          type="button"
-        >
+          className="btn f-right btcd-btn-lg purple sh-sm flx"
+          type="button">
           {__('Next', 'bit-integrations')}
           <BackIcn className="ml-1 rev-icn" />
         </button>
-
       </div>
 
       {/* STEP 3 */}
       <IntegrationStepThree
         step={step}
-        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, navigate, conf: salesforceConf, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            setFlow,
+            allIntegURL,
+            navigate,
+            conf: salesforceConf,
+            setIsLoading,
+            setSnackbar
+          })
+        }
       />
     </div>
   )

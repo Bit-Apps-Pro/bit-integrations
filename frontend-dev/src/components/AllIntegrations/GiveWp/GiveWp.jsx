@@ -17,31 +17,26 @@ function GiveWp({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
 
-  const allActions = [
-    { key: '1', label: 'Create a donar' },
-  ]
+  const allActions = [{ key: '1', label: __('Create a donar', 'bit-integrations') }]
 
   // for action 1
   const giveWpFields = [
-    { key: 'email', label: 'Email', required: true },
-    { key: 'name', label: 'Name', required: false },
-    { key: 'first_name', label: 'First Name', required: false },
-    { key: 'last_name', label: 'Last Name', required: false },
-    // { key: 'company_name', label: 'Company Name', required: false },
-    { key: 'purchase_value', label: 'Purchase Value', required: false },
-    { key: 'purchase_count', label: 'Purchase Count', required: false },
+    { key: 'email', label: __('Email', 'bit-integrations'), required: true },
+    { key: 'name', label: __('Name', 'bit-integrations'), required: false },
+    { key: 'first_name', label: __('First Name', 'bit-integrations'), required: false },
+    { key: 'last_name', label: __('Last Name', 'bit-integrations'), required: false },
+    { key: 'purchase_value', label: __('Purchase Value', 'bit-integrations'), required: false },
+    { key: 'purchase_count', label: __('Purchase Count', 'bit-integrations'), required: false }
   ]
 
   const [giveWpConf, setGiveWpConf] = useState({
     name: 'GiveWp',
     type: 'GiveWp',
     mainAction: '',
-    field_map: [
-      { formField: '', giveWpFormField: '' },
-    ],
+    field_map: [{ formField: '', giveWpFormField: '' }],
     allActions,
     giveWpFields,
-    actions: {},
+    actions: {}
   })
   const nextPage = () => {
     setTimeout(() => {
@@ -60,7 +55,9 @@ function GiveWp({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={3} active={step} />
+      </div>
 
       {/* STEP 1 */}
       <GiveWpAuthorization
@@ -75,11 +72,14 @@ function GiveWp({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
       />
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
-
+      <div
+        className="btcd-stp-page"
+        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <GiveWpIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, giveWpConf, setGiveWpConf, setIsLoading, setSnackbar, formID)}
+          handleInput={(e) =>
+            handleInput(e, giveWpConf, setGiveWpConf, setIsLoading, setSnackbar, formID)
+          }
           giveWpConf={giveWpConf}
           setGiveWpConf={setGiveWpConf}
           isLoading={isLoading}
@@ -93,26 +93,33 @@ function GiveWp({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
         <button
           onClick={() => nextPage(3)}
           disabled={!giveWpConf.mainAction || isLoading}
-          className="btn f-right btcd-btn-lg green sh-sm flx"
-          type="button"
-        >
+          className="btn f-right btcd-btn-lg purple sh-sm flx"
+          type="button">
           {__('Next', 'bit-integrations')}
           &nbsp;
           <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
         </button>
-
       </div>
       {/* STEP 3 */}
 
       <IntegrationStepThree
         step={step}
-        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, navigate, conf: giveWpConf, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            setFlow,
+            allIntegURL,
+            navigate,
+            conf: giveWpConf,
+            setIsLoading,
+            setSnackbar
+          })
+        }
         isLoading={isLoading}
         dataConf={giveWpConf}
         setDataConf={setGiveWpConf}
         formFields={formFields}
       />
-
     </div>
   )
 }

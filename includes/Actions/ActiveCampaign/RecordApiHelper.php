@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\ActiveCampaign;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert,update, exist
@@ -15,7 +15,9 @@ use BitCode\FI\Core\Util\HttpHelper;
 class RecordApiHelper
 {
     private $_defaultHeader;
+
     private $_integrationID;
+
     private $_apiEndpoint;
 
     public function __construct($api_key, $api_url, $integId)
@@ -30,6 +32,7 @@ class RecordApiHelper
     public function storeOrModifyRecord($method, $data)
     {
         $insertRecordEndpoint = "{$this->_apiEndpoint}/{$method}";
+
         return HttpHelper::post($insertRecordEndpoint, $data, $this->_defaultHeader);
     }
 
@@ -38,18 +41,13 @@ class RecordApiHelper
         $contactData = $data['contact'];
         foreach ($contactData as $key => $value) {
             if ($value === '') {
-                $contactData->$key = $existContact->contacts[0]->$key;
+                $contactData->{$key} = $existContact->contacts[0]->{$key};
             }
         }
 
         $updateRecordEndpoint = "{$this->_apiEndpoint}/contacts/{$id}";
-        return HttpHelper::request($updateRecordEndpoint, 'PUT', json_encode($data), $this->_defaultHeader);
-    }
 
-    private function existContact($email)
-    {
-        $searchEndPoint = "{$this->_apiEndpoint}/contacts?email={$email}";
-        return HttpHelper::get($searchEndPoint, null, $this->_defaultHeader);
+        return HttpHelper::request($updateRecordEndpoint, 'PUT', wp_json_encode($data), $this->_defaultHeader);
     }
 
     public function execute($integrationDetails, $fieldValues, $fieldMap, $actions, $listId, $tags)
@@ -62,9 +60,9 @@ class RecordApiHelper
                 if ($fieldPair->formField === 'custom' && isset($fieldPair->customValue) && !is_numeric($fieldPair->activeCampaignField)) {
                     $fieldData[$fieldPair->activeCampaignField] = $fieldPair->customValue;
                 } elseif (is_numeric($fieldPair->activeCampaignField) && $fieldPair->formField === 'custom' && isset($fieldPair->customValue)) {
-                    array_push($customFields, ['field' => (int) $fieldPair->activeCampaignField, 'value' => $fieldPair->customValue]);
+                    $customFields[] = ['field' => (int) $fieldPair->activeCampaignField, 'value' => $fieldPair->customValue];
                 } elseif (is_numeric($fieldPair->activeCampaignField)) {
-                    array_push($customFields, ['field' => (int) $fieldPair->activeCampaignField, 'value' => $fieldValues[$fieldPair->formField]]);
+                    $customFields[] = ['field' => (int) $fieldPair->activeCampaignField, 'value' => $fieldValues[$fieldPair->formField]];
                 } else {
                     $fieldData[$fieldPair->activeCampaignField] = $fieldValues[$fieldPair->formField];
                 }
@@ -86,9 +84,9 @@ class RecordApiHelper
                 $recordApiResponse = ['success' => true, 'id' => $recordApiResponse->contact->id];
                 if (isset($listId) && !empty($listId)) {
                     $data['contactList'] = (object) [
-                        'list' => $listId,
+                        'list'    => $listId,
                         'contact' => $recordApiResponse['id'],
-                        'status' => 1
+                        'status'  => 1
                     ];
                     $this->storeOrModifyRecord('contactLists', wp_json_encode($data));
                 }
@@ -96,7 +94,7 @@ class RecordApiHelper
                     foreach ($tags as $tag) {
                         $data['contactTag'] = (object) [
                             'contact' => $recordApiResponse['id'],
-                            'tag' => $tag
+                            'tag'     => $tag
                         ];
                         $this->storeOrModifyRecord('contactTags', wp_json_encode($data));
                     }
@@ -118,7 +116,7 @@ class RecordApiHelper
                 foreach ($tags as $tag) {
                     $data['contactTag'] = (object) [
                         'contact' => $recordApiResponse->contact->id,
-                        'tag' => $tag
+                        'tag'     => $tag
                     ];
                     $this->storeOrModifyRecord('contactTags', wp_json_encode($data));
                 }
@@ -144,9 +142,9 @@ class RecordApiHelper
                 $recordApiResponse = ['success' => true, 'id' => $recordApiResponse->contact->id];
                 if (isset($listId) && !empty($listId)) {
                     $data['contactList'] = (object) [
-                        'list' => $listId,
+                        'list'    => $listId,
                         'contact' => $recordApiResponse['id'],
-                        'status' => 1
+                        'status'  => 1
                     ];
                     $this->storeOrModifyRecord('contactLists', wp_json_encode($data));
                 }
@@ -154,7 +152,7 @@ class RecordApiHelper
                     foreach ($tags as $tag) {
                         $data['contactTag'] = (object) [
                             'contact' => $recordApiResponse['id'],
-                            'tag' => $tag
+                            'tag'     => $tag
                         ];
                         $this->storeOrModifyRecord('contactTags', wp_json_encode($data));
                     }
@@ -173,7 +171,8 @@ class RecordApiHelper
         }
 
         if ($type === 'notSet') {
-            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'insert'], 'error', 'Email already exist.');
+            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'insert'], 'error', __('Email already exist', 'bit-integrations'));
+
             return false;
         }
         if ($recordApiResponse && isset($recordApiResponse->errors)) {
@@ -181,6 +180,14 @@ class RecordApiHelper
         } else {
             LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => $type], 'success', $recordApiResponse);
         }
+
         return $recordApiResponse;
+    }
+
+    private function existContact($email)
+    {
+        $searchEndPoint = "{$this->_apiEndpoint}/contacts?email={$email}";
+
+        return HttpHelper::get($searchEndPoint, null, $this->_defaultHeader);
     }
 }

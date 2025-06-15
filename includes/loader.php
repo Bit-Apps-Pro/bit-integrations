@@ -3,7 +3,7 @@
 if (!defined('ABSPATH')) {
     exit;
 }
-$scheme = parse_url(home_url())['scheme'];
+$scheme = wp_parse_url(home_url())['scheme'];
 if (!defined('BTCBI_BIT_DEV_URL')) {
     define('BTCBI_BIT_DEV_URL', defined('BITAPPS_DEV') && BITAPPS_DEV ? 'http://localhost:3000' : false);
 }

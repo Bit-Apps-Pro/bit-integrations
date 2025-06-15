@@ -20,13 +20,11 @@ function NotionFieldMap({ i, field, formFields, notionConf, setNotionConf }) {
     setNotionConf(newConf)
   }
 
-  const requiredFields = notionConf?.notionFields?.filter(fld => fld.required === true) || []
-  const nonrequiredFields = notionConf?.notionFields?.filter(fld => fld.required === false) || []
+  const requiredFields = notionConf?.notionFields?.filter((fld) => fld.required === true) || []
+  const nonrequiredFields = notionConf?.notionFields?.filter((fld) => fld.required === false) || []
 
   return (
-    <div
-      className="flx mt-2 mb-2 btcbi-field-map"
-    >
+    <div className="flx mt-2 mb-2 btcbi-field-map">
       <div className="pos-rel flx">
         <div className="flx integ-fld-wrp">
           <select
@@ -35,32 +33,43 @@ function NotionFieldMap({ i, field, formFields, notionConf, setNotionConf }) {
             onChange={(event) => {
               handleFieldMapping(event, i, notionConf, setNotionConf)
             }}
-            value={field.formFields || ''}
-          >
+            value={field.formFields || ''}>
             <option value="">{__('Select Field')}</option>
-            <optgroup label="Form Fields">
-              {
-                formFields?.map(f => (
-                  <option key={`ff-rm-${f.name}`} value={f.name}>
-                    {f.label}
-                  </option>
-                ))
-              }
-            </optgroup>
-            <option value="custom">{__('Custom...')}</option>
-            <optgroup label={`General Smart Codes ${isPro ? '' : '(PRO)'}`}>
-              {isPro && SmartTagField?.map(f => (
+            <optgroup label={__('Form Fields', 'bit-integrations')}>
+              {formFields?.map((f) => (
                 <option key={`ff-rm-${f.name}`} value={f.name}>
                   {f.label}
                 </option>
               ))}
             </optgroup>
-
+            <option value="custom">{__('Custom...')}</option>
+            <optgroup
+              label={sprintf(
+                __('General Smart Codes %s', 'bit-integrations'),
+                isPro ? '' : `(${__('Pro', 'bit-integrations')})`
+              )}>
+              {isPro &&
+                SmartTagField?.map((f) => (
+                  <option key={`ff-rm-${f.name}`} value={f.name}>
+                    {f.label}
+                  </option>
+                ))}
+            </optgroup>
           </select>
 
           {/* When user select custom field */}
 
-          {field.formField === 'custom' && <TagifyInput onChange={e => handleCustomValue(e, i, notionConf, setNotionConf)} label={__('Custom Value', 'bit-integrations')} className="mr-2" type="text" value={field.customValue} placeholder={__('Custom Value', 'bit-integrations')} formFields={formFields} />}
+          {field.formFields === 'custom' && (
+            <TagifyInput
+              onChange={(e) => handleCustomValue(e, i, notionConf, setNotionConf)}
+              label={__('Custom Value', 'bit-integrations')}
+              className="mr-2"
+              type="text"
+              value={field.customValue}
+              placeholder={__('Custom Value', 'bit-integrations')}
+              formFields={formFields}
+            />
+          )}
 
           <select
             className="btcd-paper-inp"
@@ -69,36 +78,39 @@ function NotionFieldMap({ i, field, formFields, notionConf, setNotionConf }) {
             onChange={(event) => {
               handleFieldMapping(event, i, notionConf, setNotionConf)
             }}
-            value={i < requiredFields.length ? (requiredFields[i].label || '') : (field.notionFormFields || '')}
-          >
+            value={
+              i < requiredFields.length
+                ? requiredFields[i].label || ''
+                : field.notionFormFields || ''
+            }>
             <option value="">{__('Select Field')}</option>
-            {
-              i < requiredFields.length ? (
-                <option key={requiredFields[i].key} value={requiredFields[i].label}>
-                  {requiredFields[i].label}
+            {i < requiredFields.length ? (
+              <option key={requiredFields[i].key} value={requiredFields[i].label}>
+                {requiredFields[i].label}
+              </option>
+            ) : (
+              nonrequiredFields.map(({ key, label }) => (
+                <option key={label} value={label}>
+                  {label}
                 </option>
-              ) : (
-                nonrequiredFields.map(({ key, label }) => (
-                  <option key={label} value={label}>
-                    {label}
-                  </option>
-                ))
-              )
-            }
+              ))
+            )}
           </select>
         </div>
 
         <button
           onClick={() => addFieldMap(i, notionConf, setNotionConf)}
           className="icn-btn sh-sm ml-2 mr-1"
-          type="button"
-        >
+          type="button">
           +
         </button>
-        <button onClick={() => delFieldMap(i, notionConf, setNotionConf)} className="icn-btn sh-sm ml-1" type="button" aria-label="btn">
+        <button
+          onClick={() => delFieldMap(i, notionConf, setNotionConf)}
+          className="icn-btn sh-sm ml-1"
+          type="button"
+          aria-label="btn">
           <span className="btcd-icn icn-trash-2" />
         </button>
-
       </div>
     </div>
   )

@@ -1,17 +1,19 @@
 <?php
+
 namespace BitCode\FI\Actions\Memberpress;
 
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Log\LogHandler;
+use MeprHooks;
+use MeprSubscription;
 use MeprTransaction;
 use MeprUser;
 use MeprUtils;
-use MeprHooks;
-use MeprSubscription;
 
 class RecordApiHelper
 {
     private static $integrationID;
+
     private $_integrationDetails;
 
     public function __construct($integrationDetails, $integId)
@@ -29,10 +31,11 @@ class RecordApiHelper
             $actionValue = $value->memberpressFormField;
             if ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!is_null($data[$triggerValue])) {
+            } elseif (!\is_null($data[$triggerValue])) {
                 $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
+
         return $dataFinal;
     }
 
@@ -60,10 +63,10 @@ class RecordApiHelper
 
         $expiration_date = $finalData['expiration_date'];
 
-        if (isset($expiration_date) && ($expiration_date === '' || is_null($expiration_date))) {
+        if (isset($expiration_date) && ($expiration_date === '' || \is_null($expiration_date))) {
             $obj = new MeprProduct(sanitize_key($product_id));
             $expires_at_ts = $obj->get_expires_at();
-            if (is_null($expires_at_ts)) {
+            if (\is_null($expires_at_ts)) {
                 $allData->expires_at = MeprUtils::db_lifetime();
             } else {
                 $allData->expires_at = MeprUtils::ts_to_mysql_date($expires_at_ts, 'Y-m-d 23:59:59');
@@ -79,12 +82,12 @@ class RecordApiHelper
 
             // This is a recurring payment
             if (($sub = $allData->subscription()) && $sub->txn_count > 1) {
-                 MeprEvent::record(
+                MeprEvent::record(
                     'recurring-transaction-completed',
                     $allData
                 );
             } elseif (!$sub) {
-                 MeprEvent::record(
+                MeprEvent::record(
                     'non-recurring-transaction-completed',
                     $allData
                 );
@@ -94,54 +97,54 @@ class RecordApiHelper
         return $apiResponse;
     }
 
-    public function removeUserFormMembership($integrationDetails, $finalData){
-
-		$membership = $integrationDetails->selectedMembership;
+    public function removeUserFormMembership($integrationDetails, $finalData)
+    {
+        $membership = $integrationDetails->selectedMembership;
         $user_id = get_current_user_id();
-		$user_obj   = get_user_by( 'id', $user_id );
-		$table      = MeprSubscription::account_subscr_table(
-			'created_at',
-			'DESC',
-			'',
-			'',
-			'any',
-			'',
-			false,
-			array(
-				'member'   => $user_obj->user_login,
-				'statuses' => array(
-					MeprSubscription::$active_str,
-					MeprSubscription::$suspended_str,
-					MeprSubscription::$cancelled_str,
-				),
-			),
-			MeprHooks::apply_filters(
-				'mepr_user_subscriptions_query_cols',
-				array(
-					'id',
-					'product_id',
-					'created_at',
-				)
-			)
-		);
+        $user_obj = get_user_by('id', $user_id);
+        $table = MeprSubscription::account_subscr_table(
+            'created_at',
+            'DESC',
+            '',
+            '',
+            'any',
+            '',
+            false,
+            [
+                'member'   => $user_obj->user_login,
+                'statuses' => [
+                    MeprSubscription::$active_str,
+                    MeprSubscription::$suspended_str,
+                    MeprSubscription::$cancelled_str,
+                ],
+            ],
+            MeprHooks::apply_filters(
+                'mepr_user_subscriptions_query_cols',
+                [
+                    'id',
+                    'product_id',
+                    'created_at',
+                ]
+            )
+        );
 
-		if ( $table['count'] > 0 ) {
-			foreach ( $table['results'] as $row ) {
-				if ( $row->product_id == $membership || $membership == - 1 ) {
-					if ( $row->sub_type == 'subscription' ) {
-						$sub = new MeprSubscription( $row->id );
-					} elseif ( $row->sub_type == 'transaction' ) {
-						$sub = new MeprTransaction( $row->id );
-					}
-					$apiResponse = $sub->destroy();
-					$member = $sub->user();
-					$member->update_member_data();
-				}
-			}
+        if ($table['count'] > 0) {
+            foreach ($table['results'] as $row) {
+                if ($row->product_id == $membership || $membership == - 1) {
+                    if ($row->sub_type == 'subscription') {
+                        $sub = new MeprSubscription($row->id);
+                    } elseif ($row->sub_type == 'transaction') {
+                        $sub = new MeprTransaction($row->id);
+                    }
+                    $apiResponse = $sub->destroy();
+                    $member = $sub->user();
+                    $member->update_member_data();
+                }
+            }
+
             return $apiResponse;
-		}
-
-	}
+        }
+    }
 
     public function execute(
         $mainAction,
@@ -154,18 +157,18 @@ class RecordApiHelper
         if ($mainAction === '1') {
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
             $apiResponse = $this->crateMember($integrationDetails, $finalData);
-            if (!empty($apiResponse) && gettype($apiResponse) !== 'integer') {
-                LogHandler::save(self::$integrationID, json_encode(['type' => 'add user', 'type_name' => 'Add the user to a membership']), 'error', json_encode('Failed to add user to membership'));
+            if (!empty($apiResponse) && \gettype($apiResponse) !== 'integer') {
+                LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'add user', 'type_name' => 'Add the user to a membership']), 'error', wp_json_encode(__('Failed to add user to membership', 'bit-integrations')));
             } else {
-                LogHandler::save(self::$integrationID, json_encode(['type' => 'add user', 'type_name' => 'Add the user to a membership']), 'success', json_encode("Successfully user added to the membership and id is: $apiResponse"));
+                LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'add user', 'type_name' => 'Add the user to a membership']), 'success', wp_json_encode(wp_sprintf(__('Successfully user added to the membership and id is: %s', 'bit-integrations'), $apiResponse)));
             }
-        } elseif ($mainAction === '2'){
+        } elseif ($mainAction === '2') {
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
             $apiResponse = $this->removeUserFormMembership($integrationDetails, $finalData);
             if ($apiResponse) {
-                LogHandler::save(self::$integrationID, json_encode(['type' => 'add user', 'type_name' => 'Add the user to a membership']), 'success', json_encode("Successfully user removed form membership"));
+                LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'add user', 'type_name' => 'Add the user to a membership']), 'success', wp_json_encode(__('Successfully user removed form membership', 'bit-integrations')));
             } else {
-                LogHandler::save(self::$integrationID, json_encode(['type' => 'remove user', 'type_name' => 'Remove user to a membership']), 'error', json_encode('Failed to remove user form membership'));
+                LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'remove user', 'type_name' => 'Remove user to a membership']), 'error', wp_json_encode(__('Failed to remove user form membership', 'bit-integrations')));
             }
         }
 

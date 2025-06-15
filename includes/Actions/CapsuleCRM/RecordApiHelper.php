@@ -15,41 +15,45 @@ use BitCode\FI\Log\LogHandler;
 class RecordApiHelper
 {
     private $integrationDetails;
+
     private $integrationId;
+
     private $apiUrl;
+
     private $defaultHeader;
+
     private $type;
+
     private $typeName;
 
     public function __construct($integrationDetails, $integId)
     {
         $this->integrationDetails = $integrationDetails;
-        $this->integrationId      = $integId;
-        $this->apiUrl             = "https://api.capsulecrm.com/api/v2";
-        $this->defaultHeader      = [
-            "Authorization" => 'Bearer ' . $integrationDetails->api_key,
-            'Content-Type' => 'application/json'
+        $this->integrationId = $integId;
+        $this->apiUrl = 'https://api.capsulecrm.com/api/v2';
+        $this->defaultHeader = [
+            'Authorization' => 'Bearer ' . $integrationDetails->api_key,
+            'Content-Type'  => 'application/json'
         ];
     }
-
 
     public function addOrganisation($finalData)
     {
         if (empty($finalData['name'])) {
-            return ['success' => false, 'message' => 'Required field Name is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field Name is empty', 'bit-integrations'), 'code' => 400];
         }
 
-        $staticFieldsKeys = ['name', 'emailAddresses', 'about', 'street', 'city', 'state', 'zip', 'country',  'websites','phoneNumbers'];
+        $staticFieldsKeys = ['name', 'emailAddresses', 'about', 'street', 'city', 'state', 'zip', 'country',  'websites', 'phoneNumbers'];
 
         foreach ($finalData as $key => $value) {
-            if (in_array($key, $staticFieldsKeys)) {
+            if (\in_array($key, $staticFieldsKeys)) {
                 if (($key == 'street' || $key == 'city' || $key == 'state' || $key == 'zip' || $key == 'country')) {
                     $requestParams['addresses'][] = (object) [
-                        $key   => $value
+                        $key => $value
                     ];
                 } elseif (($key == 'websites')) {
                     $requestParams['websites'][] = (object) [
-                        'url'   => $value
+                        'url' => $value
                     ];
                 } elseif ($key == 'emailAddresses') {
                     $requestParams[$key][] = (object) [
@@ -64,29 +68,29 @@ class RecordApiHelper
                 }
             } else {
                 $requestParams['fields'][] = (object) [
-                    'value'   => $value,
-                    'definition' => (object)['id'=> $key]
+                    'value'      => $value,
+                    'definition' => (object) ['id' => $key]
                 ];
             }
         }
 
         if ($this->integrationDetails->actions->owner) {
-            $requestParams['owner'][] =[
-                    'id' =>  (int)($this->integrationDetails->selectedOwner),
-                ];
+            $requestParams['owner'][] = [
+                'id' => (int) ($this->integrationDetails->selectedOwner),
+            ];
         }
         if ($this->integrationDetails->actions->team) {
-            $requestParams['team'] = (int)($this->integrationDetails->selectedTeam);
+            $requestParams['team'] = (int) ($this->integrationDetails->selectedTeam);
         }
 
-        $requestParams['type'] = "organisation";
+        $requestParams['type'] = 'organisation';
 
-        $this->type     = 'Organisation';
+        $this->type = 'Organisation';
         $this->typeName = 'Organisation created';
 
-        $apiEndpoint = $this->apiUrl."/parties";
+        $apiEndpoint = $this->apiUrl . '/parties';
 
-        return $response = HttpHelper::post($apiEndpoint, json_encode(['party'=>$requestParams]), $this->defaultHeader);
+        return HttpHelper::post($apiEndpoint, wp_json_encode(['party' => $requestParams]), $this->defaultHeader);
     }
 
     public function addPerson($finalData)
@@ -95,17 +99,17 @@ class RecordApiHelper
             return ['success' => false, 'message' => 'Required field Name is empty', 'code' => 400];
         }
 
-        $staticFieldsKeys = ['firstName', 'lastName', 'title', 'jobTitle', 'emailAddresses', 'about', 'street', 'city', 'state', 'zip', 'country',  'websites','phoneNumbers'];
+        $staticFieldsKeys = ['firstName', 'lastName', 'title', 'jobTitle', 'emailAddresses', 'about', 'street', 'city', 'state', 'zip', 'country',  'websites', 'phoneNumbers'];
 
         foreach ($finalData as $key => $value) {
-            if (in_array($key, $staticFieldsKeys)) {
+            if (\in_array($key, $staticFieldsKeys)) {
                 if (($key == 'street' || $key == 'city' || $key == 'state' || $key == 'zip' || $key == 'country')) {
                     $requestParams['addresses'][] = (object) [
-                        $key   => $value
+                        $key => $value
                     ];
                 } elseif (($key == 'websites')) {
                     $requestParams['websites'][] = (object) [
-                        'url'   => $value
+                        'url' => $value
                     ];
                 } elseif ($key == 'emailAddresses') {
                     $requestParams[$key][] = (object) [
@@ -120,32 +124,32 @@ class RecordApiHelper
                 }
             } else {
                 $requestParams['fields'][] = (object) [
-                    'value'   => $value,
-                    'definition' => (object)['id'=> $key]
+                    'value'      => $value,
+                    'definition' => (object) ['id' => $key]
                 ];
             }
         }
 
-        $requestParams['type'] = "person";
+        $requestParams['type'] = 'person';
 
         if ($this->integrationDetails->actions->organisation) {
-            $requestParams['organisation'] = (int)($this->integrationDetails->selectedOrganisation);
+            $requestParams['organisation'] = (int) ($this->integrationDetails->selectedOrganisation);
         }
         if ($this->integrationDetails->actions->owner) {
-            $requestParams['owner'] =[
-                    'id' =>  (int)($this->integrationDetails->selectedOwner),
-                ];
+            $requestParams['owner'] = [
+                'id' => (int) ($this->integrationDetails->selectedOwner),
+            ];
         }
         if ($this->integrationDetails->actions->team) {
-            $requestParams['team'] = (int)($this->integrationDetails->selectedTeam);
+            $requestParams['team'] = (int) ($this->integrationDetails->selectedTeam);
         }
 
-        $this->type     = 'Person';
+        $this->type = 'Person';
         $this->typeName = 'Person created';
 
-        $apiEndpoint = $this->apiUrl."/parties";
+        $apiEndpoint = $this->apiUrl . '/parties';
 
-        return $response = HttpHelper::post($apiEndpoint, json_encode(['party'=>$requestParams]), $this->defaultHeader);
+        return HttpHelper::post($apiEndpoint, wp_json_encode(['party' => $requestParams]), $this->defaultHeader);
     }
 
     public function addOpportunity($finalData)
@@ -153,98 +157,98 @@ class RecordApiHelper
         if (empty($finalData['name'])) {
             return ['success' => false, 'message' => 'Required field opportunity name is empty', 'code' => 400];
         }
-        $staticFieldsKeys = ['name', 'description', "value", 'expectedCloseOn', 'closedOn','value'];
+        $staticFieldsKeys = ['name', 'description', 'value', 'expectedCloseOn', 'closedOn', 'value'];
 
         foreach ($finalData as $key => $value) {
-            if (in_array($key, $staticFieldsKeys)) {
+            if (\in_array($key, $staticFieldsKeys)) {
                 if ($key == 'value') {
                     $requestParams['value'] = (object) [
-                        'amount'   => (int)$value
+                        'amount' => (int) $value
                     ];
                 } else {
                     $requestParams[$key] = $value;
                 }
             } else {
                 $requestParams['fields'][] = (object) [
-                    'value'   => $value,
-                    'definition' => (object)['id'=> $key]
+                    'value'      => $value,
+                    'definition' => (object) ['id' => $key]
                 ];
             }
         }
 
         if (!empty($this->integrationDetails->selectedCRMParty)) {
-            $requestParams['party'] =[
-                    'id' =>  (int)($this->integrationDetails->selectedCRMParty),
-                ];
+            $requestParams['party'] = [
+                'id' => (int) ($this->integrationDetails->selectedCRMParty),
+            ];
         }
         if (!empty($this->integrationDetails->selectedCRMMilestones)) {
-            $requestParams['milestone'] =[
-                    'id' =>  (int)($this->integrationDetails->selectedCRMMilestones),
-                ];
+            $requestParams['milestone'] = [
+                'id' => (int) ($this->integrationDetails->selectedCRMMilestones),
+            ];
         }
         if ($this->integrationDetails->actions->owner) {
-            $requestParams['owner'] =[
-                    'id' =>  (int)($this->integrationDetails->selectedOwner),
-                ];
+            $requestParams['owner'] = [
+                'id' => (int) ($this->integrationDetails->selectedOwner),
+            ];
         }
         if ($this->integrationDetails->actions->team) {
-            $requestParams['team'] = (int)($this->integrationDetails->selectedTeam);
+            $requestParams['team'] = (int) ($this->integrationDetails->selectedTeam);
         }
         if (!empty($this->integrationDetails->actions->currency)) {
-            $requestParams['value']->currency =  ($this->integrationDetails->selectedCurrency);
+            $requestParams['value']->currency = ($this->integrationDetails->selectedCurrency);
         }
 
-        $this->type     = 'Opportunity';
+        $this->type = 'Opportunity';
         $this->typeName = 'Opportunity created';
 
-        $apiEndpoint = $this->apiUrl."/opportunities";
+        $apiEndpoint = $this->apiUrl . '/opportunities';
 
-        return  $response = HttpHelper::post($apiEndpoint, json_encode(['opportunity'=>$requestParams]), $this->defaultHeader);
+        return HttpHelper::post($apiEndpoint, wp_json_encode(['opportunity' => $requestParams]), $this->defaultHeader);
     }
 
     public function addProject($finalData)
     {
         if (empty($finalData['name'])) {
-            return ['success' => false, 'message' => 'Required field project name is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field project name is empty', 'bit-integrations'), 'code' => 400];
         }
-        $staticFieldsKeys = ['name', 'description', "expectedCloseOn"];
+        $staticFieldsKeys = ['name', 'description', 'expectedCloseOn'];
 
         foreach ($finalData as $key => $value) {
-            if (in_array($key, $staticFieldsKeys)) {
+            if (\in_array($key, $staticFieldsKeys)) {
                 $requestParams[$key] = $value;
             } else {
                 $requestParams['fields'][] = (object) [
-                    'value'   => $value,
-                    'definition' => (object)['id'=> $key]
+                    'value'      => $value,
+                    'definition' => (object) ['id' => $key]
                 ];
             }
         }
 
         if (!empty($this->integrationDetails->selectedCRMParty)) {
-            $requestParams['party'] =[
-                    'id' =>  (int)($this->integrationDetails->selectedCRMParty),
-                ];
+            $requestParams['party'] = [
+                'id' => (int) ($this->integrationDetails->selectedCRMParty),
+            ];
         }
         if ($this->integrationDetails->actions->owner) {
-            $requestParams['owner'] =[
-                    'id' =>  (int)($this->integrationDetails->selectedOwner),
-                ];
+            $requestParams['owner'] = [
+                'id' => (int) ($this->integrationDetails->selectedOwner),
+            ];
         }
         if ($this->integrationDetails->actions->opportunity) {
-            $requestParams['opportunity'] =[
-                    'id' =>  (int)($this->integrationDetails->selectedOpportunity),
-                ];
+            $requestParams['opportunity'] = [
+                'id' => (int) ($this->integrationDetails->selectedOpportunity),
+            ];
         }
         if ($this->integrationDetails->actions->team) {
-            $requestParams['team'] = (int)($this->integrationDetails->selectedTeam);
+            $requestParams['team'] = (int) ($this->integrationDetails->selectedTeam);
         }
 
-        $this->type     = 'Project';
+        $this->type = 'Project';
         $this->typeName = 'Project created';
 
-        $apiEndpoint = $this->apiUrl."/kases";
+        $apiEndpoint = $this->apiUrl . '/kases';
 
-        return $response = HttpHelper::post($apiEndpoint, json_encode(['kase'=>$requestParams]), $this->defaultHeader);
+        return HttpHelper::post($apiEndpoint, wp_json_encode(['kase' => $requestParams]), $this->defaultHeader);
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
@@ -252,14 +256,14 @@ class RecordApiHelper
         $dataFinal = [];
         foreach ($fieldMap as $value) {
             $triggerValue = $value->formField;
-            $actionValue  = $value->capsulecrmFormField;
+            $actionValue = $value->capsulecrmFormField;
             if ($triggerValue === 'custom') {
                 if ($actionValue === 'fields') {
                     $dataFinal[$value->customFieldKey] = $value->customValue;
                 } else {
                     $dataFinal[$actionValue] = $value->customValue;
                 }
-            } elseif (!is_null($data[$triggerValue])) {
+            } elseif (!\is_null($data[$triggerValue])) {
                 if ($actionValue === 'fields') {
                     $dataFinal[$value->customFieldKey] = $data[$triggerValue];
                 } else {
@@ -267,12 +271,13 @@ class RecordApiHelper
                 }
             }
         }
+
         return $dataFinal;
     }
 
     public function execute($fieldValues, $fieldMap, $actionName)
     {
-        $finalData   = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
+        $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
         if ($actionName === 'organisation') {
             $apiResponse = $this->addOrganisation($finalData);
         } elseif ($actionName === 'person') {
@@ -283,12 +288,13 @@ class RecordApiHelper
             $apiResponse = $this->addProject($finalData);
         }
 
-        if ($apiResponse->data->id || $apiResponse->status === 'success') {
+        if (isset($apiResponse->kase->id) || isset($apiResponse->opportunity->id) || isset($apiResponse->party->id) || isset($apiResponse->data->id) || $apiResponse->status === 'success') {
             $res = [$this->typeName . ' successfully'];
-            LogHandler::save($this->integrationId, json_encode(['type' => $this->type, 'type_name' => $this->typeName]), 'success', json_encode($res));
+            LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->typeName]), 'success', wp_json_encode($res));
         } else {
-            LogHandler::save($this->integrationId, json_encode(['type' => $this->type, 'type_name' => $this->type . ' creating']), 'error', json_encode($apiResponse));
+            LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->type . ' creating']), 'error', wp_json_encode($apiResponse));
         }
+
         return $apiResponse;
     }
 }

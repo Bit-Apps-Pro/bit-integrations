@@ -2,7 +2,6 @@
 
 /**
  * SperseIO Integration
- *
  */
 
 namespace BitCode\FI\Actions\SperseIO;

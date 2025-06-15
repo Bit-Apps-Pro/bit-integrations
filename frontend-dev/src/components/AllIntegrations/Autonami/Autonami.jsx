@@ -20,10 +20,8 @@ export default function Autonami({ formFields, setFlow, flow, allIntegURL }) {
   const [autonamiConf, setAutonamiConf] = useState({
     name: 'Autonami',
     type: 'Autonami',
-    field_map: [
-      { formField: '', autonamiField: '' },
-    ],
-    actions: {},
+    field_map: [{ formField: '', autonamiField: '' }],
+    actions: {}
   })
 
   const nextPage = (val) => {
@@ -32,7 +30,10 @@ export default function Autonami({ formFields, setFlow, flow, allIntegURL }) {
       setStep(val)
     } else if (val == 3) {
       if (!checkMappedFields(autonamiConf)) {
-        setSnackbar({ show: true, msg: 'Please map all required fields to continue.' })
+        setSnackbar({
+          show: true,
+          msg: __('Please map all required fields to continue.', 'bit-integrations')
+        })
         return
       }
       if (autonamiConf.field_map.length > 0) {
@@ -63,7 +64,13 @@ export default function Autonami({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto', minHeight: step === 2 && `${200}px` }}>
+      <div
+        className="btcd-stp-page"
+        style={{
+          width: step === 2 && 900,
+          height: step === 2 && 'auto',
+          minHeight: step === 2 && `${200}px`
+        }}>
         <AutonamiIntegLayout
           formID={formID}
           formFields={formFields}
@@ -78,9 +85,8 @@ export default function Autonami({ formFields, setFlow, flow, allIntegURL }) {
         <button
           onClick={() => nextPage(3)}
           disabled={autonamiConf.field_map.length < 1}
-          className="btn f-right btcd-btn-lg green sh-sm flx"
-          type="button"
-        >
+          className="btn f-right btcd-btn-lg purple sh-sm flx"
+          type="button">
           {__('Next', 'bit-integrations')}
           <BackIcn className="ml-1 rev-icn" />
         </button>
@@ -89,7 +95,17 @@ export default function Autonami({ formFields, setFlow, flow, allIntegURL }) {
       {/* STEP 3 */}
       <IntegrationStepThree
         step={step}
-        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, conf: autonamiConf, navigate, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            setFlow,
+            allIntegURL,
+            conf: autonamiConf,
+            navigate,
+            setIsLoading,
+            setSnackbar
+          })
+        }
         isLoading={isLoading}
         dataConf={autonamiConf}
         setDataConf={setAutonamiConf}

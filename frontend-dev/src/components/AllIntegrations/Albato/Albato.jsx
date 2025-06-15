@@ -21,29 +21,25 @@ function Albato({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Albato Web Hooks',
     type: 'Albato',
     method: 'POST',
-    url: process.env.NODE_ENV === 'development' ? 'https://connect.albato.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D' : '',
-    apiConsole: 'https://albato.com/app/bundle',
+    url: '',
+    apiConsole: 'https://albato.com/app/bundle'
   })
 
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={2} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={2} active={step} />
+      </div>
 
       {/* STEP 1 */}
-      <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
+      <div
+        className="btcd-stp-page"
+        style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
         {albatoLinks?.youTubeLink && (
-          <TutorialLink
-            title={albatoLinks?.title}
-            youTubeLink={albatoLinks?.youTubeLink}
-          />
+          <TutorialLink title="Albato" youTubeLink={albatoLinks?.youTubeLink} />
         )}
-        {albatoLinks?.docLink && (
-          <TutorialLink
-            title={albatoLinks?.title}
-            docLink={albatoLinks?.docLink}
-          />
-        )}
+        {albatoLinks?.docLink && <TutorialLink title="Albato" docLink={albatoLinks?.docLink} />}
 
         <WebHooksIntegration
           formID={formID}
@@ -58,14 +54,16 @@ function Albato({ formFields, setFlow, flow, allIntegURL }) {
       </div>
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
-
+      <div
+        className="btcd-stp-page"
+        style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
         <WebHooksStepTwo
           step={step}
-          saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, albato, navigate, '', '', setIsLoading)}
+          saveConfig={() =>
+            saveIntegConfig(flow, setFlow, allIntegURL, albato, navigate, '', '', setIsLoading)
+          }
           isLoading={isLoading}
         />
-
       </div>
     </div>
   )

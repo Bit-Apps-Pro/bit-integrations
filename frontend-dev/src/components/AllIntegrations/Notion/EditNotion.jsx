@@ -21,7 +21,7 @@ function EditNotion({ allIntegURL }) {
     list: false,
     page: false,
     field: false,
-    update: false,
+    update: false
   })
 
   const setUpdateLoading = (value) => {
@@ -33,7 +33,14 @@ function EditNotion({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" name="name" onChange={(e) => handleInput(e, notionConf, setNotionConf, error, setError)} value={notionConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          name="name"
+          onChange={(e) => handleInput(e, notionConf, setNotionConf, error, setError)}
+          value={notionConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <div className="my-3">
         <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
@@ -49,14 +56,15 @@ function EditNotion({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() => { saveUpdateConfig(flow, allIntegURL, notionConf, navigate, { edit: 1 }, setUpdateLoading) }}
+        saveConfig={() => {
+          saveUpdateConfig(flow, allIntegURL, notionConf, navigate, { edit: 1 }, setUpdateLoading)
+        }}
         isLoading={loading.update}
         disabled={notionConf.field_map.length < 1}
         dataConf={notionConf}
         setDataConf={setNotionConf}
         formFields={formFields}
       />
-
     </div>
   )
 }

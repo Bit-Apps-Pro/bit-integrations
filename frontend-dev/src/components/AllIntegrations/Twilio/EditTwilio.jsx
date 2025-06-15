@@ -26,10 +26,21 @@ function EditTwilio({ allIntegURL }) {
 
   const saveConfig = () => {
     if (twilioConf.to === '' && twilioConf.body === '') {
-      setSnackbar({ show: true, msg: __('Please select To and Body field , it is required', 'bit-integrations') })
+      setSnackbar({
+        show: true,
+        msg: __('Please select To and Body field , it is required', 'bit-integrations')
+      })
       return
     }
-    saveActionConf({ flow, allIntegURL, conf: twilioConf, navigate, edit: 1, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: twilioConf,
+      navigate,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -38,7 +49,14 @@ function EditTwilio({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, twilioConf, setTwilioConf)} name="name" value={twilioConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, twilioConf, setTwilioConf)}
+          name="name"
+          value={twilioConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 

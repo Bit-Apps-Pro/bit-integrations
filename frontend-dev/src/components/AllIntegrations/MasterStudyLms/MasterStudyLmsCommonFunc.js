@@ -16,12 +16,16 @@ export const handleInput = (e, msLmsConf, setMsLmsConf, setIsLoading, setSnackba
 }
 
 export const generateMappedField = (msLmsConf) => {
-  const requiredFlds = msLmsConf?.createGroupFields.filter(fld => fld.required === true)
-  return requiredFlds.length > 0 ? requiredFlds.map(field => ({ formField: '', msLmsFormField: field.key })) : [{ formField: '', msLmsFormField: '' }]
+  const requiredFlds = msLmsConf?.createGroupFields.filter((fld) => fld.required === true)
+  return requiredFlds.length > 0
+    ? requiredFlds.map((field) => ({ formField: '', msLmsFormField: field.key }))
+    : [{ formField: '', msLmsFormField: '' }]
 }
 
 export const checkMappedFields = (msLmsConf) => {
-  const mappedFleld = msLmsConf.field_map ? msLmsConf.field_map.filter(mapped => (!mapped.formField && !mapped.msLmsFormField)) : []
+  const mappedFleld = msLmsConf.field_map
+    ? msLmsConf.field_map.filter((mapped) => !mapped.formField && !mapped.msLmsFormField)
+    : []
   if (mappedFleld.length > 0) {
     return false
   }
@@ -32,7 +36,7 @@ export const fetchAllMsLmsCourse = (msLmsConf, setMsLmsConf, setIsLoading, setSn
   setIsLoading(true)
   const queryPrarms = { courseId: msLmsConf.courseId }
   bitsFetch({}, 'mslms_fetch_all_course')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...msLmsConf }
         if (!newConf.default) {
@@ -57,7 +61,7 @@ export const fetchAllLesson = (msLmsConf, setMsLmsConf, setIsLoading, setSnackba
   setIsLoading(true)
   const queryPrarms = { courseId: msLmsConf.courseId }
   bitsFetch(queryPrarms, 'msLms_fetch_all_lesson')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...msLmsConf }
         if (!newConf.default) {
@@ -81,7 +85,7 @@ export const fetchAllQuiz = (msLmsConf, setMsLmsConf, setIsLoading, setSnackbar)
   setIsLoading(true)
   const queryPrarms = { courseId: msLmsConf.courseId }
   bitsFetch(queryPrarms, 'msLms_fetch_all_quiz')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...msLmsConf }
         if (!newConf.default) {

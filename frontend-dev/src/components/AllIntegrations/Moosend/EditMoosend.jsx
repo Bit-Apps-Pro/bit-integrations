@@ -20,7 +20,7 @@ function EditMoosend({ allIntegURL }) {
     auth: false,
     list: false,
     page: false,
-    update: false,
+    update: false
   })
 
   const setUpdateLoading = (value) => {
@@ -32,7 +32,14 @@ function EditMoosend({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" name="name" onChange={(e) => handleInput(e, moosendConf, setMoosendConf, error, setError)} value={moosendConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          name="name"
+          onChange={(e) => handleInput(e, moosendConf, setMoosendConf, error, setError)}
+          value={moosendConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <div className="my-3">
         <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
@@ -48,14 +55,15 @@ function EditMoosend({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() => { saveUpdateConfig(flow, allIntegURL, moosendConf, navigate, { edit: 1 }, setUpdateLoading) }}
+        saveConfig={() => {
+          saveUpdateConfig(flow, allIntegURL, moosendConf, navigate, { edit: 1 }, setUpdateLoading)
+        }}
         isLoading={loading.update}
         disabled={moosendConf.field_map.length < 1}
         dataConf={moosendConf}
         setDataConf={setMoosendConf}
         formFields={formFields}
       />
-
     </div>
   )
 }

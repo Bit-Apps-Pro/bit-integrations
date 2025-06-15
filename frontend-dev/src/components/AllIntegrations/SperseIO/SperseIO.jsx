@@ -21,29 +21,23 @@ function SperseIO({ formFields, setFlow, flow, allIntegURL }) {
     name: 'SperseIO Web Hooks',
     type: 'SperseIO',
     method: 'POST',
-    url: process.env.NODE_ENV === 'development' ? 'https://connect.sperseIO.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D' : '',
-    apiConsole: 'https://sperse.io/',
+    url: '',
+    apiConsole: 'https://sperse.io/'
   })
 
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={2} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={2} active={step} />
+      </div>
 
       {/* STEP 1 */}
-      <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
-        {sperse?.youTubeLink && (
-          <TutorialLink
-            title={sperse?.title}
-            youTubeLink={sperse?.youTubeLink}
-          />
-        )}
-        {sperse?.docLink && (
-          <TutorialLink
-            title={sperse?.title}
-            docLink={sperse?.docLink}
-          />
-        )}
+      <div
+        className="btcd-stp-page"
+        style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
+        {sperse?.youTubeLink && <TutorialLink title="Sperse IO" youTubeLink={sperse?.youTubeLink} />}
+        {sperse?.docLink && <TutorialLink title="Sperse IO" docLink={sperse?.docLink} />}
 
         <WebHooksIntegration
           formID={formID}
@@ -58,14 +52,16 @@ function SperseIO({ formFields, setFlow, flow, allIntegURL }) {
       </div>
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
-
+      <div
+        className="btcd-stp-page"
+        style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
         <WebHooksStepTwo
           step={step}
-          saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, sperseIO, navigate, '', '', setIsLoading)}
+          saveConfig={() =>
+            saveIntegConfig(flow, setFlow, allIntegURL, sperseIO, navigate, '', '', setIsLoading)
+          }
           isLoading={isLoading}
         />
-
       </div>
     </div>
   )

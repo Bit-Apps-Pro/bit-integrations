@@ -25,10 +25,22 @@ function EditMailPoet({ allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
   const saveConfig = () => {
     if (!checkMappedFields(mailPoetConf)) {
-      setSnackbar({ show: true, msg: 'Please map all required fields to continue.' })
+      setSnackbar({
+        show: true,
+        msg: __('Please map all required fields to continue.', 'bit-integrations')
+      })
       return
     }
-    saveActionConf({ flow, setFlow, allIntegURL, conf: mailPoetConf, navigate, edit: 1, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      setFlow,
+      allIntegURL,
+      conf: mailPoetConf,
+      navigate,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
   }
   return (
     <div style={{ width: 900 }}>
@@ -36,7 +48,14 @@ function EditMailPoet({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-6" onChange={e => handleInput(e, mailPoetConf, setMailPoetConf)} name="name" value={mailPoetConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-6"
+          onChange={(e) => handleInput(e, mailPoetConf, setMailPoetConf)}
+          name="name"
+          value={mailPoetConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
       <br />

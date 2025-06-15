@@ -31,14 +31,15 @@ class RecordApiHelper
         ];
 
         $requestParams = [
-            'auth_token' => $auth_token,
-            'list_id' => $listId,
-            'welcome_email' => 1,
+            'auth_token'        => $auth_token,
+            'list_id'           => $listId,
+            'welcome_email'     => 1,
             'update_subscriber' => 1,
-            'merge_fields' => $finalData,
-            'double_optin' => $doubleOptin ? 1 : 0,
+            'merge_fields'      => $finalData,
+            'double_optin'      => $doubleOptin ? 1 : 0,
 
         ];
+
         return HttpHelper::post($apiEndpoints, $requestParams, $header);
     }
 
@@ -52,8 +53,8 @@ class RecordApiHelper
 
         $requestParams = [
             'auth_token' => $auth_token,
-            'list_id' => $listId,
-            'email' => $finalData['email'],
+            'list_id'    => $listId,
+            'email'      => $finalData['email'],
         ];
 
         return HttpHelper::post($apiEndpoints, $requestParams, $header);
@@ -68,10 +69,11 @@ class RecordApiHelper
             $actionValue = $value->acumbamailFormField;
             if ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } else if (!is_null($data[$triggerValue])) {
+            } elseif (!\is_null($data[$triggerValue])) {
                 $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
+
         return $dataFinal;
     }
 
@@ -91,10 +93,11 @@ class RecordApiHelper
             $apiResponse = $this->deleteSubscriber($auth_token, $listId, $finalData);
         }
         if (property_exists($apiResponse, 'error')) {
-            LogHandler::save($this->_integrationID, json_encode(['type' =>  'contact', 'type_name' => 'add-contact']), 'error', json_encode($apiResponse));
+            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'contact', 'type_name' => 'add-contact']), 'error', wp_json_encode($apiResponse));
         } else {
-            LogHandler::save($this->_integrationID, json_encode(['type' =>  'record', 'type_name' => 'add-contact']), 'success', json_encode($apiResponse));
+            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'record', 'type_name' => 'add-contact']), 'success', wp_json_encode($apiResponse));
         }
+
         return $apiResponse;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace BitCode\FI\Actions\GoogleDrive;
 
 use BitCode\FI\Actions\GoogleDrive\RecordApiHelper as GoogleDriveRecordApiHelper;
@@ -23,11 +24,11 @@ class GoogleDriveController
         }
 
         $body = [
-            'grant_type' => 'authorization_code',
-            'client_id' => $requestParams->clientId,
+            'grant_type'    => 'authorization_code',
+            'client_id'     => $requestParams->clientId,
             'client_secret' => $requestParams->clientSecret,
-            'redirect_uri' => urldecode($requestParams->redirectURI),
-            'code' => urldecode($requestParams->code)
+            'redirect_uri'  => urldecode($requestParams->redirectURI),
+            'code'          => urldecode($requestParams->code)
         ];
 
         $apiEndpoint = 'https://oauth2.googleapis.com/token';
@@ -37,7 +38,7 @@ class GoogleDriveController
         if (is_wp_error($apiResponse) || !empty($apiResponse->error)) {
             wp_send_json_error(empty($apiResponse->error_description) ? 'Unknown' : $apiResponse->error_description, 400);
         }
-        $apiResponse->generates_on = \time();
+        $apiResponse->generates_on = time();
         wp_send_json_success($apiResponse, 200);
     }
 
@@ -56,10 +57,10 @@ class GoogleDriveController
         $folders = self::getPathFromParentId($folders->files);
 
         $data = [];
-        if (is_array($folders)) {
+        if (\is_array($folders)) {
             foreach ($folders as $folder) {
-                $data[] = (object)[
-                    'id' => $folder->id,
+                $data[] = (object) [
+                    'id'   => $folder->id,
                     'name' => $folder->name,
                 ];
             }
@@ -68,6 +69,51 @@ class GoogleDriveController
         $response['googleDriveFoldersList'] = $data;
         $response['tokenDetails'] = $token;
         wp_send_json_success($response, 200);
+    }
+
+    public static function getGoogleDriveFoldersList($token)
+    {
+        $headers = [
+            'Accept'        => 'application/json',
+            'Content-Type'  => 'application/json;',
+            'Authorization' => 'Bearer ' . $token,
+        ];
+        // for only root folder: and 'root' in parents
+        $apiEndpoint = "https://www.googleapis.com/drive/v3/files?q=mimeType='application/vnd.google-apps.folder' and trashed=false&fields=files(id,name,parents)";
+        $apiResponse = HttpHelper::get($apiEndpoint, [], $headers);
+        if (is_wp_error($apiResponse) || !empty($apiResponse->error)) {
+            return false;
+        }
+
+        return $apiResponse;
+    }
+
+    public function execute($integrationData, $fieldValues)
+    {
+        if (empty($integrationData->flow_details->tokenDetails->access_token)) {
+            LogHandler::save($this->integrationID, wp_json_encode(['type' => 'googleDrive', 'type_name' => 'file_upload']), 'error', wp_sprintf(__('Not Authorization By %s', 'bit-integrations'), 'GoogleDrive'));
+
+            return false;
+        }
+
+        $integrationDetails = $integrationData->flow_details;
+        $actions = $integrationDetails->actions;
+        $fieldMap = $integrationDetails->field_map;
+        $tokenDetails = self::tokenExpiryCheck($integrationDetails->tokenDetails, $integrationDetails->clientId, $integrationDetails->clientSecret);
+        if ($tokenDetails->access_token !== $integrationDetails->tokenDetails->access_token) {
+            self::saveRefreshedToken($this->integrationID, $tokenDetails);
+        }
+
+        if (empty($fieldMap)) {
+            $error = new WP_Error('REQ_FIELD_EMPTY', __('Required fields not mapped', 'bit-integrations'));
+            LogHandler::save($this->integrationID, 'record', 'validation', $error);
+
+            return $error;
+        }
+
+        (new GoogleDriveRecordApiHelper($tokenDetails->access_token))->executeRecordApi($this->integrationID, $fieldValues, $fieldMap, $actions);
+
+        return true;
     }
 
     protected static function getPathFromParentId($folders)
@@ -80,6 +126,7 @@ class GoogleDriveController
             }
             $newFolders[] = $folder;
         }
+
         return $newFolders;
     }
 
@@ -93,26 +140,12 @@ class GoogleDriveController
                 if (!empty($tempName)) {
                     $parentName = $tempName . ' > ' . $parentName;
                 }
+
                 break;
             }
         }
-        return $parentName;
-    }
 
-    public static function getGoogleDriveFoldersList($token)
-    {
-        $headers = [
-            'Accept' => 'application/json',
-            'Content-Type' => 'application/json;',
-            'Authorization' => 'Bearer ' . $token,
-        ];
-        // for only root folder: and 'root' in parents
-        $apiEndpoint = "https://www.googleapis.com/drive/v3/files?q=mimeType='application/vnd.google-apps.folder' and trashed=false&fields=files(id,name,parents)";
-        $apiResponse = HttpHelper::get($apiEndpoint, [], $headers);
-        if (is_wp_error($apiResponse) || !empty($apiResponse->error)) {
-            return false;
-        }
-        return $apiResponse;
+        return $parentName;
     }
 
     private static function tokenExpiryCheck($token, $clientId, $clientSecret)
@@ -121,7 +154,7 @@ class GoogleDriveController
             return false;
         }
 
-        if ((intval($token->generates_on) + (55 * 60)) < time()) {
+        if ((\intval($token->generates_on) + (55 * 60)) < time()) {
             $refreshToken = self::refreshToken($token->refresh_token, $clientId, $clientSecret);
             if (is_wp_error($refreshToken) || !empty($refreshToken->error)) {
                 return false;
@@ -131,14 +164,15 @@ class GoogleDriveController
             $token->expires_in = $refreshToken->expires_in;
             $token->generates_on = $refreshToken->generates_on;
         }
+
         return $token;
     }
 
     private static function refreshToken($refresh_token, $clientId, $clientSecret)
     {
         $body = [
-            'grant_type' => 'refresh_token',
-            'client_id' => $clientId,
+            'grant_type'    => 'refresh_token',
+            'client_id'     => $clientId,
             'client_secret' => $clientSecret,
             'refresh_token' => $refresh_token,
         ];
@@ -149,7 +183,8 @@ class GoogleDriveController
             return false;
         }
         $token = $apiResponse;
-        $token->generates_on = \time();
+        $token->generates_on = time();
+
         return $token;
     }
 
@@ -167,31 +202,6 @@ class GoogleDriveController
 
         $newDetails = json_decode($googleDriveDetails[0]->flow_details);
         $newDetails->tokenDetails = $tokenDetails;
-        $flow->update($integrationID, ['flow_details' => \json_encode($newDetails)]);
-    }
-
-    public function execute($integrationData, $fieldValues)
-    {
-        if (empty($integrationData->flow_details->tokenDetails->access_token)) {
-            LogHandler::save($this->integrationID, wp_json_encode(['type' => 'googleDrive', 'type_name' => 'file_upload']), 'error', 'Not Authorization By GoogleDrive.');
-            return false;
-        }
-
-        $integrationDetails = $integrationData->flow_details;
-        $actions = $integrationDetails->actions;
-        $fieldMap = $integrationDetails->field_map;
-        $tokenDetails = self::tokenExpiryCheck($integrationDetails->tokenDetails, $integrationDetails->clientId, $integrationDetails->clientSecret);
-        if ($tokenDetails->access_token !== $integrationDetails->tokenDetails->access_token) {
-            self::saveRefreshedToken($this->integrationID, $tokenDetails);
-        }
-
-        if (empty($fieldMap)) {
-            $error = new WP_Error('REQ_FIELD_EMPTY', __('Required fields not mapped.', 'bit-integrations'));
-            LogHandler::save($this->integrationID, 'record', 'validation', $error);
-            return $error;
-        }
-
-        (new GoogleDriveRecordApiHelper($tokenDetails->access_token))->executeRecordApi($this->integrationID, $fieldValues, $fieldMap, $actions);
-        return true;
+        $flow->update($integrationID, ['flow_details' => wp_json_encode($newDetails)]);
     }
 }

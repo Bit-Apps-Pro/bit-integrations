@@ -19,12 +19,36 @@ function Log({ allIntegURL }) {
 
   const [log, setLog] = useState([])
   const [cols, setCols] = useState([
-    { width: 250, minWidth: 80, Header: __('Status', 'bit-integrations'), accessor: 'response_type' },
-    { width: 250, minWidth: 80, Header: __('Record Type', 'bit-integrations'), accessor: 'api_type' },
-    { width: 220, minWidth: 200, Header: __('Response', 'bit-integrations'), accessor: 'response_obj', Cell: val => <CopyText value={val.row.values.response_obj} setSnackbar={setSnackbar} className="cpyTxt" /> },
-    { width: 220, minWidth: 200, Header: __('Date', 'bit-integrations'), accessor: 'created_at' },
+    {
+      width: 250,
+      minWidth: 80,
+      Header: __('Status', 'bit-integrations'),
+      accessor: 'response_type'
+    },
+    {
+      width: 250,
+      minWidth: 80,
+      Header: __('Record Type', 'bit-integrations'),
+      accessor: 'api_type'
+    },
+    {
+      width: 220,
+      minWidth: 200,
+      Header: __('Response', 'bit-integrations'),
+      accessor: 'response_obj',
+      Cell: (val) => (
+        <CopyText
+          value={val.row.values.response_obj}
+          setSnackbar={setSnackbar}
+          className="cpyTxt"
+        />
+      )
+    },
+    { width: 220, minWidth: 200, Header: __('Date', 'bit-integrations'), accessor: 'created_at' }
   ])
-  const setTableCols = useCallback(newCols => { setCols(newCols) }, [])
+  const setTableCols = useCallback((newCols) => {
+    setCols(newCols)
+  }, [])
   // route is info/:id but for redirect uri need to make new/:type
   // const location = window.location.toString()
 
@@ -54,7 +78,7 @@ function Log({ allIntegURL }) {
         if (action && action.fetchData && action.data) {
           action.fetchData(action.data)
         }
-        setSnackbar({ show: true, msg: 'Response delete successfully' })
+        setSnackbar({ show: true, msg: __('Response delete successfully', 'bit-integrations') })
       }
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -68,8 +92,8 @@ function Log({ allIntegURL }) {
         // eslint-disable-next-line no-param-reassign
         row.original = row.data[0].row.original
       }
-      confMdl.btnTxt = 'Delete'
-      confMdl.body = 'Are you sure to delete this entry'
+      confMdl.btnTxt = __('Delete', 'bit-integrations')
+      confMdl.body = __('Are you sure to delete this entry', 'bit-integrations')
       confMdl.btnClass = ''
 
       confMdl.action = () => {
@@ -79,41 +103,44 @@ function Log({ allIntegURL }) {
       confMdl.show = true
       setconfMdl({ ...confMdl })
     },
-    [closeConfMdl, confMdl, setBulkDelete],
+    [closeConfMdl, confMdl, setBulkDelete]
   )
 
-  const fetchData = useCallback(({ pageSize, pageIndex }) => {
-    // eslint-disable-next-line no-plusplus
-    if (refreshLog) {
-      setRefreshLog(0)
-      setIsLoading(true)
-    }
+  const fetchData = useCallback(
+    ({ pageSize, pageIndex }) => {
+      // eslint-disable-next-line no-plusplus
+      if (refreshLog) {
+        setRefreshLog(0)
+        setIsLoading(true)
+      }
 
-    // eslint-disable-next-line no-plusplus
-    const fetchId = ++fetchIdRef.current
-    if (log.length < 1) {
-      setIsLoading(true)
-    }
-    if (fetchId === fetchIdRef.current) {
-      const startRow = pageSize * pageIndex
-      bitsFetch(
-        {
-          id,
-          offset: startRow,
-          pageSize,
-        },
-        'log/get',
-      ).then((res) => {
-        if (res?.success) {
-          setPageCount(Math.ceil(res.data.count / pageSize))
-          setCountEntries(res.data.count)
-          setLog(res.data.data)
-        }
-        setIsLoading(false)
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [delConfMdl, id, refreshLog])
+      // eslint-disable-next-line no-plusplus
+      const fetchId = ++fetchIdRef.current
+      if (log.length < 1) {
+        setIsLoading(true)
+      }
+      if (fetchId === fetchIdRef.current) {
+        const startRow = pageSize * pageIndex
+        bitsFetch(
+          {
+            id,
+            offset: startRow,
+            pageSize
+          },
+          'log/get'
+        ).then((res) => {
+          if (res?.success) {
+            setPageCount(Math.ceil(res.data.count / pageSize))
+            setCountEntries(res.data.count)
+            setLog(res.data.data)
+          }
+          setIsLoading(false)
+        })
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [delConfMdl, id, refreshLog]
+  )
   return (
     <>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
@@ -121,15 +148,14 @@ function Log({ allIntegURL }) {
         <div>
           <Link to={allIntegURL} className="btn btcd-btn-o-gray">
             <span className="btcd-icn icn-chevron-left" />
-            &nbsp;Back
+            &nbsp;{__('Back', 'bit-integrations')}
           </Link>
           <button
             onClick={() => setRefreshLog(1)}
             className="icn-btn ml-2 mr-2 tooltip"
             style={{ '--tooltip-txt': `'${__('Refresh Log', 'bit-integrations')}'` }}
             type="button"
-            disabled={isLoading}
-          >
+            disabled={isLoading}>
             &#x21BB;
           </button>
         </div>

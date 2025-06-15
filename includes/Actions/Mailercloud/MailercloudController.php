@@ -6,14 +6,12 @@
 
 namespace BitCode\FI\Actions\Mailercloud;
 
-use WP_Error;
 use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Actions\Mailercloud\RecordApiHelper;
+use WP_Error;
 
 /**
  * Provide functionality for Mailercloud integration
  */
-
 class MailercloudController
 {
     private $baseUrl = 'https://cloudapi.mailercloud.com/v1/';
@@ -29,13 +27,13 @@ class MailercloudController
                 400
             );
         }
-        $apiEndpoints = $this->baseUrl .'client/plan' ;
+        $apiEndpoints = $this->baseUrl . 'client/plan';
         $headers = [
-          'Content-Type' => 'application/json',
-          'Authorization' => $requestParams->authKey
+            'Content-Type'  => 'application/json',
+            'Authorization' => $requestParams->authKey
         ];
         $response = HttpHelper::get($apiEndpoints, null, $headers);
-        if ($response->code === "invalid_api_key") {
+        if ($response->code === 'invalid_api_key') {
             wp_send_json_error(
                 __(
                     'Invalid token',
@@ -58,18 +56,18 @@ class MailercloudController
                 400
             );
         }
-        $apiEndpoints = $this->baseUrl .'lists/search' ;
+        $apiEndpoints = $this->baseUrl . 'lists/search';
         $headers = [
-          'Content-Type' => 'application/json',
-          'Authorization' => $requestParams->authKey
+            'Content-Type'  => 'application/json',
+            'Authorization' => $requestParams->authKey
         ];
         $body = [
-            "limit"=>100,
-            "page"=>1
+            'limit' => 100,
+            'page'  => 1
         ];
-        $response = HttpHelper::post($apiEndpoints, json_encode($body), $headers);
+        $response = HttpHelper::post($apiEndpoints, wp_json_encode($body), $headers);
 
-        if ($response->code === "invalid_api_key") {
+        if ($response->code === 'invalid_api_key') {
             wp_send_json_error(
                 __(
                     'Invalid token',
@@ -93,18 +91,18 @@ class MailercloudController
                 400
             );
         }
-        $apiEndpoints = $this->baseUrl .'contact/property/search' ;
+        $apiEndpoints = $this->baseUrl . 'contact/property/search';
         $headers = [
-          'Content-Type' => 'application/json',
-          'Authorization' => $requestParams->authKey
+            'Content-Type'  => 'application/json',
+            'Authorization' => $requestParams->authKey
         ];
         $body = [
-            "limit"=>100,
-            "page"=>1
+            'limit' => 100,
+            'page'  => 1
         ];
-        $response = HttpHelper::post($apiEndpoints, json_encode($body), $headers);
+        $response = HttpHelper::post($apiEndpoints, wp_json_encode($body), $headers);
 
-        if ($response->code === "invalid_api_key") {
+        if ($response->code === 'invalid_api_key') {
             wp_send_json_error(
                 __(
                     'Invalid token',
@@ -114,26 +112,25 @@ class MailercloudController
             );
         }
         $fields = [];
-        $staticFieldsKeys = ['city', 'country', "details", 'department', 'dob', 'email', 'industry', 'job_title', 'last_name', 'lead_source', 'middle_name', 'name', 'organization', 'phone', 'salary', 'state', 'zip','contact_type', 'list_id' , 'lead_source' , 'userip'];
-        foreach ($response->data as $key=>$field) {
-            if (in_array($field->field_value, $staticFieldsKeys)) {
+        $staticFieldsKeys = ['city', 'country', 'details', 'department', 'dob', 'email', 'industry', 'job_title', 'last_name', 'lead_source', 'middle_name', 'name', 'organization', 'phone', 'salary', 'state', 'zip', 'contact_type', 'list_id', 'lead_source', 'userip'];
+        foreach ($response->data as $key => $field) {
+            if (\in_array($field->field_value, $staticFieldsKeys)) {
                 $fields[] = (object) [
-                    'label' => $field->field_name,
-                    'key' =>$field->field_value ,
-                    'required' =>$field->field_value == 'email' ? true : false ,
+                    'label'    => $field->field_name,
+                    'key'      => $field->field_value,
+                    'required' => $field->field_value == 'email' ? true : false,
                 ];
             } else {
                 $fields[] = (object) [
-                    'label' => $field->field_name,
-                    'key' =>$field->id ,
-                    'required' =>$field->field_value == 'email' ? true : false ,
+                    'label'    => $field->field_name,
+                    'key'      => $field->id,
+                    'required' => $field->field_value == 'email' ? true : false,
                 ];
             }
         }
 
         wp_send_json_success($fields, 200);
     }
-
 
     public function execute($integrationData, $fieldValues)
     {
@@ -148,7 +145,7 @@ class MailercloudController
             empty($field_map)
              || empty($authKey)
         ) {
-            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for mailercloud api', 'bit-integrations'));
+            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Mailercloud'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
         $mailercloudApiResponse = $recordApiHelper->execute(
@@ -162,6 +159,7 @@ class MailercloudController
         if (is_wp_error($mailercloudApiResponse)) {
             return $mailercloudApiResponse;
         }
+
         return $mailercloudApiResponse;
     }
 }

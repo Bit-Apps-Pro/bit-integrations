@@ -22,43 +22,50 @@ function ClinchPad({ formFields, setFlow, flow, allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const organizationFields = [
-    { key: 'name', label: 'Name', required: true },
-    { key: 'phone', label: 'Phone', required: false },
-    { key: 'email', label: 'Email', required: false },
-    { key: 'website', label: 'Website', required: false },
-    { key: 'address', label: 'Address', required: false },
+    { key: 'name', label: __('Name', 'bit-integrations'), required: true },
+    { key: 'phone', label: __('Phone', 'bit-integrations'), required: false },
+    { key: 'email', label: __('Email', 'bit-integrations'), required: false },
+    { key: 'website', label: __('Website', 'bit-integrations'), required: false },
+    { key: 'address', label: __('Address', 'bit-integrations'), required: false }
   ]
 
   const contactFields = [
-    { key: 'name', label: 'Name', required: true },
-    { key: 'designation', label: 'Designation', required: false },
-    { key: 'phone', label: 'Phone', required: false },
-    { key: 'email', label: 'Email', required: false },
-    { key: 'address', label: 'Address', required: false },
+    { key: 'name', label: __('Name', 'bit-integrations'), required: true },
+    { key: 'designation', label: __('Designation', 'bit-integrations'), required: false },
+    { key: 'phone', label: __('Phone', 'bit-integrations'), required: false },
+    { key: 'email', label: __('Email', 'bit-integrations'), required: false },
+    { key: 'address', label: __('Address', 'bit-integrations'), required: false }
   ]
 
   const leadFields = [
-    { key: 'name', label: 'Name', required: true },
-    { key: 'size', label: 'Size', required: false },
+    { key: 'name', label: __('Name', 'bit-integrations'), required: true },
+    { key: 'size', label: __('Size', 'bit-integrations'), required: false }
   ]
 
   const [clinchPadConf, setClinchPadConf] = useState({
     name: 'ClinchPad',
     type: 'ClinchPad',
-    api_key: process.env.NODE_ENV === 'development' ? '18c5716c8f83c95dbef6107fb6fffbb1' : '',
-    field_map: [
-      { formField: '', clinchPadFormField: '' },
-    ],
+    api_key: '',
+    field_map: [{ formField: '', clinchPadFormField: '' }],
     actionName: '',
     organizationFields,
     contactFields,
     leadFields,
-    actions: {},
+    actions: {}
   })
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(flow, setFlow, allIntegURL, clinchPadConf, navigate, '', '', setIsLoading)
+    const resp = saveIntegConfig(
+      flow,
+      setFlow,
+      allIntegURL,
+      clinchPadConf,
+      navigate,
+      '',
+      '',
+      setIsLoading
+    )
     resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
@@ -69,19 +76,19 @@ function ClinchPad({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
     if (!checkMappedFields(clinchPadConf)) {
-      toast.error('Please map mandatory fields')
+      toast.error(__('Please map mandatory fields', 'bit-integrations'))
       return
     }
 
     if (clinchPadConf.actionName === 'lead') {
       if (!clinchPadConf.selectedCRMPipeline) {
-        toast.error('Please select a pipeline')
+        toast.error(__('Please select a pipeline', 'bit-integrations'))
         return
       }
     }
@@ -92,7 +99,9 @@ function ClinchPad({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={3} active={step} />
+      </div>
 
       {/* STEP 1 */}
       <ClinchPadAuthorization
@@ -106,11 +115,12 @@ function ClinchPad({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
-
+      <div
+        className="btcd-stp-page"
+        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <ClinchPadIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, clinchPadConf, setClinchPadConf, setLoading, setSnackbar)}
+          handleInput={e => handleInput(e, clinchPadConf, setClinchPadConf, setLoading, setSnackbar)}
           clinchPadConf={clinchPadConf}
           setClinchPadConf={setClinchPadConf}
           loading={loading}
@@ -121,13 +131,10 @@ function ClinchPad({ formFields, setFlow, flow, allIntegURL }) {
         {clinchPadConf?.actionName && (
           <button
             onClick={() => nextPage(3)}
-            disabled={!(checkMappedFields(clinchPadConf))}
-            className="btn f-right btcd-btn-lg green sh-sm flx"
-            type="button"
-          >
-            {__('Next', 'bit-integrations')}
-            {' '}
-            &nbsp;
+            disabled={!checkMappedFields(clinchPadConf)}
+            className="btn f-right btcd-btn-lg purple sh-sm flx"
+            type="button">
+            {__('Next', 'bit-integrations')} &nbsp;
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         )}

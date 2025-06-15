@@ -14,13 +14,16 @@ use BitCode\FI\Core\Util\HttpHelper;
 final class MetaDataApiHelper
 {
     private $_defaultHeader;
+
     private $_apiDomain;
+
     private $_module;
 
     /**
      * Constructor function
      *
-     * @param Object $tokenDetails Api token details
+     * @param object $tokenDetails Api token details
+     * @param mixed  $minorV
      */
     public function __construct($tokenDetails, $minorV = false)
     {
@@ -33,7 +36,7 @@ final class MetaDataApiHelper
      *
      * @param $module Name of the module for which Assignment rules needs to retrive
      *
-     * @return Object $relatedLists Assignment rules
+     * @return object $relatedLists Assignment rules
      */
     public function getAssignmentRules($module)
     {
@@ -50,14 +53,16 @@ final class MetaDataApiHelper
         } else {
             return $getAssignmentRulesResponse;
         }
+
         return (object) $assignment_rules;
     }
+
     /**
      * Helps to get Related Lists of a Zoho CRM module
      *
      * @param $module Name of the module for which related lists needs to retrive
      *
-     * @return Array $relatedLists Related Lists
+     * @return array $relatedLists Related Lists
      */
     public function getRelatedLists($module)
     {
@@ -68,43 +73,44 @@ final class MetaDataApiHelper
         }
 
         if ($module !== 'Tasks' || $module !== 'Events' || $module !== 'Calls') {
-            $related_lists = array(
-                'Tasks' => (object) array(
-                    'name' => 'Tasks',
+            $related_lists = [
+                'Tasks' => (object) [
+                    'name'     => 'Tasks',
                     'api_name' => 'Tasks',
-                    'href' => null,
-                    'module' => 'Tasks',
-                ),
-                'Events' => (object) array(
-                    'name' => 'Events',
+                    'href'     => null,
+                    'module'   => 'Tasks',
+                ],
+                'Events' => (object) [
+                    'name'     => 'Events',
                     'api_name' => 'Events',
-                    'href' => null,
-                    'module' => 'Events',
-                ),
-                'Calls' => (object) array(
-                    'name' => 'Calls',
+                    'href'     => null,
+                    'module'   => 'Events',
+                ],
+                'Calls' => (object) [
+                    'name'     => 'Calls',
                     'api_name' => 'Calls',
-                    'href' => null,
-                    'module' => 'Calls',
-                ),
-            );
+                    'href'     => null,
+                    'module'   => 'Calls',
+                ],
+            ];
         }
 
         $relatedModuleToRemove = array('Attachments', 'Products', 'Activities', 'Activities_History', 'Emails', 'Invited_Events', 'Campaigns', 'Social', 'CheckLists', 'Zoho_Survey', 'Visits_Zoho_Livedesk', 'ZohoSign_Documents', 'Lead_Quote', 'Zoho_ShowTime');
         if (!empty($getRelatedListsResponse->related_lists)) {
             foreach ($getRelatedListsResponse->related_lists as $relatedListsDetails) {
-                if (!in_array($relatedListsDetails->api_name, $relatedModuleToRemove)) {
-                    $related_lists[$relatedListsDetails->api_name] = (object) array(
-                        'name' => $relatedListsDetails->name,
+                if (!\in_array($relatedListsDetails->api_name, $relatedModuleToRemove)) {
+                    $related_lists[$relatedListsDetails->api_name] = (object) [
+                        'name'     => $relatedListsDetails->name,
                         'api_name' => $relatedListsDetails->api_name,
-                        'href' => $relatedListsDetails->href,
-                        'module' => $relatedListsDetails->module,
-                    );
+                        'href'     => $relatedListsDetails->href,
+                        'module'   => $relatedListsDetails->module,
+                    ];
                 }
             }
         } else {
             return $getRelatedListsResponse;
         }
+
         return $related_lists;
     }
 }

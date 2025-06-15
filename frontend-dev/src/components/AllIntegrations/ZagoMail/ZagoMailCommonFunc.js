@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { __ } from '@wordpress/i18n'
+import { __ } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
 
 export const handleInput = (e, zagoMailConf, setZagoMailConf) => {
@@ -8,15 +8,10 @@ export const handleInput = (e, zagoMailConf, setZagoMailConf) => {
   setZagoMailConf({ ...newConf })
 }
 
-export const refreshZagoMailList = (
-  zagoMailConf,
-  setZagoMailConf,
-  setIsLoading,
-  setSnackbar,
-) => {
+export const refreshZagoMailList = (zagoMailConf, setZagoMailConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   const refreshListsRequestParams = {
-    api_public_key: zagoMailConf.api_public_key,
+    api_public_key: zagoMailConf.api_public_key
   }
   bitsFetch(refreshListsRequestParams, 'zagoMail_lists')
     .then((result) => {
@@ -29,15 +24,15 @@ export const refreshZagoMailList = (
           newConf.default.zagoMailLists = result.data.zagoMailLists
           setSnackbar({
             show: true,
-            msg: __('ZagoMail lists refreshed', 'bit-integrations'),
+            msg: __('ZagoMail lists refreshed', 'bit-integrations')
           })
         } else {
           setSnackbar({
             show: true,
             msg: __(
               'No ZagoMail lists found. Try changing the header row number or try again',
-              'bit-integrations',
-            ),
+              'bit-integrations'
+            )
           })
         }
 
@@ -45,10 +40,7 @@ export const refreshZagoMailList = (
       } else {
         setSnackbar({
           show: true,
-          msg: __(
-            'ZagoMail lists refresh failed. please try again',
-            'bit-integrations',
-          ),
+          msg: __('ZagoMail lists refresh failed. please try again', 'bit-integrations')
         })
       }
       setIsLoading(false)
@@ -56,15 +48,10 @@ export const refreshZagoMailList = (
     .catch(() => setIsLoading(false))
 }
 // refreshZagoMailTags
-export const refreshZagoMailTags = (
-  zagoMailConf,
-  setZagoMailConf,
-  setIsLoading,
-  setSnackbar,
-) => {
-  setIsLoading( {tags : true})
+export const refreshZagoMailTags = (zagoMailConf, setZagoMailConf, setIsLoading, setSnackbar) => {
+  setIsLoading({ tags: true })
   const refreshListsRequestParams = {
-    api_public_key: zagoMailConf.api_public_key,
+    api_public_key: zagoMailConf.api_public_key
   }
   bitsFetch(refreshListsRequestParams, 'zagoMail_tags')
     .then((result) => {
@@ -78,15 +65,15 @@ export const refreshZagoMailTags = (
           setZagoMailConf({ ...newConf })
           setSnackbar({
             show: true,
-            msg: __('ZagoMail tags refreshed', 'bit-integrations'),
+            msg: __('ZagoMail tags refreshed', 'bit-integrations')
           })
         } else {
           setSnackbar({
             show: true,
             msg: __(
               'No ZagoMail tags found. Try changing the header row number or try again',
-              'bit-integrations',
-            ),
+              'bit-integrations'
+            )
           })
         }
 
@@ -94,10 +81,7 @@ export const refreshZagoMailTags = (
       } else {
         setSnackbar({
           show: true,
-          msg: __(
-            'ZagoMail tags refresh failed. please try again',
-            'bit-integrations',
-          ),
+          msg: __('ZagoMail tags refresh failed. please try again', 'bit-integrations')
         })
       }
       setIsLoading(false)
@@ -105,16 +89,11 @@ export const refreshZagoMailTags = (
     .catch(() => setIsLoading(false))
 }
 // refreshMappedFields
-export const refreshZagoMailFields = (
-  zagoMailConf,
-  setZagoMailConf,
-  setIsLoading,
-  setSnackbar,
-) => {
+export const refreshZagoMailFields = (zagoMailConf, setZagoMailConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   const refreshListsRequestParams = {
     api_public_key: zagoMailConf.api_public_key,
-    listId: zagoMailConf.listId,
+    listId: zagoMailConf.listId
   }
   // console.log('zagoMailConf', zagoMailConf)
   bitsFetch(refreshListsRequestParams, 'zagoMail_refresh_fields')
@@ -132,19 +111,19 @@ export const refreshZagoMailFields = (
             .map((f) => ({
               formField: '',
               zagoMailField: f.fieldId,
-              required: true,
+              required: true
             }))
           setSnackbar({
             show: true,
-            msg: __('ZagoMail fields refreshed', 'bit-integrations'),
+            msg: __('ZagoMail fields refreshed', 'bit-integrations')
           })
         } else {
           setSnackbar({
             show: true,
             msg: __(
               'No ZagoMail fields found. Try changing the header row number or try again',
-              'bit-integrations',
-            ),
+              'bit-integrations'
+            )
           })
         }
 
@@ -152,10 +131,7 @@ export const refreshZagoMailFields = (
       } else {
         setSnackbar({
           show: true,
-          msg: __(
-            'ZagoMail fields refresh failed. please try again',
-            'bit-integrations',
-          ),
+          msg: __('ZagoMail fields refresh failed. please try again', 'bit-integrations')
         })
       }
       setIsLoading(false)
@@ -166,10 +142,8 @@ export const refreshZagoMailFields = (
 export const checkMappedFields = (zagoMailConf) => {
   const mappedFields = zagoMailConf?.field_map
     ? zagoMailConf.field_map.filter(
-      (mappedField) => !mappedField.formField
-          && mappedField.zagoMailField
-          && mappedField.required,
-    )
+        (mappedField) => !mappedField.formField && mappedField.zagoMailField && mappedField.required
+      )
     : []
   if (mappedFields.length > 0) {
     return false

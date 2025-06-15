@@ -9,14 +9,14 @@ export const getAllLifterLmsQuiz = (data, setFlow) => {
       tmpFlow.flow_details.allQuiz = result.data
 
       setFlow({ ...tmpFlow })
-      return 'All LifterLms quiz fetched successfully'
+      return __('All LifterLms quiz fetched successfully', 'bit-integrations')
     }
-    return 'LifterLms quiz fetching failed. please try again'
+    return __('LifterLms quiz fetching failed. please try again', 'bit-integrations')
   })
   toast.promise(loadPostTypes, {
     success: (data) => data,
     error: __('Error Occurred', 'bit-integrations'),
-    loading: __('Loading quiz...'),
+    loading: __('Loading quiz...')
   })
 }
 
@@ -27,14 +27,14 @@ export const getAllLifterLmsLesson = (data, setFlow) => {
       tmpFlow.flow_details.allQuiz = result.data
 
       setFlow({ ...tmpFlow })
-      return 'All LifterLms lesson fetched successfully'
+      return __('All LifterLms lesson fetched successfully', 'bit-integrations')
     }
-    return 'LifterLms lesson fetching failed. please try again'
+    return __('LifterLms lesson fetching failed. please try again', 'bit-integrations')
   })
   toast.promise(loadPostTypes, {
     success: (data) => data,
     error: __('Error Occurred', 'bit-integrations'),
-    loading: __('Loading lesson...'),
+    loading: __('Loading lesson...')
   })
 }
 
@@ -45,32 +45,33 @@ export const getAllLifterLmsCourse = (data, setFlow) => {
       tmpFlow.flow_details.allCourse = result.data
 
       setFlow({ ...tmpFlow })
-      return 'All LifterLms course fetched successfully'
+      return __('All LifterLms course fetched successfully', 'bit-integrations')
     }
-    return 'LifterLms course fetching failed. please try again'
+    return __('LifterLms course fetching failed. please try again', 'bit-integrations')
   })
   toast.promise(loadPostTypes, {
     success: (data) => data,
     error: __('Error Occurred', 'bit-integrations'),
-    loading: __('Loading course...'),
+    loading: __('Loading course...')
   })
 }
 
 export const getAllLifterLmsMembership = (data, setFlow) => {
-  const loadPostTypes = bitsFetch(null, 'get_lifterLms_all_membership', null, 'GET').then((result) => {
-    if (result && result.success) {
-      const tmpFlow = { ...data }
-      tmpFlow.flow_details.allMembership = result.data
+  const loadPostTypes = bitsFetch(null, 'get_lifterLms_all_membership', null, 'GET').then(
+    (result) => {
+      if (result && result.success) {
+        const tmpFlow = { ...data }
+        tmpFlow.flow_details.allMembership = result.data
 
-      setFlow({ ...tmpFlow })
-      return 'All LifterLms membership fetched successfully'
+        setFlow({ ...tmpFlow })
+        return __('All LifterLms membership fetched successfully', 'bit-integrations')
+      }
+      return __('LifterLms membership fetching failed. please try again', 'bit-integrations')
     }
-    return 'LifterLms membership fetching failed. please try again'
-  })
+  )
   toast.promise(loadPostTypes, {
     success: (data) => data,
     error: __('Error Occurred', 'bit-integrations'),
-    loading: __('Loading membership...'),
+    loading: __('Loading membership...')
   })
 }
-

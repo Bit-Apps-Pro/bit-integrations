@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\Discord;
 
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -16,8 +16,11 @@ use BitCode\FI\Log\LogHandler;
 class RecordApiHelper
 {
     private $_defaultHeader;
+
     private $_integrationID;
+
     private $_apiEndPoint;
+
     private $_accessToken;
 
     public function __construct($apiEndPoint, $access_token, $integId)
@@ -33,12 +36,12 @@ class RecordApiHelper
     {
         $header = [
             'Authorization' => 'Bot ' . $this->_accessToken,
-            'Accept' => 'application/json',
+            'Accept'        => 'application/json',
         ];
 
         $insertRecordEndpoint = $this->_apiEndPoint . '/channels/' . $channel_id . '/messages';
-        return HttpHelper::post($insertRecordEndpoint, $data, $header);
 
+        return HttpHelper::post($insertRecordEndpoint, $data, $header);
     }
 
     public function execute($integrationDetails, $fieldValues)
@@ -49,7 +52,7 @@ class RecordApiHelper
         $recordApiResponse = '';
         if (!empty($integrationDetails->actions->attachments)) {
             foreach ($fieldValues as $fieldKey => $fieldValue) {
-                if ($integrationDetails->actions->attachments === $fieldKey) {
+                if ($integrationDetails->actions->attachments == $fieldKey) {
                     $file = $fieldValue;
                 }
             }
@@ -57,41 +60,43 @@ class RecordApiHelper
             if (
                 !empty($file)
                 && (
-                    (is_array($file))
-                )) {
+                    (\is_array($file))
+                )
+            ) {
                 $data = [
-                    'content' => $messagesBody,
+                    'content'    => $messagesBody,
                     'parse_mode' => $integrationDetails->parse_mode,
-                    'file' => is_array($file) ? $file[0] : $file
+                    'file'       => \is_array($file) ? $file[0] : $file
                 ];
 
                 $sendPhotoApiHelper = new FilesApiHelper($this->_accessToken);
-                $recordApiResponse = $sendPhotoApiHelper->uploadFiles($this->_apiEndPoint, $data, $this->_accessToken, $integrationDetails->selectedChannel);
+                $recordApiResponse  = $sendPhotoApiHelper->uploadFiles($this->_apiEndPoint, $data, $this->_accessToken, $integrationDetails->selectedChannel);
+                $recordApiResponse  = $this->sendMessages($data, $integrationDetails->selectedChannel);
             } else {
                 $data = [
-                    'content' => $messagesBody,
+                    'content'    => $messagesBody,
                     'parse_mode' => $integrationDetails->parse_mode
                 ];
                 $recordApiResponse = $this->sendMessages($data, $integrationDetails->selectedChannel);
             }
             $type = 'insert';
-
         } else {
             $data = [
-                'content' => $messagesBody,
+                'content'    => $messagesBody,
                 'parse_mode' => $integrationDetails->parse_mode
             ];
 
             $recordApiResponse = $this->sendMessages($data, $integrationDetails->selectedChannel);
             $type = 'insert';
         }
-        $recordApiResponse = is_string($recordApiResponse) ? json_decode($recordApiResponse) : $recordApiResponse;
+        $recordApiResponse = \is_string($recordApiResponse) ? json_decode($recordApiResponse) : $recordApiResponse;
 
         if (isset($recordApiResponse->id)) {
             LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => $type], 'success', $recordApiResponse);
         } else {
             LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => $type], 'error', $recordApiResponse);
         }
+
         return $recordApiResponse;
     }
 }

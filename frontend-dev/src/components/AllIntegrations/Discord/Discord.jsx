@@ -22,16 +22,16 @@ function Discord({ formFields, setFlow, flow, allIntegURL }) {
   const [discordConf, setDiscordConf] = useState({
     name: 'Discord',
     type: 'Discord',
-    accessToken: process.env.NODE_ENV === 'development' ? 'MTE4ODA1NTc5ODQzNDI1NDg2MA.G-UPBS.pKp3KXIsxsWleLojlW1oToI0Y9-IfuIqWi9oJk' : '',
+    accessToken: '',
     parse_mode: 'HTML',
     field_map: [{ formField: '', discordFormField: '' }],
     server_id: '',
     channel_id: '',
     body: '',
-    actions: {},
+    actions: {}
   })
 
-  const nextPage = (val) => {
+  const nextPage = val => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -69,13 +69,12 @@ function Discord({ formFields, setFlow, flow, allIntegURL }) {
           ...(step === 2 && {
             width: 900,
             height: 'auto',
-            overflow: 'visible',
-          }),
-        }}
-      >
+            overflow: 'visible'
+          })
+        }}>
         <DiscordIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, discordConf, setDiscordConf, setIsLoading, setSnackbar)}
+          handleInput={e => handleInput(e, discordConf, setDiscordConf, setIsLoading, setSnackbar)}
           discordConf={discordConf}
           setDiscordConf={setDiscordConf}
           isLoading={isLoading}
@@ -86,9 +85,8 @@ function Discord({ formFields, setFlow, flow, allIntegURL }) {
         <button
           onClick={() => nextPage(3)}
           disabled={discordConf.selectedChannel === '' || discordConf.selectedServer === ''}
-          className="btn f-right btcd-btn-lg green sh-sm flx"
-          type="button"
-        >
+          className="btn f-right btcd-btn-lg purple sh-sm flx"
+          type="button">
           {__('Next', 'bit-integrations')}
           <BackIcn className="ml-1 rev-icn" />
         </button>
@@ -97,7 +95,17 @@ function Discord({ formFields, setFlow, flow, allIntegURL }) {
       {/* STEP 3 */}
       <IntegrationStepThree
         step={step}
-        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, conf: discordConf, navigate, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            setFlow,
+            allIntegURL,
+            conf: discordConf,
+            navigate,
+            setIsLoading,
+            setSnackbar
+          })
+        }
         isLoading={isLoading}
         dataConf={discordConf}
         setDataConf={setDiscordConf}

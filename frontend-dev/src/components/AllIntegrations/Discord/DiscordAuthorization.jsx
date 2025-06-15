@@ -6,7 +6,8 @@ import Note from '../../Utilities/Note'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 
-export default function DiscordAuthorization({ formID,
+export default function DiscordAuthorization({
+  formID,
   discordConf,
   setDiscordConf,
   step,
@@ -15,7 +16,8 @@ export default function DiscordAuthorization({ formID,
   setIsLoading,
   setSnackbar,
   redirectLocation,
-  isInfo }) {
+  isInfo
+}) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ accessToken: '' })
   const { discord } = tutorialLinks
@@ -37,15 +39,14 @@ export default function DiscordAuthorization({ formID,
   }
 
   const discordInstructions = `
-            <h4>Get Access Token few step</h4>
+            <h4>${__('Get Access Token few step', 'bit-integrations')}</h4>
             <ul>
-                <li>First create app.</li>
-                <li>Click on OAuth2.</li>
-                <li>Select <b>bot</b> from scopes.</li>
-                <li>Select permissions from <b>Bot Permissions</b>.</li>
-                <li>Then copy the <b>generated url</b> and paste it in the browser and hit enter.</li>
-                <li>Then click on <b>Bot</b>  from left navbar and copy the <b>Access token</b>.</li>
-                
+                <li>${__('First create app.', 'bit-integrations')}</li>
+                <li>${__('Click on OAuth2.', 'bit-integrations')}</li>
+                <li>${__('Select <b>bot</b> from scopes.', 'bit-integrations')}</li>
+                <li>${__('Select permissions from <b>Bot Permissions</b>.', 'bit-integrations')}</li>
+                <li>${__('Then copy the <b>generated url</b> and paste it in the browser and hit enter.', 'bit-integrations')}</li>
+                <li>${__('Then click on <b>Bot</b>  from left navbar and copy the <b>Access token</b>.', 'bit-integrations')}</li>
             </ul>`
 
   return (
@@ -53,21 +54,10 @@ export default function DiscordAuthorization({ formID,
       className="btcd-stp-page"
       style={{
         ...{ width: step === 1 && 900 },
-        ...{ height: step === 1 && 'auto' },
-      }}
-    >
-      {discord?.youTubeLink && (
-        <TutorialLink
-          title={discord?.title}
-          youTubeLink={discord?.youTubeLink}
-        />
-      )}
-      {discord?.docLink && (
-        <TutorialLink
-          title={discord?.title}
-          docLink={discord?.docLink}
-        />
-      )}
+        ...{ height: step === 1 && 'auto' }
+      }}>
+      {discord?.youTubeLink && <TutorialLink title="Discord" youTubeLink={discord?.youTubeLink} />}
+      {discord?.docLink && <TutorialLink title="Discord" docLink={discord?.docLink} />}
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>
@@ -83,14 +73,12 @@ export default function DiscordAuthorization({ formID,
       />
 
       <small className="d-blk mt-5">
-        {__('To get access Token , Please Visit', 'bit-integrations')}
-        {' '}
+        {__('To get access Token , Please Visit', 'bit-integrations')}{' '}
         <a
           className="btcd-link"
           href="https://discord.com/developers/applications"
           target="_blank"
-          rel="noreferrer"
-        >
+          rel="noreferrer">
           {__('Discord Console', 'bit-integrations')}
         </a>
       </small>
@@ -112,18 +100,19 @@ export default function DiscordAuthorization({ formID,
       {!isInfo && (
         <>
           <button
-            onClick={() => handleAuthorize(
-              discordConf,
-              setDiscordConf,
-              setError,
-              setisAuthorized,
-              setIsLoading,
-              setSnackbar,
-            )}
-            className="btn btcd-btn-lg green sh-sm flx"
+            onClick={() =>
+              handleAuthorize(
+                discordConf,
+                setDiscordConf,
+                setError,
+                setisAuthorized,
+                setIsLoading,
+                setSnackbar
+              )
+            }
+            className="btn btcd-btn-lg purple sh-sm flx"
             type="button"
-            disabled={isAuthorized || isLoading}
-          >
+            disabled={isAuthorized || isLoading}>
             {isAuthorized
               ? __('Authorized ✔', 'bit-integrations')
               : __('Authorize', 'bit-integrations')}
@@ -132,19 +121,16 @@ export default function DiscordAuthorization({ formID,
           <br />
           <button
             onClick={nextPage}
-            className="btn f-right btcd-btn-lg green sh-sm flx"
+            className="btn f-right btcd-btn-lg purple sh-sm flx"
             type="button"
-            disabled={!isAuthorized}
-          >
+            disabled={!isAuthorized}>
             {__('Next', 'bit-integrations')}
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         </>
       )}
 
-      <Note
-        note={discordInstructions}
-      />
+      <Note note={discordInstructions} />
     </div>
   )
 }

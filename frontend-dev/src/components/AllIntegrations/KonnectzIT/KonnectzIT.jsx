@@ -21,28 +21,26 @@ function KonnectzIT({ formFields, setFlow, flow, allIntegURL }) {
     name: 'konnectzIT Web Hooks',
     type: 'konnectzIT',
     method: 'POST',
-    url: process.env.NODE_ENV === 'development' ? 'https://production.konnectzit.com/webhooks/catch/qt2ttou5bs-kz6253-vW0cp2Y31I' : '',
-    apiConsole: 'https://app.konnectzit.com/konnect',
+    url: '',
+    apiConsole: 'https://app.konnectzit.com/konnect'
   })
 
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={2} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={2} active={step} />
+      </div>
 
       {/* STEP 1 */}
-      <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
+      <div
+        className="btcd-stp-page"
+        style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
         {konnectzITLinks?.youTubeLink && (
-          <TutorialLink
-            title={konnectzITLinks?.title}
-            youTubeLink={konnectzITLinks?.youTubeLink}
-          />
+          <TutorialLink title="KonnectzIT" youTubeLink={konnectzITLinks?.youTubeLink} />
         )}
         {konnectzITLinks?.docLink && (
-          <TutorialLink
-            title={konnectzITLinks?.title}
-            docLink={konnectzITLinks?.docLink}
-          />
+          <TutorialLink title="KonnectzIT" docLink={konnectzITLinks?.docLink} />
         )}
 
         <WebHooksIntegration
@@ -58,14 +56,16 @@ function KonnectzIT({ formFields, setFlow, flow, allIntegURL }) {
       </div>
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
-
+      <div
+        className="btcd-stp-page"
+        style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
         <WebHooksStepTwo
           step={step}
-          saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, konnectzIT, navigate, '', '', setIsLoading)}
+          saveConfig={() =>
+            saveIntegConfig(flow, setFlow, allIntegURL, konnectzIT, navigate, '', '', setIsLoading)
+          }
           isLoading={isLoading}
         />
-
       </div>
     </div>
   )

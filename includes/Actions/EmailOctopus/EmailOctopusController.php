@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\EmailOctopus;
 
-use WP_Error;
 use BitCode\FI\Core\Util\HttpHelper;
+use WP_Error;
 
 /**
  * Provide functionality for EmailOctopus integration
@@ -22,9 +22,9 @@ class EmailOctopusController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey      = $fieldsRequestParams->auth_token;
+        $apiKey = $fieldsRequestParams->auth_token;
         $apiEndpoint = 'https://emailoctopus.com/api/1.6/lists?api_key=' . $apiKey;
-        $response    = HttpHelper::get($apiEndpoint, null, null);
+        $response = HttpHelper::get($apiEndpoint, null, null);
 
         if (!isset($response->error)) {
             foreach ($response->data as $list) {
@@ -35,7 +35,7 @@ class EmailOctopusController
             }
             wp_send_json_success($lists, 200);
         } else {
-            wp_send_json_error('Please a enter valid API key', 400);
+            wp_send_json_error(__('Please a enter valid API key', 'bit-integrations'), 400);
         }
     }
 
@@ -45,10 +45,10 @@ class EmailOctopusController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey      = $fieldsRequestParams->auth_token;
-        $listId      = $fieldsRequestParams->listId;
+        $apiKey = $fieldsRequestParams->auth_token;
+        $listId = $fieldsRequestParams->listId;
         $apiEndpoint = 'https://emailoctopus.com/api/1.6/lists/' . $listId . '?api_key=' . $apiKey;
-        $response    = HttpHelper::get($apiEndpoint, null, null);
+        $response = HttpHelper::get($apiEndpoint, null, null);
 
         if (!isset($response->error)) {
             foreach ($response->fields as $field) {
@@ -60,7 +60,7 @@ class EmailOctopusController
             }
             wp_send_json_success($fields, 200);
         } else {
-            wp_send_json_error('Groups fetch failed', 400);
+            wp_send_json_error(__('Groups fetch failed', 'bit-integrations'), 400);
         }
     }
 
@@ -70,10 +70,10 @@ class EmailOctopusController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey      = $fieldsRequestParams->auth_token;
-        $listId      = $fieldsRequestParams->listId;
+        $apiKey = $fieldsRequestParams->auth_token;
+        $listId = $fieldsRequestParams->listId;
         $apiEndpoint = 'https://emailoctopus.com/api/1.6/lists/' . $listId . '/tags?api_key=' . $apiKey;
-        $response    = HttpHelper::get($apiEndpoint, null, null);
+        $response = HttpHelper::get($apiEndpoint, null, null);
 
         foreach ($response->data as $tag) {
             $tags[] = [
@@ -82,7 +82,7 @@ class EmailOctopusController
         }
 
         if (isset($response->error)) {
-            wp_send_json_error('Groups fetching failed', 400);
+            wp_send_json_error(__('Groups fetching failed', 'bit-integrations'), 400);
         } else {
             wp_send_json_success($tags, 200);
         }
@@ -91,22 +91,23 @@ class EmailOctopusController
     public function execute($integrationData, $fieldValues)
     {
         $integrationDetails = $integrationData->flow_details;
-        $integId            = $integrationData->id;
-        $auth_token         = $integrationDetails->auth_token;
-        $selectedList       = $integrationDetails->selectedList;
-        $selectedTags       = $integrationDetails->selectedTags;
-        $fieldMap           = $integrationDetails->field_map;
+        $integId = $integrationData->id;
+        $auth_token = $integrationDetails->auth_token;
+        $selectedList = $integrationDetails->selectedList;
+        $selectedTags = $integrationDetails->selectedTags;
+        $fieldMap = $integrationDetails->field_map;
 
         if (empty($fieldMap) || empty($auth_token) || empty($selectedList)) {
             return new WP_Error('REQ_FIELD_EMPTY', __('fields are required for EmailOctopus api', 'bit-integrations'));
         }
 
-        $recordApiHelper         = new RecordApiHelper($integrationDetails, $integId);
+        $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
         $emailOctopusApiResponse = $recordApiHelper->execute($selectedTags, $fieldValues, $fieldMap, $selectedList);
 
         if (is_wp_error($emailOctopusApiResponse)) {
             return $emailOctopusApiResponse;
         }
+
         return $emailOctopusApiResponse;
     }
 }

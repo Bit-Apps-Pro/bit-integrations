@@ -12,7 +12,7 @@ export const handleInput = (
   setSnackbar,
   isNew,
   error,
-  setError,
+  setError
 ) => {
   let newConf = { ...constantContactConf }
   if (isNew) {
@@ -34,10 +34,8 @@ export const handleInput = (
 export const checkAddressFieldMapRequired = (constantContactConf) => {
   const requiredFleld = constantContactConf?.address_field
     ? constantContactConf.address_field.filter(
-      (field) => !field.formField
-        && field.constantContactAddressField
-        && field.required,
-    )
+        (field) => !field.formField && field.constantContactAddressField && field.required
+      )
     : []
   if (requiredFleld.length > 0) {
     return false
@@ -57,14 +55,14 @@ export const refreshList = (
   constantContactConf,
   setConstantContactConf,
   setIsLoading,
-  setSnackbar,
+  setSnackbar
 ) => {
   setIsLoading(true)
   const refreshModulesRequestParams = {
     id,
     clientId: constantContactConf.clientId,
     clientSecret: constantContactConf.clientSecret,
-    tokenDetails: constantContactConf.tokenDetails,
+    tokenDetails: constantContactConf.tokenDetails
   }
   bitsFetch(refreshModulesRequestParams, 'cContact_refresh_list')
     .then((result) => {
@@ -81,27 +79,24 @@ export const refreshList = (
         }
         setSnackbar({
           show: true,
-          msg: __('Contact list refreshed', 'bit-integrations'),
+          msg: __('Contact list refreshed', 'bit-integrations')
         })
         setConstantContactConf({ ...newConf })
       } else if (
-        (result && result.data && result.data.data)
-        || (!result.success && typeof result.data === 'string')
+        (result && result.data && result.data.data) ||
+        (!result.success && typeof result.data === 'string')
       ) {
         setSnackbar({
           show: true,
           msg: sprintf(
-            __(
-              'Contact list refresh failed Cause: %s. please try again',
-              'bit-integrations',
-            ),
-            result.data.data || result.data,
-          ),
+            __('Contact list refresh failed Cause: %s. please try again', 'bit-integrations'),
+            result.data.data || result.data
+          )
         })
       } else {
         setSnackbar({
           show: true,
-          msg: __('Contact list failed. please try again', 'bit-integrations'),
+          msg: __('Contact list failed. please try again', 'bit-integrations')
         })
       }
       setIsLoading(false)
@@ -109,20 +104,14 @@ export const refreshList = (
     .catch(() => setIsLoading(false))
 }
 
-export const getAllContactLists = (
-  id,
-  confTmp,
-  setConf,
-  isLoading,
-  setIsLoading,
-) => {
+export const getAllContactLists = (id, confTmp, setConf, isLoading, setIsLoading) => {
   setIsLoading({ ...isLoading, list: true })
 
   const requestParams = {
     integId: id,
     clientId: confTmp.clientId,
     clientSecret: confTmp.clientSecret,
-    tokenDetails: confTmp.tokenDetails,
+    tokenDetails: confTmp.tokenDetails
   }
 
   bitsFetch(requestParams, 'cContact_refresh_list').then((result) => {
@@ -145,16 +134,14 @@ export const getAllCustomFields = (confTmp, setConf) => {
   const requestParams = {
     clientId: confTmp.clientId,
     clientSecret: confTmp.clientSecret,
-    tokenDetails: confTmp.tokenDetails,
+    tokenDetails: confTmp.tokenDetails
   }
 
   bitsFetch(requestParams, 'cContact_custom_fields').then((result) => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
-        const mergedFields = newConf.default.constantContactFields.concat(
-          result.data.customFields,
-        )
+        const mergedFields = newConf.default.constantContactFields.concat(result.data.customFields)
         newConf.default.constantContactFields = mergedFields
       }
       setConf(newConf)
@@ -169,7 +156,7 @@ export const getContactTags = (id, confTmp, setConf, isLoading, setIsLoading) =>
     integId: id,
     clientId: confTmp.clientId,
     clientSecret: confTmp.clientSecret,
-    tokenDetails: confTmp.tokenDetails,
+    tokenDetails: confTmp.tokenDetails
   }
 
   bitsFetch(requestParams, 'cContact_refresh_tags').then((result) => {
@@ -192,9 +179,7 @@ export const getContactTags = (id, confTmp, setConf, isLoading, setIsLoading) =>
 export const setGrantTokenResponse = (integ) => {
   const grantTokenResponse = {}
   const authWindowLocation = window.location.href
-  const queryParams = authWindowLocation
-    .replace(`${window.opener.location.href}`, '')
-    .split('&')
+  const queryParams = authWindowLocation.replace(`${window.opener.location.href}`, '').split('&')
   if (queryParams) {
     queryParams.forEach((element) => {
       const gtKeyValue = element.split('=')
@@ -218,31 +203,24 @@ export const handleConstantContactAuthorize = (
   setisAuthorized,
   setIsLoading,
   setSnackbar,
-  btcbi,
+  btcbi
 ) => {
   if (!confTmp.clientId) {
     setError({
-      clientId: !confTmp.clientId
-        ? __("Client ID cann't be empty", 'bit-integrations')
-        : '',
-      clientSecret: !confTmp.clientSecret
-        ? __("Secret key cann't be empty", 'bit-integrations')
-        : '',
+      clientId: !confTmp.clientId ? __("Client Id can't be empty", 'bit-integrations') : '',
+      clientSecret: !confTmp.clientSecret ? __("Secret key can't be empty", 'bit-integrations') : ''
     })
     return
   }
   setIsLoading(true)
 
-  const apiEndpoint = `https://authz.constantcontact.com/oauth2/default/v1/authorize?scope=${scopes}&response_type=code&client_id=${confTmp.clientId
-    }&state=${encodeURIComponent(
-      window.location.href,
-    )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api.base}`)}/redirect`
+  const apiEndpoint = `https://authz.constantcontact.com/oauth2/default/v1/authorize?scope=${scopes}&response_type=code&client_id=${
+    confTmp.clientId
+  }&state=${encodeURIComponent(
+    window.location.href
+  )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api.base}`)}/redirect`
 
-  const authWindow = window.open(
-    apiEndpoint,
-    integ,
-    'width=400,height=609,toolbar=off',
-  )
+  const authWindow = window.open(apiEndpoint, integ, 'width=400,height=609,toolbar=off')
 
   const popupURLCheckTimer = setInterval(() => {
     if (authWindow.closed) {
@@ -260,20 +238,18 @@ export const handleConstantContactAuthorize = (
         }
       }
       if (
-        !grantTokenResponse.code
-        || grantTokenResponse.error
-        || !grantTokenResponse
-        || !isauthRedirectLocation
+        !grantTokenResponse.code ||
+        grantTokenResponse.error ||
+        !grantTokenResponse ||
+        !isauthRedirectLocation
       ) {
-        const errorCause = grantTokenResponse.error
-          ? `Cause: ${grantTokenResponse.error}`
-          : ''
+        const errorCause = grantTokenResponse.error ? `Cause: ${grantTokenResponse.error}` : ''
         setSnackbar({
           show: true,
           msg: `${__(
             'Authorization failed',
-            'bit-integrations',
-          )} ${errorCause}. ${__('please try again', 'bit-integrations')}`,
+            'bit-integrations'
+          )} ${errorCause}. ${__('please try again', 'bit-integrations')}`
         })
         setIsLoading(false)
       } else {
@@ -287,7 +263,7 @@ export const handleConstantContactAuthorize = (
           setisAuthorized,
           setIsLoading,
           setSnackbar,
-          btcbi,
+          btcbi
         )
       }
     }
@@ -302,7 +278,7 @@ const tokenHelper = (
   setisAuthorized,
   setIsLoading,
   setSnackbar,
-  btcbi,
+  btcbi
 ) => {
   const tokenRequestParams = { ...grantToken }
   tokenRequestParams.clientId = confTmp.clientId
@@ -319,21 +295,22 @@ const tokenHelper = (
         setisAuthorized(true)
         setSnackbar({
           show: true,
-          msg: __('Authorized Successfully', 'bit-integrations'),
+          msg: __('Authorized Successfully', 'bit-integrations')
         })
       } else if (
-        (result && result.data && result.data.data)
-        || (!result.success && typeof result.data === 'string')
+        (result && result.data && result.data.data) ||
+        (!result.success && typeof result.data === 'string')
       ) {
         setSnackbar({
           show: true,
-          msg: `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data
-            }. ${__('please try again', 'bit-integrations')}`,
+          msg: `${__('Authorization failed Cause:', 'bit-integrations')}${
+            result.data.data || result.data
+          }. ${__('please try again', 'bit-integrations')}`
         })
       } else {
         setSnackbar({
           show: true,
-          msg: __('Authorization failed. please try again', 'bit-integrations'),
+          msg: __('Authorization failed. please try again', 'bit-integrations')
         })
       }
       setIsLoading(false)
@@ -342,9 +319,7 @@ const tokenHelper = (
 
 export const checkMappedFields = (sheetconf) => {
   const mappedFleld = sheetconf.field_map
-    ? sheetconf.field_map.filter(
-      (mapped) => !mapped.formField && !mapped.constantContactFormField,
-    )
+    ? sheetconf.field_map.filter((mapped) => !mapped.formField && !mapped.constantContactFormField)
     : []
   if (mappedFleld.length > 0) {
     return false
@@ -354,12 +329,12 @@ export const checkMappedFields = (sheetconf) => {
 
 export const generateMappedField = (constantContactConf) => {
   const requiredFlds = constantContactConf?.default?.constantContactFields.filter(
-    (fld) => fld.required === true,
+    (fld) => fld.required === true
   )
   return requiredFlds.length > 0
     ? requiredFlds.map((field) => ({
-      formField: '',
-      constantContactFormField: field.key,
-    }))
+        formField: '',
+        constantContactFormField: field.key
+      }))
     : [{ formField: '', constantContactFormField: '' }]
 }

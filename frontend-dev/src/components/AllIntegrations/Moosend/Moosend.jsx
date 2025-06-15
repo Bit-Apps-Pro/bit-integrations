@@ -14,33 +14,33 @@ function Moosend({ formFields, setFlow, flow, allIntegURL }) {
   const [loading, setLoading] = useState({
     auth: false,
     list: false,
-    page: false,
+    page: false
   })
   const [moosendConf, setMoosendConf] = useState({
     name: 'Moosend',
     type: 'Moosend',
-    authKey: process.env.NODE_ENV === 'development' ? '066846f2-debb-4d09-8615-9849f5b15d3a' : '',
-    field_map: [
-      { formFields: '', moosendFormFields: '' },
-    ],
+    authKey: '',
+    field_map: [{ formFields: '', moosendFormFields: '' }],
     listId: '',
     method: '',
     actions: {},
-    moosendFields: [
-      { key: 'Email', label: 'Email', required: true },
-      { key: 'Name', label: 'Name', required: false },
-      { key: 'Mobile', label: 'Mobile', required: false },
-    ],
-
+    moosendFields: [],
+    basicFields: [
+      { key: 'Email', label: __('Email', 'bit-integrations'), required: true },
+      { key: 'Name', label: __('Name', 'bit-integrations'), required: false },
+      { key: 'Mobile', label: __('Mobile', 'bit-integrations'), required: false }
+    ]
   })
 
-  const setSavePageLoad = (value) => {
+  const setSavePageLoad = value => {
     setLoading({ ...loading, page: value })
   }
 
   return (
     <div>
-      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={3} active={step} />
+      </div>
 
       {/* --- STEP 1 --- */}
 
@@ -55,11 +55,7 @@ function Moosend({ formFields, setFlow, flow, allIntegURL }) {
 
       {/* --- STEP 2 --- */}
 
-      <StepPage
-        step={step}
-        stepNo={2}
-        style={{ width: 900, height: 'auto', overflow: 'visible' }}
-      >
+      <StepPage step={step} stepNo={2} style={{ width: 900, height: 'auto', overflow: 'visible' }}>
         <MoosendIntegLayout
           moosendConf={moosendConf}
           setMoosendConf={setMoosendConf}
@@ -71,30 +67,28 @@ function Moosend({ formFields, setFlow, flow, allIntegURL }) {
           <button
             onClick={() => nextPage(moosendConf, setStep, 3)}
             disabled={moosendConf.field_map.length < 1}
-            className="btn f-right btcd-btn-lg green sh-sm flx"
-            type="button"
-          >
+            className="btn f-right btcd-btn-lg purple sh-sm flx"
+            type="button">
             {__('Next')}
             &nbsp;
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         )}
-
       </StepPage>
 
       {/* --- STEP 3 --- */}
 
       {moosendConf.method && (
-
         <IntegrationStepThree
           step={step}
-          saveConfig={() => saveConfig(flow, setFlow, allIntegURL, moosendConf, navigate, setSavePageLoad)}
+          saveConfig={() =>
+            saveConfig(flow, setFlow, allIntegURL, moosendConf, navigate, setSavePageLoad)
+          }
           isLoading={loading.page}
           dataConf={moosendConf}
           setDataConf={setMoosendConf}
           formFields={formFields}
         />
-
       )}
     </div>
   )

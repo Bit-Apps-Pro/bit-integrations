@@ -21,28 +21,24 @@ function WPFusion({ formFields, setFlow, flow, allIntegURL }) {
     name: 'WPFusion Web Hooks',
     type: 'WPFusion',
     method: 'POST',
-    url: process.env.NODE_ENV === 'development' ? 'https://connect.wpFusion.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D' : '',
+    url: ''
   })
 
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={2} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={2} active={step} />
+      </div>
 
       {/* STEP 1 */}
-      <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
+      <div
+        className="btcd-stp-page"
+        style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
         {wpFusionLinks?.youTubeLink && (
-          <TutorialLink
-            title={wpFusionLinks?.title}
-            youTubeLink={wpFusionLinks?.youTubeLink}
-          />
+          <TutorialLink title="WP Fusion" youTubeLink={wpFusionLinks?.youTubeLink} />
         )}
-        {wpFusionLinks?.docLink && (
-          <TutorialLink
-            title={wpFusionLinks?.title}
-            docLink={wpFusionLinks?.docLink}
-          />
-        )}
+        {wpFusionLinks?.docLink && <TutorialLink title="WP Fusion" docLink={wpFusionLinks?.docLink} />}
 
         <WebHooksIntegration
           formID={formID}
@@ -57,14 +53,16 @@ function WPFusion({ formFields, setFlow, flow, allIntegURL }) {
       </div>
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
-
+      <div
+        className="btcd-stp-page"
+        style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
         <WebHooksStepTwo
           step={step}
-          saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, wpFusion, navigate, '', '', setIsLoading)}
+          saveConfig={() =>
+            saveIntegConfig(flow, setFlow, allIntegURL, wpFusion, navigate, '', '', setIsLoading)
+          }
           isLoading={isLoading}
         />
-
       </div>
     </div>
   )

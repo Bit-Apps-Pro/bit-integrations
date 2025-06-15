@@ -2,16 +2,13 @@
 
 namespace BitCode\FI\Actions\Getgist;
 
-use WP_Error;
 use BitCode\FI\Core\Util\HttpHelper;
-
-use BitCode\FI\Actions\Getgist\RecordApiHelper;
-
+use WP_Error;
 
 class GetgistController
 {
-    const APIENDPOINT = 'https://api.getgist.com';
-   
+    public const APIENDPOINT = 'https://api.getgist.com';
+
     public static function getgistAuthorize($requestsParams)
     {
         if (empty($requestsParams->api_key)) {
@@ -25,7 +22,7 @@ class GetgistController
         }
 
         $apiEndpoint = self::APIENDPOINT . '/contacts';
-        $authorizationHeader["Authorization"] = "Bearer {$requestsParams->api_key}";
+        $authorizationHeader['Authorization'] = "Bearer {$requestsParams->api_key}";
         $apiResponse = HttpHelper::get($apiEndpoint, null, $authorizationHeader);
 
         if (is_wp_error($apiResponse) || $apiResponse->code === 'authentication_failed') {
@@ -37,19 +34,19 @@ class GetgistController
 
         wp_send_json_success(true);
     }
-    
+
     public function execute($integrationData, $fieldValues)
     {
         $integrationDetails = $integrationData->flow_details;
         $integId = $integrationData->id;
-    
+
         $api_key = $integrationDetails->api_key;
         $fieldMap = $integrationDetails->field_map;
         $actions = $integrationDetails->actions;
         if (empty($api_key)
             || empty($fieldMap)
         ) {
-            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for Sendinblue api', 'bit-integrations'));
+            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'GetGist'));
         }
         $recordApiHelper = new RecordApiHelper($api_key, $integId);
         $getgistApiResponse = $recordApiHelper->execute(
@@ -62,6 +59,7 @@ class GetgistController
         if (is_wp_error($getgistApiResponse)) {
             return $getgistApiResponse;
         }
+
         return $getgistApiResponse;
     }
 }

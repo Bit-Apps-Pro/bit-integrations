@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\SystemeIO;
 
-use WP_Error;
 use BitCode\FI\Core\Util\HttpHelper;
+use WP_Error;
 
 /**
  * Provide functionality for SystemeIO integration
@@ -15,11 +15,95 @@ use BitCode\FI\Core\Util\HttpHelper;
 class SystemeIOController
 {
     protected $_defaultHeader;
+
     protected $_apiEndpoint;
 
     public function __construct()
     {
-        $this->_apiEndpoint = "https://api.systeme.io/api";
+        $this->_apiEndpoint = 'https://api.systeme.io/api';
+    }
+
+    public function authentication($fieldsRequestParams)
+    {
+        $this->checkValidation($fieldsRequestParams);
+        $this->setHeaders($fieldsRequestParams->api_key);
+        $apiEndpoint = $this->_apiEndpoint . '/contacts';
+        $response = HttpHelper::get($apiEndpoint, null, $this->_defaultHeader);
+
+        if (isset($response->items)) {
+            wp_send_json_success(__('Authentication successful', 'bit-integrations'), 200);
+        } else {
+            wp_send_json_error(__('Please enter valid API Key & API Secret', 'bit-integrations'), 400);
+        }
+    }
+
+    public function getAllTags($fieldsRequestParams)
+    {
+        $this->checkValidation($fieldsRequestParams);
+        $this->setHeaders($fieldsRequestParams->api_key);
+        $apiEndpoint = $this->_apiEndpoint . '/tags';
+        $response = HttpHelper::get($apiEndpoint, null, $this->_defaultHeader);
+
+        if (!isset($response->errors)) {
+            $tags = [];
+            foreach ($response->items as $tag) {
+                $tags[]
+                = (object) [
+                    'id'   => $tag->id,
+                    'name' => $tag->name
+                ]
+                ;
+            }
+            wp_send_json_success($tags, 200);
+        } else {
+            wp_send_json_error(__('Tags fetching failed', 'bit-integrations'), 400);
+        }
+    }
+
+    public function getAllFields($fieldsRequestParams)
+    {
+        $this->checkValidation($fieldsRequestParams);
+        $this->setHeaders($fieldsRequestParams->api_key);
+        $apiEndpoint = $this->_apiEndpoint . '/contact_fields';
+        $response = HttpHelper::get($apiEndpoint, null, $this->_defaultHeader);
+
+        if (!isset($response->errors)) {
+            $allFields = [];
+
+            foreach ($response->items as $field) {
+                $allFields[] = (object) [
+                    'label'    => $field->fieldName,
+                    'key'      => $field->slug,
+                    'required' => $field->slug == 'email'
+                ];
+            }
+
+            wp_send_json_success($allFields, 200);
+        } else {
+            wp_send_json_error(__('Contact Field fetching failed', 'bit-integrations'), 400);
+        }
+    }
+
+    public function execute($integrationData, $fieldValues)
+    {
+        $integrationDetails = $integrationData->flow_details;
+        $integId = $integrationData->id;
+        $apiKey = $integrationDetails->api_key;
+        $fieldMap = $integrationDetails->field_map;
+        $actionName = $integrationDetails->actionName;
+
+        if (empty($fieldMap) || empty($actionName) || empty($apiKey)) {
+            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'SystemeIO'));
+        }
+
+        $recordApiHelper = new RecordApiHelper($integrationDetails, $integId, $apiKey);
+        $systemeIOApiResponse = $recordApiHelper->execute($fieldValues, $fieldMap, $actionName);
+
+        if (is_wp_error($systemeIOApiResponse)) {
+            return $systemeIOApiResponse;
+        }
+
+        return $systemeIOApiResponse;
     }
 
     private function checkValidation($fieldsRequestParams, $customParam = '**')
@@ -32,67 +116,8 @@ class SystemeIOController
     private function setHeaders($apiKey)
     {
         $this->_defaultHeader = [
-            "x-api-key"       => $apiKey,
-            "Content-Type"  => "application/json"
+            'x-api-key'    => $apiKey,
+            'Content-Type' => 'application/json'
         ];
-    }
-
-    public function authentication($fieldsRequestParams)
-    {
-        $this->checkValidation($fieldsRequestParams);
-        $this->setHeaders($fieldsRequestParams->api_key);
-        $apiEndpoint  = $this->_apiEndpoint . "/contacts";
-        $response     = HttpHelper::get($apiEndpoint, null, $this->_defaultHeader);
-
-        if (isset($response->items)) {
-            wp_send_json_success('Authentication successful', 200);
-        } else {
-            wp_send_json_error('Please enter valid API Key & API Secret', 400);
-        }
-    }
-
-    public function getAllTags($fieldsRequestParams)
-    {
-        $this->checkValidation($fieldsRequestParams);
-        $this->setHeaders($fieldsRequestParams->api_key);
-        $apiEndpoint  = $this->_apiEndpoint . "/tags";
-        $response     = HttpHelper::get($apiEndpoint, null, $this->_defaultHeader);
-
-        if (!isset($response->errors)) {
-            $tags = [];
-            foreach ($response->items as $tag) {
-                array_push(
-                    $tags,
-                    (object) [
-                        'id'    => $tag->id,
-                        'name'  => $tag->name
-                    ]
-                );
-            }
-            wp_send_json_success($tags, 200);
-        } else {
-            wp_send_json_error('Tags fetching failed', 400);
-        }
-    }
-
-    public function execute($integrationData, $fieldValues)
-    {
-        $integrationDetails = $integrationData->flow_details;
-        $integId            = $integrationData->id;
-        $apiKey             = $integrationDetails->api_key;
-        $fieldMap           = $integrationDetails->field_map;
-        $actionName         = $integrationDetails->actionName;
-
-        if (empty($fieldMap) || empty($actionName) || empty($apiKey)) {
-            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for SystemeIO api', 'bit-integrations'));
-        }
-
-        $recordApiHelper    = new RecordApiHelper($integrationDetails, $integId, $apiKey);
-        $systemeIOApiResponse   = $recordApiHelper->execute($fieldValues, $fieldMap, $actionName);
-
-        if (is_wp_error($systemeIOApiResponse)) {
-            return $systemeIOApiResponse;
-        }
-        return $systemeIOApiResponse;
     }
 }

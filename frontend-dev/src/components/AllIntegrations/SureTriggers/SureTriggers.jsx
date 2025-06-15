@@ -18,30 +18,28 @@ function SureTriggers({ formFields, setFlow, flow, allIntegURL }) {
   const [isLoading, setIsLoading] = useState(false)
   const { sureTriggersLinks } = tutorialLinks
   const [sureTriggers, setSureTriggers] = useState({
-    name: 'SureTriggers Web Hooks',
-    type: 'SureTriggers',
+    name: 'OttoKit (SureTriggers) Web Hooks',
+    type: 'OttoKit (SureTriggers)',
     method: 'POST',
-    url: process.env.NODE_ENV === 'development' ? 'https://connect.sureTriggers.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D' : '',
+    url: ''
   })
 
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={2} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={2} active={step} />
+      </div>
 
       {/* STEP 1 */}
-      <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
+      <div
+        className="btcd-stp-page"
+        style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
         {sureTriggersLinks?.youTubeLink && (
-          <TutorialLink
-            title={sureTriggersLinks?.title}
-            youTubeLink={sureTriggersLinks?.youTubeLink}
-          />
+          <TutorialLink title="SureTriggers" youTubeLink={sureTriggersLinks?.youTubeLink} />
         )}
         {sureTriggersLinks?.docLink && (
-          <TutorialLink
-            title={sureTriggersLinks?.title}
-            docLink={sureTriggersLinks?.docLink}
-          />
+          <TutorialLink title="SureTriggers" docLink={sureTriggersLinks?.docLink} />
         )}
 
         <WebHooksIntegration
@@ -57,14 +55,16 @@ function SureTriggers({ formFields, setFlow, flow, allIntegURL }) {
       </div>
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
-
+      <div
+        className="btcd-stp-page"
+        style={{ width: step === 2 && `${100}%`, height: step === 2 && 'auto' }}>
         <WebHooksStepTwo
           step={step}
-          saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, sureTriggers, navigate, '', '', setIsLoading)}
+          saveConfig={() =>
+            saveIntegConfig(flow, setFlow, allIntegURL, sureTriggers, navigate, '', '', setIsLoading)
+          }
           isLoading={isLoading}
         />
-
       </div>
     </div>
   )

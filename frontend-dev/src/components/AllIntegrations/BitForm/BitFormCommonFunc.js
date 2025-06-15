@@ -32,17 +32,28 @@ export const listChange = (bitFormConf, formID, setBitFormConf, setIsLoading, se
   return newConf
 }
 
-export const checkAddressFieldMapRequired = sheetConf => {
-  const requiredFleld = sheetConf?.address_field ? sheetConf.address_field.filter(field => !field.formField && field.mailChimpAddressField && field.required) : []
+export const checkAddressFieldMapRequired = (sheetConf) => {
+  const requiredFleld = sheetConf?.address_field
+    ? sheetConf.address_field.filter(
+        (field) => !field.formField && field.mailChimpAddressField && field.required
+      )
+    : []
   if (requiredFleld.length > 0) {
     return false
   }
   return true
 }
 
-export const handleAuthorize = (confTmp, setConf, setError, setisAuthorized, setIsLoading, setSnackbar) => {
+export const handleAuthorize = (
+  confTmp,
+  setConf,
+  setError,
+  setisAuthorized,
+  setIsLoading,
+  setSnackbar
+) => {
   if (!confTmp.api_key) {
-    setError({ api_key: !confTmp.api_key ? __('Api Key can\'t be empty', 'bit-integrations') : '' })
+    setError({ api_key: !confTmp.api_key ? __("Api Key can't be empty", 'bit-integrations') : '' })
     return
   }
   setError({})
@@ -50,19 +61,18 @@ export const handleAuthorize = (confTmp, setConf, setError, setisAuthorized, set
 
   const requestParams = { app_domain: confTmp.domainName, api_key: confTmp.api_key }
 
-  bitsFetch(requestParams, 'bitForm_authorization_and_fetch_form_list')
-    .then(result => {
-      if (result && result.success) {
-        const newConf = { ...confTmp }
-        setConf(newConf)
-        setisAuthorized(true)
-        setIsLoading(false)
-        toast.success(__('Authorization Successful', 'bit-integrations'))
-        return
-      }
+  bitsFetch(requestParams, 'bitForm_authorization_and_fetch_form_list').then((result) => {
+    if (result && result.success) {
+      const newConf = { ...confTmp }
+      setConf(newConf)
+      setisAuthorized(true)
       setIsLoading(false)
-      toast.error(__('Authorization Failed', 'bit-integrations'))
-    })
+      toast.success(__('Authorization Successful', 'bit-integrations'))
+      return
+    }
+    setIsLoading(false)
+    toast.error(__('Authorization Failed', 'bit-integrations'))
+  })
 }
 
 export const fetchAllForm = (bitFormConf, setBitFormConf, setIsLoading, setSnackbar) => {
@@ -70,7 +80,7 @@ export const fetchAllForm = (bitFormConf, setBitFormConf, setIsLoading, setSnack
   const requestParams = { app_domain: bitFormConf.domainName, api_key: bitFormConf.api_key }
 
   bitsFetch(requestParams, 'bitForm_all_form_list')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...bitFormConf }
         if (!newConf.default) {
@@ -90,12 +100,22 @@ export const fetchAllForm = (bitFormConf, setBitFormConf, setIsLoading, setSnack
     .catch(() => setIsLoading(false))
 }
 
-export const fetchSingleFormFeilds = (formID, bitFormConf, setBitFormConf, setIsLoading, setSnackbar) => {
+export const fetchSingleFormFeilds = (
+  formID,
+  bitFormConf,
+  setBitFormConf,
+  setIsLoading,
+  setSnackbar
+) => {
   setIsLoading(true)
-  const requestParams = { app_domain: bitFormConf.domainName, api_key: bitFormConf.api_key, id: bitFormConf.id }
+  const requestParams = {
+    app_domain: bitFormConf.domainName,
+    api_key: bitFormConf.api_key,
+    id: bitFormConf.id
+  }
 
   bitsFetch(requestParams, 'bitForm_fetch_single_form_fields')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...bitFormConf }
         if (!newConf.default) {
@@ -117,12 +137,16 @@ export const fetchSingleFormFeilds = (formID, bitFormConf, setBitFormConf, setIs
 }
 
 export const generateMappedField = (bitFormConf) => {
-  const requiredFlds = bitFormConf?.BitFormFields.filter(fld => fld.required === true)
-  return requiredFlds.length > 0 ? requiredFlds.map(field => ({ formField: '', BitFormMapField: field.key })) : [{ formField: '', BitFormMapField: '' }]
+  const requiredFlds = bitFormConf?.BitFormFields.filter((fld) => fld.required === true)
+  return requiredFlds.length > 0
+    ? requiredFlds.map((field) => ({ formField: '', BitFormMapField: field.key }))
+    : [{ formField: '', BitFormMapField: '' }]
 }
 
 export const checkMappedFields = (bitFormConf) => {
-  const mappedFleld = bitFormConf.field_map ? bitFormConf.field_map.filter(mapped => (!mapped.formField && !mapped.BitFormMapField)) : []
+  const mappedFleld = bitFormConf.field_map
+    ? bitFormConf.field_map.filter((mapped) => !mapped.formField && !mapped.BitFormMapField)
+    : []
   if (mappedFleld.length > 0) {
     return false
   }

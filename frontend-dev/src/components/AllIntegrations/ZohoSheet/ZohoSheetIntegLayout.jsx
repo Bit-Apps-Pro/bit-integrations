@@ -9,7 +9,13 @@ import { getAllWorkbooks, getAllWorksheets, getWorksheetHeader } from './ZohoShe
 import ZohoSheetFieldMap from './ZohoSheetFieldMap'
 import { addFieldMap } from './IntegrationHelpers'
 
-export default function ZohoSheetIntegLayout({ formFields, zohoSheetConf, setZohoSheetConf, loading, setLoading }) {
+export default function ZohoSheetIntegLayout({
+  formFields,
+  zohoSheetConf,
+  setZohoSheetConf,
+  loading,
+  setLoading
+}) {
   const setChanges = (val, name) => {
     const newConf = { ...zohoSheetConf }
     newConf[name] = val
@@ -43,18 +49,20 @@ export default function ZohoSheetIntegLayout({ formFields, zohoSheetConf, setZoh
         <b className="wdt-200 d-in-b">{__('Select workbook:', 'bit-integrations')}</b>
         <MultiSelect
           singleSelect
-          options={zohoSheetConf.workbooks?.map(workbook => ({ label: workbook.name, value: workbook.id }))}
+          options={zohoSheetConf.workbooks?.map((workbook) => ({
+            label: workbook.name,
+            value: workbook.id
+          }))}
           className="msl-wrp-options dropdown-custom-width"
           defaultValue={zohoSheetConf?.selectedWorkbook}
-          onChange={val => setChanges(val, 'selectedWorkbook')}
+          onChange={(val) => setChanges(val, 'selectedWorkbook')}
         />
         <button
           onClick={() => getAllWorkbooks(zohoSheetConf, setZohoSheetConf, loading, setLoading)}
           className="icn-btn sh-sm ml-2 mr-2 tooltip"
           style={{ '--tooltip-txt': `'${__('Refresh  workbooks', 'bit-integrations')}'` }}
           type="button"
-          disabled={loading.workbooks}
-        >
+          disabled={loading.workbooks}>
           &#x21BB;
         </button>
       </div>
@@ -64,10 +72,13 @@ export default function ZohoSheetIntegLayout({ formFields, zohoSheetConf, setZoh
         <b className="wdt-200 d-in-b">{__('Select worksheet:', 'bit-integrations')}</b>
         <MultiSelect
           singleSelect
-          options={zohoSheetConf?.worksheets?.map(table => ({ label: table.name, value: table.id }))}
+          options={zohoSheetConf?.worksheets?.map((table) => ({
+            label: table.name,
+            value: table.id
+          }))}
           className="msl-wrp-options dropdown-custom-width"
           defaultValue={zohoSheetConf?.selectedWorksheet}
-          onChange={val => setChanges(val, 'selectedWorksheet')}
+          onChange={(val) => setChanges(val, 'selectedWorksheet')}
           disabled={!zohoSheetConf.selectedWorkbook || loading.worksheets}
         />
         <button
@@ -75,8 +86,7 @@ export default function ZohoSheetIntegLayout({ formFields, zohoSheetConf, setZoh
           className="icn-btn sh-sm ml-2 mr-2 tooltip"
           style={{ '--tooltip-txt': `'${__('Refresh  worksheets', 'bit-integrations')}'` }}
           type="button"
-          disabled={loading.worksheets || loading.workbooks || !zohoSheetConf.selectedWorkbook}
-        >
+          disabled={loading.worksheets || loading.workbooks || !zohoSheetConf.selectedWorkbook}>
           &#x21BB;
         </button>
       </div>
@@ -89,59 +99,72 @@ export default function ZohoSheetIntegLayout({ formFields, zohoSheetConf, setZoh
           min="1"
           className="btcd-paper-inp w-5"
           placeholder="Header Row"
-          onChange={e => handleHeaderRowInput(e)}
+          onChange={(e) => handleHeaderRowInput(e)}
           value={zohoSheetConf.headerRow}
           name="headerRow"
-          disabled={loading.worksheets || loading.workbooks || !zohoSheetConf.selectedWorkbook || !zohoSheetConf.selectedWorksheet}
+          disabled={
+            loading.worksheets ||
+            loading.workbooks ||
+            !zohoSheetConf.selectedWorkbook ||
+            !zohoSheetConf.selectedWorksheet
+          }
         />
         <button
           onClick={() => getWorksheetHeader(zohoSheetConf, setZohoSheetConf, loading, setLoading)}
           className="icn-btn sh-sm ml-2 mr-2 tooltip"
           style={{ '--tooltip-txt': `'${__('Refresh  worksheet headers', 'bit-integrations')}'` }}
           type="button"
-          disabled={loading.worksheets || loading.workbooks || !zohoSheetConf.selectedWorkbook || !zohoSheetConf.selectedWorksheet || loading.header}
-        >
+          disabled={
+            loading.worksheets ||
+            loading.workbooks ||
+            !zohoSheetConf.selectedWorkbook ||
+            !zohoSheetConf.selectedWorksheet ||
+            loading.header
+          }>
           &#x21BB;
         </button>
       </div>
 
       {(loading.workbooks || loading.worksheets) && (
-        <Loader style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: 100,
-          transform: 'scale(0.7)',
-        }}
+        <Loader
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 100,
+            transform: 'scale(0.7)'
+          }}
         />
       )}
       <div>
         <br />
         <div className="mt-5">
-          <b className="wdt-100">
-            {__('Field Map', 'bit-integrations')}
-          </b>
+          <b className="wdt-100">{__('Field Map', 'bit-integrations')}</b>
         </div>
         <br />
         <div className="btcd-hr mt-1" />
         <br />
-        {loading.header
-          && (
-            <Loader style={{
+        {loading.header && (
+          <Loader
+            style={{
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               height: 100,
-              transform: 'scale(0.7)',
+              transform: 'scale(0.7)'
             }}
-            />
-          )}
+          />
+        )}
         <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
-          <div className="txt-dp"><b>{__('Form Fields', 'bit-integrations')}</b></div>
-          <div className="txt-dp"><b>{__('ZohoSheet Fields', 'bit-integrations')}</b></div>
+          <div className="txt-dp">
+            <b>{__('Form Fields', 'bit-integrations')}</b>
+          </div>
+          <div className="txt-dp">
+            <b>{__('ZohoSheet Fields', 'bit-integrations')}</b>
+          </div>
         </div>
 
-        {(loading.workSheetHeaders && zohoSheetConf.selectedWorksheet) && (
+        {loading.workSheetHeaders && zohoSheetConf.selectedWorksheet && (
           <div>
             {' '}
             {zohoSheetConf?.field_map.map((itm, i) => (
@@ -154,10 +177,24 @@ export default function ZohoSheetIntegLayout({ formFields, zohoSheetConf, setZoh
                 setZohoSheetConf={setZohoSheetConf}
               />
             ))}
-            <div className="txt-center btcbi-field-map-button mt-2"><button onClick={() => addFieldMap(zohoSheetConf.field_map.length, zohoSheetConf, setZohoSheetConf, false)} className="icn-btn sh-sm" type="button">+</button></div>
+            <div className="txt-center btcbi-field-map-button mt-2">
+              <button
+                onClick={() =>
+                  addFieldMap(
+                    zohoSheetConf.field_map.length,
+                    zohoSheetConf,
+                    setZohoSheetConf,
+                    false
+                  )
+                }
+                className="icn-btn sh-sm"
+                type="button">
+                +
+              </button>
+            </div>
             <br />
             <br />
-            {/* <div className="mt-4"><b className="wdt-100">{__('Actions', 'bit-integrations')}</b></div>
+            {/* <div className="mt-4"><b className="wdt-100">{__('Utilities', 'bit-integrations')}</b></div>
             <div className="btcd-hr mt-1" />
             <ZohoSheetActions
               zohoSheetConf={zohoSheetConf}

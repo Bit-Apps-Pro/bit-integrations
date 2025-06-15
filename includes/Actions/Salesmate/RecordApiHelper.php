@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\Salesmate;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -15,32 +15,36 @@ use BitCode\FI\Log\LogHandler;
 class RecordApiHelper
 {
     private $integrationDetails;
+
     private $integrationId;
+
     private $apiUrl;
+
     private $defaultHeader;
+
     private $type;
+
     private $typeName;
 
     public function __construct($integrationDetails, $integId, $sessionToken, $linkName)
     {
         $this->integrationDetails = $integrationDetails;
-        $this->integrationId      = $integId;
-        $this->apiUrl             = "https://{$linkName}.salesmate.io/apis/";
-        $this->defaultHeader      =
-            [
-                "Content-type" => "application/json",
-                "accessToken"  => $sessionToken,
-                "x-linkname"   => $linkName . ".salesmate.io",
+        $this->integrationId = $integId;
+        $this->apiUrl = "https://{$linkName}.salesmate.io/apis/";
+        $this->defaultHeader
+            = [
+                'Content-type' => 'application/json',
+                'accessToken'  => $sessionToken,
+                'x-linkname'   => $linkName . '.salesmate.io',
             ];
     }
-
 
     public function addProduct($finalData)
     {
         if (empty($finalData['name'])) {
-            return ['success' => false, 'message' => 'Required field Name is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field Name is empty', 'bit-integrations'), 'code' => 400];
         } elseif (empty($finalData['unitPrice'])) {
-            return ['success' => false, 'message' => 'Required field unit Price is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field unit Price is empty', 'bit-integrations'), 'code' => 400];
         }
 
         $finalData['isActive'] = isset($this->integrationDetails->selectedIsActive) && !empty($this->integrationDetails->selectedIsActive) ? $this->integrationDetails->selectedIsActive : 1;
@@ -53,16 +57,17 @@ class RecordApiHelper
             $finalData['owner'] = ($this->integrationDetails->selectedCRMOwner);
         }
 
-        $this->type     = 'Product';
+        $this->type = 'Product';
         $this->typeName = 'Product created';
-        $apiEndpoint = $this->apiUrl . "v1/products";
-        return HttpHelper::post($apiEndpoint, json_encode($finalData), $this->defaultHeader);
+        $apiEndpoint = $this->apiUrl . 'v1/products';
+
+        return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->defaultHeader);
     }
 
     public function addContact($finalData)
     {
         if (empty($finalData['lastName'])) {
-            return ['success' => false, 'message' => 'Required field lastName is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field lastName is empty', 'bit-integrations'), 'code' => 400];
         }
 
         if (isset($this->integrationDetails->selectedTag) && !empty($this->integrationDetails->selectedTag)) {
@@ -75,16 +80,17 @@ class RecordApiHelper
             $finalData['owner'] = ($this->integrationDetails->selectedCRMOwner);
         }
 
-        $this->type     = 'Contact';
+        $this->type = 'Contact';
         $this->typeName = 'Contact created';
-        $apiEndpoint = $this->apiUrl . "contact/v4";
-        return HttpHelper::post($apiEndpoint, json_encode($finalData), $this->defaultHeader);
+        $apiEndpoint = $this->apiUrl . 'contact/v4';
+
+        return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->defaultHeader);
     }
 
     public function addCompany($finalData)
     {
         if (empty($finalData['name'])) {
-            return ['success' => false, 'message' => 'Required field name is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field name is empty', 'bit-integrations'), 'code' => 400];
         }
 
         $finalData['currency'] = isset($this->integrationDetails->selectedCurrency) && !empty($this->integrationDetails->selectedCurrency) ? $this->integrationDetails->selectedCurrency : 'USD';
@@ -99,16 +105,17 @@ class RecordApiHelper
             $finalData['owner'] = ($this->integrationDetails->selectedCRMOwner);
         }
 
-        $this->type     = 'Company';
+        $this->type = 'Company';
         $this->typeName = 'Company created';
-        $apiEndpoint = $this->apiUrl . "company/v4";
-        return HttpHelper::post($apiEndpoint, json_encode($finalData), $this->defaultHeader);
+        $apiEndpoint = $this->apiUrl . 'company/v4';
+
+        return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->defaultHeader);
     }
 
     public function addDeal($finalData)
     {
         if (empty($finalData['title'])) {
-            return ['success' => false, 'message' => 'Required field title is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field title is empty', 'bit-integrations'), 'code' => 400];
         }
 
         $finalData['currency'] = isset($this->integrationDetails->selectedCurrency) && !empty($this->integrationDetails->selectedCurrency) ? $this->integrationDetails->selectedCurrency : 'USD';
@@ -135,10 +142,11 @@ class RecordApiHelper
             $finalData['stage'] = ($this->integrationDetails->selectedCRMStage);
         }
 
-        $this->type     = 'Deal';
+        $this->type = 'Deal';
         $this->typeName = 'Deal created';
-        $apiEndpoint = $this->apiUrl . "deal/v4";
-        return HttpHelper::post($apiEndpoint, json_encode($finalData), $this->defaultHeader);
+        $apiEndpoint = $this->apiUrl . 'deal/v4';
+
+        return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->defaultHeader);
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
@@ -146,31 +154,33 @@ class RecordApiHelper
         $dataFinal = [];
         foreach ($fieldMap as $value) {
             $triggerValue = $value->formField;
-            $actionValue  = $value->salesmateFormField;
+            $actionValue = $value->salesmateFormField;
             $dataFinal[$actionValue] = ($triggerValue === 'custom') ? $value->customValue : $data[$triggerValue];
         }
+
         return $dataFinal;
     }
 
     public function execute($fieldValues, $fieldMap, $actionId)
     {
-        $finalData   = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
-        if ((int)$actionId === 1) {
+        $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
+        if ((int) $actionId === 1) {
             $apiResponse = $this->addContact($finalData);
-        } elseif ((int)$actionId === 4) {
+        } elseif ((int) $actionId === 4) {
             $apiResponse = $this->addDeal($finalData);
-        } elseif ((int)$actionId === 5) {
+        } elseif ((int) $actionId === 5) {
             $apiResponse = $this->addCompany($finalData);
-        } elseif ((int)$actionId === 6) {
+        } elseif ((int) $actionId === 6) {
             $apiResponse = $this->addProduct($finalData);
         }
 
         if ($apiResponse->Status === 'success') {
             $res = [$this->typeName . '  successfully'];
-            LogHandler::save($this->integrationId, json_encode(['type' => $this->type, 'type_name' => $this->typeName]), 'success', json_encode($res));
+            LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->typeName]), 'success', wp_json_encode($res));
         } else {
-            LogHandler::save($this->integrationId, json_encode(['type' => $this->type, 'type_name' => $this->type . ' creating']), 'error', json_encode($apiResponse));
+            LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->type . ' creating']), 'error', wp_json_encode($apiResponse));
         }
+
         return $apiResponse;
     }
 }

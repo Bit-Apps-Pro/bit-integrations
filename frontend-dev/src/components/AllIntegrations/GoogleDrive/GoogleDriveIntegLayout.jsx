@@ -4,17 +4,34 @@ import GoogleDriveFieldMap from './GoogleDriveFieldMap'
 import GoogleDriveActions from './GoogleDriveActions'
 import { getAllGoogleDriveFolders } from './GoogleDriveCommonFunc'
 
-export default function GoogleDriveIntegLayout({ flowID, formFields, googleDriveConf, setGoogleDriveConf }) {
+export default function GoogleDriveIntegLayout({
+  flowID,
+  formFields,
+  googleDriveConf,
+  setGoogleDriveConf
+}) {
   return (
     <>
       <div className="mt-5">
         <b className="wdt-100">{__('Field Map', 'bit-integrations')}</b>
-        <button onClick={() => getAllGoogleDriveFolders(flowID, googleDriveConf, setGoogleDriveConf)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `'${__('Fetch All GoogleDrive Folders', 'bit-integrations')}'` }} type="button">&#x21BB;</button>
+        <button
+          onClick={() => getAllGoogleDriveFolders(flowID, googleDriveConf, setGoogleDriveConf)}
+          className="icn-btn sh-sm ml-2 mr-2 tooltip"
+          style={{
+            '--tooltip-txt': `'${__('Fetch All GoogleDrive Folders', 'bit-integrations')}'`
+          }}
+          type="button">
+          &#x21BB;
+        </button>
       </div>
       <div className="btcd-hr mt-1" />
       <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
-        <div className="txt-dp"><b>{__('File Input', 'bit-integrations')}</b></div>
-        <div className="txt-dp"><b>{__('GoogleDrive Folder', 'bit-integrations')}</b></div>
+        <div className="txt-dp">
+          <b>{__('File Input', 'bit-integrations')}</b>
+        </div>
+        <div className="txt-dp">
+          <b>{__('GoogleDrive Folder', 'bit-integrations')}</b>
+        </div>
       </div>
 
       {googleDriveConf?.field_map.map((itm, i) => (
@@ -28,11 +45,25 @@ export default function GoogleDriveIntegLayout({ flowID, formFields, googleDrive
         />
       ))}
       <div className="txt-center btcbi-field-map-button mt-2">
-        <button onClick={() => addFieldMap(googleDriveConf.field_map.length, googleDriveConf, setGoogleDriveConf, false)} className="icn-btn sh-sm" type="button">+</button>
+        <button
+          onClick={() =>
+            addFieldMap(
+              googleDriveConf.field_map.length,
+              googleDriveConf,
+              setGoogleDriveConf,
+              false
+            )
+          }
+          className="icn-btn sh-sm"
+          type="button">
+          +
+        </button>
       </div>
       <br />
       <br />
-      <div className="mt-4"><b className="wdt-100">{__('Actions', 'bit-integrations')}</b></div>
+      <div className="mt-4">
+        <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
+      </div>
       <div className="btcd-hr mt-1" />
       <GoogleDriveActions
         googleDriveConf={googleDriveConf}

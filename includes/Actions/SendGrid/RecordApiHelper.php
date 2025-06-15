@@ -13,17 +13,17 @@ use BitCode\FI\Log\LogHandler;
 /**
  * Provide functionality for Record insert, update
  */
-
 class RecordApiHelper
 {
     private $_integrationID;
+
     private $_responseType;
 
     public function __construct($integrationDetails, $integId)
     {
         $this->_integrationDetails = $integrationDetails;
-        $this->_integrationID      = $integId;
-        $this->_defaultHeader      = [
+        $this->_integrationID = $integId;
+        $this->_defaultHeader = [
             'Authorization' => 'Bearer ' . $integrationDetails->apiKey,
             'Content-Type'  => 'application/json'
         ];
@@ -34,7 +34,7 @@ class RecordApiHelper
         $apiEndpoints = 'https://api.sendgrid.com/v3/marketing/contacts';
 
         if (empty($finalData['email'])) {
-            return ['success' => false, 'message' => 'Required field Email is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field Email is empty', 'bit-integrations'), 'code' => 400];
         }
 
         $this->_responseType = $this->isExist($finalData['email']);
@@ -50,7 +50,7 @@ class RecordApiHelper
         ];
 
         foreach ($finalData as $key => $value) {
-            if (in_array($key, $staticFieldsKeys)) {
+            if (\in_array($key, $staticFieldsKeys)) {
                 $contacts[$key] = $value;
             } else {
                 $customFields[$key] = $value;
@@ -63,7 +63,7 @@ class RecordApiHelper
 
         $requestParams['contacts'][] = (object) $contacts;
 
-        return HttpHelper::request($apiEndpoints, 'PUT', json_encode($requestParams), $this->_defaultHeader);
+        return HttpHelper::request($apiEndpoints, 'PUT', wp_json_encode($requestParams), $this->_defaultHeader);
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
@@ -71,35 +71,37 @@ class RecordApiHelper
         $dataFinal = [];
         foreach ($fieldMap as $value) {
             $triggerValue = $value->formField;
-            $actionValue  = $value->sendGridFormField;
+            $actionValue = $value->sendGridFormField;
             if ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!is_null($data[$triggerValue])) {
+            } elseif (!\is_null($data[$triggerValue])) {
                 $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
+
         return $dataFinal;
     }
 
     public function execute($selectedLists, $fieldValues, $fieldMap)
     {
-        $finalData   = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
-        $apiResponse = $this->addContact($selectedLists,  $finalData);
+        $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
+        $apiResponse = $this->addContact($selectedLists, $finalData);
 
         if (!isset($apiResponse->errors)) {
             $res = ['message' => 'Contact ' . $this->_responseType . ' successfully'];
-            LogHandler::save($this->_integrationID, json_encode(['type' => 'contact', 'type_name' => 'Contact ' . $this->_responseType]), 'success', json_encode($res));
+            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'contact', 'type_name' => 'Contact ' . $this->_responseType]), 'success', wp_json_encode($res));
         } else {
-            LogHandler::save($this->_integrationID, json_encode(['type' => '', 'type_name' => 'Adding contact']), 'error', json_encode($apiResponse));
+            LogHandler::save($this->_integrationID, wp_json_encode(['type' => '', 'type_name' => 'Adding contact']), 'error', wp_json_encode($apiResponse));
         }
+
         return $apiResponse;
     }
 
     private function isExist($email)
     {
-        $apiEndpoint      = 'https://api.sendgrid.com/v3/marketing/contacts/search/emails';
+        $apiEndpoint = 'https://api.sendgrid.com/v3/marketing/contacts/search/emails';
         $emails['emails'] = (array) $email;
-        $response         = HttpHelper::post($apiEndpoint, json_encode($emails), $this->_defaultHeader);
+        $response = HttpHelper::post($apiEndpoint, wp_json_encode($emails), $this->_defaultHeader);
 
         return empty($response) ? 'created' : 'updated';
     }

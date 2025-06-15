@@ -9,31 +9,33 @@ const getAllDonationForms = (data, setFlow) => {
       tmpFlow.flow_details.allDonationForms = result.data
 
       setFlow({ ...tmpFlow })
-      return 'All donation forms fetched successfully'
+      return __('All donation forms fetched successfully', 'bit-integrations')
     }
-    return 'Donation forms fetching failed. please try again'
+    return __('Donation forms fetching failed. please try again', 'bit-integrations')
   })
   toast.promise(loadPostTypes, {
     success: (data) => data,
     error: __('Error Occurred', 'bit-integrations'),
-    loading: __('Loading donation from...'),
+    loading: __('Loading donation from...')
   })
 }
 
-export function getAllRecurringDonationForms (data, setFlow) {
-  const loadPostTypes = bitsFetch(null, 'get_all_recurring_donation_form', null, 'GET').then((result) => {
-    if (result && result.success) {
-      const tmpFlow = { ...data }
-      tmpFlow.flow_details.allRecurringForms = result.data
-      setFlow({ ...tmpFlow })
-      return 'All recurring donation forms fetched successfully'
+export function getAllRecurringDonationForms(data, setFlow) {
+  const loadPostTypes = bitsFetch(null, 'get_all_recurring_donation_form', null, 'GET').then(
+    (result) => {
+      if (result && result.success) {
+        const tmpFlow = { ...data }
+        tmpFlow.flow_details.allRecurringForms = result.data
+        setFlow({ ...tmpFlow })
+        return __('All recurring donation forms fetched successfully', 'bit-integrations')
+      }
+      return __('Recurring donation forms fetching failed. please try again', 'bit-integrations')
     }
-    return 'Recurring donation forms fetching failed. please try again'
-  })
+  )
   toast.promise(loadPostTypes, {
     success: (data) => data,
     error: __('Error Occurred', 'bit-integrations'),
-    loading: __('Loading recurring donation from...'),
+    loading: __('Loading recurring donation from...')
   })
 }
 

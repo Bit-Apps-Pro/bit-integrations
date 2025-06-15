@@ -9,14 +9,17 @@ export const getAllEDDProduct = (data, setFlow) => {
       tmpFlow.flow_details.allProduct = result.data
 
       setFlow({ ...tmpFlow })
-      return 'All easy digital downloads  product fetched successfully'
+      return __('All easy digital downloads  product fetched successfully', 'bit-integrations')
     }
-    return 'Easy digital downloads  product fetching failed. please try again'
+    return __(
+      'Easy digital downloads  product fetching failed. please try again',
+      'bit-integrations'
+    )
   })
   toast.promise(loadPostTypes, {
     success: (data) => data,
     error: __('Error Occurred', 'bit-integrations'),
-    loading: __('Loading all product...'),
+    loading: __('Loading all product...')
   })
 }
 
@@ -27,14 +30,13 @@ export const getAllEDDDiscountCode = (data, setFlow) => {
       tmpFlow.flow_details.allDiscountCode = result.data
 
       setFlow({ ...tmpFlow })
-      return 'All easy digital downloads fetched successfully'
+      return __('All easy digital downloads fetched successfully', 'bit-integrations')
     }
-    return 'Easy digital downloads fetching failed. please try again'
+    return __('Easy digital downloads fetching failed. please try again', 'bit-integrations')
   })
   toast.promise(loadPostTypes, {
     success: (data) => data,
     error: __('Error Occurred', 'bit-integrations'),
-    loading: __('Loading discount code...'),
+    loading: __('Loading discount code...')
   })
 }
-

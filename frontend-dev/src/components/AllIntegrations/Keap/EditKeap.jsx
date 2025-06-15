@@ -29,7 +29,14 @@ function EditGoogleSheet({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, keapConf, setKeapConf)} name="name" value={keapConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, keapConf, setKeapConf)}
+          name="name"
+          value={keapConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 
@@ -38,7 +45,9 @@ function EditGoogleSheet({ allIntegURL }) {
       <KeapIntegLayout
         formID={formID}
         formFields={formFields}
-        handleInput={(e) => handleInput(e, keapConf, setKeapConf, formID, setIsLoading, setSnackbar)}
+        handleInput={(e) =>
+          handleInput(e, keapConf, setKeapConf, formID, setIsLoading, setSnackbar)
+        }
         keapConf={keapConf}
         setKeapConf={setKeapConf}
         isLoading={isLoading}
@@ -48,7 +57,18 @@ function EditGoogleSheet({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, conf: keapConf, navigate, edit: 1, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            setFlow,
+            allIntegURL,
+            conf: keapConf,
+            navigate,
+            edit: 1,
+            setIsLoading,
+            setSnackbar
+          })
+        }
         disabled={keapConf.field_map.length < 2}
         isLoading={isLoading}
         dataConf={keapConf}

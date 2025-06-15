@@ -3,6 +3,7 @@
 /**
  * SendFox Record Api
  */
+
 namespace BitCode\FI\Actions\SendFox;
 
 use BitCode\FI\Core\Util\Common;
@@ -28,14 +29,14 @@ class RecordApiHelper
         $listId = explode(',', $listId);
         $header = [
             'Authorization' => "Bearer {$access_token}",
-            'Accept' => 'application/json',
+            'Accept'        => 'application/json',
         ];
 
         $data = [
-            'email' => $finalData['email'],
+            'email'      => $finalData['email'],
             'first_name' => $finalData['first_name'],
-            'last_name' => $finalData['last_name'],
-            'lists' => $listId,
+            'last_name'  => $finalData['last_name'],
+            'lists'      => $listId,
         ];
 
         return HttpHelper::post($apiEndpoints, $data, $header);
@@ -47,7 +48,7 @@ class RecordApiHelper
 
         $header = [
             'Authorization' => "Bearer {$access_token}",
-            'Accept' => 'application/json',
+            'Accept'        => 'application/json',
         ];
 
         $data = [
@@ -66,10 +67,11 @@ class RecordApiHelper
             $actionValue = $value->sendFoxFormField;
             if ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!is_null($data[$triggerValue])) {
+            } elseif (!\is_null($data[$triggerValue])) {
                 $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
+
         return $dataFinal;
     }
 
@@ -82,10 +84,11 @@ class RecordApiHelper
             $actionValue = $value->sendFoxListFormField;
             if ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!is_null($data[$triggerValue])) {
+            } elseif (!\is_null($data[$triggerValue])) {
                 $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
+
         return $dataFinal;
     }
 
@@ -98,10 +101,11 @@ class RecordApiHelper
             $actionValue = $value->sendFoxUnsubscribeFormField;
             if ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!is_null($data[$triggerValue])) {
+            } elseif (!\is_null($data[$triggerValue])) {
                 $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
+
         return $dataFinal;
     }
 
@@ -111,12 +115,13 @@ class RecordApiHelper
 
         $header = [
             'Authorization' => "Bearer {$access_token}",
-            'Accept' => 'application/json',
+            'Accept'        => 'application/json',
         ];
 
         $data = [
             'email' => $finalData['email'],
         ];
+
         return HttpHelper::request($apiEndpoints, 'PATCH', $data, $header);
     }
 
@@ -134,9 +139,9 @@ class RecordApiHelper
             $apiResponseList = $this->createContactList($access_token, $finalData);
 
             if (property_exists($apiResponseList, 'id')) {
-                LogHandler::save($this->_integrationID, json_encode(['type' => 'record', 'type_name' => $type_name]), 'success', json_encode($apiResponseList));
+                LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'record', 'type_name' => $type_name]), 'success', wp_json_encode($apiResponseList));
             } else {
-                LogHandler::save($this->_integrationID, json_encode(['type' => 'record', 'type_name' => $type_name]), 'error', json_encode($apiResponseList));
+                LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'record', 'type_name' => $type_name]), 'error', wp_json_encode($apiResponseList));
             }
         }
         if ($integrationDetails->mainAction === '2') {
@@ -144,9 +149,9 @@ class RecordApiHelper
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
             $apiResponse = $this->addContact($access_token, $listId, $finalData);
             if (property_exists($apiResponse, 'errors')) {
-                LogHandler::save($this->_integrationID, json_encode(['type' => 'contact', 'type_name' => $type_name]), 'error', json_encode($apiResponse));
+                LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'contact', 'type_name' => $type_name]), 'error', wp_json_encode($apiResponse));
             } else {
-                LogHandler::save($this->_integrationID, json_encode(['type' => 'record', 'type_name' => $type_name]), 'success', json_encode($apiResponse));
+                LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'record', 'type_name' => $type_name]), 'success', wp_json_encode($apiResponse));
             }
         }
 
@@ -155,9 +160,9 @@ class RecordApiHelper
             $finalData = $this->generateReqUnsubscribeDataFromFieldMap($fieldValues, $integrationDetails->field_map_unsubscribe);
             $apiResponse = $this->unsubscribeContact($access_token, $finalData);
             if (property_exists($apiResponse, 'id')) {
-                LogHandler::save($this->_integrationID, json_encode(['type' => 'contact', 'type_name' => $type_name]), 'success', json_encode($apiResponse));
+                LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'contact', 'type_name' => $type_name]), 'success', wp_json_encode($apiResponse));
             } else {
-                LogHandler::save($this->_integrationID, json_encode(['type' => 'record', 'type_name' => $type_name]), 'error', json_encode($apiResponse));
+                LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'record', 'type_name' => $type_name]), 'error', wp_json_encode($apiResponse));
             }
         }
 

@@ -3,10 +3,11 @@
 /**
  * ZohoCreator Integration
  */
+
 namespace BitCode\FI\Actions\ZohoCreator;
 
-use BitCode\FI\Core\Util\IpTool;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Core\Util\IpTool;
 
 /**
  * Provide functionality for ZohoCrm integration
@@ -23,6 +24,8 @@ class ZohoCreatorController
     /**
      * Process ajax request for generate_token
      *
+     * @param mixed $requestsParams
+     *
      * @return JSON zoho crm api response and status
      */
     public static function generateTokens($requestsParams)
@@ -33,7 +36,7 @@ class ZohoCreatorController
                 || empty($requestsParams->clientSecret)
                 || empty($requestsParams->redirectURI)
                 || empty($requestsParams->code)
-            ) {
+        ) {
             wp_send_json_error(
                 __(
                     'Requested parameter is empty',
@@ -43,13 +46,13 @@ class ZohoCreatorController
             );
         }
 
-        $apiEndpoint = \urldecode($requestsParams->{'accounts-server'}) . '/oauth/v2/token';
+        $apiEndpoint = urldecode($requestsParams->{'accounts-server'}) . '/oauth/v2/token';
         $requestParams = [
-            'grant_type' => 'authorization_code',
-            'client_id' => $requestsParams->clientId,
+            'grant_type'    => 'authorization_code',
+            'client_id'     => $requestsParams->clientId,
             'client_secret' => $requestsParams->clientSecret,
-            'redirect_uri' => \urldecode($requestsParams->redirectURI),
-            'code' => $requestsParams->code
+            'redirect_uri'  => urldecode($requestsParams->redirectURI),
+            'code'          => $requestsParams->code
         ];
         $apiResponse = HttpHelper::post($apiEndpoint, $requestParams);
 
@@ -59,7 +62,7 @@ class ZohoCreatorController
                 400
             );
         }
-        $apiResponse->generates_on = \time();
+        $apiResponse->generates_on = time();
         wp_send_json_success($apiResponse, 200);
     }
 
@@ -69,7 +72,7 @@ class ZohoCreatorController
                 || empty($queryParams->dataCenter)
                 || empty($queryParams->clientId)
                 || empty($queryParams->clientSecret)
-            ) {
+        ) {
             wp_send_json_error(
                 __(
                     'Requested parameter is empty',
@@ -79,7 +82,7 @@ class ZohoCreatorController
             );
         }
         $response = [];
-        if ((intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
+        if ((\intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $response['tokenDetails'] = self::_refreshAccessToken($queryParams);
         }
 
@@ -94,13 +97,13 @@ class ZohoCreatorController
             $allApplications = [];
             $applications = $applicationsMetaResponse->applications;
 
-            if (count($applications) > 0) {
+            if (\count($applications) > 0) {
                 foreach ($applications as $application) {
                     $allApplications[$application->application_name] = (object) [
-                        'applicationId' => $application->link_name,
+                        'applicationId'   => $application->link_name,
                         'applicationName' => $application->application_name,
-                        'time_zone' => $application->time_zone,
-                        'date_format' => $application->date_format
+                        'time_zone'       => $application->time_zone,
+                        'date_format'     => $application->date_format
                     ];
                 }
             }
@@ -121,6 +124,8 @@ class ZohoCreatorController
     /**
      * Process ajax request for refresh crm modules
      *
+     * @param mixed $queryParams
+     *
      * @return JSON crm module data
      */
     public static function refreshFormsAjaxHelper($queryParams)
@@ -131,17 +136,17 @@ class ZohoCreatorController
                 || empty($queryParams->clientSecret)
                 || empty($queryParams->accountOwner)
                 || empty($queryParams->applicationId)
-            ) {
+        ) {
             wp_send_json_error(
                 __(
-                        'Requested parameter is empty',
-                        'bit-integrations'
-                    ),
+                    'Requested parameter is empty',
+                    'bit-integrations'
+                ),
                 400
             );
         }
         $response = [];
-        if ((intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
+        if ((\intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $response['tokenDetails'] = self::_refreshAccessToken($queryParams);
         }
 
@@ -157,10 +162,10 @@ class ZohoCreatorController
             $allForms = [];
             $forms = $formsMetaResponse->forms;
 
-            if (count($forms) > 0) {
+            if (\count($forms) > 0) {
                 foreach ($forms as $form) {
                     $allForms[$form->display_name] = (object) [
-                        'formId' => $form->link_name,
+                        'formId'   => $form->link_name,
                         'formName' => $form->display_name
                     ];
                 }
@@ -182,6 +187,8 @@ class ZohoCreatorController
     /**
      * Process ajax request for refesh crm layouts
      *
+     * @param mixed $queryParams
+     *
      * @return JSON crm layout data
      */
     public static function refreshFieldsAjaxHelper($queryParams)
@@ -193,17 +200,17 @@ class ZohoCreatorController
                 || empty($queryParams->accountOwner)
                 || empty($queryParams->applicationId)
                 || empty($queryParams->formId)
-            ) {
+        ) {
             wp_send_json_error(
                 __(
-                        'Requested parameter is empty',
-                        'bit-integrations'
-                    ),
+                    'Requested parameter is empty',
+                    'bit-integrations'
+                ),
                 400
             );
         }
         $response = [];
-        if ((intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
+        if ((\intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $response['tokenDetails'] = self::_refreshAccessToken($queryParams);
         }
 
@@ -217,7 +224,7 @@ class ZohoCreatorController
         if (!is_wp_error($fieldsMetaResponse)) {
             $fields = $fieldsMetaResponse->fields;
 
-            if (count($fields) > 0) {
+            if (\count($fields) > 0) {
                 $response['fields'] = [];
                 $response['fileUploadFields'] = [];
                 $response['required'] = [];
@@ -226,15 +233,15 @@ class ZohoCreatorController
                     if (isset($field->is_lookup_field) && $field->is_lookup_field) {
                         continue;
                     }
-                    if (in_array($field->type, [9, 20, 21, 22, 23, 24, 26, 28, 31, 35, 36, 37, 38, 39])) {
+                    if (\in_array($field->type, [9, 20, 21, 22, 23, 24, 26, 28, 31, 35, 36, 37, 38, 39])) {
                         continue;
                     }
 
-                    if (in_array($field->type, [18, 19, 25, 32, 33])) {
+                    if (\in_array($field->type, [18, 19, 25, 32, 33])) {
                         $response['fileUploadFields'][$field->display_name] = (object) [
-                            'apiName' => $field->link_name,
+                            'apiName'      => $field->link_name,
                             'displayLabel' => $field->display_name,
-                            'required' => $field->mandatory,
+                            'required'     => $field->mandatory,
                         ];
 
                         if ($field->mandatory) {
@@ -245,10 +252,10 @@ class ZohoCreatorController
                             foreach ($field->subfields as $subfield) {
                                 if (!$subfield->is_hidden) {
                                     $response['fields'][$subfield->display_name] = (object) [
-                                        'apiName' => $subfield->link_name,
+                                        'apiName'      => $subfield->link_name,
                                         'displayLabel' => $subfield->display_name,
-                                        'required' => $field->mandatory,
-                                        'parent' => $field->link_name
+                                        'required'     => $field->mandatory,
+                                        'parent'       => $field->link_name
                                     ];
                                     if ($field->mandatory) {
                                         $response['required'][] = $subfield->link_name;
@@ -257,12 +264,12 @@ class ZohoCreatorController
                             }
                         } else {
                             $response['fields'][$field->display_name] = (object) [
-                                'apiName' => $field->link_name,
+                                'apiName'      => $field->link_name,
                                 'displayLabel' => $field->display_name,
-                                'required' => $field->mandatory
+                                'required'     => $field->mandatory
                             ];
 
-                            if (in_array($field->type, [14, 15])) {
+                            if (\in_array($field->type, [14, 15])) {
                                 $response['fields'][$field->display_name]->type = $field->type;
                             }
 
@@ -290,16 +297,56 @@ class ZohoCreatorController
         wp_send_json_success($response, 200);
     }
 
+    public function execute($integrationData, $fieldValues)
+    {
+        $integrationDetails = $integrationData->flow_details;
+
+        $tokenDetails = $integrationDetails->tokenDetails;
+        if (empty($tokenDetails)
+        ) {
+            return new WP_Error('tokenDetails error', __('tokenDetails error', 'bit-integrations'));
+        }
+
+        if ((\intval($tokenDetails->generates_on) + (55 * 60)) < time()) {
+            $requiredParams['clientId'] = $integrationDetails->clientId;
+            $requiredParams['clientSecret'] = $integrationDetails->clientSecret;
+            $requiredParams['dataCenter'] = $integrationDetails->dataCenter;
+            $requiredParams['tokenDetails'] = $tokenDetails;
+            $newTokenDetails = self::_refreshAccessToken((object) $requiredParams);
+            if ($newTokenDetails) {
+                self::_saveRefreshedToken($this->_formID, $this->_integrationID, $newTokenDetails);
+                $tokenDetails = $newTokenDetails;
+            }
+        }
+
+        // $actions = $integrationDetails->actions;
+        $recordApiHelper = new RecordApiHelper($tokenDetails, $this->_integrationID);
+
+        $zcreatorApiResponse = $recordApiHelper->execute(
+            $this->_formID,
+            $entryID,
+            $fieldValues,
+            $integrationDetails
+        );
+
+        if (is_wp_error($zcreatorApiResponse)) {
+            return $zcreatorApiResponse;
+        }
+
+        return $zcreatorApiResponse;
+    }
+
     /**
      * Helps to refresh zoho crm access_token
      *
-     * @param  Array $apiData Contains required data for refresh access token
-     * @return JSON  $tokenDetails API token details
+     * @param array $apiData Contains required data for refresh access token
+     *
+     * @return JSON $tokenDetails API token details
      */
     protected static function _refreshAccessToken($apiData)
     {
-        if (!is_object($apiData) ||
-            empty($apiData->dataCenter)
+        if (!\is_object($apiData)
+            || empty($apiData->dataCenter)
             || empty($apiData->clientId)
             || empty($apiData->clientSecret)
             || empty($apiData->tokenDetails)
@@ -311,8 +358,8 @@ class ZohoCreatorController
         $dataCenter = $apiData->dataCenter;
         $apiEndpoint = "https://accounts.zoho.{$dataCenter}/oauth/v2/token";
         $requestParams = [
-            'grant_type' => 'refresh_token',
-            'client_id' => $apiData->clientId,
+            'grant_type'    => 'refresh_token',
+            'client_id'     => $apiData->clientId,
             'client_secret' => $apiData->clientSecret,
             'refresh_token' => $tokenDetails->refresh_token,
         ];
@@ -321,17 +368,19 @@ class ZohoCreatorController
         if (is_wp_error($apiResponse) || !empty($apiResponse->error)) {
             return false;
         }
-        $tokenDetails->generates_on = \time();
+        $tokenDetails->generates_on = time();
         $tokenDetails->access_token = $apiResponse->access_token;
+
         return $tokenDetails;
     }
 
     /**
      * Save updated access_token to avoid unnecessary token generation
      *
-     * @param Integer $formID        ID of Integration related form
-     * @param Integer $integrationID ID of Zoho crm Integration
-     * @param Obeject $tokenDetails  refreshed token info
+     * @param int        $formID        ID of Integration related form
+     * @param int        $integrationID ID of Zoho crm Integration
+     * @param Obeject    $tokenDetails  refreshed token info
+     * @param null|mixed $others
      *
      * @return null
      */
@@ -354,44 +403,6 @@ class ZohoCreatorController
             $newDetails->default->organizations = $others['organizations'];
         }
 
-        $integrationHandler->updateIntegration($integrationID, $zcreatorDetails[0]->integration_name, 'Zoho Creator', \json_encode($newDetails), 'form');
-    }
-
-    public function execute($integrationData, $fieldValues)
-    {
-        $integrationDetails = $integrationData->flow_details;
-
-        $tokenDetails = $integrationDetails->tokenDetails;
-        if (empty($tokenDetails)
-        ) {
-            return new WP_Error('tokenDetails error', __('tokenDetails error', 'bit-integrations'));
-        }
-
-        if ((intval($tokenDetails->generates_on) + (55 * 60)) < time()) {
-            $requiredParams['clientId'] = $integrationDetails->clientId;
-            $requiredParams['clientSecret'] = $integrationDetails->clientSecret;
-            $requiredParams['dataCenter'] = $integrationDetails->dataCenter;
-            $requiredParams['tokenDetails'] = $tokenDetails;
-            $newTokenDetails = self::_refreshAccessToken((object)$requiredParams);
-            if ($newTokenDetails) {
-                self::_saveRefreshedToken($this->_formID, $this->_integrationID, $newTokenDetails);
-                $tokenDetails = $newTokenDetails;
-            }
-        }
-
-        // $actions = $integrationDetails->actions;
-        $recordApiHelper = new RecordApiHelper($tokenDetails, $this->_integrationID);
-
-        $zcreatorApiResponse = $recordApiHelper->execute(
-            $this->_formID,
-            $entryID,
-            $fieldValues,
-            $integrationDetails
-        );
-
-        if (is_wp_error($zcreatorApiResponse)) {
-            return $zcreatorApiResponse;
-        }
-        return $zcreatorApiResponse;
+        $integrationHandler->updateIntegration($integrationID, $zcreatorDetails[0]->integration_name, 'Zoho Creator', wp_json_encode($newDetails), 'form');
     }
 }

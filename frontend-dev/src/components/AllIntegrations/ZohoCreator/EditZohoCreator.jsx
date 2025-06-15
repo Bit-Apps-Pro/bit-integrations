@@ -30,13 +30,22 @@ function EditZohoCreator({ allIntegURL, formFields, flow, setFlow }) {
 
       <div className="flx mt-3">
         <b className="wdt-100 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-7" onChange={e => handleInput(e, creatorConf, setCreatorConf)} name="name" value={creatorConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-7"
+          onChange={(e) => handleInput(e, creatorConf, setCreatorConf)}
+          name="name"
+          value={creatorConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
 
       <ZohoCreatorIntegLayout
         formID={formID}
         formFields={formFields}
-        handleInput={(e) => handleInput(e, creatorConf, setCreatorConf, formID, setIsLoading, setSnackbar)}
+        handleInput={(e) =>
+          handleInput(e, creatorConf, setCreatorConf, formID, setIsLoading, setSnackbar)
+        }
         creatorConf={creatorConf}
         setCreatorConf={setCreatorConf}
         isLoading={isLoading}
@@ -47,7 +56,9 @@ function EditZohoCreator({ allIntegURL, formFields, flow, setFlow }) {
       <IntegrationStepThree
         edit
         saveConfig={saveConfig}
-        disabled={!creatorConf.applicationId || !creatorConf.formId || creatorConf.field_map.length < 1}
+        disabled={
+          !creatorConf.applicationId || !creatorConf.formId || creatorConf.field_map.length < 1
+        }
       />
     </div>
   )

@@ -2,7 +2,6 @@
 
 /**
  * WPWebhooks Integration
- *
  */
 
 namespace BitCode\FI\Actions\WPWebhooks;

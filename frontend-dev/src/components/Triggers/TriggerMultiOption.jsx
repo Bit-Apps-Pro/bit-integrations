@@ -21,32 +21,110 @@ import MasterStudyLmsHelper from './TriggerHelpers/MasterStudyLmsHelper'
 import ThriveApprenticeHelper from './TriggerHelpers/ThriveApprenticeHelper'
 import UltimateMemberHelper from './TriggerHelpers/UltimateMemberHelper'
 import AcademyLmsHelper from './TriggerHelpers/AcademyLmsHelper'
+import FluentBookingHelper from './TriggerHelpers/FluentBookingHelper'
+import SureMembersHelper from './TriggerHelpers/SureMembersHelper'
+import WPForoHelper from './TriggerHelpers/WPForoHelper'
+import WPJobManagerHelper from './TriggerHelpers/WPJobManagerHelper'
+import WCSubscriptionsHelper from './TriggerHelpers/WCSubscriptionsHelper'
+import WCBookingsHelper from './TriggerHelpers/WCBookingsHelper'
+import EventsCalendarHelper from './TriggerHelpers/EventsCalendarHelper'
+import VoxelHelper from './TriggerHelpers/VoxelHelper'
 
 const TriggerMultiOption = ({ flow, setFlowData, edit = false }) => (
   <div>
-    {flow?.triggered_entity === 'TutorLms' && <TutorLmsHelper flow={flow} setFlowData={setFlowData} />}
-    {flow?.triggered_entity === 'WC' && <WooCommerceHelper flow={flow} setFlowData={setFlowData} edit={edit} />}
-    {flow?.triggered_entity === 'Groundhogg' && <GroundhoggHelper flow={flow} setFlowData={setFlowData} edit={edit} />}
-    {flow?.triggered_entity === 'RestrictContent' && <RestrictContentHelper flow={flow} setFlowData={setFlowData} edit={edit} />}
-    {flow?.triggered_entity === 'WPCourseware' && <WPCoursewareHelper flow={flow} setFlowData={setFlowData} />}
-    {flow?.triggered_entity === 'FluentCrm' && <FluentCrmHelper flow={flow} setFlowData={setFlowData} edit={edit} />}
-    {flow?.triggered_entity === 'Post' && <PostHelper flow={flow} setFlowData={setFlowData} edit={edit} />}
-    {flow?.triggered_entity === 'LearnDash' && <LearnDashHelper flow={flow} setFlowData={setFlowData} edit={edit} />}
-    {flow?.triggered_entity === 'BuddyBoss' && <BuddyBossHelper flow={flow} setFlowData={setFlowData} edit={edit} />}
-    {flow?.triggered_entity === 'Affiliate' && <AffiliateHelper flow={flow} setFlowData={setFlowData} edit={edit} />}
-    {flow?.triggered_entity === 'GamiPress' && <GamiPressHelper flow={flow} setFlowData={setFlowData} edit={edit} />}
-    {flow?.triggered_entity === 'JetEngine' && <JetEngineHelper flow={flow} setFlowData={setFlowData} edit={edit} />}
-    {flow?.triggered_entity === 'Memberpress' && <MemberpressHelper flow={flow} setFlowData={setFlowData} edit={edit} />}
-    {flow?.triggered_entity === 'PaidMembershipPro' && <PaidMembershipProHelper flow={flow} setFlowData={setFlowData} edit={edit} />}
-    {flow?.triggered_entity === 'SliceWp' && <SliceWpHelper flow={flow} setFlowData={setFlowData} edit={edit} />}
-    {flow?.triggered_entity === 'SureCart' && <SureCartHelper flow={flow} setFlowData={setFlowData} edit={edit} />}
-    {flow?.triggered_entity === 'GiveWp' && <GiveWpHelper flow={flow} setFlowData={setFlowData} edit={edit} />}
-    {flow?.triggered_entity === 'LifterLms' && <LifterLmsHelper flow={flow} setFlowData={setFlowData} edit={edit} />}
-    {flow?.triggered_entity === 'EDD' && <EDDHelper flow={flow} setFlowData={setFlowData} edit={edit} />}
-    {flow?.triggered_entity === 'MasterStudyLms' && <MasterStudyLmsHelper flow={flow} setFlowData={setFlowData} edit={edit} />}
-    {flow?.triggered_entity === 'ThriveApprentice' && <ThriveApprenticeHelper flow={flow} setFlowData={setFlowData} edit={edit} />}
-    {flow?.triggered_entity === 'UltimateMember' && <UltimateMemberHelper flow={flow} setFlowData={setFlowData} edit={edit} />}
-    {flow?.triggered_entity === 'AcademyLms' && <AcademyLmsHelper flow={flow} setFlowData={setFlowData} />}
+    {flow?.triggered_entity === 'TutorLms' && (
+      <TutorLmsHelper flow={flow} setFlowData={setFlowData} />
+    )}
+    {flow?.triggered_entity === 'WC' && (
+      <WooCommerceHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'Groundhogg' && (
+      <GroundhoggHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'RestrictContent' && (
+      <RestrictContentHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'WPCourseware' && (
+      <WPCoursewareHelper flow={flow} setFlowData={setFlowData} />
+    )}
+    {flow?.triggered_entity === 'FluentCrm' && (
+      <FluentCrmHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'Post' && (
+      <PostHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'LearnDash' && (
+      <LearnDashHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'BuddyBoss' && (
+      <BuddyBossHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'Affiliate' && (
+      <AffiliateHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'GamiPress' && (
+      <GamiPressHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'JetEngine' && (
+      <JetEngineHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'Memberpress' && (
+      <MemberpressHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'PaidMembershipPro' && (
+      <PaidMembershipProHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'SliceWp' && (
+      <SliceWpHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'SureCart' && (
+      <SureCartHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'GiveWp' && (
+      <GiveWpHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'LifterLms' && (
+      <LifterLmsHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'EDD' && (
+      <EDDHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'MasterStudyLms' && (
+      <MasterStudyLmsHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'ThriveApprentice' && (
+      <ThriveApprenticeHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'UltimateMember' && (
+      <UltimateMemberHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'AcademyLms' && (
+      <AcademyLmsHelper flow={flow} setFlowData={setFlowData} />
+    )}
+    {flow?.triggered_entity === 'FluentBooking' && (
+      <FluentBookingHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'SureMembers' && (
+      <SureMembersHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'WPForo' && (
+      <WPForoHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'WPJobManager' && (
+      <WPJobManagerHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'WCSubscriptions' && (
+      <WCSubscriptionsHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'EventsCalendar' && (
+      <EventsCalendarHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'Voxel' && (
+      <VoxelHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
+    {flow?.triggered_entity === 'WCBookings' && (
+      <WCBookingsHelper flow={flow} setFlowData={setFlowData} edit={edit} />
+    )}
   </div>
 )
 

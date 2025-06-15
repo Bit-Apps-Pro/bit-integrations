@@ -30,7 +30,14 @@ function EditWooCommerce({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-7" onChange={e => handleInput(e, wcConf, setWcConf)} name="name" value={wcConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-7"
+          onChange={(e) => handleInput(e, wcConf, setWcConf)}
+          name="name"
+          value={wcConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
       <br />
@@ -47,7 +54,18 @@ function EditWooCommerce({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, conf: wcConf, navigate, edit: 1, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            setFlow,
+            allIntegURL,
+            conf: wcConf,
+            navigate,
+            edit: 1,
+            setIsLoading,
+            setSnackbar
+          })
+        }
         disabled={false}
         isLoading={isLoading}
         dataConf={wcConf}

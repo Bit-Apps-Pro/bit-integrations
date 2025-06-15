@@ -8,7 +8,17 @@ import { refreshDirectIqList } from './DirectIqCommonFunc'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 
-export default function DirectIqAuthorization({ formID, directIqConf, setDirectIqConf, step, setstep, setSnackbar, isInfo, isLoading, setIsLoading }) {
+export default function DirectIqAuthorization({
+  formID,
+  directIqConf,
+  setDirectIqConf,
+  step,
+  setstep,
+  setSnackbar,
+  isInfo,
+  isLoading,
+  setIsLoading
+}) {
   const { directIq } = tutorialLinks
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', client_secret: '' })
@@ -18,28 +28,31 @@ export default function DirectIqAuthorization({ formID, directIqConf, setDirectI
     const newConf = { ...directIqConf }
     if (!newConf.name || !newConf.client_secret) {
       setError({
-        name: !newConf.name ? __('Integration name cann\'t be empty', 'bit-integrations') : '',
-        client_id: !newConf.client_id ? __('Access Client ID cann\'t be empty', 'bit-integrations') : '',
-        client_secret: !newConf.client_secret ? __('Access Client Secret Key cann\'t be empty', 'bit-integrations') : '',
+        name: !newConf.name ? __("Integration name can't be empty", 'bit-integrations') : '',
+        client_id: !newConf.client_id
+          ? __("Access Client Id can't be empty", 'bit-integrations')
+          : '',
+        client_secret: !newConf.client_secret
+          ? __("Access Client Secret Key can't be empty", 'bit-integrations')
+          : ''
       })
       return
     }
     setIsLoading('auth')
     const data = {
       client_id: newConf.client_id,
-      client_secret: newConf.client_secret,
+      client_secret: newConf.client_secret
     }
-    bitsFetch(data, 'directIq_authorize')
-      .then(result => {
-        if (result?.success) {
-          setisAuthorized(true)
-          setSnackbar({ show: true, msg: __('Authorized Successfully', 'bit-integrations') })
-        }
-        setShowAuthMsg(true)
-        setIsLoading(false)
-      })
+    bitsFetch(data, 'directIq_authorize').then((result) => {
+      if (result?.success) {
+        setisAuthorized(true)
+        setSnackbar({ show: true, msg: __('Authorized Successfully', 'bit-integrations') })
+      }
+      setShowAuthMsg(true)
+      setIsLoading(false)
+    })
   }
-  const handleInput = e => {
+  const handleInput = (e) => {
     const newConf = { ...directIqConf }
     const rmError = { ...error }
     rmError[e.target.name] = ''
@@ -58,43 +71,73 @@ export default function DirectIqAuthorization({ formID, directIqConf, setDirectI
   }
 
   const ActiveInstructions = `
-            <h4>Get client id and client secret key</h4>
+            <h4>${__('Get client id and client secret key', 'bit-integrations')}</h4>
             <ul>
-                <li>First go to your DirectIq dashboard.</li>
-                <li>Click "Integrations", Then click "Api Keys"</li>
+                <li>${__('First go to your DirectIq dashboard.', 'bit-integrations')}</li>
+                <li>${__('Click "Integrations", Then click "API Keys"', 'bit-integrations')}</li>
             </ul>`
 
   return (
-    <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
+    <div
+      className="btcd-stp-page"
+      style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
       {directIq?.youTubeLink && (
-        <TutorialLink
-          title={directIq?.title}
-          youTubeLink={directIq?.youTubeLink}
-        />
+        <TutorialLink title="DirectIQ" youTubeLink={directIq?.youTubeLink} />
       )}
-      {directIq?.docLink && (
-        <TutorialLink
-          title={directIq?.title}
-          docLink={directIq?.docLink}
-        />
-      )}
+      {directIq?.docLink && <TutorialLink title="DirectIQ" docLink={directIq?.docLink} />}
 
-      <div className="mt-3 wdt-200"><b>{__('Integration Name:', 'bit-integrations')}</b></div>
-      <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="name" value={directIqConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} disabled={isInfo} />
+      <div className="mt-3 wdt-200">
+        <b>{__('Integration Name:', 'bit-integrations')}</b>
+      </div>
+      <input
+        className="btcd-paper-inp w-6 mt-1"
+        onChange={handleInput}
+        name="name"
+        value={directIqConf.name}
+        type="text"
+        placeholder={__('Integration Name...', 'bit-integrations')}
+        disabled={isInfo}
+      />
       <div style={{ color: 'red', fontSize: '15px' }}>{error.name}</div>
 
-      <div className="mt-3 wdt-200"><b>{__('Access Client ID:', 'bit-integrations')}</b></div>
-      <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="client_id" value={directIqConf.client_id} type="text" placeholder={__('Access Client ID...', 'bit-integrations')} disabled={isInfo} />
+      <div className="mt-3 wdt-200">
+        <b>{__('Access Client id:', 'bit-integrations')}</b>
+      </div>
+      <input
+        className="btcd-paper-inp w-6 mt-1"
+        onChange={handleInput}
+        name="client_id"
+        value={directIqConf.client_id}
+        type="text"
+        placeholder={__('Access client ID...', 'bit-integrations')}
+        disabled={isInfo}
+      />
       <div style={{ color: 'red', fontSize: '15px' }}>{error.client_id}</div>
 
-      <div className="mt-3 wdt-250"><b>{__('Access Client Secret Key:', 'bit-integrations')}</b></div>
-      <input className="btcd-paper-inp w-6 mt-1" onChange={handleInput} name="client_secret" value={directIqConf.client_secret} type="text" placeholder={__('Access Client Secret Key...', 'bit-integrations')} disabled={isInfo} />
+      <div className="mt-3 wdt-250">
+        <b>{__('Access Client Secret Key:', 'bit-integrations')}</b>
+      </div>
+      <input
+        className="btcd-paper-inp w-6 mt-1"
+        onChange={handleInput}
+        name="client_secret"
+        value={directIqConf.client_secret}
+        type="text"
+        placeholder={__('Access Client Secret Key...', 'bit-integrations')}
+        disabled={isInfo}
+      />
       <div style={{ color: 'red', fontSize: '15px' }}>{error.client_secret}</div>
 
       <small className="d-blk mt-3">
         {__('To Get Client Id and Client Secret Key, Please Visit', 'bit-integrations')}
         &nbsp;
-        <a className="btcd-link" href="https://app.directiq.com/integrations/apikeys" target="_blank" rel="noreferrer">{__('DirectIQ API Token', 'bit-integrations')}</a>
+        <a
+          className="btcd-link"
+          href="https://app.directiq.com/integrations/apikeys"
+          target="_blank"
+          rel="noreferrer">
+          {__('DirectIQ API Token', 'bit-integrations')}
+        </a>
       </small>
       <br />
       <br />
@@ -105,7 +148,7 @@ export default function DirectIqAuthorization({ formID, directIqConf, setDirectI
         </div>
       )}
 
-      {(showAuthMsg && !isAuthorized && !isLoading) && (
+      {showAuthMsg && !isAuthorized && !isLoading && (
         <div className="flx mt-5" style={{ color: 'red' }}>
           <span className="btcd-icn mr-2" style={{ fontSize: 30, marginTop: -5 }}>
             &times;
@@ -115,12 +158,22 @@ export default function DirectIqAuthorization({ formID, directIqConf, setDirectI
       )}
       {!isInfo && (
         <>
-          <button onClick={handleAuthorize} className="btn btcd-btn-lg green sh-sm flx" type="button" disabled={isAuthorized || isLoading}>
-            {isAuthorized ? __('Authorized ✔', 'bit-integrations') : __('Authorize', 'bit-integrations')}
+          <button
+            onClick={handleAuthorize}
+            className="btn btcd-btn-lg purple sh-sm flx"
+            type="button"
+            disabled={isAuthorized || isLoading}>
+            {isAuthorized
+              ? __('Authorized ✔', 'bit-integrations')
+              : __('Authorize', 'bit-integrations')}
             {isLoading && <LoaderSm size={20} clr="#022217" className="ml-2" />}
           </button>
           <br />
-          <button onClick={() => nextPage(2)} className="btn f-right btcd-btn-lg green sh-sm flx" type="button" disabled={!isAuthorized}>
+          <button
+            onClick={() => nextPage(2)}
+            className="btn f-right btcd-btn-lg purple sh-sm flx"
+            type="button"
+            disabled={!isAuthorized}>
             {__('Next', 'bit-integrations')}
             <BackIcn className="ml-1 rev-icn" />
           </button>

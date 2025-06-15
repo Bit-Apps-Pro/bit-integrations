@@ -22,19 +22,20 @@ function Encharge({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Encharge',
     type: 'Encharge',
     tags: '',
-    api_key: process.env.NODE_ENV === 'development' ? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOjE1MjkyLCJuYW1lIjoiYmFzZSJ9.yZ0PHY7bfPvYP-laE2ES92kt-lwmvJajKk_U9FCm-Bs' : '',
-    field_map: [
-      { formField: '', enChargeFields: '' },
-    ],
-    actions: {},
+    api_key: '',
+    field_map: [{ formField: '', enChargeFields: '' }],
+    actions: {}
   })
-  const nextPage = (val) => {
+  const nextPage = val => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
     if (val === 3) {
       if (!checkMappedFields(enchargeConf)) {
-        setSnackbar({ show: true, msg: 'Please map all required fields to continue.' })
+        setSnackbar({
+          show: true,
+          msg: __('Please map all required fields to continue.', 'bit-integrations')
+        })
         return
       }
       if (enchargeConf.name !== '' && enchargeConf.field_map.length > 0) {
@@ -45,7 +46,9 @@ function Encharge({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={3} active={step} />
+      </div>
 
       {/* STEP 1 */}
       <EnchargeAutorization
@@ -60,7 +63,13 @@ function Encharge({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ width: step === 2 && 900, minHeight: step === 2 && '200', height: step === 2 && 'auto' }}>
+      <div
+        className="btcd-stp-page"
+        style={{
+          width: step === 2 && 900,
+          minHeight: step === 2 && '200',
+          height: step === 2 && 'auto'
+        }}>
         <EnchargeIntegLayout
           formID={formID}
           formFields={formFields}
@@ -70,20 +79,20 @@ function Encharge({ formFields, setFlow, flow, allIntegURL }) {
         <button
           onClick={() => nextPage(3)}
           disabled={enchargeConf.field_map.length < 1}
-          className="btn f-right btcd-btn-lg green sh-sm flx"
-          type="button"
-        >
+          className="btn f-right btcd-btn-lg purple sh-sm flx"
+          type="button">
           {__('Next', 'bit-integrations')}
           &nbsp;
           <BackIcn className="ml-1 rev-icn" />
         </button>
-
       </div>
 
       {/* STEP 3 */}
       <IntegrationStepThree
         step={step}
-        saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, enchargeConf, navigate, '', '', setIsLoading)}
+        saveConfig={() =>
+          saveIntegConfig(flow, setFlow, allIntegURL, enchargeConf, navigate, '', '', setIsLoading)
+        }
         isLoading={isLoading}
         dataConf={enchargeConf}
         setDataConf={setEnchargeConf}

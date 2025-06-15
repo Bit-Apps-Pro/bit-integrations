@@ -28,7 +28,14 @@ function EditSureCart({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, sureCartConf, setSureCartConf)} name="name" value={sureCartConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, sureCartConf, setSureCartConf)}
+          name="name"
+          value={sureCartConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
       <br />
@@ -46,8 +53,20 @@ function EditSureCart({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() => saveActionConf({ flow, allIntegURL, conf: sureCartConf, navigate, edit: 1, setIsLoading, setSnackbar })}
-        disabled={!sureCartConf.mainAction || isLoading || !checkMappedFields(sureCartConf.field_map)}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            allIntegURL,
+            conf: sureCartConf,
+            navigate,
+            edit: 1,
+            setIsLoading,
+            setSnackbar
+          })
+        }
+        disabled={
+          !sureCartConf.mainAction || isLoading || !checkMappedFields(sureCartConf.field_map)
+        }
         isLoading={isLoading}
         dataConf={sureCartConf}
         setDataConf={setSureCartConf}

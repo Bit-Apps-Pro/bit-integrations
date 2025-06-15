@@ -1,9 +1,6 @@
 <?php
-namespace BitCode\FI\Actions\MasterStudyLms;
 
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Log\LogHandler;
-use WP_Error;
+namespace BitCode\FI\Actions\MasterStudyLms;
 
 class MasterStudyLmsHelper
 {
@@ -14,7 +11,7 @@ class MasterStudyLmsHelper
         $lesson = $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT ID, post_title,post_content
-                FROM $wpdb->posts
+                FROM {$wpdb->posts}
                 WHERE FIND_IN_SET(
                     ID,
                     (SELECT meta_value FROM wp_postmeta WHERE post_id = %d AND meta_key = 'curriculum')
@@ -25,6 +22,7 @@ class MasterStudyLmsHelper
                 absint($courseId)
             )
         );
+
         return $lesson;
 
         // if ($courseId == 'any') {
@@ -47,7 +45,7 @@ class MasterStudyLmsHelper
         $quizzes = $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT ID, post_title,post_content
-                FROM $wpdb->posts
+                FROM {$wpdb->posts}
                 WHERE FIND_IN_SET(
                     ID,
                     (SELECT meta_value FROM wp_postmeta WHERE post_id = %d AND meta_key = 'curriculum')
@@ -58,6 +56,7 @@ class MasterStudyLmsHelper
                 absint($courseId)
             )
         );
+
         return $quizzes;
     }
 }

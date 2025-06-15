@@ -34,16 +34,24 @@ function EditAgiled({ allIntegURL }) {
 
     if (agiledConf.actionName === 'deal') {
       if (!agiledConf.selectedCRMPipeline) {
-        toast.error('Please select a pipeline')
+        toast.error(__('Please select a pipeline', 'bit-integrations'))
         return
       }
       if (!agiledConf.selectedCRMPipelineStages) {
-        toast.error('Please select a pipeline stage')
+        toast.error(__('Please select a pipeline stage', 'bit-integrations'))
         return
       }
     }
 
-    saveActionConf({ flow, allIntegURL, conf: agiledConf, navigate, edit: 1, setLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: agiledConf,
+      navigate,
+      edit: 1,
+      setLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -52,7 +60,14 @@ function EditAgiled({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, agiledConf, setAgiledConf)} name="name" value={agiledConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, agiledConf, setAgiledConf)}
+          name="name"
+          value={agiledConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 

@@ -6,16 +6,17 @@
 
 namespace BitCode\FI\Actions\GetResponse;
 
-use WP_Error;
 use BitCode\FI\Core\Util\HttpHelper;
+use WP_Error;
 
 /**
  * Provide functionality for GetResponse integration
  */
 class GetResponseController
 {
-    private $baseUrl = 'https://api.getresponse.com/v3/';
     protected $_defaultHeader;
+
+    private $baseUrl = 'https://api.getresponse.com/v3/';
 
     public function fetchCustomFields($requestParams)
     {
@@ -30,19 +31,19 @@ class GetResponseController
         }
 
         $apiEndpoints = $this->baseUrl . 'custom-fields';
-        $apiKey       = $requestParams->auth_token;
-        $header       = [
+        $apiKey = $requestParams->auth_token;
+        $header = [
             'X-Auth-Token' => 'api-key ' . $apiKey,
         ];
 
-        $response          = HttpHelper::get($apiEndpoints, null, $header);
+        $response = HttpHelper::get($apiEndpoints, null, $header);
         $formattedResponse = [];
 
         foreach ($response as $value) {
-            $formattedResponse[] =
-                [
+            $formattedResponse[]
+                = [
                     'key'      => $value->customFieldId,
-                    'label'    => ucfirst(str_replace("_", " ", $value->name)),
+                    'label'    => ucfirst(str_replace('_', ' ', $value->name)),
                     'required' => false
                 ];
         }
@@ -51,7 +52,7 @@ class GetResponseController
             wp_send_json_success($formattedResponse, 200);
         } else {
             wp_send_json_error(
-                'The token is invalid',
+                __('The token is invalid', 'bit-integrations'),
                 400
             );
         }
@@ -70,17 +71,17 @@ class GetResponseController
         }
 
         $apiEndpoints = $this->baseUrl . 'tags';
-        $apiKey       = $requestParams->auth_token;
-        $header       = [
+        $apiKey = $requestParams->auth_token;
+        $header = [
             'X-Auth-Token' => 'api-key ' . $apiKey,
         ];
 
-        $response          = HttpHelper::get($apiEndpoints, null, $header);
+        $response = HttpHelper::get($apiEndpoints, null, $header);
         $formattedResponse = [];
 
         foreach ($response as $value) {
-            $formattedResponse[] =
-                [
+            $formattedResponse[]
+                = [
                     'tagId' => $value->tagId,
                     'name'  => $value->name,
                 ];
@@ -90,7 +91,7 @@ class GetResponseController
             wp_send_json_success($formattedResponse, 200);
         } else {
             wp_send_json_error(
-                'The token is invalid',
+                __('The token is invalid', 'bit-integrations'),
                 400
             );
         }
@@ -129,26 +130,26 @@ class GetResponseController
         if (property_exists($response[0], 'campaignId')) {
             wp_send_json_success($campaigns, 200);
         } else {
-            wp_send_json_error('Please enter valid API key', 400);
+            wp_send_json_error(__('Please enter valid API key', 'bit-integrations'), 400);
         }
     }
 
     public function execute($integrationData, $fieldValues)
     {
         $integrationDetails = $integrationData->flow_details;
-        $integId            = $integrationData->id;
-        $auth_token         = $integrationDetails->auth_token;
-        $selectedTags       = $integrationDetails->selectedTags;
-        $fieldMap           = $integrationDetails->field_map;
-        $type               = $integrationDetails->mailer_lite_type;
-        $campaignId         = $integrationDetails->campaignId;
-        $campaign           = (object)["campaignId" => $campaignId];
+        $integId = $integrationData->id;
+        $auth_token = $integrationDetails->auth_token;
+        $selectedTags = $integrationDetails->selectedTags;
+        $fieldMap = $integrationDetails->field_map;
+        $type = $integrationDetails->mailer_lite_type;
+        $campaignId = $integrationDetails->campaignId;
+        $campaign = (object) ['campaignId' => $campaignId];
 
         if (
             empty($fieldMap)
             || empty($auth_token) || empty($campaignId)
         ) {
-            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for GetResponse api', 'bit-integrations'));
+            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'GetResponse'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
         $getResponseApiResponse = $recordApiHelper->execute(
@@ -163,6 +164,7 @@ class GetResponseController
         if (is_wp_error($getResponseApiResponse)) {
             return $getResponseApiResponse;
         }
+
         return $getResponseApiResponse;
     }
 }

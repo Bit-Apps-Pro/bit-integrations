@@ -1,41 +1,39 @@
 /* eslint-disable no-console */
 /* eslint-disable no-else-return */
-import toast from "react-hot-toast";
-import bitsFetch from "../../../Utils/bitsFetch";
-import { __ } from "../../../Utils/i18nwrap";
+import toast from 'react-hot-toast'
+import bitsFetch from '../../../Utils/bitsFetch'
+import { __ } from '../../../Utils/i18nwrap'
 
 export const handleInput = (e, capsulecrmConf, setCapsuleCRMConf) => {
-  const newConf = { ...capsulecrmConf };
-  const { name } = e.target;
-  if (e.target.value !== "") {
-    newConf[name] = e.target.value;
+  const newConf = { ...capsulecrmConf }
+  const { name } = e.target
+  if (e.target.value !== '') {
+    newConf[name] = e.target.value
   } else {
-    delete newConf[name];
+    delete newConf[name]
   }
-  setCapsuleCRMConf({ ...newConf });
-};
+  setCapsuleCRMConf({ ...newConf })
+}
 
 export const generateMappedField = (capsulecrmConf) => {
-  let allRequiredFields = [];
-  if (capsulecrmConf.actionName === "organisation") {
-    allRequiredFields = capsulecrmConf?.organisationFields;
-  } else if (capsulecrmConf.actionName === "person") {
-    allRequiredFields = capsulecrmConf?.personFields;
-  } else if (capsulecrmConf.actionName === "opportunity") {
-    allRequiredFields = capsulecrmConf?.opportunityFields;
-  } else if (capsulecrmConf.actionName === "project") {
-    allRequiredFields = capsulecrmConf?.projectFields;
+  let allRequiredFields = []
+  if (capsulecrmConf.actionName === 'organisation') {
+    allRequiredFields = capsulecrmConf?.organisationFields
+  } else if (capsulecrmConf.actionName === 'person') {
+    allRequiredFields = capsulecrmConf?.personFields
+  } else if (capsulecrmConf.actionName === 'opportunity') {
+    allRequiredFields = capsulecrmConf?.opportunityFields
+  } else if (capsulecrmConf.actionName === 'project') {
+    allRequiredFields = capsulecrmConf?.projectFields
   }
-  const requiredFlds = allRequiredFields?.filter(
-    (fld) => fld.required === true
-  );
+  const requiredFlds = allRequiredFields?.filter((fld) => fld.required === true)
   return requiredFlds.length > 0
     ? requiredFlds.map((field) => ({
-        formField: "",
-        capsulecrmFormField: field.key,
+        formField: '',
+        capsulecrmFormField: field.key
       }))
-    : [{ formField: "", capsulecrmFormField: "" }];
-};
+    : [{ formField: '', capsulecrmFormField: '' }]
+}
 
 export const checkMappedFields = (capsulecrmConf) => {
   const mappedFields = capsulecrmConf?.field_map
@@ -43,16 +41,15 @@ export const checkMappedFields = (capsulecrmConf) => {
         (mappedField) =>
           !mappedField.formField ||
           !mappedField.capsulecrmFormField ||
-          (mappedField.formField === "custom" && !mappedField.customValue) ||
-          (mappedField.capsulecrmFormField === "customFieldKey" &&
-            !mappedField.customFieldKey)
+          (mappedField.formField === 'custom' && !mappedField.customValue) ||
+          (mappedField.capsulecrmFormField === 'customFieldKey' && !mappedField.customFieldKey)
       )
-    : [];
+    : []
   if (mappedFields.length > 0) {
-    return false;
+    return false
   }
-  return true;
-};
+  return true
+}
 
 export const capsulecrmAuthentication = (
   confTmp,
@@ -64,216 +61,199 @@ export const capsulecrmAuthentication = (
 ) => {
   if (!confTmp.api_url || !confTmp.api_key) {
     setError({
-      api_url: !confTmp.api_url
-        ? __("API URL can't be empty", "bit-integrations")
-        : "",
-      api_key: !confTmp.api_key
-        ? __("Api Key can't be empty", "bit-integrations")
-        : "",
-    });
-    return;
+      api_url: !confTmp.api_url ? __("API URL can't be empty", 'bit-integrations') : '',
+      api_key: !confTmp.api_key ? __("API Key can't be empty", 'bit-integrations') : ''
+    })
+    return
   }
 
-  setError({});
-  setLoading({ ...loading, auth: true });
+  setError({})
+  setLoading({ ...loading, auth: true })
 
-  const requestParams = { api_key: confTmp.api_key, api_url: confTmp.api_url };
+  const requestParams = { api_key: confTmp.api_key, api_url: confTmp.api_url }
 
-  bitsFetch(requestParams, "capsulecrm_authentication").then((result) => {
+  bitsFetch(requestParams, 'capsulecrm_authentication').then((result) => {
     if (result && result.success) {
-      setIsAuthorized(true);
-      setLoading({ ...loading, auth: false });
-      toast.success(__("Authorized successfully", "bit-integrations"));
-      return;
+      setIsAuthorized(true)
+      setLoading({ ...loading, auth: false })
+      toast.success(__('Authorized Successfully', 'bit-integrations'))
+      return
     }
-    setLoading({ ...loading, auth: false });
+    setLoading({ ...loading, auth: false })
     toast.error(
-      __(
-        "Authorized failed, Please enter valid api_url name & API key",
-        "bit-integrations"
-      )
-    );
-  });
-};
+      __('Authorized failed, Please enter valid api_url name & API key', 'bit-integrations')
+    )
+  })
+}
 
 export const getCustomFields = (confTmp, setConf, setLoading) => {
-  setLoading({ ...setLoading, customFields: true });
+  setLoading({ ...setLoading, customFields: true })
 
   const requestParams = {
     api_key: confTmp.api_key,
     api_url: confTmp.api_url,
-    action: confTmp.actionName,
-  };
+    action: confTmp.actionName
+  }
 
-  bitsFetch(requestParams, "capsulecrm_fetch_custom_fields").then((result) => {
+  bitsFetch(requestParams, 'capsulecrm_fetch_custom_fields').then((result) => {
     if (result && result.success) {
-      const newConf = { ...confTmp };
+      const newConf = { ...confTmp }
       if (result.data) {
-        newConf.customFields = result.data;
+        newConf.customFields = result.data
       }
-      setConf(newConf);
-      setLoading({ ...setLoading, customFields: false });
+      setConf(newConf)
+      setLoading({ ...setLoading, customFields: false })
       if (!result.data) {
-        toast.error(__("No custom fields found", "bit-integrations"));
+        toast.error(__('No custom fields found', 'bit-integrations'))
       } else {
-        toast.success(
-          __("Custom fields also fetched successfully", "bit-integrations")
-        );
+        toast.success(__('Custom fields also fetched successfully', 'bit-integrations'))
       }
-      return;
+      return
     }
-    setLoading({ ...setLoading, customFields: false });
-    toast.error(__("Custom fields fetching failed", "bit-integrations"));
-  });
-};
+    setLoading({ ...setLoading, customFields: false })
+    toast.error(__('Custom fields fetching failed', 'bit-integrations'))
+  })
+}
 
 export const getAllOpportunities = (confTmp, setConf, setLoading) => {
-  setLoading({ ...setLoading, opportunities: true });
+  setLoading({ ...setLoading, opportunities: true })
 
-  const requestParams = { api_key: confTmp.api_key, api_url: confTmp.api_url };
+  const requestParams = { api_key: confTmp.api_key, api_url: confTmp.api_url }
 
-  bitsFetch(requestParams, "capsulecrm_fetch_all_opportunities").then(
-    (result) => {
-      if (result && result.success) {
-        const newConf = { ...confTmp };
-        if (result.data) {
-          newConf.opportunities = result.data;
-        }
-        setConf(newConf);
-        setLoading({ ...setLoading, opportunities: false });
-
-        toast.success(
-          __("Opportunities fetched successfully", "bit-integrations")
-        );
-        return;
+  bitsFetch(requestParams, 'capsulecrm_fetch_all_opportunities').then((result) => {
+    if (result && result.success) {
+      const newConf = { ...confTmp }
+      if (result.data) {
+        newConf.opportunities = result.data
       }
-      setLoading({ ...setLoading, opportunities: false });
-      toast.error(__("Opportunities fetching failed", "bit-integrations"));
+      setConf(newConf)
+      setLoading({ ...setLoading, opportunities: false })
+
+      toast.success(__('Opportunities fetched successfully', 'bit-integrations'))
+      return
     }
-  );
-};
+    setLoading({ ...setLoading, opportunities: false })
+    toast.error(__('Opportunities fetching failed', 'bit-integrations'))
+  })
+}
 
 export const getAllOwners = (confTmp, setConf, setLoading) => {
-  setLoading({ ...setLoading, owners: true });
+  setLoading({ ...setLoading, owners: true })
 
-  const requestParams = { api_key: confTmp.api_key, api_url: confTmp.api_url };
+  const requestParams = { api_key: confTmp.api_key, api_url: confTmp.api_url }
 
-  bitsFetch(requestParams, "capsulecrm_fetch_all_owners").then((result) => {
+  bitsFetch(requestParams, 'capsulecrm_fetch_all_owners').then((result) => {
     if (result && result.success) {
-      const newConf = { ...confTmp };
+      const newConf = { ...confTmp }
       if (result.data) {
-        newConf.owners = result.data;
+        newConf.owners = result.data
       }
-      setConf(newConf);
-      setLoading({ ...setLoading, owners: false });
+      setConf(newConf)
+      setLoading({ ...setLoading, owners: false })
 
-      toast.success(__("Owners fetched successfully", "bit-integrations"));
-      return;
+      toast.success(__('Owners fetched successfully', 'bit-integrations'))
+      return
     }
-    setLoading({ ...setLoading, owners: false });
-    toast.error(__("Owners fetching failed", "bit-integrations"));
-  });
-};
+    setLoading({ ...setLoading, owners: false })
+    toast.error(__('Owners fetching failed', 'bit-integrations'))
+  })
+}
 
 export const getAllTeams = (confTmp, setConf, setLoading) => {
-  setLoading({ ...setLoading, teams: true });
+  setLoading({ ...setLoading, teams: true })
 
-  const requestParams = { api_key: confTmp.api_key, api_url: confTmp.api_url };
+  const requestParams = { api_key: confTmp.api_key, api_url: confTmp.api_url }
 
-  bitsFetch(requestParams, "capsulecrm_fetch_all_teams").then((result) => {
+  bitsFetch(requestParams, 'capsulecrm_fetch_all_teams').then((result) => {
     if (result && result.success) {
-      const newConf = { ...confTmp };
+      const newConf = { ...confTmp }
       if (result.data) {
-        newConf.teams = result.data;
+        newConf.teams = result.data
       }
-      setConf(newConf);
-      setLoading({ ...setLoading, teams: false });
+      setConf(newConf)
+      setLoading({ ...setLoading, teams: false })
 
-      toast.success(__("Teams fetched successfully", "bit-integrations"));
-      return;
+      toast.success(__('Teams fetched successfully', 'bit-integrations'))
+      return
     }
-    setLoading({ ...setLoading, teams: false });
-    toast.error(__("Teams fetching failed", "bit-integrations"));
-  });
-};
+    setLoading({ ...setLoading, teams: false })
+    toast.error(__('Teams fetching failed', 'bit-integrations'))
+  })
+}
 
 export const getAllCurrencies = (confTmp, setConf, setLoading) => {
-  setLoading({ ...setLoading, currencies: true });
+  setLoading({ ...setLoading, currencies: true })
 
   const requestParams = {
     api_key: confTmp.api_key,
     api_url: confTmp.api_url,
-    action_name: confTmp.actionName,
-  };
+    action_name: confTmp.actionName
+  }
 
-  bitsFetch(requestParams, "capsulecrm_fetch_all_currencies").then((result) => {
+  bitsFetch(requestParams, 'capsulecrm_fetch_all_currencies').then((result) => {
     if (result && result.success) {
-      const newConf = { ...confTmp };
+      const newConf = { ...confTmp }
       if (result.data) {
-        newConf.currencies = result.data;
+        newConf.currencies = result.data
       }
-      setConf(newConf);
-      setLoading({ ...setLoading, currencies: false });
+      setConf(newConf)
+      setLoading({ ...setLoading, currencies: false })
 
-      toast.success(__("Currencies fetched successfully", "bit-integrations"));
-      return;
+      toast.success(__('Currencies fetched successfully', 'bit-integrations'))
+      return
     }
-    setLoading({ ...setLoading, currencies: false });
-    toast.error(__("Currencies fetching failed", "bit-integrations"));
-  });
-};
+    setLoading({ ...setLoading, currencies: false })
+    toast.error(__('Currencies fetching failed', 'bit-integrations'))
+  })
+}
 
 export const getAllCRMParties = (confTmp, setConf, setLoading) => {
-  setLoading({ ...setLoading, CRMParties: true });
+  setLoading({ ...setLoading, CRMParties: true })
 
   const requestParams = {
     api_key: confTmp.api_key,
     api_url: confTmp.api_url,
-    action_name: confTmp.actionName,
-  };
+    action_name: confTmp.actionName
+  }
 
-  bitsFetch(requestParams, "capsulecrm_fetch_all_CRMParties").then((result) => {
+  bitsFetch(requestParams, 'capsulecrm_fetch_all_CRMParties').then((result) => {
     if (result && result.success) {
-      const newConf = { ...confTmp };
+      const newConf = { ...confTmp }
       if (result.data) {
-        newConf.CRMParties = result.data;
+        newConf.CRMParties = result.data
       }
-      setConf(newConf);
-      setLoading({ ...setLoading, CRMParties: false });
+      setConf(newConf)
+      setLoading({ ...setLoading, CRMParties: false })
 
-      toast.success(__("Parties fetched successfully", "bit-integrations"));
-      return;
+      toast.success(__('Parties fetched successfully', 'bit-integrations'))
+      return
     }
-    setLoading({ ...setLoading, CRMParties: false });
-    toast.error(__("Parties fetching failed", "bit-integrations"));
-  });
-};
+    setLoading({ ...setLoading, CRMParties: false })
+    toast.error(__('Parties fetching failed', 'bit-integrations'))
+  })
+}
 
 export const getAllCRMMilestones = (confTmp, setConf, setLoading) => {
-  setLoading({ ...setLoading, CRMMilestones: true });
+  setLoading({ ...setLoading, CRMMilestones: true })
 
   const requestParams = {
     api_key: confTmp.api_key,
-    api_url: confTmp.api_url,
-  };
+    api_url: confTmp.api_url
+  }
 
-  bitsFetch(requestParams, "capsulecrm_fetch_all_CRMMilestones").then(
-    (result) => {
-      if (result && result.success) {
-        const newConf = { ...confTmp };
-        if (result.data) {
-          newConf.CRMMilestones = result.data;
-        }
-        setConf(newConf);
-        setLoading({ ...setLoading, CRMMilestones: false });
-
-        toast.success(
-          __("Milestones fetched successfully", "bit-integrations")
-        );
-        return;
+  bitsFetch(requestParams, 'capsulecrm_fetch_all_CRMMilestones').then((result) => {
+    if (result && result.success) {
+      const newConf = { ...confTmp }
+      if (result.data) {
+        newConf.CRMMilestones = result.data
       }
-      setLoading({ ...setLoading, CRMMilestones: false });
-      toast.error(__("Milestones fetching failed", "bit-integrations"));
+      setConf(newConf)
+      setLoading({ ...setLoading, CRMMilestones: false })
+
+      toast.success(__('Milestones fetched successfully', 'bit-integrations'))
+      return
     }
-  );
-};
+    setLoading({ ...setLoading, CRMMilestones: false })
+    toast.error(__('Milestones fetching failed', 'bit-integrations'))
+  })
+}

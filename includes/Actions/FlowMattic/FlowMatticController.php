@@ -2,7 +2,6 @@
 
 /**
  * FlowMattic Integration
- *
  */
 
 namespace BitCode\FI\Actions\FlowMattic;

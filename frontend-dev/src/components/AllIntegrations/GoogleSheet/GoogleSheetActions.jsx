@@ -60,7 +60,7 @@ export default function GoogleSheetActions({ sheetConf, setSheetConf, formFields
         { email: '', field: '', access: 'view_and_comment', accessLabel: 'Read/Comment' },
         { email: '', field: '', access: 'edit', accessLabel: 'Read/Edit' },
         { email: '', field: '', access: 'share', accessLabel: 'Co-Owner' },
-        { email: '', field: '', access: 'remove_share', accessLabel: 'Remove Share' },
+        { email: '', field: '', access: 'remove_share', accessLabel: 'Remove Share' }
       ]
     }
     setSheetConf({ ...newConf })
@@ -68,11 +68,9 @@ export default function GoogleSheetActions({ sheetConf, setSheetConf, formFields
   }
 
   const getUsers = () => {
-    const arr = [
-      { title: 'Form Fields', type: 'group', childs: [] },
-    ]
+    const arr = [{ title: 'Form Fields', type: 'group', childs: [] }]
 
-    arr[0].childs = formFields.map(itm => ({ label: itm.name, value: `\${${itm.key}}` }))
+    arr[0].childs = formFields.map((itm) => ({ label: itm.name, value: `\${${itm.key}}` }))
     return arr
   }
 
@@ -90,23 +88,41 @@ export default function GoogleSheetActions({ sheetConf, setSheetConf, formFields
       <div className="d-flx flx-wrp">
         {sheetConf.default?.worksheets?.headers?.[sheetConf.worksheet]?.[sheetConf.headerRow] && (
           <TitleModal action={openUpdateModal}>
-            <TableCheckBox onChange={(e) => actionHandler(e, 'update')} checked={'update' in sheetConf?.actions} className="wdt-200 mt-4 mr-2" value="Upsert_Record" title={__('Update Row', 'bit-integrations')} subTitle={__('Control how the row gets updated.', 'bit-integrations')} />
+            <TableCheckBox
+              onChange={(e) => actionHandler(e, 'update')}
+              checked={'update' in sheetConf?.actions}
+              className="wdt-200 mt-4 mr-2"
+              value="Upsert_Record"
+              title={__('Update Row', 'bit-integrations')}
+              subTitle={__('Control how the row gets updated.', 'bit-integrations')}
+            />
           </TitleModal>
         )}
 
-        <TableCheckBox onChange={openShareModal} checked={sheetConf?.actions?.share?.find(userShare => userShare.email) || false} className="wdt-200 mt-4 mr-2" value="user_share" title={__('Update google Sheet', 'bit-integrations')} subTitle={__('Update Responses with Google Sheet?', 'bit-integrations')} />
+        <TableCheckBox
+          onChange={openShareModal}
+          checked={sheetConf?.actions?.share?.find((userShare) => userShare.email) || false}
+          className="wdt-200 mt-4 mr-2"
+          value="user_share"
+          title={__('Update google Sheet', 'bit-integrations')}
+          subTitle={__('Update Responses with Google Sheet?', 'bit-integrations')}
+        />
       </div>
 
       <Modal
         md
         show={updateMdl}
         setModal={setUpdateMdl}
-        title={__('Update Row', 'bit-integrations')}
-      >
+        title={__('Update Row', 'bit-integrations')}>
         <div className="o-a">
           {sheetConf?.actions?.update && (
             <>
-              <small>{__('Enter the criteria to update rows. Please use the below format.', 'bit-integrations')}</small>
+              <small>
+                {__(
+                  'Enter the criteria to update rows. Please use the below format.',
+                  'bit-integrations'
+                )}
+              </small>
               <br />
               <div className="mt-4">
                 <small>
@@ -114,24 +130,66 @@ export default function GoogleSheetActions({ sheetConf, setSheetConf, formFields
                   {'("Month"="March" or "Month"="April") and "Amount">30'}
                 </small>
                 <br />
-                <small>Here Month and Amount are Zoho Sheet&apos;s worksheet header name</small>
-                {' '}
-                <span className="icn-btn ml-2 tooltip" style={{ '--tooltip-txt': '"Supported Relational Operators: =, !=, <, >, <=, >=, contains"', fontSize: 15 }}>
+                <small>
+                  {__(
+                    "Here Month and Amount are Zoho Sheet's worksheet header name",
+                    'bit-integrations'
+                  )}
+                </small>{' '}
+                <span
+                  className="icn-btn ml-2 tooltip"
+                  style={{
+                    '--tooltip-txt':
+                      '"Supported Relational Operators: =, !=, <, >, <=, >=, contains"',
+                    fontSize: 15
+                  }}>
                   <span className="btcd-icn icn-information-outline" />
                 </span>
-                <textarea name="" rows="5" className="btcd-paper-inp mt-1" onChange={e => setUpdateSettings(e.target.value, 'criteria')} value={sheetConf.actions?.update?.criteria} />
+                <textarea
+                  name=""
+                  rows="5"
+                  className="btcd-paper-inp mt-1"
+                  onChange={(e) => setUpdateSettings(e.target.value, 'criteria')}
+                  value={sheetConf.actions?.update?.criteria}
+                />
               </div>
 
               <div className="font-w-m mt-3">{__('Update Preferance', 'bit-integrations')}</div>
               <small>{__('update row for first match only?', 'bit-integrations')}</small>
               <div>
-                <CheckBox onChange={() => setUpdateSettings(true, 'firstMatch')} radio checked={sheetConf.actions.update?.firstMatch} name="firstMatch" title={__('Yes', 'bit-integrations')} />
-                <CheckBox onChange={() => setUpdateSettings(false, 'firstMatch')} radio checked={!sheetConf.actions.update?.firstMatch} name="firstMatch" title={__('No', 'bit-integrations')} />
+                <CheckBox
+                  onChange={() => setUpdateSettings(true, 'firstMatch')}
+                  radio
+                  checked={sheetConf.actions.update?.firstMatch}
+                  name="firstMatch"
+                  title={__('Yes', 'bit-integrations')}
+                />
+                <CheckBox
+                  onChange={() => setUpdateSettings(false, 'firstMatch')}
+                  radio
+                  checked={!sheetConf.actions.update?.firstMatch}
+                  name="firstMatch"
+                  title={__('No', 'bit-integrations')}
+                />
               </div>
-              <small>{__('insert new row if the above criteria doesn\'t met?', 'bit-integrations')}</small>
+              <small>
+                {__("insert new row if the above criteria doesn't met?", 'bit-integrations')}
+              </small>
               <div>
-                <CheckBox onChange={() => setUpdateSettings(true, 'insert')} radio checked={sheetConf.actions.update?.insert} name="up-row" title={__('Yes', 'bit-integrations')} />
-                <CheckBox onChange={() => setUpdateSettings(false, 'insert')} radio checked={!sheetConf.actions.update?.insert} name="up-row" title={__('No', 'bit-integrations')} />
+                <CheckBox
+                  onChange={() => setUpdateSettings(true, 'insert')}
+                  radio
+                  checked={sheetConf.actions.update?.insert}
+                  name="up-row"
+                  title={__('Yes', 'bit-integrations')}
+                />
+                <CheckBox
+                  onChange={() => setUpdateSettings(false, 'insert')}
+                  radio
+                  checked={!sheetConf.actions.update?.insert}
+                  name="up-row"
+                  title={__('No', 'bit-integrations')}
+                />
               </div>
             </>
           )}
@@ -142,25 +200,29 @@ export default function GoogleSheetActions({ sheetConf, setSheetConf, formFields
         md
         show={actionMdl.show === 'share'}
         setModal={() => setActionMdl({ show: false })}
-        title={__('Share Settings', 'bit-integrations')}
-      >
+        title={__('Share Settings', 'bit-integrations')}>
         <div className="o-a" style={{ height: '95%' }}>
-          {sheetConf?.actions?.share?.length > 0 && sheetConf.actions.share.map((user, i) => (
-            <div key={user.accessLabel} className="flx flx-between mt-2">
-              <MultiSelect
-                className="btcd-paper-drpdwn w-7 mr-2"
-                placeholder="Input Email Address(s)"
-                defaultValue={user.email}
-                onChange={(e) => handleShareSetting(i, 'email', e)}
-                options={getUsers()}
-                customValue
-              />
-              <input className="btcd-paper-inp w-3" type="text" value={user.accessLabel} readOnly />
-            </div>
-          ))}
+          {sheetConf?.actions?.share?.length > 0 &&
+            sheetConf.actions.share.map((user, i) => (
+              <div key={user.accessLabel} className="flx flx-between mt-2">
+                <MultiSelect
+                  className="btcd-paper-drpdwn w-7 mr-2"
+                  placeholder="Input Email Address(s)"
+                  defaultValue={user.email}
+                  onChange={(e) => handleShareSetting(i, 'email', e)}
+                  options={getUsers()}
+                  customValue
+                />
+                <input
+                  className="btcd-paper-inp w-3"
+                  type="text"
+                  value={user.accessLabel}
+                  readOnly
+                />
+              </div>
+            ))}
         </div>
       </Modal>
-
     </div>
   )
 }

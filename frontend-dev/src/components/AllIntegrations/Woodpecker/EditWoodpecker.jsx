@@ -32,12 +32,23 @@ function EditWoodpecker({ allIntegURL }) {
       return
     }
 
-    if (woodpeckerConf.actionName === 'adding_prospects_to_the_campaign' && !woodpeckerConf.selectedCampaign) {
-      toast.error('Please select a Campaign')
+    if (
+      woodpeckerConf.actionName === 'adding_prospects_to_the_campaign' &&
+      !woodpeckerConf.selectedCampaign
+    ) {
+      toast.error(__('Please select a Campaign', 'bit-integrations'))
       return
     }
 
-    saveActionConf({ flow, allIntegURL, conf: woodpeckerConf, navigate, edit: 1, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: woodpeckerConf,
+      navigate,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -46,7 +57,14 @@ function EditWoodpecker({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, woodpeckerConf, setWoodpeckerConf)} name="name" value={woodpeckerConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, woodpeckerConf, setWoodpeckerConf)}
+          name="name"
+          value={woodpeckerConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 
@@ -54,7 +72,9 @@ function EditWoodpecker({ allIntegURL }) {
       <WoodpeckerIntegLayout
         formID={flow.triggered_entity_id}
         formFields={formField}
-        handleInput={(e) => handleInput(e, woodpeckerConf, setWoodpeckerConf, setLoading, setSnackbar)}
+        handleInput={(e) =>
+          handleInput(e, woodpeckerConf, setWoodpeckerConf, setLoading, setSnackbar)
+        }
         woodpeckerConf={woodpeckerConf}
         setWoodpeckerConf={setWoodpeckerConf}
         loading={loading}

@@ -1,8 +1,19 @@
 import { __, sprintf } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { deepCopy } from '../../../Utils/Helpers'
+import { handleAuthData } from '../GlobalIntegrationHelper'
 
-export const handleInput = (e, sheetConf, setSheetConf, formID, setIsLoading, setSnackbar, isNew, error, setError) => {
+export const handleInput = (
+  e,
+  sheetConf,
+  setSheetConf,
+  formID,
+  setIsLoading,
+  setSnackbar,
+  isNew,
+  error,
+  setError
+) => {
   let newConf = { ...sheetConf }
   if (isNew) {
     const rmError = { ...error }
@@ -32,7 +43,8 @@ export const spreadSheetChange = (sheetConf, formID, setSheetConf, setIsLoading,
   if (!newConf?.default?.worksheets?.[sheetConf.spreadsheetId]) {
     refreshWorksheets(formID, newConf, setSheetConf, setIsLoading, setSnackbar)
   } else if (Object.keys(newConf?.default?.worksheets?.[sheetConf.spreadsheetId]).length === 1) {
-    newConf.worksheetName = newConf?.default?.worksheets?.[sheetConf.spreadsheetId][0].properties.title
+    newConf.worksheetName =
+      newConf?.default?.worksheets?.[sheetConf.spreadsheetId][0].properties.title
 
     if (!newConf?.default?.worksheets?.headers?.[newConf.worksheetName]) {
       refreshWorksheetHeaders(formID, newConf, setSheetConf, setIsLoading, setSnackbar)
@@ -55,17 +67,19 @@ export const worksheetChange = (sheetConf, formID, setSheetConf, setIsLoading, s
 }
 
 export const refreshSpreadsheets = (formID, sheetConf, setSheetConf, setIsLoading, setSnackbar) => {
-  setIsLoading(true)
+  const isCustomAuth = !sheetConf.tokenDetails?.selectedAuthType || sheetConf.tokenDetails.selectedAuthType === 'Custom Authorization'
   const refreshModulesRequestParams = {
     formID,
     id: sheetConf.id,
-    clientId: sheetConf.clientId,
-    clientSecret: sheetConf.clientSecret,
+    clientId: isCustomAuth ? sheetConf.clientId : sheetConf.oneClickAuthCredentials.clientId,
+    clientSecret: isCustomAuth ? sheetConf.clientSecret : sheetConf.oneClickAuthCredentials.clientSecret,
     tokenDetails: sheetConf.tokenDetails,
-    ownerEmail: sheetConf.ownerEmail,
+    ownerEmail: sheetConf.ownerEmail
   }
+
+  setIsLoading(true)
   bitsFetch(refreshModulesRequestParams, 'gsheet_refresh_spreadsheets')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...sheetConf }
         if (!newConf.default) {
@@ -79,10 +93,22 @@ export const refreshSpreadsheets = (formID, sheetConf, setSheetConf, setIsLoadin
         }
         setSnackbar({ show: true, msg: __('Spreadsheet refreshed', 'bit-integrations') })
         setSheetConf({ ...newConf })
-      } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
-        setSnackbar({ show: true, msg: sprintf(__('Spreadsheet refresh failed Cause: %s. please try again', 'bit-integrations'), result.data.data || result.data) })
+      } else if (
+        (result && result.data && result.data.data) ||
+        (!result.success && typeof result.data === 'string')
+      ) {
+        setSnackbar({
+          show: true,
+          msg: sprintf(
+            __('Spreadsheet refresh failed Cause: %s. please try again', 'bit-integrations'),
+            result.data.data || result.data
+          )
+        })
       } else {
-        setSnackbar({ show: true, msg: __('Spreadsheet refresh failed. please try again', 'bit-integrations') })
+        setSnackbar({
+          show: true,
+          msg: __('Spreadsheet refresh failed. please try again', 'bit-integrations')
+        })
       }
       setIsLoading(false)
     })
@@ -98,12 +124,10 @@ export const refreshWorksheets = (formID, sheetConf, setSheetConf, setIsLoading,
   const refreshSpreadsheetsRequestParams = {
     formID,
     spreadsheetId,
-    clientId: sheetConf.clientId,
-    clientSecret: sheetConf.clientSecret,
-    tokenDetails: sheetConf.tokenDetails,
+    tokenDetails: sheetConf.tokenDetails
   }
   bitsFetch(refreshSpreadsheetsRequestParams, 'gsheet_refresh_worksheets')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...sheetConf }
         if (result.data.worksheets) {
@@ -119,32 +143,43 @@ export const refreshWorksheets = (formID, sheetConf, setSheetConf, setIsLoading,
         setSnackbar({ show: true, msg: __('Worksheets refreshed', 'bit-integrations') })
         setSheetConf({ ...newConf })
       } else {
-        setSnackbar({ show: true, msg: __('Worksheets refresh failed. please try again', 'bit-integrations') })
+        setSnackbar({
+          show: true,
+          msg: __('Worksheets refresh failed. please try again', 'bit-integrations')
+        })
       }
       setIsLoading(false)
     })
     .catch(() => setIsLoading(false))
 }
 
-export const refreshWorksheetHeaders = (formID, sheetConf, setSheetConf, setIsLoading, setSnackbar) => {
+export const refreshWorksheetHeaders = (
+  formID,
+  sheetConf,
+  setSheetConf,
+  setIsLoading,
+  setSnackbar
+) => {
   const { spreadsheetId, worksheetName, header, headerRow } = sheetConf
   if (!spreadsheetId && !worksheetName && !header && !headerRow) {
     return
   }
 
   setIsLoading(true)
+  const isCustomAuth = !sheetConf.tokenDetails?.selectedAuthType || sheetConf.tokenDetails.selectedAuthType === 'Custom Authorization'
   const refreshWorksheetHeadersRequestParams = {
     formID,
     spreadsheetId,
     worksheetName,
     header,
     headerRow,
-    clientId: sheetConf.clientId,
-    clientSecret: sheetConf.clientSecret,
-    tokenDetails: sheetConf.tokenDetails,
+    clientId: isCustomAuth ? sheetConf.clientId : sheetConf.oneClickAuthCredentials.clientId,
+    clientSecret: isCustomAuth ? sheetConf.clientSecret : sheetConf.oneClickAuthCredentials.clientSecret,
+    tokenDetails: sheetConf.tokenDetails
   }
+
   bitsFetch(refreshWorksheetHeadersRequestParams, 'gsheet_refresh_worksheet_headers')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...sheetConf }
         if (result.data.worksheet_headers?.length > 0) {
@@ -157,13 +192,20 @@ export const refreshWorksheetHeaders = (formID, sheetConf, setSheetConf, setIsLo
           if (!newConf.default.headers[spreadsheetId][worksheetName]) {
             newConf.default.headers[spreadsheetId][worksheetName] = {}
           }
-          newConf.default.headers[spreadsheetId][worksheetName][headerRow] = result.data.worksheet_headers
+          newConf.default.headers[spreadsheetId][worksheetName][headerRow] =
+            result.data.worksheet_headers
           if (result.data.tokenDetails) {
             newConf.tokenDetails = result.data.tokenDetails
           }
           setSnackbar({ show: true, msg: __('Worksheet Headers refreshed', 'bit-integrations') })
         } else {
-          setSnackbar({ show: true, msg: __('No Worksheet headers found. Try changing the header row number or try again', 'bit-integrations') })
+          setSnackbar({
+            show: true,
+            msg: __(
+              'No Worksheet headers found. Try changing the header row number or try again',
+              'bit-integrations'
+            )
+          })
         }
 
         if (result.data.tokenDetails) {
@@ -171,79 +213,117 @@ export const refreshWorksheetHeaders = (formID, sheetConf, setSheetConf, setIsLo
         }
         setSheetConf({ ...newConf })
       } else {
-        setSnackbar({ show: true, msg: __('Worksheet Headers refresh failed. please try again', 'bit-integrations') })
+        setSnackbar({
+          show: true,
+          msg: __('Worksheet Headers refresh failed. please try again', 'bit-integrations')
+        })
       }
       setIsLoading(false)
     })
     .catch(() => setIsLoading(false))
 }
 
-export const handleAuthorize = (confTmp, setConf, setError, setisAuthorized, setIsLoading, setSnackbar) => {
-  if (!confTmp.clientId || !confTmp.clientSecret) {
-    setError({
-      clientId: !confTmp.clientId ? __('Client ID cann\'t be empty', 'bit-integrations') : '',
-      clientSecret: !confTmp.clientSecret ? __('Secret key cann\'t be empty', 'bit-integrations') : '',
-    })
-    return
+export const handleAuthorize = (confTmp, selectedAuthType, setError, setIsLoading) => {
+
+  let clientId = '';
+  if (selectedAuthType === 'One Click Authorization') {
+    clientId = confTmp.oneClickAuthCredentials.clientId
+  } else if (selectedAuthType === 'Custom Authorization') {
+    if (!confTmp.clientId || !confTmp.clientSecret) {
+      setError({
+        clientId: !confTmp.clientId ? __("Client Id can't be empty", 'bit-integrations') : '',
+        clientSecret: !confTmp.clientSecret ? __("Secret key can't be empty", 'bit-integrations') : ''
+      })
+      return
+    }
+    clientId = confTmp.clientId
   }
+
   setIsLoading(true)
+
   const scopes = 'https://www.googleapis.com/auth/drive'
   // eslint-disable-next-line no-undef
-  const apiEndpoint = `https://accounts.google.com/o/oauth2/v2/auth?scope=${scopes}&access_type=offline&prompt=consent&response_type=code&state=${encodeURIComponent(window.location.href)}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api.base}/redirect`)}&client_id=${confTmp.clientId}`
+  const redirectURI = 'https://auth-apps.bitapps.pro/redirect/v2';
+  const finalRedirectUri = selectedAuthType === 'One Click Authorization' ? redirectURI : `${btcbi.api.base}/redirect`
+
+  const { href, hash } = window.location
+  const stateUrl = hash ? href.replace(hash, '#/auth-response/') : `${href}#/auth-response/`
+
+  const apiEndpoint = `https://accounts.google.com/o/oauth2/v2/auth?scope=${scopes}&access_type=offline&prompt=consent&response_type=code&state=${encodeURIComponent(stateUrl)}&redirect_uri=${encodeURIComponent(finalRedirectUri)}&client_id=${clientId}`
   const authWindow = window.open(apiEndpoint, 'googleSheet', 'width=400,height=609,toolbar=off')
-  const popupURLCheckTimer = setInterval(() => {
-    if (authWindow.closed) {
-      clearInterval(popupURLCheckTimer)
-      let grantTokenResponse = {}
-      let isauthRedirectLocation = false
-      const bitsGoogleSheet = localStorage.getItem('__googleSheet')
-      if (bitsGoogleSheet) {
-        isauthRedirectLocation = true
-        grantTokenResponse = JSON.parse(bitsGoogleSheet)
-        localStorage.removeItem('__googleSheet')
-      }
-      if (!grantTokenResponse.code || grantTokenResponse.error || !grantTokenResponse || !isauthRedirectLocation) {
-        const errorCause = grantTokenResponse.error ? `Cause: ${grantTokenResponse.error}` : ''
-        setSnackbar({ show: true, msg: `${__('Authorization failed', 'bit-integrations')} ${errorCause}. ${__('please try again', 'bit-integrations')}` })
+  if (selectedAuthType === 'Custom Authorization') {
+    const popupURLCheckTimer = setInterval(() => {
+      if (authWindow.closed) {
+        clearInterval(popupURLCheckTimer)
         setIsLoading(false)
-      } else {
-        const newConf = { ...confTmp }
-        newConf.accountServer = grantTokenResponse['accounts-server']
-        tokenHelper(grantTokenResponse, newConf, setConf, setisAuthorized, setIsLoading, setSnackbar)
       }
-    }
-  }, 500)
+    }, 500)
+  }
+
 }
 
-const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, setIsLoading, setSnackbar) => {
-  const tokenRequestParams = { ...grantToken }
-  tokenRequestParams.clientId = confTmp.clientId
-  tokenRequestParams.clientSecret = confTmp.clientSecret
+export const tokenHelper = async (authInfo, confTmp, setConf, selectedAuthType, authData, setAuthData, setIsLoading, setSnackbar) => {
+  if (!selectedAuthType) {
+    return
+  }
+  const tokenRequestParams = {}
+  tokenRequestParams.code = authInfo.code || '';
+  tokenRequestParams.clientId = selectedAuthType === 'One Click Authorization' ? confTmp.oneClickAuthCredentials.clientId : confTmp.clientId
+  tokenRequestParams.clientSecret = selectedAuthType === 'One Click Authorization' ? confTmp.oneClickAuthCredentials.clientSecret : confTmp.clientSecret
   // eslint-disable-next-line no-undef
-  tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
+  const redirectURI = 'https://auth-apps.bitapps.pro/redirect/v2';
+  tokenRequestParams.redirectURI = selectedAuthType === 'One Click Authorization' ? redirectURI : `${btcbi.api.base}/redirect`
 
-  bitsFetch(tokenRequestParams, 'gsheet_generate_token')
+  setIsLoading(true)
+  await bitsFetch(tokenRequestParams, 'gsheet_generate_token')
     .then(result => result)
-    .then(result => {
+    .then(async result => {
       if (result && result.success) {
-        const newConf = { ...confTmp }
-        newConf.tokenDetails = result.data
-        setConf(newConf)
-        setisAuthorized(true)
-        setSnackbar({ show: true, msg: __('Authorized Successfully', 'bit-integrations') })
+        const userInfo = await fetchUserInfo(result.data)
+
+        if (userInfo) {
+          const newConf = { ...confTmp }
+          result.data.selectedAuthType = selectedAuthType
+          await handleAuthData(newConf.type, result.data, userInfo, setAuthData);
+          newConf.setisAuthorized = true
+          setConf(newConf)
+          setSnackbar({ show: true, msg: __('Authorized Successfully', 'bigt-integrations') })
+        }
       } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
         setSnackbar({ show: true, msg: `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}` })
       } else {
-        setSnackbar({ show: true, msg: __('Authorization failed. please try again', 'bit-integrations') })
+        setSnackbar({
+          show: true,
+          msg: __('Authorization failed. please try again', 'bit-integrations')
+        })
       }
       setIsLoading(false)
     })
 }
 
 export const checkMappedFields = (sheetconf) => {
-  const mappedFleld = sheetconf.field_map ? sheetconf.field_map.filter(mapped => (!mapped.formField && !mapped.googleSheetField)) : []
+  const mappedFleld = sheetconf.field_map
+    ? sheetconf.field_map.filter((mapped) => !mapped.formField && !mapped.googleSheetField)
+    : []
   if (mappedFleld.length > 0) {
     return false
   }
   return true
 }
+
+async function fetchUserInfo(tokenResponse) {
+  const accessToken = tokenResponse.access_token;
+
+  try {
+    const userInfoResponse = await fetch('https://www.googleapis.com/drive/v3/about?fields=user', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    const userInfo = await userInfoResponse.json();
+    return userInfo;
+  } catch (error) {
+    console.error('Error fetching user info:', error);
+  }
+}
+

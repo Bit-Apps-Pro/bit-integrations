@@ -16,12 +16,16 @@ export const handleInput = (e, sliceWpConf, setSliceWpConf, setIsLoading, setSna
 }
 
 export const generateMappedField = (sliceWpConf) => {
-  const requiredFlds = sliceWpConf?.sliceWpFields.filter(fld => fld.required === true)
-  return requiredFlds.length > 0 ? requiredFlds.map(field => ({ formField: '', slicewpFormField: field.key })) : [{ formField: '', slicewpFormField: '' }]
+  const requiredFlds = sliceWpConf?.sliceWpFields.filter((fld) => fld.required === true)
+  return requiredFlds.length > 0
+    ? requiredFlds.map((field) => ({ formField: '', slicewpFormField: field.key }))
+    : [{ formField: '', slicewpFormField: '' }]
 }
 
 export const checkMappedFields = (sliceWpConf) => {
-  const mappedFleld = sliceWpConf.field_map ? sliceWpConf.field_map.filter((mapped) => !mapped.formField || !mapped.slicewpFormField) : []
+  const mappedFleld = sliceWpConf.field_map
+    ? sliceWpConf.field_map.filter((mapped) => !mapped.formField || !mapped.slicewpFormField)
+    : []
   if (mappedFleld.length > 0) {
     return false
   }

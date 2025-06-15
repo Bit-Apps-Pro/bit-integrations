@@ -34,24 +34,32 @@ function EditClickup({ allIntegURL }) {
 
     if (clickupConf.actionName === 'task') {
       if (!clickupConf.selectedTeam) {
-        toast.error('Please select a team')
+        toast.error(__('Please select a team', 'bit-integrations'))
         return
       }
       if (!clickupConf.selectedSpace) {
-        toast.error('Please select a space')
+        toast.error(__('Please select a space', 'bit-integrations'))
         return
       }
       if (!clickupConf.selectedFolder) {
-        toast.error('Please select a folder')
+        toast.error(__('Please select a folder', 'bit-integrations'))
         return
       }
       if (!clickupConf.selectedList) {
-        toast.error('Please select a list')
+        toast.error(__('Please select a list', 'bit-integrations'))
         return
       }
     }
 
-    saveActionConf({ flow, allIntegURL, conf: clickupConf, navigate, edit: 1, setLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: clickupConf,
+      navigate,
+      edit: 1,
+      setLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -60,7 +68,14 @@ function EditClickup({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, clickupConf, setClickupConf)} name="name" value={clickupConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, clickupConf, setClickupConf)}
+          name="name"
+          value={clickupConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 

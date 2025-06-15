@@ -33,11 +33,19 @@ function EditCompanyHub({ allIntegURL }) {
     }
     if (companyHubConf.actionName === 'deal') {
       if (!companyHubConf.selectedStage) {
-        toast.error('Please select a Deal Stage')
+        toast.error(__('Please select a Deal Stage', 'bit-integrations'))
         return
       }
     }
-    saveActionConf({ flow, allIntegURL, conf: companyHubConf, navigate, edit: 1, setLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: companyHubConf,
+      navigate,
+      edit: 1,
+      setLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -46,7 +54,14 @@ function EditCompanyHub({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, companyHubConf, setCompanyHubConf)} name="name" value={companyHubConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, companyHubConf, setCompanyHubConf)}
+          name="name"
+          value={companyHubConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 

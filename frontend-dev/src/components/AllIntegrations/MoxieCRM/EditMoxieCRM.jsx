@@ -32,7 +32,15 @@ function EditMoxieCRM({ allIntegURL }) {
       return
     }
 
-    saveActionConf({ flow, allIntegURL, conf: moxiecrmConf, navigate, edit: 1, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: moxiecrmConf,
+      navigate,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -41,7 +49,14 @@ function EditMoxieCRM({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, moxiecrmConf, setMoxieCRMConf)} name="name" value={moxiecrmConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, moxiecrmConf, setMoxieCRMConf)}
+          name="name"
+          value={moxiecrmConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 

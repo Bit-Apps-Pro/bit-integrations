@@ -23,12 +23,20 @@ function TutorLms({ formFields, setFlow, flow, allIntegURL }) {
     type: 'Tutor Lms',
     field_map: [{ formField: '', tutorField: '' }],
     actions: {},
-    actionData: {},
+    actionData: {}
   })
 
   const saveConfig = () => {
     setIsLoading(true)
-    saveActionConf({ flow, setFlow, allIntegURL, conf: tutorlmsConf, navigate, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      setFlow,
+      allIntegURL,
+      conf: tutorlmsConf,
+      navigate,
+      setIsLoading,
+      setSnackbar
+    })
   }
   const nextPage = (pageNo) => {
     setTimeout(() => {
@@ -41,7 +49,9 @@ function TutorLms({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={3} active={step} />
+      </div>
 
       {/* STEP 1 */}
 
@@ -56,11 +66,21 @@ function TutorLms({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', minHeight: step === 2 && `${260}px`, overflow: 'visible' }) }}>
-
+      <div
+        className="btcd-stp-page"
+        style={{
+          ...(step === 2 && {
+            width: 900,
+            height: 'auto',
+            minHeight: step === 2 && `${260}px`,
+            overflow: 'visible'
+          })
+        }}>
         <TutorLmsIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, tutorlmsConf, setTutorlmsConf, setIsLoading, setSnackbar)}
+          handleInput={(e) =>
+            handleInput(e, tutorlmsConf, setTutorlmsConf, setIsLoading, setSnackbar)
+          }
           tutorlmsConf={tutorlmsConf}
           setTutorlmsConf={setTutorlmsConf}
           isLoading={isLoading}
@@ -71,12 +91,9 @@ function TutorLms({ formFields, setFlow, flow, allIntegURL }) {
         <button
           onClick={() => nextPage(3)}
           // disabled={!tutorlmsConf?.recipient_id}
-          className="btn f-right btcd-btn-lg green sh-sm flx"
-          type="button"
-        >
-          {__('Next', 'bit-integrations')}
-          {' '}
-          &nbsp;
+          className="btn f-right btcd-btn-lg purple sh-sm flx"
+          type="button">
+          {__('Next', 'bit-integrations')} &nbsp;
           <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
         </button>
       </div>

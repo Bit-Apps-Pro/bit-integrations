@@ -10,17 +10,17 @@ import 'react-multiple-select-dropdown-lite/dist/index.css'
 
 export default function SliceWpActions({ sliceWpConf, setSliceWpConf, formFields }) {
   const [isLoading, setIsLoading] = useState(false)
-  const [actionMdl, setActionMdl] = useState({ show: false, action: () => { } })
+  const [actionMdl, setActionMdl] = useState({ show: false, action: () => {} })
   const status = [
-    { key: 'pending', label: 'Pending' },
-    { key: 'paid', label: 'Paid' },
-    { key: 'unpaid', label: 'Unpaid' },
-    { key: 'rejected', label: 'Rejected' },
+    { key: 'pending', label: __('Pending', 'bit-integrations') },
+    { key: 'paid', label: __('Paid', 'bit-integrations') },
+    { key: 'unpaid', label: __('Unpaid', 'bit-integrations') },
+    { key: 'rejected', label: __('Rejected', 'bit-integrations') }
   ]
 
   const types = [
-    { key: 'sale', label: 'Sale' },
-    { key: 'subscription', label: 'Subscription' },
+    { key: 'sale', label: __('Sale', 'bit-integrations') },
+    { key: 'subscription', label: __('Subscription', 'bit-integrations') }
   ]
 
   const actionHandler = (e, typeName) => {
@@ -33,7 +33,8 @@ export default function SliceWpActions({ sliceWpConf, setSliceWpConf, formFields
         setActionMdl({ show: false })
         delete newConf.actions.status
       }
-    } if (typeName === 'types') {
+    }
+    if (typeName === 'types') {
       if (e.target?.checked) {
         newConf.actions.types = true
         setActionMdl({ show: 'types' })
@@ -70,84 +71,91 @@ export default function SliceWpActions({ sliceWpConf, setSliceWpConf, formFields
 
   return (
     <div className="pos-rel d-flx w-8">
-      <TableCheckBox checked={sliceWpConf?.actions?.status || false} onChange={(e) => actionHandler(e, 'status')} className="wdt-200 mt-4 mr-2" value="status" title={__('Add Status', 'bit-integrations')} subTitle={__('Add status of SliceWp', 'bit-integrations')} />
+      <TableCheckBox
+        checked={sliceWpConf?.actions?.status || false}
+        onChange={(e) => actionHandler(e, 'status')}
+        className="wdt-200 mt-4 mr-2"
+        value="status"
+        title={__('Add Status', 'bit-integrations')}
+        subTitle={__('Add status of SliceWp', 'bit-integrations')}
+      />
 
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="blue"
+        btnClass="purple"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'status'}
         close={clsActionMdl}
         action={clsActionMdl}
-        title={__('Status', 'bit-integrations')}
-      >
+        title={__('Status', 'bit-integrations')}>
         <div className="btcd-hr mt-2 mb-2" />
-        <div className="mt-2">{__('Select Status ', 'bit-integrations')}</div>
-        {isLoading
-          ? (
-            <Loader style={{
+        <div className="mt-2">{__('Select Status', 'bit-integrations')}</div>
+        {isLoading ? (
+          <Loader
+            style={{
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               height: 45,
-              transform: 'scale(0.5)',
+              transform: 'scale(0.5)'
             }}
+          />
+        ) : (
+          <div className="flx flx-between mt-2">
+            <MultiSelect
+              className="msl-wrp-options"
+              defaultValue={sliceWpConf?.statusId}
+              options={status.map((item) => ({ label: item.label, value: item.key }))}
+              onChange={(val) => changeHandler(val, 'statusId')}
+              singleSelect
             />
-          )
-          : (
-            <div className="flx flx-between mt-2">
-              <MultiSelect
-                className="msl-wrp-options"
-                defaultValue={sliceWpConf?.statusId}
-                options={status.map((item) => ({ label: item.label, value: item.key }))}
-                onChange={(val) => changeHandler(val, 'statusId')}
-                singleSelect
-              />
-            </div>
-          )}
-
+          </div>
+        )}
       </ConfirmModal>
 
-      <TableCheckBox checked={sliceWpConf?.actions?.types || false} onChange={(e) => actionHandler(e, 'types')} className="wdt-200 mt-4 mr-2" value="types" title={__('Add Type', 'bit-integrations')} subTitle={__('Add Type', 'bit-integrations')} />
+      <TableCheckBox
+        checked={sliceWpConf?.actions?.types || false}
+        onChange={(e) => actionHandler(e, 'types')}
+        className="wdt-200 mt-4 mr-2"
+        value="types"
+        title={__('Add Type', 'bit-integrations')}
+        subTitle={__('Add Type', 'bit-integrations')}
+      />
 
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="blue"
+        btnClass="purple"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'types'}
         close={clsActionMdl}
         action={clsActionMdl}
-        title={__('Type', 'bit-integrations')}
-      >
+        title={__('Type', 'bit-integrations')}>
         <div className="btcd-hr mt-2 mb-2" />
-        <div className="mt-2">{__('Select Type', 'bit-integrations')}</div>
-        {isLoading
-          ? (
-            <Loader style={{
+        <div className="mt-2">{__('Select type', 'bit-integrations')}</div>
+        {isLoading ? (
+          <Loader
+            style={{
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               height: 45,
-              transform: 'scale(0.5)',
+              transform: 'scale(0.5)'
             }}
+          />
+        ) : (
+          <div className="flx flx-between mt-2">
+            <MultiSelect
+              className="msl-wrp-options"
+              defaultValue={sliceWpConf?.typeId}
+              options={types.map((item) => ({ label: item.label, value: item.key }))}
+              onChange={(val) => changeHandler(val, 'typeId')}
+              singleSelect
             />
-          )
-          : (
-            <div className="flx flx-between mt-2">
-              <MultiSelect
-                className="msl-wrp-options"
-                defaultValue={sliceWpConf?.typeId}
-                options={types.map((item) => ({ label: item.label, value: item.key }))}
-                onChange={(val) => changeHandler(val, 'typeId')}
-                singleSelect
-              />
-            </div>
-          )}
-
+          </div>
+        )}
       </ConfirmModal>
-
     </div>
   )
 }

@@ -1,85 +1,281 @@
-
-import { useState } from 'react'
-import { useRecoilValue } from 'recoil'
+import { Fragment, useEffect, useState } from 'react'
+import { useRecoilState } from 'recoil'
+import Loader from '../components/Loaders/Loader'
+import Modal from '../components/Utilities/Modal'
 import { $btcbi } from '../GlobalStates'
 import ChangelogIcn from '../Icons/ChangeLogIcn'
 import ExternalLinkIcn from '../Icons/ExternalLinkIcn'
-import { __ } from '../Utils/i18nwrap'
-import Modal from '../components/Utilities/Modal'
+import NewYear from '../resource/img/NewYear.png'
+import bitsFetch from '../Utils/bitsFetch'
+import { __, sprintf } from '../Utils/i18nwrap'
+
+// const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
+// const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
+const releaseDate = '25th May 2025'
+
+// Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
+const changeLog = [
+  {
+    label: __('Note', 'bit-integrations'),
+    headClass: 'new-note',
+    itemClass: '',
+    items: []
+  },
+  {
+    label: __('New Actions', 'bit-integrations'),
+    headClass: 'new-integration',
+    itemClass: 'integration-list',
+    items: []
+  },
+  {
+    label: __('New Triggers', 'bit-integrations'),
+    headClass: 'new-trigger',
+    itemClass: 'integration-list',
+    items: [
+      {
+        label: 'WooCommerce Memberships',
+        desc: '11 new events added.',
+        isPro: true
+      },
+      {
+        label: 'Paymattic',
+        desc: '4 new events added.',
+        isPro: true
+      }
+    ]
+  },
+  {
+    label: __('New Features', 'bit-integrations'),
+    headClass: 'new-feature',
+    itemClass: 'feature-list',
+    items: []
+  },
+  {
+    label: __('Improvements', 'bit-integrations'),
+    headClass: 'new-improvement',
+    itemClass: 'feature-list',
+    items: []
+  },
+  {
+    label: __('Bug Fixes', 'bit-integrations'),
+    headClass: 'fixes',
+    itemClass: 'fixes-list',
+    items: [
+      {
+        label: 'Telegram',
+        desc: 'Fixed issue with fetching chat list.',
+        isPro: false
+      },
+      {
+        label: 'Telegram',
+        desc: 'Resolved image-to-HTML converter bug.',
+        isPro: false
+      },
+      {
+        label: 'Kadence Block',
+        desc: 'Fixed null value issue in form fields.',
+        isPro: true
+      },
+      {
+        label: 'WooCommerce Memberships',
+        desc: 'User role update issue resolved.',
+        isPro: true
+      },
+      {
+        label: 'Action Hook',
+        desc: 'Routes now correctly fixed and functioning.',
+        isPro: true
+      }
+    ]
+  }
+]
 
 export default function ChangelogToggle() {
-    const btcbi = useRecoilValue($btcbi)
-    const [show, setShow] = useState(btcbi.changelogVersion !== btcbi.version)
-    const version = btcbi.isPro ? '1.4.3' : '1.6.1'
-    return (
-        <div className="changelog-toggle">
-            <button
-                title={('What\'s New')}
-                type="button"
-                className="changelog-btn"
-                onClick={() => setShow(true)}
-            >
-                {/* <QuestionIcn size={25} /> */}
-                <ChangelogIcn size={25} />
-            </button>
-            <Modal sm show={show} setModal={setShow} >
-                <div className='changelog'>
-                    {/* <h4 className='changelog-notif'> From 1.4.1 update,To use pro plugin free version is required. </h4> */}
-                    <div className="flx flx-col flx-center whats-new">
-                        <h3>What's New in {version}?</h3>
-                        <small className='date'> <b>21th February 2023</b></small>
-                    </div>
-                    <div className='changelog-content'>
-                        {/* <h4>New Integration</h4> */}
-                        {/* <p>New Integration</p> */}
-                        {/* <span className='new-integration' style={{ background: "cornflowerblue" }}><b>New Triggers</b></span>
+  const [btcbi, setBtcbi] = useRecoilState($btcbi)
+  const [show, setShow] = useState(btcbi.changelogVersion !== btcbi.version)
+  const [showAnalyticsOptin, setShowAnalyticsOptin] = useState(false)
+  const [loading, setLoading] = useState('')
+  const [step, setStep] = useState(2)
 
-                        <div className='integration-list'>
-                            <ul>
-                                <li>Spectra</li>
-                                <li>Essential Blocks</li>
-                            </ul>
-                        </div> */}
+  const setChangeLogVersion = val => {
+    setShow(val)
+    if (!val) {
+      bitsFetch(
+        {
+          version: btcbi.version
+        },
+        'changelog_version'
+      ).then(() => {
+        setBtcbi(prevBtcbi => ({ ...prevBtcbi, changelogVersion: prevBtcbi.version }))
+      })
+    }
+  }
 
-                        {/* <span className='new-integration'><b>New Actions</b></span>
+  const handleSubmit = () => {
+    bitsFetch({ isChecked: true }, 'analytics/optIn')
+    setShow(false)
+  }
 
-                        <div className='integration-list'>
-                            <ul>
-                                <li>Zagomail</li>
-                            </ul>
-                        </div> */}
+  const closeModal = () => {
+    setShow(false)
+    setChangeLogVersion()
+  }
 
-                        <span className='new-feature'><b>New Features</b></span>
+  useEffect(() => {
+    if (show) {
+      setLoading(true)
+      bitsFetch({}, 'analytics/check', '', 'GET').then(res => {
+        setShowAnalyticsOptin(res.data)
+        setLoading(false)
+      })
+    }
+  }, [show])
 
-                        <div className='feature-list'>
-                            <ul>
-                                <li>WooCommerce: Order module checkout custom field & customer Note</li>
-                            </ul>
+  return (
+    <div className="changelog-toggle">
+      <button
+        title={__("What's New", 'bit-integrations')}
+        type="button"
+        className="changelog-btn"
+        onClick={() => {
+          setStep(2)
+          setShow(true)
+        }}>
+        <ChangelogIcn size={25} />
+      </button>
+      <Modal
+        md={step === 1}
+        sm={step !== 1}
+        show={show}
+        setModal={closeModal}
+        closeIcon={showAnalyticsOptin && step === 2}
+        style={{
+          height: 'auto',
+          width: '550px'
+        }}>
+        {
+          // (step === 1 && show === true && (
+          //   <>
+          //     <div>
+          //       <a href={dealURL} target="_blank" rel="noreferrer">
+          //         <img
+          //           src={NewYear}
+          //           style={{ width: '100%', height: 'auto', marginTop: '-2px', borderRadius: '20px' }}
+          //           alt=""
+          //         />
+          //       </a>
+          //     </div>
+          //     <div className="txt-right" style={{ marginTop: '-2px' }}>
+          //       <button
+          //         type="button"
+          //         className="btn round btcd-btn-lg purple purple-sh"
+          //         onClick={() => setStep(2)}>
+          //         {__('Next', 'bit-integrations')}
+          //       </button>
+          //     </div>
+          //   </>
+          // )) ||
+          step === 2 && (
+            <div className="changelog content">
+              <div className="flx flx-col flx-center whats-new">
+                <h3>{sprintf(__("What's New in %s", 'bit-integrations'), btcbi.version)}?</h3>
+                <small className="date">
+                  {__('Updated at:', 'bit-integrations')} <b>{releaseDate}</b>
+                </small>
+              </div>
+              <div className="changelog-content">
+                {changeLog.map((log, index) => (
+                  <Fragment key={index}>
+                    {log.items.length > 0 && (
+                      <>
+                        <span className={log.headClass}>
+                          <b>{log.label}</b>
+                        </span>
+
+                        <div className={log.itemClass}>
+                          <ul>
+                            {log.items.map((item, index) => (
+                              <li key={index}>
+                                {item?.label && <b>{item.label}</b>}
+                                {item?.label && item?.desc && <b>:&nbsp;</b>}
+                                {item?.desc && <span>{item.desc}</span>}
+                                &nbsp;
+                                {item?.isPro && <small className="pro-btn">Pro</small>}
+                              </li>
+                            ))}
+                          </ul>
                         </div>
-
-                        <span className='fixes'><b>Fixed</b></span>
-
-                        <div className='fixes-list'>
-                            <ul>
-                                <li>Formidable: Single checkbox</li>
-                                <li>Dropbox: Multiple file upload </li>
-                                <li>Moosend: Phone number validation</li>
-                                <li>Telegram: Single file attachment upload</li>
-                                <li>PropovoiceCRM: Lead module fields </li>
-                                <li>Piotnet Addon: Form fields</li>
-                                <li>Pipedrive: Multiple label</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div>
-                        <span className='footer'>{__('For more details,')}</span>
-                        <a href="https://bitapps.pro/docs/bit-integrations/free-changelogs/" target="_blank" rel="noreferrer">
-                            {__('Click here ')}
-                            <ExternalLinkIcn size="14" />
-                        </a>
-                    </div>
+                      </>
+                    )}
+                  </Fragment>
+                ))}
+                <div>
+                  <span className="footer">{__('For more details,')}</span>
+                  <a
+                    href="https://bitapps.pro/docs/bit-integrations/free-changelogs/"
+                    target="_blank"
+                    rel="noreferrer">
+                    {__('Click here')}&nbsp;
+                    <ExternalLinkIcn size="14" />
+                  </a>
                 </div>
-            </Modal >
-        </div >
-    )
+              </div>
+              {loading ? (
+                <div className="flx flx-center" style={{ height: '150px' }}>
+                  <Loader
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      height: 45,
+                      transform: 'scale(0.5)'
+                    }}
+                  />
+                </div>
+              ) : (
+                !showAnalyticsOptin && (
+                  <div>
+                    <div className="btcd-hr mt-2"></div>
+                    <div className="flx flx-col flx-center">
+                      <h4 className="mt-2 mb-0">
+                        {__('Opt-In For Plugin Improvement', 'bit-integrations')}
+                      </h4>
+                    </div>
+                    <div className="m-2 txt-sm">
+                      {__(
+                        'Accept and continue to share usage data to help us improve the plugin, the plugin will still function if you skip.',
+                        'bit-integrations'
+                      )}
+                      <br />
+                      <a
+                        className="app-link-active"
+                        target="blank"
+                        href="https://bitapps.pro/terms-of-service/">
+                        {__('Terms and conditions', 'bit-integrations')}&nbsp;
+                        <ExternalLinkIcn size="14" />
+                      </a>
+                    </div>
+                    <div className="flx flx-between">
+                      <button
+                        type="button"
+                        className="btn round btn-md gray gray-sh"
+                        onClick={() => closeModal()}>
+                        Skip
+                      </button>
+                      <button
+                        type="button"
+                        className="btn round btcd-btn-lg purple purple-sh"
+                        onClick={() => handleSubmit()}>
+                        {__('Accept and continue', 'bit-integrations')}
+                      </button>
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
+          )
+        }
+      </Modal>
+    </div>
+  )
 }

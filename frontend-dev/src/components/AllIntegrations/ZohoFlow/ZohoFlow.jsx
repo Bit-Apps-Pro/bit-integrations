@@ -21,29 +21,25 @@ function ZohoFlow({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Zoho Flow Web Hooks',
     type: 'Zoho Flow',
     method: 'POST',
-    url: process.env.NODE_ENV === 'development' ? 'https://hooks..com/hooks/catch/8430229/o7gwcin/' : '',
-    apiConsole: 'https://flow.zoho.com/#/workspace/default/flows/create',
+    url: '',
+    apiConsole: 'https://flow.zoho.com/#/workspace/default/flows/create'
   })
 
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={2} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={2} active={step} />
+      </div>
 
       {/* STEP 1 */}
-      <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
+      <div
+        className="btcd-stp-page"
+        style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
         {zohoFlowLinks?.youTubeLink && (
-          <TutorialLink
-            title={zohoFlowLinks?.title}
-            youTubeLink={zohoFlowLinks?.youTubeLink}
-          />
+          <TutorialLink title="Zoho Flow" youTubeLink={zohoFlowLinks?.youTubeLink} />
         )}
-        {zohoFlowLinks?.docLink && (
-          <TutorialLink
-            title={zohoFlowLinks?.title}
-            docLink={zohoFlowLinks?.docLink}
-          />
-        )}
+        {zohoFlowLinks?.docLink && <TutorialLink title="Zoho Flow" docLink={zohoFlowLinks?.docLink} />}
 
         <WebHooksLayouts
           formID={formID}
@@ -59,13 +55,13 @@ function ZohoFlow({ formFields, setFlow, flow, allIntegURL }) {
 
       {/* STEP 2 */}
       <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
-
         <WebHooksStepTwo
           step={step}
-          saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, zohoFlow, navigate, '', '', setIsLoading)}
+          saveConfig={() =>
+            saveIntegConfig(flow, setFlow, allIntegURL, zohoFlow, navigate, '', '', setIsLoading)
+          }
           isLoading={isLoading}
         />
-
       </div>
     </div>
   )

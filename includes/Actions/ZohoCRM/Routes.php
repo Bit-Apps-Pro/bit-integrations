@@ -1,4 +1,5 @@
 <?php
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -13,5 +14,5 @@ Route::post('zcrm_get_related_lists', [ZohoCRMController::class, 'getRelatedList
 Route::post('zcrm_refresh_modules', [ZohoCRMController::class, 'refreshModulesAjaxHelper']);
 Route::post('zcrm_refresh_layouts', [ZohoCRMController::class, 'refreshLayoutsAjaxHelper']);
 
-    //Rapidmail
-    // Route::post('rapidmail_authorization', [RapidmailController::class, 'checkAuthorization']);
+// Rapidmail
+// Route::post('rapidmail_authorization', [RapidmailController::class, 'checkAuthorization']);

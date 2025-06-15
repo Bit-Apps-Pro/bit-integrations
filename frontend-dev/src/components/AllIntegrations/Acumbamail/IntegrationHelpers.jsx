@@ -5,7 +5,6 @@ export const addFieldMap = (i, confTmp, setConf) => {
   const newConf = { ...confTmp }
   newConf.field_map.splice(i, 0, {})
   setConf({ ...newConf })
- 
 }
 
 export const delFieldMap = (i, confTmp, setConf) => {

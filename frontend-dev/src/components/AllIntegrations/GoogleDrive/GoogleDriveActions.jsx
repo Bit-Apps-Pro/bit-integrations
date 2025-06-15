@@ -24,10 +24,7 @@ export default function GoogleDriveActions({ googleDriveConf, setGoogleDriveConf
         className="mt-4 mr-2"
         value="delete_from_wp"
         title={__('Delete File From Wordpress', 'bit-integrations')}
-        subTitle={__(
-          'Delete file from Wordpress after upload in GoogleDrive',
-          'bit-integrations',
-        )}
+        subTitle={__('Delete file from Wordpress after upload in GoogleDrive', 'bit-integrations')}
       />
     </div>
   )

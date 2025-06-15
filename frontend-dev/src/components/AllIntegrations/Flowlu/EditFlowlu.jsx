@@ -33,22 +33,30 @@ function EditFlowlu({ allIntegURL }) {
 
     if (flowluConf.actionName === 'account') {
       if (!flowluConf.selectedAccountType) {
-        toast.error('Please select an Account Type')
+        toast.error(__('Please select an Account Type', 'bit-integrations'))
         return
       }
     }
     if (flowluConf.actionName === 'opportunity') {
       if (!flowluConf.selectedPipeline) {
-        toast.error('Please select a Opportunity Pipeline')
+        toast.error(__('Please select a Opportunity Pipeline', 'bit-integrations'))
         return
       }
       if (!flowluConf.selectedOpportunityStage) {
-        toast.error('Please select a Opportunity Stage')
+        toast.error(__('Please select a Opportunity Stage', 'bit-integrations'))
         return
       }
     }
 
-    saveActionConf({ flow, allIntegURL, conf: flowluConf, history, edit: 1, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: flowluConf,
+      history,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -57,7 +65,14 @@ function EditFlowlu({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, flowluConf, setFlowluConf)} name="name" value={flowluConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, flowluConf, setFlowluConf)}
+          name="name"
+          value={flowluConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 
@@ -89,4 +104,3 @@ function EditFlowlu({ allIntegURL }) {
 }
 
 export default EditFlowlu
-

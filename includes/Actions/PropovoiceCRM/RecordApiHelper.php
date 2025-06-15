@@ -4,8 +4,6 @@ namespace BitCode\FI\Actions\PropovoiceCRM;
 
 use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Actions\PropovoiceCRM\FilesApiHelper;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -19,7 +17,6 @@ class RecordApiHelper
         $this->_integrationID = $integrationId;
     }
 
-
     public function generateReqDataFromFieldMap($data, $fieldMap)
     {
         $dataFinal = [];
@@ -29,22 +26,24 @@ class RecordApiHelper
             $actionValue = $value->propovoiceCrmFormField;
             if ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!is_null($data[$triggerValue])) {
+            } elseif (!\is_null($data[$triggerValue])) {
                 $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
+
         return $dataFinal;
     }
 
     public function createLead($finalData)
     {
         if ($finalData['img']) {
-            $imgUpload          = new FilesApiHelper();
-            $upload             = $imgUpload->uploadFile($finalData['img'][0]);
-            $finalData['img']   = $upload['id'];
+            $imgUpload = new FilesApiHelper();
+            $upload = $imgUpload->uploadFile($finalData['img'][0]);
+            $finalData['img'] = $upload['id'];
         }
 
         $propovoiceLeadInstance = new \Ndpv\Model\Lead();
+
         return $propovoiceLeadInstance->create($finalData);
     }
 
@@ -64,11 +63,12 @@ class RecordApiHelper
             $apiResponse = $this->createLead($finalData);
 
             if (!$apiResponse) {
-                LogHandler::save($this->_integrationID, 'Lead', 'success', "Lead Created Successfully");
+                LogHandler::save($this->_integrationID, 'Lead', 'success', __('Lead Created Successfully', 'bit-integrations'));
             } else {
-                LogHandler::save($this->_integrationID, 'Lead', 'error', json_encode($apiResponse));
+                LogHandler::save($this->_integrationID, 'Lead', 'error', wp_json_encode($apiResponse));
             }
         }
+
         return $apiResponse;
     }
 }

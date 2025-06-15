@@ -20,7 +20,7 @@ function EditMailercloud({ allIntegURL }) {
     auth: false,
     list: false,
     page: false,
-    update: false,
+    update: false
   })
 
   const setUpdateLoading = (value) => {
@@ -32,7 +32,14 @@ function EditMailercloud({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" name="name" onChange={(e) => handleInput(e, mailercloudConf, setMailercloudConf, error, setError)} value={mailercloudConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          name="name"
+          onChange={(e) => handleInput(e, mailercloudConf, setMailercloudConf, error, setError)}
+          value={mailercloudConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <div className="my-3">
         <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
@@ -48,14 +55,22 @@ function EditMailercloud({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() => { saveUpdateConfig(flow, allIntegURL, mailercloudConf, navigate, { edit: 1 }, setUpdateLoading) }}
+        saveConfig={() => {
+          saveUpdateConfig(
+            flow,
+            allIntegURL,
+            mailercloudConf,
+            navigate,
+            { edit: 1 },
+            setUpdateLoading
+          )
+        }}
         isLoading={loading.update}
         disabled={mailercloudConf.field_map.length < 1}
         dataConf={mailercloudConf}
         setDataConf={setMailercloudConf}
         formFields={formFields}
       />
-
     </div>
   )
 }

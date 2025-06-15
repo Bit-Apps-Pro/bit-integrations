@@ -20,6 +20,9 @@ import TableCheckBox from '../../Utilities/TableCheckBox'
 import ConditionalLogic from '../../ConditionalLogic'
 import CheckBox from '../../Utilities/CheckBox'
 import Note from '../../Utilities/Note'
+import RegistrationActions from './RegistrationActions'
+import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
+import TutorialLink from '../../Utilities/TutorialLink'
 
 export default function EditRegistration({ allIntegURL }) {
   const navigate = useNavigate()
@@ -30,16 +33,15 @@ export default function EditRegistration({ allIntegURL }) {
   const [flow, setFlow] = useRecoilState($newFlow)
   const formFields = useRecoilValue($formFields)
   const [userConf, setUserConf] = useRecoilState($actionConf)
+  const { registration } = tutorialLinks
 
   useEffect(() => {
     const tmpConf = { ...userConf }
-    bitsFetch({}, 'role/list', null, 'GET').then((res) => {
-      if (res?.success && res !== undefined) {
-        setRoles(Object.values(res?.data))
-      }
-    })
+
     if (!tmpConf?.user_map?.[0]?.userField) {
-      tmpConf.user_map = userFields.filter(fld => fld.required).map(fl => ({ formField: '', userField: fl.key, required: fl.required }))
+      tmpConf.user_map = userFields
+        .filter((fld) => fld.required)
+        .map((fl) => ({ formField: '', userField: fl.key, required: fl.required }))
     }
 
     setUserConf(tmpConf)
@@ -51,14 +53,23 @@ export default function EditRegistration({ allIntegURL }) {
       return
     }
     if (!userConf.user_role && userConf.action_type !== 'updated_user') {
-      setSnackbar({ show: true, msg: __('User Role can\'t be empty', 'bit-integrations') })
+      setSnackbar({ show: true, msg: __("User Role can't be empty", 'bit-integrations') })
       return
     }
     if (!checkMappedUserFields(userConf) && userConf.action_type !== 'updated_user') {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
-    saveActionConf({ flow, setFlow, allIntegURL, conf: userConf, navigate, edit: 1, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      setFlow,
+      allIntegURL,
+      conf: userConf,
+      navigate,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
   }
 
   const checkedCondition = (val, checked) => {
@@ -82,27 +93,49 @@ export default function EditRegistration({ allIntegURL }) {
 
   const userUpdateInstruction = `
   <ul>
-  <li>The user must be logged in when updating profile</li>
-  <li>The user cannot change the value of the username field when updating the user profile.</li>
+  <li>${__('The user must be logged in when updating profile', 'bit-integrations')}</li>
+  <li>${__('The user cannot change the value of the username field when updating the user profile.', 'bit-integrations')}</li>
      
   </ul>`
   const userCreateInstruction = `
   <ul>
-  <li>If the Username and Password fields are blank then the user will take the value of the email field as the field and the password will be auto-generated.</li>
-     
+  <li>${__('If the Username and Password fields are blank then the user will take the value of the email field as the field and the password will be auto-generated.', 'bit-integrations')}</li>  
   </ul>`
 
   return (
-    <div>
+    <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
+      {registration?.youTubeLink && (
+        <TutorialLink title="WP User Registration" youTubeLink={registration?.youTubeLink} />
+      )}
+      {registration?.docLink && (
+        <TutorialLink title="WP User Registration" docLink={registration?.docLink} />
+      )}
+      <br />
       <br />
 
       <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
-      <div className="font-w-m mt-3">{__('Action type', 'bit-integrations')}</div>
-      <div>
-        <CheckBox radio name="action_type" onChange={actionHandler} checked={userConf?.action_type === 'new_user'} value="new_user" title={__('New User Create', 'bit-integrations')} />
-        <CheckBox radio name="action_type" onChange={actionHandler} checked={userConf?.action_type === 'updated_user'} value="updated_user" title={__('Updated User', 'bit-integrations')} />
+      <div className="flx mt-3">
+        <div className="wdt-200 d-in-b">{__('Action type', 'bit-integrations')}</div>
+        <CheckBox
+          radio
+          name="action_type"
+          onChange={actionHandler}
+          checked={userConf?.action_type === 'new_user'}
+          value="new_user"
+          title={__('New User Create', 'bit-integrations')}
+        />
+        <CheckBox
+          radio
+          name="action_type"
+          onChange={actionHandler}
+          checked={userConf?.action_type === 'updated_user'}
+          value="updated_user"
+          title={__('Updated User', 'bit-integrations')}
+        />
       </div>
+      <br />
+      <br />
 
       <div>
         <UserFieldMap
@@ -113,6 +146,7 @@ export default function EditRegistration({ allIntegURL }) {
           roles={roles}
           userFields={userFields}
         />
+        <br />
       </div>
       <div>
         <UserMetaField
@@ -124,36 +158,50 @@ export default function EditRegistration({ allIntegURL }) {
         <br />
       </div>
 
+      <div className="mt-4">
+        <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
+      </div>
+      <div className="btcd-hr mt-1" />
+      <RegistrationActions userConf={userConf} setUserConf={setUserConf} />
+
+      <br />
+      <Note
+        note={
+          userConf?.action_type === 'updated_user' ? userUpdateInstruction : userCreateInstruction
+        }
+      />
+
       {userConf?.condition && (
         <>
           <div className="flx">
-            <TableCheckBox onChange={e => checkedCondition(e.target.value, e.target.checked)} checked={userConf?.condition?.action_behavior === 'cond'} className="wdt-200 mt-4 mr-2" value="cond" title={__('Conditional Logics', 'bit_integration')} />
+            <TableCheckBox
+              onChange={(e) => checkedCondition(e.target.value, e.target.checked)}
+              checked={userConf?.condition?.action_behavior === 'cond'}
+              className="wdt-200 mt-4 mr-2"
+              value="cond"
+              title={__('Conditional Logics', 'bit_integration')}
+            />
           </div>
           <br />
           {userConf?.condition?.action_behavior === 'cond' && (
-
-            <ConditionalLogic formFields={formFields} dataConf={userConf} setDataConf={setUserConf} />
+            <ConditionalLogic
+              formFields={formFields}
+              dataConf={userConf}
+              setDataConf={setUserConf}
+            />
           )}
         </>
       )}
 
-      {userConf?.action_type === 'updated_user' ? (
-        <Note note={userUpdateInstruction} />
-      ) : (
-        <Note note={userCreateInstruction} />
-      )}
-
       <button
-        className="btn f-left btcd-btn-lg green sh-sm flx"
+        className="btn f-left btcd-btn-lg purple sh-sm flx"
         type="button"
         onClick={saveConfig}
-        disabled={isLoading}
-      >
+        disabled={isLoading}>
         {__('Update', 'bit-integrations')}
 
         {isLoading && <LoaderSm size={20} clr="#022217" className="ml-2" />}
       </button>
-
     </div>
   )
 }

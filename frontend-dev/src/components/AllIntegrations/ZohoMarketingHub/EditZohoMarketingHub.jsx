@@ -30,7 +30,16 @@ function EditZohoMarketingHub({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
-    saveActionConf({ flow, setFlow, allIntegURL, conf: marketingHubConf, navigate, edit: 1, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      setFlow,
+      allIntegURL,
+      conf: marketingHubConf,
+      navigate,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -39,7 +48,14 @@ function EditZohoMarketingHub({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, formID, marketingHubConf, setMarketingHubConf)} name="name" value={marketingHubConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, formID, marketingHubConf, setMarketingHubConf)}
+          name="name"
+          value={marketingHubConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 
@@ -47,7 +63,9 @@ function EditZohoMarketingHub({ allIntegURL }) {
       <ZohoMarketingHubIntegLayout
         formID={formID}
         formFields={formFields}
-        handleInput={(e) => handleInput(e, formID, marketingHubConf, setMarketingHubConf, setIsLoading, setSnackbar)}
+        handleInput={(e) =>
+          handleInput(e, formID, marketingHubConf, setMarketingHubConf, setIsLoading, setSnackbar)
+        }
         marketingHubConf={marketingHubConf}
         setMarketingHubConf={setMarketingHubConf}
         isLoading={isLoading}
@@ -58,7 +76,11 @@ function EditZohoMarketingHub({ allIntegURL }) {
       <IntegrationStepThree
         edit
         saveConfig={saveConfig}
-        disabled={marketingHubConf.list === '' || marketingHubConf.table === '' || marketingHubConf.field_map.length < 1}
+        disabled={
+          marketingHubConf.list === '' ||
+          marketingHubConf.table === '' ||
+          marketingHubConf.field_map.length < 1
+        }
         isLoading={isLoading}
         dataConf={marketingHubConf}
         setDataConf={setMarketingHubConf}

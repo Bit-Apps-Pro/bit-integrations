@@ -10,7 +10,7 @@ import 'react-multiple-select-dropdown-lite/dist/index.css'
 
 export default function AcumbamailActions({ trelloConf, setTrelloConf, formFields }) {
   const [isLoading, setIsLoading] = useState(false)
-  const [actionMdl, setActionMdl] = useState({ show: false, action: () => { } })
+  const [actionMdl, setActionMdl] = useState({ show: false, action: () => {} })
   const actionHandler = (e, type) => {
     const newConf = { ...trelloConf }
     if (type === 'tag') {
@@ -36,50 +36,52 @@ export default function AcumbamailActions({ trelloConf, setTrelloConf, formField
 
   const options = [
     { label: 'Top', value: 'top' },
-    { label: 'Bottom', value: 'bottom' },
+    { label: 'Bottom', value: 'bottom' }
   ]
 
   return (
-
     <div className="pos-rel d-flx w-8">
-      <TableCheckBox checked={trelloConf?.actions?.tag || false} onChange={(e) => actionHandler(e, 'tag')} className="wdt-200 mt-4 mr-2" value="tag" title={__('Add Position', 'bit-integrations')} subTitle={__('Add Card Position', 'bit-integrations')} />
+      <TableCheckBox
+        checked={trelloConf?.actions?.tag || false}
+        onChange={(e) => actionHandler(e, 'tag')}
+        className="wdt-200 mt-4 mr-2"
+        value="tag"
+        title={__('Add Position', 'bit-integrations')}
+        subTitle={__('Add Card Position', 'bit-integrations')}
+      />
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="blue"
+        btnClass="purple"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'tag'}
         close={clsActionMdl}
         action={clsActionMdl}
-        title={__('Position', 'bit-integrations')}
-      >
+        title={__('Position', 'bit-integrations')}>
         <div className="btcd-hr mt-2 mb-2" />
         <div className="mt-2">{__('Select Card Position', 'bit-integrations')}</div>
-        {isLoading
-          ? (
-            <Loader style={{
+        {isLoading ? (
+          <Loader
+            style={{
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               height: 45,
-              transform: 'scale(0.5)',
+              transform: 'scale(0.5)'
             }}
+          />
+        ) : (
+          <div className="flx flx-between mt-2">
+            <MultiSelect
+              options={options}
+              className="msl-wrp-options"
+              singleSelect
+              defaultValue={trelloConf.pos}
+              onChange={(val) => onSelectHandler(val)}
             />
-          )
-          : (
-            <div className="flx flx-between mt-2">
-              <MultiSelect
-                options={options}
-                className="msl-wrp-options"
-                singleSelect
-                defaultValue={trelloConf.pos}
-                onChange={val => onSelectHandler(val)}
-              />
-            </div>
-          )}
-
+          </div>
+        )}
       </ConfirmModal>
-
     </div>
   )
 }

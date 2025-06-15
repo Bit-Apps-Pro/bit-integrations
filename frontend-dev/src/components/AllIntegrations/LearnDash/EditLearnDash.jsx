@@ -29,7 +29,14 @@ function EditLearnDash({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, learnDashConf, setLearnDashConf)} name="name" value={learnDashConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, learnDashConf, setLearnDashConf)}
+          name="name"
+          value={learnDashConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
       <br />
@@ -38,7 +45,9 @@ function EditLearnDash({ allIntegURL }) {
       <LearnDashIntegLayout
         formID={formID}
         formFields={formFields}
-        handleInput={(e) => handleInput(e, learnDashConf, setLearnDashConf, setIsLoading, setSnackbar)}
+        handleInput={(e) =>
+          handleInput(e, learnDashConf, setLearnDashConf, setIsLoading, setSnackbar)
+        }
         learnDashConf={learnDashConf}
         setLearnDashConf={setLearnDashConf}
         isLoading={isLoading}
@@ -48,7 +57,17 @@ function EditLearnDash({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() => saveActionConf({ flow, allIntegURL, conf: learnDashConf, navigate, edit: 1, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            allIntegURL,
+            conf: learnDashConf,
+            navigate,
+            edit: 1,
+            setIsLoading,
+            setSnackbar
+          })
+        }
         disabled={learnDashConf.mainAction === '' || isLoading}
         isLoading={isLoading}
         dataConf={learnDashConf}

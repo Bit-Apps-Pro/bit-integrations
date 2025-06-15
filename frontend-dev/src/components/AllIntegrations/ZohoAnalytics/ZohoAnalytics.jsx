@@ -19,10 +19,8 @@ export default function ZohoAnalytics({ formFields, setFlow, flow, allIntegURL }
   const [analyticsConf, setAnalyticsConf] = useState({
     name: 'Zoho Analytics',
     type: 'Zoho Analytics',
-    field_map: [
-      { formField: '', zohoFormField: '' },
-    ],
-    actions: {},
+    field_map: [{ formField: '', zohoFormField: '' }],
+    actions: {}
   })
 
   useEffect(() => {
@@ -33,7 +31,11 @@ export default function ZohoAnalytics({ formFields, setFlow, flow, allIntegURL }
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
-    if (analyticsConf.workspace !== '' && analyticsConf.table !== '' && analyticsConf.field_map.length > 0) {
+    if (
+      analyticsConf.workspace !== '' &&
+      analyticsConf.table !== '' &&
+      analyticsConf.field_map.length > 0
+    ) {
       setStep(3)
     }
   }
@@ -58,11 +60,15 @@ export default function ZohoAnalytics({ formFields, setFlow, flow, allIntegURL }
       />
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
+      <div
+        className="btcd-stp-page"
+        style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
         <ZohoAnalyticsIntegLayout
           formID={formID}
           formFields={formFields}
-          handleInput={(e) => handleInput(e, analyticsConf, setAnalyticsConf, formID, setIsLoading, setSnackbar)}
+          handleInput={(e) =>
+            handleInput(e, analyticsConf, setAnalyticsConf, formID, setIsLoading, setSnackbar)
+          }
           analyticsConf={analyticsConf}
           setAnalyticsConf={setAnalyticsConf}
           isLoading={isLoading}
@@ -72,10 +78,13 @@ export default function ZohoAnalytics({ formFields, setFlow, flow, allIntegURL }
 
         <button
           onClick={nextPage}
-          disabled={analyticsConf.workspace === '' || analyticsConf.table === '' || analyticsConf.field_map.length < 1}
-          className="btn f-right btcd-btn-lg green sh-sm flx"
-          type="button"
-        >
+          disabled={
+            analyticsConf.workspace === '' ||
+            analyticsConf.table === '' ||
+            analyticsConf.field_map.length < 1
+          }
+          className="btn f-right btcd-btn-lg purple sh-sm flx"
+          type="button">
           {__('Next', 'bit-integrations')}
           <BackIcn className="ml-1 rev-icn" />
         </button>

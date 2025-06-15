@@ -19,8 +19,16 @@ export default function WoodpeckerActions({ woodpeckerConf, setWoodpeckerConf })
 
   return (
     <div className="pos-rel d-flx flx-wrp">
-      {woodpeckerConf.actionName !== 'create_company' && <TableCheckBox checked={woodpeckerConf.actions?.update || false} onChange={(e) => actionHandler(e, 'update')} className="wdt-200 mt-4 mr-2" value="user_share" title={__('Update Prospects', 'bit-integrations')} subTitle={__('Update Responses with Prospects existing Data?', 'bit-integrations')} />}
+      {woodpeckerConf.actionName !== 'create_company' && (
+        <TableCheckBox
+          checked={woodpeckerConf.actions?.update || false}
+          onChange={(e) => actionHandler(e, 'update')}
+          className="wdt-200 mt-4 mr-2"
+          value="user_share"
+          title={__('Update Prospects', 'bit-integrations')}
+          subTitle={__('Update Responses with Prospects existing Data?', 'bit-integrations')}
+        />
+      )}
     </div>
   )
 }
-

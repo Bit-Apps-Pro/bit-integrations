@@ -3,13 +3,14 @@
 /**
  * ZohoAnalytics Integration
  */
+
 namespace BitCode\FI\Actions\ZohoAnalytics;
 
-use WP_Error;
-use BitCode\FI\Core\Util\IpTool;
-use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Core\Util\ApiResponse as UtilApiResponse;
+use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Core\Util\IpTool;
 use BitCode\FI\Log\LogHandler;
+use WP_Error;
 
 /**
  * Provide functionality for ZohoCrm integration
@@ -27,6 +28,8 @@ class ZohoAnalyticsController
     /**
      * Process ajax request for generate_token
      *
+     * @param mixed $requestsParams
+     *
      * @return JSON zoho crm api response and status
      */
     public static function generateTokens($requestsParams)
@@ -37,23 +40,23 @@ class ZohoAnalyticsController
                 || empty($requestsParams->clientSecret)
                 || empty($requestsParams->redirectURI)
                 || empty($requestsParams->code)
-            ) {
+        ) {
             wp_send_json_error(
                 __(
-                        'Requested parameter is empty',
-                        'bit-integrations'
-                    ),
+                    'Requested parameter is empty',
+                    'bit-integrations'
+                ),
                 400
             );
         }
 
-        $apiEndpoint = \urldecode($requestsParams->{'accounts-server'}) . '/oauth/v2/token';
+        $apiEndpoint = urldecode($requestsParams->{'accounts-server'}) . '/oauth/v2/token';
         $requestParams = [
-            'grant_type' => 'authorization_code',
-            'client_id' => $requestsParams->clientId,
+            'grant_type'    => 'authorization_code',
+            'client_id'     => $requestsParams->clientId,
             'client_secret' => $requestsParams->clientSecret,
-            'redirect_uri' => \urldecode($requestsParams->redirectURI),
-            'code' => $requestsParams->code
+            'redirect_uri'  => urldecode($requestsParams->redirectURI),
+            'code'          => $requestsParams->code
         ];
         $apiResponse = HttpHelper::post($apiEndpoint, $requestParams);
 
@@ -63,12 +66,14 @@ class ZohoAnalyticsController
                 400
             );
         }
-        $apiResponse->generates_on = \time();
+        $apiResponse->generates_on = time();
         wp_send_json_success($apiResponse, 200);
     }
 
     /**
      * Process ajax request for refresh crm modules
+     *
+     * @param mixed $queryParams
      *
      * @return JSON crm module data
      */
@@ -79,7 +84,7 @@ class ZohoAnalyticsController
                 || empty($queryParams->clientId)
                 || empty($queryParams->clientSecret)
                 || empty($queryParams->ownerEmail)
-            ) {
+        ) {
             wp_send_json_error(
                 __(
                     'Requested parameter is empty',
@@ -89,7 +94,7 @@ class ZohoAnalyticsController
             );
         }
         $response = [];
-        if ((intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
+        if ((\intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $response['tokenDetails'] = self::_refreshAccessToken($queryParams);
         }
 
@@ -125,7 +130,7 @@ class ZohoAnalyticsController
                 || empty($queryParams->clientId)
                 || empty($queryParams->clientSecret)
                 || empty($queryParams->ownerEmail)
-            ) {
+        ) {
             wp_send_json_error(
                 __(
                     'Requested parameter is empty',
@@ -135,7 +140,7 @@ class ZohoAnalyticsController
             );
         }
         $response = [];
-        if ((intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
+        if ((\intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $response['tokenDetails'] = self::_refreshAccessToken($queryParams);
         }
 
@@ -167,6 +172,8 @@ class ZohoAnalyticsController
     /**
      * Process ajax request for refesh crm layouts
      *
+     * @param mixed $queryParams
+     *
      * @return JSON crm layout data
      */
     public static function refreshTablesAjaxHelper($queryParams)
@@ -176,7 +183,7 @@ class ZohoAnalyticsController
                 || empty($queryParams->dataCenter)
                 || empty($queryParams->clientId)
                 || empty($queryParams->clientSecret)
-            ) {
+        ) {
             wp_send_json_error(
                 __(
                     'Requested parameter is empty',
@@ -186,7 +193,7 @@ class ZohoAnalyticsController
             );
         }
         $response = [];
-        if ((intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
+        if ((\intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $response['tokenDetails'] = self::_refreshAccessToken($queryParams);
         }
 
@@ -221,6 +228,8 @@ class ZohoAnalyticsController
     /**
      * Process ajax request for refesh crm layouts
      *
+     * @param mixed $queryParams
+     *
      * @return JSON crm layout data
      */
     public static function refreshTableHeadersAjaxHelper($queryParams)
@@ -231,7 +240,7 @@ class ZohoAnalyticsController
                 || empty($queryParams->dataCenter)
                 || empty($queryParams->clientId)
                 || empty($queryParams->clientSecret)
-            ) {
+        ) {
             wp_send_json_error(
                 __(
                     'Requested parameter is empty',
@@ -241,7 +250,7 @@ class ZohoAnalyticsController
             );
         }
         $response = [];
-        if ((intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
+        if ((\intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $response['tokenDetails'] = self::_refreshAccessToken($queryParams);
         }
 
@@ -250,7 +259,7 @@ class ZohoAnalyticsController
         $authorizationHeader['Authorization'] = "Zoho-oauthtoken {$queryParams->tokenDetails->access_token}";
         $tableHeadersMetaResponse = HttpHelper::get($tableHeadersMetaApiEndpoint, null, $authorizationHeader);
 
-        if (gettype($tableHeadersMetaResponse) === 'string') {
+        if (\gettype($tableHeadersMetaResponse) === 'string') {
             $tableHeadersMetaResponse = json_decode(preg_replace("/\\\'/", "'", $tableHeadersMetaResponse));
         }
 
@@ -271,16 +280,74 @@ class ZohoAnalyticsController
         wp_send_json_success($response, 200);
     }
 
+    public function execute($integrationData, $fieldValues)
+    {
+        $integrationDetails = $integrationData->flow_details;
+
+        $tokenDetails = $integrationDetails->tokenDetails;
+        $workspace = $integrationDetails->workspace;
+        $table = $integrationDetails->table;
+        $ownerEmail = $integrationDetails->ownerEmail;
+        $dataCenter = $integrationDetails->dataCenter;
+        $fieldMap = $integrationDetails->field_map;
+        $actions = $integrationDetails->actions;
+        $defaultDataConf = $integrationDetails->default;
+        if (empty($tokenDetails)
+            || empty($workspace)
+            || empty($table)
+            || empty($fieldMap)
+        ) {
+            $error = new WP_Error('REQ_FIELD_EMPTY', __('workspace, table, fields are required for zoho analytics api', 'bit-integrations'));
+            // $this->_logResponse->apiResponse($logID, $this->_integrationID, 'record', 'validation', $error);
+            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'record', 'type_name' => 'validation']), 'error', wp_json_encode($error));
+
+            return $error;
+        }
+
+        if ((\intval($tokenDetails->generates_on) + (55 * 60)) < time()) {
+            $requiredParams['clientId'] = $integrationDetails->clientId;
+            $requiredParams['clientSecret'] = $integrationDetails->clientSecret;
+            $requiredParams['dataCenter'] = $integrationDetails->dataCenter;
+            $requiredParams['tokenDetails'] = $tokenDetails;
+            $newTokenDetails = self::_refreshAccessToken((object) $requiredParams);
+            if ($newTokenDetails) {
+                self::_saveRefreshedToken($this->_formID, $this->_integrationID, $newTokenDetails);
+                $tokenDetails = $newTokenDetails;
+            }
+        }
+
+        // $actions = $integrationDetails->actions;
+        $recordApiHelper = new RecordApiHelper($tokenDetails, $this->_integrationID, $logID);
+
+        $zanalyticsApiResponse = $recordApiHelper->execute(
+            $workspace,
+            $table,
+            $ownerEmail,
+            $dataCenter,
+            $actions,
+            $defaultDataConf,
+            $fieldValues,
+            $fieldMap
+        );
+
+        if (is_wp_error($zanalyticsApiResponse)) {
+            return $zanalyticsApiResponse;
+        }
+
+        return $zanalyticsApiResponse;
+    }
+
     /**
      * Helps to refresh zoho crm access_token
      *
-     * @param  Array $apiData Contains required data for refresh access token
-     * @return JSON  $tokenDetails API token details
+     * @param array $apiData Contains required data for refresh access token
+     *
+     * @return JSON $tokenDetails API token details
      */
     protected static function _refreshAccessToken($apiData)
     {
-        if (!is_object($apiData) ||
-            empty($apiData->dataCenter)
+        if (!\is_object($apiData)
+            || empty($apiData->dataCenter)
             || empty($apiData->clientId)
             || empty($apiData->clientSecret)
             || empty($apiData->tokenDetails)
@@ -292,8 +359,8 @@ class ZohoAnalyticsController
         $dataCenter = $apiData->dataCenter;
         $apiEndpoint = "https://accounts.zoho.{$dataCenter}/oauth/v2/token";
         $requestParams = [
-            'grant_type' => 'refresh_token',
-            'client_id' => $apiData->clientId,
+            'grant_type'    => 'refresh_token',
+            'client_id'     => $apiData->clientId,
             'client_secret' => $apiData->clientSecret,
             'refresh_token' => $tokenDetails->refresh_token,
         ];
@@ -302,17 +369,20 @@ class ZohoAnalyticsController
         if (is_wp_error($apiResponse) || !empty($apiResponse->error)) {
             return false;
         }
-        $tokenDetails->generates_on = \time();
+        $tokenDetails->generates_on = time();
         $tokenDetails->access_token = $apiResponse->access_token;
+
         return $tokenDetails;
     }
 
     /**
      * Save updated access_token to avoid unnecessary token generation
      *
-     * @param Integer $fromID        ID of Integration related form
-     * @param Integer $integrationID ID of Zoho crm Integration
-     * @param Obeject $tokenDetails  refreshed token info
+     * @param int        $fromID        ID of Integration related form
+     * @param int        $integrationID ID of Zoho crm Integration
+     * @param Obeject    $tokenDetails  refreshed token info
+     * @param mixed      $formID
+     * @param null|mixed $others
      *
      * @return null
      */
@@ -341,65 +411,6 @@ class ZohoAnalyticsController
             $newDetails->default->tables->headers->{$others['table']} = $others['table_headers'];
         }
 
-        $integrationHandler->updateIntegration($integrationID, $zanalyticsDetails[0]->integration_name, 'Zoho Analytics', \json_encode($newDetails), 'form');
-    }
-
-    public function execute($integrationData, $fieldValues)
-    {
-        $integrationDetails = $integrationData->flow_details;
-
-        $tokenDetails = $integrationDetails->tokenDetails;
-        $workspace = $integrationDetails->workspace;
-        $table = $integrationDetails->table;
-        $ownerEmail = $integrationDetails->ownerEmail;
-        $dataCenter = $integrationDetails->dataCenter;
-        $fieldMap = $integrationDetails->field_map;
-        $actions = $integrationDetails->actions;
-        $defaultDataConf = $integrationDetails->default;
-        if (empty($tokenDetails)
-            || empty($workspace)
-            || empty($table)
-            || empty($fieldMap)
-        ) {
-            $error = new WP_Error('REQ_FIELD_EMPTY', __('workspace, table, fields are required for zoho analytics api', 'bit-integrations'));
-            // $this->_logResponse->apiResponse($logID, $this->_integrationID, 'record', 'validation', $error);
-            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'record', 'type_name' => 'validation']), 'error', wp_json_encode($error));
-
-            
-
-
-            return $error;
-        }
-
-        if ((intval($tokenDetails->generates_on) + (55 * 60)) < time()) {
-            $requiredParams['clientId'] = $integrationDetails->clientId;
-            $requiredParams['clientSecret'] = $integrationDetails->clientSecret;
-            $requiredParams['dataCenter'] = $integrationDetails->dataCenter;
-            $requiredParams['tokenDetails'] = $tokenDetails;
-            $newTokenDetails = self::_refreshAccessToken((object)$requiredParams);
-            if ($newTokenDetails) {
-                self::_saveRefreshedToken($this->_formID, $this->_integrationID, $newTokenDetails);
-                $tokenDetails = $newTokenDetails;
-            }
-        }
-
-        // $actions = $integrationDetails->actions;
-        $recordApiHelper = new RecordApiHelper($tokenDetails, $this->_integrationID, $logID);
-
-        $zanalyticsApiResponse = $recordApiHelper->execute(
-            $workspace,
-            $table,
-            $ownerEmail,
-            $dataCenter,
-            $actions,
-            $defaultDataConf,
-            $fieldValues,
-            $fieldMap
-        );
-
-        if (is_wp_error($zanalyticsApiResponse)) {
-            return $zanalyticsApiResponse;
-        }
-        return $zanalyticsApiResponse;
+        $integrationHandler->updateIntegration($integrationID, $zanalyticsDetails[0]->integration_name, 'Zoho Analytics', wp_json_encode($newDetails), 'form');
     }
 }

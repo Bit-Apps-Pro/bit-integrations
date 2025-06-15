@@ -14,6 +14,7 @@ import EditWebhookInteg from '../EditWebhookInteg'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import { checkMappedFields, checkRequired, handleInput } from './PipeDriveCommonFunc'
 import PipeDriveIntegLayout from './PipeDriveIntegLayout'
+import { create } from 'mutative'
 
 function EditPipeDrive({ allIntegURL }) {
   const navigate = useNavigate()
@@ -24,6 +25,7 @@ function EditPipeDrive({ allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
   const [tab, settab] = useState(0)
   const formFields = useRecoilValue($formFields)
+  const [name, setName] = useState(pipeDriveConf?.name || '')
 
   const saveConfig = () => {
     if (!checkMappedFields(pipeDriveConf)) {
@@ -32,26 +34,53 @@ function EditPipeDrive({ allIntegURL }) {
     }
     if (!checkRequired(pipeDriveConf)) {
       if (['Leads', 'Deals', 'Activities', 'Notes'].includes(pipeDriveConf.moduleData.module)) {
-        setSnackbar({ show: true, msg: __('Please select a organization or a person', 'bit-integrations') })
+        setSnackbar({
+          show: true,
+          msg: __('Please select a organization or a person', 'bit-integrations')
+        })
       }
-      // if (pipeDriveConf.moduleData.module === 'Persons') {
-      //   setSnackbar({ show: true, msg: __('Please select a organization', 'bit-integrations') })
-      // }
+
       return
     }
 
-    saveActionConf({ flow, setFlow, allIntegURL, conf: pipeDriveConf, navigate, id, edit: 1, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      setFlow,
+      allIntegURL,
+      conf: pipeDriveConf,
+      navigate,
+      id,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
   }
+
+  const handleEditIntegName = (e) => {
+    setName(e.target.value)
+    setPipeDriveConf((prevConf) =>
+      create(prevConf, (draftConF) => {
+        draftConF.name = e.target.value
+      })
+    )
+  }
+
   return (
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
 
       <div className="flx mt-3">
         <b className="wdt-200 ">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, tab, pipeDriveConf, setPipeDriveConf)} name="name" value={pipeDriveConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={handleEditIntegName}
+          name="name"
+          value={name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
-
 
       <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
 
@@ -60,7 +89,9 @@ function EditPipeDrive({ allIntegURL }) {
         settab={settab}
         formID={flow.triggered_entity_id}
         formFields={formFields}
-        handleInput={(e) => handleInput(e, tab, pipeDriveConf, setPipeDriveConf, setIsLoading, setSnackbar)}
+        handleInput={(e) =>
+          handleInput(e, tab, pipeDriveConf, setPipeDriveConf, setIsLoading, setSnackbar)
+        }
         pipeDriveConf={pipeDriveConf}
         setPipeDriveConf={setPipeDriveConf}
         isLoading={isLoading}

@@ -24,7 +24,16 @@ function EditGoogleContacts({ allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const saveConfig = () => {
-    saveActionConf({ flow, setFlow, allIntegURL, conf: googleContactsConf, navigate, edit: 1, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      setFlow,
+      allIntegURL,
+      conf: googleContactsConf,
+      navigate,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -32,9 +41,7 @@ function EditGoogleContacts({ allIntegURL }) {
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
 
       <div className="flx mt-3">
-        <b className="wdt-200 d-in-b">
-          {__('Integration Name:', 'bit-integrations')}
-        </b>
+        <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
         <input
           className="btcd-paper-inp w-5"
           onChange={(e) => handleInput(e, googleContactsConf, setGoogleContactsConf)}
@@ -59,7 +66,11 @@ function EditGoogleContacts({ allIntegURL }) {
       <IntegrationStepThree
         edit
         saveConfig={saveConfig}
-        disabled={!checkMappedFields(googleContactsConf?.field_map) || googleContactsConf.mainAction === '' || isLoading}
+        disabled={
+          !checkMappedFields(googleContactsConf?.field_map) ||
+          googleContactsConf.mainAction === '' ||
+          isLoading
+        }
         isLoading={isLoading}
         dataConf={googleContactsConf}
         setDataConf={setGoogleContactsConf}

@@ -20,29 +20,35 @@ function SureCart({ formFields, setFlow, flow, allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const customerFields = [
-    { key: 'customer_first_name', label: 'Customer First Name ', required: true },
-    { key: 'customer_email', label: 'Customer Email ', required: true },
-    { key: 'customer_last_name', label: 'Customer Last Name ', required: false },
-    { key: 'customer_phone', label: 'Customer Phone ', required: false },
+    {
+      key: 'customer_first_name',
+      label: __('Customer First Name', 'bit-integrations'),
+      required: true
+    },
+    { key: 'customer_email', label: __('Customer Email', 'bit-integrations'), required: true },
+    {
+      key: 'customer_last_name',
+      label: __('Customer Last Name', 'bit-integrations'),
+      required: false
+    },
+    { key: 'customer_phone', label: __('Customer Phone', 'bit-integrations'), required: false }
   ]
 
-  const allActions = [
-    { key: '1', label: 'Create Customer' },
-  ]
+  const allActions = [{ key: '1', label: 'Create Customer' }]
 
   const [sureCartConf, setSureCartConf] = useState({
     name: 'SureCart',
     type: 'SureCart',
     mainAction: '',
-    api_key: process.env.NODE_ENV === 'development' ? '5qA9v2NhCzjJqGhSa2bnnwuw' : '',
+    api_key: '',
     field_map: [{ formField: '', SureCartFormField: '' }],
     customerFields,
     allActions,
-    actions: {},
+    actions: {}
   })
-  const nextPage = (val) => {
+  const nextPage = val => {
     if (!checkMappedFields(sureCartConf.field_map)) {
-      setSnackbar({ show: true, msg: 'Please map fields to continue.' })
+      setSnackbar({ show: true, msg: __('Please map fields to continue.', 'bit-integrations') })
       return
     }
 
@@ -79,13 +85,12 @@ function SureCart({ formFields, setFlow, flow, allIntegURL }) {
           ...(step === 2 && {
             width: 900,
             height: 'auto',
-            overflow: 'visible',
-          }),
-        }}
-      >
+            overflow: 'visible'
+          })
+        }}>
         <SureCartIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, sureCartConf, setSureCartConf, setIsLoading, setSnackbar)}
+          handleInput={e => handleInput(e, sureCartConf, setSureCartConf, setIsLoading, setSnackbar)}
           sureCartConf={sureCartConf}
           setSureCartConf={setSureCartConf}
           isLoading={isLoading}
@@ -95,9 +100,8 @@ function SureCart({ formFields, setFlow, flow, allIntegURL }) {
         <button
           onClick={() => nextPage(3)}
           disabled={!sureCartConf.mainAction || isLoading}
-          className="btn f-right btcd-btn-lg green sh-sm flx"
-          type="button"
-        >
+          className="btn f-right btcd-btn-lg purple sh-sm flx"
+          type="button">
           {__('Next', 'bit-integrations')}
           <BackIcn className="ml-1 rev-icn" />
         </button>
@@ -107,7 +111,17 @@ function SureCart({ formFields, setFlow, flow, allIntegURL }) {
 
       <IntegrationStepThree
         step={step}
-        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, conf: sureCartConf, navigate, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            setFlow,
+            allIntegURL,
+            conf: sureCartConf,
+            navigate,
+            setIsLoading,
+            setSnackbar
+          })
+        }
         isLoading={isLoading}
         dataConf={sureCartConf}
         setDataConf={setSureCartConf}

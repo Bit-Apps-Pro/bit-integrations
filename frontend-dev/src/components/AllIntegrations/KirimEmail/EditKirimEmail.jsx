@@ -28,7 +28,14 @@ function EditKirimEmail({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, kirimEmailConf, setKirimEmailConf)} name="name" value={kirimEmailConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, kirimEmailConf, setKirimEmailConf)}
+          name="name"
+          value={kirimEmailConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
       <br />
@@ -46,8 +53,24 @@ function EditKirimEmail({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() => saveActionConf({ flow, allIntegURL, conf: kirimEmailConf, navigate, edit: 1, setIsLoading, setSnackbar })}
-        disabled={!checkMappedFields(kirimEmailConf?.field_map) || kirimEmailConf.mainAction === '' || isLoading || (kirimEmailConf.mainAction === '1' && (kirimEmailConf.listId === '' || kirimEmailConf.listId === undefined))}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            allIntegURL,
+            conf: kirimEmailConf,
+            navigate,
+            edit: 1,
+            setIsLoading,
+            setSnackbar
+          })
+        }
+        disabled={
+          !checkMappedFields(kirimEmailConf?.field_map) ||
+          kirimEmailConf.mainAction === '' ||
+          isLoading ||
+          (kirimEmailConf.mainAction === '1' &&
+            (kirimEmailConf.listId === '' || kirimEmailConf.listId === undefined))
+        }
         isLoading={isLoading}
         dataConf={kirimEmailConf}
         setDataConf={setKirimEmailConf}

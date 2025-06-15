@@ -3,7 +3,11 @@
 /**
  * Slack Files Api
  */
+
 namespace BitCode\FI\Actions\Slack;
+
+use CURLFile;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Upload files
@@ -11,6 +15,7 @@ namespace BitCode\FI\Actions\Slack;
 final class FilesApiHelper
 {
     private $_defaultHeader;
+
     private $_payloadBoundary;
 
     public function __construct()
@@ -22,42 +27,34 @@ final class FilesApiHelper
     /**
      * Helps to execute upload files api
      *
-     * @param String $apiEndPoint slack API base URL
-     * @param Array  $data        Data to pass to API
+     * @param string $apiEndPoint  slack API base URL
+     * @param array  $data         Data to pass to API
+     * @param mixed  $_accessToken
      *
-     * @return Array $uploadResponse slack API response
+     * @return array $uploadResponse slack API response
      */
     public function uploadFiles($apiEndPoint, $data, $_accessToken)
     {
         $uploadFileEndpoint = $apiEndPoint . '/files.upload';
-        $data['file'] = new \CURLFILE("{$data['file'][0]}");
-        $curl = curl_init();
-        curl_setopt_array(
-            $curl,
-            [
-                CURLOPT_URL => $uploadFileEndpoint,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_FAILONERROR => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_SSL_VERIFYHOST => false,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => $data,
-                CURLOPT_HTTPHEADER => [
-                    'Content-Type: multipart/form-data',
-                    "Authorization: Bearer {$_accessToken}"
-                ]
 
+        if (\is_array($data['file'])) {
+            $file = $data['file'][0];
+        } else {
+            $file = $data['file'];
+        }
+
+        if (empty($file)) {
+            return false;
+        }
+
+        $data['file'] = new CURLFile($file);
+        return HttpHelper::post(
+            $uploadFileEndpoint,
+            $data,
+            [
+                'Content-Type'  => 'multipart/form-data',
+                'Authorization' => 'Bearer ' . $_accessToken
             ]
         );
-
-        $uploadResponse = curl_exec($curl);
-
-        curl_close($curl);
-        return $uploadResponse;
     }
 }

@@ -29,7 +29,14 @@ function EditZoom({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, zoomConf, setZoomConf)} name="name" value={zoomConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, zoomConf, setZoomConf)}
+          name="name"
+          value={zoomConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
       <br />
@@ -49,8 +56,24 @@ function EditZoom({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() => saveActionConf({ flow, allIntegURL, conf: zoomConf, navigate, edit: 1, setIsLoading, setSnackbar })}
-        disabled={zoomConf.field_map.length < 2 || isLoading || !zoomConf.id || !checkMappedFields(zoomConf) || zoomConf.selectedActions == null}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            allIntegURL,
+            conf: zoomConf,
+            navigate,
+            edit: 1,
+            setIsLoading,
+            setSnackbar
+          })
+        }
+        disabled={
+          zoomConf.field_map.length < 2 ||
+          isLoading ||
+          !zoomConf.id ||
+          !checkMappedFields(zoomConf) ||
+          zoomConf.selectedActions == null
+        }
         isLoading={isLoading}
         dataConf={zoomConf}
         setDataConf={setZoomConf}

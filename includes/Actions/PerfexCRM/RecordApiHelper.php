@@ -7,6 +7,7 @@
 namespace BitCode\FI\Actions\PerfexCRM;
 
 use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
 
 /**
@@ -15,46 +16,52 @@ use BitCode\FI\Core\Util\HttpHelper;
 class RecordApiHelper
 {
     private $integrationDetails;
+
     private $integrationId;
+
     private $apiUrl;
+
     private $defaultHeader;
+
     private $type;
+
     private $typeName;
 
     public function __construct($integrationDetails, $integId, $apiToken, $domain)
     {
         $this->integrationDetails = $integrationDetails;
-        $this->integrationId      = $integId;
-        $this->apiUrl             = "{$domain}/api";
-        $this->defaultHeader      = [
-            "authtoken"     => $apiToken,
-            "Content-type"  => "application/json",
-            "Content-type"  => "application/x-www-form-urlencoded",
+        $this->integrationId = $integId;
+        $this->apiUrl = "{$domain}/api";
+        $this->defaultHeader = [
+            'authtoken'    => $apiToken,
+            'Content-type' => 'application/json',
+            'Content-type' => 'application/x-www-form-urlencoded',
         ];
     }
 
     public function addCustomer($finalData)
     {
         if (empty($finalData['company'])) {
-            return ['success' => false, 'message' => 'Required field Company is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field Company is empty', 'bit-integrations'), 'code' => 400];
         }
 
-        $this->type     = 'Customer';
+        $this->type = 'Customer';
         $this->typeName = 'Customer created';
-        $apiEndpoint = $this->apiUrl . "/customers";
+        $apiEndpoint = $this->apiUrl . '/customers';
+
         return HttpHelper::post($apiEndpoint, $finalData, $this->defaultHeader);
     }
 
     public function addContact($finalData)
     {
         if (empty($finalData['firstname'])) {
-            return ['success' => false, 'message' => 'Required field First Name is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field First Name is empty', 'bit-integrations'), 'code' => 400];
         } elseif (empty($finalData['lastname'])) {
-            return ['success' => false, 'message' => 'Required field Last Name is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field Last Name is empty', 'bit-integrations'), 'code' => 400];
         } elseif (empty($finalData['email'])) {
-            return ['success' => false, 'message' => 'Required field Email is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field Email is empty', 'bit-integrations'), 'code' => 400];
         } elseif (isset($this->integrationDetails->selectedCustomer) && empty($this->integrationDetails->selectedCustomer)) {
-            return ['success' => false, 'message' => 'Required field Customer is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field Customer is empty', 'bit-integrations'), 'code' => 400];
         }
 
         $finalData['customer_id'] = ($this->integrationDetails->selectedCustomer);
@@ -70,24 +77,28 @@ class RecordApiHelper
             $finalData['is_primary'] = $this->integrationDetails->actions->contactIsPrimary ? 'on' : $this->integrationDetails->actions->contactIsPrimary;
         }
 
-        $this->type     = 'Contact';
+        $this->type = 'Contact';
         $this->typeName = 'Contact created';
-        $apiEndpoint = $this->apiUrl . "/contacts";
+        $apiEndpoint = $this->apiUrl . '/contacts';
+
         return HttpHelper::post($apiEndpoint, $finalData, $this->defaultHeader);
     }
 
     public function addLead($finalData)
     {
         if (empty($finalData['name'])) {
-            return ['success' => false, 'message' => 'Required field name is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field name is empty', 'bit-integrations'), 'code' => 400];
         } elseif (isset($this->integrationDetails->selectedLeadStatusId) && empty($this->integrationDetails->selectedLeadStatusId)) {
-            return ['success' => false, 'message' => 'Required field Lead Status Id is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field Lead Status Id is empty', 'bit-integrations'), 'code' => 400];
         } elseif (isset($this->integrationDetails->selectedLeadSourceId) && empty($this->integrationDetails->selectedLeadSourceId)) {
-            return ['success' => false, 'message' => 'Required field Lead Source Id is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field Lead Source Id is empty', 'bit-integrations'), 'code' => 400];
+        } elseif (isset($this->integrationDetails->selectedStaff) && empty($this->integrationDetails->selectedStaff)) {
+            return ['success' => false, 'message' => __('Required field Lead Assigned By is empty', 'bit-integrations'), 'code' => 400];
         }
 
         $finalData['status'] = $this->integrationDetails->selectedLeadStatusId;
         $finalData['source'] = $this->integrationDetails->selectedLeadSourceId;
+        $finalData['assigned'] = $this->integrationDetails->selectedStaff;
 
         if (isset($this->integrationDetails->selectedCustomer) && !empty($this->integrationDetails->selectedCustomer)) {
             $finalData['client_id'] = ($this->integrationDetails->selectedCustomer);
@@ -98,33 +109,33 @@ class RecordApiHelper
         if (isset($this->integrationDetails->actions->contactedToday) && !empty($this->integrationDetails->actions->contactedToday)) {
             $finalData['contacted_today'] = $this->integrationDetails->actions->contactedToday;
         }
-
-        $this->type     = 'Lead';
+        $this->type = 'Lead';
         $this->typeName = 'Lead created';
-        $apiEndpoint = $this->apiUrl . "/leads";
+        $apiEndpoint = $this->apiUrl . '/leads';
+
         return HttpHelper::post($apiEndpoint, $finalData, $this->defaultHeader);
     }
 
     public function addProject($finalData)
     {
         if (empty($finalData['name'])) {
-            return ['success' => false, 'message' => 'Required field name is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field name is empty', 'bit-integrations'), 'code' => 400];
         } elseif (empty($finalData['start_date'])) {
-            return ['success' => false, 'message' => 'Required field Start Date is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field Start Date is empty', 'bit-integrations'), 'code' => 400];
         } elseif (isset($this->integrationDetails->selectedProjectStatus) && empty($this->integrationDetails->selectedProjectStatus)) {
-            return ['success' => false, 'message' => 'Required field Project Status is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field Project Status is empty', 'bit-integrations'), 'code' => 400];
         } elseif (isset($this->integrationDetails->selectedProjectType) && empty($this->integrationDetails->selectedProjectType)) {
-            return ['success' => false, 'message' => 'Required field Project Type is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field Project Type is empty', 'bit-integrations'), 'code' => 400];
         } elseif (isset($this->integrationDetails->selectedbillingType) && empty($this->integrationDetails->selectedbillingType)) {
-            return ['success' => false, 'message' => 'Required field Billing Type is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field Billing Type is empty', 'bit-integrations'), 'code' => 400];
         } elseif (isset($this->integrationDetails->selectedCustomer) && empty($this->integrationDetails->selectedCustomer)) {
-            return ['success' => false, 'message' => 'Required field Customer is empty', 'code' => 400];
+            return ['success' => false, 'message' => __('Required field Customer is empty', 'bit-integrations'), 'code' => 400];
         }
 
-        $finalData['status']        = $this->integrationDetails->selectedProjectStatus;
-        $finalData['rel_type']      = $this->integrationDetails->selectedProjectType;
-        $finalData['billing_type']  = $this->integrationDetails->selectedbillingType;
-        $finalData['clientid']      = $this->integrationDetails->selectedCustomer;
+        $finalData['status'] = $this->integrationDetails->selectedProjectStatus;
+        $finalData['rel_type'] = $this->integrationDetails->selectedProjectType;
+        $finalData['billing_type'] = $this->integrationDetails->selectedbillingType;
+        $finalData['clientid'] = $this->integrationDetails->selectedCustomer;
 
         if ($this->integrationDetails->selectedbillingType === 1) {
             $finalData['project_cost'] = $this->integrationDetails->totalRate;
@@ -136,9 +147,10 @@ class RecordApiHelper
             $finalData['project_members'] = explode(',', $this->integrationDetails->selectedProjectMembers);
         }
 
-        $this->type     = 'Project';
+        $this->type = 'Project';
         $this->typeName = 'Project created';
-        $apiEndpoint = $this->apiUrl . "/projects";
+        $apiEndpoint = $this->apiUrl . '/projects';
+
         return HttpHelper::post($apiEndpoint, $finalData, $this->defaultHeader);
     }
 
@@ -147,31 +159,33 @@ class RecordApiHelper
         $dataFinal = [];
         foreach ($fieldMap as $value) {
             $triggerValue = $value->formField;
-            $actionValue  = $value->perfexCRMFormField;
-            $dataFinal[$actionValue] = ($triggerValue === 'custom') ? $value->customValue : $data[$triggerValue];
+            $actionValue = $value->perfexCRMFormField;
+            $dataFinal[$actionValue] = ($triggerValue === 'custom' && !empty($value->customValue)) ? Common::replaceFieldWithValue($value->customValue, $data) : $data[$triggerValue];
         }
+
         return $dataFinal;
     }
 
     public function execute($fieldValues, $fieldMap, $actionName)
     {
-        $finalData   = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
-        if ($actionName === "customer") {
+        $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
+        if ($actionName === 'customer') {
             $apiResponse = $this->addCustomer($finalData);
-        } elseif ($actionName === "contact") {
+        } elseif ($actionName === 'contact') {
             $apiResponse = $this->addContact($finalData);
-        } elseif ($actionName === "lead") {
+        } elseif ($actionName === 'lead') {
             $apiResponse = $this->addLead($finalData);
-        } elseif ($actionName === "project") {
+        } elseif ($actionName === 'project') {
             $apiResponse = $this->addProject($finalData);
         }
 
-        if ($apiResponse->status) {
+        if (!empty($apiResponse->status)) {
             $res = [$this->typeName . '  successfully'];
-            LogHandler::save($this->integrationId, json_encode(['type' => $this->type, 'type_name' => $this->typeName]), 'success', json_encode($res));
+            LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->typeName]), 'success', wp_json_encode($res));
         } else {
-            LogHandler::save($this->integrationId, json_encode(['type' => $this->type, 'type_name' => $this->type . ' creating']), 'error', json_encode($apiResponse));
+            LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->type . ' creating']), 'error', wp_json_encode($apiResponse));
         }
+
         return $apiResponse;
     }
 }

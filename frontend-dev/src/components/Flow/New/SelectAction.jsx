@@ -35,7 +35,7 @@ export default function SelectAction() {
     { type: 'Rapidmail' },
     { type: 'ActiveCampaign' },
     { type: 'Encharge' },
-    { type: 'Post Creation' },
+    { type: 'WP Post Creation' },
     { type: 'Fluent CRM' },
     { type: 'Autonami' },
     { type: 'Dropbox' },
@@ -44,7 +44,7 @@ export default function SelectAction() {
     { type: 'Google Calendar' },
     { type: 'Pods' },
     { type: 'Zoho Flow' },
-    { type: 'Registration' },
+    { type: 'WP User Registration' },
     { type: 'Mail Poet' },
     { type: 'Brevo(SendinBlue)' },
     { type: 'Telegram' },
@@ -57,7 +57,6 @@ export default function SelectAction() {
     { type: 'Getgist' },
     { type: 'ElasticEmail' },
     { type: 'WP Courseware' },
-    { type: 'WishList' },
     { type: 'RestrictContent' },
     { type: 'Mautic' },
     { type: 'Keap' },
@@ -105,7 +104,7 @@ export default function SelectAction() {
     { type: 'CustomApi' },
     { type: 'SureCart' },
     { type: 'Agiled CRM' },
-    { type: 'ConvertKit' },
+    { type: 'Kit(ConvertKit)' },
     { type: 'BenchMark' },
     { type: 'DirectIq' },
     { type: 'GiveWp' },
@@ -145,7 +144,7 @@ export default function SelectAction() {
     { type: 'WPWebhooks' },
     { type: 'AdvancedFormIntegration' },
     { type: 'PerfexCRM' },
-    { type: 'SureTriggers' },
+    { type: 'OttoKit (SureTriggers)' },
     { type: 'OneHashCRM' },
     { type: 'Salesflare' },
     { type: 'AcademyLms' },
@@ -156,6 +155,19 @@ export default function SelectAction() {
     { type: 'SystemeIO' },
     { type: 'Discord' },
     { type: 'ZagoMail' },
+    { type: 'Drip' },
+    { type: 'Newsletter' },
+    { type: 'SureMembers' },
+    { type: 'Mailster' },
+    { type: 'WPForo' },
+    { type: 'Dokan' },
+    { type: 'JetEngine' },
+    { type: 'GoHighLevel' },
+    { type: 'The Events Calendar' },
+    { type: 'License Manager For WooCommerce' },
+    { type: 'Voxel' },
+    { type: 'SmartSuite' },
+    { type: 'Bento' }
   ]
 
   const [availableIntegs, setAvailableIntegs] = useState(sortByField(integs, 'type', 'ASC') || integs)
@@ -169,9 +181,9 @@ export default function SelectAction() {
 
   const allOrganizeIntegs = isPro ? organizeIntegs() : availableIntegs
 
-  const searchInteg = (e) => {
+  const searchInteg = e => {
     const { value } = e.target
-    const filtered = integs.filter((integ) => integ.type.toLowerCase().includes(value.toLowerCase()))
+    const filtered = integs.filter(integ => integ.type.toLowerCase().includes(value.toLowerCase()))
     setAvailableIntegs(filtered)
   }
 
@@ -179,14 +191,14 @@ export default function SelectAction() {
     setFlowStep(1)
   }
 
-  const getStrInsideParenthesis = (str) => {
+  const getStrInsideParenthesis = str => {
     const startIndex = str.indexOf('(')
     const endIndex = str.indexOf(')')
 
     return str.slice(startIndex + 1, endIndex)
   }
 
-  const setAction = (str) => {
+  const setAction = str => {
     const action = str.includes('(') || str.includes(')') ? getStrInsideParenthesis(str) : str
 
     const tempConf = { ...newFlow }
@@ -194,18 +206,25 @@ export default function SelectAction() {
     setNewFlow(tempConf)
     navigate(`/flow/action/new/${action}`)
   }
+
   return (
     <>
       <div className="txt-center" style={{ width: '100%' }}>
         <button type="button" className="f-left btn btcd-btn-o-gray mt-1" onClick={updatedStep}>
           <span className="btcd-icn icn-chevron-left" />
-          &nbsp;Back
+          &nbsp;{__('Back', 'bit-integrations')}
         </button>
-        <h2 className="mt-0">Please select a Action</h2>
-        <input type="search" className="btcd-paper-inp w-5 mb-3" onChange={searchInteg} placeholder="Search Actions..." style={{ height: '50%' }} autoFocus />
+        <h2 className="mt-0">{__('Please select a Action', 'bit-integrations')}</h2>
+        <input
+          type="search"
+          className="btcd-paper-inp w-5 mb-3"
+          onChange={searchInteg}
+          placeholder={__('Search Actions...', 'bit-integrations')}
+          style={{ height: '50%' }}
+          autoFocus
+        />
       </div>
       <div className="btcd-inte-wrp txt-center">
-
         <div className="flx flx-center flx-wrp pb-3">
           {allOrganizeIntegs.map((inte, i) => (
             <div
@@ -214,18 +233,19 @@ export default function SelectAction() {
               onKeyPress={() => !inte.disable && !inte.pro && setAction(inte.type)}
               role="button"
               tabIndex="0"
-              className={`btcd-inte-card inte-sm mr-4 mt-3 ${inte.disable && !inte.pro && 'btcd-inte-dis'} ${inte.pro && 'btcd-inte-pro'}`}
-            >
+              className={`btcd-inte-card inte-sm mr-4 mt-3 ${inte.disable && !inte.pro && 'btcd-inte-dis'} ${inte.pro && 'btcd-inte-pro'}`}>
               {inte.pro && (
                 <div className="pro-filter">
-                  <span className="txt-pro"><a href="https://www.bitapps.pro" target="_blank" rel="noreferrer">{__('Premium', 'bit-integrations')}</a></span>
+                  <span className="txt-pro">
+                    <a href="https://www.bitapps.pro" target="_blank" rel="noreferrer">
+                      {__('Premium', 'bit-integrations')}
+                    </a>
+                  </span>
                 </div>
               )}
               {/* <img loading="lazy" src={inte.logo} alt="" /> */}
               <GetLogo name={inte.type} extension="webp" />
-              <div className="txt-center">
-                {inte.type}
-              </div>
+              <div className="txt-center">{inte.type}</div>
             </div>
           ))}
         </div>

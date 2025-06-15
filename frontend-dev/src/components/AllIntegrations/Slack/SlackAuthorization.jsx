@@ -6,7 +6,8 @@ import Note from '../../Utilities/Note'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 
-export default function SlackAuthorization({ formID,
+export default function SlackAuthorization({
+  formID,
   slackConf,
   setSlackConf,
   step,
@@ -15,7 +16,8 @@ export default function SlackAuthorization({ formID,
   setIsLoading,
   setSnackbar,
   redirectLocation,
-  isInfo }) {
+  isInfo
+}) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ accessToken: '' })
   const { slack } = tutorialLinks
@@ -36,11 +38,11 @@ export default function SlackAuthorization({ formID,
   }
 
   const slackInstructions = `
-            <h4>Get Access Token few step</h4>
+            <h4>${__('Get Access Token few step', 'bit-integrations')}</h4>
             <ul>
-                <li>First create app.</li>
-                <li>Add an OAuth Scope <b>'channels:read, channels:write, chat:write, files:read, files:write'</b>.</li>
-                <li>Generate Access Token clicking <b> 'install to Workspace'</b>.</li>
+                <li>${__('First create app.', 'bit-integrations')}</li>
+                <li>${__("Add an OAuth Scope <b>'channels:read, channels:write, chat:write, files:read, files:write'</b>.", 'bit-integrations')}</li>
+                <li>${__("Generate Access Token clicking <b> 'install to Workspace'</b>.", 'bit-integrations')}</li>
             </ul>`
 
   return (
@@ -48,21 +50,10 @@ export default function SlackAuthorization({ formID,
       className="btcd-stp-page"
       style={{
         ...{ width: step === 1 && 900 },
-        ...{ height: step === 1 && 'auto' },
-      }}
-    >
-      {slack?.youTubeLink && (
-        <TutorialLink
-          title={slack?.title}
-          youTubeLink={slack?.youTubeLink}
-        />
-      )}
-      {slack?.docLink && (
-        <TutorialLink
-          title={slack?.title}
-          docLink={slack?.docLink}
-        />
-      )}
+        ...{ height: step === 1 && 'auto' }
+      }}>
+      {slack?.youTubeLink && <TutorialLink title="Slack" youTubeLink={slack?.youTubeLink} />}
+      {slack?.docLink && <TutorialLink title="Slack" docLink={slack?.docLink} />}
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>
@@ -78,14 +69,12 @@ export default function SlackAuthorization({ formID,
       />
 
       <small className="d-blk mt-5">
-        {__('To get access Token , Please Visit', 'bit-integrations')}
-        {' '}
+        {__('To get access Token , Please Visit', 'bit-integrations')}{' '}
         <a
           className="btcd-link"
           href="https://api.slack.com/apps?new_app=1/"
           target="_blank"
-          rel="noreferrer"
-        >
+          rel="noreferrer">
           {__('Slack Console', 'bit-integrations')}
         </a>
       </small>
@@ -107,18 +96,19 @@ export default function SlackAuthorization({ formID,
       {!isInfo && (
         <>
           <button
-            onClick={() => handleAuthorize(
-              slackConf,
-              setSlackConf,
-              setError,
-              setisAuthorized,
-              setIsLoading,
-              setSnackbar,
-            )}
-            className="btn btcd-btn-lg green sh-sm flx"
+            onClick={() =>
+              handleAuthorize(
+                slackConf,
+                setSlackConf,
+                setError,
+                setisAuthorized,
+                setIsLoading,
+                setSnackbar
+              )
+            }
+            className="btn btcd-btn-lg purple sh-sm flx"
             type="button"
-            disabled={isAuthorized || isLoading}
-          >
+            disabled={isAuthorized || isLoading}>
             {isAuthorized
               ? __('Authorized ✔', 'bit-integrations')
               : __('Authorize', 'bit-integrations')}
@@ -127,19 +117,16 @@ export default function SlackAuthorization({ formID,
           <br />
           <button
             onClick={nextPage}
-            className="btn f-right btcd-btn-lg green sh-sm flx"
+            className="btn f-right btcd-btn-lg purple sh-sm flx"
             type="button"
-            disabled={!isAuthorized}
-          >
+            disabled={!isAuthorized}>
             {__('Next', 'bit-integrations')}
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         </>
       )}
 
-      <Note
-        note={slackInstructions}
-      />
+      <Note note={slackInstructions} />
     </div>
   )
 }

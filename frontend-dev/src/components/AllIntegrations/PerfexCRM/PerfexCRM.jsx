@@ -22,69 +22,67 @@ function PerfexCRM({ formFields, setFlow, flow, allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const customerFields = [
-    { key: 'company', label: 'Company', required: true },
-    { key: 'vat', label: 'VAT Number', required: false },
-    { key: 'phonenumber', label: 'Phone Number', required: false },
-    { key: 'website', label: 'Website', required: false },
-    { key: 'address', label: 'Address', required: false },
-    { key: 'city', label: 'City', required: false },
-    { key: 'state', label: 'State', required: false },
-    { key: 'zip', label: 'Zip', required: false },
-    { key: 'country', label: 'Country', required: false },
-    { key: 'billing_street', label: 'Billing Street', required: false },
-    { key: 'billing_city', label: 'Billing City', required: false },
-    { key: 'billing_state', label: 'Billing State', required: false },
-    { key: 'billing_zip', label: 'Billing Zip', required: false },
-    { key: 'billing_country', label: 'Billing Country', required: false },
-    { key: 'shipping_street', label: 'Shipping Street', required: false },
-    { key: 'shipping_city', label: 'Shipping City', required: false },
-    { key: 'shipping_state', label: 'Shipping State', required: false },
-    { key: 'shipping_zip', label: 'Shipping Zip', required: false },
-    { key: 'shipping_country', label: 'Shipping Country', required: false },
+    { key: 'company', label: __('Company', 'bit-integrations'), required: true },
+    { key: 'vat', label: __('VAT Number', 'bit-integrations'), required: false },
+    { key: 'phonenumber', label: __('Phone Number', 'bit-integrations'), required: false },
+    { key: 'website', label: __('Website', 'bit-integrations'), required: false },
+    { key: 'address', label: __('Address', 'bit-integrations'), required: false },
+    { key: 'city', label: __('City', 'bit-integrations'), required: false },
+    { key: 'state', label: __('State', 'bit-integrations'), required: false },
+    { key: 'zip', label: __('Zip', 'bit-integrations'), required: false },
+    { key: 'country', label: __('Country', 'bit-integrations'), required: false },
+    { key: 'billing_street', label: __('Billing Street', 'bit-integrations'), required: false },
+    { key: 'billing_city', label: __('Billing City', 'bit-integrations'), required: false },
+    { key: 'billing_state', label: __('Billing State', 'bit-integrations'), required: false },
+    { key: 'billing_zip', label: __('Billing Zip', 'bit-integrations'), required: false },
+    { key: 'billing_country', label: __('Billing Country', 'bit-integrations'), required: false },
+    { key: 'shipping_street', label: __('Shipping Street', 'bit-integrations'), required: false },
+    { key: 'shipping_city', label: __('Shipping City', 'bit-integrations'), required: false },
+    { key: 'shipping_state', label: __('Shipping State', 'bit-integrations'), required: false },
+    { key: 'shipping_zip', label: __('Shipping Zip', 'bit-integrations'), required: false },
+    { key: 'shipping_country', label: __('Shipping Country', 'bit-integrations'), required: false }
   ]
 
   const contactFields = [
-    { key: 'firstname', label: 'First Name', required: true },
-    { key: 'lastname', label: 'Last Name', required: true },
-    { key: 'email', label: 'Email Address', required: true },
-    { key: 'title', label: 'Position', required: false },
-    { key: 'phonenumber', label: 'Phone Number', required: false },
-    { key: 'password', label: 'Password', required: false }
+    { key: 'firstname', label: __('First Name', 'bit-integrations'), required: true },
+    { key: 'lastname', label: __('Last Name', 'bit-integrations'), required: true },
+    { key: 'email', label: __('Email Address', 'bit-integrations'), required: true },
+    { key: 'title', label: __('Position', 'bit-integrations'), required: false },
+    { key: 'phonenumber', label: __('Phone Number', 'bit-integrations'), required: false },
+    { key: 'password', label: __('Password', 'bit-integrations'), required: false }
   ]
 
   const leadFields = [
-    { key: 'name', label: 'Name', required: true },
-    { key: 'title', label: 'Position', required: false },
-    { key: 'email', label: 'Email Address', required: false },
-    { key: 'website', label: 'Website', required: false },
-    { key: 'phonenumber', label: 'Phone Number', required: false },
-    { key: 'company', label: 'Company', required: false },
-    { key: 'address', label: 'Address', required: false },
-    { key: 'city', label: 'City', required: false },
-    { key: 'state', label: 'State', required: false },
-    { key: 'zip', label: 'Zip', required: false },
-    { key: 'country', label: 'Country', required: false },
-    { key: 'description', label: 'Description', required: false },
-    { key: 'custom_contact_date', label: 'Date Contacted', required: false },
+    { key: 'name', label: __('Name', 'bit-integrations'), required: true },
+    { key: 'title', label: __('Position', 'bit-integrations'), required: false },
+    { key: 'email', label: __('Email Address', 'bit-integrations'), required: false },
+    { key: 'website', label: __('Website', 'bit-integrations'), required: false },
+    { key: 'phonenumber', label: __('Phone Number', 'bit-integrations'), required: false },
+    { key: 'company', label: __('Company', 'bit-integrations'), required: false },
+    { key: 'address', label: __('Address', 'bit-integrations'), required: false },
+    { key: 'city', label: __('City', 'bit-integrations'), required: false },
+    { key: 'state', label: __('State', 'bit-integrations'), required: false },
+    { key: 'zip', label: __('Zip', 'bit-integrations'), required: false },
+    { key: 'country', label: __('Country', 'bit-integrations'), required: false },
+    { key: 'description', label: __('Description', 'bit-integrations'), required: false },
+    { key: 'custom_contact_date', label: __('Date Contacted', 'bit-integrations'), required: false }
   ]
 
   const projectFields = [
-    { key: 'name', label: 'Name', required: true },
-    { key: 'start_date', label: 'Start Date', required: true },
-    { key: 'deadline', label: 'Dead Line', required: false },
-    { key: 'project_cost ', label: 'project Cost', required: false },
-    { key: 'estimated_hours', label: 'Estimated Hours', required: false },
-    { key: 'description', label: 'Project Description', required: false }
+    { key: 'name', label: __('Name', 'bit-integrations'), required: true },
+    { key: 'start_date', label: __('Start Date', 'bit-integrations'), required: true },
+    { key: 'deadline', label: __('Dead Line', 'bit-integrations'), required: false },
+    { key: 'project_cost ', label: __('project Cost', 'bit-integrations'), required: false },
+    { key: 'estimated_hours', label: __('Estimated Hours', 'bit-integrations'), required: false },
+    { key: 'description', label: __('Project Description', 'bit-integrations'), required: false }
   ]
 
   const [perfexCRMConf, setPerfexCRMConf] = useState({
     name: 'PerfexCRM',
     type: 'PerfexCRM',
-    api_token: process.env.NODE_ENV === 'development' ? 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiIiwibmFtZSI6IlRlc3QiLCJBUElfVElNRSI6MTY4OTQ4NzExOH0.sdDrgh19H08sLvpL8ArvT-rZvv_QP9KtoSLCAtOEyXM' : '',
-    domain: process.env.NODE_ENV === 'development' ? 'https://bit.nandocardoso.com.br' : '',
-    field_map: [
-      { formField: '', perfexCRMFormField: '' },
-    ],
+    api_token: '',
+    domain: '',
+    field_map: [{ formField: '', perfexCRMFormField: '' }],
     actionName: '',
     selectedLeadSourceId: 1,
     selectedLeadStatusId: 1,
@@ -93,12 +91,21 @@ function PerfexCRM({ formFields, setFlow, flow, allIntegURL }) {
     contactFields,
     leadFields,
     projectFields,
-    actions: {},
+    actions: {}
   })
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(flow, setFlow, allIntegURL, perfexCRMConf, navigate, '', '', setIsLoading)
+    const resp = saveIntegConfig(
+      flow,
+      setFlow,
+      allIntegURL,
+      perfexCRMConf,
+      navigate,
+      '',
+      '',
+      setIsLoading
+    )
     resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
@@ -109,47 +116,52 @@ function PerfexCRM({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
     if (!checkMappedFields(perfexCRMConf)) {
-      toast.error('Please map mandatory fields')
+      toast.error(__('Please map mandatory fields', 'bit-integrations'))
       return
     }
 
     if (perfexCRMConf.actionName === 'contact' && !perfexCRMConf.selectedCustomer) {
-      toast.error('Please select a Customer')
+      toast.error(__('Please select a Customer', 'bit-integrations'))
       return
     }
-    if (perfexCRMConf.actionName === 'lead' && (!perfexCRMConf.selectedLeadStatusId || !perfexCRMConf.selectedLeadSourceId)) {
-      toast.error('Lead Status Id and Lead Source Id are required!')
+    if (
+      perfexCRMConf.actionName === 'lead' &&
+      (!perfexCRMConf.selectedLeadStatusId ||
+        !perfexCRMConf.selectedLeadSourceId ||
+        !perfexCRMConf.selectedStaff)
+    ) {
+      toast.error(__('Lead Status Id and Lead Source Id are required!', 'bit-integrations'))
       return
     }
     if (perfexCRMConf.actionName === 'project') {
       if (!perfexCRMConf.selectedProjectStatus) {
-        toast.error('Please select Project status')
+        toast.error(__('Please select Project status', 'bit-integrations'))
         return
       }
       if (!perfexCRMConf.selectedProjectType) {
-        toast.error('Please select Project Related With...')
+        toast.error(__('Please select Project Related With...', 'bit-integrations'))
         return
       }
       if (!perfexCRMConf.selectedbillingType) {
-        toast.error('Please select a Billing type')
+        toast.error(__('Please select a Billing type', 'bit-integrations'))
         return
       }
       if (!perfexCRMConf.selectedCustomer) {
-        toast.error('Please select a Customer')
+        toast.error(__('Please select a Customer', 'bit-integrations'))
         return
       }
       if (Number(perfexCRMConf.selectedbillingType) === 1 && !perfexCRMConf.totalRate) {
-        toast.error('Please select a Total Rate')
+        toast.error(__('Please select a Total Rate', 'bit-integrations'))
         return
       }
       if (Number(perfexCRMConf.selectedbillingType) === 2 && !perfexCRMConf.ratePerHour) {
-        toast.error('Please select a Rate Per Hour')
+        toast.error(__('Please select a Rate Per Hour', 'bit-integrations'))
         return
       }
     }
@@ -160,7 +172,9 @@ function PerfexCRM({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={3} active={step} />
+      </div>
 
       {/* STEP 1 */}
       <PerfexCRMAuthorization
@@ -174,11 +188,12 @@ function PerfexCRM({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
-
+      <div
+        className="btcd-stp-page"
+        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <PerfexCRMIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, perfexCRMConf, setPerfexCRMConf, setLoading, setSnackbar)}
+          handleInput={e => handleInput(e, perfexCRMConf, setPerfexCRMConf, setLoading, setSnackbar)}
           perfexCRMConf={perfexCRMConf}
           setPerfexCRMConf={setPerfexCRMConf}
           loading={loading}
@@ -191,13 +206,10 @@ function PerfexCRM({ formFields, setFlow, flow, allIntegURL }) {
         {perfexCRMConf?.actionName && (
           <button
             onClick={() => nextPage(3)}
-            disabled={!(checkMappedFields(perfexCRMConf))}
-            className="btn f-right btcd-btn-lg green sh-sm flx"
-            type="button"
-          >
-            {__('Next', 'bit-integrations')}
-            {' '}
-            &nbsp;
+            disabled={!checkMappedFields(perfexCRMConf)}
+            className="btn f-right btcd-btn-lg purple sh-sm flx"
+            type="button">
+            {__('Next', 'bit-integrations')} &nbsp;
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         )}

@@ -10,7 +10,7 @@ import 'react-multiple-select-dropdown-lite/dist/index.css'
 
 export default function BuddyBossActions({ buddyBossConf, setBuddyBossConf, formFields }) {
   const [isLoading, setIsLoading] = useState(false)
-  const [actionMdl, setActionMdl] = useState({ show: false, action: () => { } })
+  const [actionMdl, setActionMdl] = useState({ show: false, action: () => {} })
   const actionHandler = (e, type) => {
     const newConf = { ...buddyBossConf }
     if (type === 'privacy') {
@@ -21,7 +21,8 @@ export default function BuddyBossActions({ buddyBossConf, setBuddyBossConf, form
         setActionMdl({ show: false })
         delete newConf.actions.privacy
       }
-    } if (type === 'type') {
+    }
+    if (type === 'type') {
       if (e.target?.checked) {
         newConf.actions.type = true
         setActionMdl({ show: 'type' })
@@ -51,43 +52,50 @@ export default function BuddyBossActions({ buddyBossConf, setBuddyBossConf, form
 
   return (
     <div className="pos-rel d-flx w-8">
-      <TableCheckBox checked={buddyBossConf?.actions?.privacy || false} onChange={(e) => actionHandler(e, 'privacy')} className="wdt-200 mt-4 mr-2" value="privacy" title={__('Add Privacy', 'bit-integrations')} subTitle={__('Add privacy of group ', 'bit-integrations')} />
+      <TableCheckBox
+        checked={buddyBossConf?.actions?.privacy || false}
+        onChange={(e) => actionHandler(e, 'privacy')}
+        className="wdt-200 mt-4 mr-2"
+        value="privacy"
+        title={__('Add Privacy', 'bit-integrations')}
+        subTitle={__('Add privacy of group', 'bit-integrations')}
+      />
 
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="blue"
+        btnClass="purple"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'privacy'}
         close={clsActionMdl}
         action={clsActionMdl}
-        title={__('Status', 'bit-integrations')}
-      >
+        title={__('Status', 'bit-integrations')}>
         <div className="btcd-hr mt-2 mb-2" />
-        <div className="mt-2">{__('Select privacy of group ', 'bit-integrations')}</div>
-        {isLoading
-          ? (
-            <Loader style={{
+        <div className="mt-2">{__('Select privacy of group', 'bit-integrations')}</div>
+        {isLoading ? (
+          <Loader
+            style={{
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               height: 45,
-              transform: 'scale(0.5)',
+              transform: 'scale(0.5)'
             }}
+          />
+        ) : (
+          <div className="flx flx-between mt-2">
+            <MultiSelect
+              className="msl-wrp-options"
+              defaultValue={buddyBossConf?.privacyId}
+              options={buddyBossConf?.groupPrivacyOptions.map((item) => ({
+                label: item.label,
+                value: item.key
+              }))}
+              onChange={(val) => changeHandler(val, 'privacyId')}
+              singleSelect
             />
-          )
-          : (
-            <div className="flx flx-between mt-2">
-              <MultiSelect
-                className="msl-wrp-options"
-                defaultValue={buddyBossConf?.privacyId}
-                options={buddyBossConf?.groupPrivacyOptions.map((item) => ({ label: item.label, value: item.key }))}
-                onChange={(val) => changeHandler(val, 'privacyId')}
-                singleSelect
-              />
-            </div>
-          )}
-
+          </div>
+        )}
       </ConfirmModal>
 
       {/* <TableCheckBox checked={buddyBossConf?.actions?.type || false} onChange={(e) => actionHandler(e, 'type')} className="wdt-200 mt-4 mr-2" value="type" title={__('Add Type', 'bit-integrations')} subTitle={__('Add Type', 'bit-integrations')} /> */}
@@ -95,7 +103,7 @@ export default function BuddyBossActions({ buddyBossConf, setBuddyBossConf, form
       {/* <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
-        btnClass="blue"
+        btnClass="purple"
         btnTxt={__('Ok', 'bit-integrations')}
         show={actionMdl.show === 'type'}
         close={clsActionMdl}
@@ -103,7 +111,7 @@ export default function BuddyBossActions({ buddyBossConf, setBuddyBossConf, form
         title={__('Type', 'bit-integrations')}
       >
         <div className="btcd-hr mt-2 mb-2" />
-        <div className="mt-2">{__('Select Type of referral', 'bit-integrations')}</div>
+        <div className="mt-2">{__('Select type of referral', 'bit-integrations')}</div>
         {isLoading
           ? (
             <Loader style={{
@@ -128,7 +136,6 @@ export default function BuddyBossActions({ buddyBossConf, setBuddyBossConf, form
           )}
 
       </ConfirmModal> */}
-
     </div>
   )
 }

@@ -7,7 +7,6 @@ namespace BitCode\FI\Core\Util;
  */
 final class Hooks
 {
-
     /**
      * A wrapper for do_action()
      *

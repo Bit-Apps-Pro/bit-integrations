@@ -24,38 +24,31 @@ function GamiPress({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const allActions = [
-    { key: '1', label: 'Award rank to the user' },
-    { key: '2', label: 'Award an achievement to the user' },
-    { key: '3', label: 'Award a points to the user' },
-    { key: '4', label: 'Revoke a rank form the user' },
-    { key: '5', label: 'Revoke an achievement form the user' },
-    { key: '6', label: 'Revoke points from the user' },
+    { key: '1', label: __('Award rank to the user', 'bit-integrations') },
+    { key: '2', label: __('Award an achievement to the user', 'bit-integrations') },
+    { key: '3', label: __('Award a points to the user', 'bit-integrations') },
+    { key: '4', label: __('Revoke a rank form the user', 'bit-integrations') },
+    { key: '5', label: __('Revoke an achievement form the user', 'bit-integrations') },
+    { key: '6', label: __('Revoke points from the user', 'bit-integrations') }
   ]
 
-  const pointFields = [
-    { key: 'point', label: 'Point', required: true },
-  ]
+  const pointFields = [{ key: 'point', label: 'Point', required: true }]
 
   const [gamiPressConf, setGamiPressConf] = useState({
     name: 'GamiPress',
     type: 'GamiPress',
     mainAction: '',
-    field_map: [
-      { formField: '', gamiPressFormField: '' },
-    ],
+    field_map: [{ formField: '', gamiPressFormField: '' }],
     pointFields,
     allActions,
-    actions: {},
+    actions: {}
   })
 
   const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
-    // if (['3', '6'].includes(gamiPressConf.mainAction) && checkMappedFields(gamiPressConf)) {
-    //   setSnackbar({ show: true, msg: 'Please map fields to continue.' })
-    //   return
-    // }
+
     if (gamiPressConf.mainAction !== '') {
       setStep(3)
     }
@@ -66,15 +59,25 @@ function GamiPress({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
       case '1':
         return gamiPressConf.selectedRank === undefined || gamiPressConf.selectedRank === ''
       case '2':
-        return gamiPressConf.selectedAchievement === undefined || gamiPressConf.selectedAchievement === ''
+        return (
+          gamiPressConf.selectedAchievement === undefined ||
+          gamiPressConf.selectedAchievement === ''
+        )
       case '3':
-        return gamiPressConf.selectedPointType === undefined || gamiPressConf.selectedPointType === ''
+        return (
+          gamiPressConf.selectedPointType === undefined || gamiPressConf.selectedPointType === ''
+        )
       case '4':
         return gamiPressConf.selectedRank === undefined || gamiPressConf.selectedRank === ''
       case '5':
-        return gamiPressConf.selectedAchievement === undefined || gamiPressConf.selectedAchievement === ''
+        return (
+          gamiPressConf.selectedAchievement === undefined ||
+          gamiPressConf.selectedAchievement === ''
+        )
       case '6':
-        return gamiPressConf.selectedPointType === undefined || gamiPressConf.selectedPointType === ''
+        return (
+          gamiPressConf.selectedPointType === undefined || gamiPressConf.selectedPointType === ''
+        )
       default:
         return false
     }
@@ -83,7 +86,9 @@ function GamiPress({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={3} active={step} />
+      </div>
 
       {/* STEP 1 */}
       <GamiPressAuthorization
@@ -98,11 +103,14 @@ function GamiPress({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
       />
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
-
+      <div
+        className="btcd-stp-page"
+        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <GamiPressIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, gamiPressConf, setGamiPressConf, setIsLoading, setSnackbar, formID)}
+          handleInput={(e) =>
+            handleInput(e, gamiPressConf, setGamiPressConf, setIsLoading, setSnackbar, formID)
+          }
           gamiPressConf={gamiPressConf}
           setGamiPressConf={setGamiPressConf}
           isLoading={isLoading}
@@ -116,9 +124,8 @@ function GamiPress({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
         <button
           onClick={() => nextPage(3)}
           disabled={!gamiPressConf.mainAction || isLoading || isDisabled()}
-          className="btn f-right btcd-btn-lg green sh-sm flx"
-          type="button"
-        >
+          className="btn f-right btcd-btn-lg purple sh-sm flx"
+          type="button">
           {__('Next', 'bit-integrations')}
           &nbsp;
           <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
@@ -127,13 +134,22 @@ function GamiPress({ formFields, setFlow, flow, allIntegURL, isInfo, edit }) {
       {/* STEP 3 */}
       <IntegrationStepThree
         step={step}
-        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, navigate, conf: gamiPressConf, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            setFlow,
+            allIntegURL,
+            navigate,
+            conf: gamiPressConf,
+            setIsLoading,
+            setSnackbar
+          })
+        }
         isLoading={isLoading}
         dataConf={gamiPressConf}
         setDataConf={setGamiPressConf}
         formFields={formFields}
       />
-
     </div>
   )
 }

@@ -1,10 +1,11 @@
 <?php
+
 if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Core\Util\Route;
 use BitCode\FI\Actions\FreshSales\FreshSalesController;
+use BitCode\FI\Core\Util\Route;
 
 Route::post('FreshSales_authorization', [FreshSalesController::class, 'authorization']);
 Route::post('FreshSales_refresh_fields', [FreshSalesController::class, 'getFields']);

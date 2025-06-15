@@ -8,13 +8,23 @@ import { handleConstantContactAuthorize } from './ConstantContactCommonFunc'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 
-export default function ConstantContactAuthorization({ constantContactConf, setConstantContactConf, step, setstep, isLoading, setIsLoading, setSnackbar, redirectLocation, isInfo }) {
+export default function ConstantContactAuthorization({
+  constantContactConf,
+  setConstantContactConf,
+  step,
+  setstep,
+  isLoading,
+  setIsLoading,
+  setSnackbar,
+  redirectLocation,
+  isInfo
+}) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const { constantContact } = tutorialLinks
   const [error, setError] = useState({
     dataCenter: '',
     clientId: '',
-    clientSecret: '',
+    clientSecret: ''
   })
   const scopes = 'account_read account_update contact_data offline_access campaign_data'
   const nextPage = () => {
@@ -34,15 +44,15 @@ export default function ConstantContactAuthorization({ constantContactConf, setC
   }
 
   const note = `
-  <h4> Step of get API Key(Client Id) And Client Secret:</h4>
+  <h4>${__('Step of get API Key(Client Id) And Client Secret:', 'bit-integrations')}</h4>
   <ul>
-    <li>Goto <a href="https://app.constantcontact.com/pages/dma/portal/?_ga=2.91540634.1868552181.1667660766-5cc88792-fd06-40a8-9b8c-e27659667215">Constant Contact Application</a></li>
-    <li>Then create a new application.</li>
-    <li>Select  <b>(Authorization Code Flow and Implicit Flow)</b> and <b>(Rotating Refresh Tokens or Long Lived Refresh Tokens).</b></li>
-    <li>Copy the <b>Authorized Redirect URIs</b> from here and paste it into the Constant Contact application form.</li> 
-    <li>Then generate <b>Client Secret</b> from the Constant Contact application</li>
-    <li>Copy the <b>Client Id</b> and <b>Client Secret</b> from Constant Contact application and paste into this authorization form.</li>
-    <li>Finally, click <b>Authorize</b> button.</li>
+    <li>${__('Goto', 'bit-integrations')} <a href="https://app.constantcontact.com/pages/dma/portal/?_ga=2.91540634.1868552181.1667660766-5cc88792-fd06-40a8-9b8c-e27659667215">${__('Constant Contact Application', 'bit-integrations')}</a></li>
+    <li>${__('Then create a new application.', 'bit-integrations')}</li>
+    <li>${__('Select  <b>(Authorization Code Flow and Implicit Flow)</b> and <b>(Rotating Refresh Tokens or Long Lived Refresh Tokens).</b>', 'bit-integrations')}</li>
+    <li>${__('Copy the <b>Authorized Redirect URIs</b> from here and paste it into the Constant Contact application form.', 'bit-integrations')}</li> 
+    <li>${__('Then generate <b>Client Secret</b> from the Constant Contact application', 'bit-integrations')}</li>
+    <li>${__('Copy the <b>Client Id</b> and <b>Client Secret</b> from Constant Contact application and paste into this authorization form.', 'bit-integrations')}</li>
+    <li>${__('Finally, click <b>Authorize</b> button.', 'bit-integrations')}</li>
 </ul>
 `
 
@@ -51,20 +61,13 @@ export default function ConstantContactAuthorization({ constantContactConf, setC
       className="btcd-stp-page"
       style={{
         ...{ width: step === 1 && 900 },
-        ...{ height: step === 1 && 'auto' },
-      }}
-    >
+        ...{ height: step === 1 && 'auto' }
+      }}>
       {constantContact?.youTubeLink && (
-        <TutorialLink
-          title={constantContact?.title}
-          youTubeLink={constantContact?.youTubeLink}
-        />
+        <TutorialLink title="Constant Contact" youTubeLink={constantContact?.youTubeLink} />
       )}
       {constantContact?.docLink && (
-        <TutorialLink
-          title={constantContact?.title}
-          docLink={constantContact?.docLink}
-        />
+        <TutorialLink title="Constant Contact" docLink={constantContact?.docLink} />
       )}
 
       <div className="mt-3">
@@ -101,14 +104,12 @@ export default function ConstantContactAuthorization({ constantContactConf, setC
       />
 
       <small className="d-blk mt-5">
-        {__('To get Client ID and SECRET , Please Visit', 'bit-integrations')}
-        {' '}
+        {__('To get Client ID and SECRET , Please Visit', 'bit-integrations')}{' '}
         <a
           className="btcd-link"
           href="https://app.constantcontact.com/pages/dma/portal/?_ga=2.91540634.1868552181.1667660766-5cc88792-fd06-40a8-9b8c-e27659667215"
           target="_blank"
-          rel="noreferrer"
-        >
+          rel="noreferrer">
           {__('Constant Contact Application', 'bit-integrations')}
         </a>
       </small>
@@ -122,7 +123,7 @@ export default function ConstantContactAuthorization({ constantContactConf, setC
         name="clientId"
         value={constantContactConf.clientId}
         type="text"
-        placeholder={__('Client id...', 'bit-integrations')}
+        placeholder={__('client ID...', 'bit-integrations')}
         disabled={isInfo}
       />
       <div style={{ color: 'red', fontSize: '15px' }}>{error.clientId}</div>
@@ -135,43 +136,41 @@ export default function ConstantContactAuthorization({ constantContactConf, setC
         name="clientSecret"
         value={constantContactConf.clientSecret}
         type="text"
-        placeholder={__('Client secret...', 'bit-integrations')}
+        placeholder={__('client Secret...', 'bit-integrations')}
         disabled={isInfo}
       />
       <div style={{ color: 'red', fontSize: '15px' }}>{error.clientSecret}</div>
       {!isInfo && (
         <>
           <button
-            onClick={() => handleConstantContactAuthorize(
-              'constantContact',
-              'cContact',
-              scopes,
-              constantContactConf,
-              setConstantContactConf,
-              setError,
-              setisAuthorized,
-              setIsLoading,
-              setSnackbar,
-              btcbi,
-            )}
-            className="btn btcd-btn-lg green sh-sm flx"
+            onClick={() =>
+              handleConstantContactAuthorize(
+                'constantContact',
+                'cContact',
+                scopes,
+                constantContactConf,
+                setConstantContactConf,
+                setError,
+                setisAuthorized,
+                setIsLoading,
+                setSnackbar,
+                btcbi
+              )
+            }
+            className="btn btcd-btn-lg purple sh-sm flx"
             type="button"
-            disabled={isAuthorized || isLoading.auth}
-          >
+            disabled={isAuthorized || isLoading.auth}>
             {isAuthorized
               ? __('Authorized ✔', 'bit-integrations')
               : __('Authorize', 'bit-integrations')}
-            {isLoading.auth && (
-              <LoaderSm size={20} clr="#022217" className="ml-2" />
-            )}
+            {isLoading.auth && <LoaderSm size={20} clr="#022217" className="ml-2" />}
           </button>
           <br />
           <button
             onClick={nextPage}
-            className="btn f-right btcd-btn-lg green sh-sm flx"
+            className="btn f-right btcd-btn-lg purple sh-sm flx"
             type="button"
-            disabled={!isAuthorized}
-          >
+            disabled={!isAuthorized}>
             {__('Next', 'bit-integrations')}
             <BackIcn className="ml-1 rev-icn" />
           </button>

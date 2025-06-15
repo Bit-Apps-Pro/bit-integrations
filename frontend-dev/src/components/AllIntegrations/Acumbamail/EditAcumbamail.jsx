@@ -28,7 +28,14 @@ function EditAcumbamail({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, acumbamailConf, setAcumbamailConf)} name="name" value={acumbamailConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, acumbamailConf, setAcumbamailConf)}
+          name="name"
+          value={acumbamailConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
       <br />
@@ -36,7 +43,9 @@ function EditAcumbamail({ allIntegURL }) {
       <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
       <AcumbamailIntegLayout
         formFields={formFields}
-        handleInput={(e) => handleInput(e, acumbamailConf, setAcumbamailConf, setIsLoading, setSnackbar, formID)}
+        handleInput={(e) =>
+          handleInput(e, acumbamailConf, setAcumbamailConf, setIsLoading, setSnackbar, formID)
+        }
         acumbamailConf={acumbamailConf}
         setAcumbamailConf={setAcumbamailConf}
         isLoading={isLoading}
@@ -46,7 +55,17 @@ function EditAcumbamail({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() => saveActionConf({ flow, allIntegURL, conf: acumbamailConf, navigate, edit: 1, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            allIntegURL,
+            conf: acumbamailConf,
+            navigate,
+            edit: 1,
+            setIsLoading,
+            setSnackbar
+          })
+        }
         disabled={!acumbamailConf.mainAction || !checkMappedFields(acumbamailConf)}
         isLoading={isLoading}
         dataConf={acumbamailConf}

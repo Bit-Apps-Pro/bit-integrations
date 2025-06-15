@@ -2,10 +2,8 @@
 
 namespace BitCode\FI\Actions\Mailify;
 
-use WP_Error;
-use BitCode\FI\Flow\FlowController;
-use BitCode\FI\Actions\Mailify\RecordApiHelper;
 use BitCode\FI\Core\Util\HttpHelper;
+use WP_Error;
 
 class MailifyController
 {
@@ -22,8 +20,8 @@ class MailifyController
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiEndpoint = "https://mailifyapis.com/v1/users";
-        $header["Authorization"] = 'Basic ' . base64_encode("$requestParams->account_id:$requestParams->api_key");
+        $apiEndpoint = 'https://mailifyapis.com/v1/users';
+        $header['Authorization'] = 'Basic ' . base64_encode("{$requestParams->account_id}:{$requestParams->api_key}");
 
         $response = HttpHelper::get($apiEndpoint, null, $header);
 
@@ -54,7 +52,7 @@ class MailifyController
         $apiEndpoint = "https://mailifyapis.com/v1/lists/{$listId}/fields";
         $headers = [
             'accountId' => $requestParams->account_id,
-            'apiKey' => $requestParams->api_key,
+            'apiKey'    => $requestParams->api_key,
         ];
 
         $mailifyResponse = HttpHelper::get($apiEndpoint, null, $headers);
@@ -64,11 +62,11 @@ class MailifyController
             $allFields = $mailifyResponse->fields;
             $unwantedFieldKeys = ['id', 'CREATION_DATE_ID', 'MODIFICATION_DATE_ID'];
             foreach ($allFields as $field) {
-                if (!in_array($field->id, $unwantedFieldKeys)) {
+                if (!\in_array($field->id, $unwantedFieldKeys)) {
                     $fields[$field->caption] = (object) [
-                        'fieldName' => $field->caption,
+                        'fieldName'  => $field->caption,
                         'fieldValue' => $field->id,
-                        'required' =>  strtolower($field->caption) == 'email' ? true : false
+                        'required'   => strtolower($field->caption) == 'email' ? true : false
                     ];
                 }
             }
@@ -86,20 +84,20 @@ class MailifyController
 
         $headers = [
             'accountId' => $requestParams->account_id,
-            'apiKey' => $requestParams->api_key,
+            'apiKey'    => $requestParams->api_key,
         ];
         $apiEndpoint = 'https://mailifyapis.com/v1/lists';
         $apiResponse = HttpHelper::get($apiEndpoint, null, $headers);
-        $lists       = [];
+        $lists = [];
 
         foreach ($apiResponse as $item) {
             $lists[] = [
-                'listId' => $item->id,
-                'listName'   => $item->name
+                'listId'   => $item->id,
+                'listName' => $item->name
             ];
         }
 
-        if ((count($lists)) > 0) {
+        if ((\count($lists)) > 0) {
             wp_send_json_success($lists, 200);
         } else {
             wp_send_json_error('List fetching failed', 400);
@@ -109,18 +107,18 @@ class MailifyController
     public function execute($integrationData, $fieldValues)
     {
         $integrationDetails = $integrationData->flow_details;
-        $integId            = $integrationData->id;
-        $selectedList       = $integrationDetails->listId;
-        $actions            = $integrationDetails->actions;
-        $fieldMap           = $integrationDetails->field_map;
-        $accountId          = $integrationDetails->account_id;
-        $apiKey             = $integrationDetails->api_key;
+        $integId = $integrationData->id;
+        $selectedList = $integrationDetails->listId;
+        $actions = $integrationDetails->actions;
+        $fieldMap = $integrationDetails->field_map;
+        $accountId = $integrationDetails->account_id;
+        $apiKey = $integrationDetails->api_key;
 
         if (empty($fieldMap) || empty($accountId) || empty($apiKey) || empty($selectedList)) {
-            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for Mailify api', 'bit-integrations'));
+            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Mailify'));
         }
 
-        $recordApiHelper    = new RecordApiHelper($integrationDetails, $integId, $accountId, $apiKey);
+        $recordApiHelper = new RecordApiHelper($integrationDetails, $integId, $accountId, $apiKey);
         $mailifyApiResponse = $recordApiHelper->execute(
             $selectedList,
             $fieldValues,

@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { __ } from '@wordpress/i18n'
+import { __ } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
 
 export const handleInput = (e, benchMarkConf, setBenchMarkConf) => {
@@ -8,9 +8,14 @@ export const handleInput = (e, benchMarkConf, setBenchMarkConf) => {
   setBenchMarkConf({ ...newConf })
 }
 // refreshMappedLists
-export const refreshBenchMarkList = (benchMarkConf, setBenchMarkConf, setIsLoading, setSnackbar) => {
+export const refreshBenchMarkList = (
+  benchMarkConf,
+  setBenchMarkConf,
+  setIsLoading,
+  setSnackbar
+) => {
   const refreshListsRequestParams = {
-    api_secret: benchMarkConf.api_secret,
+    api_secret: benchMarkConf.api_secret
   }
   bitsFetch(refreshListsRequestParams, 'benchMark_lists')
     .then((result) => {
@@ -23,15 +28,15 @@ export const refreshBenchMarkList = (benchMarkConf, setBenchMarkConf, setIsLoadi
           newConf.default.benchMarkLists = result.data.benchMarkLists
           setSnackbar({
             show: true,
-            msg: __('Benchmark lists refreshed', 'bit-integrations'),
+            msg: __('Benchmark lists refreshed', 'bit-integrations')
           })
         } else {
           setSnackbar({
             show: true,
             msg: __(
               'No Benchmark lists found. Try changing the header row number or try again',
-              'bit-integrations',
-            ),
+              'bit-integrations'
+            )
           })
         }
 
@@ -39,10 +44,7 @@ export const refreshBenchMarkList = (benchMarkConf, setBenchMarkConf, setIsLoadi
       } else {
         setSnackbar({
           show: true,
-          msg: __(
-            'Benchmark lists refresh failed. please try again',
-            'bit-integrations',
-          ),
+          msg: __('Benchmark lists refresh failed. please try again', 'bit-integrations')
         })
       }
       setIsLoading(false)
@@ -50,11 +52,15 @@ export const refreshBenchMarkList = (benchMarkConf, setBenchMarkConf, setIsLoadi
     .catch(() => setIsLoading(false))
 }
 // refreshMappedFields
-export const refreshBenchMarkHeader = (benchMarkConf, setBenchMarkConf, setIsLoading, setSnackbar) => {
-
+export const refreshBenchMarkHeader = (
+  benchMarkConf,
+  setBenchMarkConf,
+  setIsLoading,
+  setSnackbar
+) => {
   const refreshListsRequestParams = {
     api_secret: benchMarkConf.api_secret,
-    list_id: benchMarkConf.listId,
+    list_id: benchMarkConf.listId
   }
   bitsFetch(refreshListsRequestParams, 'benchMark_headers')
     .then((result) => {
@@ -71,19 +77,19 @@ export const refreshBenchMarkHeader = (benchMarkConf, setBenchMarkConf, setIsLoa
             .map((f) => ({
               formField: '',
               benchMarkField: f.fieldId,
-              required: true,
+              required: true
             }))
           setSnackbar({
             show: true,
-            msg: __('Benchmark fields refreshed', 'bit-integrations'),
+            msg: __('Benchmark fields refreshed', 'bit-integrations')
           })
         } else {
           setSnackbar({
             show: true,
             msg: __(
               'No Benchmark fields found. Try changing the header row number or try again',
-              'bit-integrations',
-            ),
+              'bit-integrations'
+            )
           })
         }
 
@@ -91,10 +97,7 @@ export const refreshBenchMarkHeader = (benchMarkConf, setBenchMarkConf, setIsLoa
       } else {
         setSnackbar({
           show: true,
-          msg: __(
-            'Benchmark fields refresh failed. please try again',
-            'bit-integrations',
-          ),
+          msg: __('Benchmark fields refresh failed. please try again', 'bit-integrations')
         })
       }
       setIsLoading(false)
@@ -105,10 +108,9 @@ export const refreshBenchMarkHeader = (benchMarkConf, setBenchMarkConf, setIsLoa
 export const checkMappedFields = (benchMarkConf) => {
   const mappedFields = benchMarkConf?.field_map
     ? benchMarkConf.field_map.filter(
-      (mappedField) => !mappedField.formField
-          && mappedField.benchMarkField
-          && mappedField.required,
-    )
+        (mappedField) =>
+          !mappedField.formField && mappedField.benchMarkField && mappedField.required
+      )
     : []
   if (mappedFields.length > 0) {
     return false

@@ -33,7 +33,16 @@ function EditZohoDesk({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please select a ticket owner', 'bit-integrations') })
       return
     }
-    saveActionConf({ flow, setFlow, allIntegURL, conf: deskConf, navigate, edit: 1, setIsLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      setFlow,
+      allIntegURL,
+      conf: deskConf,
+      navigate,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -42,7 +51,14 @@ function EditZohoDesk({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-7" onChange={e => handleInput(e, deskConf, setDeskConf)} name="name" value={deskConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-7"
+          onChange={(e) => handleInput(e, deskConf, setDeskConf)}
+          name="name"
+          value={deskConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
       <br />
@@ -51,7 +67,9 @@ function EditZohoDesk({ allIntegURL }) {
       <ZohoDeskIntegLayout
         formID={formID}
         formFields={formFields}
-        handleInput={(e) => handleInput(e, deskConf, setDeskConf, formID, setIsLoading, setSnackbar)}
+        handleInput={(e) =>
+          handleInput(e, deskConf, setDeskConf, formID, setIsLoading, setSnackbar)
+        }
         deskConf={deskConf}
         setDeskConf={setDeskConf}
         isLoading={isLoading}
@@ -62,7 +80,9 @@ function EditZohoDesk({ allIntegURL }) {
       <IntegrationStepThree
         edit
         saveConfig={saveConfig}
-        disabled={deskConf.department === '' || deskConf.table === '' || deskConf.field_map.length < 1}
+        disabled={
+          deskConf.department === '' || deskConf.table === '' || deskConf.field_map.length < 1
+        }
         dataConf={deskConf}
         setDataConf={setDeskConf}
         formFields={formFields}

@@ -18,35 +18,19 @@ function Mailup({ formFields, setFlow, flow, allIntegURL }) {
   const [isLoading, setIsLoading] = useState(false)
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
-  const staticFields = [
-    { key: 'Email', label: 'Email', required: true },
-    { key: '1', label: 'First Name', required: false },
-    { key: '2', label: 'Last Name', required: false },
-    { key: '3', label: 'Company', required: false },
-    { key: '4', label: 'City', required: false },
-    { key: '5', label: 'Province', required: false },
-    { key: '6', label: 'ZIP', required: false },
-    { key: '7', label: 'State', required: false },
-    { key: '8', label: 'Region', required: false },
-    { key: '9', label: 'Address', required: false },
-    { key: '10', label: 'Gender', required: false },
-    { key: '11', label: 'Phone', required: false },
-  ]
 
   const [mailupConf, setMailupConf] = useState({
     name: 'Mailup',
     type: 'Mailup',
-    clientId: process.env.NODE_ENV === 'development' ? '' : '',
-    clientSecret: process.env.NODE_ENV === 'development' ? '' : '',
+    clientId: '',
+    clientSecret: '',
     allList: [],
     allGroup: [],
     listId: '',
     groupId: '',
-    field_map: [
-      { formField: '', mailupFormField: '' },
-    ],
-    staticFields,
-    actions: {},
+    field_map: [{ formField: '', mailupFormField: '' }],
+    staticFields: [],
+    actions: {}
   })
 
   useEffect(() => {
@@ -54,13 +38,13 @@ function Mailup({ formFields, setFlow, flow, allIntegURL }) {
     window.opener && setGrantTokenResponse('mailup')
   }, [])
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
     if (!checkMappedFields(mailupConf)) {
-      toast.error('Please map mandatory fields')
+      toast.error(__('Please map mandatory fields', 'bit-integrations'))
       return
     }
     // eslint-disable-next-line no-unused-expressions
@@ -70,7 +54,9 @@ function Mailup({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={3} active={step} />
+      </div>
 
       {/* STEP 1 */}
       <MailupAuthorization
@@ -85,11 +71,12 @@ function Mailup({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
-
+      <div
+        className="btcd-stp-page"
+        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <MailupIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, mailupConf, setMailupConf, setIsLoading, setSnackbar)}
+          handleInput={e => handleInput(e, mailupConf, setMailupConf, setIsLoading, setSnackbar)}
           mailupConf={mailupConf}
           setMailupConf={setMailupConf}
           isLoading={isLoading}
@@ -101,12 +88,9 @@ function Mailup({ formFields, setFlow, flow, allIntegURL }) {
           <button
             onClick={() => nextPage(3)}
             disabled={!mailupConf?.listId || !checkMappedFields(mailupConf)}
-            className="btn f-right btcd-btn-lg green sh-sm flx"
-            type="button"
-          >
-            {__('Next', 'bit-integrations')}
-            {' '}
-            &nbsp;
+            className="btn f-right btcd-btn-lg purple sh-sm flx"
+            type="button">
+            {__('Next', 'bit-integrations')} &nbsp;
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         )}
@@ -115,14 +99,23 @@ function Mailup({ formFields, setFlow, flow, allIntegURL }) {
       {mailupConf.listId && (
         <IntegrationStepThree
           step={step}
-          saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, navigate, conf: mailupConf, setIsLoading, setSnackbar })}
+          saveConfig={() =>
+            saveActionConf({
+              flow,
+              setFlow,
+              allIntegURL,
+              navigate,
+              conf: mailupConf,
+              setIsLoading,
+              setSnackbar
+            })
+          }
           isLoading={isLoading}
           dataConf={mailupConf}
           setDataConf={setMailupConf}
           formFields={formFields}
         />
       )}
-
     </div>
   )
 }

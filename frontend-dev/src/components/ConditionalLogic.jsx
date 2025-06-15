@@ -299,13 +299,13 @@ function ConditionalLogic({ formFields, dataConf, setDataConf }) {
                           ))}
                           <div className="btcd-workFlows-btns">
                             <div className="flx">
-                              <Button icn className="blue"><CloseIcn size="14" className="icn-rotate-45" /></Button>
-                              <Button onClick={() => addSubSubLogic('and', ind, subInd)} className="blue ml-2">
+                              <Button icn className="purple"><CloseIcn size="14" className="icn-rotate-45" /></Button>
+                              <Button onClick={() => addSubSubLogic('and', ind, subInd)} className="purple ml-2">
                                 <CloseIcn size="10" className="icn-rotate-45 mr-1" />
                                 AND
                                 {' '}
                               </Button>
-                              <Button onClick={() => addSubSubLogic('or', ind, subInd)} className="blue ml-2">
+                              <Button onClick={() => addSubSubLogic('or', ind, subInd)} className="purple ml-2">
                                 <CloseIcn size="10" className="icn-rotate-45 mr-1" />
                                 OR
                                 {' '}
@@ -318,20 +318,20 @@ function ConditionalLogic({ formFields, dataConf, setDataConf }) {
                   ))}
                   <div className=" btcd-workFlows-btns">
                     <div className="flx">
-                      <Button icn className="blue sh-sm"><CloseIcn size="14" className="icn-rotate-45" /></Button>
-                      <Button onClick={() => addSubLogic('and', ind)} className="blue ml-2">
+                      <Button icn className="purple sh-sm"><CloseIcn size="14" className="icn-rotate-45" /></Button>
+                      <Button onClick={() => addSubLogic('and', ind)} className="purple ml-2">
                         <CloseIcn size="10" className="icn-rotate-45 mr-1" />
                         AND
                       </Button>
-                      <Button onClick={() => addSubLogic('or', ind)} className="blue ml-2">
+                      <Button onClick={() => addSubLogic('or', ind)} className="purple ml-2">
                         <CloseIcn size="10" className="icn-rotate-45 mr-1" />
                         OR
                       </Button>
-                      <Button onClick={() => addSubLogic('orGrp', ind)} className="blue ml-2">
+                      <Button onClick={() => addSubLogic('orGrp', ind)} className="purple ml-2">
                         <CloseIcn size="10" className="icn-rotate-45 mr-1" />
                         OR Group
                       </Button>
-                      <Button onClick={() => addSubLogic('andGrp', ind)} className="blue ml-2">
+                      <Button onClick={() => addSubLogic('andGrp', ind)} className="purple ml-2">
                         <CloseIcn size="10" className="icn-rotate-45 mr-1" />
                         AND Group
                       </Button>
@@ -346,19 +346,19 @@ function ConditionalLogic({ formFields, dataConf, setDataConf }) {
       {dataConf?.condition?.action_behavior === 'cond' && (
         <div className="btcd-workFlows-btns">
           <div className="flx">
-            <Button onClick={() => addLogic('and')} className="blue ml-2">
+            <Button onClick={() => addLogic('and')} className="purple ml-2">
               <CloseIcn size="10" className="icn-rotate-45 mr-1" />
               AND
             </Button>
-            <Button onClick={() => addLogic('or')} className="blue ml-2">
+            <Button onClick={() => addLogic('or')} className="purple ml-2">
               <CloseIcn size="10" className="icn-rotate-45 mr-1" />
               OR
             </Button>
-            <Button onClick={() => addLogic('orGrp')} className="blue ml-2">
+            <Button onClick={() => addLogic('orGrp')} className="purple ml-2">
               <CloseIcn size="10" className="icn-rotate-45 mr-1" />
               OR Group
             </Button>
-            <Button onClick={() => addLogic('andGrp')} className="blue ml-2">
+            <Button onClick={() => addLogic('andGrp')} className="purple ml-2">
               <CloseIcn size="10" className="icn-rotate-45 mr-1" />
               AND Group
             </Button>

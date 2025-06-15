@@ -20,14 +20,14 @@ function KirimEmail({ formFields, setFlow, flow, allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const subscriberFields = [
-    { key: 'full_name', label: 'Full Name', required: true },
-    { key: 'email', label: 'Email ', required: true },
-    { key: 'tags', label: 'Tags ', required: false },
+    { key: 'full_name', label: __('Full Name', 'bit-integrations'), required: true },
+    { key: 'email', label: __('Email', 'bit-integrations'), required: true },
+    { key: 'tags', label: __('Tags', 'bit-integrations'), required: false }
   ]
 
   const allActions = [
-    { key: '1', label: 'Add Subscriber' },
-    { key: '2', label: 'Remove Subscriber' },
+    { key: '1', label: __('Add Subscriber', 'bit-integrations') },
+    { key: '2', label: __('Remove Subscriber', 'bit-integrations') }
   ]
 
   const [kirimEmailConf, setKirimEmailConf] = useState({
@@ -35,13 +35,13 @@ function KirimEmail({ formFields, setFlow, flow, allIntegURL }) {
     type: 'Kirim Email',
     mainAction: '',
     userName: 'vaishak',
-    api_key: process.env.NODE_ENV === 'development' ? 'BUXDv7EH86lGZFVQsm5W1hgLnqcJdOSzvaishak' : '',
+    api_key: '',
     field_map: [{ formField: '', kirimEmailFormField: '' }],
     subscriberFields,
     allActions,
-    actions: {},
+    actions: {}
   })
-  const nextPage = (val) => {
+  const nextPage = val => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -75,13 +75,12 @@ function KirimEmail({ formFields, setFlow, flow, allIntegURL }) {
           ...(step === 2 && {
             width: 900,
             height: 'auto',
-            overflow: 'visible',
-          }),
-        }}
-      >
+            overflow: 'visible'
+          })
+        }}>
         <KirimEmailIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, kirimEmailConf, setKirimEmailConf, setIsLoading, setSnackbar)}
+          handleInput={e => handleInput(e, kirimEmailConf, setKirimEmailConf, setIsLoading, setSnackbar)}
           kirimEmailConf={kirimEmailConf}
           setKirimEmailConf={setKirimEmailConf}
           isLoading={isLoading}
@@ -90,10 +89,15 @@ function KirimEmail({ formFields, setFlow, flow, allIntegURL }) {
         />
         <button
           onClick={() => nextPage(3)}
-          disabled={!checkMappedFields(kirimEmailConf?.field_map) || kirimEmailConf.mainAction === '' || isLoading || (kirimEmailConf.mainAction === '1' && (kirimEmailConf.listId === '' || kirimEmailConf.listId === undefined))}
-          className="btn f-right btcd-btn-lg green sh-sm flx"
-          type="button"
-        >
+          disabled={
+            !checkMappedFields(kirimEmailConf?.field_map) ||
+            kirimEmailConf.mainAction === '' ||
+            isLoading ||
+            (kirimEmailConf.mainAction === '1' &&
+              (kirimEmailConf.listId === '' || kirimEmailConf.listId === undefined))
+          }
+          className="btn f-right btcd-btn-lg purple sh-sm flx"
+          type="button">
           {__('Next', 'bit-integrations')}
           <BackIcn className="ml-1 rev-icn" />
         </button>
@@ -103,7 +107,17 @@ function KirimEmail({ formFields, setFlow, flow, allIntegURL }) {
 
       <IntegrationStepThree
         step={step}
-        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, conf: kirimEmailConf, navigate, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            setFlow,
+            allIntegURL,
+            conf: kirimEmailConf,
+            navigate,
+            setIsLoading,
+            setSnackbar
+          })
+        }
         isLoading={isLoading}
         dataConf={kirimEmailConf}
         setDataConf={setKirimEmailConf}

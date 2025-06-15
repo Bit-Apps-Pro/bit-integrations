@@ -15,14 +15,16 @@ use BitCode\FI\Core\Util\HttpHelper;
 final class TagApiHelper
 {
     private $_defaultHeader;
+
     private $_apiDomain;
+
     private $_module;
 
     /**
      * Constructor function
      *
-     * @param Object $tokenDetails Api token details
-     * @param String $module       Module Name
+     * @param object $tokenDetails Api token details
+     * @param string $module       Module Name
      */
     public function __construct($tokenDetails, $module)
     {
@@ -34,7 +36,7 @@ final class TagApiHelper
     /**
      * Helps to get Tags List of zcrm module
      *
-     * @return Array|Object|WP_Error $tags Tags List
+     * @return array|object|WP_Error $tags Tags List
      */
     public function getTagList()
     {
@@ -54,13 +56,15 @@ final class TagApiHelper
                 $tags[] = $tagDetails->name;
             }
         }
+
         return $tags;
     }
+
     /**
      * Helps to add Tags to a specific record of a module
      *
-     * @param Integer $recordID ID of record to add tags
-     * @param String  $tagNames urlencoded string of tag names
+     * @param int    $recordID ID of record to add tags
+     * @param string $tagNames urlencoded string of tag names
      *
      * @return Json $addTagsResponse Tags List
      */

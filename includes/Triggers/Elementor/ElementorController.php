@@ -3,141 +3,102 @@
 namespace BitCode\FI\Triggers\Elementor;
 
 use BitCode\FI\Flow\Flow;
+use BitCode\FI\Triggers\TriggerController;
 
 final class ElementorController
 {
     public static function info()
     {
-        $plugin_path = self::pluginActive('get_name');
+        $plugin_path = 'elementor-pro/elementor-pro.php';
+
         return [
-            'name' => 'Elementor',
-            'title' => 'Elementor is the platform web creators choose to build professional WordPress websites, grow their skills, and build their business. Start for free today!',
-            'slug' => $plugin_path,
-            'pro' => $plugin_path,
-            'type' => 'form',
-            'is_active' => is_plugin_active($plugin_path),
-            'activation_url' => wp_nonce_url(self_admin_url('plugins.php?action=activate&amp;plugin=' . $plugin_path . '&amp;plugin_status=all&amp;paged=1&amp;s'), 'activate-plugin_' . $plugin_path),
-            'install_url' => wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=' . $plugin_path), 'install-plugin_' . $plugin_path),
-            'list' => [
+            'name'              => 'Elementor',
+            'title'             => __('Elementor is the platform web creators choose to build professional WordPress websites, grow their skills, and build their business. Start for free today!', 'bit-integrations'),
+            'type'              => 'custom_form_submission',
+            'is_active'         => self::pluginActive(),
+            'documentation_url' => 'https://bitapps.pro/docs/bit-integrations/trigger/elementor-form-integrations',
+            'tutorial_url'      => 'https://youtube.com/playlist?list=PL7c6CDwwm-ALGg0fZNLDIHjh1QJPcDSXp&si=HIKa9m0-yjPSXP2p',
+            'tasks'             => [
                 'action' => 'elementor/get',
                 'method' => 'get',
             ],
-            'fields' => [
-                'action' => 'elementor/get/form',
+            'fetch' => [
+                'action' => 'elementor/test',
                 'method' => 'post',
-                'data' => ['id']
             ],
+            'fetch_remove' => [
+                'action' => 'elementor/test/remove',
+                'method' => 'post',
+            ],
+            'isPro' => false
         ];
+    }
+
+    public function getAllTasks()
+    {
+        if (!self::pluginActive()) {
+            wp_send_json_error(\sprintf(__('%s is not installed or activated', 'bit-integrations'), 'Elementor'));
+        }
+
+        wp_send_json_success([
+            ['form_name' => __('Form Submission', 'bit-integrations'), 'triggered_entity_id' => 'elementor_pro/forms/new_record', 'skipPrimaryKey' => false]
+        ]);
     }
 
     public static function pluginActive($option = null)
     {
-        if (is_plugin_active('elementor-pro/elementor-pro.php') || is_plugin_active('elementor/elementor.php')) {
-            return true;
-        }
-        return false;
+        return (bool) (is_plugin_active('elementor-pro/elementor-pro.php') || is_plugin_active('elementor/elementor.php'));
     }
 
-    public function getAllForms()
+    public function getTestData()
     {
-        if (!self::pluginActive()) {
-            wp_send_json_error(__('Elementor Pro is not installed or activated', 'bit-integrations'));
-        }
-
-        $forms = ElementorHelper::all_forms();
-        foreach ($forms as $form) {
-            $all_forms[] = (object)[
-                'id'        => $form['id'] . $form['post_id'],
-                'title'     => $form['title'],
-                'post_id'   => $form['post_id']
-            ];
-        }
-        wp_send_json_success($all_forms);
+        return TriggerController::getTestData('elementor');
     }
 
-    public function getFormFields($data)
+    public function removeTestData($data)
     {
-        if (!self::pluginActive()) {
-            wp_send_json_error(__('Elementor Pro is not installed or activated', 'bit-integrations'));
-        }
-
-        if (empty($data->id)) {
-            wp_send_json_error(__('Form doesn\'t exists', 'bit-integrations'));
-        }
-        $fields = self::fields($data);
-        if (empty($fields)) {
-            wp_send_json_error(__('Form doesn\'t exists any field', 'bit-integrations'));
-        }
-
-        $responseData['fields'] = $fields;
-        $responseData['postId'] = $data->postId;
-        wp_send_json_success($responseData);
-    }
-
-    public static function fields($data)
-    {
-        if (empty($data->id)) {
-            wp_send_json_error(__('Form doesn\'t exists', 'bit-integrations'));
-        }
-        $form_id = $data->id;
-        $post_id = $data->postId;
-        $fields = [];
-        $allFormsDetails = ElementorHelper::all_elementor_forms();
-
-        foreach ($allFormsDetails as $form) {
-            if ($form['id'] == substr($form_id, 0, -strlen($post_id)) &&  $form['post_id'] == $post_id) {
-                foreach ($form['form_fields'] as $field) {
-                    $type = isset($field->field_type) ? $field->field_type : 'text';
-                    if ($type === 'upload') {
-                        $type = 'file';
-                    }
-
-                    $fields[] = [
-                        'name' => $field->custom_id,
-                        'type' => $type,
-                        'label' => $field->field_label,
-                    ];
-                }
-            }
-        }
-
-        if (!empty($fields)) {
-            return $fields;
-        }
-        return false;
+        return TriggerController::removeTestData($data, 'elementor');
     }
 
     public static function handle_elementor_submit($record)
     {
-        global $wpdb;
-        $flows = $wpdb->get_results(
-            $wpdb->prepare(
-                "SELECT * FROM {$wpdb->prefix}btcbi_flow
-                WHERE status = %s 
-                AND triggered_entity = %s 
-                AND (triggered_entity_id = %s
-                OR triggered_entity_id = %s)",
-                '1',
-                'Elementor',
-                $record->get_form_settings('id'),
-                $record->get_form_settings('id') . $record->get_form_settings('form_post_id')
-            )
-        );
+        $recordData = ElementorHelper::extractRecordData($record);
+        $formData = ElementorHelper::setFields($recordData);
+        $reOrganizeId = $recordData['id'] . $recordData['form_post_id'];
 
+        if (get_option('btcbi_elementor_test') !== false) {
+            update_option('btcbi_elementor_test', [
+                'formData'   => $formData,
+                'primaryKey' => [(object) ['key' => 'id', 'value' => $recordData['id']]]
+            ]);
+        }
+
+        $flows = ElementorHelper::fetchFlows($recordData['id'], $reOrganizeId);
         if (!$flows) {
             return;
         }
 
-        $data   = [];
-        $fields = $record->get('fields');
-        foreach ($fields as $field) {
-            if ($field['type'] == 'upload') {
-                $data[$field['id']] = explode(',', $field['raw_value']);
-            } else {
-                $data[$field['id']] = $field['raw_value'];
+        foreach ($flows as $flow) {
+            $flowDetails = static::parseFlowDetails($flow->flow_details);
+
+            if (!isset($flowDetails->primaryKey) && ($flow->triggered_entity_id == $recordData['id'] || $flow->triggered_entity_id == $reOrganizeId)) {
+                $data = ElementorHelper::prepareDataForFlow($record);
+                Flow::execute('Elementor', $flow->triggered_entity_id, $data, [$flow]);
+
+                continue;
+            }
+
+            if (\is_array($flowDetails->primaryKey) && ElementorHelper::isPrimaryKeysMatch($recordData, $flowDetails)) {
+                $data = array_column($formData, 'value', 'name');
+                Flow::execute('Elementor', $flow->triggered_entity_id, $data, [$flow]);
             }
         }
 
-        Flow::execute('Elementor', $flows[0]->triggered_entity_id, $data, $flows);
+        return ['type' => 'success'];
+    }
+
+    private static function parseFlowDetails($flowDetails)
+    {
+        return \is_string($flowDetails) ? json_decode($flowDetails) : $flowDetails;
     }
 }

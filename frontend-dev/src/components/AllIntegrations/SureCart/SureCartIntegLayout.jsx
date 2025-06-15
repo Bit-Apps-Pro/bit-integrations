@@ -5,7 +5,17 @@ import Loader from '../../Loaders/Loader'
 import { addFieldMap } from './SureCartIntegrationHelpers'
 import SureCartFieldMap from './SureCartFieldMap'
 
-export default function SureCartIntegLayout({ formID, formFields, handleInput, sureCartConf, setSureCartConf, isLoading, setIsLoading, setSnackbar, a }) {
+export default function SureCartIntegLayout({
+  formID,
+  formFields,
+  handleInput,
+  sureCartConf,
+  setSureCartConf,
+  isLoading,
+  setIsLoading,
+  setSnackbar,
+  a
+}) {
   const inputHandler = (e) => {
     const newConf = { ...sureCartConf }
     const { name } = e.target
@@ -34,27 +44,31 @@ export default function SureCartIntegLayout({ formID, formFields, handleInput, s
   return (
     <>
       {isLoading && (
-        <Loader style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: 100,
-          transform: 'scale(0.7)',
-        }}
+        <Loader
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 100,
+            transform: 'scale(0.7)'
+          }}
         />
       )}
       <>
         <br />
         <b className="wdt-200 d-in-b">{__('Actions:', 'bit-integrations')}</b>
-        <select onChange={inputHandler} name="mainAction" value={sureCartConf?.mainAction} className="btcd-paper-inp w-5">
+        <select
+          onChange={inputHandler}
+          name="mainAction"
+          value={sureCartConf?.mainAction}
+          className="btcd-paper-inp w-5">
           <option value="">{__('Select Actions', 'bit-integrations')}</option>
-          {
-            sureCartConf?.allActions && sureCartConf.allActions.map(({ key, label }) => (
+          {sureCartConf?.allActions &&
+            sureCartConf.allActions.map(({ key, label }) => (
               <option key={key} value={key}>
                 {label}
               </option>
-            ))
-          }
+            ))}
         </select>
         <br />
         <div className="mt-4">
@@ -62,8 +76,12 @@ export default function SureCartIntegLayout({ formID, formFields, handleInput, s
         </div>
         <div className="btcd-hr mt-1" />
         <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
-          <div className="txt-dp"><b>{__('Form Fields', 'bit-integrations')}</b></div>
-          <div className="txt-dp"><b>{__('SureCart Fields', 'bit-integrations')}</b></div>
+          <div className="txt-dp">
+            <b>{__('Form Fields', 'bit-integrations')}</b>
+          </div>
+          <div className="txt-dp">
+            <b>{__('SureCart Fields', 'bit-integrations')}</b>
+          </div>
         </div>
 
         {sureCartConf.field_map.map((itm, i) => (
@@ -77,9 +95,17 @@ export default function SureCartIntegLayout({ formID, formFields, handleInput, s
           />
         ))}
         <br />
-        <div className="txt-center btcbi-field-map-button mt-2"><button onClick={() => addFieldMap(sureCartConf.field_map.length, sureCartConf, setSureCartConf)} className="icn-btn sh-sm" type="button">+</button></div>
+        <div className="txt-center btcbi-field-map-button mt-2">
+          <button
+            onClick={() =>
+              addFieldMap(sureCartConf.field_map.length, sureCartConf, setSureCartConf)
+            }
+            className="icn-btn sh-sm"
+            type="button">
+            +
+          </button>
+        </div>
       </>
-
     </>
   )
 }

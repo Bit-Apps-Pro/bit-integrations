@@ -29,9 +29,9 @@ class LearnDashController
             return $option === 'get_name' ? 'learndash/learndash.php' : true;
         } elseif (is_plugin_active('sfwd-lms/sfwd_lms.php')) {
             return $option === 'get_name' ? 'sfwd-lms/sfwd_lms.php' : true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public static function authorizeRestrictContent()
@@ -40,7 +40,7 @@ class LearnDashController
         if (self::pluginActive()) {
             wp_send_json_success(true, 200);
         }
-        wp_send_json_error(__('LearnDash must be activated!', 'bit-integrations'));
+        wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'LearnDash'));
     }
 
     public static function getCourses()
@@ -48,10 +48,10 @@ class LearnDashController
         $courses = [];
 
         $course_query_args = [
-            'post_type' => 'sfwd-courses',
-            'post_status' => 'publish',
-            'orderby' => 'post_title',
-            'order' => 'ASC',
+            'post_type'      => 'sfwd-courses',
+            'post_status'    => 'publish',
+            'orderby'        => 'post_title',
+            'order'          => 'ASC',
             'posts_per_page' => -1,
         ];
 
@@ -59,10 +59,11 @@ class LearnDashController
 
         foreach ($courseList as $key => $val) {
             $courses[] = [
-                'course_id' => $val->ID,
+                'course_id'    => $val->ID,
                 'course_title' => $val->post_title,
             ];
         }
+
         return $courses;
     }
 
@@ -70,10 +71,10 @@ class LearnDashController
     {
         $groups = [];
         $group_query_args = [
-            'post_type' => 'groups',
-            'post_status' => 'publish',
-            'orderby' => 'post_title',
-            'order' => 'ASC',
+            'post_type'      => 'groups',
+            'post_status'    => 'publish',
+            'orderby'        => 'post_title',
+            'order'          => 'ASC',
             'posts_per_page' => -1,
         ];
 
@@ -81,23 +82,24 @@ class LearnDashController
 
         foreach ($groupList as $key => $val) {
             $groups[] = [
-                'group_id' => $val->ID,
+                'group_id'    => $val->ID,
                 'group_title' => $val->post_title,
             ];
         }
+
         return $groups;
     }
 
     public static function learDashFetchAllCourseOfLesson($requestParams)
     {
-        $id = (int)$requestParams->courseId;
+        $id = (int) $requestParams->courseId;
 
         $lessonList = learndash_get_lesson_list($id, ['num' => 0]);
         $lessons = [];
 
         foreach ($lessonList as $key => $val) {
             $lessons[] = [
-                'lesson_id' => $val->ID,
+                'lesson_id'    => $val->ID,
                 'lesson_title' => $val->post_title,
             ];
         }
@@ -107,14 +109,14 @@ class LearnDashController
 
     public static function getTopicsByLesson($requestParams)
     {
-        $course_id = (int)$requestParams->courseId;
-        $lesson_id = (int)$requestParams->lessonId;
+        $course_id = (int) $requestParams->courseId;
+        $lesson_id = (int) $requestParams->lessonId;
         $topic_list = learndash_get_topic_list($lesson_id, $course_id);
         $topics = [];
 
         foreach ($topic_list as $key => $val) {
             $topics[] = [
-                'topic_id' => $val->ID,
+                'topic_id'    => $val->ID,
                 'topic_title' => $val->post_title,
             ];
         }
@@ -127,10 +129,10 @@ class LearnDashController
         $quizes = [];
 
         $quiz_query_args = [
-            'post_type' => 'sfwd-quiz',
-            'post_status' => 'publish',
-            'orderby' => 'post_title',
-            'order' => 'ASC',
+            'post_type'      => 'sfwd-quiz',
+            'post_status'    => 'publish',
+            'orderby'        => 'post_title',
+            'order'          => 'ASC',
             'posts_per_page' => -1,
         ];
 
@@ -138,10 +140,11 @@ class LearnDashController
 
         foreach ($quizList as $key => $val) {
             $quizes[] = [
-                'quiz_id' => $val->ID,
+                'quiz_id'    => $val->ID,
                 'quiz_title' => $val->post_title,
             ];
         }
+
         return $quizes;
     }
 
@@ -150,25 +153,26 @@ class LearnDashController
         $courses = [];
 
         $course_query_args = [
-            'post_type' => 'sfwd-courses',
-            'post_status' => 'publish',
-            'orderby' => 'post_title',
-            'order' => 'ASC',
+            'post_type'      => 'sfwd-courses',
+            'post_status'    => 'publish',
+            'orderby'        => 'post_title',
+            'order'          => 'ASC',
             'posts_per_page' => -1,
         ];
 
         $courseList = get_posts($course_query_args);
         $courses[] = [
-            'course_id' => 'any',
+            'course_id'    => 'any',
             'course_title' => 'All Course',
         ];
 
         foreach ($courseList as $key => $val) {
             $courses[] = [
-                'course_id' => $val->ID,
+                'course_id'    => $val->ID,
                 'course_title' => $val->post_title,
             ];
         }
+
         return $courses;
     }
 
@@ -185,10 +189,10 @@ class LearnDashController
         // $fieldMap = $integrationDetails->field_map;
         // $defaultDataConf = $integrationDetails->default;
         if (
-            empty($integId) ||
-            empty($mainAction)
+            empty($integId)
+            || empty($mainAction)
         ) {
-            return new WP_Error('REQ_FIELD_EMPTY', __('module, fields are required for LearnDash api', 'bit-integrations'));
+            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'LearnDash'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
         $learnDashApiResponse = $recordApiHelper->execute(
@@ -201,6 +205,7 @@ class LearnDashController
         if (is_wp_error($learnDashApiResponse)) {
             return $learnDashApiResponse;
         }
+
         return $learnDashApiResponse;
     }
 }

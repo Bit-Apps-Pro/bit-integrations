@@ -1,87 +1,76 @@
 /* eslint-disable no-unused-expressions */
-import toast from "react-hot-toast";
-import bitsFetch from "../../../Utils/bitsFetch";
-import { __ } from "../../../Utils/i18nwrap";
-import {
-  saveActionConf,
-  saveIntegConfig,
-} from "../IntegrationHelpers/IntegrationHelpers";
+import toast from 'react-hot-toast'
+import bitsFetch from '../../../Utils/bitsFetch'
+import { __ } from '../../../Utils/i18nwrap'
+import { saveActionConf, saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
 
 export const handleInput = (e, conf, setConf, error, setError) => {
-  const newConf = { ...conf };
-  const inputError = { ...error };
-  inputError[e.target.name] = "";
-  newConf[e.target.name] = e.target.value;
-  setError(inputError);
-  setConf(newConf);
-};
+  const newConf = { ...conf }
+  const inputError = { ...error }
+  inputError[e.target.name] = ''
+  newConf[e.target.name] = e.target.value
+  setError(inputError)
+  setConf(newConf)
+}
 
-export const handleAuthorize = (
-  conf,
-  setError,
-  setAuthorized,
-  loading,
-  setLoading
-) => {
+export const handleAuthorize = (conf, setError, setAuthorized, loading, setLoading) => {
   if (!conf.authKey) {
-    setError({ authKey: !conf.authKey ? __("API key can't be empty") : "" });
-    return;
+    setError({ authKey: !conf.authKey ? __("API Key can't be empty") : '' })
+    return
   }
-  setError({});
-  setLoading({ ...loading, auth: true });
+  setError({})
+  setLoading({ ...loading, auth: true })
 
-  const requestParams = { authKey: conf.authKey };
+  const requestParams = { authKey: conf.authKey }
 
-  bitsFetch(requestParams, "moosend_handle_authorize").then((result) => {
+  bitsFetch(requestParams, 'moosend_handle_authorize').then((result) => {
     if (result.data.Code === 0) {
-      setAuthorized(true);
-      setLoading({ ...loading, auth: false });
-      toast.success(__("Authorized successfully"));
-      return;
+      setAuthorized(true)
+      setLoading({ ...loading, auth: false })
+      toast.success(__('Authorized Successfully'))
+      return
     }
-    setLoading({ ...loading, auth: false });
-    toast.error(__("Authorized failed"));
-  });
-};
+    setLoading({ ...loading, auth: false })
+    toast.error(__('Authorized failed'))
+  })
+}
 
 export const getAllLists = async (conf, setConf, loading, setLoading) => {
-  setLoading && setLoading({ ...loading, list: true });
-  const requestParams = { authKey: conf.authKey };
-  const result = await bitsFetch(requestParams, "moosend_handle_authorize");
+  setLoading && setLoading({ ...loading, list: true })
+  const requestParams = { authKey: conf.authKey }
+  const result = await bitsFetch(requestParams, 'moosend_handle_authorize')
   if (result.success && result.data.Code === 0) {
-    const { MailingLists } = result.data.Context;
-    const newConf = { ...conf };
+    const { MailingLists } = result.data.Context
+    const newConf = { ...conf }
     if (MailingLists) {
       if (!newConf.default) {
-        newConf.default = {};
+        newConf.default = {}
       }
-      newConf.default.lists = MailingLists;
-      setConf(newConf);
+      newConf.default.lists = MailingLists
+      setConf(newConf)
       if (setLoading) {
-        setLoading({ ...loading, list: false });
-        toast.success(__("List refresh successfully"));
+        setLoading({ ...loading, list: false })
+        toast.success(__('List refresh successfully'))
       }
     }
-    return true;
+    return true
   }
   if (setLoading) {
-    setLoading({ ...loading, list: false });
-    toast.success(__("List refresh failed"));
+    setLoading({ ...loading, list: false })
+    toast.success(__('List refresh failed'))
   }
-  return false;
-};
+  return false
+}
 
 export const generateMappedField = (moosendConf) => {
-  const requiredFlds = moosendConf?.moosendFields.filter(
-    (fld) => fld.required === true
-  );
+  const requiredFlds = moosendConf?.moosendFields.filter((fld) => fld.required === true)
   return requiredFlds.length > 0
     ? requiredFlds.map((field) => ({
-        formFields: "",
-        moosendFormFields: field.key,
+        formFields: '',
+        moosendFormFields: field.key
       }))
-    : [{ formFields: "", moosendFormFields: "" }];
-};
+    : [{ formFields: '', moosendFormFields: '' }]
+}
 
 export const checkMappedFields = (moosendConf) => {
   const mappedFields = moosendConf?.field_map
@@ -89,70 +78,47 @@ export const checkMappedFields = (moosendConf) => {
         (mappedField) =>
           !mappedField.formFields ||
           !mappedField.moosendFormFields ||
-          (!mappedField.formFields === "custom" && !mappedField.customValue)
+          (!mappedField.formFields === 'custom' && !mappedField.customValue)
       )
-    : [];
+    : []
   if (mappedFields.length > 0) {
-    return false;
+    return false
   }
-  return true;
-};
+  return true
+}
 
 export const nextPage = (conf, setStep, pageNo) => {
   setTimeout(() => {
-    document.getElementById("btcd-settings-wrp").scrollTop = 0;
-  }, 300);
+    document.getElementById('btcd-settings-wrp').scrollTop = 0
+  }, 300)
 
-  if (!conf.listId && conf.method !== "0") {
-    toast.error("Please select list");
+  if (!conf.listId && conf.method !== '0') {
+    toast.error('Please select list')
   }
   if (!checkMappedFields(conf)) {
-    toast.error("Please map mandatory fields");
-    return;
+    toast.error(__('Please map mandatory fields', 'bit-integrations'))
+    return
   }
-  conf.field_map.length > 0 && setStep(pageNo);
-};
+  conf.field_map.length > 0 && setStep(pageNo)
+}
 
-export const saveConfig = (
-  flow,
-  setFlow,
-  allIntegURL,
-  conf,
-  navigate,
-  setLoading
-) => {
-  setLoading(true);
-  const resp = saveIntegConfig(
-    flow,
-    setFlow,
-    allIntegURL,
-    conf,
-    navigate,
-    "",
-    "",
-    setLoading
-  );
+export const saveConfig = (flow, setFlow, allIntegURL, conf, navigate, setLoading) => {
+  setLoading(true)
+  const resp = saveIntegConfig(flow, setFlow, allIntegURL, conf, navigate, '', '', setLoading)
   resp.then((res) => {
     if (res.success) {
-      toast.success(res.data?.msg);
-      navigate(allIntegURL);
+      toast.success(res.data?.msg)
+      navigate(allIntegURL)
     } else {
-      toast.error(res.data || res);
+      toast.error(res.data || res)
     }
-  });
-};
+  })
+}
 
-export const saveUpdateConfig = (
-  flow,
-  allIntegURL,
-  conf,
-  navigate,
-  edit,
-  setIsLoading
-) => {
+export const saveUpdateConfig = (flow, allIntegURL, conf, navigate, edit, setIsLoading) => {
   if (!checkMappedFields(conf)) {
-    toast.error("Please map mandatory fields");
-    return;
+    toast.error(__('Please map mandatory fields', 'bit-integrations'))
+    return
   }
-  saveActionConf({ flow, allIntegURL, conf, navigate, edit, setIsLoading });
-};
+  saveActionConf({ flow, allIntegURL, conf, navigate, edit, setIsLoading })
+}

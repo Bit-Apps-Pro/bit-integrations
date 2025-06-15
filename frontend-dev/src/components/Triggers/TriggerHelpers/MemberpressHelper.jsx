@@ -13,13 +13,15 @@ const MemberpressHelper = ({ flow, setFlowData, edit = false }) => {
     <>
       {id === '1' && (
         <div className={edit ? 'flx mt-3' : ''}>
-          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>Select life time membership</b>
+          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
+            {__('Select life time membership', 'bit-integrations')}
+          </b>
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={triggerData?.selectedOneTimeMembership}
             options={triggerData?.oneTimeMembership?.map((list) => ({
               label: list.membershipTitle,
-              value: list.membershipId.toString(),
+              value: list.membershipId.toString()
             }))}
             onChange={(val) => setFlowData(val, 'selectedOneTimeMembership')}
             singleSelect
@@ -30,13 +32,15 @@ const MemberpressHelper = ({ flow, setFlowData, edit = false }) => {
 
       {(id === '2' || id === '5') && (
         <div className={edit ? 'flx mt-3' : ''}>
-          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>Select a recurring membership</b>
+          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
+            {__('Select a recurring membership', 'bit-integrations')}
+          </b>
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={triggerData?.selectedRecurringMembership}
             options={triggerData?.recurringMembership?.map((list) => ({
               label: list.membershipTitle,
-              value: list.membershipId.toString(),
+              value: list.membershipId.toString()
             }))}
             onChange={(val) => setFlowData(val, 'selectedRecurringMembership')}
             singleSelect
@@ -46,13 +50,15 @@ const MemberpressHelper = ({ flow, setFlowData, edit = false }) => {
       )}
       {(id === '3' || id === '4') && (
         <div className={edit ? 'flx mt-3' : ''}>
-          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>Select a membership</b>
+          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
+            {__('Select a membership', 'bit-integrations')}
+          </b>
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={triggerData?.selectedCancelMembership}
             options={triggerData?.allMemberships?.map((list) => ({
               label: list.membershipTitle,
-              value: list.membershipId.toString(),
+              value: list.membershipId.toString()
             }))}
             onChange={(val) => setFlowData(val, 'selectedCancelMembership')}
             singleSelect

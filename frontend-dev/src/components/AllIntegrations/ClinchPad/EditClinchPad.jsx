@@ -34,12 +34,20 @@ function EditClinchPad({ allIntegURL }) {
 
     if (clinchPadConf.actionName === 'lead') {
       if (!clinchPadConf.selectedCRMPipeline) {
-        toast.error('Please select a pipeline')
+        toast.error(__('Please select a pipeline', 'bit-integrations'))
         return
       }
     }
 
-    saveActionConf({ flow, allIntegURL, conf: clinchPadConf, navigate, edit: 1, setLoading, setSnackbar })
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: clinchPadConf,
+      navigate,
+      edit: 1,
+      setLoading,
+      setSnackbar
+    })
   }
 
   return (
@@ -48,7 +56,14 @@ function EditClinchPad({ allIntegURL }) {
 
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
-        <input className="btcd-paper-inp w-5" onChange={e => handleInput(e, clinchPadConf, setClinchPadConf)} name="name" value={clinchPadConf.name} type="text" placeholder={__('Integration Name...', 'bit-integrations')} />
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={(e) => handleInput(e, clinchPadConf, setClinchPadConf)}
+          name="name"
+          value={clinchPadConf.name}
+          type="text"
+          placeholder={__('Integration Name...', 'bit-integrations')}
+        />
       </div>
       <br />
 
@@ -56,7 +71,9 @@ function EditClinchPad({ allIntegURL }) {
       <ClinchPadIntegLayout
         formID={flow.triggered_entity_id}
         formFields={formField}
-        handleInput={(e) => handleInput(e, clinchPadConf, setClinchPadConf, setLoading, setSnackbar)}
+        handleInput={(e) =>
+          handleInput(e, clinchPadConf, setClinchPadConf, setLoading, setSnackbar)
+        }
         clinchPadConf={clinchPadConf}
         setClinchPadConf={setClinchPadConf}
         loading={loading}

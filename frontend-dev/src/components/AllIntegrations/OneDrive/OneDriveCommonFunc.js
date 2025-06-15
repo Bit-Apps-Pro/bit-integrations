@@ -4,7 +4,15 @@ import { __ } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { sortArrOfObj } from '../../../Utils/Helpers'
 
-export const handleInput = (e, oneDriveConf, setOneDriveConf, formID, setIsLoading, setSnackbar, i = 0) => {
+export const handleInput = (
+  e,
+  oneDriveConf,
+  setOneDriveConf,
+  formID,
+  setIsLoading,
+  setSnackbar,
+  i = 0
+) => {
   let newConf = { ...oneDriveConf }
   const { name } = e.target
   if (e.target.value !== '') {
@@ -36,21 +44,28 @@ export const folderChange = (oneDriveConf, formID, setOneDriveConf, setIsLoading
       newConf.teamType = 'private'
     }
     getSingleOneDriveFolders(formID, newConf, setOneDriveConf, setIsLoading, setSnackbar)
-  } else if (newConf.folder && newConf.folder !== newConf.folderMap[newConf.folderMap.length - 1]) newConf.folderMap.push(newConf.folder)
+  } else if (newConf.folder && newConf.folder !== newConf.folderMap[newConf.folderMap.length - 1])
+    newConf.folderMap.push(newConf.folder)
 
   return newConf
 }
 
-export const getAllOneDriveFolders = (flowID, oneDriveConf, setOneDriveConf, setIsLoading, setSnackbar) => {
+export const getAllOneDriveFolders = (
+  flowID,
+  oneDriveConf,
+  setOneDriveConf,
+  setIsLoading,
+  setSnackbar
+) => {
   setIsLoading(true)
   const queryParams = {
     flowID: flowID ?? null,
     clientId: oneDriveConf.clientId,
     clientSecret: oneDriveConf.clientSecret,
-    tokenDetails: oneDriveConf.tokenDetails,
+    tokenDetails: oneDriveConf.tokenDetails
   }
   const loadPostTypes = bitsFetch(queryParams, 'oneDrive_get_all_folders')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...oneDriveConf }
         if (!newConf.default) newConf.default = {}
@@ -61,21 +76,28 @@ export const getAllOneDriveFolders = (flowID, oneDriveConf, setOneDriveConf, set
 
         setOneDriveConf(newConf)
         setIsLoading(false)
-        return 'OneDrive Folders List refreshed successfully'
+        return __('OneDrive Folders List refreshed successfully', 'bit-integrations')
       } else {
         setIsLoading(false)
-        return 'OneDrive Folders List refresh failed. please try again'
+        return __('OneDrive Folders List refresh failed. please try again', 'bit-integrations')
       }
     })
     .catch(() => setIsLoading(false))
   toast.promise(loadPostTypes, {
-    success: data => data,
+    success: (data) => data,
     error: __('Error Occurred', 'bit-integrations'),
-    loading: __('Loading OneDrive Folders List...', 'bit-integrations'),
+    loading: __('Loading OneDrive Folders List...', 'bit-integrations')
   })
 }
 
-export const getSingleOneDriveFolders = (formID, oneDriveConf, setOneDriveConf, setIsLoading, setSnackbar, ind) => {
+export const getSingleOneDriveFolders = (
+  formID,
+  oneDriveConf,
+  setOneDriveConf,
+  setIsLoading,
+  setSnackbar,
+  ind
+) => {
   const folder = ind ? oneDriveConf.folderMap[ind] : oneDriveConf.folder
   setIsLoading(true)
   const refreshSubFoldersRequestParams = {
@@ -87,11 +109,11 @@ export const getSingleOneDriveFolders = (formID, oneDriveConf, setOneDriveConf, 
     // redirectURI: `${btcbi.api.base}/redirect`,
     team: oneDriveConf.team,
     folder,
-    teamType: 'teamType' in oneDriveConf ? 'private' : 'team',
+    teamType: 'teamType' in oneDriveConf ? 'private' : 'team'
   }
 
   bitsFetch(refreshSubFoldersRequestParams, 'oneDrive_get_single_folder')
-    .then(result => {
+    .then((result) => {
       if (result && result.success) {
         const newConf = { ...oneDriveConf }
         if (result.data.folders) {
@@ -111,7 +133,10 @@ export const getSingleOneDriveFolders = (formID, oneDriveConf, setOneDriveConf, 
         }
         setOneDriveConf({ ...newConf })
       } else {
-        setSnackbar({ show: true, msg: __('Sub Folders refresh failed. please try again', 'bitform') })
+        setSnackbar({
+          show: true,
+          msg: __('Sub Folders refresh failed. please try again', 'bitform')
+        })
       }
       setIsLoading(false)
     })
@@ -152,8 +177,10 @@ export const getSingleOneDriveFolders = (formID, oneDriveConf, setOneDriveConf, 
 export const handleAuthorize = (confTmp, setConf, setIsAuthorized, setIsLoading, setError) => {
   if (!confTmp.clientId || !confTmp.clientSecret) {
     setError({
-      clientId: !confTmp.clientId ? __('Client Id can\'t be empty', 'bit-integrations') : '',
-      clientSecret: !confTmp.clientSecret ? __('Client Secret can\'t be empty', 'bit-integrations') : '',
+      clientId: !confTmp.clientId ? __("Client Id can't be empty", 'bit-integrations') : '',
+      clientSecret: !confTmp.clientSecret
+        ? __("Client Secret can't be empty", 'bit-integrations')
+        : ''
     })
     return
   }
@@ -173,9 +200,16 @@ export const handleAuthorize = (confTmp, setConf, setIsAuthorized, setIsLoading,
         grantTokenResponse = JSON.parse(bitsOneDrive)
         localStorage.removeItem('__oneDrive')
       }
-      if (!grantTokenResponse.code || grantTokenResponse.error || !grantTokenResponse || !isAuthRedirectLocation) {
+      if (
+        !grantTokenResponse.code ||
+        grantTokenResponse.error ||
+        !grantTokenResponse ||
+        !isAuthRedirectLocation
+      ) {
         const errorCause = grantTokenResponse.error ? `Cause: ${grantTokenResponse.error}` : ''
-        toast.error(`${__('Authorization failed', 'bit-integrations')} ${errorCause}. ${__('please try again', 'bit-integrations')}`)
+        toast.error(
+          `${__('Authorization Failed', 'bit-integrations')} ${errorCause}. ${__('please try again', 'bit-integrations')}`
+        )
         setIsLoading(false)
       } else {
         const newConf = { ...confTmp }
@@ -193,19 +227,23 @@ const tokenHelper = (grantToken, confTmp, setConf, setIsAuthorized, setIsLoading
   // eslint-disable-next-line no-undef
   tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
 
-  bitsFetch(tokenRequestParams, 'oneDrive_authorization')
-    .then(result => {
-      if (result && result.success) {
-        const newConf = { ...confTmp }
-        newConf.tokenDetails = result.data
-        setConf(newConf)
-        setIsAuthorized(true)
-        toast.success(__('Authorized Successfully', 'bit-integrations'))
-      } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
-        toast.error(`${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}`)
-      } else {
-        toast.error(__('Authorization failed. please try again', 'bit-integrations'))
-      }
-      setIsLoading(false)
-    })
+  bitsFetch(tokenRequestParams, 'oneDrive_authorization').then((result) => {
+    if (result && result.success) {
+      const newConf = { ...confTmp }
+      newConf.tokenDetails = result.data
+      setConf(newConf)
+      setIsAuthorized(true)
+      toast.success(__('Authorized Successfully', 'bit-integrations'))
+    } else if (
+      (result && result.data && result.data.data) ||
+      (!result.success && typeof result.data === 'string')
+    ) {
+      toast.error(
+        `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}`
+      )
+    } else {
+      toast.error(__('Authorization failed. please try again', 'bit-integrations'))
+    }
+    setIsLoading(false)
+  })
 }

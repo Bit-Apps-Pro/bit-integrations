@@ -26,15 +26,23 @@ export const handleFieldMapping = (fldProp, event, index, conftTmp, setConf) => 
   setConf({ ...newConf })
 }
 
-export const checkMappedPostFields = data => {
-  const mappedFields = data?.post_map ? data.post_map.filter(mappedField => !mappedField.formField && mappedField.postField && mappedField.required) : []
+export const checkMappedPostFields = (data) => {
+  const mappedFields = data?.post_map
+    ? data.post_map.filter(
+        (mappedField) => !mappedField.formField && mappedField.postField && mappedField.required
+      )
+    : []
   if (mappedFields.length > 0) {
     return false
   }
   return true
 }
-export const checkMappedAcfFields = data => {
-  const mappedFields = data?.acf_map ? data.acf_map.filter(mappedField => !mappedField.formField && mappedField.acfField && mappedField.required) : []
+export const checkMappedAcfFields = (data) => {
+  const mappedFields = data?.acf_map
+    ? data.acf_map.filter(
+        (mappedField) => !mappedField.formField && mappedField.acfField && mappedField.required
+      )
+    : []
   if (mappedFields.length > 0) {
     return false
   }
@@ -42,8 +50,25 @@ export const checkMappedAcfFields = data => {
   return true
 }
 
-export const checkMappedMbFields = data => {
-  const mappedFields = data?.metabox_map ? data.metabox_map.filter(mappedField => !mappedField.formField && mappedField.metaboxField && mappedField.required) : []
+export const checkMappedMbFields = (data) => {
+  const mappedFields = data?.metabox_map
+    ? data.metabox_map.filter(
+        (mappedField) => !mappedField.formField && mappedField.metaboxField && mappedField.required
+      )
+    : []
+  if (mappedFields.length > 0) {
+    return false
+  }
+
+  return true
+}
+
+export const checkMappedJEFields = (data) => {
+  const mappedFields = data?.je_cpt_meta_map
+    ? data.je_cpt_meta_map.filter(
+        (mappedField) => !mappedField.formField && mappedField.jeCPTField && mappedField.required
+      )
+    : []
   if (mappedFields.length > 0) {
     return false
   }
@@ -52,7 +77,10 @@ export const checkMappedMbFields = data => {
 }
 
 export const refreshAcfFields = (acfConf, setAcfFields, setAcfFile) => {
-  const loadAcfFields = bitsFetch({ post_type: acfConf?.post_type }, 'bitforms_get_custom_field').then((res) => {
+  const loadAcfFields = bitsFetch(
+    { post_type: acfConf?.post_type },
+    'bitforms_get_custom_field'
+  ).then((res) => {
     if (res !== undefined && res.success) {
       if (res?.data?.acfFields) {
         setAcfFields(res.data.acfFields)
@@ -61,31 +89,31 @@ export const refreshAcfFields = (acfConf, setAcfFields, setAcfFile) => {
         setAcfFile(res.data.acfFile)
       }
     }
-    if (res?.data?.acfFields.length !== 0 || res?.data?.acfFile.length !== 0) return 'Successfully refresh ACF Fields.'
-    return 'ACF Fields not found'
+    if (res?.data?.acfFields.length !== 0 || res?.data?.acfFile.length !== 0)
+      return 'Successfully refresh ACF Fields.'
+    return __('ACF Fields not found', 'bit-integrations')
   })
   toast.promise(loadAcfFields, {
-    success: data => data,
+    success: (data) => data,
     error: __('Error Occurred', 'bit-integrations'),
-    loading: __('Loading ACF Fields...'),
+    loading: __('Loading ACF Fields...')
   })
 }
 export const refreshPostTypes = (postTypes, setPostTypes) => {
-  const loadPostTypes = bitsFetch({}, 'post-types/list')
-    .then(result => {
-      if (result && result.success) {
-        const { data } = result
-        if (data) {
-          setPostTypes(data)
-        }
-        if (data !== 0) return 'Successfully refresh Post Types.'
-        return ' Post Types not found'
+  const loadPostTypes = bitsFetch({}, 'post-types/list').then((result) => {
+    if (result && result.success) {
+      const { data } = result
+      if (data) {
+        setPostTypes(data)
       }
-    })
+      if (data !== 0) return 'Successfully refresh Post Types.'
+      return __('Post Types not found', 'bit-integrations')
+    }
+  })
 
   toast.promise(loadPostTypes, {
-    success: data => data,
+    success: (data) => data,
     error: __('Error Occurred', 'bit-integrations'),
-    loading: __('Loading Post Types...'),
+    loading: __('Loading Post Types...')
   })
 }

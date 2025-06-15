@@ -28,26 +28,26 @@ class TutorLmsController
             wp_send_json_success(true, 200);
         }
 
-        wp_send_json_error(__('Tutor LMS must be activated!', 'bit-integrations'));
+        wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'Tutor LMS'));
     }
 
     public static function getAllLesson()
     {
-        if (!function_exists('tutor')) {
-            wp_send_json_error(__('Tutor LMS is not installed or activated', 'bit-integrations'));
+        if (!\function_exists('tutor')) {
+            wp_send_json_error(wp_sprintf(__('%s is not installed or activated.', 'bit-integrations'), 'Tutor LMS'));
         }
 
         $lessons = [];
 
         $lessonList = get_posts([
-            'post_type' => 'lesson',
+            'post_type'   => 'lesson',
             'post_status' => 'publish',
             'numberposts' => -1
         ]);
 
         foreach ($lessonList as $key => $val) {
             $lessons[] = [
-                'lessonId' => $val->ID,
+                'lessonId'    => $val->ID,
                 'lessonTitle' => $val->post_title,
             ];
         }
@@ -57,27 +57,26 @@ class TutorLmsController
     public static function getAllCourse($queryParams)
     {
         $action = $queryParams->type;
-        if (!function_exists('tutor')) {
-            wp_send_json_error(__('Tutor LMS is not installed or activated', 'bit-integrations'));
+        if (!\function_exists('tutor')) {
+            wp_send_json_error(wp_sprintf(__('%s is not installed or activated.', 'bit-integrations'), 'Tutor LMS'));
         }
 
-
         $courseList = get_posts([
-            'post_type' => 'courses',
+            'post_type'   => 'courses',
             'post_status' => 'publish',
             'numberposts' => -1
         ]);
 
         if ($action !== 'complete-course' && $action !== 'reset-course') {
             $courses[] = [
-                'courseId' => "all-course",
-                'courseTitle' => "All Course",
+                'courseId'    => 'all-course',
+                'courseTitle' => __('All Course', 'bit-integrations'),
             ];
         }
 
         foreach ($courseList as $key => $val) {
             $courses[] = [
-                'courseId' => $val->ID,
+                'courseId'    => $val->ID,
                 'courseTitle' => $val->post_title,
             ];
         }
@@ -88,7 +87,7 @@ class TutorLmsController
     {
         $course_ids = [];
 
-        if (count($selectedAllCourse)) {
+        if (\count($selectedAllCourse)) {
             foreach ($selectedAllCourse as $course) {
                 if ($course->courseId !== 'all-course') {
                     $course_ids[] = $course->courseId;
@@ -99,23 +98,24 @@ class TutorLmsController
         }
 
         $user_id = get_current_user_id();
-        if (!count($course_ids)) {
+        if (!\count($course_ids)) {
             return;
         }
 
-        if ($type === "enroll") {
+        if ($type === 'enroll') {
             foreach ($course_ids as $course_id) {
                 add_filter('is_course_purchasable', '__return_false', 10);
                 tutor_utils()->do_enroll($course_id, false, $user_id);
                 remove_filter('is_course_purchasable', '__return_false', 10);
             }
-            return "course enrolled";
-        } else {
-            foreach ($course_ids as $course_id) {
-                tutor_utils()->cancel_course_enrol($course_id, $user_id);
-            }
-            return "course unenrolled";
+
+            return __('course enrolled', 'bit-integrations');
         }
+        foreach ($course_ids as $course_id) {
+            tutor_utils()->cancel_course_enrol($course_id, $user_id);
+        }
+
+        return __('course unenrolled', 'bit-integrations');
     }
 
     public static function completeLesson($selectedLesson)
@@ -123,7 +123,8 @@ class TutorLmsController
         $user_id = get_current_user_id();
         $lesson_id = $selectedLesson[0];
         tutils()->mark_lesson_complete($lesson_id, $user_id);
-        return "Lesson completed";
+
+        return __('Lesson completed', 'bit-integrations');
     }
 
     public static function completeCourse($selectedCourse)
@@ -132,9 +133,8 @@ class TutorLmsController
         $course_id = $selectedCourse[0];
 
         if (!tutils()->is_completed_course($course_id, $user_id)) {
-
             $lessons = tutils()->get_lesson($course_id, -1);
-            if (count($lessons)) {
+            if (\count($lessons)) {
                 foreach ($lessons as $lesson) {
                     tutils()->mark_lesson_complete($lesson->ID, $user_id);
                 }
@@ -142,7 +142,8 @@ class TutorLmsController
         }
 
         $completed = self::completedCourse($course_id, $user_id);
-        return "Course Completed";
+
+        return __('Course Completed', 'bit-integrations');
     }
 
     public static function resetCourse($selectedCourse)
@@ -153,7 +154,7 @@ class TutorLmsController
 
         $completedLessonIds = $wpdb->get_col($wpdb->prepare("select post_id from {$wpdb->postmeta} where meta_key = '_tutor_course_id_for_lesson' AND meta_value = %d", $course_id));
 
-        if (is_array($completedLessonIds) && count($completedLessonIds)) {
+        if (\is_array($completedLessonIds) && \count($completedLessonIds)) {
             $lessonMetaIds = [];
             foreach ($completedLessonIds as $lesson_id) {
                 $lessonMetaIds[] = '_tutor_completed_lesson_id_' . $lesson_id;
@@ -178,26 +179,26 @@ class TutorLmsController
         }
 
         $wpdb->query($wpdb->prepare("DELETE from {$wpdb->comments} WHERE comment_agent = 'TutorLMSPlugin' AND comment_type = 'course_completed' AND comment_post_ID = %d AND user_id = %d", $course_id, $user_id));
-        return "Course progress reseted";
+
+        return __('Course progress reseted', 'bit-integrations');
     }
 
     public static function completedCourse($course_id, $user_id)
     {
-
         global $wpdb;
         do_action('tutor_course_complete_before', $course_id);
 
-        $date = date("Y-m-d H:i:s", tutor_time());
+        $date = date('Y-m-d H:i:s', tutor_time());
 
-        $hash    = substr(md5(wp_generate_password(32) . $date . $course_id . $user_id), 0, 16);
+        $hash = substr(md5(wp_generate_password(32) . $date . $course_id . $user_id), 0, 16);
         $has_unique_hash = $wpdb->get_var($wpdb->prepare("SELECT COUNT(comment_ID) from {$wpdb->comments} WHERE comment_agent = 'TutorLMSPlugin' AND comment_type = 'course_completed' AND comment_content = %s", $hash));
 
-        while ((int)$has_unique_hash > 0) {
-            $hash    = substr(md5(wp_generate_password(32) . $date . $course_id . $user_id), 0, 16);
+        while ((int) $has_unique_hash > 0) {
+            $hash = substr(md5(wp_generate_password(32) . $date . $course_id . $user_id), 0, 16);
             $has_unique_hash = $wpdb->get_var($wpdb->prepare("SELECT COUNT(comment_ID) from {$wpdb->comments} WHERE comment_agent = 'TutorLMSPlugin' AND comment_type = 'course_completed' AND comment_content = %s", $hash));
         }
 
-        $data = array(
+        $data = [
             'comment_post_ID'  => $course_id,
             'comment_author'   => $user_id,
             'comment_date'     => $date,
@@ -207,11 +208,12 @@ class TutorLmsController
             'comment_agent'    => 'TutorLMSPlugin',
             'comment_type'     => 'course_completed',
             'user_id'          => $user_id,
-        );
+        ];
 
         $wpdb->insert($wpdb->comments, $data);
 
         do_action('tutor_course_complete_after', $course_id);
+
         return true;
     }
 
@@ -221,10 +223,10 @@ class TutorLmsController
         $actionName = $integrationData->flow_details->actionName;
         $response = [];
         switch ($actionName) {
-            case "enroll-course":
-            case "unenroll-course":
-            case "complete-course":
-            case "reset-course":
+            case 'enroll-course':
+            case 'unenroll-course':
+            case 'complete-course':
+            case 'reset-course':
                 $selectedCourse = $integrationData->flow_details->selectedCourse;
                 $selectedAllCourse = [];
                 if ($actionName !== 'complete-course' && property_exists($integrationData->flow_details, 'selectedAllCourse')) {
@@ -232,15 +234,17 @@ class TutorLmsController
                 }
                 if ($actionName === 'complete-course') {
                     $response = self::completeCourse($selectedCourse);
-                } else if ($actionName === 'reset-course') {
+                } elseif ($actionName === 'reset-course') {
                     $response = self::resetCourse($selectedCourse);
                 } else {
-                    $response = self::enrollCourse($selectedCourse, $selectedAllCourse, "enroll");
+                    $response = self::enrollCourse($selectedCourse, $selectedAllCourse, 'enroll');
                 }
+
                 break;
-            case "complete-lesson":
+            case 'complete-lesson':
                 $selectedLesson = $integrationData->flow_details->selectedLesson;
                 $response = self::completeLesson($selectedLesson);
+
                 break;
         }
 

@@ -3,10 +3,10 @@
 /**
  * trello Record Api
  */
+
 namespace BitCode\FI\Actions\Affiliate;
 
 use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Log\LogHandler;
 
 /**
@@ -15,6 +15,7 @@ use BitCode\FI\Log\LogHandler;
 class RecordApiHelper
 {
     private static $integrationID;
+
     private $_integrationDetails;
 
     public function __construct($integrationDetails, $integId)
@@ -42,10 +43,11 @@ class RecordApiHelper
             $actionValue = $value->affiliateFormField;
             if ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!is_null($data[$triggerValue])) {
+            } elseif (!\is_null($data[$triggerValue])) {
                 $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
+
         return $dataFinal;
     }
 
@@ -54,26 +56,33 @@ class RecordApiHelper
         switch ($statusId) {
             case '1':
                 $status = 'paid';
+
                 break;
             case '2':
                 $status = 'unpaid';
+
                 break;
             case '3':
                 $status = 'pending';
+
                 break;
             case '4':
                 $status = 'reject';
+
                 break;
         }
         switch ($referralId) {
             case '1':
                 $referral = 'sale';
+
                 break;
             case '2':
                 $referral = 'opt-in';
+
                 break;
             case '3':
                 $referral = 'lead';
+
                 break;
         }
 
@@ -89,9 +98,8 @@ class RecordApiHelper
         $affiliate_user_id = affwp_get_affiliate_user_id($affiliateId);
         if ($affiliate_user_id && affwp_is_affiliate($affiliate_user_id)) {
             return affwp_add_referral($finalData);
-        } else {
-            LogHandler::save(self::$integrationID, json_encode(['type' => 'group', 'type_name' => 'create-referral']), 'error', json_encode('User are not affiliate'));
         }
+        LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'group', 'type_name' => 'create-referral']), 'error', wp_json_encode('User are not affiliate'));
     }
 
     public static function createAffiliateFortheUser($statusId, $referralId, $finalData)
@@ -99,26 +107,33 @@ class RecordApiHelper
         switch ($statusId) {
             case '1':
                 $status = 'paid';
+
                 break;
             case '2':
                 $status = 'unpaid';
+
                 break;
             case '3':
                 $status = 'pending';
+
                 break;
             case '4':
                 $status = 'reject';
+
                 break;
         }
         switch ($referralId) {
             case '1':
                 $referral = 'sale';
+
                 break;
             case '2':
                 $referral = 'opt-in';
+
                 break;
             case '3':
                 $referral = 'lead';
+
                 break;
         }
 
@@ -135,9 +150,8 @@ class RecordApiHelper
         $affiliate_user_id = affwp_get_affiliate_user_id($affiliateId);
         if ($affiliate_user_id && affwp_is_affiliate($affiliate_user_id)) {
             return affwp_add_referral($finalData);
-        } else {
-            LogHandler::save(self::$integrationID, json_encode(['type' => 'referral', 'type_name' => 'create-referral']), 'error', json_encode('User are not affiliate'));
         }
+        LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'referral', 'type_name' => 'create-referral']), 'error', wp_json_encode(__('User are not affiliate', 'bit-integrations')));
     }
 
     public function execute(
@@ -160,10 +174,11 @@ class RecordApiHelper
                 $finalData
             );
             if ($apiResponse !== 0) {
-                LogHandler::save(self::$integrationID, json_encode(['type' => 'referral', 'type_name' => 'create-referral']), 'success', json_encode('Created Referral id ' . $apiResponse));
+                LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'referral', 'type_name' => 'create-referral']), 'success', wp_json_encode(wp_sprintf(__('Created Referral id %s', 'bit-integrations'), $apiResponse)));
             } else {
-                LogHandler::save(self::$integrationID, json_encode(['type' => 'referral', 'type_name' => 'create-referral']), 'error', json_encode('Error in creating referral'));
+                LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'referral', 'type_name' => 'create-referral']), 'error', wp_json_encode(__('Error in creating referral', 'bit-integrations')));
             }
+
             return $apiResponse;
         }
         if ($mainAction === '2') {
@@ -177,10 +192,11 @@ class RecordApiHelper
                 $finalData
             );
             if ($apiResponse !== 0) {
-                LogHandler::save(self::$integrationID, json_encode(['type' => 'referral', 'type_name' => 'create-referral']), 'success', json_encode('Created Referral id ' . $apiResponse));
+                LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'referral', 'type_name' => 'create-referral']), 'success', wp_json_encode(wp_sprintf(__('Created Referral id %s', 'bit-integrations'), $apiResponse)));
             } else {
-                LogHandler::save(self::$integrationID, json_encode(['type' => 'referral', 'type_name' => 'create-referral']), 'error', json_encode('Error in creating referral'));
+                LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'referral', 'type_name' => 'create-referral']), 'error', wp_json_encode(__('Error in creating referral', 'bit-integrations')));
             }
+
             return $apiResponse;
         }
     }

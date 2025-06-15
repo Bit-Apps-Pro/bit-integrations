@@ -1,114 +1,103 @@
 /* eslint-disable no-unused-expressions */
-import toast from "react-hot-toast";
-import bitsFetch from "../../../Utils/bitsFetch";
-import { __ } from "../../../Utils/i18nwrap";
-import {
-  saveIntegConfig,
-  saveActionConf,
-} from "../IntegrationHelpers/IntegrationHelpers";
+import toast from 'react-hot-toast'
+import bitsFetch from '../../../Utils/bitsFetch'
+import { __ } from '../../../Utils/i18nwrap'
+import { saveIntegConfig, saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 
 export const handleInput = (e, conf, setConf, error, setError) => {
-  const newConf = { ...conf };
-  const inputError = { ...error };
-  inputError[e.target.name] = "";
-  newConf[e.target.name] = e.target.value;
-  setError(inputError);
-  setConf(newConf);
-};
+  const newConf = { ...conf }
+  const inputError = { ...error }
+  inputError[e.target.name] = ''
+  newConf[e.target.name] = e.target.value
+  setError(inputError)
+  setConf(newConf)
+}
 
-export const handleAuthorize = (
-  conf,
-  setError,
-  setAuthorized,
-  loading,
-  setLoading
-) => {
+export const handleAuthorize = (conf, setError, setAuthorized, loading, setLoading) => {
   if (!conf.authKey) {
-    setError({ authKey: !conf.authKey ? __("API key can't be empty") : "" });
-    return;
+    setError({ authKey: !conf.authKey ? __("API Key can't be empty") : '' })
+    return
   }
-  setError({});
-  setLoading({ ...loading, auth: true });
+  setError({})
+  setLoading({ ...loading, auth: true })
 
-  const requestParams = { authKey: conf.authKey };
+  const requestParams = { authKey: conf.authKey }
 
-  bitsFetch(requestParams, "mailercloud_handle_authorize").then((result) => {
+  bitsFetch(requestParams, 'mailercloud_handle_authorize').then((result) => {
     if (!result.data.errors) {
-      setAuthorized(true);
-      setLoading({ ...loading, auth: false });
-      toast.success(__("Authorized successfully"));
-      return;
+      setAuthorized(true)
+      setLoading({ ...loading, auth: false })
+      toast.success(__('Authorized Successfully'))
+      return
     }
-    setLoading({ ...loading, auth: false });
-    toast.error(__("Authorized failed"));
-  });
-};
+    setLoading({ ...loading, auth: false })
+    toast.error(__('Authorized failed'))
+  })
+}
 
 export const getAllLists = async (conf, setConf, loading, setLoading) => {
-  setLoading && setLoading({ ...loading, list: true });
-  const requestParams = { authKey: conf.authKey };
-  const result = await bitsFetch(requestParams, "mailercloud_get_all_lists");
+  setLoading && setLoading({ ...loading, list: true })
+  const requestParams = { authKey: conf.authKey }
+  const result = await bitsFetch(requestParams, 'mailercloud_get_all_lists')
   if (result.success) {
-    const { data } = result.data;
-    const newConf = { ...conf };
+    const { data } = result.data
+    const newConf = { ...conf }
     if (data) {
       if (!newConf.default) {
-        newConf.default = {};
+        newConf.default = {}
       }
-      newConf.default.lists = data;
-      setConf(newConf);
+      newConf.default.lists = data
+      setConf(newConf)
       if (setLoading) {
-        setLoading({ ...loading, list: false });
-        toast.success(__("Tag refresh successfully"));
+        setLoading({ ...loading, list: false })
+        toast.success(__('Tag refresh successfully'))
       }
     }
-    return true;
+    return true
   }
   if (setLoading) {
-    setLoading({ ...loading, list: false });
-    toast.success(__("Tag refresh failed"));
+    setLoading({ ...loading, list: false })
+    toast.success(__('Tag refresh failed'))
   }
-  return false;
-};
+  return false
+}
 
 export const getAllFields = async (conf, setConf, loading, setLoading) => {
-  setLoading && setLoading({ ...loading, field: true });
-  const requestParams = { authKey: conf.authKey };
-  const result = await bitsFetch(requestParams, "mailercloud_get_all_fields");
+  setLoading && setLoading({ ...loading, field: true })
+  const requestParams = { authKey: conf.authKey }
+  const result = await bitsFetch(requestParams, 'mailercloud_get_all_fields')
   if (result.success) {
-    const { data } = result;
-    const newConf = { ...conf };
+    const { data } = result
+    const newConf = { ...conf }
     if (data) {
       if (!newConf.default) {
-        newConf.default = {};
+        newConf.default = {}
       }
-      newConf.default.fields = data;
-      setConf(newConf);
+      newConf.default.fields = data
+      setConf(newConf)
       if (setLoading) {
-        setLoading({ ...loading, field: false });
-        toast.success(__("Tag refresh successfully"));
+        setLoading({ ...loading, field: false })
+        toast.success(__('Tag refresh successfully'))
       }
     }
-    return true;
+    return true
   }
   if (setLoading) {
-    setLoading({ ...loading, field: false });
-    toast.success(__("Tag refresh failed"));
+    setLoading({ ...loading, field: false })
+    toast.success(__('Tag refresh failed'))
   }
-  return false;
-};
+  return false
+}
 
 export const generateMappedField = (mailercloudConf) => {
-  const requiredFlds = mailercloudConf?.default?.fields.filter(
-    (fld) => fld.required === true
-  );
+  const requiredFlds = mailercloudConf?.default?.fields.filter((fld) => fld.required === true)
   return requiredFlds.length > 0
     ? requiredFlds.map((field) => ({
-        formField: "",
-        mailercloudFormField: field.key,
+        formField: '',
+        mailercloudFormField: field.key
       }))
-    : [{ formField: "", mailercloudFormField: "" }];
-};
+    : [{ formField: '', mailercloudFormField: '' }]
+}
 
 export const checkMappedFields = (mailercloudConf) => {
   const mappedFields = mailercloudConf?.field_map
@@ -116,67 +105,44 @@ export const checkMappedFields = (mailercloudConf) => {
         (mappedField) =>
           !mappedField.formField ||
           !mappedField.mailercloudFormField ||
-          (!mappedField.formField === "custom" && !mappedField.customValue)
+          (!mappedField.formField === 'custom' && !mappedField.customValue)
       )
-    : [];
+    : []
   if (mappedFields.length > 0) {
-    return false;
+    return false
   }
-  return true;
-};
+  return true
+}
 
 export const nextPage = (conf, setStep, pageNo) => {
   setTimeout(() => {
-    document.getElementById("btcd-settings-wrp").scrollTop = 0;
-  }, 300);
+    document.getElementById('btcd-settings-wrp').scrollTop = 0
+  }, 300)
 
   if (!checkMappedFields(conf)) {
-    toast.error("Please map mandatory fields");
-    return;
+    toast.error(__('Please map mandatory fields', 'bit-integrations'))
+    return
   }
-  conf.field_map.length > 0 && setStep(pageNo);
-};
+  conf.field_map.length > 0 && setStep(pageNo)
+}
 
-export const saveConfig = (
-  flow,
-  setFlow,
-  allIntegURL,
-  conf,
-  navigate,
-  setLoading
-) => {
-  setLoading(true);
-  const resp = saveIntegConfig(
-    flow,
-    setFlow,
-    allIntegURL,
-    conf,
-    navigate,
-    "",
-    "",
-    setLoading
-  );
+export const saveConfig = (flow, setFlow, allIntegURL, conf, navigate, setLoading) => {
+  setLoading(true)
+  const resp = saveIntegConfig(flow, setFlow, allIntegURL, conf, navigate, '', '', setLoading)
   resp.then((res) => {
     if (res.success) {
-      toast.success(res.data?.msg);
-      navigate(allIntegURL);
+      toast.success(res.data?.msg)
+      navigate(allIntegURL)
     } else {
-      toast.error(res.data || res);
+      toast.error(res.data || res)
     }
-  });
-};
+  })
+}
 
-export const saveUpdateConfig = (
-  flow,
-  allIntegURL,
-  conf,
-  navigate,
-  edit,
-  setIsLoading
-) => {
+export const saveUpdateConfig = (flow, allIntegURL, conf, navigate, edit, setIsLoading) => {
   if (!checkMappedFields(conf)) {
-    toast.error("Please map mandatory fields");
-    return;
+    toast.error(__('Please map mandatory fields', 'bit-integrations'))
+    return
   }
-  saveActionConf({ flow, allIntegURL, conf, navigate, edit, setIsLoading });
-};
+  saveActionConf({ flow, allIntegURL, conf, navigate, edit, setIsLoading })
+}

@@ -8,7 +8,6 @@ namespace BitCode\FI\Actions\Klaviyo;
 
 use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Core\Util\Helper;
 use BitCode\FI\Core\Util\HttpHelper;
 
 /**
@@ -17,46 +16,15 @@ use BitCode\FI\Core\Util\HttpHelper;
 class RecordApiHelper
 {
     private $_integrationID;
-    private $baseUrl = 'https://a.klaviyo.com/api/';
 
+    private $_integrationDetails;
+
+    private $baseUrl = 'https://a.klaviyo.com/api/';
 
     public function __construct($integrationDetails, $integId)
     {
         $this->_integrationDetails = $integrationDetails;
         $this->_integrationID = $integId;
-    }
-
-    public function addMember($authKey, $listId, $data)
-    {
-        $data = [
-            "data" => (object)[
-                "type" => "profile",
-                "attributes" => $data
-            ]
-        ];
-
-        $headers = [
-            'Authorization' => "Klaviyo-API-Key {$authKey}",
-            'Content-Type'  => 'application/json',
-            'accept'        => 'application/json',
-            'revision'      => '2024-02-15'
-        ];
-
-        $apiEndpoints   = "{$this->baseUrl}profiles";
-        $apiResponse    = HttpHelper::post($apiEndpoints, json_encode($data), $headers);
-        if (!isset($apiResponse->data)) {
-            return $apiResponse;
-        }
-
-        $data = [
-            "data" => [(object)[
-                "type"  => "profile",
-                "id"    => $apiResponse->data->id
-            ]]
-        ];
-
-        $apiEndpoints = "{$this->baseUrl}lists/{$listId}/relationships/profiles";
-        return HttpHelper::post($apiEndpoints, json_encode($data), $headers);
     }
 
     public function generateReqDataFromFieldMap($data, $field_map)
@@ -67,10 +35,11 @@ class RecordApiHelper
             $actionValue = $value->klaviyoFormField;
             if ($triggerValue === 'custom') {
                 $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!is_null($data[$triggerValue])) {
+            } elseif (!\is_null($data[$triggerValue])) {
                 $dataFinal[$actionValue] = $data[$triggerValue];
             }
         }
+
         return $dataFinal;
     }
 
@@ -80,15 +49,88 @@ class RecordApiHelper
         $field_map,
         $authKey
     ) {
+        $typeName = 'add-members';
         $finalData = $this->generateReqDataFromFieldMap($fieldValues, $field_map);
-        $apiResponse = $this->addMember($authKey, $listId, (object) $finalData);
+        $apiResponse = $this->handleProfile($authKey, $listId, $finalData, $fieldValues, $typeName);
+
         if (isset($apiResponse->errors)) {
             $res = ['success' => false, 'message' => $apiResponse->errors[0]->detail, 'code' => 400];
-            LogHandler::save($this->_integrationID, json_encode(['type' => 'members', 'type_name' => 'add-members']), 'error', json_encode($res));
+            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'members', 'type_name' => $typeName]), 'error', wp_json_encode($res));
         } else {
             $res = ['success' => true, 'message' => $apiResponse, 'code' => 200];
-            LogHandler::save($this->_integrationID, json_encode(['type' => 'members', 'type_name' => 'add-members']), 'success', json_encode($res));
+            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'members', 'type_name' => $typeName]), 'success', wp_json_encode($res));
         }
+
         return $apiResponse;
+    }
+
+    private function handleProfile($authKey, $listId, $data, $fieldValues, &$typeName)
+    {
+        $id = $this->existProfile($data['email'], $authKey);
+
+        $data = [
+            'data' => [
+                'type'       => 'profile',
+                'attributes' => $data
+            ]
+        ];
+
+        $data = apply_filters('btcbi_klaviyo_custom_properties', $data, $this->_integrationDetails->custom_field_map ?? [], $fieldValues);
+
+        if (empty($this->_integrationDetails->update) || empty($id)) {
+            return $this->createProfile($authKey, $listId, $data, $fieldValues);
+        }
+
+        $typeName = 'update-members';
+        $response = apply_filters('btcbi_klaviyo_update_profile', false, $id, $authKey, $data);
+
+        if (!$response) {
+            return (object) ['errors' => [(object) ['detail' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')]]];
+        }
+
+        return $response;
+    }
+
+    private function existProfile($email, $authKey)
+    {
+        if (empty($email)) {
+            return false;
+        }
+
+        $apiEndpoints = "https://a.klaviyo.com/api/profiles?filter=equals(email,'{$email}')";
+        $apiResponse = HttpHelper::get($apiEndpoints, null, $this->setHeaders($authKey));
+
+        return $apiResponse->data[0]->id ?? false;
+    }
+
+    private function createProfile($authKey, $listId, $data, $fieldValues)
+    {
+        $apiEndpoints = "{$this->baseUrl}profiles";
+        $apiResponse = HttpHelper::post($apiEndpoints, wp_json_encode($data), $this->setHeaders($authKey));
+
+        if (!isset($apiResponse->data)) {
+            return $apiResponse;
+        }
+
+        $data = [
+            'data' => [(object) [
+                'type' => 'profile',
+                'id'   => $apiResponse->data->id
+            ]]
+        ];
+
+        $apiEndpoints = "{$this->baseUrl}lists/{$listId}/relationships/profiles";
+
+        return HttpHelper::post($apiEndpoints, wp_json_encode($data), $this->setHeaders($authKey));
+    }
+
+    private function setHeaders($authKey)
+    {
+        return [
+            'Authorization' => "Klaviyo-API-Key {$authKey}",
+            'Content-Type'  => 'application/json',
+            'accept'        => 'application/json',
+            'revision'      => '2024-02-15'
+        ];
     }
 }

@@ -19,7 +19,14 @@ export default function SmailyActions({ smailyConf, setSmailyConf }) {
 
   return (
     <div className="pos-rel d-flx w-8">
-      <TableCheckBox checked={smailyConf.actions?.unsubscribe || false} onChange={(e) => actionHandler(e, 'unsubscribe')} className="wdt-200 mt-4 mr-2" value="update_subscriber" title={__('unsubscribe subscriber', 'bit-integrations')} subTitle={__('Set the subscriber\'s status as unsubscribed.', 'bit-integrations')} />
+      <TableCheckBox
+        checked={smailyConf.actions?.unsubscribe || false}
+        onChange={(e) => actionHandler(e, 'unsubscribe')}
+        className="wdt-200 mt-4 mr-2"
+        value="update_subscriber"
+        title={__('unsubscribe subscriber', 'bit-integrations')}
+        subTitle={__("Set the subscriber's status as unsubscribed.", 'bit-integrations')}
+      />
     </div>
   )
 }

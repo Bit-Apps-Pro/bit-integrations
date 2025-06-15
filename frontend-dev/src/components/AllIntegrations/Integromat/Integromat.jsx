@@ -21,28 +21,26 @@ function Integromat({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Make(Integromat) Web Hooks',
     type: 'Make(Integromat)',
     method: 'POST',
-    url: process.env.NODE_ENV === 'development' ? 'https://connect.pabbly.com/workflow/sendwebhookdata/IjIyMjIxNiI_3D' : '',
-    apiConsole: 'https://www.integromat.com/hooks/',
+    url: '',
+    apiConsole: 'https://www.integromat.com/hooks/'
   })
 
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={2} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={2} active={step} />
+      </div>
 
       {/* STEP 1 */}
-      <div className="btcd-stp-page" style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
+      <div
+        className="btcd-stp-page"
+        style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
         {integromatLinks?.youTubeLink && (
-          <TutorialLink
-            title={integromatLinks?.title}
-            youTubeLink={integromatLinks?.youTubeLink}
-          />
+          <TutorialLink title="Make (Integromat)" youTubeLink={integromatLinks?.youTubeLink} />
         )}
         {integromatLinks?.docLink && (
-          <TutorialLink
-            title={integromatLinks?.title}
-            docLink={integromatLinks?.docLink}
-          />
+          <TutorialLink title="Make (Integromat)" docLink={integromatLinks?.docLink} />
         )}
 
         <WebHooksIntegration
@@ -58,14 +56,16 @@ function Integromat({ formFields, setFlow, flow, allIntegURL }) {
       </div>
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ width: step === 2 && '100%', height: step === 2 && 'auto' }}>
-
+      <div
+        className="btcd-stp-page"
+        style={{ width: step === 2 && '100%', height: step === 2 && 'auto' }}>
         <WebHooksStepTwo
           step={step}
-          saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, integromat, navigate, '', '', setIsLoading)}
+          saveConfig={() =>
+            saveIntegConfig(flow, setFlow, allIntegURL, integromat, navigate, '', '', setIsLoading)
+          }
           isLoading={isLoading}
         />
-
       </div>
     </div>
   )

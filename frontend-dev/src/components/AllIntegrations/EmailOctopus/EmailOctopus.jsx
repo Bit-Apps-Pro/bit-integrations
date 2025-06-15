@@ -21,7 +21,7 @@ function EmailOctopus({ formFields, setFlow, flow, allIntegURL }) {
     tags: false,
     customFields: false,
     lists: false,
-    emailOctopusFields: false,
+    emailOctopusFields: false
   })
 
   const [step, setStep] = useState(1)
@@ -29,22 +29,29 @@ function EmailOctopus({ formFields, setFlow, flow, allIntegURL }) {
   const [emailOctopusConf, setEmailOctopusConf] = useState({
     name: 'EmailOctopus',
     type: 'EmailOctopus',
-    auth_token: process.env.NODE_ENV === 'development' ? 'cb8a0959-b750-48b3-8d91-d4a7fad5d278' : '',
-    field_map: [
-      { formField: '', emailOctopusFormField: '' },
-    ],
+    auth_token: '',
+    field_map: [{ formField: '', emailOctopusFormField: '' }],
     emailOctopusFields: [],
     lists: [],
     selectedList: '',
     status: '',
     tags: [],
     selectedTags: [],
-    actions: {},
+    actions: {}
   })
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(flow, setFlow, allIntegURL, emailOctopusConf, navigate, '', '', setIsLoading)
+    const resp = saveIntegConfig(
+      flow,
+      setFlow,
+      allIntegURL,
+      emailOctopusConf,
+      navigate,
+      '',
+      '',
+      setIsLoading
+    )
     resp.then(res => {
       if (res.success) {
         toast.success(res.data?.msg)
@@ -55,13 +62,13 @@ function EmailOctopus({ formFields, setFlow, flow, allIntegURL }) {
     })
   }
 
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
     if (!checkMappedFields(emailOctopusConf)) {
-      toast.error('Please map mandatory emailOctopusFields')
+      toast.error(__('Please map mandatory emailOctopusFields', 'bit-integrations'))
       return
     }
     emailOctopusConf.field_map.length > 0 && setStep(pageNo)
@@ -70,7 +77,9 @@ function EmailOctopus({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={3} active={step} />
+      </div>
 
       {/* STEP 1 */}
       <EmailOctopusAuthorization
@@ -84,11 +93,14 @@ function EmailOctopus({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-      <div className="btcd-stp-page" style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
-
+      <div
+        className="btcd-stp-page"
+        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <EmailOctopusIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, emailOctopusConf, setEmailOctopusConf, setLoading, setSnackbar)}
+          handleInput={e =>
+            handleInput(e, emailOctopusConf, setEmailOctopusConf, setLoading, setSnackbar)
+          }
           emailOctopusConf={emailOctopusConf}
           setEmailOctopusConf={setEmailOctopusConf}
           loading={loading}
@@ -100,12 +112,9 @@ function EmailOctopus({ formFields, setFlow, flow, allIntegURL }) {
           <button
             onClick={() => nextPage(3)}
             disabled={!checkMappedFields(emailOctopusConf)}
-            className="btn f-right btcd-btn-lg green sh-sm flx"
-            type="button"
-          >
-            {__('Next', 'bit-integrations')}
-            {' '}
-            &nbsp;
+            className="btn f-right btcd-btn-lg purple sh-sm flx"
+            type="button">
+            {__('Next', 'bit-integrations')} &nbsp;
             <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
           </button>
         )}

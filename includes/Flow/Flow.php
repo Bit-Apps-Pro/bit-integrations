@@ -1,18 +1,13 @@
 <?php
 
-/**
- *
- * @package bit-integrations
- */
-
 namespace BitCode\FI\Flow;
 
 use WP_Error;
-use BitCode\FI\Plugin;
 use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\IpTool;
 use BitCode\FI\Core\Util\SmartTags;
+use BitCode\FI\Core\Util\Capabilities;
 use BitCode\FI\Core\Util\StoreInCache;
 use BitCode\FI\Triggers\TriggerController;
 use BitCode\FI\Core\Util\CustomFuncValidator;
@@ -21,40 +16,8 @@ use BitCode\FI\Core\Util\CustomFuncValidator;
  * Provides details of available integration and helps to
  * execute available flows
  */
-
 final class Flow
 {
-    /**
-     * Checks a Integration Action Exists or not
-     *
-     * @param  String $name Name of Action
-     * @return boolean
-     */
-    protected static function isActionExists($name)
-    {
-        if (class_exists("BitCode\\FI\\Actions\\{$name}\\{$name}Controller")) {
-            return "BitCode\\FI\\Actions\\{$name}\\{$name}Controller";
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Checks a Integration Trigger Exists or not
-     *
-     * @param String $name Name of Trigger
-     *
-     * @return boolean
-     */
-    protected static function isTriggerExists($name)
-    {
-        if (class_exists("BitCode\\FI\\Triggers\\{$name}\\{$name}Controller")) {
-            return "BitCode\\FI\\Triggers\\{$name}\\{$name}Controller";
-        } else {
-            return false;
-        }
-    }
-
     public function triggers()
     {
         return TriggerController::triggerList();
@@ -65,26 +28,30 @@ final class Flow
         if ($triggerName == 'Post') {
             switch ($triggerId) {
                 case 1:
-                    return 'Create a new post';
+                    return __('Create a new post', 'bit-integrations');
                 case 2:
-                    return 'Updated a post';
+                    return __('Updated a post', 'bit-integrations');
                 case 3:
-                    return 'Delete a post';
+                    return __('Delete a post', 'bit-integrations');
                 case 4:
-                    return 'User views a post';
+                    return __('User views a post', 'bit-integrations');
                 case 5:
-                    return 'User comments on a post';
+                    return __('User comments on a post', 'bit-integrations');
                 case 6:
-                    return 'Change post status';
+                    return __('Change post status', 'bit-integrations');
                 default:
                     return $triggerName;
             }
         }
+
         return $triggerName;
     }
 
     public function flowList()
     {
+        if (!(Capabilities::Check('manage_options') || Capabilities::Check('bit_integrations_manage_integrations'))) {
+            wp_send_json_error(__('User don\'t have permission to access this page', 'bit-integrations'));
+        }
         $integrationHandler = new FlowController();
         $triggers = $this->triggers();
         $integrations = $integrationHandler->get(
@@ -113,12 +80,15 @@ final class Flow
 
     public function get($data)
     {
+        if (!(Capabilities::Check('manage_options') || Capabilities::Check('bit_integrations_manage_integrations') || Capabilities::Check('bit_integrations_create_integrations') || Capabilities::Check('bit_integrations_edit_integrations'))) {
+            wp_send_json_error(__('User don\'t have permission to access this page', 'bit-integrations'));
+        }
         $missing_field = null;
         if (!property_exists($data, 'id')) {
             $missing_field = 'Integration ID';
         }
-        if (!is_null($missing_field)) {
-            wp_send_json_error(sprintf(__('%s can\'t be empty', 'bit-integrations'), $missing_field));
+        if (!\is_null($missing_field)) {
+            wp_send_json_error(wp_sprintf(__('%s can\'t be empty', 'bit-integrations'), $missing_field));
         }
         $integrationHandler = new FlowController();
         $integrations = $integrationHandler->get(
@@ -136,17 +106,20 @@ final class Flow
         }
         $integration = $integrations[0];
         if (!($trigger = self::isTriggerExists($integration->triggered_entity))) {
-            wp_send_json_error('Trigger does not exists');
+            wp_send_json_error(__('Trigger does not exists', 'bit-integrations'));
         }
-        if (is_string($integration->flow_details)) {
+        if (\is_string($integration->flow_details)) {
             $integration->flow_details = json_decode($integration->flow_details);
         }
-        if (is_object($integration->flow_details) && !property_exists($integration->flow_details, 'fields') && method_exists($trigger, 'fields')) {
+        if (\is_object($integration->flow_details) && !property_exists($integration->flow_details, 'fields') && method_exists($trigger, 'fields')) {
             if ($integration->triggered_entity == 'Elementor' || $integration->triggered_entity == 'Divi' || $integration->triggered_entity == 'Bricks' || $integration->triggered_entity == 'Brizy' || $integration->triggered_entity == 'Breakdance' || $integration->triggered_entity == 'CartFlow') {
                 $data = (object) [
-                    'id' => $integration->triggered_entity_id,
+                    'id'     => $integration->triggered_entity_id,
                     'postId' => $integration->flow_details->postId,
                 ];
+                $integration->fields = $trigger::fields($data);
+            } elseif (method_exists($trigger, 'formattedParam') && $trigger::formattedParam($integration)->id !== -1) {
+                $data = $trigger::formattedParam($integration);
                 $integration->fields = $trigger::fields($data);
             } else {
                 $integration->fields = $trigger::fields($integration->triggered_entity_id);
@@ -155,25 +128,29 @@ final class Flow
         if (property_exists($integration->flow_details, 'fields')) {
             $integration->fields = $integration->flow_details->fields;
         }
+
         wp_send_json_success(['integration' => $integration]);
     }
 
     public function save($data)
     {
+        if (!(Capabilities::Check('manage_options') || Capabilities::Check('bit_integrations_manage_integrations') || Capabilities::Check('bit_integrations_create_integrations'))) {
+            wp_send_json_error(__('User don\'t have permission to access this page', 'bit-integrations'));
+        }
         $missing_field = null;
         if (!property_exists($data, 'trigger')) {
             $missing_field = 'Trigger';
         }
 
         if (!property_exists($data, 'triggered_entity_id')) {
-            $missing_field = (is_null($missing_field) ? null : ', ') . 'Triggered form ID';
+            $missing_field = (\is_null($missing_field) ? null : ', ') . 'Triggered form ID';
         }
 
         if (!property_exists($data, 'flow_details')) {
-            $missing_field = (is_null($missing_field) ? null : ', ') . 'Integration details';
+            $missing_field = (\is_null($missing_field) ? null : ', ') . 'Integration details';
         }
-        if (!is_null($missing_field)) {
-            wp_send_json_error(sprintf(__('%s can\'t be empty', 'bit-integrations'), $missing_field));
+        if (!\is_null($missing_field)) {
+            wp_send_json_error(wp_sprintf(__('%s can\'t be empty', 'bit-integrations'), $missing_field));
         }
 
         // custom action
@@ -184,12 +161,7 @@ final class Flow
         $name = !empty($data->name) ? $data->name : '';
         $integrationHandler = new FlowController();
         $saveStatus = $integrationHandler->save($name, $data->trigger, $data->triggered_entity_id, $data->flow_details);
-
-        if ($saveStatus) {
-            $storeInCacheInstance = new StoreInCache();
-            $activeFlowTrigger = $storeInCacheInstance::getActiveFlow();
-            $storeInCacheInstance::setTransient('activeCurrentTrigger', $activeFlowTrigger, DAY_IN_SECONDS);
-        }
+        static::updateFlowTrigger($saveStatus);
 
         if (is_wp_error($saveStatus)) {
             wp_send_json_error($saveStatus->get_error_message());
@@ -200,13 +172,16 @@ final class Flow
 
     public function flowClone($data)
     {
+        if (!(Capabilities::Check('manage_options') || Capabilities::Check('bit_integrations_manage_integrations') || Capabilities::Check('bit_integrations_create_integrations'))) {
+            wp_send_json_error(__('User don\'t have permission to access this page', 'bit-integrations'));
+        }
         $missingId = null;
         $user_details = IpTool::getUserDetail();
         if (!property_exists($data, 'id')) {
             $missingId = 'Flow ID';
         }
-        if (!is_null($missingId)) {
-            wp_send_json_error(sprintf(__('%s can\'t be empty', 'bit-integrations'), $missingId));
+        if (!\is_null($missingId)) {
+            wp_send_json_error(wp_sprintf(__('%s can\'t be empty', 'bit-integrations'), $missingId));
         }
         $integrationHandler = new FlowController();
         $integrations = $integrationHandler->get(
@@ -219,10 +194,11 @@ final class Flow
                 'flow_details',
             ]
         );
-        if (!is_wp_error($integrations) && count($integrations) > 0) {
+        if (!is_wp_error($integrations) && \count($integrations) > 0) {
             $newInteg = $integrations[0];
             $newInteg->name = 'duplicate of ' . $newInteg->name;
             $saveStatus = $integrationHandler->save($newInteg->name, $newInteg->triggered_entity, $newInteg->triggered_entity_id, $newInteg->flow_details);
+            static::updateFlowTrigger($saveStatus);
 
             if (is_wp_error($saveStatus)) {
                 wp_send_json_error($saveStatus->get_error_message());
@@ -235,6 +211,9 @@ final class Flow
 
     public function update($data)
     {
+        if (!(Capabilities::Check('manage_options') || Capabilities::Check('bit_integrations_manage_integrations') || Capabilities::Check('bit_integrations_edit_integrations'))) {
+            wp_send_json_error(__('User don\'t have permission to access this page', 'bit-integrations'));
+        }
         $missing_field = null;
         if (empty($data->id)) {
             $missing_field = 'Integration id';
@@ -242,8 +221,8 @@ final class Flow
         if (empty($data->flow_details)) {
             $missing_field = 'Flow details';
         }
-        if (!is_null($missing_field)) {
-            wp_send_json_error(sprintf(__('%s can\'t be empty', 'bit-integrations'), $missing_field));
+        if (!\is_null($missing_field)) {
+            wp_send_json_error(wp_sprintf(__('%s can\'t be empty', 'bit-integrations'), $missing_field));
         }
 
         if ($data->flow_details->type === 'CustomAction') {
@@ -255,29 +234,70 @@ final class Flow
         $updateStatus = $integrationHandler->update(
             $data->id,
             [
-                'name' => $name,
-                'triggered_entity' => $data->trigger,
+                'name'                => $name,
+                'triggered_entity'    => $data->trigger,
                 'triggered_entity_id' => $data->triggered_entity_id,
-                'flow_details' => is_string($data->flow_details) ? $data->flow_details : wp_json_encode($data->flow_details),
+                'flow_details'        => \is_string($data->flow_details) ? $data->flow_details : wp_json_encode($data->flow_details),
             ]
         );
+        static::updateFlowTrigger($updateStatus);
+
         if (is_wp_error($updateStatus) && $updateStatus->get_error_code() !== 'result_empty') {
             wp_send_json_error($updateStatus->get_error_message());
         }
         wp_send_json_success(__('Integration updated successfully', 'bit-integrations'));
     }
 
+    public function authorizationStatusChange($data, $status)
+    {
+        $integrationHandler = new FlowController();
+        $integrations = $integrationHandler->get(
+            ['id' => $data],
+            [
+                'id',
+                'name',
+                'triggered_entity',
+                'triggered_entity_id',
+                'flow_details',
+            ]
+        );
+        if (is_wp_error($integrations)) {
+            wp_send_json_error($integrations->get_error_message());
+        }
+
+        $integration = $integrations[0];
+        $flowDetails = json_decode($integration->flow_details);
+
+        $flowDetails->isAuthorized = $status;
+
+        $integrationHandler = new FlowController();
+        $updateStatus = $integrationHandler->update(
+            $integration->id,
+            [
+                'name'                => $integration->name,
+                'triggered_entity'    => $integration->triggered_entity,
+                'triggered_entity_id' => $integration->triggered_entity_id,
+                'flow_details'        => \is_string($flowDetails) ? $flowDetails : wp_json_encode($flowDetails),
+            ]
+        );
+    }
+
     public function delete($data)
     {
+        if (!(Capabilities::Check('manage_options') || Capabilities::Check('bit_integrations_manage_integrations') || Capabilities::Check('bit_integrations_delete_integrations'))) {
+            wp_send_json_error(__('User don\'t have permission to Delete Integration', 'bit-integrations'));
+        }
         $missing_field = null;
         if (empty($data->id)) {
             $missing_field = 'Integration id';
         }
-        if (!is_null($missing_field)) {
-            wp_send_json_error(sprintf(__('%s cann\'t be empty', 'bit-integrations'), $missing_field));
+        if (!\is_null($missing_field)) {
+            wp_send_json_error(wp_sprintf(__('%s can\'t be empty', 'bit-integrations'), $missing_field));
         }
         $integrationHandler = new FlowController();
         $deleteStatus = $integrationHandler->delete($data->id);
+        static::updateFlowTrigger($deleteStatus);
+
         if (is_wp_error($deleteStatus)) {
             wp_send_json_error($deleteStatus->get_error_message());
         }
@@ -286,12 +306,16 @@ final class Flow
 
     public function bulkDelete($param)
     {
-        if (!is_array($param->flowID) || $param->flowID === []) {
-            wp_send_json_error(sprintf(__('%s cann\'t be empty', 'bit-integrations'), 'Integration id'));
+        if (!(Capabilities::Check('manage_options') || Capabilities::Check('bit_integrations_manage_integrations') || Capabilities::Check('bit_integrations_delete_integrations'))) {
+            wp_send_json_error(__('User don\'t have permission to access this page', 'bit-integrations'));
+        }
+        if (!\is_array($param->flowID) || $param->flowID === []) {
+            wp_send_json_error(wp_sprintf(__('%s can\'t be empty', 'bit-integrations'), 'Integration id'));
         }
 
         $integrationHandler = new FlowController();
         $deleteStatus = $integrationHandler->bulkDelete($param->flowID);
+        static::updateFlowTrigger($deleteStatus);
 
         if (is_wp_error($deleteStatus)) {
             wp_send_json_error($deleteStatus->get_error_message());
@@ -301,6 +325,9 @@ final class Flow
 
     public function toggle_status($data)
     {
+        if (!(Capabilities::Check('manage_options') || Capabilities::Check('bit_integrations_manage_integrations') || Capabilities::Check('bit_integrations_edit_integrations'))) {
+            wp_send_json_error(__('User don\'t have permission to access this page', 'bit-integrations'));
+        }
         $missing_field = null;
         if (!property_exists($data, 'status')) {
             $missing_field = 'status';
@@ -308,11 +335,13 @@ final class Flow
         if (empty($data->id)) {
             $missing_field = 'Integration id';
         }
-        if (!is_null($missing_field)) {
-            wp_send_json_error(sprintf(__('%s cann\'t be empty', 'bit-integrations'), $missing_field));
+        if (!\is_null($missing_field)) {
+            wp_send_json_error(wp_sprintf(__('%s can\'t be empty', 'bit-integrations'), $missing_field));
         }
         $integrationHandler = new FlowController();
         $toggleStatus = $integrationHandler->updateStatus($data->id, $data->status);
+        static::updateFlowTrigger($toggleStatus);
+
         if (is_wp_error($toggleStatus)) {
             wp_send_json_error($toggleStatus->get_error_message());
         }
@@ -322,10 +351,10 @@ final class Flow
     /**
      * This function helps to execute Integration
      *
-     * @param String $triggered_entity    Trigger name.
-     * @param String $triggered_entity_id Entity(form) ID of Triggered app.
+     * @param string $triggered_entity    Trigger name.
+     * @param string $triggered_entity_id Entity(form) ID of Triggered app.
      *
-     * @return boolean | Array Returns existings flows or false
+     * @return bool|array Returns existings flows or false
      */
     public static function exists($triggered_entity, $triggered_entity_id = '')
     {
@@ -333,7 +362,7 @@ final class Flow
 
         $conditions = [
             'triggered_entity' => $triggered_entity,
-            'status' => 1,
+            'status'           => 1,
         ];
 
         if (!empty($triggered_entity_id)) {
@@ -351,31 +380,36 @@ final class Flow
         if (is_wp_error($flows)) {
             return false;
         }
+
         return $flows;
     }
 
     /**
      * This function helps to execute Integration
      *
-     * @param String $triggered_entity    Trigger name.
-     * @param String $triggered_entity_id Entity(form) ID of Triggered app.
-     * @param Array  $data                Values of submitted fields
-     * @param Array  $flows               Existing Flows
+     * @param string $triggered_entity    Trigger name.
+     * @param string $triggered_entity_id Entity(form) ID of Triggered app.
+     * @param array  $data                Values of submitted fields
+     * @param array  $flows               Existing Flows
+     * @param mixed  $fieldMap
      *
-     * @return Array                  Nothing to return
+     * @return array Nothing to return
      */
     public static function specialTagMappingValue($fieldMap)
     {
         $specialTagFieldValue = [];
         foreach ($fieldMap as $value) {
-            if (isset($value->formField)) {
-                $triggerValue = $value->formField;
+            $triggerValue = $value->formField ?? $value->formFields ?? null;
+
+            if (isset($triggerValue)) {
                 $smartTagValue = SmartTags::getSmartTagValue($triggerValue, true);
+
                 if (!empty($smartTagValue)) {
-                    $specialTagFieldValue[$value->formField] = $smartTagValue;
+                    $specialTagFieldValue[$triggerValue] = $smartTagValue;
                 }
             }
         }
+
         return $specialTagFieldValue;
     }
 
@@ -383,13 +417,14 @@ final class Flow
     {
         if (!is_wp_error($flows) && !empty($flows)) {
             $data['bit-integrator%trigger_data%'] = [
-                'triggered_entity' => $triggered_entity,
+                'triggered_entity'    => $triggered_entity,
                 'triggered_entity_id' => $triggered_entity_id,
             ];
             foreach ($flows as $flowData) {
-                if (is_string($flowData->flow_details)) {
+                if (\is_string($flowData->flow_details)) {
                     $flowData->flow_details = json_decode($flowData->flow_details);
                 }
+
                 if (
                     property_exists($flowData->flow_details, 'condition')
                     && property_exists($flowData->flow_details->condition, 'logics')
@@ -398,7 +433,7 @@ final class Flow
                     && !Common::checkCondition($flowData->flow_details->condition->logics, $data)
                 ) {
                     // echo "status: " . !Common::checkCondition($flowData->flow_details->condition->logics, $data) . "<br>";
-                    // print_r(json_encode($flowData->flow_details->condition->logics));
+                    // print_r(wp_json_encode($flowData->flow_details->condition->logics));
 
                     $error = new WP_Error('Conditional Logic False', __('Conditional Logic not matched', 'bit-integrations'));
                     if (isset($flowData->id)) {
@@ -407,29 +442,60 @@ final class Flow
 
                     continue;
                 }
-                $integrationName = is_null($flowData->flow_details->type) ? null : ucfirst(str_replace(' ', '', $flowData->flow_details->type));
+
+                $integrationName = \is_null($flowData->flow_details->type) ? null : ucfirst(str_replace(' ', '', $flowData->flow_details->type));
 
                 switch ($integrationName) {
                     case 'Brevo(Sendinblue)':
                         $integrationName = 'SendinBlue';
+
+                        break;
+                    case 'Kit(ConvertKit)':
+                        $integrationName = 'ConvertKit';
+
                         break;
                     case 'Make(Integromat)':
                         $integrationName = 'Integromat';
+
                         break;
                     case 'Sarbacane(Mailify)':
                         $integrationName = 'Mailify';
+
+                        break;
+                    case 'WPPostCreation':
+                        $integrationName = 'PostCreation';
+
+                        break;
+                    case 'WPUserRegistration':
+                        $integrationName = 'Registration';
+
                         break;
                     case 'Zoho Marketing Automation(Zoho Marketing Hub)':
                     case 'ZohoMarketingAutomation(ZohoMarketingHub)':
                         $integrationName = 'ZohoMarketingHub';
+
+                        break;
+
+                    case 'GoHighLevel':
+                        $integrationName = 'HighLevel';
+
+                        break;
+
+                    case 'LicenseManagerForWooCommerce':
+                        $integrationName = 'LMFWC';
+
+                    case 'OttoKit (SureTriggers)':
+                        $integrationName = 'SureTriggers';
+
                         break;
 
                     default:
                         $integrationName = $integrationName;
+
                         break;
                 }
 
-                if (!is_null($integrationName) && $integration = static::isActionExists($integrationName)) {
+                if (!\is_null($integrationName) && $integration = static::isActionExists($integrationName)) {
                     $handler = new $integration($flowData->id);
                     if (isset($flowData->flow_details->field_map)) {
                         $sptagData = self::specialTagMappingValue($flowData->flow_details->field_map);
@@ -439,6 +505,49 @@ final class Flow
                     $handler->execute($flowData, $data);
                 }
             }
+        }
+    }
+
+    /**
+     * Checks a Integration Action Exists or not
+     *
+     * @param string $name Name of Action
+     *
+     * @return bool
+     */
+    protected static function isActionExists($name)
+    {
+        if (class_exists("BitCode\\FI\\Actions\\{$name}\\{$name}Controller")) {
+            return "BitCode\\FI\\Actions\\{$name}\\{$name}Controller";
+        } elseif (class_exists("BitApps\\BTCBI_PRO\\Actions\\{$name}\\{$name}Controller")) {
+            return "BitApps\\BTCBI_PRO\\Actions\\{$name}\\{$name}Controller";
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks a Integration Trigger Exists or not
+     *
+     * @param string $name Name of Trigger
+     *
+     * @return bool
+     */
+    protected static function isTriggerExists($name)
+    {
+        if (class_exists("BitCode\\FI\\Triggers\\{$name}\\{$name}Controller")) {
+            return "BitCode\\FI\\Triggers\\{$name}\\{$name}Controller";
+        } elseif (class_exists("BitApps\\BTCBI_PRO\\Triggers\\{$name}\\{$name}Controller")) {
+            return "BitApps\\BTCBI_PRO\\Triggers\\{$name}\\{$name}Controller";
+        }
+
+        return false;
+    }
+
+    private static function updateFlowTrigger($saveStatus)
+    {
+        if ($saveStatus) {
+            StoreInCache::getActiveFlowEntities(true);
         }
     }
 }

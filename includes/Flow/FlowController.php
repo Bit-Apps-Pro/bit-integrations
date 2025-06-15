@@ -1,9 +1,10 @@
 <?php
+
 namespace BitCode\FI\Flow;
 
 use BitCode\FI\Core\Database\FlowModel;
-use BitCode\FI\Log\LogHandler as Log;
 use BitCode\FI\Core\Util\IpTool;
+use BitCode\FI\Log\LogHandler as Log;
 
 final class FlowController
 {
@@ -22,10 +23,10 @@ final class FlowController
     /**
      * Retrieved flows from DB based on conditions
      *
-     * @param Array $conditions Conditions to retrieve flows
-     * @param Array $columns    Columns to select
+     * @param array $conditions Conditions to retrieve flows
+     * @param array $columns    Columns to select
      *
-     * @return Array|WP_Error
+     * @return array|WP_Error
      */
     public function get($conditions = [], $columns = [])
     {
@@ -44,6 +45,7 @@ final class FlowController
 
             ];
         }
+
         return static::$_integrationModel->get(
             $columns,
             $conditions,
@@ -57,13 +59,13 @@ final class FlowController
     /**
      * Save Flows to DB
      *
-     * @param String  $name                Name of the flow
-     * @param String  $triggered_entity    Triggered form name
-     * @param Integer $triggered_entity_id ID of the triggered form
-     * @param Object  $flow_details        Path of the flow it will go through after triggered
-     * @param Boolean $status              Status of the flow. Disabled or Enabled.
+     * @param string $name                Name of the flow
+     * @param string $triggered_entity    Triggered form name
+     * @param int    $triggered_entity_id ID of the triggered form
+     * @param object $flow_details        Path of the flow it will go through after triggered
+     * @param bool   $status              Status of the flow. Disabled or Enabled.
      *
-     * @return Integer|WP_Error
+     * @return int|WP_Error
      */
     public function save($name, $triggered_entity, $triggered_entity_id, $flow_details, $status = null)
     {
@@ -71,17 +73,18 @@ final class FlowController
             $status = 1;
         }
         $user_details = IpTool::getUserDetail();
+
         return static::$_integrationModel->insert(
             [
-                'name' => $name,
-                'triggered_entity' => $triggered_entity,
+                'name'                => $name,
+                'triggered_entity'    => $triggered_entity,
                 'triggered_entity_id' => $triggered_entity_id,
-                'flow_details' => is_string($flow_details) ? $flow_details : wp_json_encode($flow_details),
-                'status' => $status,
-                'user_id' => $user_details['id'],
-                'user_ip' => $user_details['ip'],
-                'created_at' => $user_details['time'],
-                'updated_at' => $user_details['time']
+                'flow_details'        => \is_string($flow_details) ? $flow_details : wp_json_encode($flow_details),
+                'status'              => $status,
+                'user_id'             => $user_details['id'],
+                'user_ip'             => $user_details['ip'],
+                'created_at'          => $user_details['time'],
+                'updated_at'          => $user_details['time']
             ]
         );
     }
@@ -89,10 +92,10 @@ final class FlowController
     /**
      * Update Flows to DB
      *
-     * @param Integer $id   ID of the flow to update
-     * @param Array   $data Data to update
+     * @param int   $id   ID of the flow to update
+     * @param array $data Data to update
      *
-     * @return Integer|WP_Error
+     * @return int|WP_Error
      */
     public function update(
         $id,
@@ -100,8 +103,8 @@ final class FlowController
     ) {
         $user_details = IpTool::getUserDetail();
         $columnToUpdate = [
-            'user_id' => $user_details['id'],
-            'user_ip' => $user_details['ip'],
+            'user_id'    => $user_details['id'],
+            'user_ip'    => $user_details['ip'],
             'updated_at' => $user_details['time']
         ];
         if (isset($data['name'])) {
@@ -116,6 +119,7 @@ final class FlowController
         if (isset($data['flow_details'])) {
             $columnToUpdate['flow_details'] = $data['flow_details'];
         }
+
         return static::$_integrationModel->update(
             $columnToUpdate,
             ['id' => $id]
@@ -125,19 +129,20 @@ final class FlowController
     /**
      * Updates Flow status to DB
      *
-     * @param Integer $id     ID of the flow to update
-     * @param Boolean $status Status of the flow. Disabled or Enabled.
+     * @param int  $id     ID of the flow to update
+     * @param bool $status Status of the flow. Disabled or Enabled.
      *
-     * @return Integer|WP_Error
+     * @return int|WP_Error
      */
     public function updateStatus($id, $status)
     {
         $user_details = IpTool::getUserDetail();
+
         return static::$_integrationModel->update(
             [
-                'status' => $status,
-                'user_id' => $user_details['id'],
-                'user_ip' => $user_details['ip'],
+                'status'     => $status,
+                'user_id'    => $user_details['id'],
+                'user_ip'    => $user_details['ip'],
                 'updated_at' => $user_details['time']
             ],
             [
@@ -149,9 +154,9 @@ final class FlowController
     /**
      * Deletes Flow from DB
      *
-     * @param Integer $flowID ID of the flow to delete.
+     * @param int $flowID ID of the flow to delete.
      *
-     * @return Boolean|WP_Error
+     * @return bool|WP_Error
      */
     public function delete($flowID)
     {
@@ -163,7 +168,8 @@ final class FlowController
         if (is_wp_error($delStatus)) {
             return $delStatus;
         }
-        Log::delete((object)['flow_id' => $flowID]);
+        Log::delete((object) ['flow_id' => $flowID]);
+
         return $delStatus;
     }
 
@@ -178,6 +184,7 @@ final class FlowController
             return $delStatus;
         }
         Log::delete((object) ['flow_id' => $flowID]);
+
         return $delStatus;
     }
 }

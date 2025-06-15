@@ -1,6 +1,7 @@
 <?php
+
 if (!defined('ABSPATH')) {
-  exit;
+    exit;
 }
 
 use BitCode\FI\Actions\Moosend\MoosendController;

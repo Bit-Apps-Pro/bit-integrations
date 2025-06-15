@@ -46,7 +46,9 @@ function EditCustomAction({ allIntegURL }) {
 
       <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
       <div className="mt-3">
-        <div className="btcd-stp-page" style={{ ...(step === 1 && { width: '91%', height: 'auto', overflow: 'visible' }) }}>
+        <div
+          className="btcd-stp-page"
+          style={{ ...(step === 1 && { width: '91%', height: 'auto', overflow: 'visible' }) }}>
           <h1>custom action</h1>
           <CustomFuncEditor
             customActionConf={customActionConf}
@@ -54,12 +56,15 @@ function EditCustomAction({ allIntegURL }) {
             formFields={formFields}
           />
           <button
-            onClick={() => checkFunctionValidity(customActionConf, setCustomActionConf, loading, setLoading)}
+            onClick={() =>
+              checkFunctionValidity(customActionConf, setCustomActionConf, loading, setLoading)
+            }
             disabled={!customActionConf.value || loading?.validate}
-            className="btn f-left btcd-btn-lg green sh-sm flx mt-5"
-            type="button"
-          >
-            {customActionConf?.isValid && !loading?.validate ? __('Validated ✔', 'bit-integrations') : __('Validated', 'bit-integrations')}
+            className="btn f-left btcd-btn-lg purple sh-sm flx mt-5"
+            type="button">
+            {customActionConf?.isValid && !loading?.validate
+              ? __('Validated ✔', 'bit-integrations')
+              : __('Validated', 'bit-integrations')}
             {loading?.validate && <LoaderSm size="20" clr="#022217" className="ml-2" />}
           </button>
         </div>
@@ -67,12 +72,23 @@ function EditCustomAction({ allIntegURL }) {
 
       <CustomActionStepTwo
         edit
-        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, conf: customActionConf, navigate, edit: 1, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            setFlow,
+            allIntegURL,
+            conf: customActionConf,
+            navigate,
+            edit: 1,
+            setIsLoading,
+            setSnackbar
+          })
+        }
         isLoading={isLoading}
         disabled={!customActionConf.isValid}
       />
       <br />
-    </div >
+    </div>
   )
 }
 

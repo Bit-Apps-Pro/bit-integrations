@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { __ } from '@wordpress/i18n'
+import { __ } from '../../../Utils/i18nwrap'
 import { useState } from 'react'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -21,26 +21,27 @@ function DirectIq({ formFields, setFlow, flow, allIntegURL }) {
   const [directIqConf, setDirectIqConf] = useState({
     name: 'DirectIq',
     type: 'DirectIq',
-    client_id: process.env.NODE_ENV === 'development' ? 'c75b61369cf340a08225622b110db619' : '',
-    client_secret: process.env.NODE_ENV === 'development' ? 'd524fac91a354e0c9bcb872448bbcb7433490478228b40eba298ec89f98c46dd' : '',
-    field_map: [
-      { formField: '', directIqField: '' },
-    ],
-    actions: {},
+    client_id: '',
+    client_secret: '',
+    field_map: [{ formField: '', directIqField: '' }],
+    actions: {}
   })
 
-  const nextPage = (val) => {
+  const nextPage = val => {
     // setIsLoading(true)
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
     if (val === 3) {
       if (!checkMappedFields(directIqConf)) {
-        setSnackbar({ show: true, msg: 'Please map all required fields to continue.' })
+        setSnackbar({
+          show: true,
+          msg: __('Please map all required fields to continue.', 'bit-integrations')
+        })
         return
       }
       if (!directIqConf?.listId) {
-        setSnackbar({ show: true, msg: 'Please select list to continue.' })
+        setSnackbar({ show: true, msg: __('Please select list to continue.', 'bit-integrations') })
         return
       }
       if (directIqConf.name !== '' && directIqConf.field_map.length > 0) {
@@ -51,7 +52,9 @@ function DirectIq({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2"><Steps step={3} active={step} /></div>
+      <div className="txt-center mt-2">
+        <Steps step={3} active={step} />
+      </div>
 
       {/* STEP 1 */}
       <DirectIqAuthorization
@@ -66,7 +69,6 @@ function DirectIq({ formFields, setFlow, flow, allIntegURL }) {
       />
       {/* STEP 2 */}
       <div className="btcd-stp-page" style={{ width: step === 2 && 900, height: step === 2 && 'auto' }}>
-
         <DirectIqIntegLayout
           formID={formID}
           formFields={formFields}
@@ -79,21 +81,19 @@ function DirectIq({ formFields, setFlow, flow, allIntegURL }) {
         <button
           onClick={() => nextPage(3)}
           disabled={!directIqConf?.listId || directIqConf.field_map.length < 1}
-          className="btn f-right btcd-btn-lg green sh-sm flx"
-          type="button"
-        >
-          {__('Next', 'bit-integrations')}
-          {' '}
-          &nbsp;
+          className="btn f-right btcd-btn-lg purple sh-sm flx"
+          type="button">
+          {__('Next', 'bit-integrations')} &nbsp;
           <BackIcn className="ml-1 rev-icn" />
         </button>
-
       </div>
 
       {/* STEP 3 */}
       <IntegrationStepThree
         step={step}
-        saveConfig={() => saveIntegConfig(flow, setFlow, allIntegURL, directIqConf, navigate, '', '', setIsLoading)}
+        saveConfig={() =>
+          saveIntegConfig(flow, setFlow, allIntegURL, directIqConf, navigate, '', '', setIsLoading)
+        }
         isLoading={isLoading}
         dataConf={directIqConf}
         setDataConf={setDirectIqConf}
