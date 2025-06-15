@@ -223,7 +223,7 @@ const CustomTrigger = () => {
       <div className="flx flx-between">
         <button
           onClick={handleFetch}
-          className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : newFlow.triggerDetail?.data ? 'gray' : 'purple'}`}
+          className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'purple' : newFlow.triggerDetail?.data ? 'gray' : 'purple'}`}
           type="button"
           disabled={!hookID}>
           {isLoading
