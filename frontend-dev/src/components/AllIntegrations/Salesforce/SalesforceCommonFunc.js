@@ -637,7 +637,7 @@ export const generateMappedField = (salesforceConf, actionName) => {
   const fieldMap = salesforceConf?.field_map || []
 
   const mappedFieldKeys = fieldMap.reduce((arr, item) => {
-    const key = item.salesforceField ?? item.selesforceField
+    const key = item.selesforceField ?? item.selesforceField
     if (key) arr.push(key)
     return arr
   }, [])
@@ -648,11 +648,11 @@ export const generateMappedField = (salesforceConf, actionName) => {
   if (unmappedRequiredFields.length > 0) {
     const requiredMappings = unmappedRequiredFields.map(field => ({
       formField: '',
-      salesforceField: field.key
+      selesforceField: field.key
     }))
     fieldMap.push(...requiredMappings)
   } else if (fieldMap.length === 0) {
-    fieldMap.push({ formField: '', salesforceField: '' })
+    fieldMap.push({ formField: '', selesforceField: '' })
   }
 
   return fieldMap
@@ -688,7 +688,7 @@ export const handleAuthorize = (
         grantTokenResponse = JSON.parse(bitformsZoho)
         localStorage.removeItem('__salesforce')
       }
-      console.log(grantTokenResponse)
+
       if (
         !grantTokenResponse.code ||
         grantTokenResponse.error ||
