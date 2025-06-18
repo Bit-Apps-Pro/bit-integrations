@@ -12,10 +12,7 @@ use BitCode\FI\Plugin;
 use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Flow\FlowController;
 use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Actions\ZohoCRM\TagApiHelper;
 use BitCode\FI\controller\ZohoAuthController;
-use BitCode\FI\Actions\ZohoCRM\RecordApiHelper;
-use BitCode\FI\Actions\ZohoCRM\MetaDataApiHelper;
 
 /**
  * Provide functionality for ZohoCrm integration
@@ -53,7 +50,7 @@ final class ZohoCRMController
             );
         }
         $response = [];
-        if ((intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
+        if ((\intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $refreshedToken = ZohoAuthController::_refreshAccessToken($queryParams);
             if ($refreshedToken) {
                 $response['tokenDetails'] = $refreshedToken;
@@ -70,19 +67,23 @@ final class ZohoCRMController
             'zohoshowtime__Zoho_ShowTime',
             'zohosign__ZohoSign_Documents',
             'zohosign__ZohoSign_Recipients'
-        );
-        $modulesMetaApiEndpoint = \urldecode($queryParams->tokenDetails->api_domain) . "/crm/v6/settings/modules";
-        $authorizationHeader["Authorization"] = "Zoho-oauthtoken {$queryParams->tokenDetails->access_token}";
-        $isProVersion = Plugin::instance()->isProVer();
-        if ($isProVersion) {
-            $isBitFiLicActive =  \BitApps\BTCBI_PRO\Plugin::instance()->isLicenseActive();
-        } else {
-            $isBitFiLicActive = false;
-        }
-        if ($isBitFiLicActive) {
-            $modulesMetaResponse = HttpHelper::get($modulesMetaApiEndpoint, null, $authorizationHeader);
-            if (!is_wp_error($modulesMetaResponse) && (empty($modulesMetaResponse->status) || (!empty($modulesMetaResponse->status) && $modulesMetaResponse->status !== 'error'))) {
-                $retriveModuleData = $modulesMetaResponse->modules;
+        ];
+
+        $modulesMetaApiEndpoint = urldecode($queryParams->tokenDetails->api_domain) . '/crm/v6/settings/modules';
+        $authorizationHeader['Authorization'] = "Zoho-oauthtoken {$queryParams->tokenDetails->access_token}";
+
+        // $isProVersion = Plugin::instance()->isProVer();
+        // if ($isProVersion) {
+        //     $isBitFiLicActive =  \BitApps\BTCBI_PRO\Plugin::instance()->isLicenseActive();
+        // } else {
+        //     $isBitFiLicActive = false;
+        // }
+        // if ($isBitFiLicActive) {
+        //     $modulesMetaResponse = HttpHelper::get($modulesMetaApiEndpoint, null, $authorizationHeader);
+        //     if (!is_wp_error($modulesMetaResponse) && (empty($modulesMetaResponse->status) || (!empty($modulesMetaResponse->status) && $modulesMetaResponse->status !== 'error'))) {
+        //         $retriveModuleData = $modulesMetaResponse->modules;
+        //     }
+        // }
 
         $modulesMetaResponse = HttpHelper::get($modulesMetaApiEndpoint, null, $authorizationHeader);
         if (!is_wp_error($modulesMetaResponse) && (empty($modulesMetaResponse->status) || (!empty($modulesMetaResponse->status) && $modulesMetaResponse->status !== 'error'))) {
@@ -142,11 +143,11 @@ final class ZohoCRMController
             );
         }
         $response = [];
-        if ((intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
+        if ((\intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $response['tokenDetails'] = ZohoAuthController::_refreshAccessToken($queryParams);
         }
-        $layoutsMetaApiEndpoint = \urldecode($queryParams->tokenDetails->api_domain) . "/crm/v6/settings/layouts";
-        $authorizationHeader["Authorization"] = "Zoho-oauthtoken {$queryParams->tokenDetails->access_token}";
+        $layoutsMetaApiEndpoint = urldecode($queryParams->tokenDetails->api_domain) . '/crm/v6/settings/layouts';
+        $authorizationHeader['Authorization'] = "Zoho-oauthtoken {$queryParams->tokenDetails->access_token}";
         $requiredParams['module'] = $queryParams->module;
         $layoutsMetaResponse = HttpHelper::get($layoutsMetaApiEndpoint, $requiredParams, $authorizationHeader);
         error_log(print_r($layoutsMetaResponse, true));
@@ -233,7 +234,7 @@ final class ZohoCRMController
             );
         }
         if (!empty($response['tokenDetails']) && $response['tokenDetails'] && !empty($queryParams->id)) {
-            $response["queryModule"] = $queryParams->module;
+            $response['queryModule'] = $queryParams->module;
             ZohoAuthController::_saveRefreshedToken($queryParams->id, $response['tokenDetails'], $response);
         }
         wp_send_json_success($response, 200);
@@ -264,7 +265,7 @@ final class ZohoCRMController
             );
         }
         $response = [];
-        if ((intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
+        if ((\intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $response['tokenDetails'] = ZohoAuthController::_refreshAccessToken($queryParams);
         }
         $metaDataApiHelper = new MetaDataApiHelper($queryParams->tokenDetails, true);
@@ -316,7 +317,7 @@ final class ZohoCRMController
             );
         }
         $response = [];
-        if ((intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
+        if ((\intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $response['tokenDetails'] = ZohoAuthController::_refreshAccessToken($queryParams);
         }
         $metaDataApiHelper = new MetaDataApiHelper($queryParams->tokenDetails);
@@ -367,11 +368,11 @@ final class ZohoCRMController
             );
         }
         $response = [];
-        if ((intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
+        if ((\intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $response['tokenDetails'] = ZohoAuthController::_refreshAccessToken($queryParams);
         }
-        $usersApiEndpoint = \urldecode($queryParams->tokenDetails->api_domain) . "/crm/v6/users?type=ActiveConfirmedUsers";
-        $authorizationHeader["Authorization"] = "Zoho-oauthtoken {$queryParams->tokenDetails->access_token}";
+        $usersApiEndpoint = urldecode($queryParams->tokenDetails->api_domain) . '/crm/v6/users?type=ActiveConfirmedUsers';
+        $authorizationHeader['Authorization'] = "Zoho-oauthtoken {$queryParams->tokenDetails->access_token}";
         $retrivedUsersData = [];
         $usersResponse = null;
         do {
@@ -438,7 +439,7 @@ final class ZohoCRMController
             );
         }
         $response = [];
-        if ((intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
+        if ((\intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $response['tokenDetails'] = ZohoAuthController::_refreshAccessToken($queryParams);
         }
         $tokenDetails = empty($response['tokenDetails']) ? $queryParams->tokenDetails : $response['tokenDetails'];
@@ -570,7 +571,7 @@ final class ZohoCRMController
             $requiredParams['clientSecret'] = $integrationDetails->clientSecret;
             $requiredParams['dataCenter'] = $integrationDetails->dataCenter;
             $requiredParams['tokenDetails'] = $tokenDetails;
-            $newTokenDetails = ZohoAuthController::_refreshAccessToken((object)$requiredParams);
+            $newTokenDetails = ZohoAuthController::_refreshAccessToken((object) $requiredParams);
             if ($newTokenDetails) {
                 ZohoAuthController::_saveRefreshedToken($this->_integrationID, $newTokenDetails);
                 $tokenDetails = $newTokenDetails;
