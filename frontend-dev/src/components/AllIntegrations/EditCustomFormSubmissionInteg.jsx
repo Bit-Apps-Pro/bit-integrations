@@ -127,7 +127,9 @@ function EditCustomFormSubmissionInteg({ setSnackbar }) {
       bitsFetch({}, tasksAction, null, tasksMethod).then(res => {
         setFormsLoading(false)
         if (res.success) {
-          setAllTasks(res.data)
+          const tasks = res.data
+          setAllTasks(tasks)
+          setSkipPrimaryKey(shouldSkipPrimaryKey(tasks, flow))
         }
       })
     }
