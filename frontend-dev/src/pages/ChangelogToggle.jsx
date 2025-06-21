@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '25th May 2025'
+const releaseDate = '21th June 2025'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -33,13 +33,13 @@ const changeLog = [
     itemClass: 'integration-list',
     items: [
       {
-        label: 'WooCommerce Memberships',
-        desc: '11 new events added.',
+        label: 'New User Approve',
+        desc: '5 new events added.',
         isPro: true
       },
       {
-        label: 'Paymattic',
-        desc: '4 new events added.',
+        label: 'FluentCommunity',
+        desc: '3 new events added.',
         isPro: true
       }
     ]
@@ -48,7 +48,13 @@ const changeLog = [
     label: __('New Features', 'bit-integrations'),
     headClass: 'new-feature',
     itemClass: 'feature-list',
-    items: []
+    items: [
+      {
+        label: 'FluentCommunity',
+        desc: 'Course info now included in lesson-related trigger data.',
+        isPro: true
+      }
+    ]
   },
   {
     label: __('Improvements', 'bit-integrations'),
@@ -62,14 +68,14 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'Telegram',
-        desc: 'Fixed issue with fetching chat list.',
+        label: 'Salesforce',
+        desc: 'Fixed issue where refreshing field mapping reset field mappings.',
         isPro: false
       },
       {
-        label: 'Telegram',
-        desc: 'Resolved image-to-HTML converter bug.',
-        isPro: false
+        label: 'Bricks',
+        desc: 'Resolved file URL inconsistency issue.',
+        isPro: true
       },
       {
         label: 'Kadence Block',
@@ -77,13 +83,8 @@ const changeLog = [
         isPro: true
       },
       {
-        label: 'WooCommerce Memberships',
-        desc: 'User role update issue resolved.',
-        isPro: true
-      },
-      {
-        label: 'Action Hook',
-        desc: 'Routes now correctly fixed and functioning.',
+        label: 'Webhook',
+        desc: 'Resolved file URL inconsistency issue.',
         isPro: true
       }
     ]
