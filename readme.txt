@@ -4,7 +4,7 @@ Tags: automation, automator, Google Sheets, webhooks, zapier, marketing automati
 Requires at least: 5.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.6.0
+Stable tag: 2.6.1
 License: GPLv2 or later
 
 Perfect Automation and integration plugin: Connect 290+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
@@ -690,7 +690,22 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 
 == Changelog ==
 
-= 2.6.0 =
+= 2.6.1 =
+_Release Date -21th June 2025_
+
+- **New Triggers**
+ - FluentCommunity: 3 new events added (Pro).
+ - New User Approve: 5 new events added (Pro).
+
+- **New Feature**
+ - FluentCommunity: Course info now included in lesson-related trigger data (Pro).
+
+- **Bug Fixes**
+ - Salesforce: Fixed issue where refreshing field mapping reset field mappings.
+ - Bricks: Resolved file URL inconsistency issue (Pro).
+ - Webhook: Fixed request body encoding bug (pro).
+ 
+ = 2.6.0 =
 _Release Date -4th June 2025_
 
 - **New Triggers**
@@ -708,342 +723,342 @@ _Release Date -4th June 2025_
 _Release Date -25th may 2025_
 
 - **New Triggers**
-- WooCommerce – 13 new events added (Pro).
+ - WooCommerce – 13 new events added (Pro).
 
 - **New Feature**
-- SureCart: Now supports custom checkout fields for better data collection and workflows (Pro).
+ - SureCart: Now supports custom checkout fields for better data collection and workflows (Pro).
 
 - **Bug Fixes**
-- Omnisend: Blank page issue fixed.
-- Chore: Fixed a JSON unicode escape issue in the Pro version (Pro).
+ - Omnisend: Blank page issue fixed.
+ - Chore: Fixed a JSON unicode escape issue in the Pro version (Pro).
 
 = 2.5.6 - 2.5.8 =
 _Release Date -6th may 2025_
 
 - **New Feature**
-- SureCart: Enhanced SureCart product purchase module by adding customer information (Pro).
+ - SureCart: Enhanced SureCart product purchase module by adding customer information (Pro).
 
 - **Bug Fixes**
-- PerfexCRM: Resolved issue with custom tagify field.
-- WP Courseware: Fixed task fetching problem.
-- WP post: Addressed multiple execution of triggers during WP post update (Pro).
+ - PerfexCRM: Resolved issue with custom tagify field.
+ - WP Courseware: Fixed task fetching problem.
+ - WP post: Addressed multiple execution of triggers during WP post update (Pro).
 
 = 2.5.5 =
 _Release Date -27th April 2025_
 
 - **New Feature**
-- Omnisend: Added support for custom properties (Pro).
+ - Omnisend: Added support for custom properties (Pro).
 
 - **New Improvement**
-- FluentSMTP: Added email failed alternative hook (Pro).
-- Bento: Improved utilities tags explode functionality (Pro).
+ - FluentSMTP: Added email failed alternative hook (Pro).
+ - Bento: Improved utilities tags explode functionality (Pro).
 
 - **Bug Fixes**
-- PerfexCRM: Fixed issue with custom field # tags.
-- WooCommerce (Trigger): Resolved Unicode escape issue in Product Name.
-- SureFeedBack: Fixed comment resolved hook issue (Pro).
+ - PerfexCRM: Fixed issue with custom field # tags.
+ - WooCommerce (Trigger): Resolved Unicode escape issue in Product Name.
+ - SureFeedBack: Fixed comment resolved hook issue (Pro).
 
 = 2.5.4 =
 _Release Date -14th April 2025_
 
 - **New Improvement**
-- Forminator: Replaced uploaded file path with URL. (Pro)
-- WooCommerce: Added product names and quantity fields to the Order module.
+ - Forminator: Replaced uploaded file path with URL. (Pro)
+ - WooCommerce: Added product names and quantity fields to the Order module.
 
 - **Bug Fixes**
-- Google Sheet: Fixed issue with the integration name input field.
+ - Google Sheet: Fixed issue with the integration name input field.
 
 = 2.5.3 =
 _Release Date -6th April 2025_
 
 - **New Triggers**
-- NEX-Forms – 1 new events added (Pro)
-- Profile Builder – 6 new events added (Pro)
-- Quill Forms – 1 new events added (Pro)
-- UserFeedback – 1 new events added (Pro)
-- WooCommerce Memberships – 4 new events added (Pro)
-- WP Simple Pay – 3 new events added (Pro)
+ - NEX-Forms – 1 new events added (Pro)
+ - Profile Builder – 6 new events added (Pro)
+ - Quill Forms – 1 new events added (Pro)
+ - UserFeedback – 1 new events added (Pro)
+ - WooCommerce Memberships – 4 new events added (Pro)
+ - WP Simple Pay – 3 new events added (Pro)
 
 - **New Action**
 - Bento – 2 new events added (Pro)
 
 - **Bug Fixes**
-- Zoom: Fixed an issue causing the field mapping section to re-render unnecessarily.
-- Zendesk: The Company field in the Lead module is now marked as non-required, allowing more flexible submissions.
-- Forminator: Resolved a date format issue for consistent and accurate data capture. (Pro)
+ - Zoom: Fixed an issue causing the field mapping section to re-render unnecessarily.
+ - Zendesk: The Company field in the Lead module is now marked as non-required, allowing more flexible submissions.
+ - Forminator: Resolved a date format issue for consistent and accurate data capture. (Pro)
 
 = 2.5.2 =
 _Release Date -24th March 2025_
 
 - **New Triggers**
-- myCred – 5 new events added (Pro)
-- SureFeedback – 2 new events added (Pro)
-- WP All Import – 3 new events added (Pro)
-- WPLMS – 1 new events added (Pro)
-- WPLoyalty – 1 new events added (Pro)
-- WP-Polls – 1 new events added (Pro)
+ - myCred – 5 new events added (Pro)
+ - SureFeedback – 2 new events added (Pro)
+ - WP All Import – 3 new events added (Pro)
+ - WPLMS – 1 new events added (Pro)
+ - WPLoyalty – 1 new events added (Pro)
+ - WP-Polls – 1 new events added (Pro)
 
 - **Bug Fixes**
-- Webhook (Action): Fixed an issue where the Info Page was showing blank.
-- Fluent Community: Resolved the "invalid argument" issue. (Pro)
-- Voxel (Trigger): Fixed the issue where hooks were incorrectly listed. (Pro)
+ - Webhook (Action): Fixed an issue where the Info Page was showing blank.
+ - Fluent Community: Resolved the "invalid argument" issue. (Pro)
+ - Voxel (Trigger): Fixed the issue where hooks were incorrectly listed. (Pro)
 
 = 2.5.1 =
 _Release Date -12th March 2025_
 
 - **New Triggers**
-- Fluent Boards – 3 new events added (Pro)
-- Jetpack CRM – 10 new events added (Pro)
-- Masteriyo LMS – 4 new events added (Pro)
-- MemberPress Courses – 2 new events added (Pro)
-- Modern Events Calendar – 4 new events added (Pro)
-- Paymattic – 1 new events added (Pro)
-- ProfileGrid – 12 new events added (Pro)
+ - Fluent Boards – 3 new events added (Pro)
+ - Jetpack CRM – 10 new events added (Pro)
+ - Masteriyo LMS – 4 new events added (Pro)
+ - MemberPress Courses – 2 new events added (Pro)
+ - Modern Events Calendar – 4 new events added (Pro)
+ - Paymattic – 1 new events added (Pro)
+ - ProfileGrid – 12 new events added (Pro)
 
 - **Bug Fixes**
-- SureCart: Resolved an issue where order cancellation wasn’t executing correctly on specific products. (Pro)
-- Mail: Fixed a glitch in the trigger integration component when editing existing integrations.
+ - SureCart: Resolved an issue where order cancellation wasn’t executing correctly on specific products. (Pro)
+ - Mail: Fixed a glitch in the trigger integration component when editing existing integrations.
 
 = 2.5.0 =
 _Release Date -5th March 2025_
 
 - **New Triggers**
-- Advanced Custom Fields (ACF) – Unlock custom fields automation. (Pro)
-- LearnPress – WordPress LMS Plugin. (Pro)
-- Presto Player – The Ultimate Video Player For WordPress. (Pro)
-- PeepSo – Free User Profile and Community WordPress Plugin. (Pro)
-- Simply Schedule Appointments – Booking Plugin for WordPress. (Pro)
-- SureMail – WordPress SMTP and Email Logs Plugin. (Pro)
+ - Advanced Custom Fields (ACF) – Unlock custom fields automation. (Pro)
+ - LearnPress – WordPress LMS Plugin. (Pro)
+ - Presto Player – The Ultimate Video Player For WordPress. (Pro)
+ - PeepSo – Free User Profile and Community WordPress Plugin. (Pro)
+ - Simply Schedule Appointments – Booking Plugin for WordPress. (Pro)
+ - SureMail – WordPress SMTP and Email Logs Plugin. (Pro)
 
 - **Security Fixes**
-- Improved validation and sanitization of redirection URLs to prevent unauthorized redirects.
-- Enhanced security measures to restrict redirects to trusted domains only.
+ - Improved validation and sanitization of redirection URLs to prevent unauthorized redirects.
+ - Enhanced security measures to restrict redirects to trusted domains only.
 
 - **Bug Fixes**
-- SureCart: Resolved an issue where editing dependencies caused unexpected errors. (Pro)
-- SureCart: Fixed a bug where multiple executions occurred unexpectedly. (Pro)
+ - SureCart: Resolved an issue where editing dependencies caused unexpected errors. (Pro)
+ - SureCart: Fixed a bug where multiple executions occurred unexpectedly. (Pro)
 
 = 2.4.10 =
 _Release Date -25th February 2025_
 
 - **Bug Fixes**
-- Klaviyo: Resolved blank page issue during list selection.
+ - Klaviyo: Resolved blank page issue during list selection.
 
 = 2.4.9 =
 _Release Date -24th February 2025_
 
 - **New Triggers**
-- Amelia Booking – Booking for Appointments and Events Calendar. (Pro)
-- bbPress – Enhanced forum interactions with new trigger capabilities. (Pro)
-- FluentSMTP – The Smartest WordPress SMTP Plugin. (Pro)
-- GravityKit – Expanded form data management with new automation options. (Pro)
-- Newsletter – Send awesome emails from WordPress. (Pro)
-- Wishlist Member – WordPress Membership Plugin. (Pro)
+ - Amelia Booking – Booking for Appointments and Events Calendar. (Pro)
+ - bbPress – Enhanced forum interactions with new trigger capabilities. (Pro)
+ - FluentSMTP – The Smartest WordPress SMTP Plugin. (Pro)
+ - GravityKit – Expanded form data management with new automation options. (Pro)
+ - Newsletter – Send awesome emails from WordPress. (Pro)
+ - Wishlist Member – WordPress Membership Plugin. (Pro)
 
 - **New Feature**
-- Klaviyo: Update Profile feature added for enhanced audience segmentation and personalization. (Pro)
+ - Klaviyo: Update Profile feature added for enhanced audience segmentation and personalization. (Pro)
 
 - **Bug Fixes**
-- Google Drive: Resolved the file path issue to ensure smoother file handling and syncing.
-- Chore: Conditional Undefined Array Key Handling.
+ - Google Drive: Resolved the file path issue to ensure smoother file handling and syncing.
+ - Chore: Conditional Undefined Array Key Handling.
 
 = 2.4.8 =
 _Release Date -16th February 2025_
 
 - **New Triggers**
-- Calculated Fields Form: Added a New Trigger to enhance dynamic form functionality. (Pro)
-- Ninja Tables: Introduced a "Row Deleted trigger" for better table management automation. (Pro)
+ - Calculated Fields Form: Added a New Trigger to enhance dynamic form functionality. (Pro)
+ - Ninja Tables: Introduced a "Row Deleted trigger" for better table management automation. (Pro)
 
 - **New Improvement**
-- Performance Optimization: Improved the captured triggers data functionality to reduce CPU and RAM usage for better performance and efficiency.
+ - Performance Optimization: Improved the captured triggers data functionality to reduce CPU and RAM usage for better performance and efficiency.
 
 - **Bug Fixes**
-- Tripetto: Fixed an issue where conditional fields were not fetching data correctly. (Pro)
-- Google Sheets Integration: Removed the redundant reauth component for streamlined authentication.
+ - Tripetto: Fixed an issue where conditional fields were not fetching data correctly. (Pro)
+ - Google Sheets Integration: Removed the redundant reauth component for streamlined authentication.
 
 = 2.4.7 =
 _Release Date -5th February 2025_
 
 - **New Trigger**
-- Advanced Coupons for WooCommerce: The Best WooCommerce Coupon Plugin. (Pro)
-- Appointment Hour Booking: WordPress Booking Plugin. (Pro)
-- Better Messages: Realtime private messaging system for WordPress. (Pro)
-- Convert Pro: The Best Lead Generation Tool for WordPress. (Pro)
-- FunnelKit Automations CRM: WordPress Marketing Automation Engine. (Pro)
+ - Advanced Coupons for WooCommerce: The Best WooCommerce Coupon Plugin. (Pro)
+ - Appointment Hour Booking: WordPress Booking Plugin. (Pro)
+ - Better Messages: Realtime private messaging system for WordPress. (Pro)
+ - Convert Pro: The Best Lead Generation Tool for WordPress. (Pro)
+ - FunnelKit Automations CRM: WordPress Marketing Automation Engine. (Pro)
 
 = 2.4.6 =
 _Release Date -3rd February 2025_
 
 - **New Improvements**
-- MailChimp: Fetching of fields has been maximized.
+ - MailChimp: Fetching of fields has been maximized.
 
 - **Bug Fixes**
-- BuddyPress: Resolved group permalink issue, ensuring proper redirection and URL structure. (Pro)
-- SureCart: Fixed product fetching issue, improving data retrieval and display functionality. (Pro)
-- OneDrive: Fixed file uploading path issue to ensure accurate file storage and retrieval paths.
-- MailChimp: Corrected issue where contact status updates were not being processed properly.
-- Google Calendar: Resolved blank page issue during calendar operations.
+ - BuddyPress: Resolved group permalink issue, ensuring proper redirection and URL structure. (Pro)
+ - SureCart: Fixed product fetching issue, improving data retrieval and display functionality. (Pro)
+ - OneDrive: Fixed file uploading path issue to ensure accurate file storage and retrieval paths.
+ - MailChimp: Corrected issue where contact status updates were not being processed properly.
+ - Google Calendar: Resolved blank page issue during calendar operations.
 
 = 2.4.5 =
 _Release Date -25th January 2025_
 
 - **New Feature**
-- MailPoet: Added the update subscriber feature. (Pro)
+ - MailPoet: Added the update subscriber feature. (Pro)
 
 - **Bug Fixes**
-- WP Post Creation: Fixed the Edit Page logged-in user post author assignment.
-- Custom API: Resolved API key authentication issue.
-- Dropbox: Fixed issue with retrieving file content.
-- GamiPress: Fixed trigger blank page issue. (Pro)
+ - WP Post Creation: Fixed the Edit Page logged-in user post author assignment.
+ - Custom API: Resolved API key authentication issue.
+ - Dropbox: Fixed issue with retrieving file content.
+ - GamiPress: Fixed trigger blank page issue. (Pro)
 
 = 2.4.4 =
 _Release Date -18th January 2025_
 
 - **New Action**
-- SmartSuite – Added support for managing work on a single platform.
+ - SmartSuite – Added support for managing work on a single platform.
 
 - **New Triggers**
-- Advanced Ads – Seamless integration for managing ads and AdSense. (Pro)
-- Sensei LMS – Integration for online courses, quizzes, and learning. (Pro)
-- Ninja Tables – Added support for creating and managing easy data tables. (Pro)
-- BuddyPress – Enhanced compatibility with tools for online communities, teams, and groups. (Pro)
+ - Advanced Ads – Seamless integration for managing ads and AdSense. (Pro)
+ - Sensei LMS – Integration for online courses, quizzes, and learning. (Pro)
+ - Ninja Tables – Added support for creating and managing easy data tables. (Pro)
+ - BuddyPress – Enhanced compatibility with tools for online communities, teams, and groups. (Pro)
 
 - **Bug Fixes**
-- FluentCRM: Resolved contact & company conflict. (Pro)
-- General: Fixed misbehavior issue with the changelog popup.
+ - FluentCRM: Resolved contact & company conflict. (Pro)
+ - General: Fixed misbehavior issue with the changelog popup.
 
 = 2.4.3 =
 _Release Date -12th January 2025_
 
 - **New Feature**
-- FluentCRM (Trigger): Added company data, including custom field data, to contacts-related triggers. (Pro)
+ - FluentCRM (Trigger): Added company data, including custom field data, to contacts-related triggers. (Pro)
 
 - **New Improvements**
-- BuddyBoss (Action): Added sender and recipient user details in the send private message module.
-- Freshsales: Increased the fetching quantity for accounts and contacts.
+ - BuddyBoss (Action): Added sender and recipient user details in the send private message module.
+ - Freshsales: Increased the fetching quantity for accounts and contacts.
 
 - **Bug Fixes**
-- CartFlow: Resolved the trigger field format issue. (Pro)
-- WPForms: Fixed the issue with empty upload file objects.
-- Google Sheets: Addressed duplicate header data conflict issues.
+ - CartFlow: Resolved the trigger field format issue. (Pro)
+ - WPForms: Fixed the issue with empty upload file objects.
+ - Google Sheets: Addressed duplicate header data conflict issues.
 
 = 2.4.2 =
 _Release Date -2nd January 2025_
 
 - **New Improvements**
-- WP Post (Trigger): Added post categories fields (Pro).
-- BuddyBoss (Trigger): Updated profile module with custom fields (Pro).
-- FluentCRM: Added profile update functionality on tag insert/remove modules.
-- AffiliateWP (Trigger): Added registration form fields for when an affiliate is approved & a user becomes an affiliate (Pro).
+ - WP Post (Trigger): Added post categories fields (Pro).
+ - BuddyBoss (Trigger): Updated profile module with custom fields (Pro).
+ - FluentCRM: Added profile update functionality on tag insert/remove modules.
+ - AffiliateWP (Trigger): Added registration form fields for when an affiliate is approved & a user becomes an affiliate (Pro).
 
 - **Bug Fixes**
-- PipeDrive: Fixed issue with integration name not being editable.
+ - PipeDrive: Fixed issue with integration name not being editable.
 
 = 2.4.1 =
 _Release Date -25th December 2024_
 
 - **New Trigger**
-- FluentCommunity: Integration added to support Full-fledged Social Network, Community, and LMS platforms (Pro).
+ - FluentCommunity: Integration added to support Full-fledged Social Network, Community, and LMS platforms (Pro).
 
 - **New Feature**
-- BuddyBoss: Added support for Profile Custom Fields (Pro).
+ - BuddyBoss: Added support for Profile Custom Fields (Pro).
 
 - **New Improvements**
-- GravityForms: Uploaded file path now changed to URL format for better compatibility (Pro).
+ - GravityForms: Uploaded file path now changed to URL format for better compatibility (Pro).
 
 - **Bug Fixes**
-- Webhook & Custom API: Resolved issue with custom raw JSON data submission.
+ - Webhook & Custom API: Resolved issue with custom raw JSON data submission.
 
 = 2.4.0 =
 _Release Date -19th December 2024_
 
 - **New Improvements**
-- Salesforce: Updated static fields to dynamic fields for enhanced flexibility.
-- BuddyBoss (Trigger): Added trigger support for user ID fields, improving workflow options.(Pro)
+ - Salesforce: Updated static fields to dynamic fields for enhanced flexibility.
+ - BuddyBoss (Trigger): Added trigger support for user ID fields, improving workflow options.(Pro)
 
 - **Bug Fixes**
-- Omnisend: Resolved an issue with trailing commas causing errors in integration.
-- MasterStudyLMS (Trigger): Fixed the course completion execution bug for smoother functionality.(Pro)
-- Zoho Marketing Hub: Addressed an execution issue to ensure seamless operation.
-- Freshdesk: Fixed an authorization issue affecting API connectivity.
-- CartFlows: Corrected the field fetching issue during checkout integration.(Pro).
+ - Omnisend: Resolved an issue with trailing commas causing errors in integration.
+ - MasterStudyLMS (Trigger): Fixed the course completion execution bug for smoother functionality.(Pro)
+ - Zoho Marketing Hub: Addressed an execution issue to ensure seamless operation.
+ - Freshdesk: Fixed an authorization issue affecting API connectivity.
+ - CartFlows: Corrected the field fetching issue during checkout integration.(Pro).
 
 = 2.3.9 =
 _Release Date -10th December 2024_
 
 - **New Trigger**
-- Avada Forms – Allowing users to integrate and automate workflows effectively with the Avada Website Builder. (pro)
+ - Avada Forms – Allowing users to integrate and automate workflows effectively with the Avada Website Builder. (pro)
 
 - **Bug Fixes**
-- Groundhogg: Resolved the issue with fetching tags. (pro)
-- GoogleSheet: Authorization page issue fixed.
+ - Groundhogg: Resolved the issue with fetching tags. (pro)
+ - GoogleSheet: Authorization page issue fixed.
 
 = 2.3.8 =
 _Release Date -5th December 2024_
 
 - **New Feature**
-- Fluent CRM (Action)(Pro): Added support for assigning a company to contacts.
+ - Fluent CRM (Action)(Pro): Added support for assigning a company to contacts.
 
 - **New Improvement**
-- Benchmark: Improved integration execution performance.
-- Forminator (Pro): Extended form fetching limit to 1000.
-- Ultimate Member (Pro): Added support for uploading field data URLs.
+ - Benchmark: Improved integration execution performance.
+ - Forminator (Pro): Extended form fetching limit to 1000.
+ - Ultimate Member (Pro): Added support for uploading field data URLs.
 
 - **Bug Fixes**
-- Telegram: Fixed issue with integration name not being editable.
-- Telegram: Resolved issue with HTML message text breaking characters.
-- Telegram: Fixed issue with markdown field input appending incorrectly.
-- Benchmark: Fixed issue with boolean fields not being handled correctly.
-- Slack: Fixed issue with message body field input appending incorrectly.
-- Chore: Corrected the improper call of \_load_textdomain_just_in_time.
-- Twilio: Fixed issue with message body field input appending incorrectly.
-- Fluent CRM (Trigger)(Pro): Fixed issue with duplicate trigger execution.
+ - Telegram: Fixed issue with integration name not being editable.
+ - Telegram: Resolved issue with HTML message text breaking characters.
+ - Telegram: Fixed issue with markdown field input appending incorrectly.
+ - Benchmark: Fixed issue with boolean fields not being handled correctly.
+ - Slack: Fixed issue with message body field input appending incorrectly.
+ - Chore: Corrected the improper call of \_load_textdomain_just_in_time.
+ - Twilio: Fixed issue with message body field input appending incorrectly.
+ - Fluent CRM (Trigger)(Pro): Fixed issue with duplicate trigger execution.
 
 = 2.3.7 =
 _Release Date -28th November 2024_
 
 - **Bug Fixes**
-- Google Authorization issue fixed.
+ - Google Authorization issue fixed.
 
 = 2.3.6 =
 _Release Date -26th November 2024_
 
 - **New Improvement**
-- Asana: Added Tagify input for custom fields.
+ - Asana: Added Tagify input for custom fields.
 
 - **Bug Fixes**
-- ARForm (Pro): Resolved the form fetching issue.
-- Fluent Support: Fixed an issue with storing data in custom fields.
-- WP Post (Pro): Prevented multiple hooks from being called when using the "change status" trigger.
-- Chore: Fixed the loading issue in the WP Media Library.
+ - ARForm (Pro): Resolved the form fetching issue.
+ - Fluent Support: Fixed an issue with storing data in custom fields.
+ - WP Post (Pro): Prevented multiple hooks from being called when using the "change status" trigger.
+ - Chore: Fixed the loading issue in the WP Media Library.
 
 = 2.3.5 =
 _Release Date -20th November 2024_
 
 - **New Trigger**
-- Asgaros (Pro): Added support for the best forum plugin for WordPress.
+ - Asgaros (Pro): Added support for the best forum plugin for WordPress.
 
 - **New Action**
-- Voxel: Introduced support for building advanced WordPress dynamic sites and directories.
+ - Voxel: Introduced support for building advanced WordPress dynamic sites and directories.
 
 - **Bug Fixes**
-- Telegram: Resolved the issue where markdown appended incorrectly to form fields.
-- Telegram: Fixed the UI conflict related to parse mode settings.
-- Google Sheets: Addressed the issue where custom authentication credentials were missing.
-- SureCart (Pro): Fixed the blank page issue experienced by some users.
+ - Telegram: Resolved the issue where markdown appended incorrectly to form fields.
+ - Telegram: Fixed the UI conflict related to parse mode settings.
+ - Google Sheets: Addressed the issue where custom authentication credentials were missing.
+ - SureCart (Pro): Fixed the blank page issue experienced by some users.
 
 = 2.3.4 =
 _Release Date -12th November 2024_
 
 - **New Trigger**
-- Pie Forms (Pro): Drag & Drop Builder, Human Face Detector, Pre-built Templates, Spam Protection, User Email Notifications, and more!
+ - Pie Forms (Pro): Drag & Drop Builder, Human Face Detector, Pre-built Templates, Spam Protection, User Email Notifications, and more!
 
 - **New Features**
-- Kit (ex ConvertKit): New Module added:
+ - Kit (ex ConvertKit): New Module added:
   "Update Subscriber" - Easily update subscriber details.
   "Add Tags to a Subscriber" - Assign specific tags to subscribers.
   "Remove Tags from a Subscriber" - Remove tags from selected subscribers.
-- Voxel: Added new tasks to enhance the integrations:
+ - Voxel: Added new tasks to enhance the integrations:
 
   Membership (Pro):
 
@@ -1077,292 +1092,6 @@ _Release Date -12th November 2024_
 - **New Improvement**
 - Brevo (ex Sendinblue): Enhanced optimization for smoother integration execution.
 - Kit (ex ConvertKit): Improved functionality for adding and updating subscribers.
-
-= 2.3.3 =
-_Release Date -05th November 2024_
-
-- **New Action**
-- License Manager for WooCommerce - An Ideal Add-on that Delivers Robust Solutions for Effortless Software License Sales and Management.
-
-- **New Trigger**
-- Voxel - Build Advanced WordPress Dynamic Sites and Directories with Voxel and Elementor (Pro).
-
-- **New Features**
-- MailChimp: Added utilities to manage Language and GDPR Marketing Preferences for users (Pro).
-
-- **New Improvement**
-- Kit (ConvertKit): Optimized API for handling existing subscribers more efficiently.
-
-- **Bug Fixes**
-- Telegram Messenger: Resolved an issue with link messages not displaying correctly.
-- GoHighLevel: Fixed a bug where checkbox data was not submitting as expected.
-- Chore: Addressed trigger uniqueKey update issues for various builders and forms, including:
-  - Breakdance
-  - Elementor
-  - Bricks
-  - BrickForge
-  - Brizy
-  - Divi
-  - Divi Form Builder by Divi Engine
-  - Gutena Forms
-  - Kadence Blocks Form
-  - Popup Maker
-  - SiteOrigin Widgets
-
-= 2.3.2 =
-_Release Date -30th October 2024_
-
-- **New Trigger :**
-
-  - WooCommerce Bookings: Added support for WooCommerce Bookings trigger, allowing you to automate workflows based on new bookings and other related events. (Pro)
-
-- **New Features :**
-
-  - OneClick Authorization feature added in GoogleSheet Action.
-
-- **New Improvements :**
-
-  - WP Post Creation: Enhanced the feature image upload process, now supporting improved handling of third-party public URLs, ensuring more consistent and reliable image integration for WP posts.
-
-- **Note :**
-  - Deprecated Old WooCommerce Booking Triggers: Previous WooCommerce booking-based triggers have been deprecated and replaced with a new, comprehensive trigger system, including specific triggers such as "Booking-Created" to provide more effective and detailed management of WooCommerce bookings.
-
-= 2.3.1 =
-_Release Date -23th October 2024_
-
-- **New Action :**
-
-  - The Events Calendar: Now supports actions for calendars and tickets for WordPress.
-
-- **New Features :**
-
-  - The Events Calendar: Added new task for attendee registration with WooCommerce (Pro).
-  - Moosend: Added support for custom fields (Pro).
-
-- **New Improvements :**
-
-  - Campaign Monitor: Added custom field value support.
-  - Mautic: Added functionality for contact owner.
-  - Telegram: Enhanced Markdown and HTML message support.
-
-- **New Fixes :**
-  - Contact Form 7: Fixed issue with empty checkbox values.
-  - Mailercloud: Resolved the blank page issue.
-  - WpForo: Resolved the blank page issue.
-  - Selzy: Resolved the blank page issue.
-
-= 2.3.0 =
-_Release Date -16th October 2024_
-
-- **New Trigger :**
-
-  - The Events Calendar (Pro): Now supports triggers for calendars and tickets for WordPress.
-
-- **New Features :**
-
-  - Trello (Pro): Added support for Custom Fields.
-
-- **New Fixes :**
-  - Core: Fixed the table page navigation issue.
-  - Moosend: Resolved the issue causing a blank page during authorization.
-  - PerfexCRM: Fixed the custom data submission issue.
-  - WooCommerce: Fixed the custom field value issue.
-  - JetEngine (Pro): Resolved the blank page issue.
-  - LearnDash (Pro): Resolved the trigger dependency update issue.
-  - ZohoCRM:
-    1. Addressed the issue with relatedList custom field values.
-    2. Fixed the relatedList key issue.
-
-= 2.2.9 =
-_Release Date -12th October 2024_
-
-- **Note :**
-
-  - The name ConvertKit has been updated to Kit (ConvertKit).
-
-- **New Features :**
-
-  - Eventin - New tasks added for better event management (Pro):
-    1. Speaker (or Organizer) Created
-    2. Speaker (or Organizer) Updated
-    3. Speaker (or Organizer) Deleted
-    4. Attendee Updated
-    5. Attendee Deleted
-    6. Order Created
-    7. Order Deleted
-    8. Schedule Deleted
-
-- **New Improvements :**
-
-  - Constant Contact: Improved contact update functionality.
-  - PipeDrive: Added support for the Organization module and new related lists (Pro).
-
-- **New Fixes :**
-  - HubSpot: Fixed issue with integration execution time for updating records.
-  - Zoho CRM: Resolved custom data submission issue.
-  - MailPoet: Fixed issue with retrieving form data. (Pro)
-
-= 2.2.8 =
-_Release Date -2nd October 2024_
-
-- **New Fixes :**
-  - Responsive Design Fix: Improved modal design responsiveness to ensure it adapts smoothly on different screen sizes.
-
-= 2.2.7 =
-_Release Date -1st October 2024_
-
-- **Note :**
-
-  - Custom Trigger: Moved to the Pro version with an enhanced trigger UI for better user experience, improved data-fetching capabilities.
-
-- **New Triggers :**
-
-  - Eventin - Events Manager & Event Tickets Plugin. (Pro)
-
-- **New Improvements :**
-
-  - Custom Trigger: Introduced new improvements for modifying selected fields.
-
-- **New Fixes :**
-  - ZohoCRM: Resolved issue with Date field not being processed correctly.
-  - Kit (ConvertKit): Fixed problem with querying existing subscribers.
-
-= 2.2.6 =
-_Release Date -28th September 2024_
-
-- **New Actions :**
-
-  - Go High Level: Now available as an action, allowing seamless integration with Go High Level for better automation and CRM workflows.
-
-- **New Triggers :**
-
-  - Divi Form Builder: Create complex forms with the Divi Builder and trigger actions based on form submissions. (Pro)
-  - WooCommerce Subscriptions: Introduced new triggers to manage various subscription scenarios for physical or virtual products. (Pro)
-
-- **New Features :**
-
-  - Zoho Bigin: Added the functionality to add tags to records, enhancing customization and organization within your Zoho Bigin CRM. (Pro)
-
-- **Note :**
-  - Deprecated old WooCommerce subscription-based triggers and replaced them with new, more comprehensive subscription-based triggers for managing WooCommerce subscriptions effectively.
-    1.  User-Cancel-Subscription-Product
-    2.  Expired-Subscription-Product
-    3.  Subscription-Product-Status-Change
-    4.  Subscription-Trial-Period-End
-
-= 2.2.5 =
-_Release Date -19th September 2024_
-
-- **New Fixes :**
-  - Klaviyo: Resolved the issue with excessive setState calls, preventing performance bottlenecks.
-  - Core: Fixed the Tagify event handling issue.
-
-= 2.2.4 =
-_Release Date -17th September 2024_
-
-- **Note :**
-
-  - Action Hook trigger moved to pro version.
-
-- **New Features :**
-
-  - Klaviyo (Pro): Added support for custom properties.
-  - WP Post Creation (Action): JetEngine’s Meta fields are now supported.
-  - JetEngine (Actions): Added functionality for updating and deleting Post Type, Custom Content Type, Taxonomy, and Relation.
-  - WP Job Manager (Trigger) (Pro): Added triggers for:
-    1.  A user’s application is set to a specific status.
-    2.  A user’s application for a specific job type is set to a specific status.
-    3.  Applies with resume.
-
-- **New Improvements :**
-
-  - Plugin Translations Enhanced (Pro): Translation files have been optimized for better accuracy and compatibility across multiple languages. This enhancement improves user experience in non-English locales, making the plugin more globally accessible.
-
-- **New Fixes :**
-  - GetResponse (Auto Responder): Resolved the issue with zero day of cycle.
-  - Core: Fixed the index bound issue.
-  - Notion: Addressed the blank page issue.
-  - Brevo (ex Sendinblue): Corrected the category field fetching problem.
-  - WP Post Creation (Action): Fixed the file path issues related to ACF & MetaBox.
-  - AgileCRM: Fixed the issue with custom field values.
-  - ClickUp: Resolved the issue with custom field values.
-  - ClinchPad: Addressed the issue with custom field values.
-  - CompanyHub: Fixed the issue with custom field values.
-  - Kit (ConvertKit): Resolved the issue with custom field values.
-  - CopperCRM: Addressed the issue with custom field values.
-
-= 2.2.3 =
-_Release Date -8th September 2024_
-
-- **New Features :**
-
-  - MasterStudy LMS: "User earns a point" trigger added for point system integrations (Pro)
-  - Registration: The ability to update user role has been added to the User Data Update module, enhancing user management capabilities.
-
-- **New Improvements :**
-
-  - Plugin Translations Enhanced: The translation files for the plugin have been optimized, ensuring better accuracy and compatibility across multiple languages. This improvement provides a more seamless experience for users in non-English locales, making the plugin more accessible globally.
-
-- **New Fixes :**
-  - Brevo: Resolved refresh fields & float type field issue
-  - MailPoet: Resolved subsriber existing issue
-  - CapsuleCRM: Resolved API response handling issue
-  - Klaviyo: Resolved an issue where the Klaviyo list attribute was returning as undefined
-
-= 2.2.2 =
-_Release Date -28th August 2024_
-
-- **New Triggers :**
-  - WP Job Manager
-- **New Features :**
-
-  - GetResponse: Added the AutoResponder day of cycle feature (Pro).
-  - SendPulse: Introduced custom field functionality (Pro)
-
-- **New Improvements :**
-
-  - Bricks: Upgraded with new UI/UX functionality (Pro)
-  - Perfex CRM: Added the Lead Assigned field
-
-- **New Fixes :**
-  - Core: Fixed operator precedence deprecation issue in PHP 8 (Pro)
-  - Kit (ConvertKit): Resolved the issue with custom field value mapping
-
-= 2.2.1 =
-_Release Date -22th August 2024_
-
-- **New Action :**
-  - JetEngine: WordPress Plugin for Elementor, Gutenberg & Bricks
-- **New Features :**
-
-  - HubSpot: Added the ability to update Contacts, Companies, Deals, and Tickets (Pro)
-
-- **New Improvements :**
-
-  - Brizy: Upgraded with PopUp Form Module (Pro)
-  - Action Hook: Enhanced to fetch protected or private class properties
-
-- **New Fixes :**
-  - Mail Mint: Fixed issue with updating tags for Contacts
-
-= 2.2.0 =
-_Release Date -17th August 2024_
-
-- **New Action :**
-  - Dokan – Powerful WooCommerce Multivendor Marketplace Solution – Build Your Own Amazon, eBay, Etsy
-- **New Features :**
-
-  - WhatsApp: Text Message, Contact Message & Media Message added (Pro)
-  - Fluent Support: Ticket module Attachment field added (Pro)
-
-- **New Improvements :**
-
-  - WhatsApp: Template Message imporved
-  - Telegram: Charset UTF-8 raw enitity encoded (Local Languages)
-
-- **New Fixes :**
-
-  - Telegram: HTML Entities parse issue fixed
 
 - **For Older Changelogs :**
   - [Click Here](https://bit-integrations.com/wp-docs/free-changelogs/)

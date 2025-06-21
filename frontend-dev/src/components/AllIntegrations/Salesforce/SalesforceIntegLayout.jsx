@@ -38,10 +38,11 @@ export default function SalesforceIntegLayout({
     }
   }, [salesforceConf?.actionName])
 
-  const handleInputP = (e) => {
+  const handleInputP = e => {
     const newConf = { ...salesforceConf }
     const { name, value } = e.target
     newConf[name] = value
+    newConf.field_map = []
 
     if (e.target.value !== '') {
       const actName = value
@@ -56,14 +57,7 @@ export default function SalesforceIntegLayout({
           setSnackbar
         )
       } else if (actName === 'lead-create') {
-        getAllCustomFields(
-          formID,
-          'lead-create',
-          newConf,
-          setSalesforceConf,
-          setIsLoading,
-          setSnackbar
-        )
+        getAllCustomFields(formID, 'lead-create', newConf, setSalesforceConf, setIsLoading, setSnackbar)
       } else if (actName === 'account-create') {
         getAllCustomFields(
           formID,
@@ -101,23 +95,9 @@ export default function SalesforceIntegLayout({
           setSnackbar
         )
       } else if (actName === 'event-create') {
-        getAllCustomFields(
-          formID,
-          'event-create',
-          newConf,
-          setSalesforceConf,
-          setIsLoading,
-          setSnackbar
-        )
+        getAllCustomFields(formID, 'event-create', newConf, setSalesforceConf, setIsLoading, setSnackbar)
       } else if (actName === 'case-create') {
-        getAllCustomFields(
-          formID,
-          'case-create',
-          newConf,
-          setSalesforceConf,
-          setIsLoading,
-          setSnackbar
-        )
+        getAllCustomFields(formID, 'case-create', newConf, setSalesforceConf, setIsLoading, setSnackbar)
       } else if (actName !== 'task-create') {
         getAllCustomFields(formID, actName, newConf, setSalesforceConf, setIsLoading, setSnackbar)
       }
@@ -172,23 +152,17 @@ export default function SalesforceIntegLayout({
               defaultValue={salesforceConf?.campaignId}
               options={
                 salesforceConf?.default?.campaignLists &&
-                salesforceConf.default.campaignLists.map((item) => ({
+                salesforceConf.default.campaignLists.map(item => ({
                   label: item.Name,
                   value: item.Id
                 }))
               }
-              onChange={(val) => changeHandler(val, 'campaignId')}
+              onChange={val => changeHandler(val, 'campaignId')}
               singleSelect
             />
             <button
               onClick={() =>
-                getAllCampaignList(
-                  formID,
-                  salesforceConf,
-                  setSalesforceConf,
-                  setIsLoading,
-                  setSnackbar
-                )
+                getAllCampaignList(formID, salesforceConf, setSalesforceConf, setIsLoading, setSnackbar)
               }
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `'${__('Fetch Campaign lists', 'bit-integrations')}'` }}
@@ -212,9 +186,9 @@ export default function SalesforceIntegLayout({
             defaultValue={salesforceConf?.leadId}
             options={
               salesforceConf?.default?.leadLists &&
-              salesforceConf.default.leadLists.map((item) => ({ label: item.Name, value: item.Id }))
+              salesforceConf.default.leadLists.map(item => ({ label: item.Name, value: item.Id }))
             }
-            onChange={(val) => changeHandler(val, 'leadId')}
+            onChange={val => changeHandler(val, 'leadId')}
             singleSelect
           />
           <button
@@ -239,23 +213,17 @@ export default function SalesforceIntegLayout({
             defaultValue={salesforceConf?.contactId}
             options={
               salesforceConf?.default?.contactLists &&
-              salesforceConf.default.contactLists.map((item) => ({
+              salesforceConf.default.contactLists.map(item => ({
                 label: item.Name,
                 value: item.Id
               }))
             }
-            onChange={(val) => changeHandler(val, 'contactId')}
+            onChange={val => changeHandler(val, 'contactId')}
             singleSelect
           />
           <button
             onClick={() =>
-              getAllContactList(
-                formID,
-                salesforceConf,
-                setSalesforceConf,
-                setIsLoading,
-                setSnackbar
-              )
+              getAllContactList(formID, salesforceConf, setSalesforceConf, setIsLoading, setSnackbar)
             }
             className="icn-btn sh-sm ml-2 mr-2 tooltip"
             style={{ '--tooltip-txt': `'${__('Fetch Contact lists', 'bit-integrations')}'` }}
@@ -275,23 +243,17 @@ export default function SalesforceIntegLayout({
             defaultValue={salesforceConf?.accountId}
             options={
               salesforceConf?.default?.accountLists &&
-              salesforceConf.default.accountLists.map((item) => ({
+              salesforceConf.default.accountLists.map(item => ({
                 label: item.Name,
                 value: item.Id
               }))
             }
-            onChange={(val) => changeHandler(val, 'accountId')}
+            onChange={val => changeHandler(val, 'accountId')}
             singleSelect
           />
           <button
             onClick={() =>
-              getAllAccountList(
-                formID,
-                salesforceConf,
-                setSalesforceConf,
-                setIsLoading,
-                setSnackbar
-              )
+              getAllAccountList(formID, salesforceConf, setSalesforceConf, setIsLoading, setSnackbar)
             }
             className="icn-btn sh-sm ml-2 mr-2 tooltip"
             style={{ '--tooltip-txt': `'${__('Fetch Account lists', 'bit-integrations')}'` }}
@@ -309,12 +271,12 @@ export default function SalesforceIntegLayout({
             defaultValue={salesforceConf?.statusId}
             options={
               salesforceConf?.campaignMemberStatus &&
-              salesforceConf.campaignMemberStatus.map((item) => ({
+              salesforceConf.campaignMemberStatus.map(item => ({
                 label: item.label,
                 value: item.value
               }))
             }
-            onChange={(val) => changeHandler(val, 'statusId')}
+            onChange={val => changeHandler(val, 'statusId')}
             singleSelect
           />
         </div>
@@ -326,8 +288,8 @@ export default function SalesforceIntegLayout({
             <MultiSelect
               className="w-5"
               defaultValue={salesforceConf?.subjectId}
-              options={taskSubject.map((item) => ({ label: item.label, value: item.value }))}
-              onChange={(val) => changeHandler(val, 'subjectId')}
+              options={taskSubject.map(item => ({ label: item.label, value: item.value }))}
+              onChange={val => changeHandler(val, 'subjectId')}
               singleSelect
             />
           </div>
@@ -336,8 +298,8 @@ export default function SalesforceIntegLayout({
             <MultiSelect
               className="w-5"
               defaultValue={salesforceConf?.priorityId}
-              options={taskPriority.map((item) => ({ label: item.label, value: item.value }))}
-              onChange={(val) => changeHandler(val, 'priorityId')}
+              options={taskPriority.map(item => ({ label: item.label, value: item.value }))}
+              onChange={val => changeHandler(val, 'priorityId')}
               singleSelect
             />
           </div>
@@ -346,8 +308,8 @@ export default function SalesforceIntegLayout({
             <MultiSelect
               className="w-5"
               defaultValue={salesforceConf?.statusId}
-              options={taskStatus.map((item) => ({ label: item.label, value: item.value }))}
-              onChange={(val) => changeHandler(val, 'statusId')}
+              options={taskStatus.map(item => ({ label: item.label, value: item.value }))}
+              onChange={val => changeHandler(val, 'statusId')}
               singleSelect
             />
           </div>
@@ -417,12 +379,7 @@ export default function SalesforceIntegLayout({
           <div className="txt-center btcbi-field-map-button mt-2">
             <button
               onClick={() =>
-                addFieldMap(
-                  salesforceConf.field_map.length,
-                  salesforceConf,
-                  setSalesforceConf,
-                  false
-                )
+                addFieldMap(salesforceConf.field_map.length, salesforceConf, setSalesforceConf, false)
               }
               className="icn-btn sh-sm"
               type="button">
@@ -436,18 +393,18 @@ export default function SalesforceIntegLayout({
       {['opportunity-create', 'event-create', 'case-create', 'account-create'].includes(
         salesforceConf?.actionName
       ) && (
-          <>
-            <div className="mt-4">
-              <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
-            </div>
-            <div className="btcd-hr mt-1" />
-            <SalesforceActions
-              salesforceConf={salesforceConf}
-              setSalesforceConf={setSalesforceConf}
-              formFields={formFields}
-            />
-          </>
-        )}
+        <>
+          <div className="mt-4">
+            <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
+          </div>
+          <div className="btcd-hr mt-1" />
+          <SalesforceActions
+            salesforceConf={salesforceConf}
+            setSalesforceConf={setSalesforceConf}
+            formFields={formFields}
+          />
+        </>
+      )}
     </>
   )
 }
