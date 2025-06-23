@@ -371,6 +371,63 @@ class SalesforceController
         wp_send_json_success($caseSLAViolation, 200);
     }
 
+    public function getAllLeadSources($customFieldRequestParams)
+    {
+        if (
+            empty($customFieldRequestParams->tokenDetails)
+            || empty($customFieldRequestParams->actionName)
+            || empty($customFieldRequestParams->clientId)
+            || empty($customFieldRequestParams->clientSecret)
+        ) {
+            wp_send_json_error(
+                __(
+                    'Requested parameter is empty',
+                    'bit-integrations'
+                ),
+                400
+            );
+        }
+
+        $response = ['tokenDetails' => $customFieldRequestParams->tokenDetails];
+        if ((\intval($customFieldRequestParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
+            $response['tokenDetails'] = self::refreshAccessToken($customFieldRequestParams);
+        }
+
+        $actionMap = [
+            'contact-create'      => 'Contact',
+            'lead-create'         => 'Lead',
+            'account-create'      => 'Account',
+            'campaign-create'     => 'Campaign',
+            'add-campaign-member' => 'Campaign',
+            'opportunity-create'  => 'Opportunity',
+            'event-create'        => 'Event',
+            'case-create'         => 'Case'
+        ];
+
+        $action = $actionMap[$customFieldRequestParams->actionName] ?? $customFieldRequestParams->actionName;
+        $apiEndpoint = "{$customFieldRequestParams->tokenDetails->instance_url}/services/data/v37.0/sobjects/{$action}/describe";
+        $headers = [
+            'Authorization' => "Bearer {$customFieldRequestParams->tokenDetails->access_token}",
+            'Content-Type'  => 'application/json'
+        ];
+
+        $apiResponse = HttpHelper::get($apiEndpoint, null, $headers);
+
+        if (!property_exists((object) $apiResponse, 'fields')) {
+            wp_send_json_error($apiResponse, 400);
+        }
+
+        $field = current(array_filter($apiResponse->fields, function ($field) {
+            return $field->name === 'LeadSource';
+        }));
+
+        if (!empty($response['tokenDetails'])) {
+            self::saveRefreshedToken($customFieldRequestParams->flowID, $response['tokenDetails'], $response['organizations']);
+        }
+
+        wp_send_json_success($field->picklistValues ?? [], 200);
+    }
+
     public function execute($integrationData, $fieldValues)
     {
         $integrationDetails = $integrationData->flow_details;

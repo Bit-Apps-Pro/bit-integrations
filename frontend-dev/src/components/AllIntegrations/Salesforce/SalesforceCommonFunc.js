@@ -315,6 +315,45 @@ export const getAllSLAViolation = (
   })
 }
 
+export const getAllLeadSource = (
+  formID,
+  salesforceConf,
+  setSalesforceConf,
+  setIsLoading,
+  setSnackbar
+) => {
+  setIsLoading(true)
+  const campaignRequestParams = {
+    formID,
+    actionName: salesforceConf.actionName,
+    clientId: salesforceConf.clientId,
+    clientSecret: salesforceConf.clientSecret,
+    tokenDetails: salesforceConf.tokenDetails
+  }
+  const loadPostReasons = bitsFetch(campaignRequestParams, 'selesforce_get_lead_sources').then(
+    result => {
+      if (result && result.success) {
+        setSalesforceConf(prevConf =>
+          create(prevConf, draftConf => {
+            draftConf['leadSources'] = result.data
+          })
+        )
+        setIsLoading(false)
+        return __('Lead Source refreshed', 'bit-integrations')
+      }
+
+      setIsLoading(false)
+      return __('Lead Source refresh failed. please try again', 'bit-integrations')
+    }
+  )
+
+  toast.promise(loadPostReasons, {
+    success: data => data,
+    error: __('Error Occurred', 'bit-integrations'),
+    loading: __('Loading Lead Source...')
+  })
+}
+
 // export const getAllLeadList = (formID, salesforceConf, setSalesforceConf, setIsLoading, setSnackbar) => {
 //   setIsLoading(true)
 //   const campaignRequestParams = {
