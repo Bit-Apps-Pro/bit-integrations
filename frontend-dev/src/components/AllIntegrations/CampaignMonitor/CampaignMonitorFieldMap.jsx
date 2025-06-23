@@ -7,6 +7,7 @@ import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import MtInput from '../../Utilities/MtInput'
 import { generateMappedField } from './CampaignMonitorCommonFunc'
 import TagifyInput from '../../Utilities/TagifyInput'
+import { handleCustomValue } from '../IntegrationHelpers/IntegrationHelpers'
 
 export default function CampaignMonitorFieldMap({
   i,
@@ -51,12 +52,6 @@ export default function CampaignMonitorFieldMap({
     if (event.target.value === 'custom') {
       newConf.field_map[indx].customValue = ''
     }
-    setCampaignMonitorConf(newConf)
-  }
-
-  const handleCustomValue = (event, indx) => {
-    const newConf = { ...campaignMonitorConf }
-    newConf.field_map[indx].customValue = event.target.value
     setCampaignMonitorConf(newConf)
   }
 
