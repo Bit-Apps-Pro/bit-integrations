@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Core\Util\Route;
 use BitCode\FI\Actions\Salesforce\SalesforceController;
+use BitCode\FI\Core\Util\Route;
 
 Route::post('selesforce_generate_token', [SalesforceController::class, 'generateTokens']);
 Route::post('selesforce_custom_action', [SalesforceController::class, 'customActions']);
@@ -23,3 +23,6 @@ Route::post('selesforce_case_priority', [SalesforceController::class, 'selesforc
 Route::post('selesforce_case_potential_liability', [SalesforceController::class, 'selesforceCasePotentialLiability']);
 Route::post('selesforce_case_sla_violation', [SalesforceController::class, 'selesforceCaseSLAViolation']);
 Route::post('selesforce_get_lead_sources', [SalesforceController::class, 'getAllLeadSources']);
+Route::post('selesforce_get_lead_status', [SalesforceController::class, 'getAllLeadStatus']);
+Route::post('selesforce_get_lead_ratings', [SalesforceController::class, 'getAllLeadRatings']);
+Route::post('selesforce_get_lead_industries', [SalesforceController::class, 'getAllLeadIndustries']);

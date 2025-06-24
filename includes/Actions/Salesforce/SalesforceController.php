@@ -148,7 +148,7 @@ class SalesforceController
             'AccountId', 'ReportsToId', 'OwnerId', 'LeadSource', 'IsDeleted',
             'CreatedDate', 'CreatedById', 'LastModifiedDate', 'LastModifiedById',
             'SystemModstamp', 'LastViewedDate', 'LastActivityDate', 'LastCURequestDate',
-            'EmailBouncedReason', 'EmailBouncedDate', 'IsEmailBounced', 'LastCUUpdateDate',
+            'EmailBouncedReason', 'Industry', 'Status', 'Rating', 'EmailBouncedDate', 'IsEmailBounced', 'LastCUUpdateDate',
             'LastReferencedDate', 'Jigsaw', 'JigsawContactId', 'CleanStatus'
         ];
 
@@ -397,6 +397,126 @@ class SalesforceController
         wp_send_json_success($field->picklistValues ?? [], 200);
     }
 
+    public function getAllLeadStatus($params)
+    {
+        if (
+            empty($params->tokenDetails)
+            || empty($params->actionName)
+            || empty($params->clientId)
+            || empty($params->clientSecret)
+        ) {
+            wp_send_json_error(
+                __(
+                    'Requested parameter is empty',
+                    'bit-integrations'
+                ),
+                400
+            );
+        }
+
+        $response = self::refreshTokenDetails($params);
+        $action = self::$actions[$params->actionName] ?? $params->actionName;
+        $tokenDetails = $response['tokenDetails'];
+
+        $apiEndpoint = "{$tokenDetails->instance_url}/services/data/v37.0/sobjects/{$action}/describe";
+
+        $apiResponse = HttpHelper::get($apiEndpoint, null, self::setHeaders($tokenDetails->access_token));
+
+        if (!property_exists((object) $apiResponse, 'fields')) {
+            wp_send_json_error($apiResponse, 400);
+        }
+
+        $field = current(array_filter($apiResponse->fields, function ($field) {
+            return $field->name === 'Status';
+        }));
+
+        if (!empty($tokenDetails)) {
+            self::saveRefreshedToken($params->flowID, $tokenDetails, $response['organizations']);
+        }
+
+        wp_send_json_success($field->picklistValues ?? [], 200);
+    }
+
+    public function getAllLeadRatings($params)
+    {
+        if (
+            empty($params->tokenDetails)
+            || empty($params->actionName)
+            || empty($params->clientId)
+            || empty($params->clientSecret)
+        ) {
+            wp_send_json_error(
+                __(
+                    'Requested parameter is empty',
+                    'bit-integrations'
+                ),
+                400
+            );
+        }
+
+        $response = self::refreshTokenDetails($params);
+        $action = self::$actions[$params->actionName] ?? $params->actionName;
+        $tokenDetails = $response['tokenDetails'];
+
+        $apiEndpoint = "{$tokenDetails->instance_url}/services/data/v37.0/sobjects/{$action}/describe";
+
+        $apiResponse = HttpHelper::get($apiEndpoint, null, self::setHeaders($tokenDetails->access_token));
+
+        if (!property_exists((object) $apiResponse, 'fields')) {
+            wp_send_json_error($apiResponse, 400);
+        }
+
+        $field = current(array_filter($apiResponse->fields, function ($field) {
+            return $field->name === 'Rating';
+        }));
+
+        if (!empty($tokenDetails)) {
+            self::saveRefreshedToken($params->flowID, $tokenDetails, $response['organizations']);
+        }
+
+        wp_send_json_success($field->picklistValues ?? [], 200);
+    }
+
+    public function getAllLeadIndustries($params)
+    {
+        if (
+            empty($params->tokenDetails)
+            || empty($params->actionName)
+            || empty($params->clientId)
+            || empty($params->clientSecret)
+        ) {
+            wp_send_json_error(
+                __(
+                    'Requested parameter is empty',
+                    'bit-integrations'
+                ),
+                400
+            );
+        }
+
+        $response = self::refreshTokenDetails($params);
+        $action = self::$actions[$params->actionName] ?? $params->actionName;
+        $tokenDetails = $response['tokenDetails'];
+
+        $apiEndpoint = "{$tokenDetails->instance_url}/services/data/v37.0/sobjects/{$action}/describe";
+
+        $apiResponse = HttpHelper::get($apiEndpoint, null, self::setHeaders($tokenDetails->access_token));
+
+        if (!property_exists((object) $apiResponse, 'fields')) {
+            wp_send_json_error($apiResponse, 400);
+        }
+
+        $field = current(array_filter($apiResponse->fields, function ($field) {
+            return $field->name === 'Industry';
+        }));
+
+        if (!empty($tokenDetails)) {
+            self::saveRefreshedToken($params->flowID, $tokenDetails, $response['organizations']);
+        }
+
+        wp_send_json_success($field->picklistValues ?? [], 200);
+    }
+
     public function execute($integrationData, $fieldValues)
     {
         $integrationDetails = $integrationData->flow_details;
@@ -459,7 +579,7 @@ class SalesforceController
             'grant_type'    => 'refresh_token',
             'client_id'     => $apiData->clientId,
             'client_secret' => $apiData->clientSecret,
-            'redirect_uri'  => urldecode($apiData->redirectURI),
+            'redirect_uri'  => urldecode($apiData->redirectURI ?? ''),
             'refresh_token' => $tokenDetails->refresh_token
         ];
 

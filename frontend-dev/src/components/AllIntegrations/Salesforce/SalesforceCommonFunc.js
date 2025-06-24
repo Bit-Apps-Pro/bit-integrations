@@ -354,74 +354,120 @@ export const getAllLeadSource = (
   })
 }
 
-// export const getAllLeadList = (formID, salesforceConf, setSalesforceConf, setIsLoading, setSnackbar) => {
-//   setIsLoading(true)
-//   const campaignRequestParams = {
-//     formID,
-//     clientId: salesforceConf.clientId,
-//     clientSecret: salesforceConf.clientSecret,
-//     tokenDetails: salesforceConf.tokenDetails,
-//   }
-//   bitsFetch(campaignRequestParams, 'selesforce_lead_list')
-//     .then(result => {
-//       if (result && result.success) {
-//         const newConf = { ...salesforceConf }
-//         if (!newConf.default) newConf.default = {}
-//         if (!newConf.default?.leadLists) {
-//           newConf.default.leadLists = {}
-//         }
-//         if (result.data.leadLists) {
-//           newConf.default.leadLists = result.data.leadLists
-//         }
-//         if (result.data.tokenDetails) {
-//           newConf.tokenDetails = result.data.tokenDetails
-//         }
-//         setSnackbar({ show: true, msg: __('lead list refreshed', 'bit-integrations') })
-//         setSalesforceConf({ ...newConf })
-//       } else if ((result && result.data && result.data.data) || (!result.success && typeof result.data === 'string')) {
-//         setSnackbar({ show: true, msg: `${__('Lead list refresh failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}` })
-//       } else {
-//         setSnackbar({ show: true, msg: __('Lead list refresh failed. please try again', 'bit-integrations') })
-//       }
-//       setIsLoading(false)
-//     })
-//     .catch(() => setIsLoading(false))
-// }
-// export const getAllContactList = (formID, salesforceConf, setSalesforceConf, setIsLoading, setSnackbar) => {
-//   setIsLoading(true)
-//   const campaignRequestParams = {
-//     formID,
-//     clientId: salesforceConf.clientId,
-//     clientSecret: salesforceConf.clientSecret,
-//     tokenDetails: salesforceConf.tokenDetails,
-//   }
-//   const loadPostTypes = bitsFetch(campaignRequestParams, 'selesforce_contact_list')
-//     .then(result => {
-//       if (result && result.success) {
-//         const newConf = { ...salesforceConf }
-//         if (!newConf.default) newConf.default = {}
-//         if (!newConf.default?.contactLists) {
-//           newConf.default.contactLists = {}
-//         }
-//         if (result.data.contactLists) {
-//           newConf.default.contactLists = result.data.contactLists
-//         }
-//         if (result.data.tokenDetails) {
-//           newConf.tokenDetails = result.data.tokenDetails
-//         }
-//         setSalesforceConf({ ...newConf })
-//         setIsLoading(false)
-//         return __('Contact list refreshed','bit-integrations')
-//       }
-//       setIsLoading(false)
-//       return __('Contact list refresh failed. please try again','bit-integrations')
-//     })
-//   toast.promise(loadPostTypes, {
-//     success: data => data,
-//     error: __('Error Occurred', 'bit-integrations'),
-//     loading: __('Loading Contact list...'),
-//   })
-// }
+export const getAllLeadStatus = (
+  formID,
+  salesforceConf,
+  setSalesforceConf,
+  setIsLoading,
+  setSnackbar
+) => {
+  setIsLoading(true)
+  const campaignRequestParams = {
+    formID,
+    actionName: salesforceConf.actionName,
+    clientId: salesforceConf.clientId,
+    clientSecret: salesforceConf.clientSecret,
+    tokenDetails: salesforceConf.tokenDetails
+  }
+  const loadPostReasons = bitsFetch(campaignRequestParams, 'selesforce_get_lead_status').then(result => {
+    if (result && result.success) {
+      setSalesforceConf(prevConf =>
+        create(prevConf, draftConf => {
+          draftConf['leadStatus'] = result.data
+        })
+      )
+      setIsLoading(false)
+      return __('Lead Status refreshed', 'bit-integrations')
+    }
+
+    setIsLoading(false)
+    return __('Lead Status refresh failed. please try again', 'bit-integrations')
+  })
+
+  toast.promise(loadPostReasons, {
+    success: data => data,
+    error: __('Error Occurred', 'bit-integrations'),
+    loading: __('Loading Lead Status...')
+  })
+}
+
+export const getAllLeadRatings = (
+  formID,
+  salesforceConf,
+  setSalesforceConf,
+  setIsLoading,
+  setSnackbar
+) => {
+  setIsLoading(true)
+  const campaignRequestParams = {
+    formID,
+    actionName: salesforceConf.actionName,
+    clientId: salesforceConf.clientId,
+    clientSecret: salesforceConf.clientSecret,
+    tokenDetails: salesforceConf.tokenDetails
+  }
+  const loadPostReasons = bitsFetch(campaignRequestParams, 'selesforce_get_lead_ratings').then(
+    result => {
+      if (result && result.success) {
+        setSalesforceConf(prevConf =>
+          create(prevConf, draftConf => {
+            draftConf['leadRatings'] = result.data
+          })
+        )
+        setIsLoading(false)
+        return __('Lead Rating refreshed', 'bit-integrations')
+      }
+
+      setIsLoading(false)
+      return __('Lead Rating refresh failed. please try again', 'bit-integrations')
+    }
+  )
+
+  toast.promise(loadPostReasons, {
+    success: data => data,
+    error: __('Error Occurred', 'bit-integrations'),
+    loading: __('Loading Lead Rating...')
+  })
+}
+
+export const getAllLeadIndustries = (
+  formID,
+  salesforceConf,
+  setSalesforceConf,
+  setIsLoading,
+  setSnackbar
+) => {
+  setIsLoading(true)
+  const campaignRequestParams = {
+    formID,
+    actionName: salesforceConf.actionName,
+    clientId: salesforceConf.clientId,
+    clientSecret: salesforceConf.clientSecret,
+    tokenDetails: salesforceConf.tokenDetails
+  }
+  const loadPostReasons = bitsFetch(campaignRequestParams, 'selesforce_get_lead_industries').then(
+    result => {
+      if (result && result.success) {
+        setSalesforceConf(prevConf =>
+          create(prevConf, draftConf => {
+            draftConf['leadIndustries'] = result.data
+          })
+        )
+        setIsLoading(false)
+        return __('Industry refreshed', 'bit-integrations')
+      }
+
+      setIsLoading(false)
+      return __('Industry refresh failed. please try again', 'bit-integrations')
+    }
+  )
+
+  toast.promise(loadPostReasons, {
+    success: data => data,
+    error: __('Error Occurred', 'bit-integrations'),
+    loading: __('Loading Industry...')
+  })
+}
 
 export const getAllLeadList = (formID, salesforceConf, setSalesforceConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)

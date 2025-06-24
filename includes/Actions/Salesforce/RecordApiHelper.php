@@ -160,6 +160,15 @@ class RecordApiHelper
             if (!empty($integrationDetails->actions->selectedLeadSource)) {
                 $finalData['LeadSource'] = $integrationDetails->actions->selectedLeadSource;
             }
+            if (!empty($integrationDetails->actions->selectedLeadStatus)) {
+                $finalData['Status'] = $integrationDetails->actions->selectedLeadStatus;
+            }
+            if (!empty($integrationDetails->actions->selectedLeadRating)) {
+                $finalData['Rating'] = $integrationDetails->actions->selectedLeadRating;
+            }
+            if (!empty($integrationDetails->actions->selectedLeadIndustry)) {
+                $finalData['Industry'] = $integrationDetails->actions->selectedLeadIndustry;
+            }
 
             $insertLeadResponse = $this->insertLead($finalData);
 
