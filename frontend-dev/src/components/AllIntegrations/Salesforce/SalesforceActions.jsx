@@ -28,6 +28,9 @@ import {
   opportunityStage,
   opportunityType
 } from './SalesforceDataStore'
+import { useRecoilValue } from 'recoil'
+import { $btcbi } from '../../../GlobalStates'
+import { ProFeatureSubtitle, ProFeatureTitle } from '../IntegrationHelpers/ActionProFeatureLabels'
 
 export default function SalesforceActions({
   salesforceConf,
@@ -38,6 +41,8 @@ export default function SalesforceActions({
 }) {
   const [isLoading, setIsLoading] = useState(false)
   const [actionMdl, setActionMdl] = useState({ show: false })
+  const btcbi = useRecoilValue($btcbi)
+  const { isPro } = btcbi
 
   const actionHandler = (val, typ) => {
     const newConf = { ...salesforceConf }
@@ -301,8 +306,15 @@ export default function SalesforceActions({
                 checked={'selectedLeadSource' in salesforceConf.actions}
                 className="wdt-200 mt-4 mr-2"
                 value="leadSource"
-                title={__('Lead Source', 'bit-integrations')}
-                subTitle={__('Add Lead Source', 'bit-integrations')}
+                isInfo={!isPro}
+                title={<ProFeatureTitle title={__('Lead Source', 'bit-integrations')} />}
+                subTitle={
+                  <ProFeatureSubtitle
+                    title={__('Lead Source', 'bit-integrations')}
+                    subtitle={__('Add Lead Source', 'bit-integrations')}
+                    proVersion="2.5.3"
+                  />
+                }
               />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -311,8 +323,15 @@ export default function SalesforceActions({
                 checked={'selectedLeadStatus' in salesforceConf.actions}
                 className="wdt-200 mt-4 mr-2"
                 value="leadStatus"
-                title={__('Lead Status', 'bit-integrations')}
-                subTitle={__('Add Lead Status', 'bit-integrations')}
+                isInfo={!isPro}
+                title={<ProFeatureTitle title={__('Lead Status', 'bit-integrations')} />}
+                subTitle={
+                  <ProFeatureSubtitle
+                    title={__('Lead Status', 'bit-integrations')}
+                    subtitle={__('Add Lead Status', 'bit-integrations')}
+                    proVersion="2.5.3"
+                  />
+                }
               />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -321,8 +340,15 @@ export default function SalesforceActions({
                 checked={'selectedLeadRating' in salesforceConf.actions}
                 className="wdt-200 mt-4 mr-2"
                 value="leadRating"
-                title={__('Rating', 'bit-integrations')}
-                subTitle={__('Add Lead Rating', 'bit-integrations')}
+                isInfo={!isPro}
+                title={<ProFeatureTitle title={__('Rating', 'bit-integrations')} />}
+                subTitle={
+                  <ProFeatureSubtitle
+                    title={__('Rating', 'bit-integrations')}
+                    subtitle={__('Add Lead Rating', 'bit-integrations')}
+                    proVersion="2.5.3"
+                  />
+                }
               />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -331,8 +357,15 @@ export default function SalesforceActions({
                 checked={'selectedLeadIndustry' in salesforceConf.actions}
                 className="wdt-200 mt-4 mr-2"
                 value="leadIndustry"
-                title={__('Industry', 'bit-integrations')}
-                subTitle={__('Add Lead Industry', 'bit-integrations')}
+                isInfo={!isPro}
+                title={<ProFeatureTitle title={__('Industry', 'bit-integrations')} />}
+                subTitle={
+                  <ProFeatureSubtitle
+                    title={__('Industry', 'bit-integrations')}
+                    subtitle={__('Add Lead Industry', 'bit-integrations')}
+                    proVersion="2.5.3"
+                  />
+                }
               />
             </div>
           </>
@@ -1049,196 +1082,219 @@ export default function SalesforceActions({
           </div>
         )}
       </ConfirmModal>
-      <ConfirmModal
-        className="custom-conf-mdl"
-        mainMdlCls="o-v"
-        btnClass="purple"
-        btnTxt={__('Ok', 'bit-integrations')}
-        show={actionMdl.show === 'leadSource'}
-        close={clsActionMdl}
-        action={clsActionMdl}
-        title={__('Add Lead Source', 'bit-integrations')}>
-        <div className="btcd-hr mt-2" />
-        {isLoading ? (
-          <Loader
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 45,
-              transform: 'scale(0.5)'
-            }}
-          />
-        ) : (
-          <div className="flx flx-between mt-2">
-            <select
-              value={salesforceConf.actions.selectedLeadSource}
-              className="btcd-paper-inp"
-              onChange={e => actionHandler(e.target.value, 'selectedLeadSource')}>
-              <option value="">{__('Select Source', 'bit-integrations')}</option>
-              {salesforceConf?.leadSources?.map((item, key) => (
-                <option key={key} value={item.value}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
-            <button
-              onClick={() =>
-                getAllLeadSource(formID, salesforceConf, setSalesforceConf, setIsLoading, setSnackbar)
-              }
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': '"Refresh Case Reason"' }}
-              type="button"
-              disabled={isLoading}>
-              &#x21BB;
-            </button>
-          </div>
-        )}
-      </ConfirmModal>
-      <ConfirmModal
-        className="custom-conf-mdl"
-        mainMdlCls="o-v"
-        btnClass="purple"
-        btnTxt={__('Ok', 'bit-integrations')}
-        show={actionMdl.show === 'leadStatus'}
-        close={clsActionMdl}
-        action={clsActionMdl}
-        title={__('Add Lead Status', 'bit-integrations')}>
-        <div className="btcd-hr mt-2" />
-        {isLoading ? (
-          <Loader
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 45,
-              transform: 'scale(0.5)'
-            }}
-          />
-        ) : (
-          <div className="flx flx-between mt-2">
-            <select
-              value={salesforceConf.actions.selectedLeadStatus}
-              className="btcd-paper-inp"
-              onChange={e => actionHandler(e.target.value, 'selectedLeadStatus')}>
-              <option value="">{__('Select Status', 'bit-integrations')}</option>
-              {salesforceConf?.leadStatus?.map((item, key) => (
-                <option key={key} value={item.value}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
-            <button
-              onClick={() =>
-                getAllLeadStatus(formID, salesforceConf, setSalesforceConf, setIsLoading, setSnackbar)
-              }
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': '"Refresh Case Reason"' }}
-              type="button"
-              disabled={isLoading}>
-              &#x21BB;
-            </button>
-          </div>
-        )}
-      </ConfirmModal>
-      <ConfirmModal
-        className="custom-conf-mdl"
-        mainMdlCls="o-v"
-        btnClass="purple"
-        btnTxt={__('Ok', 'bit-integrations')}
-        show={actionMdl.show === 'leadRating'}
-        close={clsActionMdl}
-        action={clsActionMdl}
-        title={__('Add Lead Rating', 'bit-integrations')}>
-        <div className="btcd-hr mt-2" />
-        {isLoading ? (
-          <Loader
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 45,
-              transform: 'scale(0.5)'
-            }}
-          />
-        ) : (
-          <div className="flx flx-between mt-2">
-            <select
-              value={salesforceConf.actions.selectedLeadRating}
-              className="btcd-paper-inp"
-              onChange={e => actionHandler(e.target.value, 'selectedLeadRating')}>
-              <option value="">{__('Select Rating', 'bit-integrations')}</option>
-              {salesforceConf?.leadRatings?.map((item, key) => (
-                <option key={key} value={item.value}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
-            <button
-              onClick={() =>
-                getAllLeadRatings(formID, salesforceConf, setSalesforceConf, setIsLoading, setSnackbar)
-              }
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': '"Refresh Case Reason"' }}
-              type="button"
-              disabled={isLoading}>
-              &#x21BB;
-            </button>
-          </div>
-        )}
-      </ConfirmModal>
-      <ConfirmModal
-        className="custom-conf-mdl"
-        mainMdlCls="o-v"
-        btnClass="purple"
-        btnTxt={__('Ok', 'bit-integrations')}
-        show={actionMdl.show === 'leadIndustry'}
-        close={clsActionMdl}
-        action={clsActionMdl}
-        title={__('Add Lead Industry', 'bit-integrations')}>
-        <div className="btcd-hr mt-2" />
-        {isLoading ? (
-          <Loader
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 45,
-              transform: 'scale(0.5)'
-            }}
-          />
-        ) : (
-          <div className="flx flx-between mt-2">
-            <select
-              value={salesforceConf.actions.selectedLeadIndustry}
-              className="btcd-paper-inp"
-              onChange={e => actionHandler(e.target.value, 'selectedLeadIndustry')}>
-              <option value="">{__('Select Industry', 'bit-integrations')}</option>
-              {salesforceConf?.leadIndustries?.map((item, key) => (
-                <option key={key} value={item.value}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
-            <button
-              onClick={() =>
-                getAllLeadIndustries(
-                  formID,
-                  salesforceConf,
-                  setSalesforceConf,
-                  setIsLoading,
-                  setSnackbar
-                )
-              }
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': '"Refresh Case Reason"' }}
-              type="button"
-              disabled={isLoading}>
-              &#x21BB;
-            </button>
-          </div>
-        )}
-      </ConfirmModal>
+
+      {isPro && (
+        <>
+          <ConfirmModal
+            className="custom-conf-mdl"
+            mainMdlCls="o-v"
+            btnClass="purple"
+            btnTxt={__('Ok', 'bit-integrations')}
+            show={actionMdl.show === 'leadSource'}
+            close={clsActionMdl}
+            action={clsActionMdl}
+            title={__('Add Lead Source', 'bit-integrations')}>
+            <div className="btcd-hr mt-2" />
+            {isLoading ? (
+              <Loader
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 45,
+                  transform: 'scale(0.5)'
+                }}
+              />
+            ) : (
+              <div className="flx flx-between mt-2">
+                <select
+                  value={salesforceConf.actions.selectedLeadSource}
+                  className="btcd-paper-inp"
+                  onChange={e => actionHandler(e.target.value, 'selectedLeadSource')}>
+                  <option value="">{__('Select Source', 'bit-integrations')}</option>
+                  {salesforceConf?.leadSources?.map((item, key) => (
+                    <option key={key} value={item.value}>
+                      {item.label}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  onClick={() =>
+                    getAllLeadSource(
+                      formID,
+                      salesforceConf,
+                      setSalesforceConf,
+                      setIsLoading,
+                      setSnackbar
+                    )
+                  }
+                  className="icn-btn sh-sm ml-2 mr-2 tooltip"
+                  style={{ '--tooltip-txt': '"Refresh Case Reason"' }}
+                  type="button"
+                  disabled={isLoading}>
+                  &#x21BB;
+                </button>
+              </div>
+            )}
+          </ConfirmModal>
+          <ConfirmModal
+            className="custom-conf-mdl"
+            mainMdlCls="o-v"
+            btnClass="purple"
+            btnTxt={__('Ok', 'bit-integrations')}
+            show={actionMdl.show === 'leadStatus'}
+            close={clsActionMdl}
+            action={clsActionMdl}
+            title={__('Add Lead Status', 'bit-integrations')}>
+            <div className="btcd-hr mt-2" />
+            {isLoading ? (
+              <Loader
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 45,
+                  transform: 'scale(0.5)'
+                }}
+              />
+            ) : (
+              <div className="flx flx-between mt-2">
+                <select
+                  value={salesforceConf.actions.selectedLeadStatus}
+                  className="btcd-paper-inp"
+                  onChange={e => actionHandler(e.target.value, 'selectedLeadStatus')}>
+                  <option value="">{__('Select Status', 'bit-integrations')}</option>
+                  {salesforceConf?.leadStatus?.map((item, key) => (
+                    <option key={key} value={item.value}>
+                      {item.label}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  onClick={() =>
+                    getAllLeadStatus(
+                      formID,
+                      salesforceConf,
+                      setSalesforceConf,
+                      setIsLoading,
+                      setSnackbar
+                    )
+                  }
+                  className="icn-btn sh-sm ml-2 mr-2 tooltip"
+                  style={{ '--tooltip-txt': '"Refresh Case Reason"' }}
+                  type="button"
+                  disabled={isLoading}>
+                  &#x21BB;
+                </button>
+              </div>
+            )}
+          </ConfirmModal>
+          <ConfirmModal
+            className="custom-conf-mdl"
+            mainMdlCls="o-v"
+            btnClass="purple"
+            btnTxt={__('Ok', 'bit-integrations')}
+            show={actionMdl.show === 'leadRating'}
+            close={clsActionMdl}
+            action={clsActionMdl}
+            title={__('Add Lead Rating', 'bit-integrations')}>
+            <div className="btcd-hr mt-2" />
+            {isLoading ? (
+              <Loader
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 45,
+                  transform: 'scale(0.5)'
+                }}
+              />
+            ) : (
+              <div className="flx flx-between mt-2">
+                <select
+                  value={salesforceConf.actions.selectedLeadRating}
+                  className="btcd-paper-inp"
+                  onChange={e => actionHandler(e.target.value, 'selectedLeadRating')}>
+                  <option value="">{__('Select Rating', 'bit-integrations')}</option>
+                  {salesforceConf?.leadRatings?.map((item, key) => (
+                    <option key={key} value={item.value}>
+                      {item.label}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  onClick={() =>
+                    getAllLeadRatings(
+                      formID,
+                      salesforceConf,
+                      setSalesforceConf,
+                      setIsLoading,
+                      setSnackbar
+                    )
+                  }
+                  className="icn-btn sh-sm ml-2 mr-2 tooltip"
+                  style={{ '--tooltip-txt': '"Refresh Case Reason"' }}
+                  type="button"
+                  disabled={isLoading}>
+                  &#x21BB;
+                </button>
+              </div>
+            )}
+          </ConfirmModal>
+          <ConfirmModal
+            className="custom-conf-mdl"
+            mainMdlCls="o-v"
+            btnClass="purple"
+            btnTxt={__('Ok', 'bit-integrations')}
+            show={actionMdl.show === 'leadIndustry'}
+            close={clsActionMdl}
+            action={clsActionMdl}
+            title={__('Add Lead Industry', 'bit-integrations')}>
+            <div className="btcd-hr mt-2" />
+            {isLoading ? (
+              <Loader
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 45,
+                  transform: 'scale(0.5)'
+                }}
+              />
+            ) : (
+              <div className="flx flx-between mt-2">
+                <select
+                  value={salesforceConf.actions.selectedLeadIndustry}
+                  className="btcd-paper-inp"
+                  onChange={e => actionHandler(e.target.value, 'selectedLeadIndustry')}>
+                  <option value="">{__('Select Industry', 'bit-integrations')}</option>
+                  {salesforceConf?.leadIndustries?.map((item, key) => (
+                    <option key={key} value={item.value}>
+                      {item.label}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  onClick={() =>
+                    getAllLeadIndustries(
+                      formID,
+                      salesforceConf,
+                      setSalesforceConf,
+                      setIsLoading,
+                      setSnackbar
+                    )
+                  }
+                  className="icn-btn sh-sm ml-2 mr-2 tooltip"
+                  style={{ '--tooltip-txt': '"Refresh Case Reason"' }}
+                  type="button"
+                  disabled={isLoading}>
+                  &#x21BB;
+                </button>
+              </div>
+            )}
+          </ConfirmModal>
+        </>
+      )}
     </div>
   )
 }

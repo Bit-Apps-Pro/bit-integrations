@@ -2,9 +2,9 @@
 
 namespace BitCode\FI\Actions\Salesforce;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert,upsert
@@ -157,18 +157,7 @@ class RecordApiHelper
         } elseif ($actionName === 'lead-create') {
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
 
-            if (!empty($integrationDetails->actions->selectedLeadSource)) {
-                $finalData['LeadSource'] = $integrationDetails->actions->selectedLeadSource;
-            }
-            if (!empty($integrationDetails->actions->selectedLeadStatus)) {
-                $finalData['Status'] = $integrationDetails->actions->selectedLeadStatus;
-            }
-            if (!empty($integrationDetails->actions->selectedLeadRating)) {
-                $finalData['Rating'] = $integrationDetails->actions->selectedLeadRating;
-            }
-            if (!empty($integrationDetails->actions->selectedLeadIndustry)) {
-                $finalData['Industry'] = $integrationDetails->actions->selectedLeadIndustry;
-            }
+            $finalData = apply_filters('btcbi_salesforce_add_lead_utilities', $finalData, $integrationDetails->actions);
 
             $insertLeadResponse = $this->insertLead($finalData);
 

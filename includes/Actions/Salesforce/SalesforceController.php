@@ -6,15 +6,13 @@
 
 namespace BitCode\FI\Actions\Salesforce;
 
-use WP_Error;
-use BitCode\FI\Flow\FlowController;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Flow\FlowController;
+use WP_Error;
 
 class SalesforceController
 {
-    private $_integrationID;
-
-    private static $actions = [
+    public static $actions = [
         'contact-create'      => 'Contact',
         'lead-create'         => 'Lead',
         'account-create'      => 'Account',
@@ -24,6 +22,8 @@ class SalesforceController
         'event-create'        => 'Event',
         'case-create'         => 'Case'
     ];
+
+    private $_integrationID;
 
     public static function generateTokens($requestsParams)
     {
@@ -359,162 +359,30 @@ class SalesforceController
 
     public function getAllLeadSources($params)
     {
-        if (
-            empty($params->tokenDetails)
-            || empty($params->actionName)
-            || empty($params->clientId)
-            || empty($params->clientSecret)
-        ) {
-            wp_send_json_error(
-                __(
-                    'Requested parameter is empty',
-                    'bit-integrations'
-                ),
-                400
-            );
-        }
+        $response = apply_filters('btcbi_salesforce_get_lead_utilities', [], $params, 'LeadSource');
 
-        $response = self::refreshTokenDetails($params);
-        $action = self::$actions[$params->actionName] ?? $params->actionName;
-        $tokenDetails = $response['tokenDetails'];
-
-        $apiEndpoint = "{$tokenDetails->instance_url}/services/data/v37.0/sobjects/{$action}/describe";
-
-        $apiResponse = HttpHelper::get($apiEndpoint, null, self::setHeaders($tokenDetails->access_token));
-
-        if (!property_exists((object) $apiResponse, 'fields')) {
-            wp_send_json_error($apiResponse, 400);
-        }
-
-        $field = current(array_filter($apiResponse->fields, function ($field) {
-            return $field->name === 'LeadSource';
-        }));
-
-        if (!empty($tokenDetails)) {
-            self::saveRefreshedToken($params->flowID, $tokenDetails, $response['organizations']);
-        }
-
-        wp_send_json_success($field->picklistValues ?? [], 200);
+        return self::getFilterHookResponse($response);
     }
 
     public function getAllLeadStatus($params)
     {
-        if (
-            empty($params->tokenDetails)
-            || empty($params->actionName)
-            || empty($params->clientId)
-            || empty($params->clientSecret)
-        ) {
-            wp_send_json_error(
-                __(
-                    'Requested parameter is empty',
-                    'bit-integrations'
-                ),
-                400
-            );
-        }
+        $response = apply_filters('btcbi_salesforce_get_lead_utilities', [], $params, 'Status');
 
-        $response = self::refreshTokenDetails($params);
-        $action = self::$actions[$params->actionName] ?? $params->actionName;
-        $tokenDetails = $response['tokenDetails'];
-
-        $apiEndpoint = "{$tokenDetails->instance_url}/services/data/v37.0/sobjects/{$action}/describe";
-
-        $apiResponse = HttpHelper::get($apiEndpoint, null, self::setHeaders($tokenDetails->access_token));
-
-        if (!property_exists((object) $apiResponse, 'fields')) {
-            wp_send_json_error($apiResponse, 400);
-        }
-
-        $field = current(array_filter($apiResponse->fields, function ($field) {
-            return $field->name === 'Status';
-        }));
-
-        if (!empty($tokenDetails)) {
-            self::saveRefreshedToken($params->flowID, $tokenDetails, $response['organizations']);
-        }
-
-        wp_send_json_success($field->picklistValues ?? [], 200);
+        return self::getFilterHookResponse($response);
     }
 
     public function getAllLeadRatings($params)
     {
-        if (
-            empty($params->tokenDetails)
-            || empty($params->actionName)
-            || empty($params->clientId)
-            || empty($params->clientSecret)
-        ) {
-            wp_send_json_error(
-                __(
-                    'Requested parameter is empty',
-                    'bit-integrations'
-                ),
-                400
-            );
-        }
+        $response = apply_filters('btcbi_salesforce_get_lead_utilities', [], $params, 'Rating');
 
-        $response = self::refreshTokenDetails($params);
-        $action = self::$actions[$params->actionName] ?? $params->actionName;
-        $tokenDetails = $response['tokenDetails'];
-
-        $apiEndpoint = "{$tokenDetails->instance_url}/services/data/v37.0/sobjects/{$action}/describe";
-
-        $apiResponse = HttpHelper::get($apiEndpoint, null, self::setHeaders($tokenDetails->access_token));
-
-        if (!property_exists((object) $apiResponse, 'fields')) {
-            wp_send_json_error($apiResponse, 400);
-        }
-
-        $field = current(array_filter($apiResponse->fields, function ($field) {
-            return $field->name === 'Rating';
-        }));
-
-        if (!empty($tokenDetails)) {
-            self::saveRefreshedToken($params->flowID, $tokenDetails, $response['organizations']);
-        }
-
-        wp_send_json_success($field->picklistValues ?? [], 200);
+        return self::getFilterHookResponse($response);
     }
 
     public function getAllLeadIndustries($params)
     {
-        if (
-            empty($params->tokenDetails)
-            || empty($params->actionName)
-            || empty($params->clientId)
-            || empty($params->clientSecret)
-        ) {
-            wp_send_json_error(
-                __(
-                    'Requested parameter is empty',
-                    'bit-integrations'
-                ),
-                400
-            );
-        }
+        $response = apply_filters('btcbi_salesforce_get_lead_utilities', [], $params, 'Industry');
 
-        $response = self::refreshTokenDetails($params);
-        $action = self::$actions[$params->actionName] ?? $params->actionName;
-        $tokenDetails = $response['tokenDetails'];
-
-        $apiEndpoint = "{$tokenDetails->instance_url}/services/data/v37.0/sobjects/{$action}/describe";
-
-        $apiResponse = HttpHelper::get($apiEndpoint, null, self::setHeaders($tokenDetails->access_token));
-
-        if (!property_exists((object) $apiResponse, 'fields')) {
-            wp_send_json_error($apiResponse, 400);
-        }
-
-        $field = current(array_filter($apiResponse->fields, function ($field) {
-            return $field->name === 'Industry';
-        }));
-
-        if (!empty($tokenDetails)) {
-            self::saveRefreshedToken($params->flowID, $tokenDetails, $response['organizations']);
-        }
-
-        wp_send_json_success($field->picklistValues ?? [], 200);
+        return self::getFilterHookResponse($response);
     }
 
     public function execute($integrationData, $fieldValues)
@@ -559,6 +427,42 @@ class SalesforceController
         }
 
         return $salesforceApiResponse;
+    }
+
+    public static function refreshTokenDetails($params)
+    {
+        $response = ['tokenDetails' => $params->tokenDetails];
+
+        if ((\intval($params->tokenDetails->generates_on) + (55 * 60)) < time()) {
+            $response['tokenDetails'] = self::refreshAccessToken($params);
+        }
+
+        return $response;
+    }
+
+    public static function setHeaders($accessToken)
+    {
+        return [
+            'Authorization' => "Bearer {$accessToken}",
+            'Content-Type'  => 'application/json'
+        ];
+    }
+
+    public static function saveRefreshedToken($integrationID, $tokenDetails)
+    {
+        if (empty($integrationID)) {
+            return;
+        }
+
+        $flow = new FlowController();
+        $selesforceDetails = $flow->get(['id' => $integrationID]);
+        if (is_wp_error($selesforceDetails)) {
+            return;
+        }
+
+        $newDetails = json_decode($selesforceDetails[0]->flow_details);
+        $newDetails->tokenDetails = $tokenDetails;
+        $flow->update($integrationID, ['flow_details' => wp_json_encode($newDetails)]);
     }
 
     protected static function refreshAccessToken($apiData)
@@ -652,39 +556,8 @@ class SalesforceController
         return $data;
     }
 
-    private static function saveRefreshedToken($integrationID, $tokenDetails)
+    private static function getFilterHookResponse($response)
     {
-        if (empty($integrationID)) {
-            return;
-        }
-
-        $flow = new FlowController();
-        $selesforceDetails = $flow->get(['id' => $integrationID]);
-        if (is_wp_error($selesforceDetails)) {
-            return;
-        }
-
-        $newDetails = json_decode($selesforceDetails[0]->flow_details);
-        $newDetails->tokenDetails = $tokenDetails;
-        $flow->update($integrationID, ['flow_details' => wp_json_encode($newDetails)]);
-    }
-
-    private static function refreshTokenDetails($params)
-    {
-        $response = ['tokenDetails' => $params->tokenDetails];
-
-        if ((\intval($params->tokenDetails->generates_on) + (55 * 60)) < time()) {
-            $response['tokenDetails'] = self::refreshAccessToken($params);
-        }
-
-        return $response;
-    }
-
-    private static function setHeaders($accessToken)
-    {
-        return [
-            'Authorization' => "Bearer {$accessToken}",
-            'Content-Type'  => 'application/json'
-        ];
+        return $response['code'] === 200 ? wp_send_json_success($response['response'] ?? [], 200) : wp_send_json_error($response['response'], 400);
     }
 }
