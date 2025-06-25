@@ -23,11 +23,11 @@ final class ElementorController
                 'method' => 'get',
             ],
             'fetch' => [
-                'action' => 'elementor/test',
+                'action' => 'trigger/test',
                 'method' => 'post',
             ],
             'fetch_remove' => [
-                'action' => 'elementor/test/remove',
+                'action' => 'trigger/test/remove',
                 'method' => 'post',
             ],
             'isPro' => false
