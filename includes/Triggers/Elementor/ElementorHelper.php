@@ -17,26 +17,6 @@ class ElementorHelper
         ];
     }
 
-    public static function fetchFlows($formId, $reOrganizeId)
-    {
-        global $wpdb;
-
-        return $wpdb->get_results(
-            $wpdb->prepare(
-                "SELECT * FROM {$wpdb->prefix}btcbi_flow
-                WHERE status = true 
-                AND triggered_entity = %s 
-                AND (triggered_entity_id = %s
-                OR triggered_entity_id = %s
-                OR triggered_entity_id = %s)",
-                'Elementor',
-                'elementor_pro/forms/new_record',
-                $formId,
-                $reOrganizeId
-            )
-        );
-    }
-
     public static function isPrimaryKeysMatch($recordData, $flowDetails)
     {
         foreach ($flowDetails->primaryKey as $primaryKey) {

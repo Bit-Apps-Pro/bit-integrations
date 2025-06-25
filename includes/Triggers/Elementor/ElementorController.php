@@ -3,7 +3,6 @@
 namespace BitCode\FI\Triggers\Elementor;
 
 use BitCode\FI\Flow\Flow;
-use BitCode\FI\Triggers\TriggerController;
 
 final class ElementorController
 {
@@ -50,30 +49,20 @@ final class ElementorController
         return (bool) (is_plugin_active('elementor-pro/elementor-pro.php') || is_plugin_active('elementor/elementor.php'));
     }
 
-    public function getTestData()
-    {
-        return TriggerController::getTestData('elementor');
-    }
-
-    public function removeTestData($data)
-    {
-        return TriggerController::removeTestData($data, 'elementor');
-    }
-
     public static function handle_elementor_submit($record)
     {
         $recordData = ElementorHelper::extractRecordData($record);
         $formData = ElementorHelper::setFields($recordData);
         $reOrganizeId = $recordData['id'] . $recordData['form_post_id'];
 
-        if (get_option('btcbi_elementor_test') !== false) {
-            update_option('btcbi_elementor_test', [
+        if (get_option('btcbi_elementor_pro/forms/new_record_test') !== false) {
+            update_option('btcbi_elementor_pro/forms/new_record_test', [
                 'formData'   => $formData,
                 'primaryKey' => [(object) ['key' => 'id', 'value' => $recordData['id']]]
             ]);
         }
 
-        $flows = ElementorHelper::fetchFlows($recordData['id'], $reOrganizeId);
+        $flows = Flow::exists('Elementor', ['elementor_pro/forms/new_record', $recordData['id'], $reOrganizeId]);
         if (!$flows) {
             return;
         }
