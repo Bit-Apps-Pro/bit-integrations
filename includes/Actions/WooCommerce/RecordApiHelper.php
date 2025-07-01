@@ -501,6 +501,8 @@ class RecordApiHelper
             $order->calculate_totals();
             $order->save();
 
+            do_action('woocommerce_checkout_order_processed', $order->ID, [], $order);
+
             if (is_wp_error($order) || !$order) {
                 $response = is_wp_error($order) ? $order->get_error_message() : 'error';
                 LogHandler::save($this->_integrationID, ['type' => 'order-create', 'type_name' => 'order'], 'error', $response);

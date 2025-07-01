@@ -6,8 +6,9 @@
 
 namespace BitCode\FI\Actions\Flowlu;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -122,7 +123,10 @@ class RecordApiHelper
         foreach ($fieldMap as $value) {
             $triggerValue = $value->formField;
             $actionValue = $value->flowluFormField;
-            $dataFinal[$actionValue] = ($triggerValue === 'custom') ? $value->customValue : $data[$triggerValue];
+
+            $dataFinal[$actionValue] = ($triggerValue === 'custom' && !empty($value->customValue))
+                ? Common::replaceFieldWithValue($value->customValue, $data)
+                : $data[$triggerValue];
         }
 
         return $dataFinal;

@@ -58,8 +58,9 @@ final class TriggerController
         return [];
     }
 
-    public static function getTestData($triggerName)
+    public static function getTestData($data)
     {
+        $triggerName = $data->triggered_entity_id;
         $testData = get_option("btcbi_{$triggerName}_test");
 
         if ($testData === false) {
@@ -72,8 +73,10 @@ final class TriggerController
         wp_send_json_success($testData);
     }
 
-    public static function removeTestData($data, $triggerName)
+    public static function removeTestData($data)
     {
+        $triggerName = $data->triggered_entity_id;
+
         if (\is_object($data) && property_exists($data, 'reset') && $data->reset) {
             $testData = update_option("btcbi_{$triggerName}_test", []);
         } else {

@@ -390,7 +390,7 @@ export default function SalesforceIntegLayout({
       )}
       <br />
       <br />
-      {['opportunity-create', 'event-create', 'case-create', 'account-create'].includes(
+      {['opportunity-create', 'lead-create', 'event-create', 'case-create', 'account-create'].includes(
         salesforceConf?.actionName
       ) && (
         <>

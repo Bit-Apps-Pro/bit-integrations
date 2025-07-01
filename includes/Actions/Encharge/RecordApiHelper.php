@@ -6,8 +6,9 @@
 
 namespace BitCode\FI\Actions\Encharge;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Record insert
@@ -47,7 +48,7 @@ class RecordApiHelper
             if (!empty($fieldPair->enChargeFields)) {
                 // echo $fieldPair->enChargeFields . ' ' . $fieldPair->formField;
                 if ($fieldPair->formField === 'custom' && isset($fieldPair->customValue)) {
-                    $fieldData[$fieldPair->enChargeFields] = $fieldPair->customValue;
+                    $fieldData[$fieldPair->enChargeFields] = Common::replaceFieldWithValue($fieldPair->customValue, $fieldValues);
                 } elseif (!\is_null($fieldValues[$fieldPair->formField])) {
                     $fieldData[$fieldPair->enChargeFields] = $fieldValues[$fieldPair->formField];
                 }
