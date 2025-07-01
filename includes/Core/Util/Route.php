@@ -62,9 +62,12 @@ final class Route
 
     public static function action()
     {
-        $action = sanitize_text_field($_REQUEST['action']);
+        $action = $_REQUEST['action'] ?? $_POST['action'] ?? $_GET['action'];
+        $action = sanitize_text_field($action);
+
         $sanitizedMethod = sanitize_text_field($_SERVER['REQUEST_METHOD']);
         $requestMethod = \in_array($sanitizedMethod, ['GET', 'POST']) ? $sanitizedMethod : 'POST';
+
         if (
             isset(static::$_invokeable[$action][$requestMethod . '_ignore_token'])
             || isset($_REQUEST['_ajax_nonce']) && wp_verify_nonce(sanitize_text_field($_REQUEST['_ajax_nonce']), 'btcbi_nonce')
