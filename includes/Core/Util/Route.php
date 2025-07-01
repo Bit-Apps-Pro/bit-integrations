@@ -27,11 +27,12 @@ final class Route
     public static function request($method, $hook, $invokeable)
     {
         $action = $_REQUEST['action'] ?? $_POST['action'] ?? $_GET['action'];
+        $action = sanitize_text_field($action);
 
         if (
             (isset($_SERVER['REQUEST_METHOD']) && sanitize_text_field($_SERVER['REQUEST_METHOD']) != $method)
             || empty($action)
-            || (!empty($action) && strpos(sanitize_text_field($action), $hook) === false)
+            || (!empty($action) && strpos($action, $hook) === false)
         ) {
             if (static::$_no_auth) {
                 static::$_no_auth = false;
