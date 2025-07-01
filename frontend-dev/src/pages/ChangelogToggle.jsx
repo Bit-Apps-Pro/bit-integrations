@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '21th June 2025'
+const releaseDate = '1st July 2025'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -33,13 +33,8 @@ const changeLog = [
     itemClass: 'integration-list',
     items: [
       {
-        label: 'New User Approve',
-        desc: '5 new events added.',
-        isPro: true
-      },
-      {
-        label: 'FluentCommunity',
-        desc: '3 new events added.',
+        label: 'WPSubscription',
+        desc: '2 new events added',
         isPro: true
       }
     ]
@@ -50,8 +45,8 @@ const changeLog = [
     itemClass: 'feature-list',
     items: [
       {
-        label: 'FluentCommunity',
-        desc: 'Course info now included in lesson-related trigger data.',
+        label: 'Salesforce',
+        desc: 'Added new Salesforce utilities for Lead Status, Lead Source, Rating, Industry',
         isPro: true
       }
     ]
@@ -68,23 +63,23 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'Salesforce',
-        desc: 'Fixed issue where refreshing field mapping reset field mappings.',
+        label: 'Campaign Monitor',
+        desc: 'Resolved an issue with custom field mapping.',
         isPro: false
       },
       {
-        label: 'Bricks',
-        desc: 'Resolved file URL inconsistency issue.',
-        isPro: true
+        label: 'WooCommerce (Trigger)',
+        desc: 'Fixed a bug where the "Order Created" trigger was not properly initializing when an order was created in action.',
+        isPro: false
       },
       {
-        label: 'Kadence Block',
-        desc: 'Fixed null value issue in form fields.',
-        isPro: true
+        label: 'Flowlu',
+        desc: 'Addressed and fixed the issue with custom field handling.',
+        isPro: false
       },
       {
-        label: 'Webhook',
-        desc: 'Resolved file URL inconsistency issue.',
+        label: 'wpLoyalty',
+        desc: 'Fixed the issue with accessing order data.',
         isPro: true
       }
     ]

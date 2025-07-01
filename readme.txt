@@ -4,7 +4,7 @@ Tags: automation, automator, Google Sheets, webhooks, zapier, marketing automati
 Requires at least: 5.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.6.1
+Stable tag: 2.6.2
 License: GPLv2 or later
 
 Perfect Automation and integration plugin: Connect 290+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
@@ -690,6 +690,25 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 
 == Changelog ==
 
+= 2.6.2 =
+_Release Date -1st july 2025_
+
+- **New Triggers**
+ - WPSubscription - 4 New Events Added (Pro).
+
+- **New Feature**
+ - Salesforce: Added new Salesforce utilities for (Pro):
+  - Lead Status
+  - Lead Source
+  - Rating
+  - Industry
+
+- **Bug Fixes**
+ - Campaign Monitor: Resolved an issue with custom field mapping.
+ - WooCommerce (Trigger): Fixed a bug where the "Order Created" trigger was not properly initializing when an order was created in action.
+ - Flowlu: Addressed and fixed the issue with custom field handling.
+ - wpLoyalty: Fixed the issue with accessing order data (Pro).
+ 
 = 2.6.1 =
 _Release Date -21th June 2025_
 
