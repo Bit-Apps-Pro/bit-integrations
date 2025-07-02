@@ -26,7 +26,7 @@ final class Route
 
     public static function request($method, $hook, $invokeable)
     {
-        $action = $_REQUEST['action'] ?? $_POST['action'] ?? $_GET['action'];
+        $action = $_REQUEST['action'] ?? $_POST['action'] ?? $_GET['action'] ?? null;
         $action = sanitize_text_field($action);
 
         if (
@@ -63,7 +63,7 @@ final class Route
 
     public static function action()
     {
-        $action = $_REQUEST['action'] ?? $_POST['action'] ?? $_GET['action'];
+        $action = $_REQUEST['action'] ?? $_POST['action'] ?? $_GET['action'] ?? null;
         $action = sanitize_text_field($action);
 
         $sanitizedMethod = sanitize_text_field($_SERVER['REQUEST_METHOD']);

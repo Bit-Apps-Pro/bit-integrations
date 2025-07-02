@@ -8,11 +8,11 @@
 
 namespace BitCode\FI\Actions\PostCreation;
 
-use BitCode\FI\Flow\Flow;
-use BitCode\FI\Log\LogHandler;
+use BitCode\FI\controller\PostController;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\Helper;
-use BitCode\FI\controller\PostController;
+use BitCode\FI\Flow\Flow;
+use BitCode\FI\Log\LogHandler;
 
 final class PostCreationController
 {
@@ -305,6 +305,8 @@ final class PostCreationController
         $updateData['ID'] = $postId;
 
         unset($updateData['_thumbnail_id'] , $updateData['post_id']);
+
+        do_action('btcbi_add_post_tag', $postId, $flowDetails->post_tags ?? null);
 
         $result = wp_update_post($updateData, true);
 

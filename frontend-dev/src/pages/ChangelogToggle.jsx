@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '1st July 2025'
+const releaseDate = '2nd July 2025'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -47,6 +47,11 @@ const changeLog = [
       {
         label: 'Salesforce',
         desc: 'Added new Salesforce utilities for Lead Status, Lead Source, Rating, Industry',
+        isPro: true
+      },
+      {
+        label: 'WP Post Creation',
+        desc: 'Added support for assigning tags to posts',
         isPro: true
       }
     ]

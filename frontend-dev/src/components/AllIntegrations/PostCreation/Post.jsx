@@ -21,6 +21,11 @@ import { saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
+import MultiSelect from 'react-multiple-select-dropdown-lite'
+import 'react-multiple-select-dropdown-lite/dist/index.css'
+import { useRecoilValue } from 'recoil'
+import { $btcbi } from '../../../GlobalStates'
+import { ProFeatureTitle } from '../IntegrationHelpers/ActionProFeatureLabels'
 
 function Post({ formFields, setFlow, flow, allIntegURL }) {
   const [users, setUsers] = useState([])
@@ -34,6 +39,8 @@ function Post({ formFields, setFlow, flow, allIntegURL }) {
   const [mb, setMb] = useState({ fields: [], files: [] })
   const [jeCPTMeta, setJeCPTMeta] = useState({ fields: [], files: [] })
   const { postCreation } = tutorialLinks
+  const btcbi = useRecoilValue($btcbi)
+  const { isPro } = btcbi
 
   const [postConf, setPostConf] = useState({
     name: 'WP Post Creation',
@@ -54,26 +61,26 @@ function Post({ formFields, setFlow, flow, allIntegURL }) {
   }
 
   useEffect(() => {
-    bitsFetch({}, 'user/list').then((res) => {
+    bitsFetch({}, 'user/list').then(res => {
       const { data } = res
       setUsers(data)
     })
 
-    bitsFetch({}, 'post-types/list').then((res) => {
+    bitsFetch({}, 'post-types/list').then(res => {
       const { data } = res
       setPostTypes(data)
     })
     const newConf = { ...postConf }
     newConf.post_map = postFields
-      .filter((fld) => fld.required)
-      .map((fl) => ({ formField: '', postField: fl.key, required: fl.required }))
+      .filter(fld => fld.required)
+      .map(fl => ({ formField: '', postField: fl.key, required: fl.required }))
     setPostConf(newConf)
   }, [])
 
   const getCustomFields = (typ, val) => {
     const tmpData = { ...postConf }
     tmpData[typ] = val
-    bitsFetch({ post_type: val }, 'customfield/list').then((res) => {
+    bitsFetch({ post_type: val }, 'customfield/list').then(res => {
       const { data } = res
       setAcf({ fields: data.acf_fields, files: data.acf_files })
       setMb({ fields: data.mb_fields, files: data.mb_files })
@@ -81,24 +88,24 @@ function Post({ formFields, setFlow, flow, allIntegURL }) {
 
       if (data?.acf_fields) {
         tmpData.acf_map = data.acf_fields
-          .filter((fld) => fld.required)
-          .map((fl) => ({ formField: '', acfField: fl.key, required: fl.required }))
+          .filter(fld => fld.required)
+          .map(fl => ({ formField: '', acfField: fl.key, required: fl.required }))
         if (tmpData.acf_map.length < 1) {
           tmpData.acf_map = [{}]
         }
       }
       if (data?.mb_fields) {
         tmpData.metabox_map = data.mb_fields
-          .filter((fld) => fld.required)
-          .map((fl) => ({ formField: '', metaboxField: fl.key, required: fl.required }))
+          .filter(fld => fld.required)
+          .map(fl => ({ formField: '', metaboxField: fl.key, required: fl.required }))
         if (tmpData.metabox_map.length < 1) {
           tmpData.metabox_map = [{}]
         }
       }
       if (data?.je_cpt_fields) {
         tmpData.je_cpt_meta_map = data.je_cpt_fields
-          .filter((fld) => fld.required)
-          .map((fl) => ({ formField: '', jeCPTField: fl.key, required: fl.required }))
+          .filter(fld => fld.required)
+          .map(fl => ({ formField: '', jeCPTField: fl.key, required: fl.required }))
       }
       if (tmpData.je_cpt_meta_map.length < 1) {
         tmpData.je_cpt_meta_map = [{}]
@@ -110,7 +117,7 @@ function Post({ formFields, setFlow, flow, allIntegURL }) {
     // setLoad(false)
   }
 
-  const nextPage = (stepNo) => {
+  const nextPage = stepNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -149,17 +156,8 @@ function Post({ formFields, setFlow, flow, allIntegURL }) {
 
   const saveConfig = () => {
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      postConf,
-      navigate,
-      '',
-      '',
-      setIsLoading
-    )
-    resp.then((res) => {
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, postConf, navigate, '', '', setIsLoading)
+    resp.then(res => {
       if (res.success) {
         setSnackbar({ show: true, msg: res.data?.msg })
         navigate(allIntegURL)
@@ -190,7 +188,7 @@ function Post({ formFields, setFlow, flow, allIntegURL }) {
         </div>
         <input
           className="btcd-paper-inp w-5 mt-1"
-          onChange={(e) => handleInput(e.target.name, e.target.value)}
+          onChange={e => handleInput(e.target.name, e.target.value)}
           name="name"
           value={postConf.name}
           type="text"
@@ -212,7 +210,7 @@ function Post({ formFields, setFlow, flow, allIntegURL }) {
         <div>
           <select
             name="post_type"
-            onChange={(e) => getCustomFields(e.target.name, e.target.value)}
+            onChange={e => getCustomFields(e.target.name, e.target.value)}
             className="btcd-paper-inp w-5 mt-1">
             <option disabled selected>
               {('Select Post Type', 'bit-integrations')}
@@ -246,7 +244,7 @@ function Post({ formFields, setFlow, flow, allIntegURL }) {
         </div>
         <select
           name="post_status"
-          onChange={(e) => handleInput(e.target.name, e.target.value)}
+          onChange={e => handleInput(e.target.name, e.target.value)}
           className="btcd-paper-inp w-5 mt-2">
           <option disabled selected>
             {__('Select Status', 'bit-integrations')}
@@ -270,7 +268,7 @@ function Post({ formFields, setFlow, flow, allIntegURL }) {
         <div>
           <select
             name="post_author"
-            onChange={(e) => handleInput(e.target.name, e.target.value)}
+            onChange={e => handleInput(e.target.name, e.target.value)}
             className="btcd-paper-inp w-5 mt-2">
             <option disabled selected>
               {__('Select Author', 'bit-integrations')}
@@ -289,7 +287,7 @@ function Post({ formFields, setFlow, flow, allIntegURL }) {
         </div>
         <select
           name="comment_status"
-          onChange={(e) => handleInput(e.target.name, e.target.value)}
+          onChange={e => handleInput(e.target.name, e.target.value)}
           className="btcd-paper-inp w-5 mt-2">
           <option disabled selected>
             {__('Select Status', 'bit-integrations')}
@@ -297,6 +295,29 @@ function Post({ formFields, setFlow, flow, allIntegURL }) {
           <option value="open">{__('Open', 'bit-integrations')}</option>
           <option value="closed">{__('Closed', 'bit-integrations')}</option>
         </select>
+
+        <div className="mt-3">
+          <b>
+            <ProFeatureTitle title={__('Add Post Tags', 'bit-integrations')} />
+          </b>
+
+          <Cooltip width={250} icnSize={17} className="ml-2">
+            <div className="txt-body">
+              {__('Use commas to separate multiple tags. Example: tag1, tag2, tag3', 'bit-integrations')}
+              <br />
+            </div>
+          </Cooltip>
+        </div>
+
+        <input
+          className="btcd-paper-inp w-5 mt-2 "
+          onChange={e => handleInput(e.target.name, e.target.value)}
+          name="post_tags"
+          value={postConf.post_tags}
+          type="text"
+          placeholder={__('Add Post Tags...', 'bit-integrations')}
+          disabled={!isPro}
+        />
 
         <div>
           <div className="mt-3 mb-1">
@@ -349,9 +370,7 @@ function Post({ formFields, setFlow, flow, allIntegURL }) {
         <CustomField
           formID={formID}
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, postConf, setPostConf, formID, setIsLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, postConf, setPostConf, formID, setIsLoading, setSnackbar)}
           postConf={postConf}
           setPostConf={setPostConf}
           isLoading={isLoading}
