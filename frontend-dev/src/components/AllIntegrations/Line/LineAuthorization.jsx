@@ -28,7 +28,7 @@ export default function LineAuthorization({
 
     setstep(2)
   }
-  const handleInput = (e) => {
+  const handleInput = e => {
     const newConf = { ...lineConf }
     const rmError = { ...error }
     rmError[e.target.name] = ''

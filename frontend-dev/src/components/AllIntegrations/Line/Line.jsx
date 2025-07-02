@@ -8,7 +8,7 @@ import Steps from '../../Utilities/Steps'
 import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import LineAuthorization from './LineAuthorization'
-import { handleInput } from './LineCommonFunc'
+import { generateMappedField, handleInput } from './LineCommonFunc'
 import LineIntegLayout from './LineIntegLayout'
 import BackIcn from '../../../Icons/BackIcn'
 
@@ -18,18 +18,69 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
   const [isLoading, setIsLoading] = useState(false)
   const [step, setstep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
+  const messageTypes = [
+    { name: 'sendPushMessage', label: __('Send a Push Message', 'bit-integrations'), is_pro: false },
+    { name: 'sendReplyMessage', label: __('Send a Reply Message', 'bit-integrations'), is_pro: true },
+    {
+      name: 'sendBroadcastMessage',
+      label: __('Send Broadcast Message', 'bit-integrations'),
+      is_pro: true
+    }
+  ]
+
+  const emojisFields = [
+    { label: 'Emojis ID', value: 'emojis_id', required: true },
+    { label: 'Product Id', value: 'product_id', required: true },
+    { label: 'Index of Emojis', value: 'index', required: true }
+  ]
+
+  const stickerFields = [
+    { label: 'Sticker ID', value: 'sticker_id', required: true },
+    { label: 'Package Id', value: 'package_id', required: true }
+  ]
+
+  const imageFields = [
+    { label: "Image's Original Content URL", value: 'originalContentUrl', required: true },
+    { label: "Image's Preview Image URL", value: 'previewImageUrl', required: true }
+  ]
+
+  const audioFields = [
+    { label: "Audio's Original Content URL", value: 'originalContentUrl', required: true }
+  ]
+
+   const videoFields = [
+    { label: "Original Content URL", value: 'originalContentUrl', required: true },
+    { label: "Preview Image URL", value: 'previewImageUrl', required: true }
+  ]
 
   const [lineConf, setLineConf] = useState({
     name: 'Line',
     type: 'Line',
+    accessToken:
+      'mH7wT8I3AyPUw4R+10mApAq9BeZaLXrOxX1zCD6iFVt4jKXaqgeJ5x6A75CoGf/bb2D0PL2W9sy4DAWSh05kAeUTNgUTPzlGwTeOeRvrsiQ+Dn5DdU8S/HrYiWQGnQfjInARHGPE+qTJB0tED1zS+gdB04t89/1O/w1cDnyilFU=',
     parse_mode: 'HTML',
-    field_map: [{ formField: '', lineFormField: '' }],
+    messageTypes,
+    emojis_field_map: generateMappedField(emojisFields),
+    sticker_field_map: generateMappedField(stickerFields),
+    image_field_map: generateMappedField(imageFields),
+    audio_field_map: generateMappedField(audioFields),
+    video_field_map: generateMappedField(videoFields),
     channel_id: '',
     body: '',
     actions: {},
+    sendEmojis: false,
+    sendSticker: false,
+    sendImage: false,
+    sendAudio: false,
+    sendVideo: false,
+    emojisFields,
+    stickerFields,
+    imageFields,
+    audioFields,
+    videoFields
   })
 
-  const nextPage = (val) => {
+  const nextPage = val => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -67,13 +118,12 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
           ...(step === 2 && {
             width: 900,
             height: 'auto',
-            overflow: 'visible',
-          }),
-        }}
-      >
+            overflow: 'visible'
+          })
+        }}>
         <LineIntegLayout
           formFields={formFields}
-          handleInput={(e) => handleInput(e, lineConf, setLineConf, setIsLoading, setSnackbar)}
+          handleInput={e => handleInput(e, lineConf, setLineConf, setIsLoading, setSnackbar)}
           lineConf={lineConf}
           setLineConf={setLineConf}
           isLoading={isLoading}
@@ -85,8 +135,7 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
           onClick={() => nextPage(3)}
           disabled={lineConf.channel_id === ''}
           className="btn f-right btcd-btn-lg purple sh-sm flx"
-          type="button"
-        >
+          type="button">
           {__('Next', 'bit-integrations')}
           <BackIcn className="ml-1 rev-icn" />
         </button>
@@ -95,7 +144,17 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
       {/* STEP 3 */}
       <IntegrationStepThree
         step={step}
-        saveConfig={() => saveActionConf({ flow, setFlow, allIntegURL, conf: lineConf, navigate, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            setFlow,
+            allIntegURL,
+            conf: lineConf,
+            navigate,
+            setIsLoading,
+            setSnackbar
+          })
+        }
         isLoading={isLoading}
         dataConf={lineConf}
         setDataConf={setLineConf}
