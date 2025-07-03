@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\Salesforce;
 
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Flow\FlowController;
 use WP_Error;
+use BitCode\FI\Flow\FlowController;
+use BitCode\FI\Core\Util\HttpHelper;
 
 class SalesforceController
 {
@@ -472,6 +472,7 @@ class SalesforceController
             || empty($apiData->clientId)
             || empty($apiData->clientSecret)
             || empty($apiData->tokenDetails)
+            || empty($apiData->redirectURI)
         ) {
             return false;
         }
@@ -483,7 +484,7 @@ class SalesforceController
             'grant_type'    => 'refresh_token',
             'client_id'     => $apiData->clientId,
             'client_secret' => $apiData->clientSecret,
-            'redirect_uri'  => urldecode($apiData->redirectURI ?? ''),
+            'redirect_uri'  => urldecode($apiData->redirectURI),
             'refresh_token' => $tokenDetails->refresh_token
         ];
 
