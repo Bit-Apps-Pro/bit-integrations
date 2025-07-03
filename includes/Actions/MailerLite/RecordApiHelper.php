@@ -59,9 +59,7 @@ class RecordApiHelper
 
         $response = HttpHelper::get($apiEndpoints, null, $this->_defaultHeader);
 
-        return ! (property_exists($response, 'error') || 'Resource not found.' === $response->message)
-
-        ;
+        return !empty($response->data);
     }
 
     public function enableDoubleOptIn($auth_token)
@@ -84,81 +82,142 @@ class RecordApiHelper
         HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
     }
 
+    // public function addSubscriber($auth_token, $groupIds, $type, $finalData)
+    // {
+    //     $apiEndpoints = $this->_baseUrl . 'subscribers';
+    //     $splitGroupIds = null;
+
+    //     if (!empty($groupIds)) {
+    //         $splitGroupIds = explode(',', $groupIds);
+    //     }
+
+    //     if (empty($finalData['email'])) {
+    //         return ['success' => false, 'message' => __('Required field Email is empty', 'bit-integrations'), 'code' => 400];
+    //     }
+
+    //     if ('https://connect.mailerlite.com/api/' === $this->_baseUrl) {
+    //         $requestParams = [
+    //             'email'  => $finalData['email'],
+    //             'status' => $type ? $type : 'active',
+    //         ];
+    //     } else {
+    //         $requestParams = [
+    //             'email' => $finalData['email'],
+    //             'type'  => $type ? $type : 'active',
+    //         ];
+    //     }
+
+    //     foreach ($finalData as $key => $value) {
+    //         if ('email' !== $key) {
+    //             $requestParams['fields'][$key] = $value;
+    //         }
+    //     }
+    //     $requestParams['fields'] = !empty($requestParams['fields']) ? (object) $requestParams['fields'] : [];
+    //     $email = $finalData['email'];
+    //     $isExist = $this->existSubscriber($auth_token, $email);
+    //     $response = null;
+
+    //     if ($isExist && empty($this->_actions->update)) {
+    //         return ['success' => false, 'message' => __('Subscriber already exist', 'bit-integrations'), 'code' => 400];
+    //     }
+
+    //     if ($isExist && !empty($this->_actions->update)) {
+    //         if (!empty($groupIds)) {
+    //             if ('https://connect.mailerlite.com/api/' === $this->_baseUrl) {
+    //                 if (!empty($this->_actions->double_opt_in)) {
+    //                     $requestParams['opted_in_at'] = date('Y-m-d H:i:s');
+    //                     $requestParams['optin_ip'] = $_SERVER['REMOTE_ADDR'];
+    //                 }
+
+    //                 $requestParams['groups'] = $splitGroupIds;
+    //                 $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
+    //             } else {
+    //                 if (!empty($this->_actions->double_opt_in)) {
+    //                     $this->enableDoubleOptIn($auth_token);
+    //                 }
+
+    //                 for ($i = 0; $i < \count($splitGroupIds); $i++) {
+    //                     $apiEndpoints = $this->_baseUrl . 'groups/' . $splitGroupIds[$i] . '/subscribers';
+    //                     $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
+    //                 }
+    //             }
+
+    //             return $response;
+    //         }
+    //         $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
+    //         $response->update = true;
+    //     } else {
+    //         if (!empty($groupIds)) {
+    //             if ('https://connect.mailerlite.com/api/' === $this->_baseUrl) {
+    //                 $requestParams['groups'] = $splitGroupIds;
+
+    //                 if (!empty($this->_actions->double_opt_in)) {
+    //                     $requestParams['opted_in_at'] = date('Y-m-d H:i:s');
+    //                     $requestParams['optin_ip'] = $_SERVER['REMOTE_ADDR'];
+    //                 }
+
+    //                 $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
+    //             } else {
+    //                 if (!empty($this->_actions->double_opt_in)) {
+    //                     $this->enableDoubleOptIn($auth_token);
+    //                 }
+
+    //                 for ($i = 0; $i < \count($splitGroupIds); $i++) {
+    //                     $apiEndpoints = $this->_baseUrl . 'groups/' . $splitGroupIds[$i] . '/subscribers';
+    //                     $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
+    //                 }
+    //             }
+
+    //             return $response;
+    //         }
+    //         $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
+    //     }
+
+    //     return $response;
+    // }
+
     public function addSubscriber($auth_token, $groupIds, $type, $finalData)
     {
-        $apiEndpoints = $this->_baseUrl . 'subscribers';
-        $splitGroupIds = null;
-        if (!empty($groupIds)) {
-            $splitGroupIds = explode(',', $groupIds);
-        }
-
         if (empty($finalData['email'])) {
-            return ['success' => false, 'message' => __('Required field Email is empty', 'bit-integrations'), 'code' => 400];
-        }
-        if ('https://connect.mailerlite.com/api/' === $this->_baseUrl) {
-            $requestParams = [
-                'email'  => $finalData['email'],
-                'status' => $type ? $type : 'active',
-            ];
-        } else {
-            $requestParams = [
-                'email' => $finalData['email'],
-                'type'  => $type ? $type : 'active',
+            return [
+                'success' => false,
+                'message' => __('Required field Email is empty', 'bit-integrations'),
+                'code'    => 400
             ];
         }
 
-        foreach ($finalData as $key => $value) {
-            if ('email' !== $key) {
-                $requestParams['fields'][$key] = $value;
-            }
-        }
-        $requestParams['fields'] = !empty($requestParams['fields']) ? (object) $requestParams['fields'] : [];
         $email = $finalData['email'];
+        $splitGroupIds = !empty($groupIds) ? explode(',', $groupIds) : [];
+        $isMailerLiteV2 = $this->_baseUrl === 'https://connect.mailerlite.com/api/';
+        $apiEndpoint = $this->_baseUrl . 'subscribers';
+
+        $requestParams = self::prepareRequestParams($finalData, $type, $isMailerLiteV2);
+
         $isExist = $this->existSubscriber($auth_token, $email);
         $response = null;
 
-        if ($isExist && !empty($this->_actions->update)) {
-            if (!empty($this->_actions->double_opt_in)) {
-                $this->enableDoubleOptIn($auth_token);
-            }
-            if (!empty($groupIds)) {
-                if ('https://connect.mailerlite.com/api/' === $this->_baseUrl) {
-                    $requestParams['groups'] = $splitGroupIds;
-                    $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
-                } else {
-                    for ($i = 0; $i < \count($splitGroupIds); $i++) {
-                        $apiEndpoints = $this->_baseUrl . 'groups/' . $splitGroupIds[$i] . '/subscribers';
-                        $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
-                    }
-                }
-
-                return $response;
-            }
-            $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
-            $response->update = true;
-        } elseif ($isExist && empty($this->_actions->update)) {
-            return ['success' => false, 'message' => __('Subscriber already exist', 'bit-integrations'), 'code' => 400];
-        } else {
-            if (!empty($this->_actions->double_opt_in)) {
-                $this->enableDoubleOptIn($auth_token);
-            }
-            if (!empty($groupIds)) {
-                if ('https://connect.mailerlite.com/api/' === $this->_baseUrl) {
-                    $requestParams['groups'] = $splitGroupIds;
-                    $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
-                } else {
-                    for ($i = 0; $i < \count($splitGroupIds); $i++) {
-                        $apiEndpoints = $this->_baseUrl . 'groups/' . $splitGroupIds[$i] . '/subscribers';
-                        $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
-                    }
-                }
-
-                return $response;
-            }
-            $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
+        if ($isExist && empty($this->_actions->update)) {
+            return [
+                'success' => false,
+                'message' => __('Subscriber already exist', 'bit-integrations'),
+                'code'    => 400
+            ];
         }
 
-        return $response;
+        self::handleDoubleOptIn($this, $auth_token, $requestParams, $isMailerLiteV2);
+
+        if (!empty($splitGroupIds)) {
+            return self::sendToGroups($this, $splitGroupIds, $requestParams, $isMailerLiteV2);
+        }
+
+        if ($isExist) {
+            $response = HttpHelper::post($apiEndpoint, $requestParams, $this->_defaultHeader);
+            $response->update = true;
+
+            return $response;
+        }
+
+        return HttpHelper::post($apiEndpoint, $requestParams, $this->_defaultHeader);
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
@@ -196,5 +255,56 @@ class RecordApiHelper
         }
 
         return $apiResponse;
+    }
+
+    private static function prepareRequestParams($finalData, $type, $isMailerLiteV2)
+    {
+        $email = $finalData['email'];
+        $params = [
+            'email'                             => $email,
+            $isMailerLiteV2 ? 'status' : 'type' => $type ? $type : 'active',
+        ];
+
+        foreach ($finalData as $key => $value) {
+            if ($key !== 'email') {
+                $params['fields'][$key] = $value;
+            }
+        }
+
+        $params['fields'] = !empty($params['fields']) ? (object) $params['fields'] : [];
+
+        return $params;
+    }
+
+    private static function handleDoubleOptIn($context, $auth_token, &$requestParams, $isMailerLiteV2)
+    {
+        if (empty($context->_actions->double_opt_in)) {
+            return;
+        }
+
+        if ($isMailerLiteV2) {
+            $requestParams['opted_in_at'] = date('Y-m-d H:i:s');
+            $requestParams['optin_ip'] = $_SERVER['REMOTE_ADDR'];
+        } else {
+            $context->enableDoubleOptIn($auth_token);
+        }
+    }
+
+    private static function sendToGroups($context, $groupIds, $requestParams, $isMailerLiteV2)
+    {
+        $response = null;
+
+        if ($isMailerLiteV2) {
+            $requestParams['groups'] = $groupIds;
+            $endpoint = $context->_baseUrl . 'subscribers';
+            $response = HttpHelper::post($endpoint, $requestParams, $context->_defaultHeader);
+        } else {
+            foreach ($groupIds as $groupId) {
+                $endpoint = $context->_baseUrl . 'groups/' . $groupId . '/subscribers';
+                $response = HttpHelper::post($endpoint, $requestParams, $context->_defaultHeader);
+            }
+        }
+
+        return $response;
     }
 }

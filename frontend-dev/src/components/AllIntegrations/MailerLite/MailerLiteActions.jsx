@@ -10,47 +10,23 @@ import TableCheckBox from '../../Utilities/TableCheckBox'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { getAllGroups } from './MailerLiteCommonFunc'
 
-export default function MailerLiteActions({
-  mailerLiteConf,
-  setMailerLiteConf,
-  loading,
-  setLoading
-}) {
+export default function MailerLiteActions({ mailerLiteConf, setMailerLiteConf, loading, setLoading }) {
   const [actionMdl, setActionMdl] = useState({ show: false, action: () => {} })
+
   const actionHandler = (e, type) => {
     const newConf = { ...mailerLiteConf }
+
     if (type === 'group') {
       getAllGroups(mailerLiteConf, setMailerLiteConf, loading, setLoading)
-      if (e.target.checked) {
-        newConf.actions.group = true
-      } else {
-        delete newConf.actions.group
-      }
-      setActionMdl({ show: type })
-    }
-    if (type === 'mailer_lite_type') {
-      if (e.target.checked) {
-        newConf.actions.mailer_lite_type = true
-      } else {
-        delete newConf.actions.mailer_lite_type
-      }
-      setActionMdl({ show: type })
-    }
-    if (type === 'update') {
-      if (e.target.checked) {
-        newConf.actions.update = true
-      } else {
-        delete newConf.actions.update
-      }
-    }
-    if (type === 'double_opt_in') {
-      if (e.target.checked) {
-        newConf.actions.double_opt_in = true
-      } else {
-        delete newConf.actions.double_opt_in
-      }
     }
 
+    if (e.target.checked) {
+      newConf.actions[type] = true
+    } else {
+      delete newConf.actions[type]
+    }
+
+    setActionMdl({ show: type })
     setMailerLiteConf({ ...newConf })
   }
   const clsActionMdl = () => {
@@ -61,7 +37,6 @@ export default function MailerLiteActions({
     const newConf = { ...mailerLiteConf }
     if (type === 'group_ids' && val.length) {
       newConf.actions.group = true
-      newConf.actions.update = true
     } else if (type === 'group_ids' && val.length < 1) {
       delete newConf.actions.group
     }
@@ -103,7 +78,7 @@ export default function MailerLiteActions({
       <div className="pos-rel d-flx w-8">
         <TableCheckBox
           checked={mailerLiteConf?.group_ids.length || false}
-          onChange={(e) => actionHandler(e, 'group')}
+          onChange={e => actionHandler(e, 'group')}
           className="wdt-200 mt-4 mr-2"
           value="group"
           title={__('Groups', 'bit-integrations')}
@@ -111,7 +86,7 @@ export default function MailerLiteActions({
         />
         <TableCheckBox
           checked={mailerLiteConf?.mailer_lite_type || false}
-          onChange={(e) => actionHandler(e, 'mailer_lite_type')}
+          onChange={e => actionHandler(e, 'mailer_lite_type')}
           className="wdt-200 mt-4 mr-2"
           value="type"
           title={__('Type', 'bit-integrations')}
@@ -119,7 +94,7 @@ export default function MailerLiteActions({
         />
         <TableCheckBox
           checked={mailerLiteConf.actions?.double_opt_in || false}
-          onChange={(e) => actionHandler(e, 'double_opt_in')}
+          onChange={e => actionHandler(e, 'double_opt_in')}
           className="wdt-200 mt-4 mr-2"
           value="double_opt_in"
           title={__('Double Opt-in', 'bit-integrations')}
@@ -128,7 +103,7 @@ export default function MailerLiteActions({
         <TableCheckBox
           checked={mailerLiteConf.actions?.update || false}
           isInfo={mailerLiteConf?.group_ids.length}
-          onChange={(e) => actionHandler(e, 'update')}
+          onChange={e => actionHandler(e, 'update')}
           className="wdt-200 mt-4 mr-2"
           value="user_share"
           title={__('Update subscriber', 'bit-integrations')}
@@ -161,11 +136,11 @@ export default function MailerLiteActions({
             <MultiSelect
               className="msl-wrp-options"
               defaultValue={mailerLiteConf?.group_ids}
-              options={mailerLiteConf?.groups?.map((group) => ({
+              options={mailerLiteConf?.groups?.map(group => ({
                 label: group.name,
                 value: group.group_id
               }))}
-              onChange={(val) => setChanges(val, 'group_ids')}
+              onChange={val => setChanges(val, 'group_ids')}
               customValue
             />
             <button
@@ -194,8 +169,8 @@ export default function MailerLiteActions({
           <MultiSelect
             className="msl-wrp-options"
             defaultValue={mailerLiteConf?.mailer_lite_type}
-            options={mailerLiteTypes.map((type) => ({ label: type.label, value: type.value }))}
-            onChange={(val) => setChanges(val, 'mailer_lite_type')}
+            options={mailerLiteTypes.map(type => ({ label: type.label, value: type.value }))}
+            onChange={val => setChanges(val, 'mailer_lite_type')}
             customValue
             singleSelect
           />
