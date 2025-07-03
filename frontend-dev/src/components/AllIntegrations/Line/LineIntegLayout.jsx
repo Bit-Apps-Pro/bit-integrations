@@ -8,7 +8,8 @@ import TableCheckBox from '../../Utilities/TableCheckBox'
 import TinyMCE from '../../Utilities/TinyMCE'
 import LineFieldMap from './LineFieldMap'
 import LineUtilities from './LineActions'
-import { addVideoFieldMap } from './LineCommonFunc'
+import { addFieldMap } from './LineCommonFunc'
+import AddFieldButton from './AddFieldButton'
 
 export default function LineIntegLayout({ formFields, lineConf, setLineConf, isLoading }) {
   const textAreaRef = useRef(null)
@@ -17,6 +18,7 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
   const handleInput = e => {
     const newConf = { ...lineConf }
     newConf[e.target.name] = e.target.value
+    console.log('first', lineConf)
     setLineConf(newConf)
   }
 
@@ -82,8 +84,8 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
               <input
                 className="btcd-paper-inp w-6 mt-1"
                 onChange={handleInput}
-                name="name"
-                value={lineConf.name}
+                name="recipientId"
+                value={lineConf.recipientId}
                 type="text"
                 placeholder={__('Recipient ID', 'bit-integrations')}
               />
@@ -93,8 +95,8 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
               <input
                 className="btcd-paper-inp w-6 mt-1"
                 onChange={handleInput}
-                name="name"
-                value={lineConf.name}
+                name="message"
+                value={lineConf.message}
                 type="text"
                 placeholder={__('Message', 'bit-integrations')}
               />
@@ -109,8 +111,8 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
             <input
               className="btcd-paper-inp w-6 mt-1"
               onChange={handleInput}
-              name="name"
-              value={lineConf.name}
+              name="replyToken"
+              value={lineConf.replyToken}
               type="text"
               placeholder={__('Message', 'bit-integrations')}
             />
@@ -120,7 +122,7 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
             <input
               className="btcd-paper-inp w-6 mt-1"
               onChange={handleInput}
-              name="name"
+              name="message"
               value={lineConf.name}
               type="text"
               placeholder={__('Message', 'bit-integrations')}
@@ -141,7 +143,6 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
         />
       )}
 
-      <br />
       {lineConf?.messageType && (
         <>
           {lineConf?.sendEmojis && (
@@ -170,6 +171,21 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
                   requiredFields={lineConf.emojisFields}
                 />
               ))}
+            </>
+          )}
+          {lineConf?.sendEmojis && (
+            <>
+              <AddFieldButton
+                fieldMapLength={lineConf.emojis_field_map.length}
+                lineConf={lineConf}
+                setLineConf={setLineConf}
+                fields={lineConf.emojisFields}
+                isLoading={isLoading}
+                sendType="sendEmojis"
+                addFieldMapFunc={(i, conf, setConf, fields) =>
+                  addFieldMap(i, conf, setConf, fields, 'emojis_field_map')
+                }
+              />
             </>
           )}
           <br />
@@ -201,6 +217,21 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
               ))}
             </>
           )}
+          {lineConf?.sendSticker && (
+            <>
+              <AddFieldButton
+                fieldMapLength={lineConf.sticker_field_map.length}
+                lineConf={lineConf}
+                setLineConf={setLineConf}
+                fields={lineConf.stickerFields}
+                isLoading={isLoading}
+                sendType="sendSticker"
+                addFieldMapFunc={(i, conf, setConf, fields) =>
+                  addFieldMap(i, conf, setConf, fields, 'sticker_field_map')
+                }
+              />
+            </>
+          )}
           <br />
           {lineConf?.sendImage && (
             <>
@@ -228,6 +259,21 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
                   requiredFields={lineConf.imageFields}
                 />
               ))}
+            </>
+          )}
+          {lineConf?.sendImage && (
+            <>
+              <AddFieldButton
+                fieldMapLength={lineConf.image_field_map.length}
+                lineConf={lineConf}
+                setLineConf={setLineConf}
+                fields={lineConf.imageFields}
+                isLoading={isLoading}
+                sendType="sendImage"
+                addFieldMapFunc={(i, conf, setConf, fields) =>
+                  addFieldMap(i, conf, setConf, fields, 'image_field_map')
+                }
+              />
             </>
           )}
           <br />
@@ -259,6 +305,22 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
               ))}
             </>
           )}
+          {lineConf?.sendAudio && (
+            <>
+              <AddFieldButton
+                fieldMapLength={lineConf.audio_field_map.length}
+                lineConf={lineConf}
+                setLineConf={setLineConf}
+                fields={lineConf.audioFields}
+                isLoading={isLoading}
+                sendType="sendAudio"
+                addFieldMapFunc={(i, conf, setConf, fields) =>
+                  addFieldMap(i, conf, setConf, fields, 'audio_field_map')
+                }
+              />
+            </>
+          )}
+
           <br />
           {lineConf?.sendVideo && (
             <>
@@ -289,18 +351,18 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
             </>
           )}
 
-          {lineConf.sendVideo && !isLoading && (
-            <div className="txt-center btcbi-field-map-button mt-2">
-              <button
-                onClick={() => addVideoFieldMap(lineConf.video_field_map.length, lineConf, setLineConf, lineConf.videoFields)}
-                className="icn-btn sh-sm"
-                type="button">
-                +
-              </button>
-            </div>
-          )}
+          <AddFieldButton
+            fieldMapLength={lineConf.video_field_map.length}
+            lineConf={lineConf}
+            setLineConf={setLineConf}
+            fields={lineConf.videoFields}
+            isLoading={isLoading}
+            sendType="sendVideo"
+            addFieldMapFunc={(i, conf, setConf, fields) =>
+              addFieldMap(i, conf, setConf, fields, 'video_field_map')
+            }
+          />
 
-          <br />
           <div className="mt-4">
             <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
           </div>

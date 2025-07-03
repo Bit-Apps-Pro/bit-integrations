@@ -107,38 +107,30 @@ export const handleAuthorize = (
     })
 }
 
-export const handleFieldMapping = (event, index, conftTmp, setConf) => {
+export const handleFieldMapping = (event, index, conftTmp, setConf, type) => {
   const newConf = { ...conftTmp }
-  newConf.field_map[index][event.target.name] = event.target.value
+  newConf[type][index][event.target.name] = event.target.value
 
   if (event.target.value === 'custom') {
-    newConf.field_map[index].customValue = ''
+    newConf[type][index].customValue = ''
   }
   setConf({ ...newConf })
 }
 
-export const addFieldMap = (i, confTmp, setConf) => {
+export const delFieldMap = (i, confTmp, setConf, type) => {
   const newConf = { ...confTmp }
-  newConf.video_field_map.splice(i, 0, {})
-  setConf({ ...newConf })
-}
-
-export const delFieldMap = (i, confTmp, setConf) => {
-  const newConf = { ...confTmp }
-  if (newConf.video_field_map.length > 1) {
-    newConf.video_field_map.splice(i, 1)
+  if (newConf[type].length > 1) {
+    newConf[type].splice(i, 1)
   }
 
   setConf({ ...newConf })
 }
 
-export const handleCustomValue = (event, index, conftTmp, setConf, tab) => {
+export const handleCustomValue = (event, index, conftTmp, setConf, type) => {
   const newConf = { ...conftTmp }
-  if (tab) {
-    newConf.relatedlists[tab - 1].field_map[index].customValue = event?.target?.value || event
-  } else {
-    newConf.field_map[index].customValue = event?.target?.value || event
-  }
+
+  newConf[type][index].customValue = event?.target?.value || event
+
   setConf({ ...newConf })
 }
 
@@ -153,19 +145,17 @@ export const generateMappedField = fields => {
     : [{ formField: '', lineFormField: '' }]
 }
 
-export const addVideoFieldMap = (i, confTmp, setConf, videoFields) => {
+export const addFieldMap = (i, confTmp, setConf, FieldMappings, mapKey) => {
   const newConf = { ...confTmp }
 
- 
-  const newFieldMaps = videoFields.map(field => ({
+  const nextField = FieldMappings[i % FieldMappings.length]
+
+  const newFieldMap = FieldMappings.map(field => ({
     formField: '',
     lineFormField: field.value
   }))
-  console.log('value', newFieldMaps)
 
-
-  newConf.video_field_map.splice(i, 0, ...newFieldMaps)
-  console.log('good', newConf.video_field_map)
+  newConf[mapKey].splice(i, 0, ...newFieldMap)
 
   setConf({ ...newConf })
 }

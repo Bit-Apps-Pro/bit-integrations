@@ -48,13 +48,16 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
     { label: "Audio's Original Content URL", value: 'originalContentUrl', required: true }
   ]
 
-   const videoFields = [
-    { label: "Original Content URL", value: 'originalContentUrl', required: true },
-    { label: "Preview Image URL", value: 'previewImageUrl', required: true }
+  const videoFields = [
+    { label: 'Original Content URL', value: 'originalContentUrl', required: true },
+    { label: 'Preview Image URL', value: 'previewImageUrl', required: true }
   ]
 
   const [lineConf, setLineConf] = useState({
     name: 'Line',
+    replyToken: '',
+    message: '',
+    recipientId: '',
     type: 'Line',
     accessToken:
       'mH7wT8I3AyPUw4R+10mApAq9BeZaLXrOxX1zCD6iFVt4jKXaqgeJ5x6A75CoGf/bb2D0PL2W9sy4DAWSh05kAeUTNgUTPzlGwTeOeRvrsiQ+Dn5DdU8S/HrYiWQGnQfjInARHGPE+qTJB0tED1zS+gdB04t89/1O/w1cDnyilFU=',
@@ -111,7 +114,6 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
       />
 
       {/* STEP 2 */}
-
       <div
         className="btcd-stp-page"
         style={{

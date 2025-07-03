@@ -10,6 +10,12 @@ export default function LineFieldMap({ i, formFields, field, lineConf, setLineCo
   const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
 
+  const fieldMapKey = Object.entries(lineConf).find(
+    ([key, val]) =>
+      Array.isArray(val) &&
+      val.some(f => f.lineFormField === field.lineFormField && f.formField === field.formField)
+  )?.[0]
+
   return (
     <div className="flx mt-2 mb-2 btcbi-field-map">
       <div className="pos-rel flx">
@@ -18,7 +24,7 @@ export default function LineFieldMap({ i, formFields, field, lineConf, setLineCo
             className="btcd-paper-inp mr-2"
             name="formField"
             value={field.formField || ''}
-            onChange={ev => handleFieldMapping(ev, i, lineConf, setLineConf)}>
+            onChange={ev => handleFieldMapping(ev, i, lineConf, setLineConf, fieldMapKey)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             <optgroup label={__('Form Fields', 'bit-integrations')}>
               {formFields?.map(f => (
@@ -44,7 +50,7 @@ export default function LineFieldMap({ i, formFields, field, lineConf, setLineCo
 
           {field.formField === 'custom' && (
             <TagifyInput
-              onChange={e => handleCustomValue(e, i, lineConf, setLineConf)}
+              onChange={e => handleCustomValue(e, i, lineConf, setLineConf, fieldMapKey)}
               label={__('Custom Value', 'bit-integrations')}
               className="mr-2"
               type="text"
@@ -59,14 +65,8 @@ export default function LineFieldMap({ i, formFields, field, lineConf, setLineCo
             disabled={true}
             name="lineFormField"
             value={field.lineFormField || ''}
-            onChange={ev => handleFieldMapping(ev, i, lineConf, setLineConf)}>
+            onChange={ev => handleFieldMapping(ev, i, lineConf, setLineConf, fieldMapKey)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
-            {/* {i < requiredFields.length ? (
-              <option key={requiredFields[i].key} value={requiredFields[i].key}>
-                {requiredFields[i].label}
-              </option>
-            ) : ( */}
-            {/* )} */}
             {requiredFields.map(({ value, label }, index) => (
               <option key={index} value={value}>
                 {label}
@@ -77,7 +77,7 @@ export default function LineFieldMap({ i, formFields, field, lineConf, setLineCo
         {i >= requiredFields.length && (
           <>
             <button
-              onClick={() => delFieldMap(i, lineConf, setLineConf)}
+              onClick={() => delFieldMap(i, lineConf, setLineConf, fieldMapKey)}
               className="icn-btn sh-sm ml-1"
               type="button"
               aria-label="btn">
