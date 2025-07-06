@@ -3,18 +3,19 @@ import { $btcbi } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import TagifyInput from '../../Utilities/TagifyInput'
-import { values } from 'lodash'
 import { addFieldMap, delFieldMap, handleCustomValue, handleFieldMapping } from './LineCommonFunc'
 
-export default function LineFieldMap({ i, formFields, field, lineConf, setLineConf, requiredFields }) {
+export default function LineFieldMap({
+  i,
+  formFields,
+  field,
+  lineConf,
+  setLineConf,
+  requiredFields,
+  fieldMapKey
+}) {
   const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
-
-  const fieldMapKey = Object.entries(lineConf).find(
-    ([key, val]) =>
-      Array.isArray(val) &&
-      val.some(f => f.lineFormField === field.lineFormField && f.formField === field.formField)
-  )?.[0]
 
   return (
     <div className="flx mt-2 mb-2 btcbi-field-map">
@@ -54,7 +55,7 @@ export default function LineFieldMap({ i, formFields, field, lineConf, setLineCo
               label={__('Custom Value', 'bit-integrations')}
               className="mr-2"
               type="text"
-              value={field.customValue}
+              value={field.customValue || ''}
               placeholder={__('Custom Value', 'bit-integrations')}
               formFields={formFields}
             />

@@ -31,7 +31,7 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
   const emojisFields = [
     { label: 'Emojis ID', value: 'emojis_id', required: true },
     { label: 'Product Id', value: 'product_id', required: true },
-    { label: 'Index of Emojis', value: 'index', required: true }
+    { label: 'Emoji Position (0-based index in text)', value: 'index', required: true }
   ]
 
   const stickerFields = [
@@ -68,7 +68,6 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
     image_field_map: generateMappedField(imageFields),
     audio_field_map: generateMappedField(audioFields),
     video_field_map: generateMappedField(videoFields),
-    channel_id: '',
     body: '',
     actions: {},
     sendEmojis: false,
@@ -88,11 +87,37 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
     if (val === 3) {
-      if (lineConf.name !== '' && lineConf.channel_id) {
+      const isRequiredFilled = (() => {
+        switch (lineConf.messageType) {
+          case 'sendPushMessage':
+          case 'sendBroadcastMessage':
+            return !!lineConf.recipientId
+          case 'sendReplyMessage':
+            return !!lineConf.replyToken
+          default:
+            return !!lineConf.recipientId
+        }
+      })()
+
+      if (lineConf.name !== '' && isRequiredFilled) {
         setstep(val)
       }
     }
   }
+
+  const isNextButtonEnabled = () => {
+    switch (lineConf.messageType) {
+      case 'sendPushMessage':
+        return !!lineConf.recipientId
+      case 'sendBroadcastMessage':
+        return !!lineConf.recipientId
+      case 'sendReplyMessage':
+        return !!lineConf.replyToken
+      default:
+        return !!lineConf.recipientId
+    }
+  }
+
 
   return (
     <div>
@@ -135,7 +160,7 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
 
         <button
           onClick={() => nextPage(3)}
-          disabled={lineConf.channel_id === ''}
+          disabled={!isNextButtonEnabled()}
           className="btn f-right btcd-btn-lg purple sh-sm flx"
           type="button">
           {__('Next', 'bit-integrations')}

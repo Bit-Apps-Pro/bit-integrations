@@ -22,6 +22,20 @@ function EditLine({ allIntegURL }) {
   const formFields = useRecoilValue($formFields)
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
+
+  const isNextButtonEnabled = () => {
+    switch (lineConf.messageType) {
+      case 'sendPushMessage':
+         return !!lineConf.recipientId
+      case 'sendBroadcastMessage':
+        return !!lineConf.recipientId
+      case 'sendReplyMessage':
+        return !!lineConf.replyToken
+      default:
+        return !!lineConf.recipientId
+    }
+  }
+
   return (
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
@@ -30,7 +44,7 @@ function EditLine({ allIntegURL }) {
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
         <input
           className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, lineConf, setLineConf)}
+          onChange={e => handleInput(e, lineConf, setLineConf)}
           name="name"
           value={lineConf.name}
           type="text"
@@ -64,7 +78,7 @@ function EditLine({ allIntegURL }) {
             setSnackbar
           })
         }
-        disabled={lineConf.channel_id === '' || isLoading}
+        disabled={!isNextButtonEnabled() || isLoading}
         isLoading={isLoading}
         dataConf={lineConf}
         setDataConf={setLineConf}

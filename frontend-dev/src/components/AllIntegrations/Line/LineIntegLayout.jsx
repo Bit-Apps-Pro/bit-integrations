@@ -1,5 +1,7 @@
 import { create } from 'mutative'
 import { useRef } from 'react'
+import { useRecoilValue } from 'recoil'
+import { $btcbi } from '../../../GlobalStates'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
@@ -11,14 +13,29 @@ import LineUtilities from './LineActions'
 import { addFieldMap } from './LineCommonFunc'
 import AddFieldButton from './AddFieldButton'
 
+const textMsgNote = `<p>${__('To ensure successful message delivery using the Line Business API:', 'bit-integrations')}</p>
+            <ul>
+                <li><strong>${__('The conversation must be initiated by the user.', 'bit-integrations')}</strong></li>
+                <li>${__("To begin, <strong>send a message from your Line number to the recipient's number.</strong>", 'bit-integrations')}</li>
+                <li>${__('Once the user has started the conversation, you can continue to communicate with the recipient normally.', 'bit-integrations')}</li>
+            </ul>`
+
+const emojiHelpNote = `<p>${__('How to set Emoji Position:', 'bit-integrations')}</p>
+            <ul>
+                <li>${__('The position is a 0-based index indicating where the emoji will appear in the text.', 'bit-integrations')}</li>
+                <li>${__('Example: For text "Hello 👋 World", position 6 would place the emoji after "Hello " (6 characters).', 'bit-integrations')}</li>
+                <li>${__('Use 0 to place emoji at the beginning, or a number up to the text length to place at the end.', 'bit-integrations')}</li>
+                <li>${__('Newlines (\\n) count as 1 character each.', 'bit-integrations')}</li>
+            </ul>`
+
 export default function LineIntegLayout({ formFields, lineConf, setLineConf, isLoading }) {
   const textAreaRef = useRef(null)
+  const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
 
   const handleInput = e => {
     const newConf = { ...lineConf }
     newConf[e.target.name] = e.target.value
-    console.log('first', lineConf)
     setLineConf(newConf)
   }
 
@@ -51,7 +68,6 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
       })
     )
   }
-  console.log(lineConf?.sendEmojis)
 
   return (
     <>
@@ -75,34 +91,32 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
       </div>
       <br />
 
-      {(lineConf?.messageType === 'sendPushMessage' ||
-        lineConf?.messageType === 'sendBroadcastMessage') &&
-        isPro && (
-          <>
-            <div>
-              <b className="wdt-200 d-in-b mb-4 mt-4">{__('Recipient ID:', 'bit-integrations')}</b>
-              <input
-                className="btcd-paper-inp w-6 mt-1"
-                onChange={handleInput}
-                name="recipientId"
-                value={lineConf.recipientId}
-                type="text"
-                placeholder={__('Recipient ID', 'bit-integrations')}
-              />
-            </div>
-            <div>
-              <b className="wdt-200 d-in-b mb-4 mt-4">{__('Message:', 'bit-integrations')}</b>
-              <input
-                className="btcd-paper-inp w-6 mt-1"
-                onChange={handleInput}
-                name="message"
-                value={lineConf.message}
-                type="text"
-                placeholder={__('Message', 'bit-integrations')}
-              />
-            </div>
-          </>
-        )}
+      {lineConf?.messageType === 'sendPushMessage' && isPro && (
+        <>
+          <div>
+            <b className="wdt-200 d-in-b mb-4 mt-4">{__('Recipient ID:', 'bit-integrations')}</b>
+            <input
+              className="btcd-paper-inp w-6 mt-1"
+              onChange={handleInput}
+              name="recipientId"
+              value={lineConf.recipientId || ''}
+              type="text"
+              placeholder={__('Recipient ID', 'bit-integrations')}
+            />
+          </div>
+          <div>
+            <b className="wdt-200 d-in-b mb-4 mt-4">{__('Message:', 'bit-integrations')}</b>
+            <input
+              className="btcd-paper-inp w-6 mt-1"
+              onChange={handleInput}
+              name="message"
+              value={lineConf.message || ''}
+              type="text"
+              placeholder={__('Message', 'bit-integrations')}
+            />
+          </div>
+        </>
+      )}
 
       {lineConf?.messageType === 'sendReplyMessage' && isPro && (
         <>
@@ -112,9 +126,9 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
               className="btcd-paper-inp w-6 mt-1"
               onChange={handleInput}
               name="replyToken"
-              value={lineConf.replyToken}
+              value={lineConf.replyToken || ''}
               type="text"
-              placeholder={__('Message', 'bit-integrations')}
+              placeholder={__('Reply Token', 'bit-integrations')}
             />
           </div>
           <div>
@@ -123,7 +137,23 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
               className="btcd-paper-inp w-6 mt-1"
               onChange={handleInput}
               name="message"
-              value={lineConf.name}
+              value={lineConf.message}
+              type="text"
+              placeholder={__('Message', 'bit-integrations')}
+            />
+          </div>
+        </>
+      )}
+
+      {lineConf?.messageType === 'sendBroadcastMessage' && isPro && (
+        <>
+          <div>
+            <b className="wdt-200 d-in-b mb-4 mt-4">{__('Message:', 'bit-integrations')}</b>
+            <input
+              className="btcd-paper-inp w-6 mt-1"
+              onChange={handleInput}
+              name="message"
+              value={lineConf.message || ''}
               type="text"
               placeholder={__('Message', 'bit-integrations')}
             />
@@ -151,6 +181,7 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
                 <b className="wdt-100">{__('Emojis Map Fields', 'bit-integrations')}</b>
               </div>
               <div className="btcd-hr mt-1" />
+
               <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
                 <div className="txt-dp">
                   <b>{__('Form Fields', 'bit-integrations')}</b>
@@ -162,13 +193,14 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
 
               {lineConf.emojis_field_map.map((itm, i) => (
                 <LineFieldMap
-                  key={`line-m-${i + 9}`}
+                  key={`line-emojis-${i}`}
                   i={i}
                   field={itm}
                   lineConf={lineConf}
                   formFields={formFields}
                   setLineConf={setLineConf}
                   requiredFields={lineConf.emojisFields}
+                  fieldMapKey="emojis_field_map"
                 />
               ))}
             </>
@@ -206,13 +238,14 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
 
               {lineConf.sticker_field_map.map((itm, i) => (
                 <LineFieldMap
-                  key={`line-m-${i + 9}`}
+                  key={`line-sticker-${i}`}
                   i={i}
                   field={itm}
                   lineConf={lineConf}
                   formFields={formFields}
                   setLineConf={setLineConf}
                   requiredFields={lineConf.stickerFields}
+                  fieldMapKey="sticker_field_map"
                 />
               ))}
             </>
@@ -250,13 +283,14 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
 
               {lineConf.image_field_map.map((itm, i) => (
                 <LineFieldMap
-                  key={`line-m-${i + 9}`}
+                  key={`line-image-${i}`}
                   i={i}
                   field={itm}
                   lineConf={lineConf}
                   formFields={formFields}
                   setLineConf={setLineConf}
                   requiredFields={lineConf.imageFields}
+                  fieldMapKey="image_field_map"
                 />
               ))}
             </>
@@ -294,13 +328,14 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
 
               {lineConf.audio_field_map.map((itm, i) => (
                 <LineFieldMap
-                  key={`line-m-${i + 9}`}
+                  key={`line-audio-${i}`}
                   i={i}
                   field={itm}
                   lineConf={lineConf}
                   formFields={formFields}
                   setLineConf={setLineConf}
                   requiredFields={lineConf.audioFields}
+                  fieldMapKey="audio_field_map"
                 />
               ))}
             </>
@@ -339,29 +374,34 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
 
               {lineConf.video_field_map.map((itm, i) => (
                 <LineFieldMap
-                  key={`line-m-${i + 9}`}
+                  key={`line-video-${i}`}
                   i={i}
                   field={itm}
                   lineConf={lineConf}
                   formFields={formFields}
                   setLineConf={setLineConf}
                   requiredFields={lineConf.videoFields}
+                  fieldMapKey="video_field_map"
                 />
               ))}
             </>
           )}
 
-          <AddFieldButton
-            fieldMapLength={lineConf.video_field_map.length}
-            lineConf={lineConf}
-            setLineConf={setLineConf}
-            fields={lineConf.videoFields}
-            isLoading={isLoading}
-            sendType="sendVideo"
-            addFieldMapFunc={(i, conf, setConf, fields) =>
-              addFieldMap(i, conf, setConf, fields, 'video_field_map')
-            }
-          />
+          {lineConf?.sendVideo && (
+            <>
+              <AddFieldButton
+                fieldMapLength={lineConf.video_field_map.length}
+                lineConf={lineConf}
+                setLineConf={setLineConf}
+                fields={lineConf.videoFields}
+                isLoading={isLoading}
+                sendType="sendVideo"
+                addFieldMapFunc={(i, conf, setConf, fields) =>
+                  addFieldMap(i, conf, setConf, fields, 'video_field_map')
+                }
+              />
+            </>
+          )}
 
           <div className="mt-4">
             <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
@@ -373,10 +413,3 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
     </>
   )
 }
-
-const textMsgNote = `<p>${__('To ensure successful message delivery using the Line Business API:', 'bit-integrations')}</p>
-            <ul>
-                <li><strong>${__('The conversation must be initiated by the user.', 'bit-integrations')}</strong></li>
-                <li>${__("To begin, <strong>send a message from your Line number to the recipient's number.</strong>", 'bit-integrations')}</li>
-                <li>${__('Once the user has started the conversation, you can continue to communicate with the recipient normally.', 'bit-integrations')}</li>
-            </ul>`

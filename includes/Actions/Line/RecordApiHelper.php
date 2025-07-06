@@ -1,99 +1,208 @@
 <?php
 
-/**
- * Line Record Api
- */
-
 namespace BitCode\FI\Actions\Line;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 
-/**
- * Provide functionality for Record insert, upsert
- */
 class RecordApiHelper
 {
-    private $_defaultHeader;
+    private string $accessToken;
 
-    private $_integrationID;
+    private string $apiEndPoint;
 
-    private $_apiEndPoint;
+    private int $integrationID;
 
-    private $_accessToken;
-
-    public function __construct($apiEndPoint, $access_token, $integId)
+    public function __construct($apiEndPoint, $accessToken, $integrationID)
     {
-        $this->_defaultHeader['Content-Type'] = 'multipart/form-data';
-        $this->_integrationID = $integId;
-        $this->_apiEndPoint = $apiEndPoint;
-        $this->_accessToken = $access_token;
-    }
-
-    public function sendMessages($data)
-    {
-        $header = [
-            'Authorization' => 'Bearer ' . $this->_accessToken,
-            'Accept'        => '*/*',
-            'verify'        => false
-        ];
-        $insertRecordEndpoint = $this->_apiEndPoint . '/chat.postMessage';
-
-        return HttpHelper::post($insertRecordEndpoint, $data, $header);
+        $this->apiEndPoint = $apiEndPoint;
+        $this->accessToken = $accessToken;
+        $this->integrationID = $integrationID;
     }
 
     public function execute($integrationDetails, $fieldValues)
     {
-        $msg = Common::replaceFieldWithValue($integrationDetails->body, $fieldValues);
-        $messagesBody = str_replace(['<p>', '</p>'], ' ', $msg);
-
-        if (!empty($integrationDetails->actions->attachments)) {
-            foreach ($fieldValues as $fieldKey => $fieldValue) {
-                if ($integrationDetails->actions->attachments == $fieldKey) {
-                    $file = $fieldValue;
-                }
-            }
-
-            if (!empty($file)) {
-                $data = [
-                    'channels'        => $integrationDetails->channel_id,
-                    'initial_comment' => $messagesBody,
-                    'text' => $messagesBody,
-                    'parse_mode' => $integrationDetails->parse_mode,
-                    'file' => is_array($file) ? $file[0] : $file
-                ];
-
-                $sendPhotoApiHelper = new FilesApiHelper($this->_accessToken);
-                $recordApiResponse  = $sendPhotoApiHelper->uploadFiles($this->_apiEndPoint, $data, $this->_accessToken);
-            } else {
-                $data = [
-                    'channel'    => $integrationDetails->channel_id,
-                    'text'       => $messagesBody,
-                    'parse_mode' => $integrationDetails->parse_mode
-                ];
-                $recordApiResponse = $this->sendMessages($data);
-            }
-
-            $type = 'insert';
-        } else {
-            $data = [
-                'channel'    => $integrationDetails->channel_id,
-                'text'       => $messagesBody,
-                'parse_mode' => $integrationDetails->parse_mode
-            ];
-            $recordApiResponse = $this->sendMessages($data);
-            $type = 'insert';
+        $messages = $this->buildMessages($integrationDetails, $fieldValues);
+        if (empty($messages)) {
+            return ['error' => 'No valid message generated.'];
         }
 
-        $recordApiResponse = \is_string($recordApiResponse) ? json_decode($recordApiResponse) : $recordApiResponse;
+        $data = ['messages' => $messages];
+        $type = $integrationDetails->messageType ?? 'sendPushMessage';
 
-        if ($recordApiResponse && $recordApiResponse->ok) {
-            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => $type], 'success', $recordApiResponse);
-        } else {
-            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => $type], 'error', $recordApiResponse);
+        switch ($type) {
+            case 'sendReplyMessage':
+                $data['replyToken'] = $integrationDetails->replyToken ?? '';
+                $response = $this->sendReplyMessage(json_encode($data));
+
+                // error_log(print_r($response, true));
+
+                break;
+            case 'sendBroadcastMessage':
+                $data['to'] = $integrationDetails->recipientId ?? '';
+                $response = $this->sendBroadcastMessage(json_encode($data));
+
+                break;
+            default:
+                $data['to'] = $integrationDetails->recipientId ?? '';
+                $response = $this->sendPushMessage(json_encode($data));
+        }
+        error_log(print_r($data, true));
+        $response = \is_string($response) ? json_decode($response) : $response;
+        $status = (!isset($response->error)) ? 'success' : 'error';
+
+        LogHandler::save($this->integrationID, ['type' => 'record', 'type_name' => $type], $status, $response);
+
+        return $response;
+    }
+
+    private function buildMessages($details, $values): array
+    {
+        $messages = [];
+
+        if (!empty($details->message)) {
+            $messages[] = $this->buildTextMessage($details, $values);
         }
 
-        return $recordApiResponse;
+        if (!empty($details->sticker_field_map)) {
+            $messages[] = $this->buildStickerMessage($details->sticker_field_map, $values);
+        }
+
+        if (!empty($details->image_field_map)) {
+            $image = $this->buildImageMessage($details->image_field_map, $values);
+            if ($image) {
+                $messages[] = $image;
+            }
+        }
+
+        if (!empty($details->audio_field_map)) {
+            $audio = $this->buildAudioMessage($details->audio_field_map, $values);
+            if ($audio) {
+                $messages[] = $audio;
+            }
+        }
+
+        if (!empty($details->video_field_map)) {
+            $video = $this->buildVideoMessage($details->video_field_map, $values);
+            if ($video) {
+                $messages[] = $video;
+            }
+        }
+
+        return array_filter($messages);
+    }
+
+    private function buildTextMessage($details, $values): array
+    {
+        $message = ['type' => 'text', 'text' => $details->message];
+
+        if (!empty($details->emojis_field_map)) {
+            $emoji = $this->mapFields($values, $details->emojis_field_map);
+            if ($emoji['emojis_id'] ?? false) {
+                $message['emojis'] = [[
+                    'index'     => (int) $emoji['index'],
+                    'productId' => $emoji['product_id'],
+                    'emojiId'   => $emoji['emojis_id'],
+                ]];
+            }
+        }
+
+        return $message;
+    }
+
+    private function buildStickerMessage($map, $values): ?array
+    {
+        $data = $this->mapFields($values, $map);
+        if (!($data['sticker_id'] ?? false)) {
+            return null;
+        }
+
+        return [
+            'type'      => 'sticker',
+            'packageId' => $data['package_id'],
+            'stickerId' => $data['sticker_id'],
+        ];
+    }
+
+    private function buildImageMessage($map, $values): ?array
+    {
+        $data = $this->mapFields($values, $map);
+        if (empty($data['originalContentUrl'])) {
+            return null;
+        }
+
+        return array_filter([
+            'type'               => 'image',
+            'originalContentUrl' => $data['originalContentUrl'],
+            'previewImageUrl'    => $data['previewImageUrl'] ?? null
+        ]);
+    }
+
+    private function buildAudioMessage($map, $values): ?array
+    {
+        $data = $this->mapFields($values, $map);
+        if (empty($data['originalContentUrl'])) {
+            return null;
+        }
+
+        return array_filter([
+            'type'               => 'audio',
+            'originalContentUrl' => $data['originalContentUrl'],
+            'duration'           => isset($data['duration']) ? (int) $data['duration'] : null
+        ]);
+    }
+
+    private function buildVideoMessage($map, $values): ?array
+    {
+        $data = $this->mapFields($values, $map);
+        if (empty($data['originalContentUrl'])) {
+            return null;
+        }
+
+        return array_filter([
+            'type'               => 'video',
+            'originalContentUrl' => $data['originalContentUrl'],
+            'previewImageUrl'    => $data['previewImageUrl'] ?? null
+        ]);
+    }
+
+    private function mapFields($data, $fieldMap): array
+    {
+        $result = [];
+
+        foreach ($fieldMap as $field) {
+            $key = $field->lineFormField;
+            if ($field->formField === 'custom') {
+                $result[$key] = Common::replaceFieldWithValue($field->customValue, $data);
+            } elseif (isset($data[$field->formField])) {
+                $result[$key] = $data[$field->formField];
+            }
+        }
+
+        return $result;
+    }
+
+    private function setHeaders(): array
+    {
+        return [
+            'Authorization' => 'Bearer ' . $this->accessToken,
+            'Content-Type'  => 'application/json'
+        ];
+    }
+
+    private function sendPushMessage($data)
+    {
+        return HttpHelper::post($this->apiEndPoint . '/message/push', $data, $this->setHeaders());
+    }
+
+    private function sendReplyMessage($data)
+    {
+        return HttpHelper::post($this->apiEndPoint . '/message/reply', $data, $this->setHeaders());
+    }
+
+    private function sendBroadcastMessage($data)
+    {
+        return HttpHelper::post($this->apiEndPoint . '/message/broadcast', $data, $this->setHeaders());
     }
 }
