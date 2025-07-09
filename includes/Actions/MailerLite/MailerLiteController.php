@@ -31,8 +31,7 @@ class MailerLiteController
                 400
             );
         }
-        // var_dump('fjkasfhjklas');
-        // die;
+
         if ('v2' === $refreshFieldsRequestParams->version) {
             $apiKey = $refreshFieldsRequestParams->auth_token;
             $endpoint = self::$_baseUrlV2 . 'groups';
@@ -77,6 +76,34 @@ class MailerLiteController
                 400
             );
         }
+    }
+
+    public function authorization($refreshFieldsRequestParams)
+    {
+        if (empty($refreshFieldsRequestParams->auth_token) || empty($refreshFieldsRequestParams->version)) {
+            wp_send_json_error(
+                __(
+                    'Requested parameter is empty',
+                    'bit-integrations'
+                ),
+                400
+            );
+        }
+
+        $api = self::getApiVersionInfo($refreshFieldsRequestParams);
+
+        $response = HttpHelper::get($api['endpoint'], null, $api['header']);
+
+        if (HttpHelper::$responseCode == 200) {
+            wp_send_json_success('Authorization Successful', 200);
+
+            return;
+        }
+
+        wp_send_json_error(
+            $response->message ?? $response ?? 'Authorization Failed',
+            400
+        );
     }
 
     public function mailerliteRefreshFields($refreshFieldsRequestParams)
@@ -191,5 +218,24 @@ class MailerLiteController
         }
 
         return $mailerliteApiResponse;
+    }
+
+    private static function getApiVersionInfo($refreshFieldsRequestParams)
+    {
+        if ('v2' === $refreshFieldsRequestParams->version) {
+            return [
+                'endpoint' => self::$_baseUrlV2 . 'subscribers',
+                'header'   => [
+                    'Authorization' => 'Bearer ' . $refreshFieldsRequestParams->auth_token,
+                ]
+            ];
+        }
+
+        return [
+            'endpoint' => self::$_baseUrlV1 . 'me',
+            'header'   => [
+                'X-Mailerlite-Apikey' => $refreshFieldsRequestParams->auth_token,
+            ]
+        ];
     }
 }

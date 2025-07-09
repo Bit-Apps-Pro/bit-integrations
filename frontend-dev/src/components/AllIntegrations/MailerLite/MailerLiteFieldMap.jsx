@@ -9,24 +9,12 @@ import { generateMappedField } from './MailerLiteCommonFunc'
 import TagifyInput from '../../Utilities/TagifyInput'
 import { handleCustomValue } from '../IntegrationHelpers/IntegrationHelpers'
 
-export default function MailerLiteFieldMap({
-  i,
-  formFields,
-  field,
-  mailerLiteConf,
-  setMailerLiteConf
-}) {
-  if (mailerLiteConf?.field_map?.length === 1 && field.mailerLiteFormField === '') {
-    const newConf = { ...mailerLiteConf }
-    const tmp = generateMappedField(newConf)
-    newConf.field_map = tmp
-  }
-
-  const requiredFlds = mailerLiteConf?.mailerLiteFields.filter((fld) => fld.required === true) || []
-  const nonRequiredFlds =
-    mailerLiteConf?.mailerLiteFields.filter((fld) => fld.required === false) || []
+export default function MailerLiteFieldMap({ i, formFields, field, mailerLiteConf, setMailerLiteConf }) {
   const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
+
+  const requiredFlds = mailerLiteConf?.mailerLiteFields.filter(fld => fld.required === true) || []
+  const nonRequiredFlds = mailerLiteConf?.mailerLiteFields.filter(fld => fld.required === false) || []
 
   return (
     <div className="flx mt-2 mb-2 btcbi-field-map">
@@ -36,10 +24,10 @@ export default function MailerLiteFieldMap({
             className="btcd-paper-inp mr-2"
             name="formField"
             value={field.formField || ''}
-            onChange={(ev) => handleFieldMapping(ev, i, mailerLiteConf, setMailerLiteConf)}>
+            onChange={ev => handleFieldMapping(ev, i, mailerLiteConf, setMailerLiteConf)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             <optgroup label={__('Form Fields', 'bit-integrations')}>
-              {formFields?.map((f) => (
+              {formFields?.map(f => (
                 <option key={`ff-rm-${f.name}`} value={f.name}>
                   {f.label}
                 </option>
@@ -52,7 +40,7 @@ export default function MailerLiteFieldMap({
                 isPro ? '' : `(${__('Pro', 'bit-integrations')})`
               )}>
               {isPro &&
-                SmartTagField?.map((f) => (
+                SmartTagField?.map(f => (
                   <option key={`ff-rm-${f.name}`} value={f.name}>
                     {f.label}
                   </option>
@@ -62,7 +50,7 @@ export default function MailerLiteFieldMap({
 
           {field.formField === 'custom' && (
             <TagifyInput
-              onChange={(e) => handleCustomValue(e, i, mailerLiteConf, setMailerLiteConf)}
+              onChange={e => handleCustomValue(e, i, mailerLiteConf, setMailerLiteConf)}
               label={__('Custom Value', 'bit-integrations')}
               className="mr-2"
               type="text"
@@ -77,7 +65,7 @@ export default function MailerLiteFieldMap({
             disabled={i < requiredFlds.length}
             name="mailerLiteFormField"
             value={i < requiredFlds ? requiredFlds[i].label || '' : field.mailerLiteFormField || ''}
-            onChange={(ev) => handleFieldMapping(ev, i, mailerLiteConf, setMailerLiteConf)}>
+            onChange={ev => handleFieldMapping(ev, i, mailerLiteConf, setMailerLiteConf)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             {i < requiredFlds.length ? (
               <option key={requiredFlds[i].key} value={requiredFlds[i].key}>

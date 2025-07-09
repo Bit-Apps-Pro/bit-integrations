@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { $actionConf, $formFields, $newFlow } from '../../../GlobalStates'
@@ -13,6 +13,7 @@ import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import { checkMappedFields, handleInput } from './MailerLiteCommonFunc'
 import MailerLiteIntegLayout from './MailerLiteIntegLayout'
+import { create } from 'mutative'
 
 function EditMailerLite({ allIntegURL }) {
   const navigate = useNavigate()
@@ -45,6 +46,16 @@ function EditMailerLite({ allIntegURL }) {
     })
   }
 
+  useEffect(() => {
+    if (!mailerLiteConf?.action) {
+      setMailerLiteConf(prev =>
+        create(prev, draftConf => {
+          draftConf.action = 'add_subscriber'
+        })
+      )
+    }
+  }, [])
+
   return (
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
@@ -53,7 +64,7 @@ function EditMailerLite({ allIntegURL }) {
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
         <input
           className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, mailerLiteConf, setMailerLiteConf)}
+          onChange={e => handleInput(e, mailerLiteConf, setMailerLiteConf, loading, setLoading)}
           name="name"
           value={mailerLiteConf.name}
           type="text"
@@ -66,9 +77,7 @@ function EditMailerLite({ allIntegURL }) {
       <MailerLiteIntegLayout
         formID={flow.triggered_entity_id}
         formFields={formField}
-        handleInput={(e) =>
-          handleInput(e, mailerLiteConf, setMailerLiteConf, setLoading, setSnackbar)
-        }
+        handleInput={e => handleInput(e, mailerLiteConf, setMailerLiteConf, loading, setLoading)}
         mailerLiteConf={mailerLiteConf}
         setMailerLiteConf={setMailerLiteConf}
         loading={loading}
