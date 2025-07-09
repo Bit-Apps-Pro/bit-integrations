@@ -193,10 +193,11 @@ class MailerLiteController
         $integId = $integrationData->id;
         $auth_token = $integrationDetails->auth_token;
         $version = $integrationDetails->version;
-        $groupIds = $integrationDetails->group_ids;
-        $fieldMap = $integrationDetails->field_map;
-        $type = $integrationDetails->mailer_lite_type;
-        $actions = $integrationDetails->actions;
+        $groupIds = $integrationDetails->group_ids ?? '';
+        $fieldMap = $integrationDetails->field_map ?? '';
+        $type = $integrationDetails->mailer_lite_type ?? '';
+        $actions = $integrationDetails->actions ?? '';
+        $action = $integrationDetails->action ?? '';
 
         if (
             empty($fieldMap)
@@ -210,7 +211,8 @@ class MailerLiteController
             $type,
             $fieldValues,
             $fieldMap,
-            $auth_token
+            $auth_token,
+            $action
         );
 
         if (is_wp_error($mailerliteApiResponse)) {

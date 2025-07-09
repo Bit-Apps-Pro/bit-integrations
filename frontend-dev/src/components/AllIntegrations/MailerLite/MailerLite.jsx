@@ -35,6 +35,7 @@ function MailerLite({ formFields, setFlow, flow, allIntegURL }) {
     mailerLiteFields: [],
     groups: [],
     group_ids: [],
+    actions: {},
     action: ''
   })
 

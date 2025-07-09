@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\MailerLite;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -59,7 +59,7 @@ class RecordApiHelper
 
         $response = HttpHelper::get($apiEndpoints, null, $this->_defaultHeader);
 
-        return !empty($response->data);
+        return $response->data->id ?? false;
     }
 
     public function enableDoubleOptIn($auth_token)
@@ -126,6 +126,32 @@ class RecordApiHelper
         return HttpHelper::post($apiEndpoint, $requestParams, $this->_defaultHeader);
     }
 
+    public function deleteSubscriber($auth_token, $finalData)
+    {
+        if (empty($finalData['email'])) {
+            return [
+                'success' => false,
+                'message' => __('Required field Email is empty', 'bit-integrations'),
+                'code'    => 400
+            ];
+        }
+
+        // $isMailerLiteV2 = $this->_baseUrl === 'https://connect.mailerlite.com/api/';
+        $subscriberId = $this->existSubscriber($auth_token, $finalData['email']);
+
+        if (empty($subscriberId)) {
+            return [
+                'success' => false,
+                'message' => __('Subscriber not exist', 'bit-integrations'),
+                'code'    => 400
+            ];
+        }
+
+        $apiEndpoint = $this->_baseUrl . 'subscribers/' . $subscriberId;
+
+        return HttpHelper::request($apiEndpoint, 'DELETE', $finalData, $this->_defaultHeader);
+    }
+
     public function generateReqDataFromFieldMap($data, $fieldMap)
     {
         $dataFinal = [];
@@ -148,16 +174,31 @@ class RecordApiHelper
         $type,
         $fieldValues,
         $fieldMap,
-        $auth_token
+        $auth_token,
+        $action
     ) {
         $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
-        $apiResponse = $this->addSubscriber($auth_token, $groupId, $type, $finalData);
 
-        if (isset($apiResponse->data->id) || isset($apiResponse->id)) {
-            $res = ['success' => true, 'message' => isset($apiResponse->update) ? __('Subscriber updated successfully', 'bit-integrations') : __('Subscriber created successfully', 'bit-integrations'), 'code' => 200];
-            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'subscriber', 'type_name' => 'add-subscriber']), 'success', wp_json_encode($res));
+        switch ($action) {
+            case 'delete_subscriber':
+                $apiResponse = $this->deleteSubscriber($auth_token, $finalData);
+                $typeName = 'delete-subscriber';
+                $res = ['success' => true, 'message' => __('Subscriber deleted successfully', 'bit-integrations'), 'code' => 200];
+
+                break;
+
+            default:
+                $apiResponse = $this->addSubscriber($auth_token, $groupId, $type, $finalData);
+                $typeName = 'add-subscriber';
+                $res = ['success' => true, 'message' => isset($apiResponse->update) ? __('Subscriber updated successfully', 'bit-integrations') : __('Subscriber created successfully', 'bit-integrations'), 'code' => 200];
+
+                break;
+        }
+
+        if (isset($apiResponse->data->id) || isset($apiResponse->id) || str_starts_with((string) HttpHelper::$responseCode, '20')) {
+            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'subscriber', 'type_name' => $typeName]), 'success', wp_json_encode($res));
         } else {
-            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'subscriber', 'type_name' => 'add-subscriber']), 'error', wp_json_encode($apiResponse));
+            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'subscriber', 'type_name' => $typeName]), 'error', wp_json_encode($apiResponse));
         }
 
         return $apiResponse;
