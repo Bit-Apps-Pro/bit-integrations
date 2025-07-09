@@ -2,25 +2,20 @@
 import toast from 'react-hot-toast'
 import { __ } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
+import { create } from 'mutative'
 
-export const handleInput = (
-  e,
-  mailerLiteConf,
-  setMailerLiteConf,
-  setLoading,
-  setSnackbar,
-  isNew,
-  error,
-  setError
-) => {
-  const newConf = { ...mailerLiteConf }
-  const { name } = e.target
-  if (e.target.value !== '') {
-    newConf[name] = e.target.value
-  } else {
-    delete newConf[name]
-  }
-  setMailerLiteConf({ ...newConf })
+export const handleInput = (e, mailerLiteConf, setMailerLiteConf, loading, setLoading) => {
+  const { name, value } = e.target
+
+  setMailerLiteConf(prev =>
+    create(prev, draftConf => {
+      draftConf[name] = value
+
+      if (name === 'action' && value !== '') {
+        mailerliteRefreshFields(draftConf, setMailerLiteConf, loading, setLoading)
+      }
+    })
+  )
 }
 
 export const generateMappedField = mailerLiteConf => {
@@ -48,15 +43,13 @@ export const checkMappedFields = mailerLiteConf => {
   return true
 }
 
-export const authorization = (confTmp, setError, setIsAuthorized, loading, setLoading) => {
+export const authorization = (confTmp, setIsAuthorized, loading, setLoading) => {
   if (!confTmp.auth_token) {
-    setError({
-      auth_token: !confTmp.auth_token ? __("API Key can't be empty", 'bit-integrations') : ''
-    })
+    toast.error(__("API Key can't be empty", 'bit-integrations'))
 
     return
   }
-  setError({})
+
   setLoading({ ...loading, auth: true })
 
   const requestParams = {
@@ -79,26 +72,35 @@ export const authorization = (confTmp, setError, setIsAuthorized, loading, setLo
   })
 }
 
-export const mailerliteRefreshFields = (
-  confTmp,
-  setConf,
-  setError,
-  setIsAuthorized,
-  loading,
-  setLoading,
-  type
-) => {
+export const mailerliteRefreshFields = (confTmp, setConf, loading, setLoading) => {
   if (!confTmp.auth_token) {
-    setError({
-      auth_token: !confTmp.auth_token ? __("API Key can't be empty", 'bit-integrations') : ''
-    })
+    toast.error(__("API Key can't be empty", 'bit-integrations'))
+
     return
   }
-  setError({})
-  if (type === 'authorization') {
-    setLoading({ ...loading, auth: true })
-  } else {
-    setLoading({ ...loading, field: true })
+
+  setLoading({ ...loading, field: true })
+
+  if (confTmp?.action !== 'add_subscriber') {
+    setLoading({ ...loading, field: false })
+
+    setConf(prev =>
+      create(prev, draftConf => {
+        draftConf.mailerLiteFields = [
+          {
+            key: 'email',
+            label: 'Email',
+            required: true
+          }
+        ]
+
+        draftConf.field_map = generateMappedField(draftConf)
+      })
+    )
+
+    toast.success(__('Fields refresh successfully', 'bit-integrations'))
+
+    return
   }
 
   const requestParams = {
@@ -107,29 +109,22 @@ export const mailerliteRefreshFields = (
   }
 
   bitsFetch(requestParams, 'mailerlite_refresh_fields').then(result => {
+    setLoading({ ...loading, field: false })
+
     if (result && result.success) {
-      const newConf = { ...confTmp }
-      if (result.data) {
-        newConf.mailerLiteFields = result.data
-      }
-      setConf(newConf)
-      setIsAuthorized(true)
-      if (type === 'authorization') {
-        setLoading({ ...loading, auth: false })
-        toast.success(__('Authorized Successfully', 'bit-integrations'))
-      } else {
-        setLoading({ ...loading, field: false })
-        toast.success(__('Fields refresh successfully', 'bit-integrations'))
-      }
+      setConf(prev =>
+        create(prev, draftConf => {
+          draftConf.mailerLiteFields = result.data
+          draftConf.field_map = generateMappedField(draftConf)
+        })
+      )
+
+      toast.success(__('Fields refresh successfully', 'bit-integrations'))
+
       return
     }
-    if (type === 'authorization') {
-      setLoading({ ...loading, auth: false })
-      toast.error(__('Authorized failed', 'bit-integrations'))
-    } else {
-      setLoading({ ...loading, field: false })
-      toast.error(__('Fields refresh failed', 'bit-integrations'))
-    }
+
+    toast.error(__('Fields refresh failed', 'bit-integrations'))
   })
 }
 

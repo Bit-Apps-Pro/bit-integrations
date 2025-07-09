@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-expressions */
 import { useState } from 'react'
 import { __ } from '../../../Utils/i18nwrap'
+import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import LoaderSm from '../../Loaders/LoaderSm'
 import Note from '../../Utilities/Note'
-import { authorization, mailerliteRefreshFields } from './MailerLiteCommonFunc'
-import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
+import { authorization } from './MailerLiteCommonFunc'
 
 export default function MailerLiteAuthorization({
   mailerLiteConf,
@@ -42,6 +42,7 @@ export default function MailerLiteAuthorization({
     setError(rmError)
     setMailerLiteConf(newConf)
   }
+
   const note = `
     <h4>${__('Step of generate API token:', 'bit-integrations')}</h4>
     <ul>
@@ -135,7 +136,7 @@ export default function MailerLiteAuthorization({
       {!isInfo && (
         <div>
           <button
-            onClick={() => authorization(mailerLiteConf, setError, setIsAuthorized, loading, setLoading)}
+            onClick={() => authorization(mailerLiteConf, setIsAuthorized, loading, setLoading)}
             className="btn btcd-btn-lg purple sh-sm flx"
             type="button"
             disabled={
