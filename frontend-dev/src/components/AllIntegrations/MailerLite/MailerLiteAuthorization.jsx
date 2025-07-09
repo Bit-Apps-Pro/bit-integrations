@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { __ } from '../../../Utils/i18nwrap'
 import LoaderSm from '../../Loaders/LoaderSm'
 import Note from '../../Utilities/Note'
-import { mailerliteRefreshFields } from './MailerLiteCommonFunc'
+import { authorization, mailerliteRefreshFields } from './MailerLiteCommonFunc'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 
@@ -17,7 +17,7 @@ export default function MailerLiteAuthorization({
   setSnackbar,
   isInfo
 }) {
-  const [isAuthorized, setisAuthorized] = useState(false)
+  const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', auth_token: '' })
   const { mailerLite } = tutorialLinks
 
@@ -34,7 +34,7 @@ export default function MailerLiteAuthorization({
     !mailerLiteConf?.default
     setstep(2)
   }
-  const handleInput = (e) => {
+  const handleInput = e => {
     const newConf = { ...mailerLiteConf }
     const rmError = { ...error }
     rmError[e.target.name] = ''
@@ -135,17 +135,7 @@ export default function MailerLiteAuthorization({
       {!isInfo && (
         <div>
           <button
-            onClick={() =>
-              mailerliteRefreshFields(
-                mailerLiteConf,
-                setMailerLiteConf,
-                setError,
-                setisAuthorized,
-                loading,
-                setLoading,
-                'authorization'
-              )
-            }
+            onClick={() => authorization(mailerLiteConf, setError, setIsAuthorized, loading, setLoading)}
             className="btn btcd-btn-lg purple sh-sm flx"
             type="button"
             disabled={

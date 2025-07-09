@@ -23,20 +23,20 @@ export const handleInput = (
   setMailerLiteConf({ ...newConf })
 }
 
-export const generateMappedField = (mailerLiteConf) => {
-  const requiredFlds = mailerLiteConf?.mailerLiteFields.filter((fld) => fld.required === true)
+export const generateMappedField = mailerLiteConf => {
+  const requiredFlds = mailerLiteConf?.mailerLiteFields.filter(fld => fld.required === true)
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({
+    ? requiredFlds.map(field => ({
         formField: '',
         mailerLiteFormField: field.key
       }))
     : [{ formField: '', mailerLiteFormField: '' }]
 }
 
-export const checkMappedFields = (mailerLiteConf) => {
+export const checkMappedFields = mailerLiteConf => {
   const mappedFields = mailerLiteConf?.field_map
     ? mailerLiteConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField ||
           !mappedField.mailerLiteFormField ||
           (!mappedField.formField === 'custom' && !mappedField.customValue)
@@ -47,11 +47,43 @@ export const checkMappedFields = (mailerLiteConf) => {
   }
   return true
 }
+
+export const authorization = (confTmp, setError, setIsAuthorized, loading, setLoading) => {
+  if (!confTmp.auth_token) {
+    setError({
+      auth_token: !confTmp.auth_token ? __("API Key can't be empty", 'bit-integrations') : ''
+    })
+
+    return
+  }
+  setError({})
+  setLoading({ ...loading, auth: true })
+
+  const requestParams = {
+    auth_token: confTmp.auth_token,
+    version: confTmp.version
+  }
+
+  bitsFetch(requestParams, 'mailerlite_authorization').then(result => {
+    setLoading({ ...loading, auth: false })
+
+    if (result && result.success) {
+      setIsAuthorized(true)
+
+      toast.success(__('Authorized Successfully', 'bit-integrations'))
+
+      return
+    }
+
+    toast.error(__('Authorized failed', 'bit-integrations'))
+  })
+}
+
 export const mailerliteRefreshFields = (
   confTmp,
   setConf,
   setError,
-  setisAuthorized,
+  setIsAuthorized,
   loading,
   setLoading,
   type
@@ -74,14 +106,14 @@ export const mailerliteRefreshFields = (
     version: confTmp.version
   }
 
-  bitsFetch(requestParams, 'mailerlite_refresh_fields').then((result) => {
+  bitsFetch(requestParams, 'mailerlite_refresh_fields').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
         newConf.mailerLiteFields = result.data
       }
       setConf(newConf)
-      setisAuthorized(true)
+      setIsAuthorized(true)
       if (type === 'authorization') {
         setLoading({ ...loading, auth: false })
         toast.success(__('Authorized Successfully', 'bit-integrations'))
@@ -109,7 +141,7 @@ export const getAllGroups = (confTmp, setConf, loding, setLoading) => {
     version: confTmp.version
   }
 
-  bitsFetch(requestParams, 'mailerlite_fetch_all_groups').then((result) => {
+  bitsFetch(requestParams, 'mailerlite_fetch_all_groups').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
