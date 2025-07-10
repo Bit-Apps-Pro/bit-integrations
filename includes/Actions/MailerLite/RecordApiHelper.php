@@ -157,11 +157,9 @@ class RecordApiHelper
             ];
         }
 
-        $apiEndpoint = $forget
-            ? $this->_baseUrl . 'subscribers/' . $subscriberId . '/forget'
-            : $this->_baseUrl . 'subscribers/' . $subscriberId;
+        $response = apply_filters('btcbi_mailerlite_delete_subscriber', false, $subscriberId, $finalData, $this->_baseUrl, $this->_defaultHeader, $forget);
 
-        return HttpHelper::request($apiEndpoint, $forget ? 'POST' : 'DELETE', $finalData, $this->_defaultHeader);
+        return $response ? $response : (object) ['success' => false, 'message' => __('Bit Integrations Pro is required.', 'bit-integrations'), 'code' => 400];
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)

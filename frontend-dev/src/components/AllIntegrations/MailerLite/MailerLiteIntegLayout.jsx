@@ -6,6 +6,9 @@ import MailerLiteActions from './MailerLiteActions'
 import { mailerliteRefreshFields } from './MailerLiteCommonFunc'
 import { useState } from 'react'
 import Note from '../../Utilities/Note'
+import { useRecoilValue } from 'recoil'
+import { $btcbi } from '../../../GlobalStates'
+import { getProLabel } from '../../Utilities/ProUtilHelpers'
 
 export default function MailerLiteIntegLayout({
   formFields,
@@ -16,8 +19,8 @@ export default function MailerLiteIntegLayout({
   setLoading,
   setSnackbar
 }) {
-  const [error, setError] = useState({ name: '', auth_token: '' })
-  const [isAuthorized, setisAuthorized] = useState(false)
+  const btcbi = useRecoilValue($btcbi)
+  const { isPro } = btcbi
 
   return (
     <>
@@ -35,14 +38,18 @@ export default function MailerLiteIntegLayout({
         <option
           value="delete_subscriber"
           data-action_name="delete_subscriber"
-          disabled={mailerLiteConf.mailer_lite_type === 'v1'}>
-          {__('Delete subscriber', 'bit-integrations')}
+          disabled={mailerLiteConf.mailer_lite_type === 'v1' || !isPro}>
+          {isPro
+            ? __('Delete subscriber', 'bit-integrations')
+            : getProLabel(__('Delete subscriber', 'bit-integrations'))}
         </option>
         <option
           value="forget_subscriber"
           data-action_name="forget_subscriber"
-          disabled={mailerLiteConf.mailer_lite_type === 'v1'}>
-          {__('Forget subscriber', 'bit-integrations')}
+          disabled={mailerLiteConf.mailer_lite_type === 'v1' || !isPro}>
+          {isPro
+            ? __('Forget subscriber', 'bit-integrations')
+            : getProLabel(__('Forget subscriber', 'bit-integrations'))}
         </option>
       </select>
 
