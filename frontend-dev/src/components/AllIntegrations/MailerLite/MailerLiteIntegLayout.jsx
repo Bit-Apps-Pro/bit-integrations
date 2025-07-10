@@ -32,8 +32,17 @@ export default function MailerLiteIntegLayout({
         <option value="add_subscriber" data-action_name="add_subscriber">
           {__('Add Subscriber', 'bit-integrations')}
         </option>
-        <option value="delete_subscriber" data-action_name="delete_subscriber">
+        <option
+          value="delete_subscriber"
+          data-action_name="delete_subscriber"
+          disabled={mailerLiteConf.mailer_lite_type === 'v1'}>
           {__('Delete subscriber', 'bit-integrations')}
+        </option>
+        <option
+          value="forget_subscriber"
+          data-action_name="forget_subscriber"
+          disabled={mailerLiteConf.mailer_lite_type === 'v1'}>
+          {__('Forget subscriber', 'bit-integrations')}
         </option>
       </select>
 

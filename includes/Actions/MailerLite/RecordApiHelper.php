@@ -129,7 +129,7 @@ class RecordApiHelper
         return HttpHelper::post($apiEndpoint, $requestParams, $this->_defaultHeader);
     }
 
-    public function deleteSubscriber($auth_token, $finalData)
+    public function deleteSubscriber($auth_token, $finalData, $forget = false)
     {
         if (!$this->_isMailerLiteV2) {
             return [
@@ -157,9 +157,11 @@ class RecordApiHelper
             ];
         }
 
-        $apiEndpoint = $this->_baseUrl . 'subscribers/' . $subscriberId;
+        $apiEndpoint = $forget
+            ? $this->_baseUrl . 'subscribers/' . $subscriberId . '/forget'
+            : $this->_baseUrl . 'subscribers/' . $subscriberId;
 
-        return HttpHelper::request($apiEndpoint, 'DELETE', $finalData, $this->_defaultHeader);
+        return HttpHelper::request($apiEndpoint, $forget ? 'POST' : 'DELETE', $finalData, $this->_defaultHeader);
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
@@ -194,6 +196,13 @@ class RecordApiHelper
                 $apiResponse = $this->deleteSubscriber($auth_token, $finalData);
                 $typeName = 'delete-subscriber';
                 $res = ['success' => true, 'message' => __('Subscriber deleted successfully', 'bit-integrations'), 'code' => 200];
+
+                break;
+
+            case 'forget_subscriber':
+                $apiResponse = $this->deleteSubscriber($auth_token, $finalData, true);
+                $typeName = 'forget-subscriber';
+                $res = $apiResponse->message ?? wp_json_encode($apiResponse);
 
                 break;
 
