@@ -7,15 +7,15 @@ import { create } from 'mutative'
 export const handleInput = (e, mailerLiteConf, setMailerLiteConf, loading, setLoading) => {
   const { name, value } = e.target
 
-  setMailerLiteConf(prev =>
-    create(prev, draftConf => {
-      draftConf[name] = value
+  const updatedConf = create(mailerLiteConf, draftConf => {
+    draftConf[name] = value
+  })
 
-      if (name === 'action' && value !== '') {
-        mailerliteRefreshFields(draftConf, setMailerLiteConf, loading, setLoading)
-      }
-    })
-  )
+  setMailerLiteConf(updatedConf)
+
+  if (name === 'action' && value !== '') {
+    mailerliteRefreshFields(updatedConf, setMailerLiteConf, loading, setLoading)
+  }
 }
 
 export const generateMappedField = mailerLiteConf => {

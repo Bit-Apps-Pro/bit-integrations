@@ -25,10 +25,14 @@ class RecordApiHelper
 
     private $_actions;
 
+    private $_isMailerLiteV2;
+
     public function __construct($auth_token, $integrationDetails, $integId, $actions, $version)
     {
         $this->_integrationDetails = $integrationDetails;
         $this->_integrationID = $integId;
+        $this->_isMailerLiteV2 = (bool) ('v2' === $version);
+
         if ('v2' === $version) {
             $this->_baseUrl = 'https://connect.mailerlite.com/api/';
             $this->_defaultHeader = [
@@ -94,10 +98,9 @@ class RecordApiHelper
 
         $email = $finalData['email'];
         $splitGroupIds = !empty($groupIds) ? explode(',', $groupIds) : [];
-        $isMailerLiteV2 = $this->_baseUrl === 'https://connect.mailerlite.com/api/';
         $apiEndpoint = $this->_baseUrl . 'subscribers';
 
-        $requestParams = self::prepareRequestParams($finalData, $type, $isMailerLiteV2);
+        $requestParams = self::prepareRequestParams($finalData, $type, $this->_isMailerLiteV2);
 
         $isExist = $this->existSubscriber($auth_token, $email);
         $response = null;
@@ -110,10 +113,10 @@ class RecordApiHelper
             ];
         }
 
-        self::handleDoubleOptIn($this, $auth_token, $requestParams, $isMailerLiteV2);
+        self::handleDoubleOptIn($this, $auth_token, $requestParams, $this->_isMailerLiteV2);
 
         if (!empty($splitGroupIds)) {
-            return self::sendToGroups($this, $splitGroupIds, $requestParams, $isMailerLiteV2);
+            return self::sendToGroups($this, $splitGroupIds, $requestParams, $this->_isMailerLiteV2);
         }
 
         if ($isExist) {
@@ -128,6 +131,14 @@ class RecordApiHelper
 
     public function deleteSubscriber($auth_token, $finalData)
     {
+        if (!$this->_isMailerLiteV2) {
+            return [
+                'success' => false,
+                'message' => __('This action is not supported for Classic accounts.', 'bit-integrations'),
+                'code'    => 400
+            ];
+        }
+
         if (empty($finalData['email'])) {
             return [
                 'success' => false,
@@ -136,7 +147,6 @@ class RecordApiHelper
             ];
         }
 
-        // $isMailerLiteV2 = $this->_baseUrl === 'https://connect.mailerlite.com/api/';
         $subscriberId = $this->existSubscriber($auth_token, $finalData['email']);
 
         if (empty($subscriberId)) {

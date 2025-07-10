@@ -5,6 +5,7 @@ import MailerLiteFieldMap from './MailerLiteFieldMap'
 import MailerLiteActions from './MailerLiteActions'
 import { mailerliteRefreshFields } from './MailerLiteCommonFunc'
 import { useState } from 'react'
+import Note from '../../Utilities/Note'
 
 export default function MailerLiteIntegLayout({
   formFields,
@@ -102,6 +103,8 @@ export default function MailerLiteIntegLayout({
         </>
       )}
 
+      {mailerLiteConf?.action && mailerLiteConf?.action !== 'add_subscriber' && <Note note={note} />}
+
       {mailerLiteConf?.action && mailerLiteConf?.action === 'add_subscriber' && (
         <>
           <div className="mt-4">
@@ -120,3 +123,7 @@ export default function MailerLiteIntegLayout({
     </>
   )
 }
+
+const note = `
+    <p>${__('This action requires a MailerLite New account. It isn’t supported with Classic accounts.', 'bit-integrations')}</p>
+  `
