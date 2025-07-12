@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '2nd July 2025'
+const releaseDate = '12th July 2025'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -25,7 +25,13 @@ const changeLog = [
     label: __('New Actions', 'bit-integrations'),
     headClass: 'new-integration',
     itemClass: 'integration-list',
-    items: []
+    items: [
+      {
+        label: 'MailerLite',
+        desc: '2 new events added',
+        isPro: true
+      }
+    ]
   },
   {
     label: __('New Triggers', 'bit-integrations'),
@@ -33,8 +39,8 @@ const changeLog = [
     itemClass: 'integration-list',
     items: [
       {
-        label: 'WPSubscription',
-        desc: '2 new events added',
+        label: 'Amelia Booking',
+        desc: '1 new events added',
         isPro: true
       }
     ]
@@ -45,14 +51,9 @@ const changeLog = [
     itemClass: 'feature-list',
     items: [
       {
-        label: 'Salesforce',
-        desc: 'Added new Salesforce utilities for Lead Status, Lead Source, Rating, Industry',
-        isPro: true
-      },
-      {
-        label: 'WP Post Creation',
-        desc: 'Added support for assigning tags to posts',
-        isPro: true
+        label: 'Bit Form (Trigger)',
+        desc: 'Uploaded files data are now captured and accessible via actions.',
+        isPro: false
       }
     ]
   },
@@ -60,7 +61,13 @@ const changeLog = [
     label: __('Improvements', 'bit-integrations'),
     headClass: 'new-improvement',
     itemClass: 'feature-list',
-    items: []
+    items: [
+      {
+        label: 'Encharge',
+        desc: 'Tag insertion now intelligently combines with existing tags instead of overwriting them.',
+        isPro: false
+      }
+    ]
   },
   {
     label: __('Bug Fixes', 'bit-integrations'),
@@ -68,23 +75,23 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'Campaign Monitor',
-        desc: 'Resolved an issue with custom field mapping.',
+        label: 'Translation (WP 6.7+)',
+        desc: 'Fixed issue with loading notice translations in the latest WordPress version.',
         isPro: false
       },
       {
-        label: 'WooCommerce (Trigger)',
-        desc: 'Fixed a bug where the "Order Created" trigger was not properly initializing when an order was created in action.',
+        label: 'MailerLite',
+        desc: 'Fixed an issue where existing subscribers were not being handled correctly.',
         isPro: false
       },
       {
-        label: 'Flowlu',
-        desc: 'Addressed and fixed the issue with custom field handling.',
+        label: 'Salesforce',
+        desc: 'Resolved the redirect URL issue during authentication or callback.',
         isPro: false
       },
       {
-        label: 'wpLoyalty',
-        desc: 'Fixed the issue with accessing order data.',
+        label: 'Webhook',
+        desc: 'Fixed an issue with JSON body parameters in webhook payloads.',
         isPro: true
       }
     ]
