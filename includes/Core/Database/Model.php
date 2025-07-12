@@ -150,7 +150,12 @@ class Model
                 return new WP_Error('db_error', $this->app_db->last_error);
             }
 
-            return new WP_Error('db_error', __('Result is empty', 'bit-integrations'));
+            return new WP_Error(
+                'db_error',
+                (\function_exists('is_textdomain_loaded') && is_textdomain_loaded('bit-integrations'))
+                    ? __('Result is empty', 'bit-integrations')
+                    : 'Result is empty'
+            );
         }
 
         return $this->app_db->last_result;
@@ -467,9 +472,11 @@ class Model
     protected function getResult($db_response = null)
     {
         $db_response = !empty($this->db_response) ? $this->db_response : $db_response;
+
         if (!empty($this->app_db->last_error)) {
             return new WP_Error('db_error', $this->app_db->last_error);
         }
+
         if (!$db_response) {
             if ($this->app_db->num_rows > 0) {
                 $response = $this->app_db->num_rows;
@@ -477,7 +484,13 @@ class Model
             if (is_wp_error($db_response)) {
                 $response = $db_response;
             }
-            $response = new WP_Error('result_empty', __('Result is empty', 'bit-integrations'));
+
+            $response = new WP_Error(
+                'result_empty',
+                (\function_exists('is_textdomain_loaded') && is_textdomain_loaded('bit-integrations'))
+                    ? __('Result is empty', 'bit-integrations')
+                    : 'Result is empty'
+            );
         } elseif (\is_array($this->app_db->last_result) && !empty($this->app_db->last_result)) {
             $response = $this->app_db->last_result;
         } elseif ($this->app_db->insert_id) {
@@ -485,6 +498,7 @@ class Model
         } else {
             $response = $db_response;
         }
+
         $this->app_db->flush();
 
         return $response;

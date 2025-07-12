@@ -4,7 +4,7 @@ Tags: automation, automator, Google Sheets, webhooks, zapier, marketing automati
 Requires at least: 5.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.6.3
+Stable tag: 2.6.4
 License: GPLv2 or later
 
 Perfect Automation and integration plugin: Connect 290+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
@@ -699,6 +699,27 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 6. All integration list
 
 == Changelog ==
+
+= 2.6.4 =
+_Release Date -12th july 2025_
+
+- **New Triggers**
+ - Amelia Booking: 1 New Events Added (Pro).
+
+- **New Actions**
+ - MailerLite: 2 New Events Added (Pro).
+
+- **New Feature**
+ - Bit Form: Uploaded files data are now captured and accessible via actions.
+
+- **New Improvement**
+ - Encharge: Tag insertion now intelligently combines with existing tags instead of overwriting them.
+
+- **Bug Fixes**
+ - Translation (WP 6.7+): Fixed issue with loading notice translations in the latest WordPress version.
+ - MailerLite: Fixed an issue where existing subscribers were not being handled correctly.
+ - Salesforce: Resolved the redirect URL issue during authentication or callback.
+ - Webhook: Fixed an issue with JSON body parameters in webhook payloads (pro).
 
 = 2.6.3 =
 _Release Date -2nd july 2025_
