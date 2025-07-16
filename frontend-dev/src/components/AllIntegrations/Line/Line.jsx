@@ -100,7 +100,7 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
         switch (lineConf.messageType) {
           case 'sendPushMessage':
           case 'sendBroadcastMessage':
-            return !!lineConf.recipientId
+            return !!lineConf.message
           case 'sendReplyMessage':
             return !!lineConf.replyToken
           default:
@@ -119,7 +119,7 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
       case 'sendPushMessage':
         return !!lineConf.recipientId
       case 'sendBroadcastMessage':
-        return !!lineConf.recipientId
+        return !!lineConf.message
       case 'sendReplyMessage':
         return !!lineConf.replyToken
       default:

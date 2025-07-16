@@ -34,17 +34,21 @@ class RecordApiHelper
         switch ($type) {
             case 'sendReplyMessage':
                 $data['replyToken'] = $integrationDetails->replyToken ?? '';
+                error_log(print_r($data, true));
                 $response = $this->sendReplyMessage(json_encode($data));
 
                 break;
             case 'sendBroadcastMessage':
-                $data['to'] = $integrationDetails->recipientId ?? '';
+                error_log(print_r($data, true));
                 $response = $this->sendBroadcastMessage(json_encode($data));
+                error_log(print_r($response, true));
 
                 break;
             default:
                 $data['to'] = $integrationDetails->recipientId ?? '';
+                error_log(print_r($data, true));
                 $response = $this->sendPushMessage(json_encode($data));
+                error_log(print_r($response, true));
         }
         $response = \is_string($response) ? json_decode($response) : $response;
         $status = (!isset($response->error)) ? 'success' : 'error';
@@ -54,7 +58,7 @@ class RecordApiHelper
         return $response;
     }
 
-    private function buildMessages($details, $values): array
+    private function buildMessages($details, $values)
     {
         $messages = [];
 
@@ -62,32 +66,32 @@ class RecordApiHelper
             $messages[] = $this->buildTextMessage($details, $values);
         }
 
-        if (!empty($details->sticker_field_map)) {
+        if (!empty($details->sendSticker) && !empty($details->sticker_field_map)) {
             $messages[] = $this->buildStickerMessage($details->sticker_field_map, $values);
         }
 
-        if (!empty($details->image_field_map)) {
+        if (!empty($details->sendImage) && !empty($details->image_field_map)) {
             $image = $this->buildImageMessage($details->image_field_map, $values);
             if ($image) {
                 $messages[] = $image;
             }
         }
 
-        if (!empty($details->audio_field_map)) {
+        if (!empty($details->sendAudio) && !empty($details->audio_field_map)) {
             $audio = $this->buildAudioMessage($details->audio_field_map, $values);
             if ($audio) {
                 $messages[] = $audio;
             }
         }
 
-        if (!empty($details->video_field_map)) {
+        if (!empty($details->sendVideo) && !empty($details->video_field_map)) {
             $video = $this->buildVideoMessage($details->video_field_map, $values);
             if ($video) {
                 $messages[] = $video;
             }
         }
 
-        if (!empty($details->location_field_map)) {
+        if (!empty($details->sendLocation) && !empty($details->location_field_map)) {
             $location = $this->buildLocationMessage($details->location_field_map, $values);
             if ($location) {
                 $messages[] = $location;
@@ -101,7 +105,7 @@ class RecordApiHelper
     {
         $message = ['type' => 'text', 'text' => $details->message];
 
-        if (!empty($details->emojis_field_map)) {
+        if (!empty($details->sendEmojis) && !empty($details->emojis_field_map)) {
             $emoji = $this->mapFields($values, $details->emojis_field_map);
             if ($emoji['emojis_id'] ?? false) {
                 $message['emojis'] = [[
@@ -205,7 +209,7 @@ class RecordApiHelper
 
     private function handleFilterResponse($response)
     {
-        if (isset($response->messages[0]->id) || isset($response->error) || is_wp_error($response)) {
+        if (isset($response->message) || isset($response->error) || is_wp_error($response)) {
             return $response;
         }
 

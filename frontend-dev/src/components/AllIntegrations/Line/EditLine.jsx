@@ -26,9 +26,9 @@ function EditLine({ allIntegURL }) {
   const isNextButtonEnabled = () => {
     switch (lineConf.messageType) {
       case 'sendPushMessage':
-         return !!lineConf.recipientId
-      case 'sendBroadcastMessage':
         return !!lineConf.recipientId
+      case 'sendBroadcastMessage':
+        return !!lineConf.message
       case 'sendReplyMessage':
         return !!lineConf.replyToken
       default:

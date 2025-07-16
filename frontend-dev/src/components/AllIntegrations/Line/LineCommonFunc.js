@@ -119,10 +119,16 @@ export const handleFieldMapping = (event, index, conftTmp, setConf, type) => {
 
 export const delFieldMap = (i, confTmp, setConf, type) => {
   const newConf = { ...confTmp }
-  if (newConf[type].length > 1) {
-    newConf[type].splice(i, 1)
+  const fieldMap = newConf[type]
+  if (fieldMap.length > 1) {
+    const groupId = fieldMap[i]?.groupId
+    if (groupId) {
+      newConf[type] = fieldMap.filter(f => f.groupId !== groupId)
+    } else {
+      fieldMap.splice(i, 1)
+      newConf[type] = fieldMap
+    }
   }
-
   setConf({ ...newConf })
 }
 
@@ -147,15 +153,13 @@ export const generateMappedField = fields => {
 
 export const addFieldMap = (i, confTmp, setConf, FieldMappings, mapKey) => {
   const newConf = { ...confTmp }
-
-  const nextField = FieldMappings[i % FieldMappings.length]
-
+  // Generate a unique groupId for this batch
+  const groupId = Date.now() + Math.random()
   const newFieldMap = FieldMappings.map(field => ({
     formField: '',
-    lineFormField: field.value
+    lineFormField: field.value,
+    groupId
   }))
-
   newConf[mapKey].splice(i, 0, ...newFieldMap)
-
   setConf({ ...newConf })
 }
