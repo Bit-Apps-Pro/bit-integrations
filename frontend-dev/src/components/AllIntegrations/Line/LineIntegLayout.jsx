@@ -13,20 +13,8 @@ import LineUtilities from './LineActions'
 import { addFieldMap } from './LineCommonFunc'
 import AddFieldButton from './AddFieldButton'
 
-const textMsgNote = `<p>${__('To ensure successful message delivery using the Line Business API:', 'bit-integrations')}</p>
-            <ul>
-                <li><strong>${__('The conversation must be initiated by the user.', 'bit-integrations')}</strong></li>
-                <li>${__("To begin, <strong>send a message from your Line number to the recipient's number.</strong>", 'bit-integrations')}</li>
-                <li>${__('Once the user has started the conversation, you can continue to communicate with the recipient normally.', 'bit-integrations')}</li>
-            </ul>`
 
-const emojiHelpNote = `<p>${__('How to set Emoji Position:', 'bit-integrations')}</p>
-            <ul>
-                <li>${__('The position is a 0-based index indicating where the emoji will appear in the text.', 'bit-integrations')}</li>
-                <li>${__('Example: For text "Hello 👋 World", position 6 would place the emoji after "Hello " (6 characters).', 'bit-integrations')}</li>
-                <li>${__('Use 0 to place emoji at the beginning, or a number up to the text length to place at the end.', 'bit-integrations')}</li>
-                <li>${__('Newlines (\\n) count as 1 character each.', 'bit-integrations')}</li>
-            </ul>`
+
 
 export default function LineIntegLayout({ formFields, lineConf, setLineConf, isLoading }) {
   const textAreaRef = useRef(null)

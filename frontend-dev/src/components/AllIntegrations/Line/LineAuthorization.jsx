@@ -37,13 +37,15 @@ export default function LineAuthorization({
     setLineConf(newConf)
   }
 
-  const lineInstructions = `
-            <h4>${__('Get Access Token few step', 'bit-integrations')}</h4>
-            <ul>
-                <li>${__('First create app.', 'bit-integrations')}</li>
-                <li>${__("Add an OAuth Scope <b>'channels:read, channels:write, chat:write, files:read, files:write'</b>.", 'bit-integrations')}</li>
-                <li>${__("Generate Access Token clicking <b> 'install to Workspace'</b>.", 'bit-integrations')}</li>
-            </ul>`
+ const lineAccessTokenNote = `<h2>${__('To get your Line access token:', 'bit-integrations')}</h2>
+     <ul>
+         <li>${__('Log in to the <a href="https://developers.line.biz/console/" target="_blank">Line Developers Console</a>.', 'bit-integrations')}</li>
+         <li>${__('Go to your provider and select the channel you want to use.', 'bit-integrations')}</li>
+         <li>${__('Navigate to the "Messaging API" tab.', 'bit-integrations')}</li>
+         <li>${__('Scroll down to the "Channel access token (long-lived)" section.', 'bit-integrations')}</li>
+         <li>${__('Click the "issue" button to generate a new token.', 'bit-integrations')}</li>
+         <li>${__('Copy the generated token — this is your Line access token.', 'bit-integrations')}</li>
+     </ul>`;
 
   return (
     <div
@@ -126,7 +128,7 @@ export default function LineAuthorization({
         </>
       )}
 
-      {/* <Note note={lineInstructions} /> */}
+      <Note note={lineAccessTokenNote} />
     </div>
   )
 }
