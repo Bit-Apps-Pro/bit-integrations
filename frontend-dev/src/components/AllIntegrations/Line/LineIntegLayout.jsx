@@ -13,9 +13,6 @@ import LineUtilities from './LineActions'
 import { addFieldMap } from './LineCommonFunc'
 import AddFieldButton from './AddFieldButton'
 
-
-
-
 export default function LineIntegLayout({ formFields, lineConf, setLineConf, isLoading }) {
   const textAreaRef = useRef(null)
   const btcbi = useRecoilValue($btcbi)
@@ -45,14 +42,6 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
     setLineConf(prevConf =>
       create(prevConf, draftConf => {
         draftConf[name] = value
-
-        if (isPro) {
-          if (name === 'messageType' && value === 'sendReplyMessage') {
-            draftConf['taskNote'] = textMsgNote
-          } else if (name === 'messageType') {
-            delete draftConf?.taskNote
-          }
-        }
       })
     )
   }
