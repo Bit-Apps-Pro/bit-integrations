@@ -164,6 +164,7 @@ const EditLMFWC = lazy(() => import('./LMFWC/EditLMFWC'))
 const EditVoxel = lazy(() => import('./Voxel/EditVoxel'))
 const EditSmartSuite = lazy(() => import('./SmartSuite/EditSmartSuite'))
 const EditBento = lazy(() => import('./Bento/EditBento'))
+const EditLine = lazy(() => import('./Line/EditLine'))
 
 const loaderStyle = {
   display: 'flex',
@@ -554,6 +555,8 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditSmartSuite allIntegURL={allIntegURL} />
     case 'Bento':
       return <EditBento allIntegURL={allIntegURL} />
+    case 'Line':
+      return <EditLine allIntegURL={allIntegURL} />
     default:
       return <Loader style={loaderStyle} />
   }

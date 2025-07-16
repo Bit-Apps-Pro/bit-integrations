@@ -163,6 +163,7 @@ const LMFWC = lazy(() => import('./LMFWC/LMFWC'))
 const Voxel = lazy(() => import('./Voxel/Voxel'))
 const SmartSuite = lazy(() => import('./SmartSuite/SmartSuite'))
 const Bento = lazy(() => import('./Bento/Bento'))
+const Line = lazy(() => import('./Line/Line'))
 
 export default function NewInteg({ allIntegURL }) {
   const { integUrlName } = useParams()
@@ -1555,6 +1556,15 @@ export default function NewInteg({ allIntegURL }) {
       case 'Bento':
         return (
           <Bento
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'Line':
+        return (
+          <Line
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
             flow={flow}
