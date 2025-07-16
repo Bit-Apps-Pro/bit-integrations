@@ -66,8 +66,7 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
     message: '',
     recipientId: '',
     type: 'Line',
-    accessToken:
-      'mH7wT8I3AyPUw4R+10mApAq9BeZaLXrOxX1zCD6iFVt4jKXaqgeJ5x6A75CoGf/bb2D0PL2W9sy4DAWSh05kAeUTNgUTPzlGwTeOeRvrsiQ+Dn5DdU8S/HrYiWQGnQfjInARHGPE+qTJB0tED1zS+gdB04t89/1O/w1cDnyilFU=',
+    accessToken: '',
     parse_mode: 'HTML',
     messageTypes,
     emojis_field_map: generateMappedField(emojisFields),

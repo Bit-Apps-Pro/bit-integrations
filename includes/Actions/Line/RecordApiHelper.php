@@ -34,16 +34,11 @@ class RecordApiHelper
         switch ($type) {
             case 'sendReplyMessage':
                 $data['replyToken'] = $integrationDetails->replyToken ?? '';
-
                 $response = $this->sendReplyMessage(json_encode($data));
-
-                error_log('again');
-                error_log(print_r($response, true));
 
                 break;
             case 'sendBroadcastMessage':
                 $data['to'] = $integrationDetails->recipientId ?? '';
-
                 $response = $this->sendBroadcastMessage(json_encode($data));
 
                 break;
@@ -99,7 +94,7 @@ class RecordApiHelper
             }
         }
 
-        return array_filter($messages);
+        return array_values(array_filter($messages));
     }
 
     private function buildTextMessage($details, $values): array
@@ -233,7 +228,6 @@ class RecordApiHelper
     private function sendReplyMessage($data)
     {
         $response = apply_filters('btcbi_line_reply_message', $data, $this->setHeaders(), $this->apiEndPoint);
-        error_log(print_r($response, true));
 
         return static::handleFilterResponse($response);
     }
@@ -241,8 +235,6 @@ class RecordApiHelper
     private function sendBroadcastMessage($data)
     {
         $response = apply_filters('btcbi_line_broadcast_message', $data, $this->setHeaders(), $this->apiEndPoint);
-         error_log(print_r($response, true));
-
 
         return static::handleFilterResponse($response);
     }
