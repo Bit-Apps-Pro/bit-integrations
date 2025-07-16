@@ -21,7 +21,7 @@ class Config
 
     public const VAR_PREFIX = 'btcbi_';
 
-    public const VERSION = '2.6.1';
+    public const VERSION = '2.6.4';
 
     public const DB_VERSION = '1.0';
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useRecoilState, useRecoilValue } from 'recoil'
-import { $actionConf, $formFields, $newFlow } from '../../../GlobalStates'
+import { $actionConf, $btcbi, $formFields, $newFlow } from '../../../GlobalStates'
 import { deepCopy } from '../../../Utils/Helpers'
 import { postFields } from '../../../Utils/StaticData/postField'
 import bitsFetch from '../../../Utils/bitsFetch'
@@ -22,6 +22,7 @@ import {
   checkMappedPostFields,
   refreshPostTypes
 } from './PostHelperFunction'
+import { ProFeatureTitle } from '../IntegrationHelpers/ActionProFeatureLabels'
 
 function Post({ allIntegURL }) {
   const [users, setUsers] = useState([])
@@ -37,6 +38,8 @@ function Post({ allIntegURL }) {
   const [mb, setMb] = useState({ fields: [], files: [] })
   const [jeCPTMeta, setJeCPTMeta] = useState({ fields: [], files: [] })
   // const [postConf, setPostConf] = useState({ ...flow.flow_details })
+  const btcbi = useRecoilValue($btcbi)
+  const { isPro } = btcbi
 
   const handleInput = (typ, val) => {
     const tmpData = { ...postConf }
@@ -45,17 +48,17 @@ function Post({ allIntegURL }) {
   }
   useEffect(() => {
     const tmpData = deepCopy({ ...postConf })
-    bitsFetch({}, 'user/list').then((res) => {
+    bitsFetch({}, 'user/list').then(res => {
       const { data } = res
       setUsers(data)
     })
 
-    bitsFetch({}, 'post-types/list').then((res) => {
+    bitsFetch({}, 'post-types/list').then(res => {
       const { data } = res
       setPostTypes(data)
     })
 
-    bitsFetch({ post_type: postConf?.post_type }, 'customfield/list').then((res) => {
+    bitsFetch({ post_type: postConf?.post_type }, 'customfield/list').then(res => {
       const { data } = res
       setAcf({ fields: data.acf_fields, files: data.acf_files })
       setMb({ fields: data.mb_fields, files: data.mb_files })
@@ -68,31 +71,31 @@ function Post({ allIntegURL }) {
   const getCustomFields = (typ, val) => {
     const tmpData = { ...postConf }
     tmpData[typ] = val
-    bitsFetch({ post_type: val }, 'customfield/list').then((res) => {
+    bitsFetch({ post_type: val }, 'customfield/list').then(res => {
       const { data } = res
       setAcf({ fields: data.acf_fields, files: data.acf_files })
       setMb({ fields: data.mb_fields, files: data.mb_files })
       setJeCPTMeta({ fields: data.je_cpt_fields, files: data.je_cpt_files })
       if (data?.acf_fields) {
         tmpData.acf_map = data.acf_fields
-          .filter((fld) => fld.required)
-          .map((fl) => ({ formField: '', acfField: fl.key, required: fl.required }))
+          .filter(fld => fld.required)
+          .map(fl => ({ formField: '', acfField: fl.key, required: fl.required }))
         if (tmpData.acf_map.length < 1) {
           tmpData.acf_map = [{}]
         }
       }
       if (data?.mb_fields) {
         tmpData.metabox_map = data.mb_fields
-          .filter((fld) => fld.required)
-          .map((fl) => ({ formField: '', metaboxField: fl.key, required: fl.required }))
+          .filter(fld => fld.required)
+          .map(fl => ({ formField: '', metaboxField: fl.key, required: fl.required }))
         if (tmpData.metabox_map.length < 1) {
           tmpData.metabox_map = [{}]
         }
       }
       if (data?.je_cpt_fields) {
         tmpData.je_cpt_meta_map = data.je_cpt_fields
-          .filter((fld) => fld.required)
-          .map((fl) => ({ formField: '', jeCPTField: fl.key, required: fl.required }))
+          .filter(fld => fld.required)
+          .map(fl => ({ formField: '', jeCPTField: fl.key, required: fl.required }))
       }
       if (tmpData.je_cpt_meta_map.length < 1) {
         tmpData.je_cpt_meta_map = [{}]
@@ -120,17 +123,8 @@ function Post({ allIntegURL }) {
       return
     }
     setIsLoading(true)
-    const resp = saveIntegConfig(
-      flow,
-      setFlow,
-      allIntegURL,
-      postConf,
-      navigate,
-      id,
-      1,
-      setIsLoading
-    )
-    resp.then((res) => {
+    const resp = saveIntegConfig(flow, setFlow, allIntegURL, postConf, navigate, id, 1, setIsLoading)
+    resp.then(res => {
       if (res.success) {
         setSnackbar({ show: true, msg: res.data })
         // navigate(allIntegURL)
@@ -149,7 +143,7 @@ function Post({ allIntegURL }) {
         </div>
         <input
           className="btcd-paper-inp w-5 mt-1"
-          onChange={(e) => handleInput(e.target.name, e.target.value)}
+          onChange={e => handleInput(e.target.name, e.target.value)}
           name="name"
           value={postConf.name}
           type="text"
@@ -175,7 +169,7 @@ function Post({ allIntegURL }) {
           <select
             name="post_type"
             value={postConf?.post_type}
-            onChange={(e) => getCustomFields(e.target.name, e.target.value)}
+            onChange={e => getCustomFields(e.target.name, e.target.value)}
             className="btcd-paper-inp w-5 mt-1">
             <option disabled selected>
               {__('Select Post Type', 'bit-integrations')}
@@ -210,7 +204,7 @@ function Post({ allIntegURL }) {
         <select
           name="post_status"
           value={postConf?.post_status}
-          onChange={(e) => handleInput(e.target.name, e.target.value)}
+          onChange={e => handleInput(e.target.name, e.target.value)}
           className="btcd-paper-inp w-5 mt-2">
           <option disabled selected>
             {__('Select Status', 'bit-integrations')}
@@ -235,7 +229,7 @@ function Post({ allIntegURL }) {
           <select
             name="post_author"
             value={postConf?.post_author}
-            onChange={(e) => handleInput(e.target.name, e.target.value)}
+            onChange={e => handleInput(e.target.name, e.target.value)}
             className="btcd-paper-inp w-5 mt-2">
             <option disabled selected>
               {__('Select Author', 'bit-integrations')}
@@ -255,7 +249,7 @@ function Post({ allIntegURL }) {
         <select
           name="comment_status"
           value={postConf?.comment_status}
-          onChange={(e) => handleInput(e.target.name, e.target.value)}
+          onChange={e => handleInput(e.target.name, e.target.value)}
           className="btcd-paper-inp w-5 mt-2">
           <option disabled selected>
             {__('Select Status', 'bit-integrations')}
@@ -263,6 +257,29 @@ function Post({ allIntegURL }) {
           <option value="open">{__('Open', 'bit-integrations')}</option>
           <option value="closed">{__('Closed', 'bit-integrations')}</option>
         </select>
+
+        <div className="mt-3">
+          <b>
+            <ProFeatureTitle title={__('Add Post Tags', 'bit-integrations')} />
+          </b>
+
+          <Cooltip width={250} icnSize={17} className="ml-2">
+            <div className="txt-body">
+              {__('Use commas to separate multiple tags. Example: tag1, tag2, tag3', 'bit-integrations')}
+              <br />
+            </div>
+          </Cooltip>
+        </div>
+
+        <input
+          className="btcd-paper-inp w-5 mt-2 "
+          onChange={e => handleInput(e.target.name, e.target.value)}
+          name="post_tags"
+          value={postConf.post_tags}
+          type="text"
+          placeholder={__('Add Post Tags...', 'bit-integrations')}
+          disabled={!isPro}
+        />
 
         <div>
           <div className="mt-3 mb-1">
@@ -305,9 +322,7 @@ function Post({ allIntegURL }) {
         <CustomField
           formID={formID}
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, postConf, setPostConf, formID, setIsLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, postConf, setPostConf, formID, setIsLoading, setSnackbar)}
           postConf={postConf}
           setPostConf={setPostConf}
           isLoading={isLoading}

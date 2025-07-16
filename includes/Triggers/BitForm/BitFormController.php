@@ -3,6 +3,8 @@
 namespace BitCode\FI\Triggers\BitForm;
 
 use BitCode\FI\Flow\Flow;
+use BitCode\FI\Core\Util\Common;
+use BitCode\BitForm\Core\Util\FileHandler;
 
 final class BitFormController
 {
@@ -100,24 +102,48 @@ final class BitFormController
         return $fields;
     }
 
-    public static function handle_bitform_submit($formId, $entryId, $formData)
+    public static function handle_bitform_submit($formId, $entryId, $formData, $files)
     {
-        if (!empty($formId)) {
-            $data = [];
-            if ($entryId) {
-                $data['entry_id'] = $entryId;
-            }
-            foreach ($formData as $key => $value) {
-                if (\is_string($value) && str_contains($value, '__bf__')) {
-                    $data[$key] = explode('__bf__', $value);
-                } else {
-                    $data[$key] = $value;
+        if (empty($formId)) {
+            return;
+        }
+
+        $flows = Flow::exists('BitForm', $formId);
+
+        if (empty($flows)) {
+            return;
+        }
+
+        $data = [
+            'form_id'  => $formId,
+            'entry_id' => $entryId
+        ];
+
+        foreach ($formData as $key => $value) {
+            $data[$key] = (\is_string($value) && str_contains($value, '__bf__'))
+                ? explode('__bf__', $value)
+                : $value;
+        }
+
+        if (class_exists(FileHandler::class) && !empty($files)) {
+            foreach ($files as $fieldKey => $fileGroup) {
+                if (empty($fileGroup['new_name']) || !\is_array($fileGroup['new_name'])) {
+                    continue;
                 }
-            }
-            if (!empty($formId) && $flows = Flow::exists('BitForm', $formId)) {
-                Flow::execute('BitForm', $formId, $data, $flows);
+
+                $uploadDir = FileHandler::getEntriesFileUploadDir($formId, $entryId);
+                $fileUrls = [];
+
+                foreach ($fileGroup['new_name'] as $filename) {
+                    $filePath = $uploadDir . DIRECTORY_SEPARATOR . $filename;
+                    $fileUrls[] = Common::fileUrl($filePath);
+                }
+
+                $data[$fieldKey] = \count($fileUrls) > 1 ? $fileUrls : reset($fileUrls);
             }
         }
+
+        Flow::execute('BitForm', $formId, $data, $flows);
     }
 
     private static function isPluginActive()

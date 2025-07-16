@@ -4,7 +4,7 @@ Tags: automation, automator, Google Sheets, webhooks, zapier, marketing automati
 Requires at least: 5.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.6.1
+Stable tag: 2.6.4
 License: GPLv2 or later
 
 Perfect Automation and integration plugin: Connect 290+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
@@ -25,6 +25,12 @@ Whether you're:
 
 ---
 
+**Easy WordPress Automation with Bit Integrations – by WPTuts**
+
+https://youtu.be/hgMkLvV-r6k
+
+---
+
 ## 🔌 Seamless Integration Across Your WordPress Stack
 
 > No-code automation and automator plugin for WordPress, enabling flawless workflows with Webhooks, WooCommerce, CRMs, LMS, Zapier, and more.
@@ -36,6 +42,8 @@ Whether you're:
   - **CRM**
   - **Learning Management Systems (LMS)**
   - **Spreadsheets and Booking tools**
+  - **Top integration plugins, including Zapier, OttoKit (SureTriggers), Uncanny Automator, FlowMattic, and more**
+  - **Top connector plugins, such as Make (Integromat), AutomatorWP, and others**
 
 - Use powerful automation and automator features like:
   - **Webhooks**
@@ -50,6 +58,12 @@ Whether you're:
   - **Flexible data mapping**
 
 All through a **clean, intuitive UI** your complete **WordPress automator dashboard**, no technical skills required.
+
+---
+
+**Integrate Elementor Forms to a Notion CRM [with Bit Integrations] – by Jeffrey @ Lytbox**
+
+https://www.youtube.com/watch?v=Jocbz2lAqKU
 
 ---
 
@@ -82,18 +96,18 @@ Because time is money, and automation is freedom.
 💡 _Ready to build smarter, faster WordPress workflows using a powerful automation engine and built-in automator tools?_ 
 👉 [Try Bit Integrations Pro Now](https://bit-integrations.com/pricing/) – No coding. No hassle. Just results.
 
-**Easy WordPress Automation with Bit Integrations – by WPTuts**
+---
 
-https://youtu.be/hgMkLvV-r6k
-
-## Useful Links
+## 🚀 Useful Links
 
 🧪 [Try Pro Version Demo](https://towp.io/)
 🙋 [Support](https://tawk.to/chat/60eac4b6d6e7610a49aab375/1faah0r3e)
 🚀 [Upgrade to Pro](https://bit-integrations.com/pricing/)
 🐱 [Bit Integrations Repository](https://github.com/Bit-Apps-Pro/bit-integrations)
 
-## Quick Links
+---
+
+## 🚀 Quick Links
 
 👉 [Start Automation Now](https://bit-integrations.com/triggers/) to see it in action.  
 💼 Check our [Pricing](https://bit-integrations.com/pricing/) plans and pick the perfect fit.  
@@ -102,10 +116,6 @@ https://youtu.be/hgMkLvV-r6k
 ▶️ Need help? Visit our [Video Tutorials](https://youtube.com/playlist?list=PL7c6CDwwm-ALMEsKLYKebKb5XLGPWMNue).
 🏠 Or just drop by our [Home](https://bit-integrations.com/) page.  
 📢 Join our [Bit Apps Community](https://www.facebook.com/groups/bitapps) & get updates on our plugins.
-
-**Integrate Elementor Forms to a Notion CRM [with Bit Integrations] – by Jeffrey @ Lytbox**
-
-https://www.youtube.com/watch?v=Jocbz2lAqKU
 
 With Bit Integrations, automation is at your fingertips. Automate tasks across your WordPress site, boost efficiency, and simplify your business operations with powerful automation features.
 
@@ -196,7 +206,7 @@ Say goodbye to manual work and hello to effortless automation. With Bit Integrat
 ### ✔List of Available Free Actions:
 
 - **Zapier**
-- **Make(Integromat)**
+- **Make (Integromat)**
 - **Uncanny Automator**
 - **SureTriggers (OttoKit)**
 - **AutomatorWP**
@@ -690,6 +700,55 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 
 == Changelog ==
 
+= 2.6.4 =
+_Release Date -12th july 2025_
+
+- **New Triggers**
+ - Amelia Booking: 1 New Events Added (Pro).
+
+- **New Actions**
+ - MailerLite: 2 New Events Added (Pro).
+
+- **New Feature**
+ - Bit Form: Uploaded files data are now captured and accessible via actions.
+
+- **New Improvement**
+ - Encharge: Tag insertion now intelligently combines with existing tags instead of overwriting them.
+
+- **Bug Fixes**
+ - Translation (WP 6.7+): Fixed issue with loading notice translations in the latest WordPress version.
+ - MailerLite: Fixed an issue where existing subscribers were not being handled correctly.
+ - Salesforce: Resolved the redirect URL issue during authentication or callback.
+ - Webhook: Fixed an issue with JSON body parameters in webhook payloads (pro).
+
+= 2.6.3 =
+_Release Date -2nd july 2025_
+
+- **New Feature**
+ - WP Post Creation: Added support for assigning tags to posts (Pro).
+
+- **Bug Fixes**
+ - Fixed PHP warning for undefined array key 'action'.
+
+= 2.6.2 =
+_Release Date -1st july 2025_
+
+- **New Triggers**
+ - WPSubscription - 4 New Events Added (Pro).
+
+- **New Feature**
+ - Salesforce: Added new Salesforce utilities for (Pro):
+  - Lead Status
+  - Lead Source
+  - Rating
+  - Industry
+
+- **Bug Fixes**
+ - Campaign Monitor: Resolved an issue with custom field mapping.
+ - WooCommerce (Trigger): Fixed a bug where the "Order Created" trigger was not properly initializing when an order was created in action.
+ - Flowlu: Addressed and fixed the issue with custom field handling.
+ - wpLoyalty: Fixed the issue with accessing order data (Pro).
+ 
 = 2.6.1 =
 _Release Date -21th June 2025_
 
