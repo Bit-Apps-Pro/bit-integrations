@@ -49,7 +49,7 @@ export default function LineUtilities({ formFields, lineConf, setLineConf }) {
           onChange={e => actionHandler(e, 'sendAudio')}
           className="wdt-200 mt-4 mr-2"
           value="sendAudio"
-          title={__('Send audio', 'bit-integrations')}
+          title={__('Send Audio', 'bit-integrations')}
           subTitle={__('If want add more field in Audio', 'bit-integrations')}
         />
         <TableCheckBox
@@ -57,8 +57,16 @@ export default function LineUtilities({ formFields, lineConf, setLineConf }) {
           onChange={e => actionHandler(e, 'sendVideo')}
           className="wdt-200 mt-4 mr-2"
           value="sendVideo"
-          title={__('Send video', 'bit-integrations')}
+          title={__('Send Video', 'bit-integrations')}
           subTitle={__('If want add more field in Video', 'bit-integrations')}
+        />
+        <TableCheckBox
+          checked={lineConf?.sendLocation || false}
+          onChange={e => actionHandler(e, 'sendLocation')}
+          className="wdt-200 mt-4 mr-2"
+          value="sendLocation"
+          title={__('Send Location', 'bit-integrations')}
+          subTitle={__('If want add more field in Location', 'bit-integrations')}
         />
       </div>
     </div>

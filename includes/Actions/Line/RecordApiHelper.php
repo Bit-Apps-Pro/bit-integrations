@@ -34,13 +34,16 @@ class RecordApiHelper
         switch ($type) {
             case 'sendReplyMessage':
                 $data['replyToken'] = $integrationDetails->replyToken ?? '';
+
                 $response = $this->sendReplyMessage(json_encode($data));
 
-                // error_log(print_r($response, true));
+                error_log('again');
+                error_log(print_r($response, true));
 
                 break;
             case 'sendBroadcastMessage':
                 $data['to'] = $integrationDetails->recipientId ?? '';
+
                 $response = $this->sendBroadcastMessage(json_encode($data));
 
                 break;
@@ -48,7 +51,6 @@ class RecordApiHelper
                 $data['to'] = $integrationDetails->recipientId ?? '';
                 $response = $this->sendPushMessage(json_encode($data));
         }
-        error_log(print_r($data, true));
         $response = \is_string($response) ? json_decode($response) : $response;
         $status = (!isset($response->error)) ? 'success' : 'error';
 
@@ -87,6 +89,13 @@ class RecordApiHelper
             $video = $this->buildVideoMessage($details->video_field_map, $values);
             if ($video) {
                 $messages[] = $video;
+            }
+        }
+
+        if (!empty($details->location_field_map)) {
+            $location = $this->buildLocationMessage($details->location_field_map, $values);
+            if ($location) {
+                $messages[] = $location;
             }
         }
 
@@ -167,6 +176,22 @@ class RecordApiHelper
         ]);
     }
 
+    private function buildLocationMessage($map, $values): ?array
+    {
+        $data = $this->mapFields($values, $map);
+        if (empty($data['title']) || empty($data['address']) || empty($data['latitude']) || empty($data['longitude'])) {
+            return null;
+        }
+
+        return [
+            'type'      => 'location',
+            'title'     => $data['title'],
+            'address'   => $data['address'],
+            'latitude'  => (float) $data['latitude'],
+            'longitude' => (float) $data['longitude'],
+        ];
+    }
+
     private function mapFields($data, $fieldMap): array
     {
         $result = [];
@@ -181,6 +206,15 @@ class RecordApiHelper
         }
 
         return $result;
+    }
+
+    private function handleFilterResponse($response)
+    {
+        if (isset($response->messages[0]->id) || isset($response->error) || is_wp_error($response)) {
+            return $response;
+        }
+
+        return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')];
     }
 
     private function setHeaders(): array
@@ -198,11 +232,18 @@ class RecordApiHelper
 
     private function sendReplyMessage($data)
     {
-        return HttpHelper::post($this->apiEndPoint . '/message/reply', $data, $this->setHeaders());
+        $response = apply_filters('btcbi_line_reply_message', $data, $this->setHeaders(), $this->apiEndPoint);
+        error_log(print_r($response, true));
+
+        return static::handleFilterResponse($response);
     }
 
     private function sendBroadcastMessage($data)
     {
-        return HttpHelper::post($this->apiEndPoint . '/message/broadcast', $data, $this->setHeaders());
+        $response = apply_filters('btcbi_line_broadcast_message', $data, $this->setHeaders(), $this->apiEndPoint);
+         error_log(print_r($response, true));
+
+
+        return static::handleFilterResponse($response);
     }
 }

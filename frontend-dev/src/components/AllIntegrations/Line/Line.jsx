@@ -53,6 +53,13 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
     { label: 'Preview Image URL', value: 'previewImageUrl', required: true }
   ]
 
+  const locationFields = [
+    { label: 'Title', value: 'title', required: true },
+    { label: 'Address', value: 'address', required: true },
+    { label: 'Latitude', value: 'latitude', required: true },
+    { label: 'longitude', value: 'longitude', required: true }
+  ]
+
   const [lineConf, setLineConf] = useState({
     name: 'Line',
     replyToken: '',
@@ -68,6 +75,7 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
     image_field_map: generateMappedField(imageFields),
     audio_field_map: generateMappedField(audioFields),
     video_field_map: generateMappedField(videoFields),
+    location_field_map: generateMappedField(locationFields),
     body: '',
     actions: {},
     sendEmojis: false,
@@ -75,7 +83,9 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
     sendImage: false,
     sendAudio: false,
     sendVideo: false,
+    sendLocation: false,
     emojisFields,
+    locationFields,
     stickerFields,
     imageFields,
     audioFields,
@@ -117,7 +127,6 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
         return !!lineConf.recipientId
     }
   }
-
 
   return (
     <div>

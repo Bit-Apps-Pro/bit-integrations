@@ -91,7 +91,7 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
       </div>
       <br />
 
-      {lineConf?.messageType === 'sendPushMessage' && isPro && (
+      {lineConf?.messageType === 'sendPushMessage' && (
         <>
           <div>
             <b className="wdt-200 d-in-b mb-4 mt-4">{__('Recipient ID:', 'bit-integrations')}</b>
@@ -398,6 +398,52 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
                 sendType="sendVideo"
                 addFieldMapFunc={(i, conf, setConf, fields) =>
                   addFieldMap(i, conf, setConf, fields, 'video_field_map')
+                }
+              />
+            </>
+          )}
+
+          {lineConf?.sendLocation && (
+            <>
+              <div className="mt-4">
+                <b className="wdt-100">{__('Location Map Fields', 'bit-integrations')}</b>
+              </div>
+              <div className="btcd-hr mt-1" />
+              <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
+                <div className="txt-dp">
+                  <b>{__('Form Fields', 'bit-integrations')}</b>
+                </div>
+                <div className="txt-dp">
+                  <b>{__('Line Location Fields', 'bit-integrations')}</b>
+                </div>
+              </div>
+
+              {lineConf.location_field_map.map((itm, i) => (
+                <LineFieldMap
+                  key={`line-location-${i}`}
+                  i={i}
+                  field={itm}
+                  lineConf={lineConf}
+                  formFields={formFields}
+                  setLineConf={setLineConf}
+                  requiredFields={lineConf.locationFields}
+                  fieldMapKey="location_field_map"
+                />
+              ))}
+            </>
+          )}
+
+          {lineConf?.sendLocation && (
+            <>
+              <AddFieldButton
+                fieldMapLength={lineConf.location_field_map.length}
+                lineConf={lineConf}
+                setLineConf={setLineConf}
+                fields={lineConf.locationFields}
+                isLoading={isLoading}
+                sendType="sendLocation"
+                addFieldMapFunc={(i, conf, setConf, fields) =>
+                  addFieldMap(i, conf, setConf, fields, 'location_field_map')
                 }
               />
             </>
