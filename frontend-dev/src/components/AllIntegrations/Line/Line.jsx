@@ -45,7 +45,8 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
   ]
 
   const audioFields = [
-    { label: "Audio's Original Content URL", value: 'originalContentUrl', required: true }
+    { label: "Audio's Original Content URL", value: 'originalContentUrl', required: true },
+    { label: 'Duration', value: 'duration', required: true }
   ]
 
   const videoFields = [

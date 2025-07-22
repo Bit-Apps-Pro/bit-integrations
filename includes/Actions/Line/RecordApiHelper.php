@@ -34,24 +34,23 @@ class RecordApiHelper
         switch ($type) {
             case 'sendReplyMessage':
                 $data['replyToken'] = $integrationDetails->replyToken ?? '';
-                error_log(print_r($data, true));
+
                 $response = $this->sendReplyMessage(json_encode($data));
+                error_log(print_r($response, true));
 
                 break;
             case 'sendBroadcastMessage':
-                error_log(print_r($data, true));
+
                 $response = $this->sendBroadcastMessage(json_encode($data));
                 error_log(print_r($response, true));
 
                 break;
             default:
                 $data['to'] = $integrationDetails->recipientId ?? '';
-                error_log(print_r($data, true));
                 $response = $this->sendPushMessage(json_encode($data));
-                error_log(print_r($response, true));
         }
         $response = \is_string($response) ? json_decode($response) : $response;
-        $status = (!isset($response->error)) ? 'success' : 'error';
+        $status = HttpHelper::$responseCode == 200 ? 'success' : 'error';
 
         LogHandler::save($this->integrationID, ['type' => 'record', 'type_name' => $type], $status, $response);
 
@@ -209,7 +208,7 @@ class RecordApiHelper
 
     private function handleFilterResponse($response)
     {
-        if (isset($response->message) || isset($response->error) || is_wp_error($response)) {
+        if (!isset($response->message) || !isset($response->error) || !is_wp_error($response)) {
             return $response;
         }
 
@@ -232,6 +231,7 @@ class RecordApiHelper
     private function sendReplyMessage($data)
     {
         $response = apply_filters('btcbi_line_reply_message', $data, $this->setHeaders(), $this->apiEndPoint);
+        error_log(print_r($response, true));
 
         return static::handleFilterResponse($response);
     }
@@ -239,6 +239,8 @@ class RecordApiHelper
     private function sendBroadcastMessage($data)
     {
         $response = apply_filters('btcbi_line_broadcast_message', $data, $this->setHeaders(), $this->apiEndPoint);
+
+        error_log(print_r($response, true));
 
         return static::handleFilterResponse($response);
     }
