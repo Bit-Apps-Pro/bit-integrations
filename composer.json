@@ -14,7 +14,7 @@
   },
   "scripts": {
     "version-checker": "phpcs -p --standard=PHPCompatibilityWP --runtime-set testVersion 7.4- includes",
-    "bump-version": "php bump-version.php"
+    "bump-version": "php ./bin/bump-version.php"
   },
   "config": {
     "allow-plugins": {
