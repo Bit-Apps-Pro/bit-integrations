@@ -6,11 +6,11 @@
 
 namespace BitCode\FI\Actions\ZohoCRM;
 
+use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Flow\FlowController;
+use BitCode\FI\Log\LogHandler;
 use stdClass;
 use WP_Error;
-use BitCode\FI\Log\LogHandler;
-use BitCode\FI\Flow\FlowController;
-use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for ZohoCrm integration
@@ -114,14 +114,35 @@ final class ZohoCRMController
         $authorizationHeader['Authorization'] = "Zoho-oauthtoken {$queryParams->tokenDetails->access_token}";
 
         $modulesMetaResponse = HttpHelper::get($modulesMetaApiEndpoint, null, $authorizationHeader);
-        if (!is_wp_error($modulesMetaResponse) && (empty($modulesMetaResponse->status) || (!empty($modulesMetaResponse->status) && $modulesMetaResponse->status !== 'error'))) {
+
+        if (
+            !is_wp_error($modulesMetaResponse)
+            && (
+                empty($modulesMetaResponse->status)
+                || (
+                    !empty($modulesMetaResponse->status)
+                && $modulesMetaResponse->status !== 'error'
+                )
+            )
+        ) {
             $retriveModuleData = $modulesMetaResponse->modules;
 
             $allModules = [];
             foreach ($retriveModuleData as $key => $value) {
-                if ((!empty($value->inventory_template_supported) && $value->inventory_template_supported) || \in_array($value->api_name, $zohosIntegratedModules) || \count((array) $value->parent_module) > 0) {
+                if (
+                    (
+                        !empty($value->inventory_template_supported)
+                        && $value->inventory_template_supported
+                    )
+                    || \in_array($value->api_name, $zohosIntegratedModules)
+                    || (
+                        \count((array) $value->parent_module) > 0
+                        && $value->module_name !== 'Tasks'
+                    )
+                ) {
                     continue;
                 }
+
                 if (!empty($value->api_supported) && $value->api_supported && !empty($value->editable) && $value->editable) {
                     $allModules[$value->api_name] = (object) [
                         'plural_label'       => $value->plural_label,
