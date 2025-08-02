@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '12th July 2025'
+const releaseDate = '26th July 2025'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -25,49 +25,25 @@ const changeLog = [
     label: __('New Actions', 'bit-integrations'),
     headClass: 'new-integration',
     itemClass: 'integration-list',
-    items: [
-      {
-        label: 'MailerLite',
-        desc: '2 new events added',
-        isPro: true
-      }
-    ]
+    items: []
   },
   {
     label: __('New Triggers', 'bit-integrations'),
     headClass: 'new-trigger',
     itemClass: 'integration-list',
-    items: [
-      {
-        label: 'Amelia Booking',
-        desc: '1 new events added',
-        isPro: true
-      }
-    ]
+    items: []
   },
   {
     label: __('New Features', 'bit-integrations'),
     headClass: 'new-feature',
     itemClass: 'feature-list',
-    items: [
-      {
-        label: 'Bit Form (Trigger)',
-        desc: 'Uploaded files data are now captured and accessible via actions.',
-        isPro: false
-      }
-    ]
+    items: []
   },
   {
     label: __('Improvements', 'bit-integrations'),
     headClass: 'new-improvement',
     itemClass: 'feature-list',
-    items: [
-      {
-        label: 'Encharge',
-        desc: 'Tag insertion now intelligently combines with existing tags instead of overwriting them.',
-        isPro: false
-      }
-    ]
+    items: []
   },
   {
     label: __('Bug Fixes', 'bit-integrations'),
@@ -75,23 +51,23 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'Translation (WP 6.7+)',
-        desc: 'Fixed issue with loading notice translations in the latest WordPress version.',
-        isPro: false
+        label: 'Plugin Update',
+        desc: 'Fixed version updating issue causing discrepancies during plugin upgrades',
+        isPro: true
       },
       {
-        label: 'MailerLite',
-        desc: 'Fixed an issue where existing subscribers were not being handled correctly.',
-        isPro: false
-      },
-      {
-        label: 'Salesforce',
-        desc: 'Resolved the redirect URL issue during authentication or callback.',
+        label: 'WooCommerce',
+        desc: 'Resolved an issue with meta box field fetching not returning expected values.',
         isPro: false
       },
       {
         label: 'Webhook',
-        desc: 'Fixed an issue with JSON body parameters in webhook payloads.',
+        desc: 'Fixed fatal error caused by the JSON checker in certain payload conditions.',
+        isPro: true
+      },
+      {
+        label: 'Webhook',
+        desc: 'Addressed an issue where the request body was not flattening correctly, improving compatibility with third-party services.',
         isPro: true
       }
     ]
