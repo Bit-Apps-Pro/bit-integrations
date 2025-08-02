@@ -108,13 +108,15 @@ export const handleAuthorize = (
 }
 
 export const handleFieldMapping = (event, index, conftTmp, setConf, type) => {
-  const newConf = { ...conftTmp }
-  newConf[type][index][event.target.name] = event.target.value
+  setConf(prevConf => {
+    const newConf = { ...prevConf }
+    newConf[type][index][event.target.name] = event.target.value
 
-  if (event.target.value === 'custom') {
-    newConf[type][index].customValue = ''
-  }
-  setConf({ ...newConf })
+    if (event.target.value === 'custom') {
+      newConf[type][index].customValue = ''
+    }
+    return newConf
+  })
 }
 
 export const delFieldMap = (i, confTmp, setConf, type) => {
@@ -133,11 +135,11 @@ export const delFieldMap = (i, confTmp, setConf, type) => {
 }
 
 export const handleCustomValue = (event, index, conftTmp, setConf, type) => {
-  const newConf = { ...conftTmp }
-
-  newConf[type][index].customValue = event?.target?.value || event
-
-  setConf({ ...newConf })
+  setConf(prevConf => {
+    const newConf = { ...prevConf }
+    newConf[type][index].customValue = event?.target?.value || event
+    return newConf
+  })
 }
 
 export const generateMappedField = fields => {
@@ -162,4 +164,95 @@ export const addFieldMap = (i, confTmp, setConf, FieldMappings, mapKey) => {
   }))
   newConf[mapKey].splice(i, 0, ...newFieldMap)
   setConf({ ...newConf })
+}
+
+// Shared validation function for Line integration
+export const validateLineConfiguration = lineConf => {
+  // Helper function to check if message field is properly configured
+  const isMessageFieldConfigured = () => {
+    if (!lineConf.message_field_map || lineConf.message_field_map.length === 0) {
+      return false
+    }
+
+    const messageField = lineConf.message_field_map[0]
+    if (!messageField) return false
+
+    if (messageField.formField === 'custom') {
+      return messageField.customValue && messageField.customValue.trim() !== ''
+    }
+    return messageField.formField && messageField.formField.trim() !== ''
+  }
+
+  switch (lineConf.messageType) {
+    case 'sendPushMessage':
+      // Need both recipient ID AND message field
+      const hasRecipientId = lineConf.recipientId && lineConf.recipientId.trim() !== ''
+      const hasMessageField = isMessageFieldConfigured()
+      return hasRecipientId && hasMessageField
+
+    case 'sendReplyMessage':
+      // Need both reply token AND message field
+      const hasReplyToken = lineConf.replyToken && lineConf.replyToken.trim() !== ''
+      const hasReplyMessageField = isMessageFieldConfigured()
+      return hasReplyToken && hasReplyMessageField
+
+    case 'sendBroadcastMessage':
+      // Only need message field for broadcast
+      const hasBroadcastMessageField = isMessageFieldConfigured()
+      return hasBroadcastMessageField
+
+    default:
+      return false
+  }
+}
+
+// Function to get validation messages for missing fields
+export const getLineValidationMessages = lineConf => {
+  const messages = []
+
+  // Helper function to check if message field is properly configured
+  const isMessageFieldConfigured = () => {
+    if (!lineConf.message_field_map || lineConf.message_field_map.length === 0) {
+      return false
+    }
+
+    const messageField = lineConf.message_field_map[0]
+    if (!messageField) return false
+
+    if (messageField.formField === 'custom') {
+      return messageField.customValue && messageField.customValue.trim() !== ''
+    }
+    return messageField.formField && messageField.formField.trim() !== ''
+  }
+
+  switch (lineConf.messageType) {
+    case 'sendPushMessage':
+      if (!lineConf.recipientId || lineConf.recipientId.trim() === '') {
+        messages.push('Recipient ID is required')
+      }
+      if (!isMessageFieldConfigured()) {
+        messages.push('Message field mapping is required')
+      }
+      break
+
+    case 'sendReplyMessage':
+      if (!lineConf.replyToken || lineConf.replyToken.trim() === '') {
+        messages.push('Reply Token is required')
+      }
+      if (!isMessageFieldConfigured()) {
+        messages.push('Message field mapping is required')
+      }
+      break
+
+    case 'sendBroadcastMessage':
+      if (!isMessageFieldConfigured()) {
+        messages.push('Message field mapping is required')
+      }
+      break
+
+    default:
+      messages.push('Please select a message type')
+  }
+
+  return messages
 }

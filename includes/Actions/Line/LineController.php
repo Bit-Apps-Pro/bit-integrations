@@ -16,7 +16,6 @@ class LineController
 
         $header = ['Authorization' => 'Bearer ' . $tokenRequestParams->accessToken];
         $apiEndpoint = self::APIENDPOINT . '/info';
-
         $apiResponse = HttpHelper::get($apiEndpoint, null, $header);
 
         if (is_wp_error($apiResponse) || empty($apiResponse->userId)) {
@@ -31,7 +30,6 @@ class LineController
         $integrationDetails = $integrationData->flow_details;
         $integrationId = $integrationData->id;
         $access_token = $integrationDetails->accessToken;
-
         $recordApiHelper = new RecordApiHelper(self::APIENDPOINT, $access_token, $integrationId);
 
         return $recordApiHelper->execute($integrationDetails, $fieldValues);

@@ -8,9 +8,15 @@ import Steps from '../../Utilities/Steps'
 import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import LineAuthorization from './LineAuthorization'
-import { generateMappedField, handleInput } from './LineCommonFunc'
+import {
+  generateMappedField,
+  handleInput,
+  validateLineConfiguration,
+  getLineValidationMessages
+} from './LineCommonFunc'
 import LineIntegLayout from './LineIntegLayout'
 import BackIcn from '../../../Icons/BackIcn'
+import { generate } from 'nth-check'
 
 function Line({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
@@ -61,6 +67,8 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
     { label: 'longitude', value: 'longitude', required: true }
   ]
 
+  const messageField = [{ label: 'Message', value: 'message', required: true }]
+
   const [lineConf, setLineConf] = useState({
     name: 'Line',
     replyToken: '',
@@ -71,6 +79,7 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
     parse_mode: 'HTML',
     messageTypes,
     emojis_field_map: generateMappedField(emojisFields),
+    message_field_map: generateMappedField(messageField),
     sticker_field_map: generateMappedField(stickerFields),
     image_field_map: generateMappedField(imageFields),
     audio_field_map: generateMappedField(audioFields),
@@ -79,6 +88,7 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
     body: '',
     actions: {},
     sendEmojis: false,
+    messageField: messageField,
     sendSticker: false,
     sendImage: false,
     sendAudio: false,
@@ -97,17 +107,8 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
     if (val === 3) {
-      const isRequiredFilled = (() => {
-        switch (lineConf.messageType) {
-          case 'sendPushMessage':
-          case 'sendBroadcastMessage':
-            return !!lineConf.message
-          case 'sendReplyMessage':
-            return !!lineConf.replyToken
-          default:
-            return !!lineConf.recipientId
-        }
-      })()
+      // Use the same validation logic as isNextButtonEnabled
+      const isRequiredFilled = isNextButtonEnabled()
 
       if (lineConf.name !== '' && isRequiredFilled) {
         setstep(val)
@@ -116,16 +117,14 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
   }
 
   const isNextButtonEnabled = () => {
-    switch (lineConf.messageType) {
-      case 'sendPushMessage':
-        return !!lineConf.recipientId
-      case 'sendBroadcastMessage':
-        return !!lineConf.message
-      case 'sendReplyMessage':
-        return !!lineConf.replyToken
-      default:
-        return !!lineConf.recipientId
-    }
+    console.log('=== VALIDATION DEBUG ===')
+    console.log('Checking Next Button Enabled for messageType:', lineConf.messageType)
+    console.log('Current lineConf:', lineConf)
+    console.log('Message Field Map:', lineConf.message_field_map)
+    console.log('Is this an update?', !!flow?.flow_details)
+    console.log('=======================')
+
+    return validateLineConfiguration(lineConf)
   }
 
   return (

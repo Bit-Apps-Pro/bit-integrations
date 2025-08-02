@@ -24,6 +24,7 @@ class RecordApiHelper
     public function execute($integrationDetails, $fieldValues)
     {
         $messages = $this->buildMessages($integrationDetails, $fieldValues);
+
         if (empty($messages)) {
             return ['error' => 'No valid message generated.'];
         }
@@ -34,22 +35,19 @@ class RecordApiHelper
         switch ($type) {
             case 'sendReplyMessage':
                 $data['replyToken'] = $integrationDetails->replyToken ?? '';
-
                 $response = $this->sendReplyMessage(json_encode($data));
-                error_log(print_r($response, true));
 
                 break;
             case 'sendBroadcastMessage':
-
                 $response = $this->sendBroadcastMessage(json_encode($data));
-                error_log(print_r($response, true));
 
                 break;
             default:
                 $data['to'] = $integrationDetails->recipientId ?? '';
                 $response = $this->sendPushMessage(json_encode($data));
+                $response = HttpHelper::$responseCode === 200 ? 'Push message sended successfully' : 'Failed';
         }
-        $response = \is_string($response) ? json_decode($response) : $response;
+
         $status = HttpHelper::$responseCode == 200 ? 'success' : 'error';
 
         LogHandler::save($this->integrationID, ['type' => 'record', 'type_name' => $type], $status, $response);
@@ -61,7 +59,14 @@ class RecordApiHelper
     {
         $messages = [];
 
-        if (!empty($details->message)) {
+        if (!empty($details->message_field_map)) {
+            $mappedMessage = $this->mapFields($values, $details->message_field_map);
+            if (!empty($mappedMessage['message'])) {
+                $messages[] = $this->buildTextMessage($details, $values);
+            }
+        }
+
+        if (empty($messages) && !empty($details->message)) {
             $messages[] = $this->buildTextMessage($details, $values);
         }
 
@@ -102,10 +107,25 @@ class RecordApiHelper
 
     private function buildTextMessage($details, $values): array
     {
-        $message = ['type' => 'text', 'text' => $details->message];
+        $messageText = '';
+
+        if (!empty($details->message_field_map)) {
+            $mappedMessage = $this->mapFields($values, $details->message_field_map);
+
+            if (!empty($mappedMessage['message'])) {
+                $messageText = $mappedMessage['message'];
+            }
+        }
+
+        if (empty($messageText) && !empty($details->message)) {
+            $messageText = $details->message;
+        }
+
+        $message = ['type' => 'text', 'text' => $messageText];
 
         if (!empty($details->sendEmojis) && !empty($details->emojis_field_map)) {
             $emoji = $this->mapFields($values, $details->emojis_field_map);
+
             if ($emoji['emojis_id'] ?? false) {
                 $message['emojis'] = [[
                     'index'     => (int) $emoji['index'],
@@ -121,6 +141,7 @@ class RecordApiHelper
     private function buildStickerMessage($map, $values): ?array
     {
         $data = $this->mapFields($values, $map);
+
         if (!($data['sticker_id'] ?? false)) {
             return null;
         }
@@ -135,6 +156,7 @@ class RecordApiHelper
     private function buildImageMessage($map, $values): ?array
     {
         $data = $this->mapFields($values, $map);
+
         if (empty($data['originalContentUrl'])) {
             return null;
         }
@@ -149,6 +171,7 @@ class RecordApiHelper
     private function buildAudioMessage($map, $values): ?array
     {
         $data = $this->mapFields($values, $map);
+
         if (empty($data['originalContentUrl'])) {
             return null;
         }
@@ -163,6 +186,7 @@ class RecordApiHelper
     private function buildVideoMessage($map, $values): ?array
     {
         $data = $this->mapFields($values, $map);
+
         if (empty($data['originalContentUrl'])) {
             return null;
         }
@@ -177,6 +201,7 @@ class RecordApiHelper
     private function buildLocationMessage($map, $values): ?array
     {
         $data = $this->mapFields($values, $map);
+
         if (empty($data['title']) || empty($data['address']) || empty($data['latitude']) || empty($data['longitude'])) {
             return null;
         }
@@ -196,6 +221,7 @@ class RecordApiHelper
 
         foreach ($fieldMap as $field) {
             $key = $field->lineFormField;
+
             if ($field->formField === 'custom') {
                 $result[$key] = Common::replaceFieldWithValue($field->customValue, $data);
             } elseif (isset($data[$field->formField])) {
@@ -208,11 +234,11 @@ class RecordApiHelper
 
     private function handleFilterResponse($response)
     {
-        if (!isset($response->message) || !isset($response->error) || !is_wp_error($response)) {
-            return $response;
+        if (empty($response)) {
+            return (object) ['error' => \wp_sprintf(\__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')];
         }
 
-        return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')];
+        return $response;
     }
 
     private function setHeaders(): array
@@ -230,17 +256,14 @@ class RecordApiHelper
 
     private function sendReplyMessage($data)
     {
-        $response = apply_filters('btcbi_line_reply_message', $data, $this->setHeaders(), $this->apiEndPoint);
-        error_log(print_r($response, true));
+        $response = \apply_filters('btcbi_line_reply_message', false, $data, $this->setHeaders(), $this->apiEndPoint);
 
         return static::handleFilterResponse($response);
     }
 
     private function sendBroadcastMessage($data)
     {
-        $response = apply_filters('btcbi_line_broadcast_message', $data, $this->setHeaders(), $this->apiEndPoint);
-
-        error_log(print_r($response, true));
+        $response = \apply_filters('btcbi_line_broadcast_message', false, $data, $this->setHeaders(), $this->apiEndPoint);
 
         return static::handleFilterResponse($response);
     }

@@ -11,7 +11,7 @@ import EditWebhookInteg from '../EditWebhookInteg'
 import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import LineIntegLayout from './LineIntegLayout'
-import { handleInput } from './LineCommonFunc'
+import { handleInput, validateLineConfiguration, getLineValidationMessages } from './LineCommonFunc'
 
 function EditLine({ allIntegURL }) {
   const navigate = useNavigate()
@@ -24,16 +24,7 @@ function EditLine({ allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
 
   const isNextButtonEnabled = () => {
-    switch (lineConf.messageType) {
-      case 'sendPushMessage':
-        return !!lineConf.recipientId
-      case 'sendBroadcastMessage':
-        return !!lineConf.message
-      case 'sendReplyMessage':
-        return !!lineConf.replyToken
-      default:
-        return !!lineConf.recipientId
-    }
+    return validateLineConfiguration(lineConf)
   }
 
   return (
@@ -84,7 +75,6 @@ function EditLine({ allIntegURL }) {
         setDataConf={setLineConf}
         formFields={formFields}
       />
-      <br />
     </div>
   )
 }

@@ -37,7 +37,7 @@ export default function LineAuthorization({
     setLineConf(newConf)
   }
 
- const lineAccessTokenNote = `<h2>${__('To get your Line access token:', 'bit-integrations')}</h2>
+  const lineAccessTokenNote = `<h2>${__('To get your Line access token:', 'bit-integrations')}</h2>
      <ul>
          <li>${__('Log in to the <a href="https://developers.line.biz/console/" target="_blank">Line Developers Console</a>.', 'bit-integrations')}</li>
          <li>${__('Go to your provider and select the channel you want to use.', 'bit-integrations')}</li>
@@ -45,7 +45,7 @@ export default function LineAuthorization({
          <li>${__('Scroll down to the "Channel access token (long-lived)" section.', 'bit-integrations')}</li>
          <li>${__('Click the "issue" button to generate a new token.', 'bit-integrations')}</li>
          <li>${__('Copy the generated token — this is your Line access token.', 'bit-integrations')}</li>
-     </ul>`;
+     </ul>`
 
   return (
     <div

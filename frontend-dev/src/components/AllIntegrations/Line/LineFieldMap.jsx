@@ -17,6 +17,8 @@ export default function LineFieldMap({
   const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
 
+  const isMessageField = fieldMapKey === 'message_field_map'
+
   return (
     <div className="flx mt-2 mb-2 btcbi-field-map">
       <div className="pos-rel flx">
@@ -56,25 +58,31 @@ export default function LineFieldMap({
               className="mr-2"
               type="text"
               value={field.customValue || ''}
-              placeholder={__('Custom Value', 'bit-integrations')}
+              placeholder={
+                isMessageField
+                  ? __('Enter message template with #field_name#', 'bit-integrations')
+                  : __('Custom Value', 'bit-integrations')
+              }
               formFields={formFields}
             />
           )}
 
           <select
             className="btcd-paper-inp"
-            disabled={true}
+            disabled={isMessageField}
             name="lineFormField"
             value={field.lineFormField || ''}
             onChange={ev => handleFieldMapping(ev, i, lineConf, setLineConf, fieldMapKey)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
-            {requiredFields.map(({ value, label }, index) => (
-              <option key={index} value={value}>
-                {label}
-              </option>
-            ))}
+            {Array.isArray(requiredFields) &&
+              requiredFields.map(({ value, label }, index) => (
+                <option key={index} value={value}>
+                  {label}
+                </option>
+              ))}
           </select>
         </div>
+
         {i >= requiredFields.length && (
           <>
             <button
