@@ -138,6 +138,7 @@ final class AllTriggersName
             'WPSubscription'             => ['name' => 'WPSubscription',  'isPro' => true, 'is_active' => false],
             'WpPolls'                    => ['name' => 'WP-Polls',  'isPro' => true, 'is_active' => false],
             'WpSimplePay'                => ['name' => 'WP Simple Pay',  'isPro' => true, 'is_active' => false],
+            'WPTravelEngine'             => ['name' => 'WP Travel Engine',  'isPro' => true, 'is_active' => false],
         ];
     }
 }
