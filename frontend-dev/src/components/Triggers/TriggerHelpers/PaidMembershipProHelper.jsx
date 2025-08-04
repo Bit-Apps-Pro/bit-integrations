@@ -12,22 +12,24 @@ const PaidMembershipProHelper = ({ flow, setFlowData, edit = false }) => {
 
   return (
     <div>
-      <div className={edit ? 'flx mt-3' : ''}>
-        <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
-          {__('Select membership', 'bit-integrations')}
-        </b>
-        <MultiSelect
-          className="msl-wrp-options"
-          defaultValue={triggerData?.selectedMembershipLevel}
-          options={triggerData?.AllMembershipLevels?.map(list => ({
-            label: list.membershipTitle,
-            value: list.membershipId.toString()
-          }))}
-          onChange={val => setFlowData(val, 'selectedMembershipLevel')}
-          singleSelect
-          style={{ width: '100%', minWidth: 300, maxWidth: 400 }}
-        />
-      </div>
+      {id && id != 5 && (
+        <div className={edit ? 'flx mt-3' : ''}>
+          <b className={edit ? 'wdt-200 d-in-b' : 'wdt-200 d-in-b mt-3 mb-3'}>
+            {__('Select membership', 'bit-integrations')}
+          </b>
+          <MultiSelect
+            className="msl-wrp-options"
+            defaultValue={triggerData?.selectedMembershipLevel}
+            options={triggerData?.AllMembershipLevels?.map(list => ({
+              label: list.membershipTitle,
+              value: list.membershipId.toString()
+            }))}
+            onChange={val => setFlowData(val, 'selectedMembershipLevel')}
+            singleSelect
+            style={{ width: '100%', minWidth: 300, maxWidth: 400 }}
+          />
+        </div>
+      )}
     </div>
   )
 }
