@@ -6,11 +6,11 @@
 
 namespace BitCode\FI\Actions\ZohoCRM;
 
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Flow\FlowController;
-use BitCode\FI\Log\LogHandler;
 use stdClass;
 use WP_Error;
+use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Flow\FlowController;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for ZohoCrm integration
@@ -199,7 +199,7 @@ final class ZohoCRMController
         $authorizationHeader['Authorization'] = "Zoho-oauthtoken {$queryParams->tokenDetails->access_token}";
         $requiredParams['module'] = $queryParams->module;
         $layoutsMetaResponse = HttpHelper::get($layoutsMetaApiEndpoint, $requiredParams, $authorizationHeader);
-        error_log(print_r($layoutsMetaResponse, true));
+
         if (!is_wp_error($layoutsMetaResponse) && (empty($layoutsMetaResponse->status) || (!empty($layoutsMetaResponse->status) && $layoutsMetaResponse->status !== 'error'))) {
             $retriveLayoutsData = $layoutsMetaResponse->layouts;
             $layouts = [];
