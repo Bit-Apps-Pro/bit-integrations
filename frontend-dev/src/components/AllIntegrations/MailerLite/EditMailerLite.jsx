@@ -21,6 +21,7 @@ function EditMailerLite({ allIntegURL }) {
   const [flow, setFlow] = useRecoilState($newFlow)
   const [mailerLiteConf, setMailerLiteConf] = useRecoilState($actionConf)
   const [isLoading, setIsLoading] = useState(false)
+  const [name, setName] = useState(mailerLiteConf?.name || '')
   const [loading, setLoading] = useState({
     list: false,
     field: false,
@@ -56,6 +57,16 @@ function EditMailerLite({ allIntegURL }) {
     }
   }, [])
 
+  const handleEditIntegName = e => {
+    setName(e.target.value)
+
+    setMailerLiteConf(prevConf =>
+      create(prevConf, draftConF => {
+        draftConF.name = e.target.value
+      })
+    )
+  }
+
   return (
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
@@ -64,9 +75,9 @@ function EditMailerLite({ allIntegURL }) {
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
         <input
           className="btcd-paper-inp w-5"
-          onChange={e => handleInput(e, mailerLiteConf, setMailerLiteConf, loading, setLoading)}
+          onChange={handleEditIntegName}
           name="name"
-          value={mailerLiteConf.name}
+          value={name}
           type="text"
           placeholder={__('Integration Name...', 'bit-integrations')}
         />
