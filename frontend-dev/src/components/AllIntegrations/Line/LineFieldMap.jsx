@@ -1,6 +1,6 @@
 import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
-import { __ } from '../../../Utils/i18nwrap'
+import { __, sprintf } from '../../../Utils/i18nwrap'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import TagifyInput from '../../Utilities/TagifyInput'
 import { addFieldMap, delFieldMap, handleCustomValue, handleFieldMapping } from './LineCommonFunc'

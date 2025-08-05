@@ -2,13 +2,10 @@
 
 import { useState } from 'react'
 import { __ } from '../../../Utils/i18nwrap'
-import ConfirmModal from '../../Utilities/ConfirmModal'
 import TableCheckBox from '../../Utilities/TableCheckBox'
 import { create } from 'mutative'
 
 export default function LineUtilities({ formFields, lineConf, setLineConf }) {
-  const [actionMdl, setActionMdl] = useState({ show: false })
-
   const actionHandler = (e, type) => {
     setLineConf(prevConf =>
       create(prevConf, draftConf => {

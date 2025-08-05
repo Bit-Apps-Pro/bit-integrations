@@ -11,7 +11,7 @@ import EditWebhookInteg from '../EditWebhookInteg'
 import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import LineIntegLayout from './LineIntegLayout'
-import { handleInput, validateLineConfiguration, getLineValidationMessages } from './LineCommonFunc'
+import { handleInput, validateLineConfiguration } from './LineCommonFunc'
 
 function EditLine({ allIntegURL }) {
   const navigate = useNavigate()

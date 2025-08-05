@@ -8,15 +8,9 @@ import Steps from '../../Utilities/Steps'
 import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import LineAuthorization from './LineAuthorization'
-import {
-  generateMappedField,
-  handleInput,
-  validateLineConfiguration,
-  getLineValidationMessages
-} from './LineCommonFunc'
+import { generateMappedField, handleInput, validateLineConfiguration } from './LineCommonFunc'
 import LineIntegLayout from './LineIntegLayout'
 import BackIcn from '../../../Icons/BackIcn'
-import { generate } from 'nth-check'
 
 function Line({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()

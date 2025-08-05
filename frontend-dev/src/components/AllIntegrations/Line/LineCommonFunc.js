@@ -13,53 +13,6 @@ export const handleInput = (e, lineConf, setLineConf) => {
   setLineConf({ ...newConf })
 }
 
-export const getAllChannels = (
-  confTmp,
-  setConf,
-  setError,
-  setisAuthorized,
-  setIsLoading,
-  setSnackbar
-) => {
-  if (!confTmp.accessToken) {
-    setError({
-      accessToken: !confTmp.accessToken ? __("Access Token can't be empty", 'bit-integrations') : ''
-    })
-    return
-  }
-
-  setError({})
-  setIsLoading(true)
-
-  const tokenRequestParams = { accessToken: confTmp.accessToken }
-
-  bitsFetch(tokenRequestParams, 'line_authorization')
-    .then(result => result)
-    .then(result => {
-      if (result && result.success) {
-        const newConf = { ...confTmp }
-        newConf.tokenDetails = result.data
-        setConf(newConf)
-        setisAuthorized(true)
-        setSnackbar({ show: true, msg: __('Authorized Successfully', 'bit-integrations') })
-      } else if (
-        (result && result.data && result.data.data) ||
-        (!result.success && typeof result.data === 'string')
-      ) {
-        setSnackbar({
-          show: true,
-          msg: `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}`
-        })
-      } else {
-        setSnackbar({
-          show: true,
-          msg: __('Authorization failed. please try again', 'bit-integrations')
-        })
-      }
-      setIsLoading(false)
-    })
-}
-
 export const handleAuthorize = (
   confTmp,
   setConf,
@@ -155,7 +108,7 @@ export const generateMappedField = fields => {
 
 export const addFieldMap = (i, confTmp, setConf, FieldMappings, mapKey) => {
   const newConf = { ...confTmp }
-  // Generate a unique groupId for this batch
+
   const groupId = Date.now() + Math.random()
   const newFieldMap = FieldMappings.map(field => ({
     formField: '',
@@ -166,9 +119,7 @@ export const addFieldMap = (i, confTmp, setConf, FieldMappings, mapKey) => {
   setConf({ ...newConf })
 }
 
-// Shared validation function for Line integration
 export const validateLineConfiguration = lineConf => {
-  // Helper function to check if message field is properly configured
   const isMessageFieldConfigured = () => {
     if (!lineConf.message_field_map || lineConf.message_field_map.length === 0) {
       return false
@@ -185,19 +136,16 @@ export const validateLineConfiguration = lineConf => {
 
   switch (lineConf.messageType) {
     case 'sendPushMessage':
-      // Need both recipient ID AND message field
       const hasRecipientId = lineConf.recipientId && lineConf.recipientId.trim() !== ''
       const hasMessageField = isMessageFieldConfigured()
       return hasRecipientId && hasMessageField
 
     case 'sendReplyMessage':
-      // Need both reply token AND message field
       const hasReplyToken = lineConf.replyToken && lineConf.replyToken.trim() !== ''
       const hasReplyMessageField = isMessageFieldConfigured()
       return hasReplyToken && hasReplyMessageField
 
     case 'sendBroadcastMessage':
-      // Only need message field for broadcast
       const hasBroadcastMessageField = isMessageFieldConfigured()
       return hasBroadcastMessageField
 
@@ -206,11 +154,9 @@ export const validateLineConfiguration = lineConf => {
   }
 }
 
-// Function to get validation messages for missing fields
 export const getLineValidationMessages = lineConf => {
   const messages = []
 
-  // Helper function to check if message field is properly configured
   const isMessageFieldConfigured = () => {
     if (!lineConf.message_field_map || lineConf.message_field_map.length === 0) {
       return false
