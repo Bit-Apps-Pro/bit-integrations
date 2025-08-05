@@ -72,7 +72,7 @@ class RecordApiHelper
             $splitSelectedTags = explode(',', $selectedTags);
 
             foreach ($splitSelectedTags as $tag) {
-                $requestParams['tags'] = (object) ['tagId' => $tag];
+                $requestParams['tags'][] = ['tagId' => $tag];
             }
         }
 
@@ -88,25 +88,26 @@ class RecordApiHelper
             if ($key === 'name') {
                 $requestParams[$key] = $value;
             } else {
-                $requestParams['customFieldValues'][] = (object) ['customFieldId' => $key, 'value' => (array) $value];
+                $requestParams['customFieldValues'][] = (object) [
+                    'customFieldId' => $key,
+                    'value'         => (array) $value
+                ];
             }
         }
 
         $isExist = $this->existSubscriber($auth_token, $finalData['email']);
+        $shouldUpdate = !empty($existing[0]->contactId) && !empty($this->_integrationDetails->actions->update);
 
-        if (!empty($isExist[0]->contactId) && !empty($this->_integrationDetails->actions->update)) {
+        if ($shouldUpdate) {
             $contactId = $isExist[0]->contactId;
             $apiEndpoints = $this->baseUrl . "contacts/{$contactId}";
 
             $requestParams['tags'] = $this->getFormattedTags($contactId, $requestParams['tags']);
-            error_log(print_r($requestParams['tags'], true));
 
-            $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
-        } else {
-            $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
+            return HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
         }
 
-        return $response;
+        return HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
@@ -159,11 +160,11 @@ class RecordApiHelper
         if (empty($contactResponse->tags)) {
             return $tags;
         }
-        error_log(print_r($contactResponse, true));
+
         foreach ($contactResponse->tags as $existingTag) {
-            $tags[] = (object) ['tagId' => $existingTag->tagId];
+            $tags[] = ['tagId' => $existingTag->tagId];
         }
 
-        return array_unique($tags);
+        return array_unique($tags, SORT_REGULAR);
     }
 }
