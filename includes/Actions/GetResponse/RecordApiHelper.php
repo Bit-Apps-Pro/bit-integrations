@@ -6,10 +6,10 @@
 
 namespace BitCode\FI\Actions\GetResponse;
 
+use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\Helper;
 use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -58,27 +58,22 @@ class RecordApiHelper
 
     public function addContactToCampaign($auth_token, $selectedTags, $finalData, $campaign)
     {
-        $apiEndpoints = $this->baseUrl . 'contacts';
-        $tags = [];
-
-        if (!empty($selectedTags)) {
-            $splitSelectedTags = explode(',', $selectedTags);
-            foreach ($splitSelectedTags as $tag) {
-                $tags[] = (object) ['tagId' => $tag];
-            }
-        }
-
         if (empty($finalData['email'])) {
             return ['success' => false, 'message' => __('Required field Email is empty', 'bit-integrations'), 'code' => 400];
         }
 
+        $apiEndpoints = $this->baseUrl . 'contacts';
         $requestParams = [
             'email'    => $finalData['email'],
             'campaign' => $campaign,
         ];
 
-        if (!empty($tags)) {
-            $requestParams['tags'] = $tags;
+        if (!empty($selectedTags)) {
+            $splitSelectedTags = explode(',', $selectedTags);
+
+            foreach ($splitSelectedTags as $tag) {
+                $requestParams['tags'][] = ['tagId' => $tag];
+            }
         }
 
         if (isset($this->_integrationDetails->dayOfCycle) && Helper::proActionFeatExists('GetResponse', 'autoResponderDay')) {
@@ -86,27 +81,33 @@ class RecordApiHelper
         }
 
         foreach ($finalData as $key => $value) {
-            if ($key !== 'email') {
-                if ($key === 'name') {
-                    $requestParams[$key] = $value;
-                } else {
-                    $requestParams['customFieldValues'][] = (object) ['customFieldId' => $key, 'value' => (array) $value];
-                }
+            if ($key === 'email') {
+                continue;
+            }
+
+            if ($key === 'name') {
+                $requestParams[$key] = $value;
+            } else {
+                $requestParams['customFieldValues'][] = (object) [
+                    'customFieldId' => $key,
+                    'value'         => (array) $value
+                ];
             }
         }
 
-        $email = $finalData['email'];
-        $isExist = $this->existSubscriber($auth_token, $email);
+        $isExist = $this->existSubscriber($auth_token, $finalData['email']);
+        $shouldUpdate = !empty($existing[0]->contactId) && !empty($this->_integrationDetails->actions->update);
 
-        if ($isExist && !empty($this->_integrationDetails->actions->update)) {
+        if ($shouldUpdate) {
             $contactId = $isExist[0]->contactId;
             $apiEndpoints = $this->baseUrl . "contacts/{$contactId}";
-            $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
-        } else {
-            $response = HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
+
+            $requestParams['tags'] = $this->getFormattedTags($contactId, $requestParams['tags']);
+
+            return HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
         }
 
-        return $response;
+        return HttpHelper::post($apiEndpoints, $requestParams, $this->_defaultHeader);
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
@@ -149,5 +150,21 @@ class RecordApiHelper
         }
 
         return $apiResponse;
+    }
+
+    private function getFormattedTags($contactId, $tags = [])
+    {
+        $contactEndpoint = $this->baseUrl . "contacts/{$contactId}";
+        $contactResponse = HttpHelper::get($contactEndpoint, null, $this->_defaultHeader);
+
+        if (empty($contactResponse->tags)) {
+            return $tags;
+        }
+
+        foreach ($contactResponse->tags as $existingTag) {
+            $tags[] = ['tagId' => $existingTag->tagId];
+        }
+
+        return array_unique($tags, SORT_REGULAR);
     }
 }
