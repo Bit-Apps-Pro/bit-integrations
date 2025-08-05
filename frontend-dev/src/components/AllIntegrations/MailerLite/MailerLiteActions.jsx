@@ -9,26 +9,30 @@ import ConfirmModal from '../../Utilities/ConfirmModal'
 import TableCheckBox from '../../Utilities/TableCheckBox'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { getAllGroups } from './MailerLiteCommonFunc'
+import { create } from 'mutative'
 
 export default function MailerLiteActions({ mailerLiteConf, setMailerLiteConf, loading, setLoading }) {
   const [actionMdl, setActionMdl] = useState({ show: false, action: () => {} })
 
   const actionHandler = (e, type) => {
-    const newConf = { ...mailerLiteConf }
-
     if (type === 'group') {
       getAllGroups(mailerLiteConf, setMailerLiteConf, loading, setLoading)
     }
 
-    if (e.target.checked) {
-      newConf.actions[type] = true
-    } else {
-      delete newConf.actions[type]
-    }
-
     setActionMdl({ show: type })
-    setMailerLiteConf({ ...newConf })
+    setMailerLiteConf(prevConf =>
+      create(prevConf, draftConf => {
+        draftConf.actions = { ...(draftConf.actions || {}) }
+
+        if (e.target.checked) {
+          draftConf.actions[type] = true
+        } else {
+          delete draftConf.actions[type]
+        }
+      })
+    )
   }
+
   const clsActionMdl = () => {
     setActionMdl({ show: false })
   }
