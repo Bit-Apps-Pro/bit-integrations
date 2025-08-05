@@ -44,7 +44,7 @@ import {
 import c from 'react-multiple-select-dropdown-lite'
 import { create } from 'mutative'
 
-export const checkWebhookIntegrationsExist = (entity) => {
+export const checkWebhookIntegrationsExist = entity => {
   const integrations = webhookIntegrations
   return integrations.includes(entity)
 }
@@ -406,7 +406,7 @@ export const saveActionConf = async ({
     action = 'flow/update'
   }
   try {
-    await bitsFetch(data, action).then((res) => {
+    await bitsFetch(data, action).then(res => {
       if (!edit && res.success) {
         navigate(allIntegURL)
       }
@@ -440,14 +440,14 @@ export const saveActionConf = async ({
   }
 }
 
-export const setGrantTokenResponse = (integ) => {
+export const setGrantTokenResponse = integ => {
   const grantTokenResponse = {}
   const authWindowLocation = window.location.href
   const queryParams = authWindowLocation
     .replace(`${window.opener.location.href}/redirect`, '')
     .split('&')
   if (queryParams) {
-    queryParams.forEach((element) => {
+    queryParams.forEach(element => {
       const gtKeyValue = element.split('=')
       if (gtKeyValue[1]) {
         // eslint-disable-next-line prefer-destructuring
@@ -480,11 +480,13 @@ export const handleAuthorize = (
     return
   }
   setIsLoading(true)
-  const apiEndpoint = `https://accounts.zoho.${confTmp.dataCenter
-    }/oauth/v2/auth?scope=${scopes}&response_type=code&client_id=${confTmp.clientId
-    }&prompt=Consent&access_type=offline&state=${encodeURIComponent(
-      window.location.href
-    )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api.base}`)}/redirect`
+  const apiEndpoint = `https://accounts.zoho.${
+    confTmp.dataCenter
+  }/oauth/v2/auth?scope=${scopes}&response_type=code&client_id=${
+    confTmp.clientId
+  }&prompt=Consent&access_type=offline&state=${encodeURIComponent(
+    window.location.href
+  )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api.base}`)}/redirect`
   const authWindow = window.open(apiEndpoint, integ, 'width=400,height=609,toolbar=off')
   const popupURLCheckTimer = setInterval(() => {
     if (authWindow.closed) {
@@ -548,8 +550,8 @@ const tokenHelper = (
   tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
 
   bitsFetch(tokenRequestParams, `${ajaxInteg}_generate_token`)
-    .then((result) => result)
-    .then((result) => {
+    .then(result => result)
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...confTmp }
         newConf.tokenDetails = result.data
@@ -565,8 +567,9 @@ const tokenHelper = (
       ) {
         setSnackbar({
           show: true,
-          msg: `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data
-            }. ${__('please try again', 'bit-integrations')}`
+          msg: `${__('Authorization failed Cause:', 'bit-integrations')}${
+            result.data.data || result.data
+          }. ${__('please try again', 'bit-integrations')}`
         })
       } else {
         setSnackbar({
@@ -641,12 +644,14 @@ export const handleCustomValue = (event, index, conftTmp, setConf, tab) => {
 }
 
 export const setFieldInputOnMsgBody = (val, setConf, inputRef) => {
-  setConf(prevConf => create(prevConf, draftConf => {
-    const body = draftConf.body
-    const cursorPosition = inputRef.current.selectionStart
-    const firstHalfBody = body.substring(0, cursorPosition)
-    const lastHalfBody = body.substring(cursorPosition, body.length)
+  setConf(prevConf =>
+    create(prevConf, draftConf => {
+      const body = draftConf.body
+      const cursorPosition = inputRef.current.selectionStart
+      const firstHalfBody = body.substring(0, cursorPosition)
+      const lastHalfBody = body.substring(cursorPosition, body.length)
 
-    draftConf.body = firstHalfBody + val + lastHalfBody
-  }))
+      draftConf.body = firstHalfBody + val + lastHalfBody
+    })
+  )
 }
