@@ -703,17 +703,17 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 = 2.6.6 =
 _Release Date -6th August 2025_
 
+- **New Triggers**
+ - Paid Memberships Pro: +1 New Events Added (Pro).
+ - WP Travel Engine: 3 New Events Added (Pro).
+ - WP User Frontend (WPUF): 2 New Events Added (Pro).
+
 - **Bug Fixes**
  - GetResponse: Fixed Tags now append correctly to contacts upon submission.
  - Paid Memberships Pro: Membership selection update issue resolved (Pro).
  - Zoho CRM: Fixed tasks module fetching issue — now syncing tasks properly.
  - MailerLite:Fixed checkbox issue under update utilities.
  - MailerLite: Resolved integration name not updating correctly.
-
-- **New Triggers**
- - Paid Memberships Pro: +1 New Events Added (Pro).
- - WP Travel Engine: 3 New Events Added (Pro).
- - WP User Frontend (WPUF): 2 New Events Added (Pro).
  
 = 2.6.5 =
 _Release Date -26th july 2025_
