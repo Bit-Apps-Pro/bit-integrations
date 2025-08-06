@@ -227,7 +227,14 @@ export const eventsCalendarStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
 }
 
 export const voxelStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
-  if (val === 'voxel-7' || val === 'voxel-8' || val === 'voxel-9' || val === 'voxel-10' || val === 'voxel-11' || val === 'voxel-20') {
+  if (
+    val === 'voxel-7' ||
+    val === 'voxel-8' ||
+    val === 'voxel-9' ||
+    val === 'voxel-10' ||
+    val === 'voxel-11' ||
+    val === 'voxel-20'
+  ) {
     tmpNewFlow.triggerData = {
       ...tmpNewFlow.triggerData,
       postTypes: resp.data.postTypes,
@@ -445,9 +452,8 @@ export const MemberpressStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
 }
 
 export const PaidMembershipProStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
-  if (val === '1' || val === '2' || val === '3' || val === '4') {
-    tmpNewFlow.triggerData.AllMembershipLevels = resp.data.AllMembershipLevels
-  }
+  tmpNewFlow.triggerData.AllMembershipLevels = resp.data.AllMembershipLevels
+
   setNewFlow(tmpNewFlow)
 }
 
@@ -618,7 +624,14 @@ export const eventsCalendarIH = (tmpConf, flowData, triggered_entity_id) => {
 export const voxelIH = (tmpConf, flowData, triggered_entity_id) => {
   const formId = flowData.formID ? flowData.formID : triggered_entity_id
 
-  if (formId === 'voxel-7' || formId === 'voxel-8' || formId === 'voxel-9' || formId === 'voxel-10' || formId === 'voxel-11' || formId === 'voxel-20') {
+  if (
+    formId === 'voxel-7' ||
+    formId === 'voxel-8' ||
+    formId === 'voxel-9' ||
+    formId === 'voxel-10' ||
+    formId === 'voxel-11' ||
+    formId === 'voxel-20'
+  ) {
     tmpConf.selectedPostType = flowData.selectedPostType
     tmpConf.postTypes = flowData.postTypes
   }
@@ -871,11 +884,9 @@ export const memberpressStateIH = (tmpConf, flowData) => {
 }
 
 export const PaidMembershipProStateIH = (tmpConf, flowData) => {
-  const val = Number(flowData.formID)
-  if (val === 1 || val === 2 || val === 3 || val === 4) {
-    tmpConf.selectedMembershipLevel = flowData.selectedMembershipLevel
-    tmpConf.AllMembershipLevels = flowData.AllMembershipLevels
-  }
+  tmpConf.selectedMembershipLevel = flowData.selectedMembershipLevel
+  tmpConf.AllMembershipLevels = flowData.AllMembershipLevels
+
   return tmpConf
 }
 
@@ -889,7 +900,6 @@ export const SliceWpStateIH = (tmpConf, flowData) => {
 }
 
 export const SureCartStateIH = (tmpConf, flowData) => {
-
   tmpConf.selectedProduct = flowData.selectedProduct
   tmpConf.allProduct = flowData.allProduct
 
