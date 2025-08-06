@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '26th July 2025'
+const releaseDate = '6th August 2025'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -31,7 +31,23 @@ const changeLog = [
     label: __('New Triggers', 'bit-integrations'),
     headClass: 'new-trigger',
     itemClass: 'integration-list',
-    items: []
+    items: [
+      {
+        label: 'Paid Memberships Pro',
+        desc: '+1 New Events Added.',
+        isPro: true
+      },
+      {
+        label: 'WP Travel Engine',
+        desc: '3 New Events Added.',
+        isPro: true
+      },
+      {
+        label: 'WP User Frontend (WPUF)',
+        desc: '2 New Events Added.',
+        isPro: true
+      }
+    ]
   },
   {
     label: __('New Features', 'bit-integrations'),
@@ -51,24 +67,29 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'Plugin Update',
-        desc: 'Fixed version updating issue causing discrepancies during plugin upgrades',
+        label: 'Paid Memberships Pro',
+        desc: 'Membership selection update issue resolved.',
         isPro: true
       },
       {
-        label: 'WooCommerce',
-        desc: 'Resolved an issue with meta box field fetching not returning expected values.',
+        label: 'GetResponse',
+        desc: 'Fixed Tags now append correctly to contacts upon submission.',
         isPro: false
       },
       {
-        label: 'Webhook',
-        desc: 'Fixed fatal error caused by the JSON checker in certain payload conditions.',
-        isPro: true
+        label: 'Zoho CRM',
+        desc: 'Fixed tasks module fetching issue — now syncing tasks properly.',
+        isPro: false
       },
       {
-        label: 'Webhook',
-        desc: 'Addressed an issue where the request body was not flattening correctly, improving compatibility with third-party services.',
-        isPro: true
+        label: 'MailerLite',
+        desc: 'Fixed checkbox issue under update utilities.',
+        isPro: false
+      },
+      {
+        label: 'MailerLite',
+        desc: 'Resolved integration name not updating correctly.',
+        isPro: false
       }
     ]
   }

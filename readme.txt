@@ -4,7 +4,7 @@ Tags: automation, automator, Google Sheets, webhooks, zapier, marketing automati
 Requires at least: 5.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.6.5
+Stable tag: 2.6.6
 License: GPLv2 or later
 
 Perfect Automation and integration plugin: Connect 290+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
@@ -700,6 +700,21 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 
 == Changelog ==
 
+= 2.6.6 =
+_Release Date -6th August 2025_
+
+- **Bug Fixes**
+ - GetResponse: Fixed Tags now append correctly to contacts upon submission.
+ - Paid Memberships Pro: Membership selection update issue resolved (Pro).
+ - Zoho CRM: Fixed tasks module fetching issue — now syncing tasks properly.
+ - MailerLite:Fixed checkbox issue under update utilities.
+ - MailerLite: Resolved integration name not updating correctly.
+
+- **New Triggers**
+ - Paid Memberships Pro: +1 New Events Added (Pro).
+ - WP Travel Engine: 3 New Events Added (Pro).
+ - WP User Frontend (WPUF): 2 New Events Added (Pro).
+ 
 = 2.6.5 =
 _Release Date -26th july 2025_
 
