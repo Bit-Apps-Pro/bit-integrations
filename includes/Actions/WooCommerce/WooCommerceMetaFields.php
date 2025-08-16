@@ -26,14 +26,15 @@ class WooCommerceMetaFields
         $metaBoxFields = [];
         $metaBoxUploadFields = [];
 
-        if (\function_exists('rwmb_meta')) {
+        if (\function_exists('rwmb_get_registry') && \function_exists('rwmb_get_object_fields')) {
             if ($module === 'customer') {
-                $field_registry = rwmb_get_registry('field');
+                $field_registry = \rwmb_get_registry('field');
                 $meta_boxes = $field_registry->get_by_object_type($object_type = 'user');
                 $metaFields = isset($meta_boxes['user']) && \is_array($meta_boxes['user']) ? array_values($meta_boxes['user']) : [];
             } else {
-                $metaFields = array_values(rwmb_get_object_fields($module));
+                $metaFields = array_values(\rwmb_get_object_fields($module));
             }
+
             foreach ($metaFields as $index => $field) {
                 if (!\in_array($field['type'], $fileTypes)) {
                     $metaBoxFields[$index] = (object) [

@@ -156,7 +156,11 @@ class RecordApiHelper
             }
         } elseif ($actionName === 'lead-create') {
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
+
+            $finalData = apply_filters('btcbi_salesforce_add_lead_utilities', $finalData, $integrationDetails->actions);
+
             $insertLeadResponse = $this->insertLead($finalData);
+
             if (\is_object($insertLeadResponse) && property_exists($insertLeadResponse, 'id')) {
                 LogHandler::save($this->_integrationID, wp_json_encode(['type' => $actionName, 'type_name' => 'Lead-create']), 'success', wp_json_encode(wp_sprintf(__('Created lead id is : %s', 'bit-integrations'), $insertLeadResponse->id)));
             } else {

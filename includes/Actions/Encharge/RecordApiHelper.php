@@ -6,6 +6,7 @@
 
 namespace BitCode\FI\Actions\Encharge;
 
+use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Log\LogHandler;
 
@@ -18,8 +19,11 @@ class RecordApiHelper
 
     private $_integrationID;
 
+    private $_endpoint;
+
     public function __construct($api_key, $integId)
     {
+        $this->_endpoint = 'https://api.encharge.io/v1/people';
         $this->_defaultHeader['Content-Type'] = 'application/json';
         $this->_defaultHeader['X-Encharge-Token'] = $api_key;
         $this->_integrationID = $integId;
@@ -34,9 +38,7 @@ class RecordApiHelper
      */
     public function insertRecord($data)
     {
-        $insertRecordEndpoint = 'https://api.encharge.io/v1/people';
-
-        return HttpHelper::post($insertRecordEndpoint, $data, $this->_defaultHeader);
+        return HttpHelper::post($this->_endpoint, $data, $this->_defaultHeader);
     }
 
     public function execute($fieldValues, $fieldMap, $tags)
@@ -47,14 +49,14 @@ class RecordApiHelper
             if (!empty($fieldPair->enChargeFields)) {
                 // echo $fieldPair->enChargeFields . ' ' . $fieldPair->formField;
                 if ($fieldPair->formField === 'custom' && isset($fieldPair->customValue)) {
-                    $fieldData[$fieldPair->enChargeFields] = $fieldPair->customValue;
+                    $fieldData[$fieldPair->enChargeFields] = Common::replaceFieldWithValue($fieldPair->customValue, $fieldValues);
                 } elseif (!\is_null($fieldValues[$fieldPair->formField])) {
                     $fieldData[$fieldPair->enChargeFields] = $fieldValues[$fieldPair->formField];
                 }
             }
         }
         if ($tags !== null) {
-            $fieldData['tags'] = $tags;
+            $fieldData['tags'] = $this->combineTagsWithExisting($tags, $fieldData['email']);
         }
         $recordApiResponse = $this->insertRecord(wp_json_encode($fieldData));
         $type = 'insert';
@@ -70,5 +72,23 @@ class RecordApiHelper
         }
 
         return $recordApiResponse;
+    }
+
+    private function combineTagsWithExisting($tags, $email)
+    {
+        $endpoint = $this->_endpoint . '?people[0][email]=' . urlencode($email);
+
+        $response = HttpHelper::get($endpoint, null, $this->_defaultHeader);
+
+        if (is_wp_error($response) || empty($response->users[0]->tags ?? '')) {
+            return $tags;
+        }
+
+        $existingTags = array_filter(array_map('trim', explode(',', $response->users[0]->tags)));
+        $newTags = array_filter(array_map('trim', explode(',', $tags)));
+
+        $userTags = array_unique(array_merge($existingTags, $newTags));
+
+        return implode(',', $userTags);
     }
 }

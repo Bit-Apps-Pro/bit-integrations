@@ -22,3 +22,7 @@ Route::post('selesforce_case_status', [SalesforceController::class, 'selesforceC
 Route::post('selesforce_case_priority', [SalesforceController::class, 'selesforceCasePriority']);
 Route::post('selesforce_case_potential_liability', [SalesforceController::class, 'selesforceCasePotentialLiability']);
 Route::post('selesforce_case_sla_violation', [SalesforceController::class, 'selesforceCaseSLAViolation']);
+Route::post('selesforce_get_lead_sources', [SalesforceController::class, 'getAllLeadSources']);
+Route::post('selesforce_get_lead_status', [SalesforceController::class, 'getAllLeadStatus']);
+Route::post('selesforce_get_lead_ratings', [SalesforceController::class, 'getAllLeadRatings']);
+Route::post('selesforce_get_lead_industries', [SalesforceController::class, 'getAllLeadIndustries']);

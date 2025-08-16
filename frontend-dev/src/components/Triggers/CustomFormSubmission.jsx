@@ -235,7 +235,7 @@ const CustomFormSubmission = () => {
             className={`flx mt-2 flx-${newFlow.triggerDetail?.data && !skipPrimaryKey ? 'between' : 'around'}`}>
             <button
               onClick={handleFetch}
-              className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : newFlow.triggerDetail?.data ? 'gray' : 'purple'}`}
+              className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'purple' : newFlow.triggerDetail?.data ? 'gray' : 'purple'}`}
               type="button">
               {isLoading
                 ? __('Waiting for form submission...', 'bit-integrations')

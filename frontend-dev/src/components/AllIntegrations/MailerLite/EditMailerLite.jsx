@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { $actionConf, $formFields, $newFlow } from '../../../GlobalStates'
@@ -13,6 +13,7 @@ import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import { checkMappedFields, handleInput } from './MailerLiteCommonFunc'
 import MailerLiteIntegLayout from './MailerLiteIntegLayout'
+import { create } from 'mutative'
 
 function EditMailerLite({ allIntegURL }) {
   const navigate = useNavigate()
@@ -20,6 +21,7 @@ function EditMailerLite({ allIntegURL }) {
   const [flow, setFlow] = useRecoilState($newFlow)
   const [mailerLiteConf, setMailerLiteConf] = useRecoilState($actionConf)
   const [isLoading, setIsLoading] = useState(false)
+  const [name, setName] = useState(mailerLiteConf?.name || '')
   const [loading, setLoading] = useState({
     list: false,
     field: false,
@@ -45,6 +47,26 @@ function EditMailerLite({ allIntegURL }) {
     })
   }
 
+  useEffect(() => {
+    if (!mailerLiteConf?.action) {
+      setMailerLiteConf(prev =>
+        create(prev, draftConf => {
+          draftConf.action = 'add_subscriber'
+        })
+      )
+    }
+  }, [])
+
+  const handleEditIntegName = e => {
+    setName(e.target.value)
+
+    setMailerLiteConf(prevConf =>
+      create(prevConf, draftConF => {
+        draftConF.name = e.target.value
+      })
+    )
+  }
+
   return (
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
@@ -53,9 +75,9 @@ function EditMailerLite({ allIntegURL }) {
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
         <input
           className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, mailerLiteConf, setMailerLiteConf)}
+          onChange={handleEditIntegName}
           name="name"
-          value={mailerLiteConf.name}
+          value={name}
           type="text"
           placeholder={__('Integration Name...', 'bit-integrations')}
         />
@@ -66,9 +88,7 @@ function EditMailerLite({ allIntegURL }) {
       <MailerLiteIntegLayout
         formID={flow.triggered_entity_id}
         formFields={formField}
-        handleInput={(e) =>
-          handleInput(e, mailerLiteConf, setMailerLiteConf, setLoading, setSnackbar)
-        }
+        handleInput={e => handleInput(e, mailerLiteConf, setMailerLiteConf, loading, setLoading)}
         mailerLiteConf={mailerLiteConf}
         setMailerLiteConf={setMailerLiteConf}
         loading={loading}

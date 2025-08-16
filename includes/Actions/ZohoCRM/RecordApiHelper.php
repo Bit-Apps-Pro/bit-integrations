@@ -6,12 +6,12 @@
 
 namespace BitCode\FI\Actions\ZohoCRM;
 
+use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Core\Util\DateTimeHelper;
+use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 use stdClass;
 use WP_Error;
-use BitCode\FI\Log\LogHandler;
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Core\Util\DateTimeHelper;
 
 /**
  * Provide functionality for Record insert,upsert
@@ -183,6 +183,7 @@ class RecordApiHelper
         } else {
             $recordApiResponse = $this->insertRecord($module, (object) $requestParams);
         }
+
         if ((isset($recordApiResponse->status) && $recordApiResponse->status === 'error')
             || (isset($recordApiResponse->data[0]->status)
                 && $recordApiResponse->data[0]->status === 'error')

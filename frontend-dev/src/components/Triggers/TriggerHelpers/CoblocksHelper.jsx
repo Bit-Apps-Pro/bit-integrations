@@ -182,7 +182,7 @@ const CoblocksHelper = () => {
       <div className="flx flx-around">
         <button
           onClick={handleFetch}
-          className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'red' : 'purple'}`}
+          className='btn btcd-btn-lg sh-sm flx purple'
           type="button">
           {isLoading
             ? __('Stop', 'bit-integrations')

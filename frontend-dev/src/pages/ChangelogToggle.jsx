@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '25th May 2025'
+const releaseDate = '6th August 2025'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -33,13 +33,18 @@ const changeLog = [
     itemClass: 'integration-list',
     items: [
       {
-        label: 'WooCommerce Memberships',
-        desc: '11 new events added.',
+        label: 'Paid Memberships Pro',
+        desc: '+1 New Events Added.',
         isPro: true
       },
       {
-        label: 'Paymattic',
-        desc: '4 new events added.',
+        label: 'WP Travel Engine',
+        desc: '3 New Events Added.',
+        isPro: true
+      },
+      {
+        label: 'WP User Frontend (WPUF)',
+        desc: '2 New Events Added.',
         isPro: true
       }
     ]
@@ -62,29 +67,29 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'Telegram',
-        desc: 'Fixed issue with fetching chat list.',
+        label: 'Paid Memberships Pro',
+        desc: 'Membership selection update issue resolved.',
+        isPro: true
+      },
+      {
+        label: 'GetResponse',
+        desc: 'Fixed Tags now append correctly to contacts upon submission.',
         isPro: false
       },
       {
-        label: 'Telegram',
-        desc: 'Resolved image-to-HTML converter bug.',
+        label: 'Zoho CRM',
+        desc: 'Fixed tasks module fetching issue — now syncing tasks properly.',
         isPro: false
       },
       {
-        label: 'Kadence Block',
-        desc: 'Fixed null value issue in form fields.',
-        isPro: true
+        label: 'MailerLite',
+        desc: 'Fixed checkbox issue under update utilities.',
+        isPro: false
       },
       {
-        label: 'WooCommerce Memberships',
-        desc: 'User role update issue resolved.',
-        isPro: true
-      },
-      {
-        label: 'Action Hook',
-        desc: 'Routes now correctly fixed and functioning.',
-        isPro: true
+        label: 'MailerLite',
+        desc: 'Resolved integration name not updating correctly.',
+        isPro: false
       }
     ]
   }

@@ -65,7 +65,7 @@ final class Plugin
     {
         $schedules['every_week'] = [
             'interval' => 604800, // 604800 seconds in 1 week
-            'display'  => esc_html__('Every Week', 'bit-integrations')
+            'display'  => (\function_exists('is_textdomain_loaded') && is_textdomain_loaded('bit-integrations')) ? esc_html__('Every Week', 'bit-integrations') : 'Every Week'
         ];
 
         return $schedules;
@@ -125,7 +125,9 @@ final class Plugin
      */
     public function plugin_action_links($links)
     {
-        $links[] = '<a href="https://docs.bit-integrations.bitapps.pro" target="_blank">' . __('Docs', 'bit-integrations') . '</a>';
+        $docs = (\function_exists('is_textdomain_loaded') && is_textdomain_loaded('bit-integrations')) ? __('Docs', 'bit-integrations') : 'Docs';
+
+        $links[] = '<a href="https://docs.bit-integrations.bitapps.pro" target="_blank">' . $docs . '</a>';
 
         return $links;
     }

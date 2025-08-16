@@ -19,7 +19,10 @@ use BitCode\FI\controller\OneClickCredentialController;
 Route::post('log/get', [LogHandler::class, 'get']);
 Route::post('log/delete', [LogHandler::class, 'delete']);
 
+// Trigger Controller
 Route::get('trigger/list', [TriggerController::class, 'triggerList']);
+Route::post('trigger/test', [TriggerController::class, 'getTestData']);
+Route::post('trigger/test/remove', [TriggerController::class, 'removeTestData']);
 
 Route::get('flow/list', [Flow::class, 'flowList']);
 Route::post('flow/get', [Flow::class, 'get']);

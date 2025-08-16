@@ -37,7 +37,7 @@ function Salesforce({ formFields, setFlow, flow, allIntegURL }) {
     type: 'Salesforce',
     clientId: '',
     clientSecret: '',
-    field_map: [{ formField: '', selesforceField: '' }],
+    field_map: [],
     selesforceActionModules: action_modules,
     action_modules,
     actions: {}

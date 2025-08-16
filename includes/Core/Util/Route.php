@@ -26,33 +26,49 @@ final class Route
 
     public static function request($method, $hook, $invokeable)
     {
-        if ((isset($_SERVER['REQUEST_METHOD']) && sanitize_text_field($_SERVER['REQUEST_METHOD']) != $method) || !isset($_REQUEST['action']) || (isset($_REQUEST['action']) && strpos(sanitize_text_field($_REQUEST['action']), $hook) === false)) {
+        $action = $_REQUEST['action'] ?? $_POST['action'] ?? $_GET['action'] ?? null;
+        $action = sanitize_text_field($action);
+
+        if (
+            (isset($_SERVER['REQUEST_METHOD']) && sanitize_text_field($_SERVER['REQUEST_METHOD']) != $method)
+            || empty($action)
+            || (!empty($action) && strpos($action, $hook) === false)
+        ) {
             if (static::$_no_auth) {
                 static::$_no_auth = false;
             }
+
             if (static::$_ignore_token) {
                 static::$_ignore_token = false;
             }
 
             return;
         }
+
         if (static::$_ignore_token) {
             static::$_ignore_token = false;
             static::$_invokeable[static::$_prefix . $hook][$method . '_ignore_token'] = true;
         }
+
         static::$_invokeable[static::$_prefix . $hook][$method] = $invokeable;
+
         Hooks::add('wp_ajax_' . static::$_prefix . $hook, [__CLASS__, 'action']);
+
         if (static::$_no_auth) {
             static::$_no_auth = false;
+
             Hooks::add('wp_ajax_nopriv_' . static::$_prefix . $hook, [__CLASS__, 'action']);
         }
     }
 
     public static function action()
     {
-        $action = sanitize_text_field($_REQUEST['action']);
+        $action = $_REQUEST['action'] ?? $_POST['action'] ?? $_GET['action'] ?? null;
+        $action = sanitize_text_field($action);
+
         $sanitizedMethod = sanitize_text_field($_SERVER['REQUEST_METHOD']);
         $requestMethod = \in_array($sanitizedMethod, ['GET', 'POST']) ? $sanitizedMethod : 'POST';
+
         if (
             isset(static::$_invokeable[$action][$requestMethod . '_ignore_token'])
             || isset($_REQUEST['_ajax_nonce']) && wp_verify_nonce(sanitize_text_field($_REQUEST['_ajax_nonce']), 'btcbi_nonce')

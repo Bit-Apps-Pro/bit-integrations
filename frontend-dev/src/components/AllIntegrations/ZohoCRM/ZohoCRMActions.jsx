@@ -14,14 +14,7 @@ import Modal from '../../Utilities/Modal'
 import TitleModal from '../../Utilities/TitleModal'
 import { refreshAssigmentRules, refreshOwners, refreshTags } from './ZohoCRMCommonFunc'
 
-export default function ZohoCRMActions({
-  crmConf,
-  setCrmConf,
-  formFields,
-  tab,
-  formID,
-  setSnackbar
-}) {
+export default function ZohoCRMActions({ crmConf, setCrmConf, formFields, tab, formID, setSnackbar }) {
   const [upsertMdl, setUpsertMdl] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [actionMdl, setActionMdl] = useState({ show: false, action: () => {} })
@@ -181,13 +174,13 @@ export default function ZohoCRMActions({
     ]
 
     if (crmConf.default.tags?.[module]) {
-      arr[0].childs = Object.values(crmConf.default.tags?.[module]).map((tagName) => ({
+      arr[0].childs = Object.values(crmConf.default.tags?.[module]).map(tagName => ({
         label: tagName,
         value: tagName
       }))
     }
 
-    arr[1].childs = formFields.map((itm) => ({ label: itm.label, value: `\${${itm.name}}` }))
+    arr[1].childs = formFields.map(itm => ({ label: itm.label, value: `\${${itm.name}}` }))
     return arr
   }
 
@@ -248,16 +241,26 @@ export default function ZohoCRMActions({
     <div className="pos-rel">
       <div className="d-flx flx-wrp">
         <TableCheckBox
-          onChange={(e) => actionHandler(e, 'workflow')}
+          onChange={openRecOwnerModal}
           checked={
             tab === 0
-              ? 'workflow' in crmConf.actions
-              : 'workflow' in crmConf.relatedlists[tab - 1].actions
+              ? 'rec_owner' in crmConf.actions
+              : 'rec_owner' in crmConf.relatedlists[tab - 1].actions
           }
           className="wdt-200 mt-4 mr-2"
-          value="Workflow"
-          title={__('Workflow', 'bit-integrations')}
-          subTitle={__('Trigger CRM workflows', 'bit-integrations')}
+          value="Record_Owner"
+          title={__('Record Owner', 'bit-integrations')}
+          subTitle={__('Add a owner to records pushed to Zoho CRM', 'bit-integrations')}
+        />
+        <TableCheckBox
+          onChange={() => setActionMdl({ show: 'tag_rec' })}
+          checked={
+            tab === 0 ? 'tag_rec' in crmConf.actions : 'tag_rec' in crmConf.relatedlists[tab - 1].actions
+          }
+          className="wdt-200 mt-4 mr-2"
+          value="Tag_Records"
+          title={__('Tag Records', 'bit-integrations')}
+          subTitle={__('Add a tag to records pushed to Zoho CRM', 'bit-integrations')}
         />
         <TableCheckBox
           onChange={() => setActionMdl({ show: 'attachment' })}
@@ -271,95 +274,86 @@ export default function ZohoCRMActions({
           title={__('Attachment', 'bit-integrations')}
           subTitle={__('Add attachments or signatures from Trigger to CRM', 'bit-integrations')}
         />
-        <TableCheckBox
-          onChange={(e) => actionHandler(e, 'approval')}
-          checked={
-            tab === 0
-              ? 'approval' in crmConf.actions
-              : 'approval' in crmConf.relatedlists[tab - 1].actions
-          }
-          className="wdt-200 mt-4 mr-2"
-          value="Approval"
-          title={__('Approval', 'bit-integrations')}
-          subTitle={__('Send entries to CRM approval list', 'bit-integrations')}
-        />
-        <TableCheckBox
-          onChange={(e) => actionHandler(e, 'blueprint')}
-          checked={
-            tab === 0
-              ? 'blueprint' in crmConf.actions
-              : 'blueprint' in crmConf.relatedlists[tab - 1].actions
-          }
-          className="wdt-200 mt-4 mr-2"
-          value="Blueprint"
-          title={__('Blueprint', 'bit-integrations')}
-          subTitle={__('Trigger CRM Blueprint', 'bit-integrations')}
-        />
-        <TableCheckBox
-          onChange={(e) => actionHandler(e, 'gclid')}
-          checked={
-            tab === 0
-              ? 'gclid' in crmConf.actions
-              : 'gclid' in crmConf.relatedlists[tab - 1].actions
-          }
-          className="wdt-200 mt-4 mr-2"
-          value="Capture_GCLID"
-          title={__('Capture GCLID', 'bit-integrations')}
-          subTitle={__('Sends the click details of AdWords Ads to Zoho CRM', 'bit-integrations')}
-        />
-        <TitleModal action={openUpsertModal}>
-          <TableCheckBox
-            onChange={(e) => actionHandler(e, 'upsert')}
-            checked={
-              tab === 0
-                ? 'upsert' in crmConf.actions
-                : 'upsert' in crmConf.relatedlists[tab - 1].actions
-            }
-            className="wdt-200 mt-4 mr-2"
-            value="Upsert_Record"
-            title={__('Upsert Records', 'bit-integrations')}
-            subTitle={__(
-              'The record is updated if it already exists else it is inserted as a new record',
-              'bit-integrations'
-            )}
-          />
-        </TitleModal>
-        <TableCheckBox
-          onChange={openAssignmentRulesModal}
-          checked={
-            tab === 0
-              ? 'assignment_rules' in crmConf.actions
-              : 'assignment_rules' in crmConf.relatedlists[tab - 1].actions
-          }
-          className="wdt-200 mt-4 mr-2"
-          value="Assignment_Rule"
-          title={__('Assignment Rules', 'bit-integrations')}
-          subTitle={__('Trigger Assignment Rules in Zoho CRM', 'bit-integrations')}
-        />
-        <TableCheckBox
-          onChange={() => setActionMdl({ show: 'tag_rec' })}
-          checked={
-            tab === 0
-              ? 'tag_rec' in crmConf.actions
-              : 'tag_rec' in crmConf.relatedlists[tab - 1].actions
-          }
-          className="wdt-200 mt-4 mr-2"
-          value="Tag_Records"
-          title={__('Tag Records', 'bit-integrations')}
-          subTitle={__('Add a tag to records pushed to Zoho CRM', 'bit-integrations')}
-        />
-        <TableCheckBox
-          onChange={openRecOwnerModal}
-          checked={
-            tab === 0
-              ? 'rec_owner' in crmConf.actions
-              : 'rec_owner' in crmConf.relatedlists[tab - 1].actions
-          }
-          className="wdt-200 mt-4 mr-2"
-          value="Record_Owner"
-          title={__('Record Owner', 'bit-integrations')}
-          subTitle={__('Add a owner to records pushed to Zoho CRM', 'bit-integrations')}
-        />
+
+        {crmConf.module !== 'Tasks' && (
+          <>
+            <TableCheckBox
+              onChange={e => actionHandler(e, 'workflow')}
+              checked={
+                tab === 0
+                  ? 'workflow' in crmConf.actions
+                  : 'workflow' in crmConf.relatedlists[tab - 1].actions
+              }
+              className="wdt-200 mt-4 mr-2"
+              value="Workflow"
+              title={__('Workflow', 'bit-integrations')}
+              subTitle={__('Trigger CRM workflows', 'bit-integrations')}
+            />
+            <TableCheckBox
+              onChange={e => actionHandler(e, 'approval')}
+              checked={
+                tab === 0
+                  ? 'approval' in crmConf.actions
+                  : 'approval' in crmConf.relatedlists[tab - 1].actions
+              }
+              className="wdt-200 mt-4 mr-2"
+              value="Approval"
+              title={__('Approval', 'bit-integrations')}
+              subTitle={__('Send entries to CRM approval list', 'bit-integrations')}
+            />
+            <TableCheckBox
+              onChange={e => actionHandler(e, 'blueprint')}
+              checked={
+                tab === 0
+                  ? 'blueprint' in crmConf.actions
+                  : 'blueprint' in crmConf.relatedlists[tab - 1].actions
+              }
+              className="wdt-200 mt-4 mr-2"
+              value="Blueprint"
+              title={__('Blueprint', 'bit-integrations')}
+              subTitle={__('Trigger CRM Blueprint', 'bit-integrations')}
+            />
+            <TableCheckBox
+              onChange={e => actionHandler(e, 'gclid')}
+              checked={
+                tab === 0 ? 'gclid' in crmConf.actions : 'gclid' in crmConf.relatedlists[tab - 1].actions
+              }
+              className="wdt-200 mt-4 mr-2"
+              value="Capture_GCLID"
+              title={__('Capture GCLID', 'bit-integrations')}
+              subTitle={__('Sends the click details of AdWords Ads to Zoho CRM', 'bit-integrations')}
+            />
+            <TitleModal action={openUpsertModal}>
+              <TableCheckBox
+                onChange={e => actionHandler(e, 'upsert')}
+                checked={
+                  tab === 0
+                    ? 'upsert' in crmConf.actions
+                    : 'upsert' in crmConf.relatedlists[tab - 1].actions
+                }
+                className="wdt-200 mt-4 mr-2"
+                value="Upsert_Record"
+                title={__('Upsert Records', 'bit-integrations')}
+                subTitle={__(
+                  'The record is updated if it already exists else it is inserted as a new record',
+                  'bit-integrations'
+                )}
+              />
+            </TitleModal>
+            <TableCheckBox
+              onChange={openAssignmentRulesModal}
+              checked={
+                tab === 0
+                  ? 'assignment_rules' in crmConf.actions
+                  : 'assignment_rules' in crmConf.relatedlists[tab - 1].actions
+              }
+              className="wdt-200 mt-4 mr-2"
+              value="Assignment_Rule"
+              title={__('Assignment Rules', 'bit-integrations')}
+              subTitle={__('Trigger Assignment Rules in Zoho CRM', 'bit-integrations')}
+            />
+          </>
+        )}
       </div>
 
       <ConfirmModal
@@ -375,13 +369,13 @@ export default function ZohoCRMActions({
         <div className="mt-2">{__('Select File Upload Fields', 'bit-integrations')}</div>
         <MultiSelect
           defaultValue={
-            tab === 0
-              ? crmConf.actions.attachment
-              : crmConf.relatedlists[tab - 1].actions.attachment
+            tab === 0 ? crmConf.actions.attachment : crmConf.relatedlists[tab - 1].actions.attachment
           }
           className="mt-2 w-9"
-          onChange={(val) => actionHandler(val, 'attachment')}
-          options={formFields.filter(itm => (itm.type === 'file')).map(itm => ({ label: itm.label, value: String(itm.name) }))}
+          onChange={val => actionHandler(val, 'attachment')}
+          options={formFields
+            .filter(itm => itm.type === 'file')
+            .map(itm => ({ label: itm.label, value: itm.name }))}
         />
       </ConfirmModal>
 
@@ -415,10 +409,10 @@ export default function ZohoCRMActions({
                   : crmConf.relatedlists[tab - 1].actions.assignment_rules
               }
               className="btcd-paper-inp"
-              onChange={(e) => actionHandler(e.target.value, 'assignment_rules')}>
+              onChange={e => actionHandler(e.target.value, 'assignment_rules')}>
               <option value="">{__('Select Assignment Rule', 'bit-integrations')}</option>
               {crmConf?.default?.assignmentRules?.[module] &&
-                Object.keys(crmConf.default.assignmentRules[module]).map((assignmentName) => (
+                Object.keys(crmConf.default.assignmentRules[module]).map(assignmentName => (
                   <option
                     key={assignmentName}
                     value={crmConf.default.assignmentRules[module][assignmentName]}>
@@ -427,9 +421,7 @@ export default function ZohoCRMActions({
                 ))}
             </select>
             <button
-              onClick={() =>
-                refreshAssigmentRules(tab, crmConf, setCrmConf, setIsLoading, setSnackbar)
-              }
+              onClick={() => refreshAssigmentRules(tab, crmConf, setCrmConf, setIsLoading, setSnackbar)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{
                 '--tooltip-txt': `'${__('Refresh CRM Assignment Rules', 'bit-integrations')}'`
@@ -472,13 +464,11 @@ export default function ZohoCRMActions({
                 tab === 0 ? crmConf.actions.tag_rec : crmConf.relatedlists[tab - 1].actions.tag_rec
               }
               options={getTags()}
-              onChange={(val) => actionHandler(val, 'tag_rec')}
+              onChange={val => actionHandler(val, 'tag_rec')}
               customValue
             />
             <button
-              onClick={() =>
-                refreshTags(tab, formID, crmConf, setCrmConf, setIsLoading, setSnackbar)
-              }
+              onClick={() => refreshTags(tab, formID, crmConf, setCrmConf, setIsLoading, setSnackbar)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `${__('Refresh CRM Tags', 'bit-integrations')}'` }}
               type="button"
@@ -514,15 +504,13 @@ export default function ZohoCRMActions({
           <div className="flx flx-between mt-2">
             <select
               value={
-                tab === 0
-                  ? crmConf.actions.rec_owner
-                  : crmConf.relatedlists[tab - 1].actions.rec_owner
+                tab === 0 ? crmConf.actions.rec_owner : crmConf.relatedlists[tab - 1].actions.rec_owner
               }
               className="btcd-paper-inp"
-              onChange={(e) => actionHandler(e.target.value, 'rec_owner')}>
+              onChange={e => actionHandler(e.target.value, 'rec_owner')}>
               <option value="">{__('Select Owner', 'bit-integrations')}</option>
               {crmConf.default?.crmOwner &&
-                Object.values(crmConf.default.crmOwner)?.map((owner) => (
+                Object.values(crmConf.default.crmOwner)?.map(owner => (
                   <option key={owner.id} value={owner.id}>
                     {owner.full_name}
                   </option>
@@ -540,11 +528,7 @@ export default function ZohoCRMActions({
         )}
       </ConfirmModal>
 
-      <Modal
-        md
-        show={upsertMdl}
-        setModal={setUpsertMdl}
-        title={__('Upsert Record', 'bit-integrations')}>
+      <Modal md show={upsertMdl} setModal={setUpsertMdl} title={__('Upsert Record', 'bit-integrations')}>
         <div className="o-a">
           {tab === 0
             ? crmConf?.actions?.upsert && (
@@ -555,8 +539,8 @@ export default function ZohoCRMActions({
                   </small>
                   <ReactSortable
                     list={crmConf.actions.upsert?.crmField}
-                    setList={(l) => setUpsertSettings(l, 'list')}>
-                    {crmConf.actions.upsert?.crmField?.map((itm) => (
+                    setList={l => setUpsertSettings(l, 'list')}>
+                    {crmConf.actions.upsert?.crmField?.map(itm => (
                       <div key={`cf-${itm.i}`} className="upsert_rec w-7 mt-1 flx">
                         <span className="btcd-icn btcd-mnu mr-2" />
                         {itm.name}
@@ -597,8 +581,8 @@ export default function ZohoCRMActions({
                   </small>
                   <ReactSortable
                     list={crmConf.relatedlists[tab - 1].actions.upsert?.crmField}
-                    setList={(l) => setUpsertSettings(l, 'list')}>
-                    {crmConf.relatedlists[tab - 1].actions.upsert?.crmField?.map((itm) => (
+                    setList={l => setUpsertSettings(l, 'list')}>
+                    {crmConf.relatedlists[tab - 1].actions.upsert?.crmField?.map(itm => (
                       <div key={`cf-${itm.i}`} className="upsert_rec w-7 mt-1 flx">
                         <span className="btcd-icn btcd-mnu mr-2" />
                         {itm.name}

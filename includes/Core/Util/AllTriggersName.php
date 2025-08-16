@@ -80,6 +80,7 @@ final class AllTriggersName
             'MetaBox'                    => ['name' => 'MB Frontend Submission',  'isPro' => true, 'is_active' => false],
             'ModernEventsCalendar'       => ['name' => 'Modern Events Calendar',  'isPro' => true, 'is_active' => false],
             'Newsletter'                 => ['name' => 'Newsletter',  'isPro' => true, 'is_active' => false],
+            'NewUserApprove'             => ['name' => 'New User Approve',  'isPro' => true, 'is_active' => false],
             'NexForms'                   => ['name' => 'NEX-Forms',  'isPro' => true, 'is_active' => false],
             'NF'                         => ['name' => 'Ninja Forms',  'isPro' => true, 'is_active' => false],
             'NinjaTables'                => ['name' => 'Ninja Tables',  'isPro' => true, 'is_active' => false],
@@ -134,8 +135,11 @@ final class AllTriggersName
             'WpAllImport'                => ['name' => 'WP All Import',  'isPro' => true, 'is_active' => false],
             'WPLMS'                      => ['name' => 'WPLMS',  'isPro' => true, 'is_active' => false],
             'WPLoyalty'                  => ['name' => 'WPLoyalty',  'isPro' => true, 'is_active' => false],
+            'WPSubscription'             => ['name' => 'WPSubscription',  'isPro' => true, 'is_active' => false],
             'WpPolls'                    => ['name' => 'WP-Polls',  'isPro' => true, 'is_active' => false],
             'WpSimplePay'                => ['name' => 'WP Simple Pay',  'isPro' => true, 'is_active' => false],
+            'WPTravelEngine'             => ['name' => 'WP Travel Engine',  'isPro' => true, 'is_active' => false],
+            'WPUserFrontend'             => ['name' => 'WP User Frontend',  'isPro' => true, 'is_active' => false],
         ];
     }
 }
