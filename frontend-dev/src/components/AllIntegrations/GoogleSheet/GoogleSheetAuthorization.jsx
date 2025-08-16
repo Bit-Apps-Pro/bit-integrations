@@ -26,21 +26,20 @@ export default function GoogleSheetAuthorization({
   redirectLocation,
   isEdit
 }) {
-  const [isAuthorized, setisAuthorized] = useState(false)
+  const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ clientId: '', clientSecret: '' })
   const btcbi = useRecoilValue($btcbi)
   const { googleSheet } = tutorialLinks
   const [authData, setAuthData] = useState([])
   const [authInfo, setAuthInfo] = useRecoilState(authInfoAtom);
   const [selectedAuthType, setSelectedAuthType] = useState('Custom Authorization')
-  const [selectedUserId, setSelectedUserId] = useState(null)
-
+  // const [selectedUserId, setSelectedUserId] = useState(null)
 
   //Commented for one click authorization
 
   // const handleChange = (option) => {
   //   setSelectedAuthType(option)
-  //   setisAuthorized(false)
+  //   setIsAuthorized(false)
 
   //   setSheetConf((prevConf) => ({
   //     ...prevConf,
@@ -76,32 +75,33 @@ export default function GoogleSheetAuthorization({
       setIsLoading(false)
     })
   }
-  useEffect(() => {
-    if (step === 1) {
-      getAuthData()
-    }
-  }, [])
+
+  // useEffect(() => {
+  //   if (step === 1) {
+  //     getAuthData()
+  //   }
+  // }, [])
 
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    if (step === 1 && isEdit) {
+  //   if (step === 1 && isEdit) {
 
-      const authIdExists = authData.find(auth => auth.id === sheetConf.authId);
+  //     const authIdExists = authData.find(auth => auth.id === sheetConf.authId);
 
-      if (authIdExists) {
-        setSelectedUserId(sheetConf.authId)
-      } else {
-        setSelectedUserId(null)
-      }
-    }
-  }, [authData])
+  //     if (authIdExists) {
+  //       setSelectedUserId(sheetConf.authId)
+  //     } else {
+  //       setSelectedUserId(null)
+  //     }
+  //   }
+  // }, [authData])
 
 
   const handleVerificationCode = async (authInfo) => {
-    await tokenHelper(authInfo, sheetConf, setSheetConf, selectedAuthType, authData, setAuthData, setIsLoading, setSnackbar);
+    await tokenHelper(authInfo, sheetConf, setSheetConf, setIsAuthorized, selectedAuthType, authData, setAuthData, setIsLoading, setSnackbar);
     setAuthInfo(undefined)
-    getAuthData()
+    // getAuthData()
   }
 
   useEffect(() => {
@@ -121,12 +121,13 @@ export default function GoogleSheetAuthorization({
   }
 
   const nextPage = () => {
-    const selectedAuth = authData.find((item) => item.id === selectedUserId)
-    setSheetConf((prevConf) => ({
-      ...prevConf,
-      tokenDetails: selectedAuth ? selectedAuth.tokenDetails : '',
-      authId: selectedAuth ? selectedAuth.id : '',
-    }))
+    // const selectedAuth = authData.find((item) => item.id === selectedUserId)
+    // setSheetConf((prevConf) => ({
+    //   ...prevConf,
+    //   tokenDetails: selectedAuth ? selectedAuth.tokenDetails : '',
+    //   authId: selectedAuth ? selectedAuth.id : '',
+    // }))
+
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -134,7 +135,7 @@ export default function GoogleSheetAuthorization({
     setstep(2)
     refreshSpreadsheets(
       formID,
-      { ...sheetConf, tokenDetails: selectedAuth ? selectedAuth.tokenDetails : '', authId: selectedAuth ? selectedAuth.id : '' },
+      sheetConf,
       setSheetConf,
       setIsLoading,
       setSnackbar
@@ -207,7 +208,7 @@ export default function GoogleSheetAuthorization({
           }}
         />
       )}
-      {authData.length > 0 &&
+      {/* {authData.length > 0 &&
         <>
           <h2>Choose your connected account</h2>
           <AuthorizationAccountList
@@ -219,7 +220,7 @@ export default function GoogleSheetAuthorization({
             isEdit={isEdit}
           />
         </>
-      }
+      } */}
       {(isAuthorized && selectedAuthType === "One Click Authorization") &&
         (<button onClick={() => processAuth()} className="btn btcd-btn-lg purple sh-sm flx" type="button" disabled={isLoading}>
           {isAuthorized ? __('Authorized ✔', 'bit-integrations') : __('Authorize', 'bit-integrations')}
@@ -227,7 +228,7 @@ export default function GoogleSheetAuthorization({
         </button>
         )}
       <br />
-      <button onClick={() => nextPage(2)} className="btn f-right btcd-btn-lg purple sh-sm flx" type="button" disabled={!selectedUserId || authData.length === 0}>
+      <button onClick={() => nextPage(2)} className="btn f-right btcd-btn-lg purple sh-sm flx" type="button" disabled={!isAuthorized}>
         {__('Next', 'bit-integrations')}
         <BackIcn className="ml-1 rev-icn" />
       </button>
