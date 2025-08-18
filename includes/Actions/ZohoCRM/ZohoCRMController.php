@@ -114,14 +114,35 @@ final class ZohoCRMController
         $authorizationHeader['Authorization'] = "Zoho-oauthtoken {$queryParams->tokenDetails->access_token}";
 
         $modulesMetaResponse = HttpHelper::get($modulesMetaApiEndpoint, null, $authorizationHeader);
-        if (!is_wp_error($modulesMetaResponse) && (empty($modulesMetaResponse->status) || (!empty($modulesMetaResponse->status) && $modulesMetaResponse->status !== 'error'))) {
+
+        if (
+            !is_wp_error($modulesMetaResponse)
+            && (
+                empty($modulesMetaResponse->status)
+                || (
+                    !empty($modulesMetaResponse->status)
+                && $modulesMetaResponse->status !== 'error'
+                )
+            )
+        ) {
             $retriveModuleData = $modulesMetaResponse->modules;
 
             $allModules = [];
             foreach ($retriveModuleData as $key => $value) {
-                if ((!empty($value->inventory_template_supported) && $value->inventory_template_supported) || \in_array($value->api_name, $zohosIntegratedModules) || \count((array) $value->parent_module) > 0) {
+                if (
+                    (
+                        !empty($value->inventory_template_supported)
+                        && $value->inventory_template_supported
+                    )
+                    || \in_array($value->api_name, $zohosIntegratedModules)
+                    || (
+                        \count((array) $value->parent_module) > 0
+                        && $value->module_name !== 'Tasks'
+                    )
+                ) {
                     continue;
                 }
+
                 if (!empty($value->api_supported) && $value->api_supported && !empty($value->editable) && $value->editable) {
                     $allModules[$value->api_name] = (object) [
                         'plural_label'       => $value->plural_label,
@@ -178,7 +199,7 @@ final class ZohoCRMController
         $authorizationHeader['Authorization'] = "Zoho-oauthtoken {$queryParams->tokenDetails->access_token}";
         $requiredParams['module'] = $queryParams->module;
         $layoutsMetaResponse = HttpHelper::get($layoutsMetaApiEndpoint, $requiredParams, $authorizationHeader);
-        error_log(print_r($layoutsMetaResponse, true));
+
         if (!is_wp_error($layoutsMetaResponse) && (empty($layoutsMetaResponse->status) || (!empty($layoutsMetaResponse->status) && $layoutsMetaResponse->status !== 'error'))) {
             $retriveLayoutsData = $layoutsMetaResponse->layouts;
             $layouts = [];
