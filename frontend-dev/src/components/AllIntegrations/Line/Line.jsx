@@ -18,50 +18,6 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
   const [isLoading, setIsLoading] = useState(false)
   const [step, setstep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
-  const messageTypes = [
-    { name: 'sendPushMessage', label: __('Send a Push Message', 'bit-integrations'), is_pro: false },
-    { name: 'sendReplyMessage', label: __('Send a Reply Message', 'bit-integrations'), is_pro: true },
-    {
-      name: 'sendBroadcastMessage',
-      label: __('Send Broadcast Message', 'bit-integrations'),
-      is_pro: true
-    }
-  ]
-
-  const emojisFields = [
-    { label: 'Emojis ID', value: 'emojis_id', required: true },
-    { label: 'Product Id', value: 'product_id', required: true },
-    { label: 'Emoji Position (0-based index in text)', value: 'index', required: true }
-  ]
-
-  const stickerFields = [
-    { label: 'Sticker ID', value: 'sticker_id', required: true },
-    { label: 'Package Id', value: 'package_id', required: true }
-  ]
-
-  const imageFields = [
-    { label: "Image's Original Content URL", value: 'originalContentUrl', required: true },
-    { label: "Image's Preview Image URL", value: 'previewImageUrl', required: true }
-  ]
-
-  const audioFields = [
-    { label: "Audio's Original Content URL", value: 'originalContentUrl', required: true },
-    { label: 'Duration', value: 'duration', required: true }
-  ]
-
-  const videoFields = [
-    { label: 'Original Content URL', value: 'originalContentUrl', required: true },
-    { label: 'Preview Image URL', value: 'previewImageUrl', required: true }
-  ]
-
-  const locationFields = [
-    { label: 'Title', value: 'title', required: true },
-    { label: 'Address', value: 'address', required: true },
-    { label: 'Latitude', value: 'latitude', required: true },
-    { label: 'longitude', value: 'longitude', required: true }
-  ]
-
-  const messageField = [{ label: 'Message', value: 'message', required: true }]
 
   const [lineConf, setLineConf] = useState({
     name: 'Line',
@@ -101,23 +57,13 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
     if (val === 3) {
-      // Use the same validation logic as isNextButtonEnabled
-      const isRequiredFilled = isNextButtonEnabled()
-
-      if (lineConf.name !== '' && isRequiredFilled) {
+      if (lineConf.name !== '' && isNextButtonEnabled()) {
         setstep(val)
       }
     }
   }
 
   const isNextButtonEnabled = () => {
-    console.log('=== VALIDATION DEBUG ===')
-    console.log('Checking Next Button Enabled for messageType:', lineConf.messageType)
-    console.log('Current lineConf:', lineConf)
-    console.log('Message Field Map:', lineConf.message_field_map)
-    console.log('Is this an update?', !!flow?.flow_details)
-    console.log('=======================')
-
     return validateLineConfiguration(lineConf)
   }
 
@@ -194,3 +140,64 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
 }
 
 export default Line
+
+const messageTypes = [
+  { name: 'sendPushMessage', label: __('Send a Push Message', 'bit-integrations'), is_pro: false },
+  { name: 'sendReplyMessage', label: __('Send a Reply Message', 'bit-integrations'), is_pro: true },
+  {
+    name: 'sendBroadcastMessage',
+    label: __('Send Broadcast Message', 'bit-integrations'),
+    is_pro: true
+  }
+]
+
+const emojisFields = [
+  { label: __('Emojis ID', 'bit-integrations'), value: 'emojis_id', required: true },
+  { label: __('Product Id', 'bit-integrations'), value: 'product_id', required: true },
+  {
+    label: __('Emoji Position (0-based index in text)', 'bit-integrations'),
+    value: 'index',
+    required: true
+  }
+]
+
+const stickerFields = [
+  { label: __('Sticker ID', 'bit-integrations'), value: 'sticker_id', required: true },
+  { label: __('Package Id', 'bit-integrations'), value: 'package_id', required: true }
+]
+
+const imageFields = [
+  {
+    label: __("Image's Original Content URL", 'bit-integrations'),
+    value: 'originalContentUrl',
+    required: true
+  },
+  {
+    label: __("Image's Preview Image URL", 'bit-integrations'),
+    value: 'previewImageUrl',
+    required: true
+  }
+]
+
+const audioFields = [
+  {
+    label: __("Audio's Original Content URL", 'bit-integrations'),
+    value: 'originalContentUrl',
+    required: true
+  },
+  { label: __('Duration', 'bit-integrations'), value: 'duration', required: true }
+]
+
+const videoFields = [
+  { label: __('Original Content URL', 'bit-integrations'), value: 'originalContentUrl', required: true },
+  { label: __('Preview Image URL', 'bit-integrations'), value: 'previewImageUrl', required: true }
+]
+
+const locationFields = [
+  { label: __('Title', 'bit-integrations'), value: 'title', required: true },
+  { label: __('Address', 'bit-integrations'), value: 'address', required: true },
+  { label: __('Latitude', 'bit-integrations'), value: 'latitude', required: true },
+  { label: __('longitude', 'bit-integrations'), value: 'longitude', required: true }
+]
+
+const messageField = [{ label: __('Message', 'bit-integrations'), value: 'message', required: true }]

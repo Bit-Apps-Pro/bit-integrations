@@ -8,7 +8,7 @@ class LineController
 {
     public const APIENDPOINT = 'https://api.line.me/v2/bot';
 
-    public static function checkAuthorization($tokenRequestParams)
+    public static function authorization($tokenRequestParams)
     {
         if (empty($tokenRequestParams->accessToken)) {
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);

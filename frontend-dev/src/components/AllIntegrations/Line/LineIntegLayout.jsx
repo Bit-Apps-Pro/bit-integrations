@@ -8,6 +8,7 @@ import Loader from '../../Loaders/Loader'
 import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 import LineFieldMap from './LineFieldMap'
 import LineUtilities from './LineActions'
+import Note from '../../Utilities/Note'
 import { addFieldMap } from './LineCommonFunc'
 import AddFieldButton from './AddFieldButton'
 
@@ -79,7 +80,7 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
               placeholder={__('Recipient ID', 'bit-integrations')}
             />
           </div>
-          <div className="mt-2" dangerouslySetInnerHTML={{ __html: recipientIdNote }} />
+          <Note note={recipientIdNote} />
         </>
       )}
 
@@ -96,7 +97,7 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
               placeholder={__('Reply Token', 'bit-integrations')}
             />
           </div>
-          <div className="mt-2" dangerouslySetInnerHTML={{ __html: replyTokenNote }} />
+          <Note note={replyTokenNote} />
         </>
       )}
 
@@ -189,7 +190,7 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
                   addFieldMap(i, conf, setConf, fields, 'emojis_field_map')
                 }
               />
-              <div className="mt-2" dangerouslySetInnerHTML={{ __html: emojiNote }} />
+              <Note note={emojiNote} />
             </>
           )}
           {lineConf?.sendSticker && (
@@ -234,22 +235,7 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
                   addFieldMap(i, conf, setConf, fields, 'sticker_field_map')
                 }
               />
-              <div className="mt-2" dangerouslySetInnerHTML={{ __html: stickerNote }} />
-            </>
-          )}
-          {lineConf?.sendSticker && (
-            <>
-              <AddFieldButton
-                fieldMapLength={lineConf.sticker_field_map.length}
-                lineConf={lineConf}
-                setLineConf={setLineConf}
-                fields={lineConf.stickerFields}
-                isLoading={isLoading}
-                sendType="sendSticker"
-                addFieldMapFunc={(i, conf, setConf, fields) =>
-                  addFieldMap(i, conf, setConf, fields, 'sticker_field_map')
-                }
-              />
+              <Note note={stickerNote} />
             </>
           )}
           <br />
@@ -295,7 +281,7 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
                   addFieldMap(i, conf, setConf, fields, 'image_field_map')
                 }
               />
-              <div className="mt-2" dangerouslySetInnerHTML={{ __html: imageNote }} />
+              <Note note={imageNote} />
             </>
           )}
           <br />
@@ -341,25 +327,9 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
                   addFieldMap(i, conf, setConf, fields, 'audio_field_map')
                 }
               />
-              <div className="mt-2" dangerouslySetInnerHTML={{ __html: audioNote }} />
+              <Note note={audioNote} />
             </>
           )}
-          {lineConf?.sendAudio && (
-            <>
-              <AddFieldButton
-                fieldMapLength={lineConf.audio_field_map.length}
-                lineConf={lineConf}
-                setLineConf={setLineConf}
-                fields={lineConf.audioFields}
-                isLoading={isLoading}
-                sendType="sendAudio"
-                addFieldMapFunc={(i, conf, setConf, fields) =>
-                  addFieldMap(i, conf, setConf, fields, 'audio_field_map')
-                }
-              />
-            </>
-          )}
-
           <br />
           {lineConf?.sendVideo && (
             <>
@@ -403,23 +373,7 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
                   addFieldMap(i, conf, setConf, fields, 'video_field_map')
                 }
               />
-              <div className="mt-2" dangerouslySetInnerHTML={{ __html: videoNote }} />
-            </>
-          )}
-
-          {lineConf?.sendVideo && (
-            <>
-              <AddFieldButton
-                fieldMapLength={lineConf.video_field_map.length}
-                lineConf={lineConf}
-                setLineConf={setLineConf}
-                fields={lineConf.videoFields}
-                isLoading={isLoading}
-                sendType="sendVideo"
-                addFieldMapFunc={(i, conf, setConf, fields) =>
-                  addFieldMap(i, conf, setConf, fields, 'video_field_map')
-                }
-              />
+              <Note note={videoNote} />
             </>
           )}
 
@@ -465,23 +419,7 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
                   addFieldMap(i, conf, setConf, fields, 'location_field_map')
                 }
               />
-              <div className="mt-2" dangerouslySetInnerHTML={{ __html: locationNote }} />
-            </>
-          )}
-
-          {lineConf?.sendLocation && (
-            <>
-              <AddFieldButton
-                fieldMapLength={lineConf.location_field_map.length}
-                lineConf={lineConf}
-                setLineConf={setLineConf}
-                fields={lineConf.locationFields}
-                isLoading={isLoading}
-                sendType="sendLocation"
-                addFieldMapFunc={(i, conf, setConf, fields) =>
-                  addFieldMap(i, conf, setConf, fields, 'location_field_map')
-                }
-              />
+              <Note note={locationNote} />
             </>
           )}
 
@@ -498,14 +436,14 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
 
 const recipientIdNote = `<h2>${__('To get your Line Recipient ID:', 'bit-integrations')}</h2>
   <ul>
-    <li>${__('From Line Developers Console go to the Messaging API tab. Your User ID is listed under the Webhook URL section.')}</li>
-    <li>${__('The User ID is included in the webhook event data every time a user sends a message to your bot.')}</li>
+    <li>${__('From Line Developers Console go to the Messaging API tab. Your User ID is listed under the Webhook URL section.', 'bit-integrations')}</li>
+    <li>${__('The User ID is included in the webhook event data every time a user sends a message to your bot.', 'bit-integrations')}</li>
 </ul>`
 
 const replyTokenNote = `<h2>${__('To get your Line Reply Token:', 'bit-integrations')}</h2>
     <ul>
-        <li>${__('From Line Developers Console go to the Messaging API tab. Your Reply Token is listed under the Webhook URL section.')}</li>
-    <li>${__('The Reply Token is included in the webhook event data every time a user sends a message to your bot.')}</li>
+        <li>${__('From Line Developers Console go to the Messaging API tab. Your Reply Token is listed under the Webhook URL section.', 'bit-integrations')}</li>
+    <li>${__('The Reply Token is included in the webhook event data every time a user sends a message to your bot.', 'bit-integrations')}</li>
     </ul>`
 
 const emojiNote = `<h2>${__('To get Line Emoji IDs and Product IDs:', 'bit-integrations')}</h2>

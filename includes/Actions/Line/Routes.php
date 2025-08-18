@@ -7,4 +7,4 @@ if (!defined('ABSPATH')) {
 use BitCode\FI\Actions\Line\LineController;
 use BitCode\FI\Core\Util\Route;
 
-Route::post('line_authorization', [LineController::class, 'checkAuthorization']);
+Route::post('line_authorization', [LineController::class, 'authorization']);

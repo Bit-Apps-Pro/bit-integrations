@@ -3,14 +3,18 @@ import { __ } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
 
 export const handleInput = (e, lineConf, setLineConf) => {
-  const newConf = { ...lineConf }
-  const { name } = e.target
-  if (e.target.value !== '') {
-    newConf[name] = e.target.value
-  } else {
-    delete newConf[name]
+  const { name, value, selectionStart, selectionEnd } = e.target
+
+  setLineConf(prev => ({
+    ...prev,
+    [name]: value
+  }))
+
+  if (e.target.setSelectionRange && selectionStart !== null && selectionEnd !== null) {
+    requestAnimationFrame(() => {
+      e.target.setSelectionRange(selectionStart, selectionEnd)
+    })
   }
-  setLineConf({ ...newConf })
 }
 
 export const handleAuthorize = (
@@ -71,20 +75,25 @@ export const handleFieldMapping = (event, index, conftTmp, setConf, type) => {
     return newConf
   })
 }
+export const delFieldMap = (index, confTmp, setConf, type) => {
+  setConf(prevConf => {
+    const fieldMap = prevConf[type] || []
+    if (fieldMap.length <= 1) return prevConf
 
-export const delFieldMap = (i, confTmp, setConf, type) => {
-  const newConf = { ...confTmp }
-  const fieldMap = newConf[type]
-  if (fieldMap.length > 1) {
-    const groupId = fieldMap[i]?.groupId
-    if (groupId) {
-      newConf[type] = fieldMap.filter(f => f.groupId !== groupId)
+    const target = fieldMap[index]
+    let updatedFieldMap
+
+    if (target?.groupId) {
+      updatedFieldMap = fieldMap.filter(f => f.groupId !== target.groupId)
     } else {
-      fieldMap.splice(i, 1)
-      newConf[type] = fieldMap
+      updatedFieldMap = fieldMap.filter((_, i) => i !== index)
     }
-  }
-  setConf({ ...newConf })
+
+    return {
+      ...prevConf,
+      [type]: updatedFieldMap
+    }
+  })
 }
 
 export const handleCustomValue = (event, index, conftTmp, setConf, type) => {

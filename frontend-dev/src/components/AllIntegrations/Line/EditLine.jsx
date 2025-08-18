@@ -1,13 +1,11 @@
 /* eslint-disable no-param-reassign */
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { $actionConf, $formFields, $newFlow } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import SnackMsg from '../../Utilities/SnackMsg'
-import EditFormInteg from '../EditFormInteg'
 import SetEditIntegComponents from '../IntegrationHelpers/SetEditIntegComponents'
-import EditWebhookInteg from '../EditWebhookInteg'
 import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import LineIntegLayout from './LineIntegLayout'
@@ -23,6 +21,12 @@ function EditLine({ allIntegURL }) {
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
 
+  const [localName, setLocalName] = useState(lineConf.name || '')
+
+  useEffect(() => {
+    setLocalName(lineConf.name || '')
+  }, [lineConf.name])
+
   const isNextButtonEnabled = () => {
     return validateLineConfiguration(lineConf)
   }
@@ -35,11 +39,12 @@ function EditLine({ allIntegURL }) {
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
         <input
           className="btcd-paper-inp w-5"
-          onChange={e => handleInput(e, lineConf, setLineConf)}
           name="name"
-          value={lineConf.name}
           type="text"
+          value={localName}
           placeholder={__('Integration Name...', 'bit-integrations')}
+          onChange={e => setLocalName(e.target.value)}
+          onBlur={() => setLineConf(prev => ({ ...prev, name: localName }))}
         />
       </div>
       <br />
