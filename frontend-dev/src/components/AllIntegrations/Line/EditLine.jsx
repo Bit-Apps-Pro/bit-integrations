@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { $actionConf, $formFields, $newFlow } from '../../../GlobalStates'
@@ -23,12 +23,12 @@ function EditLine({ allIntegURL }) {
 
   const [localName, setLocalName] = useState(lineConf.name || '')
 
-  useEffect(() => {
-    setLocalName(lineConf.name || '')
-  }, [lineConf.name])
+  const isNextButtonEnabled = () => validateLineConfiguration(lineConf)
 
-  const isNextButtonEnabled = () => {
-    return validateLineConfiguration(lineConf)
+  const handleNameChange = e => {
+    const value = e.target.value
+    setLocalName(value)
+    handleInput(e, lineConf, setLineConf)
   }
 
   return (
@@ -43,8 +43,7 @@ function EditLine({ allIntegURL }) {
           type="text"
           value={localName}
           placeholder={__('Integration Name...', 'bit-integrations')}
-          onChange={e => setLocalName(e.target.value)}
-          onBlur={() => setLineConf(prev => ({ ...prev, name: localName }))}
+          onChange={handleNameChange}
         />
       </div>
       <br />

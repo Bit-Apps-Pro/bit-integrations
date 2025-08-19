@@ -22,7 +22,6 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
   const [lineConf, setLineConf] = useState({
     name: 'Line',
     replyToken: '',
-    message: '',
     recipientId: '',
     type: 'Line',
     accessToken: '',
@@ -54,12 +53,18 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
 
   const nextPage = val => {
     setTimeout(() => {
-      document.getElementById('btcd-settings-wrp').scrollTop = 0
-    }, 300)
-    if (val === 3) {
-      if (lineConf.name !== '' && isNextButtonEnabled()) {
-        setstep(val)
+      const wrapper = document.getElementById('btcd-settings-wrp')
+      if (wrapper) {
+        wrapper.scrollTop = 0
       }
+    }, 300)
+
+    if (val !== 3) {
+      return
+    }
+
+    if (lineConf?.name && isNextButtonEnabled()) {
+      setstep(val)
     }
   }
 

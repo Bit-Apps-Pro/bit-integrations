@@ -3,18 +3,14 @@ import { __ } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
 
 export const handleInput = (e, lineConf, setLineConf) => {
-  const { name, value, selectionStart, selectionEnd } = e.target
-
-  setLineConf(prev => ({
-    ...prev,
-    [name]: value
-  }))
-
-  if (e.target.setSelectionRange && selectionStart !== null && selectionEnd !== null) {
-    requestAnimationFrame(() => {
-      e.target.setSelectionRange(selectionStart, selectionEnd)
-    })
+  const newConf = { ...lineConf }
+  const { name } = e.target
+  if (e.target.value !== '') {
+    newConf[name] = e.target.value
+  } else {
+    delete newConf[name]
   }
+  setLineConf({ ...newConf })
 }
 
 export const handleAuthorize = (
@@ -67,14 +63,25 @@ export const handleAuthorize = (
 export const handleFieldMapping = (event, index, conftTmp, setConf, type) => {
   setConf(prevConf => {
     const newConf = { ...prevConf }
+
+    if (!Array.isArray(newConf[type])) {
+      newConf[type] = []
+    }
+
+    if (!newConf[type][index]) {
+      newConf[type][index] = {}
+    }
+
     newConf[type][index][event.target.name] = event.target.value
 
     if (event.target.value === 'custom') {
       newConf[type][index].customValue = ''
     }
+
     return newConf
   })
 }
+
 export const delFieldMap = (index, confTmp, setConf, type) => {
   setConf(prevConf => {
     const fieldMap = prevConf[type] || []

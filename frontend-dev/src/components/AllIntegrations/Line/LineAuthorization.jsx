@@ -21,6 +21,7 @@ export default function LineAuthorization({
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ accessToken: '' })
   const { line } = tutorialLinks
+
   const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
@@ -28,6 +29,7 @@ export default function LineAuthorization({
 
     setstep(2)
   }
+
   const handleInput = e => {
     const newConf = { ...lineConf }
     const rmError = { ...error }
