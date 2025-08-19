@@ -23,7 +23,6 @@ class RecordApiHelper
 
     public function execute($integrationDetails, $fieldValues)
     {
-        error_log(print_r($integrationDetails, true));
         $messages = $this->buildMessages($integrationDetails, $fieldValues);
 
         if (empty($messages)) {
