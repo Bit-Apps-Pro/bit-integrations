@@ -59,12 +59,23 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
       }
     }, 300)
 
-    if (val !== 3) {
+    if (val === 3 && !isNextButtonEnabled()) {
+      setSnackbar({
+        show: true,
+        msg: __(
+          'Enter a Recipient ID or Reply Token, and add a message to continue.',
+          'bit-integrations'
+        )
+      })
       return
     }
 
     if (lineConf?.name && isNextButtonEnabled()) {
       setstep(val)
+    }
+
+    if (val !== 3) {
+      return
     }
   }
 
