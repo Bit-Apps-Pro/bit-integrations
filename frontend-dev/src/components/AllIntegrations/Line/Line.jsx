@@ -8,7 +8,12 @@ import Steps from '../../Utilities/Steps'
 import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import LineAuthorization from './LineAuthorization'
-import { generateMappedField, handleInput, validateLineConfiguration } from './LineCommonFunc'
+import {
+  generateMappedField,
+  handleInput,
+  validateLineConfiguration,
+  getLineValidationMessages
+} from './LineCommonFunc'
 import LineIntegLayout from './LineIntegLayout'
 import BackIcn from '../../../Icons/BackIcn'
 
@@ -60,12 +65,13 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
     }, 300)
 
     if (val === 3 && !isNextButtonEnabled()) {
+      const messages = getLineValidationMessages(lineConf)
       setSnackbar({
         show: true,
-        msg: __(
-          'Enter a Recipient ID or Reply Token, and add a message to continue.',
-          'bit-integrations'
-        )
+        msg:
+          messages && messages.length > 0
+            ? messages.join(', ')
+            : __('Please complete required fields to continue.', 'bit-integrations')
       })
       return
     }
