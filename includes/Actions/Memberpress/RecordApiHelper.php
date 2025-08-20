@@ -4,7 +4,9 @@ namespace BitCode\FI\Actions\Memberpress;
 
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Log\LogHandler;
+use MeprEvent;
 use MeprHooks;
+use MeprProduct;
 use MeprSubscription;
 use MeprTransaction;
 use MeprUser;
