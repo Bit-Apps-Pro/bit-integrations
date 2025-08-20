@@ -64,7 +64,7 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
       }
     }, 300)
 
-    if (val === 3 && !isNextButtonEnabled()) {
+    if (val === 3 && (lineConf?.name || isNextButtonEnabled())) {
       const messages = getLineValidationMessages(lineConf)
       setSnackbar({
         show: true,
@@ -76,13 +76,7 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
       return
     }
 
-    if (lineConf?.name && isNextButtonEnabled()) {
-      setstep(val)
-    }
-
-    if (val !== 3) {
-      return
-    }
+    setstep(val)
   }
 
   const isNextButtonEnabled = () => {

@@ -23,6 +23,8 @@ export const handleAuthorize = async (
   setError({})
   setIsLoading(true)
 
+  setIsLoading(true)
+
   try {
     const result = await bitsFetch({ accessToken: confTmp.accessToken }, 'line_authorization')
 
@@ -31,21 +33,31 @@ export const handleAuthorize = async (
       setisAuthorized(true)
       setSnackbar({ show: true, msg: __('Authorized Successfully', 'bit-integrations') })
     } else {
-      const msg =
-        result?.data?.data || (!result.success && typeof result.data === 'string')
-          ? `${__('Authorization failed Cause:', 'bit-integrations')}${result.data?.data || result.data}. ${__('please try again', 'bit-integrations')}`
-          : __('Authorization failed. please try again', 'bit-integrations')
+      const msg = result?.data?.data
+        ? `${__('Authorization failed Cause:', 'bit-integrations')} ${result.data.data}. ${__('Please try again', 'bit-integrations')}`
+        : typeof result?.data === 'string'
+          ? `${__('Authorization failed Cause:', 'bit-integrations')} ${result.data}. ${__('Please try again', 'bit-integrations')}`
+          : __('Authorization failed. Please try again', 'bit-integrations')
 
       setSnackbar({ show: true, msg })
     }
-  } finally {
+
+    setIsLoading(false)
+  } catch (error) {
+    setSnackbar({
+      show: true,
+      msg: `${__('An error occurred during authorization:', 'bit-integrations')} ${error?.message || error}`
+    })
+
     setIsLoading(false)
   }
 }
 
 const updateFieldMap = (prevConf, type, index, updater) => {
   const newConf = { ...prevConf }
+
   if (!Array.isArray(newConf[type])) newConf[type] = []
+
   if (!newConf[type][index]) newConf[type][index] = {}
   newConf[type][index] = { ...newConf[type][index], ...updater(newConf[type][index]) }
   return newConf
@@ -68,6 +80,7 @@ export const handleCustomValue = (event, index, _, setConf, type) => {
 export const delFieldMap = (index, _, setConf, type) => {
   setConf(prev => {
     const fieldMap = prev[type] || []
+
     if (fieldMap.length <= 1) return prev
 
     const updatedFieldMap = fieldMap[index]?.groupId
@@ -88,6 +101,7 @@ export const addFieldMap = (i, confTmp, setConf, FieldMappings, mapKey) => {
 
   setConf(prev => {
     const newConf = { ...prev }
+
     if (!Array.isArray(newConf[mapKey])) newConf[mapKey] = []
     newConf[mapKey].splice(i, 0, ...newFieldMap)
     return newConf
@@ -148,11 +162,13 @@ export const getLineValidationMessages = lineConf => {
     case 'sendPushMessage':
       if (!lineConf.recipientId?.trim())
         messages.push(__('Recipient ID is required', 'bit-integrations'))
+
       if (!isMessageFieldConfigured(lineConf))
         messages.push(__('Message field mapping is required', 'bit-integrations'))
       break
     case 'sendReplyMessage':
       if (!lineConf.replyToken?.trim()) messages.push(__('Reply Token is required', 'bit-integrations'))
+
       if (!isMessageFieldConfigured(lineConf))
         messages.push(__('Message field mapping is required', 'bit-integrations'))
       break
