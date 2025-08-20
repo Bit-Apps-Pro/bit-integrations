@@ -25,29 +25,19 @@ const changeLog = [
     label: __('New Actions', 'bit-integrations'),
     headClass: 'new-integration',
     itemClass: 'integration-list',
-    items: []
+    items: [
+      {
+        label: 'Line',
+        desc: '3 New Events Added.',
+        isPro: false
+      }
+    ]
   },
   {
     label: __('New Triggers', 'bit-integrations'),
     headClass: 'new-trigger',
     itemClass: 'integration-list',
-    items: [
-      {
-        label: 'Paid Memberships Pro',
-        desc: '+1 New Events Added.',
-        isPro: true
-      },
-      {
-        label: 'WP Travel Engine',
-        desc: '3 New Events Added.',
-        isPro: true
-      },
-      {
-        label: 'WP User Frontend (WPUF)',
-        desc: '2 New Events Added.',
-        isPro: true
-      }
-    ]
+    items: []
   },
   {
     label: __('New Features', 'bit-integrations'),
@@ -59,7 +49,18 @@ const changeLog = [
     label: __('Improvements', 'bit-integrations'),
     headClass: 'new-improvement',
     itemClass: 'feature-list',
-    items: []
+    items: [
+      {
+        label: 'Google Sheets',
+        desc: 'Removed unusual components from the authorization page UI for a cleaner, more streamlined interface.',
+        isPro: false
+      },
+      {
+        label: 'Paid Membership Pro',
+        desc: 'Added validation for level change event to ensure proper functionality.',
+        isPro: true
+      }
+    ]
   },
   {
     label: __('Bug Fixes', 'bit-integrations'),
@@ -67,28 +68,13 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'Paid Memberships Pro',
-        desc: 'Membership selection update issue resolved.',
-        isPro: true
-      },
-      {
-        label: 'GetResponse',
-        desc: 'Fixed Tags now append correctly to contacts upon submission.',
+        label: 'MemberPress',
+        desc: 'Fixed a fatal error related to the namespace issue.',
         isPro: false
       },
       {
-        label: 'Zoho CRM',
-        desc: 'Fixed tasks module fetching issue — now syncing tasks properly.',
-        isPro: false
-      },
-      {
-        label: 'MailerLite',
-        desc: 'Fixed checkbox issue under update utilities.',
-        isPro: false
-      },
-      {
-        label: 'MailerLite',
-        desc: 'Resolved integration name not updating correctly.',
+        label: 'WhatsApp',
+        desc: 'Resolved the undefined authorization route function issue.',
         isPro: false
       }
     ]
