@@ -1,23 +1,15 @@
 /* eslint-disable no-unused-vars */
+import { create } from 'mutative'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
-import { __ } from '../../../Utils/i18nwrap'
-import Loader from '../../Loaders/Loader'
-import {
-  generateMappedField,
-  getAllCustomer,
-  getAllGenerator,
-  getAllLicense,
-  getAllOrder,
-  getAllProduct
-} from './ACPTCommonFunc'
-import ACPTFieldMap from './ACPTFieldMap'
-import { addFieldMap } from './IntegrationHelpers'
 import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
+import { __ } from '../../../Utils/i18nwrap'
+import Loader from '../../Loaders/Loader'
 import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
-import { create } from 'mutative'
-import Note from '../../Utilities/Note'
+import { generateMappedField, getAllGenerator } from './ACPTCommonFunc'
+import FieldMappingLayout from './FieldMappingLayout'
+import ACPTActions from './ACPTActions'
 
 export default function ACPTIntegLayout({
   formFields,
@@ -37,25 +29,15 @@ export default function ACPTIntegLayout({
       create(prevConf, draftConf => {
         draftConf[name] = val
 
-        if (name === 'module' && (val === 'create_license' || val === 'update_license')) {
-          getAllCustomer(acptConf, setAcptConf, setLoading)
-          getAllProduct(acptConf, setAcptConf, setLoading)
-          getAllOrder(acptConf, setAcptConf, setLoading)
-
-          if (val === 'update_license') {
-            getAllLicense(acptConf, setAcptConf, setLoading)
-            draftConf.acptFields = [
-              { label: __('License key', 'bit-integrations'), key: 'license_key', required: false },
-              ...draftConf.generalFields
-            ]
-          } else {
-            draftConf.acptFields = [...draftConf.licenseFields, ...draftConf.generalFields]
-          }
+        if (name === 'module' && (val === 'create_cpt' || val === 'update_license')) {
+          draftConf.acptFields = draftConf.cptFields
+          draftConf.acptLabels = draftConf.cptLabels
 
           draftConf.field_map = generateMappedField(draftConf.acptFields)
-          draftConf.module_note = `<p><b>${__('Note', 'bit-integrations')}</b>: ${__('You can also use Valid for (the number of days) instead of Expires at', 'bit-integrations')}, <b>${__('please do not use both at a time', 'bit-integrations')}</b></p>`
+          draftConf.label_field_map = generateMappedField(draftConf.acptLabels)
         } else if (name === 'module' && ['activate_license', 'delete_license'].includes(val)) {
           draftConf.acptFields = draftConf.licenseFields
+
           draftConf.field_map = generateMappedField(draftConf.acptFields)
         } else if (name === 'module' && ['deactivate_license', 'reactivate_license'].includes(val)) {
           draftConf.acptFields = [
@@ -99,7 +81,7 @@ export default function ACPTIntegLayout({
         />
       </div>
 
-      {(isLoading || loading.customer || loading.product || loading.license || loading.generator) && (
+      {isLoading && (
         <Loader
           style={{
             display: 'flex',
@@ -111,7 +93,7 @@ export default function ACPTIntegLayout({
         />
       )}
 
-      {acptConf?.module && acptConf.module === 'update_license' && !isLoading && (
+      {/* {acptConf?.module && acptConf.module === 'update_license' && !isLoading && (
         <>
           <br />
           <div className="flx">
@@ -267,51 +249,48 @@ export default function ACPTIntegLayout({
               </button>
             </div>
           </>
-        )}
-      {acptConf.module && !isLoading && (
-        <div>
-          <br />
-          <div className="mt-5">
-            <b className="wdt-100">{__('Field Map', 'bit-integrations')}</b>
-          </div>
+        )} */}
 
-          <br />
-          <div className="btcd-hr mt-1" />
-          <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
-            <div className="txt-dp">
-              <b>{__('Form Fields', 'bit-integrations')}</b>
-            </div>
-            <div className="txt-dp">
-              <b>{__('License Manager Fields', 'bit-integrations')}</b>
-            </div>
-          </div>
-
-          {acptConf.field_map.map((itm, i) => (
-            <ACPTFieldMap
-              key={`rp-m-${i + 9}`}
-              i={i}
-              field={itm}
-              acptConf={acptConf}
+      {acptConf.module && (
+        <>
+          {!isLoading && (
+            <FieldMappingLayout
               formFields={formFields}
+              acptConf={acptConf}
               setAcptConf={setAcptConf}
+              label={__('Field Map', 'bit-integrations')}
+              fieldMappingKey="field_map"
+              fieldKey="acptFields"
               setSnackbar={setSnackbar}
             />
-          ))}
-
-          {!['activate_license', 'delete_license'].includes(acptConf.module) && (
-            <div className="txt-center btcbi-field-map-button mt-2">
-              <button
-                onClick={() => addFieldMap(acptConf.field_map.length, acptConf, setAcptConf, false)}
-                className="icn-btn sh-sm"
-                type="button">
-                +
-              </button>
-            </div>
           )}
-          <br />
-          <br />
-          {acptConf?.module_note && <Note note={acptConf?.module_note} />}
-        </div>
+
+          {acptConf.module === 'create_cpt' && !isLoading && (
+            <FieldMappingLayout
+              formFields={formFields}
+              acptConf={acptConf}
+              setAcptConf={setAcptConf}
+              label={__('Additional labels Field Map', 'bit-integrations')}
+              fieldMappingKey="label_field_map"
+              fieldKey="acptLabels"
+              setSnackbar={setSnackbar}
+            />
+          )}
+
+          <div className="mt-1">
+            <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
+          </div>
+          <div className="btcd-hr mt-1" />
+          <ACPTActions
+            acptConf={acptConf}
+            setACPTConf={setAcptConf}
+            loading={loading}
+            setLoading={setLoading}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            setSnackbar={setSnackbar}
+          />
+        </>
       )}
     </>
   )

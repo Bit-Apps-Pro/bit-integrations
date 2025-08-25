@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-unused-expressions */
-import { useState, useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { __ } from '../../../Utils/i18nwrap'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import LoaderSm from '../../Loaders/LoaderSm'

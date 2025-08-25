@@ -10,7 +10,7 @@ import Steps from '../../Utilities/Steps'
 import { saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import ACPTAuthorization from './ACPTAuthorization'
-import { checkMappedFields, generateMappedField } from './ACPTCommonFunc'
+import { checkMappedFields } from './ACPTCommonFunc'
 import ACPTIntegLayout from './ACPTIntegLayout'
 
 function ACPT({ formFields, setFlow, flow, allIntegURL }) {
@@ -21,56 +21,18 @@ function ACPT({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
 
-  const licenseFields = [
-    { label: __('License key', 'bit-integrations'), key: 'license_key', required: true }
-  ]
-  const generalFields = [
-    { label: __('Valid for (days)', 'bit-integrations'), key: 'valid_for', required: false },
-    { label: __('Expires at', 'bit-integrations'), key: 'expires_at', required: false },
-    {
-      label: __('Maximum activation count', 'bit-integrations'),
-      key: 'times_activated_max',
-      required: false
-    }
-  ]
-  const generatorFields = [
-    { label: __('Name', 'bit-integrations'), key: 'name', required: true },
-    { label: __('Character map', 'bit-integrations'), key: 'charset', required: true },
-    { label: __('Number of chunks', 'bit-integrations'), key: 'chunks', required: true },
-    { label: __('Chunk length', 'bit-integrations'), key: 'chunk_length', required: true },
-    {
-      label: __('Maximum activation count', 'bit-integrations'),
-      key: 'times_activated_max',
-      required: false
-    },
-    { label: __('Separator', 'bit-integrations'), key: 'separator', required: false },
-    { label: __('Prefix', 'bit-integrations'), key: 'prefix', required: false },
-    { label: __('Suffix', 'bit-integrations'), key: 'suffix', required: false },
-    { label: __('Expires in	(days)', 'bit-integrations'), key: 'expires_in', required: false }
-  ]
-
-  const modules = [
-    { name: 'create_license', label: __('Create a license', 'bit-integrations'), is_pro: false },
-    { name: 'update_license', label: __('Update a license', 'bit-integrations'), is_pro: true },
-    { name: 'activate_license', label: __('Activate a license', 'bit-integrations'), is_pro: true },
-    { name: 'deactivate_license', label: __('Deactivate a license', 'bit-integrations'), is_pro: true },
-    { name: 'delete_license', label: __('Delete a License', 'bit-integrations'), is_pro: true },
-    { name: 'reactivate_license', label: __('Reactivate a License', 'bit-integrations'), is_pro: true },
-    { name: 'create_generator', label: __('Create a generator', 'bit-integrations'), is_pro: true },
-    { name: 'update_generator', label: __('Update a Generator', 'bit-integrations'), is_pro: true }
-  ]
-
   const [acptConf, setAcptConf] = useState({
     name: 'ACPT',
     type: 'ACPT',
     base_url: window.location.origin,
-    api_key: '',
+    api_key: 'd90d8700ed4b-5b93e5df9754',
     field_map: [{ formField: '', acptFormField: '' }],
+    label_field_map: [{ formField: '', acptFormField: '' }],
     acptFields: [],
+    acptLabels: [],
     module: '',
-    licenseFields,
-    generalFields,
-    generatorFields,
+    cptFields,
+    cptLabels,
     modules
   })
 
@@ -125,7 +87,6 @@ function ACPT({ formFields, setFlow, flow, allIntegURL }) {
         setStep={setStep}
         loading={loading}
         setLoading={setLoading}
-        setSnackbar={setSnackbar}
       />
 
       {/* STEP 2 */}
@@ -173,3 +134,69 @@ function ACPT({ formFields, setFlow, flow, allIntegURL }) {
 }
 
 export default ACPT
+
+const modules = [
+  { name: 'create_cpt', label: __('Create CPT', 'bit-integrations'), is_pro: false },
+  { name: 'update_cpt', label: __('Update CPT', 'bit-integrations'), is_pro: true },
+  { name: 'delete_cpt', label: __('Delete CPT', 'bit-integrations'), is_pro: true },
+  { name: 'create_taxonomy', label: __('Create Taxonomy', 'bit-integrations'), is_pro: true },
+  { name: 'update_taxonomy', label: __('Update Taxonomy', 'bit-integrations'), is_pro: true },
+  { name: 'delete_taxonomy', label: __('Delete Taxonomy', 'bit-integrations'), is_pro: true },
+  {
+    name: 'associate_taxonomy_to_cpt',
+    label: __('Associate Taxonomy To CPT', 'bit-integrations'),
+    is_pro: true
+  },
+  { name: 'create_option_page', label: __('Create Option Page', 'bit-integrations'), is_pro: true },
+  { name: 'update_option_page', label: __('Update Option Page', 'bit-integrations'), is_pro: true },
+  { name: 'delete_option_page', label: __('Delete Option Page', 'bit-integrations'), is_pro: true },
+  { name: 'create_meta_group', label: __('Create Meta Group', 'bit-integrations'), is_pro: true },
+  { name: 'update_meta_group', label: __('Update Meta Group', 'bit-integrations'), is_pro: true },
+  { name: 'delete_meta_group', label: __('Delete Meta Group', 'bit-integrations'), is_pro: true },
+  { name: 'create_dynamic_block', label: __('Create Dynamic Block', 'bit-integrations'), is_pro: true },
+  { name: 'update_dynamic_block', label: __('Update Dynamic Block', 'bit-integrations'), is_pro: true },
+  { name: 'delete_dynamic_block', label: __('Delete Dynamic Block', 'bit-integrations'), is_pro: true }
+]
+
+const cptFields = [
+  { label: __('Post Name', 'bit-integrations'), key: 'post_name', required: true },
+  { label: __('Singular Label', 'bit-integrations'), key: 'singular_label', required: true },
+  { label: __('Plural Label', 'bit-integrations'), key: 'plural_label', required: true },
+  { label: __('Icon', 'bit-integrations'), key: 'icon', required: false },
+  { label: __('REST API base slug', 'bit-integrations'), key: 'rest_base', required: false },
+  { label: __('Menu position', 'bit-integrations'), key: 'menu_position', required: false },
+  { label: __('Capability type', 'bit-integrations'), key: 'capability_type', required: false },
+  { label: __('Custom rewrite rules', 'bit-integrations'), key: 'custom_rewrite', required: false },
+  { label: __('Custom query var', 'bit-integrations'), key: 'custom_query_var', required: false }
+]
+
+const cptLabels = [
+  { label: __('Menu Name', 'bit-integrations'), key: 'menu_name' },
+  { label: __('All Items', 'bit-integrations'), key: 'all_items' },
+  { label: __('Add New', 'bit-integrations'), key: 'add_new' },
+  { label: __('Add New Item', 'bit-integrations'), key: 'add_new_item' },
+  { label: __('Edit Item', 'bit-integrations'), key: 'edit_item' },
+  { label: __('New Item', 'bit-integrations'), key: 'new_item' },
+  { label: __('View Item', 'bit-integrations'), key: 'view_item' },
+  { label: __('View Items', 'bit-integrations'), key: 'view_items' },
+  { label: __('Search Item', 'bit-integrations'), key: 'search_item' },
+  { label: __('Not Found', 'bit-integrations'), key: 'not_found' },
+  { label: __('Not Found in Trash', 'bit-integrations'), key: 'not_found_in_trash' },
+  { label: __('Parent Item Colon', 'bit-integrations'), key: 'parent_item_colon' },
+  { label: __('Featured Image', 'bit-integrations'), key: 'featured_image' },
+  { label: __('Set Featured Image', 'bit-integrations'), key: 'set_featured_image' },
+  { label: __('Remove Featured Image', 'bit-integrations'), key: 'remove_featured_image' },
+  { label: __('Use Featured Image', 'bit-integrations'), key: 'use_featured_image' },
+  { label: __('Archives', 'bit-integrations'), key: 'archives' },
+  { label: __('Insert into Item', 'bit-integrations'), key: 'insert_into_item' },
+  { label: __('Uploaded to This Item', 'bit-integrations'), key: 'uploaded_to_this_item' },
+  { label: __('Filter Items List', 'bit-integrations'), key: 'filter_items_list' },
+  { label: __('Items List Navigation', 'bit-integrations'), key: 'items_list_navigation' },
+  { label: __('Items List', 'bit-integrations'), key: 'items_list' },
+  { label: __('Filter by Date', 'bit-integrations'), key: 'filter_by_date' },
+  { label: __('Item Published', 'bit-integrations'), key: 'item_published' },
+  { label: __('Item Published Privately', 'bit-integrations'), key: 'item_published_privately' },
+  { label: __('Item Reverted to Draft', 'bit-integrations'), key: 'item_reverted_to_draft' },
+  { label: __('Item Scheduled', 'bit-integrations'), key: 'item_scheduled' },
+  { label: __('Item Updated', 'bit-integrations'), key: 'item_updated' }
+]

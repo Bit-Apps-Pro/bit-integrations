@@ -16,7 +16,7 @@ export const handleInput = (e, salesmateConf, setSalesmateConf) => {
 }
 
 export const generateMappedField = acptFields => {
-  const requiredFlds = acptFields.filter(fld => fld.required === true)
+  const requiredFlds = acptFields.filter(fld => fld?.required === true)
   return requiredFlds.length > 0
     ? requiredFlds.map(field => ({
         formField: '',

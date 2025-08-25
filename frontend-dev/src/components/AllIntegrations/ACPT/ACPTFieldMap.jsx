@@ -1,19 +1,31 @@
 /* eslint-disable no-console */
+import { useMemo } from 'react'
 import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import { __ } from '../../../Utils/i18nwrap'
-import CustomField from './CustomField'
-import { addFieldMap, delFieldMap, handleFieldMapping } from './IntegrationHelpers'
+import TagifyInput from '../../Utilities/TagifyInput'
+import { addFieldMap, delFieldMap, handleCustomValue, handleFieldMapping } from './IntegrationHelpers'
 
-export default function DemioFieldMap({ i, formFields, field, acptConf, setAcptConf }) {
-  const requiredFields =
-    (acptConf?.acptFields && acptConf.acptFields.filter(fld => fld.required === true)) || []
-  const allNonRequiredFields =
-    (acptConf?.acptFields && acptConf.acptFields.filter(fld => fld.required === false)) || []
-
+export default function ACPTFieldMap({
+  i,
+  formFields,
+  field,
+  acptConf,
+  setAcptConf,
+  fieldMappingKey,
+  fieldKey
+}) {
   const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
+
+  const { requiredFields, allNonRequiredFields } = useMemo(() => {
+    const filteredFields = acptConf[fieldKey] || []
+    return {
+      requiredFields: filteredFields.filter(fld => fld?.required),
+      allNonRequiredFields: filteredFields.filter(fld => !fld?.required)
+    }
+  }, [acptConf, fieldKey])
 
   return (
     <div className="flx mt-2 mb-2 btcbi-field-map">
@@ -23,7 +35,7 @@ export default function DemioFieldMap({ i, formFields, field, acptConf, setAcptC
             className="btcd-paper-inp mr-2"
             name="formField"
             value={field.formField || ''}
-            onChange={ev => handleFieldMapping(ev, i, acptConf, setAcptConf)}>
+            onChange={ev => handleFieldMapping(ev, i, acptConf, setAcptConf, fieldMappingKey)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             <optgroup label={__('Form Fields', 'bit-integrations')}>
               {formFields?.map(f => (
@@ -48,14 +60,14 @@ export default function DemioFieldMap({ i, formFields, field, acptConf, setAcptC
           </select>
 
           {field.formField === 'custom' && (
-            <CustomField
-              field={field}
-              index={i}
-              conf={acptConf}
-              setConf={setAcptConf}
-              fieldValue="customValue"
-              fieldLabel="Custom Value"
+            <TagifyInput
+              onChange={e => handleCustomValue(e, i, acptConf, setAcptConf, fieldMappingKey)}
+              label={__('Custom Value', 'bit-integrations')}
               className="mr-2"
+              type="text"
+              value={field.customValue}
+              placeholder={__('Custom Value', 'bit-integrations')}
+              formFields={formFields}
             />
           )}
 
@@ -64,7 +76,7 @@ export default function DemioFieldMap({ i, formFields, field, acptConf, setAcptC
             disabled={i < requiredFields.length}
             name="acptFormField"
             value={i < requiredFields.length ? requiredFields[i].key || '' : field.acptFormField || ''}
-            onChange={ev => handleFieldMapping(ev, i, acptConf, setAcptConf)}>
+            onChange={ev => handleFieldMapping(ev, i, acptConf, setAcptConf, fieldMappingKey)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             {i < requiredFields.length ? (
               <option key={requiredFields[i].key} value={requiredFields[i].key}>
@@ -82,13 +94,13 @@ export default function DemioFieldMap({ i, formFields, field, acptConf, setAcptC
         {i >= requiredFields.length && (
           <>
             <button
-              onClick={() => addFieldMap(i, acptConf, setAcptConf)}
+              onClick={() => addFieldMap(i, acptConf, setAcptConf, fieldMappingKey)}
               className="icn-btn sh-sm ml-2 mr-1"
               type="button">
               +
             </button>
             <button
-              onClick={() => delFieldMap(i, acptConf, setAcptConf)}
+              onClick={() => delFieldMap(i, acptConf, setAcptConf, fieldMappingKey)}
               className="icn-btn sh-sm ml-1"
               type="button"
               aria-label="btn">

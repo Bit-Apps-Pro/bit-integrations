@@ -123,16 +123,15 @@ class ACPTController
         $integrationDetails = $integrationData->flow_details;
         $integId = $integrationData->id;
         $apiKey = $integrationDetails->api_key;
-        $apiSecret = $integrationDetails->api_secret;
         $baseUrl = $integrationDetails->base_url;
         $fieldMap = $integrationDetails->field_map;
         $module = $integrationDetails->module;
 
-        if (empty($fieldMap) || empty($apiSecret) || empty($module) || empty($apiKey) || empty($baseUrl)) {
-            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'License Manager For WooCommerce'));
+        if (empty($fieldMap) || empty($module) || empty($apiKey) || empty($baseUrl)) {
+            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'ACPT'));
         }
 
-        $recordApiHelper = new RecordApiHelper($integrationDetails, $integId, $apiSecret, $apiKey, $baseUrl);
+        $recordApiHelper = new RecordApiHelper($integrationDetails, $integId, $apiKey, $baseUrl);
         $acptApiResponse = $recordApiHelper->execute($fieldValues, $fieldMap, $module);
 
         if (is_wp_error($acptApiResponse)) {

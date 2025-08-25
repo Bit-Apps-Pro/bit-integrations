@@ -27,158 +27,41 @@ class RecordApiHelper
 
     private $typeName;
 
-    public function __construct($integrationDetails, $integId, $apiSecret, $apiKey, $baseUrl)
+    public function __construct($integrationDetails, $integId, $apiKey, $baseUrl)
     {
         $this->integrationDetails = $integrationDetails;
         $this->integrationId = $integId;
-        $this->apiUrl = "{$baseUrl}/wp-json/acpt/v2";
+        $this->apiUrl = "{$baseUrl}/wp-json/acpt/v1";
         $this->defaultHeader = [
-            'Authorization' => 'Basic ' . base64_encode("{$apiKey}:{$apiSecret}"),
-            'Content-Type'  => 'application/json',
+            'acpt-api-key' => $apiKey,
+            'Content-Type' => 'application/json',
+            'accept'       => 'application/json',
         ];
     }
 
-    public function createLicense($finalData)
+    public function createCPT($finalData, $fieldValues)
     {
-        $this->type = 'Create license';
-        $this->typeName = 'Create license';
+        $this->type = 'CPT';
+        $this->typeName = 'Create CPT';
 
-        if (empty($finalData['license_key'])) {
-            return ['success' => false, 'message' => __('Required field license key is empty', 'bit-integrations'), 'code' => 400];
-        }
-        if (empty($this->integrationDetails->selectedStatus)) {
-            return ['success' => false, 'message' => __('Required field status is empty', 'bit-integrations'), 'code' => 400];
+        if (empty($finalData['post_name'])) {
+            return ['success' => false, 'message' => __('Required field Post Name is empty', 'bit-integrations'), 'code' => 422];
         }
 
-        if (isset($this->integrationDetails->selectedStatus) || !empty($this->integrationDetails->selectedStatus)) {
-            $finalData['status'] = $this->integrationDetails->selectedStatus;
-        }
-        if (isset($this->integrationDetails->selectedCustomer) || !empty($this->integrationDetails->selectedCustomer)) {
-            $finalData['user_id'] = $this->integrationDetails->selectedCustomer;
-        }
-        if (isset($this->integrationDetails->selectedOrder) || !empty($this->integrationDetails->selectedOrder)) {
-            $finalData['order_id'] = $this->integrationDetails->selectedOrder;
-        }
-        if (isset($this->integrationDetails->selectedProduct) || !empty($this->integrationDetails->selectedProduct)) {
-            $finalData['product_id'] = $this->integrationDetails->selectedProduct;
+        if (empty($finalData['singular_label'])) {
+            return ['success' => false, 'message' => __('Required field Singular Label is empty', 'bit-integrations'), 'code' => 422];
         }
 
-        $apiEndpoint = $this->apiUrl . '/licenses';
-
-        return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->defaultHeader, ['sslverify' => false]);
-    }
-
-    public function updateLicense($finalData)
-    {
-        $this->type = 'Update license';
-        $this->typeName = 'Update license';
-
-        if (empty($this->integrationDetails->selectedLicense)) {
-            return ['success' => false, 'message' => __('Required field license is empty', 'bit-integrations'), 'code' => 400];
+        if (empty($finalData['plural_label'])) {
+            return ['success' => false, 'message' => __('Required field Plural Label is empty', 'bit-integrations'), 'code' => 422];
         }
 
-        if (isset($this->integrationDetails->selectedStatus) || !empty($this->integrationDetails->selectedStatus)) {
-            $finalData['status'] = $this->integrationDetails->selectedStatus;
-        }
-        if (isset($this->integrationDetails->selectedCustomer) || !empty($this->integrationDetails->selectedCustomer)) {
-            $finalData['user_id'] = $this->integrationDetails->selectedCustomer;
-        }
-        if (isset($this->integrationDetails->selectedOrder) || !empty($this->integrationDetails->selectedOrder)) {
-            $finalData['order_id'] = $this->integrationDetails->selectedOrder;
-        }
-        if (isset($this->integrationDetails->selectedProduct) || !empty($this->integrationDetails->selectedProduct)) {
-            $finalData['product_id'] = $this->integrationDetails->selectedProduct;
-        }
+        error_log(print_r($this->integrationDetails, true));
+        $labels = $this->generateReqDataFromFieldMap($fieldValues, $this->integrationDetails->label_field_map);
 
-        $response = apply_filters('btcbi_acpt_update_licence', false, $finalData, $this->apiUrl, $this->integrationDetails, $this->defaultHeader);
-        if (!$response) {
-            return (object) ['message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')];
-        }
+        // $apiEndpoint = $this->apiUrl . '/licenses';
 
-        return $response;
-    }
-
-    public function updateGenerator($finalData)
-    {
-        $this->type = 'Update generator';
-        $this->typeName = 'Update generator';
-
-        if (empty($this->integrationDetails->selectedGenerator)) {
-            return ['success' => false, 'message' => __('Required field Generator is empty', 'bit-integrations'), 'code' => 400];
-        }
-
-        $response = apply_filters('btcbi_acpt_update_generator', false, $this->apiUrl, $finalData, $this->defaultHeader, $this->integrationDetails->selectedGenerator);
-        if (!$response) {
-            return (object) ['message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')];
-        }
-
-        return $response;
-    }
-
-    public function createGenerator($finalData)
-    {
-        $this->type = 'Create generator';
-        $this->typeName = 'Create generator';
-
-        if (empty($finalData['name'])) {
-            return ['success' => false, 'message' => __('Required field name is empty', 'bit-integrations'), 'code' => 400];
-        }
-        if (empty($finalData['charset'])) {
-            return ['success' => false, 'message' => __('Required field Character map is empty', 'bit-integrations'), 'code' => 400];
-        }
-        if (empty($finalData['chunks'])) {
-            return ['success' => false, 'message' => __('Required field Number of chunks is empty', 'bit-integrations'), 'code' => 400];
-        }
-        if (empty($finalData['chunk_length'])) {
-            return ['success' => false, 'message' => __('Required field Chunk length is empty', 'bit-integrations'), 'code' => 400];
-        }
-
-        $response = apply_filters('btcbi_acpt_create_generator', false, $this->apiUrl, $finalData, $this->defaultHeader);
-        if (!$response) {
-            return (object) ['message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')];
-        }
-
-        return $response;
-    }
-
-    public function licenseRelatedAction($finalData, $action)
-    {
-        $this->type = "{$action} license";
-        $this->typeName = "{$action} license";
-
-        if (empty($finalData['license_key'])) {
-            return ['success' => false, 'message' => __('Required field license key is empty', 'bit-integrations'), 'code' => 400];
-        }
-
-        switch ($action) {
-            case 'activate':
-                $response = apply_filters('btcbi_acpt_activate_licence', false, $this->apiUrl, $finalData['license_key'], $this->defaultHeader);
-
-                break;
-            case 'deactivate':
-                $response = apply_filters('btcbi_acpt_deactivate_licence', false, $this->apiUrl, $finalData['license_key'], $this->defaultHeader, $finalData['token']);
-
-                break;
-            case 'reactivate':
-                $response = apply_filters('btcbi_acpt_reactivate_licence', false, $this->apiUrl, $finalData['license_key'], $this->defaultHeader, $finalData['token']);
-
-                break;
-            case 'delete':
-                $response = apply_filters('btcbi_acpt_delete_licence', false, $this->apiUrl, $finalData['license_key'], $this->defaultHeader);
-
-                break;
-
-            default:
-                $response = false;
-
-                break;
-        }
-
-        if (!$response) {
-            return (object) ['message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')];
-        }
-
-        return $response;
+        // return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->defaultHeader, ['sslverify' => false]);
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
@@ -187,7 +70,8 @@ class RecordApiHelper
         foreach ($fieldMap as $value) {
             $triggerValue = $value->formField;
             $actionValue = $value->acptFormField;
-            $dataFinal[$actionValue] = ($triggerValue === 'custom') ? Common::replaceFieldWithValue($value->customValue, $data) : $data[$triggerValue];
+
+            $dataFinal[$actionValue] = ($triggerValue === 'custom' && !empty($value->customValue)) ? Common::replaceFieldWithValue($value->customValue, $data) : $data[$triggerValue];
         }
 
         return $dataFinal;
@@ -198,36 +82,8 @@ class RecordApiHelper
         $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
 
         switch ($module) {
-            case 'create_license':
-                $apiResponse = $this->createLicense($finalData);
-
-                break;
-            case 'update_license':
-                $apiResponse = $this->updateLicense($finalData);
-
-                break;
-            case 'activate_license':
-                $apiResponse = $this->licenseRelatedAction($finalData, 'activate');
-
-                break;
-            case 'deactivate_license':
-                $apiResponse = $this->licenseRelatedAction($finalData, 'deactivate');
-
-                break;
-            case 'reactivate_license':
-                $apiResponse = $this->licenseRelatedAction($finalData, 'reactivate');
-
-                break;
-            case 'delete_license':
-                $apiResponse = $this->licenseRelatedAction($finalData, 'delete');
-
-                break;
-            case 'create_generator':
-                $apiResponse = $this->createGenerator($finalData);
-
-                break;
-            case 'update_generator':
-                $apiResponse = $this->updateGenerator($finalData);
+            case 'create_cpt':
+                $apiResponse = $this->createCPT($finalData, $fieldValues);
 
                 break;
         }
