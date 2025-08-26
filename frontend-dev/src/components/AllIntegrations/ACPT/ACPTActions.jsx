@@ -27,7 +27,7 @@ export default function ACPTActions({
   const actionHandler = (e, type) => {
     setACPTConf(prevConf =>
       create(prevConf, draftConf => {
-        if (type !== 'support') {
+        if (type !== 'support' && type !== 'capabilities') {
           draftConf.utilities[type] = !draftConf.utilities[type]
         }
       })
@@ -43,6 +43,12 @@ export default function ACPTActions({
   const setChanges = (val, type) => {
     setACPTConf(prevConf =>
       create(prevConf, draftConf => {
+        if (type === 'capabilities') {
+          draftConf.utilities[type] = val
+
+          return
+        }
+
         draftConf[type] = val
       })
     )
@@ -52,14 +58,109 @@ export default function ACPTActions({
     <>
       <div className="pos-rel">
         <div className="d-flx flx-wrp">
-          <TableCheckBox
-            onChange={e => actionHandler(e, 'support')}
-            checked={acptConf?.supports || false}
-            className="wdt-200 mt-4 mr-2"
-            value="support"
-            title={__('Supports', 'bit-integrations')}
-            subTitle={__('Add support for various available post edit features.', 'bit-integrations')}
-          />
+          {(acptConf?.module === 'create_cpt' || acptConf?.module === 'update_cpt') && (
+            <>
+              <TableCheckBox
+                onChange={e => actionHandler(e, 'support')}
+                checked={acptConf?.supports || false}
+                className="wdt-200 mt-4 mr-2"
+                value="support"
+                title={__('Supports', 'bit-integrations')}
+                subTitle={__(
+                  'Add support for various available post edit features.',
+                  'bit-integrations'
+                )}
+              />
+              <TableCheckBox
+                onChange={e => actionHandler(e, 'show_in_admin_bar')}
+                checked={acptConf?.utilities?.show_in_admin_bar || false}
+                className="wdt-200 mt-4 mr-2"
+                value="show_in_admin_bar"
+                title={__('Show In Admin Bar', 'bit-integrations')}
+                subTitle={__(
+                  'Makes this post type available via the admin bar. Default is value of $show_in_menu.',
+                  'bit-integrations'
+                )}
+              />
+              <TableCheckBox
+                onChange={e => actionHandler(e, 'has_archive')}
+                checked={acptConf?.utilities?.has_archive || false}
+                className="wdt-200 mt-4 mr-2"
+                value="has_archive"
+                title={__('Has archive', 'bit-integrations')}
+                subTitle={__(
+                  'Whether there should be post type archives, or if a string, the archive slug to use. Will generate the proper rewrite rules if $rewrite is enabled. Default false.',
+                  'bit-integrations'
+                )}
+              />
+            </>
+          )}
+
+          {(acptConf?.module === 'create_taxonomy' || acptConf?.module === 'update_taxonomy') && (
+            <>
+              <TableCheckBox
+                onChange={e => actionHandler(e, 'capabilities')}
+                checked={acptConf?.utilities?.capabilities || false}
+                className="wdt-200 mt-4 mr-2"
+                value="capabilities"
+                title={__('Capabilities', 'bit-integrations')}
+                subTitle={__('Capabilities for this taxonomy.', 'bit-integrations')}
+              />
+              <TableCheckBox
+                onChange={e => actionHandler(e, 'hierarchical')}
+                checked={acptConf?.utilities?.hierarchical || false}
+                className="wdt-200 mt-4 mr-2"
+                value="hierarchical"
+                title={__('Hierarchical', 'bit-integrations')}
+                subTitle={__('Whether the taxonomy is hierarchical. Default false.', 'bit-integrations')}
+              />
+              <TableCheckBox
+                onChange={e => actionHandler(e, 'show_tagcloud')}
+                checked={acptConf?.utilities?.show_tagcloud || false}
+                className="wdt-200 mt-4 mr-2"
+                value="show_tagcloud"
+                title={__('Show Tagcloud', 'bit-integrations')}
+                subTitle={__(
+                  'Whether to list the taxonomy in the Tag Cloud Widget controls. If not set, the default is inherited from $show_ui (default true).',
+                  'bit-integrations'
+                )}
+              />
+              <TableCheckBox
+                onChange={e => actionHandler(e, 'show_in_quick_edit')}
+                checked={acptConf?.utilities?.show_in_quick_edit || false}
+                className="wdt-200 mt-4 mr-2"
+                value="show_in_quick_edit"
+                title={__('Show in quick edit', 'bit-integrations')}
+                subTitle={__(
+                  'Whether to show the taxonomy in the quick/bulk edit panel. It not set, the default is inherited from $show_ui (default true).',
+                  'bit-integrations'
+                )}
+              />
+              <TableCheckBox
+                onChange={e => actionHandler(e, 'show_admin_column')}
+                checked={acptConf?.utilities?.show_admin_column || false}
+                className="wdt-200 mt-4 mr-2"
+                value="show_admin_column"
+                title={__('Show admin column', 'bit-integrations')}
+                subTitle={__(
+                  'Whether to display a column for the taxonomy on its post type listing screens. Default false.',
+                  'bit-integrations'
+                )}
+              />
+              <TableCheckBox
+                onChange={e => actionHandler(e, 'sort')}
+                checked={acptConf?.utilities?.sort || false}
+                className="wdt-200 mt-4 mr-2"
+                value="sort"
+                title={__('Sort', 'bit-integrations')}
+                subTitle={__(
+                  'Whether terms in this taxonomy should be sorted in the order they are provided to wp_set_object_terms(). Default null which equates to false.',
+                  'bit-integrations'
+                )}
+              />
+            </>
+          )}
+
           <TableCheckBox
             onChange={e => actionHandler(e, 'public')}
             checked={acptConf?.utilities?.public || false}
@@ -116,17 +217,6 @@ export default function ACPTActions({
             )}
           />
           <TableCheckBox
-            onChange={e => actionHandler(e, 'show_in_admin_bar')}
-            checked={acptConf?.utilities?.show_in_admin_bar || false}
-            className="wdt-200 mt-4 mr-2"
-            value="show_in_admin_bar"
-            title={__('Show In Admin Bar', 'bit-integrations')}
-            subTitle={__(
-              'Makes this post type available via the admin bar. Default is value of $show_in_menu.',
-              'bit-integrations'
-            )}
-          />
-          <TableCheckBox
             onChange={e => actionHandler(e, 'show_in_rest')}
             checked={acptConf?.utilities?.show_in_rest || false}
             className="wdt-200 mt-4 mr-2"
@@ -134,17 +224,6 @@ export default function ACPTActions({
             title={__('Show In Rest API', 'bit-integrations')}
             subTitle={__(
               'Whether to include the post type in the REST API. Set this to true for the post type to be available in the block editor. SET TRUE TO ENABLE GUTENBERG EDITOR.',
-              'bit-integrations'
-            )}
-          />
-          <TableCheckBox
-            onChange={e => actionHandler(e, 'has_archive')}
-            checked={acptConf?.utilities?.has_archive || false}
-            className="wdt-200 mt-4 mr-2"
-            value="has_archive"
-            title={__('Has archive', 'bit-integrations')}
-            subTitle={__(
-              'Whether there should be post type archives, or if a string, the archive slug to use. Will generate the proper rewrite rules if $rewrite is enabled. Default false.',
               'bit-integrations'
             )}
           />
@@ -185,20 +264,27 @@ export default function ACPTActions({
               <MultiSelect
                 className="msl-wrp-options w-9"
                 defaultValue={acptConf?.supports}
-                options={[
-                  { label: __('Title'), value: 'title' },
-                  { label: __('Editor'), value: 'editor' },
-                  { label: __('Comments'), value: 'comments' },
-                  { label: __('Revisions'), value: 'revisions' },
-                  { label: __('Trackbacks'), value: 'trackbacks' },
-                  { label: __('Author'), value: 'author' },
-                  { label: __('Excerpt'), value: 'excerpt' },
-                  { label: __('Page Attributes'), value: 'page-attributes' },
-                  { label: __('Thumbnail'), value: 'thumbnail' },
-                  { label: __('Custom Fields'), value: 'custom-fields' },
-                  { label: __('Post Formats'), value: 'post-formats' }
-                ]}
+                options={supports}
                 onChange={val => setChanges(val, 'supports')}
+              />
+            </div>
+          </ConfirmModal>
+          <ConfirmModal
+            className="custom-conf-mdl"
+            mainMdlCls="o-v"
+            btnClass="purple"
+            btnTxt={__('Ok', 'bit-integrations')}
+            show={actionMdl.show === 'capabilities'}
+            close={clsActionMdl}
+            action={clsActionMdl}
+            title={__('Select Capabilities', 'bit-integrations')}>
+            <div className="btcd-hr mt-2 mb-2" />
+            <div className="flx mt-2">
+              <MultiSelect
+                className="msl-wrp-options w-9"
+                defaultValue={acptConf?.utilities?.capabilities}
+                options={capabilities}
+                onChange={val => setChanges(val, 'capabilities')}
               />
             </div>
           </ConfirmModal>
@@ -207,3 +293,24 @@ export default function ACPTActions({
     </>
   )
 }
+
+const supports = [
+  { label: __('Title'), value: 'title' },
+  { label: __('Editor'), value: 'editor' },
+  { label: __('Comments'), value: 'comments' },
+  { label: __('Revisions'), value: 'revisions' },
+  { label: __('Trackbacks'), value: 'trackbacks' },
+  { label: __('Author'), value: 'author' },
+  { label: __('Excerpt'), value: 'excerpt' },
+  { label: __('Page Attributes'), value: 'page-attributes' },
+  { label: __('Thumbnail'), value: 'thumbnail' },
+  { label: __('Custom Fields'), value: 'custom-fields' },
+  { label: __('Post Formats'), value: 'post-formats' }
+]
+
+const capabilities = [
+  { label: __('Manage Terms'), value: 'manage_terms' },
+  { label: __('Edit Terms'), value: 'edit_terms' },
+  { label: __('Delete Terms'), value: 'delete_terms' },
+  { label: __('Assign Terms'), value: 'assign_terms' }
+]

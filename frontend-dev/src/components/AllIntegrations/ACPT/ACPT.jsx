@@ -34,6 +34,7 @@ function ACPT({ formFields, setFlow, flow, allIntegURL }) {
     module: '',
     cptFields,
     cptLabels,
+    taxonomyFields,
     modules
   })
 
@@ -159,6 +160,18 @@ const modules = [
   { name: 'delete_dynamic_block', label: __('Delete Dynamic Block', 'bit-integrations'), is_pro: true }
 ]
 
+const cptFields = [
+  { label: __('Post Name', 'bit-integrations'), key: 'post_name', required: true },
+  { label: __('Singular Label', 'bit-integrations'), key: 'singular_label', required: true },
+  { label: __('Plural Label', 'bit-integrations'), key: 'plural_label', required: true },
+  { label: __('Icon', 'bit-integrations'), key: 'icon', required: true },
+  { label: __('REST API base slug', 'bit-integrations'), key: 'rest_base', required: false },
+  { label: __('Menu position', 'bit-integrations'), key: 'menu_position', required: false },
+  { label: __('Capability type', 'bit-integrations'), key: 'capability_type', required: false },
+  { label: __('Custom rewrite rules', 'bit-integrations'), key: 'custom_rewrite', required: false },
+  { label: __('Custom query var', 'bit-integrations'), key: 'custom_query_var', required: false }
+]
+
 const cptLabels = [
   { label: __('Menu Name', 'bit-integrations'), key: 'menu_name' },
   { label: __('All Items', 'bit-integrations'), key: 'all_items' },
@@ -190,27 +203,56 @@ const cptLabels = [
   { label: __('Item Updated', 'bit-integrations'), key: 'item_updated' }
 ]
 
-const nonRequiredFields = [
+const taxonomyLabels = [
+  { label: __('Menu Name', 'bit-integrations'), key: 'name', required: true },
+  { label: __('Singular name', 'bit-integrations'), key: 'singular_name', required: true },
+  { label: __('Search Items', 'bit-integrations'), key: 'search_items', required: true },
+  { label: __('Popular Items', 'bit-integrations'), key: 'popular_items', required: true },
+  { label: __('All Items', 'bit-integrations'), key: 'all_items', required: true },
+  { label: __('Parent Item', 'bit-integrations'), key: 'parent_item', required: true },
+  { label: __('Parent Item Colon', 'bit-integrations'), key: 'parent_item_colon', required: true },
+  { label: __('Edit Item', 'bit-integrations'), key: 'edit_item', required: true },
+  { label: __('View Item', 'bit-integrations'), key: 'view_item', required: true },
+  { label: __('Update Item', 'bit-integrations'), key: 'update_item', required: true },
+  { label: __('Add New Item', 'bit-integrations'), key: 'add_new_item', required: true },
+  { label: __('New Item Name', 'bit-integrations'), key: 'new_item_name', required: true },
+  {
+    label: __('Separate Items With Commas', 'bit-integrations'),
+    key: 'separate_items_with_commas',
+    required: true
+  },
+  { label: __('Add or Remove Items', 'bit-integrations'), key: 'add_or_remove_items', required: true },
+  {
+    label: __('Choose From Most Used', 'bit-integrations'),
+    key: 'choose_from_most_used',
+    required: true
+  },
+  { label: __('Not Found', 'bit-integrations'), key: 'not_found', required: true },
+  { label: __('No Terms', 'bit-integrations'), key: 'no_terms', required: true },
+  { label: __('Filter By Item', 'bit-integrations'), key: 'filter_by_item', required: true },
+  {
+    label: __('Items List Navigation', 'bit-integrations'),
+    key: 'items_list_navigation',
+    required: true
+  },
+  { label: __('Items List', 'bit-integrations'), key: 'items_list', required: true },
+  { label: __('Most Used', 'bit-integrations'), key: 'most_used', required: true },
+  { label: __('Back To Items', 'bit-integrations'), key: 'back_to_items', required: true }
+]
+
+const taxonomyFields = [
+  { label: __('Slug', 'bit-integrations'), key: 'slug', required: true },
+  { label: __('Singular Label', 'bit-integrations'), key: 'singular_label', required: true },
+  { label: __('Plural Label', 'bit-integrations'), key: 'plural_label', required: true },
   { label: __('REST API base slug', 'bit-integrations'), key: 'rest_base', required: false },
+  {
+    label: __('REST API Controller Class', 'bit-integrations'),
+    key: 'rest_controller_class',
+    required: false
+  },
   { label: __('Menu position', 'bit-integrations'), key: 'menu_position', required: false },
   { label: __('Capability type', 'bit-integrations'), key: 'capability_type', required: false },
   { label: __('Custom rewrite rules', 'bit-integrations'), key: 'custom_rewrite', required: false },
-  { label: __('Custom query var', 'bit-integrations'), key: 'custom_query_var', required: false }
-]
-
-const createCptRequiredFields = [
-  { label: __('Post Name', 'bit-integrations'), key: 'post_name', required: true },
-  { label: __('Singular Label', 'bit-integrations'), key: 'singular_label', required: true },
-  { label: __('Plural Label', 'bit-integrations'), key: 'plural_label', required: true },
-  { label: __('Icon', 'bit-integrations'), key: 'icon', required: true },
-  ...nonRequiredFields
-]
-
-const updateCptRequiredFields = [
-  { label: __('Slug', 'bit-integrations'), key: 'slug', required: true },
-  { label: __('Post Name', 'bit-integrations'), key: 'post_name', required: false },
-  { label: __('Singular Label', 'bit-integrations'), key: 'singular_label', required: false },
-  { label: __('Plural Label', 'bit-integrations'), key: 'plural_label', required: false },
-  { label: __('Icon', 'bit-integrations'), key: 'icon', required: false },
-  ...nonRequiredFields
+  { label: __('Custom query var', 'bit-integrations'), key: 'custom_query_var', required: false },
+  { label: __('Default Term', 'bit-integrations'), key: 'default_term', required: false }
 ]

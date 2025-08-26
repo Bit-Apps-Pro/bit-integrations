@@ -30,7 +30,7 @@ export default function ACPTIntegLayout({
         draftConf[name] = val
 
         if ((name = 'module')) {
-          const { cptFields, acptLabels } = draftConf
+          const { cptFields, cptLabels, taxonomyFields, taxonomyLabels } = draftConf
 
           draftConf.acptFields = []
           draftConf.acptLabels = []
@@ -44,12 +44,17 @@ export default function ACPTIntegLayout({
                 ? [{ label: __('Slug', 'bit-integrations'), key: 'slug', required: true }, ...cptFields]
                 : cptFields
 
-            draftConf.acptLabels = acptLabels
-            draftConf.label_field_map = generateMappedField(acptLabels)
+            draftConf.acptLabels = cptLabels
+            draftConf.label_field_map = generateMappedField(cptLabels)
           } else if (val === 'delete_cpt') {
             draftConf.acptFields = [
               { label: __('Slug', 'bit-integrations'), key: 'slug', required: true }
             ]
+          } else if (val === 'create_taxonomy') {
+            draftConf.acptFields = taxonomyFields
+            draftConf.acptLabels = taxonomyLabels
+
+            draftConf.label_field_map = generateMappedField(taxonomyLabels)
           }
         }
 
@@ -252,7 +257,7 @@ export default function ACPTIntegLayout({
             />
           )}
 
-          {(acptConf.module === 'create_cpt' || acptConf.module === 'update_cpt') && !isLoading && (
+          {['create_cpt', 'update_cpt', 'create_taxonomy'].includes(acptConf.module) && !isLoading && (
             <FieldMappingLayout
               formFields={formFields}
               acptConf={acptConf}

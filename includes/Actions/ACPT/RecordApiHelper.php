@@ -79,7 +79,7 @@ class RecordApiHelper
         return ACPTHelper::validateResponse($response);
     }
 
-    public function deleteCPT($finalData, $fieldValues)
+    public function deleteCPT($finalData)
     {
         $this->type = 'CPT';
         $this->typeName = 'Delete CPT';
@@ -99,6 +99,24 @@ class RecordApiHelper
         return ACPTHelper::validateResponse($response);
     }
 
+    public function createTaxonomy($finalData, $fieldValues)
+    {
+        $this->type = 'Taxonomy';
+        $this->typeName = 'Create Taxonomy';
+
+        if ($error = ACPTHelper::taxonomyValidateRequired($finalData)) {
+            return $error;
+        }
+
+        $finalData = ACPTHelper::prepareTaxonomyData($finalData, $fieldValues, $this->integrationDetails);
+
+        $apiEndpoint = $this->apiUrl . '/taxonomy';
+
+        $response = apply_filters('btcbi_acpt_create_taxonomy', false, $apiEndpoint, $this->apikey, $finalData);
+
+        return ACPTHelper::validateResponse($response);
+    }
+
     public function execute($fieldValues, $fieldMap, $module)
     {
         $finalData = ACPTHelper::generateReqDataFromFieldMap($fieldValues, $fieldMap);
@@ -113,7 +131,11 @@ class RecordApiHelper
 
                 break;
             case 'delete_cpt':
-                $apiResponse = $this->deleteCPT($finalData, $fieldValues);
+                $apiResponse = $this->deleteCPT($finalData);
+
+                break;
+            case 'create_taxonomy':
+                $apiResponse = $this->createTaxonomy($finalData, $fieldValues);
 
                 break;
         }
