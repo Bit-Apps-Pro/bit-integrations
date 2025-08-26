@@ -65,7 +65,7 @@ class RecordApiHelper
 
         $expiration_date = $finalData['expiration_date'];
 
-        if (isset($expiration_date) && ($expiration_date === '' || \is_null($expiration_date))) {
+        if (empty($expiration_date)) {
             $obj = new MeprProduct(sanitize_key($product_id));
             $expires_at_ts = $obj->get_expires_at();
             if (\is_null($expires_at_ts)) {
