@@ -3,6 +3,7 @@
 namespace BitCode\FI\Actions\ACPT;
 
 use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Core\Util\Helper;
 
 class ACPTHelper
 {
@@ -21,13 +22,27 @@ class ACPTHelper
         return $dataFinal;
     }
 
-    public static function cptValidateRequired($finalData)
+    public static function cptValidateRequired($finalData, $isUpdate = false)
     {
         $required = [
             'post_name'      => __('Post Name', 'bit-integrations'),
             'singular_label' => __('Singular Label', 'bit-integrations'),
             'plural_label'   => __('Plural Label', 'bit-integrations'),
-        ];
+        ]
+            ? ['slug' => __('Slug', 'bit-integrations')]
+            : [
+                'post_name'      => __('Post Name', 'bit-integrations'),
+                'singular_label' => __('Singular Label', 'bit-integrations'),
+                'plural_label'   => __('Plural Label', 'bit-integrations'),
+            ];
+        if ($isUpdate) {
+            $required = array_merge(
+                [
+                    'slug' => __('Slug', 'bit-integrations')
+                ],
+                $required
+            );
+        }
 
         foreach ($required as $key => $label) {
             if (empty($finalData[$key])) {
@@ -67,5 +82,21 @@ class ACPTHelper
         }
 
         return array_filter($settings);
+    }
+
+    public static function prepareCPTData($finalData, $fieldValues, $integrationDetails)
+    {
+        $finalData['labels'] = ACPTHelper::buildLabels($fieldValues, $integrationDetails->label_field_map ?? []);
+        $finalData['settings'] = ACPTHelper::buildSettings($finalData, $integrationDetails->utilities ?? []);
+        $finalData['supports'] = Helper::convertStringToArray($integrationDetails->supports ?? []);
+
+        return wp_json_encode($finalData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    }
+
+    public static function validateResponse($response)
+    {
+        return !$response
+            ? ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')]
+            : $response;
     }
 }

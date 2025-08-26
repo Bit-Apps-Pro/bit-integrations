@@ -29,8 +29,24 @@ export default function ACPTIntegLayout({
       create(prevConf, draftConf => {
         draftConf[name] = val
 
-        if (name === 'module' && (val === 'create_cpt' || val === 'update_license')) {
-          draftConf.acptFields = draftConf.cptFields
+        if ((name = 'module')) {
+          draftConf.acptFields = []
+          draftConf.acptLabels = []
+
+          draftConf.field_map = []
+          draftConf.label_field_map = []
+        }
+
+        if (name === 'module' && (val === 'create_cpt' || val === 'update_cpt')) {
+          if (val === 'update_cpt') {
+            draftConf.acptFields = [
+              { label: __('Slug', 'bit-integrations'), key: 'slug', required: true },
+              ...draftConf.cptFields
+            ]
+          } else {
+            draftConf.acptFields = draftConf.cptFields
+          }
+
           draftConf.acptLabels = draftConf.cptLabels
 
           draftConf.field_map = generateMappedField(draftConf.acptFields)
@@ -93,34 +109,24 @@ export default function ACPTIntegLayout({
         />
       )}
 
-      {/* {acptConf?.module && acptConf.module === 'update_license' && !isLoading && (
+      {/* {acptConf?.module === 'update_cpt' && !isLoading && (
         <>
           <br />
           <div className="flx">
-            <b className="wdt-200 d-in-b">{__('Select License:', 'bit-integrations')}</b>
+            <b className="wdt-200 d-in-b">{__('Slug:', 'bit-integrations')}</b>
             <MultiSelect
-              options={
-                acptConf?.licenses && acptConf.licenses.map(event => ({ label: event, value: event }))
-              }
+              options={formFields.map(f => ({ label: f.label, value: f.name }))}
               className="msl-wrp-options dropdown-custom-width"
-              defaultValue={acptConf?.selectedLicense}
-              onChange={val => setChanges(val, 'selectedLicense')}
+              defaultValue={acptConf?.slug}
+              onChange={val => setChanges(val, 'slug')}
               singleSelect
               closeOnSelect
             />
-            <button
-              onClick={() => getAllLicense(acptConf, setAcptConf, setLoading)}
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `'${__('Refresh License', 'bit-integrations')}'` }}
-              type="button"
-              disabled={loading.license}>
-              &#x21BB;
-            </button>
           </div>
         </>
-      )}
+      )} */}
 
-      {acptConf?.module && acptConf.module === 'update_generator' && !isLoading && (
+      {/*{acptConf?.module && acptConf.module === 'update_generator' && !isLoading && (
         <>
           <br />
           <div className="flx">
@@ -265,7 +271,7 @@ export default function ACPTIntegLayout({
             />
           )}
 
-          {acptConf.module === 'create_cpt' && !isLoading && (
+          {(acptConf.module === 'create_cpt' || acptConf.module === 'update_cpt') && !isLoading && (
             <FieldMappingLayout
               formFields={formFields}
               acptConf={acptConf}
