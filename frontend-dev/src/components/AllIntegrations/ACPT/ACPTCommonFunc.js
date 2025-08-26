@@ -41,7 +41,7 @@ export const checkMappedFields = acptConf => {
   return true
 }
 
-export const acptAuthentication = (confTmp, setConf, setError, setIsAuthorized, loading, setLoading) => {
+export const acptAuthentication = (confTmp, setError, setIsAuthorized, loading, setLoading) => {
   if (!confTmp.api_key || !confTmp.base_url) {
     setError({
       base_url: !confTmp.base_url ? __("Homepage URL can't be empty", 'bit-integrations') : '',

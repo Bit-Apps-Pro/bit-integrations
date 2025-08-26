@@ -102,9 +102,7 @@ export default function ACPTAuthorization({
       {!isInfo && (
         <div>
           <button
-            onClick={() =>
-              acptAuthentication(acptConf, setAcptConf, setError, setIsAuthorized, loading, setLoading)
-            }
+            onClick={() => acptAuthentication(acptConf, setError, setIsAuthorized, loading, setLoading)}
             className="btn btcd-btn-lg purple sh-sm flx"
             type="button"
             disabled={isAuthorized || loading.auth}>

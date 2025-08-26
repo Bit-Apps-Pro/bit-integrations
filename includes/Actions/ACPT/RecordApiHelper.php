@@ -6,7 +6,7 @@
 
 namespace BitCode\FI\Actions\ACPT;
 
-use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Core\Util\Helper;
 use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Log\LogHandler;
 
@@ -39,47 +39,28 @@ class RecordApiHelper
         ];
     }
 
-    public function createCPT($finalData, $fieldValues)
+    public function createCPT(array $finalData, array $fieldValues)
     {
         $this->type = 'CPT';
         $this->typeName = 'Create CPT';
 
-        if (empty($finalData['post_name'])) {
-            return ['success' => false, 'message' => __('Required field Post Name is empty', 'bit-integrations'), 'code' => 422];
+        if ($error = ACPTHelper::cptValidateRequired($finalData)) {
+            return $error;
         }
 
-        if (empty($finalData['singular_label'])) {
-            return ['success' => false, 'message' => __('Required field Singular Label is empty', 'bit-integrations'), 'code' => 422];
-        }
+        $finalData['labels'] = ACPTHelper::buildLabels($fieldValues, $this->integrationDetails->label_field_map ?? []);
+        $finalData['settings'] = ACPTHelper::buildSettings($finalData, $this->integrationDetails->utilities ?? []);
+        $finalData['supports'] = Helper::convertStringToArray($this->integrationDetails->supports ?? []);
 
-        if (empty($finalData['plural_label'])) {
-            return ['success' => false, 'message' => __('Required field Plural Label is empty', 'bit-integrations'), 'code' => 422];
-        }
+        $apiEndpoint = $this->apiUrl . '/cpt';
+        $payload = wp_json_encode($finalData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
-        error_log(print_r($this->integrationDetails, true));
-        $labels = $this->generateReqDataFromFieldMap($fieldValues, $this->integrationDetails->label_field_map);
-
-        // $apiEndpoint = $this->apiUrl . '/licenses';
-
-        // return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->defaultHeader, ['sslverify' => false]);
-    }
-
-    public function generateReqDataFromFieldMap($data, $fieldMap)
-    {
-        $dataFinal = [];
-        foreach ($fieldMap as $value) {
-            $triggerValue = $value->formField;
-            $actionValue = $value->acptFormField;
-
-            $dataFinal[$actionValue] = ($triggerValue === 'custom' && !empty($value->customValue)) ? Common::replaceFieldWithValue($value->customValue, $data) : $data[$triggerValue];
-        }
-
-        return $dataFinal;
+        return HttpHelper::post($apiEndpoint, $payload, $this->defaultHeader);
     }
 
     public function execute($fieldValues, $fieldMap, $module)
     {
-        $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
+        $finalData = ACPTHelper::generateReqDataFromFieldMap($fieldValues, $fieldMap);
 
         switch ($module) {
             case 'create_cpt':
@@ -88,21 +69,9 @@ class RecordApiHelper
                 break;
         }
 
-        if (isset($apiResponse->success) && $apiResponse->success && !isset($apiResponse->data->errors)) {
-            $res = [$this->typeName . '  successfully'];
+        $type = (!empty($apiResponse->id) || HttpHelper::$responseCode === 201) ? 'success' : 'error';
 
-            LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->typeName]), 'success', wp_json_encode($res));
-        } else {
-            if (is_wp_error($apiResponse)) {
-                $res = $apiResponse->get_error_message();
-            } elseif (isset($apiResponse->data->errors)) {
-                $res = $apiResponse->data->errors->acpt_rest_data_error[0] ?? wp_json_encode($apiResponse);
-            } else {
-                $res = !empty($apiResponse->message) ? $apiResponse->message : wp_json_encode($apiResponse);
-            }
-
-            LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->type . ' creating']), 'error', $res);
-        }
+        LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->typeName]), $type, wp_json_encode($apiResponse));
 
         return $apiResponse;
     }

@@ -27,7 +27,9 @@ export default function ACPTActions({
   const actionHandler = (e, type) => {
     setACPTConf(prevConf =>
       create(prevConf, draftConf => {
-        draftConf[type] = !draftConf[type]
+        if (type !== 'support') {
+          draftConf.utilities[type] = !draftConf.utilities[type]
+        }
       })
     )
 
@@ -60,7 +62,7 @@ export default function ACPTActions({
           />
           <TableCheckBox
             onChange={e => actionHandler(e, 'public')}
-            checked={acptConf?.public || false}
+            checked={acptConf?.utilities?.public || false}
             className="wdt-200 mt-4 mr-2"
             value="public"
             title={__('public', 'bit-integrations')}
@@ -71,7 +73,7 @@ export default function ACPTActions({
           />
           <TableCheckBox
             onChange={e => actionHandler(e, 'publicly_queryable')}
-            checked={acptConf?.publicly_queryable || false}
+            checked={acptConf?.utilities?.publicly_queryable || false}
             className="wdt-200 mt-4 mr-2"
             value="publicly_queryable"
             title={__('Publicly Queryable', 'bit-integrations')}
@@ -82,7 +84,7 @@ export default function ACPTActions({
           />
           <TableCheckBox
             onChange={e => actionHandler(e, 'show_ui')}
-            checked={acptConf?.show_ui || false}
+            checked={acptConf?.utilities?.show_ui || false}
             className="wdt-200 mt-4 mr-2"
             value="show_ui"
             title={__('Show UI', 'bit-integrations')}
@@ -93,7 +95,7 @@ export default function ACPTActions({
           />
           <TableCheckBox
             onChange={e => actionHandler(e, 'show_in_menu')}
-            checked={acptConf?.show_in_menu || false}
+            checked={acptConf?.utilities?.show_in_menu || false}
             className="wdt-200 mt-4 mr-2"
             value="show_in_menu"
             title={__('Show In Menu', 'bit-integrations')}
@@ -104,7 +106,7 @@ export default function ACPTActions({
           />
           <TableCheckBox
             onChange={e => actionHandler(e, 'show_in_nav_menus')}
-            checked={acptConf?.show_in_nav_menus || false}
+            checked={acptConf?.utilities?.show_in_nav_menus || false}
             className="wdt-200 mt-4 mr-2"
             value="show_in_nav_menus"
             title={__('Show In Nav Menus', 'bit-integrations')}
@@ -115,7 +117,7 @@ export default function ACPTActions({
           />
           <TableCheckBox
             onChange={e => actionHandler(e, 'show_in_admin_bar')}
-            checked={acptConf?.show_in_admin_bar || false}
+            checked={acptConf?.utilities?.show_in_admin_bar || false}
             className="wdt-200 mt-4 mr-2"
             value="show_in_admin_bar"
             title={__('Show In Admin Bar', 'bit-integrations')}
@@ -126,7 +128,7 @@ export default function ACPTActions({
           />
           <TableCheckBox
             onChange={e => actionHandler(e, 'show_in_rest')}
-            checked={acptConf?.show_in_rest || false}
+            checked={acptConf?.utilities?.show_in_rest || false}
             className="wdt-200 mt-4 mr-2"
             value="show_in_rest"
             title={__('Show In Rest API', 'bit-integrations')}
@@ -137,7 +139,7 @@ export default function ACPTActions({
           />
           <TableCheckBox
             onChange={e => actionHandler(e, 'has_archive')}
-            checked={acptConf?.has_archive || false}
+            checked={acptConf?.utilities?.has_archive || false}
             className="wdt-200 mt-4 mr-2"
             value="has_archive"
             title={__('Has archive', 'bit-integrations')}
@@ -148,7 +150,7 @@ export default function ACPTActions({
           />
           <TableCheckBox
             onChange={e => actionHandler(e, 'rewrite')}
-            checked={acptConf?.rewrite || false}
+            checked={acptConf?.utilities?.rewrite || false}
             className="wdt-200 mt-4 mr-2"
             value="rewrite"
             title={__('Rewrite', 'bit-integrations')}
@@ -159,7 +161,7 @@ export default function ACPTActions({
           />
           <TableCheckBox
             onChange={e => actionHandler(e, 'query_var')}
-            checked={acptConf?.query_var || false}
+            checked={acptConf?.utilities?.query_var || false}
             className="wdt-200 mt-4 mr-2"
             value="query_var"
             title={__('Query var', 'bit-integrations')}

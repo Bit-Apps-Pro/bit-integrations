@@ -464,6 +464,27 @@ final class Helper
         return static::decodeSingleEntity($input);
     }
 
+    /**
+     * Convert string to array.
+     *
+     * @param null|array|string $data
+     * @param string            $separator
+     *
+     * @return array
+     */
+    public static function convertStringToArray($data, $separator = ',')
+    {
+        if (empty($data)) {
+            return [];
+        }
+
+        if (\is_array($data)) {
+            return array_map('trim', $data);
+        }
+
+        return array_map('trim', explode($separator, $data));
+    }
+
     private static function getVariableType($val)
     {
         $types = [
