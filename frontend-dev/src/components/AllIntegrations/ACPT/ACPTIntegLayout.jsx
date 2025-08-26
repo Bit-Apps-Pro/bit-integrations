@@ -30,49 +30,30 @@ export default function ACPTIntegLayout({
         draftConf[name] = val
 
         if ((name = 'module')) {
+          const { cptFields, acptLabels } = draftConf
+
           draftConf.acptFields = []
           draftConf.acptLabels = []
 
           draftConf.field_map = []
           draftConf.label_field_map = []
-        }
 
-        if (name === 'module' && (val === 'create_cpt' || val === 'update_cpt')) {
-          if (val === 'update_cpt') {
+          if (val === 'create_cpt' || val === 'update_cpt') {
+            draftConf.acptFields =
+              val === 'update_cpt'
+                ? [{ label: __('Slug', 'bit-integrations'), key: 'slug', required: true }, ...cptFields]
+                : cptFields
+
+            draftConf.acptLabels = acptLabels
+            draftConf.label_field_map = generateMappedField(acptLabels)
+          } else if (val === 'delete_cpt') {
             draftConf.acptFields = [
-              { label: __('Slug', 'bit-integrations'), key: 'slug', required: true },
-              ...draftConf.cptFields
+              { label: __('Slug', 'bit-integrations'), key: 'slug', required: true }
             ]
-          } else {
-            draftConf.acptFields = draftConf.cptFields
           }
-
-          draftConf.acptLabels = draftConf.cptLabels
-
-          draftConf.field_map = generateMappedField(draftConf.acptFields)
-          draftConf.label_field_map = generateMappedField(draftConf.acptLabels)
-        } else if (name === 'module' && ['activate_license', 'delete_license'].includes(val)) {
-          draftConf.acptFields = draftConf.licenseFields
-
-          draftConf.field_map = generateMappedField(draftConf.acptFields)
-        } else if (name === 'module' && ['deactivate_license', 'reactivate_license'].includes(val)) {
-          draftConf.acptFields = [
-            ...draftConf.licenseFields,
-            { label: __('Activation Token', 'bit-integrations'), key: 'token', required: false }
-          ]
-          draftConf.field_map = generateMappedField(draftConf.acptFields)
-        } else if (name === 'module' && (val === 'create_generator' || val === 'update_generator')) {
-          if (val === 'update_generator') {
-            getAllGenerator(acptConf, setAcptConf, setLoading)
-            draftConf.acptFields = draftConf.generatorFields.map(fields => {
-              return { ...fields, required: false }
-            })
-          } else {
-            draftConf.acptFields = draftConf.generatorFields
-          }
-
-          draftConf.field_map = generateMappedField(draftConf.acptFields)
         }
+
+        draftConf.field_map = generateMappedField(draftConf.acptFields)
       })
     )
   }
@@ -283,19 +264,23 @@ export default function ACPTIntegLayout({
             />
           )}
 
-          <div className="mt-1">
-            <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
-          </div>
-          <div className="btcd-hr mt-1" />
-          <ACPTActions
-            acptConf={acptConf}
-            setACPTConf={setAcptConf}
-            loading={loading}
-            setLoading={setLoading}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
-            setSnackbar={setSnackbar}
-          />
+          {acptConf.module !== 'delete_cpt' && !isLoading && (
+            <>
+              <div className="mt-1">
+                <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
+              </div>
+              <div className="btcd-hr mt-1" />
+              <ACPTActions
+                acptConf={acptConf}
+                setACPTConf={setAcptConf}
+                loading={loading}
+                setLoading={setLoading}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+                setSnackbar={setSnackbar}
+              />
+            </>
+          )}
         </>
       )}
     </>

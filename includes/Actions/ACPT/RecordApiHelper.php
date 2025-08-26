@@ -79,6 +79,26 @@ class RecordApiHelper
         return ACPTHelper::validateResponse($response);
     }
 
+    public function deleteCPT($finalData, $fieldValues)
+    {
+        $this->type = 'CPT';
+        $this->typeName = 'Delete CPT';
+
+        if (empty($finalData['slug'])) {
+            return [
+                'success' => false,
+                'message' => __('Required field slug is empty', 'bit-integrations'),
+                'code'    => 422,
+            ];
+        }
+
+        $apiEndpoint = $this->apiUrl . '/cpt/' . $finalData['slug'];
+
+        $response = apply_filters('btcbi_acpt_delete_cpt', false, $apiEndpoint, $this->apikey);
+
+        return ACPTHelper::validateResponse($response);
+    }
+
     public function execute($fieldValues, $fieldMap, $module)
     {
         $finalData = ACPTHelper::generateReqDataFromFieldMap($fieldValues, $fieldMap);
@@ -90,6 +110,10 @@ class RecordApiHelper
                 break;
             case 'update_cpt':
                 $apiResponse = $this->updateCPT($finalData, $fieldValues);
+
+                break;
+            case 'delete_cpt':
+                $apiResponse = $this->deleteCPT($finalData, $fieldValues);
 
                 break;
         }
