@@ -146,7 +146,7 @@ class RecordApiHelper
         return ACPTHelper::validateResponse($response);
     }
 
-    public function createOptionPage($finalData)
+    public function createOrUpdateOptionPage($finalData, $isUpdate = false)
     {
         if ($error = ACPTHelper::optionPageValidateRequired($finalData)) {
             return $error;
@@ -154,9 +154,12 @@ class RecordApiHelper
 
         $finalData['position'] = (integer) $finalData['position'];
 
-        $apiEndpoint = $this->apiUrl . '/option-page';
+        $path = $isUpdate ? '/option-page/' . $finalData['menuSlug'] : '/option-page';
+        $apiEndpoint = $this->apiUrl . $path;
 
-        $response = apply_filters('btcbi_acpt_create_option_page', false, $apiEndpoint, $this->apikey, wp_json_encode($finalData));
+        $hook = 'btcbi_acpt_' . ($isUpdate ? 'update' : 'create') . '_option_page';
+
+        $response = apply_filters($hook, false, $apiEndpoint, $this->apikey, wp_json_encode($finalData));
 
         return ACPTHelper::validateResponse($response);
     }
@@ -222,7 +225,14 @@ class RecordApiHelper
                 $type = 'Option Page';
                 $typeName = 'Create Option Page';
 
-                $apiResponse = $this->createOptionPage($finalData);
+                $apiResponse = $this->createOrUpdateOptionPage($finalData);
+
+                break;
+            case 'update_option_page':
+                $type = 'Option Page';
+                $typeName = 'Update Option Page';
+
+                $apiResponse = $this->createOrUpdateOptionPage($finalData, true);
 
                 break;
         }

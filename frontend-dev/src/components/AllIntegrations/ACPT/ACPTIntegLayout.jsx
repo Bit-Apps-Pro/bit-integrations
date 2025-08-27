@@ -60,7 +60,7 @@ export default function ACPTIntegLayout({
               { label: __('Taxonomy Slug', 'bit-integrations'), key: 'taxonomy_slug', required: true },
               { label: __('CPT Slug', 'bit-integrations'), key: 'cpt_slug', required: true }
             ]
-          } else if (val === 'create_option_page') {
+          } else if (val === 'create_option_page' || val === 'update_option_page') {
             draftConf.acptFields = optionPageFields
           }
         }
@@ -283,7 +283,8 @@ export default function ACPTIntegLayout({
             'delete_cpt',
             'delete_taxonomy',
             'associate_taxonomy_to_cpt',
-            'create_option_page'
+            'create_option_page',
+            'update_option_page'
           ].includes(acptConf.module) &&
             !isLoading && (
               <>
