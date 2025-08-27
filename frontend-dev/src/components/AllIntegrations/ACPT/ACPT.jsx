@@ -36,6 +36,7 @@ function ACPT({ formFields, setFlow, flow, allIntegURL }) {
     cptLabels,
     taxonomyLabels,
     taxonomyFields,
+    optionPageFields,
     modules
   })
 
@@ -253,4 +254,14 @@ const taxonomyFields = [
   { label: __('Custom rewrite rules', 'bit-integrations'), key: 'custom_rewrite', required: false },
   { label: __('Custom query var', 'bit-integrations'), key: 'custom_query_var', required: false },
   { label: __('Default Term', 'bit-integrations'), key: 'default_term', required: false }
+]
+
+const optionPageFields = [
+  { label: __('Page Title', 'bit-integrations'), key: 'pageTitle', required: true },
+  { label: __('Menu Title', 'bit-integrations'), key: 'menuTitle', required: true },
+  { label: __('Menu Slug', 'bit-integrations'), key: 'menuSlug', required: true },
+  { label: __('Menu Icon', 'bit-integrations'), key: 'icon', required: true },
+  { label: __('Menu Position', 'bit-integrations'), key: 'position', required: true },
+  { label: __('Capability', 'bit-integrations'), key: 'capability', required: true },
+  { label: __('Page Description', 'bit-integrations'), key: 'description', required: false }
 ]

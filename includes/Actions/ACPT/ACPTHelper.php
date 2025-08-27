@@ -52,21 +52,27 @@ class ACPTHelper
 
     public static function taxonomyValidateRequired($finalData, $isUpdate = false)
     {
-        $required = [
+        $requiredFields = [
             'slug'           => __('Slug', 'bit-integrations'),
             'singular_label' => __('Singular Label', 'bit-integrations'),
             'plural_label'   => __('Plural Label', 'bit-integrations'),
         ];
 
-        foreach ($required as $key => $label) {
-            if (empty($finalData[$key])) {
-                return [
-                    'success' => false,
-                    'message' => \sprintf(__('Required field %s is empty', 'bit-integrations'), $label),
-                    'code'    => 422,
-                ];
-            }
-        }
+        return self::validateFields($requiredFields, $finalData);
+    }
+
+    public static function optionPageValidateRequired($finalData)
+    {
+        $requiredFields = [
+            'pageTitle'  => __('Page Title', 'bit-integrations'),
+            'menuTitle'  => __('Menu Title', 'bit-integrations'),
+            'capability' => __('Capability', 'bit-integrations'),
+            'menuSlug'   => __('Menu Slug', 'bit-integrations'),
+            'icon'       => __('Menu Icon', 'bit-integrations'),
+            'position'   => __('Menu Position', 'bit-integrations'),
+        ];
+
+        return self::validateFields($requiredFields, $finalData);
     }
 
     public static function buildLabels($fieldValues, $labelFieldsMap)
@@ -128,5 +134,18 @@ class ACPTHelper
         return !$response
             ? ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')]
             : $response;
+    }
+
+    private static function validateFields($requiredFields, $finalData)
+    {
+        foreach ($requiredFields as $key => $label) {
+            if (empty($finalData[$key])) {
+                return [
+                    'success' => false,
+                    'message' => \sprintf(__('Required field %s is empty', 'bit-integrations'), $label),
+                    'code'    => 422,
+                ];
+            }
+        }
     }
 }

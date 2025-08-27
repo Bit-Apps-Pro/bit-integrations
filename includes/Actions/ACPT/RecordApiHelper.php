@@ -146,6 +146,21 @@ class RecordApiHelper
         return ACPTHelper::validateResponse($response);
     }
 
+    public function createOptionPage($finalData)
+    {
+        if ($error = ACPTHelper::optionPageValidateRequired($finalData)) {
+            return $error;
+        }
+
+        $finalData['position'] = (integer) $finalData['position'];
+
+        $apiEndpoint = $this->apiUrl . '/option-page';
+
+        $response = apply_filters('btcbi_acpt_create_option_page', false, $apiEndpoint, $this->apikey, wp_json_encode($finalData));
+
+        return ACPTHelper::validateResponse($response);
+    }
+
     public function execute($fieldValues, $fieldMap, $module)
     {
         $type = '';
@@ -201,6 +216,13 @@ class RecordApiHelper
                 $typeName = 'Associate a Registered Taxonomy to a CPT';
 
                 $apiResponse = $this->associateTaxonomyToCPT($finalData);
+
+                break;
+            case 'create_option_page':
+                $type = 'Option Page';
+                $typeName = 'Create Option Page';
+
+                $apiResponse = $this->createOptionPage($finalData);
 
                 break;
         }

@@ -30,7 +30,7 @@ export default function ACPTIntegLayout({
         draftConf[name] = val
 
         if ((name = 'module')) {
-          const { cptFields, cptLabels, taxonomyFields, taxonomyLabels } = draftConf
+          const { cptFields, cptLabels, taxonomyFields, taxonomyLabels, optionPageFields } = draftConf
 
           draftConf.acptFields = []
           draftConf.acptLabels = []
@@ -60,6 +60,8 @@ export default function ACPTIntegLayout({
               { label: __('Taxonomy Slug', 'bit-integrations'), key: 'taxonomy_slug', required: true },
               { label: __('CPT Slug', 'bit-integrations'), key: 'cpt_slug', required: true }
             ]
+          } else if (val === 'create_option_page') {
+            draftConf.acptFields = optionPageFields
           }
         }
 
@@ -277,7 +279,12 @@ export default function ACPTIntegLayout({
               />
             )}
 
-          {!['delete_cpt', 'delete_taxonomy', 'associate_taxonomy_to_cpt'].includes(acptConf.module) &&
+          {![
+            'delete_cpt',
+            'delete_taxonomy',
+            'associate_taxonomy_to_cpt',
+            'create_option_page'
+          ].includes(acptConf.module) &&
             !isLoading && (
               <>
                 <div className="mt-1">
