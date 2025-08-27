@@ -34,6 +34,7 @@ function ACPT({ formFields, setFlow, flow, allIntegURL }) {
     module: '',
     cptFields,
     cptLabels,
+    taxonomyLabels,
     taxonomyFields,
     modules
   })
@@ -204,40 +205,37 @@ const cptLabels = [
 ]
 
 const taxonomyLabels = [
-  { label: __('Menu Name', 'bit-integrations'), key: 'name', required: true },
-  { label: __('Singular name', 'bit-integrations'), key: 'singular_name', required: true },
-  { label: __('Search Items', 'bit-integrations'), key: 'search_items', required: true },
-  { label: __('Popular Items', 'bit-integrations'), key: 'popular_items', required: true },
-  { label: __('All Items', 'bit-integrations'), key: 'all_items', required: true },
-  { label: __('Parent Item', 'bit-integrations'), key: 'parent_item', required: true },
-  { label: __('Parent Item Colon', 'bit-integrations'), key: 'parent_item_colon', required: true },
-  { label: __('Edit Item', 'bit-integrations'), key: 'edit_item', required: true },
-  { label: __('View Item', 'bit-integrations'), key: 'view_item', required: true },
-  { label: __('Update Item', 'bit-integrations'), key: 'update_item', required: true },
-  { label: __('Add New Item', 'bit-integrations'), key: 'add_new_item', required: true },
-  { label: __('New Item Name', 'bit-integrations'), key: 'new_item_name', required: true },
+  { label: __('Menu Name', 'bit-integrations'), key: 'name' },
+  { label: __('Singular name', 'bit-integrations'), key: 'singular_name' },
+  { label: __('Search Items', 'bit-integrations'), key: 'search_items' },
+  { label: __('Popular Items', 'bit-integrations'), key: 'popular_items' },
+  { label: __('All Items', 'bit-integrations'), key: 'all_items' },
+  { label: __('Parent Item', 'bit-integrations'), key: 'parent_item' },
+  { label: __('Parent Item Colon', 'bit-integrations'), key: 'parent_item_colon' },
+  { label: __('Edit Item', 'bit-integrations'), key: 'edit_item' },
+  { label: __('View Item', 'bit-integrations'), key: 'view_item' },
+  { label: __('Update Item', 'bit-integrations'), key: 'update_item' },
+  { label: __('Add New Item', 'bit-integrations'), key: 'add_new_item' },
+  { label: __('New Item Name', 'bit-integrations'), key: 'new_item_name' },
   {
     label: __('Separate Items With Commas', 'bit-integrations'),
-    key: 'separate_items_with_commas',
-    required: true
+    key: 'separate_items_with_commas'
   },
-  { label: __('Add or Remove Items', 'bit-integrations'), key: 'add_or_remove_items', required: true },
+  { label: __('Add or Remove Items', 'bit-integrations'), key: 'add_or_remove_items' },
   {
     label: __('Choose From Most Used', 'bit-integrations'),
-    key: 'choose_from_most_used',
-    required: true
+    key: 'choose_from_most_used'
   },
-  { label: __('Not Found', 'bit-integrations'), key: 'not_found', required: true },
-  { label: __('No Terms', 'bit-integrations'), key: 'no_terms', required: true },
-  { label: __('Filter By Item', 'bit-integrations'), key: 'filter_by_item', required: true },
+  { label: __('Not Found', 'bit-integrations'), key: 'not_found' },
+  { label: __('No Terms', 'bit-integrations'), key: 'no_terms' },
+  { label: __('Filter By Item', 'bit-integrations'), key: 'filter_by_item' },
   {
     label: __('Items List Navigation', 'bit-integrations'),
-    key: 'items_list_navigation',
-    required: true
+    key: 'items_list_navigation'
   },
-  { label: __('Items List', 'bit-integrations'), key: 'items_list', required: true },
-  { label: __('Most Used', 'bit-integrations'), key: 'most_used', required: true },
-  { label: __('Back To Items', 'bit-integrations'), key: 'back_to_items', required: true }
+  { label: __('Items List', 'bit-integrations'), key: 'items_list' },
+  { label: __('Most Used', 'bit-integrations'), key: 'most_used' },
+  { label: __('Back To Items', 'bit-integrations'), key: 'back_to_items' }
 ]
 
 const taxonomyFields = [
