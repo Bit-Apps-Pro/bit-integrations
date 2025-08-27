@@ -86,7 +86,7 @@ class RecordApiHelper
         return ACPTHelper::validateResponse($response);
     }
 
-    public function handleTaxonomy($finalData, $fieldValues, $isUpdate = false)
+    public function createOrUpdateTaxonomy($finalData, $fieldValues, $isUpdate = false)
     {
         if ($error = ACPTHelper::taxonomyValidateRequired($finalData)) {
             return $error;
@@ -101,6 +101,23 @@ class RecordApiHelper
         $hook = 'btcbi_acpt_' . ($isUpdate ? 'update' : 'create') . '_taxonomy';
 
         $response = apply_filters($hook, false, $apiEndpoint, $this->apikey, $finalData);
+
+        return ACPTHelper::validateResponse($response);
+    }
+
+    public function deleteTaxonomy($finalData)
+    {
+        if (empty($finalData['slug'])) {
+            return [
+                'success' => false,
+                'message' => __('Required field slug is empty', 'bit-integrations'),
+                'code'    => 422,
+            ];
+        }
+
+        $apiEndpoint = $this->apiUrl . '/taxonomy/' . $finalData['slug'];
+
+        $response = apply_filters('btcbi_acpt_delete_taxonomy', false, $apiEndpoint, $this->apikey);
 
         return ACPTHelper::validateResponse($response);
     }
@@ -138,14 +155,21 @@ class RecordApiHelper
                 $type = 'Taxonomy';
                 $typeName = 'Create Taxonomy';
 
-                $apiResponse = $this->handleTaxonomy($finalData, $fieldValues);
+                $apiResponse = $this->createOrUpdateTaxonomy($finalData, $fieldValues);
 
                 break;
             case 'update_taxonomy':
                 $type = 'Taxonomy';
                 $typeName = 'Create Taxonomy';
 
-                $apiResponse = $this->handleTaxonomy($finalData, $fieldValues, true);
+                $apiResponse = $this->createOrUpdateTaxonomy($finalData, $fieldValues, true);
+
+                break;
+            case 'delete_taxonomy':
+                $type = 'Taxonomy';
+                $typeName = 'Delete Taxonomy';
+
+                $apiResponse = $this->deleteTaxonomy($finalData, $fieldValues, true);
 
                 break;
         }

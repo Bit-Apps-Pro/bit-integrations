@@ -46,7 +46,7 @@ export default function ACPTIntegLayout({
 
             draftConf.acptLabels = cptLabels
             draftConf.label_field_map = generateMappedField(cptLabels)
-          } else if (val === 'delete_cpt') {
+          } else if (val === 'delete_cpt' || val === 'delete_taxonomy') {
             draftConf.acptFields = [
               { label: __('Slug', 'bit-integrations'), key: 'slug', required: true }
             ]
@@ -272,7 +272,7 @@ export default function ACPTIntegLayout({
               />
             )}
 
-          {acptConf.module !== 'delete_cpt' && !isLoading && (
+          {!['delete_cpt', 'delete_taxonomy'].includes(acptConf.module) && !isLoading && (
             <>
               <div className="mt-1">
                 <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
