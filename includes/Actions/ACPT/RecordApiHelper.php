@@ -122,6 +122,30 @@ class RecordApiHelper
         return ACPTHelper::validateResponse($response);
     }
 
+    public function associateTaxonomyToCPT($finalData)
+    {
+        if (empty($finalData['taxonomy_slug'])) {
+            return [
+                'success' => false,
+                'message' => __('Required field taxonomy slug is empty', 'bit-integrations'),
+                'code'    => 422,
+            ];
+        }
+        if (empty($finalData['cpt_slug'])) {
+            return [
+                'success' => false,
+                'message' => __('Required field cpt slug is empty', 'bit-integrations'),
+                'code'    => 422,
+            ];
+        }
+
+        $apiEndpoint = $this->apiUrl . '/taxonomy/assoc/' . $finalData['taxonomy_slug'] . '/' . $finalData['cpt_slug'];
+
+        $response = apply_filters('btcbi_acpt_associate_taxonomy_to_cpt', false, $apiEndpoint, $this->apikey);
+
+        return ACPTHelper::validateResponse($response);
+    }
+
     public function execute($fieldValues, $fieldMap, $module)
     {
         $type = '';
@@ -169,7 +193,14 @@ class RecordApiHelper
                 $type = 'Taxonomy';
                 $typeName = 'Delete Taxonomy';
 
-                $apiResponse = $this->deleteTaxonomy($finalData, $fieldValues, true);
+                $apiResponse = $this->deleteTaxonomy($finalData);
+
+                break;
+            case 'associate_taxonomy_to_cpt':
+                $type = 'Associate';
+                $typeName = 'Associate a Registered Taxonomy to a CPT';
+
+                $apiResponse = $this->associateTaxonomyToCPT($finalData);
 
                 break;
         }

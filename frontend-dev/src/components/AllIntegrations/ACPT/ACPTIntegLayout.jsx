@@ -55,6 +55,11 @@ export default function ACPTIntegLayout({
             draftConf.acptLabels = taxonomyLabels
 
             draftConf.label_field_map = generateMappedField(taxonomyLabels)
+          } else if (val === 'associate_taxonomy_to_cpt') {
+            draftConf.acptFields = [
+              { label: __('Taxonomy Slug', 'bit-integrations'), key: 'taxonomy_slug', required: true },
+              { label: __('CPT Slug', 'bit-integrations'), key: 'cpt_slug', required: true }
+            ]
           }
         }
 
@@ -272,23 +277,24 @@ export default function ACPTIntegLayout({
               />
             )}
 
-          {!['delete_cpt', 'delete_taxonomy'].includes(acptConf.module) && !isLoading && (
-            <>
-              <div className="mt-1">
-                <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
-              </div>
-              <div className="btcd-hr mt-1" />
-              <ACPTActions
-                acptConf={acptConf}
-                setACPTConf={setAcptConf}
-                loading={loading}
-                setLoading={setLoading}
-                isLoading={isLoading}
-                setIsLoading={setIsLoading}
-                setSnackbar={setSnackbar}
-              />
-            </>
-          )}
+          {!['delete_cpt', 'delete_taxonomy', 'associate_taxonomy_to_cpt'].includes(acptConf.module) &&
+            !isLoading && (
+              <>
+                <div className="mt-1">
+                  <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
+                </div>
+                <div className="btcd-hr mt-1" />
+                <ACPTActions
+                  acptConf={acptConf}
+                  setACPTConf={setAcptConf}
+                  loading={loading}
+                  setLoading={setLoading}
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
+                  setSnackbar={setSnackbar}
+                />
+              </>
+            )}
         </>
       )}
     </>
