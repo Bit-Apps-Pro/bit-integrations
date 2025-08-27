@@ -62,6 +62,10 @@ export default function ACPTIntegLayout({
             ]
           } else if (val === 'create_option_page' || val === 'update_option_page') {
             draftConf.acptFields = optionPageFields
+          } else if (val === 'delete_option_page') {
+            draftConf.acptFields = [
+              { label: __('Menu Slug', 'bit-integrations'), key: 'slug', required: true }
+            ]
           }
         }
 
@@ -284,7 +288,8 @@ export default function ACPTIntegLayout({
             'delete_taxonomy',
             'associate_taxonomy_to_cpt',
             'create_option_page',
-            'update_option_page'
+            'update_option_page',
+            'delete_option_page'
           ].includes(acptConf.module) &&
             !isLoading && (
               <>

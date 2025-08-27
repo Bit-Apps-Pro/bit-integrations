@@ -164,6 +164,23 @@ class RecordApiHelper
         return ACPTHelper::validateResponse($response);
     }
 
+    public function deleteOptionPage($finalData)
+    {
+        if (empty($finalData['slug'])) {
+            return [
+                'success' => false,
+                'message' => __('Required field menu slug is empty', 'bit-integrations'),
+                'code'    => 422,
+            ];
+        }
+
+        $apiEndpoint = $this->apiUrl . '/option-page/' . $finalData['slug'];
+
+        $response = apply_filters('btcbi_acpt_delete_option_page', false, $apiEndpoint, $this->apikey);
+
+        return ACPTHelper::validateResponse($response);
+    }
+
     public function execute($fieldValues, $fieldMap, $module)
     {
         $type = '';
@@ -233,6 +250,13 @@ class RecordApiHelper
                 $typeName = 'Update Option Page';
 
                 $apiResponse = $this->createOrUpdateOptionPage($finalData, true);
+
+                break;
+            case 'delete_option_page':
+                $type = 'Option Page';
+                $typeName = 'Delete Option Page';
+
+                $apiResponse = $this->deleteOptionPage($finalData);
 
                 break;
         }
