@@ -198,6 +198,23 @@ class RecordApiHelper
         return ACPTHelper::validateResponse($response);
     }
 
+    public function deleteDynamicBlock($finalData)
+    {
+        if (empty($finalData['id'])) {
+            return [
+                'success' => false,
+                'message' => __('Required field dynamic block id is empty', 'bit-integrations'),
+                'code'    => 422,
+            ];
+        }
+
+        $apiEndpoint = $this->apiUrl . '/block/' . $finalData['id'];
+
+        $response = apply_filters('btcbi_acpt_delete_dynamic_block', false, $apiEndpoint, $this->apikey);
+
+        return ACPTHelper::validateResponse($response);
+    }
+
     public function execute($fieldValues, $fieldMap, $module)
     {
         $type = '';
@@ -281,6 +298,13 @@ class RecordApiHelper
                 $typeName = 'Delete Meta Field Group';
 
                 $apiResponse = $this->deleteMetaGroup($finalData);
+
+                break;
+            case 'delete_dynamic_block':
+                $type = 'Dynamic Block';
+                $typeName = 'Delete Dynamic Block';
+
+                $apiResponse = $this->deleteDynamicBlock($finalData);
 
                 break;
         }

@@ -155,8 +155,6 @@ const modules = [
   { name: 'update_option_page', label: __('Update Option Page', 'bit-integrations'), is_pro: true },
   { name: 'delete_option_page', label: __('Delete Option Page', 'bit-integrations'), is_pro: true },
   { name: 'delete_meta_group', label: __('Delete Meta Field Group', 'bit-integrations'), is_pro: true },
-  { name: 'create_dynamic_block', label: __('Create Dynamic Block', 'bit-integrations'), is_pro: true },
-  { name: 'update_dynamic_block', label: __('Update Dynamic Block', 'bit-integrations'), is_pro: true },
   { name: 'delete_dynamic_block', label: __('Delete Dynamic Block', 'bit-integrations'), is_pro: true }
 ]
 

@@ -70,6 +70,10 @@ export default function ACPTIntegLayout({
             draftConf.acptFields = [
               { label: __('Meta Field Group Id', 'bit-integrations'), key: 'id', required: true }
             ]
+          } else if (val === 'delete_dynamic_block') {
+            draftConf.acptFields = [
+              { label: __('Dynamic Block Id', 'bit-integrations'), key: 'id', required: true }
+            ]
           }
         }
 
@@ -110,154 +114,6 @@ export default function ACPTIntegLayout({
         />
       )}
 
-      {/* {acptConf?.module === 'update_cpt' && !isLoading && (
-        <>
-          <br />
-          <div className="flx">
-            <b className="wdt-200 d-in-b">{__('Slug:', 'bit-integrations')}</b>
-            <MultiSelect
-              options={formFields.map(f => ({ label: f.label, value: f.name }))}
-              className="msl-wrp-options dropdown-custom-width"
-              defaultValue={acptConf?.slug}
-              onChange={val => setChanges(val, 'slug')}
-              singleSelect
-              closeOnSelect
-            />
-          </div>
-        </>
-      )} */}
-
-      {/*{acptConf?.module && acptConf.module === 'update_generator' && !isLoading && (
-        <>
-          <br />
-          <div className="flx">
-            <b className="wdt-200 d-in-b">{__('Select Generator:', 'bit-integrations')}</b>
-            <MultiSelect
-              options={
-                acptConf?.generators &&
-                acptConf.generators.map(event => ({ label: event.name, value: `${event.id}` }))
-              }
-              className="msl-wrp-options dropdown-custom-width"
-              defaultValue={acptConf?.selectedGenerator}
-              onChange={val => setChanges(val, 'selectedGenerator')}
-              singleSelect
-              closeOnSelect
-            />
-            <button
-              onClick={() => getAllGenerator(acptConf, setAcptConf, setLoading)}
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `'${__('Refresh Generator', 'bit-integrations')}'` }}
-              type="button"
-              disabled={loading.generator}>
-              &#x21BB;
-            </button>
-          </div>
-        </>
-      )}
-
-      {acptConf?.module &&
-        (acptConf.module === 'create_license' || acptConf.module === 'update_license') &&
-        !isLoading && (
-          <>
-            <br />
-            <br />
-            <div className="flx">
-              <b className="wdt-200 d-in-b">{__('Select Status:', 'bit-integrations')}</b>
-              <MultiSelect
-                options={[
-                  { id: 'sold', name: 'Sold' },
-                  { id: 'delivered', name: 'Delivered' },
-                  { id: 'active', name: 'Active' },
-                  { id: 'inactive', name: 'Inactive' }
-                ].map(event => ({ label: event.name, value: `${event.id}` }))}
-                className="msl-wrp-options dropdown-custom-width"
-                defaultValue={acptConf?.selectedStatus}
-                onChange={val => setChanges(val, 'selectedStatus')}
-                singleSelect
-                closeOnSelect
-              />
-            </div>
-            <br />
-            <div className="flx">
-              <b className="wdt-200 d-in-b">{__('Select Customer:', 'bit-integrations')}</b>
-              <MultiSelect
-                options={
-                  acptConf?.customers &&
-                  acptConf.customers.map(customer => ({
-                    label: customer.name,
-                    value: `${customer.id}`
-                  }))
-                }
-                className="msl-wrp-options dropdown-custom-width"
-                defaultValue={acptConf?.selectedCustomer}
-                onChange={val => setChanges(val, 'selectedCustomer')}
-                singleSelect
-                closeOnSelect
-              />
-              <button
-                onClick={() => getAllCustomer(acptConf, setAcptConf, setLoading)}
-                className="icn-btn sh-sm ml-2 mr-2 tooltip"
-                style={{ '--tooltip-txt': `'${__('Refresh Customers', 'bit-integrations')}'` }}
-                type="button"
-                disabled={loading.customer}>
-                &#x21BB;
-              </button>
-            </div>
-            <br />
-            <div className="flx">
-              <b className="wdt-200 d-in-b">{__('Select Product:', 'bit-integrations')}</b>
-              <MultiSelect
-                options={
-                  acptConf?.products &&
-                  acptConf.products.map(product => ({
-                    label: product.name,
-                    value: `${product.id}`
-                  }))
-                }
-                className="msl-wrp-options dropdown-custom-width"
-                defaultValue={acptConf?.selectedProduct}
-                onChange={val => setChanges(val, 'selectedProduct')}
-                singleSelect
-                closeOnSelect
-              />
-              <button
-                onClick={() => getAllProduct(acptConf, setAcptConf, setLoading)}
-                className="icn-btn sh-sm ml-2 mr-2 tooltip"
-                style={{ '--tooltip-txt': `'${__('Refresh Products', 'bit-integrations')}'` }}
-                type="button"
-                disabled={loading.product}>
-                &#x21BB;
-              </button>
-            </div>
-            <br />
-            <div className="flx">
-              <b className="wdt-200 d-in-b">{__('Select Order:', 'bit-integrations')}</b>
-              <MultiSelect
-                options={
-                  acptConf?.orders &&
-                  acptConf.orders.map(order => ({
-                    label: order.name,
-                    value: `${order.id}`
-                  }))
-                }
-                className="msl-wrp-options dropdown-custom-width"
-                defaultValue={acptConf?.selectedOrder}
-                onChange={val => setChanges(val, 'selectedOrder')}
-                singleSelect
-                closeOnSelect
-              />
-              <button
-                onClick={() => getAllOrder(acptConf, setAcptConf, setLoading)}
-                className="icn-btn sh-sm ml-2 mr-2 tooltip"
-                style={{ '--tooltip-txt': `'${__('Refresh Orders', 'bit-integrations')}'` }}
-                type="button"
-                disabled={loading.order}>
-                &#x21BB;
-              </button>
-            </div>
-          </>
-        )} */}
-
       {acptConf.module && (
         <>
           {!isLoading && (
@@ -294,7 +150,8 @@ export default function ACPTIntegLayout({
             'create_option_page',
             'update_option_page',
             'delete_option_page',
-            'delete_meta_group'
+            'delete_meta_group',
+            'delete_dynamic_block'
           ].includes(acptConf.module) &&
             !isLoading && (
               <>
