@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\ACPT;
 
-use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -23,10 +23,6 @@ class RecordApiHelper
     private $apikey;
 
     private $defaultHeader;
-
-    private $type;
-
-    private $typeName;
 
     public function __construct($integrationDetails, $integId, $apiKey, $baseUrl)
     {
@@ -45,9 +41,6 @@ class RecordApiHelper
 
     public function createCPT($finalData, $fieldValues)
     {
-        $this->type = 'CPT';
-        $this->typeName = 'Create CPT';
-
         if ($error = ACPTHelper::cptValidateRequired($finalData)) {
             return $error;
         }
@@ -60,9 +53,6 @@ class RecordApiHelper
 
     public function updateCPT($finalData, $fieldValues)
     {
-        $this->type = 'CPT';
-        $this->typeName = 'Update CPT';
-
         if ($error = ACPTHelper::cptValidateRequired($finalData, true)) {
             return $error;
         }
@@ -81,9 +71,6 @@ class RecordApiHelper
 
     public function deleteCPT($finalData)
     {
-        $this->type = 'CPT';
-        $this->typeName = 'Delete CPT';
-
         if (empty($finalData['slug'])) {
             return [
                 'success' => false,
@@ -99,50 +86,73 @@ class RecordApiHelper
         return ACPTHelper::validateResponse($response);
     }
 
-    public function createTaxonomy($finalData, $fieldValues)
+    public function handleTaxonomy($finalData, $fieldValues, $isUpdate = false)
     {
-        $this->type = 'Taxonomy';
-        $this->typeName = 'Create Taxonomy';
-
         if ($error = ACPTHelper::taxonomyValidateRequired($finalData)) {
             return $error;
         }
 
+        $slug = $finalData['slug'];
         $finalData = ACPTHelper::prepareTaxonomyData($finalData, $fieldValues, $this->integrationDetails);
 
-        $apiEndpoint = $this->apiUrl . '/taxonomy';
+        $path = $isUpdate ? '/taxonomy/' . $slug : '/taxonomy';
+        $apiEndpoint = $this->apiUrl . $path;
 
-        $response = apply_filters('btcbi_acpt_create_taxonomy', false, $apiEndpoint, $this->apikey, $finalData);
+        $hook = 'btcbi_acpt_' . ($isUpdate ? 'update' : 'create') . '_taxonomy';
+
+        $response = apply_filters($hook, false, $apiEndpoint, $this->apikey, $finalData);
 
         return ACPTHelper::validateResponse($response);
     }
 
     public function execute($fieldValues, $fieldMap, $module)
     {
+        $type = '';
+        $typeName = '';
+
         $finalData = ACPTHelper::generateReqDataFromFieldMap($fieldValues, $fieldMap);
 
         switch ($module) {
             case 'create_cpt':
+                $type = 'CPT';
+                $typeName = 'Create CPT';
+
                 $apiResponse = $this->createCPT($finalData, $fieldValues);
 
                 break;
             case 'update_cpt':
+                $type = 'CPT';
+                $typeName = 'Update CPT';
+
                 $apiResponse = $this->updateCPT($finalData, $fieldValues);
 
                 break;
             case 'delete_cpt':
+                $type = 'CPT';
+                $typeName = 'Delete CPT';
+
                 $apiResponse = $this->deleteCPT($finalData);
 
                 break;
             case 'create_taxonomy':
-                $apiResponse = $this->createTaxonomy($finalData, $fieldValues);
+                $type = 'Taxonomy';
+                $typeName = 'Create Taxonomy';
+
+                $apiResponse = $this->handleTaxonomy($finalData, $fieldValues);
+
+                break;
+            case 'update_taxonomy':
+                $type = 'Taxonomy';
+                $typeName = 'Create Taxonomy';
+
+                $apiResponse = $this->handleTaxonomy($finalData, $fieldValues, true);
 
                 break;
         }
 
         $type = (!empty($apiResponse->id) || \in_array(HttpHelper::$responseCode, [201, 200])) ? 'success' : 'error';
 
-        LogHandler::save($this->integrationId, wp_json_encode(['type' => $this->type, 'type_name' => $this->typeName]), $type, wp_json_encode($apiResponse));
+        LogHandler::save($this->integrationId, wp_json_encode(['type' => $type, 'type_name' => $typeName]), $type, wp_json_encode($apiResponse));
 
         return $apiResponse;
     }

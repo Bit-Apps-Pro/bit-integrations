@@ -50,7 +50,7 @@ export default function ACPTIntegLayout({
             draftConf.acptFields = [
               { label: __('Slug', 'bit-integrations'), key: 'slug', required: true }
             ]
-          } else if (val === 'create_taxonomy') {
+          } else if (val === 'create_taxonomy' || val === 'update_taxonomy') {
             draftConf.acptFields = taxonomyFields
             draftConf.acptLabels = taxonomyLabels
 
@@ -257,17 +257,20 @@ export default function ACPTIntegLayout({
             />
           )}
 
-          {['create_cpt', 'update_cpt', 'create_taxonomy'].includes(acptConf.module) && !isLoading && (
-            <FieldMappingLayout
-              formFields={formFields}
-              acptConf={acptConf}
-              setAcptConf={setAcptConf}
-              label={__('Additional labels Field Map', 'bit-integrations')}
-              fieldMappingKey="label_field_map"
-              fieldKey="acptLabels"
-              setSnackbar={setSnackbar}
-            />
-          )}
+          {['create_cpt', 'update_cpt', 'create_taxonomy', 'update_taxonomy'].includes(
+            acptConf.module
+          ) &&
+            !isLoading && (
+              <FieldMappingLayout
+                formFields={formFields}
+                acptConf={acptConf}
+                setAcptConf={setAcptConf}
+                label={__('Additional labels Field Map', 'bit-integrations')}
+                fieldMappingKey="label_field_map"
+                fieldKey="acptLabels"
+                setSnackbar={setSnackbar}
+              />
+            )}
 
           {acptConf.module !== 'delete_cpt' && !isLoading && (
             <>
