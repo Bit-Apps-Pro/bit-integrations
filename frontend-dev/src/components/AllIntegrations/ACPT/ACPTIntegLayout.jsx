@@ -66,6 +66,10 @@ export default function ACPTIntegLayout({
             draftConf.acptFields = [
               { label: __('Menu Slug', 'bit-integrations'), key: 'slug', required: true }
             ]
+          } else if (val === 'delete_meta_group') {
+            draftConf.acptFields = [
+              { label: __('Meta Field Group Id', 'bit-integrations'), key: 'id', required: true }
+            ]
           }
         }
 
@@ -289,7 +293,8 @@ export default function ACPTIntegLayout({
             'associate_taxonomy_to_cpt',
             'create_option_page',
             'update_option_page',
-            'delete_option_page'
+            'delete_option_page',
+            'delete_meta_group'
           ].includes(acptConf.module) &&
             !isLoading && (
               <>

@@ -181,6 +181,23 @@ class RecordApiHelper
         return ACPTHelper::validateResponse($response);
     }
 
+    public function deleteMetaGroup($finalData)
+    {
+        if (empty($finalData['id'])) {
+            return [
+                'success' => false,
+                'message' => __('Required field meta group id is empty', 'bit-integrations'),
+                'code'    => 422,
+            ];
+        }
+
+        $apiEndpoint = $this->apiUrl . '/meta/' . $finalData['id'];
+
+        $response = apply_filters('btcbi_acpt_delete_meta_group', false, $apiEndpoint, $this->apikey);
+
+        return ACPTHelper::validateResponse($response);
+    }
+
     public function execute($fieldValues, $fieldMap, $module)
     {
         $type = '';
@@ -257,6 +274,13 @@ class RecordApiHelper
                 $typeName = 'Delete Option Page';
 
                 $apiResponse = $this->deleteOptionPage($finalData);
+
+                break;
+            case 'delete_meta_group':
+                $type = 'Meta Field Group';
+                $typeName = 'Delete Meta Field Group';
+
+                $apiResponse = $this->deleteMetaGroup($finalData);
 
                 break;
         }
