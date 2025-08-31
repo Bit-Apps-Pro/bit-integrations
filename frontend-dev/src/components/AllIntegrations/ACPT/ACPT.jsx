@@ -25,7 +25,7 @@ function ACPT({ formFields, setFlow, flow, allIntegURL }) {
     name: 'ACPT',
     type: 'ACPT',
     base_url: window.location.origin,
-    api_key: 'd90d8700ed4b-5b93e5df9754',
+    api_key: '',
     field_map: [{ formField: '', acptFormField: '' }],
     label_field_map: [{ formField: '', acptFormField: '' }],
     acptFields: [],
