@@ -25,21 +25,15 @@ function EditACPT({ allIntegURL }) {
 
   const saveConfig = () => {
     if (!checkMappedFields(acptConf)) {
-      setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
-      return
-    }
-    if (acptConf.module != 'update_license' && !checkMappedFields(acptConf)) {
       toast.error(__('Please map mandatory fields', 'bit-integrations'))
       return
     }
 
-    if (acptConf.module === 'create_license' && !acptConf?.selectedStatus) {
-      toast.error(__('Please select Status', 'bit-integrations'))
-      return
-    }
-
-    if (acptConf.module === 'update_license' && !acptConf?.selectedLicense) {
-      toast.error(__('Please select Status', 'bit-integrations'))
+    if (
+      (acptConf.module === 'create_cpt' || acptConf.module === 'create_option_page') &&
+      !acptConf?.icon
+    ) {
+      toast.error(__('Please select Icon', 'bit-integrations'))
       return
     }
 

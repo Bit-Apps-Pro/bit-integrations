@@ -72,7 +72,6 @@ class ACPTHelper
             'menuTitle'  => __('Menu Title', 'bit-integrations'),
             'capability' => __('Capability', 'bit-integrations'),
             'menuSlug'   => __('Menu Slug', 'bit-integrations'),
-            'icon'       => __('Menu Icon', 'bit-integrations'),
             'position'   => __('Menu Position', 'bit-integrations'),
         ];
 

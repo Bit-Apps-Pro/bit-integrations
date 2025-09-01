@@ -3,13 +3,14 @@ import { create } from 'mutative'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useRecoilValue } from 'recoil'
-import { $btcbi } from '../../../GlobalStates'
+import { $actionConf, $btcbi } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
 import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 import { generateMappedField, getAllGenerator } from './ACPTCommonFunc'
 import FieldMappingLayout from './FieldMappingLayout'
 import ACPTActions from './ACPTActions'
+import { cptIcons } from './staticData'
 
 export default function ACPTIntegLayout({
   formFields,
@@ -28,8 +29,7 @@ export default function ACPTIntegLayout({
     setAcptConf(prevConf =>
       create(prevConf, draftConf => {
         draftConf[name] = val
-
-        if ((name = 'module')) {
+        if (name == 'module') {
           const { cptFields, cptLabels, taxonomyFields, taxonomyLabels, optionPageFields } = draftConf
 
           draftConf.acptFields = []
@@ -75,9 +75,9 @@ export default function ACPTIntegLayout({
               { label: __('Dynamic Block Id', 'bit-integrations'), key: 'id', required: true }
             ]
           }
-        }
 
-        draftConf.field_map = generateMappedField(draftConf.acptFields)
+          draftConf.field_map = generateMappedField(draftConf.acptFields)
+        }
       })
     )
   }
@@ -88,7 +88,7 @@ export default function ACPTIntegLayout({
       <div className="flx">
         <b className="wdt-200 d-in-b">{__('Select Action:', 'bit-integrations')}</b>
         <MultiSelect
-          title={'Action'}
+          title="Action"
           defaultValue={acptConf?.module}
           className="mt-2 w-5"
           onChange={val => setChanges(val, 'module')}
@@ -113,6 +113,23 @@ export default function ACPTIntegLayout({
           }}
         />
       )}
+
+      {acptConf?.module &&
+        (acptConf.module === 'create_cpt' || acptConf.module === 'create_option_page') &&
+        !isLoading && (
+          <div className="flx">
+            <b className="wdt-200 d-in-b">{__('Select Icon:', 'bit-integrations')}</b>
+            <MultiSelect
+              title="Icon"
+              defaultValue={acptConf?.icon}
+              className="mt-2 w-5"
+              onChange={val => setChanges(val, 'icon')}
+              options={cptIcons}
+              singleSelect
+              closeOnSelect
+            />
+          </div>
+        )}
 
       {acptConf.module && (
         <>

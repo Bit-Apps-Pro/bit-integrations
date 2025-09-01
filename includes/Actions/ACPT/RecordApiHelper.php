@@ -41,9 +41,20 @@ class RecordApiHelper
 
     public function createCPT($finalData, $fieldValues)
     {
+        if (empty($this->integrationDetails->icon)) {
+            return [
+                'success' => false,
+                'message' => __('Required field Icon is empty', 'bit-integrations'),
+                'code'    => 422,
+            ];
+        }
+
         if ($error = ACPTHelper::cptValidateRequired($finalData)) {
             return $error;
         }
+
+        $finalData['post_name'] = str_replace(' ', '-', strtolower($finalData['post_name']));
+        $finalData['icon'] = $this->integrationDetails->icon;
 
         $apiEndpoint = $this->apiUrl . '/cpt';
         $payload = ACPTHelper::prepareCPTData($finalData, $fieldValues, $this->integrationDetails);
@@ -148,10 +159,19 @@ class RecordApiHelper
 
     public function createOrUpdateOptionPage($finalData, $isUpdate = false)
     {
+        if (empty($this->integrationDetails->icon)) {
+            return [
+                'success' => false,
+                'message' => __('Required field Icon is empty', 'bit-integrations'),
+                'code'    => 422,
+            ];
+        }
+
         if ($error = ACPTHelper::optionPageValidateRequired($finalData)) {
             return $error;
         }
 
+        $finalData['icon'] = $this->integrationDetails->icon;
         $finalData['position'] = (integer) $finalData['position'];
 
         $path = $isUpdate ? '/option-page/' . $finalData['menuSlug'] : '/option-page';
