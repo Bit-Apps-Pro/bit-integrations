@@ -549,7 +549,7 @@ export default function IntegInfo() {
       case 'Line':
         return <LineAuthorization lineConf={integrationConf} step={1} isInfo />
       case 'ACPT':
-        return <ACPTAuthorization lineConf={integrationConf} step={1} isInfo />
+        return <ACPTAuthorization acptConf={integrationConf} step={1} isInfo />
       default:
         return <></>
     }

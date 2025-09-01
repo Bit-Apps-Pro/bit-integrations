@@ -14,7 +14,7 @@ export default function SendPulseIntegLayout({
   setIsLoading,
   setSnackbar
 }) {
-  const handleInput = (e) => {
+  const handleInput = e => {
     const listid = e.target.value
     const newConf = { ...sendPulseConf }
     if (listid) {
@@ -36,7 +36,7 @@ export default function SendPulseIntegLayout({
         onChange={handleInput}>
         <option value="">{__('Select List', 'bit-integrations')}</option>
         {sendPulseConf?.default?.sendPulseLists &&
-          Object.keys(sendPulseConf.default.sendPulseLists).map((listName) => (
+          Object.keys(sendPulseConf.default.sendPulseLists).map(listName => (
             <option
               key={`${listName + 1}`}
               value={sendPulseConf.default.sendPulseLists[listName].listId}>
@@ -45,9 +45,7 @@ export default function SendPulseIntegLayout({
           ))}
       </select>
       <button
-        onClick={() =>
-          refreshSendPulseList(sendPulseConf, setSendPulseConf, setIsLoading, setSnackbar)
-        }
+        onClick={() => refreshSendPulseList(sendPulseConf, setSendPulseConf, setIsLoading, setSnackbar)}
         className="icn-btn sh-sm ml-2 mr-2 tooltip"
         style={{ '--tooltip-txt': '"Refresh SendPulse list"' }}
         type="button"
@@ -118,7 +116,7 @@ export default function SendPulseIntegLayout({
           <br />
           <Note
             note={__(
-              'Custom Fields are available exclusively in Bit Integration Pro starting from version 2.2.0.',
+              'Custom Fields are available exclusively in Bit Integrations Pro starting from version 2.2.0.',
               'bit-integrations'
             )}
           />

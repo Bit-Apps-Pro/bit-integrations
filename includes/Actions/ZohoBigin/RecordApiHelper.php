@@ -6,11 +6,11 @@
 
 namespace BitCode\FI\Actions\ZohoBigin;
 
-use WP_Error;
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Core\Util\DateTimeHelper;
+use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
+use WP_Error;
 
 /**
  * Provide functionality for Record insert,upsert
@@ -136,7 +136,7 @@ class RecordApiHelper
             $response = apply_filters('btcbi_zbigin_add_tags_to_records', $recordID, $module, $actions->selectedTags, $this->_apiDomain, $this->_defaultHeader);
 
             if ($response === $recordID) {
-                LogHandler::save($this->_integID, ['type' => 'tags', 'type_name' => $module], 'error', wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro'));
+                LogHandler::save($this->_integID, ['type' => 'tags', 'type_name' => $module], 'error', wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro'));
             } elseif (\is_object($response) && isset($response->status) && $response->status === 'error') {
                 LogHandler::save($this->_integID, ['type' => 'tags', 'type_name' => $module], 'error', $response);
             } else {

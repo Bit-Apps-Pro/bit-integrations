@@ -6,12 +6,12 @@
 
 namespace BitCode\FI\Actions\FluentSupport;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
-use FluentSupport\App\Models\Ticket;
-use FluentSupport\App\Models\Customer;
-use FluentSupport\App\Services\Helper;
 use BitCode\FI\Core\Util\Helper as BtcbiHelper;
+use BitCode\FI\Log\LogHandler;
+use FluentSupport\App\Models\Customer;
+use FluentSupport\App\Models\Ticket;
+use FluentSupport\App\Services\Helper;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -156,6 +156,6 @@ class RecordApiHelper
             do_action('btcbi_fluent_support_upload_ticket_attachments', $finalData, $attachments, $ticket, $customer, $flowId);
         }
 
-        LogHandler::save($flowId, ['type' => 'Ticket', 'type_name' => 'Upload-Ticket-Attachments'], 'error', wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro'));
+        LogHandler::save($flowId, ['type' => 'Ticket', 'type_name' => 'Upload-Ticket-Attachments'], 'error', wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro'));
     }
 }

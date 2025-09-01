@@ -61,7 +61,7 @@ export default function ACPTAuthorization({
           className="btcd-paper-inp w-6 mt-1"
           onChange={handleInput}
           name="name"
-          value={acptConf.name}
+          value={acptConf?.name ?? ''}
           type="text"
           placeholder={__('Integration Name...', 'bit-integrations')}
           disabled={isInfo}
@@ -76,7 +76,7 @@ export default function ACPTAuthorization({
           className="btcd-paper-inp w-6 mt-1"
           onChange={handleInput}
           name="base_url"
-          value={acptConf.base_url}
+          value={acptConf?.base_url ?? ''}
           type="text"
           placeholder={__('Homepage URL...', 'bit-integrations')}
           disabled={isInfo}
@@ -91,7 +91,7 @@ export default function ACPTAuthorization({
           className="btcd-paper-inp w-6 mt-1"
           onChange={handleInput}
           name="api_key"
-          value={acptConf.api_key}
+          value={acptConf?.api_key ?? ''}
           type="text"
           placeholder={__('Api Key-Secret:', 'bit-integrations')}
           disabled={isInfo}

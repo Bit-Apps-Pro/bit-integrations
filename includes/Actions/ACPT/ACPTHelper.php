@@ -14,6 +14,10 @@ class ACPTHelper
             $triggerValue = $value->formField;
             $actionValue = $value->acptFormField;
 
+            if (empty($actionValue)) {
+                continue;
+            }
+
             $dataFinal[$actionValue] = ($triggerValue === 'custom' && !empty($value->customValue))
                 ? Common::replaceFieldWithValue($value->customValue, $data)
                 : $data[$triggerValue];
@@ -75,9 +79,11 @@ class ACPTHelper
         return self::validateFields($requiredFields, $finalData);
     }
 
-    public static function buildLabels($fieldValues, $labelFieldsMap)
+    public static function buildLabels($fieldValues, $labelFieldsMap, $defaultKey)
     {
-        return self::generateReqDataFromFieldMap($fieldValues, $labelFieldsMap ?? []);
+        $labels = self::generateReqDataFromFieldMap($fieldValues, $labelFieldsMap ?? []);
+
+        return empty($labels) ? [$defaultKey => ''] : $labels;
     }
 
     public static function buildSettings(&$finalData, $utilities)
@@ -105,12 +111,14 @@ class ACPTHelper
             $settings['capabilities'] = Helper::convertStringToArray($settings['capabilities']);
         }
 
-        return array_filter($settings);
+        $settings = array_filter($settings);
+
+        return empty($settings) ? ['public' => false] : $settings;
     }
 
     public static function prepareCPTData($finalData, $fieldValues, $integrationDetails)
     {
-        $finalData['labels'] = ACPTHelper::buildLabels($fieldValues, $integrationDetails->label_field_map ?? []);
+        $finalData['labels'] = ACPTHelper::buildLabels($fieldValues, $integrationDetails->label_field_map ?? [], 'menu_name');
         $finalData['settings'] = ACPTHelper::buildSettings($finalData, $integrationDetails->utilities ?? []);
         $finalData['supports'] = Helper::convertStringToArray($integrationDetails->supports ?? []);
 
@@ -119,7 +127,7 @@ class ACPTHelper
 
     public static function prepareTaxonomyData($finalData, $fieldValues, $integrationDetails)
     {
-        $finalData['labels'] = ACPTHelper::buildLabels($fieldValues, $integrationDetails->label_field_map ?? []);
+        $finalData['labels'] = ACPTHelper::buildLabels($fieldValues, $integrationDetails->label_field_map ?? [], 'name');
         $finalData['settings'] = ACPTHelper::buildSettings($finalData, $integrationDetails->utilities ?? []);
         $finalData['singular'] = $finalData['singular_label'];
         $finalData['plural'] = $finalData['plural_label'];
