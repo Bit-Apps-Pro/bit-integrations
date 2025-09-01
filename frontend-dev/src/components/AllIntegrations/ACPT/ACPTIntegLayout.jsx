@@ -115,7 +115,9 @@ export default function ACPTIntegLayout({
       )}
 
       {acptConf?.module &&
-        (acptConf.module === 'create_cpt' || acptConf.module === 'create_option_page') &&
+        ['create_cpt', 'update_cpt', 'create_option_page', 'update_option_page'].includes(
+          acptConf.module
+        ) &&
         !isLoading && (
           <div className="flx">
             <b className="wdt-200 d-in-b">{__('Select Icon:', 'bit-integrations')}</b>

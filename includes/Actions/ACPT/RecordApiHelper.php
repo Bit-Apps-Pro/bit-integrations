@@ -72,6 +72,8 @@ class RecordApiHelper
 
         unset($finalData['slug']);
 
+        $finalData['icon'] = $this->integrationDetails->icon;
+
         $apiEndpoint = $this->apiUrl . '/cpt/' . $slug;
         $finalData = ACPTHelper::prepareCPTData($finalData, $fieldValues, $this->integrationDetails);
 
