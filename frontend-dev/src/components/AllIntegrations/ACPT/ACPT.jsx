@@ -39,7 +39,7 @@ function ACPT({ formFields, setFlow, flow, allIntegURL }) {
     acptFields: [],
     acptLabels: [],
     utilities: {},
-    icon: 'dashboard',
+    icon: 'wordpress',
     module: '',
     cptFields,
     cptLabels,

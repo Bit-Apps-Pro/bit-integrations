@@ -121,6 +121,27 @@ export const optionPageFields = [
   { label: __('Page Description', 'bit-integrations'), key: 'description', required: false }
 ]
 
+export const supports = [
+  { label: __('Title'), value: 'title' },
+  { label: __('Editor'), value: 'editor' },
+  { label: __('Comments'), value: 'comments' },
+  { label: __('Revisions'), value: 'revisions' },
+  { label: __('Trackbacks'), value: 'trackbacks' },
+  { label: __('Author'), value: 'author' },
+  { label: __('Excerpt'), value: 'excerpt' },
+  { label: __('Page Attributes'), value: 'page-attributes' },
+  { label: __('Thumbnail'), value: 'thumbnail' },
+  { label: __('Custom Fields'), value: 'custom-fields' },
+  { label: __('Post Formats'), value: 'post-formats' }
+]
+
+export const capabilities = [
+  { label: __('Manage Terms'), value: 'manage_terms' },
+  { label: __('Edit Terms'), value: 'edit_terms' },
+  { label: __('Delete Terms'), value: 'delete_terms' },
+  { label: __('Assign Terms'), value: 'assign_terms' }
+]
+
 export const cptIcons = [
   { label: 'admin-appearance', value: 'admin-appearance' },
   { label: 'admin-collapse', value: 'admin-collapse' },

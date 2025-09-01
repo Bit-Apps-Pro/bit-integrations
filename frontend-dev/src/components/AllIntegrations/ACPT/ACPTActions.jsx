@@ -10,6 +10,7 @@ import { $btcbi } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import ConfirmModal from '../../Utilities/ConfirmModal'
 import TableCheckBox from '../../Utilities/TableCheckBox'
+import { capabilities, supports } from './staticData'
 
 export default function ACPTActions({
   acptConf,
@@ -293,24 +294,3 @@ export default function ACPTActions({
     </>
   )
 }
-
-const supports = [
-  { label: __('Title'), value: 'title' },
-  { label: __('Editor'), value: 'editor' },
-  { label: __('Comments'), value: 'comments' },
-  { label: __('Revisions'), value: 'revisions' },
-  { label: __('Trackbacks'), value: 'trackbacks' },
-  { label: __('Author'), value: 'author' },
-  { label: __('Excerpt'), value: 'excerpt' },
-  { label: __('Page Attributes'), value: 'page-attributes' },
-  { label: __('Thumbnail'), value: 'thumbnail' },
-  { label: __('Custom Fields'), value: 'custom-fields' },
-  { label: __('Post Formats'), value: 'post-formats' }
-]
-
-const capabilities = [
-  { label: __('Manage Terms'), value: 'manage_terms' },
-  { label: __('Edit Terms'), value: 'edit_terms' },
-  { label: __('Delete Terms'), value: 'delete_terms' },
-  { label: __('Assign Terms'), value: 'assign_terms' }
-]
