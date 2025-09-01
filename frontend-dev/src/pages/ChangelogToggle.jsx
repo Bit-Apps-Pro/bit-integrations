@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '6th August 2025'
+const releaseDate = '1st September 2025'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -25,19 +25,19 @@ const changeLog = [
     label: __('New Actions', 'bit-integrations'),
     headClass: 'new-integration',
     itemClass: 'integration-list',
-    items: [
-      {
-        label: 'Line',
-        desc: '3 New Events Added.',
-        isPro: false
-      }
-    ]
+    items: []
   },
   {
     label: __('New Triggers', 'bit-integrations'),
     headClass: 'new-trigger',
     itemClass: 'integration-list',
-    items: []
+    items: [
+      {
+        label: 'FluentAffiliate',
+        desc: '8 New Events Added.',
+        isPro: true
+      }
+    ]
   },
   {
     label: __('New Features', 'bit-integrations'),
@@ -49,18 +49,7 @@ const changeLog = [
     label: __('Improvements', 'bit-integrations'),
     headClass: 'new-improvement',
     itemClass: 'feature-list',
-    items: [
-      {
-        label: 'Google Sheets',
-        desc: 'Removed unusual components from the authorization page UI for a cleaner, more streamlined interface.',
-        isPro: false
-      },
-      {
-        label: 'Paid Membership Pro',
-        desc: 'Added validation for level change event to ensure proper functionality.',
-        isPro: true
-      }
-    ]
+    items: []
   },
   {
     label: __('Bug Fixes', 'bit-integrations'),
@@ -69,12 +58,12 @@ const changeLog = [
     items: [
       {
         label: 'MemberPress',
-        desc: 'Fixed a fatal error related to the namespace issue.',
+        desc: 'Fixed undefined array key issue.',
         isPro: false
       },
       {
-        label: 'WhatsApp',
-        desc: 'Resolved the undefined authorization route function issue.',
+        label: 'MemberPress',
+        desc: 'Resolved lifetime expiration date bug.',
         isPro: false
       }
     ]
