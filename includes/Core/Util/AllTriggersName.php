@@ -43,6 +43,7 @@ final class AllTriggersName
             'EssentialBlocks'            => ['name' => 'Essential Blocks',  'isPro' => true, 'is_active' => false],
             'Eventin'                    => ['name' => 'Eventin',  'isPro' => true, 'is_active' => false],
             'EVF'                        => ['name' => 'Everest Forms',  'isPro' => true, 'is_active' => false],
+            'FormGent'                   => ['name' => 'FormGent',  'isPro' => true, 'is_active' => false],
             'FluentAffiliate'            => ['name' => 'FluentAffiliate',  'isPro' => true, 'is_active' => false],
             'FF'                         => ['name' => 'Fluent Forms',  'isPro' => true, 'is_active' => false],
             'FluentBoards'               => ['name' => 'Fluent Boards',  'isPro' => true, 'is_active' => false],

@@ -71,7 +71,8 @@ export const customFormIntegrations = [
   'WPTravelEngine',
   'WPUserFrontend',
   'FluentAffiliate',
-  'EasyCommerce'
+  'EasyCommerce',
+  'FormGent'
 ]
 
 export const actionHookIntegrations = ['ActionHook']
