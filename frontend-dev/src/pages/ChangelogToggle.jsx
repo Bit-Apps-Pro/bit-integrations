@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '6th August 2025'
+const releaseDate = '1st September 2025'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -33,18 +33,8 @@ const changeLog = [
     itemClass: 'integration-list',
     items: [
       {
-        label: 'Paid Memberships Pro',
-        desc: '+1 New Events Added.',
-        isPro: true
-      },
-      {
-        label: 'WP Travel Engine',
-        desc: '3 New Events Added.',
-        isPro: true
-      },
-      {
-        label: 'WP User Frontend (WPUF)',
-        desc: '2 New Events Added.',
+        label: 'FluentAffiliate',
+        desc: '8 New Events Added.',
         isPro: true
       }
     ]
@@ -67,28 +57,13 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'Paid Memberships Pro',
-        desc: 'Membership selection update issue resolved.',
-        isPro: true
-      },
-      {
-        label: 'GetResponse',
-        desc: 'Fixed Tags now append correctly to contacts upon submission.',
+        label: 'MemberPress',
+        desc: 'Fixed undefined array key issue.',
         isPro: false
       },
       {
-        label: 'Zoho CRM',
-        desc: 'Fixed tasks module fetching issue — now syncing tasks properly.',
-        isPro: false
-      },
-      {
-        label: 'MailerLite',
-        desc: 'Fixed checkbox issue under update utilities.',
-        isPro: false
-      },
-      {
-        label: 'MailerLite',
-        desc: 'Resolved integration name not updating correctly.',
+        label: 'MemberPress',
+        desc: 'Resolved lifetime expiration date bug.',
         isPro: false
       }
     ]

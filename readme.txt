@@ -4,7 +4,7 @@ Tags: automation, automator, Google Sheets, webhooks, zapier, marketing automati
 Requires at least: 5.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.6.6
+Stable tag: 2.6.8
 License: GPLv2 or later
 
 Perfect Automation and integration plugin: Connect 290+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
@@ -699,6 +699,30 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 6. All integration list
 
 == Changelog ==
+
+= 2.6.8 =
+_Release Date -1st September 2025_
+
+- **New Trigger**
+ - FluentAffiliate: 8 New Events Added (Pro).
+
+- **Bug Fixes**
+ - MemberPress: Fixed undefined array key issue.
+ - MemberPress: Resolved lifetime expiration date bug.
+ 
+= 2.6.7 =
+_Release Date -20th August 2025_
+
+- **New Action**
+ - Line: 3 New Events Added.
+
+- **New Improvement**
+ - Google Sheets: Removed unusual components from the authorization page UI for a cleaner, more streamlined interface.
+ - Paid Membership Pro: Added validation for level change event to ensure proper functionality (Pro).
+
+- **Bug Fixes**
+ - MemberPress: Fixed a fatal error related to the namespace issue.
+ - WhatsApp: Resolved the undefined authorization route function issue.
 
 = 2.6.6 =
 _Release Date -6th August 2025_
