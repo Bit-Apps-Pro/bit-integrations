@@ -63,11 +63,11 @@ const updateFieldMap = (prevConf, type, index, updater) => {
   return newConf
 }
 
-export const handleFieldMapping = (event, index, _, setConf, type) => {
+export const handleFieldMapping = (event, index, setConf, type) => {
   setConf(prev =>
     updateFieldMap(prev, type, index, () => ({
       [event.target.name]: event.target.value,
-      ...(event.target.value === 'custom' ? { customValue: '' } : {})
+      ...(event.target.value === 'custom' ? { customValue: '' } : { customValue: undefined })
     }))
   )
 }
@@ -91,18 +91,50 @@ export const delFieldMap = (index, _, setConf, type) => {
   })
 }
 
-export const addFieldMap = (i, confTmp, setConf, FieldMappings, mapKey) => {
-  const groupId = Date.now() + Math.random()
-  const newFieldMap = FieldMappings.map(field => ({
-    formField: '',
-    lineFormField: field.value,
-    groupId
-  }))
+const FIELD_TYPE_GROUPS = {
+  sticker: ['sticker_id', 'package_id'],
+  image: ['originalContentUrl', 'previewImageUrl'],
+  audio: ['originalContentUrl', 'duration'],
+  video: ['originalContentUrl', 'previewImageUrl'],
+  location: ['title', 'address', 'latitude', 'longitude'],
+  emoji: ['emojis_id', 'product_id', 'index']
+}
 
+const getFieldTypeGroup = lineFormField => {
+  for (const [type, fields] of Object.entries(FIELD_TYPE_GROUPS)) {
+    if (fields.includes(lineFormField)) {
+      return type
+    }
+  }
+  return 'default'
+}
+
+const generateGroupId = (fieldType, existingFieldMap) => {
+  const existingGroups = existingFieldMap
+    .filter(field => getFieldTypeGroup(field.lineFormField) === fieldType)
+    .map(field => field.groupId)
+    .filter((id, index, arr) => arr.indexOf(id) === index)
+
+  return `${fieldType}_${existingGroups.length + 1}`
+}
+
+export const addFieldMap = (i, confTmp, setConf, FieldMappings, mapKey) => {
   setConf(prev => {
     const newConf = { ...prev }
-
     if (!Array.isArray(newConf[mapKey])) newConf[mapKey] = []
+
+    const newFieldMap = FieldMappings.map(field => {
+      const fieldType = getFieldTypeGroup(field.value)
+      const groupId = generateGroupId(fieldType, newConf[mapKey])
+
+      return {
+        formField: '',
+        lineFormField: field.value,
+        groupId,
+        fieldType
+      }
+    })
+
     newConf[mapKey].splice(i, 0, ...newFieldMap)
     return newConf
   })
@@ -191,7 +223,20 @@ export const getLineValidationMessages = lineConf => {
 
 export const generateMappedField = fields => {
   const requiredFlds = fields.filter(f => f.required)
-  return requiredFlds.length
-    ? requiredFlds.map(f => ({ formField: '', lineFormField: f.value }))
-    : [{ formField: '', lineFormField: '' }]
+  if (requiredFlds.length) {
+    const typeToGroupId = {}
+    return requiredFlds.map(f => {
+      const fieldType = getFieldTypeGroup(f.value)
+      if (!typeToGroupId[fieldType]) {
+        typeToGroupId[fieldType] = `${fieldType}_1`
+      }
+      return {
+        formField: '',
+        lineFormField: f.value,
+        groupId: typeToGroupId[fieldType],
+        fieldType
+      }
+    })
+  }
+  return [{ formField: '', lineFormField: '' }]
 }

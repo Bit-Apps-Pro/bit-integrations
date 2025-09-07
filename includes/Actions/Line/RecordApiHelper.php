@@ -67,38 +67,80 @@ class RecordApiHelper
         }
 
         if (!empty($details->sendSticker) && !empty($details->sticker_field_map)) {
-            $sticker = $this->buildStickerMessage($details->sticker_field_map, $values);
-            if ($sticker) {
-                $messages[] = $sticker;
-            }
+            $messages = array_merge($messages, $this->processGrouped(
+                $values,
+                $details->sticker_field_map,
+                ['sticker_id', 'package_id'],
+                function ($data) {
+                    return [
+                        'type'      => 'sticker',
+                        'packageId' => $data['package_id'],
+                        'stickerId' => $data['sticker_id'],
+                    ];
+                }
+            ));
         }
 
         if (!empty($details->sendImage) && !empty($details->image_field_map)) {
-            $image = $this->buildImageMessage($details->image_field_map, $values);
-            if ($image) {
-                $messages[] = $image;
-            }
+            $messages = array_merge($messages, $this->processGrouped(
+                $values,
+                $details->image_field_map,
+                ['originalContentUrl'],
+                function ($data) {
+                    return array_filter([
+                        'type'               => 'image',
+                        'originalContentUrl' => $data['originalContentUrl'],
+                        'previewImageUrl'    => $data['previewImageUrl'] ?? null
+                    ]);
+                }
+            ));
         }
 
         if (!empty($details->sendAudio) && !empty($details->audio_field_map)) {
-            $audio = $this->buildAudioMessage($details->audio_field_map, $values);
-            if ($audio) {
-                $messages[] = $audio;
-            }
+            $messages = array_merge($messages, $this->processGrouped(
+                $values,
+                $details->audio_field_map,
+                ['originalContentUrl'],
+                function ($data) {
+                    return array_filter([
+                        'type'               => 'audio',
+                        'originalContentUrl' => $data['originalContentUrl'],
+                        'duration'           => isset($data['duration']) ? (int) $data['duration'] : null
+                    ]);
+                }
+            ));
         }
 
         if (!empty($details->sendVideo) && !empty($details->video_field_map)) {
-            $video = $this->buildVideoMessage($details->video_field_map, $values);
-            if ($video) {
-                $messages[] = $video;
-            }
+            $messages = array_merge($messages, $this->processGrouped(
+                $values,
+                $details->video_field_map,
+                ['originalContentUrl'],
+                function ($data) {
+                    return array_filter([
+                        'type'               => 'video',
+                        'originalContentUrl' => $data['originalContentUrl'],
+                        'previewImageUrl'    => $data['previewImageUrl'] ?? null
+                    ]);
+                }
+            ));
         }
 
         if (!empty($details->sendLocation) && !empty($details->location_field_map)) {
-            $location = $this->buildLocationMessage($details->location_field_map, $values);
-            if ($location) {
-                $messages[] = $location;
-            }
+            $messages = array_merge($messages, $this->processGrouped(
+                $values,
+                $details->location_field_map,
+                ['title', 'address', 'latitude', 'longitude'],
+                function ($data) {
+                    return [
+                        'type'      => 'location',
+                        'title'     => $data['title'],
+                        'address'   => $data['address'],
+                        'latitude'  => (float) $data['latitude'],
+                        'longitude' => (float) $data['longitude'],
+                    ];
+                }
+            ));
         }
 
         return array_values(array_filter($messages));
@@ -140,88 +182,49 @@ class RecordApiHelper
         return $message;
     }
 
-    private function buildStickerMessage($map, $values): ?array
+    private function groupByGroupId($fieldMap): array
     {
-        $data = $this->mapFields($values, $map);
-
-        if (!($data['sticker_id'] ?? false)) {
-            return null;
+        $grouped = [];
+        foreach ($fieldMap as $field) {
+            $groupId = $field->groupId ?? 'default';
+            if (!isset($grouped[$groupId])) {
+                $grouped[$groupId] = [];
+            }
+            $grouped[$groupId][] = $field;
         }
 
-        return [
-            'type'      => 'sticker',
-            'packageId' => $data['package_id'],
-            'stickerId' => $data['sticker_id'],
-        ];
+        return $grouped;
     }
 
-    private function buildImageMessage($map, $values): ?array
+    private function processGrouped($values, $fieldMap, array $requiredKeys, callable $builder): array
     {
-        $data = $this->mapFields($values, $map);
+        $results = [];
+        $groups = $this->groupByGroupId($fieldMap);
+        foreach ($groups as $groupId => $groupFields) {
+            $data = $this->mapFields($values, $groupFields);
 
-        if (empty($data['originalContentUrl'])) {
-            return null;
+            $allPresent = true;
+            foreach ($requiredKeys as $key) {
+                if (!isset($data[$key]) || $data[$key] === '' || $data[$key] === null) {
+                    $allPresent = false;
+
+                    break;
+                }
+            }
+
+            if ($allPresent) {
+                $results[] = $builder($data);
+            }
         }
 
-        return array_filter([
-            'type'               => 'image',
-            'originalContentUrl' => $data['originalContentUrl'],
-            'previewImageUrl'    => $data['previewImageUrl'] ?? null
-        ]);
-    }
-
-    private function buildAudioMessage($map, $values): ?array
-    {
-        $data = $this->mapFields($values, $map);
-
-        if (empty($data['originalContentUrl'])) {
-            return null;
-        }
-
-        return array_filter([
-            'type'               => 'audio',
-            'originalContentUrl' => $data['originalContentUrl'],
-            'duration'           => isset($data['duration']) ? (int) $data['duration'] : null
-        ]);
-    }
-
-    private function buildVideoMessage($map, $values): ?array
-    {
-        $data = $this->mapFields($values, $map);
-
-        if (empty($data['originalContentUrl'])) {
-            return null;
-        }
-
-        return array_filter([
-            'type'               => 'video',
-            'originalContentUrl' => $data['originalContentUrl'],
-            'previewImageUrl'    => $data['previewImageUrl'] ?? null
-        ]);
-    }
-
-    private function buildLocationMessage($map, $values): ?array
-    {
-        $data = $this->mapFields($values, $map);
-
-        if (empty($data['title']) || empty($data['address']) || empty($data['latitude']) || empty($data['longitude'])) {
-            return null;
-        }
-
-        return [
-            'type'      => 'location',
-            'title'     => $data['title'],
-            'address'   => $data['address'],
-            'latitude'  => (float) $data['latitude'],
-            'longitude' => (float) $data['longitude'],
-        ];
+        return $results;
     }
 
     private function mapFields($data, $fieldMap): array
     {
         $result = [];
 
-        foreach ($fieldMap as $field) {
+        foreach ($fieldMap as $index => $field) {
             $key = $field->lineFormField;
 
             if ($field->formField === 'custom' && !empty($field->customValue)) {
