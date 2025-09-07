@@ -93,6 +93,7 @@ const Mailup = lazy(() => import('./Mailup/Mailup'))
 const Notion = lazy(() => import('./Notion/Notion'))
 const Mailjet = lazy(() => import('./Mailjet/Mailjet'))
 const SendGrid = lazy(() => import('./SendGrid/SendGrid'))
+const Fabman = lazy(() => import('./Fabman/Fabman'))
 const PCloud = lazy(() => import('./PCloud/PCloud'))
 const EmailOctopus = lazy(() => import('./EmailOctopus/EmailOctopus'))
 const Smaily = lazy(() => import('./Smaily/Smaily'))
@@ -897,6 +898,15 @@ export default function NewInteg({ allIntegURL }) {
       case 'SendGrid':
         return (
           <SendGrid
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'Fabman':
+        return (
+          <Fabman
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
             flow={flow}
