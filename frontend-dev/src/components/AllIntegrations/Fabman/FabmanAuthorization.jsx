@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { __ } from '../../../Utils/i18nwrap'
 import LoaderSm from '../../Loaders/LoaderSm'
 import { fabmanAuthentication } from './FabmanCommonFunc'
+import Note from '../../Utilities/Note'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 
@@ -72,15 +73,6 @@ export default function FabmanAuthorization({
       <div className="mt-3" style={{ color: 'red', fontSize: '15px' }}>
         {error.apiKey}
       </div>
-      <small className="d-blk mt-3">
-        {__('To Get API Key, Please Visit', 'bit-integrations')}
-        &nbsp;
-        <a className="btcd-link" href="https://fabman.io/api-docs" target="_blank" rel="noreferrer">
-          {__('Fabman API Documentation', 'bit-integrations')}
-        </a>
-      </small>
-      <br />
-      <br />
 
       {!isInfo && (
         <div>
@@ -104,7 +96,7 @@ export default function FabmanAuthorization({
               : __('Authorize', 'bit-integrations')}
             {loading.auth && <LoaderSm size="20" clr="#022217" className="ml-2" />}
           </button>
-          <br />
+
           <button
             onClick={nextPage}
             className="btn ml-auto btcd-btn-lg purple sh-sm flx"
@@ -115,6 +107,15 @@ export default function FabmanAuthorization({
           </button>
         </div>
       )}
+      <Note note={fabmanApiKeyNote} />
     </div>
   )
 }
+
+const fabmanApiKeyNote = `<h2>${__('To get your Fabman API key:', 'bit-integrations')}</h2>
+     <ul>
+         <li>${__('Log in to your <a href="https://fabman.io/" target="_blank">Fabman account</a>.', 'bit-integrations')}</li>
+         <li>${__('Go to "Configure" → "Integrations (API & Webhooks)".', 'bit-integrations')}</li>
+         <li>${__('Click "Create API key", add a title, and choose a member.', 'bit-integrations')}</li>
+         <li>${__('Save, then click "Reveal" to copy your API key.', 'bit-integrations')}</li>
+     </ul>`

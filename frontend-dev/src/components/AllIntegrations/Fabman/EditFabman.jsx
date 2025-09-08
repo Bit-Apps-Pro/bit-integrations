@@ -33,10 +33,29 @@ function EditFabman({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please select an action', 'bit-integrations') })
       return
     }
-    if (!checkMappedFields(fabmanConf)) {
+    const isDeleteAction = fabmanConf.actionName === 'delete_member'
+    if (!isDeleteAction && !checkMappedFields(fabmanConf)) {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
+
+    const requiresWorkspaceSelection =
+      fabmanConf.actionName === 'update_member' ||
+      fabmanConf.actionName === 'delete_member' ||
+      fabmanConf.actionName === 'update_spaces'
+
+    if (requiresWorkspaceSelection && !fabmanConf.selectedWorkspace) {
+      setSnackbar({ show: true, msg: __('Please select a workspace', 'bit-integrations') })
+      return
+    }
+
+    const requiresMemberSelection =
+      fabmanConf.actionName === 'update_member' || fabmanConf.actionName === 'delete_member'
+    if (requiresMemberSelection && !fabmanConf.selectedMember) {
+      setSnackbar({ show: true, msg: __('Please select a member', 'bit-integrations') })
+      return
+    }
+
     saveActionConf({
       flow,
       allIntegURL,
@@ -80,7 +99,16 @@ function EditFabman({ allIntegURL }) {
       <IntegrationStepThree
         edit
         saveConfig={saveConfig}
-        disabled={!fabmanConf.actionName || !checkMappedFields(fabmanConf)}
+        disabled={
+          !fabmanConf.actionName ||
+          (fabmanConf.actionName !== 'delete_member' && !checkMappedFields(fabmanConf)) ||
+          (['update_member', 'delete_member', 'update_spaces', 'delete_spaces'].includes(
+            fabmanConf.actionName
+          ) &&
+            !fabmanConf.selectedWorkspace) ||
+          (['update_member', 'delete_member'].includes(fabmanConf.actionName) &&
+            !fabmanConf.selectedMember)
+        }
         isLoading={isLoading}
         dataConf={fabmanConf}
         setDataConf={setFabmanConf}

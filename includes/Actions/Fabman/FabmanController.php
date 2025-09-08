@@ -103,16 +103,14 @@ class FabmanController
     {
         $integrationDetails = $integrationData->flow_details;
         $apiKey = $integrationDetails->apiKey;
-        $selectedWorkspace = $integrationDetails->selectedWorkspace;
-        $accountId = $integrationDetails->accountId;
-        $memberId = $integrationDetails->selectedMember;
+        $selectedWorkspace = $integrationDetails->selectedWorkspace ?? null;
+        $accountId = $integrationDetails->accountId ?? null;
+        $memberId = $integrationDetails->selectedMember ?? null;
         $integId = $integrationData->id;
         $actionName = $integrationDetails->actionName;
-        $lockVersion = $integrationDetails->selectedLockVersion;
+        $lockVersion = $integrationDetails->selectedLockVersion ?? null;
 
-        if (empty($apiKey) || empty($selectedWorkspace) || empty($accountId) || empty($actionName)) {
-            return new WP_Error('REQ_FIELD_EMPTY', __('API Key, Account ID, Workspace ID, and Action are required for Fabman', 'bit-integrations'));
-        }
+        // error_log('the lockversion' . print_r($lockVersion, true));
 
         $recordApiHelper = new RecordApiHelper($apiKey, $selectedWorkspace, $accountId, $integId, $memberId, $lockVersion);
         $fabmanApiResponse = $recordApiHelper->execute($actionName, $fieldValues, $integrationDetails);

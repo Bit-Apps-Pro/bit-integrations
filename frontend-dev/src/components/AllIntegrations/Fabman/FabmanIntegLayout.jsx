@@ -19,14 +19,14 @@ export default function FabmanIntegLayout({
   useEffect(() => {
     if (
       fabmanConf?.actionName &&
-      fabmanConf?.selectedWorkspace &&
+      (fabmanConf?.selectedWorkspace || fabmanConf?.actionName === 'create_spaces') &&
       Array.isArray(fabmanConf.field_map) &&
       fabmanConf.field_map.length === 1 &&
       (fabmanConf.field_map[0].fabmanFormField === '' ||
         fabmanConf.field_map[0].fabmanFormField === undefined)
     ) {
       const newConf = { ...fabmanConf }
-      newConf.field_map = generateMappedField(newConf)
+      newConf.field_map = generateMappedField({ staticFields: getActiveStaticFields(fabmanConf) })
       setFabmanConf(newConf)
     }
   }, [fabmanConf.actionName, fabmanConf.selectedWorkspace])
@@ -34,13 +34,56 @@ export default function FabmanIntegLayout({
   const actions = [
     { label: __('Create Member', 'bit-integrations'), value: 'create_member' },
     { label: __('Update Member', 'bit-integrations'), value: 'update_member' },
-    { label: __('Delete Member', 'bit-integrations'), value: 'delete_member' }
+    { label: __('Delete Member', 'bit-integrations'), value: 'delete_member' },
+    { label: __('Create Spaces', 'bit-integrations'), value: 'create_spaces' },
+    { label: __('Update Spaces', 'bit-integrations'), value: 'update_spaces' }
   ]
+
+  const getActiveStaticFields = conf =>
+    conf.actionName === 'create_spaces' || conf.actionName === 'update_spaces'
+      ? conf.spacesStaticFields
+      : conf.memberStaticFields
+
+  // Ensure required targets are present in field_map for validation (especially in edit/update)
+  useEffect(() => {
+    const staticFields = getActiveStaticFields(fabmanConf) || []
+    const requiredFields = staticFields.filter(f => !!f.required)
+    if (!Array.isArray(fabmanConf.field_map)) return
+
+    let changed = false
+    const newFieldMap = [...fabmanConf.field_map]
+
+    // Ensure length covers required fields
+    for (let i = 0; i < requiredFields.length; i += 1) {
+      if (!newFieldMap[i]) {
+        newFieldMap[i] = { formField: '', fabmanFormField: requiredFields[i].key }
+        changed = true
+      } else if (newFieldMap[i].fabmanFormField !== requiredFields[i].key) {
+        newFieldMap[i] = { ...newFieldMap[i], fabmanFormField: requiredFields[i].key }
+        changed = true
+      }
+    }
+
+    if (changed) {
+      const newConf = { ...fabmanConf, field_map: newFieldMap }
+      setFabmanConf(newConf)
+    }
+  }, [fabmanConf.actionName, fabmanConf.selectedWorkspace, fabmanConf.field_map])
 
   const handleActionChange = e => {
     const newConf = { ...fabmanConf }
     const value = e.target.value
     newConf.actionName = value
+
+    // Reset member related selects for space actions
+    if (value === 'create_spaces' || value === 'update_spaces') {
+      delete newConf.selectedMember
+      delete newConf.selectedLockVersion
+    }
+
+    // Reset field map when switching groups
+    newConf.field_map = [{ formField: '', fabmanFormField: '' }]
+
     setFabmanConf(newConf)
 
     const requiresMemberSelection = value === 'update_member' || value === 'delete_member'
@@ -52,6 +95,12 @@ export default function FabmanIntegLayout({
   const handleWorkspaceChange = e => {
     const newConf = { ...fabmanConf }
     newConf.selectedWorkspace = e.target.value
+
+    const ws = (fabmanConf?.workspaces || []).find(w => String(w.id) === String(e.target.value))
+    if (ws && typeof ws.lockVersion !== 'undefined') {
+      newConf.selectedLockVersion = ws.lockVersion
+    }
+
     setFabmanConf(newConf)
 
     const requiresMemberSelection =
@@ -85,9 +134,13 @@ export default function FabmanIntegLayout({
     fetchFabmanMembers(fabmanConf, setFabmanConf, loading, setLoading, 'refresh')
   }
 
-  // Check if action requires member selection
   const requiresMemberSelection =
     fabmanConf.actionName === 'update_member' || fabmanConf.actionName === 'delete_member'
+
+  const isSpaceAction =
+    fabmanConf.actionName === 'create_spaces' || fabmanConf.actionName === 'update_spaces'
+
+  const activeStaticFields = getActiveStaticFields(fabmanConf)
 
   return (
     <div>
@@ -111,8 +164,8 @@ export default function FabmanIntegLayout({
       </div>
       <br />
 
-      {/* Workspace Selector - Only visible after action is selected */}
-      {fabmanConf.actionName && (
+      {/* Workspace Selector - visible after action selected (required for all except create_spaces) */}
+      {fabmanConf.actionName && (!isSpaceAction || fabmanConf.actionName === 'update_spaces') && (
         <>
           <div className="flx">
             <b className="wdt-200 d-in-b">{__('Select Workspace:', 'bit-integrations')}</b>
@@ -154,7 +207,7 @@ export default function FabmanIntegLayout({
         </>
       )}
 
-      {/* Member Selector - Only visible for update/delete actions after workspace is selected */}
+      {/* Member Selector - Only for update/delete member actions */}
       {requiresMemberSelection && fabmanConf.selectedWorkspace && (
         <>
           <div className="flx">
@@ -202,60 +255,63 @@ export default function FabmanIntegLayout({
         </>
       )}
 
-      {/* Field Map - Only visible after all required selections are made */}
-      {fabmanConf.actionName && fabmanConf.selectedWorkspace && (
-        <>
-          <div className="mt-5">
-            <b className="wdt-100">{__('Field Map', 'bit-integrations')}</b>
-          </div>
-          <br />
-          <div className="btcd-hr mt-1" />
-          <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
-            <div className="txt-dp">
-              <b>{__('Form Fields', 'bit-integrations')}</b>
-            </div>
-            <div className="txt-dp">
-              <b>{__('Fabman Fields', 'bit-integrations')}</b>
-            </div>
-          </div>
-
-          {fabmanConf?.field_map.map((itm, i) => (
-            <FabmanFieldMap
-              key={`rp-m-${i + 9}`}
-              i={i}
-              field={itm}
-              fabmanConf={fabmanConf}
-              formFields={formFields}
-              setFabmanConf={setFabmanConf}
-              setSnackbar={setSnackbar}
-            />
-          ))}
-          <div>
-            <div className="txt-center btcbi-field-map-button mt-2">
-              <button
-                onClick={() =>
-                  addFieldMap(fabmanConf.field_map.length, fabmanConf, setFabmanConf, false)
-                }
-                className="icn-btn sh-sm"
-                type="button">
-                +
-              </button>
+      {/* Field Map - Visible after required selections are made */}
+      {fabmanConf.actionName &&
+        (!isSpaceAction ||
+          (isSpaceAction &&
+            (fabmanConf.actionName !== 'update_spaces' || fabmanConf.selectedWorkspace))) && (
+          <>
+            <div className="mt-5">
+              <b className="wdt-100">{__('Field Map', 'bit-integrations')}</b>
             </div>
             <br />
-            <br />
-            <div className="mt-4">
-              <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
-            </div>
             <div className="btcd-hr mt-1" />
-            <FabmanActions
-              fabmanConf={fabmanConf}
-              setFabmanConf={setFabmanConf}
-              loading={loading}
-              setLoading={setLoading}
-            />
-          </div>
-        </>
-      )}
+            <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
+              <div className="txt-dp">
+                <b>{__('Form Fields', 'bit-integrations')}</b>
+              </div>
+              <div className="txt-dp">
+                <b>{__('Fabman Fields', 'bit-integrations')}</b>
+              </div>
+            </div>
+
+            {fabmanConf?.field_map.map((itm, i) => (
+              <FabmanFieldMap
+                key={`rp-m-${i + 9}`}
+                i={i}
+                field={itm}
+                fabmanConf={{ ...fabmanConf, staticFields: activeStaticFields }}
+                formFields={formFields}
+                setFabmanConf={setFabmanConf}
+                setSnackbar={setSnackbar}
+              />
+            ))}
+            <div>
+              <div className="txt-center btcbi-field-map-button mt-2">
+                <button
+                  onClick={() =>
+                    addFieldMap(fabmanConf.field_map.length, fabmanConf, setFabmanConf, false)
+                  }
+                  className="icn-btn sh-sm"
+                  type="button">
+                  +
+                </button>
+              </div>
+              <br />
+              <br />
+              <div className="mt-4">
+                <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
+              </div>
+              <div className="btcd-hr mt-1" />
+              <FabmanActions
+                fabmanConf={fabmanConf}
+                setFabmanConf={setFabmanConf}
+                loading={loading}
+                setLoading={setLoading}
+              />
+            </div>
+          </>
+        )}
     </div>
   )
 }

@@ -23,18 +23,16 @@ export const generateMappedField = fabmanConf => {
 }
 
 export const checkMappedFields = fabmanConf => {
-  const mappedFields = fabmanConf?.field_map
-    ? fabmanConf.field_map.filter(
-        mappedField =>
-          !mappedField.formField ||
-          !mappedField.fabmanFormField ||
-          (mappedField.formField === 'custom' && !mappedField.customValue)
-      )
-    : []
-  if (mappedFields.length > 0) {
+  const rows = Array.isArray(fabmanConf?.field_map) ? fabmanConf.field_map : []
+  const invalid = rows.filter(r => {
+    const hasAnySide =
+      (r?.formField && r.formField !== '') || (r?.fabmanFormField && r.fabmanFormField !== '')
+    if (!hasAnySide) return false
+    if (!r.formField || !r.fabmanFormField) return true
+    if (r.formField === 'custom' && !r.customValue) return true
     return false
-  }
-  return true
+  })
+  return invalid.length === 0
 }
 
 export const fabmanAuthentication = (
@@ -64,12 +62,8 @@ export const fabmanAuthentication = (
       const newConf = { ...confTmp }
       setIsAuthorized(true)
       if (type === 'authentication') {
-        if (result.data) {
-          newConf.customFields = result.data
-
-          if (result.data && result.data.length > 0) {
-            newConf.accountId = result.data[0].id
-          }
+        if (result.data && result.data.accountId) {
+          newConf.accountId = result.data.accountId
         }
         setConf(newConf)
         setLoading({ ...loading, auth: false })
@@ -101,10 +95,10 @@ export const fetchFabmanWorkspaces = (confTmp, setConf, loading, setLoading, typ
   bitsFetch(requestParams, 'fabman_fetch_workspaces').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
-      // Fix: Check for result.data.workspaces instead of result.data
+
       if (result.data && result.data.workspaces && Array.isArray(result.data.workspaces)) {
         newConf.workspaces = result.data.workspaces
-        // Auto-select if only one workspace
+
         if (result.data.workspaces.length === 1) {
           newConf.selectedWorkspace = result.data.workspaces[0].id
         }
