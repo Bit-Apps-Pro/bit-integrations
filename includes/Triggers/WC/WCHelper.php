@@ -2,8 +2,8 @@
 
 namespace BitCode\FI\Triggers\WC;
 
-use WC_Product_Booking;
 use BitCode\FI\Core\Util\Helper;
+use WC_Product_Booking;
 
 class WCHelper
 {
@@ -265,6 +265,10 @@ class WCHelper
 
     public static function accessProductData($product)
     {
+        if (empty($product)) {
+            return [];
+        }
+
         $productId = $product->get_id();
         $imageUrl = wp_get_attachment_image_url($product->get_image_id(), 'full');
         $imageIds = $product->get_gallery_image_ids();
