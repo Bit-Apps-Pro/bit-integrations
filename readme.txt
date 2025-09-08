@@ -4,7 +4,7 @@ Tags: automation, automator, Google Sheets, webhooks, zapier, marketing automati
 Requires at least: 5.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.6.7
+Stable tag: 2.6.8
 License: GPLv2 or later
 
 Perfect Automation and integration plugin: Connect 290+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
@@ -700,6 +700,16 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 
 == Changelog ==
 
+= 2.6.8 =
+_Release Date -1st September 2025_
+
+- **New Trigger**
+ - FluentAffiliate: 8 New Events Added (Pro).
+
+- **Bug Fixes**
+ - MemberPress: Fixed undefined array key issue.
+ - MemberPress: Resolved lifetime expiration date bug.
+ 
 = 2.6.7 =
 _Release Date -20th August 2025_
 
