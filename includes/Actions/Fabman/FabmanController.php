@@ -38,7 +38,7 @@ class FabmanController
             wp_send_json_error($apiResponse->get_error_message(), 400);
         }
 
-        if (empty($apiResponse) || isset($apiResponse->error)) {
+        if (empty($apiResponse) || isset($apiResponse->error) || !\is_array($apiResponse) || !isset($apiResponse[0]->id)) {
             wp_send_json_error(isset($apiResponse->error) ? $apiResponse->error : __('Invalid API credentials', 'bit-integrations'), 400);
         }
 
@@ -50,6 +50,10 @@ class FabmanController
 
     public static function fetchWorkspaces($requestParams)
     {
+        if (empty($requestParams->apiKey)) {
+            wp_send_json_error(__('API Key is required', 'bit-integrations'), 400);
+        }
+
         $header = [
             'Authorization' => 'Bearer ' . $requestParams->apiKey,
             'Content-Type'  => 'application/json'
@@ -62,7 +66,7 @@ class FabmanController
             wp_send_json_error($apiResponse->get_error_message(), 400);
         }
 
-        if (empty($apiResponse) || isset($apiResponse->error)) {
+        if (empty($apiResponse) || isset($apiResponse->error) || !\is_array($apiResponse)) {
             wp_send_json_error(isset($apiResponse->error) ? $apiResponse->error : __('Failed to fetch workspaces', 'bit-integrations'), 400);
         }
 
@@ -89,7 +93,7 @@ class FabmanController
             wp_send_json_error($apiResponse->get_error_message(), 400);
         }
 
-        if (empty($apiResponse) || isset($apiResponse->error)) {
+        if (empty($apiResponse) || isset($apiResponse->error) || !\is_array($apiResponse)) {
             wp_send_json_error(isset($apiResponse->error) ? $apiResponse->error : __('Failed to fetch members', 'bit-integrations'), 400);
         }
 

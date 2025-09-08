@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import { useRecoilValue } from 'recoil'
+import { useMemo, useCallback } from 'react'
 import { __, sprintf } from '../../../Utils/i18nwrap'
 import { addFieldMap, delFieldMap, handleFieldMapping } from './IntegrationHelpers'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
@@ -9,14 +10,42 @@ import TagifyInput from '../../Utilities/TagifyInput'
 import { handleCustomValue } from '../IntegrationHelpers/IntegrationHelpers'
 
 export default function FabmanFieldMap({ i, formFields, field, fabmanConf, setFabmanConf }) {
-  const requiredFields = fabmanConf?.staticFields.filter(fld => !!fld.required) || []
-  const nonRequriedFields = fabmanConf?.staticFields?.filter(fld => !fld.required) || []
-  // Fix: Handle case when customFields is not an array
-  const customFields = Array.isArray(fabmanConf.customFields) ? fabmanConf.customFields : []
-  const allNonrequriedFields = [...nonRequriedFields, ...customFields]
+  const requiredFields = useMemo(
+    () => fabmanConf?.staticFields.filter(fld => !!fld.required) || [],
+    [fabmanConf?.staticFields]
+  )
+  const nonRequriedFields = useMemo(
+    () => fabmanConf?.staticFields?.filter(fld => !fld.required) || [],
+    [fabmanConf?.staticFields]
+  )
+  const customFields = useMemo(
+    () => (Array.isArray(fabmanConf.customFields) ? fabmanConf.customFields : []),
+    [fabmanConf.customFields]
+  )
+  const allNonrequriedFields = useMemo(
+    () => [...nonRequriedFields, ...customFields],
+    [nonRequriedFields, customFields]
+  )
 
   const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
+
+  const onFieldMapping = useCallback(
+    ev => handleFieldMapping(ev, i, fabmanConf, setFabmanConf),
+    [i, fabmanConf, setFabmanConf]
+  )
+  const onCustomValue = useCallback(
+    e => handleCustomValue(e, i, fabmanConf, setFabmanConf),
+    [i, fabmanConf, setFabmanConf]
+  )
+  const onAddFieldMap = useCallback(
+    () => addFieldMap(i, fabmanConf, setFabmanConf),
+    [i, fabmanConf, setFabmanConf]
+  )
+  const onDelFieldMap = useCallback(
+    () => delFieldMap(i, fabmanConf, setFabmanConf),
+    [i, fabmanConf, setFabmanConf]
+  )
 
   return (
     <div className="flx mt-2 mb-2 btcbi-field-map">
@@ -26,7 +55,7 @@ export default function FabmanFieldMap({ i, formFields, field, fabmanConf, setFa
             className="btcd-paper-inp mr-2"
             name="formField"
             value={field.formField || ''}
-            onChange={ev => handleFieldMapping(ev, i, fabmanConf, setFabmanConf)}>
+            onChange={onFieldMapping}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             <optgroup label={__('Form Fields', 'bit-integrations')}>
               {formFields?.map(f => (
@@ -52,7 +81,7 @@ export default function FabmanFieldMap({ i, formFields, field, fabmanConf, setFa
 
           {field.formField === 'custom' && (
             <TagifyInput
-              onChange={e => handleCustomValue(e, i, fabmanConf, setFabmanConf)}
+              onChange={onCustomValue}
               label={__('Custom Value', 'bit-integrations')}
               className="mr-2"
               type="text"
@@ -67,7 +96,7 @@ export default function FabmanFieldMap({ i, formFields, field, fabmanConf, setFa
             disabled={i < requiredFields.length}
             name="fabmanFormField"
             value={i < requiredFields.length ? requiredFields[i].key || '' : field.fabmanFormField || ''}
-            onChange={ev => handleFieldMapping(ev, i, fabmanConf, setFabmanConf)}>
+            onChange={onFieldMapping}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             {i < requiredFields.length ? (
               <option key={requiredFields[i].key} value={requiredFields[i].key}>
@@ -84,14 +113,11 @@ export default function FabmanFieldMap({ i, formFields, field, fabmanConf, setFa
         </div>
         {i >= requiredFields.length && (
           <>
-            <button
-              onClick={() => addFieldMap(i, fabmanConf, setFabmanConf)}
-              className="icn-btn sh-sm ml-2 mr-1"
-              type="button">
+            <button onClick={onAddFieldMap} className="icn-btn sh-sm ml-2 mr-1" type="button">
               +
             </button>
             <button
-              onClick={() => delFieldMap(i, fabmanConf, setFabmanConf)}
+              onClick={onDelFieldMap}
               className="icn-btn sh-sm ml-1"
               type="button"
               aria-label="btn">

@@ -157,67 +157,77 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
     selectedLockVersion: ''
   })
 
+  // Extracted validation logic
+  const isConfigInvalid = () => {
+    if (!fabmanConf.actionName) return true
+    if (
+      !['delete_member', 'delete_spaces'].includes(fabmanConf.actionName) &&
+      !checkMappedFields(fabmanConf)
+    )
+      return true
+    if (
+      ['create_member', 'update_member', 'delete_member', 'update_spaces', 'delete_spaces'].includes(
+        fabmanConf.actionName
+      ) &&
+      !fabmanConf.selectedWorkspace
+    )
+      return true
+    if (['update_member', 'delete_member'].includes(fabmanConf.actionName) && !fabmanConf.selectedMember)
+      return true
+    return false
+  }
+
   const saveConfig = () => {
-    if (!checkMappedFields(fabmanConf)) {
-      setSnack({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
+    if (isConfigInvalid()) {
+      if (!fabmanConf.actionName) {
+        setSnack({ show: true, msg: __('Please select an action', 'bit-integrations') })
+      } else if (
+        !['delete_member', 'delete_spaces'].includes(fabmanConf.actionName) &&
+        !checkMappedFields(fabmanConf)
+      ) {
+        setSnack({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
+      } else if (
+        ['create_member', 'update_member', 'delete_member', 'update_spaces', 'delete_spaces'].includes(
+          fabmanConf.actionName
+        ) &&
+        !fabmanConf.selectedWorkspace
+      ) {
+        setSnack({ show: true, msg: __('Please select a workspace', 'bit-integrations') })
+      } else if (
+        ['update_member', 'delete_member'].includes(fabmanConf.actionName) &&
+        !fabmanConf.selectedMember
+      ) {
+        setSnack({ show: true, msg: __('Please select a member', 'bit-integrations') })
+      }
       return
     }
-
-    if (!fabmanConf.actionName) {
-      setSnack({ show: true, msg: __('Please select an action', 'bit-integrations') })
-      return
-    }
-
-    const requiresWorkspaceSelection =
-      fabmanConf.actionName === 'create_member' ||
-      fabmanConf.actionName === 'update_member' ||
-      fabmanConf.actionName === 'delete_member' ||
-      fabmanConf.actionName === 'update_spaces'
-
-    if (requiresWorkspaceSelection && !fabmanConf.selectedWorkspace) {
-      setSnack({ show: true, msg: __('Please select a workspace', 'bit-integrations') })
-      return
-    }
-
-    const requiresMemberSelection =
-      fabmanConf.actionName === 'update_member' || fabmanConf.actionName === 'delete_member'
-    if (requiresMemberSelection && !fabmanConf.selectedMember) {
-      setSnack({ show: true, msg: __('Please select a member', 'bit-integrations') })
-      return
-    }
-
     saveIntegConfig(flow, setFlow, allIntegURL, fabmanConf, navigate, '', '', setIsLoading)
   }
 
   const nextPage = () => {
-    if (!checkMappedFields(fabmanConf)) {
-      setSnack({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
+    if (isConfigInvalid()) {
+      if (!fabmanConf.actionName) {
+        setSnack({ show: true, msg: __('Please select an action', 'bit-integrations') })
+      } else if (
+        !['delete_member', 'delete_spaces'].includes(fabmanConf.actionName) &&
+        !checkMappedFields(fabmanConf)
+      ) {
+        setSnack({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
+      } else if (
+        ['create_member', 'update_member', 'delete_member', 'update_spaces', 'delete_spaces'].includes(
+          fabmanConf.actionName
+        ) &&
+        !fabmanConf.selectedWorkspace
+      ) {
+        setSnack({ show: true, msg: __('Please select a workspace', 'bit-integrations') })
+      } else if (
+        ['update_member', 'delete_member'].includes(fabmanConf.actionName) &&
+        !fabmanConf.selectedMember
+      ) {
+        setSnack({ show: true, msg: __('Please select a member', 'bit-integrations') })
+      }
       return
     }
-
-    if (!fabmanConf.actionName) {
-      setSnack({ show: true, msg: __('Please select an action', 'bit-integrations') })
-      return
-    }
-
-    const requiresWorkspaceSelection =
-      fabmanConf.actionName === 'create_member' ||
-      fabmanConf.actionName === 'update_member' ||
-      fabmanConf.actionName === 'delete_member' ||
-      fabmanConf.actionName === 'update_spaces'
-
-    if (requiresWorkspaceSelection && !fabmanConf.selectedWorkspace) {
-      setSnack({ show: true, msg: __('Please select a workspace', 'bit-integrations') })
-      return
-    }
-
-    const requiresMemberSelection =
-      fabmanConf.actionName === 'update_member' || fabmanConf.actionName === 'delete_member'
-    if (requiresMemberSelection && !fabmanConf.selectedMember) {
-      setSnack({ show: true, msg: __('Please select a member', 'bit-integrations') })
-      return
-    }
-
     setStep(3)
   }
 
@@ -278,21 +288,7 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
 
           <button
             onClick={nextPage}
-            disabled={
-              !fabmanConf.actionName ||
-              (!['delete_member', 'delete_spaces'].includes(fabmanConf.actionName) &&
-                !checkMappedFields(fabmanConf)) ||
-              ([
-                'create_member',
-                'update_member',
-                'delete_member',
-                'update_spaces',
-                'delete_spaces'
-              ].includes(fabmanConf.actionName) &&
-                !fabmanConf.selectedWorkspace) ||
-              (['update_member', 'delete_member'].includes(fabmanConf.actionName) &&
-                !fabmanConf.selectedMember)
-            }
+            disabled={isConfigInvalid()}
             className="btn f-right btcd-btn-lg purple sh-sm flx"
             type="button">
             {__('Next', 'bit-integrations')}

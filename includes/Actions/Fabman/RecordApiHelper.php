@@ -93,10 +93,7 @@ class RecordApiHelper
     {
         unset($data['memberId']);
         $apiEndpoint = $this->_apiEndpoint . '/members';
-        $header = [
-            'Authorization' => 'Bearer ' . $this->_apiKey,
-            'Content-Type'  => 'application/json'
-        ];
+        $header = $this->setHeaders();
 
         $apiResponse = HttpHelper::post($apiEndpoint, json_encode($data), $header);
 
@@ -117,10 +114,9 @@ class RecordApiHelper
         if (empty($this->_memberId)) {
             return new WP_Error('MISSING_MEMBER_ID', \__('Member ID is required for update operation', 'bit-integrations'));
         }
-
         $response = \apply_filters('btcbi_fabman_update_member', false, json_encode($data), $this->setHeaders(), $this->_apiEndpoint, $this->_memberId);
 
-        return $this->handleFilterResponse($response);
+        return $this->handleFilterResponse($response, 'update_member');
     }
 
     private function deleteMember()
@@ -128,10 +124,9 @@ class RecordApiHelper
         if (empty($this->_memberId)) {
             return new WP_Error('MISSING_MEMBER_ID', \__('Member ID is required for delete operation', 'bit-integrations'));
         }
-
         $response = \apply_filters('btcbi_fabman_delete_member', false, $this->setHeaders(), $this->_apiEndpoint, $this->_memberId);
 
-        return $this->handleFilterResponse($response);
+        return $this->handleFilterResponse($response, 'delete_member');
     }
 
     private function createSpace($data)
@@ -139,7 +134,7 @@ class RecordApiHelper
         unset($data['space']);
         $response = \apply_filters('btcbi_fabman_create_space', false, json_encode($data), $this->setHeaders(), $this->_apiEndpoint);
 
-        return $this->handleFilterResponse($response);
+        return $this->handleFilterResponse($response, 'create_space');
     }
 
     private function updateSpace($data)
@@ -148,16 +143,28 @@ class RecordApiHelper
         if (empty($this->_workspaceId)) {
             return new WP_Error('MISSING_SPACE_ID', \__('Space ID is required for update operation', 'bit-integrations'));
         }
-
         $response = \apply_filters('btcbi_fabman_update_space', false, json_encode($data), $this->setHeaders(), $this->_apiEndpoint, $this->_workspaceId);
 
-        return $this->handleFilterResponse($response);
+        return $this->handleFilterResponse($response, 'update_space');
     }
 
-    private function handleFilterResponse($response)
+    /**
+     * Handle the response from filter-based (Pro) actions.
+     *
+     * @param mixed  $response
+     * @param string $action
+     *
+     * @return mixed|WP_Error
+     */
+    private function handleFilterResponse($response, $action = '')
     {
-        if (empty($response)) {
-            return new WP_Error('PRO_FEATURE_REQUIRED', \wp_sprintf(\__('%s plugin is not installed or activated', 'bit-integrations'), 'Bit Integration Pro'));
+        if (empty($response) || (\is_object($response) && isset($response->error))) {
+            $msg = \wp_sprintf(\__('%s plugin is not installed or activated', 'bit-integrations'), 'Bit Integration Pro');
+            if ($action) {
+                $msg = \sprintf('%s: %s', ucfirst(str_replace('_', ' ', $action)), $msg);
+            }
+
+            return new WP_Error('PRO_FEATURE_REQUIRED', $msg);
         }
 
         return $response;

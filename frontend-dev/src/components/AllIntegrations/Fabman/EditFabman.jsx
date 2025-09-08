@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { $actionConf, $formFields, $newFlow } from '../../../GlobalStates'
@@ -19,7 +19,6 @@ function EditFabman({ allIntegURL }) {
   const navigate = useNavigate()
   const [flow, setFlow] = useRecoilState($newFlow)
   const [fabmanConf, setFabmanConf] = useRecoilState($actionConf)
-  const [isLoading, setIsLoading] = useState(false)
   const [loading, setLoading] = useState({
     list: false,
     field: false,
@@ -29,6 +28,25 @@ function EditFabman({ allIntegURL }) {
   const formField = useRecoilValue($formFields)
 
   const [localName, setLocalName] = useState(fabmanConf.name || '')
+  useEffect(() => {
+    setLocalName(fabmanConf.name || '')
+  }, [fabmanConf.name])
+
+  const isConfigInvalid = () => {
+    if (!fabmanConf.actionName) return true
+    const isDeleteAction = fabmanConf.actionName === 'delete_member'
+    if (!isDeleteAction && !checkMappedFields(fabmanConf)) return true
+    if (
+      ['update_member', 'delete_member', 'update_spaces', 'delete_spaces'].includes(
+        fabmanConf.actionName
+      ) &&
+      !fabmanConf.selectedWorkspace
+    )
+      return true
+    if (['update_member', 'delete_member'].includes(fabmanConf.actionName) && !fabmanConf.selectedMember)
+      return true
+    return false
+  }
 
   const saveConfig = () => {
     if (!fabmanConf.actionName) {
@@ -40,24 +58,21 @@ function EditFabman({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
-
     const requiresWorkspaceSelection =
       fabmanConf.actionName === 'update_member' ||
       fabmanConf.actionName === 'delete_member' ||
-      fabmanConf.actionName === 'update_spaces'
-
+      fabmanConf.actionName === 'update_spaces' ||
+      fabmanConf.actionName === 'delete_spaces'
     if (requiresWorkspaceSelection && !fabmanConf.selectedWorkspace) {
       setSnackbar({ show: true, msg: __('Please select a workspace', 'bit-integrations') })
       return
     }
-
     const requiresMemberSelection =
       fabmanConf.actionName === 'update_member' || fabmanConf.actionName === 'delete_member'
     if (requiresMemberSelection && !fabmanConf.selectedMember) {
       setSnackbar({ show: true, msg: __('Please select a member', 'bit-integrations') })
       return
     }
-
     saveActionConf({
       flow,
       allIntegURL,
@@ -70,9 +85,12 @@ function EditFabman({ allIntegURL }) {
   }
 
   const handleNameChange = e => {
-    const value = e.target.value
-    setLocalName(value)
-    handleInput(e, fabmanConf, setFabmanConf)
+    setLocalName(e.target.value)
+  }
+  const handleNameBlur = () => {
+    if (localName !== fabmanConf.name) {
+      setFabmanConf(prev => ({ ...prev, name: localName }))
+    }
   }
 
   return (
@@ -84,6 +102,7 @@ function EditFabman({ allIntegURL }) {
         <input
           className="btcd-paper-inp w-5"
           onChange={handleNameChange}
+          onBlur={handleNameBlur}
           name="name"
           value={localName}
           type="text"
@@ -107,17 +126,8 @@ function EditFabman({ allIntegURL }) {
       <IntegrationStepThree
         edit
         saveConfig={saveConfig}
-        disabled={
-          !fabmanConf.actionName ||
-          (fabmanConf.actionName !== 'delete_member' && !checkMappedFields(fabmanConf)) ||
-          (['update_member', 'delete_member', 'update_spaces', 'delete_spaces'].includes(
-            fabmanConf.actionName
-          ) &&
-            !fabmanConf.selectedWorkspace) ||
-          (['update_member', 'delete_member'].includes(fabmanConf.actionName) &&
-            !fabmanConf.selectedMember)
-        }
-        isLoading={isLoading}
+        disabled={isConfigInvalid()}
+        isLoading={loading.list || loading.field || loading.auth}
         dataConf={fabmanConf}
         setDataConf={setFabmanConf}
         formFields={formField}

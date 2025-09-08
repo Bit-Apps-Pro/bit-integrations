@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-unused-expressions */
-import { useState } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { __ } from '../../../Utils/i18nwrap'
 import LoaderSm from '../../Loaders/LoaderSm'
 import { fabmanAuthentication } from './FabmanCommonFunc'
@@ -21,27 +21,42 @@ export default function FabmanAuthorization({
   const [error, setError] = useState({ name: '', apiKey: '' })
   const { fabman } = tutorialLinks
 
-  const nextPage = () => {
+  const [localName, setLocalName] = useState(fabmanConf.name || '')
+
+  useEffect(() => {
+    setLocalName(fabmanConf.name || '')
+  }, [fabmanConf.name])
+
+  const nextPage = useCallback(() => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
-
     setStep(2)
-  }
+  }, [setStep])
 
-  const handleInput = e => {
-    const newConf = { ...fabmanConf }
-    const rmError = { ...error }
-    rmError[e.target.name] = ''
-    newConf[e.target.name] = e.target.value
-    setError(rmError)
-    setFabmanConf(newConf)
-  }
+  const handleInput = useCallback(
+    e => {
+      const { name, value } = e.target
+      if (name === 'name') {
+        setLocalName(value)
+      } else {
+        setFabmanConf(prev => ({ ...prev, [name]: value }))
+      }
+      setError(prev => ({ ...prev, [name]: '' }))
+    },
+    [setFabmanConf, setError]
+  )
+
+  const handleNameBlur = useCallback(() => {
+    if (localName !== fabmanConf.name) {
+      setFabmanConf(prev => ({ ...prev, name: localName }))
+    }
+  }, [localName, fabmanConf.name, setFabmanConf])
+
+  const styleStep1 = step === 1 ? { width: 900, height: 'auto' } : {}
 
   return (
-    <div
-      className="btcd-stp-page"
-      style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
+    <div className="btcd-stp-page" style={styleStep1}>
       {fabman?.youTubeLink && <TutorialLink title="Fabman" youTubeLink={fabman?.youTubeLink} />}
       {fabman?.docLink && <TutorialLink title="Fabman" docLink={fabman?.docLink} />}
 
@@ -51,8 +66,9 @@ export default function FabmanAuthorization({
       <input
         className="btcd-paper-inp w-6 mt-1"
         onChange={handleInput}
+        onBlur={handleNameBlur}
         name="name"
-        value={fabmanConf.name}
+        value={localName}
         type="text"
         placeholder={__('Integration Name...', 'bit-integrations')}
         disabled={isInfo}

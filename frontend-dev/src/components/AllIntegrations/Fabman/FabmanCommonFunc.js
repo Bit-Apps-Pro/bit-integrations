@@ -84,35 +84,28 @@ export const fetchFabmanWorkspaces = (confTmp, setConf, loading, setLoading, typ
     return
   }
 
-  if (type === 'fetch') {
-    setLoading({ ...loading, workspaces: true })
-  } else if (type === 'refresh') {
-    setLoading({ ...loading, workspaces: true })
-  }
+  setLoading({ ...loading, workspaces: true })
 
   const requestParams = { apiKey: confTmp.apiKey }
 
   bitsFetch(requestParams, 'fabman_fetch_workspaces').then(result => {
+    setLoading({ ...loading, workspaces: false })
     if (result && result.success) {
       const newConf = { ...confTmp }
-
       if (result.data && result.data.workspaces && Array.isArray(result.data.workspaces)) {
         newConf.workspaces = result.data.workspaces
-
         if (result.data.workspaces.length === 1) {
           newConf.selectedWorkspace = result.data.workspaces[0].id
         }
       }
       setConf(newConf)
-      setLoading({ ...loading, workspaces: false })
-      if (type === 'refresh') {
-        toast.success(__('Workspaces refreshed successfully', 'bit-integrations'))
-      } else {
-        toast.success(__('Workspaces fetched successfully', 'bit-integrations'))
-      }
+      toast.success(
+        type === 'refresh'
+          ? __('Workspaces refreshed successfully', 'bit-integrations')
+          : __('Workspaces fetched successfully', 'bit-integrations')
+      )
       return
     }
-    setLoading({ ...loading, workspaces: false })
     toast.error(__('Failed to fetch workspaces', 'bit-integrations'))
   })
 }
@@ -123,11 +116,7 @@ export const fetchFabmanMembers = (confTmp, setConf, loading, setLoading, type =
     return
   }
 
-  if (type === 'fetch') {
-    setLoading({ ...loading, members: true })
-  } else if (type === 'refresh') {
-    setLoading({ ...loading, members: true })
-  }
+  setLoading({ ...loading, members: true })
 
   const requestParams = {
     apiKey: confTmp.apiKey,
@@ -135,21 +124,20 @@ export const fetchFabmanMembers = (confTmp, setConf, loading, setLoading, type =
   }
 
   bitsFetch(requestParams, 'fabman_fetch_members').then(result => {
+    setLoading({ ...loading, members: false })
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data && result.data.members && Array.isArray(result.data.members)) {
         newConf.members = result.data.members
       }
       setConf(newConf)
-      setLoading({ ...loading, members: false })
-      if (type === 'refresh') {
-        toast.success(__('Members refreshed successfully', 'bit-integrations'))
-      } else {
-        toast.success(__('Members fetched successfully', 'bit-integrations'))
-      }
+      toast.success(
+        type === 'refresh'
+          ? __('Members refreshed successfully', 'bit-integrations')
+          : __('Members fetched successfully', 'bit-integrations')
+      )
       return
     }
-    setLoading({ ...loading, members: false })
     toast.error(__('Failed to fetch members', 'bit-integrations'))
   })
 }
