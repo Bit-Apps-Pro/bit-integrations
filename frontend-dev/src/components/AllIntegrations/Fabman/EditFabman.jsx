@@ -28,6 +28,8 @@ function EditFabman({ allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
   const formField = useRecoilValue($formFields)
 
+  const [localName, setLocalName] = useState(fabmanConf.name || '')
+
   const saveConfig = () => {
     if (!fabmanConf.actionName) {
       setSnackbar({ show: true, msg: __('Please select an action', 'bit-integrations') })
@@ -67,6 +69,12 @@ function EditFabman({ allIntegURL }) {
     })
   }
 
+  const handleNameChange = e => {
+    const value = e.target.value
+    setLocalName(value)
+    handleInput(e, fabmanConf, setFabmanConf)
+  }
+
   return (
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
@@ -75,9 +83,9 @@ function EditFabman({ allIntegURL }) {
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
         <input
           className="btcd-paper-inp w-5"
-          onChange={e => handleInput(e, fabmanConf, setFabmanConf)}
+          onChange={handleNameChange}
           name="name"
-          value={fabmanConf.name}
+          value={localName}
           type="text"
           placeholder={__('Integration Name...', 'bit-integrations')}
         />
