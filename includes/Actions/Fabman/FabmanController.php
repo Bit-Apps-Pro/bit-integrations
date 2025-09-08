@@ -7,7 +7,6 @@
 namespace BitCode\FI\Actions\Fabman;
 
 use BitCode\FI\Core\Util\HttpHelper;
-use WP_Error;
 
 class FabmanController
 {
@@ -110,15 +109,8 @@ class FabmanController
         $actionName = $integrationDetails->actionName;
         $lockVersion = $integrationDetails->selectedLockVersion ?? null;
 
-        // error_log('the lockversion' . print_r($lockVersion, true));
-
         $recordApiHelper = new RecordApiHelper($apiKey, $selectedWorkspace, $accountId, $integId, $memberId, $lockVersion);
-        $fabmanApiResponse = $recordApiHelper->execute($actionName, $fieldValues, $integrationDetails);
 
-        if (is_wp_error($fabmanApiResponse)) {
-            return $fabmanApiResponse;
-        }
-
-        return $fabmanApiResponse;
+        return $recordApiHelper->execute($actionName, $fieldValues, $integrationDetails);
     }
 }

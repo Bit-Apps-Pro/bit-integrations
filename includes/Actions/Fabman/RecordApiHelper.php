@@ -3,6 +3,7 @@
 namespace BitCode\FI\Actions\Fabman;
 
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 use WP_Error;
 
 class RecordApiHelper
@@ -57,18 +58,35 @@ class RecordApiHelper
 
         switch ($actionName) {
             case 'create_member':
-                return $this->createMember($finalData);
+                $apiResponse = $this->createMember($finalData);
+                $apiResponse = HttpHelper::$responseCode === 201 ? 'Member Created Successfully' : 'Failed';
+
+                break;
             case 'update_member':
-                return $this->updateMember($finalData);
+                $apiResponse = $this->updateMember($finalData);
+
+                break;
             case 'delete_member':
-                return $this->deleteMember($finalData);
+                $apiResponse = $this->deleteMember($finalData);
+
+                break;
             case 'create_spaces':
-                return $this->createSpace($finalData);
+                $apiResponse = $this->createSpace($finalData);
+
+                break;
             case 'update_spaces':
-                return $this->updateSpace($finalData);
+                $apiResponse = $this->updateSpace($finalData);
+
+                break;
             default:
-                return new WP_Error('INVALID_ACTION', __('Invalid action name', 'bit-integrations'));
+                $apiResponse = new WP_Error('INVALID_ACTION', \__('Invalid action name', 'bit-integrations'));
         }
+
+        $status = \in_array(HttpHelper::$responseCode, [200, 201, 204]) ? 'success' : 'error';
+
+        LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => $actionName], $status, $apiResponse);
+
+        return $apiResponse;
     }
 
     private function createMember($data)
@@ -81,14 +99,13 @@ class RecordApiHelper
         ];
 
         $apiResponse = HttpHelper::post($apiEndpoint, json_encode($data), $header);
-        error_log(print_r($apiResponse, true));
 
-        if (is_wp_error($apiResponse)) {
+        if (\is_wp_error($apiResponse)) {
             return $apiResponse;
         }
 
         if (empty($apiResponse) || isset($apiResponse->error)) {
-            return new WP_Error('API_ERROR', isset($apiResponse->error) ? $apiResponse->error : __('Failed to create member', 'bit-integrations'));
+            return new WP_Error('API_ERROR', isset($apiResponse->error) ? $apiResponse->error : \__('Failed to create member', 'bit-integrations'));
         }
 
         return $apiResponse;
@@ -98,98 +115,59 @@ class RecordApiHelper
     {
         $data['lockVersion'] = $this->_lockVersion;
         if (empty($this->_memberId)) {
-            return new WP_Error('MISSING_MEMBER_ID', __('Member ID is required for update operation', 'bit-integrations'));
+            return new WP_Error('MISSING_MEMBER_ID', \__('Member ID is required for update operation', 'bit-integrations'));
         }
 
-        $apiEndpoint = $this->_apiEndpoint . '/members/' . $this->_memberId;
-        $header = [
-            'Authorization' => 'Bearer ' . $this->_apiKey,
-            'Content-Type'  => 'application/json'
-        ];
+        $response = \apply_filters('btcbi_fabman_update_member', false, json_encode($data), $this->setHeaders(), $this->_apiEndpoint, $this->_memberId);
 
-        $apiResponse = HttpHelper::put($apiEndpoint, json_encode($data), $header);
-
-        if (is_wp_error($apiResponse)) {
-            return $apiResponse;
-        }
-
-        if (empty($apiResponse) || isset($apiResponse->error)) {
-            return new WP_Error('API_ERROR', isset($apiResponse->error) ? $apiResponse->error : __('Failed to update member', 'bit-integrations'));
-        }
-
-        return $apiResponse;
+        return $this->handleFilterResponse($response);
     }
 
     private function deleteMember()
     {
         if (empty($this->_memberId)) {
-            return new WP_Error('MISSING_MEMBER_ID', __('Member ID is required for delete operation', 'bit-integrations'));
+            return new WP_Error('MISSING_MEMBER_ID', \__('Member ID is required for delete operation', 'bit-integrations'));
         }
 
-        $apiEndpoint = $this->_apiEndpoint . '/members/' . $this->_memberId;
-        $header = [
-            'Authorization' => 'Bearer ' . $this->_apiKey,
-            'Content-Type'  => 'application/json'
-        ];
+        $response = \apply_filters('btcbi_fabman_delete_member', false, $this->setHeaders(), $this->_apiEndpoint, $this->_memberId);
 
-        $apiResponse = HttpHelper::request($apiEndpoint, 'DELETE', null, $header);
-        if (is_wp_error($apiResponse)) {
-            return $apiResponse;
-        }
-
-        if (empty($apiResponse) || isset($apiResponse->error)) {
-            return new WP_Error('API_ERROR', isset($apiResponse->error) ? $apiResponse->error : __('Failed to delete member', 'bit-integrations'));
-        }
-
-        return $apiResponse;
+        return $this->handleFilterResponse($response);
     }
 
     private function createSpace($data)
     {
-        $apiEndpoint = $this->_apiEndpoint . '/spaces';
-        $header = [
-            'Authorization' => 'Bearer ' . $this->_apiKey,
-            'Content-Type'  => 'application/json'
-        ];
+        unset($data['space']);
+        $response = \apply_filters('btcbi_fabman_create_space', false, json_encode($data), $this->setHeaders(), $this->_apiEndpoint);
 
-        $apiResponse = HttpHelper::post($apiEndpoint, json_encode($data), $header);
-        error_log(print_r($apiResponse, true));
-
-        if (is_wp_error($apiResponse)) {
-            return $apiResponse;
-        }
-
-        if (empty($apiResponse) || isset($apiResponse->error)) {
-            return new WP_Error('API_ERROR', isset($apiResponse->error) ? $apiResponse->error : __('Failed to create space', 'bit-integrations'));
-        }
-
-        return $apiResponse;
+        return $this->handleFilterResponse($response);
     }
 
     private function updateSpace($data)
     {
         $data['lockVersion'] = $this->_lockVersion;
         if (empty($this->_workspaceId)) {
-            return new WP_Error('MISSING_SPACE_ID', __('Space ID is required for update operation', 'bit-integrations'));
+            return new WP_Error('MISSING_SPACE_ID', \__('Space ID is required for update operation', 'bit-integrations'));
         }
 
-        $apiEndpoint = $this->_apiEndpoint . '/spaces/' . $this->_workspaceId;
-        $header = [
+        $response = \apply_filters('btcbi_fabman_update_space', false, json_encode($data), $this->setHeaders(), $this->_apiEndpoint, $this->_workspaceId);
+
+        return $this->handleFilterResponse($response);
+    }
+
+    private function handleFilterResponse($response)
+    {
+        if (empty($response)) {
+            return new WP_Error('PRO_FEATURE_REQUIRED', \wp_sprintf(\__('%s plugin is not installed or activated', 'bit-integrations'), 'Bit Integration Pro'));
+        }
+
+        return $response;
+    }
+
+    private function setHeaders(): array
+    {
+        return [
             'Authorization' => 'Bearer ' . $this->_apiKey,
             'Content-Type'  => 'application/json'
         ];
-
-        $apiResponse = HttpHelper::put($apiEndpoint, json_encode($data), $header);
-        error_log(print_r($apiResponse, true));
-
-        if (is_wp_error($apiResponse)) {
-            return $apiResponse;
-        }
-
-        if (empty($apiResponse) || isset($apiResponse->error)) {
-            return new WP_Error('API_ERROR', isset($apiResponse->error) ? $apiResponse->error : __('Failed to update space', 'bit-integrations'));
-        }
-
-        return $apiResponse;
     }
 }

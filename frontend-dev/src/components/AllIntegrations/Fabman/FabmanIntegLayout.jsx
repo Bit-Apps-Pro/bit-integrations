@@ -39,12 +39,21 @@ export default function FabmanIntegLayout({
     { label: __('Update Spaces', 'bit-integrations'), value: 'update_spaces' }
   ]
 
-  const getActiveStaticFields = conf =>
-    conf.actionName === 'create_spaces' || conf.actionName === 'update_spaces'
-      ? conf.spacesStaticFields
-      : conf.memberStaticFields
+  const getActiveStaticFields = conf => {
+    if (conf.actionName === 'create_spaces' || conf.actionName === 'update_spaces') {
+      const fields = Array.isArray(conf.spacesStaticFields)
+        ? conf.spacesStaticFields.map(f => ({ ...f }))
+        : []
+      const isCreate = conf.actionName === 'create_spaces'
+      const nameIdx = fields.findIndex(f => String(f.key) === 'name')
+      if (nameIdx > -1) fields[nameIdx].required = true
+      const tzIdx = fields.findIndex(f => String(f.key) === 'timezone')
+      if (tzIdx > -1) fields[tzIdx].required = isCreate
+      return fields
+    }
+    return conf.memberStaticFields
+  }
 
-  // Ensure required targets are present in field_map for validation (especially in edit/update)
   useEffect(() => {
     const staticFields = getActiveStaticFields(fabmanConf) || []
     const requiredFields = staticFields.filter(f => !!f.required)
@@ -53,7 +62,6 @@ export default function FabmanIntegLayout({
     let changed = false
     const newFieldMap = [...fabmanConf.field_map]
 
-    // Ensure length covers required fields
     for (let i = 0; i < requiredFields.length; i += 1) {
       if (!newFieldMap[i]) {
         newFieldMap[i] = { formField: '', fabmanFormField: requiredFields[i].key }
@@ -75,13 +83,11 @@ export default function FabmanIntegLayout({
     const value = e.target.value
     newConf.actionName = value
 
-    // Reset member related selects for space actions
     if (value === 'create_spaces' || value === 'update_spaces') {
       delete newConf.selectedMember
       delete newConf.selectedLockVersion
     }
 
-    // Reset field map when switching groups
     newConf.field_map = [{ formField: '', fabmanFormField: '' }]
 
     setFabmanConf(newConf)
@@ -146,7 +152,6 @@ export default function FabmanIntegLayout({
     <div>
       <br />
 
-      {/* Action Selector */}
       <div className="flx">
         <b className="wdt-200 d-in-b">{__('Action:', 'bit-integrations')}</b>
         <select
@@ -164,7 +169,6 @@ export default function FabmanIntegLayout({
       </div>
       <br />
 
-      {/* Workspace Selector - visible after action selected (required for all except create_spaces) */}
       {fabmanConf.actionName && (!isSpaceAction || fabmanConf.actionName === 'update_spaces') && (
         <>
           <div className="flx">
@@ -207,7 +211,6 @@ export default function FabmanIntegLayout({
         </>
       )}
 
-      {/* Member Selector - Only for update/delete member actions */}
       {requiresMemberSelection && fabmanConf.selectedWorkspace && (
         <>
           <div className="flx">
@@ -255,8 +258,8 @@ export default function FabmanIntegLayout({
         </>
       )}
 
-      {/* Field Map - Visible after required selections are made */}
       {fabmanConf.actionName &&
+        fabmanConf.actionName !== 'delete_member' &&
         (!isSpaceAction ||
           (isSpaceAction &&
             (fabmanConf.actionName !== 'update_spaces' || fabmanConf.selectedWorkspace))) && (
