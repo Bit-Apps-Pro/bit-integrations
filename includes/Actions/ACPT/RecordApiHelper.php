@@ -175,11 +175,21 @@ class RecordApiHelper
             ];
         }
 
+        if (empty($this->integrationDetails->capability)) {
+            return [
+                'success' => false,
+                'message' => __('Required field Capability is empty', 'bit-integrations'),
+                'code'    => 422,
+            ];
+        }
+
         if ($error = ACPTHelper::optionPageValidateRequired($finalData)) {
             return $error;
         }
 
         $finalData['icon'] = $this->integrationDetails->icon;
+        $finalData['capability'] = $this->integrationDetails->capability;
+
         $finalData['position'] = (integer) $finalData['position'];
         $finalData['menuSlug'] = ACPTHelper::convertToSlug($finalData['menuSlug']);
 

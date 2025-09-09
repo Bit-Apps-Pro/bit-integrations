@@ -30,10 +30,20 @@ function EditACPT({ allIntegURL }) {
     }
 
     if (
-      (acptConf.module === 'create_cpt' || acptConf.module === 'create_option_page') &&
+      ['create_cpt', 'update_cpt', 'create_option_page', 'update_option_page'].includes(
+        acptConf.module
+      ) &&
       !acptConf?.icon
     ) {
       toast.error(__('Please select Icon', 'bit-integrations'))
+      return
+    }
+
+    if (
+      ['create_option_page', 'update_option_page'].includes(acptConf.module) &&
+      !acptConf?.capability
+    ) {
+      toast.error(__('Please select Capability', 'bit-integrations'))
       return
     }
 

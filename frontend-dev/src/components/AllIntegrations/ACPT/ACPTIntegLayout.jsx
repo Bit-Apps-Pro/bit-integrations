@@ -10,7 +10,7 @@ import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 import { generateMappedField, getAllGenerator } from './ACPTCommonFunc'
 import FieldMappingLayout from './FieldMappingLayout'
 import ACPTActions from './ACPTActions'
-import { cptIcons } from './staticData'
+import { cptIcons, optionPageCapabilities } from './staticData'
 
 export default function ACPTIntegLayout({
   formFields,
@@ -127,6 +127,23 @@ export default function ACPTIntegLayout({
               className="mt-2 w-5"
               onChange={val => setChanges(val, 'icon')}
               options={cptIcons}
+              singleSelect
+              closeOnSelect
+            />
+          </div>
+        )}
+
+      {acptConf?.module &&
+        ['create_option_page', 'update_option_page'].includes(acptConf.module) &&
+        !isLoading && (
+          <div className="flx">
+            <b className="wdt-200 d-in-b">{__('Select Capability:', 'bit-integrations')}</b>
+            <MultiSelect
+              title="Capability"
+              defaultValue={acptConf?.capability}
+              className="mt-2 w-5"
+              onChange={val => setChanges(val, 'capability')}
+              options={optionPageCapabilities}
               singleSelect
               closeOnSelect
             />
