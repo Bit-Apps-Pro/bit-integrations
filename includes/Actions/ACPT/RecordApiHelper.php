@@ -251,6 +251,15 @@ class RecordApiHelper
 
         $apiEndpoint = $this->apiUrl . '/block/' . $finalData['id'];
 
+        HttpHelper::get($apiEndpoint, [], $this->defaultHeader);
+        if (HttpHelper::$responseCode != 200) {
+            return [
+                'success' => false,
+                'message' => __('Dynamic Block Not Found!', 'bit-integrations'),
+                'code'    => HttpHelper::$responseCode,
+            ];
+        }
+
         $response = apply_filters('btcbi_acpt_delete_dynamic_block', false, $apiEndpoint, $this->apikey);
 
         return ACPTHelper::validateResponse($response);
