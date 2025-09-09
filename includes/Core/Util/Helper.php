@@ -485,6 +485,11 @@ final class Helper
         return array_map('trim', explode($separator, $data));
     }
 
+    public static function jsonEncodeDecode($data)
+    {
+        return json_decode(json_encode($data), true);
+    }
+
     private static function getVariableType($val)
     {
         $types = [

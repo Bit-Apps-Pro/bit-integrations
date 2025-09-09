@@ -55,17 +55,18 @@ class RecordApiHelper
         $allData->user_id = $user->ID;
         $allData->product_id = sanitize_key($product_id);
 
-        $allData->amount = (float) $finalData['sub_total'];
-        $allData->tax_amount = (float) $finalData['tax_amount'];
-        $allData->total = ((float) $finalData['sub_total'] + (float) $finalData['tax_amount']);
-        $allData->tax_rate = (float) $finalData['taxrate'];
+        $allData->amount = (float) $finalData['sub_total'] ?? 0;
+        $allData->tax_amount = (float) $finalData['tax_amount'] ?? 0;
+        $allData->tax_rate = (float) $finalData['taxrate'] ?? 0;
+
+        $allData->total = ($allData->amount + $allData->tax_amount);
         $allData->status = sanitize_text_field($statusId);
         $allData->gateway = sanitize_text_field($gateway);
         $allData->created_at = MeprUtils::ts_to_mysql_date(time());
 
-        $expiration_date = $finalData['expiration_date'];
+        $expiration_date = $finalData['expiration_date'] ?? null;
 
-        if (isset($expiration_date) && ($expiration_date === '' || \is_null($expiration_date))) {
+        if (empty($expiration_date)) {
             $obj = new MeprProduct(sanitize_key($product_id));
             $expires_at_ts = $obj->get_expires_at();
             if (\is_null($expires_at_ts)) {
