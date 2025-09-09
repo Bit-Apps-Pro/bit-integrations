@@ -72,7 +72,9 @@ export const customFormIntegrations = [
   'WPUserFrontend',
   'FluentAffiliate',
   'EasyCommerce',
-  'FormGent'
+  'FormGent',
+  'GeoDirectory',
+  'StoreEngine'
 ]
 
 export const actionHookIntegrations = ['ActionHook']
