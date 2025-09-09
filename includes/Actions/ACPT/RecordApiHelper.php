@@ -53,7 +53,7 @@ class RecordApiHelper
             return $error;
         }
 
-        $finalData['post_name'] = str_replace(' ', '-', strtolower($finalData['post_name']));
+        $finalData['post_name'] = ACPTHelper::convertToSlug($finalData['post_name']);
         $finalData['icon'] = $this->integrationDetails->icon;
 
         $apiEndpoint = $this->apiUrl . '/cpt';
@@ -68,7 +68,7 @@ class RecordApiHelper
             return $error;
         }
 
-        $slug = $finalData['slug'];
+        $slug = ACPTHelper::convertToSlug($finalData['slug']);
 
         unset($finalData['slug']);
 
@@ -105,7 +105,8 @@ class RecordApiHelper
             return $error;
         }
 
-        $slug = $finalData['slug'];
+        $slug = ACPTHelper::convertToSlug($finalData['slug']);
+
         $finalData = ACPTHelper::prepareTaxonomyData($finalData, $fieldValues, $this->integrationDetails);
 
         $path = $isUpdate ? '/taxonomy/' . $slug : '/taxonomy';
@@ -127,6 +128,8 @@ class RecordApiHelper
                 'code'    => 422,
             ];
         }
+
+        $finalData['slug'] = ACPTHelper::convertToSlug($finalData['slug']);
 
         $apiEndpoint = $this->apiUrl . '/taxonomy/' . $finalData['slug'];
 
@@ -152,6 +155,9 @@ class RecordApiHelper
             ];
         }
 
+        $finalData['taxonomy_slug'] = ACPTHelper::convertToSlug($finalData['taxonomy_slug']);
+        $finalData['cpt_slug'] = ACPTHelper::convertToSlug($finalData['cpt_slug']);
+
         $apiEndpoint = $this->apiUrl . '/taxonomy/assoc/' . $finalData['taxonomy_slug'] . '/' . $finalData['cpt_slug'];
 
         $response = apply_filters('btcbi_acpt_associate_taxonomy_to_cpt', false, $apiEndpoint, $this->apikey);
@@ -175,6 +181,7 @@ class RecordApiHelper
 
         $finalData['icon'] = $this->integrationDetails->icon;
         $finalData['position'] = (integer) $finalData['position'];
+        $finalData['menuSlug'] = ACPTHelper::convertToSlug($finalData['menuSlug']);
 
         $path = $isUpdate ? '/option-page/' . $finalData['menuSlug'] : '/option-page';
         $apiEndpoint = $this->apiUrl . $path;
@@ -195,6 +202,8 @@ class RecordApiHelper
                 'code'    => 422,
             ];
         }
+
+        $finalData['slug'] = ACPTHelper::convertToSlug($finalData['slug']);
 
         $apiEndpoint = $this->apiUrl . '/option-page/' . $finalData['slug'];
 

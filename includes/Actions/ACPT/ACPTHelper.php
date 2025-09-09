@@ -143,6 +143,15 @@ class ACPTHelper
             : $response;
     }
 
+    public static function convertToSlug($string)
+    {
+        $string = strtolower(trim($string));
+        $string = preg_replace('/[^a-z0-9-]/', '-', $string);
+        $string = preg_replace('/-+/', '-', $string);
+
+        return trim($string, '-');
+    }
+
     private static function validateFields($requiredFields, $finalData)
     {
         foreach ($requiredFields as $key => $label) {
