@@ -64,13 +64,11 @@ class RecordApiHelper
 
     public function updateCPT($finalData, $fieldValues)
     {
-        if ($error = ACPTHelper::cptValidateRequired($finalData, true)) {
+        if ($error = ACPTHelper::cptValidateRequired($finalData)) {
             return $error;
         }
 
-        $slug = ACPTHelper::convertToSlug($finalData['slug']);
-
-        unset($finalData['slug']);
+        $slug = ACPTHelper::convertToSlug($finalData['post_name']);
 
         $finalData['icon'] = $this->integrationDetails->icon;
 
@@ -106,6 +104,7 @@ class RecordApiHelper
         }
 
         $slug = ACPTHelper::convertToSlug($finalData['slug']);
+        $finalData['slug'] = $slug;
 
         $finalData = ACPTHelper::prepareTaxonomyData($finalData, $fieldValues, $this->integrationDetails);
 
@@ -129,9 +128,9 @@ class RecordApiHelper
             ];
         }
 
-        $finalData['slug'] = ACPTHelper::convertToSlug($finalData['slug']);
+        $slug = ACPTHelper::convertToSlug($finalData['slug']);
 
-        $apiEndpoint = $this->apiUrl . '/taxonomy/' . $finalData['slug'];
+        $apiEndpoint = $this->apiUrl . '/taxonomy/' . $slug;
 
         $response = apply_filters('btcbi_acpt_delete_taxonomy', false, $apiEndpoint, $this->apikey);
 
@@ -303,7 +302,7 @@ class RecordApiHelper
                 break;
             case 'update_taxonomy':
                 $type = 'Taxonomy';
-                $typeName = 'Create Taxonomy';
+                $typeName = 'Update Taxonomy';
 
                 $apiResponse = $this->createOrUpdateTaxonomy($finalData, $fieldValues, true);
 

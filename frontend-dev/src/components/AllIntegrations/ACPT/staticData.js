@@ -20,7 +20,7 @@ export const modules = [
 ]
 
 export const cptFields = [
-  { label: __('Post Name', 'bit-integrations'), key: 'post_name', required: true },
+  { label: __('Post Name or Slug', 'bit-integrations'), key: 'post_name', required: true },
   { label: __('Singular Label', 'bit-integrations'), key: 'singular_label', required: true },
   { label: __('Plural Label', 'bit-integrations'), key: 'plural_label', required: true },
   { label: __('REST API base slug', 'bit-integrations'), key: 'rest_base', required: false },

@@ -39,12 +39,9 @@ export default function ACPTIntegLayout({
           draftConf.label_field_map = []
 
           if (val === 'create_cpt' || val === 'update_cpt') {
-            draftConf.acptFields =
-              val === 'update_cpt'
-                ? [{ label: __('Slug', 'bit-integrations'), key: 'slug', required: true }, ...cptFields]
-                : cptFields
-
+            draftConf.acptFields = cptFields
             draftConf.acptLabels = cptLabels
+
             draftConf.label_field_map = generateMappedField(cptLabels)
           } else if (val === 'delete_cpt' || val === 'delete_taxonomy') {
             draftConf.acptFields = [

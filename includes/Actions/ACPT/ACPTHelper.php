@@ -26,22 +26,13 @@ class ACPTHelper
         return $dataFinal;
     }
 
-    public static function cptValidateRequired($finalData, $isUpdate = false)
+    public static function cptValidateRequired($finalData)
     {
         $required = [
             'post_name'      => __('Post Name', 'bit-integrations'),
             'singular_label' => __('Singular Label', 'bit-integrations'),
             'plural_label'   => __('Plural Label', 'bit-integrations'),
         ];
-
-        if ($isUpdate) {
-            $required = array_merge(
-                [
-                    'slug' => __('Slug', 'bit-integrations')
-                ],
-                $required
-            );
-        }
 
         foreach ($required as $key => $label) {
             if (empty($finalData[$key])) {
@@ -54,7 +45,7 @@ class ACPTHelper
         }
     }
 
-    public static function taxonomyValidateRequired($finalData, $isUpdate = false)
+    public static function taxonomyValidateRequired($finalData)
     {
         $requiredFields = [
             'slug'           => __('Slug', 'bit-integrations'),
@@ -68,11 +59,10 @@ class ACPTHelper
     public static function optionPageValidateRequired($finalData)
     {
         $requiredFields = [
-            'pageTitle'  => __('Page Title', 'bit-integrations'),
-            'menuTitle'  => __('Menu Title', 'bit-integrations'),
-            'capability' => __('Capability', 'bit-integrations'),
-            'menuSlug'   => __('Menu Slug', 'bit-integrations'),
-            'position'   => __('Menu Position', 'bit-integrations'),
+            'pageTitle' => __('Page Title', 'bit-integrations'),
+            'menuTitle' => __('Menu Title', 'bit-integrations'),
+            'menuSlug'  => __('Menu Slug', 'bit-integrations'),
+            'position'  => __('Menu Position', 'bit-integrations'),
         ];
 
         return self::validateFields($requiredFields, $finalData);
@@ -145,11 +135,7 @@ class ACPTHelper
 
     public static function convertToSlug($string)
     {
-        $string = strtolower(trim($string));
-        $string = preg_replace('/[^a-z0-9-]/', '-', $string);
-        $string = preg_replace('/-+/', '-', $string);
-
-        return trim($string, '-');
+        return str_replace(' ', '-', strtolower($string));
     }
 
     private static function validateFields($requiredFields, $finalData)
