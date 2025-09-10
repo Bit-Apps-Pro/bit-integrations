@@ -45,8 +45,11 @@ function Log({ allIntegURL }) {
       Cell: val => (
         <>
           <CopyText value={val.row.values.response_obj} setSnackbar={setSnackbar} className="cpyTxt" />
-          <Button className="icn-btn" onClick={() => setResponse(val.row.values.response_obj)}>
-            <EyeIcn size="14" className="icn-rotate-45" />
+          <Button
+            type="button"
+            className="icn-btn tooltip"
+            onClick={() => setResponse(val.row.values.response_obj)}>
+            <EyeIcn width="40" height="40" strokeColor="#222" />
           </Button>
         </>
       )
