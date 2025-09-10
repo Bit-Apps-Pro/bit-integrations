@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\CopperCRM;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -67,7 +67,7 @@ class RecordApiHelper
             } else {
                 $requestParams['custom_fields'][] = (object) [
                     'value'                      => $value,
-                    'custom_field_definition_id' => $key
+                    'custom_field_definition_id' => $this->getCustomFieldId($key, 'company')
                 ];
             }
         }
@@ -81,7 +81,7 @@ class RecordApiHelper
 
         $apiEndpoint = $this->apiEmail . '/companies';
 
-        return $response = HttpHelper::post($apiEndpoint, wp_json_encode($requestParams), $this->defaultHeader);
+        return HttpHelper::post($apiEndpoint, wp_json_encode($requestParams), $this->defaultHeader);
     }
 
     public function addPerson($finalData)
@@ -116,7 +116,7 @@ class RecordApiHelper
             } else {
                 $requestParams['custom_fields'][] = (object) [
                     'value'                      => $value,
-                    'custom_field_definition_id' => $key
+                    'custom_field_definition_id' => $this->getCustomFieldId($key, 'person')
                 ];
             }
         }
@@ -130,7 +130,7 @@ class RecordApiHelper
 
         $apiEndpoint = $this->apiEmail . '/people';
 
-        return $response = HttpHelper::post($apiEndpoint, wp_json_encode($requestParams), $this->defaultHeader);
+        return HttpHelper::post($apiEndpoint, wp_json_encode($requestParams), $this->defaultHeader);
     }
 
     public function addOpportunity($finalData)
@@ -150,7 +150,7 @@ class RecordApiHelper
             } else {
                 $requestParams['custom_fields'][] = (object) [
                     'value'                      => $value,
-                    'custom_field_definition_id' => $key
+                    'custom_field_definition_id' => $this->getCustomFieldId($key, 'opportunity')
                 ];
             }
         }
@@ -176,7 +176,7 @@ class RecordApiHelper
 
         $apiEndpoint = $this->apiEmail . '/opportunities';
 
-        return $response = HttpHelper::post($apiEndpoint, wp_json_encode($requestParams), $this->defaultHeader);
+        return HttpHelper::post($apiEndpoint, wp_json_encode($requestParams), $this->defaultHeader);
     }
 
     public function addTask($finalData)
@@ -197,7 +197,7 @@ class RecordApiHelper
             } else {
                 $requestParams['custom_fields'][] = (object) [
                     'value'                      => $value,
-                    'custom_field_definition_id' => $key
+                    'custom_field_definition_id' => $this->getCustomFieldId($key, 'task')
                 ];
             }
         }
@@ -211,28 +211,22 @@ class RecordApiHelper
 
         $apiEndpoint = $this->apiEmail . '/tasks';
 
-        return $response = HttpHelper::post($apiEndpoint, wp_json_encode($requestParams), $this->defaultHeader);
+        return HttpHelper::post($apiEndpoint, wp_json_encode($requestParams), $this->defaultHeader);
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
     {
         $dataFinal = [];
         foreach ($fieldMap as $value) {
-            $triggerValue = $value->formField;
-            $actionValue = $value->coppercrmFormField;
-            if ($triggerValue === 'custom') {
-                if ($actionValue === 'custom_fields') {
-                    $dataFinal[$value->customFieldKey] = Common::replaceFieldWithValue($value->customValue, $data);
-                } else {
-                    $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-                }
-            } elseif (!\is_null($data[$triggerValue])) {
-                if ($actionValue === 'custom_fields') {
-                    $dataFinal[$value->customFieldKey] = $data[$triggerValue];
-                } else {
-                    $dataFinal[$actionValue] = $data[$triggerValue];
-                }
-            }
+            $triggerValue = $value->formField === 'custom' && !empty($value->customValue)
+                ? Common::replaceFieldWithValue($value->customValue, $data)
+                : $value->formField;
+
+            $actionValue = $value->coppercrmFormField === 'customFieldKey' && !empty($value->customFieldKey)
+                ? Common::replaceFieldWithValue($value->customFieldKey, $data)
+                : $value->coppercrmFormField;
+
+            $dataFinal[$actionValue] = $data[$triggerValue];
         }
 
         return $dataFinal;
@@ -259,5 +253,43 @@ class RecordApiHelper
         }
 
         return $apiResponse;
+    }
+
+    private function getCustomFieldId($key, $module)
+    {
+        $apiEndpoint = $this->apiEmail . '/custom_field_definitions';
+
+        $customFields = HttpHelper::get($apiEndpoint, null, $this->defaultHeader);
+
+        foreach ($customFields as $field) {
+            if ($field->name === $key && \in_array($module, $field->available_on)) {
+                return $field->id;
+            }
+        }
+
+        $body = [
+            'name'         => $key,
+            'data_type'    => 'String',
+            'available_on' => [$module]
+        ];
+
+        $fieldDefinition = HttpHelper::post($apiEndpoint, wp_json_encode($body), $this->defaultHeader);
+
+        $status = $fieldDefinition->id ? 'success' : 'error';
+        $message = $fieldDefinition->id ? 'Custom field created successfully' : 'Custom field creation failed';
+
+        LogHandler::save(
+            $this->integrationId,
+            wp_json_encode(
+                [
+                    'type'      => 'Create Custom Field',
+                    'type_name' => $message
+                ]
+            ),
+            $status,
+            wp_json_encode($fieldDefinition)
+        );
+
+        return $fieldDefinition->id ?? $key;
     }
 }

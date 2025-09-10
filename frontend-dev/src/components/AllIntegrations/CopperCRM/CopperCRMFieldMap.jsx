@@ -1,19 +1,14 @@
 /* eslint-disable no-console */
 import { useRecoilValue } from 'recoil'
 import { __ } from '../../../Utils/i18nwrap'
-import { addFieldMap, delFieldMap, handleFieldMapping } from './IntegrationHelpers'
+import { addFieldMap, delFieldMap, handleCustomValue, handleFieldMapping } from './IntegrationHelpers'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import { $btcbi } from '../../../GlobalStates'
 import { generateMappedField } from './CopperCRMCommonFunc'
 import CustomField from './CustomField'
+import TagifyInput from '../../Utilities/TagifyInput'
 
-export default function CopperCRMFieldMap({
-  i,
-  formFields,
-  field,
-  coppercrmConf,
-  setCopperCRMConf
-}) {
+export default function CopperCRMFieldMap({ i, formFields, field, coppercrmConf, setCopperCRMConf }) {
   let allFields = []
   let newFields = []
   if (coppercrmConf.actionName === 'company') {
@@ -26,8 +21,8 @@ export default function CopperCRMFieldMap({
     allFields = coppercrmConf?.taskFields
   }
   // newFields = [...allFields, ...coppercrmConf?.customFields]
-  const requiredFields = allFields.filter((fld) => fld.required === true) || []
-  const nonRequiredFields = allFields.filter((fld) => fld.required === false) || []
+  const requiredFields = allFields.filter(fld => fld.required === true) || []
+  const nonRequiredFields = allFields.filter(fld => fld.required === false) || []
   const allNonRequiredFields = coppercrmConf.customFields
     ? [...nonRequiredFields, ...coppercrmConf?.customFields]
     : nonRequiredFields
@@ -50,10 +45,10 @@ export default function CopperCRMFieldMap({
             className="btcd-paper-inp mr-2"
             name="formField"
             value={field.formField || ''}
-            onChange={(ev) => handleFieldMapping(ev, i, coppercrmConf, setCopperCRMConf)}>
+            onChange={ev => handleFieldMapping(ev, i, coppercrmConf, setCopperCRMConf)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             <optgroup label={__('Form Fields', 'bit-integrations')}>
-              {formFields?.map((f) => (
+              {formFields?.map(f => (
                 <option key={`ff-rm-${f.name}`} value={f.name}>
                   {f.label}
                 </option>
@@ -66,7 +61,7 @@ export default function CopperCRMFieldMap({
                 isPro ? '' : `(${__('Pro', 'bit-integrations')})`
               )}>
               {isPro &&
-                SmartTagField?.map((f) => (
+                SmartTagField?.map(f => (
                   <option key={`ff-rm-${f.name}`} value={f.name}>
                     {f.label}
                   </option>
@@ -75,14 +70,14 @@ export default function CopperCRMFieldMap({
           </select>
 
           {field.formField === 'custom' && (
-            <CustomField
-              field={field}
-              index={i}
-              conf={coppercrmConf}
-              setConf={setCopperCRMConf}
-              fieldValue="customValue"
-              fieldLabel="Custom Value"
+            <TagifyInput
+              onChange={e => handleCustomValue(e, i, coppercrmConf, setCopperCRMConf)}
+              label={__('Custom Value', 'bit-integrations')}
               className="mr-2"
+              type="text"
+              value={field.customValue}
+              placeholder={__('Custom Value', 'bit-integrations')}
+              formFields={formFields}
             />
           )}
 
@@ -90,10 +85,8 @@ export default function CopperCRMFieldMap({
             className="btcd-paper-inp"
             disabled={i < requiredFields.length}
             name="coppercrmFormField"
-            value={
-              i < requiredFields ? requiredFields[i].label || '' : field.coppercrmFormField || ''
-            }
-            onChange={(ev) => handleFieldMapping(ev, i, coppercrmConf, setCopperCRMConf)}>
+            value={i < requiredFields ? requiredFields[i].label || '' : field.coppercrmFormField || ''}
+            onChange={ev => handleFieldMapping(ev, i, coppercrmConf, setCopperCRMConf)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             {i < requiredFields.length ? (
               <option key={requiredFields[i].key} value={requiredFields[i].key}>
