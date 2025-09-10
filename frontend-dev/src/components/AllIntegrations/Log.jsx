@@ -48,6 +48,7 @@ function Log({ allIntegURL }) {
           <Button
             type="button"
             className="icn-btn tooltip"
+            style={{ '--tooltip-txt': '"Preview"' }}
             onClick={() => setResponse(val.row.values.response_obj)}>
             <EyeIcn width="40" height="40" strokeColor="#222" />
           </Button>
