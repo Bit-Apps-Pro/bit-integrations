@@ -127,6 +127,9 @@ class RecordApiHelper
         if (!empty($this->integrationDetails->selectedCompany)) {
             $requestParams['company_id'] = (int) ($this->integrationDetails->selectedCompany);
         }
+        if (!empty($this->integrationDetails->selectedTags)) {
+            $requestParams['tags'] = explode(',', $this->integrationDetails->selectedTags);
+        }
 
         $this->type = 'Person';
         $this->typeName = 'Person created';

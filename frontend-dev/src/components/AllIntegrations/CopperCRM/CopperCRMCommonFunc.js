@@ -191,6 +191,31 @@ export const getAllCompanies = (confTmp, setConf, setLoading) => {
   })
 }
 
+export const getAllTags = (confTmp, setConf, setLoading) => {
+  setLoading({ ...setLoading, tags: true })
+
+  const requestParams = {
+    api_key: confTmp.api_key,
+    api_email: confTmp.api_email
+  }
+
+  bitsFetch(requestParams, 'coppercrm_fetch_all_tags').then(result => {
+    if (result && result.success) {
+      const newConf = { ...confTmp }
+      if (result.data) {
+        newConf.tags = result.data
+      }
+      setConf(newConf)
+      setLoading({ ...setLoading, tags: false })
+
+      toast.success(__('Tags fetched successfully', 'bit-integrations'))
+      return
+    }
+    setLoading({ ...setLoading, tags: false })
+    toast.error(__('Tags fetching failed', 'bit-integrations'))
+  })
+}
+
 export const getAllPipelineStages = (confTmp, setConf, setLoading) => {
   setLoading({ ...setLoading, pipelineStages: true })
 

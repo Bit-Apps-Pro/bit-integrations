@@ -11,7 +11,8 @@ import {
   getAllOpportunities,
   getAllOwners,
   getAllCompanies,
-  getAllPipelineStages
+  getAllPipelineStages,
+  getAllTags
 } from './CopperCRMCommonFunc'
 
 export default function CopperCRMActions({ copperCRMConf, setCopperCRMConf, loading, setLoading }) {
@@ -54,6 +55,14 @@ export default function CopperCRMActions({ copperCRMConf, setCopperCRMConf, load
         setActionMdl({ show: false })
         delete newConf.actions.company
       }
+    } else if (type === 'tag') {
+      if (e.target?.checked) {
+        getAllTags(copperCRMConf, setCopperCRMConf, setLoading)
+        newConf.actions.tag = true
+      } else {
+        setActionMdl({ show: false })
+        delete newConf.actions.tag
+      }
     } else if (type === 'pipelineStage') {
       if (e.target?.checked) {
         getAllPipelineStages(copperCRMConf, setCopperCRMConf, setLoading)
@@ -95,14 +104,24 @@ export default function CopperCRMActions({ copperCRMConf, setCopperCRMConf, load
   return (
     <div className="pos-rel d-flx flx-wrp">
       {copperCRMConf.actionName === 'person' && (
-        <TableCheckBox
-          checked={copperCRMConf?.selectedCompany?.length || false}
-          onChange={e => actionHandler(e, 'company')}
-          className="wdt-200 mt-4 mr-2"
-          value="company"
-          title={__('Add Company', 'bit-integrations')}
-          subTitle={__('Add an company')}
-        />
+        <>
+          <TableCheckBox
+            checked={copperCRMConf?.selectedCompany?.length || false}
+            onChange={e => actionHandler(e, 'company')}
+            className="wdt-200 mt-4 mr-2"
+            value="company"
+            title={__('Add Company', 'bit-integrations')}
+            subTitle={__('Add an company')}
+          />
+          <TableCheckBox
+            checked={copperCRMConf?.selectedTags?.length || false}
+            onChange={e => actionHandler(e, 'tag')}
+            className="wdt-200 mt-4 mr-2"
+            value="tag"
+            title={__('Add Tags', 'bit-integrations')}
+            subTitle={__('Add tags')}
+          />
+        </>
       )}
       {(copperCRMConf.actionName === 'person' ||
         copperCRMConf.actionName === 'company' ||
@@ -274,13 +293,13 @@ export default function CopperCRMActions({ copperCRMConf, setCopperCRMConf, load
         mainMdlCls="o-v"
         btnClass="purple"
         btnTxt={__('Ok', 'bit-integrations')}
-        show={actionMdl.show === 'company'}
+        show={actionMdl.show === 'tag'}
         close={clsActionMdl}
         action={clsActionMdl}
         title={__('Companies', 'bit-integrations')}>
         <div className="btcd-hr mt-2 mb-2" />
-        <div className="mt-2">{__('Select Company', 'bit-integrations')}</div>
-        {loading.companies ? (
+        <div className="mt-2">{__('Select tags', 'bit-integrations')}</div>
+        {loading.tags ? (
           <Loader
             style={{
               display: 'flex',
@@ -293,19 +312,18 @@ export default function CopperCRMActions({ copperCRMConf, setCopperCRMConf, load
         ) : (
           <div className="flx flx-between mt-2">
             <MultiSelect
-              options={copperCRMConf?.companies?.map(company => ({
-                label: company.name,
-                value: company.id
+              options={copperCRMConf?.tags?.map(tag => ({
+                label: tag,
+                value: tag
               }))}
               className="msl-wrp-options"
-              defaultValue={copperCRMConf?.selectedCompany}
-              onChange={val => setChanges(val, 'selectedCompany')}
-              singleSelect
+              defaultValue={copperCRMConf?.selectedTags}
+              onChange={val => setChanges(val, 'selectedTags')}
             />
             <button
-              onClick={() => getAllCompanies(copperCRMConf, setCopperCRMConf, setLoading)}
+              onClick={() => getAllTags(copperCRMConf, setCopperCRMConf, setLoading)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `${__('Refresh Companies', 'bit-integrations')}'` }}
+              style={{ '--tooltip-txt': `${__('Refresh Tags', 'bit-integrations')}'` }}
               type="button">
               &#x21BB;
             </button>
