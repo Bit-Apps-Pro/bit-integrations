@@ -169,7 +169,8 @@ class WCHelper
         $data = [
             'id'                          => $order->get_id() ?? '',
             'order_key'                   => $order->get_order_key() ?? '',
-            'card_tax'                    => $order->get_cart_tax() ?? '',
+            'cart_tax'                    => $order->get_cart_tax() ?? '',
+            'cart_total'                  => $order->get_cart_total() ?? '',
             'currency'                    => $order->get_currency() ?? '',
             'discount_tax'                => $order->get_discount_tax() ?? '',
             'discount_to_display'         => $order->get_discount_to_display() ?? '',
