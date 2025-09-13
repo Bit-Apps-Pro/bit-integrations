@@ -121,8 +121,11 @@ class RecordApiHelper
             }
         }
 
-        if ($this->integrationDetails->actions->owner) {
+        if (!empty($this->integrationDetails->selectedCompany)) {
             $requestParams['assignee_id'] = (int) ($this->integrationDetails->selectedOwner);
+        }
+        if (!empty($this->integrationDetails->selectedCompany)) {
+            $requestParams['company_id'] = (int) ($this->integrationDetails->selectedCompany);
         }
 
         $this->type = 'Person';

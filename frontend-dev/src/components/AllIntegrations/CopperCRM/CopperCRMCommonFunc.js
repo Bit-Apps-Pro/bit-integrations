@@ -4,8 +4,8 @@ import toast from 'react-hot-toast'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { __ } from '../../../Utils/i18nwrap'
 
-export const handleInput = (e, coppercrmConf, setCopperCRMConf) => {
-  const newConf = { ...coppercrmConf }
+export const handleInput = (e, copperCRMConf, setCopperCRMConf) => {
+  const newConf = { ...copperCRMConf }
   const { name } = e.target
   if (e.target.value !== '') {
     newConf[name] = e.target.value
@@ -15,30 +15,30 @@ export const handleInput = (e, coppercrmConf, setCopperCRMConf) => {
   setCopperCRMConf({ ...newConf })
 }
 
-export const generateMappedField = (coppercrmConf) => {
+export const generateMappedField = copperCRMConf => {
   let allRequiredFields = []
-  if (coppercrmConf.actionName === 'company') {
-    allRequiredFields = coppercrmConf?.companyFields
-  } else if (coppercrmConf.actionName === 'person') {
-    allRequiredFields = coppercrmConf?.personFields
-  } else if (coppercrmConf.actionName === 'opportunity') {
-    allRequiredFields = coppercrmConf?.opportunityFields
-  } else if (coppercrmConf.actionName === 'task') {
-    allRequiredFields = coppercrmConf?.taskFields
+  if (copperCRMConf.actionName === 'company') {
+    allRequiredFields = copperCRMConf?.companyFields
+  } else if (copperCRMConf.actionName === 'person') {
+    allRequiredFields = copperCRMConf?.personFields
+  } else if (copperCRMConf.actionName === 'opportunity') {
+    allRequiredFields = copperCRMConf?.opportunityFields
+  } else if (copperCRMConf.actionName === 'task') {
+    allRequiredFields = copperCRMConf?.taskFields
   }
-  const requiredFlds = allRequiredFields?.filter((fld) => fld.required === true)
+  const requiredFlds = allRequiredFields?.filter(fld => fld.required === true)
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({
+    ? requiredFlds.map(field => ({
         formField: '',
         coppercrmFormField: field.key
       }))
     : [{ formField: '', coppercrmFormField: '' }]
 }
 
-export const checkMappedFields = (coppercrmConf) => {
-  const mappedFields = coppercrmConf?.field_map
-    ? coppercrmConf.field_map.filter(
-        (mappedField) =>
+export const checkMappedFields = copperCRMConf => {
+  const mappedFields = copperCRMConf?.field_map
+    ? copperCRMConf.field_map.filter(
+        mappedField =>
           !mappedField.formField ||
           !mappedField.coppercrmFormField ||
           (mappedField.formField === 'custom' && !mappedField.customValue) ||
@@ -75,7 +75,7 @@ export const coppercrmAuthentication = (
     api_email: confTmp.api_email
   }
 
-  bitsFetch(requestParams, 'coppercrm_authentication').then((result) => {
+  bitsFetch(requestParams, 'coppercrm_authentication').then(result => {
     if (result && result.success) {
       setIsAuthorized(true)
       setLoading({ ...loading, auth: false })
@@ -83,9 +83,7 @@ export const coppercrmAuthentication = (
       return
     }
     setLoading({ ...loading, auth: false })
-    toast.error(
-      __('Authorized failed, Please enter valid api_email name & API key', 'bit-integrations')
-    )
+    toast.error(__('Authorized failed, Please enter valid api_email name & API key', 'bit-integrations'))
   })
 }
 
@@ -98,7 +96,7 @@ export const getCustomFields = (confTmp, setConf, setLoading) => {
     action: confTmp.actionName
   }
 
-  bitsFetch(requestParams, 'coppercrm_fetch_custom_fields').then((result) => {
+  bitsFetch(requestParams, 'coppercrm_fetch_custom_fields').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -126,7 +124,7 @@ export const getAllOpportunities = (confTmp, setConf, setLoading) => {
     api_email: confTmp.api_email
   }
 
-  bitsFetch(requestParams, 'coppercrm_fetch_all_opportunities').then((result) => {
+  bitsFetch(requestParams, 'coppercrm_fetch_all_opportunities').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -151,7 +149,7 @@ export const getAllOwners = (confTmp, setConf, setLoading) => {
     api_email: confTmp.api_email
   }
 
-  bitsFetch(requestParams, 'coppercrm_fetch_all_owners').then((result) => {
+  bitsFetch(requestParams, 'coppercrm_fetch_all_owners').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -176,7 +174,7 @@ export const getAllCompanies = (confTmp, setConf, setLoading) => {
     api_email: confTmp.api_email
   }
 
-  bitsFetch(requestParams, 'coppercrm_fetch_all_companies').then((result) => {
+  bitsFetch(requestParams, 'coppercrm_fetch_all_companies').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -202,7 +200,7 @@ export const getAllPipelineStages = (confTmp, setConf, setLoading) => {
     action_name: confTmp.actionName
   }
 
-  bitsFetch(requestParams, 'coppercrm_fetch_all_pipelineStages').then((result) => {
+  bitsFetch(requestParams, 'coppercrm_fetch_all_pipelineStages').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -228,7 +226,7 @@ export const getAllCRMPeoples = (confTmp, setConf, setLoading) => {
     action_name: confTmp.actionName
   }
 
-  bitsFetch(requestParams, 'coppercrm_fetch_all_CRMPeoples').then((result) => {
+  bitsFetch(requestParams, 'coppercrm_fetch_all_CRMPeoples').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -253,7 +251,7 @@ export const getAllCRMPipelines = (confTmp, setConf, setLoading) => {
     api_email: confTmp.api_email
   }
 
-  bitsFetch(requestParams, 'coppercrm_fetch_all_CRMPipelines').then((result) => {
+  bitsFetch(requestParams, 'coppercrm_fetch_all_CRMPipelines').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
