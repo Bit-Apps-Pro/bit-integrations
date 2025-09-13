@@ -205,7 +205,7 @@ class RecordApiHelper
 
             $allPresent = true;
             foreach ($requiredKeys as $key) {
-                if (!isset($data[$key]) || $data[$key] === '' || $data[$key] === null) {
+                if (empty($data[$key])) {
                     $allPresent = false;
 
                     break;

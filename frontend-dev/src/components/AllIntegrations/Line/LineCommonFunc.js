@@ -4,7 +4,7 @@ import bitsFetch from '../../../Utils/bitsFetch'
 
 export const handleInput = (e, lineConf, setLineConf) => {
   const { name, value } = e.target
-  setLineConf(prev => ({ ...prev, ...(value ? { [name]: value } : { [name]: undefined }) }))
+  setLineConf(prev => ({ ...prev, [name]: value }))
 }
 
 export const handleAuthorize = async (
@@ -21,8 +21,6 @@ export const handleAuthorize = async (
   }
 
   setError({})
-  setIsLoading(true)
-
   setIsLoading(true)
 
   try {
@@ -110,10 +108,13 @@ const getFieldTypeGroup = lineFormField => {
 }
 
 const generateGroupId = (fieldType, existingFieldMap) => {
-  const existingGroups = existingFieldMap
-    .filter(field => getFieldTypeGroup(field.lineFormField) === fieldType)
-    .map(field => field.groupId)
-    .filter((id, index, arr) => arr.indexOf(id) === index)
+  const existingGroups = [
+    ...new Set(
+      existingFieldMap
+        .filter(field => getFieldTypeGroup(field.lineFormField) === fieldType)
+        .map(field => field.groupId)
+    )
+  ]
 
   return `${fieldType}_${existingGroups.length + 1}`
 }
