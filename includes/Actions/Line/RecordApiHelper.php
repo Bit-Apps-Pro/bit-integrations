@@ -173,14 +173,20 @@ class RecordApiHelper
         $message = ['type' => 'text', 'text' => $messageText];
 
         if (!empty($details->sendEmojis) && !empty($details->emojis_field_map)) {
-            $emoji = $this->mapFields($values, $details->emojis_field_map);
-
-            if ($emoji['emojis_id'] ?? false) {
-                $message['emojis'] = [[
-                    'index'     => (int) $emoji['index'],
-                    'productId' => $emoji['product_id'],
-                    'emojiId'   => $emoji['emojis_id'],
-                ]];
+            $emojis = [];
+            $groups = $this->groupByGroupId($details->emojis_field_map);
+            foreach ($groups as $groupId => $groupFields) {
+                $emoji = $this->mapFields($values, $groupFields);
+                if (!empty($emoji['emojis_id']) && !empty($emoji['product_id']) && (isset($emoji['index']) && $emoji['index'] !== '')) {
+                    $emojis[] = [
+                        'index'     => (int) $emoji['index'],
+                        'productId' => $emoji['product_id'],
+                        'emojiId'   => $emoji['emojis_id'],
+                    ];
+                }
+            }
+            if (!empty($emojis)) {
+                $message['emojis'] = $emojis;
             }
         }
 
@@ -232,7 +238,7 @@ class RecordApiHelper
         foreach ($fieldMap as $index => $field) {
             $key = $field->lineFormField;
 
-            if ($field->formField === 'custom' && !empty($field->customValue)) {
+            if ($field->formField === 'custom' && (isset($field->customValue) && $field->customValue !== '')) {
                 $result[$key] = Common::replaceFieldWithValue($field->customValue, $data);
             } elseif (isset($data[$field->formField])) {
                 $result[$key] = $data[$field->formField];
