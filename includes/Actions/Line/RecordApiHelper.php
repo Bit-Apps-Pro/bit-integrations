@@ -67,7 +67,7 @@ class RecordApiHelper
         }
 
         if (!empty($details->sendSticker) && !empty($details->sticker_field_map)) {
-            $messages = array_merge($messages, $this->processGrouped(
+            $stickers = $this->processGrouped(
                 $values,
                 $details->sticker_field_map,
                 ['sticker_id', 'package_id'],
@@ -78,11 +78,12 @@ class RecordApiHelper
                         'stickerId' => $data['sticker_id'],
                     ];
                 }
-            ));
+            );
+            $messages = array_merge($messages, $stickers);
         }
 
         if (!empty($details->sendImage) && !empty($details->image_field_map)) {
-            $messages = array_merge($messages, $this->processGrouped(
+            $images = $this->processGrouped(
                 $values,
                 $details->image_field_map,
                 ['originalContentUrl'],
@@ -93,11 +94,12 @@ class RecordApiHelper
                         'previewImageUrl'    => $data['previewImageUrl'] ?? null
                     ]);
                 }
-            ));
+            );
+            $messages = array_merge($messages, $images);
         }
 
         if (!empty($details->sendAudio) && !empty($details->audio_field_map)) {
-            $messages = array_merge($messages, $this->processGrouped(
+            $audios = $this->processGrouped(
                 $values,
                 $details->audio_field_map,
                 ['originalContentUrl'],
@@ -108,11 +110,12 @@ class RecordApiHelper
                         'duration'           => isset($data['duration']) ? (int) $data['duration'] : null
                     ]);
                 }
-            ));
+            );
+            $messages = array_merge($messages, $audios);
         }
 
         if (!empty($details->sendVideo) && !empty($details->video_field_map)) {
-            $messages = array_merge($messages, $this->processGrouped(
+            $videos = $this->processGrouped(
                 $values,
                 $details->video_field_map,
                 ['originalContentUrl'],
@@ -123,11 +126,12 @@ class RecordApiHelper
                         'previewImageUrl'    => $data['previewImageUrl'] ?? null
                     ]);
                 }
-            ));
+            );
+            $messages = array_merge($messages, $videos);
         }
 
         if (!empty($details->sendLocation) && !empty($details->location_field_map)) {
-            $messages = array_merge($messages, $this->processGrouped(
+            $locations = $this->processGrouped(
                 $values,
                 $details->location_field_map,
                 ['title', 'address', 'latitude', 'longitude'],
@@ -140,7 +144,8 @@ class RecordApiHelper
                         'longitude' => (float) $data['longitude'],
                     ];
                 }
-            ));
+            );
+            $messages = array_merge($messages, $locations);
         }
 
         return array_values(array_filter($messages));
