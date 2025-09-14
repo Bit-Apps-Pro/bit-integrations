@@ -11,7 +11,7 @@ import EditWebhookInteg from '../EditWebhookInteg'
 import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import MailMintIntegLayout from './MailMintIntegLayout'
-import { handleInput } from './MailMintCommonFunc'
+import { checkMappedFields, handleInput } from './MailMintCommonFunc'
 
 function EditMailMint({ allIntegURL }) {
   const navigate = useNavigate()
@@ -23,6 +23,34 @@ function EditMailMint({ allIntegURL }) {
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
 
+  const saveConfig = () => {
+    if (!checkMappedFields(mailMintConf)) {
+      setSnackbar({
+        show: true,
+        msg: __('Please map all required fields to continue.', 'bit-integrations')
+      })
+      return
+    }
+
+    if (!mailMintConf?.name) {
+      setSnackbar({
+        show: true,
+        msg: __('Please integrations name is required.', 'bit-integrations')
+      })
+      return
+    }
+
+    saveActionConf({
+      flow,
+      allIntegURL,
+      conf: mailMintConf,
+      navigate,
+      edit: 1,
+      setIsLoading,
+      setSnackbar
+    })
+  }
+
   return (
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
@@ -31,7 +59,7 @@ function EditMailMint({ allIntegURL }) {
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
         <input
           className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, mailMintConf, setMailMintConf)}
+          onChange={e => handleInput(e, mailMintConf, setMailMintConf)}
           name="name"
           value={mailMintConf.name}
           type="text"
@@ -45,9 +73,7 @@ function EditMailMint({ allIntegURL }) {
       <MailMintIntegLayout
         formID={formID}
         formFields={formFields}
-        handleInput={(e) =>
-          handleInput(e, mailMintConf, setMailMintConf, setIsLoading, setSnackbar)
-        }
+        handleInput={e => handleInput(e, mailMintConf, setMailMintConf, setIsLoading, setSnackbar)}
         mailMintConf={mailMintConf}
         setMailMintConf={setMailMintConf}
         isLoading={isLoading}
@@ -57,18 +83,8 @@ function EditMailMint({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() =>
-          saveActionConf({
-            flow,
-            allIntegURL,
-            conf: mailMintConf,
-            navigate,
-            edit: 1,
-            setIsLoading,
-            setSnackbar
-          })
-        }
-        disabled={!mailMintConf.mainAction || isLoading}
+        saveConfig={saveConfig}
+        disabled={!mailMintConf?.mainAction || !mailMintConf?.name || isLoading}
         isLoading={isLoading}
         dataConf={mailMintConf}
         setDataConf={setMailMintConf}
