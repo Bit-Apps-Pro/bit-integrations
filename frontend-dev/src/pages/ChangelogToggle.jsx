@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '1st September 2025'
+const releaseDate = '14th September 2025'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -25,7 +25,13 @@ const changeLog = [
     label: __('New Actions', 'bit-integrations'),
     headClass: 'new-integration',
     itemClass: 'integration-list',
-    items: []
+    items: [
+      {
+        label: 'ACPT',
+        desc: '12 New Events Added.',
+        isPro: false
+      }
+    ]
   },
   {
     label: __('New Triggers', 'bit-integrations'),
@@ -33,8 +39,28 @@ const changeLog = [
     itemClass: 'integration-list',
     items: [
       {
-        label: 'FluentAffiliate',
-        desc: '8 New Events Added.',
+        label: 'FormGent',
+        desc: '10 New Events Added.',
+        isPro: true
+      },
+      {
+        label: 'StoreEngine',
+        desc: '12 New Events Added.',
+        isPro: true
+      },
+      {
+        label: 'EasyCommerce',
+        desc: '31 New Events Added.',
+        isPro: true
+      },
+      {
+        label: 'GeoDirectory',
+        desc: '1 New Events Added.',
+        isPro: true
+      },
+      {
+        label: 'WP User Frontend',
+        desc: '5 New Events Added.',
         isPro: true
       }
     ]
@@ -43,7 +69,18 @@ const changeLog = [
     label: __('New Features', 'bit-integrations'),
     headClass: 'new-feature',
     itemClass: 'feature-list',
-    items: []
+    items: [
+      {
+        label: 'CopperCRM',
+        desc: 'Added Company & Tags assignment utilities to Person.',
+        isPro: false
+      },
+      {
+        label: 'Integrations Timeline',
+        desc: 'Added response viewer modal for better tracking.',
+        isPro: false
+      }
+    ]
   },
   {
     label: __('Improvements', 'bit-integrations'),
@@ -57,13 +94,18 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'MemberPress',
-        desc: 'Fixed undefined array key issue.',
+        label: 'CopperCRM',
+        desc: 'Fixed custom field data storing issue.',
         isPro: false
       },
       {
-        label: 'MemberPress',
-        desc: 'Resolved lifetime expiration date bug.',
+        label: 'WooCommerce',
+        desc: 'Fixed cart total & cart tax empty data issue.',
+        isPro: false
+      },
+      {
+        label: 'MailMint',
+        desc: 'Fixed integration name edit issue & added validation.',
         isPro: false
       }
     ]
