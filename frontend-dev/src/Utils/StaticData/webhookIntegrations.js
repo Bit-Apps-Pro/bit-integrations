@@ -70,7 +70,11 @@ export const customFormIntegrations = [
   'WPSubscription',
   'WPTravelEngine',
   'WPUserFrontend',
-  'FluentAffiliate'
+  'FluentAffiliate',
+  'EasyCommerce',
+  'FormGent',
+  'GeoDirectory',
+  'StoreEngine'
 ]
 
 export const actionHookIntegrations = ['ActionHook']

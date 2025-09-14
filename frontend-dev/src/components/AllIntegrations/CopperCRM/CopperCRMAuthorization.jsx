@@ -9,7 +9,7 @@ import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 
 export default function CopperCRMAuthorization({
-  coppercrmConf,
+  copperCRMConf,
   setCopperCRMConf,
   step,
   setStep,
@@ -26,19 +26,19 @@ export default function CopperCRMAuthorization({
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
-    !coppercrmConf?.default
+    !copperCRMConf?.default
     setStep(2)
   }
 
-  const handleInput = (e) => {
-    const newConf = { ...coppercrmConf }
+  const handleInput = e => {
+    const newConf = { ...copperCRMConf }
     const rmError = { ...error }
     rmError[e.target.name] = ''
     newConf[e.target.name] = e.target.value
     setError(rmError)
     setCopperCRMConf(newConf)
   }
-
+  console.log(copperCRMConf)
   const ActiveInstructions = `
   <h4>${__('Get api secret key', 'bit-integrations')}</h4>
   <ul>
@@ -63,7 +63,7 @@ export default function CopperCRMAuthorization({
         className="btcd-paper-inp w-6 mt-1"
         onChange={handleInput}
         name="name"
-        value={coppercrmConf.name}
+        value={copperCRMConf.name}
         type="text"
         placeholder={__('Integration Name...', 'bit-integrations')}
         disabled={isInfo}
@@ -76,7 +76,7 @@ export default function CopperCRMAuthorization({
         className="btcd-paper-inp w-6 mt-1"
         onChange={handleInput}
         name="api_email"
-        value={coppercrmConf.api_email}
+        value={copperCRMConf.api_email}
         type="text"
         placeholder={__('Your Company...', 'bit-integrations')}
         disabled={isInfo}
@@ -92,7 +92,7 @@ export default function CopperCRMAuthorization({
         className="btcd-paper-inp w-6 mt-1"
         onChange={handleInput}
         name="api_key"
-        value={coppercrmConf.api_key}
+        value={copperCRMConf.api_key}
         type="text"
         placeholder={__('API Token...', 'bit-integrations')}
         disabled={isInfo}
@@ -107,7 +107,7 @@ export default function CopperCRMAuthorization({
           <button
             onClick={() =>
               coppercrmAuthentication(
-                coppercrmConf,
+                copperCRMConf,
                 setCopperCRMConf,
                 setError,
                 setIsAuthorized,
