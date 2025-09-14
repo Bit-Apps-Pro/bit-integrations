@@ -22,6 +22,7 @@ function EditMailMint({ allIntegURL }) {
   const formFields = useRecoilValue($formFields)
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
+  const [name, setName] = useState(mailMintConf?.name || '')
 
   const saveConfig = () => {
     if (!checkMappedFields(mailMintConf)) {
@@ -59,9 +60,12 @@ function EditMailMint({ allIntegURL }) {
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
         <input
           className="btcd-paper-inp w-5"
-          onChange={e => handleInput(e, mailMintConf, setMailMintConf)}
+          onChange={e => {
+            setName(e.target.value)
+            handleInput(e, mailMintConf, setMailMintConf, setIsLoading, setSnackbar)
+          }}
           name="name"
-          value={mailMintConf.name}
+          value={name}
           type="text"
           placeholder={__('Integration Name...', 'bit-integrations')}
         />
