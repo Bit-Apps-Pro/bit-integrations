@@ -48,7 +48,7 @@ class RecordApiHelper
             return $response;
         }
 
-        return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')];
+        return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')];
     }
 
     public function createSolution($finalData)

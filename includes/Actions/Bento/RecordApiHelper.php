@@ -82,7 +82,7 @@ class RecordApiHelper
 
         $response = apply_filters('btcbi_bento_store_event', false, $reqParams, $finalData);
 
-        return empty($response) ? (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')] : $response;
+        return empty($response) ? (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')] : $response;
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)

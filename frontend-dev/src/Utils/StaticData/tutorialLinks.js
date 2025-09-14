@@ -638,6 +638,10 @@ const tutorialLinks = {
   line: {
     youTubeLink: '',
     docLink: 'https://bit-integrations.com/wp-docs/actions/line-integrations/'
+  },
+  acpt: {
+    youTubeLink: '',
+    docLink: ''
   }
 }
 export default tutorialLinks

@@ -6,10 +6,10 @@
 
 namespace BitCode\FI\Actions\Hubspot;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\Helper;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert,upsert
@@ -245,7 +245,7 @@ class HubspotRecordApiHelper
         $response = apply_filters('btcbi_hubspot_update_entity', $id, $finalData, $actionName, $this->defaultHeader);
 
         if (\is_string($response) && $response == $id) {
-            return (object) ['errors' => wp_sprintf(__('%s is not active or not installed', 'bit-integrations'), 'Bit Integration Pro')];
+            return (object) ['errors' => wp_sprintf(__('%s is not active or not installed', 'bit-integrations'), 'Bit Integrations Pro')];
         }
 
         return $response;
