@@ -121,13 +121,13 @@ class RecordApiHelper
             }
         }
 
-        if (!empty($this->integrationDetails->selectedCompany)) {
+        if (isset($this->integrationDetails->selectedOwner)) {
             $requestParams['assignee_id'] = (int) ($this->integrationDetails->selectedOwner);
         }
-        if (!empty($this->integrationDetails->selectedCompany)) {
+        if (isset($this->integrationDetails->selectedCompany)) {
             $requestParams['company_id'] = (int) ($this->integrationDetails->selectedCompany);
         }
-        if (!empty($this->integrationDetails->selectedTags)) {
+        if (isset($this->integrationDetails->selectedTags)) {
             $requestParams['tags'] = explode(',', $this->integrationDetails->selectedTags);
         }
 
@@ -161,10 +161,10 @@ class RecordApiHelper
             }
         }
 
-        if (!empty($this->integrationDetails->selectedCRMPeople)) {
+        if (isset($this->integrationDetails->selectedCRMPeople)) {
             $requestParams['primary_contact_id'] = (int) ($this->integrationDetails->selectedCRMPeople);
         }
-        if (!empty($this->integrationDetails->selectedCRMPipelines)) {
+        if (isset($this->integrationDetails->selectedCRMPipelines)) {
             $requestParams['pipeline_id'] = (int) ($this->integrationDetails->selectedCRMPipelines);
         }
         if ($this->integrationDetails->actions->owner) {
@@ -173,7 +173,7 @@ class RecordApiHelper
         if ($this->integrationDetails->actions->company) {
             $requestParams['company_id'] = (int) ($this->integrationDetails->selectedCompany);
         }
-        if (!empty($this->integrationDetails->actions->pipelineStage)) {
+        if (isset($this->integrationDetails->actions->pipelineStage)) {
             $requestParams['pipeline_stage_id'] = (int) ($this->integrationDetails->selectedPipelineStage);
         }
 
@@ -224,11 +224,11 @@ class RecordApiHelper
     {
         $dataFinal = [];
         foreach ($fieldMap as $value) {
-            $triggerValue = $value->formField === 'custom' && !empty($value->customValue)
+            $triggerValue = $value->formField === 'custom' && isset($value->customValue)
                 ? Common::replaceFieldWithValue($value->customValue, $data)
                 : $value->formField;
 
-            $actionValue = $value->coppercrmFormField === 'customFieldKey' && !empty($value->customFieldKey)
+            $actionValue = $value->coppercrmFormField === 'customFieldKey' && isset($value->customFieldKey)
                 ? Common::replaceFieldWithValue($value->customFieldKey, $data)
                 : $value->coppercrmFormField;
 
