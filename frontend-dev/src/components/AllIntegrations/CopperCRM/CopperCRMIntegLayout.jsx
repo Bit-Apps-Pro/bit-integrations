@@ -11,14 +11,14 @@ import 'react-multiple-select-dropdown-lite/dist/index.css'
 export default function CopperCRMIntegLayout({
   formFields,
   handleInput,
-  coppercrmConf,
+  copperCRMConf,
   setCopperCRMConf,
   loading,
   setLoading,
   setSnackbar
 }) {
-  const handleActionInput = (e) => {
-    const newConf = { ...coppercrmConf }
+  const handleActionInput = e => {
+    const newConf = { ...copperCRMConf }
     newConf.field_map = [{ formField: '', coppercrmFormField: '' }]
     const { name } = e.target
     if (e.target.value !== '') {
@@ -34,9 +34,9 @@ export default function CopperCRMIntegLayout({
   }
 
   const setChanges = (val, name) => {
-    const newConf = { ...coppercrmConf }
+    const newConf = { ...copperCRMConf }
     newConf[name] = val
-    if (name === 'selectedCRMPeople' && val !== '' && coppercrmConf.actionName === 'opportunity') {
+    if (name === 'selectedCRMPeople' && val !== '' && copperCRMConf.actionName === 'opportunity') {
       newConf.selectedCRMPipelines = ''
       getAllCRMPipelines(newConf, setCopperCRMConf, setLoading)
     }
@@ -51,7 +51,7 @@ export default function CopperCRMIntegLayout({
       <select
         onChange={handleActionInput}
         name="actionName"
-        value={coppercrmConf.actionName}
+        value={copperCRMConf.actionName}
         className="btcd-paper-inp w-5">
         <option value="">{__('Select an action', 'bit-integrations')}</option>
         <option value="company">{__('Create Company', 'bit-integrations')}</option>
@@ -70,25 +70,25 @@ export default function CopperCRMIntegLayout({
           }}
         />
       )}
-      {coppercrmConf.actionName === 'opportunity' && (
+      {copperCRMConf.actionName === 'opportunity' && (
         <>
           <br />
           <br />
           <div className="flx">
             <b className="wdt-200 d-in-b">{__('Select People:', 'bit-integrations')}</b>
             <MultiSelect
-              options={coppercrmConf?.CRMPeoples?.map((CRMPeople) => ({
+              options={copperCRMConf?.CRMPeoples?.map(CRMPeople => ({
                 label: CRMPeople.name,
                 value: CRMPeople.id
               }))}
               className="msl-wrp-options dropdown-custom-width"
-              defaultValue={coppercrmConf?.selectedCRMPeople}
-              onChange={(val) => setChanges(val, 'selectedCRMPeople')}
+              defaultValue={copperCRMConf?.selectedCRMPeople}
+              onChange={val => setChanges(val, 'selectedCRMPeople')}
               disabled={loading.CRMPeoples}
               singleSelect
             />
             <button
-              onClick={() => getAllCRMPeoples(coppercrmConf, setCopperCRMConf, setLoading)}
+              onClick={() => getAllCRMPeoples(copperCRMConf, setCopperCRMConf, setLoading)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `'${__('Refresh peoples', 'bit-integrations')}'` }}
               type="button"
@@ -98,25 +98,25 @@ export default function CopperCRMIntegLayout({
           </div>
         </>
       )}
-      {coppercrmConf.actionName === 'opportunity' && coppercrmConf.selectedCRMPeople && (
+      {copperCRMConf.actionName === 'opportunity' && copperCRMConf.selectedCRMPeople && (
         <>
           <br />
           <br />
           <div className="flx">
             <b className="wdt-200 d-in-b">{__('Select Pipeline:', 'bit-integrations')}</b>
             <MultiSelect
-              options={coppercrmConf?.CRMPipelines?.map((CRMPipeline) => ({
+              options={copperCRMConf?.CRMPipelines?.map(CRMPipeline => ({
                 label: CRMPipeline.name,
                 value: CRMPipeline.id
               }))}
               className="msl-wrp-options dropdown-custom-width"
-              defaultValue={coppercrmConf?.selectedCRMPipelines}
-              onChange={(val) => setChanges(val, 'selectedCRMPipelines')}
+              defaultValue={copperCRMConf?.selectedCRMPipelines}
+              onChange={val => setChanges(val, 'selectedCRMPipelines')}
               disabled={loading.CRMPipelines}
               singleSelect
             />
             <button
-              onClick={() => getAllCRMPipelines(coppercrmConf, setCopperCRMConf, setLoading)}
+              onClick={() => getAllCRMPipelines(copperCRMConf, setCopperCRMConf, setLoading)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `'${__('Refresh pipelines', 'bit-integrations')}'` }}
               type="button"
@@ -137,13 +137,13 @@ export default function CopperCRMIntegLayout({
           }}
         />
       )}
-      {coppercrmConf.actionName && (
+      {copperCRMConf.actionName && (
         <div>
           <br />
           <div className="mt-5">
             <b className="wdt-100">{__('Field Map', 'bit-integrations')}</b>
             <button
-              onClick={() => getCustomFields(coppercrmConf, setCopperCRMConf, setLoading)}
+              onClick={() => getCustomFields(copperCRMConf, setCopperCRMConf, setLoading)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `'${__('Refresh fields', 'bit-integrations')}'` }}
               type="button"
@@ -163,12 +163,12 @@ export default function CopperCRMIntegLayout({
             </div>
           </div>
 
-          {coppercrmConf?.field_map.map((itm, i) => (
+          {copperCRMConf?.field_map.map((itm, i) => (
             <CopperCRMFieldMap
               key={`rp-m-${i + 9}`}
               i={i}
               field={itm}
-              coppercrmConf={coppercrmConf}
+              copperCRMConf={copperCRMConf}
               formFields={formFields}
               setCopperCRMConf={setCopperCRMConf}
               setSnackbar={setSnackbar}
@@ -177,7 +177,7 @@ export default function CopperCRMIntegLayout({
           <div className="txt-center btcbi-field-map-button mt-2">
             <button
               onClick={() =>
-                addFieldMap(coppercrmConf.field_map.length, coppercrmConf, setCopperCRMConf, false)
+                addFieldMap(copperCRMConf.field_map.length, copperCRMConf, setCopperCRMConf, false)
               }
               className="icn-btn sh-sm"
               type="button">
@@ -191,7 +191,7 @@ export default function CopperCRMIntegLayout({
           </div>
           <div className="btcd-hr mt-1" />
           <CopperCRMActions
-            coppercrmConf={coppercrmConf}
+            copperCRMConf={copperCRMConf}
             setCopperCRMConf={setCopperCRMConf}
             formFields={formFields}
             loading={loading}

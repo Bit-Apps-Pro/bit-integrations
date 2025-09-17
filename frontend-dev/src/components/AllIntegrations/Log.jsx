@@ -6,6 +6,11 @@ import Table from '../Utilities/Table'
 import bitsFetch from '../../Utils/bitsFetch'
 import CopyText from '../Utilities/CopyText'
 import noData from '../../resource/img/nodata.svg'
+import Button from '../Utilities/Button'
+import CloseIcn from '../../Icons/CloseIcn'
+import Modal from '../Utilities/Modal'
+import { json } from 'react-router'
+import EyeIcn from '../Utilities/EyeIcn'
 
 function Log({ allIntegURL }) {
   const { id, type } = useParams()
@@ -16,6 +21,7 @@ function Log({ allIntegURL }) {
   const [countEntries, setCountEntries] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [refreshLog, setRefreshLog] = useState(0)
+  const [response, setResponse] = useState(false)
 
   const [log, setLog] = useState([])
   const [cols, setCols] = useState([
@@ -36,17 +42,22 @@ function Log({ allIntegURL }) {
       minWidth: 200,
       Header: __('Response', 'bit-integrations'),
       accessor: 'response_obj',
-      Cell: (val) => (
-        <CopyText
-          value={val.row.values.response_obj}
-          setSnackbar={setSnackbar}
-          className="cpyTxt"
-        />
+      Cell: val => (
+        <>
+          <CopyText value={val.row.values.response_obj} setSnackbar={setSnackbar} className="cpyTxt" />
+          <Button
+            type="button"
+            className="icn-btn tooltip"
+            style={{ '--tooltip-txt': '"Preview"' }}
+            onClick={() => setResponse(val.row.values.response_obj)}>
+            <EyeIcn width="40" height="40" strokeColor="#222" />
+          </Button>
+        </>
       )
     },
     { width: 220, minWidth: 200, Header: __('Date', 'bit-integrations'), accessor: 'created_at' }
   ])
-  const setTableCols = useCallback((newCols) => {
+  const setTableCols = useCallback(newCols => {
     setCols(newCols)
   }, [])
   // route is info/:id but for redirect uri need to make new/:type
@@ -73,7 +84,7 @@ function Log({ allIntegURL }) {
       entries.push(rows.original.id)
     }
     const ajaxData = { id: entries }
-    bitsFetch(ajaxData, 'log/delete').then((res) => {
+    bitsFetch(ajaxData, 'log/delete').then(res => {
       if (res.success) {
         if (action && action.fetchData && action.data) {
           action.fetchData(action.data)
@@ -128,7 +139,7 @@ function Log({ allIntegURL }) {
             pageSize
           },
           'log/get'
-        ).then((res) => {
+        ).then(res => {
           if (res?.success) {
             setPageCount(Math.ceil(res.data.count / pageSize))
             setCountEntries(res.data.count)
@@ -189,8 +200,47 @@ function Log({ allIntegURL }) {
           </div>
         )}
       </div>
+
+      {response && (
+        <Modal
+          sm
+          closeIcon
+          show={response}
+          setModal={setResponse}
+          style={{ maxWidth: '900px' }}
+          title={__('Response', 'bit-integrations')}>
+          <div className="flx flx-around mr-1 mt-1">
+            <div
+              className="txt-dp"
+              style={{
+                background: '#1e293b',
+                borderRadius: '8px',
+                padding: '16px',
+                color: '#f8fafc',
+                fontFamily: "'Fira Code', monospace",
+                fontSize: '14px',
+                overflow: 'auto',
+                maxWidth: '800px',
+                maxHeight: '500px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+              }}>
+              <pre style={{ margin: 0 }}>
+                <code className="">{jsonPrint(response)}</code>
+              </pre>
+            </div>
+          </div>
+        </Modal>
+      )}
     </>
   )
 }
 
 export default memo(Log)
+
+const jsonPrint = data => {
+  try {
+    return JSON.stringify(JSON.parse(data), null, 2)
+  } catch (e) {
+    return data
+  }
+}

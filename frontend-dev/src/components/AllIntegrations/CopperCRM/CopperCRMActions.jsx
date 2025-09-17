@@ -11,10 +11,11 @@ import {
   getAllOpportunities,
   getAllOwners,
   getAllCompanies,
-  getAllPipelineStages
+  getAllPipelineStages,
+  getAllTags
 } from './CopperCRMCommonFunc'
 
-export default function CopperCRMActions({ coppercrmConf, setCopperCRMConf, loading, setLoading }) {
+export default function CopperCRMActions({ copperCRMConf, setCopperCRMConf, loading, setLoading }) {
   const [actionMdl, setActionMdl] = useState({ show: false, action: () => {} })
 
   const followUps = [
@@ -28,11 +29,11 @@ export default function CopperCRMActions({ coppercrmConf, setCopperCRMConf, load
   ]
 
   const actionHandler = (e, type) => {
-    const newConf = { ...coppercrmConf }
+    const newConf = { ...copperCRMConf }
 
     if (type === 'opportunity') {
       if (e.target?.checked) {
-        getAllOpportunities(coppercrmConf, setCopperCRMConf, setLoading)
+        getAllOpportunities(copperCRMConf, setCopperCRMConf, setLoading)
         newConf.actions.opportunity = true
       } else {
         setActionMdl({ show: false })
@@ -40,7 +41,7 @@ export default function CopperCRMActions({ coppercrmConf, setCopperCRMConf, load
       }
     } else if (type === 'owner') {
       if (e.target?.checked) {
-        getAllOwners(coppercrmConf, setCopperCRMConf, setLoading)
+        getAllOwners(copperCRMConf, setCopperCRMConf, setLoading)
         newConf.actions.owner = true
       } else {
         setActionMdl({ show: false })
@@ -48,15 +49,23 @@ export default function CopperCRMActions({ coppercrmConf, setCopperCRMConf, load
       }
     } else if (type === 'company') {
       if (e.target?.checked) {
-        getAllCompanies(coppercrmConf, setCopperCRMConf, setLoading)
+        getAllCompanies(copperCRMConf, setCopperCRMConf, setLoading)
         newConf.actions.company = true
       } else {
         setActionMdl({ show: false })
         delete newConf.actions.company
       }
+    } else if (type === 'tag') {
+      if (e.target?.checked) {
+        getAllTags(copperCRMConf, setCopperCRMConf, setLoading)
+        newConf.actions.tag = true
+      } else {
+        setActionMdl({ show: false })
+        delete newConf.actions.tag
+      }
     } else if (type === 'pipelineStage') {
       if (e.target?.checked) {
-        getAllPipelineStages(coppercrmConf, setCopperCRMConf, setLoading)
+        getAllPipelineStages(copperCRMConf, setCopperCRMConf, setLoading)
         newConf.actions.pipelineStage = true
       } else {
         setActionMdl({ show: false })
@@ -87,48 +96,66 @@ export default function CopperCRMActions({ coppercrmConf, setCopperCRMConf, load
   }
 
   const setChanges = (val, name) => {
-    const newConf = { ...coppercrmConf }
+    const newConf = { ...copperCRMConf }
     newConf[name] = val
     setCopperCRMConf({ ...newConf })
   }
 
   return (
     <div className="pos-rel d-flx flx-wrp">
-      {/* {(coppercrmConf.actionName === 'person') && <TableCheckBox checked={coppercrmConf?.selectedCompany?.length || false} onChange={(e) => actionHandler(e, 'company')} className="wdt-200 mt-4 mr-2" value="company" title={__('Add Company', 'bit - integrations')} subTitle={__('Add an company')} />} */}
-      {(coppercrmConf.actionName === 'person' ||
-        coppercrmConf.actionName === 'company' ||
-        coppercrmConf.actionName === 'opportunity' ||
-        coppercrmConf.actionName === 'task') && (
+      {copperCRMConf.actionName === 'person' && (
+        <>
+          <TableCheckBox
+            checked={copperCRMConf?.selectedCompany?.length || false}
+            onChange={e => actionHandler(e, 'company')}
+            className="wdt-200 mt-4 mr-2"
+            value="company"
+            title={__('Add Company', 'bit-integrations')}
+            subTitle={__('Add an company')}
+          />
+          <TableCheckBox
+            checked={copperCRMConf?.selectedTags?.length || false}
+            onChange={e => actionHandler(e, 'tag')}
+            className="wdt-200 mt-4 mr-2"
+            value="tag"
+            title={__('Add Tags', 'bit-integrations')}
+            subTitle={__('Add tags')}
+          />
+        </>
+      )}
+      {(copperCRMConf.actionName === 'person' ||
+        copperCRMConf.actionName === 'company' ||
+        copperCRMConf.actionName === 'opportunity' ||
+        copperCRMConf.actionName === 'task') && (
         <TableCheckBox
-          checked={coppercrmConf?.selectedOwner?.length || false}
-          onChange={(e) => actionHandler(e, 'owner')}
+          checked={copperCRMConf?.selectedOwner?.length || false}
+          onChange={e => actionHandler(e, 'owner')}
           className="wdt-200 mt-4 mr-2"
           value="owner"
-          title={__('Add Owner', 'bit - integrations')}
+          title={__('Add Owner', 'bit-integrations')}
           subTitle={__('Add an owner')}
         />
       )}
-      {coppercrmConf.actionName === 'opportunity' && (
+      {copperCRMConf.actionName === 'opportunity' && (
         <TableCheckBox
-          checked={coppercrmConf?.selectedCompany?.length || false}
-          onChange={(e) => actionHandler(e, 'company')}
+          checked={copperCRMConf?.selectedCompany?.length || false}
+          onChange={e => actionHandler(e, 'company')}
           className="wdt-200 mt-4 mr-2"
           value="company"
-          title={__('Add Company', 'bit - integrations')}
+          title={__('Add Company', 'bit-integrations')}
           subTitle={__('Add an company')}
         />
       )}
-      {coppercrmConf.actionName === 'opportunity' && (
+      {copperCRMConf.actionName === 'opportunity' && (
         <TableCheckBox
-          checked={coppercrmConf?.selectedPipelineStage?.length || false}
-          onChange={(e) => actionHandler(e, 'pipelineStage')}
+          checked={copperCRMConf?.selectedPipelineStage?.length || false}
+          onChange={e => actionHandler(e, 'pipelineStage')}
           className="wdt-200 mt-4 mr-2"
           value="pipelineStage"
-          title={__('Add PipelineStage', 'bit - integrations')}
+          title={__('Add PipelineStage', 'bit-integrations')}
           subTitle={__('Add a pipelineStage')}
         />
       )}
-      {/* {(coppercrmConf.actionName === 'task') && <TableCheckBox checked={coppercrmConf?.selectedOpportunity?.length || false} onChange={(e) => actionHandler(e, 'opportunity')} className="wdt-200 mt-4 mr-2" value="opportunity" title={__('Add Opportunity', 'bit - integrations')} subTitle={__('Add a opportunity')} />} */}
 
       <ConfirmModal
         className="custom-conf-mdl"
@@ -154,17 +181,17 @@ export default function CopperCRMActions({ coppercrmConf, setCopperCRMConf, load
         ) : (
           <div className="flx flx-between mt-2">
             <MultiSelect
-              options={coppercrmConf?.opportunities?.map((opportunity) => ({
+              options={copperCRMConf?.opportunities?.map(opportunity => ({
                 label: opportunity.name,
                 value: opportunity.id
               }))}
               className="msl-wrp-options"
-              defaultValue={coppercrmConf?.selectedOpportunity}
-              onChange={(val) => setChanges(val, 'selectedOpportunity')}
+              defaultValue={copperCRMConf?.selectedOpportunity}
+              onChange={val => setChanges(val, 'selectedOpportunity')}
               singleSelect
             />
             <button
-              onClick={() => getAllOpportunities(coppercrmConf, setCopperCRMConf, setLoading)}
+              onClick={() => getAllOpportunities(copperCRMConf, setCopperCRMConf, setLoading)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `${__('Refresh Opportunities', 'bit-integrations')}'` }}
               type="button">
@@ -198,17 +225,17 @@ export default function CopperCRMActions({ coppercrmConf, setCopperCRMConf, load
         ) : (
           <div className="flx flx-between mt-2">
             <MultiSelect
-              options={coppercrmConf?.owners?.map((owner) => ({
+              options={copperCRMConf?.owners?.map(owner => ({
                 label: owner.name,
                 value: owner.id
               }))}
               className="msl-wrp-options"
-              defaultValue={coppercrmConf?.selectedOwner}
-              onChange={(val) => setChanges(val, 'selectedOwner')}
+              defaultValue={copperCRMConf?.selectedOwner}
+              onChange={val => setChanges(val, 'selectedOwner')}
               singleSelect
             />
             <button
-              onClick={() => getAllOwners(coppercrmConf, setCopperCRMConf, setLoading)}
+              onClick={() => getAllOwners(copperCRMConf, setCopperCRMConf, setLoading)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `${__('Refresh Owners', 'bit-integrations')}'` }}
               type="button">
@@ -217,7 +244,6 @@ export default function CopperCRMActions({ coppercrmConf, setCopperCRMConf, load
           </div>
         )}
       </ConfirmModal>
-
       <ConfirmModal
         className="custom-conf-mdl"
         mainMdlCls="o-v"
@@ -242,19 +268,62 @@ export default function CopperCRMActions({ coppercrmConf, setCopperCRMConf, load
         ) : (
           <div className="flx flx-between mt-2">
             <MultiSelect
-              options={coppercrmConf?.companies?.map((company) => ({
+              options={copperCRMConf?.companies?.map(company => ({
                 label: company.name,
                 value: company.id
               }))}
               className="msl-wrp-options"
-              defaultValue={coppercrmConf?.selectedCompany}
-              onChange={(val) => setChanges(val, 'selectedCompany')}
+              defaultValue={copperCRMConf?.selectedCompany}
+              onChange={val => setChanges(val, 'selectedCompany')}
               singleSelect
             />
             <button
-              onClick={() => getAllCompanies(coppercrmConf, setCopperCRMConf, setLoading)}
+              onClick={() => getAllCompanies(copperCRMConf, setCopperCRMConf, setLoading)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `${__('Refresh Companies', 'bit-integrations')}'` }}
+              type="button">
+              &#x21BB;
+            </button>
+          </div>
+        )}
+      </ConfirmModal>
+
+      <ConfirmModal
+        className="custom-conf-mdl"
+        mainMdlCls="o-v"
+        btnClass="purple"
+        btnTxt={__('Ok', 'bit-integrations')}
+        show={actionMdl.show === 'tag'}
+        close={clsActionMdl}
+        action={clsActionMdl}
+        title={__('Companies', 'bit-integrations')}>
+        <div className="btcd-hr mt-2 mb-2" />
+        <div className="mt-2">{__('Select tags', 'bit-integrations')}</div>
+        {loading.tags ? (
+          <Loader
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 45,
+              transform: 'scale(0.5)'
+            }}
+          />
+        ) : (
+          <div className="flx flx-between mt-2">
+            <MultiSelect
+              options={copperCRMConf?.tags?.map(tag => ({
+                label: tag,
+                value: tag
+              }))}
+              className="msl-wrp-options"
+              defaultValue={copperCRMConf?.selectedTags}
+              onChange={val => setChanges(val, 'selectedTags')}
+            />
+            <button
+              onClick={() => getAllTags(copperCRMConf, setCopperCRMConf, setLoading)}
+              className="icn-btn sh-sm ml-2 mr-2 tooltip"
+              style={{ '--tooltip-txt': `${__('Refresh Tags', 'bit-integrations')}'` }}
               type="button">
               &#x21BB;
             </button>
@@ -286,17 +355,17 @@ export default function CopperCRMActions({ coppercrmConf, setCopperCRMConf, load
         ) : (
           <div className="flx flx-between mt-2">
             <MultiSelect
-              options={coppercrmConf?.pipelineStages?.map((pipelineStage) => ({
+              options={copperCRMConf?.pipelineStages?.map(pipelineStage => ({
                 label: pipelineStage.name,
                 value: pipelineStage.id
               }))}
               className="msl-wrp-options"
-              defaultValue={coppercrmConf?.selectedPipelineStage}
-              onChange={(val) => setChanges(val, 'selectedPipelineStage')}
+              defaultValue={copperCRMConf?.selectedPipelineStage}
+              onChange={val => setChanges(val, 'selectedPipelineStage')}
               singleSelect
             />
             <button
-              onClick={() => getAllPipelineStages(coppercrmConf, setCopperCRMConf, setLoading)}
+              onClick={() => getAllPipelineStages(copperCRMConf, setCopperCRMConf, setLoading)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `${__('Refresh PipelineStages', 'bit-integrations')}'` }}
               type="button">
@@ -334,13 +403,13 @@ export default function CopperCRMActions({ coppercrmConf, setCopperCRMConf, load
             : (
               <div className="flx flx-between mt-2">
                 <MultiSelect
-                  options={coppercrmConf?.statuses?.map(status => ({ label: status.name, value: status.id }))}
+                  options={copperCRMConf?.statuses?.map(status => ({ label: status.name, value: status.id }))}
                   className="msl-wrp-options"
-                  defaultValue={coppercrmConf?.selectedStatus}
+                  defaultValue={copperCRMConf?.selectedStatus}
                   onChange={val => setChanges(val, 'selectedStatus')}
                   singleSelect
                 />
-                <button onClick={() => getAllStatuses(coppercrmConf, setCopperCRMConf, setLoading)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `${__('Refresh statuses', 'bit-integrations')}'` }} type="button">&#x21BB;</button>
+                <button onClick={() => getAllStatuses(copperCRMConf, setCopperCRMConf, setLoading)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `${__('Refresh statuses', 'bit-integrations')}'` }} type="button">&#x21BB;</button>
               </div>
             )
         }
@@ -358,13 +427,13 @@ export default function CopperCRMActions({ coppercrmConf, setCopperCRMConf, load
         <div className="btcd-hr mt-2 mb-2" />
         <div className="flx flx-center mt-2">
           <MultiSelect
-            options={followUps?.map((followUp) => ({
+            options={followUps?.map(followUp => ({
               label: followUp.label,
               value: followUp.value
             }))}
             className="msl-wrp-options"
-            defaultValue={coppercrmConf?.selectedFollowUp}
-            onChange={(val) => setChanges(val, 'selectedFollowUp')}
+            defaultValue={copperCRMConf?.selectedFollowUp}
+            onChange={val => setChanges(val, 'selectedFollowUp')}
             singleSelect
           />
         </div>
@@ -382,13 +451,13 @@ export default function CopperCRMActions({ coppercrmConf, setCopperCRMConf, load
         <div className="btcd-hr mt-2 mb-2" />
         <div className="flx flx-center mt-2">
           <MultiSelect
-            options={opportunityTypes?.map((opportunityType) => ({
+            options={opportunityTypes?.map(opportunityType => ({
               label: opportunityType.label,
               value: opportunityType.value
             }))}
             className="msl-wrp-options"
-            defaultValue={coppercrmConf?.selectedOpportunityType}
-            onChange={(val) => setChanges(val, 'selectedOpportunityType')}
+            defaultValue={copperCRMConf?.selectedOpportunityType}
+            onChange={val => setChanges(val, 'selectedOpportunityType')}
             singleSelect
           />
         </div>

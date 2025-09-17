@@ -176,6 +176,30 @@ class CopperCRMController
         }
     }
 
+    public function getAllTags($fieldsRequestParams)
+    {
+        if (empty($fieldsRequestParams->api_key)) {
+            wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
+        }
+        $apiKey = $fieldsRequestParams->api_key;
+        $apiEmail = $fieldsRequestParams->api_email;
+        $apiEndpoint = $this->apiEndpoint . '/tags';
+        $headers = [
+            'X-PW-AccessToken' => $apiKey,
+            'X-PW-Application' => 'developer_api',
+            'X-PW-UserEmail'   => $apiEmail,
+            'Content-Type'     => 'application/json'
+        ];
+
+        $response = HttpHelper::get($apiEndpoint, null, $headers);
+
+        if (isset($response->error)) {
+            wp_send_json_error($response->error ?? __('Unknown error', 'bit-integrations'), 400);
+        }
+
+        wp_send_json_success(array_column((array) $response, 'name'), 200);
+    }
+
     public function getAllPipelineStages($fieldsRequestParams)
     {
         if (empty($fieldsRequestParams->api_key)) {

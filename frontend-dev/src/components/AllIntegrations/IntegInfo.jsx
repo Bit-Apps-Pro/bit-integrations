@@ -165,6 +165,7 @@ const VoxelAuthorization = lazy(() => import('./Voxel/VoxelAuthorization'))
 const SmartSuiteAuthorization = lazy(() => import('./SmartSuite/SmartSuiteAuthorization'))
 const BentoAuthorization = lazy(() => import('./Bento/BentoAuthorization'))
 const LineAuthorization = lazy(() => import('./Line/LineAuthorization'))
+const ACPTAuthorization = lazy(() => import('./ACPT/ACPTAuthorization'))
 
 export default function IntegInfo() {
   const { id, type } = useParams()
@@ -550,6 +551,8 @@ export default function IntegInfo() {
         return <BentoAuthorization bentoConf={integrationConf} step={1} isInfo />
       case 'Line':
         return <LineAuthorization lineConf={integrationConf} step={1} isInfo />
+      case 'ACPT':
+        return <ACPTAuthorization acptConf={integrationConf} step={1} isInfo />
       default:
         return <></>
     }

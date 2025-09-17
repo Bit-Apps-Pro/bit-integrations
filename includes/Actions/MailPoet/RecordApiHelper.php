@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\MailPoet;
 
-use Exception;
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Log\LogHandler;
+use Exception;
 
 /**
  * Provide functionality for Record insert,upsert
@@ -43,7 +43,7 @@ class RecordApiHelper
                 $response = apply_filters('btcbi_mailpoet_update_subscriber', $existingSubscriber['id'], $subscriber);
 
                 if ($response === $existingSubscriber['id']) {
-                    $errorMessages = wp_sprintf(__('%s is not active or not installed', 'bit-integrations'), 'Bit Integration Pro');
+                    $errorMessages = wp_sprintf(__('%s is not active or not installed', 'bit-integrations'), 'Bit Integrations Pro');
                 } elseif (!$response['success']) {
                     $errorMessages = $response('message');
                 }

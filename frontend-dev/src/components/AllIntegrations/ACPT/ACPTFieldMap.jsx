@@ -1,41 +1,31 @@
 /* eslint-disable no-console */
+import { useMemo } from 'react'
 import { useRecoilValue } from 'recoil'
-import { __ } from '../../../Utils/i18nwrap'
-import { addFieldMap, delFieldMap, handleCustomValue, handleFieldMapping } from './IntegrationHelpers'
-import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import { $btcbi } from '../../../GlobalStates'
-import { generateMappedField } from './CopperCRMCommonFunc'
-import CustomField from './CustomField'
+import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
+import { __ } from '../../../Utils/i18nwrap'
 import TagifyInput from '../../Utilities/TagifyInput'
+import { addFieldMap, delFieldMap, handleCustomValue, handleFieldMapping } from './IntegrationHelpers'
 
-export default function CopperCRMFieldMap({ i, formFields, field, copperCRMConf, setCopperCRMConf }) {
-  let allFields = []
-  let newFields = []
-  if (copperCRMConf.actionName === 'company') {
-    allFields = copperCRMConf?.companyFields
-  } else if (copperCRMConf.actionName === 'person') {
-    allFields = copperCRMConf?.personFields
-  } else if (copperCRMConf.actionName === 'opportunity') {
-    allFields = copperCRMConf?.opportunityFields
-  } else if (copperCRMConf.actionName === 'task') {
-    allFields = copperCRMConf?.taskFields
-  }
-  // newFields = [...allFields, ...copperCRMConf?.customFields]
-  const requiredFields = allFields.filter(fld => fld.required === true) || []
-  const nonRequiredFields = allFields.filter(fld => fld.required === false) || []
-  const allNonRequiredFields = copperCRMConf.customFields
-    ? [...nonRequiredFields, ...copperCRMConf?.customFields]
-    : nonRequiredFields
-
-  if (copperCRMConf?.field_map?.length === 1 && field.coppercrmFormField === '') {
-    const newConf = { ...copperCRMConf }
-    const tmp = generateMappedField(newConf)
-    newConf.field_map = tmp
-    setCopperCRMConf(newConf)
-  }
-
+export default function ACPTFieldMap({
+  i,
+  formFields,
+  field,
+  acptConf,
+  setAcptConf,
+  fieldMappingKey,
+  fieldKey
+}) {
   const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
+
+  const { requiredFields, allNonRequiredFields } = useMemo(() => {
+    const filteredFields = acptConf[fieldKey] || []
+    return {
+      requiredFields: filteredFields.filter(fld => fld?.required),
+      allNonRequiredFields: filteredFields.filter(fld => !fld?.required)
+    }
+  }, [acptConf, fieldKey])
 
   return (
     <div className="flx mt-2 mb-2 btcbi-field-map">
@@ -45,7 +35,7 @@ export default function CopperCRMFieldMap({ i, formFields, field, copperCRMConf,
             className="btcd-paper-inp mr-2"
             name="formField"
             value={field.formField || ''}
-            onChange={ev => handleFieldMapping(ev, i, copperCRMConf, setCopperCRMConf)}>
+            onChange={ev => handleFieldMapping(ev, i, acptConf, setAcptConf, fieldMappingKey)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             <optgroup label={__('Form Fields', 'bit-integrations')}>
               {formFields?.map(f => (
@@ -71,7 +61,7 @@ export default function CopperCRMFieldMap({ i, formFields, field, copperCRMConf,
 
           {field.formField === 'custom' && (
             <TagifyInput
-              onChange={e => handleCustomValue(e, i, copperCRMConf, setCopperCRMConf)}
+              onChange={e => handleCustomValue(e, i, acptConf, setAcptConf, fieldMappingKey)}
               label={__('Custom Value', 'bit-integrations')}
               className="mr-2"
               type="text"
@@ -84,9 +74,9 @@ export default function CopperCRMFieldMap({ i, formFields, field, copperCRMConf,
           <select
             className="btcd-paper-inp"
             disabled={i < requiredFields.length}
-            name="coppercrmFormField"
-            value={i < requiredFields ? requiredFields[i].label || '' : field.coppercrmFormField || ''}
-            onChange={ev => handleFieldMapping(ev, i, copperCRMConf, setCopperCRMConf)}>
+            name="acptFormField"
+            value={i < requiredFields.length ? requiredFields[i].key || '' : field.acptFormField || ''}
+            onChange={ev => handleFieldMapping(ev, i, acptConf, setAcptConf, fieldMappingKey)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             {i < requiredFields.length ? (
               <option key={requiredFields[i].key} value={requiredFields[i].key}>
@@ -99,35 +89,18 @@ export default function CopperCRMFieldMap({ i, formFields, field, copperCRMConf,
                 </option>
               ))
             )}
-            {(copperCRMConf.actionName === 'company' ||
-              copperCRMConf.actionName === 'person' ||
-              copperCRMConf.actionName === 'opportunity' ||
-              copperCRMConf.actionName === 'task') && (
-              <option value="customFieldKey">{__('Custom Field', 'bit-integrations')}</option>
-            )}
           </select>
-          {field.coppercrmFormField === 'customFieldKey' && (
-            <CustomField
-              field={field}
-              index={i}
-              conf={copperCRMConf}
-              setConf={setCopperCRMConf}
-              fieldValue="customFieldKey"
-              fieldLabel="Custom Field Key"
-              className="ml-2"
-            />
-          )}
         </div>
         {i >= requiredFields.length && (
           <>
             <button
-              onClick={() => addFieldMap(i, copperCRMConf, setCopperCRMConf)}
+              onClick={() => addFieldMap(i, acptConf, setAcptConf, fieldMappingKey)}
               className="icn-btn sh-sm ml-2 mr-1"
               type="button">
               +
             </button>
             <button
-              onClick={() => delFieldMap(i, copperCRMConf, setCopperCRMConf)}
+              onClick={() => delFieldMap(i, acptConf, setAcptConf, fieldMappingKey)}
               className="icn-btn sh-sm ml-1"
               type="button"
               aria-label="btn">

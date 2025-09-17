@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\LMFWC;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -92,7 +92,7 @@ class RecordApiHelper
 
         $response = apply_filters('btcbi_lmfwc_update_licence', false, $finalData, $this->apiUrl, $this->integrationDetails, $this->defaultHeader);
         if (!$response) {
-            return (object) ['message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')];
+            return (object) ['message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')];
         }
 
         return $response;
@@ -109,7 +109,7 @@ class RecordApiHelper
 
         $response = apply_filters('btcbi_lmfwc_update_generator', false, $this->apiUrl, $finalData, $this->defaultHeader, $this->integrationDetails->selectedGenerator);
         if (!$response) {
-            return (object) ['message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')];
+            return (object) ['message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')];
         }
 
         return $response;
@@ -135,7 +135,7 @@ class RecordApiHelper
 
         $response = apply_filters('btcbi_lmfwc_create_generator', false, $this->apiUrl, $finalData, $this->defaultHeader);
         if (!$response) {
-            return (object) ['message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')];
+            return (object) ['message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')];
         }
 
         return $response;
@@ -175,7 +175,7 @@ class RecordApiHelper
         }
 
         if (!$response) {
-            return (object) ['message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')];
+            return (object) ['message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')];
         }
 
         return $response;
@@ -231,7 +231,7 @@ class RecordApiHelper
 
                 break;
         }
-        
+
         if (isset($apiResponse->success) && $apiResponse->success && !isset($apiResponse->data->errors)) {
             $res = [$this->typeName . '  successfully'];
 
@@ -239,7 +239,7 @@ class RecordApiHelper
         } else {
             if (is_wp_error($apiResponse)) {
                 $res = $apiResponse->get_error_message();
-            }elseif(isset($apiResponse->data->errors)){
+            } elseif (isset($apiResponse->data->errors)) {
                 $res = $apiResponse->data->errors->lmfwc_rest_data_error[0] ?? wp_json_encode($apiResponse);
             } else {
                 $res = !empty($apiResponse->message) ? $apiResponse->message : wp_json_encode($apiResponse);

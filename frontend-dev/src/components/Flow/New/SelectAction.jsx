@@ -169,7 +169,8 @@ export default function SelectAction() {
     { type: 'Voxel' },
     { type: 'SmartSuite' },
     { type: 'Bento' },
-    { type: 'Line' }
+    { type: 'Line' },
+    { type: 'ACPT' }
   ]
 
   const [availableIntegs, setAvailableIntegs] = useState(sortByField(integs, 'type', 'ASC') || integs)
