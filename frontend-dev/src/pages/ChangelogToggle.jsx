@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '14th September 2025'
+const releaseDate = '20th September 2025'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -25,62 +25,19 @@ const changeLog = [
     label: __('New Actions', 'bit-integrations'),
     headClass: 'new-integration',
     itemClass: 'integration-list',
-    items: [
-      {
-        label: 'ACPT',
-        desc: '12 New Events Added.',
-        isPro: false
-      }
-    ]
+    items: []
   },
   {
     label: __('New Triggers', 'bit-integrations'),
     headClass: 'new-trigger',
     itemClass: 'integration-list',
-    items: [
-      {
-        label: 'FormGent',
-        desc: '10 New Events Added.',
-        isPro: true
-      },
-      {
-        label: 'StoreEngine',
-        desc: '12 New Events Added.',
-        isPro: true
-      },
-      {
-        label: 'EasyCommerce',
-        desc: '31 New Events Added.',
-        isPro: true
-      },
-      {
-        label: 'GeoDirectory',
-        desc: '1 New Events Added.',
-        isPro: true
-      },
-      {
-        label: 'WP User Frontend',
-        desc: '5 New Events Added.',
-        isPro: true
-      }
-    ]
+    items: []
   },
   {
     label: __('New Features', 'bit-integrations'),
     headClass: 'new-feature',
     itemClass: 'feature-list',
-    items: [
-      {
-        label: 'CopperCRM',
-        desc: 'Added Company & Tags assignment utilities to Person.',
-        isPro: false
-      },
-      {
-        label: 'Integrations Timeline',
-        desc: 'Added response viewer modal for better tracking.',
-        isPro: false
-      }
-    ]
+    items: []
   },
   {
     label: __('Improvements', 'bit-integrations'),
@@ -94,18 +51,18 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'CopperCRM',
-        desc: 'Fixed custom field data storing issue.',
+        label: 'Salesforce',
+        desc: 'Fixed refresh token expiration issue.',
         isPro: false
       },
       {
-        label: 'WooCommerce',
-        desc: 'Fixed cart total & cart tax empty data issue.',
+        label: 'Salesforce',
+        desc: 'Resolved issue with task creation execution.',
         isPro: false
       },
       {
-        label: 'MailMint',
-        desc: 'Fixed integration name edit issue & added validation.',
+        label: 'Freshdesk',
+        desc: 'Fixed contact creation issue & Addressed problems with custom fields not working properly.',
         isPro: false
       }
     ]

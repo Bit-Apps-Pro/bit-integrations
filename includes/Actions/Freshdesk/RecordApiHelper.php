@@ -234,6 +234,7 @@ class RecordApiHelper
                 $contactId = $apiResponseFetchContact[0]->id;
                 $apiResponseContact = $this->updateContact($app_base_domamin, $finalDataContact, $integrationDetails->api_key, $contactId);
             } else {
+                $finalData['requester_id'] = $apiResponseFetchContact[0]->id;
                 $typeName = 'fetch-contact';
                 $apiResponseContact = ['message' => 'Contact already exists'];
             }
