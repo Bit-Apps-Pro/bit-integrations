@@ -33,7 +33,7 @@ export default function SalesforceAuthorization({
     setStep(2)
   }
 
-  const handleInput = (e) => {
+  const handleInput = e => {
     const newConf = { ...salesforceConf }
     const rmError = { ...error }
     rmError[e.target.name] = ''
@@ -82,7 +82,7 @@ export default function SalesforceAuthorization({
         <b>{__('Authorized Redirect URIs:', 'bit-integrations')}</b>
       </div>
       <CopyText
-        value={redirectLocation || `${window.location.href}/redirect`}
+        value={redirectLocation || `${btcbi.api.base}/redirect`}
         className="field-key-cpy w-6 ml-0"
         setSnackbar={setSnackbar}
         readOnly={isInfo}
