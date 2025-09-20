@@ -392,10 +392,8 @@ class SalesforceController
         $tokenDetails = $integrationDetails->tokenDetails;
         $fieldMap = $integrationDetails->field_map;
         $actions = $integrationDetails->actions;
-        if (
-            empty($tokenDetails)
-            || empty($fieldMap)
-        ) {
+
+        if (empty($tokenDetails)) {
             return new WP_Error('REQ_FIELD_EMPTY', __('list are required for zoho desk api', 'bit-integrations'));
         }
 
