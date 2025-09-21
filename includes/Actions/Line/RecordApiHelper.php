@@ -99,19 +99,30 @@ class RecordApiHelper
         }
 
         if (!empty($details->sendAudio) && !empty($details->audio_field_map)) {
-            $audios = $this->processGrouped(
-                $values,
-                $details->audio_field_map,
-                ['originalContentUrl'],
-                function ($data) {
-                    return array_filter([
-                        'type'               => 'audio',
-                        'originalContentUrl' => $data['originalContentUrl'],
-                        'duration'           => isset($data['duration']) ? (int) $data['duration'] : null
-                    ]);
-                }
-            );
-            $messages = array_merge($messages, $audios);
+            error_log(print_r($details->audio_field_map, true));
+            $audioFields = array_filter($details->audio_field_map, function ($field) {
+                return $field->fieldType === 'audio';
+            });
+            if (!empty($audioFields)) {
+                $audios = $this->processGrouped(
+                    $values,
+                    $audioFields,
+                    ['originalContentUrl'],
+                    function ($data) {
+                        if (empty($data['duration'])) {
+                            return;
+                        }
+
+                        return [
+                            'type'               => 'audio',
+                            'originalContentUrl' => $data['originalContentUrl'],
+                            'duration'           => $data['duration']
+                        ];
+                    }
+                );
+                $audios = array_filter($audios);
+                $messages = array_merge($messages, $audios);
+            }
         }
 
         if (!empty($details->sendVideo) && !empty($details->video_field_map)) {
