@@ -40,12 +40,10 @@ export default function FabmanIntegLayout({
       return fields
     }
 
-    // Special handling for update_member and delete_member actions
     if (conf.actionName === 'update_member' || conf.actionName === 'delete_member') {
       const fields = Array.isArray(conf.memberStaticFields)
         ? conf.memberStaticFields.map(f => ({ ...f }))
         : []
-      // Make emailAddress required and firstName not required for both actions
       const emailIdx = fields.findIndex(f => String(f.key) === 'emailAddress')
       if (emailIdx > -1) fields[emailIdx].required = true
       const firstNameIdx = fields.findIndex(f => String(f.key) === 'firstName')
@@ -170,7 +168,6 @@ export default function FabmanIntegLayout({
         </select>
       </div>
       <br />
-      {/* Workspace selector for all except delete_member */}
       {fabmanConf.actionName &&
         !isDeleteMember &&
         (!isSpaceAction || fabmanConf.actionName === 'update_spaces') && (
@@ -213,8 +210,6 @@ export default function FabmanIntegLayout({
             <br />
           </>
         )}
-      {/* Remove the entire member selector section for delete_member */}
-      {/* Field map for delete_member: only one required email field, no + button */}
       {isDeleteMember && (
         <>
           <div className="mt-5">
@@ -245,7 +240,6 @@ export default function FabmanIntegLayout({
           />
         </>
       )}
-      {/* Field map for other actions */}
       {fabmanConf.actionName &&
         fabmanConf.actionName !== 'delete_member' &&
         (!isSpaceAction ||
@@ -265,43 +259,32 @@ export default function FabmanIntegLayout({
                 <b>{__('Fabman Fields', 'bit-integrations')}</b>
               </div>
             </div>
-            {fabmanConf?.field_map.map((itm, i) => (
-              <FabmanFieldMap
-                key={`rp-m-${i + 9}`}
-                i={i}
-                field={itm}
-                fabmanConf={{ ...fabmanConf, staticFields: activeStaticFields }}
-                formFields={formFields}
-                setFabmanConf={setFabmanConf}
-                setSnackbar={setSnackbar}
-              />
-            ))}
-            <div>
-              <div className="txt-center btcbi-field-map-button mt-2">
-                <button
-                  onClick={() =>
-                    addFieldMap(fabmanConf.field_map.length, fabmanConf, setFabmanConf, false)
-                  }
-                  className="icn-btn sh-sm"
-                  type="button">
-                  +
-                </button>
-              </div>
-              <br />
-              <br />
-              <div className="mt-4">
-                <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
-              </div>
-              <div className="btcd-hr mt-1" />
-              <FabmanActions
-                fabmanConf={fabmanConf}
-                setFabmanConf={setFabmanConf}
-                loading={loading}
-                setLoading={setLoading}
-              />
-            </div>
+            {Array.isArray(activeStaticFields) &&
+              activeStaticFields.map((field, i) => (
+                <FabmanFieldMap
+                  key={i}
+                  i={i}
+                  field={fabmanConf.field_map[i] || { formField: '', fabmanFormField: field.key }}
+                  fabmanConf={{ ...fabmanConf, staticFields: activeStaticFields }}
+                  formFields={formFields}
+                  setFabmanConf={setFabmanConf}
+                  setSnackbar={setSnackbar}
+                />
+              ))}
+            <button
+              onClick={() => addFieldMap(activeStaticFields.length, fabmanConf, setFabmanConf)}
+              className="btn btcd-btn-lg purple sh-sm mt-2"
+              type="button">
+              {__('Add Field Mapping', 'bit-integrations')}
+            </button>
           </>
         )}
+      <FabmanActions
+        fabmanConf={fabmanConf}
+        setFabmanConf={setFabmanConf}
+        loading={loading}
+        setLoading={setLoading}
+      />
     </div>
   )
 }

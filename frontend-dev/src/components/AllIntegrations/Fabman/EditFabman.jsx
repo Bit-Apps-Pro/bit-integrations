@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-param-reassign */
-
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilState, useRecoilValue } from 'recoil'
@@ -34,16 +31,15 @@ function EditFabman({ allIntegURL }) {
 
   const isConfigInvalid = () => {
     if (!fabmanConf.actionName) return true
-    const isDeleteAction = fabmanConf.actionName === 'delete_member'
-    if (!isDeleteAction && !checkMappedFields(fabmanConf)) return true
+    if (['update_member', 'delete_member'].includes(fabmanConf.actionName)) {
+      if (!checkMappedFields(fabmanConf)) return true
+      return false
+    }
+    if (!checkMappedFields(fabmanConf)) return true
     if (
-      ['update_member', 'delete_member', 'update_spaces', 'delete_spaces'].includes(
-        fabmanConf.actionName
-      ) &&
+      ['update_spaces', 'delete_spaces'].includes(fabmanConf.actionName) &&
       !fabmanConf.selectedWorkspace
     )
-      return true
-    if (['update_member', 'delete_member'].includes(fabmanConf.actionName) && !fabmanConf.selectedMember)
       return true
     return false
   }
@@ -53,24 +49,30 @@ function EditFabman({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please select an action', 'bit-integrations') })
       return
     }
-    const isDeleteAction = fabmanConf.actionName === 'delete_member'
-    if (!isDeleteAction && !checkMappedFields(fabmanConf)) {
+    if (['update_member', 'delete_member'].includes(fabmanConf.actionName)) {
+      if (!checkMappedFields(fabmanConf)) {
+        setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
+        return
+      }
+      saveActionConf({
+        flow,
+        allIntegURL,
+        conf: fabmanConf,
+        navigate,
+        edit: 1,
+        setLoading,
+        setSnackbar
+      })
+      return
+    }
+    if (!checkMappedFields(fabmanConf)) {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
     const requiresWorkspaceSelection =
-      fabmanConf.actionName === 'update_member' ||
-      fabmanConf.actionName === 'delete_member' ||
-      fabmanConf.actionName === 'update_spaces' ||
-      fabmanConf.actionName === 'delete_spaces'
+      fabmanConf.actionName === 'update_spaces' || fabmanConf.actionName === 'delete_spaces'
     if (requiresWorkspaceSelection && !fabmanConf.selectedWorkspace) {
       setSnackbar({ show: true, msg: __('Please select a workspace', 'bit-integrations') })
-      return
-    }
-    const requiresMemberSelection =
-      fabmanConf.actionName === 'update_member' || fabmanConf.actionName === 'delete_member'
-    if (requiresMemberSelection && !fabmanConf.selectedMember) {
-      setSnackbar({ show: true, msg: __('Please select a member', 'bit-integrations') })
       return
     }
     saveActionConf({
@@ -96,7 +98,6 @@ function EditFabman({ allIntegURL }) {
   return (
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
         <input
@@ -110,7 +111,6 @@ function EditFabman({ allIntegURL }) {
         />
       </div>
       <br />
-
       <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
       <FabmanIntegLayout
         formID={flow.triggered_entity_id}
@@ -122,7 +122,6 @@ function EditFabman({ allIntegURL }) {
         setLoading={setLoading}
         setSnackbar={setSnackbar}
       />
-
       <IntegrationStepThree
         edit
         saveConfig={saveConfig}

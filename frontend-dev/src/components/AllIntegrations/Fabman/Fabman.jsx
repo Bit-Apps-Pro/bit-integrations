@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable no-unused-expressions */
 import { useEffect, useState } from 'react'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useNavigate } from 'react-router-dom'
@@ -23,7 +21,6 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Fabman',
     type: 'Fabman',
     field_map: [{ formField: '', fabmanFormField: '' }],
-
     memberStaticFields: [
       { key: 'emailAddress', label: __('Email Address', 'bit-integrations'), required: false },
       { key: 'firstName', label: __('First Name', 'bit-integrations'), required: true },
@@ -82,7 +79,6 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
         required: false
       }
     ],
-
     spacesStaticFields: [
       { key: 'name', label: __('Name', 'bit-integrations'), required: true },
       { key: 'shortName', label: __('Short Name', 'bit-integrations'), required: false },
@@ -171,7 +167,6 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
       !fabmanConf.selectedWorkspace
     )
       return true
-    // For delete_member, just need email field mapped (no need for selectedMember)
     if (fabmanConf.actionName === 'delete_member') {
       const hasEmailField = fabmanConf.field_map?.some(
         field => field.fabmanFormField === 'emailAddress' && field.formField
@@ -260,7 +255,6 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
   const handleActionChange = e => {
     setFabmanConf(prev => {
       const newConf = { ...prev, actionName: e.target.value }
-
       return newConf
     })
   }
@@ -271,8 +265,6 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
       <div className="mt-3 txt-center">
         <Steps step={3} active={step} />
       </div>
-
-      {/* STEP 1 */}
       <FabmanAuthorization
         fabmanConf={fabmanConf}
         setFabmanConf={setFabmanConf}
@@ -281,8 +273,6 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
         loading={loading}
         setLoading={setLoading}
       />
-
-      {/* STEP 2 */}
       {step === 2 && (
         <div
           className="btcd-stp-page"
@@ -295,7 +285,6 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
             setLoading={setLoading}
             setSnackbar={setSnack}
           />
-
           <button
             onClick={nextPage}
             disabled={isConfigInvalid()}
@@ -306,8 +295,6 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
           </button>
         </div>
       )}
-
-      {/* STEP 3 */}
       <IntegrationStepThree
         step={step}
         saveConfig={() =>

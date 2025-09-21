@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-
 import { __ } from '../../../Utils/i18nwrap'
 
 export default function FabmanActions({ fabmanConf, setFabmanConf, loading, setLoading }) {
