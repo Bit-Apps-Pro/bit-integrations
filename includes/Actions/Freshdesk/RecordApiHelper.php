@@ -82,19 +82,32 @@ class RecordApiHelper
 
     public function generateReqDataFromFieldMapContact($data, $fieldMapContact)
     {
-        $dataFinalContact = [];
+        $fieldMap = [];
+        $customFields = [];
 
-        foreach ($fieldMapContact as $key => $value) {
-            $triggerValue = $value->formField;
-            $actionValue = $value->contactFreshdeskFormField;
-            if ($triggerValue === 'custom') {
-                $dataFinalContact[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!\is_null($data[$triggerValue])) {
-                $dataFinalContact[$actionValue] = $data[$triggerValue];
+        foreach ($fieldMapContact as $key => $field) {
+            $actionValue = $field->contactFreshdeskFormField;
+
+            if ($field->formField === 'custom' && isset($field->customValue)) {
+                $triggerValue = Common::replaceFieldWithValue($field->customValue, $data);
+            } else {
+                $triggerValue = $field->formField;
+            }
+
+            if (strpos($actionValue, 'btcbi_cf_') === 0) {
+                $fieldName = substr($actionValue, 9);
+
+                $customFields[$fieldName] = $data[$triggerValue];
+            } else {
+                $fieldMap[$actionValue] = $data[$triggerValue];
             }
         }
 
-        return $dataFinalContact;
+        if (!empty($customFields)) {
+            $fieldMap['custom_fields'] = $customFields;
+        }
+
+        return $fieldMap;
     }
 
     public function fetchContact($app_base_domamin, $email, $api_key)
@@ -137,13 +150,9 @@ class RecordApiHelper
                 400
             );
         }
-        $header = [
-            'Authorization' => base64_encode("{$api_key}"),
-            'Content-Type'  => 'multipart/form-data'
-        ];
 
-        $data = $finalDataContact;
         $apiEndpoint = $app_base_domamin . '/api/v2/contacts/';
+
         if ($avatar) {
             $data = $finalDataContact + ['avatar' => static::getAvatar($avatar)];
             $sendPhotoApiHelper = new FilesApiHelper();
@@ -151,7 +160,12 @@ class RecordApiHelper
             return $sendPhotoApiHelper->uploadFiles($apiEndpoint, $data, $api_key);
         }
 
-        return HttpHelper::post($apiEndpoint, $data, $header);
+        $header = [
+            'Authorization' => base64_encode("{$api_key}"),
+            'Content-Type'  => 'application/json'
+        ];
+
+        return HttpHelper::post($apiEndpoint, wp_json_encode($finalDataContact), $header);
     }
 
     public function updateContact($app_base_domamin, $finalDataContact, $api_key, $contactId)
@@ -187,7 +201,6 @@ class RecordApiHelper
         $integrationDetails,
         $app_base_domamin
     ) {
-        $fieldData = [];
         $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
         $finalData = $finalData + ['status' => json_decode($integrationDetails->status)] + ['priority' => json_decode($integrationDetails->priority)];
 
@@ -207,36 +220,44 @@ class RecordApiHelper
             $finalData['responder_id'] = (int) $integrationDetails->selected_ticket_agent;
         }
 
-        if ($integrationDetails->updateContact && $integrationDetails->contactShow) {
-            $finalDataContact = $this->generateReqDataFromFieldMapContact($fieldValues, $fieldMapContact);
-            $avatarFieldName = $integrationDetails->actions->attachments;
-            $avatar = $fieldValues[$avatarFieldName];
-            $apiResponseFetchContact = $this->fetchContact($app_base_domamin, $finalDataContact['email'], $integrationDetails->api_key);
-            if (empty($apiResponseFetchContact)) {
-                $apiResponseContact = $this->insertContact($app_base_domamin, $finalDataContact, $integrationDetails->api_key, $avatar);
-            } else {
-                $contactId = $apiResponseFetchContact[0]->id;
-                $apiResponseContact = $this->updateContact($app_base_domamin, $finalDataContact, $integrationDetails->api_key, $contactId);
-            }
-        }
-
         if ($integrationDetails->contactShow) {
             $finalDataContact = $this->generateReqDataFromFieldMapContact($fieldValues, $fieldMapContact);
             $avatarFieldName = $integrationDetails->actions->attachments;
             $avatar = $fieldValues[$avatarFieldName];
             $apiResponseFetchContact = $this->fetchContact($app_base_domamin, $finalDataContact['email'], $integrationDetails->api_key);
+
             if (empty($apiResponseFetchContact)) {
+                $typeName = 'create-contact';
                 $apiResponseContact = $this->insertContact($app_base_domamin, $finalDataContact, $integrationDetails->api_key, $avatar);
+            } elseif ($integrationDetails->updateContact) {
+                $typeName = 'update-contact';
+                $contactId = $apiResponseFetchContact[0]->id;
+                $apiResponseContact = $this->updateContact($app_base_domamin, $finalDataContact, $integrationDetails->api_key, $contactId);
+            } else {
+                $finalData['requester_id'] = $apiResponseFetchContact[0]->id;
+                $typeName = 'fetch-contact';
+                $apiResponseContact = ['message' => 'Contact already exists'];
             }
+
+            $responseType = 'error';
+            if (isset($apiResponseContact->id)) {
+                $finalData['requester_id'] = $apiResponseContact->id;
+                $responseType = 'success';
+            }
+
+            $finalData['requester_id'] = isset($apiResponseContact->id) ? $apiResponseContact->id : '';
+
+            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'contact', 'type_name' => $typeName]), $responseType, wp_json_encode($apiResponseContact));
         }
+
         $attachmentsFieldName = $integrationDetails->actions->file;
         $fileTicket = $fieldValues[$attachmentsFieldName];
         $apiResponse = $this->insertTicket($apiEndpoint, $finalData, $integrationDetails->api_key, $fileTicket);
 
         if (property_exists($apiResponse, 'errors')) {
-            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'contact', 'type_name' => 'add-contact']), 'error', wp_json_encode($apiResponse));
+            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'ticket', 'type_name' => 'create-ticket']), 'error', wp_json_encode($apiResponse));
         } else {
-            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'record', 'type_name' => 'add-contact']), 'success', wp_json_encode($apiResponse));
+            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'ticket', 'type_name' => 'create-ticket']), 'success', wp_json_encode($apiResponse));
         }
 
         return $apiResponse;

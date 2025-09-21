@@ -6,8 +6,8 @@
 
 namespace BitCode\FI\Actions\Freshdesk;
 
-use WP_Error;
 use BitCode\FI\Core\Util\HttpHelper;
+use WP_Error;
 
 /**
  * Provide functionality for Freshdesk integration
@@ -161,7 +161,11 @@ class FreshdeskController
         $responseData = [];
         foreach ($apiResponse as $value) {
             if (!\in_array($value->name, $excludingFields)) {
-                $responseData[] = (object) ['key' => $value->name, 'label' => $value->label, 'required' => $value->name == 'email' || $value->name == 'name' ? true : $value->required_for_agents];
+                $responseData[] = (object) [
+                    'key'      => $value->default ? $value->name : "btcbi_cf_{$value->name}",
+                    'label'    => $value->label,
+                    'required' => $value->name == 'email' || $value->name == 'name' ? true : $value->required_for_agents
+                ];
             }
         }
 
