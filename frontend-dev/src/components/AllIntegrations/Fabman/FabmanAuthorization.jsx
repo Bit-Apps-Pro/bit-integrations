@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-unused-expressions */
 import { useState, useCallback, useEffect } from 'react'
 import { __ } from '../../../Utils/i18nwrap'
 import LoaderSm from '../../Loaders/LoaderSm'
@@ -57,6 +59,7 @@ export default function FabmanAuthorization({
     <div className="btcd-stp-page" style={styleStep1}>
       {fabman?.youTubeLink && <TutorialLink title="Fabman" youTubeLink={fabman?.youTubeLink} />}
       {fabman?.docLink && <TutorialLink title="Fabman" docLink={fabman?.docLink} />}
+
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>
       </div>
@@ -70,6 +73,7 @@ export default function FabmanAuthorization({
         placeholder={__('Integration Name...', 'bit-integrations')}
         disabled={isInfo}
       />
+
       <div className="mt-3">
         <b>{__('API Key:', 'bit-integrations')}</b>
       </div>
@@ -85,6 +89,7 @@ export default function FabmanAuthorization({
       <div className="mt-3" style={{ color: 'red', fontSize: '15px' }}>
         {error.apiKey}
       </div>
+
       {!isInfo && (
         <div>
           <button
@@ -107,6 +112,7 @@ export default function FabmanAuthorization({
               : __('Authorize', 'bit-integrations')}
             {loading.auth && <LoaderSm size="20" clr="#022217" className="ml-2" />}
           </button>
+
           <button
             onClick={nextPage}
             className="btn ml-auto btcd-btn-lg purple sh-sm flx"

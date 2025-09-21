@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable no-else-return */
 import toast from 'react-hot-toast'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { __ } from '../../../Utils/i18nwrap'
@@ -109,10 +111,16 @@ export const fetchFabmanWorkspaces = (confTmp, setConf, loading, setLoading, typ
 }
 
 export const fetchMemberByEmail = (confTmp, setConf, loading, setLoading, type = 'fetch') => {
+  console.log('=== fetchMemberByEmail called ===')
+  console.log('confTmp:', confTmp)
+  console.log('Action:', confTmp.actionName)
+
   if (!confTmp.apiKey) {
+    console.log('API key missing')
     toast.error(__('API key is required to fetch member by email', 'bit-integrations'))
     return
   }
+
 
   let email = null
   if (Array.isArray(confTmp.field_map)) {
@@ -120,13 +128,16 @@ export const fetchMemberByEmail = (confTmp, setConf, loading, setLoading, type =
     if (emailField) {
       if (emailField.formField === 'custom' && emailField.customValue) {
         email = emailField.customValue
+        console.log('Found email from customValue:', email)
       } else if (emailField.formField && emailField.formField !== 'custom') {
         email = emailField.formField
+        console.log('Found email from formField:', email)
       }
     }
   }
 
   if (!email) {
+    console.log('No email found in field map')
     toast.error(__('Email field not found in field map', 'bit-integrations'))
     return
   }
@@ -138,17 +149,31 @@ export const fetchMemberByEmail = (confTmp, setConf, loading, setLoading, type =
     email: email
   }
 
+  console.log('Request params:', requestParams)
+
   bitsFetch(requestParams, 'fabman_fetch_member_by_email')
     .then(result => {
+      console.log('API Response:', result)
       setLoading({ ...loading, members: false })
       if (result && result.success) {
         const newConf = { ...confTmp }
+
+        console.log('Before setting memberId - selectedMember:', newConf.selectedMember)
+        console.log('Before setting memberId - actionName:', newConf.actionName)
+
         if (result.data.memberId) {
           newConf.selectedMember = result.data.memberId
+          console.log('Set selectedMember:', result.data.memberId)
         }
         if (result.data.lockVersion) {
           newConf.selectedLockVersion = result.data.lockVersion
+          console.log('Set selectedLockVersion:', result.data.lockVersion)
         }
+
+        console.log('After setting - selectedMember:', newConf.selectedMember)
+        console.log('After setting - actionName:', newConf.actionName)
+        console.log('Final newConf:', newConf)
+
         setConf(newConf)
         toast.success(
           type === 'refresh'
@@ -160,6 +185,7 @@ export const fetchMemberByEmail = (confTmp, setConf, loading, setLoading, type =
       toast.error(__('Failed to fetch member by email', 'bit-integrations'))
     })
     .catch(error => {
+      console.log('API Error:', error)
       setLoading({ ...loading, members: false })
       toast.error(__('Failed to fetch member by email', 'bit-integrations'))
     })

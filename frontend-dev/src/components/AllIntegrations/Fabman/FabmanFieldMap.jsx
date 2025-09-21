@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useRecoilValue } from 'recoil'
 import { useMemo, useCallback } from 'react'
 import { __, sprintf } from '../../../Utils/i18nwrap'
