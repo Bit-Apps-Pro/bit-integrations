@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '1st September 2025'
+const releaseDate = '20th September 2025'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -31,13 +31,7 @@ const changeLog = [
     label: __('New Triggers', 'bit-integrations'),
     headClass: 'new-trigger',
     itemClass: 'integration-list',
-    items: [
-      {
-        label: 'FluentAffiliate',
-        desc: '8 New Events Added.',
-        isPro: true
-      }
-    ]
+    items: []
   },
   {
     label: __('New Features', 'bit-integrations'),
@@ -57,13 +51,18 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'MemberPress',
-        desc: 'Fixed undefined array key issue.',
+        label: 'Salesforce',
+        desc: 'Fixed refresh token expiration issue.',
         isPro: false
       },
       {
-        label: 'MemberPress',
-        desc: 'Resolved lifetime expiration date bug.',
+        label: 'Salesforce',
+        desc: 'Resolved issue with task creation execution.',
+        isPro: false
+      },
+      {
+        label: 'Freshdesk',
+        desc: 'Fixed contact creation issue & Addressed problems with custom fields not working properly.',
         isPro: false
       }
     ]

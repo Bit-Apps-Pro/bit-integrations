@@ -1,13 +1,13 @@
-=== Bit integrations - Easy Automator with no-code automation, integrate Webhook and automate 290+ Platform ===
+=== Bit integrations - Easy Automator with no-code automation, integrate Webhook and automate 300+ Platform ===
 Contributors: bitpressadmin, akaioum, rishadbitcode, niloy121, fahimsakib, shuvomohajan, tanvirchy, shakhawathosen, khoaiz, mazharul78
 Tags: automation, automator, Google Sheets, webhooks, zapier, marketing automation, WooCommerce Integration, no-code automation, email marketing automation, ecommerce automation, digital marketing automation, conditional logic
 Requires at least: 5.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.6.8
+Stable tag: 2.6.10
 License: GPLv2 or later
 
-Perfect Automation and integration plugin: Connect 290+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
+Perfect Automation and integration plugin: Connect 300+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
 
 == Description ==
 
@@ -82,7 +82,7 @@ Automate your WordPress workflow with **Bit Integrations** — the ultimate **no
 - Email Marketing Tools  
 - Automation Platforms like **Zapier** and more
 
-> **Over 290+ platforms supported — all without code.**
+> **Over 300+ platforms supported — all without code.**
 > Bit Integrations is the **automator plugin WordPress users rely on** for smart, scalable automation.
 
 ---
@@ -368,13 +368,13 @@ Wp-Telemetry **DOES NOT IMMEDIATELY** start gathering data, rather it will gathe
 
 - 🧠 **Detailed Logging**: Smart error handling with view logs of all your data submissions and automated actions.
 
-- 🔁 **Access to 290+ Integrations**: Easily connect with tools like Zapier, Google Sheets, Trello, Slack, and more.
+- 🔁 **Access to 300+ Integrations**: Easily connect with tools like Zapier, Google Sheets, Trello, Slack, and more.
 
 ### ✨ [**Bit Integrations Pro Version Features**](https://www.bitapps.pro/bit-integrations/) :
 
 Free version allows you to use all free triggers and all actions,
 also with unlimited active integrations.
-With the pro version, you have the ability to use all 290+ triggers and actions for unlimited active integrations.
+With the pro version, you have the ability to use all 300+ triggers and actions for unlimited active integrations.
 Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations/).
 
 ### 💥 Don't worry, we give you some video tutorials with use cases to help you get started with the plugin.
@@ -637,7 +637,7 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 == Frequently Asked Questions ==
 
 = 1. What is Bit Integrations and how does it work? =
-Bit Integrations is a no-code WordPress plugin that helps you connect and sync data between over 290 platforms like WooCommerce, CRM, email marketing tools, Google Sheets, and more. It automates workflows by sending data from triggers like form submissions or orders to connected apps, without requiring coding.
+Bit Integrations is a no-code WordPress plugin that helps you connect and sync data between over 300 platforms like WooCommerce, CRM, email marketing tools, Google Sheets, and more. It automates workflows by sending data from triggers like form submissions or orders to connected apps, without requiring coding.
 
 = 2. Can I automate WooCommerce workflows with Bit Integrations? =
 Yes! Bit Integrations allows you to automate WooCommerce workflows such as syncing customer data, order details, and subscriptions to CRMs, email marketing platforms, and spreadsheets.
@@ -655,7 +655,7 @@ Bit Integrations supports leading CRM platforms including HubSpot, Salesforce, Z
 Yes, it integrates with popular email marketing platforms like Mailchimp, ActiveCampaign, SendinBlue (Brevo), MailPoet, and others to automate your email campaigns based on user data.
 
 = 7. How many integrations and workflows can I create with Bit Integrations? =
-The free version allows unlimited integrations with free triggers and actions. The Pro version unlocks all 290+ triggers and actions with unlimited active workflows.
+The free version allows unlimited integrations with free triggers and actions. The Pro version unlocks all 300+ triggers and actions with unlimited active workflows.
 
 = 8. Does Bit Integrations support Google Sheets for data syncing? =
 Yes, you can automatically sync form data, WooCommerce orders, and other WordPress data to Google Sheets for real-time tracking and reporting.
@@ -700,6 +700,34 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 
 == Changelog ==
 
+= 2.6.10 =
+- **Bug Fixes**
+ - Salesforce: Fixed refresh token expiration issue.
+ - Salesforce: Resolved issue with task creation execution.
+ - Freshdesk: Fixed contact creation issue & Addressed problems with custom fields not working properly.
+
+= 2.6.9 =
+_Release Date -14th September 2025_
+
+- **New Action**
+ - ACPT: 12 new events added
+
+- **New Triggers**
+ - FormGent: 10 new events added (Pro).
+ - StoreEngine: 12 new events added (Pro).
+ - EasyCommerce: 31 new events added (Pro).
+ - GeoDirectory: 1 new event added (Pro).
+ - WP User Frontend: 5 new events added (Pro).
+
+- **New Features**
+ - CopperCRM: Added Company & Tags assignment utilities to Person
+ - Integrations Timeline: Added response viewer modal for better tracking
+
+- **Bug Fixes**
+ - CopperCRM: Fixed custom field data storing issue
+ - WooCommerce: Fixed cart total & cart tax empty data issue
+ - MailMint: Fixed integration name edit issue & added validation
+ 
 = 2.6.8 =
 _Release Date -1st September 2025_
 

@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\Salesforce;
 
-use WP_Error;
-use BitCode\FI\Flow\FlowController;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Flow\FlowController;
+use WP_Error;
 
 class SalesforceController
 {
@@ -392,10 +392,8 @@ class SalesforceController
         $tokenDetails = $integrationDetails->tokenDetails;
         $fieldMap = $integrationDetails->field_map;
         $actions = $integrationDetails->actions;
-        if (
-            empty($tokenDetails)
-            || empty($fieldMap)
-        ) {
+
+        if (empty($tokenDetails)) {
             return new WP_Error('REQ_FIELD_EMPTY', __('list are required for zoho desk api', 'bit-integrations'));
         }
 
@@ -472,23 +470,24 @@ class SalesforceController
             || empty($apiData->clientId)
             || empty($apiData->clientSecret)
             || empty($apiData->tokenDetails)
-            || empty($apiData->redirectURI)
         ) {
             return false;
         }
 
         $tokenDetails = $apiData->tokenDetails;
 
-        $apiEndpoint = 'https://login.salesforce.com/services/oauth2/token?grant_type=refresh_token&client_id=' . $apiData->clientId . '&client_secret=' . $apiData->clientSecret . '&redirect_uri=' . $apiData->redirectURI . '&refresh_token=' . $tokenDetails->refresh_token;
-        $requestParams = [
-            'grant_type'    => 'refresh_token',
-            'client_id'     => $apiData->clientId,
-            'client_secret' => $apiData->clientSecret,
-            'redirect_uri'  => urldecode($apiData->redirectURI),
-            'refresh_token' => $tokenDetails->refresh_token
-        ];
+        $apiQuery = http_build_query(
+            [
+                'grant_type'    => 'refresh_token',
+                'client_id'     => $apiData->clientId,
+                'client_secret' => $apiData->clientSecret,
+                'refresh_token' => $tokenDetails->refresh_token
+            ]
+        );
 
-        $apiResponse = HttpHelper::post($apiEndpoint, $requestParams);
+        $apiEndpoint = 'https://login.salesforce.com/services/oauth2/token?' . $apiQuery;
+
+        $apiResponse = HttpHelper::post($apiEndpoint, null);
 
         if (is_wp_error($apiResponse) || !empty($apiResponse->error)) {
             return false;

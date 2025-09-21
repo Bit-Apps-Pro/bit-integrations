@@ -24,7 +24,7 @@ const ProFeatureSubtitle = ({ title, subtitle, proVersion }) => {
         ? subtitle
         : sprintf(
             __(
-              'The Bit Integration Pro v(%s) plugin needs to be installed and activated to enable the %s feature',
+              'The Bit Integrations Pro v(%s) plugin needs to be installed and activated to enable the %s feature',
               'bit-integrations'
             ),
             proVersion,

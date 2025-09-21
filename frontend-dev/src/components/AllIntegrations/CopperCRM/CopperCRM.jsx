@@ -62,7 +62,7 @@ function CopperCRM({ formFields, setFlow, flow, allIntegURL }) {
     { key: 'details', label: __('Description', 'bit-integrations'), required: false }
   ]
 
-  const [coppercrmConf, setCopperCRMConf] = useState({
+  const [copperCRMConf, setCopperCRMConf] = useState({
     name: 'CopperCRM',
     type: 'CopperCRM',
     api_key: '',
@@ -82,7 +82,7 @@ function CopperCRM({ formFields, setFlow, flow, allIntegURL }) {
       flow,
       setFlow,
       allIntegURL,
-      coppercrmConf,
+      copperCRMConf,
       navigate,
       '',
       '',
@@ -103,23 +103,23 @@ function CopperCRM({ formFields, setFlow, flow, allIntegURL }) {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
-    if (!checkMappedFields(coppercrmConf)) {
+    if (!checkMappedFields(copperCRMConf)) {
       toast.error(__('Please map mandatory fields', 'bit-integrations'))
       return
     }
 
-    if (coppercrmConf.actionName === 'opportunity') {
-      if (!coppercrmConf.selectedCRMPeople) {
+    if (copperCRMConf.actionName === 'opportunity') {
+      if (!copperCRMConf.selectedCRMPeople) {
         toast.error(__('Please select a people', 'bit-integrations'))
         return
       }
-      if (!coppercrmConf.selectedCRMPipelines && coppercrmConf.actionName === 'opportunity') {
+      if (!copperCRMConf.selectedCRMPipelines && copperCRMConf.actionName === 'opportunity') {
         toast.error(__('Please select a Pipeline', 'bit-integrations'))
         return
       }
     }
 
-    coppercrmConf.field_map.length > 0 && setStep(pageNo)
+    copperCRMConf.field_map.length > 0 && setStep(pageNo)
   }
 
   return (
@@ -131,7 +131,7 @@ function CopperCRM({ formFields, setFlow, flow, allIntegURL }) {
 
       {/* STEP 1 */}
       <CopperCRMAuthorization
-        coppercrmConf={coppercrmConf}
+        copperCRMConf={copperCRMConf}
         setCopperCRMConf={setCopperCRMConf}
         step={step}
         setStep={setStep}
@@ -146,18 +146,18 @@ function CopperCRM({ formFields, setFlow, flow, allIntegURL }) {
         style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
         <CopperCRMIntegLayout
           formFields={formFields}
-          handleInput={e => handleInput(e, coppercrmConf, setCopperCRMConf, setLoading, setSnackbar)}
-          coppercrmConf={coppercrmConf}
+          handleInput={e => handleInput(e, copperCRMConf, setCopperCRMConf, setLoading, setSnackbar)}
+          copperCRMConf={copperCRMConf}
           setCopperCRMConf={setCopperCRMConf}
           loading={loading}
           setLoading={setLoading}
           setSnackbar={setSnackbar}
         />
 
-        {coppercrmConf?.actionName && (
+        {copperCRMConf?.actionName && (
           <button
             onClick={() => nextPage(3)}
-            disabled={!checkMappedFields(coppercrmConf)}
+            disabled={!checkMappedFields(copperCRMConf)}
             className="btn f-right btcd-btn-lg purple sh-sm flx"
             type="button">
             {__('Next', 'bit-integrations')} &nbsp;
@@ -167,12 +167,12 @@ function CopperCRM({ formFields, setFlow, flow, allIntegURL }) {
       </div>
 
       {/* STEP 3 */}
-      {coppercrmConf?.actionName && (
+      {copperCRMConf?.actionName && (
         <IntegrationStepThree
           step={step}
           saveConfig={() => saveConfig()}
           isLoading={isLoading}
-          dataConf={coppercrmConf}
+          dataConf={copperCRMConf}
           setDataConf={setCopperCRMConf}
           formFields={formFields}
         />
