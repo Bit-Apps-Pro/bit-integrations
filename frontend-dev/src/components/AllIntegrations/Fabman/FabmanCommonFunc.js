@@ -110,9 +110,35 @@ export const fetchFabmanWorkspaces = (confTmp, setConf, loading, setLoading, typ
   })
 }
 
-export const fetchFabmanMembers = (confTmp, setConf, loading, setLoading, type = 'fetch') => {
-  if (!confTmp.apiKey || !confTmp.selectedWorkspace) {
-    toast.error(__('API key and workspace are required to fetch members', 'bit-integrations'))
+export const fetchMemberByEmail = (confTmp, setConf, loading, setLoading, type = 'fetch') => {
+  console.log('=== fetchMemberByEmail called ===')
+  console.log('confTmp:', confTmp)
+  console.log('Action:', confTmp.actionName)
+
+  if (!confTmp.apiKey) {
+    console.log('API key missing')
+    toast.error(__('API key is required to fetch member by email', 'bit-integrations'))
+    return
+  }
+
+
+  let email = null
+  if (Array.isArray(confTmp.field_map)) {
+    const emailField = confTmp.field_map.find(field => field.fabmanFormField === 'emailAddress')
+    if (emailField) {
+      if (emailField.formField === 'custom' && emailField.customValue) {
+        email = emailField.customValue
+        console.log('Found email from customValue:', email)
+      } else if (emailField.formField && emailField.formField !== 'custom') {
+        email = emailField.formField
+        console.log('Found email from formField:', email)
+      }
+    }
+  }
+
+  if (!email) {
+    console.log('No email found in field map')
+    toast.error(__('Email field not found in field map', 'bit-integrations'))
     return
   }
 
@@ -120,24 +146,47 @@ export const fetchFabmanMembers = (confTmp, setConf, loading, setLoading, type =
 
   const requestParams = {
     apiKey: confTmp.apiKey,
-    workspaceId: confTmp.selectedWorkspace
+    email: email
   }
 
-  bitsFetch(requestParams, 'fabman_fetch_members').then(result => {
-    setLoading({ ...loading, members: false })
-    if (result && result.success) {
-      const newConf = { ...confTmp }
-      if (result.data && result.data.members && Array.isArray(result.data.members)) {
-        newConf.members = result.data.members
+  console.log('Request params:', requestParams)
+
+  bitsFetch(requestParams, 'fabman_fetch_member_by_email')
+    .then(result => {
+      console.log('API Response:', result)
+      setLoading({ ...loading, members: false })
+      if (result && result.success) {
+        const newConf = { ...confTmp }
+
+        console.log('Before setting memberId - selectedMember:', newConf.selectedMember)
+        console.log('Before setting memberId - actionName:', newConf.actionName)
+
+        if (result.data.memberId) {
+          newConf.selectedMember = result.data.memberId
+          console.log('Set selectedMember:', result.data.memberId)
+        }
+        if (result.data.lockVersion) {
+          newConf.selectedLockVersion = result.data.lockVersion
+          console.log('Set selectedLockVersion:', result.data.lockVersion)
+        }
+
+        console.log('After setting - selectedMember:', newConf.selectedMember)
+        console.log('After setting - actionName:', newConf.actionName)
+        console.log('Final newConf:', newConf)
+
+        setConf(newConf)
+        toast.success(
+          type === 'refresh'
+            ? __('Member found and selected successfully', 'bit-integrations')
+            : __('Member found and selected successfully', 'bit-integrations')
+        )
+        return
       }
-      setConf(newConf)
-      toast.success(
-        type === 'refresh'
-          ? __('Members refreshed successfully', 'bit-integrations')
-          : __('Members fetched successfully', 'bit-integrations')
-      )
-      return
-    }
-    toast.error(__('Failed to fetch members', 'bit-integrations'))
-  })
+      toast.error(__('Failed to fetch member by email', 'bit-integrations'))
+    })
+    .catch(error => {
+      console.log('API Error:', error)
+      setLoading({ ...loading, members: false })
+      toast.error(__('Failed to fetch member by email', 'bit-integrations'))
+    })
 }

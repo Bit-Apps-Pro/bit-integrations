@@ -4,9 +4,9 @@ import { __ } from '../../../Utils/i18nwrap'
 import FabmanFieldMap from './FabmanFieldMap'
 import { addFieldMap } from './IntegrationHelpers'
 import FabmanActions from './FabmanActions'
-import { fetchFabmanWorkspaces, fetchFabmanMembers, generateMappedField } from './FabmanCommonFunc'
+import { fetchFabmanWorkspaces, generateMappedField, fetchMemberByEmail } from './FabmanCommonFunc'
 import Loader from '../../Loaders/Loader'
-import { useEffect, useMemo, useCallback } from 'react'
+import { useEffect, useMemo, useCallback, useRef } from 'react'
 
 export default function FabmanIntegLayout({
   formFields,
@@ -16,21 +16,6 @@ export default function FabmanIntegLayout({
   setLoading,
   setSnackbar
 }) {
-  useEffect(() => {
-    if (
-      fabmanConf?.actionName &&
-      (fabmanConf?.selectedWorkspace || fabmanConf?.actionName === 'create_spaces') &&
-      Array.isArray(fabmanConf.field_map) &&
-      fabmanConf.field_map.length === 1 &&
-      (fabmanConf.field_map[0].fabmanFormField === '' ||
-        fabmanConf.field_map[0].fabmanFormField === undefined)
-    ) {
-      const newConf = { ...fabmanConf }
-      newConf.field_map = generateMappedField({ staticFields: getActiveStaticFields(fabmanConf) })
-      setFabmanConf(newConf)
-    }
-  }, [fabmanConf.actionName, fabmanConf.selectedWorkspace])
-
   const actions = useMemo(
     () => [
       { label: __('Create Member', 'bit-integrations'), value: 'create_member' },
@@ -54,6 +39,20 @@ export default function FabmanIntegLayout({
       if (tzIdx > -1) fields[tzIdx].required = isCreate
       return fields
     }
+
+    // Special handling for update_member and delete_member actions
+    if (conf.actionName === 'update_member' || conf.actionName === 'delete_member') {
+      const fields = Array.isArray(conf.memberStaticFields)
+        ? conf.memberStaticFields.map(f => ({ ...f }))
+        : []
+      // Make emailAddress required and firstName not required for both actions
+      const emailIdx = fields.findIndex(f => String(f.key) === 'emailAddress')
+      if (emailIdx > -1) fields[emailIdx].required = true
+      const firstNameIdx = fields.findIndex(f => String(f.key) === 'firstName')
+      if (firstNameIdx > -1) fields[firstNameIdx].required = false
+      return fields
+    }
+
     return conf.memberStaticFields
   }, [])
 
@@ -95,11 +94,6 @@ export default function FabmanIntegLayout({
       newConf.field_map = [{ formField: '', fabmanFormField: '' }]
 
       setFabmanConf(newConf)
-
-      const requiresMemberSelection = value === 'update_member' || value === 'delete_member'
-      if (requiresMemberSelection && newConf.selectedWorkspace) {
-        fetchFabmanMembers(newConf, setFabmanConf, loading, setLoading, 'fetch')
-      }
     },
     [fabmanConf, setFabmanConf, loading, setLoading]
   )
@@ -115,12 +109,6 @@ export default function FabmanIntegLayout({
       }
 
       setFabmanConf(newConf)
-
-      const requiresMemberSelection =
-        newConf.actionName === 'update_member' || newConf.actionName === 'delete_member'
-      if (requiresMemberSelection && newConf.selectedWorkspace) {
-        fetchFabmanMembers(newConf, setFabmanConf, loading, setLoading, 'fetch')
-      }
     },
     [fabmanConf, setFabmanConf, loading, setLoading]
   )
@@ -148,17 +136,13 @@ export default function FabmanIntegLayout({
     fetchFabmanWorkspaces(fabmanConf, setFabmanConf, loading, setLoading, 'refresh')
   }, [fabmanConf, setFabmanConf, loading, setLoading])
 
-  const handleRefreshMembers = useCallback(() => {
-    fetchFabmanMembers(fabmanConf, setFabmanConf, loading, setLoading, 'refresh')
-  }, [fabmanConf, setFabmanConf, loading, setLoading])
-
-  const requiresMemberSelection = useMemo(
-    () => fabmanConf.actionName === 'update_member' || fabmanConf.actionName === 'delete_member',
+  const isSpaceAction = useMemo(
+    () => fabmanConf.actionName === 'create_spaces' || fabmanConf.actionName === 'update_spaces',
     [fabmanConf.actionName]
   )
 
-  const isSpaceAction = useMemo(
-    () => fabmanConf.actionName === 'create_spaces' || fabmanConf.actionName === 'update_spaces',
+  const isDeleteMember = useMemo(
+    () => fabmanConf.actionName === 'delete_member',
     [fabmanConf.actionName]
   )
 
@@ -186,91 +170,82 @@ export default function FabmanIntegLayout({
         </select>
       </div>
       <br />
-      {fabmanConf.actionName && (!isSpaceAction || fabmanConf.actionName === 'update_spaces') && (
+      {/* Workspace selector for all except delete_member */}
+      {fabmanConf.actionName &&
+        !isDeleteMember &&
+        (!isSpaceAction || fabmanConf.actionName === 'update_spaces') && (
+          <>
+            <div className="flx">
+              <b className="wdt-200 d-in-b">{__('Select Workspace:', 'bit-integrations')}</b>
+              <select
+                onChange={handleWorkspaceChange}
+                name="selectedWorkspace"
+                value={fabmanConf?.selectedWorkspace || ''}
+                className="btcd-paper-inp w-5"
+                disabled={loading.workspaces}>
+                <option value="">{__('Select Workspace', 'bit-integrations')}</option>
+                {fabmanConf?.workspaces?.map(workspace => (
+                  <option key={workspace.id} value={workspace.id}>
+                    {workspace.name}
+                  </option>
+                ))}
+              </select>
+              <button
+                onClick={handleRefreshWorkspaces}
+                className="icn-btn sh-sm ml-2 mr-2 tooltip"
+                style={{ '--tooltip-txt': `'${__('Refresh Workspaces', 'bit-integrations')}'` }}
+                type="button"
+                disabled={loading.workspaces}>
+                &#x21BB;
+              </button>
+            </div>
+            {loading.workspaces && (
+              <Loader
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 50,
+                  transform: 'scale(0.7)'
+                }}
+              />
+            )}
+            <br />
+          </>
+        )}
+      {/* Remove the entire member selector section for delete_member */}
+      {/* Field map for delete_member: only one required email field, no + button */}
+      {isDeleteMember && (
         <>
-          <div className="flx">
-            <b className="wdt-200 d-in-b">{__('Select Workspace:', 'bit-integrations')}</b>
-            <select
-              onChange={handleWorkspaceChange}
-              name="selectedWorkspace"
-              value={fabmanConf?.selectedWorkspace || ''}
-              className="btcd-paper-inp w-5"
-              disabled={loading.workspaces}>
-              <option value="">{__('Select Workspace', 'bit-integrations')}</option>
-              {fabmanConf?.workspaces?.map(workspace => (
-                <option key={workspace.id} value={workspace.id}>
-                  {workspace.name}
-                </option>
-              ))}
-            </select>
-            <button
-              onClick={handleRefreshWorkspaces}
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `'${__('Refresh Workspaces', 'bit-integrations')}'` }}
-              type="button"
-              disabled={loading.workspaces}>
-              &#x21BB;
-            </button>
+          <div className="mt-5">
+            <b className="wdt-100">{__('Field Map', 'bit-integrations')}</b>
           </div>
-          {loading.workspaces && (
-            <Loader
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 50,
-                transform: 'scale(0.7)'
-              }}
-            />
-          )}
           <br />
+          <div className="btcd-hr mt-1" />
+          <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
+            <div className="txt-dp">
+              <b>{__('Form Fields', 'bit-integrations')}</b>
+            </div>
+            <div className="txt-dp">
+              <b>{__('Fabman Fields', 'bit-integrations')}</b>
+            </div>
+          </div>
+          <FabmanFieldMap
+            i={0}
+            field={fabmanConf.field_map[0] || { formField: '', fabmanFormField: 'emailAddress' }}
+            fabmanConf={{
+              ...fabmanConf,
+              staticFields: [
+                { key: 'emailAddress', label: __('Email Address', 'bit-integrations'), required: true }
+              ]
+            }}
+            formFields={formFields}
+            setFabmanConf={setFabmanConf}
+            setSnackbar={setSnackbar}
+          />
         </>
       )}
-      {requiresMemberSelection && fabmanConf.selectedWorkspace && (
-        <>
-          <div className="flx">
-            <b className="wdt-200 d-in-b">{__('Select Member:', 'bit-integrations')}</b>
-            <select
-              onChange={handleMemberChange}
-              name="selectedMember"
-              value={
-                fabmanConf?.selectedMember && fabmanConf?.selectedLockVersion
-                  ? `${fabmanConf.selectedMember}|${fabmanConf.selectedLockVersion}`
-                  : ''
-              }
-              className="btcd-paper-inp w-5"
-              disabled={loading.members}>
-              <option value="">{__('Select Member', 'bit-integrations')}</option>
-              {fabmanConf?.members?.map(member => (
-                <option key={member.id} value={`${member.id}|${member.lockVersion}`}>
-                  {member.firstName} {member.lastName} (
-                  {member.emailAddress || member.memberNumber || member.id})
-                </option>
-              ))}
-            </select>
-            <button
-              onClick={handleRefreshMembers}
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `'${__('Refresh Members', 'bit-integrations')}'` }}
-              type="button"
-              disabled={loading.members}>
-              &#x21BB;
-            </button>
-          </div>
-          {loading.members && (
-            <Loader
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 50,
-                transform: 'scale(0.7)'
-              }}
-            />
-          )}
-          <br />
-        </>
-      )}
+      {/* Field map for other actions */}
       {fabmanConf.actionName &&
         fabmanConf.actionName !== 'delete_member' &&
         (!isSpaceAction ||

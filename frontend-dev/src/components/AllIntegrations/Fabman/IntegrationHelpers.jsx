@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-expressions */
-
 export const addFieldMap = (i, confTmp, setConf) => {
   const newConf = { ...confTmp }
   const fieldMap = Array.isArray(newConf.field_map) ? [...newConf.field_map] : []

@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable no-unused-expressions */
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
@@ -10,7 +10,7 @@ import Steps from '../../Utilities/Steps'
 import { saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import FabmanAuthorization from './FabmanAuthorization'
-import { checkMappedFields, fetchFabmanMembers } from './FabmanCommonFunc'
+import { checkMappedFields } from './FabmanCommonFunc'
 import FabmanIntegLayout from './FabmanIntegLayout'
 
 export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
@@ -157,7 +157,6 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
     selectedLockVersion: ''
   })
 
-  // Extracted validation logic
   const isConfigInvalid = () => {
     if (!fabmanConf.actionName) return true
     if (
@@ -166,14 +165,21 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
     )
       return true
     if (
-      ['create_member', 'update_member', 'delete_member', 'update_spaces', 'delete_spaces'].includes(
+      ['create_member', 'update_member', 'update_spaces', 'delete_spaces'].includes(
         fabmanConf.actionName
       ) &&
       !fabmanConf.selectedWorkspace
     )
       return true
-    if (['update_member', 'delete_member'].includes(fabmanConf.actionName) && !fabmanConf.selectedMember)
-      return true
+    // For delete_member, just need email field mapped (no need for selectedMember)
+    if (fabmanConf.actionName === 'delete_member') {
+      const hasEmailField = fabmanConf.field_map?.some(
+        field => field.fabmanFormField === 'emailAddress' && field.formField
+      )
+      if (!hasEmailField) {
+        return true
+      }
+    }
     return false
   }
 
@@ -187,17 +193,22 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
       ) {
         setSnack({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       } else if (
-        ['create_member', 'update_member', 'delete_member', 'update_spaces', 'delete_spaces'].includes(
+        ['create_member', 'update_member', 'update_spaces', 'delete_spaces'].includes(
           fabmanConf.actionName
         ) &&
         !fabmanConf.selectedWorkspace
       ) {
         setSnack({ show: true, msg: __('Please select a workspace', 'bit-integrations') })
-      } else if (
-        ['update_member', 'delete_member'].includes(fabmanConf.actionName) &&
-        !fabmanConf.selectedMember
-      ) {
-        setSnack({ show: true, msg: __('Please select a member', 'bit-integrations') })
+      } else if (fabmanConf.actionName === 'delete_member') {
+        const hasEmailField = fabmanConf.field_map?.some(
+          field => field.fabmanFormField === 'emailAddress' && field.formField
+        )
+        if (!hasEmailField) {
+          setSnack({
+            show: true,
+            msg: __('Please map email field for member lookup', 'bit-integrations')
+          })
+        }
       }
       return
     }
@@ -214,17 +225,22 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
       ) {
         setSnack({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       } else if (
-        ['create_member', 'update_member', 'delete_member', 'update_spaces', 'delete_spaces'].includes(
+        ['create_member', 'update_member', 'update_spaces', 'delete_spaces'].includes(
           fabmanConf.actionName
         ) &&
         !fabmanConf.selectedWorkspace
       ) {
         setSnack({ show: true, msg: __('Please select a workspace', 'bit-integrations') })
-      } else if (
-        ['update_member', 'delete_member'].includes(fabmanConf.actionName) &&
-        !fabmanConf.selectedMember
-      ) {
-        setSnack({ show: true, msg: __('Please select a member', 'bit-integrations') })
+      } else if (fabmanConf.actionName === 'delete_member') {
+        const hasEmailField = fabmanConf.field_map?.some(
+          field => field.fabmanFormField === 'emailAddress' && field.formField
+        )
+        if (!hasEmailField) {
+          setSnack({
+            show: true,
+            msg: __('Please map email field for member lookup', 'bit-integrations')
+          })
+        }
       }
       return
     }
@@ -232,27 +248,21 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
   }
 
   const handleWorkspaceChange = e => {
-    const newConf = { ...fabmanConf }
-    newConf.selectedWorkspace = e.target.value
-    setFabmanConf(newConf)
-
-    const requiresMemberSelection =
-      fabmanConf.actionName === 'update_member' || fabmanConf.actionName === 'delete_member'
-    if (requiresMemberSelection && e.target.value) {
-      fetchFabmanMembers(newConf, setFabmanConf, loading, setLoading, 'fetch')
-    }
+    const selectedId = e.target.value
+    const ws = workspaces.find(w => String(w.id) === String(selectedId))
+    setFabmanConf(prev => ({
+      ...prev,
+      selectedWorkspace: selectedId,
+      selectedLockVersion: ws ? ws.lockVersion : null
+    }))
   }
 
   const handleActionChange = e => {
-    const newConf = { ...fabmanConf }
-    newConf.actionName = e.target.value
-    setFabmanConf(newConf)
+    setFabmanConf(prev => {
+      const newConf = { ...prev, actionName: e.target.value }
 
-    const requiresMemberSelection =
-      e.target.value === 'update_member' || e.target.value === 'delete_member'
-    if (requiresMemberSelection && fabmanConf.selectedWorkspace) {
-      fetchFabmanMembers(newConf, setFabmanConf, loading, setLoading, 'fetch')
-    }
+      return newConf
+    })
   }
 
   return (

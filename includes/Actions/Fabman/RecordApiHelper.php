@@ -8,42 +8,42 @@ use WP_Error;
 
 class RecordApiHelper
 {
-    private $_integrationID;
+    private $integrationID;
 
-    private $_apiKey;
+    private $apiKey;
 
-    private $_workspaceId;
+    private $workspaceId;
 
-    private $_accountId;
+    private $accountId;
 
-    private $_memberId;
+    private $memberId;
 
-    private $_apiEndpoint;
+    private $apiEndpoint;
 
-    private $_lockVersion;
+    private $lockVersion;
 
     public function __construct($apiKey, $workspaceId, $accountId, $integrationID = null, $memberId = null, $lockVersion)
     {
-        $this->_integrationID = $integrationID;
-        $this->_apiKey = $apiKey;
-        $this->_workspaceId = $workspaceId;
-        $this->_accountId = $accountId;
-        $this->_memberId = $memberId;
-        $this->_lockVersion = $lockVersion;
-        $this->_apiEndpoint = 'https://fabman.io/api/v1';
+        $this->integrationID = $integrationID;
+        $this->apiKey = $apiKey;
+        $this->workspaceId = $workspaceId;
+        $this->accountId = $accountId;
+        $this->memberId = $memberId;
+        $this->lockVersion = $lockVersion;
+        $this->apiEndpoint = 'https://fabman.io/api/v1';
     }
 
     public function execute($actionName, $fieldValues, $integrationDetails)
     {
         $finalData = [];
-        $finalData['account'] = $this->_accountId;
+        $finalData['account'] = $this->accountId;
 
-        if ($this->_workspaceId) {
-            $finalData['space'] = $this->_workspaceId;
+        if ($this->workspaceId) {
+            $finalData['space'] = $this->workspaceId;
         }
 
-        if ($this->_memberId) {
-            $finalData['memberId'] = $this->_memberId;
+        if ($this->memberId) {
+            $finalData['memberId'] = $this->memberId;
         }
 
         if (!empty($integrationDetails->field_map)) {
@@ -84,7 +84,7 @@ class RecordApiHelper
 
         $status = \in_array(HttpHelper::$responseCode, [200, 201, 204]) ? 'success' : 'error';
 
-        LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => $actionName], $status, $apiResponse);
+        LogHandler::save($this->integrationID, ['type' => 'record', 'type_name' => $actionName], $status, $apiResponse);
 
         return $apiResponse;
     }
@@ -92,7 +92,7 @@ class RecordApiHelper
     private function createMember($data)
     {
         unset($data['memberId']);
-        $apiEndpoint = $this->_apiEndpoint . '/members';
+        $apiEndpoint = $this->apiEndpoint . '/members';
         $header = $this->setHeaders();
 
         $apiResponse = HttpHelper::post($apiEndpoint, json_encode($data), $header);
@@ -110,61 +110,51 @@ class RecordApiHelper
 
     private function updateMember($data)
     {
-        $data['lockVersion'] = $this->_lockVersion;
-        if (empty($this->_memberId)) {
-            return new WP_Error('MISSING_MEMBER_ID', \__('Member ID is required for update operation', 'bit-integrations'));
+        $data['lockVersion'] = $this->lockVersion;
+        if (empty($this->memberId)) {
+            return new WP_Error('MISSING_MEMBER_ID', __('Member ID is required for update operation', 'bit-integrations'));
         }
-        $response = \apply_filters('btcbi_fabman_update_member', false, json_encode($data), $this->setHeaders(), $this->_apiEndpoint, $this->_memberId);
 
-        return $this->handleFilterResponse($response, 'update_member');
+        error_log(print_r($data, true));
+        $response = \apply_filters('btcbi_fabman_update_member', false, json_encode($data), $this->setHeaders(), $this->apiEndpoint, $this->memberId);
+
+        return $this->handleFilterResponse($response);
     }
 
     private function deleteMember()
     {
-        if (empty($this->_memberId)) {
-            return new WP_Error('MISSING_MEMBER_ID', \__('Member ID is required for delete operation', 'bit-integrations'));
+        if (empty($this->memberId)) {
+            return new WP_Error('MISSING_MEMBER_ID', __('Member ID is required for delete operation', 'bit-integrations'));
         }
-        $response = \apply_filters('btcbi_fabman_delete_member', false, $this->setHeaders(), $this->_apiEndpoint, $this->_memberId);
+        error_log(print_r($this->memberId, true));
+        $response = \apply_filters('btcbi_fabman_delete_member', false, $this->setHeaders(), $this->apiEndpoint, $this->memberId);
 
-        return $this->handleFilterResponse($response, 'delete_member');
+        return $this->handleFilterResponse($response);
     }
 
     private function createSpace($data)
     {
         unset($data['space']);
-        $response = \apply_filters('btcbi_fabman_create_space', false, json_encode($data), $this->setHeaders(), $this->_apiEndpoint);
+        $response = \apply_filters('btcbi_fabman_create_space', false, json_encode($data), $this->setHeaders(), $this->apiEndpoint);
 
-        return $this->handleFilterResponse($response, 'create_space');
+        return $this->handleFilterResponse($response);
     }
 
     private function updateSpace($data)
     {
-        $data['lockVersion'] = $this->_lockVersion;
-        if (empty($this->_workspaceId)) {
-            return new WP_Error('MISSING_SPACE_ID', \__('Space ID is required for update operation', 'bit-integrations'));
+        $data['lockVersion'] = $this->lockVersion;
+        if (empty($this->workspaceId)) {
+            return new WP_Error('MISSING_SPACE_ID', __('Space ID is required for update operation', 'bit-integrations'));
         }
-        $response = \apply_filters('btcbi_fabman_update_space', false, json_encode($data), $this->setHeaders(), $this->_apiEndpoint, $this->_workspaceId);
+        $response = \apply_filters('btcbi_fabman_update_space', false, json_encode($data), $this->setHeaders(), $this->apiEndpoint, $this->workspaceId);
 
-        return $this->handleFilterResponse($response, 'update_space');
+        return $this->handleFilterResponse($response);
     }
 
-    /**
-     * Handle the response from filter-based (Pro) actions.
-     *
-     * @param mixed  $response
-     * @param string $action
-     *
-     * @return mixed|WP_Error
-     */
-    private function handleFilterResponse($response, $action = '')
+    private function handleFilterResponse($response)
     {
-        if (empty($response) || (\is_object($response) && isset($response->error))) {
-            $msg = \wp_sprintf(\__('%s plugin is not installed or activated', 'bit-integrations'), 'Bit Integration Pro');
-            if ($action) {
-                $msg = \sprintf('%s: %s', ucfirst(str_replace('_', ' ', $action)), $msg);
-            }
-
-            return new WP_Error('PRO_FEATURE_REQUIRED', $msg);
+        if (empty($response)) {
+            return (object) ['error' => \wp_sprintf(\__('%s plugin is not installed or activated', 'bit-integrations'), 'Bit Integration Pro')];
         }
 
         return $response;
@@ -173,7 +163,7 @@ class RecordApiHelper
     private function setHeaders(): array
     {
         return [
-            'Authorization' => 'Bearer ' . $this->_apiKey,
+            'Authorization' => 'Bearer ' . $this->apiKey,
             'Content-Type'  => 'application/json'
         ];
     }

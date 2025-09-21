@@ -75,18 +75,21 @@ class FabmanController
         ], 200);
     }
 
-    public static function fetchMembers($requestParams)
+    public static function fetchMemberByEmail($requestParams)
     {
-        if (empty($requestParams->apiKey) || empty($requestParams->workspaceId)) {
-            wp_send_json_error(__('API Key and Workspace ID are required', 'bit-integrations'), 400);
+        if (empty($requestParams->apiKey) || empty($requestParams->email)) {
+            wp_send_json_error(__('API Key and Email are required', 'bit-integrations'), 400);
         }
+
+        $email = $requestParams->email;
 
         $header = [
             'Authorization' => 'Bearer ' . $requestParams->apiKey,
             'Content-Type'  => 'application/json'
         ];
 
-        $apiEndpoint = 'https://fabman.io/api/v1/members';
+        $apiEndpoint = 'https://fabman.io/api/v1/members?q=' . urlencode($email);
+
         $apiResponse = HttpHelper::get($apiEndpoint, null, $header);
 
         if (is_wp_error($apiResponse)) {
@@ -94,11 +97,20 @@ class FabmanController
         }
 
         if (empty($apiResponse) || isset($apiResponse->error) || !\is_array($apiResponse)) {
-            wp_send_json_error(isset($apiResponse->error) ? $apiResponse->error : __('Failed to fetch members', 'bit-integrations'), 400);
+            wp_send_json_error(isset($apiResponse->error) ? $apiResponse->error : __('Failed to fetch member', 'bit-integrations'), 400);
+        }
+
+        $memberId = null;
+        $lockVersion = null;
+        if (!empty($apiResponse) && \is_array($apiResponse) && isset($apiResponse[0])) {
+            $memberId = $apiResponse[0]->id;
+            $lockVersion = $apiResponse[0]->lockVersion;
         }
 
         wp_send_json_success([
-            'members' => $apiResponse
+            'member'      => $apiResponse,
+            'memberId'    => $memberId,
+            'lockVersion' => $lockVersion
         ], 200);
     }
 
@@ -108,13 +120,76 @@ class FabmanController
         $apiKey = $integrationDetails->apiKey;
         $selectedWorkspace = $integrationDetails->selectedWorkspace ?? null;
         $accountId = $integrationDetails->accountId ?? null;
-        $memberId = $integrationDetails->selectedMember ?? null;
-        $integId = $integrationData->id;
         $actionName = $integrationDetails->actionName;
+        $integId = $integrationData->id;
+        $memberId = $integrationDetails->selectedMember ?? null;
         $lockVersion = $integrationDetails->selectedLockVersion ?? null;
 
-        $recordApiHelper = new RecordApiHelper($apiKey, $selectedWorkspace, $accountId, $integId, $memberId, $lockVersion);
+        if (\in_array($actionName, ['update_member', 'delete_member'])) {
+            if ($actionName === 'delete_member' || empty($memberId)) {
+                $email = self::getMappedValue($integrationDetails->field_map, 'emailAddress', $fieldValues);
+                if ($email) {
+                    $memberData = self::fetchMemberByEmailInternal($apiKey, $email);
+                    if ($memberData) {
+                        $memberId = $memberData['memberId'];
+                        $lockVersion = $memberData['lockVersion'];
+                    }
+                }
+            }
+        }
+
+        $recordApiHelper = new RecordApiHelper(
+            $apiKey,
+            $selectedWorkspace,
+            $accountId,
+            $integId,
+            $memberId,
+            $lockVersion
+        );
 
         return $recordApiHelper->execute($actionName, $fieldValues, $integrationDetails);
+    }
+
+    private static function getMappedValue($fieldMap, $targetField, $fieldValues)
+    {
+        if (empty($fieldMap)) {
+            return null;
+        }
+
+        foreach ($fieldMap as $map) {
+            if (!empty($map->fabmanFormField) && $map->fabmanFormField === $targetField) {
+                if ($map->formField === 'custom') {
+                    return $map->customValue;
+                }
+
+                return $fieldValues[$map->formField] ?? null;
+            }
+        }
+        
+        return null;
+    }
+
+    private static function fetchMemberByEmailInternal($apiKey, $email)
+    {
+        $header = [
+            'Authorization' => 'Bearer ' . $apiKey,
+            'Content-Type'  => 'application/json'
+        ];
+
+        $apiEndpoint = 'https://fabman.io/api/v1/members?q=' . urlencode($email);
+        $apiResponse = HttpHelper::get($apiEndpoint, null, $header);
+
+        if (is_wp_error($apiResponse) || empty($apiResponse) || isset($apiResponse->error) || !\is_array($apiResponse)) {
+            return null;
+        }
+
+        if (isset($apiResponse[0])) {
+            return [
+                'memberId'    => $apiResponse[0]->id,
+                'lockVersion' => $apiResponse[0]->lockVersion
+            ];
+        }
+
+        return null;
     }
 }
