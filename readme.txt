@@ -4,7 +4,7 @@ Tags: automation, automator, Google Sheets, webhooks, zapier, marketing automati
 Requires at least: 5.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.6.10
+Stable tag: 2.6.11
 License: GPLv2 or later
 
 Perfect Automation and integration plugin: Connect 300+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
@@ -699,6 +699,10 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 6. All integration list
 
 == Changelog ==
+
+= 2.6.11 =
+- **Bug Fixes**
+ - Salesforce: Fixed oAuth redirect url issue.
 
 = 2.6.10 =
 - **Bug Fixes**
