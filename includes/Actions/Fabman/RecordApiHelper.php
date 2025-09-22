@@ -79,10 +79,17 @@ class RecordApiHelper
 
                 break;
             default:
-                $apiResponse = new WP_Error('INVALID_ACTION', \__('Invalid action name', 'bit-integrations'));
+                $apiResponse = new WP_Error(
+                    'INVALID_ACTION',
+                    __('Invalid action name', 'bit-integrations')
+                );
         }
 
-        $status = \in_array(HttpHelper::$responseCode, [200, 201, 204]) ? 'success' : 'error';
+        if (is_wp_error($apiResponse) || (\is_object($apiResponse) && isset($apiResponse->error))) {
+            $status = 'error';
+        } else {
+            $status = \in_array(HttpHelper::$responseCode, [200, 201, 204]) ? 'success' : 'error';
+        }
 
         LogHandler::save($this->integrationID, ['type' => 'record', 'type_name' => $actionName], $status, $apiResponse);
 
@@ -112,10 +119,9 @@ class RecordApiHelper
     {
         $data['lockVersion'] = $this->lockVersion;
         if (empty($this->memberId)) {
-            return new WP_Error('MISSING_MEMBER_ID', __('Member ID is required for update operation', 'bit-integrations'));
+            return new WP_Error('MISSING_MEMBER_ID', __('The email provided did not match any existing Fabman member.', 'bit-integrations'));
         }
 
-        error_log(print_r($data, true));
         $response = \apply_filters('btcbi_fabman_update_member', false, json_encode($data), $this->setHeaders(), $this->apiEndpoint, $this->memberId);
 
         return $this->handleFilterResponse($response);
@@ -124,9 +130,9 @@ class RecordApiHelper
     private function deleteMember()
     {
         if (empty($this->memberId)) {
-            return new WP_Error('MISSING_MEMBER_ID', __('Member ID is required for delete operation', 'bit-integrations'));
+            return new WP_Error('MISSING_MEMBER_ID', __('The email provided did not match any existing Fabman member.', 'bit-integrations'));
         }
-        error_log(print_r($this->memberId, true));
+
         $response = \apply_filters('btcbi_fabman_delete_member', false, $this->setHeaders(), $this->apiEndpoint, $this->memberId);
 
         return $this->handleFilterResponse($response);
@@ -144,7 +150,7 @@ class RecordApiHelper
     {
         $data['lockVersion'] = $this->lockVersion;
         if (empty($this->workspaceId)) {
-            return new WP_Error('MISSING_SPACE_ID', __('Space ID is required for update operation', 'bit-integrations'));
+            return new WP_Error('MISSING_SPACE_ID', __('Please select a space to update.', 'bit-integrations'));
         }
         $response = \apply_filters('btcbi_fabman_update_space', false, json_encode($data), $this->setHeaders(), $this->apiEndpoint, $this->workspaceId);
 
