@@ -9,4 +9,3 @@ use BitCode\FI\Core\Util\Route;
 
 Route::post('fabman_authorization', [FabmanController::class, 'authorization']);
 Route::post('fabman_fetch_workspaces', [FabmanController::class, 'fetchWorkspaces']);
-Route::post('fabman_fetch_member_by_email', [FabmanController::class, 'fetchMemberByEmail']);

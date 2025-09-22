@@ -14,6 +14,7 @@ import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import { checkMappedFields, handleInput } from './FabmanCommonFunc'
 import FabmanIntegLayout from './FabmanIntegLayout'
+import { checkValidEmail } from '../../../Utils/Helpers'
 
 function EditFabman({ allIntegURL }) {
   const navigate = useNavigate()
@@ -32,11 +33,36 @@ function EditFabman({ allIntegURL }) {
     setLocalName(fabmanConf.name || '')
   }, [fabmanConf.name])
 
+  const getEmailMappingRow = () => {
+    const rows = Array.isArray(fabmanConf?.field_map) ? fabmanConf.field_map : []
+    return rows.find(r => r?.fabmanFormField === 'emailAddress')
+  }
+
+  const isEmailMappingInvalid = () => {
+    const emailRow = getEmailMappingRow()
+    if (!emailRow) return true
+    if (emailRow.formField === 'custom') {
+      const customValue = (emailRow.customValue || '').trim()
+      return !customValue || !checkValidEmail(customValue)
+    }
+    // Non-custom: a form field is selected. Consider valid if:
+    // - field type is email, OR
+    // - type is missing/unknown, OR
+    // - field name/label includes "email"
+    const selectedField = (formField || []).find(f => f.name === emailRow.formField)
+    if (!selectedField) return false
+    const hasEmailType = selectedField.type && String(selectedField.type).toLowerCase() === 'email'
+    const looksLikeEmailField =
+      /email/i.test(selectedField.name || '') || /email/i.test(selectedField.label || '')
+    return !(hasEmailType || !selectedField.type || looksLikeEmailField)
+  }
+
   const isConfigInvalid = () => {
     if (!fabmanConf.actionName) return true
-    // For update_member and delete_member, only require mapped fields
+
     if (['update_member', 'delete_member'].includes(fabmanConf.actionName)) {
       if (!checkMappedFields(fabmanConf)) return true
+      if (isEmailMappingInvalid()) return true
       return false
     }
     if (!checkMappedFields(fabmanConf)) return true
@@ -53,10 +79,14 @@ function EditFabman({ allIntegURL }) {
       setSnackbar({ show: true, msg: __('Please select an action', 'bit-integrations') })
       return
     }
-    // For update_member and delete_member, only require mapped fields
+
     if (['update_member', 'delete_member'].includes(fabmanConf.actionName)) {
       if (!checkMappedFields(fabmanConf)) {
         setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
+        return
+      }
+      if (isEmailMappingInvalid()) {
+        setSnackbar({ show: true, msg: __('Please map a valid email address', 'bit-integrations') })
         return
       }
       saveActionConf({

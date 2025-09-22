@@ -12,6 +12,7 @@ import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import FabmanAuthorization from './FabmanAuthorization'
 import { checkMappedFields } from './FabmanCommonFunc'
 import FabmanIntegLayout from './FabmanIntegLayout'
+import { checkValidEmail } from '../../../Utils/Helpers'
 
 export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
@@ -157,12 +158,35 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
     selectedLockVersion: ''
   })
 
+  const getEmailMappingRow = () => {
+    const rows = Array.isArray(fabmanConf?.field_map) ? fabmanConf.field_map : []
+    return rows.find(r => r?.fabmanFormField === 'emailAddress')
+  }
+
+  const isEmailMappingInvalid = () => {
+    const emailRow = getEmailMappingRow()
+    if (!emailRow) return true
+    if (emailRow.formField === 'custom') {
+      const customValue = (emailRow.customValue || '').trim()
+      return !customValue || !checkValidEmail(customValue)
+    }
+
+    const selectedField = (formFields || []).find(f => f.name === emailRow.formField)
+    if (!selectedField) return false
+    const hasEmailType = selectedField.type && String(selectedField.type).toLowerCase() === 'email'
+    const looksLikeEmailField =
+      /email/i.test(selectedField.name || '') || /email/i.test(selectedField.label || '')
+    return !(hasEmailType || !selectedField.type || looksLikeEmailField)
+  }
+
   const isConfigInvalid = () => {
     if (!fabmanConf.actionName) return true
     if (
       !['delete_member', 'delete_spaces'].includes(fabmanConf.actionName) &&
       !checkMappedFields(fabmanConf)
     )
+      return true
+    if (['update_member', 'delete_member'].includes(fabmanConf.actionName) && isEmailMappingInvalid())
       return true
     if (
       ['create_member', 'update_member', 'update_spaces', 'delete_spaces'].includes(
@@ -171,7 +195,7 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
       !fabmanConf.selectedWorkspace
     )
       return true
-    // For delete_member, just need email field mapped (no need for selectedMember)
+
     if (fabmanConf.actionName === 'delete_member') {
       const hasEmailField = fabmanConf.field_map?.some(
         field => field.fabmanFormField === 'emailAddress' && field.formField
@@ -192,6 +216,11 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
         !checkMappedFields(fabmanConf)
       ) {
         setSnack({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
+      } else if (
+        ['update_member', 'delete_member'].includes(fabmanConf.actionName) &&
+        isEmailMappingInvalid()
+      ) {
+        setSnack({ show: true, msg: __('Please map a valid email address', 'bit-integrations') })
       } else if (
         ['create_member', 'update_member', 'update_spaces', 'delete_spaces'].includes(
           fabmanConf.actionName
@@ -224,6 +253,11 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
         !checkMappedFields(fabmanConf)
       ) {
         setSnack({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
+      } else if (
+        ['update_member', 'delete_member'].includes(fabmanConf.actionName) &&
+        isEmailMappingInvalid()
+      ) {
+        setSnack({ show: true, msg: __('Please map a valid email address', 'bit-integrations') })
       } else if (
         ['create_member', 'update_member', 'update_spaces', 'delete_spaces'].includes(
           fabmanConf.actionName

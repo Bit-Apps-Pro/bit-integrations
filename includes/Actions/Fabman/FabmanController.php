@@ -75,45 +75,6 @@ class FabmanController
         ], 200);
     }
 
-    public static function fetchMemberByEmail($requestParams)
-    {
-        if (empty($requestParams->apiKey) || empty($requestParams->email)) {
-            wp_send_json_error(__('API Key and Email are required', 'bit-integrations'), 400);
-        }
-
-        $email = $requestParams->email;
-
-        $header = [
-            'Authorization' => 'Bearer ' . $requestParams->apiKey,
-            'Content-Type'  => 'application/json'
-        ];
-
-        $apiEndpoint = 'https://fabman.io/api/v1/members?q=' . urlencode($email);
-
-        $apiResponse = HttpHelper::get($apiEndpoint, null, $header);
-
-        if (is_wp_error($apiResponse)) {
-            wp_send_json_error($apiResponse->get_error_message(), 400);
-        }
-
-        if (empty($apiResponse) || isset($apiResponse->error) || !\is_array($apiResponse)) {
-            wp_send_json_error(isset($apiResponse->error) ? $apiResponse->error : __('Failed to fetch member', 'bit-integrations'), 400);
-        }
-
-        $memberId = null;
-        $lockVersion = null;
-        if (!empty($apiResponse) && \is_array($apiResponse) && isset($apiResponse[0])) {
-            $memberId = $apiResponse[0]->id;
-            $lockVersion = $apiResponse[0]->lockVersion;
-        }
-
-        wp_send_json_success([
-            'member'      => $apiResponse,
-            'memberId'    => $memberId,
-            'lockVersion' => $lockVersion
-        ], 200);
-    }
-
     public static function execute($integrationData, $fieldValues)
     {
         $integrationDetails = $integrationData->flow_details;
@@ -153,7 +114,7 @@ class FabmanController
     private static function getMappedValue($fieldMap, $targetField, $fieldValues)
     {
         if (empty($fieldMap)) {
-            return null;
+            return;
         }
 
         foreach ($fieldMap as $map) {
@@ -165,8 +126,6 @@ class FabmanController
                 return $fieldValues[$map->formField] ?? null;
             }
         }
-        
-        return null;
     }
 
     private static function fetchMemberByEmailInternal($apiKey, $email)
@@ -180,7 +139,7 @@ class FabmanController
         $apiResponse = HttpHelper::get($apiEndpoint, null, $header);
 
         if (is_wp_error($apiResponse) || empty($apiResponse) || isset($apiResponse->error) || !\is_array($apiResponse)) {
-            return null;
+            return;
         }
 
         if (isset($apiResponse[0])) {
@@ -189,7 +148,5 @@ class FabmanController
                 'lockVersion' => $apiResponse[0]->lockVersion
             ];
         }
-
-        return null;
     }
 }

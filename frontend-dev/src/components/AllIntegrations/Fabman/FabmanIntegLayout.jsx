@@ -4,9 +4,10 @@ import { __ } from '../../../Utils/i18nwrap'
 import FabmanFieldMap from './FabmanFieldMap'
 import { addFieldMap } from './IntegrationHelpers'
 import FabmanActions from './FabmanActions'
-import { fetchFabmanWorkspaces, generateMappedField, fetchMemberByEmail } from './FabmanCommonFunc'
+import { fetchFabmanWorkspaces, generateMappedField } from './FabmanCommonFunc'
 import Loader from '../../Loaders/Loader'
 import { useEffect, useMemo, useCallback, useRef } from 'react'
+import Note from '../../Utilities/Note'
 
 export default function FabmanIntegLayout({
   formFields,
@@ -40,12 +41,10 @@ export default function FabmanIntegLayout({
       return fields
     }
 
-    // Special handling for update_member and delete_member actions
     if (conf.actionName === 'update_member' || conf.actionName === 'delete_member') {
       const fields = Array.isArray(conf.memberStaticFields)
         ? conf.memberStaticFields.map(f => ({ ...f }))
         : []
-      // Make emailAddress required and firstName not required for both actions
       const emailIdx = fields.findIndex(f => String(f.key) === 'emailAddress')
       if (emailIdx > -1) fields[emailIdx].required = true
       const firstNameIdx = fields.findIndex(f => String(f.key) === 'firstName')
@@ -170,7 +169,6 @@ export default function FabmanIntegLayout({
         </select>
       </div>
       <br />
-      {/* Workspace selector for all except delete_member */}
       {fabmanConf.actionName &&
         !isDeleteMember &&
         (!isSpaceAction || fabmanConf.actionName === 'update_spaces') && (
@@ -211,10 +209,10 @@ export default function FabmanIntegLayout({
               />
             )}
             <br />
+            <Note note={fabmanWorkspaceNote} />
           </>
         )}
-      {/* Remove the entire member selector section for delete_member */}
-      {/* Field map for delete_member: only one required email field, no + button */}
+
       {isDeleteMember && (
         <>
           <div className="mt-5">
@@ -245,13 +243,14 @@ export default function FabmanIntegLayout({
           />
         </>
       )}
-      {/* Field map for other actions */}
+
       {fabmanConf.actionName &&
         fabmanConf.actionName !== 'delete_member' &&
         (!isSpaceAction ||
           (isSpaceAction &&
             (fabmanConf.actionName !== 'update_spaces' || fabmanConf.selectedWorkspace))) && (
           <>
+            {fabmanConf.actionName === 'create_spaces' && <Note note={fabmanTimezoneNote} />}
             <div className="mt-5">
               <b className="wdt-100">{__('Field Map', 'bit-integrations')}</b>
             </div>
@@ -305,3 +304,13 @@ export default function FabmanIntegLayout({
     </div>
   )
 }
+
+const fabmanWorkspaceNote = `<h4>${__(
+  'Please select workspace for Create Member, Update Member, and Update Spaces.',
+  'bit-integrations'
+)}</h4>`
+
+const fabmanTimezoneNote = `<h4>${__(
+  'For Create Spaces, Timezone must be like Asia/Dhaka (IANA timezone format).',
+  'bit-integrations'
+)}</h4>`
