@@ -59,7 +59,6 @@ class RecordApiHelper
         switch ($actionName) {
             case 'create_member':
                 $apiResponse = $this->createMember($finalData);
-                $apiResponse = HttpHelper::$responseCode === 201 ? 'Member Created Successfully' : 'Failed';
 
                 break;
             case 'update_member':
@@ -112,7 +111,7 @@ class RecordApiHelper
             return new WP_Error('API_ERROR', isset($apiResponse->error) ? $apiResponse->error : \__('Failed to create member', 'bit-integrations'));
         }
 
-        return $apiResponse;
+        return HttpHelper::$responseCode === 201 ? 'Member Created Successfully' : 'Failed';
     }
 
     private function updateMember($data)

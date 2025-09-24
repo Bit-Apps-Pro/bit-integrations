@@ -11,11 +11,11 @@ import { handleCustomValue } from '../IntegrationHelpers/IntegrationHelpers'
 
 export default function FabmanFieldMap({ i, formFields, field, fabmanConf, setFabmanConf }) {
   const requiredFields = useMemo(
-    () => fabmanConf?.staticFields.filter(fld => !!fld.required) || [],
+    () => (fabmanConf?.staticFields ? fabmanConf.staticFields.filter(fld => !!fld.required) : []),
     [fabmanConf?.staticFields]
   )
   const nonRequriedFields = useMemo(
-    () => fabmanConf?.staticFields?.filter(fld => !fld.required) || [],
+    () => (fabmanConf?.staticFields ? fabmanConf.staticFields.filter(fld => !fld.required) : []),
     [fabmanConf?.staticFields]
   )
   const customFields = useMemo(

@@ -3,11 +3,18 @@
 import { __ } from '../../../Utils/i18nwrap'
 import FabmanFieldMap from './FabmanFieldMap'
 import { addFieldMap } from './IntegrationHelpers'
-import FabmanActions from './FabmanActions'
 import { fetchFabmanWorkspaces, generateMappedField } from './FabmanCommonFunc'
 import Loader from '../../Loaders/Loader'
 import { useEffect, useMemo, useCallback, useRef } from 'react'
 import Note from '../../Utilities/Note'
+
+const fabmanActionsList = [
+  { label: __('Create Member', 'bit-integrations'), value: 'create_member' },
+  { label: __('Update Member', 'bit-integrations'), value: 'update_member' },
+  { label: __('Delete Member', 'bit-integrations'), value: 'delete_member' },
+  { label: __('Create Spaces', 'bit-integrations'), value: 'create_spaces' },
+  { label: __('Update Spaces', 'bit-integrations'), value: 'update_spaces' }
+]
 
 export default function FabmanIntegLayout({
   formFields,
@@ -17,17 +24,6 @@ export default function FabmanIntegLayout({
   setLoading,
   setSnackbar
 }) {
-  const actions = useMemo(
-    () => [
-      { label: __('Create Member', 'bit-integrations'), value: 'create_member' },
-      { label: __('Update Member', 'bit-integrations'), value: 'update_member' },
-      { label: __('Delete Member', 'bit-integrations'), value: 'delete_member' },
-      { label: __('Create Spaces', 'bit-integrations'), value: 'create_spaces' },
-      { label: __('Update Spaces', 'bit-integrations'), value: 'update_spaces' }
-    ],
-    []
-  )
-
   const getActiveStaticFields = useCallback(conf => {
     if (conf.actionName === 'create_spaces' || conf.actionName === 'update_spaces') {
       const fields = Array.isArray(conf.spacesStaticFields)
@@ -161,7 +157,7 @@ export default function FabmanIntegLayout({
           value={fabmanConf?.actionName}
           className="btcd-paper-inp w-5">
           <option value="">{__('Select Action', 'bit-integrations')}</option>
-          {actions.map(({ label, value }) => (
+          {fabmanActionsList.map(({ label, value }) => (
             <option key={value} value={value}>
               {label}
             </option>
@@ -292,12 +288,6 @@ export default function FabmanIntegLayout({
                 <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
               </div>
               <div className="btcd-hr mt-1" />
-              <FabmanActions
-                fabmanConf={fabmanConf}
-                setFabmanConf={setFabmanConf}
-                loading={loading}
-                setLoading={setLoading}
-              />
             </div>
           </>
         )}

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-unused-expressions */
 import { useState, useCallback, useEffect } from 'react'
-import { __ } from '../../../Utils/i18nwrap'
+import { __, sprintf } from '../../../Utils/i18nwrap'
 import LoaderSm from '../../Loaders/LoaderSm'
 import { fabmanAuthentication } from './FabmanCommonFunc'
 import Note from '../../Utilities/Note'
@@ -21,12 +21,6 @@ export default function FabmanAuthorization({
   const [error, setError] = useState({ name: '', apiKey: '' })
   const { fabman } = tutorialLinks
 
-  const [localName, setLocalName] = useState(fabmanConf.name || '')
-
-  useEffect(() => {
-    setLocalName(fabmanConf.name || '')
-  }, [fabmanConf.name])
-
   const nextPage = useCallback(() => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
@@ -37,21 +31,13 @@ export default function FabmanAuthorization({
   const handleInput = useCallback(
     e => {
       const { name, value } = e.target
-      if (name === 'name') {
-        setLocalName(value)
-      } else {
-        setFabmanConf(prev => ({ ...prev, [name]: value }))
-      }
+      setFabmanConf(prev => ({ ...prev, [name]: value }))
       setError(prev => ({ ...prev, [name]: '' }))
     },
     [setFabmanConf, setError]
   )
 
-  const handleNameBlur = useCallback(() => {
-    if (localName !== fabmanConf.name) {
-      setFabmanConf(prev => ({ ...prev, name: localName }))
-    }
-  }, [localName, fabmanConf.name, setFabmanConf])
+  const handleNameBlur = useCallback(() => {}, [setFabmanConf])
 
   const styleStep1 = step === 1 ? { width: 900, height: 'auto' } : {}
 
@@ -68,7 +54,7 @@ export default function FabmanAuthorization({
         onChange={handleInput}
         onBlur={handleNameBlur}
         name="name"
-        value={localName}
+        value={fabmanConf.name}
         type="text"
         placeholder={__('Integration Name...', 'bit-integrations')}
         disabled={isInfo}
@@ -130,7 +116,10 @@ export default function FabmanAuthorization({
 
 const fabmanApiKeyNote = `<h2>${__('To get your Fabman API key:', 'bit-integrations')}</h2>
      <ul>
-         <li>${__('Log in to your <a href="https://fabman.io/" target="_blank">Fabman account</a>.', 'bit-integrations')}</li>
+         <li>${sprintf(
+           __('Log in to your %s.', 'bit-integrations'),
+           '<a href="https://fabman.io/" target="_blank">Fabman account</a>'
+         )}</li>
          <li>${__('Go to "Configure" → "Integrations (API & Webhooks)".', 'bit-integrations')}</li>
          <li>${__('Click "Create API key", add a title, and choose a member.', 'bit-integrations')}</li>
          <li>${__('Save, then click "Reveal" to copy your API key.', 'bit-integrations')}</li>

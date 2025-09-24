@@ -12,7 +12,7 @@ import SetEditIntegComponents from '../IntegrationHelpers/SetEditIntegComponents
 import EditWebhookInteg from '../EditWebhookInteg'
 import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
-import { checkMappedFields, handleInput } from './FabmanCommonFunc'
+import { checkMappedFields, handleInput, isConfigInvalid } from './FabmanCommonFunc'
 import FabmanIntegLayout from './FabmanIntegLayout'
 import { checkValidEmail } from '../../../Utils/Helpers'
 
@@ -29,9 +29,6 @@ function EditFabman({ allIntegURL }) {
   const formField = useRecoilValue($formFields)
 
   const [localName, setLocalName] = useState(fabmanConf.name || '')
-  useEffect(() => {
-    setLocalName(fabmanConf.name || '')
-  }, [fabmanConf.name])
 
   const getEmailMappingRow = () => {
     const rows = Array.isArray(fabmanConf?.field_map) ? fabmanConf.field_map : []
@@ -55,23 +52,6 @@ function EditFabman({ allIntegURL }) {
     const looksLikeEmailField =
       /email/i.test(selectedField.name || '') || /email/i.test(selectedField.label || '')
     return !(hasEmailType || !selectedField.type || looksLikeEmailField)
-  }
-
-  const isConfigInvalid = () => {
-    if (!fabmanConf.actionName) return true
-
-    if (['update_member', 'delete_member'].includes(fabmanConf.actionName)) {
-      if (!checkMappedFields(fabmanConf)) return true
-      if (isEmailMappingInvalid()) return true
-      return false
-    }
-    if (!checkMappedFields(fabmanConf)) return true
-    if (
-      ['update_spaces', 'delete_spaces'].includes(fabmanConf.actionName) &&
-      !fabmanConf.selectedWorkspace
-    )
-      return true
-    return false
   }
 
   const saveConfig = () => {
@@ -123,11 +103,7 @@ function EditFabman({ allIntegURL }) {
 
   const handleNameChange = e => {
     setLocalName(e.target.value)
-  }
-  const handleNameBlur = () => {
-    if (localName !== fabmanConf.name) {
-      setFabmanConf(prev => ({ ...prev, name: localName }))
-    }
+    setFabmanConf(prev => ({ ...prev, name: e.target.value }))
   }
 
   return (
@@ -139,7 +115,6 @@ function EditFabman({ allIntegURL }) {
         <input
           className="btcd-paper-inp w-5"
           onChange={handleNameChange}
-          onBlur={handleNameBlur}
           name="name"
           value={localName}
           type="text"
@@ -163,7 +138,7 @@ function EditFabman({ allIntegURL }) {
       <IntegrationStepThree
         edit
         saveConfig={saveConfig}
-        disabled={isConfigInvalid()}
+        disabled={isConfigInvalid(fabmanConf, formField)}
         isLoading={loading.list || loading.field || loading.auth}
         dataConf={fabmanConf}
         setDataConf={setFabmanConf}
