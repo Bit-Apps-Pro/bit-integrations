@@ -37,6 +37,7 @@ export default function SelectAction() {
     { type: 'Encharge' },
     { type: 'WP Post Creation' },
     { type: 'Fluent CRM' },
+    { type: 'Fluent Community' },
     { type: 'Autonami' },
     { type: 'Dropbox' },
     { type: 'OneDrive' },

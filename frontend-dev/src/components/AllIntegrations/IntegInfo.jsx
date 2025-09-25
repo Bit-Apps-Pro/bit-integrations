@@ -46,6 +46,7 @@ const IntegromatAuthorization = lazy(() => import('./IntegrationHelpers/WebHook/
 const IntegratelyAuthorization = lazy(() => import('./IntegrationHelpers/WebHook/WebHooksIntegration'))
 const TelegramAuthorization = lazy(() => import('./Telegram/TelegramAuthorization'))
 const FluentCrmAuthorization = lazy(() => import('./FluentCRM/FluentCrmAuthorization'))
+const FluentCommunityAuthorization = lazy(() => import('./FluentCommunity/FluentCommunityAuthorization'))
 const EnchargeAuthorization = lazy(() => import('./Encharge/EnchargeAuthorization'))
 const GetgistAuthorization = lazy(() => import('./Getgist/GetgistAuthorization'))
 const ElasticEmailAuthorization = lazy(() => import('./ElasticEmail/ElasticEmailAuthorization'))
@@ -330,6 +331,8 @@ export default function IntegInfo() {
         return <TelegramAuthorization telegramConf={integrationConf} step={1} isInfo />
       case 'Fluent CRM':
         return <FluentCrmAuthorization fluentCrmConf={integrationConf} step={1} isInfo />
+      case 'Fluent Community':
+        return <FluentCommunityAuthorization fluentCommunityConf={integrationConf} step={1} isInfo />
       case 'Encharge':
         return <EnchargeAuthorization enchargeConf={integrationConf} step={1} isInfo />
       case 'Getgist':
