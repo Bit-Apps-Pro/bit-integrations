@@ -6,6 +6,8 @@ import CopyText from '../../Utilities/CopyText'
 import { handleAuthorize } from './SalesforceCommonFunc'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
+import { $btcbi } from '../../../GlobalStates'
+import { useRecoilValue } from 'recoil'
 
 export default function SalesforceAuthorization({
   formID,
@@ -19,6 +21,7 @@ export default function SalesforceAuthorization({
   redirectLocation,
   isInfo
 }) {
+  const btcbi = useRecoilValue($btcbi)
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({
     dataCenter: '',
@@ -126,7 +129,8 @@ export default function SalesforceAuthorization({
                 setError,
                 setisAuthorized,
                 setIsLoading,
-                setSnackbar
+                setSnackbar,
+                btcbi
               )
             }
             className="btn btcd-btn-lg purple sh-sm flx"

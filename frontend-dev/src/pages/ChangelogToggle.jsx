@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '20th September 2025'
+const releaseDate = '22th September 2025'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -52,17 +52,7 @@ const changeLog = [
     items: [
       {
         label: 'Salesforce',
-        desc: 'Fixed refresh token expiration issue.',
-        isPro: false
-      },
-      {
-        label: 'Salesforce',
-        desc: 'Resolved issue with task creation execution.',
-        isPro: false
-      },
-      {
-        label: 'Freshdesk',
-        desc: 'Fixed contact creation issue & Addressed problems with custom fields not working properly.',
+        desc: 'Fixed oAUth redirect url issue.',
         isPro: false
       }
     ]
