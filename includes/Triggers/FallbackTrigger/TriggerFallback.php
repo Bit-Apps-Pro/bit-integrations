@@ -3507,7 +3507,7 @@ final class TriggerFallback
             && \array_key_exists('day', $item)
             && (!empty($item['year']) || !empty($item['month']) || !empty($item['day']))
         ) {
-            $year = (int) !empty($item['year']) ? $item['year'] : date('Y');
+            $year = (int) !empty($item['year']) ? $item['year'] : gmdate('Y');
             $month = (int) !empty($item['month']) ? $item['month'] : 1;
             $day = (int) !empty($item['day']) ? $item['day'] : 1;
         } elseif (
