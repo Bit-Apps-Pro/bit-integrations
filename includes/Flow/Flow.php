@@ -2,15 +2,15 @@
 
 namespace BitCode\FI\Flow;
 
-use WP_Error;
-use BitCode\FI\Log\LogHandler;
+use BitCode\FI\Core\Util\Capabilities;
 use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Core\Util\CustomFuncValidator;
 use BitCode\FI\Core\Util\IpTool;
 use BitCode\FI\Core\Util\SmartTags;
-use BitCode\FI\Core\Util\Capabilities;
 use BitCode\FI\Core\Util\StoreInCache;
+use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Triggers\TriggerController;
-use BitCode\FI\Core\Util\CustomFuncValidator;
+use WP_Error;
 
 /**
  * Provides details of available integration and helps to
@@ -431,9 +431,6 @@ final class Flow
                     && $flowData->flow_details->condition->action_behavior
                     && !Common::checkCondition($flowData->flow_details->condition->logics, $data)
                 ) {
-                    // echo "status: " . !Common::checkCondition($flowData->flow_details->condition->logics, $data) . "<br>";
-                    // print_r(wp_json_encode($flowData->flow_details->condition->logics));
-
                     $error = new WP_Error('Conditional Logic False', __('Conditional Logic not matched', 'bit-integrations'));
                     if (isset($flowData->id)) {
                         LogHandler::save($flowData->id, 'Conditional Logic', 'validation', $error);
@@ -481,7 +478,9 @@ final class Flow
 
                     case 'LicenseManagerForWooCommerce':
                         $integrationName = 'LMFWC';
-                    
+
+                        break;
+
                     case 'OttoKit (SureTriggers)':
                         $integrationName = 'SureTriggers';
 

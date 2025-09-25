@@ -6,10 +6,10 @@
 
 namespace BitCode\FI\Actions\WooCommerce;
 
-use WP_Error;
-use WC_Product_Download;
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Log\LogHandler;
+use WC_Product_Download;
+use WP_Error;
 
 /**
  * Provide functionality for Record insert,upsert.
@@ -165,20 +165,20 @@ class RecordApiHelper
         ];
 
         if ($orderChange === 'date-order' || $orderChange === 'prev-months-order') {
-            $startDate = $orderChange === 'prev-months-order' ? date('Y-m-d', strtotime('first day of previous month')) : date('Y-m-d', strtotime($fieldData['from_date']));
-            $endDate = $orderChange === 'prev-months-order' ? date('Y-m-d', strtotime('last day of previous month')) : date('Y-m-d', strtotime($fieldData['to_date']));
+            $startDate = $orderChange === 'prev-months-order' ? gmdate('Y-m-d', strtotime('first day of previous month')) : gmdate('Y-m-d', strtotime($fieldData['from_date']));
+            $endDate = $orderChange === 'prev-months-order' ? gmdate('Y-m-d', strtotime('last day of previous month')) : gmdate('Y-m-d', strtotime($fieldData['to_date']));
             $orderArg['date_created'] = "{$startDate}...{$endDate}";
         } elseif ($orderChange === 'n-prev-months-order') {
-            $firstEndDate = date('Y-m-d', strtotime('first day of previous month'));
-            $endDate = date('Y-m-d', strtotime('last day of previous month'));
+            $firstEndDate = gmdate('Y-m-d', strtotime('first day of previous month'));
+            $endDate = gmdate('Y-m-d', strtotime('last day of previous month'));
             $targetDate = (int) $fieldData['n_months'] - 1;
-            $startDate = date('Y-m-d', strtotime("-{$targetDate} months, {$firstEndDate}"));
+            $startDate = gmdate('Y-m-d', strtotime("-{$targetDate} months, {$firstEndDate}"));
             $orderArg['date_created'] = "{$startDate}...{$endDate}";
         } elseif ($orderChange === 'n-days-order' || $orderChange === 'n-weeks-order' || $orderChange === 'n-months-order') {
             $typeString = $orderChange === 'n-days-order' ? 'days' : ($orderChange === 'n-weeks-order' ? 'week' : 'month');
             $orderChange = $orderChange === 'n-days-order' ? 'n_days' : ($orderChange === 'n-weeks-order' ? 'n_weeks' : 'n_months');
             $days = $fieldData[$orderChange];
-            $days_ago = date('Y-m-d', strtotime("-{$days} {$typeString}"));
+            $days_ago = gmdate('Y-m-d', strtotime("-{$days} {$typeString}"));
             $orderArg['date_created'] = ">={$days_ago}";
         }
 
@@ -193,16 +193,16 @@ class RecordApiHelper
             $typeString = $type === 'n-days' ? 'days' : ($type === 'n-weeks' ? 'week' : 'month');
             $type = $type === 'n-days' ? 'n_days' : ($type === 'n-weeks' ? 'n_weeks' : 'n_months');
             $days = (int) $fieldData[$type];
-            $days_ago = date('Y-m-d', strtotime("-{$days} {$typeString}"));
+            $days_ago = gmdate('Y-m-d', strtotime("-{$days} {$typeString}"));
         } else {
             if ($type === 'n-prev-months') {
-                $firstEndDate = date('Y-m-d', strtotime('first day of previous month'));
-                $endDate = date('Y-m-d', strtotime('last day of previous month'));
+                $firstEndDate = gmdate('Y-m-d', strtotime('first day of previous month'));
+                $endDate = gmdate('Y-m-d', strtotime('last day of previous month'));
                 $targetDate = $fieldData['n_months'] - 1;
-                $startDate = date('Y-m-d', strtotime("-{$targetDate} months, {$firstEndDate}"));
+                $startDate = gmdate('Y-m-d', strtotime("-{$targetDate} months, {$firstEndDate}"));
             } else {
-                $startDate = $type === 'prev-months' ? date('Y-m-d', strtotime('first day of previous month')) : date('Y-m-d', strtotime($fieldData['from_date']));
-                $endDate = $type === 'prev-months' ? date('Y-m-d', strtotime('last day of previous month')) : date('Y-m-d', strtotime($fieldData['to_date']));
+                $startDate = $type === 'prev-months' ? gmdate('Y-m-d', strtotime('first day of previous month')) : gmdate('Y-m-d', strtotime($fieldData['from_date']));
+                $endDate = $type === 'prev-months' ? gmdate('Y-m-d', strtotime('last day of previous month')) : gmdate('Y-m-d', strtotime($fieldData['to_date']));
             }
         }
 

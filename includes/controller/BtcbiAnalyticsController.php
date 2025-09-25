@@ -10,8 +10,8 @@ final class BtcbiAnalyticsController
     public function filterTrackingData($additional_data)
     {
         global $wpdb;
-        $flowTable = $wpdb->prefix . Config::VAR_PREFIX . 'flow';
-        $logTable = $wpdb->prefix . Config::VAR_PREFIX . 'log';
+        $flowTable = $wpdb->prefix . sanitize_key(Config::VAR_PREFIX . 'flow');
+        $logTable = $wpdb->prefix . sanitize_key(Config::VAR_PREFIX . 'log');
 
         $flow = $wpdb->get_results("
                     SELECT

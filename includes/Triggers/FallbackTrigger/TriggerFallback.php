@@ -2,23 +2,24 @@
 
 namespace BitCode\FI\Triggers\FallbackTrigger;
 
-use DateTime;
-use FrmField;
-use WP_Error;
-use MeprEvent;
-use EDD_Payment;
-use Give_Payment;
-use FrmEntryValues;
-use RCP_Membership;
-use FrmFieldsHelper;
-use WPCF7_Submission;
-use Give_Subscription;
-use WPCF7_ContactForm;
-use Groundhogg\DB\Tags;
-use BitCode\FI\Flow\Flow;
 use BitCode\FI\Core\Util\Common;
-use IPT_FSQM_Form_Elements_Data;
+use BitCode\FI\Core\Util\Helper;
+use BitCode\FI\Flow\Flow;
+use DateTime;
+use EDD_Payment;
+use FrmEntryValues;
+use FrmField;
+use FrmFieldsHelper;
+use Give_Payment;
+use Give_Subscription;
+use Groundhogg\DB\Tags;
 use IPT_EForm_Form_Elements_Values;
+use IPT_FSQM_Form_Elements_Data;
+use MeprEvent;
+use RCP_Membership;
+use WP_Error;
+use WPCF7_ContactForm;
+use WPCF7_Submission;
 
 final class TriggerFallback
 {
@@ -43,11 +44,10 @@ final class TriggerFallback
         }
 
         $form_data = self::getFormidableFieldsValues($form, $entry_id);
-        $post_id = url_to_postid(sanitize_text_field($_SERVER['HTTP_REFERER']));
+        $post_id = Helper::getPostIdFromReferer($_SERVER['HTTP_REFERER']);
 
         if (!empty($form->id)) {
-            $data = [];
-            if ($post_id) {
+            if (isset($post_id)) {
                 $form_data['post_id'] = $post_id;
             }
 
@@ -1638,9 +1638,10 @@ final class TriggerFallback
     {
         global $wpdb;
         $table_name = $wpdb->prefix . 'bp_xprofile_fields';
-        $results = $wpdb->get_results("SELECT id, type , name FROM {$table_name}");
 
-        return $results;
+        $query = $wpdb->prepare("SELECT id, type, name FROM {$table_name}");
+
+        return $wpdb->get_results($query);
     }
 
     public static function buddyBossHandleUpdateProfile($user_id, $posted_field_ids, $errors, $old_values, $new_values)
@@ -2251,11 +2252,11 @@ final class TriggerFallback
 
     public static function handleForminatorSubmit($entry, $form_id, $form_data)
     {
-        $post_id = url_to_postid(sanitize_text_field($_SERVER['HTTP_REFERER']));
+        $post_id = Helper::getPostIdFromReferer($_SERVER['HTTP_REFERER']);
 
         if (!empty($form_id) && $flows = Flow::exists('Forminator', $form_id)) {
             $data = [];
-            if ($post_id) {
+            if (isset($post_id)) {
                 $data['post_id'] = $post_id;
             }
             foreach ($form_data as $fldDetail) {
@@ -2776,7 +2777,7 @@ final class TriggerFallback
 
     public static function handleHappySubmit($submission, $form, $a)
     {
-        $post_id = url_to_postid(sanitize_text_field($_SERVER['HTTP_REFERER']));
+        $post_id = Helper::getPostIdFromReferer($_SERVER['HTTP_REFERER']);
         $form_id = $form['ID'];
 
         if (!empty($form_id) && $flows = Flow::exists('Happy', $form_id)) {
@@ -3514,7 +3515,7 @@ final class TriggerFallback
             && \array_key_exists('month', $item)
             && (!empty($item['year']) || !empty($item['month']))
         ) {
-            $year = (int) !empty($item['year']) ? $item['year'] : date('Y');
+            $year = (int) !empty($item['year']) ? $item['year'] : gmdate('Y');
             $month = (int) !empty($item['month']) ? $item['month'] : 1;
             $day = 1;
         } elseif (\array_key_exists('year', $item) && !empty($item['year'])) {
@@ -3522,7 +3523,7 @@ final class TriggerFallback
             $month = 1;
             $day = 1;
         } elseif (\array_key_exists('month', $item) && !empty($item['month'])) {
-            $year = date('Y');
+            $year = gmdate('Y');
             $month = $item['month'];
             $day = 1;
         }
@@ -4129,7 +4130,13 @@ final class TriggerFallback
     // PiotnetForms all functions
     public static function handlePiotnetSubmit($fields)
     {
-        $post_id = sanitize_text_field($_REQUEST['post_id']);
+        if (empty($_REQUEST['post_id'])) {
+            return;
+        }
+
+        $post_id = sanitize_text_field(
+            wp_unslash($_REQUEST['post_id'])
+        );
 
         $flows = Flow::exists('PiotnetForms', $post_id);
         if (!$flows) {
@@ -4742,7 +4749,7 @@ final class TriggerFallback
             'order_id'          => $purchase_data->initial_order->id,
             'subscription_id'   => isset($purchase_data->subscription->id) ? $purchase_data->subscription->id : '',
             'order_number'      => $purchase_data->initial_order->number,
-            'order_date'        => date(get_option('date_format', 'F j, Y'), $purchase_data->initial_order->created_at),
+            'order_date'        => gmdate(get_option('date_format', 'F j, Y'), $purchase_data->initial_order->created_at),
             'order_status'      => $purchase_data->initial_order->status,
             'order_paid_amount' => self::surecartFormatAmount($chekout->charge->amount),
             'order_subtotal'    => self::surecartFormatAmount($chekout->subtotal_amount),

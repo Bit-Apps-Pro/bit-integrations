@@ -465,7 +465,6 @@ class Model
                 : $this->app_db->get_results($preparedQuery, OBJECT_K);
         }
 
-        // print_r($this->app_db->last_query);
         return $this;
     }
 

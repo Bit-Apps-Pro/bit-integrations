@@ -490,6 +490,22 @@ final class Helper
         return json_decode(json_encode($data), true);
     }
 
+    public static function getPostIdFromReferer($referer)
+    {
+        if ($referer === null) {
+            $referer = $_SERVER['HTTP_REFERER'] ?? null;
+        }
+
+        if (empty($referer)) {
+            return;
+        }
+
+        $referer = wp_unslash($referer);
+        $referer = sanitize_text_field($referer);
+
+        return url_to_postid($referer);
+    }
+
     private static function getVariableType($val)
     {
         $types = [

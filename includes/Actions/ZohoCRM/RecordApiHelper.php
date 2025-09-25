@@ -123,7 +123,8 @@ class RecordApiHelper
             } elseif (isset($fieldValues['zc_gad'])) {
                 $gclid = $fieldValues['zc_gad'];
             } elseif (isset($_REQUEST['zc_gad'])) {
-                $gclid = sanitize_text_field($_REQUEST['zc_gad']);
+                $zc_gad = wp_unslash($_REQUEST['zc_gad']);
+                $gclid = sanitize_text_field($zc_gad);
             }
             if (!empty($gclid)) {
                 $fieldData['$gclid'] = $gclid;
@@ -363,7 +364,7 @@ class RecordApiHelper
             $date_format = 'Y-m-d\TH:i';
         }
 
-        $value = date($date_format, strtotime($value));
+        $value = gmdate($date_format, strtotime($value));
 
         return ['value' => $value, 'date_format' => $date_format];
     }

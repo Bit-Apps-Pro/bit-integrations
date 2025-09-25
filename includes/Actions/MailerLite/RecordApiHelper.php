@@ -247,8 +247,14 @@ class RecordApiHelper
         }
 
         if ($isMailerLiteV2) {
-            $requestParams['opted_in_at'] = date('Y-m-d H:i:s');
-            $requestParams['optin_ip'] = $_SERVER['REMOTE_ADDR'];
+            $requestParams['opted_in_at'] = gmdate('Y-m-d H:i:s');
+
+            if (isset($_SERVER['REMOTE_ADDR'])) {
+                $remoteAddr = wp_unslash($_SERVER['REMOTE_ADDR']);
+                $remoteAddr = sanitize_text_field($remoteAddr);
+
+                $requestParams['optin_ip'] = $remoteAddr;
+            }
         } else {
             $context->enableDoubleOptIn($auth_token);
         }

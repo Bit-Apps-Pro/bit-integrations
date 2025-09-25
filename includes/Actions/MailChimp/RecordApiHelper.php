@@ -120,7 +120,7 @@ class RecordApiHelper
                     $fieldData['email_address'] = $fieldValues[$fieldPair->formField];
                 } elseif ($fieldPair->mailChimpField === 'BIRTHDAY') {
                     $date = $fieldValues[$fieldPair->formField];
-                    $mergeFields[$fieldPair->mailChimpField] = date('m/d', strtotime($date));
+                    $mergeFields[$fieldPair->mailChimpField] = gmdate('m/d', strtotime($date));
                 } elseif ($fieldPair->formField === 'custom' && isset($fieldPair->customValue)) {
                     $mergeFields[$fieldPair->mailChimpField] = $fieldPair->customValue;
                 } else {

@@ -282,11 +282,6 @@ final class Common
         }
     }
 
-    public static function loadPluginTextDomain($domain, $path)
-    {
-        load_plugin_textdomain($domain, false, $path);
-    }
-
     private static function replaceFieldWithValueHelper($stringToReplaceField, $fieldValues)
     {
         if (empty($stringToReplaceField)) {

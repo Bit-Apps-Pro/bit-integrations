@@ -2,11 +2,11 @@
 
 namespace BitCode\FI\Triggers\WC;
 
+use BitCode\FI\Core\Util\Helper;
+use BitCode\FI\Flow\Flow;
 use WC_Booking;
 use WC_Checkout;
-use BitCode\FI\Flow\Flow;
 use WC_Subscriptions_Product;
-use BitCode\FI\Core\Util\Helper;
 
 final class WCController
 {
@@ -183,13 +183,14 @@ final class WCController
             $orderby = 'name';
             $order = 'asc';
             $hide_empty = false;
-            $cat_args = [
+            $args = [
                 'orderby'    => $orderby,
                 'order'      => $order,
                 'hide_empty' => $hide_empty,
+                'taxonomy'   => 'product_cat',
             ];
 
-            $product_categories_list = get_terms('product_cat', $cat_args);
+            $product_categories_list = get_terms($args);
             if (empty($product_categories_list)) {
                 return;
             }
@@ -1199,13 +1200,14 @@ final class WCController
         $orderby = 'name';
         $order = 'asc';
         $hide_empty = false;
-        $cat_args = [
+        $args = [
             'orderby'    => $orderby,
             'order'      => $order,
             'hide_empty' => $hide_empty,
+            'taxonomy'   => 'product_cat',
         ];
 
-        $product_categories_list = get_terms('product_cat', $cat_args);
+        $product_categories_list = get_terms($args);
         if (empty($product_categories_list)) {
             return;
         }

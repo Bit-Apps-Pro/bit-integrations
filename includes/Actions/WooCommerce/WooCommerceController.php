@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\WooCommerce;
 
-use WP_Error;
-use WC_Data_Store;
 use BitCode\FI\Log\LogHandler;
+use WC_Data_Store;
+use WP_Error;
 
 class WooCommerceController
 {
@@ -273,7 +273,7 @@ class WooCommerceController
     public static function allSubscriptionsProducts()
     {
         global $wpdb;
-        $allSubscriptions = $wpdb->get_results($wpdb->prepare("
+        $allSubscriptions = $wpdb->get_results("
         	SELECT posts.ID, posts.post_title FROM {$wpdb->posts} as posts
         	LEFT JOIN {$wpdb->term_relationships} as rel ON (posts.ID = rel.object_id)
         	WHERE rel.term_taxonomy_id IN (SELECT term_id FROM {$wpdb->terms} WHERE slug IN ('subscription','variable-subscription'))
@@ -284,7 +284,7 @@ class WooCommerceController
         	WHERE post_type = 'shop_subscription'
         	AND post_status = 'publish'
         	ORDER BY post_title
-        "));
+        ");
 
         $subscriptions[] = [
             'product_id'   => 'any',

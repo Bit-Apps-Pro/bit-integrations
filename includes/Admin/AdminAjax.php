@@ -33,15 +33,7 @@ class AdminAjax
 
     public function setChangelogVersion()
     {
-        if (wp_verify_nonce(sanitize_text_field($_REQUEST['_ajax_nonce']), 'btcbi_nonce')) {
-            $inputJSON = stripslashes($_REQUEST['data']);
-            $input = json_decode($inputJSON);
-            $version = isset($input->version) ? $input->version : '';
-
-            update_option('btcbi_changelog_version', $version);
-
-            wp_send_json_success($version, 200);
-        } else {
+        if (empty($_REQUEST['_ajax_nonce'])) {
             wp_send_json_error(
                 __(
                     'Token expired',
@@ -49,6 +41,20 @@ class AdminAjax
                 ),
                 401
             );
+        }
+
+        $nonce = sanitize_text_field(wp_unslash($_REQUEST['_ajax_nonce']));
+
+        if (wp_verify_nonce($nonce, 'btcbi_nonce') && isset($_REQUEST['data'])) {
+            $inputJSON = stripslashes(wp_unslash($_REQUEST['data']));
+            $input = json_decode($inputJSON);
+            $version = isset($input->version) ? sanitize_text_field($input->version) : '';
+
+            update_option('btcbi_changelog_version', $version);
+
+            wp_send_json_success($version, 200);
+        } else {
+            wp_send_json_error(__('Token expired or no data received', 'bit-integrations'), 401);
         }
     }
 }
