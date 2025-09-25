@@ -100,7 +100,6 @@ class RecordApiHelper
         unset($data['memberId']);
         $apiEndpoint = $this->apiEndpoint . '/members';
         $header = $this->setHeaders();
-
         $apiResponse = HttpHelper::post($apiEndpoint, json_encode($data), $header);
 
         if (\is_wp_error($apiResponse)) {
@@ -117,6 +116,7 @@ class RecordApiHelper
     private function updateMember($data)
     {
         $data['lockVersion'] = $this->lockVersion;
+
         if (empty($this->memberId)) {
             return new WP_Error('MISSING_MEMBER_ID', __('The email provided did not match any existing Fabman member.', 'bit-integrations'));
         }
@@ -148,9 +148,11 @@ class RecordApiHelper
     private function updateSpace($data)
     {
         $data['lockVersion'] = $this->lockVersion;
+
         if (empty($this->workspaceId)) {
             return new WP_Error('MISSING_SPACE_ID', __('Please select a space to update.', 'bit-integrations'));
         }
+
         $response = \apply_filters('btcbi_fabman_update_space', false, json_encode($data), $this->setHeaders(), $this->apiEndpoint, $this->workspaceId);
 
         return $this->handleFilterResponse($response);

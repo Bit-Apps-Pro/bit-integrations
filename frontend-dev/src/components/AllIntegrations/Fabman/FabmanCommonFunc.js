@@ -8,11 +8,13 @@ import { create } from 'mutative'
 export const handleInput = (e, fabmanConf, setFabmanConf) => {
   const newConf = { ...fabmanConf }
   const { name } = e.target
+
   if (e.target.value !== '') {
     newConf[name] = e.target.value
   } else {
     delete newConf[name]
   }
+
   setFabmanConf({ ...newConf })
 }
 
@@ -30,8 +32,11 @@ export const checkMappedFields = fabmanConf => {
   const mappedFieldPresent = rows.filter(r => {
     const hasAnySide =
       (r?.formField && r.formField !== '') || (r?.fabmanFormField && r.fabmanFormField !== '')
+
     if (!hasAnySide) return false
+
     if (!r.formField || !r.fabmanFormField) return true
+
     if (r.formField === 'custom' && !r.customValue) return true
     return false
   })
@@ -68,7 +73,9 @@ export const fabmanAuthentication = (
           draft.accountId = result.data.accountId
         }
       })
+
       setIsAuthorized(true)
+
       if (type === 'authentication') {
         setConf(newConf)
         setLoading({ ...loading, auth: false })
@@ -95,6 +102,7 @@ export const fetchFabmanWorkspaces = (confTmp, setConf, loading, setLoading, typ
 
   bitsFetch(requestParams, 'fabman_fetch_workspaces').then(result => {
     setLoading({ ...loading, workspaces: false })
+
     if (result && result.success) {
       // Use mutative's produce for state update
       const newConf = create(confTmp, draft => {
@@ -105,6 +113,7 @@ export const fetchFabmanWorkspaces = (confTmp, setConf, loading, setLoading, typ
           }
         }
       })
+
       setConf(newConf)
       toast.success(
         type === 'refresh'
@@ -126,11 +135,13 @@ export const isConfigInvalid = (fabmanConf, formField) => {
     if (!checkMappedFields(fabmanConf)) return true
     return false
   }
+
   if (
     ['update_spaces', 'delete_spaces'].includes(fabmanConf.actionName) &&
     !fabmanConf.selectedWorkspace
   )
     return true
+
   if (!checkMappedFields(fabmanConf)) return true
   return false
 }
@@ -146,13 +157,18 @@ export const getEmailMappingRow = fabmanConf => {
 
 export const isEmailMappingInvalid = (fabmanConf, formFields, checkValidEmail) => {
   const emailRow = getEmailMappingRow(fabmanConf)
+
   if (!emailRow) return true
+
   if (emailRow.formField === 'custom') {
     const customValue = (emailRow.customValue || '').trim()
     return !customValue || !checkValidEmail(customValue)
   }
+
   const selectedField = (formFields || []).find(f => f.name === emailRow.formField)
+
   if (!selectedField) return false
+
   const hasEmailType = selectedField.type && String(selectedField.type).toLowerCase() === 'email'
   const looksLikeEmailField =
     /email/i.test(selectedField.name || '') || /email/i.test(selectedField.label || '')

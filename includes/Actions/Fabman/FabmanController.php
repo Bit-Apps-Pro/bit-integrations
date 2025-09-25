@@ -10,16 +10,6 @@ use BitCode\FI\Core\Util\HttpHelper;
 
 class FabmanController
 {
-    // public static function info()
-    // {
-    //     return [
-    //         'name'          => 'Fabman',
-    //         'title'         => __('Fabman', 'bit-integrations'),
-    //         'type'          => 'action',
-    //         'integrationID' => 0
-    //     ];
-    // }
-
     public static function authorization($requestParams)
     {
         if (empty($requestParams->apiKey)) {

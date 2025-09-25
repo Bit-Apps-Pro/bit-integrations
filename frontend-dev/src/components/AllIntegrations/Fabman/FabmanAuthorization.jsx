@@ -45,7 +45,6 @@ export default function FabmanAuthorization({
     <div className="btcd-stp-page" style={styleStep1}>
       {fabman?.youTubeLink && <TutorialLink title="Fabman" youTubeLink={fabman?.youTubeLink} />}
       {fabman?.docLink && <TutorialLink title="Fabman" docLink={fabman?.docLink} />}
-
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>
       </div>
@@ -59,7 +58,6 @@ export default function FabmanAuthorization({
         placeholder={__('Integration Name...', 'bit-integrations')}
         disabled={isInfo}
       />
-
       <div className="mt-3">
         <b>{__('API Key:', 'bit-integrations')}</b>
       </div>

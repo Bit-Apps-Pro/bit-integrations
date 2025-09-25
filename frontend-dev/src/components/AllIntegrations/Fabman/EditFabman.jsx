@@ -47,7 +47,9 @@ function EditFabman({ allIntegURL }) {
     // - type is missing/unknown, OR
     // - field name/label includes "email"
     const selectedField = (formField || []).find(f => f.name === emailRow.formField)
+
     if (!selectedField) return false
+
     const hasEmailType = selectedField.type && String(selectedField.type).toLowerCase() === 'email'
     const looksLikeEmailField =
       /email/i.test(selectedField.name || '') || /email/i.test(selectedField.label || '')
@@ -65,10 +67,12 @@ function EditFabman({ allIntegURL }) {
         setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
         return
       }
+
       if (isEmailMappingInvalid()) {
         setSnackbar({ show: true, msg: __('Please map a valid email address', 'bit-integrations') })
         return
       }
+
       saveActionConf({
         flow,
         allIntegURL,
@@ -80,16 +84,20 @@ function EditFabman({ allIntegURL }) {
       })
       return
     }
+
     if (!checkMappedFields(fabmanConf)) {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
+
     const requiresWorkspaceSelection =
       fabmanConf.actionName === 'update_spaces' || fabmanConf.actionName === 'delete_spaces'
+
     if (requiresWorkspaceSelection && !fabmanConf.selectedWorkspace) {
       setSnackbar({ show: true, msg: __('Please select a workspace', 'bit-integrations') })
       return
     }
+
     saveActionConf({
       flow,
       allIntegURL,
@@ -109,7 +117,6 @@ function EditFabman({ allIntegURL }) {
   return (
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
         <input
@@ -122,7 +129,6 @@ function EditFabman({ allIntegURL }) {
         />
       </div>
       <br />
-
       <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
       <FabmanIntegLayout
         formID={flow.triggered_entity_id}
@@ -134,7 +140,6 @@ function EditFabman({ allIntegURL }) {
         setLoading={setLoading}
         setSnackbar={setSnackbar}
       />
-
       <IntegrationStepThree
         edit
         saveConfig={saveConfig}

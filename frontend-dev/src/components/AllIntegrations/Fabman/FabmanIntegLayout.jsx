@@ -31,8 +31,11 @@ export default function FabmanIntegLayout({
         : []
       const isCreate = conf.actionName === 'create_spaces'
       const nameIdx = fields.findIndex(f => String(f.key) === 'name')
+
       if (nameIdx > -1) fields[nameIdx].required = true
+
       const tzIdx = fields.findIndex(f => String(f.key) === 'timezone')
+
       if (tzIdx > -1) fields[tzIdx].required = isCreate
       return fields
     }
@@ -42,8 +45,11 @@ export default function FabmanIntegLayout({
         ? conf.memberStaticFields.map(f => ({ ...f }))
         : []
       const emailIdx = fields.findIndex(f => String(f.key) === 'emailAddress')
+
       if (emailIdx > -1) fields[emailIdx].required = true
+
       const firstNameIdx = fields.findIndex(f => String(f.key) === 'firstName')
+
       if (firstNameIdx > -1) fields[firstNameIdx].required = false
       return fields
     }
@@ -54,6 +60,7 @@ export default function FabmanIntegLayout({
   useEffect(() => {
     const staticFields = getActiveStaticFields(fabmanConf) || []
     const requiredFields = staticFields.filter(f => !!f.required)
+    
     if (!Array.isArray(fabmanConf.field_map)) return
 
     let changed = false
@@ -99,6 +106,7 @@ export default function FabmanIntegLayout({
       newConf.selectedWorkspace = e.target.value
 
       const ws = (fabmanConf?.workspaces || []).find(w => String(w.id) === String(e.target.value))
+
       if (ws && typeof ws.lockVersion !== 'undefined') {
         newConf.selectedLockVersion = ws.lockVersion
       }
