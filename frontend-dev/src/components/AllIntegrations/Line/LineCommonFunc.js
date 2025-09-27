@@ -88,7 +88,7 @@ export const delFieldMap = (index, _, setConf, type) => {
   })
 }
 
-const FIELD_TYPE_GROUPS = {
+const FIELD_CATEGORIES = {
   sticker: ['sticker_id', 'package_id'],
   image: ['originalContentUrl', 'previewImageUrl'],
   audio: ['originalContentUrl', 'duration'],
@@ -97,8 +97,8 @@ const FIELD_TYPE_GROUPS = {
   emoji: ['emojis_id', 'product_id', 'index']
 }
 
-const getFieldTypeGroup = lineFormField => {
-  for (const [type, fields] of Object.entries(FIELD_TYPE_GROUPS)) {
+const getFieldCategory = lineFormField => {
+  for (const [type, fields] of Object.entries(FIELD_CATEGORIES)) {
     if (fields.includes(lineFormField)) {
       return type
     }
@@ -118,7 +118,7 @@ const generateGroupId = (fieldType, existingFieldMap) => {
   const existingGroups = [
     ...new Set(
       existingFieldMap
-        .filter(field => getFieldTypeGroup(field.lineFormField) === fieldType)
+        .filter(field => getFieldCategory(field.lineFormField) === fieldType)
         .map(field => field.groupId)
     )
   ]
@@ -141,7 +141,7 @@ export const addFieldMap = (i, confTmp, setConf, FieldMappings, mapKey) => {
       newConf[mapKey].splice(i, 0, ...newFieldMap)
       return newConf
     }
-    let fieldType = getFieldTypeGroup(FieldMappings[0].value)
+    let fieldType = getFieldCategory(FieldMappings[0].value)
     let groupId = generateGroupId(fieldType, newConf[mapKey])
     const newFieldMap = FieldMappings.map(field => ({
       formField: '',
@@ -238,7 +238,7 @@ export const generateMappedField = (fields, fieldType = null) => {
   if (requiredFlds.length) {
     const typeToGroupId = {}
     return requiredFlds.map(f => {
-      const actualFieldType = fieldType || getFieldTypeGroup(f.value)
+      const actualFieldType = fieldType || getFieldCategory(f.value)
       if (!typeToGroupId[actualFieldType]) {
         typeToGroupId[actualFieldType] = `${actualFieldType}_1`
       }
