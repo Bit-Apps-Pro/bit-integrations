@@ -27,7 +27,7 @@ export default function LineFieldMap({
             className="btcd-paper-inp mr-2"
             name="formField"
             value={field.formField || ''}
-            onChange={ev => handleFieldMapping(ev, i, lineConf, setLineConf, fieldMapKey)}>
+            onChange={ev => handleFieldMapping(ev, i, setLineConf, fieldMapKey)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             <optgroup label={__('Form Fields', 'bit-integrations')}>
               {formFields?.map(f => (
@@ -69,11 +69,9 @@ export default function LineFieldMap({
 
           <select
             className="btcd-paper-inp"
-            disabled={isMessageField}
+            disabled={true}
             name="lineFormField"
-            value={field.lineFormField || ''}
-            onChange={ev => handleFieldMapping(ev, i, lineConf, setLineConf, fieldMapKey)}>
-            <option value="">{__('Select Field', 'bit-integrations')}</option>
+            value={field.lineFormField || ''}>
             {Array.isArray(requiredFields) &&
               requiredFields.map(({ value, label }, index) => (
                 <option key={index} value={value}>
