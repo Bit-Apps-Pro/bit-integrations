@@ -58,6 +58,10 @@ export default function FluentCommunityIntegLayout({
 
     if (e.target.value !== '') {
       newConf[name] = value
+      // Set the action name first, then refresh fields
+      setFluentCommunityConf(newConf)
+
+      // Refresh fields with the new action name
       refreshFluentCommunityHeader(newConf, setFluentCommunityConf, setIsLoading, setSnackbar)
 
       if (value === 'add-user' || value === 'remove-user') {
@@ -73,8 +77,8 @@ export default function FluentCommunityIntegLayout({
       }
     } else {
       delete newConf[name]
+      setFluentCommunityConf(newConf)
     }
-    setFluentCommunityConf(newConf)
   }
 
   return (

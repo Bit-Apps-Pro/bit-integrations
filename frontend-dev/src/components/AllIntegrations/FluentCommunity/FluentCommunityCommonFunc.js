@@ -52,7 +52,7 @@ export const refreshFluentCommunityHeader = (
   setSnackbar
 ) => {
   setIsLoading(true)
-  bitsFetch({}, 'fluent_community_headers')
+  bitsFetch({ actionName: fluentCommunityConf?.actionName || '' }, 'fluent_community_headers')
     .then(result => {
       if (result && result.success) {
         if (result.data.fluentCommunityFlelds) {

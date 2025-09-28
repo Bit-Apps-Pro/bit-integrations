@@ -31,6 +31,7 @@ export default function FluentCommunity({ formFields, setFlow, flow, allIntegURL
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
     if (val === 3) {
+      // All actions need field mapping validation
       if (!checkMappedFields(fluentCommunityConf)) {
         setSnackbar({
           show: true,
