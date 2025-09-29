@@ -1,13 +1,10 @@
 import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
-import { addFieldMap } from '../IntegrationHelpers/IntegrationHelpers'
-import FluentCommunityActions from './FluentCommunityActions'
 import {
   refreshCommunityList,
   refreshFluentCommunityHeader,
   refreshMemberRoles,
-  refreshCourseList,
-  refreshUserList
+  refreshCourseList
 } from './FluentCommunityCommonFunc'
 import FluentCommunityFieldMap from './FluentCommunityFieldMap'
 import { actions } from './staticData'
@@ -77,7 +74,6 @@ export default function FluentCommunityIntegLayout({
       }
       if (value === 'create-post') {
         refreshCommunityList(formID, newConf, setFluentCommunityConf, loading, setLoading, setSnackbar)
-        refreshUserList(formID, newConf, setFluentCommunityConf, loading, setLoading, setSnackbar)
       }
     } else {
       delete newConf[name]
@@ -278,45 +274,6 @@ export default function FluentCommunityIntegLayout({
             </button>
           </div>
         )}
-      {fluentCommunityConf?.actionName === 'create-post' &&
-        fluentCommunityConf?.fluentCommunityUsers &&
-        !loading.fluentCommunityUsers && (
-          <div className="flx mt-5">
-            <b className="wdt-200 d-in-b">{__('User:', 'bit-integrations')}</b>
-            <select
-              onChange={e => inputHendler(e)}
-              name="post_user_id"
-              value={fluentCommunityConf.post_user_id}
-              className="btcd-paper-inp w-5">
-              <option value="">{__('Select User', 'bit-integrations')}</option>
-              {fluentCommunityConf?.fluentCommunityUsers &&
-                Object.keys(fluentCommunityConf.fluentCommunityUsers).map(userName => (
-                  <option key={userName} value={fluentCommunityConf.fluentCommunityUsers[userName].id}>
-                    {fluentCommunityConf.fluentCommunityUsers[userName].display_name}
-                  </option>
-                ))}
-            </select>
-            <button
-              onClick={() =>
-                refreshUserList(
-                  formID,
-                  fluentCommunityConf,
-                  setFluentCommunityConf,
-                  loading,
-                  setLoading,
-                  setSnackbar
-                )
-              }
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{
-                '--tooltip-txt': `'${__('Refresh Users', 'bit-integrations')}'`
-              }}
-              type="button"
-              disabled={isLoading}>
-              &#x21BB;
-            </button>
-          </div>
-        )}
       {isLoading && (
         <Loader
           style={{
@@ -353,36 +310,6 @@ export default function FluentCommunityIntegLayout({
               setFluentCommunityConf={setFluentCommunityConf}
             />
           ))}
-          <div className="txt-center btcbi-field-map-button mt-2" style={{ marginRight: 85 }}>
-            <button
-              onClick={() =>
-                addFieldMap(
-                  fluentCommunityConf.field_map.length,
-                  fluentCommunityConf,
-                  setFluentCommunityConf
-                )
-              }
-              className="icn-btn sh-sm"
-              type="button">
-              +
-            </button>
-          </div>
-        </>
-      )}
-      {fluentCommunityConf?.actionName === 'add-user' && (
-        <>
-          <br />
-          <div className="mt-4">
-            <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
-          </div>
-          <div className="btcd-hr mt-1" />
-          <FluentCommunityActions
-            fluentCommunityConf={fluentCommunityConf}
-            setFluentCommunityConf={setFluentCommunityConf}
-            loading={loading}
-            setLoading={setLoading}
-            setSnackbar={setSnackbar}
-          />
         </>
       )}
     </>

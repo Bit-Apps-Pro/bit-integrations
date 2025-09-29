@@ -58,8 +58,6 @@ export const refreshFluentCommunityHeader = (
   const actionName = fluentCommunityConf?.actionName || ''
   const fields = actionFields[actionName] || []
 
-  console.log('Refreshing fields for action:', actionName, 'Fields:', fields)
-
   if (fields.length > 0) {
     // Convert static data to the format expected by the UI
     const fluentCommunityFields = {}
@@ -72,13 +70,10 @@ export const refreshFluentCommunityHeader = (
       }
     })
 
-    console.log('Converted fields:', fluentCommunityFields)
-
     setFluentCommunityConf(prevConf =>
       create(prevConf, newConf => {
         newConf.fluentCommunityFields = fluentCommunityFields
         newConf.field_map = mapNewRequiredFields(newConf)
-        console.log('Updated field_map:', newConf.field_map)
       })
     )
 
