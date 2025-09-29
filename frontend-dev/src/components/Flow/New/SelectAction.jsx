@@ -169,7 +169,8 @@ export default function SelectAction() {
     { type: 'SmartSuite' },
     { type: 'Bento' },
     { type: 'Line' },
-    { type: 'ACPT' }
+    { type: 'ACPT' },
+    { type: 'Wishlist Member' }
   ]
 
   const [availableIntegs, setAvailableIntegs] = useState(sortByField(integs, 'type', 'ASC') || integs)

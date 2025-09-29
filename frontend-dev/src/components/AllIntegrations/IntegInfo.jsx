@@ -167,6 +167,7 @@ const SmartSuiteAuthorization = lazy(() => import('./SmartSuite/SmartSuiteAuthor
 const BentoAuthorization = lazy(() => import('./Bento/BentoAuthorization'))
 const LineAuthorization = lazy(() => import('./Line/LineAuthorization'))
 const ACPTAuthorization = lazy(() => import('./ACPT/ACPTAuthorization'))
+const WishlistMemberAuthorization = lazy(() => import('./WishlistMember/WishlistMemberAuthorization'))
 
 export default function IntegInfo() {
   const { id, type } = useParams()
@@ -589,6 +590,8 @@ export default function IntegInfo() {
         return <LineAuthorization lineConf={integrationConf} step={1} isInfo />
       case 'ACPT':
         return <ACPTAuthorization acptConf={integrationConf} step={1} isInfo />
+      case 'WishlistMember':
+        return <WishlistMemberAuthorization wishlistMemberConf={integrationConf} step={1} isInfo />
       default:
         return <></>
     }
