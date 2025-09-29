@@ -13,7 +13,6 @@ import Steps from '../../Utilities/Steps'
 
 export default function WishlistMember({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
-  const { formID } = useParams()
   const [isLoading, setIsLoading] = useState(false)
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
@@ -22,30 +21,24 @@ export default function WishlistMember({ formFields, setFlow, flow, allIntegURL 
     type: 'Wishlist Member',
     field_map: [{ formField: '', wishlistMemberField: '' }],
     wishlistFields: [],
-    actions: {}
+    action: ''
   })
 
   const nextPage = val => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
-    if (val === 3) {
-      if (!checkMappedFields(wishlistMemberConf)) {
-        setSnackbar({
-          show: true,
-          msg: __('Please map all required fields to continue.', 'bit-integrations')
-        })
-        return
-      }
-      if (wishlistMemberConf.name !== '' && wishlistMemberConf.field_map.length > 0) {
-        setStep(val)
-      }
-    } else {
-      setStep(val)
-      if (val === 2 && wishlistMemberConf.name) {
-        refreshNewsLetter(formID, wishlistMemberConf, setWishlistMemberConf, setIsLoading, setSnackbar)
-      }
+
+    if (val === 3 && checkValidation(wishlistMemberConf)) {
+      setSnackbar({
+        show: true,
+        msg: __('Please map all required fields to continue.', 'bit-integrations')
+      })
+
+      return
     }
+
+    setStep(val)
   }
 
   return (
@@ -57,7 +50,6 @@ export default function WishlistMember({ formFields, setFlow, flow, allIntegURL 
 
       {/* STEP 1 */}
       <WishlistMemberAuthorization
-        formID={formID}
         wishlistMemberConf={wishlistMemberConf}
         setWishlistMemberConf={setWishlistMemberConf}
         step={step}
@@ -70,9 +62,10 @@ export default function WishlistMember({ formFields, setFlow, flow, allIntegURL 
       {/* STEP 2 */}
       <div
         className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+        style={{
+          ...(step === 2 && { width: 900, minHeight: '600px', height: 'auto', overflow: 'visible' })
+        }}>
         <WishlistMemberIntegLayout
-          formID={formID}
           formFields={formFields}
           wishlistMemberConf={wishlistMemberConf}
           setWishlistMemberConf={setWishlistMemberConf}
@@ -84,7 +77,7 @@ export default function WishlistMember({ formFields, setFlow, flow, allIntegURL 
         <br />
         <button
           onClick={() => nextPage(3)}
-          disabled={wishlistMemberConf.lists === '' || wishlistMemberConf.field_map.length < 1}
+          disabled={checkValidation(wishlistMemberConf)}
           className="btn f-right btcd-btn-lg purple sh-sm flx"
           type="button">
           {__('Next', 'bit-integrations')}
@@ -105,4 +98,14 @@ export default function WishlistMember({ formFields, setFlow, flow, allIntegURL 
       />
     </div>
   )
+}
+
+export const checkValidation = wishlistMemberConf => {
+  let check = false
+
+  if (wishlistMemberConf?.action === '') {
+    check = true
+  }
+
+  return checkMappedFields(wishlistMemberConf) || check
 }

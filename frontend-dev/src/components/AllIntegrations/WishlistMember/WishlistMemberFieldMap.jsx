@@ -1,49 +1,38 @@
+import { create } from 'mutative'
 import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
 import TrashIcn from '../../../Icons/TrashIcn'
 import { __ } from '../../../Utils/i18nwrap'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
-import MtInput from '../../Utilities/MtInput'
 import TagifyInput from '../../Utilities/TagifyInput'
 import { handleCustomValue } from '../IntegrationHelpers/IntegrationHelpers'
+import { addFieldMap, deleteFieldMap } from './WishlistMemberCommonFunc'
 
 export default function WishlistMemberFieldMap({
   i,
   formFields,
   field,
   wishlistMemberConf,
+  wishlistFields,
   setWishlistMemberConf
 }) {
-  const isRequired = field.required
-  const notResquiredField =
-    wishlistMemberConf?.default?.fields &&
-    Object.values(wishlistMemberConf?.default?.fields).filter(f => f.required === '')
+  const requiredFlds = wishlistFields.filter(fld => fld.required === true) || []
+  const nonRequiredFlds = wishlistFields.filter(fld => fld.required === false) || []
 
   const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
 
-  const addFieldMap = indx => {
-    const newConf = { ...wishlistMemberConf }
-    newConf.field_map.splice(indx, 0, {})
-    setWishlistMemberConf(newConf)
-  }
-
-  const delFieldMap = indx => {
-    const newConf = { ...wishlistMemberConf }
-    if (newConf.field_map.length > 1) {
-      newConf.field_map.splice(indx, 1)
-    }
-    setWishlistMemberConf(newConf)
-  }
-
   const handleFieldMapping = (event, indx) => {
-    const newConf = { ...wishlistMemberConf }
-    newConf.field_map[indx][event.target.name] = event.target.value
+    setWishlistMemberConf(prevConf =>
+      create(prevConf, draftConf => {
+        const { name, value } = event.target
+        draftConf.field_map[indx][name] = value
 
-    if (event.target.value === 'custom') {
-      newConf.field_map[indx].customValue = ''
-    }
-    setWishlistMemberConf(newConf)
+        if (value === 'custom') {
+          draftConf.field_map[indx].customValue = ''
+        }
+      })
+    )
   }
 
   return (
@@ -64,7 +53,10 @@ export default function WishlistMemberFieldMap({
           </optgroup>
           <option value="custom">{__('Custom...', 'bit-integrations')}</option>
           <optgroup
-            label={`${__('General Smart Codes', 'bit-integrations')} ${isPro ? '' : `(${__('Pro', 'bit-integrations')})`}`}>
+            label={sprintf(
+              __('General Smart Codes %s', 'bit-integrations'),
+              isPro ? '' : `(${__('Pro', 'bit-integrations')})`
+            )}>
             {isPro &&
               SmartTagField?.map(f => (
                 <option key={`ff-rm-${f.name}`} value={f.name}>
@@ -88,33 +80,32 @@ export default function WishlistMemberFieldMap({
 
         <select
           className="btcd-paper-inp"
-          name="wishlistMemberField"
-          value={field.wishlistMemberField}
-          onChange={ev => handleFieldMapping(ev, i)}
-          disabled={isRequired}>
+          disabled={i < requiredFlds.length}
+          name="wishlistFields"
+          value={i < requiredFlds.length ? requiredFlds[i].key || '' : field.wishlistFields || ''}
+          onChange={ev => handleFieldMapping(ev, i)}>
           <option value="">{__('Select Field', 'bit-integrations')}</option>
-          {isRequired
-            ? wishlistMemberConf?.default?.fields &&
-              Object.values(wishlistMemberConf.default.fields).map(fld => (
-                <option key={`${fld.id}-1`} value={fld.id}>
-                  {fld.name}
-                </option>
-              ))
-            : notResquiredField &&
-              notResquiredField.map(fld => (
-                <option key={`${fld.id}-1`} value={fld.id}>
-                  {fld.name}
-                </option>
-              ))}
+          {i < requiredFlds.length ? (
+            <option key={requiredFlds[i].key} value={requiredFlds[i].key}>
+              {requiredFlds[i].label}
+            </option>
+          ) : (
+            nonRequiredFlds.map(({ key, label }) => (
+              <option key={key} value={key}>
+                {label}
+              </option>
+            ))
+          )}
         </select>
       </div>
-      {!isRequired && (
+
+      {wishlistFields?.length > 1 && (
         <>
           <button onClick={() => addFieldMap(i)} className="icn-btn sh-sm ml-2 mr-1" type="button">
             +
           </button>
           <button
-            onClick={() => delFieldMap(i)}
+            onClick={() => deleteFieldMap(i)}
             className="icn-btn sh-sm ml-2"
             type="button"
             aria-label="btn">

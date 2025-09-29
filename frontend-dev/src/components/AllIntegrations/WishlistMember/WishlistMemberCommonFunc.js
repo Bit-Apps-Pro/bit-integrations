@@ -20,6 +20,40 @@ export const handleAuthorize = (setIsAuthorized, setIsLoading, setSnackbar) => {
   })
 }
 
+export const generateMappedField = wishlistFields => {
+  const requiredFields = wishlistFields.filter(fld => fld?.required === true)
+
+  return requiredFields.length > 0
+    ? requiredFields.map(field => ({ formField: '', wishlistMemberField: field.key }))
+    : [{ formField: '', wishlistMemberField: '' }]
+}
+
+export const addFieldMap = indx => {
+  setWishlistMemberConf(prevConf =>
+    create(prevConf, draftConf => {
+      draftConf.field_map.splice(indx, 0, {})
+    })
+  )
+}
+
+export const deleteFieldMap = indx => {
+  setWishlistMemberConf(prevConf =>
+    create(prevConf, draftConf => {
+      if (draftConf.field_map.length > 1) {
+        draftConf.field_map.splice(indx, 1)
+      }
+    })
+  )
+}
+
+export const checkMappedFields = wishlistMemberConf => {
+  const mappedField = wishlistMemberConf.field_map.filter(
+    mapped => mapped.formField && mapped.wishlistMemberField
+  )
+
+  return mappedField.length > 0 ? false : true
+}
+
 export const refreshNewsLetter = (
   formID,
   wishlistMemberConf,
@@ -99,21 +133,4 @@ export const refreshMailpoetHeader = (
       setIsLoading(false)
     })
     .catch(() => setIsLoading(false))
-}
-
-export const handleInput = (e, wishlistMemberConf, setWishlistMemberConf) => {
-  const newConf = { ...wishlistMemberConf }
-  newConf.name = e.target.value
-  setWishlistMemberConf({ ...newConf })
-}
-export const checkMappedFields = wishlistMemberConf => {
-  const mappedFields = wishlistMemberConf?.field_map
-    ? wishlistMemberConf.field_map.filter(
-        mappedField => !mappedField.formField && mappedField.wishlistMemberField && mappedField.required
-      )
-    : []
-  if (mappedFields.length > 0) {
-    return false
-  }
-  return true
 }

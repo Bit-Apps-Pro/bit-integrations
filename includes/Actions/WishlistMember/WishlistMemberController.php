@@ -90,25 +90,19 @@ class WishlistMemberController
         $integId = $integrationData->id;
         $fieldMap = $integrationDetails->field_map;
         $lists = $integrationDetails->lists;
-        $actions = $integrationDetails->actions;
+        $action = $integrationDetails->action;
 
-        if (empty($fieldMap)) {
-            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Google sheet'));
+        if (empty($fieldMap) || empty($action)) {
+            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Wishlist Member'));
         }
 
-        $recordApiHelper = new RecordApiHelper($integId);
+        $recordApiHelper = new RecordApiHelper($integId, $integrationDetails);
 
-        $maiPoetApiResponse = $recordApiHelper->execute(
+        return $recordApiHelper->execute(
             $fieldValues,
             $fieldMap,
             $lists,
-            $actions
+            $action
         );
-
-        if (is_wp_error($maiPoetApiResponse)) {
-            return $maiPoetApiResponse;
-        }
-
-        return $maiPoetApiResponse;
     }
 }

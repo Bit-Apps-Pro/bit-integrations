@@ -1,15 +1,13 @@
+import { create } from 'mutative'
 import { useState } from 'react'
-import { __ } from '../../../Utils/i18nwrap'
-import bitsFetch from '../../../Utils/bitsFetch'
-import LoaderSm from '../../Loaders/LoaderSm'
 import BackIcn from '../../../Icons/BackIcn'
+import { __ } from '../../../Utils/i18nwrap'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
+import LoaderSm from '../../Loaders/LoaderSm'
 import TutorialLink from '../../Utilities/TutorialLink'
 import { handleAuthorize } from './WishlistMemberCommonFunc'
-import { create } from 'mutative'
 
 export default function WishlistMemberAuthorization({
-  formID,
   wishlistMemberConf,
   setWishlistMemberConf,
   step,
@@ -30,7 +28,9 @@ export default function WishlistMemberAuthorization({
   }
 
   return (
-    <div className="btcd-stp-page" style={{ ...{ width: '800px', height: 'auto' } }}>
+    <div
+      className="btcd-stp-page"
+      style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
       {wishlistMember?.youTubeLink && (
         <TutorialLink title="WishlistMember" youTubeLink={wishlistMember?.youTubeLink} />
       )}

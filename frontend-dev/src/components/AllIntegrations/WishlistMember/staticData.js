@@ -1,3 +1,5 @@
+import { __ } from '../../../Utils/i18nwrap'
+
 export const modules = [
   { label: __('Create New Level', 'bit-integrations'), value: 'create_level', isPro: false },
   { label: __('Update Level', 'bit-integrations'), value: 'update_level', isPro: true },
@@ -12,3 +14,5 @@ export const modules = [
     isPro: true
   }
 ]
+
+export const levelFields = [{ key: 'name', label: __('Level Name', 'bit-integrations'), required: true }]
