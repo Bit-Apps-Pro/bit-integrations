@@ -10,6 +10,7 @@ import {
   refreshUserList
 } from './FluentCommunityCommonFunc'
 import FluentCommunityFieldMap from './FluentCommunityFieldMap'
+import { actions } from './staticData'
 
 export default function FluentCommunityIntegLayout({
   formID,
@@ -22,13 +23,11 @@ export default function FluentCommunityIntegLayout({
   setLoading,
   setSnackbar
 }) {
-  const action = [
-    { value: 'add-user', label: __('Add user to space', 'bit-integrations') },
-    { value: 'remove-user', label: __('Remove user from space', 'bit-integrations') },
-    { value: 'add-course', label: __('Add user to course', 'bit-integrations') },
-    { value: 'remove-course', label: __('Remove user from course', 'bit-integrations') },
-    { value: 'create-post', label: __('Create new post in feed', 'bit-integrations') }
-  ]
+  // Use static data for actions
+  const action = actions.map(action => ({
+    value: action.name,
+    label: action.label
+  }))
 
   const inputHendler = e => {
     const newConf = { ...fluentCommunityConf }
@@ -58,10 +57,15 @@ export default function FluentCommunityIntegLayout({
 
     if (e.target.value !== '') {
       newConf[name] = value
-      // Set the action name first, then refresh fields
+
+      // Clear existing field mapping and fields when switching actions
+      newConf.field_map = []
+      newConf.fluentCommunityFields = {}
+
+      // First set the action name
       setFluentCommunityConf(newConf)
 
-      // Refresh fields with the new action name
+      // Then refresh fields with the updated action name
       refreshFluentCommunityHeader(newConf, setFluentCommunityConf, setIsLoading, setSnackbar)
 
       if (value === 'add-user' || value === 'remove-user') {

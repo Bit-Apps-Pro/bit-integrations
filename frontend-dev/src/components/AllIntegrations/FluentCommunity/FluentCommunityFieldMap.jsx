@@ -16,8 +16,8 @@ export default function FluentCommunityFieldMap({
 }) {
   const isRequired = field.required
   const notResquiredField =
-    fluentCommunityConf?.fluentCommunityFlelds &&
-    Object.values(fluentCommunityConf?.fluentCommunityFlelds).filter(f => !f.required)
+    fluentCommunityConf?.fluentCommunityFields &&
+    Object.values(fluentCommunityConf?.fluentCommunityFields).filter(f => !f.required)
   const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
   const addFieldMap = indx => {
@@ -92,8 +92,8 @@ export default function FluentCommunityFieldMap({
           disabled={isRequired}>
           <option value="">{__('Select Field', 'bit-integrations')}</option>
           {isRequired
-            ? fluentCommunityConf.fluentCommunityFlelds &&
-              Object.values(fluentCommunityConf.fluentCommunityFlelds).map(fld => (
+            ? fluentCommunityConf.fluentCommunityFields &&
+              Object.values(fluentCommunityConf.fluentCommunityFields).map(fld => (
                 <option key={`${fld.key}-1`} value={fld.key}>
                   {fld.label}
                 </option>

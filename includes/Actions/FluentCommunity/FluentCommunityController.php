@@ -235,50 +235,6 @@ class FluentCommunityController
         }, $companies['data']), 200);
     }
 
-    public static function fluentCommunityFields()
-    {
-        self::checkedExistsFluentCommunity();
-
-        // Return fields for FluentCommunity based on action
-        $fieldOptions = [];
-
-        // Get the current action from the request
-        $action = isset($_POST['actionName']) ? $_POST['actionName'] : '';
-
-        if ($action === 'create-post') {
-            // For create-post action, show email, post title, and post message fields
-            $fieldOptions['email'] = (object) [
-                'key'      => 'email',
-                'label'    => 'Email',
-                'type'     => 'primary',
-                'required' => true
-            ];
-            $fieldOptions['post_title'] = (object) [
-                'key'      => 'post_title',
-                'label'    => 'Post Title',
-                'type'     => 'primary',
-                'required' => true
-            ];
-            $fieldOptions['post_message'] = (object) [
-                'key'      => 'post_message',
-                'label'    => 'Post Message',
-                'type'     => 'primary',
-                'required' => true
-            ];
-        } else {
-            // For all other actions, show only email field
-            $fieldOptions['email'] = (object) [
-                'key'      => 'email',
-                'label'    => 'Email',
-                'type'     => 'primary',
-                'required' => true
-            ];
-        }
-
-        $response['fluentCommunityFlelds'] = $fieldOptions;
-        wp_send_json_success($response, 200);
-    }
-
     /**
      * Get user ID by email
      *

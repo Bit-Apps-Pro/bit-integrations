@@ -1,6 +1,7 @@
 import { __ } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { create } from 'mutative'
+import { actionFields, memberRoles } from './staticData'
 
 export const refreshCommunityList = (
   formID,
@@ -52,38 +53,47 @@ export const refreshFluentCommunityHeader = (
   setSnackbar
 ) => {
   setIsLoading(true)
-  bitsFetch({ actionName: fluentCommunityConf?.actionName || '' }, 'fluent_community_headers')
-    .then(result => {
-      if (result && result.success) {
-        if (result.data.fluentCommunityFlelds) {
-          setFluentCommunityConf(prevConf =>
-            create(prevConf, newConf => {
-              newConf.fluentCommunityFlelds = result.data.fluentCommunityFlelds
-              newConf.field_map = mapNewRequiredFields(newConf)
-            })
-          )
-          setSnackbar({
-            show: true,
-            msg: __('Fluent Community fields refreshed', 'bit-integrations')
-          })
-        } else {
-          setSnackbar({
-            show: true,
-            msg: __(
-              'No Fluent Community fields found. Try changing the header row number or try again',
-              'bit-integrations'
-            )
-          })
-        }
-      } else {
-        setSnackbar({
-          show: true,
-          msg: __('Fluent Community fields refresh failed. please try again', 'bit-integrations')
-        })
+
+  // Get fields from static data based on action
+  const actionName = fluentCommunityConf?.actionName || ''
+  const fields = actionFields[actionName] || []
+
+  console.log('Refreshing fields for action:', actionName, 'Fields:', fields)
+
+  if (fields.length > 0) {
+    // Convert static data to the format expected by the UI
+    const fluentCommunityFields = {}
+    fields.forEach(field => {
+      fluentCommunityFields[field.key] = {
+        key: field.key,
+        label: field.label,
+        type: 'primary',
+        required: field.required
       }
-      setIsLoading(false)
     })
-    .catch(() => setIsLoading(false))
+
+    console.log('Converted fields:', fluentCommunityFields)
+
+    setFluentCommunityConf(prevConf =>
+      create(prevConf, newConf => {
+        newConf.fluentCommunityFields = fluentCommunityFields
+        newConf.field_map = mapNewRequiredFields(newConf)
+        console.log('Updated field_map:', newConf.field_map)
+      })
+    )
+
+    setSnackbar({
+      show: true,
+      msg: __('Fluent Community fields refreshed', 'bit-integrations')
+    })
+  } else {
+    setSnackbar({
+      show: true,
+      msg: __('No Fluent Community fields found for this action', 'bit-integrations')
+    })
+  }
+
+  setIsLoading(false)
 }
 
 export const refreshMemberRoles = (
@@ -94,27 +104,20 @@ export const refreshMemberRoles = (
   setSnackbar
 ) => {
   setLoading({ ...loading, memberRoles: true })
-  bitsFetch({}, 'fluent_community_member_roles')
-    .then(result => {
-      if (result && result.success) {
-        setFluentCommunityConf(prevConf =>
-          create(prevConf, newConf => {
-            newConf.memberRoles = result.data
-          })
-        )
-        setSnackbar({
-          show: true,
-          msg: __('FluentCommunity member roles refreshed', 'bit-integrations')
-        })
-      } else {
-        setSnackbar({
-          show: true,
-          msg: __('FluentCommunity member roles refresh failed. please try again', 'bit-integrations')
-        })
-      }
-      setLoading({ ...loading, memberRoles: false })
+
+  // Use static member roles data
+  setFluentCommunityConf(prevConf =>
+    create(prevConf, newConf => {
+      newConf.memberRoles = memberRoles
     })
-    .catch(() => setLoading({ ...loading, memberRoles: false }))
+  )
+
+  setSnackbar({
+    show: true,
+    msg: __('FluentCommunity member roles refreshed', 'bit-integrations')
+  })
+
+  setLoading({ ...loading, memberRoles: false })
 }
 
 export const refreshCourseList = (
@@ -234,8 +237,8 @@ export const getAllCompanies = (
 
 export const mapNewRequiredFields = fluentCommunityConf => {
   const { field_map } = fluentCommunityConf
-  const { fluentCommunityFlelds } = fluentCommunityConf
-  const required = Object.values(fluentCommunityFlelds)
+  const { fluentCommunityFields } = fluentCommunityConf
+  const required = Object.values(fluentCommunityFields)
     .filter(f => f.required)
     .map(f => ({ formField: '', fluentCommunityField: f.key, required: true }))
   const requiredFieldNotInFieldMap = required.filter(
@@ -243,7 +246,7 @@ export const mapNewRequiredFields = fluentCommunityConf => {
   )
   const notEmptyFieldMap = field_map.filter(f => f.fluentCommunityField || f.formField)
   const newFieldMap = notEmptyFieldMap.map(f => {
-    const field = fluentCommunityFlelds[f.fluentCommunityField]
+    const field = fluentCommunityFields[f.fluentCommunityField]
     if (field) {
       return { ...f, formField: field.label }
     }
