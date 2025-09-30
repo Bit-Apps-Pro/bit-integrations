@@ -43,26 +43,31 @@ class WishlistMemberController
     }
 
     /**
-     * Process ajax request for refresh crm modules
+     * Get wishlist levels
      *
-     * @return JSON crm module data
+     * @return
      */
-    public function refreshNeswLetter()
+    public function getLevels()
     {
-        self::isExists();
-        $mailpoet_api = \WishlistMember\API\API::MP('v1');
-        $newsletterList = $mailpoet_api->getLists();
+        $allLevels = [];
 
-        $allList = [];
+        if (\function_exists('wlmapi_get_levels')) {
+            $levels = wlmapi_get_levels();
 
-        foreach ($newsletterList as $newsletter) {
-            $allList[$newsletter['name']] = (object) [
-                'newsletterId'   => $newsletter['id'],
-                'newsletterName' => $newsletter['name']
-            ];
+            if (isset($levels['levels']['level'])) {
+                $allLevels = array_map(
+                    function ($level) {
+                        return (object) [
+                            'value' => $level['id'],
+                            'label' => $level['name']
+                        ];
+                    },
+                    $levels['levels']['level']
+                );
+            }
         }
-        $response['newsletterList'] = $allList;
-        wp_send_json_success($response, 200);
+
+        wp_send_json_success($allLevels, 200);
     }
 
     public static function wishlistMemberListHeaders()

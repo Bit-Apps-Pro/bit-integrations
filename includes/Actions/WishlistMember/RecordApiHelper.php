@@ -24,9 +24,9 @@ class RecordApiHelper
         $this->integrationDetails = $integrationDetails;
     }
 
-    public function createLevel($fieldData)
+    public function createLevel($finalData)
     {
-        if (empty($fieldData['name'])) {
+        if (empty($finalData['name'])) {
             return [
                 'success' => false,
                 'ERROR'   => __('Level name is required field.', 'bit-integrations')
@@ -40,12 +40,12 @@ class RecordApiHelper
             ];
         }
 
-        return wlmapi_create_level($fieldData);
+        return wlmapi_create_level($finalData);
     }
 
-    public function updateLevel($fieldData)
+    public function updateLevel($finalData)
     {
-        if (empty($fieldData['name']) || empty($fieldData['id'])) {
+        if (empty($finalData['name']) || empty($finalData['id'])) {
             return [
                 'success' => false,
                 'ERROR'   => __('Level id and name are required field.', 'bit-integrations')
@@ -53,13 +53,13 @@ class RecordApiHelper
         }
 
         return self::handleFilterResponse(
-            apply_filters('wishlist_update_level', false, $fieldData)
+            apply_filters('wishlist_update_level', false, $finalData)
         );
     }
 
-    public function deleteLevel($fieldData)
+    public function deleteLevel($finalData)
     {
-        if (empty($fieldData['id'])) {
+        if (empty($finalData['id'])) {
             return [
                 'success' => false,
                 'ERROR'   => __('Level id is required field.', 'bit-integrations')
@@ -67,7 +67,27 @@ class RecordApiHelper
         }
 
         return self::handleFilterResponse(
-            apply_filters('wishlist_delete_level', false, $fieldData)
+            apply_filters('wishlist_delete_level', false, $finalData)
+        );
+    }
+
+    public function createMember($finalData)
+    {
+        if (empty($finalData['user_login']) || empty($finalData['user_email'])) {
+            return [
+                'success' => false,
+                'ERROR'   => __('Username, email, and membership level are required fields.', 'bit-integrations')
+            ];
+        }
+
+        $levelId = null;
+
+        if (isset($this->integrationDetails->level_id)) {
+            $levelId = $this->integrationDetails->level_id;
+        }
+
+        return self::handleFilterResponse(
+            apply_filters('wishlist_create_member', false, $finalData, $levelId, $this->_integrationID)
         );
     }
 
@@ -77,27 +97,34 @@ class RecordApiHelper
             return;
         }
 
-        $fieldData = static::setFieldMap($fieldMap, $fieldValues);
+        $finalData = static::setFieldMap($fieldMap, $fieldValues);
 
         switch ($action) {
             case 'create_level':
                 $type = 'level';
                 $type_name = 'Create Level';
-                $recordApiResponse = $this->createLevel($fieldData);
+                $recordApiResponse = $this->createLevel($finalData);
 
                 break;
 
             case 'update_level':
                 $type = 'level';
                 $type_name = 'Update Level';
-                $recordApiResponse = $this->updateLevel($fieldData);
+                $recordApiResponse = $this->updateLevel($finalData);
 
                 break;
 
             case 'delete_level':
                 $type = 'level';
                 $type_name = 'Delete Level';
-                $recordApiResponse = $this->deleteLevel($fieldData);
+                $recordApiResponse = $this->deleteLevel($finalData);
+
+                break;
+
+            case 'create_member':
+                $type = 'member';
+                $type_name = 'Create Member';
+                $recordApiResponse = $this->createMember($finalData);
 
                 break;
 
@@ -122,19 +149,19 @@ class RecordApiHelper
 
     private static function setFieldMap($fieldMap, $fieldValues)
     {
-        $fieldData = [];
+        $finalData = [];
 
         foreach ($fieldMap as $fieldPair) {
             if (empty($fieldPair->wishlistMemberField)) {
                 continue;
             }
 
-            $fieldData[$fieldPair->wishlistMemberField] = ($fieldPair->formField == 'custom' && !empty($fieldPair->customValue))
+            $finalData[$fieldPair->wishlistMemberField] = ($fieldPair->formField == 'custom' && !empty($fieldPair->customValue))
                 ? Common::replaceFieldWithValue($fieldPair->customValue, $fieldValues)
                 : $fieldValues[$fieldPair->formField];
         }
 
-        return $fieldData;
+        return $finalData;
     }
 
     private static function handleFilterResponse($response)

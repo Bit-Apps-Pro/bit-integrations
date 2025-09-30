@@ -6,7 +6,7 @@ import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
 import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 import { addFieldMap } from '../IntegrationHelpers/IntegrationHelpers'
-import { generateMappedField } from './WishlistMemberCommonFunc'
+import { generateMappedField, refreshLevels } from './WishlistMemberCommonFunc'
 import WishlistMemberFieldMap from './WishlistMemberFieldMap'
 import { actionFieldsMap, modules } from './staticData'
 
@@ -30,6 +30,10 @@ export default function WishlistMemberIntegLayout({
           draftConf.wishlistFields = actionFieldsMap[value] || []
           draftConf.field_map = generateMappedField(draftConf.wishlistFields)
         }
+
+        if (name === 'action' && value !== 'create_member') {
+          refreshLevels(setWishlistMemberConf, setIsLoading, setSnackbar)
+        }
       })
     )
   }
@@ -52,38 +56,35 @@ export default function WishlistMemberIntegLayout({
           closeOnSelect
         />
       </div>
-      <br />
-      {/* <div className="flx">
-        <b className="wdt-200 d-in-b">{__('List:', 'bit-integrations')}</b>
-        <MultiSelect
-          defaultValue={wishlistMemberConf?.lists}
-          className="btcd-paper-drpdwn w-6"
-          options={
-            wishlistMemberConf?.default?.newsletterList &&
-            Object.keys(wishlistMemberConf.default.newsletterList).map(newsletter => ({
-              label: wishlistMemberConf.default.newsletterList[newsletter].newsletterName,
-              value: wishlistMemberConf.default.newsletterList[newsletter].newsletterId
-            }))
-          }
-          onChange={val => lists(val)}
-        />
-        <button
-          onClick={() =>
-            refreshNewsLetter(
-              formID,
-              wishlistMemberConf,
-              setWishlistMemberConf,
-              setIsLoading,
-              setSnackbar
-            )
-          }
-          className="icn-btn sh-sm ml-2 mr-2 tooltip"
-          style={{ '--tooltip-txt': `'${__('Refresh WishlistMember List', 'bit-integrations')}'` }}
-          type="button"
-          disabled={isLoading}>
-          &#x21BB;
-        </button>
-      </div> */}
+      {wishlistMemberConf?.action === 'create_member' && (
+        <>
+          <br />
+          <div className="flx">
+            <b className="wdt-200 d-in-b">{__('Membership Levels:', 'bit-integrations')}</b>
+            <MultiSelect
+              defaultValue={wishlistMemberConf?.level_id || ''}
+              className="btcd-paper-drpdwn w-5"
+              options={wishlistMemberConf?.levels?.map(lvl => ({
+                label: lvl.label,
+                value: lvl.value.toString()
+              }))}
+              onChange={value => setChange(value, 'level_id')}
+              closeOnSelect
+              singleSelect
+            />
+            <button
+              onClick={() => refreshLevels(setWishlistMemberConf, setIsLoading, setSnackbar)}
+              className="icn-btn sh-sm ml-2 mr-2 tooltip"
+              style={{ '--tooltip-txt': `'${__('Refresh Membership Levels', 'bit-integrations')}'` }}
+              type="button"
+              disabled={isLoading}>
+              &#x21BB;
+            </button>
+          </div>
+          <br />
+        </>
+      )}
+
       {isLoading && (
         <Loader
           style={{

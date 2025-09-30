@@ -73,41 +73,26 @@ export const checkValidation = wishlistMemberConf => {
   return checkMappedFields(wishlistMemberConf) || check
 }
 
-export const refreshNewsLetter = (
-  formID,
-  wishlistMemberConf,
-  setWishlistMemberConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const refreshLevels = (setWishlistMemberConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
-  bitsFetch({}, 'refresh_news_letter')
+  bitsFetch({}, 'get_wishlist_levels')
     .then(result => {
       if (result && result.success) {
-        const newConf = { ...wishlistMemberConf }
-        if (!newConf.default) {
-          newConf.default = {}
-        }
-        if (result.data.newsletterList) {
-          newConf.default.newsletterList = result.data.newsletterList
-        }
-        setSnackbar({ show: true, msg: __('Newsletter list refreshed', 'bit-integrations') })
-        setWishlistMemberConf({ ...newConf })
-      } else if (
-        (result && result.data && result.data.data) ||
-        (!result.success && typeof result.data === 'string')
-      ) {
-        setSnackbar({
-          show: true,
-          msg: `${__('Newsletter list refresh failed Cause:', 'bit-integrations')}${result.data.data || result.data}. ${__('please try again', 'bit-integrations')}`
-        })
-      } else {
-        setSnackbar({
-          show: true,
-          msg: __('Newsletter list refresh failed. please try again', 'bit-integrations')
-        })
+        setIsLoading(false)
+        setWishlistMemberConf(prevConf =>
+          create(prevConf, draftConf => {
+            draftConf.levels = result?.data || []
+          })
+        )
+
+        setSnackbar({ show: true, msg: __('Membership levels refreshed', 'bit-integrations') })
+
+        return
       }
-      setIsLoading(false)
+      setSnackbar({
+        show: true,
+        msg: __('Membership levels refresh failed. please try again', 'bit-integrations')
+      })
     })
     .catch(() => setIsLoading(false))
 }

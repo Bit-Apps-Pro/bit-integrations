@@ -51,7 +51,7 @@ function EditWishlistMember({ allIntegURL }) {
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
         <input
-          className="btcd-paper-inp w-6"
+          className="btcd-paper-inp w-5"
           onChange={e => setIntegrationName(e, setWishlistMemberConf)}
           name="name"
           value={wishlistMemberConf.name}
@@ -59,7 +59,6 @@ function EditWishlistMember({ allIntegURL }) {
           placeholder={__('Integration Name...', 'bit-integrations')}
         />
       </div>
-      <br />
       <br />
 
       <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />

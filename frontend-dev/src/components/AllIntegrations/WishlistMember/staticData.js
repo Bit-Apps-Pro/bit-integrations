@@ -1,3 +1,4 @@
+import { create } from 'lodash'
 import { __ } from '../../../Utils/i18nwrap'
 
 export const modules = [
@@ -15,14 +16,30 @@ export const modules = [
   }
 ]
 
-export const levelNameFields = [
+export const levelNameField = [
   { key: 'name', label: __('Level Name', 'bit-integrations'), required: true }
 ]
 
-export const LevelIdFields = [{ key: 'id', label: __('Level Id', 'bit-integrations'), required: true }]
+export const LevelIdField = [{ key: 'id', label: __('Level Id', 'bit-integrations'), required: true }]
+
+export const memberFields = [
+  { key: 'user_login', label: __('Username', 'bit-integrations'), required: true },
+  { key: 'user_email', label: __('Email Address', 'bit-integrations'), required: true },
+  { key: 'first_name', label: __('First Name', 'bit-integrations'), required: false },
+  { key: 'last_name', label: __('Last Name', 'bit-integrations'), required: false },
+  { key: 'user_pass', label: __('Password', 'bit-integrations'), required: false },
+  { key: 'company', label: __('Company', 'bit-integrations'), required: false },
+  { key: 'address1', label: __('Street Address Line 1', 'bit-integrations'), required: false },
+  { key: 'address2', label: __('Street Address Line 2', 'bit-integrations'), required: false },
+  { key: 'city', label: __('City/Town', 'bit-integrations'), required: false },
+  { key: 'state', label: __('State/Province', 'bit-integrations'), required: false },
+  { key: 'zip', label: __('Zip Code', 'bit-integrations'), required: false },
+  { key: 'country', label: __('Country', 'bit-integrations'), required: false }
+]
 
 export const actionFieldsMap = {
-  create_level: levelNameFields,
-  update_level: [...LevelIdFields, ...levelNameFields],
-  delete_level: LevelIdFields
+  create_level: levelNameField,
+  update_level: [...LevelIdField, ...levelNameField],
+  delete_level: LevelIdField,
+  create_member: memberFields
 }
