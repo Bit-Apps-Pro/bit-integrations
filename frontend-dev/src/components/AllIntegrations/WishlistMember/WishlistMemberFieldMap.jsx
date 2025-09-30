@@ -81,8 +81,8 @@ export default function WishlistMemberFieldMap({
         <select
           className="btcd-paper-inp"
           disabled={i < requiredFlds.length}
-          name="wishlistFields"
-          value={i < requiredFlds.length ? requiredFlds[i].key || '' : field.wishlistFields || ''}
+          name="wishlistMemberField"
+          value={i < requiredFlds.length ? requiredFlds[i].key || '' : field.wishlistMemberField || ''}
           onChange={ev => handleFieldMapping(ev, i)}>
           <option value="">{__('Select Field', 'bit-integrations')}</option>
           {i < requiredFlds.length ? (

@@ -76,7 +76,7 @@ class RecordApiHelper
         if (empty($finalData['user_login']) || empty($finalData['user_email'])) {
             return [
                 'success' => false,
-                'ERROR'   => __('Username, email, and membership level are required fields.', 'bit-integrations')
+                'ERROR'   => __('Username, email are required fields.', 'bit-integrations')
             ];
         }
 
@@ -88,6 +88,20 @@ class RecordApiHelper
 
         return self::handleFilterResponse(
             apply_filters('wishlist_create_member', false, $finalData, $levelId, $this->_integrationID)
+        );
+    }
+
+    public function updateMember($finalData)
+    {
+        if (empty($finalData['user_email'])) {
+            return [
+                'success' => false,
+                'ERROR'   => __('Email is a required field.', 'bit-integrations')
+            ];
+        }
+
+        return self::handleFilterResponse(
+            apply_filters('wishlist_update_member', false, $finalData)
         );
     }
 
@@ -128,6 +142,13 @@ class RecordApiHelper
 
                 break;
 
+            case 'update_member':
+                $type = 'member';
+                $type_name = 'Update Member';
+                $recordApiResponse = $this->updateMember($finalData);
+
+                break;
+
             default:
                 $type = 'record';
                 $type_name = 'insert';
@@ -150,15 +171,14 @@ class RecordApiHelper
     private static function setFieldMap($fieldMap, $fieldValues)
     {
         $finalData = [];
-
         foreach ($fieldMap as $fieldPair) {
             if (empty($fieldPair->wishlistMemberField)) {
                 continue;
             }
 
             $finalData[$fieldPair->wishlistMemberField] = ($fieldPair->formField == 'custom' && !empty($fieldPair->customValue))
-                ? Common::replaceFieldWithValue($fieldPair->customValue, $fieldValues)
-                : $fieldValues[$fieldPair->formField];
+            ? Common::replaceFieldWithValue($fieldPair->customValue, $fieldValues)
+            : $fieldValues[$fieldPair->formField];
         }
 
         return $finalData;

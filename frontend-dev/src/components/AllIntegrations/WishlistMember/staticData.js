@@ -37,9 +37,14 @@ export const memberFields = [
   { key: 'country', label: __('Country', 'bit-integrations'), required: false }
 ]
 
+const updateMemberFields = memberFields.map(field =>
+  field.key === 'user_login' ? { ...field, required: false } : field
+)
+
 export const actionFieldsMap = {
   create_level: levelNameField,
   update_level: [...LevelIdField, ...levelNameField],
   delete_level: LevelIdField,
-  create_member: memberFields
+  create_member: memberFields,
+  update_member: updateMemberFields
 }
