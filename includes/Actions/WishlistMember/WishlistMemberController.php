@@ -24,8 +24,7 @@ class WishlistMemberController
     }
 
     /**
-     * Validate if WishlistMember plugin exists or not. If not exits then terminate
-     * request and send an error response.
+     * Validate if WishlistMember plugin exists or not.
      */
     public static function authorization()
     {
@@ -68,25 +67,6 @@ class WishlistMemberController
         }
 
         wp_send_json_success($allLevels, 200);
-    }
-
-    public static function wishlistMemberListHeaders()
-    {
-        self::isExists();
-        $mailpoet_api = \WishlistMember\API\API::MP('v1');
-        $subscriber_form_fields = $mailpoet_api->getSubscriberFields();
-
-        $allList = [];
-
-        foreach ($subscriber_form_fields as $fields) {
-            $allList[$fields['name']] = (object) [
-                'id'       => $fields['id'],
-                'name'     => $fields['name'],
-                'required' => $fields['params']['required']
-            ];
-        }
-        $response['wishlistMemberFields'] = $allList;
-        wp_send_json_success($response, 200);
     }
 
     public function execute($integrationData, $fieldValues)

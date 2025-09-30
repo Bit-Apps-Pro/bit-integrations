@@ -23,6 +23,8 @@ function EditWishlistMember({ allIntegURL }) {
   const formFields = useRecoilValue($formFields)
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
+  const [name, setName] = useState(wishlistMemberConf?.name || '')
+
   const saveConfig = () => {
     if (checkValidation(wishlistMemberConf)) {
       setSnackbar({
@@ -44,6 +46,7 @@ function EditWishlistMember({ allIntegURL }) {
       setSnackbar
     })
   }
+
   return (
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
@@ -52,9 +55,12 @@ function EditWishlistMember({ allIntegURL }) {
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
         <input
           className="btcd-paper-inp w-5"
-          onChange={e => setIntegrationName(e, setWishlistMemberConf)}
+          onChange={e => {
+            setName(e.target.value)
+            setIntegrationName(e, setWishlistMemberConf)
+          }}
           name="name"
-          value={wishlistMemberConf.name}
+          value={name}
           type="text"
           placeholder={__('Integration Name...', 'bit-integrations')}
         />
@@ -77,7 +83,7 @@ function EditWishlistMember({ allIntegURL }) {
       <IntegrationStepThree
         edit
         saveConfig={saveConfig}
-        disabled={wishlistMemberConf.lists === '' || wishlistMemberConf.field_map.length < 1}
+        disabled={checkValidation(wishlistMemberConf)}
         isLoading={isLoading}
         dataConf={wishlistMemberConf}
         setDataConf={setWishlistMemberConf}

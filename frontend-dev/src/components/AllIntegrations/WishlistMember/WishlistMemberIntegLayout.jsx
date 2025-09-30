@@ -56,6 +56,7 @@ export default function WishlistMemberIntegLayout({
           closeOnSelect
         />
       </div>
+
       {['create_member', 'add_member_to_level', 'remove_member_from_level'].includes(
         wishlistMemberConf?.action
       ) && (
@@ -141,14 +142,6 @@ export default function WishlistMemberIntegLayout({
               </button>
             </div>
           )}
-
-          {/* <br />
-          <br />
-          <WishlistMemberActions
-            wishlistMemberConf={wishlistMemberConf}
-            setWishlistMemberConf={setWishlistMemberConf}
-            formFields={formFields}
-          /> */}
         </>
       )}
     </>

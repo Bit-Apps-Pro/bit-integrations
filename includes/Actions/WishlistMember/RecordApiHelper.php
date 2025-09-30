@@ -91,7 +91,7 @@ class RecordApiHelper
         );
     }
 
-    public function updateMember($finalData)
+    public function handleMemberEvents($finalData, $hook)
     {
         if (empty($finalData['user_email'])) {
             return [
@@ -101,25 +101,11 @@ class RecordApiHelper
         }
 
         return self::handleFilterResponse(
-            apply_filters('wishlist_update_member', false, $finalData)
+            apply_filters($hook, false, $finalData)
         );
     }
 
-    public function deleteMember($finalData)
-    {
-        if (empty($finalData['user_email'])) {
-            return [
-                'success' => false,
-                'ERROR'   => __('Email is a required field.', 'bit-integrations')
-            ];
-        }
-
-        return self::handleFilterResponse(
-            apply_filters('wishlist_delete_member', false, $finalData)
-        );
-    }
-
-    public function addMemberToLevel($finalData)
+    public function handleMemberAddOrRemoveFromLevel($finalData, $hook)
     {
         if (empty($finalData['user_email']) || empty($this->integrationDetails->level_id)) {
             return [
@@ -129,21 +115,7 @@ class RecordApiHelper
         }
 
         return self::handleFilterResponse(
-            apply_filters('wishlist_add_member_to_level', false, $finalData, $this->integrationDetails->level_id)
-        );
-    }
-
-    public function removeMemberFromLevel($finalData)
-    {
-        if (empty($finalData['user_email']) || empty($this->integrationDetails->level_id)) {
-            return [
-                'success' => false,
-                'ERROR'   => __('Email and level are required fields.', 'bit-integrations')
-            ];
-        }
-
-        return self::handleFilterResponse(
-            apply_filters('wishlist_remove_member_from_level', false, $finalData, $this->integrationDetails->level_id)
+            apply_filters($hook, false, $finalData, $this->integrationDetails->level_id)
         );
     }
 
@@ -187,28 +159,28 @@ class RecordApiHelper
             case 'update_member':
                 $type = 'member';
                 $type_name = 'Update Member';
-                $recordApiResponse = $this->updateMember($finalData);
+                $recordApiResponse = $this->handleMemberEvents($finalData, 'wishlist_update_member');
 
                 break;
 
             case 'delete_member':
                 $type = 'member';
                 $type_name = 'Delete Member';
-                $recordApiResponse = $this->deleteMember($finalData);
+                $recordApiResponse = $this->handleMemberEvents($finalData, 'wishlist_delete_member');
 
                 break;
 
             case 'add_member_to_level':
                 $type = 'member';
                 $type_name = 'Add Member To Level';
-                $recordApiResponse = $this->addMemberToLevel($finalData);
+                $recordApiResponse = $this->handleMemberAddOrRemoveFromLevel($finalData, 'wishlist_add_member_to_level');
 
                 break;
 
             case 'remove_member_from_level':
                 $type = 'member';
                 $type_name = 'Remove Member From Level';
-                $recordApiResponse = $this->removeMemberFromLevel($finalData);
+                $recordApiResponse = $this->handleMemberAddOrRemoveFromLevel($finalData, 'wishlist_remove_member_from_level');
 
                 break;
 
