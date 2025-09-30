@@ -10,32 +10,32 @@ export const actions = [
   {
     name: 'remove-user',
     label: __('Remove user from space', 'bit-integrations'),
-    is_pro: false
+    is_pro: true
   },
   {
     name: 'add-course',
     label: __('Add user to course', 'bit-integrations'),
-    is_pro: false
+    is_pro: true
   },
   {
     name: 'remove-course',
     label: __('Remove user from course', 'bit-integrations'),
-    is_pro: false
+    is_pro: true
   },
   {
     name: 'create-post',
     label: __('Create new post in feed', 'bit-integrations'),
-    is_pro: false
+    is_pro: true
   },
   {
     name: 'create-poll',
     label: __('Create poll in feed', 'bit-integrations'),
-    is_pro: false
+    is_pro: true
   },
   {
     name: 'verify-user',
     label: __('Verify user profile', 'bit-integrations'),
-    is_pro: false
+    is_pro: true
   }
 ]
 

@@ -8,6 +8,9 @@ import {
 } from './FluentCommunityCommonFunc'
 import FluentCommunityFieldMap from './FluentCommunityFieldMap'
 import { actions, pollTypes } from './staticData'
+import { useRecoilValue } from 'recoil'
+import { $btcbi } from '../../../GlobalStates'
+import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 
 export default function FluentCommunityIntegLayout({
   formID,
@@ -20,10 +23,13 @@ export default function FluentCommunityIntegLayout({
   setLoading,
   setSnackbar
 }) {
-  // Use static data for actions
+  const btcbi = useRecoilValue($btcbi)
+  const { isPro } = btcbi
+
+  // Use static data for actions with pro feature labels
   const action = actions.map(action => ({
     value: action.name,
-    label: action.label
+    label: checkIsPro(isPro, action.is_pro) ? action.label : getProLabel(action.label)
   }))
 
   const inputHendler = e => {
@@ -100,7 +106,10 @@ export default function FluentCommunityIntegLayout({
           className="btcd-paper-inp w-5">
           <option value="">{__('Select Action', 'bit-integrations')}</option>
           {action.map(({ label, value }) => (
-            <option key={label} value={value}>
+            <option
+              key={value}
+              value={value}
+              disabled={!checkIsPro(isPro, actions.find(a => a.name === value)?.is_pro)}>
               {label}
             </option>
           ))}
@@ -210,7 +219,8 @@ export default function FluentCommunityIntegLayout({
               onChange={e => inputHendler(e)}
               name="course_id"
               value={fluentCommunityConf.course_id}
-              className="btcd-paper-inp w-5">
+              className="btcd-paper-inp w-5"
+              disabled={!isPro}>
               <option value="">{__('Select Fluent Community course', 'bit-integrations')}</option>
               {fluentCommunityConf?.fluentCommunityCourses &&
                 Object.keys(fluentCommunityConf.fluentCommunityCourses).map(courseName => (
@@ -237,7 +247,7 @@ export default function FluentCommunityIntegLayout({
                 '--tooltip-txt': `'${__('Refresh Courses', 'bit-integrations')}'`
               }}
               type="button"
-              disabled={isLoading}>
+              disabled={isLoading || !isPro}>
               &#x21BB;
             </button>
           </div>
@@ -251,7 +261,8 @@ export default function FluentCommunityIntegLayout({
               onChange={e => inputHendler(e)}
               name="poll_space_id"
               value={fluentCommunityConf.poll_space_id}
-              className="btcd-paper-inp w-5">
+              className="btcd-paper-inp w-5"
+              disabled={!isPro}>
               <option value="">{__('Select Space', 'bit-integrations')}</option>
               {fluentCommunityConf?.fluentCommunityList &&
                 Object.keys(fluentCommunityConf.fluentCommunityList).map(listName => (
@@ -276,7 +287,7 @@ export default function FluentCommunityIntegLayout({
                 '--tooltip-txt': `'${__('Refresh Spaces', 'bit-integrations')}'`
               }}
               type="button"
-              disabled={isLoading}>
+              disabled={isLoading || !isPro}>
               &#x21BB;
             </button>
           </div>
@@ -288,7 +299,8 @@ export default function FluentCommunityIntegLayout({
             onChange={e => inputHendler(e)}
             name="poll_options"
             value={fluentCommunityConf.poll_options}
-            className="btcd-paper-inp w-5">
+            className="btcd-paper-inp w-5"
+            disabled={!isPro}>
             <option value="">{__('Select Poll Type', 'bit-integrations')}</option>
             {pollTypes.map(type => (
               <option key={type.id} value={type.id}>
@@ -307,7 +319,8 @@ export default function FluentCommunityIntegLayout({
               onChange={e => inputHendler(e)}
               name="post_space_id"
               value={fluentCommunityConf.post_space_id}
-              className="btcd-paper-inp w-5">
+              className="btcd-paper-inp w-5"
+              disabled={!isPro}>
               <option value="">{__('Select Space', 'bit-integrations')}</option>
               {fluentCommunityConf?.fluentCommunityList &&
                 Object.keys(fluentCommunityConf.fluentCommunityList).map(listName => (
@@ -332,7 +345,7 @@ export default function FluentCommunityIntegLayout({
                 '--tooltip-txt': `'${__('Refresh Spaces', 'bit-integrations')}'`
               }}
               type="button"
-              disabled={isLoading}>
+              disabled={isLoading || !isPro}>
               &#x21BB;
             </button>
           </div>

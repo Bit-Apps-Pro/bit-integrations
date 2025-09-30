@@ -68,40 +68,14 @@ class RecordApiHelper
 
     public function removeUser($data)
     {
-        // Get user ID by email
-        $userId = FluentCommunityController::getUserByEmail($data['email']);
+        // Use pro hook if available
+        $response = apply_filters('btcbi_fluent_community_remove_user', $data);
 
-        if (!$userId) {
+        if ($response === $data) {
+            // Pro feature not available
             return [
                 'success'  => false,
-                'messages' => __('User not found with this email!', 'bit-integrations')
-            ];
-        }
-
-        try {
-            $spaceId = $data['space_id'];
-            $by = 'by_automation';
-
-            // Use FluentCommunity Helper
-            if (class_exists('\FluentCommunity\App\Services\Helper')) {
-                \FluentCommunity\App\Services\Helper::removeFromSpace($spaceId, $userId, $by);
-
-                $response = [
-                    'success'  => true,
-                    'messages' => __('User removed from space successfully!', 'bit-integrations'),
-                    'space_id' => $spaceId,
-                    'user_id'  => $userId,
-                ];
-            } else {
-                $response = [
-                    'success'  => false,
-                    'messages' => __('FluentCommunity Helper not available!', 'bit-integrations')
-                ];
-            }
-        } catch (Exception $e) {
-            $response = [
-                'success'  => false,
-                'messages' => $e->getMessage()
+                'messages' => __('This feature is available in Pro version only!', 'bit-integrations')
             ];
         }
 
@@ -110,39 +84,14 @@ class RecordApiHelper
 
     public function addCourse($data)
     {
-        // Get user ID by email
-        $userId = FluentCommunityController::getUserByEmail($data['email']);
+        // Use pro hook if available
+        $response = apply_filters('btcbi_fluent_community_add_course', $data);
 
-        if (!$userId) {
+        if ($response === $data) {
+            // Pro feature not available
             return [
                 'success'  => false,
-                'messages' => __('User not found with this email!', 'bit-integrations')
-            ];
-        }
-
-        try {
-            $courseId = $data['course_id'];
-
-            // Use FluentCommunity's CourseHelper::enrollCourse() method
-            if (class_exists('\FluentCommunity\Modules\Course\Services\CourseHelper')) {
-                \FluentCommunity\Modules\Course\Services\CourseHelper::enrollCourse($courseId, $userId);
-
-                $response = [
-                    'success'   => true,
-                    'messages'  => __('User enrolled in course successfully!', 'bit-integrations'),
-                    'course_id' => $courseId,
-                    'user_id'   => $userId,
-                ];
-            } else {
-                $response = [
-                    'success'  => false,
-                    'messages' => __('FluentCommunity CourseHelper not available!', 'bit-integrations')
-                ];
-            }
-        } catch (Exception $e) {
-            $response = [
-                'success'  => false,
-                'messages' => $e->getMessage()
+                'messages' => __('This feature is available in Pro version only!', 'bit-integrations')
             ];
         }
 
@@ -151,39 +100,14 @@ class RecordApiHelper
 
     public function removeCourse($data)
     {
-        // Get user ID by email
-        $userId = FluentCommunityController::getUserByEmail($data['email']);
+        // Use pro hook if available
+        $response = apply_filters('btcbi_fluent_community_remove_course', $data);
 
-        if (!$userId) {
+        if ($response === $data) {
+            // Pro feature not available
             return [
                 'success'  => false,
-                'messages' => __('User not found with this email!', 'bit-integrations')
-            ];
-        }
-
-        try {
-            $courseId = $data['course_id'];
-
-            // Use FluentCommunity's CourseHelper::leaveCourse() method
-            if (class_exists('\FluentCommunity\Modules\Course\Services\CourseHelper')) {
-                \FluentCommunity\Modules\Course\Services\CourseHelper::leaveCourse($courseId, $userId);
-
-                $response = [
-                    'success'   => true,
-                    'messages'  => __('User unenrolled from course successfully!', 'bit-integrations'),
-                    'course_id' => $courseId,
-                    'user_id'   => $userId,
-                ];
-            } else {
-                $response = [
-                    'success'  => false,
-                    'messages' => __('FluentCommunity CourseHelper not available!', 'bit-integrations')
-                ];
-            }
-        } catch (Exception $e) {
-            $response = [
-                'success'  => false,
-                'messages' => $e->getMessage()
+                'messages' => __('This feature is available in Pro version only!', 'bit-integrations')
             ];
         }
 
@@ -192,58 +116,14 @@ class RecordApiHelper
 
     public function createPost($data)
     {
-        // Get user ID by email
-        $userId = FluentCommunityController::getUserByEmail($data['email']);
+        // Use pro hook if available
+        $response = apply_filters('btcbi_fluent_community_create_post', $data);
 
-        if (!$userId) {
+        if ($response === $data) {
+            // Pro feature not available
             return [
                 'success'  => false,
-                'messages' => __('User not found with this email!', 'bit-integrations')
-            ];
-        }
-
-        try {
-            $spaceId = $data['post_space_id'];
-            $postTitle = $data['post_title'];
-            $postMessage = $data['post_message'];
-
-            $feedData = [
-                'message'  => stripslashes($postMessage),
-                'title'    => stripslashes($postTitle),
-                'space_id' => (int) $spaceId,
-                'user_id'  => $userId,
-            ];
-
-            // Use FluentCommunity FeedsHelper
-            if (class_exists('\FluentCommunity\App\Services\FeedsHelper')) {
-                $feed = \FluentCommunity\App\Services\FeedsHelper::createFeed($feedData);
-
-                if (is_wp_error($feed)) {
-                    $response = [
-                        'success'  => false,
-                        'messages' => $feed->get_error_message()
-                    ];
-                } else {
-                    $response = [
-                        'success'  => true,
-                        'messages' => __('Post created in feed successfully!', 'bit-integrations'),
-                        'space_id' => $spaceId,
-                        'user_id'  => $userId,
-                        'feed_id'  => $feed->id,
-                        'title'    => $postTitle,
-                        'feed_url' => $feed->getPermalink(),
-                    ];
-                }
-            } else {
-                $response = [
-                    'success'  => false,
-                    'messages' => __('FluentCommunity FeedsHelper not available!', 'bit-integrations')
-                ];
-            }
-        } catch (Exception $e) {
-            $response = [
-                'success'  => false,
-                'messages' => $e->getMessage()
+                'messages' => __('This feature is available in Pro version only!', 'bit-integrations')
             ];
         }
 
@@ -252,59 +132,14 @@ class RecordApiHelper
 
     public function createPoll($data)
     {
-        $spaceId = $data['poll_space_id'];
-        $userId = FluentCommunityController::getUserByEmail($data['email']);
-        $postTitle = $data['post_title'];
-        $postMessage = $data['post_message'];
-        $pollOptions = $data['poll_options'];
+        // Use pro hook if available
+        $response = apply_filters('btcbi_fluent_community_create_poll', $data);
 
-        if (!$userId) {
+        if ($response === $data) {
+            // Pro feature not available
             return [
                 'success'  => false,
-                'messages' => __('User not found with this email!', 'bit-integrations')
-            ];
-        }
-
-        try {
-            $feedData = [
-                'message'  => stripslashes($postMessage),
-                'title'    => stripslashes($postTitle),
-                'space_id' => (int) $spaceId,
-                'user_id'  => $userId,
-                'survey'   => 'survey',
-            ];
-
-            // Use FluentCommunity FeedsHelper
-            if (class_exists('\FluentCommunity\App\Services\FeedsHelper')) {
-                $feed = \FluentCommunity\App\Services\FeedsHelper::createFeed($feedData);
-
-                if (is_wp_error($feed)) {
-                    $response = [
-                        'success'  => false,
-                        'messages' => $feed->get_error_message()
-                    ];
-                } else {
-                    $response = [
-                        'success'       => true,
-                        'messages'      => __('Poll created in feed successfully!', 'bit-integrations'),
-                        'space_id'      => $spaceId,
-                        'user_id'       => $userId,
-                        'feed_id'       => $feed->id,
-                        'poll_question' => $postTitle,
-                        'poll_options'  => $pollOptions,
-                        'feed_url'      => $feed->getPermalink(),
-                    ];
-                }
-            } else {
-                $response = [
-                    'success'  => false,
-                    'messages' => __('FluentCommunity FeedsHelper not available!', 'bit-integrations')
-                ];
-            }
-        } catch (Exception $e) {
-            $response = [
-                'success'  => false,
-                'messages' => $e->getMessage()
+                'messages' => __('This feature is available in Pro version only!', 'bit-integrations')
             ];
         }
 
@@ -313,54 +148,18 @@ class RecordApiHelper
 
     public function verifyUser($data)
     {
-        $userId = FluentCommunityController::getUserByEmail($data['email']);
+        // Use pro hook if available
+        $response = apply_filters('btcbi_fluent_community_verify_user', $data);
 
-        if (!$userId) {
+        if ($response === $data) {
+            // Pro feature not available
             return [
                 'success'  => false,
-                'messages' => __('User not found with this email!', 'bit-integrations')
+                'messages' => __('This feature is available in Pro version only!', 'bit-integrations')
             ];
         }
 
-        $user = get_user_by('ID', $userId);
-        if (!$user) {
-            return [
-                'success'  => false,
-                'messages' => __('User not found!', 'bit-integrations')
-            ];
-        }
-
-        // Get user spaces
-        $spaces = [];
-        if (class_exists('\FluentCommunity\App\Services\Helper')) {
-            $spaces = \FluentCommunity\App\Services\Helper::getUserSpaces($userId);
-        }
-
-        // Get user courses
-        $courses = [];
-        if (class_exists('\FluentCommunity\Modules\Course\Services\CourseHelper')) {
-            $course_helper = new \FluentCommunity\Modules\Course\Services\CourseHelper();
-            $courses = $course_helper->getUserCourses($userId);
-        }
-
-        $profile = [
-            'user_id'         => $user->ID,
-            'user_login'      => $user->user_login,
-            'user_email'      => $user->user_email,
-            'display_name'    => $user->display_name,
-            'first_name'      => $user->first_name,
-            'last_name'       => $user->last_name,
-            'user_registered' => $user->user_registered,
-            'avatar_url'      => get_avatar_url($user->ID),
-            'spaces'          => $spaces,
-            'courses'         => $courses,
-        ];
-
-        return [
-            'success'  => true,
-            'messages' => __('User profile verified successfully!', 'bit-integrations'),
-            'profile'  => $profile,
-        ];
+        return $response;
     }
 
     public function execute($fieldValues, $fieldMap, $actions, $list_id, $tags, $actionName)
