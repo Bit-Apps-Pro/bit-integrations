@@ -49,5 +49,7 @@ export const actionFieldsMap = {
   delete_level: LevelIdField,
   create_member: memberFields,
   update_member: updateMemberFields,
-  delete_member: userEmailField
+  delete_member: userEmailField,
+  add_member_to_level: userEmailField,
+  remove_member_from_level: userEmailField
 }

@@ -119,6 +119,20 @@ class RecordApiHelper
         );
     }
 
+    public function addMemberToLevel($finalData)
+    {
+        if (empty($finalData['user_email']) || empty($this->integrationDetails->level_id)) {
+            return [
+                'success' => false,
+                'ERROR'   => __('Email and level are required fields.', 'bit-integrations')
+            ];
+        }
+
+        return self::handleFilterResponse(
+            apply_filters('wishlist_add_member_to_level', false, $finalData, $this->integrationDetails->level_id)
+        );
+    }
+
     public function execute($fieldValues, $fieldMap, $action)
     {
         if (!WishlistMemberController::isPluginInstalled()) {
@@ -167,6 +181,13 @@ class RecordApiHelper
                 $type = 'member';
                 $type_name = 'Delete Member';
                 $recordApiResponse = $this->deleteMember($finalData);
+
+                break;
+
+            case 'add_member_to_level':
+                $type = 'member';
+                $type_name = 'Add Member To Level';
+                $recordApiResponse = $this->addMemberToLevel($finalData);
 
                 break;
 
