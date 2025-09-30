@@ -105,6 +105,20 @@ class RecordApiHelper
         );
     }
 
+    public function deleteMember($finalData)
+    {
+        if (empty($finalData['user_email'])) {
+            return [
+                'success' => false,
+                'ERROR'   => __('Email is a required field.', 'bit-integrations')
+            ];
+        }
+
+        return self::handleFilterResponse(
+            apply_filters('wishlist_delete_member', false, $finalData)
+        );
+    }
+
     public function execute($fieldValues, $fieldMap, $action)
     {
         if (!WishlistMemberController::isPluginInstalled()) {
@@ -146,6 +160,13 @@ class RecordApiHelper
                 $type = 'member';
                 $type_name = 'Update Member';
                 $recordApiResponse = $this->updateMember($finalData);
+
+                break;
+
+            case 'delete_member':
+                $type = 'member';
+                $type_name = 'Delete Member';
+                $recordApiResponse = $this->deleteMember($finalData);
 
                 break;
 

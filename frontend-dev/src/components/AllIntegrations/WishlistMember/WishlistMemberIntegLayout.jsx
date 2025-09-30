@@ -31,7 +31,7 @@ export default function WishlistMemberIntegLayout({
           draftConf.field_map = generateMappedField(draftConf.wishlistFields)
         }
 
-        if (name === 'action' && value !== 'create_member') {
+        if (name === 'action' && value === 'create_member') {
           refreshLevels(setWishlistMemberConf, setIsLoading, setSnackbar)
         }
       })

@@ -16,13 +16,15 @@ export const modules = [
   }
 ]
 
-export const levelNameField = [
-  { key: 'name', label: __('Level Name', 'bit-integrations'), required: true }
+const levelNameField = [{ key: 'name', label: __('Level Name', 'bit-integrations'), required: true }]
+
+const LevelIdField = [{ key: 'id', label: __('Level Id', 'bit-integrations'), required: true }]
+
+const userEmailField = [
+  { key: 'user_email', label: __('Email Address', 'bit-integrations'), required: true }
 ]
 
-export const LevelIdField = [{ key: 'id', label: __('Level Id', 'bit-integrations'), required: true }]
-
-export const memberFields = [
+const memberFields = [
   { key: 'user_login', label: __('Username', 'bit-integrations'), required: true },
   { key: 'user_email', label: __('Email Address', 'bit-integrations'), required: true },
   { key: 'first_name', label: __('First Name', 'bit-integrations'), required: false },
@@ -46,5 +48,6 @@ export const actionFieldsMap = {
   update_level: [...LevelIdField, ...levelNameField],
   delete_level: LevelIdField,
   create_member: memberFields,
-  update_member: updateMemberFields
+  update_member: updateMemberFields,
+  delete_member: userEmailField
 }
