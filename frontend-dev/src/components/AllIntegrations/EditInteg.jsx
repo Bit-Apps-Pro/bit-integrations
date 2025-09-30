@@ -561,7 +561,7 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditLine allIntegURL={allIntegURL} />
     case 'ACPT':
       return <EditACPT allIntegURL={allIntegURL} />
-    case 'WishlistMember':
+    case 'Wishlist Member':
       return <EditWishlistMember allIntegURL={allIntegURL} />
     default:
       return <Loader style={loaderStyle} />

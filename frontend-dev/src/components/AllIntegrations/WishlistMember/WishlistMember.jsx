@@ -7,7 +7,7 @@ import SnackMsg from '../../Utilities/SnackMsg'
 import { saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import WishlistMemberAuthorization from './WishlistMemberAuthorization'
-import { checkMappedFields, refreshNewsLetter } from './WishlistMemberCommonFunc'
+import { checkMappedFields, checkValidation, refreshNewsLetter } from './WishlistMemberCommonFunc'
 import WishlistMemberIntegLayout from './WishlistMemberIntegLayout'
 import Steps from '../../Utilities/Steps'
 
@@ -98,14 +98,4 @@ export default function WishlistMember({ formFields, setFlow, flow, allIntegURL 
       />
     </div>
   )
-}
-
-export const checkValidation = wishlistMemberConf => {
-  let check = false
-
-  if (wishlistMemberConf?.action === '') {
-    check = true
-  }
-
-  return checkMappedFields(wishlistMemberConf) || check
 }

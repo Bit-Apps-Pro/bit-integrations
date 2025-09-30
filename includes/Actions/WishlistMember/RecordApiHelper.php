@@ -43,7 +43,21 @@ class RecordApiHelper
         return wlmapi_create_level($fieldData);
     }
 
-    public function execute($fieldValues, $fieldMap, $lists, $action)
+    public function updateLevel($fieldData)
+    {
+        if (empty($fieldData['name']) || empty($fieldData['id'])) {
+            return [
+                'success' => false,
+                'ERROR'   => __('Level id and name are required field.', 'bit-integrations')
+            ];
+        }
+
+        return self::handleFilterResponse(
+            apply_filters('wishlist_update_level', false, $fieldData)
+        );
+    }
+
+    public function execute($fieldValues, $fieldMap, $action)
     {
         if (!WishlistMemberController::isPluginInstalled()) {
             return;
@@ -56,6 +70,12 @@ class RecordApiHelper
                 $type = 'level';
                 $type_name = 'Create Level';
                 $recordApiResponse = $this->createLevel($fieldData);
+
+                break;
+            case 'update_level':
+                $type = 'level';
+                $type_name = 'Update Level';
+                $recordApiResponse = $this->updateLevel($fieldData);
 
                 break;
 
@@ -95,39 +115,12 @@ class RecordApiHelper
         return $fieldData;
     }
 
-    private static function addSubscriber($subscriber, $lists)
+    private static function handleFilterResponse($response)
     {
-        try {
-            $subscriber = static::$wishlistMember_api->addSubscriber($subscriber, $lists);
-
-            return [
-                'success' => true,
-                'id'      => $subscriber['id'],
-            ];
-        } catch (\WishlistMember\API\MP\v1\APIException $e) {
-            return [
-                'success' => false,
-                'code'    => $e->getCode(),
-                'message' => $e->getMessage(),
-            ];
+        if ($response !== false) {
+            return $response;
         }
-    }
 
-    private static function addSubscribeToLists($subscriber_id, $lists)
-    {
-        try {
-            $subscriber = static::$wishlistMember_api->subscribeToLists($subscriber_id, $lists);
-
-            return [
-                'success' => true,
-                'id'      => $subscriber['id'],
-            ];
-        } catch (\WishlistMember\API\MP\v1\APIException $e) {
-            return [
-                'success' => false,
-                'code'    => $e->getCode(),
-                'message' => $e->getMessage(),
-            ];
-        }
+        return ['error' => wp_sprintf(__('Failed to connect to WishlistMember. Please check your configuration.', 'bit-integrations'))];
     }
 }

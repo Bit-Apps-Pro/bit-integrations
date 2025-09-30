@@ -8,7 +8,7 @@ import { addFieldMap } from '../IntegrationHelpers/IntegrationHelpers'
 import WishlistMemberActions from './WishlistMemberActions'
 import { generateMappedField, refreshNewsLetter } from './WishlistMemberCommonFunc'
 import WishlistMemberFieldMap from './WishlistMemberFieldMap'
-import { levelFields, modules } from './staticData'
+import { actionFieldsMap, createLevelFields, modules, updateLevelFields } from './staticData'
 import { create } from 'mutative'
 
 export default function WishlistMemberIntegLayout({
@@ -27,11 +27,10 @@ export default function WishlistMemberIntegLayout({
       create(prevConf, draftConf => {
         draftConf[name] = value
 
-        if (value === 'create_level') {
-          draftConf.wishlistFields = levelFields
+        if (name === 'action') {
+          draftConf.wishlistFields = actionFieldsMap[value] || []
+          draftConf.field_map = generateMappedField(draftConf.wishlistFields)
         }
-
-        draftConf['field_map'] = generateMappedField(draftConf.wishlistFields)
       })
     )
   }
@@ -40,7 +39,7 @@ export default function WishlistMemberIntegLayout({
     <>
       <br />
       <div className="flx">
-        <b className="wdt-200 d-in-b">{__('Message Type:', 'bit-integrations')}</b>
+        <b className="wdt-200 d-in-b">{__('Action:', 'bit-integrations')}</b>
         <MultiSelect
           defaultValue={wishlistMemberConf?.action}
           className="mt-2 w-5"
@@ -141,13 +140,13 @@ export default function WishlistMemberIntegLayout({
             </div>
           )}
 
-          <br />
+          {/* <br />
           <br />
           <WishlistMemberActions
             wishlistMemberConf={wishlistMemberConf}
             setWishlistMemberConf={setWishlistMemberConf}
             formFields={formFields}
-          />
+          /> */}
         </>
       )}
     </>

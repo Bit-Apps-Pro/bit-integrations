@@ -89,7 +89,6 @@ class WishlistMemberController
         $integrationDetails = $integrationData->flow_details;
         $integId = $integrationData->id;
         $fieldMap = $integrationDetails->field_map;
-        $lists = $integrationDetails->lists;
         $action = $integrationDetails->action;
 
         if (empty($fieldMap) || empty($action)) {
@@ -101,7 +100,6 @@ class WishlistMemberController
         return $recordApiHelper->execute(
             $fieldValues,
             $fieldMap,
-            $lists,
             $action
         );
     }

@@ -1,5 +1,6 @@
 import { __ } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
+import { create } from 'mutative'
 
 export const handleAuthorize = (setIsAuthorized, setIsLoading, setSnackbar) => {
   setIsLoading(true)
@@ -52,6 +53,24 @@ export const checkMappedFields = wishlistMemberConf => {
   )
 
   return mappedField.length > 0 ? false : true
+}
+
+export const setIntegrationName = (e, setWishlistMemberConf) => {
+  setWishlistMemberConf(prevConf =>
+    create(prevConf, draftConf => {
+      draftConf[e.target.name] = e.target.value
+    })
+  )
+}
+
+export const checkValidation = wishlistMemberConf => {
+  let check = false
+
+  if (wishlistMemberConf?.action === '') {
+    check = true
+  }
+
+  return checkMappedFields(wishlistMemberConf) || check
 }
 
 export const refreshNewsLetter = (

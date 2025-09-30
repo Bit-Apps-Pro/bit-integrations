@@ -11,7 +11,7 @@ import SetEditIntegComponents from '../IntegrationHelpers/SetEditIntegComponents
 import EditWebhookInteg from '../EditWebhookInteg'
 import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
-import { checkMappedFields, handleInput } from './WishlistMemberCommonFunc'
+import { checkMappedFields, checkValidation, setIntegrationName } from './WishlistMemberCommonFunc'
 import WishlistMemberIntegLayout from './WishlistMemberIntegLayout'
 
 function EditWishlistMember({ allIntegURL }) {
@@ -24,13 +24,15 @@ function EditWishlistMember({ allIntegURL }) {
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
   const saveConfig = () => {
-    if (!checkMappedFields(wishlistMemberConf)) {
+    if (checkValidation(wishlistMemberConf)) {
       setSnackbar({
         show: true,
         msg: __('Please map all required fields to continue.', 'bit-integrations')
       })
+
       return
     }
+
     saveActionConf({
       flow,
       setFlow,
@@ -50,7 +52,7 @@ function EditWishlistMember({ allIntegURL }) {
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
         <input
           className="btcd-paper-inp w-6"
-          onChange={e => handleInput(e, wishlistMemberConf, setWishlistMemberConf)}
+          onChange={e => setIntegrationName(e, setWishlistMemberConf)}
           name="name"
           value={wishlistMemberConf.name}
           type="text"

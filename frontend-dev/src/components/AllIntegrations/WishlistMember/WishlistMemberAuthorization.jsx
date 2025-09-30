@@ -5,7 +5,7 @@ import { __ } from '../../../Utils/i18nwrap'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import LoaderSm from '../../Loaders/LoaderSm'
 import TutorialLink from '../../Utilities/TutorialLink'
-import { handleAuthorize } from './WishlistMemberCommonFunc'
+import { handleAuthorize, setIntegrationName } from './WishlistMemberCommonFunc'
 
 export default function WishlistMemberAuthorization({
   wishlistMemberConf,
@@ -18,14 +18,6 @@ export default function WishlistMemberAuthorization({
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const { wishlistMember } = tutorialLinks
-
-  const setIntegrationName = e => {
-    setWishlistMemberConf(prevConf =>
-      create(prevConf, draftConf => {
-        draftConf[e.target.name] = e.target.value
-      })
-    )
-  }
 
   return (
     <div
@@ -43,7 +35,7 @@ export default function WishlistMemberAuthorization({
       </div>
       <input
         className="btcd-paper-inp w-7 mt-1"
-        onChange={setIntegrationName}
+        onChange={e => setIntegrationName(e, setWishlistMemberConf)}
         name="name"
         value={wishlistMemberConf.name}
         type="text"
