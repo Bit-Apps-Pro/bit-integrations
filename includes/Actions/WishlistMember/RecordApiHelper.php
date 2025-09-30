@@ -57,6 +57,20 @@ class RecordApiHelper
         );
     }
 
+    public function deleteLevel($fieldData)
+    {
+        if (empty($fieldData['id'])) {
+            return [
+                'success' => false,
+                'ERROR'   => __('Level id is required field.', 'bit-integrations')
+            ];
+        }
+
+        return self::handleFilterResponse(
+            apply_filters('wishlist_delete_level', false, $fieldData)
+        );
+    }
+
     public function execute($fieldValues, $fieldMap, $action)
     {
         if (!WishlistMemberController::isPluginInstalled()) {
@@ -72,10 +86,18 @@ class RecordApiHelper
                 $recordApiResponse = $this->createLevel($fieldData);
 
                 break;
+
             case 'update_level':
                 $type = 'level';
                 $type_name = 'Update Level';
                 $recordApiResponse = $this->updateLevel($fieldData);
+
+                break;
+
+            case 'delete_level':
+                $type = 'level';
+                $type_name = 'Delete Level';
+                $recordApiResponse = $this->deleteLevel($fieldData);
 
                 break;
 

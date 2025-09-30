@@ -15,16 +15,14 @@ export const modules = [
   }
 ]
 
-export const createLevelFields = [
+export const levelNameFields = [
   { key: 'name', label: __('Level Name', 'bit-integrations'), required: true }
 ]
 
-export const updateLevelFields = [
-  { key: 'id', label: __('Level Id', 'bit-integrations'), required: true },
-  { key: 'name', label: __('Level Name', 'bit-integrations'), required: true }
-]
+export const LevelIdFields = [{ key: 'id', label: __('Level Id', 'bit-integrations'), required: true }]
 
 export const actionFieldsMap = {
-  create_level: createLevelFields,
-  update_level: updateLevelFields
+  create_level: levelNameFields,
+  update_level: [...LevelIdFields, ...levelNameFields],
+  delete_level: LevelIdFields
 }

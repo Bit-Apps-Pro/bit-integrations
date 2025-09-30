@@ -1,3 +1,4 @@
+import { create } from 'mutative'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
@@ -5,11 +6,9 @@ import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
 import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 import { addFieldMap } from '../IntegrationHelpers/IntegrationHelpers'
-import WishlistMemberActions from './WishlistMemberActions'
-import { generateMappedField, refreshNewsLetter } from './WishlistMemberCommonFunc'
+import { generateMappedField } from './WishlistMemberCommonFunc'
 import WishlistMemberFieldMap from './WishlistMemberFieldMap'
-import { actionFieldsMap, createLevelFields, modules, updateLevelFields } from './staticData'
-import { create } from 'mutative'
+import { actionFieldsMap, modules } from './staticData'
 
 export default function WishlistMemberIntegLayout({
   formFields,
