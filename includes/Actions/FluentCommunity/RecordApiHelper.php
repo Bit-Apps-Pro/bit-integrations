@@ -7,7 +7,6 @@
 namespace BitCode\FI\Actions\FluentCommunity;
 
 use BitCode\FI\Log\LogHandler;
-use FluentCrm\App\Models\Subscriber;
 
 /**
  * Provide functionality for Record insert
@@ -24,6 +23,8 @@ class RecordApiHelper
     public function insertRecord($data, $actions)
     {
         // Get user ID by email
+        error_log('data: ' . print_r($data, true));
+
         $userId = FluentCommunityController::getUserByEmail($data['email']);
 
         if (!$userId) {
@@ -33,84 +34,33 @@ class RecordApiHelper
             ];
         }
 
-        // Check if FluentCommunity plugin exists and add user to space
-        if (class_exists('\FluentCommunity\App\Models\Space')) {
+        try {
             $spaceId = $data['space_id'];
             $memberRole = $data['member_role'] ?? 'member';
+            $by = 'by_automation';
 
-            // Add user to FluentCommunity space
-            $result = \FluentCommunity\App\Models\Space::addMember($spaceId, $userId, $memberRole);
+            // Use FluentCommunity Helper
+            if (class_exists('\FluentCommunity\App\Services\Helper')) {
+                \FluentCommunity\App\Services\Helper::addToSpace($spaceId, $userId, $memberRole, $by);
 
-            if ($result) {
                 $response = [
                     'success'  => true,
-                    'messages' => __('User added to space successfully!', 'bit-integrations')
+                    'messages' => __('User added to space successfully!', 'bit-integrations'),
+                    'space_id' => $spaceId,
+                    'user_id'  => $userId,
+                    'role'     => $memberRole,
                 ];
             } else {
                 $response = [
                     'success'  => false,
-                    'messages' => __('Failed to add user to space!', 'bit-integrations')
+                    'messages' => __('FluentCommunity Helper not available!', 'bit-integrations')
                 ];
             }
-        } else {
-            // Fallback to FluentCRM if FluentCommunity not available
-            $subscriber = Subscriber::where('email', $data['email'])->first();
-
-            if ($subscriber && isset($actions->skip_if_exists) && $actions->skip_if_exists) {
-                $response = [
-                    'success'  => false,
-                    'messages' => __('Contact already exists!', 'bit-integrations')
-                ];
-            } else {
-                if (!$subscriber) {
-                    if (isset($actions->double_opt_in) && $actions->double_opt_in) {
-                        $data['status'] = 'pending';
-                    } else {
-                        $data['status'] = 'subscribed';
-                    }
-
-                    $subscriber = FluentCrmApi('contacts')->createOrUpdate($data, false, false);
-
-                    if ($subscriber->status === 'pending') {
-                        $subscriber->sendDoubleOptinEmail();
-                    }
-                    if ($subscriber) {
-                        $response = [
-                            'success'  => true,
-                            'messages' => __('Insert successfully!', 'bit-integrations')
-                        ];
-                    } else {
-                        $response = [
-                            'success'  => false,
-                            'messages' => __('Something wrong!', 'bit-integrations')
-                        ];
-                    }
-                } else {
-                    $hasDouBleOptIn = isset($actions->double_opt_in) && $actions->double_opt_in;
-                    $forceSubscribed = !$hasDouBleOptIn && ($subscriber->status != 'subscribed');
-
-                    if ($forceSubscribed) {
-                        $data['status'] = 'subscribed';
-                    }
-
-                    $subscriber = FluentCrmApi('contacts')->createOrUpdate($data, $forceSubscribed, false);
-
-                    if ($hasDouBleOptIn && ($subscriber->status === 'pending' || $subscriber->status === 'unsubscribed')) {
-                        $subscriber->sendDoubleOptinEmail();
-                    }
-                    if ($subscriber) {
-                        $response = [
-                            'success'  => true,
-                            'messages' => __('Insert successfully!', 'bit-integrations')
-                        ];
-                    } else {
-                        $response = [
-                            'success'  => false,
-                            'messages' => __('Something wrong!', 'bit-integrations')
-                        ];
-                    }
-                }
-            }
+        } catch (Exception $e) {
+            $response = [
+                'success'  => false,
+                'messages' => $e->getMessage()
+            ];
         }
 
         return $response;
@@ -128,41 +78,30 @@ class RecordApiHelper
             ];
         }
 
-        // Check if FluentCommunity plugin exists and remove user from space
-        if (class_exists('\FluentCommunity\App\Models\Space')) {
+        try {
             $spaceId = $data['space_id'];
+            $by = 'by_automation';
 
-            // Remove user from FluentCommunity space
-            $result = \FluentCommunity\App\Models\Space::removeMember($spaceId, $userId);
+            // Use FluentCommunity Helper
+            if (class_exists('\FluentCommunity\App\Services\Helper')) {
+                \FluentCommunity\App\Services\Helper::removeFromSpace($spaceId, $userId, $by);
 
-            if ($result) {
                 $response = [
                     'success'  => true,
-                    'messages' => __('User removed from space successfully!', 'bit-integrations')
+                    'messages' => __('User removed from space successfully!', 'bit-integrations'),
+                    'space_id' => $spaceId,
+                    'user_id'  => $userId,
                 ];
             } else {
                 $response = [
                     'success'  => false,
-                    'messages' => __('Failed to remove user from space!', 'bit-integrations')
+                    'messages' => __('FluentCommunity Helper not available!', 'bit-integrations')
                 ];
             }
-        } else {
-            // Fallback to FluentCRM if FluentCommunity not available
-            $subscriber = Subscriber::where('email', $data['email'])->first();
-
-            if (!$subscriber) {
-                return $response = [
-                    'success'  => false,
-                    'messages' => __("Contact doesn't exists!", 'bit-integrations')
-                ];
-            }
-
-            $listId = $data['lists'];
-            $subscriber->detachLists($listId);
-
+        } catch (Exception $e) {
             $response = [
-                'success'  => true,
-                'messages' => __('User remove from list successfully!', 'bit-integrations')
+                'success'  => false,
+                'messages' => $e->getMessage()
             ];
         }
 
@@ -181,20 +120,29 @@ class RecordApiHelper
             ];
         }
 
-        $courseId = $data['course_id'];
+        try {
+            $courseId = $data['course_id'];
 
-        // Use FluentCommunity's CourseHelper::enrollCourse() method (same as Flowmattic)
-        if (class_exists('\FluentCommunity\Modules\Course\Services\CourseHelper')) {
-            \FluentCommunity\Modules\Course\Services\CourseHelper::enrollCourse($courseId, $userId);
+            // Use FluentCommunity's CourseHelper::enrollCourse() method
+            if (class_exists('\FluentCommunity\Modules\Course\Services\CourseHelper')) {
+                \FluentCommunity\Modules\Course\Services\CourseHelper::enrollCourse($courseId, $userId);
+
+                $response = [
+                    'success'   => true,
+                    'messages'  => __('User enrolled in course successfully!', 'bit-integrations'),
+                    'course_id' => $courseId,
+                    'user_id'   => $userId,
+                ];
+            } else {
+                $response = [
+                    'success'  => false,
+                    'messages' => __('FluentCommunity CourseHelper not available!', 'bit-integrations')
+                ];
+            }
+        } catch (Exception $e) {
             $response = [
-                'success'  => true,
-                'messages' => __('User added to course successfully!', 'bit-integrations')
-            ];
-        } else {
-            // Fallback: If CourseHelper not available, return test mode success
-            $response = [
-                'success'  => true,
-                'messages' => __('User added to course successfully! (Test mode)', 'bit-integrations')
+                'success'  => false,
+                'messages' => $e->getMessage()
             ];
         }
 
@@ -213,20 +161,29 @@ class RecordApiHelper
             ];
         }
 
-        $courseId = $data['course_id'];
+        try {
+            $courseId = $data['course_id'];
 
-        // Use FluentCommunity's CourseHelper::leaveCourse() method (same as Flowmattic)
-        if (class_exists('\FluentCommunity\Modules\Course\Services\CourseHelper')) {
-            \FluentCommunity\Modules\Course\Services\CourseHelper::leaveCourse($courseId, $userId);
+            // Use FluentCommunity's CourseHelper::leaveCourse() method
+            if (class_exists('\FluentCommunity\Modules\Course\Services\CourseHelper')) {
+                \FluentCommunity\Modules\Course\Services\CourseHelper::leaveCourse($courseId, $userId);
+
+                $response = [
+                    'success'   => true,
+                    'messages'  => __('User unenrolled from course successfully!', 'bit-integrations'),
+                    'course_id' => $courseId,
+                    'user_id'   => $userId,
+                ];
+            } else {
+                $response = [
+                    'success'  => false,
+                    'messages' => __('FluentCommunity CourseHelper not available!', 'bit-integrations')
+                ];
+            }
+        } catch (Exception $e) {
             $response = [
-                'success'  => true,
-                'messages' => __('User removed from course successfully!', 'bit-integrations')
-            ];
-        } else {
-            // Fallback: If CourseHelper not available, return test mode success
-            $response = [
-                'success'  => true,
-                'messages' => __('User removed from course successfully! (Test mode)', 'bit-integrations')
+                'success'  => false,
+                'messages' => $e->getMessage()
             ];
         }
 
@@ -235,42 +192,175 @@ class RecordApiHelper
 
     public function createPost($data)
     {
-        $spaceId = $data['post_space_id'];
-        $userId = $data['post_user_id'];
-        $postTitle = $data['post_title'];
-        $postMessage = $data['post_message'];
+        // Get user ID by email
+        $userId = FluentCommunityController::getUserByEmail($data['email']);
 
-        // Use FluentCommunity's Post model to create a new post
-        if (class_exists('\FluentCommunity\App\Models\Post')) {
-            try {
-                $post = new \FluentCommunity\App\Models\Post();
-                $post->title = $postTitle;
-                $post->content = $postMessage;
-                $post->user_id = $userId;
-                $post->space_id = $spaceId;
-                $post->status = 'published';
-                $post->type = 'post';
-                $post->save();
+        if (!$userId) {
+            return [
+                'success'  => false,
+                'messages' => __('User not found with this email!', 'bit-integrations')
+            ];
+        }
 
-                $response = [
-                    'success'  => true,
-                    'messages' => __('Post created successfully in FluentCommunity feed!', 'bit-integrations')
-                ];
-            } catch (Exception $e) {
+        try {
+            $spaceId = $data['post_space_id'];
+            $postTitle = $data['post_title'];
+            $postMessage = $data['post_message'];
+
+            $feedData = [
+                'message'  => stripslashes($postMessage),
+                'title'    => stripslashes($postTitle),
+                'space_id' => (int) $spaceId,
+                'user_id'  => $userId,
+            ];
+
+            // Use FluentCommunity FeedsHelper
+            if (class_exists('\FluentCommunity\App\Services\FeedsHelper')) {
+                $feed = \FluentCommunity\App\Services\FeedsHelper::createFeed($feedData);
+
+                if (is_wp_error($feed)) {
+                    $response = [
+                        'success'  => false,
+                        'messages' => $feed->get_error_message()
+                    ];
+                } else {
+                    $response = [
+                        'success'  => true,
+                        'messages' => __('Post created in feed successfully!', 'bit-integrations'),
+                        'space_id' => $spaceId,
+                        'user_id'  => $userId,
+                        'feed_id'  => $feed->id,
+                        'title'    => $postTitle,
+                        'feed_url' => $feed->getPermalink(),
+                    ];
+                }
+            } else {
                 $response = [
                     'success'  => false,
-                    'messages' => __('Failed to create post: ' . $e->getMessage(), 'bit-integrations')
+                    'messages' => __('FluentCommunity FeedsHelper not available!', 'bit-integrations')
                 ];
             }
-        } else {
-            // Fallback: If FluentCommunity Post model not available, return test mode success
+        } catch (Exception $e) {
             $response = [
-                'success'  => true,
-                'messages' => __('Post created successfully! (Test mode)', 'bit-integrations')
+                'success'  => false,
+                'messages' => $e->getMessage()
             ];
         }
 
         return $response;
+    }
+
+    public function createPoll($data)
+    {
+        $spaceId = $data['poll_space_id'];
+        $userId = FluentCommunityController::getUserByEmail($data['email']);
+        $postTitle = $data['post_title'];
+        $postMessage = $data['post_message'];
+        $pollOptions = $data['poll_options'];
+
+        if (!$userId) {
+            return [
+                'success'  => false,
+                'messages' => __('User not found with this email!', 'bit-integrations')
+            ];
+        }
+
+        try {
+            $feedData = [
+                'message'  => stripslashes($postMessage),
+                'title'    => stripslashes($postTitle),
+                'space_id' => (int) $spaceId,
+                'user_id'  => $userId,
+                'survey'   => 'survey',
+            ];
+
+            // Use FluentCommunity FeedsHelper
+            if (class_exists('\FluentCommunity\App\Services\FeedsHelper')) {
+                $feed = \FluentCommunity\App\Services\FeedsHelper::createFeed($feedData);
+
+                if (is_wp_error($feed)) {
+                    $response = [
+                        'success'  => false,
+                        'messages' => $feed->get_error_message()
+                    ];
+                } else {
+                    $response = [
+                        'success'       => true,
+                        'messages'      => __('Poll created in feed successfully!', 'bit-integrations'),
+                        'space_id'      => $spaceId,
+                        'user_id'       => $userId,
+                        'feed_id'       => $feed->id,
+                        'poll_question' => $postTitle,
+                        'poll_options'  => $pollOptions,
+                        'feed_url'      => $feed->getPermalink(),
+                    ];
+                }
+            } else {
+                $response = [
+                    'success'  => false,
+                    'messages' => __('FluentCommunity FeedsHelper not available!', 'bit-integrations')
+                ];
+            }
+        } catch (Exception $e) {
+            $response = [
+                'success'  => false,
+                'messages' => $e->getMessage()
+            ];
+        }
+
+        return $response;
+    }
+
+    public function verifyUser($data)
+    {
+        $userId = FluentCommunityController::getUserByEmail($data['email']);
+
+        if (!$userId) {
+            return [
+                'success'  => false,
+                'messages' => __('User not found with this email!', 'bit-integrations')
+            ];
+        }
+
+        $user = get_user_by('ID', $userId);
+        if (!$user) {
+            return [
+                'success'  => false,
+                'messages' => __('User not found!', 'bit-integrations')
+            ];
+        }
+
+        // Get user spaces
+        $spaces = [];
+        if (class_exists('\FluentCommunity\App\Services\Helper')) {
+            $spaces = \FluentCommunity\App\Services\Helper::getUserSpaces($userId);
+        }
+
+        // Get user courses
+        $courses = [];
+        if (class_exists('\FluentCommunity\Modules\Course\Services\CourseHelper')) {
+            $course_helper = new \FluentCommunity\Modules\Course\Services\CourseHelper();
+            $courses = $course_helper->getUserCourses($userId);
+        }
+
+        $profile = [
+            'user_id'         => $user->ID,
+            'user_login'      => $user->user_login,
+            'user_email'      => $user->user_email,
+            'display_name'    => $user->display_name,
+            'first_name'      => $user->first_name,
+            'last_name'       => $user->last_name,
+            'user_registered' => $user->user_registered,
+            'avatar_url'      => get_avatar_url($user->ID),
+            'spaces'          => $spaces,
+            'courses'         => $courses,
+        ];
+
+        return [
+            'success'  => true,
+            'messages' => __('User profile verified successfully!', 'bit-integrations'),
+            'profile'  => $profile,
+        ];
     }
 
     public function execute($fieldValues, $fieldMap, $actions, $list_id, $tags, $actionName)
@@ -310,6 +400,14 @@ class RecordApiHelper
             $fieldData['post_user_id'] = $actions->post_user_id;
         }
 
+        // Add poll_space_id and poll_options if provided
+        if (isset($actions->poll_space_id)) {
+            $fieldData['poll_space_id'] = $actions->poll_space_id;
+        }
+        if (isset($actions->poll_options)) {
+            $fieldData['poll_options'] = $actions->poll_options;
+        }
+
         switch ($actionName) {
             case 'add-user':
                 $recordApiResponse = $this->insertRecord($fieldData, $actions);
@@ -329,6 +427,14 @@ class RecordApiHelper
                 break;
             case 'create-post':
                 $recordApiResponse = $this->createPost($fieldData);
+
+                break;
+            case 'create-poll':
+                $recordApiResponse = $this->createPoll($fieldData);
+
+                break;
+            case 'verify-user':
+                $recordApiResponse = $this->verifyUser($fieldData);
 
                 break;
         }

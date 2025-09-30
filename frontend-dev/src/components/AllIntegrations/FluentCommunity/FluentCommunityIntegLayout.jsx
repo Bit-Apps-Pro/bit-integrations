@@ -7,7 +7,7 @@ import {
   refreshCourseList
 } from './FluentCommunityCommonFunc'
 import FluentCommunityFieldMap from './FluentCommunityFieldMap'
-import { actions } from './staticData'
+import { actions, pollTypes } from './staticData'
 
 export default function FluentCommunityIntegLayout({
   formID,
@@ -36,6 +36,10 @@ export default function FluentCommunityIntegLayout({
       newConf.post_space_id = e.target.value
     } else if (e.target.name === 'post_user_id') {
       newConf.post_user_id = e.target.value
+    } else if (e.target.name === 'poll_space_id') {
+      newConf.poll_space_id = e.target.value
+    } else if (e.target.name === 'poll_options') {
+      newConf.poll_options = e.target.value
     }
     setFluentCommunityConf({ ...newConf })
   }
@@ -73,6 +77,9 @@ export default function FluentCommunityIntegLayout({
         refreshCourseList(formID, newConf, setFluentCommunityConf, loading, setLoading, setSnackbar)
       }
       if (value === 'create-post') {
+        refreshCommunityList(formID, newConf, setFluentCommunityConf, loading, setLoading, setSnackbar)
+      }
+      if (value === 'create-poll') {
         refreshCommunityList(formID, newConf, setFluentCommunityConf, loading, setLoading, setSnackbar)
       }
     } else {
@@ -235,6 +242,62 @@ export default function FluentCommunityIntegLayout({
             </button>
           </div>
         )}
+      {fluentCommunityConf?.actionName === 'create-poll' &&
+        fluentCommunityConf?.fluentCommunityList &&
+        !loading.fluentCommunityList && (
+          <div className="flx mt-5">
+            <b className="wdt-200 d-in-b">{__('Space:', 'bit-integrations')}</b>
+            <select
+              onChange={e => inputHendler(e)}
+              name="poll_space_id"
+              value={fluentCommunityConf.poll_space_id}
+              className="btcd-paper-inp w-5">
+              <option value="">{__('Select Space', 'bit-integrations')}</option>
+              {fluentCommunityConf?.fluentCommunityList &&
+                Object.keys(fluentCommunityConf.fluentCommunityList).map(listName => (
+                  <option key={listName} value={fluentCommunityConf.fluentCommunityList[listName].id}>
+                    {fluentCommunityConf.fluentCommunityList[listName].title}
+                  </option>
+                ))}
+            </select>
+            <button
+              onClick={() =>
+                refreshCommunityList(
+                  formID,
+                  fluentCommunityConf,
+                  setFluentCommunityConf,
+                  loading,
+                  setLoading,
+                  setSnackbar
+                )
+              }
+              className="icn-btn sh-sm ml-2 mr-2 tooltip"
+              style={{
+                '--tooltip-txt': `'${__('Refresh Spaces', 'bit-integrations')}'`
+              }}
+              type="button"
+              disabled={isLoading}>
+              &#x21BB;
+            </button>
+          </div>
+        )}
+      {fluentCommunityConf?.actionName === 'create-poll' && (
+        <div className="flx mt-5">
+          <b className="wdt-200 d-in-b">{__('Poll Type:', 'bit-integrations')}</b>
+          <select
+            onChange={e => inputHendler(e)}
+            name="poll_options"
+            value={fluentCommunityConf.poll_options}
+            className="btcd-paper-inp w-5">
+            <option value="">{__('Select Poll Type', 'bit-integrations')}</option>
+            {pollTypes.map(type => (
+              <option key={type.id} value={type.id}>
+                {type.title}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
       {fluentCommunityConf?.actionName === 'create-post' &&
         fluentCommunityConf?.fluentCommunityList &&
         !loading.fluentCommunityList && (

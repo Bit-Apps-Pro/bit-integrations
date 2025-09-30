@@ -6,10 +6,7 @@
 
 namespace BitCode\FI\Actions\FluentCommunity;
 
-use FluentCrm\App\Models\Company;
-
 use FluentCrm\App\Models\Lists;
-use WP_Error;
 
 /**
  * Provide functionality for FluentCommunity integration
@@ -73,32 +70,6 @@ class FluentCommunityController
     }
 
     /**
-     * Get FluentCommunity member roles
-     *
-     * @return Fluent Community member roles
-     */
-    public static function getMemberRoles()
-    {
-        self::checkedExistsFluentCommunity();
-
-        $roles = [
-            'member'    => __('Member', 'bit-integrations'),
-            'moderator' => __('Moderator', 'bit-integrations'),
-            'admin'     => __('Admin', 'bit-integrations')
-        ];
-
-        $roleOptions = [];
-        foreach ($roles as $key => $label) {
-            $roleOptions[] = (object) [
-                'id'    => $key,
-                'title' => $label
-            ];
-        }
-
-        wp_send_json_success($roleOptions, 200);
-    }
-
-    /**
      * Fetch Community courses
      *
      * @return Fluent Community courses
@@ -109,7 +80,7 @@ class FluentCommunityController
 
         $fluentCommunityCourses = [];
 
-        // Use FluentCommunity's Utility::getCourses() method (same as Flowmattic)
+        // Use FluentCommunity's Utility::getCourses() method
         if (class_exists('\FluentCommunity\App\Functions\Utility')) {
             $courses = \FluentCommunity\App\Functions\Utility::getCourses();
 
@@ -141,16 +112,14 @@ class FluentCommunityController
             } elseif (\is_array($courses)) {
                 // Array format - could be Eloquent models or regular arrays
                 foreach ($courses as $course) {
-                    // Check if it's an Eloquent model (has attributes property)
                     if (\is_object($course) && method_exists($course, 'getAttributes')) {
-                        // Try direct property access first
+                        // Eloquent model
                         if (isset($course->title, $course->id)) {
                             $fluentCommunityCourses[$course->title] = (object) [
                                 'id'    => $course->id,
                                 'title' => $course->title
                             ];
                         } else {
-                            // Fallback to getAttributes()
                             $attributes = $course->getAttributes();
                             if (isset($attributes['title'], $attributes['id'])) {
                                 $fluentCommunityCourses[$attributes['title']] = (object) [
@@ -168,22 +137,6 @@ class FluentCommunityController
                     }
                 }
             }
-        } else {
-            error_log('FluentCommunity Utility class not found');
-        }
-
-        // Fallback: If no courses found, provide sample courses for testing
-        if (empty($fluentCommunityCourses)) {
-            $fluentCommunityCourses = [
-                'Sample Course 1' => (object) [
-                    'id'    => 1,
-                    'title' => 'Sample Course 1'
-                ],
-                'Sample Course 2' => (object) [
-                    'id'    => 2,
-                    'title' => 'Sample Course 2'
-                ]
-            ];
         }
 
         $response['fluentCommunityCourses'] = $fluentCommunityCourses;
@@ -215,26 +168,6 @@ class FluentCommunityController
         wp_send_json_success($response, 200);
     }
 
-    public static function getAllCompany()
-    {
-        self::checkedExistsFluentCommunity();
-
-        $settings = get_option('_fluentcrm_experimental_settings', []);
-
-        if (empty($settings['company_module']) || $settings['company_module'] !== 'yes') {
-            wp_send_json_success([], 200);
-        }
-
-        $companies = Company::paginate(500)->toArray();
-
-        wp_send_json_success(array_map(function ($company) {
-            return [
-                'id'    => $company['id'],
-                'label' => $company['name'],
-            ];
-        }, $companies['data']), 200);
-    }
-
     /**
      * Get user ID by email
      *
@@ -245,6 +178,8 @@ class FluentCommunityController
     public static function getUserByEmail($email)
     {
         $user = get_user_by('email', $email);
+        error_log('user: ' . $email . print_r($user, true));
+
         if ($user) {
             return $user->ID;
         }
@@ -280,7 +215,7 @@ class FluentCommunityController
         $actionName = $integrationDetails->actionName;
 
         if (empty($fieldMap)) {
-            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Fluent Community'));
+            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Fluent CRM'));
         }
 
         $recordApiHelper = new RecordApiHelper($this->_integrationID);
