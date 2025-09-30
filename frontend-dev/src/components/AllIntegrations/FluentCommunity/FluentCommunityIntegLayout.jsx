@@ -29,7 +29,8 @@ export default function FluentCommunityIntegLayout({
   // Use static data for actions with pro feature labels
   const action = actions.map(action => ({
     value: action.name,
-    label: checkIsPro(isPro, action.is_pro) ? action.label : getProLabel(action.label)
+    label: checkIsPro(isPro, action.is_pro) ? action.label : getProLabel(action.label),
+    is_pro: action.is_pro
   }))
 
   const inputHendler = e => {
@@ -105,11 +106,8 @@ export default function FluentCommunityIntegLayout({
           value={fluentCommunityConf?.actionName}
           className="btcd-paper-inp w-5">
           <option value="">{__('Select Action', 'bit-integrations')}</option>
-          {action.map(({ label, value }) => (
-            <option
-              key={value}
-              value={value}
-              disabled={!checkIsPro(isPro, actions.find(a => a.name === value)?.is_pro)}>
+          {action.map(({ label, value, is_pro }) => (
+            <option key={value} value={value} disabled={!checkIsPro(isPro, is_pro)}>
               {label}
             </option>
           ))}
