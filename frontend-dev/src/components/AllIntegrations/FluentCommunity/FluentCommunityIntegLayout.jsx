@@ -24,7 +24,7 @@ export default function FluentCommunityIntegLayout({
   setSnackbar
 }) {
   const btcbi = useRecoilValue($btcbi)
-  const { isPro } = true //btcbi
+  const { isPro } = btcbi
 
   // Use static data for actions with pro feature labels
   const action = actions.map(action => ({
