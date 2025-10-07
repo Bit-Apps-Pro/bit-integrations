@@ -30,7 +30,6 @@ export default function FluentCommunityAuthorization({
   )
 
   const handleAuthorize = () => {
-    console.log('check it::')
     setIsLoading('auth')
     bitsFetch({}, 'fluent_community_authorize').then(result => {
       if (isMounted) {

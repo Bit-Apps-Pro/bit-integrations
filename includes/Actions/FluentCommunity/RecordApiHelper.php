@@ -7,6 +7,7 @@
 namespace BitCode\FI\Actions\FluentCommunity;
 
 use BitCode\FI\Log\LogHandler;
+use Exception;
 
 /**
  * Provide functionality for Record insert
@@ -23,7 +24,6 @@ class RecordApiHelper
     public function insertRecord($data, $actions)
     {
         // Get user ID by email
-        error_log('data: ' . print_r($data, true));
 
         $userId = FluentCommunityController::getUserByEmail($data['email']);
 

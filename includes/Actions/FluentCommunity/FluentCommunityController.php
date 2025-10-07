@@ -178,7 +178,6 @@ class FluentCommunityController
     public static function getUserByEmail($email)
     {
         $user = get_user_by('email', $email);
-        error_log('user: ' . $email . print_r($user, true));
 
         if ($user) {
             return $user->ID;
@@ -215,7 +214,7 @@ class FluentCommunityController
         $actionName = $integrationDetails->actionName;
 
         if (empty($fieldMap)) {
-            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Fluent CRM'));
+            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Fluent Community'));
         }
 
         $recordApiHelper = new RecordApiHelper($this->_integrationID);
