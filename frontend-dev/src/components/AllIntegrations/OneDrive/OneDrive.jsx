@@ -12,6 +12,30 @@ import OneDriveAuthorization from './OneDriveAuthorization'
 // import { handleInput } from './OneDriveCommonFunc'
 import OneDriveIntegLayout from './OneDriveIntegLayout'
 
+const isCreateFolderValid = oneDriveConf => {
+  if (!oneDriveConf.actions?.create_folder) return false
+
+  const fieldMap = oneDriveConf.actions?.create_folder_field_map || []
+
+  // Check if both name and path are filled
+  const nameField = fieldMap.find(field => field.target === 'name')
+  const pathField = fieldMap.find(field => field.target === 'path')
+
+  // For name field: either custom value is filled OR a form field is selected
+  const hasName =
+    nameField &&
+    ((nameField.formField === 'custom' && nameField.customValue?.trim()) ||
+      (nameField.formField && nameField.formField !== 'custom' && nameField.formField !== ''))
+
+  // For path field: either custom value is filled OR a form field is selected
+  const hasPath =
+    pathField &&
+    ((pathField.formField === 'custom' && pathField.customValue?.trim()) ||
+      (pathField.formField && pathField.formField !== 'custom' && pathField.formField !== ''))
+
+  return hasName && hasPath
+}
+
 function OneDrive({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
   const { flowID } = useParams()
@@ -87,7 +111,11 @@ function OneDrive({ formFields, setFlow, flow, allIntegURL }) {
 
         <button
           onClick={() => setStep(3)}
-          disabled={!oneDriveConf.actions.attachments || !oneDriveConf.folder}
+          disabled={
+            !oneDriveConf.actions.attachments ||
+            (!oneDriveConf.folder && !oneDriveConf.actions?.create_folder) ||
+            (oneDriveConf.actions?.create_folder && !isCreateFolderValid(oneDriveConf))
+          }
           className="btn f-right btcd-btn-lg purple sh-sm flx"
           type="button">
           {__('Next', 'bit-integrations')} <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />

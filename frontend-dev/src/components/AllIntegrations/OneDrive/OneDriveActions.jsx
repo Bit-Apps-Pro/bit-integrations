@@ -24,10 +24,19 @@ export default function OneDriveActions({
     const newConf = { ...oneDriveConf }
     if (typ === 'create_folder') {
       if (val.target.checked) {
-        newConf.actions.create_folder = { name: '', suffix: false }
+        newConf.actions.create_folder = true
+        newConf.actions.create_folder_name = ''
+        newConf.actions.create_folder_field_map = [
+          { formField: '', customValue: '', target: 'name' },
+          { formField: '', customValue: '', target: 'path' }
+        ]
       } else {
         delete newConf.actions.create_folder
-        delete newConf.actions.share.folder
+        delete newConf.actions.create_folder_name
+        delete newConf.actions.create_folder_field_map
+        if (newConf.actions.share) {
+          delete newConf.actions.share.folder
+        }
       }
     } else if (typ === 'attachments') {
       if (val !== '') {
@@ -84,9 +93,7 @@ export default function OneDriveActions({
   }
 
   const getFileUpFields = () =>
-    formFields
-      .filter((itm) => itm.type === 'file')
-      .map((itm) => ({ label: itm.label, value: itm.name }))
+    formFields.filter(itm => itm.type === 'file').map(itm => ({ label: itm.label, value: itm.name }))
 
   // useEffect(() => {
   //   const usersOption = [
@@ -199,7 +206,7 @@ export default function OneDriveActions({
             defaultValue={oneDriveConf.actions.attachments}
             className="mt-2 w-10 mb-25"
             options={getFileUpFields()}
-            onChange={(val) => actionHandler(val, 'attachments')}
+            onChange={val => actionHandler(val, 'attachments')}
             height={300}
           />
         </div>
@@ -208,11 +215,22 @@ export default function OneDriveActions({
       <div className="pos-rel d-flx flx-col w-8">
         <TableCheckBox
           checked={oneDriveConf.actions?.delete_from_wp || false}
-          onChange={(e) => actionDeleteHandler(e, 'deleteFile')}
+          onChange={e => actionDeleteHandler(e, 'deleteFile')}
           className="mt-4 mr-2"
           value="delete_from_wp"
           title={__('Delete File From Wordpress', 'bit-integrations')}
           subTitle={__('Delete file from Wordpress after upload in OneDrive', 'bit-integrations')}
+        />
+      </div>
+
+      <div className="pos-rel d-flx flx-col w-8">
+        <TableCheckBox
+          checked={oneDriveConf.actions?.create_folder || false}
+          onChange={e => actionHandler(e, 'create_folder')}
+          className="mt-4 mr-2"
+          value="create_folder"
+          title={__('Create Folder', 'bit-integrations')}
+          subTitle={__('Create a new folder in OneDrive', 'bit-integrations')}
         />
       </div>
     </div>

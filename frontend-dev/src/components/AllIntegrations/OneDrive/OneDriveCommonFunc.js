@@ -35,6 +35,27 @@ export const handleInput = (
   setOneDriveConf({ ...newConf })
 }
 
+export const handleActionChange = (e, typ, oneDriveConf, setOneDriveConf) => {
+  console.log('Checkbox clicked!', e.target.checked)
+  const newConf = { ...oneDriveConf }
+  if (!newConf.actions) newConf.actions = {}
+  if (typ === 'create_folder') {
+    if (e.target.checked) {
+      newConf.actions.create_folder = true
+      newConf.actions.create_folder_name = ''
+      newConf.actions.create_folder_field_map = [
+        { formField: '', customValue: '', target: 'name' },
+        { formField: '', customValue: '', target: 'path' }
+      ]
+    } else {
+      delete newConf.actions.create_folder
+      delete newConf.actions.create_folder_name
+      delete newConf.actions.create_folder_field_map
+    }
+  }
+  setOneDriveConf({ ...newConf })
+}
+
 export const folderChange = (oneDriveConf, formID, setOneDriveConf, setIsLoading, setSnackbar) => {
   const newConf = { ...oneDriveConf }
   delete newConf.teamType
@@ -65,7 +86,7 @@ export const getAllOneDriveFolders = (
     tokenDetails: oneDriveConf.tokenDetails
   }
   const loadPostTypes = bitsFetch(queryParams, 'oneDrive_get_all_folders')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...oneDriveConf }
         if (!newConf.default) newConf.default = {}
@@ -84,7 +105,7 @@ export const getAllOneDriveFolders = (
     })
     .catch(() => setIsLoading(false))
   toast.promise(loadPostTypes, {
-    success: (data) => data,
+    success: data => data,
     error: __('Error Occurred', 'bit-integrations'),
     loading: __('Loading OneDrive Folders List...', 'bit-integrations')
   })
@@ -113,7 +134,7 @@ export const getSingleOneDriveFolders = (
   }
 
   bitsFetch(refreshSubFoldersRequestParams, 'oneDrive_get_single_folder')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...oneDriveConf }
         if (result.data.folders) {
@@ -178,9 +199,7 @@ export const handleAuthorize = (confTmp, setConf, setIsAuthorized, setIsLoading,
   if (!confTmp.clientId || !confTmp.clientSecret) {
     setError({
       clientId: !confTmp.clientId ? __("Client Id can't be empty", 'bit-integrations') : '',
-      clientSecret: !confTmp.clientSecret
-        ? __("Client Secret can't be empty", 'bit-integrations')
-        : ''
+      clientSecret: !confTmp.clientSecret ? __("Client Secret can't be empty", 'bit-integrations') : ''
     })
     return
   }
@@ -227,7 +246,7 @@ const tokenHelper = (grantToken, confTmp, setConf, setIsAuthorized, setIsLoading
   // eslint-disable-next-line no-undef
   tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
 
-  bitsFetch(tokenRequestParams, 'oneDrive_authorization').then((result) => {
+  bitsFetch(tokenRequestParams, 'oneDrive_authorization').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       newConf.tokenDetails = result.data

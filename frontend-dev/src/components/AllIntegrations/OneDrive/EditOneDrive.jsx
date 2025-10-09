@@ -43,11 +43,23 @@ function EditOneDrive({ allIntegURL }) {
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
         <input
           className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, oneDriveConf, setOneDriveConf)}
+          onChange={e => handleInput(e, oneDriveConf, setOneDriveConf)}
           name="name"
           value={oneDriveConf.name}
           type="text"
           placeholder={__('Integration Name...', 'bit-integrations')}
+        />
+      </div>
+
+      <div className="flx mt-3">
+        <b className="wdt-200 d-in-b">{__('Folder Path:', 'bit-integrations')}</b>
+        <input
+          className="btcd-paper-inp w-5"
+          onChange={e => handleInput(e, oneDriveConf, setOneDriveConf)}
+          name="folderPath"
+          value={oneDriveConf.folderPath || ''}
+          type="text"
+          placeholder={__('Enter folder path...', 'bit-integrations')}
         />
       </div>
       <br />

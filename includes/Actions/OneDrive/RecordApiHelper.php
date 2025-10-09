@@ -2,9 +2,9 @@
 
 namespace BitCode\FI\Actions\OneDrive;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 
 class RecordApiHelper
 {
@@ -22,7 +22,6 @@ class RecordApiHelper
     public function uploadFile($folder, $file, $folderId, $parentId)
     {
         if (\is_null($parentId)) {
-            // $parentId = 'root';
             $parentId = $folderId;
         }
         $ids = explode('!', $folderId);

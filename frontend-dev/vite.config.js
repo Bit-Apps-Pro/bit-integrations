@@ -36,7 +36,7 @@ export default defineConfig(({ mode }) => ({
           // objectShorthand: true
         },
         chunkFileNames: () => `bi.${hash()}.${chunkCount++}.js`,
-        assetFileNames: (fInfo) => {
+        assetFileNames: fInfo => {
           const pathArr = fInfo.name.split('/')
           const fileName = pathArr[pathArr.length - 1]
 
@@ -108,7 +108,7 @@ function copyStatics(mode) {
         fs.mkdirSync(path.resolve('../assets'))
       }
 
-      fs.readdirSync(path.resolve('./static')).forEach((file) => {
+      fs.readdirSync(path.resolve('./static')).forEach(file => {
         fs.copyFileSync(path.resolve(`./static/${file}`), path.resolve(`../assets/${file}`))
       })
     }
