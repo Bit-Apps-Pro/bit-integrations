@@ -89,7 +89,7 @@ class GamiPressController
         global $wpdb;
 
         return $wpdb->get_results(
-            $wpdb->prepare("SELECT ID, post_name, post_title, post_type FROM {$wpdb->posts} WHERE post_type LIKE %s AND post_status = 'publish' ORDER BY post_title ASC", 'achievement-type')
+            $wpdb->prepare("SELECT ID, post_name, post_title, post_type FROM %1s WHERE post_type LIKE %2s AND post_status = 'publish' ORDER BY post_title ASC", $wpdb->posts, 'achievement-type')
         );
     }
 
@@ -109,7 +109,7 @@ class GamiPressController
     {
         global $wpdb;
         $points = $wpdb->get_results(
-            $wpdb->prepare("SELECT ID, post_name, post_title, post_type FROM {$wpdb->posts} WHERE post_type LIKE %s AND post_status = 'publish' ORDER BY post_title ASC", 'points-type')
+            $wpdb->prepare("SELECT ID, post_name, post_title, post_type FROM %1s WHERE post_type LIKE %2s AND post_status = 'publish' ORDER BY post_title ASC", $wpdb->posts, 'points-type')
         );
         wp_send_json_success($points);
     }

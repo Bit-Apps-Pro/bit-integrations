@@ -55,4 +55,4 @@ file_put_contents($pluginFile, $pluginContent);
 file_put_contents($configFile, $configContent);
 file_put_contents($readmeFile, $readmeContent);
 
-echo "Updated Version v{$newVersion}" . "\n";
+echo "Updated Version v{$newVersion}\n";
