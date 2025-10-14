@@ -714,7 +714,7 @@ _Release Date -14th October 2025_
  - Wishlist Member: 06 new events added (Pro)
 
 = 2.6.11 =
-_Release Date -22th September 2025_
+_Release Date -22nd September 2025_
 
 - **Bug Fixes**
  - Salesforce: Fixed oAuth redirect url issue.

@@ -72,7 +72,14 @@ class LifterLmsController
     {
         global $wpdb;
 
-        $allCourse = $wpdb->get_results("SELECT ID, post_title FROM {$wpdb->posts} WHERE {$wpdb->posts}.post_status = 'publish' AND {$wpdb->posts}.post_type = 'course' ORDER BY post_title");
+        $allCourse = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT ID, post_title FROM %s WHERE %s = 'publish' AND %s = 'course' ORDER BY post_title",
+                $wpdb->posts,
+                $wpdb->posts . '.post_status',
+                $wpdb->posts . '.post_type'
+            )
+        );
 
         return $allCourse;
     }
@@ -81,7 +88,14 @@ class LifterLmsController
     {
         global $wpdb;
 
-        $allMembership = $wpdb->get_results("SELECT ID, post_title FROM {$wpdb->posts} WHERE {$wpdb->posts}.post_status = 'publish' AND {$wpdb->posts}.post_type = 'llms_membership' ORDER BY post_title");
+        $allMembership = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT ID, post_title FROM %s WHERE %s = 'publish' AND %s = 'llms_membership' ORDER BY post_title",
+                $wpdb->posts,
+                $wpdb->posts . '.post_status',
+                $wpdb->posts . '.post_type'
+            )
+        );
 
         return $allMembership;
     }

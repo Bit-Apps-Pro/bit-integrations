@@ -38,7 +38,12 @@ final class UnInstallation
                 $wpdb->prefix . 'btcbi_log',
             ];
             foreach ($tableArray as $tablename) {
-                $wpdb->query("DROP TABLE IF EXISTS {$tablename}");
+                $wpdb->query(
+                    $wpdb->prepare(
+                        'DROP TABLE IF EXISTS %s',
+                        $tablename
+                    )
+                );
             }
 
             $columns = $columns + ['btcbi_app_conf'];
