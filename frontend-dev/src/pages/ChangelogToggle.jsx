@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '22th September 2025'
+const releaseDate = '14th October 2025'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -25,13 +25,45 @@ const changeLog = [
     label: __('New Actions', 'bit-integrations'),
     headClass: 'new-integration',
     itemClass: 'integration-list',
-    items: []
+    items: [
+      {
+        label: 'Wishlist Member',
+        desc: '08 new events added.',
+        isPro: false
+      }
+    ]
   },
   {
     label: __('New Triggers', 'bit-integrations'),
     headClass: 'new-trigger',
     itemClass: 'integration-list',
-    items: []
+    items: [
+      {
+        label: 'Wishlist Member',
+        desc: '06 new events added.',
+        isPro: true
+      },
+      {
+        label: 'FluentCart',
+        desc: '17 new events added.',
+        isPro: true
+      },
+      {
+        label: 'Mail Mint',
+        desc: '07 new events added.',
+        isPro: true
+      },
+      {
+        label: 'Contact Form Email',
+        desc: '01 new events added.',
+        isPro: true
+      },
+      {
+        label: 'Booking Calendar Contact Form',
+        desc: '01 new events added.',
+        isPro: true
+      }
+    ]
   },
   {
     label: __('New Features', 'bit-integrations'),
@@ -49,13 +81,7 @@ const changeLog = [
     label: __('Bug Fixes', 'bit-integrations'),
     headClass: 'fixes',
     itemClass: 'fixes-list',
-    items: [
-      {
-        label: 'Salesforce',
-        desc: 'Fixed oAUth redirect url issue.',
-        isPro: false
-      }
-    ]
+    items: []
   }
 ]
 
@@ -147,7 +173,7 @@ export default function ChangelogToggle() {
           step === 2 && (
             <div className="changelog content">
               <div className="flx flx-col flx-center whats-new">
-                <h3>{sprintf(__("What's New in %s", 'bit-integrations'), btcbi.version)}?</h3>
+                <h3>{sprintf(__("What's New in v%s", 'bit-integrations'), btcbi.version)}?</h3>
                 <small className="date">
                   {__('Updated at:', 'bit-integrations')} <b>{releaseDate}</b>
                 </small>
