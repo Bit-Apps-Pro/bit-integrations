@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ZohoSheet Integration
+ * Wishlist Member Integration
  */
 
 namespace BitCode\FI\Actions\WishlistMember;
@@ -9,7 +9,7 @@ namespace BitCode\FI\Actions\WishlistMember;
 use WP_Error;
 
 /**
- * Provide functionality for ZohoCrm integration
+ * Provide functionality for Wishlist Member integration
  */
 class WishlistMemberController
 {
@@ -31,7 +31,7 @@ class WishlistMemberController
         if (!self::isPluginInstalled()) {
             wp_send_json_error(
                 __(
-                    'WishlistMember is not activate or not installed',
+                    'WishlistMember is not activated or not installed',
                     'bit-integrations'
                 ),
                 400
@@ -43,8 +43,6 @@ class WishlistMemberController
 
     /**
      * Get wishlist levels
-     *
-     * @return
      */
     public function getLevels()
     {

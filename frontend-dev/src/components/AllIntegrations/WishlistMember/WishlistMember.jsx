@@ -1,15 +1,15 @@
 import { useState } from 'react'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import BackIcn from '../../../Icons/BackIcn'
 import { __ } from '../../../Utils/i18nwrap'
 import SnackMsg from '../../Utilities/SnackMsg'
+import Steps from '../../Utilities/Steps'
 import { saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import WishlistMemberAuthorization from './WishlistMemberAuthorization'
-import { checkMappedFields, checkValidation, refreshNewsLetter } from './WishlistMemberCommonFunc'
+import { checkValidation } from './WishlistMemberCommonFunc'
 import WishlistMemberIntegLayout from './WishlistMemberIntegLayout'
-import Steps from '../../Utilities/Steps'
 
 export default function WishlistMember({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()

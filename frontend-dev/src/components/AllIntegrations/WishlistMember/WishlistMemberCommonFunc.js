@@ -1,6 +1,6 @@
-import { __ } from '../../../Utils/i18nwrap'
-import bitsFetch from '../../../Utils/bitsFetch'
 import { create } from 'mutative'
+import bitsFetch from '../../../Utils/bitsFetch'
+import { __ } from '../../../Utils/i18nwrap'
 
 export const handleAuthorize = (setIsAuthorized, setIsLoading, setSnackbar) => {
   setIsLoading(true)
@@ -29,7 +29,7 @@ export const generateMappedField = wishlistFields => {
     : [{ formField: '', wishlistMemberField: '' }]
 }
 
-export const addFieldMap = indx => {
+export const addFieldMap = (indx, setWishlistMemberConf) => {
   setWishlistMemberConf(prevConf =>
     create(prevConf, draftConf => {
       draftConf.field_map.splice(indx, 0, {})
@@ -37,7 +37,7 @@ export const addFieldMap = indx => {
   )
 }
 
-export const deleteFieldMap = indx => {
+export const deleteFieldMap = (indx, setWishlistMemberConf) => {
   setWishlistMemberConf(prevConf =>
     create(prevConf, draftConf => {
       if (draftConf.field_map.length > 1) {

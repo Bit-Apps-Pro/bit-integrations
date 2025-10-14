@@ -2,7 +2,7 @@ import { create } from 'mutative'
 import { useRecoilValue } from 'recoil'
 import { $btcbi } from '../../../GlobalStates'
 import TrashIcn from '../../../Icons/TrashIcn'
-import { __ } from '../../../Utils/i18nwrap'
+import { __, sprintf } from '../../../Utils/i18nwrap'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import TagifyInput from '../../Utilities/TagifyInput'
 import { handleCustomValue } from '../IntegrationHelpers/IntegrationHelpers'
@@ -101,11 +101,14 @@ export default function WishlistMemberFieldMap({
 
       {wishlistFields?.length > 1 && (
         <>
-          <button onClick={() => addFieldMap(i)} className="icn-btn sh-sm ml-2 mr-1" type="button">
+          <button
+            onClick={() => addFieldMap(i, setWishlistMemberConf)}
+            className="icn-btn sh-sm ml-2 mr-1"
+            type="button">
             +
           </button>
           <button
-            onClick={() => deleteFieldMap(i)}
+            onClick={() => deleteFieldMap(i, setWishlistMemberConf)}
             className="icn-btn sh-sm ml-2"
             type="button"
             aria-label="btn">

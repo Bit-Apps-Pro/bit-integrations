@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ZohoRecruit Record Api
+ * Wishlist Member Record Api
  */
 
 namespace BitCode\FI\Actions\WishlistMember;
@@ -9,9 +9,6 @@ namespace BitCode\FI\Actions\WishlistMember;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Log\LogHandler;
 
-/**
- * Provide functionality for Record insert,upsert
- */
 class RecordApiHelper
 {
     private $_integrationID;
@@ -36,7 +33,7 @@ class RecordApiHelper
         if (!\function_exists('wlmapi_create_level')) {
             return [
                 'success' => false,
-                'ERROR'   => __('WishlistMember API function not available.', 'bit-pi')
+                'ERROR'   => __('WishlistMember API function not available.', 'bit-integrations')
             ];
         }
 

@@ -6,12 +6,10 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { $actionConf, $formFields, $newFlow } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import SnackMsg from '../../Utilities/SnackMsg'
-import EditFormInteg from '../EditFormInteg'
-import SetEditIntegComponents from '../IntegrationHelpers/SetEditIntegComponents'
-import EditWebhookInteg from '../EditWebhookInteg'
 import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
-import { checkMappedFields, checkValidation, setIntegrationName } from './WishlistMemberCommonFunc'
+import SetEditIntegComponents from '../IntegrationHelpers/SetEditIntegComponents'
+import { checkValidation, setIntegrationName } from './WishlistMemberCommonFunc'
 import WishlistMemberIntegLayout from './WishlistMemberIntegLayout'
 
 function EditWishlistMember({ allIntegURL }) {
@@ -77,7 +75,6 @@ function EditWishlistMember({ allIntegURL }) {
         step={2}
         setIsLoading={setIsLoading}
         setSnackbar={setSnackbar}
-        edit={wishlistMemberConf.lists}
       />
 
       <IntegrationStepThree

@@ -129,13 +129,7 @@ export default function WishlistMemberIntegLayout({
           {wishlistMemberConf?.wishlistFields?.length > 1 && (
             <div className="txt-center btcbi-field-map-button mt-2">
               <button
-                onClick={() =>
-                  addFieldMap(
-                    wishlistMemberConf.field_map.length,
-                    wishlistMemberConf,
-                    setWishlistMemberConf
-                  )
-                }
+                onClick={() => addFieldMap(wishlistMemberConf.field_map.length, setWishlistMemberConf)}
                 className="icn-btn sh-sm"
                 type="button">
                 +
