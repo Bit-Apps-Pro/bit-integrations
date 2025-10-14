@@ -1,10 +1,9 @@
-/* eslint-disable no-else-return */
 import { __ } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
 
 export const handleInput = (e, lineConf, setLineConf) => {
   const { name, value } = e.target
-  setLineConf(prev => ({ ...prev, ...(value ? { [name]: value } : { [name]: undefined }) }))
+  setLineConf(prev => ({ ...prev, [name]: value }))
 }
 
 export const handleAuthorize = async (
@@ -21,8 +20,6 @@ export const handleAuthorize = async (
   }
 
   setError({})
-  setIsLoading(true)
-
   setIsLoading(true)
 
   try {
@@ -63,13 +60,13 @@ const updateFieldMap = (prevConf, type, index, updater) => {
   return newConf
 }
 
-export const handleFieldMapping = (event, index, _, setConf, type) => {
-  setConf(prev =>
-    updateFieldMap(prev, type, index, () => ({
-      [event.target.name]: event.target.value,
-      ...(event.target.value === 'custom' ? { customValue: '' } : {})
-    }))
-  )
+export const handleFieldMapping = (event, index, setConf, type) => {
+  const updateFunction = () => ({
+    [event.target.name]: event.target.value,
+    ...(event.target.value === 'custom' ? { customValue: '' } : { customValue: undefined })
+  })
+
+  setConf(prev => updateFieldMap(prev, type, index, updateFunction))
 }
 
 export const handleCustomValue = (event, index, _, setConf, type) => {
@@ -91,18 +88,67 @@ export const delFieldMap = (index, _, setConf, type) => {
   })
 }
 
-export const addFieldMap = (i, confTmp, setConf, FieldMappings, mapKey) => {
-  const groupId = Date.now() + Math.random()
-  const newFieldMap = FieldMappings.map(field => ({
-    formField: '',
-    lineFormField: field.value,
-    groupId
-  }))
+const FIELD_CATEGORIES = {
+  sticker: ['sticker_id', 'package_id'],
+  image: ['originalContentUrl', 'previewImageUrl'],
+  audio: ['originalContentUrl', 'duration'],
+  video: ['originalContentUrl', 'previewImageUrl'],
+  location: ['title', 'address', 'latitude', 'longitude'],
+  emoji: ['emojis_id', 'product_id', 'index']
+}
 
+const getFieldCategory = lineFormField => {
+  for (const [type, fields] of Object.entries(FIELD_CATEGORIES)) {
+    if (fields.includes(lineFormField)) {
+      return type
+    }
+  }
+  return 'default'
+}
+
+const generateGroupId = (fieldType, existingFieldMap) => {
+  if (fieldType === 'audio') {
+    const existingAudioGroups = [
+      ...new Set(
+        existingFieldMap.filter(field => field.fieldType === 'audio').map(field => field.groupId)
+      )
+    ]
+    return `audio_${existingAudioGroups.length + 1}`
+  }
+  const existingGroups = [
+    ...new Set(
+      existingFieldMap
+        .filter(field => getFieldCategory(field.lineFormField) === fieldType)
+        .map(field => field.groupId)
+    )
+  ]
+  return `${fieldType}_${existingGroups.length + 1}`
+}
+
+export const addFieldMap = (i, confTmp, setConf, FieldMappings, mapKey) => {
   setConf(prev => {
     const newConf = { ...prev }
-
     if (!Array.isArray(newConf[mapKey])) newConf[mapKey] = []
+    if (mapKey === 'audio_field_map') {
+      const fieldType = 'audio'
+      const groupId = generateGroupId('audio', newConf[mapKey])
+      const newFieldMap = FieldMappings.map(field => ({
+        formField: '',
+        lineFormField: field.value,
+        groupId,
+        fieldType: 'audio'
+      }))
+      newConf[mapKey].splice(i, 0, ...newFieldMap)
+      return newConf
+    }
+    let fieldType = getFieldCategory(FieldMappings[0].value)
+    let groupId = generateGroupId(fieldType, newConf[mapKey])
+    const newFieldMap = FieldMappings.map(field => ({
+      formField: '',
+      lineFormField: field.value,
+      groupId,
+      fieldType
+    }))
     newConf[mapKey].splice(i, 0, ...newFieldMap)
     return newConf
   })
@@ -162,13 +208,11 @@ export const getLineValidationMessages = lineConf => {
     case 'sendPushMessage':
       if (!lineConf.recipientId?.trim())
         messages.push(__('Recipient ID is required', 'bit-integrations'))
-
       if (!isMessageFieldConfigured(lineConf))
         messages.push(__('Message field mapping is required', 'bit-integrations'))
       break
     case 'sendReplyMessage':
       if (!lineConf.replyToken?.trim()) messages.push(__('Reply Token is required', 'bit-integrations'))
-
       if (!isMessageFieldConfigured(lineConf))
         messages.push(__('Message field mapping is required', 'bit-integrations'))
       break
@@ -189,9 +233,22 @@ export const getLineValidationMessages = lineConf => {
   return messages
 }
 
-export const generateMappedField = fields => {
+export const generateMappedField = (fields, fieldType = null) => {
   const requiredFlds = fields.filter(f => f.required)
-  return requiredFlds.length
-    ? requiredFlds.map(f => ({ formField: '', lineFormField: f.value }))
-    : [{ formField: '', lineFormField: '' }]
+  if (requiredFlds.length) {
+    const typeToGroupId = {}
+    return requiredFlds.map(f => {
+      const actualFieldType = fieldType || getFieldCategory(f.value)
+      if (!typeToGroupId[actualFieldType]) {
+        typeToGroupId[actualFieldType] = `${actualFieldType}_1`
+      }
+      return {
+        formField: '',
+        lineFormField: f.value,
+        groupId: typeToGroupId[actualFieldType],
+        fieldType: actualFieldType
+      }
+    })
+  }
+  return [{ formField: '', lineFormField: '' }]
 }

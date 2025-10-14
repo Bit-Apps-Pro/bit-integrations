@@ -17,30 +17,27 @@ export default function LineIntegLayout({ formFields, lineConf, setLineConf, isL
   const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
 
-  const handleInput = e => {
-    const newConf = { ...lineConf }
-    newConf[e.target.name] = e.target.value
-    setLineConf(newConf)
-  }
-
-  const setMessageBody = val => {
-    const newConf = { ...lineConf }
-    newConf.body = val
-    setLineConf(newConf)
-  }
-  const changeActionRun = e => {
-    const newConf = { ...lineConf }
-    if (newConf?.body) {
-      newConf.body = ''
-    }
-    newConf.parse_mode = e.target.value
-    setLineConf(newConf)
-  }
-
   const setChange = (value, name) => {
     setLineConf(prevConf =>
       create(prevConf, draftConf => {
         draftConf[name] = value
+      })
+    )
+  }
+
+  const handleInput = e => {
+    setChange(e.target.value, e.target.name)
+  }
+
+  const setMessageBody = val => {
+    setChange(val, 'body')
+  }
+
+  const changeActionRun = e => {
+    setLineConf(prevConf =>
+      create(prevConf, draftConf => {
+        if (draftConf.body) draftConf.body = ''
+        draftConf.parse_mode = e.target.value
       })
     )
   }
