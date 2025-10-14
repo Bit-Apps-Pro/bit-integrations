@@ -25,7 +25,7 @@ class RecordApiHelper
     {
         $messages = $this->buildMessages($integrationDetails, $fieldValues);
 
-        if (empty($messages)) {
+        if (!isset($messages) || \count($messages) === 0) {
             return ['error' => 'No valid message generated.'];
         }
 
@@ -66,7 +66,7 @@ class RecordApiHelper
             $messages[] = $text;
         }
 
-        if (!empty($details->sendSticker) && !empty($details->sticker_field_map)) {
+        if (isset($details->sendSticker, $details->sticker_field_map)) {
             $stickerRequiredFields = ['sticker_id', 'package_id'];
             $stickers = $this->processGrouped(
                 $values,
@@ -77,7 +77,7 @@ class RecordApiHelper
             $messages = array_merge($messages, $stickers);
         }
 
-        if (!empty($details->sendImage) && !empty($details->image_field_map)) {
+        if (isset($details->sendImage, $details->image_field_map)) {
             $imageRequiredFields = ['originalContentUrl'];
             $images = $this->processGrouped(
                 $values,
@@ -88,7 +88,7 @@ class RecordApiHelper
             $messages = array_merge($messages, $images);
         }
 
-        if (!empty($details->sendAudio) && !empty($details->audio_field_map)) {
+        if (isset($details->sendAudio, $details->audio_field_map)) {
             $audioFields = array_filter($details->audio_field_map, function ($field) {
                 return $field->fieldType === 'audio';
             });
@@ -105,7 +105,7 @@ class RecordApiHelper
             }
         }
 
-        if (!empty($details->sendVideo) && !empty($details->video_field_map)) {
+        if (isset($details->sendVideo, $details->video_field_map)) {
             $videoRequiredFields = ['originalContentUrl'];
             $videos = $this->processGrouped(
                 $values,
@@ -116,7 +116,7 @@ class RecordApiHelper
             $messages = array_merge($messages, $videos);
         }
 
-        if (!empty($details->sendLocation) && !empty($details->location_field_map)) {
+        if (isset($details->sendLocation, $details->location_field_map)) {
             $locationRequiredFields = ['title', 'address', 'latitude', 'longitude'];
             $locations = $this->processGrouped(
                 $values,
@@ -134,29 +134,29 @@ class RecordApiHelper
     {
         $messageText = '';
 
-        if (!empty($details->message_field_map)) {
+        if (isset($details->message_field_map)) {
             $mappedMessage = $this->mapFields($values, $details->message_field_map);
-            if (!empty($mappedMessage['message'])) {
+            if (isset($mappedMessage['message'])) {
                 $messageText = $mappedMessage['message'];
             }
         }
 
-        if (empty($messageText) && !empty($details->message)) {
+        if (!isset($messageText) && isset($details->message)) {
             $messageText = $details->message;
         }
 
-        if (empty($messageText)) {
+        if (!isset($messageText)) {
             return null;
         }
 
         $message = ['type' => 'text', 'text' => $messageText];
 
-        if (!empty($details->sendEmojis) && !empty($details->emojis_field_map)) {
+        if (isset($details->sendEmojis, $details->emojis_field_map)) {
             $emojis = [];
             $groups = $this->organizeFieldsByGroup($details->emojis_field_map);
             foreach ($groups as $groupId => $groupFields) {
                 $emoji = $this->mapFields($values, $groupFields);
-                if (isset($emoji['emojis_id'], $emoji['product_id']) && !empty($emoji['index'])) {
+                if (isset($emoji['emojis_id'], $emoji['product_id'], $emoji['index'])) {
                     $emojis[] = [
                         'index'     => (int) $emoji['index'],
                         'productId' => $emoji['product_id'],
@@ -164,7 +164,7 @@ class RecordApiHelper
                     ];
                 }
             }
-            if (!empty($emojis)) {
+            if (isset($emojis) && \count($emojis) > 0) {
                 $message['emojis'] = $emojis;
             }
         }
@@ -195,7 +195,7 @@ class RecordApiHelper
 
             $allPresent = true;
             foreach ($requiredKeys as $key) {
-                if (empty($data[$key])) {
+                if (!isset($data[$key])) {
                     $allPresent = false;
 
                     break;
@@ -229,7 +229,7 @@ class RecordApiHelper
 
     private function handleFilterResponse($response)
     {
-        if (empty($response)) {
+        if (!isset($response)) {
             return (object) ['error' => \wp_sprintf(\__('%s plugin is not installed or activated', 'bit-integrations'), 'Bit Integrations Pro')];
         }
 
@@ -283,7 +283,7 @@ class RecordApiHelper
 
     private function transformAudio(array $data): ?array
     {
-        if (empty($data['duration'])) {
+        if (!isset($data['duration'])) {
             return null;
         }
 

@@ -61,12 +61,12 @@ const updateFieldMap = (prevConf, type, index, updater) => {
 }
 
 export const handleFieldMapping = (event, index, setConf, type) => {
-  setConf(prev =>
-    updateFieldMap(prev, type, index, () => ({
-      [event.target.name]: event.target.value,
-      ...(event.target.value === 'custom' ? { customValue: '' } : { customValue: undefined })
-    }))
-  )
+  const updateFunction = () => ({
+    [event.target.name]: event.target.value,
+    ...(event.target.value === 'custom' ? { customValue: '' } : { customValue: undefined })
+  })
+
+  setConf(prev => updateFieldMap(prev, type, index, updateFunction))
 }
 
 export const handleCustomValue = (event, index, _, setConf, type) => {
