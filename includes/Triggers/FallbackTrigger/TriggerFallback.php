@@ -1639,7 +1639,7 @@ final class TriggerFallback
         global $wpdb;
         $table_name = $wpdb->prefix . 'bp_xprofile_fields';
 
-        $query = $wpdb->prepare('SELECT id, type, name FROM %s', $table_name);
+        $query = $wpdb->prepare('SELECT id, type, name FROM %1s', $table_name);
 
         return $wpdb->get_results($query);
     }

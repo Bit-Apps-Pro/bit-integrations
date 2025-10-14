@@ -74,7 +74,7 @@ class LifterLmsController
 
         $allCourse = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT ID, post_title FROM %s WHERE %s = 'publish' AND %s = 'course' ORDER BY post_title",
+                "SELECT ID, post_title FROM %1s WHERE %2s = 'publish' AND %3s = 'course' ORDER BY post_title",
                 $wpdb->posts,
                 $wpdb->posts . '.post_status',
                 $wpdb->posts . '.post_type'
@@ -90,7 +90,7 @@ class LifterLmsController
 
         $allMembership = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT ID, post_title FROM %s WHERE %s = 'publish' AND %s = 'llms_membership' ORDER BY post_title",
+                "SELECT ID, post_title FROM %1s WHERE %2s = 'publish' AND %3s = 'llms_membership' ORDER BY post_title",
                 $wpdb->posts,
                 $wpdb->posts . '.post_status',
                 $wpdb->posts . '.post_type'

@@ -44,7 +44,7 @@ class AffiliateController
 
         global $wpdb;
         $affiliatesIds = $wpdb->get_results(
-            $wpdb->prepare('SELECT affiliate_Id FROM %s', $wpdb->prefix . 'affiliate_wp_affiliates')
+            $wpdb->prepare('SELECT affiliate_Id FROM %1s', $wpdb->prefix . 'affiliate_wp_affiliates')
         );
 
         foreach ($affiliatesIds as $val) {

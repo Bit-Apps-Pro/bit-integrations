@@ -40,7 +40,7 @@ final class UnInstallation
             foreach ($tableArray as $tablename) {
                 $wpdb->query(
                     $wpdb->prepare(
-                        'DROP TABLE IF EXISTS %s',
+                        'DROP TABLE IF EXISTS %1s',
                         $tablename
                     )
                 );
