@@ -702,6 +702,7 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 
 = 2.7.0 =
 _Release Date -14th October 2025_
+
 - **New Action**
  - Wishlist Member: 08 new events added
 
@@ -714,11 +715,13 @@ _Release Date -14th October 2025_
 
 = 2.6.11 =
 _Release Date -22th September 2025_
+
 - **Bug Fixes**
  - Salesforce: Fixed oAuth redirect url issue.
 
 = 2.6.10 =
 _Release Date -20th September 2025_
+
 - **Bug Fixes**
  - Salesforce: Fixed refresh token expiration issue.
  - Salesforce: Resolved issue with task creation execution.
