@@ -406,7 +406,7 @@ const tutorialLinks = {
     youTubeLink: 'https://www.youtube.com/playlist?list=PL7c6CDwwm-ALe76SC4ClrJItKDznTPUmv',
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/wp-courseware-integrations/'
   },
-  wishlist: {
+  wishlistMember: {
     youTubeLink: 'https://www.youtube.com/playlist?list=PL7c6CDwwm-AIsdIcLNYtPXJGnTZ_UmWvT',
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/wishlist-integrations/'
   },

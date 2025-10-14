@@ -165,6 +165,7 @@ const SmartSuite = lazy(() => import('./SmartSuite/SmartSuite'))
 const Bento = lazy(() => import('./Bento/Bento'))
 const Line = lazy(() => import('./Line/Line'))
 const ACPT = lazy(() => import('./ACPT/ACPT'))
+const WishlistMember = lazy(() => import('./WishlistMember/WishlistMember'))
 
 export default function NewInteg({ allIntegURL }) {
   const { integUrlName } = useParams()
@@ -173,6 +174,7 @@ export default function NewInteg({ allIntegURL }) {
   if (!window.opener && !Object.keys(flow).length) {
     navigate('/flow/new')
   }
+
   const NewIntegs = () => {
     switch (integUrlName) {
       case 'Zoho CRM':
@@ -1575,6 +1577,15 @@ export default function NewInteg({ allIntegURL }) {
       case 'ACPT':
         return (
           <ACPT
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'Wishlist Member':
+        return (
+          <WishlistMember
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
             flow={flow}
