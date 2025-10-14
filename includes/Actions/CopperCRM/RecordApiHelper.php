@@ -149,7 +149,7 @@ class RecordApiHelper
         foreach ($finalData as $key => $value) {
             if (\in_array($key, $staticFieldsKeys)) {
                 if ($key == 'close_date') {
-                    $requestParams['close_date'] = date('m/d/Y', strtotime($value));
+                    $requestParams['close_date'] = gmdate('m/d/Y', strtotime($value));
                 } else {
                     $requestParams[$key] = $value;
                 }

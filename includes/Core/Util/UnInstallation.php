@@ -38,15 +38,33 @@ final class UnInstallation
                 $wpdb->prefix . 'btcbi_log',
             ];
             foreach ($tableArray as $tablename) {
-                $wpdb->query($wpdb->prepare("DROP TABLE IF EXISTS {$tablename}"));
+                $wpdb->query(
+                    $wpdb->prepare(
+                        'DROP TABLE IF EXISTS %1s',
+                        $tablename
+                    )
+                );
             }
 
             $columns = $columns + ['btcbi_app_conf'];
         }
 
         foreach ($columns as $column) {
-            $wpdb->query($wpdb->prepare("DELETE FROM `{$wpdb->prefix}options` WHERE option_name= %s", $column));
+            $wpdb->query(
+                $wpdb->prepare(
+                    'DELETE FROM %1s WHERE option_name= %2s',
+                    "{$wpdb->prefix}options",
+                    $column,
+                )
+            );
         }
-        $wpdb->query($wpdb->prepare("DELETE FROM `{$wpdb->prefix}options` WHERE `option_name` LIKE '%btcbi_webhook_%'"));
+
+        $wpdb->query(
+            $wpdb->prepare(
+                'DELETE FROM %1s WHERE `option_name` LIKE %2s',
+                "{$wpdb->prefix}options",
+                '%btcbi_webhook_%'
+            )
+        );
     }
 }

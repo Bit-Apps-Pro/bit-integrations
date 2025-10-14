@@ -74,7 +74,11 @@ export const customFormIntegrations = [
   'EasyCommerce',
   'FormGent',
   'GeoDirectory',
-  'StoreEngine'
+  'StoreEngine',
+  'FluentCart',
+  'MailMint',
+  'BookingCalendarContactForm',
+  'ContactFormEmail'
 ]
 
 export const actionHookIntegrations = ['ActionHook']
