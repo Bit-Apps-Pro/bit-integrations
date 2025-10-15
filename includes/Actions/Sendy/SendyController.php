@@ -6,22 +6,15 @@
 
 namespace BitCode\FI\Actions\Sendy;
 
-use WP_Error;
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
+use WP_Error;
 
 /**
  * Provide functionality for MailChimp integration
  */
 class SendyController
 {
-    private $_integrationID;
-
-    // public function __construct($integrationID)
-    // {
-    //     $this->_integrationID = $integrationID;
-    // }
-
     /**
      * Process ajax request for generate_token
      *
@@ -31,7 +24,7 @@ class SendyController
      */
     public static function sendyAuthorize($requestsParams)
     {
-        if (empty($requestsParams->api_key)) {
+        if (empty($requestsParams->api_key) || empty($requestsParams->sendy_url)) {
             wp_send_json_error(
                 __(
                     'Requested parameter is empty',
@@ -40,16 +33,16 @@ class SendyController
                 400
             );
         }
-        $apiKey = $requestsParams->api_key;
-        $sendy_url = $requestsParams->sendy_url;
-        $apiEndpoint = "{$sendy_url}/includes/helpers/integrations/zapier/triggers/dropdowns.php?api_key={$apiKey}&event=brands";
-        $authorizationHeader['Accept'] = 'application/json';
-        // $authorizationHeader["api-key"] = $requestsParams->api_key;
-        $apiResponse = HttpHelper::get($apiEndpoint, null, $authorizationHeader);
 
-        if (is_wp_error($apiResponse) || !\is_array($apiResponse)) {
+        $apiEndpoint = "{$requestsParams->sendy_url}/api/brands/get-brands.php";
+        $authorizationHeader = ['Accept' => 'application/json'];
+        $requestsParams = ['api_key' => $requestsParams->api_key];
+
+        $apiResponse = HttpHelper::post($apiEndpoint, $requestsParams, $authorizationHeader);
+
+        if (HttpHelper::$responseCode !== 200 && (is_wp_error($apiResponse) || !\is_array($apiResponse))) {
             wp_send_json_error(
-                empty($apiResponse->code) ? 'Unknown' : $apiResponse->message,
+                empty($apiResponse->message) ? $apiResponse : $apiResponse->message,
                 400
             );
         }
