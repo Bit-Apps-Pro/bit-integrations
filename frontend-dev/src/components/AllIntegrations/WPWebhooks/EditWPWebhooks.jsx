@@ -5,10 +5,8 @@ import { useParams } from 'react-router-dom'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { $actionConf, $formFields, $newFlow } from '../../../GlobalStates'
 import SnackMsg from '../../Utilities/SnackMsg'
-import EditFormInteg from '../EditFormInteg'
-import SetEditIntegComponents from '../IntegrationHelpers/SetEditIntegComponents'
-import EditWebhookInteg from '../EditWebhookInteg'
 import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
+import SetEditIntegComponents from '../IntegrationHelpers/SetEditIntegComponents'
 import WebHooksIntegration from '../IntegrationHelpers/WebHook/WebHooksIntegration'
 import WebHooksStepTwo from '../IntegrationHelpers/WebHook/WebHooksStepTwo'
 
@@ -25,11 +23,7 @@ function EditWPWebhooks({ allIntegURL }) {
   return (
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      {flow.triggered_entity !== 'Webhook' ? (
-        <EditFormInteg setSnackbar={setSnackbar} />
-      ) : (
-        <EditWebhookInteg setSnackbar={setSnackbar} />
-      )}
+      <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
 
       <div className="mt-3">
         <WebHooksIntegration
