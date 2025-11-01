@@ -66,6 +66,19 @@ export const customFormIntegrations = [
   'ProfileBuilder',
   'QuillForms',
   'UserFeedback',
+  'NewUserApprove',
+  'WPSubscription',
+  'WPTravelEngine',
+  'WPUserFrontend',
+  'FluentAffiliate',
+  'EasyCommerce',
+  'FormGent',
+  'GeoDirectory',
+  'StoreEngine',
+  'FluentCart',
+  'MailMint',
+  'BookingCalendarContactForm',
+  'ContactFormEmail'
 ]
 
 export const actionHookIntegrations = ['ActionHook']

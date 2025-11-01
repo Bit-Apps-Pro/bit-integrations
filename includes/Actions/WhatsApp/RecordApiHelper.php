@@ -69,7 +69,7 @@ class RecordApiHelper
             return static::handleFilterResponse($response);
         }
 
-        return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')];
+        return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')];
     }
 
     public function sendMessageWithMedia(
@@ -84,7 +84,7 @@ class RecordApiHelper
             return static::handleFilterResponse($response);
         }
 
-        return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')];
+        return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')];
     }
 
     public function sendMessageWithContact(
@@ -99,7 +99,7 @@ class RecordApiHelper
             return static::handleFilterResponse($response);
         }
 
-        return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')];
+        return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')];
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
@@ -158,7 +158,7 @@ class RecordApiHelper
             return $response;
         }
 
-        return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')];
+        return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')];
     }
 
     private static function setHeaders($token)

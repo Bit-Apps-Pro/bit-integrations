@@ -90,7 +90,7 @@ class LivestormController
                 $sessions[]
                 = (object) [
                     'id'       => $session->id,
-                    'datetime' => date('l, F jS Y h:i:s A (T)', $session->attributes->estimated_started_at)
+                    'datetime' => gmdate('l, F jS Y h:i:s A (T)', $session->attributes->estimated_started_at)
                 ]
                 ;
             }

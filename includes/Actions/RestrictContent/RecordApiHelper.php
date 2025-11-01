@@ -67,7 +67,7 @@ class RecordApiHelper
         $user_id = get_current_user_id();
         $customer = rcp_get_customer_by_user_id($user_id);
         $newest_time = current_time('timestamp');
-        $created_date = date('Y-m-d H:i:s', $newest_time);
+        $created_date = gmdate('Y-m-d H:i:s', $newest_time);
 
         if (empty($customer)) {
             $customer_id = rcp_add_customer(
@@ -91,7 +91,7 @@ class RecordApiHelper
             'subscription_key' => rcp_generate_subscription_key(),
         ];
         if (!empty($expiry_date)) {
-            $membership_args['expiration_date'] = date('Y-m-d H:i:s', strtotime($expiry_date));
+            $membership_args['expiration_date'] = gmdate('Y-m-d H:i:s', strtotime($expiry_date));
         }
         $membership_id = rcp_add_membership($membership_args);
 
@@ -100,7 +100,7 @@ class RecordApiHelper
         $membership = rcp_get_membership($membership_id);
 
         $auth_key = \defined('AUTH_KEY') ? AUTH_KEY : '';
-        $transaction_id = strtolower(md5($membership_args['subscription_key'] . date('Y-m-d H:i:s') . $auth_key . uniqid('rcp', true)));
+        $transaction_id = strtolower(md5($membership_args['subscription_key'] . gmdate('Y-m-d H:i:s') . $auth_key . uniqid('rcp', true)));
 
         $payment_args = [
             'subscription'     => rcp_get_subscription_name($membership_args['object_id']),

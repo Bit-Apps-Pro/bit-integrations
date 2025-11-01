@@ -164,6 +164,9 @@ const EditLMFWC = lazy(() => import('./LMFWC/EditLMFWC'))
 const EditVoxel = lazy(() => import('./Voxel/EditVoxel'))
 const EditSmartSuite = lazy(() => import('./SmartSuite/EditSmartSuite'))
 const EditBento = lazy(() => import('./Bento/EditBento'))
+const EditLine = lazy(() => import('./Line/EditLine'))
+const EditACPT = lazy(() => import('./ACPT/EditACPT'))
+const EditWishlistMember = lazy(() => import('./WishlistMember/EditWishlistMember'))
 
 const loaderStyle = {
   display: 'flex',
@@ -554,6 +557,12 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditSmartSuite allIntegURL={allIntegURL} />
     case 'Bento':
       return <EditBento allIntegURL={allIntegURL} />
+    case 'Line':
+      return <EditLine allIntegURL={allIntegURL} />
+    case 'ACPT':
+      return <EditACPT allIntegURL={allIntegURL} />
+    case 'Wishlist Member':
+      return <EditWishlistMember allIntegURL={allIntegURL} />
     default:
       return <Loader style={loaderStyle} />
   }

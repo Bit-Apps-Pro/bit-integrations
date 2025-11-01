@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '6th August 2025'
+const releaseDate = '14th October 2025'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -25,7 +25,13 @@ const changeLog = [
     label: __('New Actions', 'bit-integrations'),
     headClass: 'new-integration',
     itemClass: 'integration-list',
-    items: []
+    items: [
+      {
+        label: 'Wishlist Member',
+        desc: '08 new events added.',
+        isPro: false
+      }
+    ]
   },
   {
     label: __('New Triggers', 'bit-integrations'),
@@ -33,18 +39,28 @@ const changeLog = [
     itemClass: 'integration-list',
     items: [
       {
-        label: 'Paid Memberships Pro',
-        desc: '+1 New Events Added.',
+        label: 'Wishlist Member',
+        desc: '06 new events added.',
         isPro: true
       },
       {
-        label: 'WP Travel Engine',
-        desc: '3 New Events Added.',
+        label: 'FluentCart',
+        desc: '17 new events added.',
         isPro: true
       },
       {
-        label: 'WP User Frontend (WPUF)',
-        desc: '2 New Events Added.',
+        label: 'Mail Mint',
+        desc: '07 new events added.',
+        isPro: true
+      },
+      {
+        label: 'Contact Form Email',
+        desc: '01 new events added.',
+        isPro: true
+      },
+      {
+        label: 'Booking Calendar Contact Form',
+        desc: '01 new events added.',
         isPro: true
       }
     ]
@@ -65,33 +81,7 @@ const changeLog = [
     label: __('Bug Fixes', 'bit-integrations'),
     headClass: 'fixes',
     itemClass: 'fixes-list',
-    items: [
-      {
-        label: 'Paid Memberships Pro',
-        desc: 'Membership selection update issue resolved.',
-        isPro: true
-      },
-      {
-        label: 'GetResponse',
-        desc: 'Fixed Tags now append correctly to contacts upon submission.',
-        isPro: false
-      },
-      {
-        label: 'Zoho CRM',
-        desc: 'Fixed tasks module fetching issue — now syncing tasks properly.',
-        isPro: false
-      },
-      {
-        label: 'MailerLite',
-        desc: 'Fixed checkbox issue under update utilities.',
-        isPro: false
-      },
-      {
-        label: 'MailerLite',
-        desc: 'Resolved integration name not updating correctly.',
-        isPro: false
-      }
-    ]
+    items: []
   }
 ]
 
@@ -183,7 +173,7 @@ export default function ChangelogToggle() {
           step === 2 && (
             <div className="changelog content">
               <div className="flx flx-col flx-center whats-new">
-                <h3>{sprintf(__("What's New in %s", 'bit-integrations'), btcbi.version)}?</h3>
+                <h3>{sprintf(__("What's New in v%s", 'bit-integrations'), btcbi.version)}?</h3>
                 <small className="date">
                   {__('Updated at:', 'bit-integrations')} <b>{releaseDate}</b>
                 </small>

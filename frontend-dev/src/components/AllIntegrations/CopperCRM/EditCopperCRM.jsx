@@ -20,24 +20,24 @@ function EditCopperCRM({ allIntegURL }) {
   const navigate = useNavigate()
   const { id } = useParams()
   const [flow, setFlow] = useRecoilState($newFlow)
-  const [coppercrmConf, setCopperCRMConf] = useRecoilState($actionConf)
+  const [copperCRMConf, setCopperCRMConf] = useRecoilState($actionConf)
   const [isLoading, setIsLoading] = useState(false)
   const [loading, setLoading] = useState({})
   const [snack, setSnackbar] = useState({ show: false })
   const formField = useRecoilValue($formFields)
 
   const saveConfig = () => {
-    if (!checkMappedFields(coppercrmConf)) {
+    if (!checkMappedFields(copperCRMConf)) {
       setSnackbar({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
       return
     }
 
-    if (coppercrmConf.actionName === 'opportunity') {
-      if (!coppercrmConf.selectedCRMPeople) {
+    if (copperCRMConf.actionName === 'opportunity') {
+      if (!copperCRMConf.selectedCRMPeople) {
         toast.error(__('Please select a people', 'bit-integrations'))
         return
       }
-      if (!coppercrmConf.selectedCRMPipelines && coppercrmConf.actionName === 'opportunity') {
+      if (!copperCRMConf.selectedCRMPipelines && copperCRMConf.actionName === 'opportunity') {
         toast.error(__('Please select a Pipeline', 'bit-integrations'))
         return
       }
@@ -46,7 +46,7 @@ function EditCopperCRM({ allIntegURL }) {
     saveActionConf({
       flow,
       allIntegURL,
-      conf: coppercrmConf,
+      conf: copperCRMConf,
       navigate,
       edit: 1,
       setLoading,
@@ -62,9 +62,9 @@ function EditCopperCRM({ allIntegURL }) {
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
         <input
           className="btcd-paper-inp w-5"
-          onChange={(e) => handleInput(e, coppercrmConf, setCopperCRMConf)}
+          onChange={e => handleInput(e, copperCRMConf, setCopperCRMConf)}
           name="name"
-          value={coppercrmConf.name}
+          value={copperCRMConf.name}
           type="text"
           placeholder={__('Integration Name...', 'bit-integrations')}
         />
@@ -75,10 +75,8 @@ function EditCopperCRM({ allIntegURL }) {
       <CopperCRMIntegLayout
         formID={flow.triggered_entity_id}
         formFields={formField}
-        handleInput={(e) =>
-          handleInput(e, coppercrmConf, setCopperCRMConf, setLoading, setSnackbar)
-        }
-        coppercrmConf={coppercrmConf}
+        handleInput={e => handleInput(e, copperCRMConf, setCopperCRMConf, setLoading, setSnackbar)}
+        copperCRMConf={copperCRMConf}
         setCopperCRMConf={setCopperCRMConf}
         loading={loading}
         setLoading={setLoading}
@@ -88,9 +86,9 @@ function EditCopperCRM({ allIntegURL }) {
       <IntegrationStepThree
         edit
         saveConfig={saveConfig}
-        disabled={!checkMappedFields(coppercrmConf)}
+        disabled={!checkMappedFields(copperCRMConf)}
         isLoading={isLoading}
-        dataConf={coppercrmConf}
+        dataConf={copperCRMConf}
         setDataConf={setCopperCRMConf}
         formFields={formField}
       />

@@ -6,6 +6,8 @@ import CopyText from '../../Utilities/CopyText'
 import { handleAuthorize } from './SalesforceCommonFunc'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
+import { $btcbi } from '../../../GlobalStates'
+import { useRecoilValue } from 'recoil'
 
 export default function SalesforceAuthorization({
   formID,
@@ -19,6 +21,7 @@ export default function SalesforceAuthorization({
   redirectLocation,
   isInfo
 }) {
+  const btcbi = useRecoilValue($btcbi)
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({
     dataCenter: '',
@@ -33,7 +36,7 @@ export default function SalesforceAuthorization({
     setStep(2)
   }
 
-  const handleInput = (e) => {
+  const handleInput = e => {
     const newConf = { ...salesforceConf }
     const rmError = { ...error }
     rmError[e.target.name] = ''
@@ -82,7 +85,7 @@ export default function SalesforceAuthorization({
         <b>{__('Authorized Redirect URIs:', 'bit-integrations')}</b>
       </div>
       <CopyText
-        value={redirectLocation || `${window.location.href}/redirect`}
+        value={redirectLocation || `${btcbi.api.base}/redirect`}
         className="field-key-cpy w-6 ml-0"
         setSnackbar={setSnackbar}
         readOnly={isInfo}
@@ -126,7 +129,8 @@ export default function SalesforceAuthorization({
                 setError,
                 setisAuthorized,
                 setIsLoading,
-                setSnackbar
+                setSnackbar,
+                btcbi
               )
             }
             className="btn btcd-btn-lg purple sh-sm flx"

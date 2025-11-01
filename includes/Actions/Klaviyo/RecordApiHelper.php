@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\Klaviyo;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record Add Member
@@ -85,7 +85,7 @@ class RecordApiHelper
         $response = apply_filters('btcbi_klaviyo_update_profile', false, $id, $authKey, $data);
 
         if (!$response) {
-            return (object) ['errors' => [(object) ['detail' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')]]];
+            return (object) ['errors' => [(object) ['detail' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')]]];
         }
 
         return $response;

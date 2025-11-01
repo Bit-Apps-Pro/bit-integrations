@@ -464,6 +464,48 @@ final class Helper
         return static::decodeSingleEntity($input);
     }
 
+    /**
+     * Convert string to array.
+     *
+     * @param null|array|string $data
+     * @param string            $separator
+     *
+     * @return array
+     */
+    public static function convertStringToArray($data, $separator = ',')
+    {
+        if (empty($data)) {
+            return [];
+        }
+
+        if (\is_array($data)) {
+            return array_map('trim', $data);
+        }
+
+        return array_map('trim', explode($separator, $data));
+    }
+
+    public static function jsonEncodeDecode($data)
+    {
+        return json_decode(json_encode($data), true);
+    }
+
+    public static function getPostIdFromReferer($referer)
+    {
+        if ($referer === null) {
+            $referer = $_SERVER['HTTP_REFERER'] ?? null;
+        }
+
+        if (empty($referer)) {
+            return;
+        }
+
+        $referer = wp_unslash($referer);
+        $referer = sanitize_text_field($referer);
+
+        return url_to_postid($referer);
+    }
+
     private static function getVariableType($val)
     {
         $types = [

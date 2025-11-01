@@ -11,6 +11,7 @@ class CustomFuncValidator
         $checkingValue = "defined('ABSPATH')";
         $isExits = str_contains($fileContent, $checkingValue);
         $checkFuncIsValid = self::functionIsValid($fileContent);
+
         if ($isExits && $checkFuncIsValid) {
             $filePath = wp_upload_dir();
             $fileLocation = "{$filePath['basedir']}/{$fileName}.php";
@@ -24,14 +25,18 @@ class CustomFuncValidator
     public static function functionIsValid($fileContent)
     {
         $temp_file = tmpfile();
+
         fwrite($temp_file, $fileContent);
+
         $filePath = stream_get_meta_data($temp_file)['uri'];
         $response = exec(escapeshellcmd("php -l {$filePath}"), $output, $return);
+
         if (str_contains($response, 'No syntax errors detected') || empty($response)) {
             fclose($temp_file);
 
             return true;
         }
+
         fclose($temp_file);
 
         return false;

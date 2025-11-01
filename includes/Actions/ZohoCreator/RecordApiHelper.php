@@ -186,9 +186,7 @@ class RecordApiHelper
 
     private function testDate($date)
     {
-        return (bool) ($date && date('Y-m-d', strtotime($date)) == $date)
-
-        ;
+        return (bool) ($date && gmdate('Y-m-d', strtotime($date)) == $date);
     }
 
     private function uploadFileToRecord($uploadFieldMap, $fieldValues, $dataCenter, $formID, $entryID, $accountOwner, $applicationId, $reportId, $recordId)

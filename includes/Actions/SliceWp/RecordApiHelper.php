@@ -2,8 +2,8 @@
 
 namespace BitCode\FI\Actions\SliceWp;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Log\LogHandler;
 
 class RecordApiHelper
 {
@@ -45,15 +45,14 @@ class RecordApiHelper
         $commission_data = [
             'affiliate_id' => $affiliate_id,
             'visit_id'     => 0,
-            'date_created' => date('Y-m-d H:i:s', strtotime($data['commission_date'])),
-            // 'date_modified' => date('Y-m-d H:i:s', strtotime($date)),
-            'type'        => $typeId,
-            'status'      => $statusId,
-            'reference'   => $data['reference'],
-            'customer_id' => 0,
-            'origin'      => 'bit-integrations',
-            'amount'      => slicewp_sanitize_amount($data['amount']),
-            'currency'    => slicewp_get_setting('active_currency', 'USD')
+            'date_created' => gmdate('Y-m-d H:i:s', strtotime($data['commission_date'])),
+            'type'         => $typeId,
+            'status'       => $statusId,
+            'reference'    => $data['reference'],
+            'customer_id'  => 0,
+            'origin'       => 'bit-integrations',
+            'amount'       => slicewp_sanitize_amount($data['amount']),
+            'currency'     => slicewp_get_setting('active_currency', 'USD')
         ];
 
         return slicewp_insert_commission($commission_data);

@@ -7,6 +7,8 @@ import { Link, useParams } from 'react-router-dom'
 import useFetch from '../../hooks/useFetch'
 import { __ } from '../../Utils/i18nwrap'
 import SnackMsg from '../Utilities/SnackMsg'
+import { useRecoilValue } from 'recoil'
+import { $btcbi } from '../../GlobalStates'
 
 const Loader = lazy(() => import('../Loaders/Loader'))
 const PaidMembershipProAuthorization = lazy(
@@ -25,7 +27,7 @@ const ZohoMarketingHubAuthorization = lazy(
   () => import('./ZohoMarketingHub/ZohoMarketingHubAuthorization')
 )
 const ZohoRecruitAuthorization = lazy(() => import('./ZohoRecruit/ZohoRecruitAuthorization'))
-const GoogleSheetInfo = lazy(() => import('./GoogleSheet/GoogleSheetInfo'))
+const GoogleSheetAuthorization = lazy(() => import('./GoogleSheet/GoogleSheetAuthorization'))
 const MailChimpAuthorization = lazy(() => import('./MailChimp/MailChimpAuthorization'))
 const MailPoetAuthorization = lazy(() => import('./MailPoet/MailPoetAuthorization'))
 const SendinblueAuthorization = lazy(() => import('./SendinBlue/SendinBlueAuthorization'))
@@ -163,9 +165,13 @@ const LMFWCAuthorization = lazy(() => import('./LMFWC/LMFWCAuthorization'))
 const VoxelAuthorization = lazy(() => import('./Voxel/VoxelAuthorization'))
 const SmartSuiteAuthorization = lazy(() => import('./SmartSuite/SmartSuiteAuthorization'))
 const BentoAuthorization = lazy(() => import('./Bento/BentoAuthorization'))
+const LineAuthorization = lazy(() => import('./Line/LineAuthorization'))
+const ACPTAuthorization = lazy(() => import('./ACPT/ACPTAuthorization'))
+const WishlistMemberAuthorization = lazy(() => import('./WishlistMember/WishlistMemberAuthorization'))
 
 export default function IntegInfo() {
   const { id, type } = useParams()
+  const btcbi = useRecoilValue($btcbi)
   const [snack, setSnackbar] = useState({ show: false })
   const [integrationConf, setIntegrationConf] = useState({})
   const { data, isLoading, isError } = useFetch({
@@ -190,9 +196,10 @@ export default function IntegInfo() {
   }, [data])
 
   // route is info/:id but for redirect uri need to make new/:type
-  let location = window.location.toString()
-  const toReplaceInd = location.indexOf('/info')
-  location = window.encodeURI(`${location.slice(0, toReplaceInd)}/new/${type}`)
+  // let location = window.location.toString()
+  // const toReplaceInd = location.indexOf('/info')
+  // location = window.encodeURI(`${location.slice(0, toReplaceInd)}/new/${type}`)
+  let location = `${btcbi.api.base}/redirect`
 
   const IntegrationInfo = () => {
     switch (integrationConf.type) {
@@ -206,6 +213,15 @@ export default function IntegInfo() {
         return <DropboxAuthorization dropboxConf={integrationConf} step={1} isInfo />
       case 'OneDrive':
         return <OneDriveAuthorization oneDriveConf={integrationConf} step={1} isInfo />
+      case 'Google Sheet':
+        return (
+          <GoogleSheetAuthorization
+            sheetConf={integrationConf}
+            step={1}
+            redirectLocation={location}
+            isInfo
+          />
+        )
       case 'Google Drive':
         return (
           <GoogleDriveAuthorization
@@ -263,8 +279,6 @@ export default function IntegInfo() {
             isInfo
           />
         )
-      case 'Google Sheet':
-        return <GoogleSheetInfo sheetConf={integrationConf} isInfo />
       case 'Mail Chimp':
         return (
           <MailChimpAuthorization
@@ -305,7 +319,14 @@ export default function IntegInfo() {
       case 'Ants & Apps':
         return <AntAppsAuthorization webHooks={integrationConf} step={1} isInfo />
       case 'Zoho Flow':
-        return <ZohoFlowAuthorization webHooks={integrationConf} step={1} isInfo />
+        return (
+          <ZohoFlowAuthorization
+            webHooks={integrationConf}
+            redirectLocation={location}
+            step={1}
+            isInfo
+          />
+        )
       case 'Telegram':
         return <TelegramAuthorization telegramConf={integrationConf} step={1} isInfo />
       case 'Fluent CRM':
@@ -329,7 +350,14 @@ export default function IntegInfo() {
       case 'Hubspot':
         return <HubspotAuthorization hubspotConf={integrationConf} step={1} isInfo />
       case 'Zoho Desk':
-        return <ZohoDeskAuthorization deskConf={integrationConf} step={1} isInfo />
+        return (
+          <ZohoDeskAuthorization
+            deskConf={integrationConf}
+            redirectLocation={location}
+            step={1}
+            isInfo
+          />
+        )
       case 'Sendy':
         return <SendyAuthorization deskConf={integrationConf} step={1} isInfo />
       case 'Keap':
@@ -361,7 +389,14 @@ export default function IntegInfo() {
       case 'Kirim Email':
         return <KirimEmailAuthorization kirimEmailConf={integrationConf} step={1} isInfo />
       case 'Salesforce':
-        return <SalesforceAuthorization salesforceConf={integrationConf} step={1} isInfo />
+        return (
+          <SalesforceAuthorization
+            salesforceConf={integrationConf}
+            step={1}
+            redirectLocation={location}
+            isInfo
+          />
+        )
       case 'Klaviyo':
         return <KlaviyoAuthorization klaviyoConf={integrationConf} step={1} isInfo />
       case 'Selzy':
@@ -427,7 +462,14 @@ export default function IntegInfo() {
       case 'Airtable':
         return <AirtableAuthorization airtableConf={integrationConf} step={1} isInfo />
       case 'Zoho Sheet':
-        return <ZohoSheetAuthorization zohoSheetConf={integrationConf} step={1} isInfo />
+        return (
+          <ZohoSheetAuthorization
+            zohoSheetConf={integrationConf}
+            redirectLocation={location}
+            step={1}
+            isInfo
+          />
+        )
       case 'FreshSales':
         return <FreshSalesAuthorization freshSalesConf={integrationConf} step={1} isInfo />
       case 'Insightly':
@@ -544,6 +586,12 @@ export default function IntegInfo() {
         return <SmartSuiteAuthorization smartSuiteConf={integrationConf} step={1} isInfo />
       case 'Bento':
         return <BentoAuthorization bentoConf={integrationConf} step={1} isInfo />
+      case 'Line':
+        return <LineAuthorization lineConf={integrationConf} step={1} isInfo />
+      case 'ACPT':
+        return <ACPTAuthorization acptConf={integrationConf} step={1} isInfo />
+      case 'WishlistMember':
+        return <WishlistMemberAuthorization wishlistMemberConf={integrationConf} step={1} isInfo />
       default:
         return <></>
     }

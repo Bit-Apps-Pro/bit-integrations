@@ -9,13 +9,13 @@ const tutorialLinks = {
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/bit-form-integrations/'
   },
   autonami: {
-    youTubeLink: 'https://youtube.com/playlist?list=PL7c6CDwwm-AKKvkYEkCSXVfslSI_92xZq&si=K1EdWwex5pVIpTy7',
+    youTubeLink:
+      'https://youtube.com/playlist?list=PL7c6CDwwm-AKKvkYEkCSXVfslSI_92xZq&si=K1EdWwex5pVIpTy7',
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/funnelkit-integrations/'
   },
   acumbamail: {
     youTubeLink: 'https://www.youtube.com/playlist?list=PL7c6CDwwm-AJwT-RmvZ4iuAqhIdG9nZ2S',
-    docLink:
-      'https://bitapps.pro/docs/bit-integrations/actions/acumbamail-integrations/'
+    docLink: 'https://bitapps.pro/docs/bit-integrations/actions/acumbamail-integrations/'
   },
   antsAndApps: {
     youTubeLink: '',
@@ -34,7 +34,8 @@ const tutorialLinks = {
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/asana-integrations/'
   },
   buddyBoss: {
-    youTubeLink: 'https://youtube.com/playlist?list=PL7c6CDwwm-AL1Lmj_7nU7vTQwly34ScS1&si=3OvpQ12uRwVI8W-z',
+    youTubeLink:
+      'https://youtube.com/playlist?list=PL7c6CDwwm-AL1Lmj_7nU7vTQwly34ScS1&si=3OvpQ12uRwVI8W-z',
     docLink: 'https://bitapps.pro/docs/bit-integrations/trigger/buddyboss-integrations/'
   },
   benchMark: {
@@ -42,7 +43,8 @@ const tutorialLinks = {
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/benchmark-email-integrations/'
   },
   constantContact: {
-    youTubeLink: 'https://youtube.com/playlist?list=PL7c6CDwwm-ALc1_UJACiwJW3D0eYZeYWK&si=ZbML8PwhZka3X3Z6',
+    youTubeLink:
+      'https://youtube.com/playlist?list=PL7c6CDwwm-ALc1_UJACiwJW3D0eYZeYWK&si=ZbML8PwhZka3X3Z6',
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/constant-contact-integrations/'
   },
   customAction: {
@@ -50,7 +52,8 @@ const tutorialLinks = {
     docLink: 'https://bit-integrations.com/wp-docs/actions/custom-action-integrations/'
   },
   customApi: {
-    youTubeLink: 'https://youtube.com/playlist?list=PL7c6CDwwm-AKth-ShFWFrh0F1uWphkMud&si=RIBDhH2FtQqJKhLr',
+    youTubeLink:
+      'https://youtube.com/playlist?list=PL7c6CDwwm-AKth-ShFWFrh0F1uWphkMud&si=RIBDhH2FtQqJKhLr',
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/customapi-integrations/'
   },
   capsulecrm: {
@@ -67,7 +70,8 @@ const tutorialLinks = {
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/clinchpad-integrations/'
   },
   clickup: {
-    youTubeLink: 'https://youtube.com/playlist?list=PL7c6CDwwm-AKF5yTZkCfNFnA94Bd848ok&si=wJHzL784d37jp8PK',
+    youTubeLink:
+      'https://youtube.com/playlist?list=PL7c6CDwwm-AKF5yTZkCfNFnA94Bd848ok&si=wJHzL784d37jp8PK',
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/clickup-integrations/'
   },
   coppercrm: {
@@ -83,7 +87,8 @@ const tutorialLinks = {
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/directiq-integrations/'
   },
   discord: {
-    youTubeLink: "https://youtube.com/playlist?list=PL7c6CDwwm-ALnPrvN-ao1AhwEddKI4rLd&si=6s5TJENXOxRjNAyY",
+    youTubeLink:
+      'https://youtube.com/playlist?list=PL7c6CDwwm-ALnPrvN-ao1AhwEddKI4rLd&si=6s5TJENXOxRjNAyY',
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/discord-integrations/'
   },
   elasticEmail: {
@@ -103,7 +108,8 @@ const tutorialLinks = {
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/fluentcrm-integrations/'
   },
   fluentSupport: {
-    youTubeLink: 'https://youtube.com/playlist?list=PL7c6CDwwm-AJk_-lRrBQGqA0ZdErCb6q0&si=gQTJMXX65Fkh-CMJ',
+    youTubeLink:
+      'https://youtube.com/playlist?list=PL7c6CDwwm-AJk_-lRrBQGqA0ZdErCb6q0&si=gQTJMXX65Fkh-CMJ',
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/fluent-support-integrations/'
   },
   freshdesk: {
@@ -168,11 +174,13 @@ const tutorialLinks = {
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/ifttt-integrations/'
   },
   insightly: {
-    youTubeLink: 'https://youtube.com/playlist?list=PL7c6CDwwm-AJJZikQUoBuFD6vqyBIsmyA&si=k2zhHewzRw4nW4pu',
+    youTubeLink:
+      'https://youtube.com/playlist?list=PL7c6CDwwm-AJJZikQUoBuFD6vqyBIsmyA&si=k2zhHewzRw4nW4pu',
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/insightly-integrations/'
   },
   keap: {
-    youTubeLink: 'https://youtube.com/playlist?list=PL7c6CDwwm-AIcGnheYoOKjXkF3LK1cLRt&si=kXhE2PE5RK1kuUky',
+    youTubeLink:
+      'https://youtube.com/playlist?list=PL7c6CDwwm-AIcGnheYoOKjXkF3LK1cLRt&si=kXhE2PE5RK1kuUky',
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/keap-integrations/'
   },
   klaviyo: {
@@ -184,7 +192,8 @@ const tutorialLinks = {
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/konnectzit-integrations/'
   },
   kirimEmail: {
-    youTubeLink: 'https://youtube.com/playlist?list=PL7c6CDwwm-AJVR9cAQg2OKLSqMC2G1Wlg&si=hVGmDkrezTYULJHO',
+    youTubeLink:
+      'https://youtube.com/playlist?list=PL7c6CDwwm-AJVR9cAQg2OKLSqMC2G1Wlg&si=hVGmDkrezTYULJHO',
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/kirim-email-integrations/'
   },
   learnDash: {
@@ -200,7 +209,8 @@ const tutorialLinks = {
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/mail-integrations/'
   },
   masterStudyLMS: {
-    youTubeLink: 'https://youtube.com/playlist?list=PL7c6CDwwm-AIRhdvMtVF1lKcj4zD1cFHK&si=RYO0rZbA3OeZdd0w',
+    youTubeLink:
+      'https://youtube.com/playlist?list=PL7c6CDwwm-AIRhdvMtVF1lKcj4zD1cFHK&si=RYO0rZbA3OeZdd0w',
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/masterstudy-lms-integrations/'
   },
   mailBluster: {
@@ -396,12 +406,13 @@ const tutorialLinks = {
     youTubeLink: 'https://www.youtube.com/playlist?list=PL7c6CDwwm-ALe76SC4ClrJItKDznTPUmv',
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/wp-courseware-integrations/'
   },
-  wishlist: {
+  wishlistMember: {
     youTubeLink: 'https://www.youtube.com/playlist?list=PL7c6CDwwm-AIsdIcLNYtPXJGnTZ_UmWvT',
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/wishlist-integrations/'
   },
   zapierLinks: {
-    youTubeLink: 'https://youtube.com/playlist?list=PL7c6CDwwm-ALfK6q_IEHnwcwTsl7ra04w&si=Hz8knNWJA6XhuCb2',
+    youTubeLink:
+      'https://youtube.com/playlist?list=PL7c6CDwwm-ALfK6q_IEHnwcwTsl7ra04w&si=Hz8knNWJA6XhuCb2',
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/zapier-integrations/'
   },
   zohoBigin: {
@@ -538,7 +549,8 @@ const tutorialLinks = {
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/livestorm-integrations/'
   },
   oneHashCRM: {
-    youTubeLink: 'https://youtube.com/playlist?list=PL7c6CDwwm-AKEGvpfNOQRJmr1vBBXxssV&si=OFWMWkNX2y-5l90y',
+    youTubeLink:
+      'https://youtube.com/playlist?list=PL7c6CDwwm-AKEGvpfNOQRJmr1vBBXxssV&si=OFWMWkNX2y-5l90y',
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/onehash-crm-integrations/'
   },
   academyLms: {
@@ -547,11 +559,13 @@ const tutorialLinks = {
     docLink: 'https://bit-integrations.com/wp-docs/actions/academy-lms-integrations-as-an-action/'
   },
   woodpecker: {
-    youTubeLink: 'https://youtube.com/playlist?list=PL7c6CDwwm-AL0mmQk0yX6u-HnqDzJeXDu&si=MdiwtkYVb0kBIjPD',
+    youTubeLink:
+      'https://youtube.com/playlist?list=PL7c6CDwwm-AL0mmQk0yX6u-HnqDzJeXDu&si=MdiwtkYVb0kBIjPD',
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/woodpecker-integrations/'
   },
   moxiecrm: {
-    youTubeLink: 'https://youtube.com/playlist?list=PL7c6CDwwm-AK-vKTk6K0SjzR9ciayOr87&si=AT29lKvhEvPBsBnR',
+    youTubeLink:
+      'https://youtube.com/playlist?list=PL7c6CDwwm-AK-vKTk6K0SjzR9ciayOr87&si=AT29lKvhEvPBsBnR',
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/moxie-integrations/'
   },
   wpFusionLinks: {
@@ -559,19 +573,23 @@ const tutorialLinks = {
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/wp-fusion-integrations/'
   },
   affiliate: {
-    youTubeLink: 'https://youtube.com/playlist?list=PL7c6CDwwm-AKA6EP_4OMVlEHrBw5kSrQo&si=aVAvTaA0hsb4pzYU',
+    youTubeLink:
+      'https://youtube.com/playlist?list=PL7c6CDwwm-AKA6EP_4OMVlEHrBw5kSrQo&si=aVAvTaA0hsb4pzYU',
     docLink: 'https://bitapps.pro/docs/bit-integrations/actions/affiliatewp-integrations/'
   },
   newsletter: {
-    youTubeLink: 'https://youtube.com/playlist?list=PL7c6CDwwm-AISvJs0enpWVRPxFERVkf91&si=tCh4063CvwFVG4WV',
+    youTubeLink:
+      'https://youtube.com/playlist?list=PL7c6CDwwm-AISvJs0enpWVRPxFERVkf91&si=tCh4063CvwFVG4WV',
     docLink: 'https://bit-integrations.com/wp-docs/actions/newsletter-integrations/'
   },
   sureMembers: {
-    youTubeLink: 'https://youtube.com/playlist?list=PL7c6CDwwm-AL1LP5QSkVmALdxVs_M3AAA&si=0gZBuVxulvBYgAnU',
+    youTubeLink:
+      'https://youtube.com/playlist?list=PL7c6CDwwm-AL1LP5QSkVmALdxVs_M3AAA&si=0gZBuVxulvBYgAnU',
     docLink: 'https://bit-integrations.com/wp-docs/actions/suremembers-integrations-as-an-action/'
   },
   mailster: {
-    youTubeLink: 'https://youtube.com/playlist?list=PL7c6CDwwm-AK04F8F1OgzMOK8_2w1XLus&si=hpavLGkCazDUdYxA',
+    youTubeLink:
+      'https://youtube.com/playlist?list=PL7c6CDwwm-AK04F8F1OgzMOK8_2w1XLus&si=hpavLGkCazDUdYxA',
     docLink: 'https://bit-integrations.com/wp-docs/actions/mailster-integrations-as-an-action/'
   },
   wpforo: {
@@ -579,11 +597,13 @@ const tutorialLinks = {
     docLink: 'https://bit-integrations.com/wp-docs/actions/wpforo-integrations-as-an-action/'
   },
   dokan: {
-    youTubeLink: 'https://youtube.com/playlist?list=PL7c6CDwwm-AK_Lwk-n8sM2XzXl6D2Ixti&si=bKb1MWsKafVXCh01',
+    youTubeLink:
+      'https://youtube.com/playlist?list=PL7c6CDwwm-AK_Lwk-n8sM2XzXl6D2Ixti&si=bKb1MWsKafVXCh01',
     docLink: 'https://bit-integrations.com/wp-docs/actions/dokan-integrations-as-an-action/'
   },
   drip: {
-    youTubeLink: 'https://youtube.com/playlist?list=PL7c6CDwwm-AKIFJxDo8hkPRBgLcfMoiV1&si=ZjISDBaNURxS82pz',
+    youTubeLink:
+      'https://youtube.com/playlist?list=PL7c6CDwwm-AKIFJxDo8hkPRBgLcfMoiV1&si=ZjISDBaNURxS82pz',
     docLink: 'https://bit-integrations.com/wp-docs/actions/drip-integrations/'
   },
   jetEngine: {
@@ -614,6 +634,14 @@ const tutorialLinks = {
   bento: {
     youTubeLink: '',
     docLink: 'https://bit-integrations.com/wp-docs/actions/bento-integrations/'
+  },
+  line: {
+    youTubeLink: '',
+    docLink: 'https://bit-integrations.com/wp-docs/actions/line-integrations/'
+  },
+  acpt: {
+    youTubeLink: '',
+    docLink: ''
   }
 }
 export default tutorialLinks

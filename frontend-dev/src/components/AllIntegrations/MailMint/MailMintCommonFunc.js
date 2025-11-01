@@ -3,32 +3,25 @@ import bitsFetch from '../../../Utils/bitsFetch'
 import { deepCopy } from '../../../Utils/Helpers'
 import { sprintf, __ } from '../../../Utils/i18nwrap'
 
-export const handleInput = (
-  e,
-  mailMintConf,
-  setMailMintConf,
-  setIsLoading,
-  setSnackbar,
-  formID
-) => {
+export const handleInput = (e, mailMintConf, setMailMintConf, setIsLoading, setSnackbar, formID) => {
   const newConf = { ...mailMintConf }
-  const { name } = e.target
-  if (e.target.value !== '') {
-    newConf[name] = e.target.value
+  const { name, value } = e.target
+
+  newConf[name] = value
+
+  if (name === 'mainAction' && value !== '') {
     mailMintRefreshFields(newConf, setMailMintConf, setIsLoading, setSnackbar)
-  } else {
-    delete newConf[name]
   }
-  newConf[e.target.name] = e.target.value
+
   setMailMintConf({ ...newConf })
 }
 
 export const mailMintRefreshFields = (mailMintConf, setMailMintConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   bitsFetch(null, 'fetch_all_mail_mint_custom_fields')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
-        setMailMintConf((oldConf) => {
+        setMailMintConf(oldConf => {
           const newConf = { ...oldConf }
           if (!newConf.default) {
             newConf.default = {}
@@ -51,9 +44,9 @@ export const mailMintRefreshFields = (mailMintConf, setMailMintConf, setIsLoadin
 export const getAllList = (mailMintConf, setMailMintConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   bitsFetch(null, 'fetch_all_mail_mint_list')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
-        setMailMintConf((oldConf) => {
+        setMailMintConf(oldConf => {
           const newConf = { ...oldConf }
           if (!newConf.default) {
             newConf.default = {}
@@ -76,9 +69,9 @@ export const getAllList = (mailMintConf, setMailMintConf, setIsLoading, setSnack
 export const getAllTags = (mailMintConf, setMailMintConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   bitsFetch(null, 'fetch_all_mail_mint_tags')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
-        setMailMintConf((oldConf) => {
+        setMailMintConf(oldConf => {
           const newConf = { ...oldConf }
           if (!newConf.default) {
             newConf.default = {}
@@ -98,16 +91,16 @@ export const getAllTags = (mailMintConf, setMailMintConf, setIsLoading, setSnack
     .catch(() => setIsLoading(false))
 }
 
-export const generateMappedField = (mailMintConf) => {
-  const requiredFlds = mailMintConf?.mailMintContactFields.filter((fld) => fld.required === true)
+export const generateMappedField = mailMintConf => {
+  const requiredFlds = mailMintConf?.mailMintContactFields.filter(fld => fld.required === true)
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({ formField: '', mailMintFormField: field.key }))
+    ? requiredFlds.map(field => ({ formField: '', mailMintFormField: field.key }))
     : [{ formField: '', mailMintFormField: '' }]
 }
 
-export const checkMappedFields = (mailMintConf) => {
+export const checkMappedFields = mailMintConf => {
   const mappedFleld = mailMintConf.field_map
-    ? mailMintConf.field_map.filter((mapped) => !mapped.formField && !mapped.mailMintFormField)
+    ? mailMintConf.field_map.filter(mapped => !mapped.formField && !mapped.mailMintFormField)
     : []
   if (mappedFleld.length > 0) {
     return false

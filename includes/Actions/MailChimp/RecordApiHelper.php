@@ -6,9 +6,9 @@
 
 namespace BitCode\FI\Actions\MailChimp;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Helper;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert,upsert
@@ -41,7 +41,7 @@ class RecordApiHelper
 
     public function addRemoveTag($module, $listId, $data)
     {
-        $msg = wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro');
+        $msg = wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro');
         if (Helper::proActionFeatExists('MailChimp', 'addRemoveTag')) {
             $subscriber_hash = md5(strtolower(trim($data['email_address'])));
             $endpoint = $this->_apiEndPoint() . "/lists/{$listId}/members/{$subscriber_hash}/tags";
@@ -120,7 +120,7 @@ class RecordApiHelper
                     $fieldData['email_address'] = $fieldValues[$fieldPair->formField];
                 } elseif ($fieldPair->mailChimpField === 'BIRTHDAY') {
                     $date = $fieldValues[$fieldPair->formField];
-                    $mergeFields[$fieldPair->mailChimpField] = date('m/d', strtotime($date));
+                    $mergeFields[$fieldPair->mailChimpField] = gmdate('m/d', strtotime($date));
                 } elseif ($fieldPair->formField === 'custom' && isset($fieldPair->customValue)) {
                     $mergeFields[$fieldPair->mailChimpField] = $fieldPair->customValue;
                 } else {

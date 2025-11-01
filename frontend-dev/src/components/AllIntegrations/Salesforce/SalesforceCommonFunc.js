@@ -749,7 +749,8 @@ export const handleAuthorize = (
   setError,
   setisAuthorized,
   setIsLoading,
-  setSnackbar
+  setSnackbar,
+  btcbi
 ) => {
   if (!confTmp.clientId || !confTmp.clientSecret) {
     setError({
@@ -760,7 +761,8 @@ export const handleAuthorize = (
   }
 
   setIsLoading(true)
-  const apiEndpoint = `https://login.salesforce.com/services/oauth2/authorize?response_type=code&client_id=${confTmp.clientId}&prompt=login%20consent&redirect_uri=${encodeURIComponent(window.location.href)}/redirect`
+  const apiEndpoint = `https://login.salesforce.com/services/oauth2/authorize?response_type=code&client_id=${confTmp.clientId}&prompt=login%20consent&state=${encodeURIComponent(window.location.href)}/redirect&redirect_uri=${encodeURIComponent(btcbi.api.base)}/redirect`
+
   const authWindow = window.open(apiEndpoint, 'salesforce', 'width=400,height=609,toolbar=off')
   const popupURLCheckTimer = setInterval(() => {
     if (authWindow.closed) {
@@ -789,17 +791,34 @@ export const handleAuthorize = (
       } else {
         const newConf = { ...confTmp }
         newConf.accountServer = grantTokenResponse['accounts-server']
-        tokenHelper(grantTokenResponse, newConf, setConf, setisAuthorized, setIsLoading, setSnackbar)
+        tokenHelper(
+          grantTokenResponse,
+          newConf,
+          setConf,
+          setisAuthorized,
+          setIsLoading,
+          setSnackbar,
+          btcbi
+        )
       }
     }
   }, 500)
 }
 
-const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, setIsLoading, setSnackbar) => {
+const tokenHelper = (
+  grantToken,
+  confTmp,
+  setConf,
+  setisAuthorized,
+  setIsLoading,
+  setSnackbar,
+  btcbi
+) => {
   const tokenRequestParams = { ...grantToken }
   tokenRequestParams.clientId = confTmp.clientId
   tokenRequestParams.clientSecret = confTmp.clientSecret
-  tokenRequestParams.redirectURI = `${encodeURIComponent(window.location.href)}/redirect`
+  tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
+
   bitsFetch(tokenRequestParams, 'selesforce_generate_token').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }

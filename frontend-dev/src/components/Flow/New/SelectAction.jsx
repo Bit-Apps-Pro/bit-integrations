@@ -167,7 +167,10 @@ export default function SelectAction() {
     { type: 'License Manager For WooCommerce' },
     { type: 'Voxel' },
     { type: 'SmartSuite' },
-    { type: 'Bento' }
+    { type: 'Bento' },
+    { type: 'Line' },
+    { type: 'ACPT' },
+    { type: 'Wishlist Member' }
   ]
 
   const [availableIntegs, setAvailableIntegs] = useState(sortByField(integs, 'type', 'ASC') || integs)

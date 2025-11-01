@@ -27,10 +27,15 @@ final class Route
     public static function request($method, $hook, $invokeable)
     {
         $action = $_REQUEST['action'] ?? $_POST['action'] ?? $_GET['action'] ?? null;
-        $action = sanitize_text_field($action);
+        $action = sanitize_text_field(
+            wp_unslash($action)
+        );
 
         if (
-            (isset($_SERVER['REQUEST_METHOD']) && sanitize_text_field($_SERVER['REQUEST_METHOD']) != $method)
+            (
+                isset($_SERVER['REQUEST_METHOD'])
+                && sanitize_text_field(wp_unslash($_SERVER['REQUEST_METHOD'])) != $method
+            )
             || empty($action)
             || (!empty($action) && strpos($action, $hook) === false)
         ) {
@@ -64,25 +69,43 @@ final class Route
     public static function action()
     {
         $action = $_REQUEST['action'] ?? $_POST['action'] ?? $_GET['action'] ?? null;
-        $action = sanitize_text_field($action);
+        $action = sanitize_text_field(
+            wp_unslash($action)
+        );
 
-        $sanitizedMethod = sanitize_text_field($_SERVER['REQUEST_METHOD']);
+        $sanitizedMethod = isset($_SERVER['REQUEST_METHOD'])
+            ? sanitize_text_field(wp_unslash($_SERVER['REQUEST_METHOD']))
+            : null;
+
         $requestMethod = \in_array($sanitizedMethod, ['GET', 'POST']) ? $sanitizedMethod : 'POST';
 
         if (
             isset(static::$_invokeable[$action][$requestMethod . '_ignore_token'])
-            || isset($_REQUEST['_ajax_nonce']) && wp_verify_nonce(sanitize_text_field($_REQUEST['_ajax_nonce']), 'btcbi_nonce')
+            || isset($_REQUEST['_ajax_nonce'])
+            && wp_verify_nonce(
+                sanitize_text_field(
+                    wp_unslash(
+                        $_REQUEST['_ajax_nonce']
+                    )
+                ),
+                'btcbi_nonce'
+            )
         ) {
             $invokeable = static::$_invokeable[$action][$requestMethod];
             unset($_POST['_ajax_nonce'], $_POST['action'], $_GET['_ajax_nonce'], $_GET['action']);
 
             if (method_exists($invokeable[0], $invokeable[1])) {
                 if ($requestMethod == 'POST') {
-                    if (isset($_SERVER['CONTENT_TYPE']) && strpos(sanitize_text_field($_SERVER['CONTENT_TYPE']), 'form-data') === false && strpos(sanitize_text_field($_SERVER['CONTENT_TYPE']), 'x-www-form-urlencoded') === false) {
+                    if (
+                        isset($_SERVER['CONTENT_TYPE'])
+                        && strpos(sanitize_text_field(wp_unslash($_SERVER['CONTENT_TYPE'])), 'form-data') === false
+                        && strpos(sanitize_text_field(wp_unslash($_SERVER['CONTENT_TYPE'])), 'x-www-form-urlencoded') === false
+                    ) {
                         $inputJSON = file_get_contents('php://input');
                         $data = \is_string($inputJSON) ? json_decode($inputJSON) : $inputJSON;
-                    } elseif ($_POST['data']) {
-                        $data = \is_string($_POST['data']) ? json_decode(wp_unslash($_POST['data'])) : $_POST['data'];
+                    } elseif (isset($_POST['data'])) {
+                        $postReq = wp_unslash($_POST['data']);
+                        $data = \is_string($postReq) ? json_decode($postReq) : $postReq;
                     } else {
                         $data = (object) $_POST;
                     }
