@@ -83,7 +83,7 @@ class RecordApiHelper
             $contactEmail = $fieldData['email_address'];
             $foundContact = $this->existContact($listId, $contactEmail);
 
-            if (!empty($actions->update) && \count($foundContact->exact_matches->members)) {
+            if (!empty($actions->update) && !empty($foundContact->exact_matches->members)) {
                 $contactId = $foundContact->exact_matches->members[0]->id;
                 $fieldData['status'] = $foundContact->exact_matches->members[0]->status;
                 $recordApiResponse = $this->updateRecord($listId, $contactId, wp_json_encode($fieldData));
