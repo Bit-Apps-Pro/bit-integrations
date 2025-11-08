@@ -22,7 +22,7 @@ export default function TinyMCE({
 
   useEffect(() => {
     if (!show && window?.tinymce?.get(editorId)) {
-      window.tinymce.get(editorId).remove();
+      window.tinymce.get(editorId).remove()
     } else if (typeof tinymce !== 'undefined') {
       timyMceInit()
     } else {
@@ -30,7 +30,7 @@ export default function TinyMCE({
     }
   }, [show])
 
-  const insertFieldKey = (fld) => {
+  const insertFieldKey = fld => {
     if (fld.type === 'signature') {
       return `<img width="250" src="\${${fld.name}}" alt="${fld.name}" />`
     }
@@ -69,8 +69,8 @@ export default function TinyMCE({
               type: 'menubutton',
               icon: false,
               menu: formFields?.map(
-                (i) =>
-                  !i.type.match(/^(file-up|recaptcha|section|divider|image|advanced-file-up|)$/) && {
+                i =>
+                  !i?.type?.match(/^(file-up|recaptcha|section|divider|image|advanced-file-up|)$/) && {
                     text: i.name,
                     onClick() {
                       editor.insertContent(insertFieldKey(i))
@@ -84,7 +84,7 @@ export default function TinyMCE({
               tooltip: 'Add Smart Tag Field Value in Message',
               type: 'menubutton',
               icon: false,
-              menu: SmartTagField?.map((i) => ({
+              menu: SmartTagField?.map(i => ({
                 text: i.label,
                 onClick() {
                   editor.insertContent(`\${${i.name}}`)
@@ -118,13 +118,17 @@ export default function TinyMCE({
     }
   }
 
-  return show && <textarea
-    id={editorId}
-    className="btcd-paper-inp mt-1 w-10"
-    rows={5}
-    value={value}
-    onChange={(ev) => onChangeHandler(ev.target.value)}
-    style={{ width: '95.5%', height: 'auto' }}
-    disabled={disabled}
-  />
+  return (
+    show && (
+      <textarea
+        id={editorId}
+        className="btcd-paper-inp mt-1 w-10"
+        rows={5}
+        value={value}
+        onChange={ev => onChangeHandler(ev.target.value)}
+        style={{ width: '95.5%', height: 'auto' }}
+        disabled={disabled}
+      />
+    )
+  )
 }

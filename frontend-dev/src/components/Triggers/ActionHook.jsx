@@ -88,7 +88,7 @@ const ActionHook = () => {
   const addSelectedField = value => {
     setSelectedFields(prevFields =>
       create(prevFields, draftFields => {
-        draftFields.push({ label: value, name: value })
+        draftFields.push({ label: value, name: value, type: 'text' })
       })
     )
   }
