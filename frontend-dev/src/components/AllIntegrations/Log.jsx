@@ -220,7 +220,6 @@ function Log({ allIntegURL }) {
                 fontFamily: "'Fira Code', monospace",
                 fontSize: '14px',
                 overflow: 'auto',
-                width: '100%',
                 maxWidth: '800px',
                 maxHeight: '500px',
                 boxShadow: '0 2px 8px rgba(0,0,0,0.15)',

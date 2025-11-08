@@ -6,10 +6,10 @@
 
 namespace BitCode\FI\Actions\GetResponse;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\Helper;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -95,11 +95,11 @@ class RecordApiHelper
             }
         }
 
-        $isExist = $this->existSubscriber($auth_token, $finalData['email']);
-        $shouldUpdate = !empty($existing[0]->contactId) && !empty($this->_integrationDetails->actions->update);
+        $existSubscriber = $this->existSubscriber($auth_token, $finalData['email']);
+        $shouldUpdate = !empty($existSubscriber[0]->contactId) && !empty($this->_integrationDetails->actions->update);
 
         if ($shouldUpdate) {
-            $contactId = $isExist[0]->contactId;
+            $contactId = $existSubscriber[0]->contactId;
             $apiEndpoints = $this->baseUrl . "contacts/{$contactId}";
 
             $requestParams['tags'] = $this->getFormattedTags($contactId, $requestParams['tags']);

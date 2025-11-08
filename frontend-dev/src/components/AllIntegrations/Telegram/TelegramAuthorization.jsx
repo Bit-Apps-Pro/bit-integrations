@@ -34,7 +34,7 @@ export default function TelegramAuthorization({
     }
     setIsLoading('auth')
     const requestParams = { bot_api_key: newConf.bot_api_key }
-    bitsFetch(requestParams, 'telegram_authorize').then((result) => {
+    bitsFetch(requestParams, 'telegram_authorize').then(result => {
       if (result?.success) {
         setisAuthorized(true)
         setSnackbar({ show: true, msg: __('Authorized Successfully', 'bit-integrations') })
@@ -47,7 +47,7 @@ export default function TelegramAuthorization({
       setIsLoading(false)
     })
   }
-  const handleInput = (e) => {
+  const handleInput = e => {
     const newConf = { ...telegramConf }
     const rmError = { ...error }
     rmError[e.target.name] = ''
@@ -68,9 +68,7 @@ export default function TelegramAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {telegram?.youTubeLink && (
-        <TutorialLink title="Telegram" youTubeLink={telegram?.youTubeLink} />
-      )}
+      {telegram?.youTubeLink && <TutorialLink title="Telegram" youTubeLink={telegram?.youTubeLink} />}
       {telegram?.docLink && <TutorialLink title="Telegram" docLink={telegram?.docLink} />}
 
       <div className="mt-3">
@@ -95,7 +93,7 @@ export default function TelegramAuthorization({
         name="bot_api_key"
         value={telegramConf.bot_api_key}
         type="text"
-        placeholder={__('Integration Name...', 'bit-integrations')}
+        placeholder={__('Bot API Key...', 'bit-integrations')}
         disabled={isInfo}
       />
       <div style={{ color: 'red', fontSize: '15px', marginTop: '5px' }}>{error.bot_api_key}</div>
