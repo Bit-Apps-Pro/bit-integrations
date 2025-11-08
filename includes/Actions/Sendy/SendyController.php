@@ -1,7 +1,7 @@
 <?php
 
 /**
- * MailChimp Integration
+ * Sendy Integration
  */
 
 namespace BitCode\FI\Actions\Sendy;
@@ -11,7 +11,7 @@ use BitCode\FI\Log\LogHandler;
 use WP_Error;
 
 /**
- * Provide functionality for MailChimp integration
+ * Provide functionality for Sendy integration
  */
 class SendyController
 {

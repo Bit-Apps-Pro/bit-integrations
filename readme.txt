@@ -706,7 +706,7 @@ _Release Date -08th November 2025_
 - **New Feature**
  - MemberPress: Added support for user custom fields to extend integration flexibility (Pro).
 
-- **New Imrpovement**
+- **New Improvement**
  - GiveWP: Enhanced trigger functionality with improved data listening (Pro).
  - Action Hook: Added default field type for triggers to ensure smoother workflows (Pro).
 
