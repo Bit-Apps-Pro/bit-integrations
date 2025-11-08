@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '14th October 2025'
+const releaseDate = '08th November 2025'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -25,63 +25,74 @@ const changeLog = [
     label: __('New Actions', 'bit-integrations'),
     headClass: 'new-integration',
     itemClass: 'integration-list',
-    items: [
-      {
-        label: 'Wishlist Member',
-        desc: '08 new events added.',
-        isPro: false
-      }
-    ]
+    items: []
   },
   {
     label: __('New Triggers', 'bit-integrations'),
     headClass: 'new-trigger',
     itemClass: 'integration-list',
-    items: [
-      {
-        label: 'Wishlist Member',
-        desc: '06 new events added.',
-        isPro: true
-      },
-      {
-        label: 'FluentCart',
-        desc: '17 new events added.',
-        isPro: true
-      },
-      {
-        label: 'Mail Mint',
-        desc: '07 new events added.',
-        isPro: true
-      },
-      {
-        label: 'Contact Form Email',
-        desc: '01 new events added.',
-        isPro: true
-      },
-      {
-        label: 'Booking Calendar Contact Form',
-        desc: '01 new events added.',
-        isPro: true
-      }
-    ]
+    items: []
   },
   {
     label: __('New Features', 'bit-integrations'),
     headClass: 'new-feature',
     itemClass: 'feature-list',
-    items: []
+    items: [
+      {
+        label: 'MemberPress',
+        desc: 'Added support for user custom fields to extend integration flexibility.',
+        isPro: true
+      }
+    ]
   },
   {
     label: __('Improvements', 'bit-integrations'),
     headClass: 'new-improvement',
     itemClass: 'feature-list',
-    items: []
+    items: [
+      {
+        label: 'GiveWP',
+        desc: 'Enhanced trigger functionality with improved data listening.',
+        isPro: true
+      },
+      {
+        label: 'Action Hook',
+        desc: 'Added default field type for triggers to ensure smoother workflows.',
+        isPro: true
+      }
+    ]
   },
   {
     label: __('Bug Fixes', 'bit-integrations'),
     headClass: 'fixes',
     itemClass: 'fixes-list',
-    items: []
+    items: [
+      {
+        label: 'Mailchimp',
+        desc: 'Fixed issue with updating existing contacts.',
+        isPro: false
+      },
+      {
+        label: 'GetResponse',
+        desc: 'Fixed issue with updating existing contacts.',
+        isPro: false
+      },
+      {
+        label: 'Telegram',
+        desc: 'Fixed blank page issue triggered by Action Hook to Telegram.',
+        isPro: false
+      },
+      {
+        label: 'GamiPress',
+        desc: 'Corrected fetching utilities query issue.',
+        isPro: false
+      },
+      {
+        label: 'Sendy',
+        desc: 'Authorization issue has been fixed.',
+        isPro: false
+      }
+    ]
   }
 ]
 
