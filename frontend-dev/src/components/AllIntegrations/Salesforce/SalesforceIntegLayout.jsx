@@ -408,7 +408,7 @@ export default function SalesforceIntegLayout({
       )}
       <br />
       <br />
-      <Note note={note} />
+      <Note note={note} maxWidth="900px" />
     </>
   )
 }
@@ -421,37 +421,46 @@ const note = `
     <abbr title="International Organization for Standardization">ISO</abbr> 8601 standards.
   </p>
 
-  <h2>Date Fields</h2>
-  <p>The recommended format is:</p>
-  <pre><code>YYYY-MM-DD</code></pre>
-  <p>For example: <code>2025-09-20</code></p>
+  <div class="flx" style="align-items: flex-start;">
+    <div style="flex: -1;">
+      <h2>Date Fields</h2>
+      <p>The recommended format is:</p>
+      <pre><code>YYYY-MM-DD</code></pre>
+      <p>For example: <code>2025-09-20</code></p>
+    </div>
 
-  <h2>DateTime Fields</h2>
-  <p>
-    The recommended formats, which include time and often a timezone indicator, are:
-  </p>
-  <pre><code>YYYY-MM-DDThh:mm:ssZ</code></pre>
-  <pre><code>YYYY-MM-DDThh:mm:ss.sssZ</code></pre>
+    <div class="ml-2" style="flex: 1; text-align: justify;">
+      <h2>DateTime Fields</h2>
+      <p>
+        The recommended formats, which include time and often a timezone indicator, are:
+      </p>
+      <pre><code>YYYY-MM-DDThh:mm:ssZ</code></pre>
+      <pre><code>YYYY-MM-DDThh:mm:ss.sssZ</code></pre>
 
-  <p>
-    Here, <code>Z</code> indicates Coordinated Universal Time (UTC), and <code>sss</code> represents milliseconds.
-  </p>
-  <p>
-    For example: <code>2025-09-20T10:30:00Z</code> or 
-    <code>2025-09-20T10:30:00.123Z</code>
-  </p>
 
-  <h2>Other Notes</h2>
-  <p>
-    While other formats like <code>MM/DD/YYYY</code> might be accepted in certain contexts 
-    (such as <em>Data Loader</em> with specific settings), using the ISO 8601 format 
-    (<code>YYYY-MM-DD</code> for dates and 
-    <code>YYYY-MM-DDThh:mm:ssZ</code> or <code>YYYY-MM-DDThh:mm:ss.sssZ</code> for datetimes) 
-    ensures compatibility and avoids potential issues across various Salesforce APIs and tools.
-  </p>
+      <p>
+        Here, <code>Z</code> indicates Coordinated Universal Time (UTC), and <code>sss</code> represents milliseconds.
+      </p>
+      <p>
+        For example: <code>2025-09-20T10:30:00Z</code> or 
+        <code>2025-09-20T10:30:00.123Z</code>
+      </p>
+    </div>
 
-  <p>
-    When working with <strong>REST API queries</strong>, filtering date fields should also adhere 
-    to the <code>YYYY-MM-DD</code> format.
-  </p>
+    <div class="ml-2" style="flex: 1; text-align: justify;">
+      <h2>Other Notes</h2>
+      <p>
+        While other formats like <code>MM/DD/YYYY</code> might be accepted in certain contexts 
+        (such as <em>Data Loader</em> with specific settings), using the ISO 8601 format 
+        (<code>YYYY-MM-DD</code> for dates and 
+        <code>YYYY-MM-DDThh:mm:ssZ</code> or <code>YYYY-MM-DDThh:mm:ss.sssZ</code> for datetimes) 
+        ensures compatibility and avoids potential issues across various Salesforce APIs and tools.
+      </p>
+
+      <p>
+        When working with <strong>REST API queries</strong>, filtering date fields should also adhere 
+        to the <code>YYYY-MM-DD</code> format.
+      </p>
+    </div>
+  </div>
   `
