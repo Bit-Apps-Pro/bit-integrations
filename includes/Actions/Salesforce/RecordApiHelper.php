@@ -41,11 +41,23 @@ class RecordApiHelper
         return $dataFinal;
     }
 
-    public function insertContact($finalData)
+    public function insertContact($finalData, $update = false)
     {
         $apiEndpoint = $this->_apiDomain . '/services/data/v37.0/sobjects/Contact';
 
-        return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->_defaultHeader);
+        $response = HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->_defaultHeader);
+
+        $duplicateRecordId = isset($response[0]->duplicateResult->matchResults[0]->matchRecords[0]->record->Id)
+        ? $response[0]->duplicateResult->matchResults[0]->matchRecords[0]->record->Id
+        : null;
+
+        if (!$update || !$duplicateRecordId) {
+            return $response;
+        }
+
+        $apiEndpoint = $apiEndpoint . '/' . $duplicateRecordId;
+
+        return apply_filters('btcbi_salesforce_update_record', $response, $apiEndpoint, $finalData, $this->_defaultHeader);
     }
 
     public function insertRecord($finalData, $action)
@@ -138,26 +150,28 @@ class RecordApiHelper
         return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->_defaultHeader);
     }
 
-    public function execute(
-        $integrationDetails,
-        $fieldValues,
-        $fieldMap,
-        $actions,
-        $tokenDetails
-    ) {
+    public function execute($integrationDetails, $fieldValues, $fieldMap, $actions)
+    {
         $actionName = $integrationDetails->actionName;
+        $update = isset($actions->update) ? $actions->update : false;
+
         if ($actionName === 'contact-create') {
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
-            $insertContactResponse = $this->insertContact($finalData);
-            if (\is_object($insertContactResponse) && property_exists($insertContactResponse, 'id')) {
-                LogHandler::save($this->_integrationID, wp_json_encode(['type' => $actionName, 'type_name' => 'Contact-create']), 'success', wp_json_encode(wp_sprintf(__('Created contact id is : %s', 'bit-integrations'), $insertContactResponse->id)));
-            } else {
-                LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Contact', 'type_name' => 'Contact-create']), 'error', wp_json_encode($insertContactResponse));
+            $response = $this->insertContact($finalData, $update);
+
+            $responseType = empty($response) || isset($response->id) ? 'success' : 'error';
+            $typeName = !$update || isset($response->id) ? 'Contact-create' : 'Contact-update';
+            $message = $responseType === 'success' ? wp_json_encode(wp_sprintf(__('Created contact id is : %s', 'bit-integrations'), $response->id)) : wp_json_encode($response);
+
+            if ($responseType === 'success' && $update) {
+                $message = __('Contact Updated Successfully', 'bit-integrations');
             }
+
+            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Contact', 'type_name' => $typeName]), $responseType, $message);
         } elseif ($actionName === 'lead-create') {
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
 
-            $finalData = apply_filters('btcbi_salesforce_add_lead_utilities', $finalData, $integrationDetails->actions);
+            $finalData = apply_filters('btcbi_salesforce_add_lead_utilities', $finalData, $actions);
 
             $insertLeadResponse = $this->insertLead($finalData);
 
@@ -169,14 +183,15 @@ class RecordApiHelper
         } elseif ($actionName === 'account-create') {
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
 
-            if (!empty($integrationDetails->actions->selectedAccType)) {
-                $finalData['Type'] = $integrationDetails->actions->selectedAccType;
+            if (!empty($actions->selectedAccType)) {
+                $finalData['Type'] = $actions->selectedAccType;
             }
-            if (!empty($integrationDetails->actions->selectedOwnership)) {
-                $finalData['Ownership'] = $integrationDetails->actions->selectedOwnership;
+            if (!empty($actions->selectedOwnership)) {
+                $finalData['Ownership'] = $actions->selectedOwnership;
             }
 
             $createAccountResponse = $this->createAccount($finalData);
+
             if (\is_object($createAccountResponse) && property_exists($createAccountResponse, 'id')) {
                 LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Account', 'type_name' => 'Account-create']), 'success', wp_json_encode(wp_sprintf(__('Created account id is : %s', 'bit-integrations'), $createAccountResponse->id)));
             } else {
@@ -214,11 +229,11 @@ class RecordApiHelper
                 LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Task', 'type_name' => 'Task-create']), 'error', wp_json_encode($apiResponse));
             }
         } elseif ($actionName === 'opportunity-create') {
-            $opportunityTypeId = empty($integrationDetails->actions->opportunityTypeId) ? null : $integrationDetails->actions->opportunityTypeId;
-            $opportunityStageId = empty($integrationDetails->actions->opportunityStageId) ? null : $integrationDetails->actions->opportunityStageId;
-            $opportunityLeadSourceId = empty($integrationDetails->actions->opportunityLeadSourceId) ? null : $integrationDetails->actions->opportunityLeadSourceId;
-            $accountId = empty($integrationDetails->actions->accountId) ? null : $integrationDetails->actions->accountId;
-            $campaignId = empty($integrationDetails->actions->campaignId) ? null : $integrationDetails->actions->campaignId;
+            $opportunityTypeId = empty($actions->opportunityTypeId) ? null : $actions->opportunityTypeId;
+            $opportunityStageId = empty($actions->opportunityStageId) ? null : $actions->opportunityStageId;
+            $opportunityLeadSourceId = empty($actions->opportunityLeadSourceId) ? null : $actions->opportunityLeadSourceId;
+            $accountId = empty($actions->accountId) ? null : $actions->accountId;
+            $campaignId = empty($actions->campaignId) ? null : $actions->campaignId;
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
             $opportunityResponse = $this->createOpportunity($finalData, $opportunityTypeId, $opportunityStageId, $opportunityLeadSourceId, $accountId, $campaignId);
             if (\is_object($opportunityResponse) && property_exists($opportunityResponse, 'id')) {
@@ -227,9 +242,9 @@ class RecordApiHelper
                 LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Opportunity', 'type_name' => 'Opportunity-create']), 'error', wp_json_encode($opportunityResponse));
             }
         } elseif ($actionName === 'event-create') {
-            $contactId = empty($integrationDetails->actions->contactId) ? null : $integrationDetails->actions->contactId;
-            $accountId = empty($integrationDetails->actions->accountId) ? null : $integrationDetails->actions->accountId;
-            $eventSubjectId = empty($integrationDetails->actions->eventSubjectId) ? null : $integrationDetails->actions->eventSubjectId;
+            $contactId = empty($actions->contactId) ? null : $actions->contactId;
+            $accountId = empty($actions->accountId) ? null : $actions->accountId;
+            $eventSubjectId = empty($actions->eventSubjectId) ? null : $actions->eventSubjectId;
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
             $createEventResponse = $this->createEvent($finalData, $contactId, $accountId, $eventSubjectId);
             if (\is_object($createEventResponse) && property_exists($createEventResponse, 'id')) {
@@ -238,15 +253,15 @@ class RecordApiHelper
                 LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Event', 'type_name' => 'Event-create']), 'error', wp_json_encode($createEventResponse));
             }
         } elseif ($actionName === 'case-create') {
-            $actionsData['ContactId'] = empty($integrationDetails->actions->contactId) ? null : $integrationDetails->actions->contactId;
-            $actionsData['AccountId'] = empty($integrationDetails->actions->accountId) ? null : $integrationDetails->actions->accountId;
-            $actionsData['Status'] = empty($integrationDetails->actions->caseStatusId) ? null : $integrationDetails->actions->caseStatusId;
-            $actionsData['Origin'] = empty($integrationDetails->actions->caseOriginId) ? null : $integrationDetails->actions->caseOriginId;
-            $actionsData['Priority'] = empty($integrationDetails->actions->casePriorityId) ? null : $integrationDetails->actions->casePriorityId;
-            $actionsData['Reason'] = empty($integrationDetails->actions->caseReason) ? null : $integrationDetails->actions->caseReason;
-            $actionsData['Type'] = empty($integrationDetails->actions->caseType) ? null : $integrationDetails->actions->caseType;
-            $actionsData['PotentialLiability__c'] = empty($integrationDetails->actions->potentialLiabilityId) ? null : $integrationDetails->actions->potentialLiabilityId;
-            $actionsData['SLAViolation__c'] = empty($integrationDetails->actions->slaViolationId) ? null : $integrationDetails->actions->slaViolationId;
+            $actionsData['ContactId'] = empty($actions->contactId) ? null : $actions->contactId;
+            $actionsData['AccountId'] = empty($actions->accountId) ? null : $actions->accountId;
+            $actionsData['Status'] = empty($actions->caseStatusId) ? null : $actions->caseStatusId;
+            $actionsData['Origin'] = empty($actions->caseOriginId) ? null : $actions->caseOriginId;
+            $actionsData['Priority'] = empty($actions->casePriorityId) ? null : $actions->casePriorityId;
+            $actionsData['Reason'] = empty($actions->caseReason) ? null : $actions->caseReason;
+            $actionsData['Type'] = empty($actions->caseType) ? null : $actions->caseType;
+            $actionsData['PotentialLiability__c'] = empty($actions->potentialLiabilityId) ? null : $actions->potentialLiabilityId;
+            $actionsData['SLAViolation__c'] = empty($actions->slaViolationId) ? null : $actions->slaViolationId;
 
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
             $createCaseResponse = $this->createCase($finalData, $actionsData);

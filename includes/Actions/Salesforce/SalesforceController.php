@@ -416,8 +416,7 @@ class SalesforceController
             $integrationDetails,
             $fieldValues,
             $fieldMap,
-            $actions,
-            $tokenDetails
+            $actions
         );
 
         if (is_wp_error($salesforceApiResponse)) {

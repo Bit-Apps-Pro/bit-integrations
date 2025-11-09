@@ -391,21 +391,15 @@ export default function SalesforceIntegLayout({
       )}
       <br />
       <br />
-      {['opportunity-create', 'lead-create', 'event-create', 'case-create', 'account-create'].includes(
-        salesforceConf?.actionName
-      ) && (
-        <>
-          <div className="mt-4">
-            <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
-          </div>
-          <div className="btcd-hr mt-1" />
-          <SalesforceActions
-            salesforceConf={salesforceConf}
-            setSalesforceConf={setSalesforceConf}
-            formFields={formFields}
-          />
-        </>
-      )}
+      <div className="mt-4">
+        <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
+      </div>
+      <div className="btcd-hr mt-1" />
+      <SalesforceActions
+        salesforceConf={salesforceConf}
+        setSalesforceConf={setSalesforceConf}
+        formFields={formFields}
+      />
       <br />
       <br />
       <Note note={note} maxWidth="900px" />
