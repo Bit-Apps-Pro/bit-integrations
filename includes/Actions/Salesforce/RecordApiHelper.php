@@ -47,15 +47,9 @@ class RecordApiHelper
 
         $response = HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->_defaultHeader);
 
-        $duplicateRecordId = isset($response[0]->duplicateResult->matchResults[0]->matchRecords[0]->record->Id)
-        ? $response[0]->duplicateResult->matchResults[0]->matchRecords[0]->record->Id
-        : null;
-
-        if (!$update || !$duplicateRecordId) {
+        if (!$update) {
             return $response;
         }
-
-        $apiEndpoint = $apiEndpoint . '/' . $duplicateRecordId;
 
         return apply_filters('btcbi_salesforce_update_record', $response, $apiEndpoint, $finalData, $this->_defaultHeader);
     }
