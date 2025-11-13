@@ -31,11 +31,12 @@ class RecordApiHelper
         foreach ($fieldMap as $key => $value) {
             $triggerValue = $value->formField;
             $actionValue = $value->selesforceField;
-            if ($triggerValue === 'custom') {
-                $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!\is_null($data[$triggerValue])) {
-                $dataFinal[$actionValue] = $data[$triggerValue];
-            }
+
+            $dataFinal[$actionValue] = self::convertToSalesforceFormat(
+                $triggerValue === 'custom' && isset($value->customValue)
+                    ? Common::replaceFieldWithValue($value->customValue, $data)
+                    : $data[$triggerValue]
+            );
         }
 
         return $dataFinal;
@@ -276,5 +277,85 @@ class RecordApiHelper
         }
 
         return true;
+    }
+
+    public static function convertToSalesforceFormat($inputDate)
+    {
+        // First, strip any leading/trailing spaces
+        $inputDate = trim($inputDate);
+
+        // Handle 2-digit year date formats (like 25/11/13 or 11/25/13)
+        if (preg_match("/^\d{2}\/\d{2}\/\d{2}$/", $inputDate)) {
+            // Convert DD/MM/YY or MM/DD/YY to YYYY-MM-DD
+            $parts = explode('/', $inputDate);
+            if (\strlen($parts[2]) == 2) {
+                // Handling 2-digit year (assuming the year is in the 2000s)
+                $year = '20' . $parts[2];
+                $month = $parts[1];
+                $day = $parts[0];
+                $formattedDate = "{$year}-{$month}-{$day}";
+            }
+            // Validate and return the formatted date
+            if (strtotime($formattedDate)) {
+                return $formattedDate;  // Return in YYYY-MM-DD format
+            }
+
+            return $inputDate;
+        }
+
+        // Handle formats like DD/MM/YYYY or MM/DD/YYYY
+        if (preg_match("/^\d{2}\/\d{2}\/\d{4}$/", $inputDate)) {
+            // Convert DD/MM/YYYY or MM/DD/YYYY to YYYY-MM-DD
+            $parts = explode('/', $inputDate);
+            $year = $parts[2];
+            $month = $parts[1];
+            $day = $parts[0];
+            $formattedDate = "{$year}-{$month}-{$day}";
+            // Validate and return the formatted date
+            if (strtotime($formattedDate)) {
+                return $formattedDate;  // Return in YYYY-MM-DD format
+            }
+
+            return $inputDate;
+        }
+
+        // Handle formats like YYYY-MM-DD
+        if (preg_match("/^\d{4}-\d{2}-\d{2}$/", $inputDate)) {
+            // It's already in the correct format (YYYY-MM-DD)
+            return $inputDate;
+        }
+
+        // Handle formats like YYYY/MM/DD
+        if (preg_match("/^\d{4}\/\d{2}\/\d{2}$/", $inputDate)) {
+            // Convert YYYY/MM/DD to YYYY-MM-DD
+            $formattedDate = str_replace('/', '-', $inputDate);
+            // Validate and return the formatted date
+            if (strtotime($formattedDate)) {
+                return $formattedDate;  // Return in YYYY-MM-DD format
+            }
+
+            return $inputDate;
+        }
+
+        // Handle date formats with time: YYYY-MM-DD HH:MM:SS
+        if (preg_match("/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}(:\d{2}(\.\d{1,3})?)?$/", $inputDate)) {
+            // It's a datetime with or without milliseconds
+            $date = strtotime($inputDate);
+            if ($date === false) {
+                return $inputDate;
+            }
+
+            // Convert to Salesforce ISO 8601 datetime with UTC (Z)
+            return gmdate("Y-m-d\TH:i:s\Z", $date);  // Convert to UTC and add Z
+        }
+
+        // Handle datetime formats with ISO 8601 style (e.g., 2025-09-20T10:30:00Z or with milliseconds)
+        if (preg_match("/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(Z|(\.\d{1,3})?)?$/", $inputDate)) {
+            // It's already in ISO 8601 format, return as is
+            return strtoupper($inputDate);  // Normalize to uppercase 'Z' if needed
+        }
+
+        // If input contains no recognizable date/time format, return an error
+        return $inputDate;
     }
 }
