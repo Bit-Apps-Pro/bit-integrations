@@ -54,10 +54,6 @@ const ActionHook = () => {
       toast.error(__('Please Select Fields', 'bit-integrations'))
       return
     }
-    if (!primaryKey) {
-      toast.error(__('Please Select a Primary Key', 'bit-integrations'))
-      return
-    }
 
     const tmpNewFlow = { ...newFlow }
     tmpNewFlow.triggerData = {
@@ -351,7 +347,7 @@ const ActionHook = () => {
             onClick={setTriggerData}
             className="btn btcd-btn-lg purple sh-sm flx"
             type="button"
-            disabled={!selectedFields.length || !primaryKey}>
+            disabled={!selectedFields.length}>
             {__('Set Action', 'bit-integrations')}
           </button>
         </div>
