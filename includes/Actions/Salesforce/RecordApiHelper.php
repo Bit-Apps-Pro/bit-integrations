@@ -5,6 +5,10 @@ namespace BitCode\FI\Actions\Salesforce;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Log\LogHandler;
+use DateTime;
+use DateTimeImmutable;
+use DateTimeZone;
+use Throwable;
 
 /**
  * Provide functionality for Record insert,upsert
@@ -38,6 +42,7 @@ class RecordApiHelper
                     : $data[$triggerValue]
             );
         }
+        error_log('Salesforce Final Data: ' . print_r($dataFinal, true));
 
         return $dataFinal;
     }
@@ -279,83 +284,146 @@ class RecordApiHelper
         return true;
     }
 
-    public static function convertToSalesforceFormat($inputDate)
+    public static function convertToSalesforceFormat($input)
     {
-        // First, strip any leading/trailing spaces
-        $inputDate = trim($inputDate);
+        if (!$input || !\is_string($input)) {
+            return $input;
+        }
 
-        // Handle 2-digit year date formats (like 25/11/13 or 11/25/13)
-        if (preg_match("/^\d{2}\/\d{2}\/\d{2}$/", $inputDate)) {
-            // Convert DD/MM/YY or MM/DD/YY to YYYY-MM-DD
-            $parts = explode('/', $inputDate);
-            if (\strlen($parts[2]) == 2) {
-                // Handling 2-digit year (assuming the year is in the 2000s)
-                $year = '20' . $parts[2];
-                $month = $parts[1];
-                $day = $parts[0];
-                $formattedDate = "{$year}-{$month}-{$day}";
+        $input = trim($input);
+
+        // ------------------------------------------------------------
+        // 1) Handle UNIX timestamps (10 or 13 digits)
+        // ------------------------------------------------------------
+        if (preg_match('/^\d{10}$/', $input)) {
+            return gmdate('Y-m-d\TH:i:s\Z', (int) $input);
+        }
+        if (preg_match('/^\d{13}$/', $input)) {
+            return gmdate('Y-m-d\TH:i:s\Z', (int) ($input / 1000));
+        }
+
+        // ------------------------------------------------------------
+        // 2) Natural-language dates ("today", "tomorrow", "next Monday", etc.)
+        // ------------------------------------------------------------
+        if (preg_match('/^[a-zA-Z ]+$/', $input) || str_contains($input, 'ago')) {
+            $ts = strtotime($input);
+            if ($ts) {
+                return gmdate('Y-m-d', $ts);
             }
-            // Validate and return the formatted date
-            if (strtotime($formattedDate)) {
-                return $formattedDate;  // Return in YYYY-MM-DD format
+        }
+
+        // ------------------------------------------------------------
+        // 3) Clean ordinals: 1st, 2nd, 3rd, 21st, 31st...
+        // ------------------------------------------------------------
+        $clean = preg_replace('/\b(\d+)(st|nd|rd|th)\b/i', '$1', $input);
+
+        // ------------------------------------------------------------
+        // 4) Japanese/Chinese/Korean locale replacements
+        // ------------------------------------------------------------
+        $clean = str_replace(
+            ['年', '月', '日', '년', '월', '일'],
+            ['-', '-', '', '-', '-', ''],
+            $clean
+        );
+
+        // ------------------------------------------------------------
+        // 5) Week-based formats (2025-W05 or 2025-W05-6)
+        // ------------------------------------------------------------
+        if (preg_match('/^(\d{4})-?W(\d{2})(?:-?(\d))?$/i', $clean, $m)) {
+            $year = $m[1];
+            $week = $m[2];
+            $day = $m[3] ?? 1;
+
+            try {
+                $dt = new DateTime("{$year}-W{$week}-{$day}", new DateTimeZone('UTC'));
+
+                return $dt->format('Y-m-d');
+            } catch (Throwable $e) {
+            }
+        }
+
+        // ------------------------------------------------------------
+        // 6) Quarter formats (Q1 2025, 2025 Q1, 1st Quarter 2025)
+        // ------------------------------------------------------------
+        if (preg_match('/(Q[1-4]|[1-4]st Quarter)\s*[, ]*\s*(\d{4})/i', $clean, $m)) {
+            $q = preg_replace('/\D/', '', $m[1]); // Extract 1–4
+            $year = $m[2];
+            $month = (($q - 1) * 3) + 1;
+
+            return "{$year}-" . str_pad($month, 2, '0', STR_PAD_LEFT) . '-01';
+        }
+
+        // ------------------------------------------------------------
+        // 7) Compact numeric formats (01022025, 20250201, 250201, 010225)
+        // ------------------------------------------------------------
+        if (preg_match('/^\d{8}$/', $clean)) {
+            // YYYYMMDD or DDMMYYYY or MMDDYYYY → try multiple interpretations
+            $candidates = [
+                substr($clean, 0, 4) . '-' . substr($clean, 4, 2) . '-' . substr($clean, 6, 2), // YMD
+                substr($clean, 4, 4) . '-' . substr($clean, 2, 2) . '-' . substr($clean, 0, 2), // DMY
+            ];
+            foreach ($candidates as $c) {
+                if (strtotime($c)) {
+                    return $c;
+                }
+            }
+        }
+
+        if (preg_match('/^\d{6}$/', $clean)) {
+            // DDMMYY / YYMMDD / MMDDYY
+            $yy = substr($clean, -2);
+            $year = $yy > 70 ? "19{$yy}" : "20{$yy}";
+
+            $dm = substr($clean, 0, 2) . '-' . substr($clean, 2, 2) . '-' . $year;
+            $md = substr($clean, 2, 2) . '-' . substr($clean, 0, 2) . '-' . $year;
+
+            foreach ([$dm, $md] as $c) {
+                $ts = strtotime($c);
+                if ($ts) {
+                    return gmdate('Y-m-d', $ts);
+                }
+            }
+        }
+
+        // ------------------------------------------------------------
+        // 8) Try direct DateTime parsing for most formats
+        // ------------------------------------------------------------
+        $tryParse = function ($value) {
+            try {
+                return new DateTimeImmutable($value);
+            } catch (Throwable $e) {
+                return;
+            }
+        };
+
+        $dt = $tryParse($clean);
+
+        if ($dt instanceof DateTimeImmutable) {
+            // Detect if datetime or pure date
+            if (preg_match('/\d{1,2}:\d/', $clean)) {
+                return $dt->setTimezone(new DateTimeZone('UTC'))
+                    ->format('Y-m-d\TH:i:s\Z');
             }
 
-            return $inputDate;
+            return $dt->format('Y-m-d');
         }
 
-        // Handle formats like DD/MM/YYYY or MM/DD/YYYY
-        if (preg_match("/^\d{2}\/\d{2}\/\d{4}$/", $inputDate)) {
-            // Convert DD/MM/YYYY or MM/DD/YYYY to YYYY-MM-DD
-            $parts = explode('/', $inputDate);
-            $year = $parts[2];
-            $month = $parts[1];
-            $day = $parts[0];
-            $formattedDate = "{$year}-{$month}-{$day}";
-            // Validate and return the formatted date
-            if (strtotime($formattedDate)) {
-                return $formattedDate;  // Return in YYYY-MM-DD format
+        // ------------------------------------------------------------
+        // 9) Last fallback using strtotime()
+        // ------------------------------------------------------------
+        $ts = strtotime($clean);
+        if ($ts) {
+            // Detect datetime or date-only
+            if (preg_match('/\d{1,2}:\d/', $clean)) {
+                return gmdate('Y-m-d\TH:i:s\Z', $ts);
             }
 
-            return $inputDate;
+            return gmdate('Y-m-d', $ts);
         }
 
-        // Handle formats like YYYY-MM-DD
-        if (preg_match("/^\d{4}-\d{2}-\d{2}$/", $inputDate)) {
-            // It's already in the correct format (YYYY-MM-DD)
-            return $inputDate;
-        }
-
-        // Handle formats like YYYY/MM/DD
-        if (preg_match("/^\d{4}\/\d{2}\/\d{2}$/", $inputDate)) {
-            // Convert YYYY/MM/DD to YYYY-MM-DD
-            $formattedDate = str_replace('/', '-', $inputDate);
-            // Validate and return the formatted date
-            if (strtotime($formattedDate)) {
-                return $formattedDate;  // Return in YYYY-MM-DD format
-            }
-
-            return $inputDate;
-        }
-
-        // Handle date formats with time: YYYY-MM-DD HH:MM:SS
-        if (preg_match("/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}(:\d{2}(\.\d{1,3})?)?$/", $inputDate)) {
-            // It's a datetime with or without milliseconds
-            $date = strtotime($inputDate);
-            if ($date === false) {
-                return $inputDate;
-            }
-
-            // Convert to Salesforce ISO 8601 datetime with UTC (Z)
-            return gmdate("Y-m-d\TH:i:s\Z", $date);  // Convert to UTC and add Z
-        }
-
-        // Handle datetime formats with ISO 8601 style (e.g., 2025-09-20T10:30:00Z or with milliseconds)
-        if (preg_match("/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(Z|(\.\d{1,3})?)?$/", $inputDate)) {
-            // It's already in ISO 8601 format, return as is
-            return strtoupper($inputDate);  // Normalize to uppercase 'Z' if needed
-        }
-
-        // If input contains no recognizable date/time format, return an error
-        return $inputDate;
+        // ------------------------------------------------------------
+        // 10) No match → return original
+        // ------------------------------------------------------------
+        return $input;
     }
 }
