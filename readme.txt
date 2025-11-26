@@ -4,7 +4,7 @@ Tags: automation, automator, Google Sheets, webhooks, zapier, marketing automati
 Requires at least: 5.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.7.1
+Stable tag: 2.7.2
 License: GPLv2 or later
 
 Perfect Automation and integration plugin: Connect 300+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
@@ -699,6 +699,23 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 6. All integration list
 
 == Changelog ==
+
+= 2.7.2 =
+_Release Date -26th November 2025_
+
+- **New Feature**
+ - MailMint: Added support for updating existing contacts directly from workflows (Pro).
+
+- **New Improvement**
+ - Salesforce: Added proper date-field formatting for more reliable syncing.
+ - Action Hook: Removed unnecessary primary-key prevention for smoother custom automation handling. (Pro).
+
+- **Bug Fixes**
+ - MailMint: Resolved the issue causing errors while updating contact timelines.
+ - GiveWP: Fixed donor meta field syncing inconsistencies.
+ - Zoho Sheet: Corrected the header-fetching issue that prevented proper data mapping.
+ - Ultimate Member: Fixed the problem where edited integration fields would disappear.
+ - Divi Form (Divi Engine): Addressed a bug where the form type returned a null value (Pro).
 
 = 2.7.1 =
 _Release Date -08th November 2025_
