@@ -42,7 +42,6 @@ class RecordApiHelper
                     : $data[$triggerValue]
             );
         }
-        error_log('Salesforce Final Data: ' . print_r($dataFinal, true));
 
         return $dataFinal;
     }
