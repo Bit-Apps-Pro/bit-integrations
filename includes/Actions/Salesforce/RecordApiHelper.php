@@ -141,7 +141,7 @@ class RecordApiHelper
         $apiEndpoint = $this->_apiDomain . '/services/data/v37.0/sobjects/Case';
 
         foreach ($actionsData as $key => $value) {
-            if (!empty($value)) {
+            if (isset($value)) {
                 $finalData[$key] = $value;
             }
         }
@@ -158,12 +158,15 @@ class RecordApiHelper
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
             $response = $this->insertContact($finalData, $update);
 
-            $responseType = empty($response) || (\is_object($response) && isset($response->id)) ? 'success' : 'error';
+            $responseType = !\is_null($response) || (\is_object($response) && isset($response->id)) ? 'success' : 'error';
             $typeName = !$update || (\is_object($response) && isset($response->id)) ? 'Contact-create' : 'Contact-update';
-            $message = $responseType === 'success' ? wp_json_encode(wp_sprintf(__('Created contact id is : %s', 'bit-integrations'), $response->id)) : wp_json_encode($response);
+
+            $message = wp_json_encode($response);
 
             if ($responseType === 'success' && $update) {
                 $message = __('Contact Updated Successfully', 'bit-integrations');
+            } elseif ($responseType === 'success') {
+                $message = wp_json_encode(wp_sprintf(__('Created contact id is : %s', 'bit-integrations'), $response->id));
             }
 
             LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Contact', 'type_name' => $typeName]), $responseType, $message);
@@ -182,10 +185,10 @@ class RecordApiHelper
         } elseif ($actionName === 'account-create') {
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
 
-            if (!empty($actions->selectedAccType)) {
+            if (isset($actions->selectedAccType)) {
                 $finalData['Type'] = $actions->selectedAccType;
             }
-            if (!empty($actions->selectedOwnership)) {
+            if (isset($actions->selectedOwnership)) {
                 $finalData['Ownership'] = $actions->selectedOwnership;
             }
 
@@ -206,9 +209,9 @@ class RecordApiHelper
             }
         } elseif ($actionName === 'add-campaign-member') {
             $campaignId = $integrationDetails->campaignId;
-            $leadId = empty($integrationDetails->leadId) ? null : $integrationDetails->leadId;
-            $contactId = empty($integrationDetails->contactId) ? null : $integrationDetails->contactId;
-            $statusId = empty($integrationDetails->statusId) ? null : $integrationDetails->statusId;
+            $leadId = isset($integrationDetails->leadId) ? $integrationDetails->leadId : null;
+            $contactId = isset($integrationDetails->contactId) ? $integrationDetails->contactId : null;
+            $statusId = isset($integrationDetails->statusId) ? $integrationDetails->statusId : null;
             $insertCampaignMember = $this->insertCampaignMember($campaignId, $leadId, $contactId, $statusId);
             if (\is_object($insertCampaignMember) && property_exists($insertCampaignMember, 'id')) {
                 LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'CampaignMember', 'type_name' => 'CampaignMember-create']), 'success', wp_json_encode(wp_sprintf(__('Created campaign member id is : %s', 'bit-integrations'), $insertCampaignMember->id)));
@@ -216,11 +219,11 @@ class RecordApiHelper
                 LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'CampaignMember', 'type_name' => 'CampaignMember-create']), 'error', wp_json_encode($insertCampaignMember));
             }
         } elseif ($actionName === 'task-create') {
-            $contactId = empty($integrationDetails->contactId) ? null : $integrationDetails->contactId;
-            $accountId = empty($integrationDetails->accountId) ? null : $integrationDetails->accountId;
+            $contactId = isset($integrationDetails->contactId) ? $integrationDetails->contactId : null;
+            $accountId = isset($integrationDetails->accountId) ? $integrationDetails->accountId : null;
             $subjectId = $integrationDetails->subjectId;
             $priorityId = $integrationDetails->priorityId;
-            $statusId = empty($integrationDetails->statusId) ? null : $integrationDetails->statusId;
+            $statusId = isset($integrationDetails->statusId) ? $integrationDetails->statusId : null;
             $apiResponse = $this->createTask($contactId, $accountId, $subjectId, $priorityId, $statusId);
             if (\is_object($apiResponse) && property_exists($apiResponse, 'id')) {
                 LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Task', 'type_name' => 'Task-create']), 'success', wp_json_encode(wp_sprintf(__('Created task id is : %s', 'bit-integrations'), $apiResponse->id)));
@@ -228,11 +231,11 @@ class RecordApiHelper
                 LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Task', 'type_name' => 'Task-create']), 'error', wp_json_encode($apiResponse));
             }
         } elseif ($actionName === 'opportunity-create') {
-            $opportunityTypeId = empty($actions->opportunityTypeId) ? null : $actions->opportunityTypeId;
-            $opportunityStageId = empty($actions->opportunityStageId) ? null : $actions->opportunityStageId;
-            $opportunityLeadSourceId = empty($actions->opportunityLeadSourceId) ? null : $actions->opportunityLeadSourceId;
-            $accountId = empty($actions->accountId) ? null : $actions->accountId;
-            $campaignId = empty($actions->campaignId) ? null : $actions->campaignId;
+            $opportunityTypeId = isset($actions->opportunityTypeId) ? $actions->opportunityTypeId : null;
+            $opportunityStageId = isset($actions->opportunityStageId) ? $actions->opportunityStageId : null;
+            $opportunityLeadSourceId = isset($actions->opportunityLeadSourceId) ? $actions->opportunityLeadSourceId : null;
+            $accountId = isset($actions->accountId) ? $actions->accountId : null;
+            $campaignId = isset($actions->campaignId) ? $actions->campaignId : null;
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
             $opportunityResponse = $this->createOpportunity($finalData, $opportunityTypeId, $opportunityStageId, $opportunityLeadSourceId, $accountId, $campaignId);
             if (\is_object($opportunityResponse) && property_exists($opportunityResponse, 'id')) {
@@ -241,9 +244,9 @@ class RecordApiHelper
                 LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Opportunity', 'type_name' => 'Opportunity-create']), 'error', wp_json_encode($opportunityResponse));
             }
         } elseif ($actionName === 'event-create') {
-            $contactId = empty($actions->contactId) ? null : $actions->contactId;
-            $accountId = empty($actions->accountId) ? null : $actions->accountId;
-            $eventSubjectId = empty($actions->eventSubjectId) ? null : $actions->eventSubjectId;
+            $contactId = isset($actions->contactId) ? $actions->contactId : null;
+            $accountId = isset($actions->accountId) ? $actions->accountId : null;
+            $eventSubjectId = isset($actions->eventSubjectId) ? $actions->eventSubjectId : null;
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
             $createEventResponse = $this->createEvent($finalData, $contactId, $accountId, $eventSubjectId);
             if (\is_object($createEventResponse) && property_exists($createEventResponse, 'id')) {
@@ -252,15 +255,15 @@ class RecordApiHelper
                 LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Event', 'type_name' => 'Event-create']), 'error', wp_json_encode($createEventResponse));
             }
         } elseif ($actionName === 'case-create') {
-            $actionsData['ContactId'] = empty($actions->contactId) ? null : $actions->contactId;
-            $actionsData['AccountId'] = empty($actions->accountId) ? null : $actions->accountId;
-            $actionsData['Status'] = empty($actions->caseStatusId) ? null : $actions->caseStatusId;
-            $actionsData['Origin'] = empty($actions->caseOriginId) ? null : $actions->caseOriginId;
-            $actionsData['Priority'] = empty($actions->casePriorityId) ? null : $actions->casePriorityId;
-            $actionsData['Reason'] = empty($actions->caseReason) ? null : $actions->caseReason;
-            $actionsData['Type'] = empty($actions->caseType) ? null : $actions->caseType;
-            $actionsData['PotentialLiability__c'] = empty($actions->potentialLiabilityId) ? null : $actions->potentialLiabilityId;
-            $actionsData['SLAViolation__c'] = empty($actions->slaViolationId) ? null : $actions->slaViolationId;
+            $actionsData['ContactId'] = isset($actions->contactId) ? $actions->contactId : null;
+            $actionsData['AccountId'] = isset($actions->accountId) ? $actions->accountId : null;
+            $actionsData['Status'] = isset($actions->caseStatusId) ? $actions->caseStatusId : null;
+            $actionsData['Origin'] = isset($actions->caseOriginId) ? $actions->caseOriginId : null;
+            $actionsData['Priority'] = isset($actions->casePriorityId) ? $actions->casePriorityId : null;
+            $actionsData['Reason'] = isset($actions->caseReason) ? $actions->caseReason : null;
+            $actionsData['Type'] = isset($actions->caseType) ? $actions->caseType : null;
+            $actionsData['PotentialLiability__c'] = isset($actions->potentialLiabilityId) ? $actions->potentialLiabilityId : null;
+            $actionsData['SLAViolation__c'] = isset($actions->slaViolationId) ? $actions->slaViolationId : null;
 
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
             $createCaseResponse = $this->createCase($finalData, $actionsData);
@@ -296,18 +299,14 @@ class RecordApiHelper
                 return $input;
             }
 
-            if (is_numeric($input)) {
-                return $input;
-
-                // ------------------------------------------------------------
-                // 1) Handle UNIX timestamps (10 or 13 digits)
-                // ------------------------------------------------------------
-                if (\strlen($input) === 10 && preg_match('/^\d{10}$/', $input)) {
-                    return gmdate('Y-m-d\TH:i:s\Z', (int) $input);
-                }
-                if (\strlen($input) === 13 && preg_match('/^\d{13}$/', $input)) {
-                    return gmdate('Y-m-d\TH:i:s\Z', (int) ($input / 1000));
-                }
+            // ------------------------------------------------------------
+            // 1) Handle UNIX timestamps (10 or 13 digits)
+            // ------------------------------------------------------------
+            if (self::validateNumericDateWithLength($input, 10)) {
+                return gmdate('Y-m-d\TH:i:s\Z', (int) $input);
+            }
+            if (self::validateNumericDateWithLength($input, 13)) {
+                return gmdate('Y-m-d\TH:i:s\Z', (int) ($input / 1000));
             }
 
             // ------------------------------------------------------------
@@ -364,7 +363,7 @@ class RecordApiHelper
             // ------------------------------------------------------------
             // 7) Compact numeric formats (01022025, 20250201, 250201, 010225)
             // ------------------------------------------------------------
-            if (\strlen($clean) === 8 && preg_match('/^\d{8}$/', $clean)) {
+            if (self::validateNumericDateWithLength($clean, 8)) {
                 // YYYYMMDD or DDMMYYYY or MMDDYYYY → try multiple interpretations
                 $candidates = [
                     substr($clean, 0, 4) . '-' . substr($clean, 4, 2) . '-' . substr($clean, 6, 2), // YMD
@@ -377,7 +376,7 @@ class RecordApiHelper
                 }
             }
 
-            if (\strlen($clean) === 6 && preg_match('/^\d{6}$/', $clean)) {
+            if (self::validateNumericDateWithLength($clean, 6)) {
                 // DDMMYY / YYMMDD / MMDDYY
                 $yy = \intval(substr($clean, -2));
 
@@ -448,5 +447,10 @@ class RecordApiHelper
         } catch (Throwable $e) {
             return;
         }
+    }
+
+    private static function validateNumericDateWithLength($input, $length)
+    {
+        return is_numeric($input) && \strlen($input) === $length;
     }
 }
