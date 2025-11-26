@@ -292,14 +292,22 @@ class RecordApiHelper
 
             $input = trim($input);
 
-            // ------------------------------------------------------------
-            // 1) Handle UNIX timestamps (10 or 13 digits)
-            // ------------------------------------------------------------
-            if (preg_match('/^\d{10}$/', $input)) {
-                return gmdate('Y-m-d\TH:i:s\Z', (int) $input);
+            if (empty($input)) {
+                return $input;
             }
-            if (preg_match('/^\d{13}$/', $input)) {
-                return gmdate('Y-m-d\TH:i:s\Z', (int) ($input / 1000));
+
+            if (is_numeric($input)) {
+                return $input;
+
+                // ------------------------------------------------------------
+                // 1) Handle UNIX timestamps (10 or 13 digits)
+                // ------------------------------------------------------------
+                if (\strlen($input) === 10 && preg_match('/^\d{10}$/', $input)) {
+                    return gmdate('Y-m-d\TH:i:s\Z', (int) $input);
+                }
+                if (\strlen($input) === 13 && preg_match('/^\d{13}$/', $input)) {
+                    return gmdate('Y-m-d\TH:i:s\Z', (int) ($input / 1000));
+                }
             }
 
             // ------------------------------------------------------------
@@ -356,7 +364,7 @@ class RecordApiHelper
             // ------------------------------------------------------------
             // 7) Compact numeric formats (01022025, 20250201, 250201, 010225)
             // ------------------------------------------------------------
-            if (preg_match('/^\d{8}$/', $clean)) {
+            if (\strlen($clean) === 8 && preg_match('/^\d{8}$/', $clean)) {
                 // YYYYMMDD or DDMMYYYY or MMDDYYYY → try multiple interpretations
                 $candidates = [
                     substr($clean, 0, 4) . '-' . substr($clean, 4, 2) . '-' . substr($clean, 6, 2), // YMD
@@ -369,7 +377,7 @@ class RecordApiHelper
                 }
             }
 
-            if (preg_match('/^\d{6}$/', $clean)) {
+            if (\strlen($clean) === 6 && preg_match('/^\d{6}$/', $clean)) {
                 // DDMMYY / YYMMDD / MMDDYY
                 $yy = \intval(substr($clean, -2));
 
@@ -399,15 +407,7 @@ class RecordApiHelper
             // ------------------------------------------------------------
             // 8) Try direct DateTime parsing for most formats
             // ------------------------------------------------------------
-            $tryParse = function ($value) {
-                try {
-                    return new DateTimeImmutable($value);
-                } catch (Throwable $e) {
-                    return;
-                }
-            };
-
-            $dt = $tryParse($clean);
+            $dt = self::tryParseDateTimeImmutable($clean);
 
             if ($dt instanceof DateTimeImmutable) {
                 // Detect if datetime or pure date
@@ -438,6 +438,15 @@ class RecordApiHelper
             return $input;
         } catch (Throwable $th) {
             return $input;
+        }
+    }
+
+    private static function tryParseDateTimeImmutable($value)
+    {
+        try {
+            return new DateTimeImmutable($value);
+        } catch (Throwable $e) {
+            return;
         }
     }
 }

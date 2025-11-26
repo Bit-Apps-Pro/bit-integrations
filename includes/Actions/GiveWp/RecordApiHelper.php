@@ -36,8 +36,11 @@ class RecordApiHelper
             '_give_donor_last_name'  => 'last_name',
         ];
 
-        $donor = new Give_Donor();
+        if (!class_exists('Give_Donor') || !\function_exists('Give')) {
+            return;
+        }
 
+        $donor = new Give_Donor();
         $donorId = $donor->create($finalData);
 
         if (is_numeric($donorId)) {
