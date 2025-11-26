@@ -185,7 +185,8 @@ class RecordApiHelper
             $selectedTags = $integrationDetails->selectedTags;
             $selectedSubStatus = $integrationDetails->selectedSubStatus;
             $apiResponse = $this->updateContact($selectedList, $selectedTags, $selectedSubStatus, $finalData, $contactExist);
-            if ($apiResponse && (\gettype($apiResponse) == 'integer' || (\gettype($apiResponse) == 'boolean' && $apiResponse == true))) {
+
+            if ($apiResponse && (is_numeric($apiResponse) || (\is_bool($apiResponse) && $apiResponse))) {
                 LogHandler::save(self::$integrationID, ['type' => 'update', 'type_name' => 'update contact'], 'success', __('Contact updated successfully', 'bit-integrations'));
             } else {
                 LogHandler::save(self::$integrationID, ['type' => 'update', 'type_name' => 'update contact'], 'error', __('Failed to create contact', 'bit-integrations'));

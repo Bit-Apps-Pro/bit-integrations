@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '08th November 2025'
+const releaseDate = '26th November 2025'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -39,8 +39,8 @@ const changeLog = [
     itemClass: 'feature-list',
     items: [
       {
-        label: 'MemberPress',
-        desc: 'Added support for user custom fields to extend integration flexibility.',
+        label: 'Salesforce',
+        desc: 'Added support for updating existing contacts directly from workflows.',
         isPro: true
       }
     ]
@@ -51,13 +51,13 @@ const changeLog = [
     itemClass: 'feature-list',
     items: [
       {
-        label: 'GiveWP',
-        desc: 'Enhanced trigger functionality with improved data listening.',
-        isPro: true
+        label: 'Salesforce',
+        desc: 'Added proper date-field formatting for more reliable syncing.',
+        isPro: false
       },
       {
         label: 'Action Hook',
-        desc: 'Added default field type for triggers to ensure smoother workflows.',
+        desc: 'Removed unnecessary primary-key prevention for smoother custom automation handling.',
         isPro: true
       }
     ]
@@ -68,29 +68,29 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'Mailchimp',
-        desc: 'Fixed issue with updating existing contacts.',
+        label: 'MailMint',
+        desc: 'Resolved the issue causing errors while updating contact timelines.',
         isPro: false
       },
       {
-        label: 'GetResponse',
-        desc: 'Fixed issue with updating existing contacts.',
+        label: 'GiveWP',
+        desc: 'Fixed donor meta field syncing inconsistencies.',
         isPro: false
       },
       {
-        label: 'Telegram',
-        desc: 'Fixed blank page issue triggered by Action Hook to Telegram.',
+        label: 'Zoho Sheet',
+        desc: 'Corrected the header-fetching issue that prevented proper data mapping.',
         isPro: false
       },
       {
-        label: 'GamiPress',
-        desc: 'Corrected fetching utilities query issue.',
+        label: 'Ultimate Member',
+        desc: 'Fixed the problem where edited integration fields would disappear.',
         isPro: false
       },
       {
-        label: 'Sendy',
-        desc: 'Authorization issue has been fixed.',
-        isPro: false
+        label: 'Divi Form (Divi Engine)',
+        desc: 'Addressed a bug where the form type returned a null value.',
+        isPro: true
       }
     ]
   }

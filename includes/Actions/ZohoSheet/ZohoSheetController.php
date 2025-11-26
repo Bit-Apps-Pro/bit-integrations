@@ -2,9 +2,9 @@
 
 namespace BitCode\FI\Actions\ZohoSheet;
 
-use WP_Error;
-use BitCode\FI\Flow\FlowController;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Flow\FlowController;
+use WP_Error;
 
 class ZohoSheetController
 {
@@ -118,7 +118,14 @@ class ZohoSheetController
             'Authorization' => 'Zoho-oauthtoken ' . $token->access_token,
         ];
 
-        $apiEndpoint = "https://sheet.zoho.{$requestParams->dataCenter}/api/v2/{$requestParams->workbook}?method=worksheet.records.fetch&worksheet_name={$requestParams->worksheet}&count=1&header_row={$requestParams->headerRow}";
+        $queryParams = [
+            'method'         => 'worksheet.records.fetch',
+            'worksheet_name' => $requestParams->worksheet,
+            'count'          => 1,
+            'header_row'     => $requestParams->headerRow
+        ];
+        $apiEndpoint = "https://sheet.zoho.{$requestParams->dataCenter}/api/v2/{$requestParams->workbook}?" . http_build_query($queryParams);
+
         $apiResponse = HttpHelper::get($apiEndpoint, null, $headers);
 
         if (isset($apiResponse->records)) {
