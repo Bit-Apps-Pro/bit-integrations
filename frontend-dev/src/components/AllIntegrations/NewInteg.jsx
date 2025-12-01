@@ -25,6 +25,7 @@ const GoogleSheet = lazy(() => import('./GoogleSheet/GoogleSheet'))
 const Mail = lazy(() => import('./Mail/Mail'))
 const MailChimp = lazy(() => import('./MailChimp/MailChimp'))
 const MailPoet = lazy(() => import('./MailPoet/MailPoet'))
+const MailerPress = lazy(() => import('./MailerPress/MailerPress'))
 const Sendinblue = lazy(() => import('./SendinBlue/SendinBlue'))
 const WooCommerce = lazy(() => import('./WooCommerce/WooCommerce'))
 const Pods = lazy(() => import('./Pods/Pods'))
@@ -274,6 +275,15 @@ export default function NewInteg({ allIntegURL }) {
             formFields={flow?.triggerData?.fields}
             flow={flow}
             setFlow={setFlow}
+          />
+        )
+      case 'MailerPress':
+        return (
+          <MailerPress
+            formFields={flow?.triggerData?.fields}
+            setFlow={setFlow}
+            flow={flow}
+            allIntegURL={allIntegURL}
           />
         )
       case 'Mail Poet':
