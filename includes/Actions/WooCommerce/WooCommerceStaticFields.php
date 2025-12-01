@@ -11,6 +11,10 @@ class WooCommerceStaticFields
     public static function checkoutBasicFields()
     {
         return [
+            'status' => (object) [
+                'fieldKey'  => 'status',
+                'fieldName' => __('Status', 'bit-integrations')
+            ],
             'customer_note' => (object) [
                 'fieldKey'  => 'customer_note',
                 'fieldName' => __('Customer Note', 'bit-integrations')
