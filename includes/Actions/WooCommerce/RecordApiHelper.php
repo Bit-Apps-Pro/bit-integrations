@@ -41,10 +41,11 @@ class RecordApiHelper
                 }
             }
         }
-        // $existUser = get_user_by('email', $fieldDataCustomer['user_email']);
-        // if (in_array('customer', (array) $existUser->roles)) {
-        //     return $existUser->ID;
-        // } else {
+
+        if (empty($fieldDataCustomer)) {
+            return get_current_user_id();
+        }
+
         $user_fields = ['user_pass', 'user_login', 'user_nicename', 'user_url', 'user_email', 'display_name', 'nickname', 'first_name', 'last_name', 'description', 'locale'];
 
         $user_inputs = array_intersect_key($fieldDataCustomer, array_flip($user_fields));
@@ -492,7 +493,7 @@ class RecordApiHelper
 
             foreach ($fieldKeys as $fieldKey) {
                 if (isset($fieldData[$fieldKey])) {
-                    $method = 'set_' . $fieldKey;
+                    $method = $fieldKey === 'coupon_code' ? 'apply_coupon' : 'set_' . $fieldKey;
 
                     $order->{$method}($fieldData[$fieldKey]);
                 }

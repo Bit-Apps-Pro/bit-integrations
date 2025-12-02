@@ -214,6 +214,14 @@ class WooCommerceStaticFields
                 'fieldKey'  => 'shipping_state',
                 'fieldName' => __('Shipping State', 'bit-integrations')
             ],
+            'Shipping Email' => (object) [
+                'fieldKey'  => 'shipping_email',
+                'fieldName' => __('Shipping Email', 'bit-integrations')
+            ],
+            'Shipping Phone' => (object) [
+                'fieldKey'  => 'shipping_phone',
+                'fieldName' => __('Shipping Phone', 'bit-integrations')
+            ],
         ];
     }
 
