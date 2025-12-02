@@ -149,6 +149,13 @@ class RecordApiHelper
             );
         }
 
+        if (!\function_exists('add_mailerpress_contact')) {
+            return [
+                'success' => false,
+                'message' => __('MailerPress is not installed or activated', 'bit-integrations')
+            ];
+        }
+
         $mailerPressContact = [
             'contactEmail'        => $email,
             'contactFirstName'    => isset($contactData['first_name']) ? sanitize_text_field($contactData['first_name']) : '',
@@ -159,13 +166,6 @@ class RecordApiHelper
             'tags'                => $tagIds,
             'lists'               => $listIds,
         ];
-
-        if (!\function_exists('add_mailerpress_contact')) {
-            return [
-                'success' => false,
-                'message' => __('MailerPress is not installed or activated', 'bit-integrations')
-            ];
-        }
 
         $result = add_mailerpress_contact($mailerPressContact);
 

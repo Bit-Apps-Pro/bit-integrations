@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 
-import bitsFetch from "../../Utils/bitsFetch"
+import bitsFetch from '../../Utils/bitsFetch'
 
 export const addFieldMap = (i, confTmp, setConf) => {
   const newConf = { ...confTmp }
@@ -30,19 +30,19 @@ export const handleFieldMapping = (event, index, conftTmp, setConf) => {
 export const handleCustomValue = (event, index, conftTmp, setConf) => {
   const newConf = { ...conftTmp }
 
-  newConf.field_map[index].customValue = event.target.value
+  newConf.field_map[index].customValue = event?.target?.value || event
   setConf({ ...newConf })
 }
 
 export const handleAuthData = async (actionName, tokenDetails, userInfo, setAuthData) => {
-  const requestParams = {};
+  const requestParams = {}
   requestParams.actionName = actionName
   requestParams.tokenDetails = tokenDetails
   requestParams.userInfo = userInfo
-  await bitsFetch(requestParams, 'store/authData').then((resp) => {
+  await bitsFetch(requestParams, 'store/authData').then(resp => {
     if (resp.success) {
       if (resp.data.data.length > 0) {
-        setAuthData(resp.data.data);
+        setAuthData(resp.data.data)
       }
       // setSnackbar({ show: true, msg: 'Authorization Data Fetched Successfully' })
     }

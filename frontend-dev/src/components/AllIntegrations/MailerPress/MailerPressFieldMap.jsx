@@ -3,7 +3,12 @@ import { $btcbi } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import TagifyInput from '../../Utilities/TagifyInput'
-import { addFieldMap, delFieldMap, handleFieldMapping } from '../GlobalIntegrationHelper'
+import {
+  addFieldMap,
+  delFieldMap,
+  handleCustomValue,
+  handleFieldMapping
+} from '../GlobalIntegrationHelper'
 
 export default function MailerPressFieldMap({
   i,
