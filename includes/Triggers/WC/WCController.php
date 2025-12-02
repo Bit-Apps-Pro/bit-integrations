@@ -991,10 +991,6 @@ final class WCController
 
         $comment = get_comment($comment_id, OBJECT);
 
-        if (isset($comment->user_id) && 0 === absint($comment->user_id)) {
-            return;
-        }
-
         $finalData = [
             'product_id'         => $comment->comment_post_ID,
             'product_title'      => get_the_title($comment->comment_post_ID),
@@ -1007,7 +1003,7 @@ final class WCController
             'product_rating'     => get_comment_meta($comment_id, 'rating', true),
             'review_id'          => $comment->comment_ID,
             'review_date'        => $comment->comment_date,
-            'author_id'          => $comment->user_id,
+            'author_id'          => $comment->user_id ?? 0,
             'review_author_name' => $comment->comment_author,
             'author_email'       => $comment->comment_author_email,
         ];
