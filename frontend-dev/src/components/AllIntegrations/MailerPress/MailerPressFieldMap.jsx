@@ -17,7 +17,7 @@ export default function MailerPressFieldMap({
 
   const requiredFlds = mailerPressConf?.mailerPressFields.filter(fld => fld.required === true) || []
   const nonRequiredFlds = mailerPressConf?.mailerPressFields.filter(fld => fld.required === false) || []
-  console.log(mailerPressConf)
+
   return (
     <div className="flx mt-2 mb-2 btcbi-field-map">
       <div className="pos-rel flx">

@@ -17,10 +17,10 @@ export const refreshMailerPressLists = (setMailerPressConf, setIsLoading, setSna
   setIsLoading(true)
   bitsFetch(null, 'refresh_mailer_press_lists')
     .then(result => {
-      if (result && result?.success && result?.data?.listList) {
+      if (result && result?.success && result?.data?.lists) {
         setMailerPressConf(prevConf =>
           create(prevConf, draftConf => {
-            draftConf.allLists = result.data.listList
+            draftConf.allLists = result.data.lists
           })
         )
 

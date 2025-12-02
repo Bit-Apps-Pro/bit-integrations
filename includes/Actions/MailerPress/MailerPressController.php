@@ -68,7 +68,7 @@ class MailerPressController
             );
         }
 
-        $response['listList'] = $lists;
+        $response['lists'] = $lists;
         wp_send_json_success($response, 200);
     }
 

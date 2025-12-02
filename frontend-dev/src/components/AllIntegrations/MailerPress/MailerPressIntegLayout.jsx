@@ -81,10 +81,12 @@ export default function MailerPressIntegLayout({
           <div className="flx">
             <b className="wdt-200 d-in-b">{__('Lists:', 'bit-integrations')}</b>
             <MultiSelect
+              title="lists"
               defaultValue={mailerPressConf?.lists}
               className="btcd-paper-drpdwn w-5"
               options={
                 mailerPressConf?.allLists &&
+                Array.isArray(mailerPressConf.allLists) &&
                 mailerPressConf.allLists?.map(list => ({
                   label: list?.listName,
                   value: list?.listId?.toString()
@@ -93,9 +95,7 @@ export default function MailerPressIntegLayout({
               onChange={val => handleChange(val, 'lists')}
             />
             <button
-              onClick={() =>
-                refreshMailerPressLists(mailerPressConf, setMailerPressConf, setIsLoading, setSnackbar)
-              }
+              onClick={() => refreshMailerPressLists(setMailerPressConf, setIsLoading, setSnackbar)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `'${__('Refresh MailerPress Lists', 'bit-integrations')}'` }}
               type="button"
@@ -112,10 +112,12 @@ export default function MailerPressIntegLayout({
           <div className="flx">
             <b className="wdt-200 d-in-b">{__('Tags:', 'bit-integrations')}</b>
             <MultiSelect
+              title="tags"
               defaultValue={mailerPressConf?.tags}
               className="btcd-paper-drpdwn w-5"
               options={
                 mailerPressConf?.allTags &&
+                Array.isArray(mailerPressConf.allTags) &&
                 mailerPressConf.allTags?.map(tag => ({
                   label: tag?.tagName,
                   value: tag?.tagId?.toString()
@@ -124,9 +126,7 @@ export default function MailerPressIntegLayout({
               onChange={val => handleChange(val, 'tags')}
             />
             <button
-              onClick={() =>
-                refreshMailerPressTags(mailerPressConf, setMailerPressConf, setIsLoading, setSnackbar)
-              }
+              onClick={() => refreshMailerPressTags(setMailerPressConf, setIsLoading, setSnackbar)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `'${__('Refresh MailerPress Tags', 'bit-integrations')}'` }}
               type="button"
