@@ -17,17 +17,13 @@ export const refreshMailerPressLists = (setMailerPressConf, setIsLoading, setSna
   setIsLoading(true)
   bitsFetch(null, 'refresh_mailer_press_lists')
     .then(result => {
-      if (result && result.success) {
-        setMailerPressConf(oldConf => {
-          const newConf = { ...oldConf }
-          if (!newConf.default) {
-            newConf.default = {}
-          }
-          if (result.data.listList) {
-            newConf.default.allLists = result.data.listList
-          }
-          return newConf
-        })
+      if (result && result?.success && result?.data?.listList) {
+        setMailerPressConf(prevConf =>
+          create(prevConf, draftConf => {
+            draftConf.allLists = result.data.listList
+          })
+        )
+
         setIsLoading(false)
         toast.success(__('All lists fetched successfully', 'bit-integrations'))
         return
@@ -42,17 +38,13 @@ export const refreshMailerPressTags = (setMailerPressConf, setIsLoading, setSnac
   setIsLoading(true)
   bitsFetch(null, 'refresh_mailer_press_tags')
     .then(result => {
-      if (result && result.success) {
-        setMailerPressConf(oldConf => {
-          const newConf = { ...oldConf }
-          if (!newConf.default) {
-            newConf.default = {}
-          }
-          if (result.data.tagList) {
-            newConf.default.allTags = result.data.tagList
-          }
-          return newConf
-        })
+      if (result && result?.success && result?.data?.tagList) {
+        setMailerPressConf(prevConf =>
+          create(prevConf, draftConf => {
+            draftConf.allTags = result.data.tagList
+          })
+        )
+
         setIsLoading(false)
         toast.success(__('All tags fetched successfully', 'bit-integrations'))
         return

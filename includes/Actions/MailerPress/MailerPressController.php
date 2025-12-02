@@ -56,27 +56,16 @@ class MailerPressController
 
         if (\function_exists('mailerpress_get_lists')) {
             $allLists = mailerpress_get_lists();
-            foreach ($allLists as $list) {
-                $lists[$list->name] = (object) [
-                    'listId'   => $list->list_id ?? $list['list_id'],
-                    'listName' => $list->name ?? $list['name']
-                ];
-            }
-        } else {
-            global $wpdb;
-            $tableName = $wpdb->prefix . 'mailerpress_lists';
 
-            $tableExists = $wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $tableName));
-
-            if ($tableExists) {
-                $allLists = $wpdb->get_results("SELECT list_id, name FROM {$tableName}", ARRAY_A);
-                foreach ($allLists as $list) {
-                    $lists[$list['name']] = (object) [
-                        'listId'   => $list['list_id'],
-                        'listName' => $list['name']
+            $lists = array_map(
+                function ($list) {
+                    return (object) [
+                        'listId'   => $list->list_id ?? $list['list_id'],
+                        'listName' => $list->name ?? $list['name']
                     ];
-                }
-            }
+                },
+                $allLists
+            );
         }
 
         $response['listList'] = $lists;
@@ -96,27 +85,16 @@ class MailerPressController
 
         if (\function_exists('mailerpress_get_tags')) {
             $allTags = mailerpress_get_tags();
-            foreach ($allTags as $tag) {
-                $tags[$tag->name] = (object) [
-                    'tagId'   => $tag->tag_id ?? $tag['tag_id'],
-                    'tagName' => $tag->name ?? $tag['name']
-                ];
-            }
-        } else {
-            global $wpdb;
-            $tableName = $wpdb->prefix . 'mailerpress_tags';
 
-            $tableExists = $wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $tableName));
-
-            if ($tableExists) {
-                $allTags = $wpdb->get_results("SELECT tag_id, name FROM {$tableName}", ARRAY_A);
-                foreach ($allTags as $tag) {
-                    $tags[$tag['name']] = (object) [
-                        'tagId'   => $tag['tag_id'],
-                        'tagName' => $tag['name']
+            $tags = array_map(
+                function ($tag) {
+                    return (object) [
+                        'tagId'   => $tag->tag_id ?? $tag['tag_id'],
+                        'tagName' => $tag->name ?? $tag['name']
                     ];
-                }
-            }
+                },
+                $allTags
+            );
         }
 
         $response['tagList'] = $tags;
@@ -139,7 +117,6 @@ class MailerPressController
         $mainAction = $integrationDetails->mainAction ?? '';
         $lists = self::convertStringToArray($integrationDetails->lists ?? []);
         $tags = self::convertStringToArray($integrationDetails->tags ?? []);
-        error_log('Tags in MailerPressController: ' . print_r($tags, true));
 
         if (empty($fieldMap)) {
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('Field map is required for %s api', 'bit-integrations'), 'MailerPress'));

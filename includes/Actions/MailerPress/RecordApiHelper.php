@@ -47,46 +47,54 @@ class RecordApiHelper
 
         $fieldData = static::setFieldMap($fieldMap, $fieldValues);
 
+        $defaultResponse = [
+            'success' => false,
+            'message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')
+        ];
+
         // Route to appropriate action method
         switch ($mainAction) {
-            case 'createContact':
+            case 'create_or_update_contact':
                 $response = $this->insertRecord($fieldData, $lists, $tags);
                 $actionType = 'create';
 
                 break;
 
-            case 'deleteContact':
-                $response = $this->deleteContact($fieldData);
+            case 'delete_contact':
+                $response = apply_filters('btcbi_mailerpress_delete_contact', $defaultResponse, $fieldData);
                 $actionType = 'delete';
 
                 break;
 
-            case 'addTags':
-                $response = $this->addTagsToContact($fieldData, $tags);
+            case 'add_tags':
+                $response = apply_filters('btcbi_mailerpress_add_tags', $defaultResponse, $fieldData, $tags);
                 $actionType = 'add_tags';
 
                 break;
 
-            case 'removeTags':
-                $response = $this->removeTagsFromContact($fieldData, $tags);
+            case 'remove_tags':
+                $response = apply_filters('btcbi_mailerpress_remove_tags', $defaultResponse, $fieldData, $tags);
                 $actionType = 'remove_tags';
 
                 break;
 
-            case 'addToLists':
-                $response = $this->addContactToLists($fieldData, $lists);
+            case 'add_to_lists':
+                $response = apply_filters('btcbi_mailerpress_add_to_lists', $defaultResponse, $fieldData, $lists);
                 $actionType = 'add_to_lists';
 
                 break;
 
-            case 'removeFromLists':
-                $response = $this->removeContactFromLists($fieldData, $lists);
+            case 'remove_from_lists':
+                $response = apply_filters('btcbi_mailerpress_remove_from_lists', $defaultResponse, $fieldData, $lists);
                 $actionType = 'remove_from_lists';
 
                 break;
 
             default:
-                $response = $this->insertRecord($fieldData, $lists, $tags);
+                $response = [
+                    'success' => false,
+                    'message' => __('Invalid action', 'bit-integrations')
+                ];
                 $actionType = 'create';
 
                 break;
@@ -162,7 +170,6 @@ class RecordApiHelper
         $result = add_mailerpress_contact($mailerPressContact);
 
         if (isset($result['success']) && $result['success']) {
-            $contactId = $result['contact_id'] ?? 0;
             $isUpdate = $result['update'] ?? false;
 
             return [
@@ -171,324 +178,6 @@ class RecordApiHelper
                 'message' => $isUpdate ? __('Contact updated successfully', 'bit-integrations') : __('Contact created successfully', 'bit-integrations')
             ];
         }
-    }
-
-    /**
-     * Delete a contact
-     *
-     * @param array $contactData Contact data
-     *
-     * @return array
-     */
-    private function deleteContact($contactData)
-    {
-        $email = isset($contactData['email']) ? sanitize_email($contactData['email']) : '';
-
-        if (empty($email)) {
-            return [
-                'success' => false,
-                'message' => __('Email is required', 'bit-integrations')
-            ];
-        }
-
-        if (!class_exists('\MailerPress\Core\Kernel') || !class_exists('\MailerPress\Models\Contacts')) {
-            return [
-                'success' => false,
-                'message' => __('MailerPress is not installed or activated', 'bit-integrations')
-            ];
-        }
-
-        $contact = self::getContactData($email);
-
-        if (!$contact) {
-            return [
-                'success' => false,
-                'message' => __('Contact not found', 'bit-integrations')
-            ];
-        }
-
-        $contactId = isset($contact['contact_id']) ? $contact['contact_id'] : (isset($contact['id']) ? $contact['id'] : '');
-
-        $contactsModel = \MailerPress\Core\Kernel::getContainer()->get(\MailerPress\Models\Contacts::class);
-
-        if (!$contactsModel || !method_exists($contactsModel, 'delete')) {
-            return [
-                'success' => false,
-                'message' => __('MailerPress Contacts model is not available', 'bit-integrations')
-            ];
-        }
-
-        $deleted = $contactsModel->delete($contactId);
-
-        if (!$deleted) {
-            return [
-                'success' => false,
-                'message' => __('Failed to delete contact', 'bit-integrations')
-            ];
-        }
-
-        do_action('mailerpress_contact_deleted', $contactId);
-
-        return [
-            'success' => true,
-            'contact' => $contact,
-            'message' => __('Contact deleted successfully', 'bit-integrations')
-        ];
-    }
-
-    /**
-     * Add tags to contact
-     *
-     * @param array $contactData Contact data
-     * @param array $tags        Tags to add
-     *
-     * @return array
-     */
-    private function addTagsToContact($contactData, $tags)
-    {
-        $email = isset($contactData['email']) ? sanitize_email($contactData['email']) : '';
-
-        if (empty($email)) {
-            return [
-                'success' => false,
-                'message' => __('Email is required', 'bit-integrations')
-            ];
-        }
-
-        if (empty($tags)) {
-            return [
-                'success' => false,
-                'message' => __('At least one tag is required', 'bit-integrations')
-            ];
-        }
-
-        $contact = self::getContactData($email);
-
-        if (!$contact) {
-            return [
-                'success' => false,
-                'message' => __('Contact not found', 'bit-integrations')
-            ];
-        }
-
-        $contactId = isset($contact['contact_id']) ? $contact['contact_id'] : (isset($contact['id']) ? $contact['id'] : '');
-
-        global $wpdb;
-
-        $tagsTable = $wpdb->prefix . 'mailerpress_contact_tags';
-        $addedTags = [];
-
-        foreach ($tags as $tagId) {
-            if ($tagId > 0) {
-                $wpdb->replace(
-                    $tagsTable,
-                    [
-                        'contact_id' => $contactId,
-                        'tag_id'     => $tagId,
-                    ]
-                );
-                do_action('mailerpress_contact_tag_added', $contactId, $tagId);
-                $addedTags[] = $tagId;
-            }
-        }
-
-        return [
-            'success' => true,
-            'id'      => $contactId,
-            'tags'    => $addedTags,
-            'message' => \sprintf(__('%d tag(s) added successfully', 'bit-integrations'), \count($addedTags))
-        ];
-    }
-
-    /**
-     * Remove tags from contact
-     *
-     * @param array $contactData Contact data
-     * @param array $tags        Tags to remove
-     *
-     * @return array
-     */
-    private function removeTagsFromContact($contactData, $tags)
-    {
-        $email = isset($contactData['email']) ? sanitize_email($contactData['email']) : '';
-
-        if (empty($email)) {
-            return [
-                'success' => false,
-                'message' => __('Email is required', 'bit-integrations')
-            ];
-        }
-
-        if (empty($tags)) {
-            return [
-                'success' => false,
-                'message' => __('At least one tag is required', 'bit-integrations')
-            ];
-        }
-
-        global $wpdb;
-
-        $contact = self::getContactData($email);
-
-        if (!$contact) {
-            return [
-                'success' => false,
-                'message' => __('Contact not found', 'bit-integrations')
-            ];
-        }
-
-        $contactId = isset($contact['contact_id']) ? $contact['contact_id'] : (isset($contact['id']) ? $contact['id'] : '');
-        $tagsTable = $wpdb->prefix . 'mailerpress_contact_tags';
-        $removedTags = [];
-
-        foreach ($tags as $tagId) {
-            if ($tagId > 0) {
-                $wpdb->delete(
-                    $tagsTable,
-                    [
-                        'contact_id' => $contactId,
-                        'tag_id'     => $tagId,
-                    ],
-                    ['%d', '%%d']
-                );
-                do_action('mailerpress_contact_tag_removed', $contactId, $tagId);
-                $removedTags[] = $tagId;
-            }
-        }
-
-        return [
-            'success' => true,
-            'id'      => $contactId,
-            'tags'    => $removedTags,
-            'message' => \sprintf(__('%d tag(s) removed successfully', 'bit-integrations'), \count($removedTags))
-        ];
-    }
-
-    /**
-     * Add contact to lists
-     *
-     * @param array $contactData Contact data
-     * @param array $lists       Lists to add
-     *
-     * @return array
-     */
-    private function addContactToLists($contactData, $lists)
-    {
-        $email = isset($contactData['email']) ? sanitize_email($contactData['email']) : '';
-
-        if (empty($email)) {
-            return [
-                'success' => false,
-                'message' => __('Email is required', 'bit-integrations')
-            ];
-        }
-
-        if (empty($lists)) {
-            return [
-                'success' => false,
-                'message' => __('At least one list is required', 'bit-integrations')
-            ];
-        }
-
-        global $wpdb;
-
-        $contact = self::getContactData($email);
-
-        if (!$contact) {
-            return [
-                'success' => false,
-                'message' => __('Contact not found', 'bit-integrations')
-            ];
-        }
-
-        $contactId = isset($contact['contact_id']) ? $contact['contact_id'] : (isset($contact['id']) ? $contact['id'] : '');
-        $listsTable = $wpdb->prefix . 'mailerpress_contact_lists';
-        $addedLists = [];
-
-        foreach ($lists as $listId) {
-            if ($listId > 0) {
-                $wpdb->replace(
-                    $listsTable,
-                    [
-                        'contact_id' => $contactId,
-                        'list_id'    => $listId,
-                    ]
-                );
-                do_action('mailerpress_contact_list_added', $contactId, $listId);
-                $addedLists[] = $listId;
-            }
-        }
-
-        return [
-            'success' => true,
-            'id'      => $contactId,
-            'lists'   => $addedLists,
-            'message' => \sprintf(__('Added to %d list(s) successfully', 'bit-integrations'), \count($addedLists))
-        ];
-    }
-
-    /**
-     * Remove contact from lists
-     *
-     * @param array $contactData Contact data
-     * @param array $lists       Lists to remove from
-     *
-     * @return array
-     */
-    private function removeContactFromLists($contactData, $lists)
-    {
-        $email = isset($contactData['email']) ? sanitize_email($contactData['email']) : '';
-
-        if (empty($email)) {
-            return [
-                'success' => false,
-                'message' => __('Email is required', 'bit-integrations')
-            ];
-        }
-
-        if (empty($lists)) {
-            return [
-                'success' => false,
-                'message' => __('At least one list is required', 'bit-integrations')
-            ];
-        }
-
-        global $wpdb;
-
-        $contact = self::getContactData($email);
-
-        if (!$contact) {
-            return [
-                'success' => false,
-                'message' => __('Contact not found', 'bit-integrations')
-            ];
-        }
-
-        $contactId = isset($contact['contact_id']) ? $contact['contact_id'] : (isset($contact['id']) ? $contact['id'] : '');
-        $listsTable = $wpdb->prefix . 'mailerpress_contact_lists';
-        $removedLists = [];
-
-        foreach ($lists as $listId) {
-            if ($listId > 0) {
-                $wpdb->delete(
-                    $listsTable,
-                    [
-                        'contact_id' => $contactId,
-                        'list_id'    => $listId,
-                    ],
-                    ['%d', '%d']
-                );
-                do_action('mailerpress_contact_list_removed', $contactId, $listId);
-                $removedLists[] = $listId;
-            }
-        }
-
-        return [
-            'success' => true,
-            'id'      => $contactId,
-            'lists'   => $removedLists,
-            'message' => \sprintf(__('Removed from %d list(s) successfully', 'bit-integrations'), \count($removedLists))
-        ];
     }
 
     /**
@@ -514,28 +203,5 @@ class RecordApiHelper
         }
 
         return $fieldData;
-    }
-
-    private static function getContactData($email)
-    {
-        $contactsModel = \MailerPress\Core\Kernel::getContainer()->get(\MailerPress\Models\Contacts::class);
-        $contact = $contactsModel->getContactByEmail($email);
-
-        if ($contact) {
-            return (array) $contact;
-        }
-
-        global $wpdb;
-        $tableName = $wpdb->prefix . 'mailerpress_contact';
-
-        $contact = $wpdb->get_row(
-            $wpdb->prepare(
-                "SELECT * FROM {$tableName} WHERE email = %s",
-                $email
-            ),
-            ARRAY_A
-        );
-
-        return $contact ? $contact : null;
     }
 }

@@ -9,8 +9,11 @@ import {
 } from './MailerPressCommonFunc'
 import MailerPressFieldMap from './MailerPressFieldMap'
 import { create } from 'mutative'
-import { ContactFields, emailField } from './staticData'
+import { ContactFields, emailField, modules } from './staticData'
 import { generate } from 'nth-check'
+import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
+import { useRecoilValue } from 'recoil'
+import { $btcbi } from '../../../GlobalStates'
 
 export default function MailerPressIntegLayout({
   formID,
@@ -21,38 +24,32 @@ export default function MailerPressIntegLayout({
   setIsLoading,
   setSnackbar
 }) {
-  const handleChange = (val, name) => {
+  const btcbi = useRecoilValue($btcbi)
+  const { isPro } = btcbi
+
+  const handleChange = (value, name) => {
     setMailerPressConf(prevConf =>
       create(prevConf, draftConf => {
-        draftConf[name] = val
+        draftConf[name] = value
       })
     )
   }
 
-  const handleMainAction = e => {
-    const { name, value } = e.target
-
+  const handleMainAction = value => {
     setMailerPressConf(prevConf =>
       create(prevConf, draftConf => {
         draftConf.mainAction = value
 
-        if (value === 'createContact') {
-          draftConf.mailerPressFields = ContactFields
-        } else if (
-          ['deleteContact', 'addTags', 'removeTags', 'addToLists', 'removeFromLists'].includes(value)
-        ) {
-          draftConf.mailerPressFields = emailField
-        }
-
+        draftConf.mailerPressFields = value === 'create_or_update_contact' ? ContactFields : emailField
         draftConf.field_map = generateMappedField(draftConf.mailerPressFields)
       })
     )
 
-    if (['createContact', 'addTags', 'removeTags'].includes(value)) {
+    if (['create_or_update_contact', 'add_tags', 'remove_tags'].includes(value)) {
       refreshMailerPressTags(setMailerPressConf, setIsLoading, setSnackbar)
     }
 
-    if (['createContact', 'addToLists', 'removeFromLists'].includes(value)) {
+    if (['create_or_update_contact', 'add_to_lists', 'remove_from_lists'].includes(value)) {
       refreshMailerPressLists(setMailerPressConf, setIsLoading, setSnackbar)
     }
   }
@@ -62,33 +59,35 @@ export default function MailerPressIntegLayout({
       <br />
       <div className="flx">
         <b className="wdt-200 d-in-b">{__('Action:', 'bit-integrations')}</b>
-        <select
-          className="btcd-paper-inp w-6"
-          name="mainAction"
-          value={mailerPressConf?.mainAction ?? null}
-          onChange={handleMainAction}>
-          <option value="">{__('Select Action', 'bit-integrations')}</option>
-          <option value="createContact">{__('Create/Update Contact', 'bit-integrations')}</option>
-          <option value="deleteContact">{__('Delete Contact', 'bit-integrations')}</option>
-          <option value="addTags">{__('Add Tags to Contact', 'bit-integrations')}</option>
-          <option value="removeTags">{__('Remove Tags from Contact', 'bit-integrations')}</option>
-          <option value="addToLists">{__('Add Contact to Lists', 'bit-integrations')}</option>
-          <option value="removeFromLists">{__('Remove Contact from Lists', 'bit-integrations')}</option>
-        </select>
+        <MultiSelect
+          title="mainAction"
+          defaultValue={mailerPressConf?.mainAction ?? null}
+          className="mt-2 w-5"
+          onChange={value => handleMainAction(value, 'module')}
+          options={modules?.map(action => ({
+            label: checkIsPro(isPro, action.is_pro) ? action.label : getProLabel(action.label),
+            value: action.name,
+            disabled: checkIsPro(isPro, action.is_pro) ? false : true
+          }))}
+          singleSelect
+          closeOnSelect
+        />
       </div>
-      {['createContact', 'addToLists', 'removeFromLists'].includes(mailerPressConf?.mainAction) && (
+      {['create_or_update_contact', 'add_to_lists', 'remove_from_lists'].includes(
+        mailerPressConf?.mainAction
+      ) && (
         <>
           <br />
           <div className="flx">
             <b className="wdt-200 d-in-b">{__('Lists:', 'bit-integrations')}</b>
             <MultiSelect
               defaultValue={mailerPressConf?.lists}
-              className="btcd-paper-drpdwn w-6"
+              className="btcd-paper-drpdwn w-5"
               options={
-                mailerPressConf?.default?.allLists &&
-                Object.keys(mailerPressConf.default.allLists).map(list => ({
-                  label: mailerPressConf.default.allLists[list].listName,
-                  value: mailerPressConf.default.allLists[list].listId.toString()
+                mailerPressConf?.allLists &&
+                mailerPressConf.allLists?.map(list => ({
+                  label: list?.listName,
+                  value: list?.listId?.toString()
                 }))
               }
               onChange={val => handleChange(val, 'lists')}
@@ -107,19 +106,19 @@ export default function MailerPressIntegLayout({
         </>
       )}
 
-      {['createContact', 'addTags', 'removeTags'].includes(mailerPressConf?.mainAction) && (
+      {['create_or_update_contact', 'add_tags', 'remove_tags'].includes(mailerPressConf?.mainAction) && (
         <>
           <br />
           <div className="flx">
             <b className="wdt-200 d-in-b">{__('Tags:', 'bit-integrations')}</b>
             <MultiSelect
               defaultValue={mailerPressConf?.tags}
-              className="btcd-paper-drpdwn w-6"
+              className="btcd-paper-drpdwn w-5"
               options={
-                mailerPressConf?.default?.allTags &&
-                Object.keys(mailerPressConf.default.allTags).map(tag => ({
-                  label: mailerPressConf.default.allTags[tag].tagName,
-                  value: mailerPressConf.default.allTags[tag].tagId.toString()
+                mailerPressConf?.allTags &&
+                mailerPressConf.allTags?.map(tag => ({
+                  label: tag?.tagName,
+                  value: tag?.tagId?.toString()
                 }))
               }
               onChange={val => handleChange(val, 'tags')}

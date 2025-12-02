@@ -28,8 +28,8 @@ export default function EditMailerPress({ allIntegURL }) {
       <div className="flx mt-3">
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
         <input
-          className="btcd-paper-inp w-7"
-          onChange={(e) => handleInput(e, mailerPressConf, setMailerPressConf)}
+          className="btcd-paper-inp w-5"
+          onChange={e => handleInput(e, mailerPressConf, setMailerPressConf)}
           name="name"
           value={mailerPressConf.name}
           type="text"
@@ -52,7 +52,18 @@ export default function EditMailerPress({ allIntegURL }) {
 
       <IntegrationStepThree
         edit
-        saveConfig={() => saveActionConf({ flow, allIntegURL, conf: mailerPressConf, navigate, id, edit: 1, setIsLoading, setSnackbar })}
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            allIntegURL,
+            conf: mailerPressConf,
+            navigate,
+            id,
+            edit: 1,
+            setIsLoading,
+            setSnackbar
+          })
+        }
         disabled={!checkMappedFields(mailerPressConf)}
         isLoading={isLoading}
         dataConf={mailerPressConf}
@@ -63,4 +74,3 @@ export default function EditMailerPress({ allIntegURL }) {
     </div>
   )
 }
-
