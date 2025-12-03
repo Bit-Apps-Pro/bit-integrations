@@ -30,6 +30,7 @@ const ZohoRecruitAuthorization = lazy(() => import('./ZohoRecruit/ZohoRecruitAut
 const GoogleSheetAuthorization = lazy(() => import('./GoogleSheet/GoogleSheetAuthorization'))
 const MailChimpAuthorization = lazy(() => import('./MailChimp/MailChimpAuthorization'))
 const MailPoetAuthorization = lazy(() => import('./MailPoet/MailPoetAuthorization'))
+const MailerPressAuthorization = lazy(() => import('./MailerPress/MailerPressAuthorization'))
 const SendinblueAuthorization = lazy(() => import('./SendinBlue/SendinBlueAuthorization'))
 const WooCommerceAuthorization = lazy(() => import('./WooCommerce/WooCommerceAuthorization'))
 const ActiveCampaignAuthorization = lazy(() => import('./ActiveCampaign/ActiveCampaignAuthorization'))
@@ -290,6 +291,8 @@ export default function IntegInfo() {
         )
       case 'Mail Poet':
         return <MailPoetAuthorization mailPoetConf={integrationConf} step={1} isInfo />
+      case 'MailerPress':
+        return <MailerPressAuthorization mailerPressConf={integrationConf} step={1} isInfo />
       case 'SendinBlue':
       case 'Brevo(Sendinblue)':
         return <SendinblueAuthorization sendinBlueConf={integrationConf} step={1} isInfo />

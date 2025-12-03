@@ -642,6 +642,10 @@ const tutorialLinks = {
   acpt: {
     youTubeLink: '',
     docLink: ''
+  },
+  mailerPress: {
+    youTubeLink: '',
+    docLink: ''
   }
 }
 export default tutorialLinks

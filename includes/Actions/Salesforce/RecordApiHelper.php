@@ -66,11 +66,17 @@ class RecordApiHelper
         return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->_defaultHeader);
     }
 
-    public function insertLead($finalData)
+    public function insertLead($finalData, $update = false)
     {
         $apiEndpoint = $this->_apiDomain . '/services/data/v37.0/sobjects/Lead';
 
-        return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->_defaultHeader);
+        $response = HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->_defaultHeader);
+
+        if (!$update) {
+            return $response;
+        }
+
+        return apply_filters('btcbi_salesforce_update_record', $response, $apiEndpoint, $finalData, $this->_defaultHeader);
     }
 
     public function createAccount($finalData)
@@ -175,13 +181,20 @@ class RecordApiHelper
 
             $finalData = apply_filters('btcbi_salesforce_add_lead_utilities', $finalData, $actions);
 
-            $insertLeadResponse = $this->insertLead($finalData);
+            $insertLeadResponse = $this->insertLead($finalData, $update);
 
-            if (\is_object($insertLeadResponse) && property_exists($insertLeadResponse, 'id')) {
-                LogHandler::save($this->_integrationID, wp_json_encode(['type' => $actionName, 'type_name' => 'Lead-create']), 'success', wp_json_encode(wp_sprintf(__('Created lead id is : %s', 'bit-integrations'), $insertLeadResponse->id)));
-            } else {
-                LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Lead', 'type_name' => 'Lead-create']), 'error', wp_json_encode($insertLeadResponse));
+            $responseType = !\is_null($insertLeadResponse) || (\is_object($insertLeadResponse) && isset($insertLeadResponse->id)) ? 'success' : 'error';
+            $typeName = !$update || (\is_object($insertLeadResponse) && isset($insertLeadResponse->id)) ? 'Lead-create' : 'Lead-update';
+
+            $message = wp_json_encode($insertLeadResponse);
+
+            if ($responseType === 'success' && $update) {
+                $message = __('Lead Updated Successfully', 'bit-integrations');
+            } elseif ($responseType === 'success') {
+                $message = wp_json_encode(wp_sprintf(__('Created lead id is : %s', 'bit-integrations'), $insertLeadResponse->id));
             }
+
+            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Lead', 'type_name' => $typeName]), $responseType, $message);
         } elseif ($actionName === 'account-create') {
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
 
@@ -296,6 +309,13 @@ class RecordApiHelper
             $input = trim($input);
 
             if (empty($input)) {
+                return $input;
+            }
+
+            // ----------------------------
+            // PHONE NUMBER PROTECTION
+            // ----------------------------
+            if (preg_match('/^\+?\d{7,15}$/', $input)) {
                 return $input;
             }
 

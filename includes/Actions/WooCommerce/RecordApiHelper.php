@@ -41,10 +41,11 @@ class RecordApiHelper
                 }
             }
         }
-        // $existUser = get_user_by('email', $fieldDataCustomer['user_email']);
-        // if (in_array('customer', (array) $existUser->roles)) {
-        //     return $existUser->ID;
-        // } else {
+
+        if (!\is_array($fieldDataCustomer) || \count($fieldDataCustomer) === 0) {
+            return get_current_user_id();
+        }
+
         $user_fields = ['user_pass', 'user_login', 'user_nicename', 'user_url', 'user_email', 'display_name', 'nickname', 'first_name', 'last_name', 'description', 'locale'];
 
         $user_inputs = array_intersect_key($fieldDataCustomer, array_flip($user_fields));
@@ -91,11 +92,8 @@ class RecordApiHelper
         }
 
         $existUser = get_user_by('email', $fieldDataCustomer['user_email']);
-        if (isset($existUser->roles) && \in_array('customer', (array) $existUser->roles)) {
-            return $existUser->ID;
-        }
 
-        return false;
+        return isset($existUser->ID) ? $existUser->ID : false;
     }
 
     public function changeStatusById($id, $status)
@@ -484,12 +482,21 @@ class RecordApiHelper
 
             $order->set_address($billingAddress, 'billing');
             $order->set_address($shippingAddress, 'shipping');
-            if (isset($fieldData['customer_note'])) {
-                $order->set_customer_note($fieldData['customer_note']);
-            }
 
-            if (isset($fieldData['coupon_code'])) {
-                $order->apply_coupon($fieldData['coupon_code']);
+            $fieldKeys = [
+                'customer_note',
+                'coupon_code',
+                'status',
+                'payment_method',
+                'payment_method_title',
+            ];
+
+            foreach ($fieldKeys as $fieldKey) {
+                if (isset($fieldData[$fieldKey])) {
+                    $method = $fieldKey === 'coupon_code' ? 'apply_coupon' : 'set_' . $fieldKey;
+
+                    $order->{$method}($fieldData[$fieldKey]);
+                }
             }
 
             foreach ($fieldData as $key => $value) {
