@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '26th November 2025'
+const releaseDate = '3rd December 2025'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -25,13 +25,25 @@ const changeLog = [
     label: __('New Actions', 'bit-integrations'),
     headClass: 'new-integration',
     itemClass: 'integration-list',
-    items: []
+    items: [
+      {
+        label: 'MailerPress',
+        desc: '06 events Added.',
+        isPro: true
+      }
+    ]
   },
   {
     label: __('New Triggers', 'bit-integrations'),
     headClass: 'new-trigger',
     itemClass: 'integration-list',
-    items: []
+    items: [
+      {
+        label: 'MailerPress',
+        desc: '07 events Added.',
+        isPro: true
+      }
+    ]
   },
   {
     label: __('New Features', 'bit-integrations'),
@@ -40,7 +52,7 @@ const changeLog = [
     items: [
       {
         label: 'Salesforce',
-        desc: 'Added support for updating existing contacts directly from workflows.',
+        desc: 'Added the ability to update existing leads, enabling smoother CRM maintenance and automation.',
         isPro: true
       }
     ]
@@ -49,18 +61,7 @@ const changeLog = [
     label: __('Improvements', 'bit-integrations'),
     headClass: 'new-improvement',
     itemClass: 'feature-list',
-    items: [
-      {
-        label: 'Salesforce',
-        desc: 'Added proper date-field formatting for more reliable syncing.',
-        isPro: false
-      },
-      {
-        label: 'Action Hook',
-        desc: 'Removed unnecessary primary-key prevention for smoother custom automation handling.',
-        isPro: true
-      }
-    ]
+    items: []
   },
   {
     label: __('Bug Fixes', 'bit-integrations'),
@@ -68,28 +69,23 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'MailMint',
-        desc: 'Resolved the issue causing errors while updating contact timelines.',
+        label: 'WooCommerce',
+        desc: 'Resolved an issue affecting recognition of existing customers during workflows.',
         isPro: false
       },
       {
-        label: 'GiveWP',
-        desc: 'Fixed donor meta field syncing inconsistencies.',
+        label: 'WooCommerce',
+        desc: 'Prevented unauthorized product review validation.',
         isPro: false
       },
       {
-        label: 'Zoho Sheet',
-        desc: 'Corrected the header-fetching issue that prevented proper data mapping.',
-        isPro: false
-      },
-      {
-        label: 'Ultimate Member',
-        desc: 'Fixed the problem where edited integration fields would disappear.',
+        label: 'Salesforce',
+        desc: 'Corrected phone number handling to ensure consistent formatting and syncing.',
         isPro: false
       },
       {
         label: 'Divi Form (Divi Engine)',
-        desc: 'Addressed a bug where the form type returned a null value.',
+        desc: 'Fixed a bug where the Create Kids form type returned a null value',
         isPro: true
       }
     ]

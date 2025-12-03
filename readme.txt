@@ -2,9 +2,9 @@
 Contributors: bitpressadmin, akaioum, rishadbitcode, niloy121, fahimsakib, shuvomohajan, tanvirchy, shakhawathosen, khoaiz, mazharul78
 Tags: automation, automator, Google Sheets, webhooks, zapier, marketing automation, WooCommerce Integration, no-code automation, email marketing automation, ecommerce automation, digital marketing automation, conditional logic
 Requires at least: 5.1
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.7.2
+Stable tag: 2.7.3
 License: GPLv2 or later
 
 Perfect Automation and integration plugin: Connect 300+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
@@ -699,6 +699,24 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 6. All integration list
 
 == Changelog ==
+
+= 2.7.3 =
+_Release Date - 3rd December 2025_
+
+- **New Trigger**
+ - MailerPress: 7 new events added (Pro)
+
+- **New Action**
+ - MailerPress: 6 new events added (Pro)
+
+- **New Feature**
+ - Salesforce: Added the ability to update existing leads, enabling smoother CRM maintenance and automation (Pro).
+
+- **Bug Fixes**
+ - WooCommerce: Resolved an issue affecting recognition of existing customers during workflows.
+ - WooCommerce: Prevented unauthorized product review validation.
+ - Salesforce: Corrected phone number handling to ensure consistent formatting and syncing.
+ - Divi Form (Divi Engine): Fixed a bug where the Create Kids form type returned a null value (Pro).
 
 = 2.7.2 =
 _Release Date - 26th November 2025_
