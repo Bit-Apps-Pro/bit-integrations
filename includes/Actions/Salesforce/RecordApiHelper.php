@@ -312,6 +312,13 @@ class RecordApiHelper
                 return $input;
             }
 
+            // ----------------------------
+            // PHONE NUMBER PROTECTION
+            // ----------------------------
+            if (preg_match('/^\+?\d{7,15}$/', $input)) {
+                return $input;
+            }
+
             // ------------------------------------------------------------
             // 1) Handle UNIX timestamps (10 or 13 digits)
             // ------------------------------------------------------------
