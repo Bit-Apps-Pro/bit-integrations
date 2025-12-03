@@ -76,6 +76,7 @@ final class AllTriggersName
             'LearnDash'                  => ['name' => 'LearnDash LMS',  'isPro' => true, 'is_active' => false],
             'LearnPress'                 => ['name' => 'LearnPress LMS',  'isPro' => true, 'is_active' => false],
             'LifterLms'                  => ['name' => 'LifterLMS',  'isPro' => true, 'is_active' => false],
+            'MailerPress'                => ['name' => 'MailerPress',  'isPro' => true, 'is_active' => false],
             'MailPoet'                   => ['name' => 'MailPoet',  'isPro' => true, 'is_active' => false],
             'MailMint'                   => ['name' => 'Mail Mint',  'isPro' => true, 'is_active' => false],
             'Mailster'                   => ['name' => 'Mailster',  'isPro' => true, 'is_active' => false],

@@ -645,7 +645,7 @@ const tutorialLinks = {
   },
   mailerPress: {
     youTubeLink: '',
-    docLink: ''
+    docLink: 'https://bit-integrations.com/wp-docs/actions/mailerpress-integrations-as-action/'
   }
 }
 export default tutorialLinks

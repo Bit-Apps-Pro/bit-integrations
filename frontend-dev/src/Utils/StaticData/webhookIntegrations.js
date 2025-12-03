@@ -78,7 +78,8 @@ export const customFormIntegrations = [
   'FluentCart',
   'MailMint',
   'BookingCalendarContactForm',
-  'ContactFormEmail'
+  'ContactFormEmail',
+  'MailerPress'
 ]
 
 export const actionHookIntegrations = ['ActionHook']
