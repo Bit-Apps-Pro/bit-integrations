@@ -1,6 +1,10 @@
+import { create } from 'mutative'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
+import { useRecoilValue } from 'recoil'
+import { $btcbi } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
+import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 import { addFieldMap } from '../IntegrationHelpers/IntegrationHelpers'
 import {
   generateMappedField,
@@ -8,12 +12,7 @@ import {
   refreshMailerPressTags
 } from './MailerPressCommonFunc'
 import MailerPressFieldMap from './MailerPressFieldMap'
-import { create } from 'mutative'
 import { ContactFields, emailField, modules } from './staticData'
-import { generate } from 'nth-check'
-import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
-import { useRecoilValue } from 'recoil'
-import { $btcbi } from '../../../GlobalStates'
 
 export default function MailerPressIntegLayout({
   formID,

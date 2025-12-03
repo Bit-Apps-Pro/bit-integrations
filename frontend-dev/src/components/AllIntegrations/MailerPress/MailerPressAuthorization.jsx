@@ -2,13 +2,8 @@ import { useState } from 'react'
 import BackIcn from '../../../Icons/BackIcn'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { __ } from '../../../Utils/i18nwrap'
-import LoaderSm from '../../Loaders/LoaderSm'
-import {
-  refreshMailerPressLists,
-  refreshMailerPressTags,
-  mailerPressListHeaders
-} from './MailerPressCommonFunc'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
+import LoaderSm from '../../Loaders/LoaderSm'
 import TutorialLink from '../../Utilities/TutorialLink'
 
 export default function MailerPressAuthorization({

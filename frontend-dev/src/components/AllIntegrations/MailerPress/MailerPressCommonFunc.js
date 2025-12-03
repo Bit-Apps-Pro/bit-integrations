@@ -1,7 +1,7 @@
+import { create } from 'mutative'
 import toast from 'react-hot-toast'
 import bitsFetch from '../../../Utils/bitsFetch'
-import { __, sprintf } from '../../../Utils/i18nwrap'
-import { create } from 'mutative'
+import { __ } from '../../../Utils/i18nwrap'
 
 export const handleInput = (e, mailerPressConf, setMailerPressConf) => {
   const { name, value } = e.target
@@ -55,35 +55,13 @@ export const refreshMailerPressTags = (setMailerPressConf, setIsLoading, setSnac
     .catch(() => setIsLoading(false))
 }
 
-export const mailerPressListHeaders = (setMailerPressConf, setIsLoading, setSnackbar) => {
-  setIsLoading(true)
-  bitsFetch(null, 'mailer_press_list_headers')
-    .then(result => {
-      if (result && result.success) {
-        setMailerPressConf(oldConf => {
-          const newConf = { ...oldConf }
-          if (result.data.mailerPressFields) {
-            newConf.mailerPressFields = result.data.mailerPressFields
-          }
-          return newConf
-        })
-        setIsLoading(false)
-        toast.success(__('Fields fetched successfully', 'bit-integrations'))
-        return
-      }
-      setIsLoading(false)
-      toast.error(__('MailerPress field fetch failed. Please try again', 'bit-integrations'))
-    })
-    .catch(() => setIsLoading(false))
-}
-
 export const checkMappedFields = mailerPressConf => {
   const mappedFields = mailerPressConf?.field_map
     ? mailerPressConf.field_map.filter(
         mappedField =>
           !mappedField.formField ||
           !mappedField.mailerPressField ||
-          (!mappedField.formField === 'custom' && !mappedField.customValue)
+          (mappedField.formField === 'custom' && !mappedField.customValue)
       )
     : []
   if (mappedFields.length > 0) {

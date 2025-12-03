@@ -178,6 +178,11 @@ class RecordApiHelper
                 'message' => $isUpdate ? __('Contact updated successfully', 'bit-integrations') : __('Contact created successfully', 'bit-integrations')
             ];
         }
+
+        return [
+            'success' => false,
+            'message' => $result['message'] ?? __('Failed to create or update contact', 'bit-integrations')
+        ];
     }
 
     /**

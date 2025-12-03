@@ -150,3 +150,4 @@ class MailerPressController
         return array_filter($array);
     }
 }
+
