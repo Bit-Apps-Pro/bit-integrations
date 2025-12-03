@@ -29,7 +29,7 @@ const changeLog = [
       {
         label: 'MailerPress',
         desc: '06 events Added.',
-        isPro: true
+        isPro: false
       }
     ]
   },

@@ -707,7 +707,7 @@ _Release Date - 3rd December 2025_
  - MailerPress: 7 new events added (Pro)
 
 - **New Action**
- - MailerPress: 6 new events added (Pro)
+ - MailerPress: 6 new events added
 
 - **New Feature**
  - Salesforce: Added the ability to update existing leads, enabling smoother CRM maintenance and automation (Pro).
