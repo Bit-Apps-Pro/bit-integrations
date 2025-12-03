@@ -86,7 +86,7 @@ export default function MailerPressIntegLayout({
               options={
                 mailerPressConf?.allLists &&
                 Array.isArray(mailerPressConf.allLists) &&
-                mailerPressConf.allLists?.map(list => ({
+                mailerPressConf.allLists.map(list => ({
                   label: list?.listName,
                   value: list?.listId?.toString()
                 }))
@@ -117,7 +117,7 @@ export default function MailerPressIntegLayout({
               options={
                 mailerPressConf?.allTags &&
                 Array.isArray(mailerPressConf.allTags) &&
-                mailerPressConf.allTags?.map(tag => ({
+                mailerPressConf.allTags.map(tag => ({
                   label: tag?.tagName,
                   value: tag?.tagId?.toString()
                 }))
@@ -148,7 +148,7 @@ export default function MailerPressIntegLayout({
         />
       )}
 
-      {mailerPressConf.mainAction && mailerPressConf?.mailerPressFields && (
+      {mailerPressConf?.mainAction && mailerPressConf?.mailerPressFields && (
         <>
           <div className="mt-4">
             <b className="wdt-100">{__('Map Fields', 'bit-integrations')}</b>
@@ -163,7 +163,7 @@ export default function MailerPressIntegLayout({
             </div>
           </div>
 
-          {mailerPressConf.field_map.map((itm, i) => (
+          {mailerPressConf?.field_map.map((itm, i) => (
             <MailerPressFieldMap
               key={`mailerpress-m-${i + 9}`}
               i={i}

@@ -42,7 +42,7 @@ class RecordApiHelper
             }
         }
 
-        if (empty($fieldDataCustomer)) {
+        if (!\is_array($fieldDataCustomer) || \count($fieldDataCustomer) === 0) {
             return get_current_user_id();
         }
 

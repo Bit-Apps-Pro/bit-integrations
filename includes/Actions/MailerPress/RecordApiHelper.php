@@ -18,10 +18,6 @@ class RecordApiHelper
 
     public function __construct($integId)
     {
-        if (!class_exists('\MailerPress\Core\Kernel')) {
-            return;
-        }
-
         $this->_integrationID = $integId;
     }
 
@@ -49,7 +45,7 @@ class RecordApiHelper
 
         $defaultResponse = [
             'success' => false,
-            'message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')
+            'message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations')
         ];
 
         // Route to appropriate action method
@@ -120,9 +116,9 @@ class RecordApiHelper
      */
     private function insertRecord($contactData, $lists, $tags)
     {
-        $email = isset($contactData['email']) ? sanitize_email($contactData['email']) : '';
+        $email = key_exists('email', $contactData) ? sanitize_email($contactData['email']) : null;
 
-        if (empty($email)) {
+        if (\is_null($email)) {
             return [
                 'success' => false,
                 'message' => __('Email is required', 'bit-integrations')
@@ -130,7 +126,7 @@ class RecordApiHelper
         }
 
         $tagIds = [];
-        if (!empty($tags)) {
+        if (\is_array($tags)) {
             $tagIds = array_map(
                 function ($id) {
                     return ['id' => $id];
@@ -140,7 +136,7 @@ class RecordApiHelper
         }
 
         $listIds = [];
-        if (!empty($lists)) {
+        if (\is_array($lists)) {
             $listIds = array_map(
                 function ($id) {
                     return ['id' => $id];
@@ -198,11 +194,11 @@ class RecordApiHelper
         $fieldData = [];
 
         foreach ($fieldMap as $fieldPair) {
-            if (empty($fieldPair->mailerPressField)) {
+            if (!isset($fieldPair->mailerPressField) || \is_null($fieldPair->mailerPressField) || $fieldPair->mailerPressField === '') {
                 continue;
             }
 
-            $fieldData[$fieldPair->mailerPressField] = ($fieldPair->formField == 'custom' && !empty($fieldPair->customValue))
+            $fieldData[$fieldPair->mailerPressField] = ($fieldPair->formField == 'custom' && isset($fieldPair->customValue))
                 ? Common::replaceFieldWithValue($fieldPair->customValue, $fieldValues)
                 : $fieldValues[$fieldPair->formField];
         }

@@ -85,7 +85,7 @@ const changeLog = [
       },
       {
         label: 'Divi Form (Divi Engine)',
-        desc: 'Fixed a bug where the Create Kids form type returned a null value',
+        desc: 'Fixed a bug where the Create Kids form type returned a null value.',
         isPro: true
       }
     ]
