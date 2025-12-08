@@ -43,7 +43,7 @@ export default function SelectTrigger() {
   const sortFeaturedProducts = (dataObj = {}) => {
     if (dataObj) {
       const newData = deepCopy(dataObj)
-      const ifAnyFeaturedProdFound = featuredProducts.some((pr) => pr in newData)
+      const ifAnyFeaturedProdFound = featuredProducts.some(pr => pr in newData)
       if (!ifAnyFeaturedProdFound) return sortObj(newData)
       const featuredProductData = featuredProducts.reduce((accr, curr) => {
         const tempAccr = { ...accr }
@@ -68,19 +68,19 @@ export default function SelectTrigger() {
     }
   }, [data])
 
-  const featuredProducts = ['BitForm']
+  const featuredProducts = ['BitAssist', 'BitForm', 'BitSocial']
 
-  const searchInteg = (e) => {
+  const searchInteg = e => {
     const { value } = e.target
     setSearchValue(value)
     const filtered = Object.entries(data.data)
-      .filter((integ) => integ[1].name.toLowerCase().includes(value.toLowerCase()))
+      .filter(integ => integ[1].name.toLowerCase().includes(value.toLowerCase()))
       .reduce((prev, [key, values]) => ({ ...prev, [key]: values }), {})
     // const organizeData = filtered?.reduce((prev, [key, values]) => ({ ...prev, [key]: values }), {})
     setAllTriggers({ success: true, data: sortFeaturedProducts(filtered) })
   }
 
-  const setTrigger = (trigger) => {
+  const setTrigger = trigger => {
     const tempConf = { ...newFlow }
     tempConf.triggered_entity = trigger
     tempConf.triggerDetail = allTriggers.data[trigger]
@@ -105,7 +105,7 @@ export default function SelectTrigger() {
     )
   }
 
-  const showPModal = (name) => {
+  const showPModal = name => {
     setTriggerName(name)
     setShowProModal(true)
   }
@@ -133,9 +133,7 @@ export default function SelectTrigger() {
           <div className="flx">
             {newFlow.triggerDetail?.type === 'form' && flowStep === 1 && <FormPlugin />}
             {newFlow.triggerDetail?.type === 'webhook' && flowStep === 1 && <Webhook />}
-            {newFlow.triggerDetail?.type === 'custom_trigger' && flowStep === 1 && (
-              <CustomTrigger />
-            )}
+            {newFlow.triggerDetail?.type === 'custom_trigger' && flowStep === 1 && <CustomTrigger />}
             {newFlow.triggerDetail?.type === 'action_hook' && flowStep === 1 && <ActionHook />}
             {newFlow.triggerDetail?.type === 'spectra' && flowStep === 1 && <SpectraHelper />}
             {newFlow.triggerDetail?.type === 'essentialBlocks' && flowStep === 1 && (
