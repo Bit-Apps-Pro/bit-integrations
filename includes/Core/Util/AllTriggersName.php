@@ -101,6 +101,7 @@ final class AllTriggersName
             'PiotnetAddonForm'           => ['name' => 'PiotnetAddonForm',  'isPro' => true, 'is_active' => false],
             'PiotnetForms'               => ['name' => 'Piotnet Forms',  'isPro' => true, 'is_active' => false],
             'PieForms'                   => ['name' => 'Pie Forms',  'isPro' => true, 'is_active' => false],
+            'Poptics'                    => ['name' => 'Poptics',  'isPro' => true, 'is_active' => false],
             'PopupMaker'                 => ['name' => 'Popup Maker',  'isPro' => true, 'is_active' => false],
             'Post'                       => ['name' => 'WP Post',  'isPro' => true, 'is_active' => false],
             'PrestoPlayer'               => ['name' => 'Presto Player',  'isPro' => true, 'is_active' => false],

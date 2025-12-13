@@ -79,7 +79,8 @@ export const customFormIntegrations = [
   'MailMint',
   'BookingCalendarContactForm',
   'ContactFormEmail',
-  'MailerPress'
+  'MailerPress',
+  'Poptics'
 ]
 
 export const actionHookIntegrations = ['ActionHook']
