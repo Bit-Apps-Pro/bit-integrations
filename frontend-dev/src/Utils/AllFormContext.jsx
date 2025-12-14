@@ -55,23 +55,24 @@ const reportsReducer = (reports, action) => {
 
 const AllFormContext = createContext()
 
-const AllFormContextProvider = (props) => {
+const AllFormContextProvider = props => {
   let allFormsInitialState = []
   //  eslint-disable-next-line no-undef
-  if (typeof btcbi !== 'undefined'
-    && btcbi.allForms !== null) {
-    allFormsInitialState = btcbi?.allForms?.map(form => (
-      { formID: form.id, status: form.gclid, formName: form.title, shortcode: `wpforms id='${form.id}'` }))
+  if (typeof btcbi !== 'undefined' && btcbi.allForms !== null) {
+    allFormsInitialState = btcbi?.allForms?.map(form => ({
+      formID: form.id,
+      status: form.gclid,
+      formName: form.title,
+      shortcode: `wpforms id='${form.id}'`
+    }))
   }
   const [allForms, allFormsDispatchHandler] = useReducer(AllFormsDispatchHandler, allFormsInitialState)
 
   return (
-    <AllFormContext.Provider
-      value={{ allFormsData: { allForms, allFormsDispatchHandler } }}
-    >
+    <AllFormContext.Provider value={{ allFormsData: { allForms, allFormsDispatchHandler } }}>
       {props.children}
     </AllFormContext.Provider>
   )
 }
 
-export { AllFormContext, AllFormContextProvider }
+export { AllFormContextProvider }

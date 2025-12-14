@@ -53,14 +53,7 @@ export const handleTabChange = (
   settab(recordTab)
 }
 
-export const moduleChange = (
-  recordTab,
-  biginConf,
-  formID,
-  setBiginConf,
-  setIsLoading,
-  setSnackbar
-) => {
+const moduleChange = (recordTab, biginConf, formID, setBiginConf, setIsLoading, setSnackbar) => {
   const newConf = { ...biginConf }
   const module = recordTab === 0 ? newConf.module : newConf.relatedlists[recordTab - 1].module
 
@@ -108,7 +101,7 @@ export const refreshModules = (formID, biginConf, setBiginConf, setIsLoading, se
     tokenDetails: biginConf.tokenDetails
   }
   bitsFetch(refreshModulesRequestParams, 'zbigin_refresh_modules')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...biginConf }
         if (!newConf.default) {
@@ -144,13 +137,7 @@ export const refreshModules = (formID, biginConf, setBiginConf, setIsLoading, se
     .catch(() => setIsLoading(false))
 }
 
-export const refreshPipelinesLayout = (
-  formID,
-  biginConf,
-  setBiginConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const refreshPipelinesLayout = (formID, biginConf, setBiginConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   const refreshLayoutRequestParams = {
     formID,
@@ -161,7 +148,7 @@ export const refreshPipelinesLayout = (
     tokenDetails: biginConf.tokenDetails
   }
   bitsFetch(refreshLayoutRequestParams, 'zbigin_refresh_playouts')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...biginConf }
         if (!newConf.default) {
@@ -211,7 +198,7 @@ export const refreshRelatedList = (formID, biginConf, setBiginConf, setIsLoading
     tokenDetails: biginConf.tokenDetails
   }
   bitsFetch(relatedListRequestParams, 'zbigin_refresh_related_lists')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...biginConf }
         if (result.data.related_modules) {
@@ -241,14 +228,7 @@ export const refreshRelatedList = (formID, biginConf, setBiginConf, setIsLoading
     .catch(() => setIsLoading(false))
 }
 
-export const getFields = (
-  recordTab,
-  formID,
-  biginConf,
-  setBiginConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const getFields = (recordTab, formID, biginConf, setBiginConf, setIsLoading, setSnackbar) => {
   const module = recordTab === 0 ? biginConf.module : biginConf.relatedlists[recordTab - 1].module
   if (!module) {
     return
@@ -264,7 +244,7 @@ export const getFields = (
     tokenDetails: biginConf.tokenDetails
   }
   bitsFetch(getFieldsRequestParams, 'zbigin_refresh_fields')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...biginConf }
         if (result.data.fieldDetails) {
@@ -304,14 +284,7 @@ export const getFields = (
     .catch(() => setIsLoading(false))
 }
 
-export const refreshTags = (
-  recordTab,
-  formID,
-  biginConf,
-  setBiginConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const refreshTags = (recordTab, formID, biginConf, setBiginConf, setIsLoading, setSnackbar) => {
   const module = recordTab === 0 ? biginConf.module : biginConf.relatedlists[recordTab - 1].module
   if (!module) {
     return
@@ -327,7 +300,7 @@ export const refreshTags = (
     tokenDetails: biginConf.tokenDetails
   }
   bitsFetch(getTagsRequestParams, 'zbigin_refresh_tags')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...biginConf }
         if (result.data.tags) {
@@ -363,7 +336,7 @@ export const refreshUsers = (formID, biginConf, setBiginConf, setIsLoading, setS
     tokenDetails: biginConf.tokenDetails
   }
   bitsFetch(getUsersRequestParams, 'zbigin_refresh_users')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...biginConf }
         if (result.data.users) {
@@ -389,28 +362,28 @@ export const refreshUsers = (formID, biginConf, setBiginConf, setIsLoading, setS
     .catch(() => setIsLoading(false))
 }
 
-export const generateMappedField = (recordTab, biginConf, uploadFields) => {
+const generateMappedField = (recordTab, biginConf, uploadFields) => {
   const module = recordTab === 0 ? biginConf.module : biginConf.relatedlists[recordTab - 1].module
   if (uploadFields) {
     return biginConf.default.moduleData[module].requiredFileUploadFields.length > 0
-      ? biginConf.default.moduleData[module].requiredFileUploadFields?.map((field) => ({
+      ? biginConf.default.moduleData[module].requiredFileUploadFields?.map(field => ({
           formField: '',
           zohoFormField: field
         }))
       : [{ formField: '', zohoFormField: '' }]
   }
   return biginConf.default.moduleData[module].required.length > 0
-    ? biginConf.default.moduleData[module].required?.map((field) => ({
+    ? biginConf.default.moduleData[module].required?.map(field => ({
         formField: '',
         zohoFormField: field
       }))
     : [{ formField: '', zohoFormField: '' }]
 }
 
-export const checkMappedFields = (biginConf) => {
+export const checkMappedFields = biginConf => {
   const mappedFields = biginConf?.field_map
     ? biginConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField &&
           mappedField.zohoFormField &&
           biginConf?.default?.moduleData?.[biginConf.module]?.required.indexOf(
@@ -418,13 +391,11 @@ export const checkMappedFields = (biginConf) => {
           ) !== -1
       )
     : []
-  const mappedRelatedFields = biginConf.relatedlists.map((relatedlist) =>
-    relatedlist.field_map.filter(
-      (mappedField) => !mappedField.formField && mappedField.zohoFormField
-    )
+  const mappedRelatedFields = biginConf.relatedlists.map(relatedlist =>
+    relatedlist.field_map.filter(mappedField => !mappedField.formField && mappedField.zohoFormField)
   )
 
-  if (mappedFields.length > 0 || mappedRelatedFields.find((relatedField) => relatedField.length)) {
+  if (mappedFields.length > 0 || mappedRelatedFields.find(relatedField => relatedField.length)) {
     return false
   }
 

@@ -16,12 +16,7 @@ export const handleInput = (e, salesmateConf, setSalesmateConf) => {
 }
 
 // refreshMappedFields
-export const refreshSalesmateFields = (
-  salesmateConf,
-  setSalesmateConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const refreshSalesmateFields = (salesmateConf, setSalesmateConf, setIsLoading, setSnackbar) => {
   const requestParams = {
     session_token: salesmateConf.session_token,
     link_name: salesmateConf.link_name,
@@ -29,9 +24,9 @@ export const refreshSalesmateFields = (
   }
 
   bitsFetch(requestParams, 'Salesmate_fields')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
-        setSalesmateConf((prevSalesmateConf) => {
+        setSalesmateConf(prevSalesmateConf => {
           const draftConf = { ...prevSalesmateConf }
           draftConf.field_map = [{ formField: '', salesmateFormField: '' }]
 
@@ -56,24 +51,24 @@ export const refreshSalesmateFields = (
     .catch(() => setIsLoading(false))
 }
 
-export const generateMappedField = (salesmateConf) => {
+const generateMappedField = salesmateConf => {
   const requiredFlds =
     salesmateConf?.salesmateFields &&
     salesmateConf?.salesmateFields.filter(
-      (fld) => fld.required === true && fld.key !== 'owner' && fld.key !== 'pipeline'
+      fld => fld.required === true && fld.key !== 'owner' && fld.key !== 'pipeline'
     )
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({
+    ? requiredFlds.map(field => ({
         formField: '',
         salesmateFormField: field.key
       }))
     : [{ formField: '', salesmateFormField: '' }]
 }
 
-export const checkMappedFields = (salesmateConf) => {
+export const checkMappedFields = salesmateConf => {
   const mappedFields = salesmateConf?.field_map
     ? salesmateConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField ||
           !mappedField.salesmateFormField ||
           (mappedField.formField === 'custom' && !mappedField.customValue) ||
@@ -112,7 +107,7 @@ export const salesmateAuthentication = (
     link_name: confTmp.link_name
   }
 
-  bitsFetch(requestParams, 'salesmate_authentication').then((result) => {
+  bitsFetch(requestParams, 'salesmate_authentication').then(result => {
     if (result && result.success) {
       setIsAuthorized(true)
       setLoading({ ...loading, auth: false })
@@ -134,7 +129,7 @@ export const getAllTags = (confTmp, setConf, setLoading) => {
     link_name: confTmp.link_name
   }
 
-  bitsFetch(requestParams, 'salesmate_fetch_all_tags').then((result) => {
+  bitsFetch(requestParams, 'salesmate_fetch_all_tags').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -151,9 +146,9 @@ export const getAllTags = (confTmp, setConf, setLoading) => {
   })
 }
 
-export const getAllCRMTypes = (setConf) => {
+export const getAllCRMTypes = setConf => {
   const fieldOptions = ['Customer', 'Lead', 'Vendor', 'Partner', 'Competitor', 'Reseller', 'Other']
-  setConf((prevConf) => {
+  setConf(prevConf => {
     const newConf = { ...prevConf }
     newConf.types = fieldOptions
     return newConf
@@ -164,7 +159,7 @@ export const getAllCRMTypes = (setConf) => {
   return fieldOptions
 }
 
-export const getAllCRMLostReasons = (setConf) => {
+export const getAllCRMLostReasons = setConf => {
   const fieldOptions = [
     'No Reason',
     'Need',
@@ -174,7 +169,7 @@ export const getAllCRMLostReasons = (setConf) => {
     'Feature',
     'Poor Qualification'
   ]
-  setConf((prevConf) => {
+  setConf(prevConf => {
     const newConf = { ...prevConf }
     newConf.lostReasons = fieldOptions
     return newConf
@@ -184,9 +179,9 @@ export const getAllCRMLostReasons = (setConf) => {
   return fieldOptions
 }
 
-export const getAllCRMSources = (setConf) => {
+export const getAllCRMSources = setConf => {
   const fieldOptions = ['Ads', 'Referrals', 'Website', 'Word of mouth']
-  setConf((prevConf) => {
+  setConf(prevConf => {
     const newConf = { ...prevConf }
     newConf.sources = fieldOptions
     return newConf
@@ -196,9 +191,9 @@ export const getAllCRMSources = (setConf) => {
   return fieldOptions
 }
 
-export const getAllCRMStatus = (setConf) => {
+export const getAllCRMStatus = setConf => {
   const fieldOptions = ['Open', 'Won', 'Lost']
-  setConf((prevConf) => {
+  setConf(prevConf => {
     const newConf = { ...prevConf }
     newConf.statuses = fieldOptions
     return newConf
@@ -208,9 +203,9 @@ export const getAllCRMStatus = (setConf) => {
   return fieldOptions
 }
 
-export const getAllCRMPriority = (setConf) => {
+export const getAllCRMPriority = setConf => {
   const fieldOptions = ['High', 'Medium', 'Low']
-  setConf((prevConf) => {
+  setConf(prevConf => {
     const newConf = { ...prevConf }
     newConf.priorities = fieldOptions
     return newConf
@@ -227,7 +222,7 @@ export const getAllCRMCurrency = (confTmp, setConf, setLoading) => {
     link_name: confTmp.link_name
   }
 
-  bitsFetch(requestParams, 'salesmate_fetch_all_currencies').then((result) => {
+  bitsFetch(requestParams, 'salesmate_fetch_all_currencies').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -251,7 +246,7 @@ export const getAllCRMCompany = (confTmp, setConf, setLoading) => {
     link_name: confTmp.link_name
   }
 
-  bitsFetch(requestParams, 'salesmate_fetch_all_CRMCompanies').then((result) => {
+  bitsFetch(requestParams, 'salesmate_fetch_all_CRMCompanies').then(result => {
     if (result && result.success) {
       if (!result.data) {
         setLoading({ ...setLoading, CRMCompany: false })
@@ -259,7 +254,7 @@ export const getAllCRMCompany = (confTmp, setConf, setLoading) => {
         return
       }
 
-      setConf((prevConf) => {
+      setConf(prevConf => {
         const draftConf = { ...prevConf }
         if (result.data) {
           draftConf.companies = result.data
@@ -283,10 +278,10 @@ export const getAllCRMPipelines = (confTmp, setConf, loading, setLoading) => {
     link_name: confTmp.link_name
   }
 
-  bitsFetch(requestParams, 'salesmate_fetch_all_CRMPipelines').then((result) => {
+  bitsFetch(requestParams, 'salesmate_fetch_all_CRMPipelines').then(result => {
     setLoading({ ...loading, CRMPipelines: false })
     if (result && result.success) {
-      setConf((prevConf) => {
+      setConf(prevConf => {
         const draftConf = { ...prevConf }
         if (result.data) {
           draftConf.CRMPipelines = result.data
@@ -307,7 +302,7 @@ export const getAllCRMPrimaryContact = (confTmp, setConf, loading, setLoading) =
     link_name: confTmp.link_name
   }
 
-  bitsFetch(requestParams, 'salesmate_fetch_all_CRMContacts').then((result) => {
+  bitsFetch(requestParams, 'salesmate_fetch_all_CRMContacts').then(result => {
     setLoading({ ...loading, CRMContacts: false })
     if (result && result.success) {
       if (!result.data) {
@@ -315,7 +310,7 @@ export const getAllCRMPrimaryContact = (confTmp, setConf, loading, setLoading) =
         return
       }
 
-      setConf((prevConf) => {
+      setConf(prevConf => {
         const draftConf = { ...prevConf }
         if (result.data) {
           draftConf.CRMContacts = result.data
@@ -337,10 +332,10 @@ export const getAllCRMOwner = (confTmp, setConf, loading, setLoading) => {
     link_name: confTmp.link_name
   }
 
-  bitsFetch(requestParams, 'salesmate_fetch_all_CRMOwners').then((result) => {
+  bitsFetch(requestParams, 'salesmate_fetch_all_CRMOwners').then(result => {
     setLoading({ ...loading, CRMOwners: false })
     if (result && result.success) {
-      setConf((prevConf) => {
+      setConf(prevConf => {
         const draftConf = { ...prevConf }
         if (result.data) {
           draftConf.CRMOwners = result.data

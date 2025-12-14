@@ -14,4 +14,3 @@ Route::post('clickup_fetch_all_Teams', [ClickupController::class, 'getAllTeams']
 Route::post('clickup_fetch_all_Spaces', [ClickupController::class, 'getAllSpaces']);
 Route::post('clickup_fetch_all_Folders', [ClickupController::class, 'getAllFolders']);
 Route::post('clickup_fetch_all_Lists', [ClickupController::class, 'getAllLists']);
-Route::post('clickup_fetch_all_Tags', [ClickupController::class, 'getAllTags']);

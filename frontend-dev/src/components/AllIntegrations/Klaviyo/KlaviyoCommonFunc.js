@@ -28,7 +28,7 @@ export const handleAuthorize = (conf, setConf, setError, setisAuthorized, loadin
 
   const requestParams = { authKey: conf.authKey }
 
-  bitsFetch(requestParams, 'klaviyo_handle_authorize').then((result) => {
+  bitsFetch(requestParams, 'klaviyo_handle_authorize').then(result => {
     if (result && result.success) {
       const newConf = { ...conf }
       if (result.data) {
@@ -53,7 +53,7 @@ export const getAllLists = (conf, setConf, loading, setLoading) => {
 
   const requestParams = { authKey: conf.authKey }
 
-  bitsFetch(requestParams, 'klaviyo_handle_authorize').then((result) => {
+  bitsFetch(requestParams, 'klaviyo_handle_authorize').then(result => {
     if (result && result.success) {
       const newConf = { ...conf }
       if (result.data) {
@@ -73,20 +73,20 @@ export const getAllLists = (conf, setConf, loading, setLoading) => {
   })
 }
 
-export const generateMappedField = (klaviyoConf) => {
-  const requiredFlds = klaviyoConf?.klaviyoFields.filter((fld) => fld.required === true)
+export const generateMappedField = klaviyoConf => {
+  const requiredFlds = klaviyoConf?.klaviyoFields.filter(fld => fld.required === true)
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({
+    ? requiredFlds.map(field => ({
         formField: '',
         klaviyoFormField: field.key
       }))
     : [{ formField: '', klaviyoFormField: '' }]
 }
 
-export const checkMappedFields = (klaviyoConf) => {
+const checkMappedFields = klaviyoConf => {
   const mappedFields = klaviyoConf?.field_map
     ? klaviyoConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField ||
           !mappedField.klaviyoFormField ||
           (!mappedField.formField === 'custom' && !mappedField.customValue)
@@ -113,7 +113,7 @@ export const nextPage = (conf, setStep, pageNo) => {
 export const saveConfig = (flow, setFlow, allIntegURL, conf, navigate, setIsLoading) => {
   setIsLoading(true)
   const resp = saveIntegConfig(flow, setFlow, allIntegURL, conf, navigate, '', '', setIsLoading)
-  resp.then((res) => {
+  resp.then(res => {
     if (res.success) {
       toast.success(res.data?.msg)
       navigate(allIntegURL)

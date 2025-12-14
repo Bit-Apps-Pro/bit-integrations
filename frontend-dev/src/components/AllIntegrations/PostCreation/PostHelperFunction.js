@@ -26,10 +26,10 @@ export const handleFieldMapping = (fldProp, event, index, conftTmp, setConf) => 
   setConf({ ...newConf })
 }
 
-export const checkMappedPostFields = (data) => {
+export const checkMappedPostFields = data => {
   const mappedFields = data?.post_map
     ? data.post_map.filter(
-        (mappedField) => !mappedField.formField && mappedField.postField && mappedField.required
+        mappedField => !mappedField.formField && mappedField.postField && mappedField.required
       )
     : []
   if (mappedFields.length > 0) {
@@ -37,10 +37,10 @@ export const checkMappedPostFields = (data) => {
   }
   return true
 }
-export const checkMappedAcfFields = (data) => {
+export const checkMappedAcfFields = data => {
   const mappedFields = data?.acf_map
     ? data.acf_map.filter(
-        (mappedField) => !mappedField.formField && mappedField.acfField && mappedField.required
+        mappedField => !mappedField.formField && mappedField.acfField && mappedField.required
       )
     : []
   if (mappedFields.length > 0) {
@@ -50,10 +50,10 @@ export const checkMappedAcfFields = (data) => {
   return true
 }
 
-export const checkMappedMbFields = (data) => {
+export const checkMappedMbFields = data => {
   const mappedFields = data?.metabox_map
     ? data.metabox_map.filter(
-        (mappedField) => !mappedField.formField && mappedField.metaboxField && mappedField.required
+        mappedField => !mappedField.formField && mappedField.metaboxField && mappedField.required
       )
     : []
   if (mappedFields.length > 0) {
@@ -63,10 +63,10 @@ export const checkMappedMbFields = (data) => {
   return true
 }
 
-export const checkMappedJEFields = (data) => {
+export const checkMappedJEFields = data => {
   const mappedFields = data?.je_cpt_meta_map
     ? data.je_cpt_meta_map.filter(
-        (mappedField) => !mappedField.formField && mappedField.jeCPTField && mappedField.required
+        mappedField => !mappedField.formField && mappedField.jeCPTField && mappedField.required
       )
     : []
   if (mappedFields.length > 0) {
@@ -76,31 +76,8 @@ export const checkMappedJEFields = (data) => {
   return true
 }
 
-export const refreshAcfFields = (acfConf, setAcfFields, setAcfFile) => {
-  const loadAcfFields = bitsFetch(
-    { post_type: acfConf?.post_type },
-    'bitforms_get_custom_field'
-  ).then((res) => {
-    if (res !== undefined && res.success) {
-      if (res?.data?.acfFields) {
-        setAcfFields(res.data.acfFields)
-      }
-      if (res?.data?.acfFile) {
-        setAcfFile(res.data.acfFile)
-      }
-    }
-    if (res?.data?.acfFields.length !== 0 || res?.data?.acfFile.length !== 0)
-      return 'Successfully refresh ACF Fields.'
-    return __('ACF Fields not found', 'bit-integrations')
-  })
-  toast.promise(loadAcfFields, {
-    success: (data) => data,
-    error: __('Error Occurred', 'bit-integrations'),
-    loading: __('Loading ACF Fields...')
-  })
-}
 export const refreshPostTypes = (postTypes, setPostTypes) => {
-  const loadPostTypes = bitsFetch({}, 'post-types/list').then((result) => {
+  const loadPostTypes = bitsFetch({}, 'post-types/list').then(result => {
     if (result && result.success) {
       const { data } = result
       if (data) {
@@ -112,7 +89,7 @@ export const refreshPostTypes = (postTypes, setPostTypes) => {
   })
 
   toast.promise(loadPostTypes, {
-    success: (data) => data,
+    success: data => data,
     error: __('Error Occurred', 'bit-integrations'),
     loading: __('Loading Post Types...')
   })

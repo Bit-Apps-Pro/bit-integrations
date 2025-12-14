@@ -15,17 +15,10 @@ export const handleInput = (e, zohoSheetConf, setZohoSheetConf) => {
   setZohoSheetConf({ ...newConf })
 }
 
-export const generateMappedField = (zohoSheetConf) => {
-  const requiredFlds = zohoSheetConf?.workSheetHeaders.filter((fld) => fld.required === true)
-  return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({ formField: '', zohoSheetFormField: field.key }))
-    : [{ formField: '', zohoSheetFormField: '' }]
-}
-
-export const checkMappedFields = (zohoSheetConf) => {
+export const checkMappedFields = zohoSheetConf => {
   const mappedFields = zohoSheetConf?.field_map
     ? zohoSheetConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField ||
           !mappedField.zohoSheetFormField ||
           (mappedField.formField === 'custom' && !mappedField.customValue)
@@ -46,7 +39,7 @@ export const getAllWorkbooks = (confTmp, setConf, loading, setLoading) => {
     dataCenter: confTmp.dataCenter
   }
 
-  bitsFetch(requestParams, 'zohoSheet_fetch_all_work_books').then((result) => {
+  bitsFetch(requestParams, 'zohoSheet_fetch_all_work_books').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -72,7 +65,7 @@ export const getAllWorksheets = (confTmp, setConf, loading, setLoading) => {
     workbook: confTmp.selectedWorkbook
   }
 
-  bitsFetch(requestParams, 'zohoSheet_fetch_all_work_sheets').then((result) => {
+  bitsFetch(requestParams, 'zohoSheet_fetch_all_work_sheets').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -100,7 +93,7 @@ export const getWorksheetHeader = (confTmp, setConf, loading, setLoading) => {
     headerRow: confTmp.headerRow
   }
 
-  bitsFetch(requestParams, 'zohoSheet_fetch_all_work_sheet_header').then((result) => {
+  bitsFetch(requestParams, 'zohoSheet_fetch_all_work_sheet_header').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -116,14 +109,14 @@ export const getWorksheetHeader = (confTmp, setConf, loading, setLoading) => {
   })
 }
 
-export const setGrantTokenResponse = (integ) => {
+export const setGrantTokenResponse = integ => {
   const grantTokenResponse = {}
   const authWindowLocation = window.location.href
   const queryParams = authWindowLocation
     .replace(`${window.opener.location.href}/redirect`, '')
     .split('&')
   if (queryParams) {
-    queryParams.forEach((element) => {
+    queryParams.forEach(element => {
       const gtKeyValue = element.split('=')
       if (gtKeyValue[1]) {
         // eslint-disable-next-line prefer-destructuring
@@ -196,8 +189,8 @@ const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, loading, set
   tokenRequestParams.clientSecret = confTmp.clientSecret
   tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
   bitsFetch(tokenRequestParams, 'zohoSheet_generate_token')
-    .then((result) => result)
-    .then((result) => {
+    .then(result => result)
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...confTmp }
         newConf.tokenDetails = result.data

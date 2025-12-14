@@ -16,8 +16,8 @@ export const handleInput = (
   error,
   setError
 ) => {
-  setMailChimpConf((prevConf) =>
-    create(prevConf, (draftConf) => {
+  setMailChimpConf(prevConf =>
+    create(prevConf, draftConf => {
       if (isNew) {
         const rmError = { ...error }
         rmError[e.target.name] = ''
@@ -41,10 +41,10 @@ export const handleInput = (
   )
 }
 
-export const checkAddressFieldMapRequired = (mailChimpConf) => {
+export const checkAddressFieldMapRequired = mailChimpConf => {
   const requiredFleld = mailChimpConf?.address_field
     ? mailChimpConf.address_field.filter(
-        (field) => !field.formField && field.mailChimpAddressField && field.required
+        field => !field.formField && field.mailChimpAddressField && field.required
       )
     : []
   if (requiredFleld.length > 0) {
@@ -56,10 +56,10 @@ export const checkAddressFieldMapRequired = (mailChimpConf) => {
 export const refreshModules = (setMailChimpConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   bitsFetch(null, 'mChimp_refresh_modules')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
-        setMailChimpConf((prevConf) =>
-          create(prevConf, (draftConf) => {
+        setMailChimpConf(prevConf =>
+          create(prevConf, draftConf => {
             draftConf.moduleLists = result.data
           })
         )
@@ -76,16 +76,10 @@ export const refreshModules = (setMailChimpConf, setIsLoading, setSnackbar) => {
       }
       setIsLoading(false)
     })
-    .catch((e) => setIsLoading(false))
+    .catch(e => setIsLoading(false))
 }
 
-export const refreshAudience = (
-  formID,
-  mailChimpConf,
-  setMailChimpConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const refreshAudience = (formID, mailChimpConf, setMailChimpConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   const refreshModulesRequestParams = {
     formID,
@@ -94,10 +88,10 @@ export const refreshAudience = (
     tokenDetails: mailChimpConf.tokenDetails
   }
   bitsFetch(refreshModulesRequestParams, 'mChimp_refresh_audience')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
-        setMailChimpConf((prevConf) =>
-          create(prevConf, (draftConf) => {
+        setMailChimpConf(prevConf =>
+          create(prevConf, draftConf => {
             if (!draftConf.default) {
               draftConf.default = {}
             }
@@ -152,10 +146,10 @@ export const refreshTags = (
     listId: mailChimpConf.listId
   }
   bitsFetch(refreshModulesRequestParams, 'mChimp_refresh_tags')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
-        setMailChimpConf((prevConf) =>
-          create(prevConf, (draftConf) => {
+        setMailChimpConf(prevConf =>
+          create(prevConf, draftConf => {
             if (result.data.audienceTags) {
               draftConf.default.audienceTags = result.data.audienceTags
             }
@@ -210,10 +204,10 @@ export const refreshFields = (
     tokenDetails: mailChimpConf.tokenDetails
   }
   bitsFetch(refreshSpreadsheetsRequestParams, 'mChimp_refresh_fields')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
-        setMailChimpConf((prevConf) =>
-          create(prevConf, (draftConf) => {
+        setMailChimpConf(prevConf =>
+          create(prevConf, draftConf => {
             if (result.data.audienceField) {
               if (!draftConf.default.fields) {
                 draftConf.default.fields = {}
@@ -243,12 +237,12 @@ export const refreshFields = (
     .catch(() => setLoading({ ...loading, refreshFields: false }))
 }
 
-export const setGrantTokenResponse = (integ) => {
+export const setGrantTokenResponse = integ => {
   const grantTokenResponse = {}
   const authWindowLocation = window.location.href
   const queryParams = authWindowLocation.replace(`${window.opener.location.href}`, '').split('&')
   if (queryParams) {
-    queryParams.forEach((element) => {
+    queryParams.forEach(element => {
       const gtKeyValue = element.split('=')
       if (gtKeyValue[1]) {
         // eslint-disable-next-line prefer-destructuring
@@ -345,8 +339,8 @@ const tokenHelper = (
   tokenRequestParams.redirectURI = window.location.href
 
   bitsFetch(tokenRequestParams, `${ajaxInteg}_generate_token`)
-    .then((result) => result)
-    .then((result) => {
+    .then(result => result)
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...confTmp }
         newConf.tokenDetails = result.data
@@ -376,9 +370,9 @@ const tokenHelper = (
     })
 }
 
-export const checkMappedFields = (mailChimpConf) => {
+export const checkMappedFields = mailChimpConf => {
   const mappedFleld = mailChimpConf.field_map
-    ? mailChimpConf.field_map.filter((mapped) => !mapped.formField || !mapped.mailChimpField)
+    ? mailChimpConf.field_map.filter(mapped => !mapped.formField || !mapped.mailChimpField)
     : []
   if (mappedFleld.length > 0) {
     return false
@@ -386,11 +380,11 @@ export const checkMappedFields = (mailChimpConf) => {
   return true
 }
 
-export const generateMappedField = (fields) => {
-  const requiredFlds = fields && Object.values(fields).filter((fld) => fld.required === true)
+const generateMappedField = fields => {
+  const requiredFlds = fields && Object.values(fields).filter(fld => fld.required === true)
 
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({
+    ? requiredFlds.map(field => ({
         formField: '',
         mailChimpField: field.tag
       }))

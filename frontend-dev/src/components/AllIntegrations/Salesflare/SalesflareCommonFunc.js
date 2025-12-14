@@ -15,24 +15,24 @@ export const handleInput = (e, salesflareConf, setSalesflareConf) => {
   setSalesflareConf({ ...newConf })
 }
 
-export const generateMappedField = (salesflareConf) => {
+const generateMappedField = salesflareConf => {
   const requiredFlds =
     salesflareConf?.salesflareAllFields &&
     salesflareConf?.salesflareAllFields.filter(
-      (fld) => fld.required === true && fld.key !== 'owner' && fld.key !== 'pipeline'
+      fld => fld.required === true && fld.key !== 'owner' && fld.key !== 'pipeline'
     )
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({
+    ? requiredFlds.map(field => ({
         formField: '',
         salesflareFormField: field.key
       }))
     : [{ formField: '', salesflareFormField: '' }]
 }
 
-export const checkMappedFields = (salesflareConf) => {
+export const checkMappedFields = salesflareConf => {
   const mappedFields = salesflareConf?.field_map
     ? salesflareConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField ||
           !mappedField.salesflareFormField ||
           (mappedField.formField === 'custom' && !mappedField.customValue) ||
@@ -45,13 +45,7 @@ export const checkMappedFields = (salesflareConf) => {
   return true
 }
 
-export const salesflareAuthentication = (
-  confTmp,
-  setError,
-  setIsAuthorized,
-  loading,
-  setLoading
-) => {
+export const salesflareAuthentication = (confTmp, setError, setIsAuthorized, loading, setLoading) => {
   if (!confTmp.api_key) {
     setError({
       api_key: !confTmp.api_key ? __("API Key can't be empty", 'bit-integrations') : ''
@@ -66,7 +60,7 @@ export const salesflareAuthentication = (
     api_key: confTmp.api_key
   }
 
-  bitsFetch(requestParams, 'salesflare_authentication').then((result) => {
+  bitsFetch(requestParams, 'salesflare_authentication').then(result => {
     if (result && result.success) {
       setIsAuthorized(true)
       setLoading({ ...loading, auth: false })
@@ -86,9 +80,9 @@ export const salesflareFields = (salesflareConf, setSalesflareConf, setIsLoading
   }
 
   bitsFetch(requestParams, 'Salesflare_custom_fields')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
-        setSalesflareConf((prevConf) => {
+        setSalesflareConf(prevConf => {
           const draftConf = prevConf
           draftConf.field_map = [{ formField: '', salesmateFormField: '' }]
           if (result.data) {
@@ -119,9 +113,9 @@ export const getAllTags = (salesflareConf, setSalesflareConf, setLoading) => {
     api_key: salesflareConf.api_key
   }
 
-  bitsFetch(requestParams, 'Salesflare_fetch_all_tags').then((result) => {
+  bitsFetch(requestParams, 'Salesflare_fetch_all_tags').then(result => {
     if (result && result.success) {
-      setSalesflareConf((prevConf) => {
+      setSalesflareConf(prevConf => {
         const draftConf = { ...prevConf }
         draftConf.tags = result.data
         return draftConf
@@ -142,9 +136,9 @@ export const getallAccounts = (salesflareConf, setSalesflareConf, loading, setLo
     api_key: salesflareConf.api_key
   }
 
-  bitsFetch(requestParams, 'Salesflare_fetch_all_account').then((result) => {
+  bitsFetch(requestParams, 'Salesflare_fetch_all_account').then(result => {
     if (result && result.success) {
-      setSalesflareConf((prevConf) => {
+      setSalesflareConf(prevConf => {
         const draftConf = { ...prevConf }
         draftConf.accounts = result.data
         return draftConf
@@ -164,9 +158,9 @@ export const getallPipelines = (salesflareConf, setSalesflareConf, loading, setL
     api_key: salesflareConf.api_key
   }
 
-  bitsFetch(requestParams, 'Salesflare_fetch_all_pipelines').then((result) => {
+  bitsFetch(requestParams, 'Salesflare_fetch_all_pipelines').then(result => {
     if (result && result.success) {
-      setSalesflareConf((prevConf) => {
+      setSalesflareConf(prevConf => {
         const draftConf = { ...prevConf }
         draftConf.pipelines = result.data
         return draftConf

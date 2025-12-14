@@ -20,15 +20,7 @@ export const handleInput = (e, conf, setConf, error, setError) => {
   setConf(newConf)
 }
 
-export const handleAuthorize = (
-  conf,
-  setConf,
-  error,
-  setError,
-  setAuthorized,
-  loading,
-  setLoading
-) => {
+export const handleAuthorize = (conf, setConf, error, setError, setAuthorized, loading, setLoading) => {
   if (!conf.clientId || !conf.clientSecret) {
     setError({
       clientId: !conf.clientId ? __("Client Id can't be empty") : '',
@@ -82,7 +74,7 @@ const tokenHelper = (grantToken, conf, setConf, setAuthorized, loading, setLoadi
   tokenRequestParams.clientSecret = conf.clientSecret
   // eslint-disable-next-line no-undef
   tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
-  bitsFetch(tokenRequestParams, 'notion_authorization').then((result) => {
+  bitsFetch(tokenRequestParams, 'notion_authorization').then(result => {
     if (result && result.success) {
       const newConf = { ...conf }
       newConf.tokenDetails = result.data
@@ -111,8 +103,8 @@ export const getAllDatabaseLists = async (conf, setConf, loading, setLoading) =>
   const result = await bitsFetch(requestParams, 'notion_database_lists')
   if (result.success && result.data.results) {
     const data = result?.data.results
-      .filter((e) => e.object === 'database')
-      .map((e) => ({ id: e.id, name: e.title[0].text.content }))
+      .filter(e => e.object === 'database')
+      .map(e => ({ id: e.id, name: e.title[0].text.content }))
     const newConf = { ...conf }
     if (data) {
       if (!newConf.default) {
@@ -190,20 +182,20 @@ export const getFieldsProperties = async (conf, setConf, loading, setLoading) =>
   return false
 }
 
-export const generateMappedField = (notionConf) => {
-  const requiredFlds = notionConf?.notionFields.filter((fld) => fld.required === true)
+export const generateMappedField = notionConf => {
+  const requiredFlds = notionConf?.notionFields.filter(fld => fld.required === true)
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({
+    ? requiredFlds.map(field => ({
         formFields: '',
         notionFormFields: field.label
       }))
     : [{ formFields: '', notionFormFields: '' }]
 }
 
-export const checkMappedFields = (notionConf) => {
+const checkMappedFields = notionConf => {
   const mappedFields = notionConf?.field_map
     ? notionConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formFields ||
           !mappedField.notionFormFields ||
           (!mappedField.formFields === 'custom' && !mappedField.customValue)
@@ -230,7 +222,7 @@ export const nextPage = (conf, setStep, pageNo) => {
 export const saveConfig = (flow, setFlow, allIntegURL, conf, navigate, setLoading) => {
   setLoading(true)
   const resp = saveIntegConfig(flow, setFlow, allIntegURL, conf, navigate, '', '', setLoading)
-  resp.then((res) => {
+  resp.then(res => {
     if (res.success) {
       toast.success(res.data?.msg)
       navigate(allIntegURL)

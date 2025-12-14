@@ -15,24 +15,24 @@ export const handleInput = (e, clickupConf, setClickupConf) => {
   setClickupConf({ ...newConf })
 }
 
-export const generateMappedField = (clickupConf) => {
+export const generateMappedField = clickupConf => {
   let allRequiredFields = []
   if (clickupConf.actionName === 'task') {
     allRequiredFields = clickupConf?.taskFields
   }
-  const requiredFlds = allRequiredFields?.filter((fld) => fld.required === true)
+  const requiredFlds = allRequiredFields?.filter(fld => fld.required === true)
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({
+    ? requiredFlds.map(field => ({
         formField: '',
         clickupFormField: field.key
       }))
     : [{ formField: '', clickupFormField: '' }]
 }
 
-export const checkMappedFields = (clickupConf) => {
+export const checkMappedFields = clickupConf => {
   const mappedFields = clickupConf?.field_map
     ? clickupConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField ||
           !mappedField.clickupFormField ||
           (mappedField.formField === 'custom' && !mappedField.customValue) ||
@@ -65,7 +65,7 @@ export const clickupAuthentication = (
 
   const requestParams = { api_key: confTmp.api_key }
 
-  bitsFetch(requestParams, 'clickup_authentication').then((result) => {
+  bitsFetch(requestParams, 'clickup_authentication').then(result => {
     if (result && result.success) {
       setIsAuthorized(true)
       setLoading({ ...loading, auth: false })
@@ -86,9 +86,9 @@ export const getCustomFields = (confTmp, setConf, setLoading) => {
     list_id: confTmp.selectedList
   }
 
-  bitsFetch(requestParams, 'clickup_fetch_custom_fields').then((result) => {
+  bitsFetch(requestParams, 'clickup_fetch_custom_fields').then(result => {
     if (result && result.success) {
-      setConf((oldConf) => {
+      setConf(oldConf => {
         const newConf = { ...oldConf }
         if (!newConf.default) {
           newConf.default = {}
@@ -119,7 +119,7 @@ export const getAllTeams = (confTmp, setConf, setLoading) => {
     action_name: confTmp.actionName
   }
 
-  bitsFetch(requestParams, 'clickup_fetch_all_Teams').then((result) => {
+  bitsFetch(requestParams, 'clickup_fetch_all_Teams').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -149,7 +149,7 @@ export const getAllSpaces = (confTmp, setConf, setLoading) => {
     team_id: confTmp.selectedTeam
   }
 
-  bitsFetch(requestParams, 'clickup_fetch_all_Spaces').then((result) => {
+  bitsFetch(requestParams, 'clickup_fetch_all_Spaces').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -179,7 +179,7 @@ export const getAllFolders = (confTmp, setConf, setLoading) => {
     space_id: confTmp.selectedSpace
   }
 
-  bitsFetch(requestParams, 'clickup_fetch_all_Folders').then((result) => {
+  bitsFetch(requestParams, 'clickup_fetch_all_Folders').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -209,7 +209,7 @@ export const getAllLists = (confTmp, setConf, setLoading) => {
     folder_id: confTmp.selectedFolder
   }
 
-  bitsFetch(requestParams, 'clickup_fetch_all_Lists').then((result) => {
+  bitsFetch(requestParams, 'clickup_fetch_all_Lists').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -226,36 +226,6 @@ export const getAllLists = (confTmp, setConf, setLoading) => {
     setLoading({ ...setLoading, Lists: false })
     if (confTmp.actionName === 'task') {
       toast.error(__('Lists fetching failed', 'bit-integrations'))
-    }
-  })
-}
-
-export const getAllTags = (confTmp, setConf, setLoading) => {
-  setLoading({ ...setLoading, Tags: true })
-
-  const requestParams = {
-    api_key: confTmp.api_key,
-    action_name: confTmp.actionName,
-    space_id: confTmp.selectedSpace
-  }
-
-  bitsFetch(requestParams, 'clickup_fetch_all_Tags').then((result) => {
-    if (result && result.success) {
-      const newConf = { ...confTmp }
-      if (result.data) {
-        newConf.Tags = result.data
-      }
-      setConf(newConf)
-      setLoading({ ...setLoading, Tags: false })
-      if (confTmp.actionName === 'task') {
-        toast.success(__('Tags fetched successfully', 'bit-integrations'))
-      }
-
-      return
-    }
-    setLoading({ ...setLoading, Tags: false })
-    if (confTmp.actionName === 'task') {
-      toast.error(__('Tags fetching failed', 'bit-integrations'))
     }
   })
 }
