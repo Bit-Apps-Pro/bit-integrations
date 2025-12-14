@@ -19,7 +19,7 @@ export default function KeapIntegLayout({
 }) {
   const { id } = useParams()
 
-  const setTags = (val) => {
+  const setTags = val => {
     const newConf = { ...keapConf }
     if (val) {
       newConf.tags = val ? val.split(',') : []
@@ -46,9 +46,7 @@ export default function KeapIntegLayout({
         <div className="mt-4">
           <b className="wdt-100">{__('Map Fields', 'bit-integrations')}</b>
           <button
-            onClick={() =>
-              refreshCustomFields(id, keapConf, setKeapConf, setIsLoading, setSnackbar)
-            }
+            onClick={() => refreshCustomFields(id, keapConf, setKeapConf, setIsLoading, setSnackbar)}
             className="icn-btn sh-sm ml-2 mr-2 tooltip"
             style={{ '--tooltip-txt': `'${__('Refresh Lemlist Field', 'bit-integrations')}'` }}
             type="button"
@@ -97,30 +95,6 @@ export default function KeapIntegLayout({
           loading={isLoading}
           setLoading={setIsLoading}
         />
-        {/* {keapConf.actions?.address && (
-          <>
-            <div className="mt-4">
-              <b className="wdt-100">{__('Address Field Map', 'bit-integrations')}</b>
-            </div>
-            <div className="btcd-hr mt-1" />
-            <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
-              <div className="txt-dp"><b>{__('Form Address Fields', 'bit-integrations')}</b></div>
-              <div className="txt-dp"><b>{__('Mail Chimp Address Fields', 'bit-integrations')}</b></div>
-            </div>
-            {keapConf?.address_field?.map((itm, i) => (
-              <AddressFieldMap
-                key={`sheet-m-${i + 9}`}
-                i={i}
-                field={itm}
-                keapConf={keapConf}
-                formFields={formFields}
-                setKeapConf={setKeapConf}
-                addressField={address}
-              />
-            ))}
-            <div className="txt-center btcbi-field-map-button mt-2"><button onClick={() => addAddressFieldMap(keapConf.address_field.length, keapConf, setKeapConf)} className="icn-btn sh-sm" type="button">+</button></div>
-          </>
-        )} */}
         <br />
         <br />
       </>
