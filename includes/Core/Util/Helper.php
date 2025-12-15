@@ -407,11 +407,18 @@ final class Helper
                 continue;
             }
 
+            $label = ucwords(str_replace('_', ' ', $path ? $currentPath : $key));
             if (\is_array($value) || \is_object($value)) {
+                $formattedData[$currentPath] = [
+                    'name'  => $currentPath . '.value',
+                    'type'  => static::getVariableType($value),
+                    'label' => $label . ' ( array )',
+                    'value' => $value,
+                ];
+
                 $formattedData = static::prepareFetchFormatFields((array) $value, $currentPath, $formattedData);
             } else {
                 $labelValue = \is_string($value) && \strlen($value) > 20 ? substr($value, 0, 20) . '...' : $value;
-                $label = ucwords(str_replace('_', ' ', $path ? $currentPath : $key));
                 $label = preg_replace("/\b(\w+)\s+\\1\b/i", '$1', $label) . ' (' . $labelValue . ')';
 
                 $formattedData[$currentPath] = [

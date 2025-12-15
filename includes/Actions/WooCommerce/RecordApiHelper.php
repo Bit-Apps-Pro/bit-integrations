@@ -54,7 +54,11 @@ class RecordApiHelper
         $fieldData = $user_inputs;
         $fieldData['role'] = 'customer';
 
-        $user_id = wp_insert_user($fieldData);
+        $user_id = wc_create_new_customer(
+            $fieldData['user_email'],
+            $fieldData['user_login'],
+            isset($fieldData['user_pass']) ? $fieldData['user_pass'] : ''
+        );
 
         if (is_wp_error($user_id) || !$user_id) {
             $response = is_wp_error($user_id) ? $user_id->get_error_message() : 'error';

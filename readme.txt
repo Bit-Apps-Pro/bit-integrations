@@ -4,7 +4,7 @@ Tags: automation, automator, Google Sheets, webhooks, zapier, marketing automati
 Requires at least: 5.1
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.7.3
+Stable tag: 2.7.4
 License: GPLv2 or later
 
 Perfect Automation and integration plugin: Connect 300+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
@@ -699,6 +699,20 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 6. All integration list
 
 == Changelog ==
+
+= 2.7.4 =
+_Release Date - 15th December 2025_
+
+- **New Trigger**
+ - Bit Social: 14 new events added (Pro)
+ - Poptics: 2 new events added (Pro)
+
+- **Bug Fixes**
+ - WooCommerce: Fixed issue with creating customer data.
+ - Amelia: Resolved issue with multiple checkbox data not saving correctly.
+ - License Deactivation: Fixed deactivation issue (Pro).
+ - Divi Form by Divi Engine: Fixed form type issue (Pro).
+ - Essential Blocks: Fixed blank page issue (Pro).
 
 = 2.7.3 =
 _Release Date - 3rd December 2025_
