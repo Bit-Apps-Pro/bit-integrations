@@ -43,6 +43,7 @@ final class AllTriggersName
             'Dokan'                      => ['name' => 'Dokan',  'isPro' => true, 'is_active' => false],
             'EasyCommerce'               => ['name' => 'EasyCommerce',  'isPro' => true, 'is_active' => false],
             'EDD'                        => ['name' => 'Easy Digital Downloads',  'isPro' => true, 'is_active' => false],
+            'EssentialAddonsElementor'   => ['name' => 'Essential Addons For Elementor',  'isPro' => true, 'is_active' => false],
             'EssentialBlocks'            => ['name' => 'Essential Blocks',  'isPro' => true, 'is_active' => false],
             'Eventin'                    => ['name' => 'Eventin',  'isPro' => true, 'is_active' => false],
             'EVF'                        => ['name' => 'Everest Forms',  'isPro' => true, 'is_active' => false],

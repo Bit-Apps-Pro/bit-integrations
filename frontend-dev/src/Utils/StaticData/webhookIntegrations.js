@@ -81,7 +81,8 @@ export const customFormIntegrations = [
   'ContactFormEmail',
   'MailerPress',
   'Poptics',
-  'EssentialBlocks'
+  'EssentialBlocks',
+  'EssentialAddonsElementor'
 ]
 
 export const actionHookIntegrations = ['ActionHook']
