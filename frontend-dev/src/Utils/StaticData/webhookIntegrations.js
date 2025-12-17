@@ -80,7 +80,8 @@ export const customFormIntegrations = [
   'BookingCalendarContactForm',
   'ContactFormEmail',
   'MailerPress',
-  'Poptics'
+  'Poptics',
+  'EssentialBlocks'
 ]
 
 export const actionHookIntegrations = ['ActionHook']

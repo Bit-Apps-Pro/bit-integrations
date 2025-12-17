@@ -60,7 +60,7 @@ export default function SelectTrigger() {
 
     return dataObj
   }
-  // console.log('data', data)
+
   useEffect(() => {
     if (data?.success === true) {
       setAllTriggers({ data: sortFeaturedProducts(data?.data) })
