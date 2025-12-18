@@ -52,7 +52,8 @@
     "i18n:php": "node ./pot-to-php.js locale.pot ../languages/generatedString.php bit-integrations",
     "i18n:pot": "wp i18n make-pot ../ --include=*.php --skip-js --slug=bit-integrations --headers='{\"Last-Translator\":\"developer@bitcode.pro\",\"Language-Team\":\"support@bitcode.pro\",\"PO-Revision-Date\":\"\"}'",
     "clean": "rimraf node_modules yarn.lock package-lock.json pnpm-lock.yaml",
-    "clean-install-run": "pnpm clean && pnpm i && pnpm hot"
+    "clean-install-run": "pnpm clean && pnpm i && pnpm hot",
+    "prod-zip": "node ./bin/prod-zip.js"
   },
   "husky": {
     "hooks": {
