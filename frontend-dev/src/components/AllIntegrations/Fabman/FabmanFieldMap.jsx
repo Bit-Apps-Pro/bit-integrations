@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { useRecoilValue } from 'recoil'
-import { useMemo, useCallback } from 'react'
+import { useMemo } from 'react'
 import { __, sprintf } from '../../../Utils/i18nwrap'
 import { addFieldMap, delFieldMap, handleFieldMapping } from './IntegrationHelpers'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
@@ -14,7 +14,7 @@ export default function FabmanFieldMap({ i, formFields, field, fabmanConf, setFa
     () => (fabmanConf?.staticFields ? fabmanConf.staticFields.filter(fld => !!fld.required) : []),
     [fabmanConf?.staticFields]
   )
-  const nonRequriedFields = useMemo(
+  const nonRequiredFields = useMemo(
     () => (fabmanConf?.staticFields ? fabmanConf.staticFields.filter(fld => !fld.required) : []),
     [fabmanConf?.staticFields]
   )
@@ -22,29 +22,17 @@ export default function FabmanFieldMap({ i, formFields, field, fabmanConf, setFa
     () => (Array.isArray(fabmanConf.customFields) ? fabmanConf.customFields : []),
     [fabmanConf.customFields]
   )
-  const allNonrequriedFields = useMemo(
-    () => [...nonRequriedFields, ...customFields],
-    [nonRequriedFields, customFields]
+  const allNonRequiredFields = useMemo(
+    () => [...nonRequiredFields, ...customFields],
+    [nonRequiredFields, customFields]
   )
 
   const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
 
-  const onFieldMapping = useCallback(
-    ev => handleFieldMapping(ev, i, fabmanConf, setFabmanConf),
-    [i, fabmanConf, setFabmanConf]
-  )
-  const onCustomValue = useCallback(
-    e => handleCustomValue(e, i, fabmanConf, setFabmanConf),
-    [i, fabmanConf, setFabmanConf]
-  )
-  const onAddFieldMap = useCallback(
-    () => addFieldMap(i, fabmanConf, setFabmanConf),
-    [i, fabmanConf, setFabmanConf]
-  )
-  const onDelFieldMap = useCallback(
-    () => delFieldMap(i, fabmanConf, setFabmanConf),
-    [i, fabmanConf, setFabmanConf]
+  const isDeleteDisabled = useMemo(
+    () => Array.isArray(fabmanConf?.field_map) && fabmanConf.field_map.length <= 1,
+    [fabmanConf?.field_map]
   )
 
   return (
@@ -55,7 +43,7 @@ export default function FabmanFieldMap({ i, formFields, field, fabmanConf, setFa
             className="btcd-paper-inp mr-2"
             name="formField"
             value={field.formField || ''}
-            onChange={onFieldMapping}>
+            onChange={ev => handleFieldMapping(ev, i, fabmanConf, setFabmanConf)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             <optgroup label={__('Form Fields', 'bit-integrations')}>
               {formFields?.map(f => (
@@ -65,23 +53,20 @@ export default function FabmanFieldMap({ i, formFields, field, fabmanConf, setFa
               ))}
             </optgroup>
             <option value="custom">{__('Custom...', 'bit-integrations')}</option>
-            <optgroup
-              label={sprintf(
-                __('General Smart Codes %s', 'bit-integrations'),
-                isPro ? '' : `(${__('Pro', 'bit-integrations')})`
-              )}>
-              {isPro &&
-                SmartTagField?.map(f => (
+            {isPro && (
+              <optgroup label={__('General Smart Codes', 'bit-integrations')}>
+                {SmartTagField?.map(f => (
                   <option key={`ff-rm-${f.name}`} value={f.name}>
                     {f.label}
                   </option>
                 ))}
-            </optgroup>
+              </optgroup>
+            )}
           </select>
 
           {field.formField === 'custom' && (
             <TagifyInput
-              onChange={onCustomValue}
+              onChange={e => handleCustomValue(e, i, fabmanConf, setFabmanConf)}
               label={__('Custom Value', 'bit-integrations')}
               className="mr-2"
               type="text"
@@ -96,14 +81,14 @@ export default function FabmanFieldMap({ i, formFields, field, fabmanConf, setFa
             disabled={i < requiredFields.length}
             name="fabmanFormField"
             value={i < requiredFields.length ? requiredFields[i].key || '' : field.fabmanFormField || ''}
-            onChange={onFieldMapping}>
+            onChange={ev => handleFieldMapping(ev, i, fabmanConf, setFabmanConf)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             {i < requiredFields.length ? (
               <option key={requiredFields[i].key} value={requiredFields[i].key}>
                 {requiredFields[i].label}
               </option>
             ) : (
-              allNonrequriedFields.map(({ key, label }) => (
+              allNonRequiredFields.map(({ key, label }) => (
                 <option key={key} value={key}>
                   {label}
                 </option>
@@ -113,16 +98,49 @@ export default function FabmanFieldMap({ i, formFields, field, fabmanConf, setFa
         </div>
         {i >= requiredFields.length && (
           <>
-            <button onClick={onAddFieldMap} className="icn-btn sh-sm ml-2 mr-1" type="button">
+            <button
+              onClick={() => addFieldMap(i, fabmanConf, setFabmanConf)}
+              className="icn-btn sh-sm ml-2 mr-1"
+              type="button">
               +
             </button>
-            <button
-              onClick={onDelFieldMap}
-              className="icn-btn sh-sm ml-1"
-              type="button"
-              aria-label="btn">
-              <span className="btcd-icn icn-trash-2" />
-            </button>
+            <div className="pos-rel delete-field-wrapper" style={{ position: 'relative' }}>
+              <button
+                onClick={() => delFieldMap(i, fabmanConf, setFabmanConf)}
+                disabled={isDeleteDisabled}
+                className={`icn-btn sh-sm ml-1 ${isDeleteDisabled ? 'btcd-icn-disabled' : ''}`}
+                type="button"
+                aria-label="Delete field mapping"
+                title={
+                  isDeleteDisabled
+                    ? __('At least one field mapping is required', 'bit-integrations')
+                    : __('Delete field mapping', 'bit-integrations')
+                }>
+                <span className="btcd-icn icn-trash-2" />
+              </button>
+              {isDeleteDisabled && (
+                <div
+                  className="delete-tooltip"
+                  style={{
+                    position: 'absolute',
+                    top: 'calc(100% + 8px)',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    background: 'rgba(0, 0, 0, 0.9)',
+                    color: 'white',
+                    padding: '8px 12px',
+                    borderRadius: '6px',
+                    fontSize: '12px',
+                    whiteSpace: 'nowrap',
+                    zIndex: 1000,
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    maxWidth: '200px'
+                  }}>
+                  {__('At least one field mapping is required', 'bit-integrations')}
+                </div>
+              )}
+            </div>
           </>
         )}
       </div>

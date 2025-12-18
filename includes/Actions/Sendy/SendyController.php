@@ -47,6 +47,8 @@ class SendyController
         // $authorizationHeader["api-key"] = $requestsParams->api_key;
         $apiResponse = HttpHelper::get($apiEndpoint, null, $authorizationHeader);
 
+        error_log(print_r($apiResponse, true));
+
         if (is_wp_error($apiResponse) || !\is_array($apiResponse)) {
             wp_send_json_error(
                 empty($apiResponse->code) ? 'Unknown' : $apiResponse->message,

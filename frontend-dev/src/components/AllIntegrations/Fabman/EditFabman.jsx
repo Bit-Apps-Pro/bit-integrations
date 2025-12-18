@@ -48,12 +48,12 @@ function EditFabman({ allIntegURL }) {
     // - field name/label includes "email"
     const selectedField = (formField || []).find(f => f.name === emailRow.formField)
 
-    if (!selectedField) return false
+    if (!selectedField) return true
 
     const hasEmailType = selectedField.type && String(selectedField.type).toLowerCase() === 'email'
     const looksLikeEmailField =
       /email/i.test(selectedField.name || '') || /email/i.test(selectedField.label || '')
-    return !(hasEmailType || !selectedField.type || looksLikeEmailField)
+    return !hasEmailType && selectedField.type && !looksLikeEmailField
   }
 
   const saveConfig = () => {

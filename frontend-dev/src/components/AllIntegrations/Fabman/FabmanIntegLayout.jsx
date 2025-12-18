@@ -5,16 +5,76 @@ import FabmanFieldMap from './FabmanFieldMap'
 import { addFieldMap } from './IntegrationHelpers'
 import { fetchFabmanWorkspaces, generateMappedField } from './FabmanCommonFunc'
 import Loader from '../../Loaders/Loader'
-import { useEffect, useMemo, useCallback, useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import Note from '../../Utilities/Note'
+import { useRecoilValue } from 'recoil'
+import { $btcbi } from '../../../GlobalStates'
 
 const fabmanActionsList = [
-  { label: __('Create Member', 'bit-integrations'), value: 'create_member' },
-  { label: __('Update Member', 'bit-integrations'), value: 'update_member' },
-  { label: __('Delete Member', 'bit-integrations'), value: 'delete_member' },
-  { label: __('Create Spaces', 'bit-integrations'), value: 'create_spaces' },
-  { label: __('Update Spaces', 'bit-integrations'), value: 'update_spaces' }
+  { label: __('Create Member', 'bit-integrations'), value: 'create_member', is_pro: false },
+  { label: __('Update Member', 'bit-integrations'), value: 'update_member', is_pro: true },
+  { label: __('Delete Member', 'bit-integrations'), value: 'delete_member', is_pro: true },
+  { label: __('Create Spaces', 'bit-integrations'), value: 'create_spaces', is_pro: true },
+  { label: __('Update Spaces', 'bit-integrations'), value: 'update_spaces', is_pro: true }
 ]
+
+const getActiveStaticFields = conf => {
+  if (conf.actionName === 'create_spaces' || conf.actionName === 'update_spaces') {
+    const fields = Array.isArray(conf.spacesStaticFields)
+      ? conf.spacesStaticFields.map(f => ({ ...f }))
+      : []
+    const isCreate = conf.actionName === 'create_spaces'
+    const nameIdx = fields.findIndex(f => String(f.key) === 'name')
+
+    if (nameIdx > -1) fields[nameIdx].required = true
+
+    const tzIdx = fields.findIndex(f => String(f.key) === 'timezone')
+
+    if (tzIdx > -1) fields[tzIdx].required = isCreate
+    return fields
+  }
+
+  if (conf.actionName === 'update_member' || conf.actionName === 'delete_member') {
+    const fields = Array.isArray(conf.memberStaticFields)
+      ? conf.memberStaticFields.map(f => ({ ...f }))
+      : []
+    const emailIdx = fields.findIndex(f => String(f.key) === 'emailAddress')
+
+    if (emailIdx > -1) fields[emailIdx].required = true
+
+    const firstNameIdx = fields.findIndex(f => String(f.key) === 'firstName')
+
+    if (firstNameIdx > -1) fields[firstNameIdx].required = false
+    return fields
+  }
+
+  return conf.memberStaticFields
+}
+
+const updateFieldMapForRequiredFields = (fabmanConf, setFabmanConf) => {
+  const staticFields = getActiveStaticFields(fabmanConf) || []
+  const requiredFields = staticFields.filter(f => !!f.required)
+
+  if (!Array.isArray(fabmanConf.field_map)) return
+
+  let changed = false
+  const newFieldMap = [...fabmanConf.field_map]
+
+  for (let i = 0; i < requiredFields.length; i += 1) {
+    if (!newFieldMap[i]) {
+      newFieldMap[i] = { formField: '', fabmanFormField: requiredFields[i].key }
+      changed = true
+    } else if (newFieldMap[i].fabmanFormField !== requiredFields[i].key) {
+      newFieldMap[i] = { ...newFieldMap[i], fabmanFormField: requiredFields[i].key }
+      changed = true
+    }
+  }
+
+  if (changed) {
+    const newConf = { ...fabmanConf, field_map: newFieldMap }
+    setFabmanConf(newConf)
+  }
+}
 
 export default function FabmanIntegLayout({
   formFields,
@@ -24,135 +84,61 @@ export default function FabmanIntegLayout({
   setLoading,
   setSnackbar
 }) {
-  const getActiveStaticFields = useCallback(conf => {
-    if (conf.actionName === 'create_spaces' || conf.actionName === 'update_spaces') {
-      const fields = Array.isArray(conf.spacesStaticFields)
-        ? conf.spacesStaticFields.map(f => ({ ...f }))
-        : []
-      const isCreate = conf.actionName === 'create_spaces'
-      const nameIdx = fields.findIndex(f => String(f.key) === 'name')
+  const btcbi = useRecoilValue($btcbi)
+  const { isPro } = btcbi
 
-      if (nameIdx > -1) fields[nameIdx].required = true
+  const handleActionChange = e => {
+    const newConf = { ...fabmanConf }
+    const value = e.target.value
+    newConf.actionName = value
 
-      const tzIdx = fields.findIndex(f => String(f.key) === 'timezone')
-
-      if (tzIdx > -1) fields[tzIdx].required = isCreate
-      return fields
+    if (value === 'create_spaces' || value === 'update_spaces') {
+      delete newConf.selectedMember
+      delete newConf.selectedLockVersion
     }
 
-    if (conf.actionName === 'update_member' || conf.actionName === 'delete_member') {
-      const fields = Array.isArray(conf.memberStaticFields)
-        ? conf.memberStaticFields.map(f => ({ ...f }))
-        : []
-      const emailIdx = fields.findIndex(f => String(f.key) === 'emailAddress')
+    newConf.field_map = [{ formField: '', fabmanFormField: '' }]
 
-      if (emailIdx > -1) fields[emailIdx].required = true
+    setFabmanConf(newConf)
+    updateFieldMapForRequiredFields(newConf, setFabmanConf)
+  }
 
-      const firstNameIdx = fields.findIndex(f => String(f.key) === 'firstName')
+  const handleWorkspaceChange = e => {
+    const newConf = { ...fabmanConf }
+    newConf.selectedWorkspace = e.target.value
 
-      if (firstNameIdx > -1) fields[firstNameIdx].required = false
-      return fields
+    const selectedWorkspace = (fabmanConf?.workspaces || []).find(
+      w => String(w.id) === String(e.target.value)
+    )
+
+    if (selectedWorkspace && typeof selectedWorkspace.lockVersion !== 'undefined') {
+      newConf.selectedLockVersion = selectedWorkspace.lockVersion
     }
 
-    return conf.memberStaticFields
-  }, [])
+    setFabmanConf(newConf)
+  }
 
-  useEffect(() => {
-    const staticFields = getActiveStaticFields(fabmanConf) || []
-    const requiredFields = staticFields.filter(f => !!f.required)
-    
-    if (!Array.isArray(fabmanConf.field_map)) return
+  const handleMemberChange = e => {
+    const newConf = { ...fabmanConf }
+    const selectedValue = e.target.value
 
-    let changed = false
-    const newFieldMap = [...fabmanConf.field_map]
-
-    for (let i = 0; i < requiredFields.length; i += 1) {
-      if (!newFieldMap[i]) {
-        newFieldMap[i] = { formField: '', fabmanFormField: requiredFields[i].key }
-        changed = true
-      } else if (newFieldMap[i].fabmanFormField !== requiredFields[i].key) {
-        newFieldMap[i] = { ...newFieldMap[i], fabmanFormField: requiredFields[i].key }
-        changed = true
-      }
+    if (selectedValue) {
+      const [memberId, lockVersion] = selectedValue.split('|')
+      newConf.selectedMember = memberId
+      newConf.selectedLockVersion = lockVersion
+    } else {
+      delete newConf.selectedMember
+      delete newConf.selectedLockVersion
     }
 
-    if (changed) {
-      const newConf = { ...fabmanConf, field_map: newFieldMap }
-      setFabmanConf(newConf)
-    }
-  }, [fabmanConf.actionName, fabmanConf.selectedWorkspace, fabmanConf.field_map, getActiveStaticFields])
+    setFabmanConf(newConf)
+  }
 
-  const handleActionChange = useCallback(
-    e => {
-      const newConf = { ...fabmanConf }
-      const value = e.target.value
-      newConf.actionName = value
-
-      if (value === 'create_spaces' || value === 'update_spaces') {
-        delete newConf.selectedMember
-        delete newConf.selectedLockVersion
-      }
-
-      newConf.field_map = [{ formField: '', fabmanFormField: '' }]
-
-      setFabmanConf(newConf)
-    },
-    [fabmanConf, setFabmanConf, loading, setLoading]
-  )
-
-  const handleWorkspaceChange = useCallback(
-    e => {
-      const newConf = { ...fabmanConf }
-      newConf.selectedWorkspace = e.target.value
-
-      const ws = (fabmanConf?.workspaces || []).find(w => String(w.id) === String(e.target.value))
-
-      if (ws && typeof ws.lockVersion !== 'undefined') {
-        newConf.selectedLockVersion = ws.lockVersion
-      }
-
-      setFabmanConf(newConf)
-    },
-    [fabmanConf, setFabmanConf, loading, setLoading]
-  )
-
-  const handleMemberChange = useCallback(
-    e => {
-      const newConf = { ...fabmanConf }
-      const selectedValue = e.target.value
-
-      if (selectedValue) {
-        const [memberId, lockVersion] = selectedValue.split('|')
-        newConf.selectedMember = memberId
-        newConf.selectedLockVersion = lockVersion
-      } else {
-        delete newConf.selectedMember
-        delete newConf.selectedLockVersion
-      }
-
-      setFabmanConf(newConf)
-    },
-    [fabmanConf, setFabmanConf]
-  )
-
-  const handleRefreshWorkspaces = useCallback(() => {
+  const handleRefreshWorkspaces = () => {
     fetchFabmanWorkspaces(fabmanConf, setFabmanConf, loading, setLoading, 'refresh')
-  }, [fabmanConf, setFabmanConf, loading, setLoading])
+  }
 
-  const isSpaceAction = useMemo(
-    () => fabmanConf.actionName === 'create_spaces' || fabmanConf.actionName === 'update_spaces',
-    [fabmanConf.actionName]
-  )
-
-  const isDeleteMember = useMemo(
-    () => fabmanConf.actionName === 'delete_member',
-    [fabmanConf.actionName]
-  )
-
-  const activeStaticFields = useMemo(
-    () => getActiveStaticFields(fabmanConf),
-    [fabmanConf, getActiveStaticFields]
-  )
+  const activeStaticFields = useMemo(() => getActiveStaticFields(fabmanConf), [fabmanConf])
 
   return (
     <div>
@@ -165,17 +151,19 @@ export default function FabmanIntegLayout({
           value={fabmanConf?.actionName}
           className="btcd-paper-inp w-5">
           <option value="">{__('Select Action', 'bit-integrations')}</option>
-          {fabmanActionsList.map(({ label, value }) => (
-            <option key={value} value={value}>
+          {fabmanActionsList.map(({ label, value, is_pro }) => (
+            <option key={value} value={value} disabled={is_pro && !isPro}>
               {label}
+              {is_pro && !isPro ? ` (${__('Pro', 'bit-integrations')})` : ''}
             </option>
           ))}
         </select>
       </div>
       <br />
+      {/* Show workspace selector for create_member, update_member, and update_spaces */}
       {fabmanConf.actionName &&
-        !isDeleteMember &&
-        (!isSpaceAction || fabmanConf.actionName === 'update_spaces') && (
+        fabmanConf.actionName !== 'delete_member' &&
+        fabmanConf.actionName !== 'create_spaces' && (
           <>
             <div className="flx">
               <b className="wdt-200 d-in-b">{__('Select Workspace:', 'bit-integrations')}</b>
@@ -217,7 +205,7 @@ export default function FabmanIntegLayout({
           </>
         )}
 
-      {isDeleteMember && (
+      {fabmanConf.actionName === 'delete_member' && (
         <>
           <div className="mt-5">
             <b className="wdt-100">{__('Field Map', 'bit-integrations')}</b>
@@ -248,11 +236,13 @@ export default function FabmanIntegLayout({
         </>
       )}
 
+      {/* Show field map for all actions except delete_member, with workspace check for space actions */}
       {fabmanConf.actionName &&
         fabmanConf.actionName !== 'delete_member' &&
-        (!isSpaceAction ||
-          (isSpaceAction &&
-            (fabmanConf.actionName !== 'update_spaces' || fabmanConf.selectedWorkspace))) && (
+        (fabmanConf.actionName === 'create_member' ||
+          fabmanConf.actionName === 'update_member' ||
+          (fabmanConf.actionName === 'create_spaces' && fabmanConf.selectedWorkspace) ||
+          (fabmanConf.actionName === 'update_spaces' && fabmanConf.selectedWorkspace)) && (
           <>
             {fabmanConf.actionName === 'create_spaces' && <Note note={fabmanTimezoneNote} />}
             <div className="mt-5">

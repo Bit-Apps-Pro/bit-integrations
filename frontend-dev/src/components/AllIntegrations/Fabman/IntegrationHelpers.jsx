@@ -2,9 +2,7 @@ import { create } from 'mutative'
 
 export const addFieldMap = (i, confTmp, setConf) => {
   const newConf = create(confTmp, draft => {
-    const fieldMap = Array.isArray(draft.field_map) ? [...draft.field_map] : []
-    fieldMap.splice(i, 0, {})
-    draft.field_map = fieldMap
+    draft.field_map.splice(i, 0, {})
   })
 
   setConf(newConf)
@@ -12,28 +10,31 @@ export const addFieldMap = (i, confTmp, setConf) => {
 
 export const delFieldMap = (i, confTmp, setConf) => {
   const newConf = create(confTmp, draft => {
-    const fieldMap = Array.isArray(draft.field_map) ? [...draft.field_map] : []
-
-    if (fieldMap.length > 1) {
-      fieldMap.splice(i, 1)
+    // Only remove if there's more than one item
+    if (draft.field_map.length > 1) {
+      draft.field_map.splice(i, 1)
     }
-    draft.field_map = fieldMap
   })
 
   setConf(newConf)
 }
 
-export const handleFieldMapping = (event, index, conftTmp, setConf) => {
-  const newConf = create(conftTmp, draft => {
-    const fieldMap = Array.isArray(draft.field_map) ? [...draft.field_map] : []
+export const handleFieldMapping = (event, index, confTmp, setConf) => {
+  const newConf = create(confTmp, draft => {
+    // Initialize the field map object at index if missing
+    if (!draft.field_map[index]) {
+      draft.field_map[index] = {}
+    }
 
-    if (!fieldMap[index]) fieldMap[index] = {}
-    fieldMap[index][event.target.name] = event.target.value
+    // Directly mutate the draft
+    draft.field_map[index][event.target.name] = event.target.value
 
     if (event.target.value === 'custom') {
-      fieldMap[index].customValue = ''
+      draft.field_map[index].customValue = ''
+    } else {
+      // Remove customValue if not custom to clean up the object
+      delete draft.field_map[index].customValue
     }
-    draft.field_map = fieldMap
   })
 
   setConf(newConf)

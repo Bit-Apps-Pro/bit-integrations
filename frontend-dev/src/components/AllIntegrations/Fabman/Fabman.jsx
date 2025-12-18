@@ -14,7 +14,9 @@ import {
   checkMappedFields,
   hasEmailFieldMapped,
   getEmailMappingRow,
-  isEmailMappingInvalid
+  isEmailMappingInvalid,
+  isConfigInvalid,
+  getValidationErrorMessage
 } from './FabmanCommonFunc'
 import FabmanIntegLayout from './FabmanIntegLayout'
 import { checkValidEmail } from '../../../Utils/Helpers'
@@ -32,13 +34,16 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
     field_map: [{ formField: '', fabmanFormField: '' }],
     customFields: [],
     actions: {},
+    // Conditional logic configuration for executing actions based on field values
+    // action_behavior: determines when to run integration (e.g., on specific conditions)
+    // actions: array of field-action pairs for conditional execution
+    // logics: array of conditional logic rules (field, comparison operator, value) joined by 'or'/'and'
     condition: {
       action_behavior: '',
       actions: [{ field: '', action: 'value' }],
       logics: [{ field: '', logic: '', val: '' }, 'or', { field: '', logic: '', val: '' }]
     },
-    trigger_type: '',
-    pro_integ_v: '2.5.4',
+
     fields: [],
     accountId: '',
     selectedLockVersion: '',
@@ -46,69 +51,11 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
     spacesStaticFields
   })
 
-  const isConfigInvalid = () => {
-    if (!fabmanConf.actionName) return true
-
-    if (
-      !['delete_member', 'delete_spaces'].includes(fabmanConf.actionName) &&
-      !checkMappedFields(fabmanConf)
-    )
-      return true
-
-    if (
-      ['update_member', 'delete_member'].includes(fabmanConf.actionName) &&
-      isEmailMappingInvalid(fabmanConf, formFields, checkValidEmail)
-    )
-      return true
-
-    if (
-      ['create_member', 'update_member', 'update_spaces', 'delete_spaces'].includes(
-        fabmanConf.actionName
-      ) &&
-      !fabmanConf.selectedWorkspace
-    )
-      return true
-
-    if (fabmanConf.actionName === 'delete_member') {
-      const hasEmailField = fabmanConf.field_map?.some(
-        field => field.fabmanFormField === 'emailAddress' && field.formField
-      )
-
-      if (!hasEmailField) {
-        return true
-      }
-    }
-    return false
-  }
-
   const saveConfig = () => {
-    if (isConfigInvalid()) {
-      if (!fabmanConf.actionName) {
-        setSnack({ show: true, msg: __('Please select an action', 'bit-integrations') })
-      } else if (
-        !['delete_member', 'delete_spaces'].includes(fabmanConf.actionName) &&
-        !checkMappedFields(fabmanConf)
-      ) {
-        setSnack({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
-      } else if (
-        ['update_member', 'delete_member'].includes(fabmanConf.actionName) &&
-        isEmailMappingInvalid(fabmanConf, formFields, checkValidEmail)
-      ) {
-        setSnack({ show: true, msg: __('Please map a valid email address', 'bit-integrations') })
-      } else if (
-        ['create_member', 'update_member', 'update_spaces', 'delete_spaces'].includes(
-          fabmanConf.actionName
-        ) &&
-        !fabmanConf.selectedWorkspace
-      ) {
-        setSnack({ show: true, msg: __('Please select a workspace', 'bit-integrations') })
-      } else if (fabmanConf.actionName === 'delete_member') {
-        if (!hasEmailFieldMapped(fabmanConf)) {
-          setSnack({
-            show: true,
-            msg: __('Please map email field for member lookup', 'bit-integrations')
-          })
-        }
+    if (isConfigInvalid(fabmanConf, formFields, checkValidEmail)) {
+      const errorMsg = getValidationErrorMessage(fabmanConf, formFields, checkValidEmail)
+      if (errorMsg) {
+        setSnack({ show: true, msg: errorMsg })
       }
       return
     }
@@ -116,37 +63,38 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
   }
 
   const nextPage = () => {
-    if (isConfigInvalid()) {
-      if (!fabmanConf.actionName) {
-        setSnack({ show: true, msg: __('Please select an action', 'bit-integrations') })
-      } else if (
-        !['delete_member', 'delete_spaces'].includes(fabmanConf.actionName) &&
-        !checkMappedFields(fabmanConf)
-      ) {
-        setSnack({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
-      } else if (
-        ['update_member', 'delete_member'].includes(fabmanConf.actionName) &&
-        isEmailMappingInvalid(fabmanConf, formFields, checkValidEmail)
-      ) {
-        setSnack({ show: true, msg: __('Please map a valid email address', 'bit-integrations') })
-      } else if (
-        ['create_member', 'update_member', 'update_spaces', 'delete_spaces'].includes(
-          fabmanConf.actionName
-        ) &&
-        !fabmanConf.selectedWorkspace
-      ) {
-        setSnack({ show: true, msg: __('Please select a workspace', 'bit-integrations') })
-      } else if (fabmanConf.actionName === 'delete_member') {
-        if (!hasEmailFieldMapped(fabmanConf)) {
-          setSnack({
-            show: true,
-            msg: __('Please map email field for member lookup', 'bit-integrations')
-          })
-        }
-      }
+    if (!isConfigInvalid()) {
+      setStep(3)
       return
     }
-    setStep(3)
+
+    if (!fabmanConf.actionName) {
+      setSnack({ show: true, msg: __('Please select an action', 'bit-integrations') })
+    } else if (
+      !['delete_member', 'delete_spaces'].includes(fabmanConf.actionName) &&
+      !checkMappedFields(fabmanConf)
+    ) {
+      setSnack({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
+    } else if (
+      ['update_member', 'delete_member'].includes(fabmanConf.actionName) &&
+      isEmailMappingInvalid(fabmanConf, formFields, checkValidEmail)
+    ) {
+      setSnack({ show: true, msg: __('Please map a valid email address', 'bit-integrations') })
+    } else if (
+      ['create_member', 'update_member', 'update_spaces', 'delete_spaces'].includes(
+        fabmanConf.actionName
+      ) &&
+      !fabmanConf.selectedWorkspace
+    ) {
+      setSnack({ show: true, msg: __('Please select a workspace', 'bit-integrations') })
+    } else if (fabmanConf.actionName === 'delete_member') {
+      if (!hasEmailFieldMapped(fabmanConf)) {
+        setSnack({
+          show: true,
+          msg: __('Please map email field for member lookup', 'bit-integrations')
+        })
+      }
+    }
   }
 
   return (
@@ -190,9 +138,7 @@ export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
       {/* STEP 3 */}
       <IntegrationStepThree
         step={step}
-        saveConfig={() =>
-          saveIntegConfig(flow, setFlow, allIntegURL, fabmanConf, navigate, '', '', setIsLoading)
-        }
+        saveConfig={saveConfig}
         isLoading={isLoading}
         dataConf={fabmanConf}
         setDataConf={setFabmanConf}

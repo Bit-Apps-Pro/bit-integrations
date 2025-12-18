@@ -19,8 +19,6 @@ export const handleInput = (e, fabmanConf, setFabmanConf) => {
 }
 
 export const generateMappedField = fabmanConf => {
-  // The double exclamation mark (!!) is used to convert any value to a boolean.
-  // This ensures only fields with a truthy 'required' property are included.
   const requiredFlds = fabmanConf?.staticFields.filter(fld => !!fld.required)
   return requiredFlds.length > 0
     ? requiredFlds.map(field => ({ formField: '', fabmanFormField: field.key }))
@@ -29,7 +27,7 @@ export const generateMappedField = fabmanConf => {
 
 export const checkMappedFields = fabmanConf => {
   const rows = Array.isArray(fabmanConf?.field_map) ? fabmanConf.field_map : []
-  const mappedFieldPresent = rows.filter(r => {
+  const invalidMappings = rows.filter(r => {
     const hasAnySide =
       (r?.formField && r.formField !== '') || (r?.fabmanFormField && r.fabmanFormField !== '')
 
@@ -40,7 +38,7 @@ export const checkMappedFields = fabmanConf => {
     if (r.formField === 'custom' && !r.customValue) return true
     return false
   })
-  return mappedFieldPresent.length === 0
+  return invalidMappings.length === 0
 }
 
 export const fabmanAuthentication = (
@@ -49,8 +47,7 @@ export const fabmanAuthentication = (
   setError,
   setIsAuthorized,
   loading,
-  setLoading,
-  type
+  setLoading
 ) => {
   if (!confTmp.apiKey) {
     setError({ apiKey: !confTmp.apiKey ? __("API key can't be empty", 'bit-integrations') : '' })
@@ -58,41 +55,39 @@ export const fabmanAuthentication = (
   }
 
   setError({})
-
-  if (type === 'authentication') {
-    setLoading({ ...loading, auth: true })
-  }
+  setLoading({ ...loading, auth: true })
 
   const requestParams = { apiKey: confTmp.apiKey }
 
-  bitsFetch(requestParams, 'fabman_authorization').then(result => {
-    if (result && result.success) {
-      // Use mutative's produce for state update
-      const newConf = create(confTmp, draft => {
-        if (type === 'authentication' && result.data && result.data.accountId) {
-          draft.accountId = result.data.accountId
-        }
-      })
+  bitsFetch(requestParams, 'fabman_authorization')
+    .then(result => {
+      if (result && result.success) {
+        const newConf = create(confTmp, draft => {
+          if (result.data && result.data.accountId) {
+            draft.accountId = result.data.accountId
+          }
+        })
 
-      setIsAuthorized(true)
-
-      if (type === 'authentication') {
+        setIsAuthorized(true)
         setConf(newConf)
         setLoading({ ...loading, auth: false })
         toast.success(__('Authorized Successfully', 'bit-integrations'))
-
-        fetchFabmanWorkspaces(newConf, setConf, loading, setLoading, 'fetch')
+        return
       }
-      return
-    }
-    setLoading({ ...loading, auth: false })
-    toast.error(__('Authorization Failed', 'bit-integrations'))
-  })
+      setIsAuthorized(false)
+      setLoading({ ...loading, auth: false })
+      toast.error(__('Authorization Failed', 'bit-integrations'))
+    })
+    .catch(error => {
+      console.error(error)
+      setLoading({ ...loading, auth: false })
+      toast.error(__('Authorization Failed', 'bit-integrations'))
+    })
 }
 
 export const fetchFabmanWorkspaces = (confTmp, setConf, loading, setLoading, type = 'fetch') => {
   if (!confTmp.apiKey) {
-    toast.error(__('API key is required to fetch workspaces', 'bit-integrations'))
+    toast.error(__("API key can't be empty", 'bit-integrations'))
     return
   }
 
@@ -100,50 +95,37 @@ export const fetchFabmanWorkspaces = (confTmp, setConf, loading, setLoading, typ
 
   const requestParams = { apiKey: confTmp.apiKey }
 
-  bitsFetch(requestParams, 'fabman_fetch_workspaces').then(result => {
-    setLoading({ ...loading, workspaces: false })
+  bitsFetch(requestParams, 'fabman_fetch_workspaces')
+    .then(result => {
+      setLoading({ ...loading, workspaces: false })
 
-    if (result && result.success) {
-      // Use mutative's produce for state update
-      const newConf = create(confTmp, draft => {
-        if (result.data && result.data.workspaces && Array.isArray(result.data.workspaces)) {
-          draft.workspaces = result.data.workspaces
-          if (result.data.workspaces.length === 1) {
-            draft.selectedWorkspace = result.data.workspaces[0].id
+      if (result && result.success) {
+        // Use mutative's produce for state update
+        const newConf = create(confTmp, draft => {
+          if (result.data && result.data.workspaces && Array.isArray(result.data.workspaces)) {
+            draft.workspaces = result.data.workspaces
+            if (result.data.workspaces.length === 1) {
+              draft.selectedWorkspace = result.data.workspaces[0].id
+            }
           }
-        }
-      })
+        })
 
-      setConf(newConf)
-      toast.success(
-        type === 'refresh'
-          ? __('Workspaces refreshed successfully', 'bit-integrations')
-          : __('Workspaces fetched successfully', 'bit-integrations')
-      )
-      return
-    }
-    toast.error(__('Failed to fetch workspaces', 'bit-integrations'))
-  })
-}
+        setConf(newConf)
+        toast.success(
+          type === 'refresh'
+            ? __('Workspaces refreshed successfully', 'bit-integrations')
+            : __('Workspaces fetched successfully', 'bit-integrations')
+        )
+        return
+      }
 
-export const isConfigInvalid = (fabmanConf, formField) => {
-  if (!fabmanConf.actionName) return true
-
-  if (['update_member', 'delete_member'].includes(fabmanConf.actionName)) {
-    // isEmailMappingInvalid needs to be passed or imported
-    if (isEmailMappingInvalid(fabmanConf, formField)) return true
-    if (!checkMappedFields(fabmanConf)) return true
-    return false
-  }
-
-  if (
-    ['update_spaces', 'delete_spaces'].includes(fabmanConf.actionName) &&
-    !fabmanConf.selectedWorkspace
-  )
-    return true
-
-  if (!checkMappedFields(fabmanConf)) return true
-  return false
+      toast.error(__('Failed to fetch workspaces', 'bit-integrations'))
+    })
+    .catch(error => {
+      console.error(error)
+      setLoading({ ...loading, workspaces: false })
+      toast.error(__('Failed to fetch workspaces', 'bit-integrations'))
+    })
 }
 
 export const hasEmailFieldMapped = fabmanConf => {
@@ -172,5 +154,75 @@ export const isEmailMappingInvalid = (fabmanConf, formFields, checkValidEmail) =
   const hasEmailType = selectedField.type && String(selectedField.type).toLowerCase() === 'email'
   const looksLikeEmailField =
     /email/i.test(selectedField.name || '') || /email/i.test(selectedField.label || '')
-  return !(hasEmailType || !selectedField.type || looksLikeEmailField)
+  return !hasEmailType && selectedField.type && !looksLikeEmailField
+}
+
+export const isConfigInvalid = (fabmanConf, formFields, checkValidEmail) => {
+  if (!fabmanConf.actionName) return true
+
+  if (
+    !['delete_member', 'delete_spaces'].includes(fabmanConf.actionName) &&
+    !checkMappedFields(fabmanConf)
+  )
+    return true
+
+  if (
+    ['update_member', 'delete_member'].includes(fabmanConf.actionName) &&
+    isEmailMappingInvalid(fabmanConf, formFields, checkValidEmail)
+  )
+    return true
+
+  if (
+    ['create_member', 'update_member', 'update_spaces', 'delete_spaces'].includes(
+      fabmanConf.actionName
+    ) &&
+    !fabmanConf.selectedWorkspace
+  )
+    return true
+
+  if (fabmanConf.actionName === 'delete_member') {
+    const hasEmailField = fabmanConf.field_map?.some(
+      field => field.fabmanFormField === 'emailAddress' && field.formField
+    )
+
+    if (!hasEmailField) {
+      return true
+    }
+  }
+  return false
+}
+
+export const getValidationErrorMessage = (fabmanConf, formFields, checkValidEmail) => {
+  if (!fabmanConf.actionName) {
+    return __('Please select an action', 'bit-integrations')
+  }
+
+  if (
+    !['delete_member', 'delete_spaces'].includes(fabmanConf.actionName) &&
+    !checkMappedFields(fabmanConf)
+  ) {
+    return __('Please map mandatory fields', 'bit-integrations')
+  }
+
+  if (
+    ['update_member', 'delete_member'].includes(fabmanConf.actionName) &&
+    isEmailMappingInvalid(fabmanConf, formFields, checkValidEmail)
+  ) {
+    return __('Please map a valid email address', 'bit-integrations')
+  }
+
+  if (
+    ['create_member', 'update_member', 'update_spaces', 'delete_spaces'].includes(
+      fabmanConf.actionName
+    ) &&
+    !fabmanConf.selectedWorkspace
+  ) {
+    return __('Please select a workspace', 'bit-integrations')
+  }
+
+  if (fabmanConf.actionName === 'delete_member' && !hasEmailFieldMapped(fabmanConf)) {
+    return __('Please map email field for member lookup', 'bit-integrations')
+  }
+
+  return null
 }

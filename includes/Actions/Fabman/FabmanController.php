@@ -14,7 +14,7 @@ class FabmanController
     {
         if (empty($requestParams->apiKey)) {
             wp_send_json_error(__('API Key is required', 'bit-integrations'), 400);
-        }
+
 
         $header = [
             'Authorization' => 'Bearer ' . $requestParams->apiKey,
@@ -76,17 +76,31 @@ class FabmanController
         $memberId = $integrationDetails->selectedMember ?? null;
         $lockVersion = $integrationDetails->selectedLockVersion ?? null;
 
-        if (\in_array($actionName, ['update_member', 'delete_member'])) {
-            if ($actionName === 'delete_member' || empty($memberId)) {
-                $email = self::getMappedValue($integrationDetails->field_map, 'emailAddress', $fieldValues);
-                if ($email) {
-                    $memberData = self::fetchMemberByEmailInternal($apiKey, $email);
-                    if ($memberData) {
-                        $memberId = $memberData['memberId'];
-                        $lockVersion = $memberData['lockVersion'];
-                    }
-                }
+        // Fetch member by email if needed for update/delete operations
+        $needsMemberLookup = \in_array($actionName, ['update_member', 'delete_member'])
+                             && ($actionName === 'delete_member' || empty($memberId));
+
+        if ($needsMemberLookup) {
+            $email = self::getMappedValue($integrationDetails->field_map, 'emailAddress', $fieldValues);
+            
+            if (!$email) {
+                return [
+                    'success' => false,
+                    'message' => __('Email address is required to identify the member', 'bit-integrations')
+                ];
             }
+
+            $memberData = self::fetchMemberByEmail($apiKey, $email);
+            
+            if (!$memberData) {
+                return [
+                    'success' => false,
+                    'message' => __('Member not found with the provided email', 'bit-integrations')
+                ];
+            }
+
+            $memberId = $memberData['memberId'];
+            $lockVersion = $memberData['lockVersion'];
         }
 
         $recordApiHelper = new RecordApiHelper(
@@ -118,7 +132,7 @@ class FabmanController
         }
     }
 
-    private static function fetchMemberByEmailInternal($apiKey, $email)
+    private static function fetchMemberByEmail($apiKey, $email)
     {
         $header = [
             'Authorization' => 'Bearer ' . $apiKey,
@@ -128,7 +142,7 @@ class FabmanController
         $apiEndpoint = 'https://fabman.io/api/v1/members?q=' . urlencode($email);
         $apiResponse = HttpHelper::get($apiEndpoint, null, $header);
 
-        if (is_wp_error($apiResponse) || empty($apiResponse) || isset($apiResponse->error) || !\is_array($apiResponse)) {
+        if (is_wp_error($apiResponse) || !\is_array($apiResponse) || empty($apiResponse)) {
             return;
         }
 
