@@ -2,11 +2,11 @@
 
 namespace BitCode\FI\Triggers\WC;
 
+use BitCode\FI\Core\Util\Helper;
+use BitCode\FI\Flow\Flow;
 use WC_Booking;
 use WC_Checkout;
-use BitCode\FI\Flow\Flow;
 use WC_Subscriptions_Product;
-use BitCode\FI\Core\Util\Helper;
 
 final class WCController
 {
@@ -183,13 +183,14 @@ final class WCController
             $orderby = 'name';
             $order = 'asc';
             $hide_empty = false;
-            $cat_args = [
+            $args = [
                 'orderby'    => $orderby,
                 'order'      => $order,
                 'hide_empty' => $hide_empty,
+                'taxonomy'   => 'product_cat',
             ];
 
-            $product_categories_list = get_terms('product_cat', $cat_args);
+            $product_categories_list = get_terms($args);
             if (empty($product_categories_list)) {
                 return;
             }
@@ -990,25 +991,21 @@ final class WCController
 
         $comment = get_comment($comment_id, OBJECT);
 
-        if (isset($comment->user_id) && 0 === absint($comment->user_id)) {
-            return;
-        }
-
         $finalData = [
-            'product_id'         => $comment->comment_post_ID,
-            'product_title'      => get_the_title($comment->comment_post_ID),
-            'product_url'        => get_permalink($comment->comment_post_ID),
-            'product_price'      => get_post_meta($comment->comment_post_ID, '_price', true),
-            'product_review'     => $comment->comment_content,
-            'product_sku'        => get_post_meta($comment->comment_post_ID, '_sku', true),
-            'product_tags'       => get_the_terms($comment->comment_post_ID, 'product_tag'),
-            'product_categories' => get_the_terms($comment->comment_post_ID, 'product_cat'),
+            'product_id'         => $comment->comment_post_ID ?? '',
+            'product_title'      => isset($comment->comment_post_ID) ? get_the_title($comment->comment_post_ID) : '',
+            'product_url'        => isset($comment->comment_post_ID) ? get_permalink($comment->comment_post_ID) : '',
+            'product_price'      => isset($comment->comment_post_ID) ? get_post_meta($comment->comment_post_ID, '_price', true) : '',
+            'product_review'     => $comment->comment_content ?? '',
+            'product_sku'        => isset($comment->comment_post_ID) ? get_post_meta($comment->comment_post_ID, '_sku', true) : '',
+            'product_tags'       => isset($comment->comment_post_ID) ? get_the_terms($comment->comment_post_ID, 'product_tag') : '',
+            'product_categories' => isset($comment->comment_post_ID) ? get_the_terms($comment->comment_post_ID, 'product_cat') : '',
             'product_rating'     => get_comment_meta($comment_id, 'rating', true),
-            'review_id'          => $comment->comment_ID,
-            'review_date'        => $comment->comment_date,
-            'author_id'          => $comment->user_id,
-            'review_author_name' => $comment->comment_author,
-            'author_email'       => $comment->comment_author_email,
+            'review_id'          => $comment->comment_ID ?? '',
+            'review_date'        => $comment->comment_date ?? '',
+            'author_id'          => $comment->user_id ?? 0,
+            'review_author_name' => $comment->comment_author ?? '',
+            'author_email'       => $comment->comment_author_email ?? '',
         ];
 
         $flowDetails = json_decode($flows[0]->flow_details);
@@ -1199,13 +1196,14 @@ final class WCController
         $orderby = 'name';
         $order = 'asc';
         $hide_empty = false;
-        $cat_args = [
+        $args = [
             'orderby'    => $orderby,
             'order'      => $order,
             'hide_empty' => $hide_empty,
+            'taxonomy'   => 'product_cat',
         ];
 
-        $product_categories_list = get_terms('product_cat', $cat_args);
+        $product_categories_list = get_terms($args);
         if (empty($product_categories_list)) {
             return;
         }

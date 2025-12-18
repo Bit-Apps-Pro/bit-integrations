@@ -25,7 +25,7 @@ class RecordApiHelper
     {
         $messages = $this->buildMessages($integrationDetails, $fieldValues);
 
-        if (empty($messages)) {
+        if (!isset($messages) || \count($messages) === 0) {
             return ['error' => 'No valid message generated.'];
         }
 
@@ -66,39 +66,65 @@ class RecordApiHelper
             $messages[] = $text;
         }
 
-        if (!empty($details->sendSticker) && !empty($details->sticker_field_map)) {
-            $sticker = $this->buildStickerMessage($details->sticker_field_map, $values);
-            if ($sticker) {
-                $messages[] = $sticker;
+        if (isset($details->sendSticker, $details->sticker_field_map)) {
+            $stickerRequiredFields = ['sticker_id', 'package_id'];
+            $stickers = $this->processGrouped(
+                $values,
+                $details->sticker_field_map,
+                $stickerRequiredFields,
+                [$this, 'transformSticker']
+            );
+            $messages = array_merge($messages, $stickers);
+        }
+
+        if (isset($details->sendImage, $details->image_field_map)) {
+            $imageRequiredFields = ['originalContentUrl'];
+            $images = $this->processGrouped(
+                $values,
+                $details->image_field_map,
+                $imageRequiredFields,
+                [$this, 'transformImage']
+            );
+            $messages = array_merge($messages, $images);
+        }
+
+        if (isset($details->sendAudio, $details->audio_field_map)) {
+            $audioFields = array_filter($details->audio_field_map, function ($field) {
+                return $field->fieldType === 'audio';
+            });
+            if (\count($audioFields) > 0) {
+                $audioRequiredFields = ['originalContentUrl'];
+                $audios = $this->processGrouped(
+                    $values,
+                    $audioFields,
+                    $audioRequiredFields,
+                    [$this, 'transformAudio']
+                );
+                $audios = array_filter($audios);
+                $messages = array_merge($messages, $audios);
             }
         }
 
-        if (!empty($details->sendImage) && !empty($details->image_field_map)) {
-            $image = $this->buildImageMessage($details->image_field_map, $values);
-            if ($image) {
-                $messages[] = $image;
-            }
+        if (isset($details->sendVideo, $details->video_field_map)) {
+            $videoRequiredFields = ['originalContentUrl'];
+            $videos = $this->processGrouped(
+                $values,
+                $details->video_field_map,
+                $videoRequiredFields,
+                [$this, 'transformVideo']
+            );
+            $messages = array_merge($messages, $videos);
         }
 
-        if (!empty($details->sendAudio) && !empty($details->audio_field_map)) {
-            $audio = $this->buildAudioMessage($details->audio_field_map, $values);
-            if ($audio) {
-                $messages[] = $audio;
-            }
-        }
-
-        if (!empty($details->sendVideo) && !empty($details->video_field_map)) {
-            $video = $this->buildVideoMessage($details->video_field_map, $values);
-            if ($video) {
-                $messages[] = $video;
-            }
-        }
-
-        if (!empty($details->sendLocation) && !empty($details->location_field_map)) {
-            $location = $this->buildLocationMessage($details->location_field_map, $values);
-            if ($location) {
-                $messages[] = $location;
-            }
+        if (isset($details->sendLocation, $details->location_field_map)) {
+            $locationRequiredFields = ['title', 'address', 'latitude', 'longitude'];
+            $locations = $this->processGrouped(
+                $values,
+                $details->location_field_map,
+                $locationRequiredFields,
+                [$this, 'transformLocation']
+            );
+            $messages = array_merge($messages, $locations);
         }
 
         return array_values(array_filter($messages));
@@ -108,123 +134,90 @@ class RecordApiHelper
     {
         $messageText = '';
 
-        if (!empty($details->message_field_map)) {
+        if (isset($details->message_field_map)) {
             $mappedMessage = $this->mapFields($values, $details->message_field_map);
-            if (!empty($mappedMessage['message'])) {
+            if (isset($mappedMessage['message'])) {
                 $messageText = $mappedMessage['message'];
             }
         }
 
-        if (empty($messageText) && !empty($details->message)) {
+        if (!isset($messageText) && isset($details->message)) {
             $messageText = $details->message;
         }
 
-        if (empty($messageText)) {
+        if (!isset($messageText)) {
             return null;
         }
 
         $message = ['type' => 'text', 'text' => $messageText];
 
-        if (!empty($details->sendEmojis) && !empty($details->emojis_field_map)) {
-            $emoji = $this->mapFields($values, $details->emojis_field_map);
-
-            if ($emoji['emojis_id'] ?? false) {
-                $message['emojis'] = [[
-                    'index'     => (int) $emoji['index'],
-                    'productId' => $emoji['product_id'],
-                    'emojiId'   => $emoji['emojis_id'],
-                ]];
+        if (isset($details->sendEmojis, $details->emojis_field_map)) {
+            $emojis = [];
+            $groups = $this->organizeFieldsByGroup($details->emojis_field_map);
+            foreach ($groups as $groupId => $groupFields) {
+                $emoji = $this->mapFields($values, $groupFields);
+                if (isset($emoji['emojis_id'], $emoji['product_id'], $emoji['index'])) {
+                    $emojis[] = [
+                        'index'     => (int) $emoji['index'],
+                        'productId' => $emoji['product_id'],
+                        'emojiId'   => $emoji['emojis_id'],
+                    ];
+                }
+            }
+            if (isset($emojis) && \count($emojis) > 0) {
+                $message['emojis'] = $emojis;
             }
         }
 
         return $message;
     }
 
-    private function buildStickerMessage($map, $values): ?array
+    private function organizeFieldsByGroup(array $fieldMap): array
     {
-        $data = $this->mapFields($values, $map);
-
-        if (!($data['sticker_id'] ?? false)) {
-            return null;
+        $grouped = [];
+        foreach ($fieldMap as $field) {
+            $groupId = $field->groupId ?? 'default';
+            if (!isset($grouped[$groupId])) {
+                $grouped[$groupId] = [];
+            }
+            $grouped[$groupId][] = $field;
         }
 
-        return [
-            'type'      => 'sticker',
-            'packageId' => $data['package_id'],
-            'stickerId' => $data['sticker_id'],
-        ];
+        return $grouped;
     }
 
-    private function buildImageMessage($map, $values): ?array
+    private function processGrouped(array $values, array $fieldMap, array $requiredKeys, callable $builder): array
     {
-        $data = $this->mapFields($values, $map);
+        $results = [];
+        $groups = $this->organizeFieldsByGroup($fieldMap);
+        foreach ($groups as $groupId => $groupFields) {
+            $data = $this->mapFields($values, $groupFields);
 
-        if (empty($data['originalContentUrl'])) {
-            return null;
+            $allPresent = true;
+            foreach ($requiredKeys as $key) {
+                if (!isset($data[$key])) {
+                    $allPresent = false;
+
+                    break;
+                }
+            }
+
+            if ($allPresent) {
+                $results[] = $builder($data);
+            }
         }
 
-        return array_filter([
-            'type'               => 'image',
-            'originalContentUrl' => $data['originalContentUrl'],
-            'previewImageUrl'    => $data['previewImageUrl'] ?? null
-        ]);
+        return $results;
     }
 
-    private function buildAudioMessage($map, $values): ?array
-    {
-        $data = $this->mapFields($values, $map);
-
-        if (empty($data['originalContentUrl'])) {
-            return null;
-        }
-
-        return array_filter([
-            'type'               => 'audio',
-            'originalContentUrl' => $data['originalContentUrl'],
-            'duration'           => isset($data['duration']) ? (int) $data['duration'] : null
-        ]);
-    }
-
-    private function buildVideoMessage($map, $values): ?array
-    {
-        $data = $this->mapFields($values, $map);
-
-        if (empty($data['originalContentUrl'])) {
-            return null;
-        }
-
-        return array_filter([
-            'type'               => 'video',
-            'originalContentUrl' => $data['originalContentUrl'],
-            'previewImageUrl'    => $data['previewImageUrl'] ?? null
-        ]);
-    }
-
-    private function buildLocationMessage($map, $values): ?array
-    {
-        $data = $this->mapFields($values, $map);
-
-        if (empty($data['title']) || empty($data['address']) || empty($data['latitude']) || empty($data['longitude'])) {
-            return null;
-        }
-
-        return [
-            'type'      => 'location',
-            'title'     => $data['title'],
-            'address'   => $data['address'],
-            'latitude'  => (float) $data['latitude'],
-            'longitude' => (float) $data['longitude'],
-        ];
-    }
-
-    private function mapFields($data, $fieldMap): array
+    private function mapFields(array $data, array $fieldMap): array
     {
         $result = [];
 
-        foreach ($fieldMap as $field) {
+        foreach ($fieldMap as $index => $field) {
             $key = $field->lineFormField;
 
-            if ($field->formField === 'custom' && !empty($field->customValue)) {
+            if ($field->formField === 'custom' && (isset($field->customValue) && $field->customValue !== '')) {
                 $result[$key] = Common::replaceFieldWithValue($field->customValue, $data);
             } elseif (isset($data[$field->formField])) {
                 $result[$key] = $data[$field->formField];
@@ -236,7 +229,7 @@ class RecordApiHelper
 
     private function handleFilterResponse($response)
     {
-        if (empty($response)) {
+        if (!isset($response)) {
             return (object) ['error' => \wp_sprintf(\__('%s plugin is not installed or activated', 'bit-integrations'), 'Bit Integrations Pro')];
         }
 
@@ -268,5 +261,56 @@ class RecordApiHelper
         $response = \apply_filters('btcbi_line_broadcast_message', false, $data, $this->setHeaders(), $this->apiEndPoint);
 
         return static::handleFilterResponse($response);
+    }
+
+    private function transformSticker(array $data): array
+    {
+        return [
+            'type'      => 'sticker',
+            'packageId' => $data['package_id'],
+            'stickerId' => $data['sticker_id'],
+        ];
+    }
+
+    private function transformImage(array $data): array
+    {
+        return array_filter([
+            'type'               => 'image',
+            'originalContentUrl' => $data['originalContentUrl'],
+            'previewImageUrl'    => $data['previewImageUrl'] ?? null
+        ]);
+    }
+
+    private function transformAudio(array $data): ?array
+    {
+        if (!isset($data['duration'])) {
+            return null;
+        }
+
+        return [
+            'type'               => 'audio',
+            'originalContentUrl' => $data['originalContentUrl'],
+            'duration'           => $data['duration']
+        ];
+    }
+
+    private function transformVideo(array $data): array
+    {
+        return array_filter([
+            'type'               => 'video',
+            'originalContentUrl' => $data['originalContentUrl'],
+            'previewImageUrl'    => $data['previewImageUrl'] ?? null
+        ]);
+    }
+
+    private function transformLocation(array $data): array
+    {
+        return [
+            'type'      => 'location',
+            'title'     => $data['title'],
+            'address'   => $data['address'],
+            'latitude'  => (float) $data['latitude'],
+            'longitude' => (float) $data['longitude'],
+        ];
     }
 }

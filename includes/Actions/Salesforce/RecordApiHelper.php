@@ -5,6 +5,10 @@ namespace BitCode\FI\Actions\Salesforce;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
 use BitCode\FI\Log\LogHandler;
+use DateTime;
+use DateTimeImmutable;
+use DateTimeZone;
+use Throwable;
 
 /**
  * Provide functionality for Record insert,upsert
@@ -31,21 +35,28 @@ class RecordApiHelper
         foreach ($fieldMap as $key => $value) {
             $triggerValue = $value->formField;
             $actionValue = $value->selesforceField;
-            if ($triggerValue === 'custom') {
-                $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $data);
-            } elseif (!\is_null($data[$triggerValue])) {
-                $dataFinal[$actionValue] = $data[$triggerValue];
-            }
+
+            $dataFinal[$actionValue] = self::convertToSalesforceFormat(
+                $triggerValue === 'custom' && isset($value->customValue)
+                    ? Common::replaceFieldWithValue($value->customValue, $data)
+                    : ($data[$triggerValue] ?? null)
+            );
         }
 
         return $dataFinal;
     }
 
-    public function insertContact($finalData)
+    public function insertContact($finalData, $update = false)
     {
         $apiEndpoint = $this->_apiDomain . '/services/data/v37.0/sobjects/Contact';
 
-        return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->_defaultHeader);
+        $response = HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->_defaultHeader);
+
+        if (!$update) {
+            return $response;
+        }
+
+        return apply_filters('btcbi_salesforce_update_record', $response, $apiEndpoint, $finalData, $this->_defaultHeader);
     }
 
     public function insertRecord($finalData, $action)
@@ -55,11 +66,17 @@ class RecordApiHelper
         return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->_defaultHeader);
     }
 
-    public function insertLead($finalData)
+    public function insertLead($finalData, $update = false)
     {
         $apiEndpoint = $this->_apiDomain . '/services/data/v37.0/sobjects/Lead';
 
-        return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->_defaultHeader);
+        $response = HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->_defaultHeader);
+
+        if (!$update) {
+            return $response;
+        }
+
+        return apply_filters('btcbi_salesforce_update_record', $response, $apiEndpoint, $finalData, $this->_defaultHeader);
     }
 
     public function createAccount($finalData)
@@ -130,7 +147,7 @@ class RecordApiHelper
         $apiEndpoint = $this->_apiDomain . '/services/data/v37.0/sobjects/Case';
 
         foreach ($actionsData as $key => $value) {
-            if (!empty($value)) {
+            if (isset($value)) {
                 $finalData[$key] = $value;
             }
         }
@@ -138,45 +155,58 @@ class RecordApiHelper
         return HttpHelper::post($apiEndpoint, wp_json_encode($finalData), $this->_defaultHeader);
     }
 
-    public function execute(
-        $integrationDetails,
-        $fieldValues,
-        $fieldMap,
-        $actions,
-        $tokenDetails
-    ) {
+    public function execute($integrationDetails, $fieldValues, $fieldMap, $actions)
+    {
         $actionName = $integrationDetails->actionName;
+        $update = isset($actions->update) ? $actions->update : false;
+
         if ($actionName === 'contact-create') {
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
-            $insertContactResponse = $this->insertContact($finalData);
-            if (\is_object($insertContactResponse) && property_exists($insertContactResponse, 'id')) {
-                LogHandler::save($this->_integrationID, wp_json_encode(['type' => $actionName, 'type_name' => 'Contact-create']), 'success', wp_json_encode(wp_sprintf(__('Created contact id is : %s', 'bit-integrations'), $insertContactResponse->id)));
-            } else {
-                LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Contact', 'type_name' => 'Contact-create']), 'error', wp_json_encode($insertContactResponse));
+            $response = $this->insertContact($finalData, $update);
+
+            $responseType = !\is_null($response) || (\is_object($response) && isset($response->id)) ? 'success' : 'error';
+            $typeName = !$update || (\is_object($response) && isset($response->id)) ? 'Contact-create' : 'Contact-update';
+
+            $message = wp_json_encode($response);
+
+            if ($responseType === 'success' && $update) {
+                $message = __('Contact Updated Successfully', 'bit-integrations');
+            } elseif ($responseType === 'success') {
+                $message = wp_json_encode(wp_sprintf(__('Created contact id is : %s', 'bit-integrations'), $response->id));
             }
+
+            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Contact', 'type_name' => $typeName]), $responseType, $message);
         } elseif ($actionName === 'lead-create') {
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
 
-            $finalData = apply_filters('btcbi_salesforce_add_lead_utilities', $finalData, $integrationDetails->actions);
+            $finalData = apply_filters('btcbi_salesforce_add_lead_utilities', $finalData, $actions);
 
-            $insertLeadResponse = $this->insertLead($finalData);
+            $insertLeadResponse = $this->insertLead($finalData, $update);
 
-            if (\is_object($insertLeadResponse) && property_exists($insertLeadResponse, 'id')) {
-                LogHandler::save($this->_integrationID, wp_json_encode(['type' => $actionName, 'type_name' => 'Lead-create']), 'success', wp_json_encode(wp_sprintf(__('Created lead id is : %s', 'bit-integrations'), $insertLeadResponse->id)));
-            } else {
-                LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Lead', 'type_name' => 'Lead-create']), 'error', wp_json_encode($insertLeadResponse));
+            $responseType = !\is_null($insertLeadResponse) || (\is_object($insertLeadResponse) && isset($insertLeadResponse->id)) ? 'success' : 'error';
+            $typeName = !$update || (\is_object($insertLeadResponse) && isset($insertLeadResponse->id)) ? 'Lead-create' : 'Lead-update';
+
+            $message = wp_json_encode($insertLeadResponse);
+
+            if ($responseType === 'success' && $update) {
+                $message = __('Lead Updated Successfully', 'bit-integrations');
+            } elseif ($responseType === 'success') {
+                $message = wp_json_encode(wp_sprintf(__('Created lead id is : %s', 'bit-integrations'), $insertLeadResponse->id));
             }
+
+            LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Lead', 'type_name' => $typeName]), $responseType, $message);
         } elseif ($actionName === 'account-create') {
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
 
-            if (!empty($integrationDetails->actions->selectedAccType)) {
-                $finalData['Type'] = $integrationDetails->actions->selectedAccType;
+            if (isset($actions->selectedAccType)) {
+                $finalData['Type'] = $actions->selectedAccType;
             }
-            if (!empty($integrationDetails->actions->selectedOwnership)) {
-                $finalData['Ownership'] = $integrationDetails->actions->selectedOwnership;
+            if (isset($actions->selectedOwnership)) {
+                $finalData['Ownership'] = $actions->selectedOwnership;
             }
 
             $createAccountResponse = $this->createAccount($finalData);
+
             if (\is_object($createAccountResponse) && property_exists($createAccountResponse, 'id')) {
                 LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Account', 'type_name' => 'Account-create']), 'success', wp_json_encode(wp_sprintf(__('Created account id is : %s', 'bit-integrations'), $createAccountResponse->id)));
             } else {
@@ -192,9 +222,9 @@ class RecordApiHelper
             }
         } elseif ($actionName === 'add-campaign-member') {
             $campaignId = $integrationDetails->campaignId;
-            $leadId = empty($integrationDetails->leadId) ? null : $integrationDetails->leadId;
-            $contactId = empty($integrationDetails->contactId) ? null : $integrationDetails->contactId;
-            $statusId = empty($integrationDetails->statusId) ? null : $integrationDetails->statusId;
+            $leadId = isset($integrationDetails->leadId) ? $integrationDetails->leadId : null;
+            $contactId = isset($integrationDetails->contactId) ? $integrationDetails->contactId : null;
+            $statusId = isset($integrationDetails->statusId) ? $integrationDetails->statusId : null;
             $insertCampaignMember = $this->insertCampaignMember($campaignId, $leadId, $contactId, $statusId);
             if (\is_object($insertCampaignMember) && property_exists($insertCampaignMember, 'id')) {
                 LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'CampaignMember', 'type_name' => 'CampaignMember-create']), 'success', wp_json_encode(wp_sprintf(__('Created campaign member id is : %s', 'bit-integrations'), $insertCampaignMember->id)));
@@ -202,11 +232,11 @@ class RecordApiHelper
                 LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'CampaignMember', 'type_name' => 'CampaignMember-create']), 'error', wp_json_encode($insertCampaignMember));
             }
         } elseif ($actionName === 'task-create') {
-            $contactId = empty($integrationDetails->contactId) ? null : $integrationDetails->contactId;
-            $accountId = empty($integrationDetails->accountId) ? null : $integrationDetails->accountId;
+            $contactId = isset($integrationDetails->contactId) ? $integrationDetails->contactId : null;
+            $accountId = isset($integrationDetails->accountId) ? $integrationDetails->accountId : null;
             $subjectId = $integrationDetails->subjectId;
             $priorityId = $integrationDetails->priorityId;
-            $statusId = empty($integrationDetails->statusId) ? null : $integrationDetails->statusId;
+            $statusId = isset($integrationDetails->statusId) ? $integrationDetails->statusId : null;
             $apiResponse = $this->createTask($contactId, $accountId, $subjectId, $priorityId, $statusId);
             if (\is_object($apiResponse) && property_exists($apiResponse, 'id')) {
                 LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Task', 'type_name' => 'Task-create']), 'success', wp_json_encode(wp_sprintf(__('Created task id is : %s', 'bit-integrations'), $apiResponse->id)));
@@ -214,11 +244,11 @@ class RecordApiHelper
                 LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Task', 'type_name' => 'Task-create']), 'error', wp_json_encode($apiResponse));
             }
         } elseif ($actionName === 'opportunity-create') {
-            $opportunityTypeId = empty($integrationDetails->actions->opportunityTypeId) ? null : $integrationDetails->actions->opportunityTypeId;
-            $opportunityStageId = empty($integrationDetails->actions->opportunityStageId) ? null : $integrationDetails->actions->opportunityStageId;
-            $opportunityLeadSourceId = empty($integrationDetails->actions->opportunityLeadSourceId) ? null : $integrationDetails->actions->opportunityLeadSourceId;
-            $accountId = empty($integrationDetails->actions->accountId) ? null : $integrationDetails->actions->accountId;
-            $campaignId = empty($integrationDetails->actions->campaignId) ? null : $integrationDetails->actions->campaignId;
+            $opportunityTypeId = isset($actions->opportunityTypeId) ? $actions->opportunityTypeId : null;
+            $opportunityStageId = isset($actions->opportunityStageId) ? $actions->opportunityStageId : null;
+            $opportunityLeadSourceId = isset($actions->opportunityLeadSourceId) ? $actions->opportunityLeadSourceId : null;
+            $accountId = isset($actions->accountId) ? $actions->accountId : null;
+            $campaignId = isset($actions->campaignId) ? $actions->campaignId : null;
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
             $opportunityResponse = $this->createOpportunity($finalData, $opportunityTypeId, $opportunityStageId, $opportunityLeadSourceId, $accountId, $campaignId);
             if (\is_object($opportunityResponse) && property_exists($opportunityResponse, 'id')) {
@@ -227,9 +257,9 @@ class RecordApiHelper
                 LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Opportunity', 'type_name' => 'Opportunity-create']), 'error', wp_json_encode($opportunityResponse));
             }
         } elseif ($actionName === 'event-create') {
-            $contactId = empty($integrationDetails->actions->contactId) ? null : $integrationDetails->actions->contactId;
-            $accountId = empty($integrationDetails->actions->accountId) ? null : $integrationDetails->actions->accountId;
-            $eventSubjectId = empty($integrationDetails->actions->eventSubjectId) ? null : $integrationDetails->actions->eventSubjectId;
+            $contactId = isset($actions->contactId) ? $actions->contactId : null;
+            $accountId = isset($actions->accountId) ? $actions->accountId : null;
+            $eventSubjectId = isset($actions->eventSubjectId) ? $actions->eventSubjectId : null;
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
             $createEventResponse = $this->createEvent($finalData, $contactId, $accountId, $eventSubjectId);
             if (\is_object($createEventResponse) && property_exists($createEventResponse, 'id')) {
@@ -238,15 +268,15 @@ class RecordApiHelper
                 LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'Event', 'type_name' => 'Event-create']), 'error', wp_json_encode($createEventResponse));
             }
         } elseif ($actionName === 'case-create') {
-            $actionsData['ContactId'] = empty($integrationDetails->actions->contactId) ? null : $integrationDetails->actions->contactId;
-            $actionsData['AccountId'] = empty($integrationDetails->actions->accountId) ? null : $integrationDetails->actions->accountId;
-            $actionsData['Status'] = empty($integrationDetails->actions->caseStatusId) ? null : $integrationDetails->actions->caseStatusId;
-            $actionsData['Origin'] = empty($integrationDetails->actions->caseOriginId) ? null : $integrationDetails->actions->caseOriginId;
-            $actionsData['Priority'] = empty($integrationDetails->actions->casePriorityId) ? null : $integrationDetails->actions->casePriorityId;
-            $actionsData['Reason'] = empty($integrationDetails->actions->caseReason) ? null : $integrationDetails->actions->caseReason;
-            $actionsData['Type'] = empty($integrationDetails->actions->caseType) ? null : $integrationDetails->actions->caseType;
-            $actionsData['PotentialLiability__c'] = empty($integrationDetails->actions->potentialLiabilityId) ? null : $integrationDetails->actions->potentialLiabilityId;
-            $actionsData['SLAViolation__c'] = empty($integrationDetails->actions->slaViolationId) ? null : $integrationDetails->actions->slaViolationId;
+            $actionsData['ContactId'] = isset($actions->contactId) ? $actions->contactId : null;
+            $actionsData['AccountId'] = isset($actions->accountId) ? $actions->accountId : null;
+            $actionsData['Status'] = isset($actions->caseStatusId) ? $actions->caseStatusId : null;
+            $actionsData['Origin'] = isset($actions->caseOriginId) ? $actions->caseOriginId : null;
+            $actionsData['Priority'] = isset($actions->casePriorityId) ? $actions->casePriorityId : null;
+            $actionsData['Reason'] = isset($actions->caseReason) ? $actions->caseReason : null;
+            $actionsData['Type'] = isset($actions->caseType) ? $actions->caseType : null;
+            $actionsData['PotentialLiability__c'] = isset($actions->potentialLiabilityId) ? $actions->potentialLiabilityId : null;
+            $actionsData['SLAViolation__c'] = isset($actions->slaViolationId) ? $actions->slaViolationId : null;
 
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
             $createCaseResponse = $this->createCase($finalData, $actionsData);
@@ -267,5 +297,180 @@ class RecordApiHelper
         }
 
         return true;
+    }
+
+    public static function convertToSalesforceFormat($input)
+    {
+        try {
+            if (!$input || !\is_string($input)) {
+                return $input;
+            }
+
+            $input = trim($input);
+
+            if (empty($input)) {
+                return $input;
+            }
+
+            // ----------------------------
+            // PHONE NUMBER PROTECTION
+            // ----------------------------
+            if (preg_match('/^\+?\d{7,15}$/', $input)) {
+                return $input;
+            }
+
+            // ------------------------------------------------------------
+            // 1) Handle UNIX timestamps (10 or 13 digits)
+            // ------------------------------------------------------------
+            if (self::validateNumericDateWithLength($input, 10)) {
+                return gmdate('Y-m-d\TH:i:s\Z', (int) $input);
+            }
+            if (self::validateNumericDateWithLength($input, 13)) {
+                return gmdate('Y-m-d\TH:i:s\Z', (int) ($input / 1000));
+            }
+
+            // ------------------------------------------------------------
+            // 2) Natural-language dates ("today", "tomorrow", "next Monday", etc.)
+            // ------------------------------------------------------------
+            if (preg_match('/^[a-zA-Z ]+$/', $input) || str_contains($input, 'ago')) {
+                $ts = strtotime($input);
+                if ($ts) {
+                    return gmdate('Y-m-d', $ts);
+                }
+            }
+
+            // ------------------------------------------------------------
+            // 3) Clean ordinals: 1st, 2nd, 3rd, 21st, 31st...
+            // ------------------------------------------------------------
+            $clean = preg_replace('/\b(\d+)(st|nd|rd|th)\b/i', '$1', $input);
+
+            // ------------------------------------------------------------
+            // 4) Japanese/Chinese/Korean locale replacements
+            // ------------------------------------------------------------
+            $clean = str_replace(
+                ['年', '月', '日', '년', '월', '일'],
+                ['-', '-', '', '-', '-', ''],
+                $clean
+            );
+
+            // ------------------------------------------------------------
+            // 5) Week-based formats (2025-W05 or 2025-W05-6)
+            // ------------------------------------------------------------
+            if (preg_match('/^(\d{4})-?W(\d{2})(?:-?(\d))?$/i', $clean, $m)) {
+                $year = $m[1];
+                $week = $m[2];
+                $day = $m[3] ?? 1;
+
+                try {
+                    $dt = new DateTime("{$year}-W{$week}-{$day}", new DateTimeZone('UTC'));
+
+                    return $dt->format('Y-m-d');
+                } catch (Throwable $e) {
+                }
+            }
+
+            // ------------------------------------------------------------
+            // 6) Quarter formats (Q1 2025, 2025 Q1, 1st Quarter 2025)
+            // ------------------------------------------------------------
+            if (preg_match('/(Q[1-4]|[1-4]st Quarter)\s*[, ]*\s*(\d{4})/i', $clean, $m)) {
+                $q = preg_replace('/\D/', '', $m[1]); // Extract 1–4
+                $year = $m[2];
+                $month = (($q - 1) * 3) + 1;
+
+                return "{$year}-" . str_pad($month, 2, '0', STR_PAD_LEFT) . '-01';
+            }
+
+            // ------------------------------------------------------------
+            // 7) Compact numeric formats (01022025, 20250201, 250201, 010225)
+            // ------------------------------------------------------------
+            if (self::validateNumericDateWithLength($clean, 8)) {
+                // YYYYMMDD or DDMMYYYY or MMDDYYYY → try multiple interpretations
+                $candidates = [
+                    substr($clean, 0, 4) . '-' . substr($clean, 4, 2) . '-' . substr($clean, 6, 2), // YMD
+                    substr($clean, 4, 4) . '-' . substr($clean, 2, 2) . '-' . substr($clean, 0, 2), // DMY
+                ];
+                foreach ($candidates as $c) {
+                    if (strtotime($c)) {
+                        return $c;
+                    }
+                }
+            }
+
+            if (self::validateNumericDateWithLength($clean, 6)) {
+                // DDMMYY / YYMMDD / MMDDYY
+                $yy = \intval(substr($clean, -2));
+
+                // Sliding window: interpret two-digit year as closest to current year within 50 years
+                $currentYear = \intval(date('Y'));
+                $century = \intval($currentYear / 100) * 100;
+                $fullYear = $century + $yy;
+                $window = 50;
+
+                if ($fullYear < $currentYear - $window) {
+                    $fullYear += 100;
+                } elseif ($fullYear > $currentYear + $window) {
+                    $fullYear -= 100;
+                }
+
+                $dm = substr($clean, 0, 2) . '-' . substr($clean, 2, 2) . '-' . $fullYear;
+                $md = substr($clean, 2, 2) . '-' . substr($clean, 0, 2) . '-' . $fullYear;
+
+                foreach ([$dm, $md] as $c) {
+                    $ts = strtotime($c);
+                    if ($ts) {
+                        return gmdate('Y-m-d', $ts);
+                    }
+                }
+            }
+
+            // ------------------------------------------------------------
+            // 8) Try direct DateTime parsing for most formats
+            // ------------------------------------------------------------
+            $dt = self::tryParseDateTimeImmutable($clean);
+
+            if ($dt instanceof DateTimeImmutable) {
+                // Detect if datetime or pure date
+                if (preg_match('/\d{1,2}:\d/', $clean)) {
+                    return $dt->setTimezone(new DateTimeZone('UTC'))
+                        ->format('Y-m-d\TH:i:s\Z');
+                }
+
+                return $dt->format('Y-m-d');
+            }
+
+            // ------------------------------------------------------------
+            // 9) Last fallback using strtotime()
+            // ------------------------------------------------------------
+            $ts = strtotime($clean);
+            if ($ts) {
+                // Detect datetime or date-only
+                if (preg_match('/\d{1,2}:\d/', $clean)) {
+                    return gmdate('Y-m-d\TH:i:s\Z', $ts);
+                }
+
+                return gmdate('Y-m-d', $ts);
+            }
+
+            // ------------------------------------------------------------
+            // 10) No match → return original
+            // ------------------------------------------------------------
+            return $input;
+        } catch (Throwable $th) {
+            return $input;
+        }
+    }
+
+    private static function tryParseDateTimeImmutable($value)
+    {
+        try {
+            return new DateTimeImmutable($value);
+        } catch (Throwable $e) {
+            return;
+        }
+    }
+
+    private static function validateNumericDateWithLength($input, $length)
+    {
+        return is_numeric($input) && \strlen($input) === $length;
     }
 }

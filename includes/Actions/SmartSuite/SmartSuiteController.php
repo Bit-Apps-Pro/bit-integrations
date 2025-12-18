@@ -117,7 +117,7 @@ class SmartSuiteController
         if (\is_array($response)) {
             wp_send_json_success(__('Authentication successful', 'bit-integrations'), 200);
         } else {
-            wp_send_json_error(__($response, 'bit-integrations'), 400);
+            wp_send_json_error($response, 400);
         }
     }
 

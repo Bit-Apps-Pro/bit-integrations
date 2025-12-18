@@ -407,11 +407,18 @@ final class Helper
                 continue;
             }
 
+            $label = ucwords(str_replace('_', ' ', $path ? $currentPath : $key));
             if (\is_array($value) || \is_object($value)) {
+                $formattedData[$currentPath] = [
+                    'name'  => $currentPath . '.value',
+                    'type'  => static::getVariableType($value),
+                    'label' => $label . ' ( array )',
+                    'value' => $value,
+                ];
+
                 $formattedData = static::prepareFetchFormatFields((array) $value, $currentPath, $formattedData);
             } else {
                 $labelValue = \is_string($value) && \strlen($value) > 20 ? substr($value, 0, 20) . '...' : $value;
-                $label = ucwords(str_replace('_', ' ', $path ? $currentPath : $key));
                 $label = preg_replace("/\b(\w+)\s+\\1\b/i", '$1', $label) . ' (' . $labelValue . ')';
 
                 $formattedData[$currentPath] = [
@@ -488,6 +495,22 @@ final class Helper
     public static function jsonEncodeDecode($data)
     {
         return json_decode(json_encode($data), true);
+    }
+
+    public static function getPostIdFromReferer($referer)
+    {
+        if ($referer === null) {
+            $referer = $_SERVER['HTTP_REFERER'] ?? null;
+        }
+
+        if (empty($referer)) {
+            return;
+        }
+
+        $referer = wp_unslash($referer);
+        $referer = sanitize_text_field($referer);
+
+        return url_to_postid($referer);
     }
 
     private static function getVariableType($val)

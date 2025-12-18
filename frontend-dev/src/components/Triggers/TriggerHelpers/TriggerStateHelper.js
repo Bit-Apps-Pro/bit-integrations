@@ -993,6 +993,8 @@ export const UltimateMemberStateIH = (tmpConf, flowData) => {
     tmpConf.allRole = flowData.allRole
   }
 
+  tmpConf.fields = flowData.fields
+
   return tmpConf
 }
 

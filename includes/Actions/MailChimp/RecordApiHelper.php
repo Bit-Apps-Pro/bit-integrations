@@ -83,7 +83,7 @@ class RecordApiHelper
             $contactEmail = $fieldData['email_address'];
             $foundContact = $this->existContact($listId, $contactEmail);
 
-            if (!empty($actions->update) && \count($foundContact->exact_matches->members)) {
+            if (!empty($actions->update) && !empty($foundContact->exact_matches->members)) {
                 $contactId = $foundContact->exact_matches->members[0]->id;
                 $fieldData['status'] = $foundContact->exact_matches->members[0]->status;
                 $recordApiResponse = $this->updateRecord($listId, $contactId, wp_json_encode($fieldData));
@@ -120,7 +120,7 @@ class RecordApiHelper
                     $fieldData['email_address'] = $fieldValues[$fieldPair->formField];
                 } elseif ($fieldPair->mailChimpField === 'BIRTHDAY') {
                     $date = $fieldValues[$fieldPair->formField];
-                    $mergeFields[$fieldPair->mailChimpField] = date('m/d', strtotime($date));
+                    $mergeFields[$fieldPair->mailChimpField] = gmdate('m/d', strtotime($date));
                 } elseif ($fieldPair->formField === 'custom' && isset($fieldPair->customValue)) {
                     $mergeFields[$fieldPair->mailChimpField] = $fieldPair->customValue;
                 } else {

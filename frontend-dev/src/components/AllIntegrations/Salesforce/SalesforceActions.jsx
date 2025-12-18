@@ -109,6 +109,25 @@ export default function SalesforceActions({
   return (
     <div className="pos-rel">
       <div className="d-flx flx-wrp">
+        {['contact-create', 'lead-create'].includes(salesforceConf.actionName) && (
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <TableCheckBox
+              onChange={e => actionHandler(e.target.checked, 'update')}
+              checked={salesforceConf?.actions?.update ?? false}
+              className="wdt-200 mt-4 mr-2"
+              value="update"
+              isInfo={!isPro}
+              title={<ProFeatureTitle title={__('Update Record', 'bit-integrations')} />}
+              subTitle={
+                <ProFeatureSubtitle
+                  title={__('Update', 'bit-integrations')}
+                  subtitle={__('Update existing Record.', 'bit-integrations')}
+                  proVersion="2.7.2 or 2.7.3"
+                />
+              }
+            />
+          </div>
+        )}
         {salesforceConf.actionName === 'opportunity-create' && (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <TableCheckBox

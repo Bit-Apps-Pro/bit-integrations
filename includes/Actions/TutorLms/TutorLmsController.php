@@ -188,7 +188,7 @@ class TutorLmsController
         global $wpdb;
         do_action('tutor_course_complete_before', $course_id);
 
-        $date = date('Y-m-d H:i:s', tutor_time());
+        $date = gmdate('Y-m-d H:i:s', tutor_time());
 
         $hash = substr(md5(wp_generate_password(32) . $date . $course_id . $user_id), 0, 16);
         $has_unique_hash = $wpdb->get_var($wpdb->prepare("SELECT COUNT(comment_ID) from {$wpdb->comments} WHERE comment_agent = 'TutorLMSPlugin' AND comment_type = 'course_completed' AND comment_content = %s", $hash));

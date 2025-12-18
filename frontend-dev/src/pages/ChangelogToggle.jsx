@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '22th September 2025'
+const releaseDate = '15th December 2025'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -31,7 +31,18 @@ const changeLog = [
     label: __('New Triggers', 'bit-integrations'),
     headClass: 'new-trigger',
     itemClass: 'integration-list',
-    items: []
+    items: [
+      {
+        label: 'Poptics',
+        desc: '02 events Added.',
+        isPro: true
+      },
+      {
+        label: 'Bit Social',
+        desc: '14 events Added.',
+        isPro: true
+      }
+    ]
   },
   {
     label: __('New Features', 'bit-integrations'),
@@ -51,9 +62,29 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'Salesforce',
-        desc: 'Fixed oAUth redirect url issue.',
+        label: 'WooCommerce',
+        desc: 'Fixed issue with creating customer data.',
         isPro: false
+      },
+      {
+        label: 'Amelia',
+        desc: 'Resolved issue with multiple checkbox data not saving correctly.',
+        isPro: false
+      },
+      {
+        label: 'License Deactivation',
+        desc: 'Fixed deactivation issue.',
+        isPro: true
+      },
+      {
+        label: 'Divi Form (Divi Engine)',
+        desc: 'Fixed form type issue.',
+        isPro: true
+      },
+      {
+        label: 'Essential Blocks',
+        desc: 'Fixed blank page issue.',
+        isPro: true
       }
     ]
   }
@@ -147,7 +178,7 @@ export default function ChangelogToggle() {
           step === 2 && (
             <div className="changelog content">
               <div className="flx flx-col flx-center whats-new">
-                <h3>{sprintf(__("What's New in %s", 'bit-integrations'), btcbi.version)}?</h3>
+                <h3>{sprintf(__("What's New in v%s", 'bit-integrations'), btcbi.version)}?</h3>
                 <small className="date">
                   {__('Updated at:', 'bit-integrations')} <b>{releaseDate}</b>
                 </small>

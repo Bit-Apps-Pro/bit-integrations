@@ -24,6 +24,7 @@ const EditMailChimp = lazy(() => import('./MailChimp/EditMailChimp'))
 const Mail = lazy(() => import('./Mail/Mail'))
 const EditPod = lazy(() => import('./Pods/EditPod'))
 const EditMailPoet = lazy(() => import('./MailPoet/EditMailPoet'))
+const EditMailerPress = lazy(() => import('./MailerPress/EditMailerPress'))
 const EditSendinBlue = lazy(() => import('./SendinBlue/EditSendinBlue'))
 const EditWooCommerce = lazy(() => import('./WooCommerce/EditWooCommerce'))
 const EditActiveCampaign = lazy(() => import('./ActiveCampaign/EditActiveCampaign'))
@@ -167,6 +168,7 @@ const EditSmartSuite = lazy(() => import('./SmartSuite/EditSmartSuite'))
 const EditBento = lazy(() => import('./Bento/EditBento'))
 const EditLine = lazy(() => import('./Line/EditLine'))
 const EditACPT = lazy(() => import('./ACPT/EditACPT'))
+const EditWishlistMember = lazy(() => import('./WishlistMember/EditWishlistMember'))
 
 const loaderStyle = {
   display: 'flex',
@@ -270,6 +272,8 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditPod allIntegURL={allIntegURL} />
     case 'Mail Poet':
       return <EditMailPoet allIntegURL={allIntegURL} />
+    case 'MailerPress':
+      return <EditMailerPress allIntegURL={allIntegURL} />
     case 'SendinBlue':
     case 'Brevo(Sendinblue)':
       return <EditSendinBlue allIntegURL={allIntegURL} />
@@ -563,6 +567,8 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditLine allIntegURL={allIntegURL} />
     case 'ACPT':
       return <EditACPT allIntegURL={allIntegURL} />
+    case 'Wishlist Member':
+      return <EditWishlistMember allIntegURL={allIntegURL} />
     default:
       return <Loader style={loaderStyle} />
   }

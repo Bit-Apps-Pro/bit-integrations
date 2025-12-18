@@ -6,10 +6,10 @@
 
 namespace BitCode\FI\Actions\WooCommerce;
 
-use WP_Error;
-use WC_Product_Download;
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Log\LogHandler;
+use WC_Product_Download;
+use WP_Error;
 
 /**
  * Provide functionality for Record insert,upsert.
@@ -41,10 +41,11 @@ class RecordApiHelper
                 }
             }
         }
-        // $existUser = get_user_by('email', $fieldDataCustomer['user_email']);
-        // if (in_array('customer', (array) $existUser->roles)) {
-        //     return $existUser->ID;
-        // } else {
+
+        if (!\is_array($fieldDataCustomer) || \count($fieldDataCustomer) === 0) {
+            return get_current_user_id();
+        }
+
         $user_fields = ['user_pass', 'user_login', 'user_nicename', 'user_url', 'user_email', 'display_name', 'nickname', 'first_name', 'last_name', 'description', 'locale'];
 
         $user_inputs = array_intersect_key($fieldDataCustomer, array_flip($user_fields));
@@ -53,7 +54,11 @@ class RecordApiHelper
         $fieldData = $user_inputs;
         $fieldData['role'] = 'customer';
 
-        $user_id = wp_insert_user($fieldData);
+        $user_id = wc_create_new_customer(
+            $fieldData['user_email'],
+            $fieldData['user_login'],
+            isset($fieldData['user_pass']) ? $fieldData['user_pass'] : ''
+        );
 
         if (is_wp_error($user_id) || !$user_id) {
             $response = is_wp_error($user_id) ? $user_id->get_error_message() : 'error';
@@ -91,11 +96,8 @@ class RecordApiHelper
         }
 
         $existUser = get_user_by('email', $fieldDataCustomer['user_email']);
-        if (isset($existUser->roles) && \in_array('customer', (array) $existUser->roles)) {
-            return $existUser->ID;
-        }
 
-        return false;
+        return isset($existUser->ID) ? $existUser->ID : false;
     }
 
     public function changeStatusById($id, $status)
@@ -165,20 +167,20 @@ class RecordApiHelper
         ];
 
         if ($orderChange === 'date-order' || $orderChange === 'prev-months-order') {
-            $startDate = $orderChange === 'prev-months-order' ? date('Y-m-d', strtotime('first day of previous month')) : date('Y-m-d', strtotime($fieldData['from_date']));
-            $endDate = $orderChange === 'prev-months-order' ? date('Y-m-d', strtotime('last day of previous month')) : date('Y-m-d', strtotime($fieldData['to_date']));
+            $startDate = $orderChange === 'prev-months-order' ? gmdate('Y-m-d', strtotime('first day of previous month')) : gmdate('Y-m-d', strtotime($fieldData['from_date']));
+            $endDate = $orderChange === 'prev-months-order' ? gmdate('Y-m-d', strtotime('last day of previous month')) : gmdate('Y-m-d', strtotime($fieldData['to_date']));
             $orderArg['date_created'] = "{$startDate}...{$endDate}";
         } elseif ($orderChange === 'n-prev-months-order') {
-            $firstEndDate = date('Y-m-d', strtotime('first day of previous month'));
-            $endDate = date('Y-m-d', strtotime('last day of previous month'));
+            $firstEndDate = gmdate('Y-m-d', strtotime('first day of previous month'));
+            $endDate = gmdate('Y-m-d', strtotime('last day of previous month'));
             $targetDate = (int) $fieldData['n_months'] - 1;
-            $startDate = date('Y-m-d', strtotime("-{$targetDate} months, {$firstEndDate}"));
+            $startDate = gmdate('Y-m-d', strtotime("-{$targetDate} months, {$firstEndDate}"));
             $orderArg['date_created'] = "{$startDate}...{$endDate}";
         } elseif ($orderChange === 'n-days-order' || $orderChange === 'n-weeks-order' || $orderChange === 'n-months-order') {
             $typeString = $orderChange === 'n-days-order' ? 'days' : ($orderChange === 'n-weeks-order' ? 'week' : 'month');
             $orderChange = $orderChange === 'n-days-order' ? 'n_days' : ($orderChange === 'n-weeks-order' ? 'n_weeks' : 'n_months');
             $days = $fieldData[$orderChange];
-            $days_ago = date('Y-m-d', strtotime("-{$days} {$typeString}"));
+            $days_ago = gmdate('Y-m-d', strtotime("-{$days} {$typeString}"));
             $orderArg['date_created'] = ">={$days_ago}";
         }
 
@@ -193,16 +195,16 @@ class RecordApiHelper
             $typeString = $type === 'n-days' ? 'days' : ($type === 'n-weeks' ? 'week' : 'month');
             $type = $type === 'n-days' ? 'n_days' : ($type === 'n-weeks' ? 'n_weeks' : 'n_months');
             $days = (int) $fieldData[$type];
-            $days_ago = date('Y-m-d', strtotime("-{$days} {$typeString}"));
+            $days_ago = gmdate('Y-m-d', strtotime("-{$days} {$typeString}"));
         } else {
             if ($type === 'n-prev-months') {
-                $firstEndDate = date('Y-m-d', strtotime('first day of previous month'));
-                $endDate = date('Y-m-d', strtotime('last day of previous month'));
+                $firstEndDate = gmdate('Y-m-d', strtotime('first day of previous month'));
+                $endDate = gmdate('Y-m-d', strtotime('last day of previous month'));
                 $targetDate = $fieldData['n_months'] - 1;
-                $startDate = date('Y-m-d', strtotime("-{$targetDate} months, {$firstEndDate}"));
+                $startDate = gmdate('Y-m-d', strtotime("-{$targetDate} months, {$firstEndDate}"));
             } else {
-                $startDate = $type === 'prev-months' ? date('Y-m-d', strtotime('first day of previous month')) : date('Y-m-d', strtotime($fieldData['from_date']));
-                $endDate = $type === 'prev-months' ? date('Y-m-d', strtotime('last day of previous month')) : date('Y-m-d', strtotime($fieldData['to_date']));
+                $startDate = $type === 'prev-months' ? gmdate('Y-m-d', strtotime('first day of previous month')) : gmdate('Y-m-d', strtotime($fieldData['from_date']));
+                $endDate = $type === 'prev-months' ? gmdate('Y-m-d', strtotime('last day of previous month')) : gmdate('Y-m-d', strtotime($fieldData['to_date']));
             }
         }
 
@@ -484,12 +486,21 @@ class RecordApiHelper
 
             $order->set_address($billingAddress, 'billing');
             $order->set_address($shippingAddress, 'shipping');
-            if (isset($fieldData['customer_note'])) {
-                $order->set_customer_note($fieldData['customer_note']);
-            }
 
-            if (isset($fieldData['coupon_code'])) {
-                $order->apply_coupon($fieldData['coupon_code']);
+            $fieldKeys = [
+                'customer_note',
+                'coupon_code',
+                'status',
+                'payment_method',
+                'payment_method_title',
+            ];
+
+            foreach ($fieldKeys as $fieldKey) {
+                if (isset($fieldData[$fieldKey])) {
+                    $method = $fieldKey === 'coupon_code' ? 'apply_coupon' : 'set_' . $fieldKey;
+
+                    $order->{$method}($fieldData[$fieldKey]);
+                }
             }
 
             foreach ($fieldData as $key => $value) {

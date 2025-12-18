@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 import { useState } from 'react'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -17,6 +16,67 @@ import {
 import LineIntegLayout from './LineIntegLayout'
 import BackIcn from '../../../Icons/BackIcn'
 
+const messageTypes = [
+  { name: 'sendPushMessage', label: __('Send a Push Message', 'bit-integrations'), is_pro: false },
+  { name: 'sendReplyMessage', label: __('Send a Reply Message', 'bit-integrations'), is_pro: true },
+  {
+    name: 'sendBroadcastMessage',
+    label: __('Send Broadcast Message', 'bit-integrations'),
+    is_pro: true
+  }
+]
+
+const emojisFields = [
+  { label: __('Emojis ID', 'bit-integrations'), value: 'emojis_id', required: true },
+  { label: __('Product Id', 'bit-integrations'), value: 'product_id', required: true },
+  {
+    label: __('Emoji Position (0-based index in text)', 'bit-integrations'),
+    value: 'index',
+    required: true
+  }
+]
+
+const stickerFields = [
+  { label: __('Sticker ID', 'bit-integrations'), value: 'sticker_id', required: true },
+  { label: __('Package Id', 'bit-integrations'), value: 'package_id', required: true }
+]
+
+const imageFields = [
+  {
+    label: __("Image's Original Content URL", 'bit-integrations'),
+    value: 'originalContentUrl',
+    required: true
+  },
+  {
+    label: __("Image's Preview Image URL", 'bit-integrations'),
+    value: 'previewImageUrl',
+    required: true
+  }
+]
+
+const audioFields = [
+  {
+    label: __("Audio's Original Content URL", 'bit-integrations'),
+    value: 'originalContentUrl',
+    required: true
+  },
+  { label: __('Duration', 'bit-integrations'), value: 'duration', required: true }
+]
+
+const videoFields = [
+  { label: __('Original Content URL', 'bit-integrations'), value: 'originalContentUrl', required: true },
+  { label: __('Preview Image URL', 'bit-integrations'), value: 'previewImageUrl', required: true }
+]
+
+const locationFields = [
+  { label: __('Title', 'bit-integrations'), value: 'title', required: true },
+  { label: __('Address', 'bit-integrations'), value: 'address', required: true },
+  { label: __('Latitude', 'bit-integrations'), value: 'latitude', required: true },
+  { label: __('longitude', 'bit-integrations'), value: 'longitude', required: true }
+]
+
+const messageField = [{ label: __('Message', 'bit-integrations'), value: 'message', required: true }]
+
 function Line({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
   const { formID } = useParams()
@@ -32,13 +92,13 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
     accessToken: '',
     parse_mode: 'HTML',
     messageTypes,
-    emojis_field_map: generateMappedField(emojisFields),
+    emojis_field_map: generateMappedField(emojisFields, 'emoji'),
     message_field_map: generateMappedField(messageField),
-    sticker_field_map: generateMappedField(stickerFields),
-    image_field_map: generateMappedField(imageFields),
-    audio_field_map: generateMappedField(audioFields),
-    video_field_map: generateMappedField(videoFields),
-    location_field_map: generateMappedField(locationFields),
+    sticker_field_map: generateMappedField(stickerFields, 'sticker'),
+    image_field_map: generateMappedField(imageFields, 'image'),
+    audio_field_map: generateMappedField(audioFields, 'audio'),
+    video_field_map: generateMappedField(videoFields, 'video'),
+    location_field_map: generateMappedField(locationFields, 'location'),
     body: '',
     actions: {},
     sendEmojis: false,
@@ -64,7 +124,7 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
       }
     }, 300)
 
-    if (val === 3 && !(lineConf?.name || isNextButtonEnabled())) {
+    if (val === 3 && (!lineConf?.name || !isNextButtonEnabled())) {
       const messages = getLineValidationMessages(lineConf)
       setSnackbar({
         show: true,
@@ -156,64 +216,3 @@ function Line({ formFields, setFlow, flow, allIntegURL }) {
 }
 
 export default Line
-
-const messageTypes = [
-  { name: 'sendPushMessage', label: __('Send a Push Message', 'bit-integrations'), is_pro: false },
-  { name: 'sendReplyMessage', label: __('Send a Reply Message', 'bit-integrations'), is_pro: true },
-  {
-    name: 'sendBroadcastMessage',
-    label: __('Send Broadcast Message', 'bit-integrations'),
-    is_pro: true
-  }
-]
-
-const emojisFields = [
-  { label: __('Emojis ID', 'bit-integrations'), value: 'emojis_id', required: true },
-  { label: __('Product Id', 'bit-integrations'), value: 'product_id', required: true },
-  {
-    label: __('Emoji Position (0-based index in text)', 'bit-integrations'),
-    value: 'index',
-    required: true
-  }
-]
-
-const stickerFields = [
-  { label: __('Sticker ID', 'bit-integrations'), value: 'sticker_id', required: true },
-  { label: __('Package Id', 'bit-integrations'), value: 'package_id', required: true }
-]
-
-const imageFields = [
-  {
-    label: __("Image's Original Content URL", 'bit-integrations'),
-    value: 'originalContentUrl',
-    required: true
-  },
-  {
-    label: __("Image's Preview Image URL", 'bit-integrations'),
-    value: 'previewImageUrl',
-    required: true
-  }
-]
-
-const audioFields = [
-  {
-    label: __("Audio's Original Content URL", 'bit-integrations'),
-    value: 'originalContentUrl',
-    required: true
-  },
-  { label: __('Duration', 'bit-integrations'), value: 'duration', required: true }
-]
-
-const videoFields = [
-  { label: __('Original Content URL', 'bit-integrations'), value: 'originalContentUrl', required: true },
-  { label: __('Preview Image URL', 'bit-integrations'), value: 'previewImageUrl', required: true }
-]
-
-const locationFields = [
-  { label: __('Title', 'bit-integrations'), value: 'title', required: true },
-  { label: __('Address', 'bit-integrations'), value: 'address', required: true },
-  { label: __('Latitude', 'bit-integrations'), value: 'latitude', required: true },
-  { label: __('longitude', 'bit-integrations'), value: 'longitude', required: true }
-]
-
-const messageField = [{ label: __('Message', 'bit-integrations'), value: 'message', required: true }]
