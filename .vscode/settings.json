@@ -1,8 +1,8 @@
 {
   "php-cs-fixer.onsave": true,
-  "php-cs-fixer.executablePath": "${workspaceFolder}/vendor/bin/php-cs-fixer",
+  "php-cs-fixer.executablePath": "${workspaceFolder}/vendor/friendsofphp/php-cs-fixer/php-cs-fixer",
   "php-cs-fixer.documentFormattingProvider": true,
-  "php-cs-fixer.executablePathWindows": "${workspaceFolder}\\vendor\\bin\\php-cs-fixer.bat",
+  "php-cs-fixer.executablePathWindows": "${workspaceFolder}\\vendor\\friendsofphp\\php-cs-fixer\\php-cs-fixer",
   "php-cs-fixer.config": ".php-cs-fixer.php",
   "search.useGlobalIgnoreFiles": false,
   "search.useParentIgnoreFiles": false,
