@@ -20,69 +20,83 @@ export const OrderFields = [
   { key: 'payment_status', label: 'Payment Status', required: false },
   { key: 'shipping_status', label: 'Shipping Status', required: false },
   { key: 'currency', label: 'Currency', required: false },
+  { key: 'payment_method', label: 'Payment Method', required: false },
+  { key: 'payment_method_title', label: 'Payment Method Title', required: false },
   { key: 'note', label: 'Note', required: false }
 ]
 
 export const OrderUpdateFields = [
-  { key: 'order_id', label: 'Order ID', required: true },
+  { key: 'invoice_no', label: 'Order Invoice Number', required: true },
   { key: 'status', label: 'Order Status', required: false },
   { key: 'payment_status', label: 'Payment Status', required: false },
   { key: 'shipping_status', label: 'Shipping Status', required: false },
+  { key: 'payment_method', label: 'Payment Method', required: false },
+  { key: 'payment_method_title', label: 'Payment Method Title', required: false },
   { key: 'note', label: 'Note', required: false }
 ]
 
-export const OrderIdField = [{ key: 'order_id', label: 'Order ID', required: true }]
+export const OrderIdField = [{ key: 'invoice_no', label: 'Order Invoice Number', required: true }]
 
 export const OrderStatusField = [
-  { key: 'order_id', label: 'Order ID', required: true },
-  { key: 'status', label: 'Status', required: true }
+  { key: 'invoice_no', label: 'Order Invoice Number', required: true },
+  { key: 'status', label: 'Order Status', required: true }
 ]
 
 export const PaymentStatusField = [
-  { key: 'order_id', label: 'Order ID', required: true },
+  { key: 'invoice_no', label: 'Order Invoice Number', required: true },
   { key: 'payment_status', label: 'Payment Status', required: true }
 ]
 
 export const ShippingStatusField = [
-  { key: 'order_id', label: 'Order ID', required: true },
+  { key: 'invoice_no', label: 'Order Invoice Number', required: true },
   { key: 'shipping_status', label: 'Shipping Status', required: true }
 ]
 
 export const CustomerFields = [
-  { key: 'email', label: 'Email', required: true },
+  { key: 'email', label: 'Email Address', required: true },
   { key: 'first_name', label: 'First Name', required: false },
   { key: 'last_name', label: 'Last Name', required: false },
-  { key: 'phone', label: 'Phone', required: false },
-  { key: 'status', label: 'Status', required: false }
+  { key: 'status', label: 'Status', required: false },
+  { key: 'country', label: 'Country', required: false },
+  { key: 'city', label: 'City', required: false },
+  { key: 'state', label: 'State', required: false },
+  { key: 'postcode', label: 'Postcode', required: false },
+  { key: 'notes', label: 'Notes', required: false }
 ]
 
 export const CustomerUpdateFields = [
-  { key: 'customer_id', label: 'Customer ID', required: true },
-  { key: 'email', label: 'Email', required: false },
+  { key: 'email', label: 'Customer Email', required: true },
+  { key: 'new_email', label: 'New Email Address', required: false },
   { key: 'first_name', label: 'First Name', required: false },
   { key: 'last_name', label: 'Last Name', required: false },
-  { key: 'phone', label: 'Phone', required: false },
-  { key: 'status', label: 'Status', required: false }
+  { key: 'status', label: 'Status', required: false },
+  { key: 'country', label: 'Country', required: false },
+  { key: 'city', label: 'City', required: false },
+  { key: 'state', label: 'State', required: false },
+  { key: 'postcode', label: 'Postcode', required: false },
+  { key: 'notes', label: 'Notes', required: false }
 ]
 
-export const CustomerIdField = [{ key: 'customer_id', label: 'Customer ID', required: true }]
+export const CustomerIdField = [{ key: 'email', label: 'Customer Email', required: true }]
 
 export const ProductFields = [
-  { key: 'title', label: 'Product Title', required: true },
-  { key: 'description', label: 'Description', required: false },
-  { key: 'price', label: 'Price', required: false },
-  { key: 'status', label: 'Status', required: false },
-  { key: 'type', label: 'Type', required: false }
+  { key: 'post_title', label: 'Product Title', required: true },
+  { key: 'post_name', label: 'Product Slug', required: false },
+  { key: 'post_excerpt', label: 'Short Description', required: false },
+  { key: 'post_content', label: 'Long Description', required: false },
+  { key: 'product_price', label: 'Product Price', required: false },
+  { key: 'stock_quantity', label: 'Stock Quantity', required: false },
+  { key: 'compare_price', label: 'Compare Price', required: false },
+  { key: 'stock_status', label: 'Stock Status', required: false }
 ]
 
-export const ProductIdField = [{ key: 'product_id', label: 'Product ID', required: true }]
+export const ProductIdField = [{ key: 'post_title', label: 'Product Title', required: true }]
 
 export const CouponFields = [
   { key: 'code', label: 'Coupon Code', required: true },
-  { key: 'name', label: 'Coupon Name', required: false },
-  { key: 'discount_type', label: 'Discount Type', required: false },
-  { key: 'discount', label: 'Discount Amount', required: false },
-  { key: 'status', label: 'Status', required: false }
+  { key: 'title', label: 'Coupon Title', required: true },
+  { key: 'type', label: 'Discount Type', required: true },
+  { key: 'amount', label: 'Discount Amount', required: true }
 ]
 
-export const CouponIdField = [{ key: 'coupon_id', label: 'Coupon ID', required: true }]
+export const CouponIdField = [{ key: 'code', label: 'Coupon Code', required: true }]
