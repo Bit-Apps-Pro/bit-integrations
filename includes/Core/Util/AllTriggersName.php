@@ -61,6 +61,7 @@ final class AllTriggersName
             'FormCraft'                  => ['name' => 'FormCraft3',  'isPro' => true, 'is_active' => false],
             'Formidable'                 => ['name' => 'Formidable',  'isPro' => true, 'is_active' => false],
             'Forminator'                 => ['name' => 'Forminator',  'isPro' => true, 'is_active' => false],
+            'ForminatorQuizAndPoll'      => ['name' => 'Forminator Quiz And Poll',  'isPro' => true, 'is_active' => false],
             'GamiPress'                  => ['name' => 'GamiPress',  'isPro' => true, 'is_active' => false],
             'GeoDirectory'               => ['name' => 'GeoDirectory',  'isPro' => true, 'is_active' => false],
             'GF'                         => ['name' => 'Gravity Forms',  'isPro' => true, 'is_active' => false],
