@@ -93,8 +93,8 @@ export default function FluentCartIntegLayout({
     )
 
     if (value === 'create_order') {
-      refreshFluentCartCustomers(setFluentCartConf, setIsLoading, setSnackbar)
-      refreshFluentCartProducts(setFluentCartConf, setIsLoading, setSnackbar)
+      refreshFluentCartCustomers(setFluentCartConf, setIsLoading)
+      refreshFluentCartProducts(setFluentCartConf, setIsLoading)
     }
   }
 
@@ -146,7 +146,7 @@ export default function FluentCartIntegLayout({
               closeOnSelect
             />
             <button
-              onClick={() => refreshFluentCartCustomers(setFluentCartConf, setIsLoading, setSnackbar)}
+              onClick={() => refreshFluentCartCustomers(setFluentCartConf, setIsLoading)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `'${__('Refresh Customers', 'bit-integrations')}'` }}
               type="button"
@@ -178,7 +178,7 @@ export default function FluentCartIntegLayout({
               }
             />
             <button
-              onClick={() => refreshFluentCartProducts(setFluentCartConf, setIsLoading, setSnackbar)}
+              onClick={() => refreshFluentCartProducts(setFluentCartConf, setIsLoading)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `'${__('Refresh Products', 'bit-integrations')}'` }}
               type="button"

@@ -6,6 +6,7 @@
 
 namespace BitCode\FI\Actions\MailerPress;
 
+use BitCode\FI\Core\Util\Helper;
 use WP_Error;
 
 /**
@@ -115,8 +116,8 @@ class MailerPressController
         $integId = $integrationData->id;
         $fieldMap = $integrationDetails->field_map;
         $mainAction = $integrationDetails->mainAction ?? '';
-        $lists = self::convertStringToArray($integrationDetails->lists ?? []);
-        $tags = self::convertStringToArray($integrationDetails->tags ?? []);
+        $lists = Helper::convertStringToArray($integrationDetails->lists ?? []);
+        $tags = Helper::convertStringToArray($integrationDetails->tags ?? []);
 
         if (empty($fieldMap)) {
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('Field map is required for %s api', 'bit-integrations'), 'MailerPress'));
@@ -138,16 +139,4 @@ class MailerPressController
 
         return $mailerPressApiResponse;
     }
-
-    private static function convertStringToArray($value, $separator = ',')
-    {
-        if (\is_array($value)) {
-            return $value;
-        }
-
-        $array = array_map('trim', explode($separator, $value));
-
-        return array_filter($array);
-    }
 }
-

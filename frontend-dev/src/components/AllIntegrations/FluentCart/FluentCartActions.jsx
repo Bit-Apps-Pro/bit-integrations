@@ -36,16 +36,16 @@ export default function FluentCartActions({
     )
 
     if (type === 'order_status') {
-      refreshFluentCartOrderStatuses(setFluentCartConf, setIsLoading, setSnackbar)
+      refreshFluentCartOrderStatuses(setFluentCartConf, setIsLoading)
     }
     if (type === 'product_categories') {
-      refreshProductCategories(setFluentCartConf, setIsLoading, setSnackbar)
+      refreshProductCategories(setFluentCartConf, setIsLoading)
     }
     if (type === 'product_brands') {
-      refreshFluentCartProductBrands(setFluentCartConf, setIsLoading, setSnackbar)
+      refreshFluentCartProductBrands(setFluentCartConf, setIsLoading)
     }
     if (type === 'product_shipping_classes') {
-      refreshFluentCartProductShippingClasses(setFluentCartConf, setIsLoading, setSnackbar)
+      refreshFluentCartProductShippingClasses(setFluentCartConf, setIsLoading)
     }
   }
 
@@ -221,9 +221,7 @@ export default function FluentCartActions({
               closeOnSelect
             />
             <button
-              onClick={() =>
-                refreshFluentCartOrderStatuses(setFluentCartConf, setIsLoading, setSnackbar)
-              }
+              onClick={() => refreshFluentCartOrderStatuses(setFluentCartConf, setIsLoading)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `'${__('Refresh Order Statuses', 'bit-integrations')}'` }}
               type="button"
@@ -273,7 +271,7 @@ export default function FluentCartActions({
               closeOnSelect
             />
             <button
-              onClick={() => refreshProductCategories(setFluentCartConf, setIsLoading, setSnackbar)}
+              onClick={() => refreshProductCategories(setFluentCartConf, setIsLoading)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `'${__('Refresh Product Categories', 'bit-integrations')}'` }}
               type="button"
@@ -323,9 +321,7 @@ export default function FluentCartActions({
               closeOnSelect
             />
             <button
-              onClick={() =>
-                refreshFluentCartProductBrands(setFluentCartConf, setIsLoading, setSnackbar)
-              }
+              onClick={() => refreshFluentCartProductBrands(setFluentCartConf, setIsLoading)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `'${__('Refresh Product Brands', 'bit-integrations')}'` }}
               type="button"
@@ -375,9 +371,7 @@ export default function FluentCartActions({
               closeOnSelect
             />
             <button
-              onClick={() =>
-                refreshFluentCartProductShippingClasses(setFluentCartConf, setIsLoading, setSnackbar)
-              }
+              onClick={() => refreshFluentCartProductShippingClasses(setFluentCartConf, setIsLoading)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{
                 '--tooltip-txt': `'${__('Refresh Product Shipping Classes', 'bit-integrations')}'`

@@ -13,7 +13,7 @@ export const handleInput = (e, fluentCartConf, setFluentCartConf) => {
   )
 }
 
-export const refreshProductCategories = (setFluentCartConf, setIsLoading, setSnackbar) => {
+export const refreshProductCategories = (setFluentCartConf, setIsLoading) => {
   setIsLoading(true)
   bitsFetch(null, 'refresh_fluent_cart_products_categories')
     .then(result => {
@@ -34,7 +34,7 @@ export const refreshProductCategories = (setFluentCartConf, setIsLoading, setSna
     .catch(() => setIsLoading(false))
 }
 
-export const refreshFluentCartProducts = (setFluentCartConf, setIsLoading, setSnackbar) => {
+export const refreshFluentCartProducts = (setFluentCartConf, setIsLoading) => {
   setIsLoading(true)
   bitsFetch(null, 'refresh_fluent_cart_products')
     .then(result => {
@@ -55,7 +55,7 @@ export const refreshFluentCartProducts = (setFluentCartConf, setIsLoading, setSn
     .catch(() => setIsLoading(false))
 }
 
-export const refreshFluentCartCustomers = (setFluentCartConf, setIsLoading, setSnackbar) => {
+export const refreshFluentCartCustomers = (setFluentCartConf, setIsLoading) => {
   setIsLoading(true)
   bitsFetch(null, 'refresh_fluent_cart_customers')
     .then(result => {
@@ -76,7 +76,7 @@ export const refreshFluentCartCustomers = (setFluentCartConf, setIsLoading, setS
     .catch(() => setIsLoading(false))
 }
 
-export const refreshFluentCartProductBrands = (setFluentCartConf, setIsLoading, setSnackbar) => {
+export const refreshFluentCartProductBrands = (setFluentCartConf, setIsLoading) => {
   setIsLoading(true)
   bitsFetch(null, 'refresh_fluent_cart_product_brands')
     .then(result => {
@@ -88,20 +88,16 @@ export const refreshFluentCartProductBrands = (setFluentCartConf, setIsLoading, 
         )
 
         setIsLoading(false)
-        toast.success(__('All customers fetched successfully', 'bit-integrations'))
+        toast.success(__('All product brands fetched successfully', 'bit-integrations'))
         return
       }
       setIsLoading(false)
-      toast.error(__('FluentCart customers fetch failed. Please try again', 'bit-integrations'))
+      toast.error(__('FluentCart product brands fetch failed. Please try again', 'bit-integrations'))
     })
     .catch(() => setIsLoading(false))
 }
 
-export const refreshFluentCartProductShippingClasses = (
-  setFluentCartConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const refreshFluentCartProductShippingClasses = (setFluentCartConf, setIsLoading) => {
   setIsLoading(true)
   bitsFetch(null, 'refresh_fluent_cart_product_shipping_classes')
     .then(result => {
@@ -113,16 +109,16 @@ export const refreshFluentCartProductShippingClasses = (
         )
 
         setIsLoading(false)
-        toast.success(__('All coupons fetched successfully', 'bit-integrations'))
+        toast.success(__('All shipping classes fetched successfully', 'bit-integrations'))
         return
       }
       setIsLoading(false)
-      toast.error(__('FluentCart coupons fetch failed. Please try again', 'bit-integrations'))
+      toast.error(__('FluentCart shipping classes fetch failed. Please try again', 'bit-integrations'))
     })
     .catch(() => setIsLoading(false))
 }
 
-export const refreshFluentCartOrderStatuses = (setFluentCartConf, setIsLoading, setSnackbar) => {
+export const refreshFluentCartOrderStatuses = (setFluentCartConf, setIsLoading) => {
   setIsLoading(true)
   bitsFetch(null, 'refresh_fluent_cart_order_statuses')
     .then(result => {
