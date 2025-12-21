@@ -13,12 +13,6 @@ use WP_Error;
  */
 class FluentCartController
 {
-    /**
-     * Validate if FluentCart plugin exists or not. If not exists then terminate
-     * request and send an error response.
-     *
-     * @return void
-     */
     public static function isExists()
     {
         if (!\defined('FLUENTCART_PLUGIN_PATH')) {
@@ -32,22 +26,12 @@ class FluentCartController
         }
     }
 
-    /**
-     * Process ajax request for authorization
-     *
-     * @return JSON response
-     */
     public static function fluentCartAuthorize()
     {
         self::isExists();
         wp_send_json_success(true);
     }
 
-    /**
-     * Process ajax request for refresh products
-     *
-     * @return JSON product data
-     */
     public function refreshProducts()
     {
         self::isExists();
@@ -72,11 +56,6 @@ class FluentCartController
         wp_send_json_success($response, 200);
     }
 
-    /**
-     * Process ajax request for refresh customers
-     *
-     * @return JSON customer data
-     */
     public function refreshCustomers()
     {
         self::isExists();
@@ -102,100 +81,122 @@ class FluentCartController
         wp_send_json_success($response, 200);
     }
 
-    /**
-     * Process ajax request for refresh coupons
-     *
-     * @return JSON coupon data
-     */
-    public function refreshCoupons()
+    public function refreshProductCategories()
     {
         self::isExists();
 
-        $coupons = [];
+        $categories = get_terms(
+            [
+                'taxonomy'   => 'product-categories',
+                'hide_empty' => false,
+                'orderby'    => 'name',
+                'order'      => 'ASC',
+            ]
+        );
 
-        if (class_exists('\FluentCart\App\Models\Coupon')) {
-            $allCoupons = \FluentCart\App\Models\Coupon::all();
+        $allCategories = array_map(
+            function ($category) {
+                return (object) [
+                    'value' => $category->term_id,
+                    'label' => $category->name
+                ];
+            },
+            $categories ?? []
+        );
 
-            $coupons = array_map(
-                function ($coupon) {
-                    return (object) [
-                        'coupon_id'   => $coupon->id ?? $coupon['id'],
-                        'coupon_code' => $coupon->code ?? $coupon['code'],
-                        'coupon_name' => $coupon->name ?? $coupon['name']
-                    ];
-                },
-                $allCoupons->toArray()
-            );
-        }
-
-        $response['coupons'] = $coupons;
+        $response['categories'] = $allCategories;
         wp_send_json_success($response, 200);
     }
 
-    /**
-     * Process ajax request for refresh order statuses
-     *
-     * @return JSON order status data
-     */
-    public function refreshOrderStatuses()
+    public function refreshProductBrands()
     {
         self::isExists();
 
+        $brands = get_terms(
+            [
+                'taxonomy'   => 'product-brands',
+                'hide_empty' => false,
+                'orderby'    => 'name',
+                'order'      => 'ASC',
+            ]
+        );
+
+        $allBrands = array_map(
+            function ($brand) {
+                return (object) [
+                    'value' => $brand->term_id,
+                    'label' => $brand->name
+                ];
+            },
+            $brands ?? []
+        );
+
+        $response['brands'] = $allBrands;
+        wp_send_json_success($response, 200);
+    }
+
+    public function refreshProductShippingClasses()
+    {
+        self::isExists();
+
+        $shippingClasses = [];
+
+        if (class_exists('\\FluentCart\\App\\Models\\ShippingClass')) {
+            $shippingClasses = array_map(
+                function (array $shippingClass) {
+                    return [
+                        'value' => $shippingClass['id'],
+                        'label' => $shippingClass['name'],
+                    ];
+                },
+                \FluentCart\App\Models\ShippingClass::all()->toArray() ?? []
+            );
+        }
+
+        $response['shippingClasses'] = $shippingClasses;
+        wp_send_json_success($response, 200);
+    }
+
+    public function refreshOrderStatuses()
+    {
         $statuses = [];
 
-        if (function_exists('\\fluent_cart_order_statuses')) {
-            $allStatuses = \fluent_cart_order_statuses();
-
-            foreach ($allStatuses as $key => $label) {
-                $statuses[] = (object) [
-                    'status_key'  => $key,
-                    'status_name' => $label
-                ];
-            }
+        if (class_exists('\\FluentCart\\App\\Helpers\\Status')) {
+            $allStatuses = \FluentCart\App\Helpers\Status::getOrderStatuses();
         } else {
-            // Default statuses if function doesn't exist
-            $defaultStatuses = [
+            $allStatuses = [
                 'pending'    => 'Pending',
                 'processing' => 'Processing',
                 'completed'  => 'Completed',
                 'cancelled'  => 'Cancelled',
                 'on-hold'    => 'On Hold',
             ];
+        }
 
-            foreach ($defaultStatuses as $key => $label) {
-                $statuses[] = (object) [
-                    'status_key'  => $key,
-                    'status_name' => $label
-                ];
-            }
+        foreach ($allStatuses as $key => $label) {
+            $statuses[] = (object) [
+                'value' => $key,
+                'label' => $label
+            ];
         }
 
         $response['statuses'] = $statuses;
         wp_send_json_success($response, 200);
     }
 
-    /**
-     * Execute action
-     *
-     * @param $integrationData Integration data
-     * @param $fieldValues     Field values
-     *
-     * @return bool
-     */
     public function execute($integrationData, $fieldValues)
     {
         $integrationDetails = $integrationData->flow_details;
         $integId = $integrationData->id;
-        $authToken = $integrationDetails->tokenDetails;
         $fieldMap = $integrationDetails->field_map;
-        $actions = $integrationDetails->actions;
+        $utilities = isset($integrationDetails->utilities) ? $integrationDetails->utilities : [];
 
         if (empty($fieldMap)) {
             return new WP_Error('field_map_empty', __('Field map is empty', 'bit-integrations'));
         }
 
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
-        $fluentCartResponse = $recordApiHelper->execute($fieldValues, $fieldMap, $actions);
+        $fluentCartResponse = $recordApiHelper->execute($fieldValues, $fieldMap, $utilities);
 
         if (is_wp_error($fluentCartResponse)) {
             return $fluentCartResponse;

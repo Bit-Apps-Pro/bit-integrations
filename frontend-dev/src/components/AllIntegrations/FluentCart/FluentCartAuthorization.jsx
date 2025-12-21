@@ -68,7 +68,7 @@ export default function FluentCartAuthorization({
       {isLoading === 'auth' && (
         <div className="flx mt-5">
           <LoaderSm size={25} clr="#022217" className="mr-2" />
-          {__('Checking if FluentCart is active!!!', 'bit-integrations')}
+          {__('Checking if FluentCart is authorized!!!', 'bit-integrations')}
         </div>
       )}
 

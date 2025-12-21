@@ -13,6 +13,27 @@ export const handleInput = (e, fluentCartConf, setFluentCartConf) => {
   )
 }
 
+export const refreshProductCategories = (setFluentCartConf, setIsLoading, setSnackbar) => {
+  setIsLoading(true)
+  bitsFetch(null, 'refresh_fluent_cart_products_categories')
+    .then(result => {
+      if (result && result?.success && result?.data?.categories) {
+        setFluentCartConf(prevConf =>
+          create(prevConf, draftConf => {
+            draftConf.allProductsCategories = result.data.categories
+          })
+        )
+
+        setIsLoading(false)
+        toast.success(__('All product categories fetched successfully', 'bit-integrations'))
+        return
+      }
+      setIsLoading(false)
+      toast.error(__('FluentCart product categories fetch failed. Please try again', 'bit-integrations'))
+    })
+    .catch(() => setIsLoading(false))
+}
+
 export const refreshFluentCartProducts = (setFluentCartConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   bitsFetch(null, 'refresh_fluent_cart_products')
@@ -55,14 +76,39 @@ export const refreshFluentCartCustomers = (setFluentCartConf, setIsLoading, setS
     .catch(() => setIsLoading(false))
 }
 
-export const refreshFluentCartCoupons = (setFluentCartConf, setIsLoading, setSnackbar) => {
+export const refreshFluentCartProductBrands = (setFluentCartConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
-  bitsFetch(null, 'refresh_fluent_cart_coupons')
+  bitsFetch(null, 'refresh_fluent_cart_product_brands')
     .then(result => {
-      if (result && result?.success && result?.data?.coupons) {
+      if (result && result?.success && result?.data?.brands) {
         setFluentCartConf(prevConf =>
           create(prevConf, draftConf => {
-            draftConf.allCoupons = result.data.coupons
+            draftConf.allProductBrands = result.data.brands
+          })
+        )
+
+        setIsLoading(false)
+        toast.success(__('All customers fetched successfully', 'bit-integrations'))
+        return
+      }
+      setIsLoading(false)
+      toast.error(__('FluentCart customers fetch failed. Please try again', 'bit-integrations'))
+    })
+    .catch(() => setIsLoading(false))
+}
+
+export const refreshFluentCartProductShippingClasses = (
+  setFluentCartConf,
+  setIsLoading,
+  setSnackbar
+) => {
+  setIsLoading(true)
+  bitsFetch(null, 'refresh_fluent_cart_product_shipping_classes')
+    .then(result => {
+      if (result && result?.success && result?.data?.shippingClasses) {
+        setFluentCartConf(prevConf =>
+          create(prevConf, draftConf => {
+            draftConf.allProductShippingClasses = result.data.shippingClasses
           })
         )
 

@@ -28,7 +28,16 @@ export default function FluentCart({ formFields, setFlow, flow, allIntegURL }) {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
+
     if (val === 3) {
+      if (fluentCartConf.mainAction === 'create_coupon' && !fluentCartConf?.discountType) {
+        setSnackbar({
+          show: true,
+          msg: __('Please select discount Type to continue.', 'bit-integrations')
+        })
+        return
+      }
+
       if (!checkMappedFields(fluentCartConf)) {
         setSnackbar({
           show: true,
@@ -36,6 +45,7 @@ export default function FluentCart({ formFields, setFlow, flow, allIntegURL }) {
         })
         return
       }
+
       if (fluentCartConf.name !== '' && fluentCartConf.field_map.length > 0) {
         setStep(val)
       }
