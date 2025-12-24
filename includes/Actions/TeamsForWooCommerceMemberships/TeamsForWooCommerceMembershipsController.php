@@ -88,7 +88,7 @@ class TeamsForWooCommerceMembershipsController
         $integId = $integrationData->id;
         $fieldMap = $integrationDetails->field_map;
         $mainAction = $integrationDetails->mainAction;
-        error_log(print_r($integrationDetails, true));
+
         if (empty($fieldMap)) {
             return new WP_Error('field_map_empty', __('Field map is empty', 'bit-integrations'));
         }
