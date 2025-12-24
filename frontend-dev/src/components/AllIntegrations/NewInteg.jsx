@@ -168,6 +168,9 @@ const Line = lazy(() => import('./Line/Line'))
 const ACPT = lazy(() => import('./ACPT/ACPT'))
 const WishlistMember = lazy(() => import('./WishlistMember/WishlistMember'))
 const FluentCart = lazy(() => import('./FluentCart/FluentCart'))
+const TeamsForWooCommerceMemberships = lazy(
+  () => import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMemberships')
+)
 
 export default function NewInteg({ allIntegURL }) {
   const { integUrlName } = useParams()
@@ -1606,6 +1609,15 @@ export default function NewInteg({ allIntegURL }) {
       case 'FluentCart':
         return (
           <FluentCart
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'Teams For WooCommerce Memberships':
+        return (
+          <TeamsForWooCommerceMemberships
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
             flow={flow}

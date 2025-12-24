@@ -170,6 +170,9 @@ const LineAuthorization = lazy(() => import('./Line/LineAuthorization'))
 const ACPTAuthorization = lazy(() => import('./ACPT/ACPTAuthorization'))
 const WishlistMemberAuthorization = lazy(() => import('./WishlistMember/WishlistMemberAuthorization'))
 const FluentCartAuthorization = lazy(() => import('./FluentCart/FluentCartAuthorization'))
+const TeamsForWooCommerceMembershipsAuthorization = lazy(
+  () => import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMembershipsAuthorization')
+)
 
 export default function IntegInfo() {
   const { id, type } = useParams()
@@ -598,6 +601,14 @@ export default function IntegInfo() {
         return <WishlistMemberAuthorization wishlistMemberConf={integrationConf} step={1} isInfo />
       case 'FluentCart':
         return <FluentCartAuthorization fluentCartConf={integrationConf} step={1} isInfo />
+      case 'Teams For WooCommerce Memberships':
+        return (
+          <TeamsForWooCommerceMembershipsAuthorization
+            teamsForWcConf={integrationConf}
+            step={1}
+            isInfo
+          />
+        )
       default:
         return <></>
     }

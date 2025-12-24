@@ -172,7 +172,8 @@ export default function SelectAction() {
     { type: 'ACPT' },
     { type: 'Wishlist Member' },
     { type: 'MailerPress' },
-    { type: 'FluentCart' }
+    { type: 'FluentCart' },
+    { type: 'Teams For WooCommerce Memberships' }
   ]
 
   const [availableIntegs, setAvailableIntegs] = useState(sortByField(integs, 'type', 'ASC') || integs)

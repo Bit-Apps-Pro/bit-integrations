@@ -83,7 +83,8 @@ export const customFormIntegrations = [
   'Poptics',
   'EssentialBlocks',
   'EssentialAddonsElementor',
-  'ForminatorQuizAndPoll'
+  'ForminatorQuizAndPoll',
+  'TeamsForWooCommerceMemberships'
 ]
 
 export const actionHookIntegrations = ['ActionHook']
