@@ -23,18 +23,45 @@ class HighLevelController
 
     public static function highLevelAuthorization($requestsParams)
     {
-        if (empty($requestsParams->api_key)) {
+        $apiKey = isset($requestsParams->api_key) ? trim((string) $requestsParams->api_key) : '';
+        $version = isset($requestsParams->version) ? (string) $requestsParams->version : 'v1';
+
+        if ($apiKey === '') {
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $header['Authorization'] = 'Bearer ' . $requestsParams->api_key;
+        $headers = [
+            'Authorization' => 'Bearer ' . $apiKey,
+            'Accept'        => 'application/json',
+        ];
 
         $apiEndpoint = 'https://rest.gohighlevel.com/v1/contacts/?limit=1';
 
-        $response = HttpHelper::get($apiEndpoint, null, $header);
+        if ($version === 'v2') {
+            $locationId = isset($requestsParams->location_id) ? trim((string) $requestsParams->location_id) : '';
+            if ($locationId === '') {
+                wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
+            }
 
-        if (!isset($response->contacts)) {
-            wp_send_json_error(empty($response) ? 'Unknown' : $response, 400);
+            $headers['Version'] = '2021-07-28';
+            $apiEndpoint = "https://services.leadconnectorhq.com/locations/{$locationId}";
+        }
+
+        $response = HttpHelper::get($apiEndpoint, null, $headers);
+
+        if (empty($response) || !\is_object($response)) {
+            wp_send_json_error('Unknown', 400);
+        }
+
+        if ($version === 'v2') {
+            if (!isset($response->location) && !isset($response->id)) {
+                wp_send_json_error($response, 400);
+            }
+            wp_send_json_success($response);
+        }
+
+        if (!isset($response->contacts) || !\is_array($response->contacts)) {
+            wp_send_json_error($response, 400);
         }
 
         wp_send_json_success($response);
@@ -266,7 +293,7 @@ class HighLevelController
         $actions = (array) $integrationDetails->actions;
 
         if (empty($apiKey) || empty($fieldMap)) {
-            return new WP_Error('REQ_FIELD_EMPTY', sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'HighLevel'));
+            return new WP_Error('REQ_FIELD_EMPTY', \sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'HighLevel'));
         }
 
         $selectedOptions = [

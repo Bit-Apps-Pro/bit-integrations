@@ -36,6 +36,7 @@ function HighLevel({ formFields, setFlow, flow, allIntegURL }) {
     field_map: [{ formField: '', highLevelField: '' }],
     actions: {},
     tags: [],
+    version: 'v2',
     highLevelFields: [],
     selectedTags: '',
     selectedTask: '',

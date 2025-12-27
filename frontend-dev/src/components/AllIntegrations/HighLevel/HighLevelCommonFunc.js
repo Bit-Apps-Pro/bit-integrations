@@ -19,7 +19,6 @@ export const highLevelAuthentication = (
   loading,
   setLoading
 ) => {
-  setLoading({ ...loading, auth: true })
   const newConf = { ...highLevelConf }
 
   if (!newConf.name || !newConf.api_key) {
@@ -29,13 +28,27 @@ export const highLevelAuthentication = (
     })
     return
   }
+  if (newConf?.version === 'v2' && !newConf?.location_id) {
+    setError({
+      location_id: __("Location ID can't be empty for v2", 'bit-integrations')
+    })
+    setLoading({ ...loading, auth: false })
+    return
+  }
 
-  bitsFetch({ api_key: newConf.api_key }, 'highLevel_authorization').then(result => {
+  const requestParams = {
+    api_key: newConf.api_key,
+    version: newConf?.version,
+    location_id: newConf?.location_id
+  }
+
+  setLoading({ ...loading, auth: true })
+  bitsFetch(requestParams, 'highLevel_authorization').then(result => {
     if (result?.success) {
       setisAuthorized(true)
       toast.success('Authorized Successfully')
     } else {
-      toast.error('Authorization Failed')
+      toast.error(result?.data?.message || __('Authorization Failed', 'bit-integrations'))
     }
 
     setLoading({ ...loading, auth: false, accounts: false })
