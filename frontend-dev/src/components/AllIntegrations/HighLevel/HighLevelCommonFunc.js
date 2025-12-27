@@ -71,9 +71,14 @@ export const checkMappedFields = highLevelConf => {
 }
 
 export const getCustomFields = (confTmp, setConf, loading, setLoading) => {
-  setLoading({ ...loading, customFields: true })
+  const requestParams = {
+    api_key: confTmp.api_key,
+    version: confTmp?.version,
+    location_id: confTmp?.location_id
+  }
 
-  bitsFetch({ api_key: confTmp.api_key }, 'get_highLevel_contact_custom_fields').then(result => {
+  setLoading({ ...loading, customFields: true })
+  bitsFetch(requestParams, 'get_highLevel_contact_custom_fields').then(result => {
     if (result.success && result.data) {
       const newConf = { ...confTmp }
       const staticFields = contactStaticFields(confTmp.selectedTask)
@@ -89,9 +94,14 @@ export const getCustomFields = (confTmp, setConf, loading, setLoading) => {
 }
 
 export const getContacts = (confTmp, setConf, loading, setLoading) => {
-  setLoading({ ...loading, contacts: true })
+  const requestParams = {
+    api_key: confTmp.api_key,
+    version: confTmp?.version,
+    location_id: confTmp?.location_id
+  }
 
-  bitsFetch({ api_key: confTmp.api_key }, 'get_highLevel_contacts').then(result => {
+  setLoading({ ...loading, contacts: true })
+  bitsFetch(requestParams, 'get_highLevel_contacts').then(result => {
     if (result.success && result.data) {
       const newConf = { ...confTmp }
       newConf.contacts = result.data
@@ -116,9 +126,14 @@ export const getContacts = (confTmp, setConf, loading, setLoading) => {
 }
 
 export const getUsers = (confTmp, setConf, loading, setLoading) => {
-  setLoading({ ...loading, users: true })
+  const requestParams = {
+    api_key: confTmp.api_key,
+    version: confTmp?.version,
+    location_id: confTmp?.location_id
+  }
 
-  bitsFetch({ api_key: confTmp.api_key }, 'get_highLevel_users').then(result => {
+  setLoading({ ...loading, users: true })
+  bitsFetch(requestParams, 'get_highLevel_users').then(result => {
     if (result.success && result.data) {
       const newConf = { ...confTmp }
       newConf.users = result.data
@@ -133,12 +148,15 @@ export const getUsers = (confTmp, setConf, loading, setLoading) => {
 }
 
 export const getHLTasks = (confTmp, setConf, loading, setLoading) => {
-  setLoading({ ...loading, hlTasks: true })
+  const requestParams = {
+    api_key: confTmp.api_key,
+    version: confTmp?.version,
+    location_id: confTmp?.location_id,
+    contact_id: confTmp.selectedContact
+  }
 
-  bitsFetch(
-    { api_key: confTmp.api_key, contact_id: confTmp.selectedContact },
-    'get_highLevel_tasks'
-  ).then(result => {
+  setLoading({ ...loading, hlTasks: true })
+  bitsFetch(requestParams, 'get_highLevel_tasks').then(result => {
     if (result.success && result.data) {
       const newConf = { ...confTmp }
       newConf.hlTasks = result.data
@@ -153,9 +171,14 @@ export const getHLTasks = (confTmp, setConf, loading, setLoading) => {
 }
 
 export const getPipelines = (confTmp, setConf, loading, setLoading) => {
-  setLoading({ ...loading, pipelines: true })
+  const requestParams = {
+    api_key: confTmp.api_key,
+    version: confTmp?.version,
+    location_id: confTmp?.location_id
+  }
 
-  bitsFetch({ api_key: confTmp.api_key }, 'get_highLevel_pipelines').then(result => {
+  setLoading({ ...loading, pipelines: true })
+  bitsFetch(requestParams, 'get_highLevel_pipelines').then(result => {
     if (result.success && result.data) {
       const newConf = { ...confTmp }
       newConf.pipelines = result.data.pipelineList
@@ -177,12 +200,15 @@ export const getPipelines = (confTmp, setConf, loading, setLoading) => {
 }
 
 export const getOpportunities = (confTmp, setConf, loading, setLoading) => {
-  setLoading({ ...loading, opportunities: true })
+  const requestParams = {
+    api_key: confTmp.api_key,
+    version: confTmp?.version,
+    location_id: confTmp?.location_id,
+    pipeline_id: confTmp.selectedPipeline
+  }
 
-  bitsFetch(
-    { api_key: confTmp.api_key, pipeline_id: confTmp.selectedPipeline },
-    'get_highLevel_opportunities'
-  ).then(result => {
+  setLoading({ ...loading, opportunities: true })
+  bitsFetch(requestParams, 'get_highLevel_opportunities').then(result => {
     if (result.success && result.data) {
       const newConf = { ...confTmp }
       newConf.opportunities = result.data
@@ -210,9 +236,14 @@ export const getHighLevelOptions = (
     return
   }
 
-  setLoading({ ...loading, options: true })
+  const requestParams = {
+    api_key: confTmp.api_key,
+    version: confTmp?.version,
+    location_id: confTmp?.location_id
+  }
 
-  bitsFetch({ api_key: confTmp.api_key }, route).then(result => {
+  setLoading({ ...loading, options: true })
+  bitsFetch(requestParams, route).then(result => {
     if (result.success && result.data) {
       const tmpOptions = { ...utilityOptions }
       tmpOptions[type] = result.data

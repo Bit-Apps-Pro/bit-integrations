@@ -69,15 +69,31 @@ class HighLevelController
 
     public static function getCustomFields($requestsParams)
     {
-        if (empty($requestsParams->api_key)) {
+        $apiKey = isset($requestsParams->api_key) ? trim((string) $requestsParams->api_key) : '';
+        $version = isset($requestsParams->version) ? (string) $requestsParams->version : 'v1';
+
+        if ($apiKey === '') {
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $api_key = $requestsParams->api_key;
-        $apiEndpoint = 'https://rest.gohighlevel.com/v1/custom-fields';
-        $header = ['Authorization' => 'Bearer ' . $api_key];
+        $headers = [
+            'Authorization' => 'Bearer ' . $apiKey,
+            'Accept'        => 'application/json',
+        ];
 
-        $response = HttpHelper::get($apiEndpoint, null, $header);
+        $apiEndpoint = 'https://rest.gohighlevel.com/v1/custom-fields';
+
+        if ($version === 'v2') {
+            $locationId = isset($requestsParams->location_id) ? trim((string) $requestsParams->location_id) : '';
+            if ($locationId === '') {
+                wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
+            }
+
+            $headers['Version'] = '2021-07-28';
+            $apiEndpoint = "https://services.leadconnectorhq.com/locations/{$locationId}/customFields";
+        }
+
+        $response = HttpHelper::get($apiEndpoint, null, $headers);
 
         if (!isset($response->customFields)) {
             wp_send_json_error(__('Custom fields fetching failed', 'bit-integrations'), 400);
