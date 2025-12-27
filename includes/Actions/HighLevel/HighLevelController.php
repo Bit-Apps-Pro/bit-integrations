@@ -115,17 +115,33 @@ class HighLevelController
         wp_send_json_success($customFields, 200);
     }
 
-    public static function getAllTags($fieldsRequestParams)
+    public static function getAllTags($requestsParams)
     {
-        if (empty($fieldsRequestParams->api_key)) {
+        $apiKey = isset($requestsParams->api_key) ? trim((string) $requestsParams->api_key) : '';
+        $version = isset($requestsParams->version) ? (string) $requestsParams->version : 'v1';
+
+        if ($apiKey === '') {
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $fieldsRequestParams->api_key;
-        $apiEndpoint = 'https://rest.gohighlevel.com/v1/tags/';
-        $header = ['Authorization' => 'Bearer ' . $apiKey];
+        $headers = [
+            'Authorization' => 'Bearer ' . $apiKey,
+            'Accept'        => 'application/json',
+        ];
 
-        $response = HttpHelper::get($apiEndpoint, null, $header);
+        $apiEndpoint = 'https://rest.gohighlevel.com/v1/tags/';
+
+        if ($version === 'v2') {
+            $locationId = isset($requestsParams->location_id) ? trim((string) $requestsParams->location_id) : '';
+            if ($locationId === '') {
+                wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
+            }
+
+            $headers['Version'] = '2021-07-28';
+            $apiEndpoint = "https://services.leadconnectorhq.com/locations/{$locationId}/tags";
+        }
+
+        $response = HttpHelper::get($apiEndpoint, null, $headers);
 
         if (!isset($response->tags)) {
             wp_send_json_error(__('Tags fetching failed', 'bit-integrations'), 400);
@@ -148,14 +164,31 @@ class HighLevelController
 
     public static function getContacts($requestsParams)
     {
-        if (empty($requestsParams->api_key)) {
+        $apiKey = isset($requestsParams->api_key) ? trim((string) $requestsParams->api_key) : '';
+        $version = isset($requestsParams->version) ? (string) $requestsParams->version : 'v1';
+
+        if ($apiKey === '') {
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $requestsParams->api_key;
+        $headers = [
+            'Authorization' => 'Bearer ' . $apiKey,
+            'Accept'        => 'application/json',
+        ];
+
         $apiEndpoint = 'https://rest.gohighlevel.com/v1/contacts/?limit=100';
-        $header = ['Authorization' => 'Bearer ' . $apiKey];
-        $response = HttpHelper::get($apiEndpoint, null, $header);
+
+        if ($version === 'v2') {
+            $locationId = isset($requestsParams->location_id) ? trim((string) $requestsParams->location_id) : '';
+            if ($locationId === '') {
+                wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
+            }
+
+            $headers['Version'] = '2021-07-28';
+            $apiEndpoint = "https://services.leadconnectorhq.com/contacts?limit=100&locationId={$locationId}";
+        }
+
+        $response = HttpHelper::get($apiEndpoint, null, $headers);
 
         if (!isset($response->contacts)) {
             wp_send_json_error(__('Contacts fetching failed', 'bit-integrations'), 400);
@@ -179,17 +212,33 @@ class HighLevelController
 
     public static function getUsers($requestsParams)
     {
-        if (empty($requestsParams->api_key)) {
+        $apiKey = isset($requestsParams->api_key) ? trim((string) $requestsParams->api_key) : '';
+        $version = isset($requestsParams->version) ? (string) $requestsParams->version : 'v1';
+
+        if ($apiKey === '') {
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $requestsParams->api_key;
+        $headers = [
+            'Authorization' => 'Bearer ' . $apiKey,
+            'Accept'        => 'application/json',
+        ];
+
         $apiEndpoint = 'https://rest.gohighlevel.com/v1/users';
-        $header = ['Authorization' => 'Bearer ' . $apiKey];
-        $response = HttpHelper::get($apiEndpoint, null, $header);
+        if ($version === 'v2') {
+            $locationId = isset($requestsParams->location_id) ? trim((string) $requestsParams->location_id) : '';
+            if ($locationId === '') {
+                wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
+            }
+
+            $headers['Version'] = '2021-07-28';
+            $apiEndpoint = "https://services.leadconnectorhq.com/users/?locationId={$locationId}";
+        }
+
+        $response = HttpHelper::get($apiEndpoint, null, $headers);
 
         if (!isset($response->users)) {
-            wp_send_json_error(__('Contacts fetching failed', 'bit-integrations'), 400);
+            wp_send_json_error(__('Users fetching failed', 'bit-integrations'), 400);
         }
 
         $users = $response->users;
@@ -209,15 +258,32 @@ class HighLevelController
 
     public static function getHLTasks($requestsParams)
     {
-        if (empty($requestsParams->api_key) || empty($requestsParams->contact_id)) {
-            wp_send_json_error(__('Requested parameter(s) empty', 'bit-integrations'), 400);
+        $apiKey = isset($requestsParams->api_key) ? trim((string) $requestsParams->api_key) : '';
+        $contactId = isset($requestsParams->contact_id) ? trim((string) $requestsParams->contact_id) : '';
+        $version = isset($requestsParams->version) ? (string) $requestsParams->version : 'v1';
+
+        if ($apiKey === '' || $contactId === '') {
+            wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $requestsParams->api_key;
-        $contactId = $requestsParams->contact_id;
+        $headers = [
+            'Authorization' => 'Bearer ' . $apiKey,
+            'Accept'        => 'application/json',
+        ];
+
         $apiEndpoint = 'https://rest.gohighlevel.com/v1/contacts/' . $contactId . '/tasks';
-        $header = ['Authorization' => 'Bearer ' . $apiKey];
-        $response = HttpHelper::get($apiEndpoint, null, $header);
+
+        if ($version === 'v2') {
+            $locationId = isset($requestsParams->location_id) ? trim((string) $requestsParams->location_id) : '';
+            if ($locationId === '') {
+                wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
+            }
+
+            $headers['Version'] = '2021-07-28';
+            $apiEndpoint = "https://services.leadconnectorhq.com/contacts/{$contactId}/tasks?limit=100&location_id={$locationId}";
+        }
+
+        $response = HttpHelper::get($apiEndpoint, null, $headers);
 
         if (!isset($response->tasks)) {
             wp_send_json_error(__('Tasks fetching failed', 'bit-integrations'), 400);
@@ -240,14 +306,31 @@ class HighLevelController
 
     public static function getPipelines($requestsParams)
     {
-        if (empty($requestsParams->api_key)) {
+        $apiKey = isset($requestsParams->api_key) ? trim((string) $requestsParams->api_key) : '';
+        $version = isset($requestsParams->version) ? (string) $requestsParams->version : 'v1';
+
+        if ($apiKey === '') {
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $requestsParams->api_key;
+        $headers = [
+            'Authorization' => 'Bearer ' . $apiKey,
+            'Accept'        => 'application/json',
+        ];
+
         $apiEndpoint = 'https://rest.gohighlevel.com/v1/pipelines';
-        $header = ['Authorization' => 'Bearer ' . $apiKey];
-        $response = HttpHelper::get($apiEndpoint, null, $header);
+
+        if ($version === 'v2') {
+            $locationId = isset($requestsParams->location_id) ? trim((string) $requestsParams->location_id) : '';
+            if ($locationId === '') {
+                wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
+            }
+
+            $headers['Version'] = '2021-07-28';
+            $apiEndpoint = "https://services.leadconnectorhq.com/opportunities/pipelines?locationId={$locationId}";
+        }
+
+        $response = HttpHelper::get($apiEndpoint, null, $headers);
 
         if (!isset($response->pipelines)) {
             wp_send_json_error(__('Pipelines fetching failed', 'bit-integrations'), 400);
@@ -271,15 +354,32 @@ class HighLevelController
 
     public static function getOpportunities($requestsParams)
     {
-        if (empty($requestsParams->api_key) || empty($requestsParams->pipeline_id)) {
-            wp_send_json_error(__('Requested parameter(s) empty', 'bit-integrations'), 400);
+        $apiKey = isset($requestsParams->api_key) ? trim((string) $requestsParams->api_key) : '';
+        $version = isset($requestsParams->version) ? (string) $requestsParams->version : 'v1';
+        $pipelineId = isset($requestsParams->pipeline_id) ? (string) $requestsParams->pipeline_id : 'v1';
+
+        if ($apiKey === '') {
+            wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
-        $apiKey = $requestsParams->api_key;
-        $pipelineId = $requestsParams->pipeline_id;
+        $headers = [
+            'Authorization' => 'Bearer ' . $apiKey,
+            'Accept'        => 'application/json',
+        ];
+
         $apiEndpoint = 'https://rest.gohighlevel.com/v1/pipelines/' . $pipelineId . '/opportunities?limit=100';
-        $header = ['Authorization' => 'Bearer ' . $apiKey];
-        $response = HttpHelper::get($apiEndpoint, null, $header);
+
+        if ($version === 'v2') {
+            $locationId = isset($requestsParams->location_id) ? trim((string) $requestsParams->location_id) : '';
+            if ($locationId === '') {
+                wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
+            }
+
+            $headers['Version'] = '2021-07-28';
+            $apiEndpoint = "https://services.leadconnectorhq.com/opportunities/search?location_id={$locationId}";
+        }
+
+        $response = HttpHelper::get($apiEndpoint, null, $headers);
 
         if (!isset($response->opportunities)) {
             wp_send_json_error(__('Opportunities fetching failed', 'bit-integrations'), 400);
