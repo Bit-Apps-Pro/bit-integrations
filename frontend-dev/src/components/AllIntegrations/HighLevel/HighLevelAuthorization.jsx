@@ -8,6 +8,9 @@ import { highLevelAuthentication } from './HighLevelCommonFunc'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 import toast from 'react-hot-toast'
+import { useRecoilValue } from 'recoil'
+import { $btcbi } from '../../../GlobalStates'
+import { getProLabel } from '../../Utilities/ProUtilHelpers'
 
 export default function HighLevelAuthorization({
   formID,
@@ -19,6 +22,8 @@ export default function HighLevelAuthorization({
   loading,
   setLoading
 }) {
+  const btcbi = useRecoilValue($btcbi)
+  const { isPro } = btcbi
   const { highLevel } = tutorialLinks
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', api_key: '' })
@@ -89,10 +94,11 @@ export default function HighLevelAuthorization({
           className="hidden"
           checked={highLevelConf?.version === 'v2'}
           onChange={handleInput}
+          disabled={!isPro}
         />
         <label for="MailerLiteNew">
           <span className="w-4 h-4 inline-block mr-1 border border-grey" />
-          HighLevel API V2
+          {isPro ? 'HighLevel API V2' : getProLabel('HighLevel API V2')}
         </label>
       </div>
 

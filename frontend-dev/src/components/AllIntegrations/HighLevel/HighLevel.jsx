@@ -12,12 +12,17 @@ import { checkMappedFields } from './HighLevelCommonFunc'
 import HighLevelIntegLayout from './HighLevelIntegLayout'
 import toast from 'react-hot-toast'
 import { OPTIONAL_FIELD_MAP_ARRAY, TASK_LIST_VALUES } from './highlevelConstants'
+import { useRecoilValue } from 'recoil'
+import { $btcbi } from '../../../GlobalStates'
 
 function HighLevel({ formFields, setFlow, flow, allIntegURL }) {
+  const btcbi = useRecoilValue($btcbi)
+  const { isPro } = btcbi
   const navigate = useNavigate()
   const { formID } = useParams()
   const [isLoading, setIsLoading] = useState(false)
   const [step, setstep] = useState(1)
+
   const [loading, setLoading] = useState({
     auth: false,
     customFields: false,
@@ -36,7 +41,7 @@ function HighLevel({ formFields, setFlow, flow, allIntegURL }) {
     field_map: [{ formField: '', highLevelField: '' }],
     actions: {},
     tags: [],
-    version: 'v2',
+    version: isPro ? 'v2' : 'v1',
     highLevelFields: [],
     selectedTags: '',
     selectedTask: '',
