@@ -48,7 +48,7 @@ class RecordApiHelper
 
         $defaultResponse = [
             'success' => false,
-            'message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations')
+            'message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')
         ];
 
         // Route to appropriate action method

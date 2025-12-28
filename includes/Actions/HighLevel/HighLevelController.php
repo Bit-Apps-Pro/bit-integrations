@@ -309,28 +309,41 @@ class HighLevelController
     public function execute($integrationData, $fieldValues)
     {
         $integrationDetails = $integrationData->flow_details;
-        $apiKey = $integrationDetails->api_key;
         $fieldMap = $integrationDetails->field_map;
-        $selectedTask = $integrationDetails->selectedTask;
         $actions = (array) $integrationDetails->actions;
+
+        $apiKey = self::getApiKey($integrationDetails);
+        $version = self::getVersion($integrationDetails);
+        $locationId = self::getLocationIdIfV2($integrationDetails, $version);
+        $selectedTask = self::getStringParam($integrationDetails, 'selectedTask');
 
         if (empty($apiKey) || empty($fieldMap)) {
             return new WP_Error('REQ_FIELD_EMPTY', \sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'HighLevel'));
         }
 
-        $selectedOptions = [
-            'selectedTags'        => $integrationDetails->selectedTags,
-            'selectedContact'     => $integrationDetails->selectedContact,
-            'selectedTaskStatus'  => $integrationDetails->selectedTaskStatus,
-            'selectedUser'        => $integrationDetails->selectedUser,
-            'updateTaskId'        => $integrationDetails->updateTaskId,
-            'selectedPipeline'    => $integrationDetails->selectedPipeline,
-            'selectedStage'       => $integrationDetails->selectedStage,
-            'selectedOpportunity' => $integrationDetails->selectedOpportunity,
+        if ($version === 'v2' && $locationId === '') {
+            return new WP_Error('REQ_FIELD_EMPTY', \sprintf(__('module, location_id is required for %s v2 api', 'bit-integrations'), 'HighLevel'));
+        }
+
+        $optionKeys = [
+            'selectedTags'        => 'selectedTags',
+            'selectedContact'     => 'selectedContact',
+            'selectedTaskStatus'  => 'selectedTaskStatus',
+            'selectedUser'        => 'selectedUser',
+            'updateTaskId'        => 'updateTaskId',
+            'selectedPipeline'    => 'selectedPipeline',
+            'selectedStage'       => 'selectedStage',
+            'selectedOpportunity' => 'selectedOpportunity',
         ];
 
-        $recordApiHelper = new RecordApiHelper($apiKey, $this->_integrationID);
+        $selectedOptions = array_map(
+            function ($key) use ($integrationDetails) {
+                return self::getStringParam($integrationDetails, $key);
+            },
+            $optionKeys
+        );
 
+        $recordApiHelper = new RecordApiHelper($apiKey, $this->_integrationID, $version, $locationId);
         $highLevelApiResponse = $recordApiHelper->execute($fieldValues, $fieldMap, $selectedTask, $selectedOptions, $actions);
 
         if (is_wp_error($highLevelApiResponse)) {
