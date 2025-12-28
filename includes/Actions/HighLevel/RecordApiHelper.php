@@ -88,6 +88,10 @@ class RecordApiHelper
 
         $apiRequestData = self::formatContactData($finalData, $selectedOptions, $actions, 'updateContact');
 
+        if ($this->version === 'v2') {
+            return apply_filters('btcbi_high_level_v2_update_contact', $this->v2DefaultResponse, $apiRequestData, $this->apiKey, $id);
+        }
+
         $apiEndpoint = $this->baseUrl . 'contacts/' . $id;
 
         $response = HttpHelper::put($apiEndpoint, wp_json_encode($apiRequestData), $this->defaultHeader);
@@ -120,6 +124,10 @@ class RecordApiHelper
         $apiRequestData['dueDate'] = !empty($finalData['dueDate']) ? $finalData['dueDate'] : '';
         $apiRequestData['assignedTo'] = !empty($selectedOptions['selectedUser']) ? $selectedOptions['selectedUser'] : '';
         $apiRequestData['status'] = !empty($selectedOptions['selectedTaskStatus']) ? $selectedOptions['selectedTaskStatus'] : '';
+
+        if ($this->version === 'v2') {
+            return apply_filters('btcbi_high_level_v2_create_task', $this->v2DefaultResponse, $apiRequestData, $this->apiKey, $contactId);
+        }
 
         $apiEndpoint = $this->baseUrl . 'contacts/' . $contactId . '/tasks';
 
@@ -164,6 +172,10 @@ class RecordApiHelper
         $apiRequestData['assignedTo'] = !empty($selectedOptions['selectedUser']) ? $selectedOptions['selectedUser'] : '';
         $apiRequestData['status'] = !empty($selectedOptions['selectedTaskStatus']) ? $selectedOptions['selectedTaskStatus'] : '';
 
+        if ($this->version === 'v2') {
+            return apply_filters('btcbi_high_level_v2_update_task', $this->v2DefaultResponse, $apiRequestData, $this->apiKey, $contactId, $taskId);
+        }
+
         $apiEndpoint = $this->baseUrl . 'contacts/' . $contactId . '/tasks/' . $taskId;
 
         $response = HttpHelper::put($apiEndpoint, wp_json_encode($apiRequestData), $this->defaultHeader);
@@ -193,6 +205,10 @@ class RecordApiHelper
 
         $apiRequestData = self::formatOpportunityData($finalData, $selectedOptions, $actions, $contactId, 'createOpportunity');
 
+        if ($this->version === 'v2' && $this->locationId !== '') {
+            return apply_filters('btcbi_high_level_v2_create_opportunity', $this->v2DefaultResponse, $apiRequestData, $this->apiKey, $this->locationId, $selectedOptions['selectedPipeline']);
+        }
+
         $apiEndpoint = $this->baseUrl . 'pipelines/' . $selectedOptions['selectedPipeline'] . '/opportunities';
 
         $response = HttpHelper::post($apiEndpoint, wp_json_encode($apiRequestData), $this->defaultHeader);
@@ -206,7 +222,7 @@ class RecordApiHelper
 
     public function updateOpportunity($finalData, $selectedOptions, $actions)
     {
-        if (empty($selectedOptions['selectedPipeline']) || empty($selectedOptions['selectedStage']) || empty($finalData['title'])) {
+        if (empty($selectedOptions['selectedPipeline']) || empty($selectedOptions['selectedStage']) || ($this->version === 'v1' && empty($finalData['title']))) {
             return ['success' => false, 'message' => __('Request parameter(s) empty!', 'bit-integrations'), 'code' => 400];
         }
 
@@ -231,6 +247,10 @@ class RecordApiHelper
         }
 
         $apiRequestData = self::formatOpportunityData($finalData, $selectedOptions, $actions, $contactId, 'updateOpportunity');
+
+        if ($this->version === 'v2' && $this->locationId !== '') {
+            return apply_filters('btcbi_high_level_v2_update_opportunity', $this->v2DefaultResponse, $apiRequestData, $this->apiKey, $opportunityId, $selectedOptions['selectedPipeline']);
+        }
 
         $apiEndpoint = $this->baseUrl . 'pipelines/' . $selectedOptions['selectedPipeline'] . '/opportunities/' . $opportunityId;
 

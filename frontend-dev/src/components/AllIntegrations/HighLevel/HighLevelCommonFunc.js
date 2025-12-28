@@ -285,7 +285,7 @@ const contactStaticFields = selectedTask => {
   return fields
 }
 
-export const highLevelStaticFields = selectedTask => {
+export const highLevelStaticFields = (selectedTask, version = 'v1') => {
   if (selectedTask === TASK_LIST_VALUES.CREATE_CONTACT) {
     return {
       staticFields: contactStaticFields(selectedTask),
@@ -324,31 +324,50 @@ export const highLevelStaticFields = selectedTask => {
       ]
     }
   } else if (selectedTask === TASK_LIST_VALUES.CREATE_OPPORTUNITY) {
-    return {
-      staticFields: [
-        { key: 'title', label: 'Title', required: true },
-        { key: 'name', label: 'Name', required: false },
-        { key: 'email', label: 'Email', required: false },
-        { key: 'phone', label: 'Phone Number', required: false },
-        { key: 'companyName', label: 'Company Name', required: false },
-        { key: 'monetaryValue', label: 'Monetary Value', required: false },
-        { key: 'contactId', label: 'Contact ID', required: false }
-      ],
-      fieldMap: [{ formField: '', highLevelField: 'title' }]
-    }
+    return version === 'v1'
+      ? {
+          staticFields: [
+            { key: 'title', label: 'Title', required: true },
+            { key: 'name', label: 'Name', required: false },
+            { key: 'email', label: 'Email', required: false },
+            { key: 'phone', label: 'Phone Number', required: false },
+            { key: 'companyName', label: 'Company Name', required: false },
+            { key: 'monetaryValue', label: 'Monetary Value', required: false },
+            { key: 'contactId', label: 'Contact ID', required: false }
+          ],
+          fieldMap: [{ formField: '', highLevelField: 'title' }]
+        }
+      : {
+          staticFields: [
+            { key: 'name', label: 'Name', required: true },
+            { key: 'monetaryValue', label: 'Monetary Value', required: false },
+            { key: 'contactId', label: 'Contact ID', required: false }
+          ],
+          fieldMap: [{ formField: '', highLevelField: 'name' }]
+        }
   } else if (selectedTask === TASK_LIST_VALUES.UPDATE_OPPORTUNITY) {
-    return {
-      staticFields: [
-        { key: 'title', label: 'Title', required: true },
-        { key: 'name', label: 'Name', required: false },
-        { key: 'email', label: 'Email', required: false },
-        { key: 'phone', label: 'Phone Number', required: false },
-        { key: 'companyName', label: 'Company Name', required: false },
-        { key: 'monetaryValue', label: 'Monetary Value', required: false },
-        { key: 'opportunityId', label: 'Opportunity ID', required: false },
-        { key: 'contactId', label: 'Contact ID', required: false }
-      ],
-      fieldMap: [{ formField: '', highLevelField: 'title' }]
-    }
+    return version === 'v1'
+      ? {
+          staticFields: [
+            { key: 'title', label: 'Title', required: true },
+            { key: 'name', label: 'Name', required: false },
+            { key: 'email', label: 'Email', required: false },
+            { key: 'phone', label: 'Phone Number', required: false },
+            { key: 'companyName', label: 'Company Name', required: false },
+            { key: 'monetaryValue', label: 'Monetary Value', required: false },
+            { key: 'opportunityId', label: 'Opportunity ID', required: false },
+            { key: 'contactId', label: 'Contact ID', required: false }
+          ],
+          fieldMap: [{ formField: '', highLevelField: 'title' }]
+        }
+      : {
+          staticFields: [
+            { key: 'name', label: 'Name', required: true },
+            { key: 'monetaryValue', label: 'Monetary Value', required: false },
+            { key: 'contactId', label: 'Contact ID', required: false },
+            { key: 'opportunityId', label: 'Opportunity ID', required: false }
+          ],
+          fieldMap: [{ formField: '', highLevelField: 'name' }]
+        }
   }
 }
