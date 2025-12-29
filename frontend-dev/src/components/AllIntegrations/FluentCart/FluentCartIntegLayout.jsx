@@ -25,7 +25,7 @@ import {
   OrderStatusField,
   PaymentStatusField,
   ProductFields,
-  ProductIdField,
+  ProductSlugField,
   ShippingStatusField
 } from './staticData'
 
@@ -76,7 +76,7 @@ export default function FluentCartIntegLayout({
             draftConf.fluentCartFields = ProductFields
             break
           case 'delete_product':
-            draftConf.fluentCartFields = ProductIdField
+            draftConf.fluentCartFields = ProductSlugField
             break
           case 'create_coupon':
             draftConf.fluentCartFields = CouponFields

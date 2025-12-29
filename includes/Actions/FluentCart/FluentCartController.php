@@ -44,8 +44,8 @@ class FluentCartController
             $products = array_map(
                 function ($product) {
                     return (object) [
-                        'product_id'   => $product->id ?? $product['id'],
-                        'product_name' => $product->title ?? $product['title']
+                        'product_id'   => $product['id'] ?? $product['ID'] ?? '',
+                        'product_name' => $product['title'] ?? $product['post_title'] ?? '',
                     ];
                 },
                 $allProducts->toArray()

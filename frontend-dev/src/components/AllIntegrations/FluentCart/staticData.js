@@ -89,7 +89,7 @@ export const ProductFields = [
   { key: 'gallery_image_ids', label: 'Gallery Image IDs (JSON array)', required: false }
 ]
 
-export const ProductIdField = [{ key: 'post_title', label: 'Product Title', required: true }]
+export const ProductSlugField = [{ key: 'product_slug', label: 'Product Slug', required: true }]
 
 export const CouponFields = [
   { key: 'code', label: 'Coupon Code', required: true },
