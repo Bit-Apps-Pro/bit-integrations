@@ -28,6 +28,7 @@ import {
   ProductSlugField,
   ShippingStatusField
 } from './staticData'
+import Note from '../../Utilities/Note'
 
 export default function FluentCartIntegLayout({
   formID,
@@ -309,6 +310,13 @@ export default function FluentCartIntegLayout({
           <br />
         </div>
       )}
+
+      <Note
+        note={__(
+          'Price in dollars. Example: 399.98 for $399.98. Will be automatically converted to cents for storage.',
+          'bit-integrations'
+        )}
+      />
 
       {fluentCartConf?.mainAction &&
         fluentCartConf.fluentCartFields &&
