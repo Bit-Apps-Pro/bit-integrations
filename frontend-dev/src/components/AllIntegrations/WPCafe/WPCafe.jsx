@@ -6,39 +6,39 @@ import { __ } from '../../../Utils/i18nwrap'
 import SnackMsg from '../../Utilities/SnackMsg'
 import { saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
-import MailerPressAuthorization from './MailerPressAuthorization'
-import { checkMappedFields } from './MailerPressCommonFunc'
-import MailerPressIntegLayout from './MailerPressIntegLayout'
+import WPCafeAuthorization from './WPCafeAuthorization'
+import { checkMappedFields } from './WPCafeCommonFunc'
+import WPCafeIntegLayout from './WPCafeIntegLayout'
 
-export default function MailerPress({ formFields, setFlow, flow, allIntegURL }) {
+export default function WPCafe({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
   const { formID } = useParams()
   const [isLoading, setIsLoading] = useState(false)
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
-  const [mailerPressConf, setMailerPressConf] = useState({
-    name: 'MailerPress',
-    type: 'MailerPress',
-    field_map: [{ formField: '', mailerPressField: '' }],
-    lists: [],
-    tags: [],
+  const [wpcafeConf, setWpcafeConf] = useState({
+    name: 'WPCafe',
+    type: 'WPCafe',
+    field_map: [{ formField: '', wpcafeField: '' }],
     actions: {},
     mainAction: ''
   })
-
+  console.log(isLoading)
   const nextPage = val => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
+
     if (val === 3) {
-      if (!checkMappedFields(mailerPressConf)) {
+      if (!checkMappedFields(wpcafeConf)) {
         setSnackbar({
           show: true,
           msg: __('Please map all required fields to continue.', 'bit-integrations')
         })
         return
       }
-      if (mailerPressConf.name !== '' && mailerPressConf.field_map.length > 0) {
+
+      if (wpcafeConf.name !== '' && wpcafeConf.field_map.length > 0) {
         setStep(val)
       }
     } else {
@@ -52,10 +52,10 @@ export default function MailerPress({ formFields, setFlow, flow, allIntegURL }) 
       <div className="txt-center mt-2">{/* <Steps step={3} active={step} /> */}</div>
 
       {/* STEP 1 */}
-      <MailerPressAuthorization
+      <WPCafeAuthorization
         formID={formID}
-        mailerPressConf={mailerPressConf}
-        setMailerPressConf={setMailerPressConf}
+        wpcafeConf={wpcafeConf}
+        setWpcafeConf={setWpcafeConf}
         step={step}
         nextPage={nextPage}
         isLoading={isLoading}
@@ -71,11 +71,11 @@ export default function MailerPress({ formFields, setFlow, flow, allIntegURL }) 
           height: step === 2 && 'auto',
           minHeight: step === 2 && `${200}px`
         }}>
-        <MailerPressIntegLayout
+        <WPCafeIntegLayout
           formID={formID}
           formFields={formFields}
-          mailerPressConf={mailerPressConf}
-          setMailerPressConf={setMailerPressConf}
+          wpcafeConf={wpcafeConf}
+          setWpcafeConf={setWpcafeConf}
           setSnackbar={setSnackbar}
           setIsLoading={setIsLoading}
           isLoading={isLoading}
@@ -85,7 +85,7 @@ export default function MailerPress({ formFields, setFlow, flow, allIntegURL }) 
         <br />
         <button
           onClick={() => nextPage(3)}
-          disabled={mailerPressConf.field_map.length < 1}
+          disabled={wpcafeConf.field_map.length < 1}
           className="btn f-right btcd-btn-lg purple sh-sm flx"
           type="button">
           {__('Next', 'bit-integrations')}
@@ -97,11 +97,10 @@ export default function MailerPress({ formFields, setFlow, flow, allIntegURL }) 
       <IntegrationStepThree
         step={step}
         saveConfig={() =>
-          saveIntegConfig(flow, setFlow, allIntegURL, mailerPressConf, navigate, '', '', setIsLoading)
+          saveIntegConfig(flow, setFlow, allIntegURL, wpcafeConf, navigate, '', '', setIsLoading)
         }
         isLoading={isLoading}
       />
     </div>
   )
 }
-

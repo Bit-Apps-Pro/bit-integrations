@@ -103,3 +103,4 @@ class TeamsForWooCommerceMembershipsController
         return $teamsForWooCommerceMembershipsResponse;
     }
 }
+

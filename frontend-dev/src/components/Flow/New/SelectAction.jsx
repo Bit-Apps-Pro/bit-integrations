@@ -173,6 +173,7 @@ export default function SelectAction() {
     { type: 'Wishlist Member' },
     { type: 'MailerPress' },
     { type: 'FluentCart' },
+    { type: 'WPCafe' },
     { type: 'Teams For WooCommerce Memberships' }
   ]
 

@@ -10,20 +10,12 @@ import {
   handleFieldMapping
 } from '../GlobalIntegrationHelper'
 
-export default function TeamsForWooCommerceMembershipsFieldMap({
-  i,
-  formFields,
-  field,
-  teamsForWcConf,
-  setTeamsForWcConf
-}) {
+export default function WPCafeFieldMap({ i, formFields, field, wpcafeConf, setWpcafeConf }) {
   const btcbi = useRecoilValue($btcbi)
   const { isPro } = btcbi
 
-  const requiredFlds =
-    teamsForWcConf?.teamsForWooCommerceMembershipsFields?.filter(fld => fld.required === true) || []
-  const nonRequiredFlds =
-    teamsForWcConf?.teamsForWooCommerceMembershipsFields?.filter(fld => fld.required === false) || []
+  const requiredFlds = wpcafeConf?.wpcafeFields?.filter(fld => fld.required === true) || []
+  const nonRequiredFlds = wpcafeConf?.wpcafeFields?.filter(fld => fld.required === false) || []
 
   return (
     <div className="flx mt-2 mb-2 btcbi-field-map">
@@ -33,7 +25,7 @@ export default function TeamsForWooCommerceMembershipsFieldMap({
             className="btcd-paper-inp mr-2"
             name="formField"
             value={field.formField || ''}
-            onChange={ev => handleFieldMapping(ev, i, teamsForWcConf, setTeamsForWcConf)}>
+            onChange={ev => handleFieldMapping(ev, i, wpcafeConf, setWpcafeConf)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             <optgroup label={__('Form Fields', 'bit-integrations')}>
               {formFields?.map(f => (
@@ -59,7 +51,7 @@ export default function TeamsForWooCommerceMembershipsFieldMap({
 
           {field.formField === 'custom' && (
             <TagifyInput
-              onChange={e => handleCustomValue(e, i, teamsForWcConf, setTeamsForWcConf)}
+              onChange={e => handleCustomValue(e, i, wpcafeConf, setWpcafeConf)}
               label={__('Custom Value', 'bit-integrations')}
               className="mr-2"
               type="text"
@@ -72,13 +64,9 @@ export default function TeamsForWooCommerceMembershipsFieldMap({
           <select
             className="btcd-paper-inp"
             disabled={i < requiredFlds.length}
-            name="teamsForWooCommerceMembershipsField"
-            value={
-              i < requiredFlds
-                ? requiredFlds[i].label || ''
-                : field.teamsForWooCommerceMembershipsField || ''
-            }
-            onChange={ev => handleFieldMapping(ev, i, teamsForWcConf, setTeamsForWcConf)}>
+            name="wpcafeField"
+            value={i < requiredFlds ? requiredFlds[i].label || '' : field.wpcafeField || ''}
+            onChange={ev => handleFieldMapping(ev, i, wpcafeConf, setWpcafeConf)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             {i < requiredFlds.length ? (
               <option key={requiredFlds[i].key} value={requiredFlds[i].key}>
@@ -96,13 +84,13 @@ export default function TeamsForWooCommerceMembershipsFieldMap({
         {i >= requiredFlds.length && (
           <>
             <button
-              onClick={() => addFieldMap(i, teamsForWcConf, setTeamsForWcConf)}
+              onClick={() => addFieldMap(i, wpcafeConf, setWpcafeConf)}
               className="icn-btn sh-sm ml-2 mr-1"
               type="button">
               +
             </button>
             <button
-              onClick={() => delFieldMap(i, teamsForWcConf, setTeamsForWcConf)}
+              onClick={() => delFieldMap(i, wpcafeConf, setWpcafeConf)}
               className="icn-btn sh-sm ml-1"
               type="button"
               aria-label="btn">
@@ -114,5 +102,4 @@ export default function TeamsForWooCommerceMembershipsFieldMap({
     </div>
   )
 }
-
 

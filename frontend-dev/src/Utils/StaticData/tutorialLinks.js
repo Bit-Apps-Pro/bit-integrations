@@ -650,6 +650,10 @@ const tutorialLinks = {
   teamsForWooCommerceMemberships: {
     youTubeLink: '',
     docLink: 'https://bit-integrations.com/wp-docs/actions/woocommerce-memberships-integrations/'
+  },
+  wpcafe: {
+    youTubeLink: '',
+    docLink: 'https://bit-integrations.com/wp-docs/actions/wpcafe-integrations/'
   }
 }
 export default tutorialLinks
