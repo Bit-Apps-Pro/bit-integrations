@@ -653,7 +653,7 @@ const tutorialLinks = {
   },
   wpcafe: {
     youTubeLink: '',
-    docLink: 'https://bit-integrations.com/wp-docs/actions/wpcafe-integrations/'
+    docLink: 'https://bit-integrations.com/wp-docs/actions/wpcafe-integrations-as-action/'
   }
 }
 export default tutorialLinks
