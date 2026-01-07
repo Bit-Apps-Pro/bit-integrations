@@ -221,7 +221,7 @@ export default function SelectAction() {
           <span className="btcd-icn icn-chevron-left" />
           &nbsp;{__('Back', 'bit-integrations')}
         </button>
-        <h2 className="mt-0">{__('Please select a Action', 'bit-integrations')}</h2>
+        <h2 className="mt-0">{__('Please select an Action', 'bit-integrations')}</h2>
         <input
           type="search"
           className="btcd-paper-inp w-5 mb-3"
