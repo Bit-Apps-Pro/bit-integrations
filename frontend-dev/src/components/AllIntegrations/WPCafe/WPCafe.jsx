@@ -23,7 +23,7 @@ export default function WPCafe({ formFields, setFlow, flow, allIntegURL }) {
     actions: {},
     mainAction: ''
   })
-  console.log(isLoading)
+
   const nextPage = val => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0

@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { $actionConf, $formFields, $newFlow } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import SnackMsg from '../../Utilities/SnackMsg'
-import EditFormInteg from '../EditFormInteg'
+import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
+import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import SetEditIntegComponents from '../IntegrationHelpers/SetEditIntegComponents'
-import EditWebhookInteg from '../EditWebhookInteg'
 import { checkMappedFields, handleInput } from './WPCafeCommonFunc'
 import WPCafeIntegLayout from './WPCafeIntegLayout'
 
@@ -20,32 +20,6 @@ export default function EditWPCafe({ allIntegURL }) {
   const [isLoading, setIsLoading] = useState(false)
   const [snack, setSnackbar] = useState({ show: false })
 
-  useEffect(() => {
-    if (!wpcafeConf?.wpcafeFields) {
-      const { ReservationFields, ReservationIdField, UpdateReservationFields } = require('./staticData')
-
-      setWpcafeConf(prevConf => {
-        const newConf = { ...prevConf }
-
-        switch (newConf.mainAction) {
-          case 'create_reservation':
-            newConf.wpcafeFields = ReservationFields
-            break
-          case 'update_reservation':
-            newConf.wpcafeFields = UpdateReservationFields
-            break
-          case 'get_reservation':
-            newConf.wpcafeFields = ReservationIdField
-            break
-          default:
-            newConf.wpcafeFields = []
-        }
-
-        return newConf
-      })
-    }
-  }, [])
-
   return (
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
@@ -54,7 +28,7 @@ export default function EditWPCafe({ allIntegURL }) {
         <b className="wdt-200 d-in-b">{__('Integration Name:', 'bit-integrations')}</b>
         <input
           className="btcd-paper-inp w-5"
-          onChange={e => handleInput(e, wpcafeConf, setWpcafeConf, formID)}
+          onChange={e => handleInput(e, wpcafeConf, setWpcafeConf)}
           name="name"
           value={wpcafeConf.name}
           type="text"
@@ -63,7 +37,7 @@ export default function EditWPCafe({ allIntegURL }) {
       </div>
       <br />
 
-      <SetEditIntegComponents entity={flow.triggered_entity} />
+      <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
 
       <WPCafeIntegLayout
         formID={formID}
@@ -75,12 +49,28 @@ export default function EditWPCafe({ allIntegURL }) {
         isLoading={isLoading}
       />
 
+      <IntegrationStepThree
+        edit
+        saveConfig={() =>
+          saveActionConf({
+            flow,
+            setFlow,
+            allIntegURL,
+            conf: wpcafeConf,
+            navigate,
+            id,
+            edit: 1,
+            setIsLoading,
+            setSnackbar
+          })
+        }
+        disabled={!checkMappedFields(wpcafeConf)}
+        isLoading={isLoading}
+        dataConf={wpcafeConf}
+        setDataConf={setWpcafeConf}
+        formFields={formFields}
+      />
       <br />
-      <br />
-
-      {flow.triggered_entity === 'webhook' && <EditWebhookInteg />}
-      {flow.triggered_entity !== 'webhook' && <EditFormInteg allIntegURL={allIntegURL} />}
     </div>
   )
 }
-

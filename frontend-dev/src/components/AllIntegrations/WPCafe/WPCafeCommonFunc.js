@@ -1,8 +1,8 @@
 import { create } from 'mutative'
-import { sprintf, __ } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
+import { __ } from '../../../Utils/i18nwrap'
 
-export const handleInput = (e, wpcafeConf, setWpcafeConf, formID) => {
+export const handleInput = (e, wpcafeConf, setWpcafeConf) => {
   const newConf = create(wpcafeConf, draftConf => {
     draftConf[e.target.name] = e.target.value
   })

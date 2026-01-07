@@ -102,4 +102,3 @@ export default function WPCafeFieldMap({ i, formFields, field, wpcafeConf, setWp
     </div>
   )
 }
-
