@@ -2,9 +2,9 @@
 
 namespace BitCode\FI\Actions\GoogleDrive;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 
 class RecordApiHelper
 {
@@ -21,7 +21,7 @@ class RecordApiHelper
 
     public function uploadFile($folder, $file)
     {
-        if (${$file} === '') {
+        if ($file === '') {
             return false;
         }
 
@@ -38,25 +38,28 @@ class RecordApiHelper
 
     public function handleAllFiles($folderWithFile, $actions, $folderKey = null)
     {
-        foreach ($folderWithFile as $folder => $filePath) {
+        foreach ($folderWithFile as $folder => $file) {
             $folder = $folderKey ? $folderKey : $folder;
-            if ($filePath == '') {
+            if ($file == '') {
                 continue;
             }
 
-            if (\is_array($filePath)) {
-                $this->handleAllFiles($filePath, $actions, $folder);
+            if (\is_array($file)) {
+                $this->handleAllFiles($file, $actions, $folder);
             } else {
-                $response = $this->uploadFile($folder, $filePath);
+                error_log(print_r(['action' => $actions], true));
+                $response = $this->uploadFile($folder, $file);
                 $this->storeInState($response);
-                $this->deleteFile($filePath, $actions);
+                $this->deleteFile($file, $actions);
             }
         }
     }
 
-    public function deleteFile($filePath, $actions)
+    public function deleteFile($file, $actions)
     {
         if (isset($actions->delete_from_wp) && $actions->delete_from_wp) {
+            $filePath = Common::filePath($file);
+
             if (file_exists($filePath)) {
                 wp_delete_file($filePath);
             }
