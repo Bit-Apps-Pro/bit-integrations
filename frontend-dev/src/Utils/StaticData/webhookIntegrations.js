@@ -84,7 +84,8 @@ export const customFormIntegrations = [
   'EssentialBlocks',
   'EssentialAddonsElementor',
   'ForminatorQuizAndPoll',
-  'TeamsForWooCommerceMemberships'
+  'TeamsForWooCommerceMemberships',
+  'WPCafe'
 ]
 
 export const actionHookIntegrations = ['ActionHook']

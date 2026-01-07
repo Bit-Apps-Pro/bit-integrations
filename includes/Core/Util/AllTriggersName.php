@@ -143,6 +143,7 @@ final class AllTriggersName
             'WPCourseware'                   => ['name' => 'WP Courseware',  'isPro' => true, 'is_active' => false],
             'WPEF'                           => ['name' => 'eForm',  'isPro' => true, 'is_active' => false],
             'WPForo'                         => ['name' => 'wpForo Forum',  'isPro' => true, 'is_active' => false],
+            'WPCafe'                         => ['name' => 'WPCafe',  'isPro' => true, 'is_active' => false],
             'WPFunnels'                      => ['name' => 'WPFunnels',  'isPro' => true, 'is_active' => false],
             'WPJobManager'                   => ['name' => 'WP Job Manager',  'isPro' => true, 'is_active' => false],
             'WSForm'                         => ['name' => 'WSForm',  'isPro' => true, 'is_active' => false],
