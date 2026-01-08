@@ -5,3 +5,6 @@ onlyBuiltDependencies:
   - ejs
   - es5-ext
   - esbuild
+
+packages:
+  - .
