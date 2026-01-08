@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { $btcbi, $flowStep, $newFlow } from '../../../GlobalStates'
 import useFetch from '../../../hooks/useFetch'
+import bitsFetch from '../../../Utils/bitsFetch'
 import CloseIcn from '../../../Icons/CloseIcn'
 import { deepCopy, sortFreeProd, sortObj } from '../../../Utils/Helpers'
 import { __ } from '../../../Utils/i18nwrap'
@@ -84,6 +85,10 @@ export default function SelectTrigger() {
     tempConf.triggered_entity = trigger
     tempConf.triggerDetail = allTriggers.data[trigger]
     setNewFlow(tempConf)
+
+    bitsFetch({ trigger: trigger }, 'trigger/save-listed', null, 'POST').catch(err =>
+      console.error('Failed to save listed triggers:', err)
+    )
   }
 
   const removeTrigger = () => {

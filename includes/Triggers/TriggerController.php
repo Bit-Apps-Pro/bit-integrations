@@ -89,4 +89,19 @@ final class TriggerController
 
         wp_send_json_success(wp_sprintf(__('%s test data removed successfully', 'bit-integrations'), $triggerName));
     }
+
+    public static function saveListedTriggers($data)
+    {
+        if (!(Capabilities::Check('manage_options') || Capabilities::Check('bit_integrations_manage_integrations'))) {
+            wp_send_json_error(__('User doesn\'t have permission to save triggers', 'bit-integrations'));
+        }
+
+        if (!isset($data->trigger) || !\is_string($data->trigger)) {
+            wp_send_json_error(__('Invalid trigger data', 'bit-integrations'));
+        }
+
+        update_option('btcbi_selected_trigger', sanitize_text_field($data->trigger));
+
+        wp_send_json_success(__('Listed trigger saved successfully', 'bit-integrations'));
+    }
 }

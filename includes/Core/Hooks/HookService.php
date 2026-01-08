@@ -80,8 +80,8 @@ class HookService
             $activeTrigger = [];
         }
 
-        $listedTriggers = ['ActionHook', 'Spectra', 'EssentialBlocks', 'Elementor', 'FallbackTrigger'];
-        $activeTrigger = array_merge($activeTrigger, $listedTriggers);
+        $listedTrigger = get_option('btcbi_selected_trigger', []);
+        $activeTrigger = array_merge($activeTrigger, [$listedTrigger]);
 
         if (empty($activeTrigger) || !\is_array($activeTrigger)) {
             return;
