@@ -704,7 +704,7 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 _Release Date - 08th January 2026_
 
 - **New Trigger**
- - WPCafe: 9 new events added (Pro)
+ - WPCafe: 7 new events added (Pro)
  - FluentCart: 13 new events added (Pro)
  - Forminator Quiz And Poll: 2 new events added (Pro)
  - Teams for WooCommerce Memberships: 7 new events added (Pro)

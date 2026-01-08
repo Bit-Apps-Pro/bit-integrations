@@ -50,7 +50,7 @@ const changeLog = [
     items: [
       {
         label: 'WPCafe',
-        desc: '09 events Added.',
+        desc: '07 events Added.',
         isPro: true
       },
       {
