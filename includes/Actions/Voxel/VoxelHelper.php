@@ -23,6 +23,8 @@ class VoxelHelper
             return false;
         }
 
+        $finalData['multiselect'] = array_map('trim', explode(',', $finalData['multiselect'] ?? ''));
+
         foreach ($postFields as $postField) {
             $fieldType = $postField->get_type();
 
@@ -56,6 +58,14 @@ class VoxelHelper
 
                     if (!empty($finalWorkHours)) {
                         $field->update([$finalWorkHours]);
+                    }
+
+                    break;
+                case 'multiselect':
+                    $multiSelectValues = is_array($finalData[$fieldKey]) ? $finalData[$fieldKey] : array_map('trim', explode(',', $finalData[$fieldKey] ?? ''));
+
+                    if (!empty($multiSelectValues)) {
+                        $field->update($multiSelectValues);
                     }
 
                     break;

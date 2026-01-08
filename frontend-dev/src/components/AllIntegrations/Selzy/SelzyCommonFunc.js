@@ -25,14 +25,14 @@ export const handleAuthorize = (conf, setConf, setError, setAuthorized, loading,
 
   const requestParams = { authKey: conf.authKey }
 
-  bitsFetch(requestParams, 'selzy_handle_authorize').then((result) => {
+  bitsFetch(requestParams, 'selzy_handle_authorize').then(result => {
     if (result.success && result.data) {
       const newConf = { ...conf }
       if (result.data) {
         if (!newConf.default) {
           newConf.default = {}
         }
-        const data = result.data.result?.map((v) => ({
+        const data = result.data.result?.map(v => ({
           ...v,
           id: String(v.id)
         }))
@@ -55,7 +55,7 @@ export const getAllLists = async (conf, setConf, loading, setLoading) => {
   const requestParams = { authKey: conf.authKey }
   const result = await bitsFetch(requestParams, 'selzy_handle_authorize')
   if (result.success) {
-    const data = result.data.result?.map((v) => ({ ...v, id: String(v.id) }))
+    const data = result.data.result?.map(v => ({ ...v, id: String(v.id) }))
     const newConf = { ...conf }
     if (data) {
       if (!newConf.default) {
@@ -125,19 +125,20 @@ export const getAllCustomFields = async (conf, setConf, loading, setLoading) => 
   return false
 }
 
-export const generateMappedField = (selzyConf) => {
-  const requiredFlds = selzyConf?.selzyFields.filter((fld) => fld.required === true)
+export const generateMappedField = selzyConf => {
+  const requiredFlds = selzyConf?.selzyFields.filter(fld => fld.required === true)
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({
+    ? requiredFlds.map(field => ({
         formField: '',
         selzyFormField: field.key
       }))
     : [{ formField: '', selzyFormField: '' }]
 }
-export const checkMappedFields = (selzyConf) => {
+
+const checkMappedFields = selzyConf => {
   const mappedFields = selzyConf?.field_map
     ? selzyConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField ||
           !mappedField.selzyFormField ||
           (!mappedField.formField === 'custom' && !mappedField.customValue)
@@ -164,7 +165,7 @@ export const nextPage = (conf, setStep, pageNo) => {
 export const saveConfig = (flow, setFlow, allIntegURL, conf, navigate, setLoading) => {
   setLoading(true)
   const resp = saveIntegConfig(flow, setFlow, allIntegURL, conf, navigate, '', '', setLoading)
-  resp.then((res) => {
+  resp.then(res => {
     if (res.success) {
       toast.success(res.data?.msg)
       navigate(allIntegURL)

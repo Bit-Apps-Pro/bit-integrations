@@ -6,30 +6,49 @@
 
 namespace BitCode\FI\Actions\HighLevel;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\Helper;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert,update, exist
  */
 class RecordApiHelper
 {
+    private const V2_HEADER_VERSION = '2021-07-28';
+
     private $defaultHeader;
 
     private $integrationID;
 
+    private $version;
+
+    private $locationId;
+
+    private $v2DefaultResponse;
+
+    private $apiKey;
+
     private $baseUrl = 'https://rest.gohighlevel.com/v1/';
 
-    public function __construct($apiKey, $integId)
+    public function __construct($apiKey, $integId, $version = 'v1', $locationId = '')
     {
+        $this->integrationID = $integId;
+        $this->version = $version;
+        $this->locationId = $locationId;
+        $this->apiKey = $apiKey;
+
         $this->defaultHeader = [
             'Authorization' => 'Bearer ' . $apiKey,
             'Content-Type'  => 'application/json'
         ];
 
-        $this->integrationID = $integId;
+        $this->v2DefaultResponse = [
+            'success' => false,
+            'message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro'),
+            'code'    => 400
+        ];
     }
 
     public function createContact($finalData, $selectedOptions, $actions)
@@ -40,12 +59,16 @@ class RecordApiHelper
 
         $apiRequestData = self::formatContactData($finalData, $selectedOptions, $actions, 'createContact');
 
+        if ($this->version === 'v2' && $this->locationId !== '') {
+            return apply_filters('btcbi_high_level_v2_create_contact', $this->v2DefaultResponse, $apiRequestData, $this->apiKey, $this->locationId);
+        }
+
         $apiEndpoint = $this->baseUrl . 'contacts';
 
         $response = HttpHelper::post($apiEndpoint, wp_json_encode($apiRequestData), $this->defaultHeader);
 
         if (isset($response->contact)) {
-            return ['success' => true, 'message' => __('Contact created successfully.', 'bit-integrations')];
+            return ['success' => true, 'message' => __('Contact created successfully.', 'bit-integrations'), 'response' => $response];
         }
 
         return ['success' => false, 'message' => __('Failed to create contact!', 'bit-integrations'), 'response' => $response, 'code' => 400];
@@ -64,6 +87,10 @@ class RecordApiHelper
         }
 
         $apiRequestData = self::formatContactData($finalData, $selectedOptions, $actions, 'updateContact');
+
+        if ($this->version === 'v2') {
+            return apply_filters('btcbi_high_level_v2_update_contact', $this->v2DefaultResponse, $apiRequestData, $this->apiKey, $id);
+        }
 
         $apiEndpoint = $this->baseUrl . 'contacts/' . $id;
 
@@ -97,6 +124,10 @@ class RecordApiHelper
         $apiRequestData['dueDate'] = !empty($finalData['dueDate']) ? $finalData['dueDate'] : '';
         $apiRequestData['assignedTo'] = !empty($selectedOptions['selectedUser']) ? $selectedOptions['selectedUser'] : '';
         $apiRequestData['status'] = !empty($selectedOptions['selectedTaskStatus']) ? $selectedOptions['selectedTaskStatus'] : '';
+
+        if ($this->version === 'v2') {
+            return apply_filters('btcbi_high_level_v2_create_task', $this->v2DefaultResponse, $apiRequestData, $this->apiKey, $contactId);
+        }
 
         $apiEndpoint = $this->baseUrl . 'contacts/' . $contactId . '/tasks';
 
@@ -141,6 +172,10 @@ class RecordApiHelper
         $apiRequestData['assignedTo'] = !empty($selectedOptions['selectedUser']) ? $selectedOptions['selectedUser'] : '';
         $apiRequestData['status'] = !empty($selectedOptions['selectedTaskStatus']) ? $selectedOptions['selectedTaskStatus'] : '';
 
+        if ($this->version === 'v2') {
+            return apply_filters('btcbi_high_level_v2_update_task', $this->v2DefaultResponse, $apiRequestData, $this->apiKey, $contactId, $taskId);
+        }
+
         $apiEndpoint = $this->baseUrl . 'contacts/' . $contactId . '/tasks/' . $taskId;
 
         $response = HttpHelper::put($apiEndpoint, wp_json_encode($apiRequestData), $this->defaultHeader);
@@ -170,6 +205,10 @@ class RecordApiHelper
 
         $apiRequestData = self::formatOpportunityData($finalData, $selectedOptions, $actions, $contactId, 'createOpportunity');
 
+        if ($this->version === 'v2' && $this->locationId !== '') {
+            return apply_filters('btcbi_high_level_v2_create_opportunity', $this->v2DefaultResponse, $apiRequestData, $this->apiKey, $this->locationId, $selectedOptions['selectedPipeline']);
+        }
+
         $apiEndpoint = $this->baseUrl . 'pipelines/' . $selectedOptions['selectedPipeline'] . '/opportunities';
 
         $response = HttpHelper::post($apiEndpoint, wp_json_encode($apiRequestData), $this->defaultHeader);
@@ -183,7 +222,7 @@ class RecordApiHelper
 
     public function updateOpportunity($finalData, $selectedOptions, $actions)
     {
-        if (empty($selectedOptions['selectedPipeline']) || empty($selectedOptions['selectedStage']) || empty($finalData['title'])) {
+        if (empty($selectedOptions['selectedPipeline']) || empty($selectedOptions['selectedStage']) || ($this->version === 'v1' && empty($finalData['title']))) {
             return ['success' => false, 'message' => __('Request parameter(s) empty!', 'bit-integrations'), 'code' => 400];
         }
 
@@ -208,6 +247,10 @@ class RecordApiHelper
         }
 
         $apiRequestData = self::formatOpportunityData($finalData, $selectedOptions, $actions, $contactId, 'updateOpportunity');
+
+        if ($this->version === 'v2' && $this->locationId !== '') {
+            return apply_filters('btcbi_high_level_v2_update_opportunity', $this->v2DefaultResponse, $apiRequestData, $this->apiKey, $opportunityId, $selectedOptions['selectedPipeline']);
+        }
 
         $apiEndpoint = $this->baseUrl . 'pipelines/' . $selectedOptions['selectedPipeline'] . '/opportunities/' . $opportunityId;
 
@@ -273,8 +316,7 @@ class RecordApiHelper
         }
 
         if ($response['success']) {
-            $res = ['message' => $response['message']];
-            LogHandler::save($this->integrationID, wp_json_encode(['type' => $type, 'type_name' => $typeName]), 'success', wp_json_encode($res));
+            LogHandler::save($this->integrationID, wp_json_encode(['type' => $type, 'type_name' => $typeName]), 'success', wp_json_encode($response));
         } else {
             LogHandler::save($this->integrationID, wp_json_encode(['type' => $type, 'type_name' => $typeName]), 'error', wp_json_encode($response));
         }

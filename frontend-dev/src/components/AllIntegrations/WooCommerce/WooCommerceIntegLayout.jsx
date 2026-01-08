@@ -44,12 +44,12 @@ export default function WooCommerceIntegLayout({
     setModule(wcConf.module)
   }, [wcConf?.module])
 
-  const handleTabChange = (type) => {
+  const handleTabChange = type => {
     setModule(type)
     setActive({ [type]: true, [type === 'customer' ? 'order' : 'customer']: false })
   }
 
-  const handleFilter = (e) => {
+  const handleFilter = e => {
     const { value } = e.target
     const newConf = { ...wcConf }
     if (value === 'order-id') {
@@ -89,7 +89,7 @@ export default function WooCommerceIntegLayout({
     setWcConf(newConf)
   }
 
-  const handleOrderChange = (e) => {
+  const handleOrderChange = e => {
     const { value } = e.target
     const newConf = { ...wcConf }
     if (value === 'date-order') {
@@ -167,13 +167,9 @@ export default function WooCommerceIntegLayout({
     <>
       <br />
       <b className="wdt-200 d-in-b">{__('Module:', 'bit-integrations')}</b>
-      <select
-        onChange={handleInput}
-        name="module"
-        value={wcConf.module}
-        className="btcd-paper-inp w-5">
+      <select onChange={handleInput} name="module" value={wcConf.module} className="btcd-paper-inp w-5">
         <option value="">{__('Select Module', 'bit-integrations')}</option>
-        {moduleType?.map((f) => (
+        {moduleType?.map(f => (
           <option key={`ff-rm-${f.name}`} value={f.name}>
             {f.label}
           </option>
@@ -191,7 +187,7 @@ export default function WooCommerceIntegLayout({
             className="btcd-paper-inp w-5">
             <option value="">{__('Select Filter Type', 'bit-integrations')}</option>
 
-            {filterStatus?.map((f) => (
+            {filterStatus?.map(f => (
               <option key={`ff-rm-${f.name}`} value={f.name}>
                 {f.label}
               </option>
@@ -210,7 +206,7 @@ export default function WooCommerceIntegLayout({
             value={wcConf?.orderchange}
             className="btcd-paper-inp w-5">
             <option value="">{__('Select Order Change Type', 'bit-integrations')}</option>
-            {orderChange?.map((f) => (
+            {orderChange?.map(f => (
               <option key={`ff-rm-${f.name}`} value={f.name}>
                 {f.label}
               </option>
@@ -259,18 +255,16 @@ export default function WooCommerceIntegLayout({
               defaultValue={wcConf?.productId}
               options={
                 wcConf?.default?.allSubscriptionProducts &&
-                wcConf.default.allSubscriptionProducts.map((item) => ({
+                wcConf.default.allSubscriptionProducts.map(item => ({
                   label: item.product_name,
                   value: item.product_id
                 }))
               }
-              onChange={(val) => changeHandler(val, 'productId')}
+              onChange={val => changeHandler(val, 'productId')}
               singleSelect
             />
             <button
-              onClick={() =>
-                getAllSubscriptionsProducts(wcConf, setWcConf, setIsLoading, setSnackbar)
-              }
+              onClick={() => getAllSubscriptionsProducts(wcConf, setWcConf, setIsLoading, setSnackbar)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{
                 '--tooltip-txt': `'${__('Fetch All Subscription product', 'bit-integrations')}'`
@@ -416,16 +410,6 @@ export default function WooCommerceIntegLayout({
           </div>
         </>
       )}
-
-      {/*
-      <div className="mt-4"><b className="wdt-100">{__('Utilities', 'bit-integrations')}</b></div>
-      <div className="btcd-hr mt-1" />
-
-      <WooCommerceProductActions
-        wcConf={wcConf}
-        setWcConf={setWcConf}
-        formFields={formFields}
-      /> */}
     </>
   )
 }

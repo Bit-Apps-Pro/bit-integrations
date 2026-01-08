@@ -81,7 +81,11 @@ export const customFormIntegrations = [
   'ContactFormEmail',
   'MailerPress',
   'Poptics',
-  'EssentialBlocks'
+  'EssentialBlocks',
+  'EssentialAddonsElementor',
+  'ForminatorQuizAndPoll',
+  'TeamsForWooCommerceMemberships',
+  'WPCafe'
 ]
 
 export const actionHookIntegrations = ['ActionHook']

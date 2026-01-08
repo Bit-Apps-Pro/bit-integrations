@@ -31,9 +31,3 @@ export const handleCustomValue = (event, index, conftTmp, setConf) => {
   newConf.field_map[index].customValue = event.target.value
   setConf({ ...newConf })
 }
-
-export const handleCustomField = (event, index, conftTmp, setConf, fieldValue) => {
-  const newConf = { ...conftTmp }
-  newConf.field_map[index][fieldValue] = event.target.value
-  setConf({ ...newConf })
-}

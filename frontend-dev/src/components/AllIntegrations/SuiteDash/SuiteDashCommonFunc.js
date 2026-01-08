@@ -15,12 +15,7 @@ export const handleInput = (e, salesmateConf, setSalesmateConf) => {
   setSalesmateConf({ ...newConf })
 }
 
-export const refreshSuiteDashFields = (
-  suiteDashConf,
-  setSuiteDashConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const refreshSuiteDashFields = (suiteDashConf, setSuiteDashConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   const requestParams = {
     public_id: suiteDashConf.public_id,
@@ -29,9 +24,9 @@ export const refreshSuiteDashFields = (
   }
 
   bitsFetch(requestParams, 'suite_dash_fetch_all_fields')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
-        setSuiteDashConf((prevSuiteDashConf) => {
+        setSuiteDashConf(prevSuiteDashConf => {
           const draftConf = { ...prevSuiteDashConf }
           draftConf.field_map = [{ formField: '', suiteDashFormField: '' }]
 
@@ -56,24 +51,24 @@ export const refreshSuiteDashFields = (
     .catch(() => setIsLoading(false))
 }
 
-export const generateMappedField = (suiteDashConf) => {
+const generateMappedField = suiteDashConf => {
   const requiredFlds =
     suiteDashConf?.suiteDashFields &&
     suiteDashConf?.suiteDashFields.filter(
-      (fld) => fld.required === true && fld.key !== 'owner' && fld.key !== 'pipeline'
+      fld => fld.required === true && fld.key !== 'owner' && fld.key !== 'pipeline'
     )
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({
+    ? requiredFlds.map(field => ({
         formField: '',
         suiteDashFormField: field.key
       }))
     : [{ formField: '', suiteDashFormField: '' }]
 }
 
-export const checkMappedFields = (suiteDashConf) => {
+export const checkMappedFields = suiteDashConf => {
   const mappedFields = suiteDashConf?.field_map
     ? suiteDashConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField ||
           !mappedField.suiteDashFormField ||
           (mappedField.formField === 'custom' && !mappedField.customValue) ||
@@ -110,7 +105,7 @@ export const suiteDashAuthentication = (
     secret_key: confTmp.secret_key
   }
 
-  bitsFetch(requestParams, 'suite_dash_authentication').then((result) => {
+  bitsFetch(requestParams, 'suite_dash_authentication').then(result => {
     if (result && result.success) {
       setIsAuthorized(true)
       setLoading({ ...loading, auth: false })
@@ -118,9 +113,7 @@ export const suiteDashAuthentication = (
       return
     }
     setLoading({ ...loading, auth: false })
-    toast.error(
-      __('Authorized failed, Please enter valid Public Id & Secret Key', 'bit-integrations')
-    )
+    toast.error(__('Authorized failed, Please enter valid Public Id & Secret Key', 'bit-integrations'))
   })
 }
 
@@ -132,10 +125,10 @@ export const getAllCompanies = (confTmp, setConf, setLoading) => {
     secret_key: confTmp.secret_key
   }
 
-  bitsFetch(requestParams, 'suite_dash_fetch_all_companies').then((result) => {
+  bitsFetch(requestParams, 'suite_dash_fetch_all_companies').then(result => {
     if (result && result.success) {
       if (result.data) {
-        setConf((prevConf) => {
+        setConf(prevConf => {
           prevConf.companies = result.data
           return prevConf
         })

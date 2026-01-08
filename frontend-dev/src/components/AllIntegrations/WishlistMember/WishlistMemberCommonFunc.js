@@ -47,7 +47,7 @@ export const deleteFieldMap = (indx, setWishlistMemberConf) => {
   )
 }
 
-export const checkMappedFields = wishlistMemberConf => {
+const checkMappedFields = wishlistMemberConf => {
   const mappedField = wishlistMemberConf.field_map.filter(
     mapped => mapped.formField && mapped.wishlistMemberField
   )
