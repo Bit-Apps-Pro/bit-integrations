@@ -35,7 +35,7 @@ export const handleInput = (
   setSheetConf({ ...newConf })
 }
 
-export const spreadSheetChange = (sheetConf, formID, setSheetConf, setIsLoading, setSnackbar) => {
+const spreadSheetChange = (sheetConf, formID, setSheetConf, setIsLoading, setSnackbar) => {
   const newConf = deepCopy(sheetConf)
   newConf.worksheetName = ''
   newConf.headerRow = 'A1'
@@ -54,7 +54,7 @@ export const spreadSheetChange = (sheetConf, formID, setSheetConf, setIsLoading,
   return newConf
 }
 
-export const worksheetChange = (sheetConf, formID, setSheetConf, setIsLoading, setSnackbar) => {
+const worksheetChange = (sheetConf, formID, setSheetConf, setIsLoading, setSnackbar) => {
   const newConf = { ...sheetConf }
   newConf.headerRow = 'A1'
   newConf.field_map = [{ formField: '', googleSheetField: '' }]

@@ -216,33 +216,6 @@ class ClickupController
         }
     }
 
-    public function getAllTags($fieldsRequestParams)
-    {
-        if (empty($fieldsRequestParams->api_key)) {
-            wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
-        }
-
-        $apiKey = $fieldsRequestParams->api_key;
-        $spaceId = $fieldsRequestParams->space_id;
-        $apiEndpoint = $this->apiEndpoint . 'space/' . $spaceId . '/tag';
-        $headers = [
-            'Authorization' => $apiKey,
-        ];
-
-        $response = HttpHelper::get($apiEndpoint, null, $headers);
-        if (!empty($response->tags)) {
-            foreach ($response->tags as $tag) {
-                $tags[] = [
-                    'id'   => $tag->id,
-                    'name' => $tag->name
-                ];
-            }
-            wp_send_json_success($tags, 200);
-        } else {
-            wp_send_json_error(__('Tags fetching failed', 'bit-integrations'), 400);
-        }
-    }
-
     public function execute($integrationData, $fieldValues)
     {
         $integrationDetails = $integrationData->flow_details;

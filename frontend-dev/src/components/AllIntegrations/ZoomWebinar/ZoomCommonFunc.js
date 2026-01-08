@@ -2,6 +2,23 @@ import { __, sprintf } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { deepCopy } from '../../../Utils/Helpers'
 
+export const setGrantTokenResponse = integ => {
+  const grantTokenResponse = {}
+  const authWindowLocation = window.location.href
+  const queryParams = authWindowLocation.replace(`${window.opener.location.href}`, '').split('&')
+  if (queryParams) {
+    queryParams.forEach(element => {
+      const gtKeyValue = element.split('=')
+      if (gtKeyValue[1]) {
+        // eslint-disable-next-line prefer-destructuring
+        grantTokenResponse[gtKeyValue[0]] = gtKeyValue[1]
+      }
+    })
+  }
+  localStorage.setItem(`__${integ}`, JSON.stringify(grantTokenResponse))
+  window.close()
+}
+
 export const handleInput = (
   e,
   zoomWebinarConf,
@@ -39,7 +56,7 @@ export const zoomAllWebinar = (
     tokenDetails: zoomWebinarConf.tokenDetails
   }
   bitsFetch(fetchWebinarModulesRequestParams, 'zoom_webinar_fetch_all_webinar')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...zoomWebinarConf }
         if (!newConf.default) {
@@ -119,14 +136,7 @@ export const handleAuthorize = (
       } else {
         const newConf = { ...confTmp }
         newConf.accountServer = grantTokenResponse['accounts-server']
-        tokenHelper(
-          grantTokenResponse,
-          newConf,
-          setConf,
-          setisAuthorized,
-          setIsLoading,
-          setSnackbar
-        )
+        tokenHelper(grantTokenResponse, newConf, setConf, setisAuthorized, setIsLoading, setSnackbar)
       }
     }
   }, 500)
@@ -139,8 +149,8 @@ const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, setIsLoading
   // eslint-disable-next-line no-undef
   tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
   bitsFetch(tokenRequestParams, 'zoom_webinar_generate_token')
-    .then((result) => result)
-    .then((result) => {
+    .then(result => result)
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...confTmp }
         newConf.tokenDetails = result.data
@@ -165,9 +175,9 @@ const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, setIsLoading
     })
 }
 
-export const checkMappedFields = (zoomWebinarConf) => {
+export const checkMappedFields = zoomWebinarConf => {
   const mappedFleld = zoomWebinarConf.field_map
-    ? zoomWebinarConf.field_map.filter((mapped) => !mapped.formField && !mapped.zoomWebinarConf)
+    ? zoomWebinarConf.field_map.filter(mapped => !mapped.formField && !mapped.zoomWebinarConf)
     : []
   if (mappedFleld.length > 0) {
     return false
@@ -175,9 +185,9 @@ export const checkMappedFields = (zoomWebinarConf) => {
   return true
 }
 
-export const generateMappedField = (zoomWebinarConf) => {
-  const requiredFlds = zoomWebinarConf?.zoomWebinarFields.filter((fld) => fld.required === true)
+export const generateMappedField = zoomWebinarConf => {
+  const requiredFlds = zoomWebinarConf?.zoomWebinarFields.filter(fld => fld.required === true)
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({ formField: '', zoomField: field.key }))
+    ? requiredFlds.map(field => ({ formField: '', zoomField: field.key }))
     : [{ formField: '', zoomField: '' }]
 }

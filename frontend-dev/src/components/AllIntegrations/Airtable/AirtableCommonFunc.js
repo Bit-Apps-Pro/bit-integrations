@@ -15,17 +15,10 @@ export const handleInput = (e, airtableConf, setAirtableConf) => {
   setAirtableConf({ ...newConf })
 }
 
-export const generateMappedField = (airtableConf) => {
-  const requiredFlds = airtableConf?.airtableFields.filter((fld) => fld.required === true)
-  return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({ formField: '', airtableFormField: field.key }))
-    : [{ formField: '', airtableFormField: '' }]
-}
-
-export const checkMappedFields = (airtableConf) => {
+export const checkMappedFields = airtableConf => {
   const mappedFields = airtableConf?.field_map
     ? airtableConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField ||
           !mappedField.airtableFormField ||
           (mappedField.formField === 'custom' && !mappedField.customValue)
@@ -65,7 +58,7 @@ export const airtableAuthentication = (
   }
   const requestParams = { auth_token: confTmp.auth_token }
 
-  bitsFetch(requestParams, 'airtable_authentication').then((result) => {
+  bitsFetch(requestParams, 'airtable_authentication').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       setIsAuthorized(true)
@@ -94,7 +87,7 @@ export const getAllTables = (confTmp, setConf, loading, setLoading) => {
   setLoading({ ...loading, tables: true })
   const requestParams = { auth_token: confTmp.auth_token, baseId: confTmp.selectedBase }
 
-  bitsFetch(requestParams, 'airtable_fetch_all_tables').then((result) => {
+  bitsFetch(requestParams, 'airtable_fetch_all_tables').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -122,7 +115,7 @@ export const getAllFields = (confTmp, setConf, loading, setLoading, type) => {
     tableId: confTmp.selectedTable
   }
 
-  bitsFetch(requestParams, 'airtable_fetch_all_fields').then((result) => {
+  bitsFetch(requestParams, 'airtable_fetch_all_fields').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {

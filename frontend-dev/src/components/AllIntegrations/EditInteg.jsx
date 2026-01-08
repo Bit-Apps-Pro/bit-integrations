@@ -169,6 +169,11 @@ const EditBento = lazy(() => import('./Bento/EditBento'))
 const EditLine = lazy(() => import('./Line/EditLine'))
 const EditACPT = lazy(() => import('./ACPT/EditACPT'))
 const EditWishlistMember = lazy(() => import('./WishlistMember/EditWishlistMember'))
+const EditFluentCart = lazy(() => import('./FluentCart/EditFluentCart'))
+const EditWPCafe = lazy(() => import('./WPCafe/EditWPCafe'))
+const EditTeamsForWooCommerceMemberships = lazy(
+  () => import('./TeamsForWooCommerceMemberships/EditTeamsForWooCommerceMemberships')
+)
 
 const loaderStyle = {
   display: 'flex',
@@ -569,6 +574,12 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditACPT allIntegURL={allIntegURL} />
     case 'Wishlist Member':
       return <EditWishlistMember allIntegURL={allIntegURL} />
+    case 'FluentCart':
+      return <EditFluentCart allIntegURL={allIntegURL} />
+    case 'WPCafe':
+      return <EditWPCafe allIntegURL={allIntegURL} />
+    case 'Teams For WooCommerce Memberships':
+      return <EditTeamsForWooCommerceMemberships allIntegURL={allIntegURL} />
     default:
       return <Loader style={loaderStyle} />
   }

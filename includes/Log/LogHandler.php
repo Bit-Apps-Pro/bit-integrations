@@ -2,9 +2,12 @@
 
 namespace BitCode\FI\Log;
 
-use BitCode\FI\Flow\Flow;
 use BitCode\FI\Core\Database\LogModel;
 use BitCode\FI\Core\Util\Capabilities;
+use BitCode\FI\Core\Util\EmailNotification;
+use BitCode\FI\Flow\Flow;
+use BitCode\FI\Flow\FlowController;
+use WP_Error;
 
 final class LogHandler
 {
@@ -89,6 +92,11 @@ final class LogHandler
                 'created_at'    => current_time('mysql')
             ]
         );
+
+        // Send email notification if integration failed
+        if ($response_type === 'error' || $response_type === 'validation') {
+            self::sendFailureEmail($flow_id, $api_type, $response_obj);
+        }
     }
 
     public static function deleteLog($data)
@@ -136,5 +144,62 @@ final class LogHandler
         $logModel = new LogModel();
 
         return $logModel->autoLogDelete($condition);
+    }
+
+    /**
+     * Send email notification for integration failure
+     *
+     * @param int   $flow_id      Integration flow ID
+     * @param mixed $api_type     API type/integration name
+     * @param mixed $response_obj Error response object
+     *
+     * @return void
+     */
+    private static function sendFailureEmail($flow_id, $api_type, $response_obj)
+    {
+        $integrationHandler = new FlowController();
+        $integrations = $integrationHandler->get(
+            ['id' => $flow_id],
+            [
+                'id',
+                'name',
+                'triggered_entity',
+            ]
+        );
+
+        $action_name = 'Unknown';
+        $trigger_name = 'Unknown';
+        $record_type = wp_json_encode($api_type);
+
+        if (!is_wp_error($integrations) && !empty($integrations) && isset($integrations[0])) {
+            $action_name = $integrations[0]->name;
+            $trigger_name = $integrations[0]->triggered_entity;
+        }
+
+        // Get error message
+        $error_message = 'An error occurred during integration execution.';
+
+        if (\is_string($response_obj)) {
+            $error_message = $response_obj;
+        } elseif (\is_array($response_obj)) {
+            $error_message = isset($response_obj['message']) ? $response_obj['message'] : wp_json_encode($response_obj);
+        } elseif (\is_object($response_obj)) {
+            if ($response_obj instanceof WP_Error) {
+                $error_message = $response_obj->get_error_message();
+            } elseif (isset($response_obj->message)) {
+                $error_message = $response_obj->message;
+            } else {
+                $error_message = wp_json_encode($response_obj);
+            }
+        }
+
+        // Truncate long error messages
+        $maxLength = 500;
+        if (\strlen($error_message) > $maxLength) {
+            $error_message = \substr($error_message, 0, $maxLength) . '...';
+        }
+
+        // Send the email notification
+        EmailNotification::sendFailureNotification($flow_id, $action_name, $trigger_name, $record_type, $error_message);
     }
 }

@@ -11,40 +11,58 @@ export const handleInput = (e, highLevelConf, setHighLevelConf) => {
   setHighLevelConf({ ...newConf })
 }
 
-export const highLevelAuthentication = (highLevelConf, setHighLevelConf, setError, setisAuthorized, loading, setLoading,) => {
-  setLoading({ ...loading, auth: true })
+export const highLevelAuthentication = (
+  highLevelConf,
+  setHighLevelConf,
+  setError,
+  setisAuthorized,
+  loading,
+  setLoading
+) => {
   const newConf = { ...highLevelConf }
 
   if (!newConf.name || !newConf.api_key) {
     setError({
       name: !newConf.name ? __("Integration name can't be empty", 'bit-integrations') : '',
-      api_key: !newConf.api_key
-        ? __("Access Api Token Key can't be empty", 'bit-integrations')
-        : ''
+      api_key: !newConf.api_key ? __("Access Api Token Key can't be empty", 'bit-integrations') : ''
     })
     return
   }
+  if (newConf?.version === 'v2' && !newConf?.location_id) {
+    setError({
+      location_id: __("Location ID can't be empty for v2", 'bit-integrations')
+    })
+    setLoading({ ...loading, auth: false })
+    return
+  }
 
-  bitsFetch({ api_key: newConf.api_key }, 'highLevel_authorization').then((result) => {
+  const requestParams = {
+    api_key: newConf.api_key,
+    version: newConf?.version,
+    location_id: newConf?.location_id
+  }
+
+  setLoading({ ...loading, auth: true })
+  bitsFetch(requestParams, 'highLevel_authorization').then(result => {
     if (result?.success) {
       setisAuthorized(true)
       toast.success('Authorized Successfully')
     } else {
-      toast.error('Authorization Failed')
+      toast.error(result?.data?.message || __('Authorization Failed', 'bit-integrations'))
     }
 
     setLoading({ ...loading, auth: false, accounts: false })
   })
 }
 
-export const checkMappedFields = (highLevelConf) => {
+export const checkMappedFields = highLevelConf => {
   const mappedFields = highLevelConf?.field_map
     ? highLevelConf.field_map.filter(
-      (mappedField) =>
-        !mappedField.formField ||
-        !mappedField.highLevelField ||
-        (!mappedField.formField === 'custom' && !mappedField.customValue)
-    )
+        mappedField =>
+          !mappedField.formField ||
+          !mappedField.highLevelField ||
+          (!mappedField.formField === 'custom' && !mappedField.customValue)
+      )
     : []
   if (mappedFields.length > 0) {
     return false
@@ -52,17 +70,15 @@ export const checkMappedFields = (highLevelConf) => {
   return true
 }
 
-export const generateMappedField = (highLevelConf) => {
-  const requiredFlds = highLevelConf?.highLevelFields.filter((fld) => fld.required === true)
-  return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({ formField: '', highLevelField: field.key }))
-    : [{ formField: '', highLevelField: '' }]
-}
-
 export const getCustomFields = (confTmp, setConf, loading, setLoading) => {
-  setLoading({ ...loading, customFields: true })
+  const requestParams = {
+    api_key: confTmp.api_key,
+    version: confTmp?.version,
+    location_id: confTmp?.location_id
+  }
 
-  bitsFetch({ api_key: confTmp.api_key }, 'get_highLevel_contact_custom_fields').then((result) => {
+  setLoading({ ...loading, customFields: true })
+  bitsFetch(requestParams, 'get_highLevel_contact_custom_fields').then(result => {
     if (result.success && result.data) {
       const newConf = { ...confTmp }
       const staticFields = contactStaticFields(confTmp.selectedTask)
@@ -78,9 +94,14 @@ export const getCustomFields = (confTmp, setConf, loading, setLoading) => {
 }
 
 export const getContacts = (confTmp, setConf, loading, setLoading) => {
-  setLoading({ ...loading, contacts: true })
+  const requestParams = {
+    api_key: confTmp.api_key,
+    version: confTmp?.version,
+    location_id: confTmp?.location_id
+  }
 
-  bitsFetch({ api_key: confTmp.api_key }, 'get_highLevel_contacts').then((result) => {
+  setLoading({ ...loading, contacts: true })
+  bitsFetch(requestParams, 'get_highLevel_contacts').then(result => {
     if (result.success && result.data) {
       const newConf = { ...confTmp }
       newConf.contacts = result.data
@@ -90,8 +111,11 @@ export const getContacts = (confTmp, setConf, loading, setLoading) => {
       if (newConf.selectedTask === TASK_LIST_VALUES.UPDATE_CONTACT) {
         getCustomFields(newConf, setConf, loading, setLoading)
       }
-      if (newConf.selectedTask === TASK_LIST_VALUES.CREATE_TASK || newConf.selectedTask === TASK_LIST_VALUES.UPDATE_TASK
-        || newConf.selectedTask === TASK_LIST_VALUES.CREATE_OPPORTUNITY) {
+      if (
+        newConf.selectedTask === TASK_LIST_VALUES.CREATE_TASK ||
+        newConf.selectedTask === TASK_LIST_VALUES.UPDATE_TASK ||
+        newConf.selectedTask === TASK_LIST_VALUES.CREATE_OPPORTUNITY
+      ) {
         getUsers(newConf, setConf, loading, setLoading)
       }
       return
@@ -102,9 +126,14 @@ export const getContacts = (confTmp, setConf, loading, setLoading) => {
 }
 
 export const getUsers = (confTmp, setConf, loading, setLoading) => {
-  setLoading({ ...loading, users: true })
+  const requestParams = {
+    api_key: confTmp.api_key,
+    version: confTmp?.version,
+    location_id: confTmp?.location_id
+  }
 
-  bitsFetch({ api_key: confTmp.api_key }, 'get_highLevel_users').then((result) => {
+  setLoading({ ...loading, users: true })
+  bitsFetch(requestParams, 'get_highLevel_users').then(result => {
     if (result.success && result.data) {
       const newConf = { ...confTmp }
       newConf.users = result.data
@@ -119,9 +148,15 @@ export const getUsers = (confTmp, setConf, loading, setLoading) => {
 }
 
 export const getHLTasks = (confTmp, setConf, loading, setLoading) => {
-  setLoading({ ...loading, hlTasks: true })
+  const requestParams = {
+    api_key: confTmp.api_key,
+    version: confTmp?.version,
+    location_id: confTmp?.location_id,
+    contact_id: confTmp.selectedContact
+  }
 
-  bitsFetch({ api_key: confTmp.api_key, contact_id: confTmp.selectedContact }, 'get_highLevel_tasks').then((result) => {
+  setLoading({ ...loading, hlTasks: true })
+  bitsFetch(requestParams, 'get_highLevel_tasks').then(result => {
     if (result.success && result.data) {
       const newConf = { ...confTmp }
       newConf.hlTasks = result.data
@@ -136,9 +171,14 @@ export const getHLTasks = (confTmp, setConf, loading, setLoading) => {
 }
 
 export const getPipelines = (confTmp, setConf, loading, setLoading) => {
-  setLoading({ ...loading, pipelines: true })
+  const requestParams = {
+    api_key: confTmp.api_key,
+    version: confTmp?.version,
+    location_id: confTmp?.location_id
+  }
 
-  bitsFetch({ api_key: confTmp.api_key }, 'get_highLevel_pipelines').then((result) => {
+  setLoading({ ...loading, pipelines: true })
+  bitsFetch(requestParams, 'get_highLevel_pipelines').then(result => {
     if (result.success && result.data) {
       const newConf = { ...confTmp }
       newConf.pipelines = result.data.pipelineList
@@ -146,7 +186,10 @@ export const getPipelines = (confTmp, setConf, loading, setLoading) => {
       setConf(newConf)
       setLoading({ ...loading, pipelines: false })
       toast.success(__('Pipelines fetched successfully', 'bit-integrations'))
-      if (newConf.selectedTask === TASK_LIST_VALUES.CREATE_OPPORTUNITY || newConf.selectedTask === TASK_LIST_VALUES.UPDATE_OPPORTUNITY) {
+      if (
+        newConf.selectedTask === TASK_LIST_VALUES.CREATE_OPPORTUNITY ||
+        newConf.selectedTask === TASK_LIST_VALUES.UPDATE_OPPORTUNITY
+      ) {
         getContacts(newConf, setConf, loading, setLoading)
       }
       return
@@ -157,9 +200,15 @@ export const getPipelines = (confTmp, setConf, loading, setLoading) => {
 }
 
 export const getOpportunities = (confTmp, setConf, loading, setLoading) => {
-  setLoading({ ...loading, opportunities: true })
+  const requestParams = {
+    api_key: confTmp.api_key,
+    version: confTmp?.version,
+    location_id: confTmp?.location_id,
+    pipeline_id: confTmp.selectedPipeline
+  }
 
-  bitsFetch({ api_key: confTmp.api_key, pipeline_id: confTmp.selectedPipeline }, 'get_highLevel_opportunities').then((result) => {
+  setLoading({ ...loading, opportunities: true })
+  bitsFetch(requestParams, 'get_highLevel_opportunities').then(result => {
     if (result.success && result.data) {
       const newConf = { ...confTmp }
       newConf.opportunities = result.data
@@ -173,31 +222,48 @@ export const getOpportunities = (confTmp, setConf, loading, setLoading) => {
   })
 }
 
-export const getHighLevelOptions = (route, confTmp, utilityOptions, setUtilityOptions, type, loading, setLoading, name = '') => {
+export const getHighLevelOptions = (
+  route,
+  confTmp,
+  utilityOptions,
+  setUtilityOptions,
+  type,
+  loading,
+  setLoading,
+  name = ''
+) => {
   if (!route) {
     return
   }
 
-  setLoading({ ...loading, options: true })
+  const requestParams = {
+    api_key: confTmp.api_key,
+    version: confTmp?.version,
+    location_id: confTmp?.location_id
+  }
 
-  bitsFetch({ api_key: confTmp.api_key }, route)
-    .then(result => {
-      if (result.success && result.data) {
-        const tmpOptions = { ...utilityOptions }
-        tmpOptions[type] = result.data
-        setUtilityOptions(tmpOptions)
-        setLoading({ ...loading, options: false })
-        toast.success(__(`${name} fetched successfully`, 'bit-integrations'))
-        return
-      }
+  setLoading({ ...loading, options: true })
+  bitsFetch(requestParams, route).then(result => {
+    if (result.success && result.data) {
+      const tmpOptions = { ...utilityOptions }
+      tmpOptions[type] = result.data
+      setUtilityOptions(tmpOptions)
       setLoading({ ...loading, options: false })
-      toast.error(result?.data ? result.data : __('Something went wrong!', 'bit-integrations'))
-    })
+      toast.success(__(`${name} fetched successfully`, 'bit-integrations'))
+      return
+    }
+    setLoading({ ...loading, options: false })
+    toast.error(result?.data ? result.data : __('Something went wrong!', 'bit-integrations'))
+  })
 }
 
-export const contactStaticFields = (selectedTask) => {
+const contactStaticFields = selectedTask => {
   const fields = [
-    { key: 'email', label: 'Email', required: selectedTask === TASK_LIST_VALUES.CREATE_CONTACT ? true : false },
+    {
+      key: 'email',
+      label: 'Email',
+      required: selectedTask === TASK_LIST_VALUES.CREATE_CONTACT ? true : false
+    },
     { key: 'firstName', label: 'First Name', required: false },
     { key: 'lastName', label: 'Last Name', required: false },
     { key: 'name', label: 'Full Name', required: false },
@@ -209,7 +275,7 @@ export const contactStaticFields = (selectedTask) => {
     { key: 'country', label: 'Country', required: false },
     { key: 'postalCode', label: 'postalCode (Zip)', required: false },
     { key: 'companyName', label: 'Company Name', required: false },
-    { key: 'website', label: 'Website', required: false },
+    { key: 'website', label: 'Website', required: false }
   ]
 
   if (selectedTask === TASK_LIST_VALUES.UPDATE_CONTACT) {
@@ -219,7 +285,7 @@ export const contactStaticFields = (selectedTask) => {
   return fields
 }
 
-export const highLevelStaticFields = (selectedTask) => {
+export const highLevelStaticFields = (selectedTask, version = 'v1') => {
   if (selectedTask === TASK_LIST_VALUES.CREATE_CONTACT) {
     return {
       staticFields: contactStaticFields(selectedTask),
@@ -236,9 +302,12 @@ export const highLevelStaticFields = (selectedTask) => {
         { key: 'title', label: 'Title', required: true },
         { key: 'dueDate', label: 'Due Date', required: true },
         { key: 'description', label: 'Description', required: false },
-        { key: 'contactId', label: 'Contact ID', required: false },
+        { key: 'contactId', label: 'Contact ID', required: false }
       ],
-      fieldMap: [{ formField: '', highLevelField: 'title' }, { formField: '', highLevelField: 'dueDate' }]
+      fieldMap: [
+        { formField: '', highLevelField: 'title' },
+        { formField: '', highLevelField: 'dueDate' }
+      ]
     }
   } else if (selectedTask === TASK_LIST_VALUES.UPDATE_TASK) {
     return {
@@ -247,36 +316,58 @@ export const highLevelStaticFields = (selectedTask) => {
         { key: 'dueDate', label: 'Due Date', required: true },
         { key: 'taskId', label: 'Task ID', required: false },
         { key: 'description', label: 'Description', required: false },
-        { key: 'contactId', label: 'Contact ID', required: false },
+        { key: 'contactId', label: 'Contact ID', required: false }
       ],
-      fieldMap: [{ formField: '', highLevelField: 'title' }, { formField: '', highLevelField: 'dueDate' }]
+      fieldMap: [
+        { formField: '', highLevelField: 'title' },
+        { formField: '', highLevelField: 'dueDate' }
+      ]
     }
   } else if (selectedTask === TASK_LIST_VALUES.CREATE_OPPORTUNITY) {
-    return {
-      staticFields: [
-        { key: 'title', label: 'Title', required: true },
-        { key: 'name', label: 'Name', required: false },
-        { key: 'email', label: 'Email', required: false },
-        { key: 'phone', label: 'Phone Number', required: false },
-        { key: 'companyName', label: 'Company Name', required: false },
-        { key: 'monetaryValue', label: 'Monetary Value', required: false },
-        { key: 'contactId', label: 'Contact ID', required: false },
-      ],
-      fieldMap: [{ formField: '', highLevelField: 'title' }]
-    }
+    return version === 'v1'
+      ? {
+          staticFields: [
+            { key: 'title', label: 'Title', required: true },
+            { key: 'name', label: 'Name', required: false },
+            { key: 'email', label: 'Email', required: false },
+            { key: 'phone', label: 'Phone Number', required: false },
+            { key: 'companyName', label: 'Company Name', required: false },
+            { key: 'monetaryValue', label: 'Monetary Value', required: false },
+            { key: 'contactId', label: 'Contact ID', required: false }
+          ],
+          fieldMap: [{ formField: '', highLevelField: 'title' }]
+        }
+      : {
+          staticFields: [
+            { key: 'name', label: 'Name', required: true },
+            { key: 'monetaryValue', label: 'Monetary Value', required: false },
+            { key: 'contactId', label: 'Contact ID', required: false }
+          ],
+          fieldMap: [{ formField: '', highLevelField: 'name' }]
+        }
   } else if (selectedTask === TASK_LIST_VALUES.UPDATE_OPPORTUNITY) {
-    return {
-      staticFields: [
-        { key: 'title', label: 'Title', required: true },
-        { key: 'name', label: 'Name', required: false },
-        { key: 'email', label: 'Email', required: false },
-        { key: 'phone', label: 'Phone Number', required: false },
-        { key: 'companyName', label: 'Company Name', required: false },
-        { key: 'monetaryValue', label: 'Monetary Value', required: false },
-        { key: 'opportunityId', label: 'Opportunity ID', required: false },
-        { key: 'contactId', label: 'Contact ID', required: false },
-      ],
-      fieldMap: [{ formField: '', highLevelField: 'title' }]
-    }
+    return version === 'v1'
+      ? {
+          staticFields: [
+            { key: 'title', label: 'Title', required: true },
+            { key: 'name', label: 'Name', required: false },
+            { key: 'email', label: 'Email', required: false },
+            { key: 'phone', label: 'Phone Number', required: false },
+            { key: 'companyName', label: 'Company Name', required: false },
+            { key: 'monetaryValue', label: 'Monetary Value', required: false },
+            { key: 'opportunityId', label: 'Opportunity ID', required: false },
+            { key: 'contactId', label: 'Contact ID', required: false }
+          ],
+          fieldMap: [{ formField: '', highLevelField: 'title' }]
+        }
+      : {
+          staticFields: [
+            { key: 'name', label: 'Name', required: true },
+            { key: 'monetaryValue', label: 'Monetary Value', required: false },
+            { key: 'contactId', label: 'Contact ID', required: false },
+            { key: 'opportunityId', label: 'Opportunity ID', required: false }
+          ],
+          fieldMap: [{ formField: '', highLevelField: 'name' }]
+        }
   }
 }

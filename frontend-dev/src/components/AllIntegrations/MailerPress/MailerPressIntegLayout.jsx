@@ -45,11 +45,11 @@ export default function MailerPressIntegLayout({
     )
 
     if (['create_or_update_contact', 'add_tags', 'remove_tags'].includes(value)) {
-      refreshMailerPressTags(setMailerPressConf, setIsLoading, setSnackbar)
+      refreshMailerPressTags(setMailerPressConf, setIsLoading)
     }
 
     if (['create_or_update_contact', 'add_to_lists', 'remove_from_lists'].includes(value)) {
-      refreshMailerPressLists(setMailerPressConf, setIsLoading, setSnackbar)
+      refreshMailerPressLists(setMailerPressConf, setIsLoading)
     }
   }
 
@@ -94,7 +94,7 @@ export default function MailerPressIntegLayout({
               onChange={val => handleChange(val, 'lists')}
             />
             <button
-              onClick={() => refreshMailerPressLists(setMailerPressConf, setIsLoading, setSnackbar)}
+              onClick={() => refreshMailerPressLists(setMailerPressConf, setIsLoading)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `'${__('Refresh MailerPress Lists', 'bit-integrations')}'` }}
               type="button"
@@ -125,7 +125,7 @@ export default function MailerPressIntegLayout({
               onChange={val => handleChange(val, 'tags')}
             />
             <button
-              onClick={() => refreshMailerPressTags(setMailerPressConf, setIsLoading, setSnackbar)}
+              onClick={() => refreshMailerPressTags(setMailerPressConf, setIsLoading)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `'${__('Refresh MailerPress Tags', 'bit-integrations')}'` }}
               type="button"

@@ -18,7 +18,7 @@ export const handleInput = (e, wcConf, setWcConf, setIsLoading, setSnackbar, isP
   setWcConf(newConf)
 }
 
-export const moduleChange = (wcConf, setWcConf, setIsLoading, setSnackbar, isPro = false) => {
+const moduleChange = (wcConf, setWcConf, setIsLoading, setSnackbar, isPro = false) => {
   let newConf = deepCopy(wcConf)
   if (!newConf[wcConf.module]) newConf[wcConf.module] = {}
   newConf[wcConf.module].field_map = []
@@ -52,7 +52,7 @@ export const refreshFields = (wcConf, setWcConf, setIsLoading, setSnackbar) => {
 
   setIsLoading(true)
   bitsFetch({ module }, 'wc_refresh_fields')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         let newConf = deepCopy(wcConf)
         if (result.data) {
@@ -70,8 +70,7 @@ export const refreshFields = (wcConf, setWcConf, setIsLoading, setSnackbar) => {
             if (!newConf?.order) newConf.order = {}
             if (!newConf?.customer) newConf.customer = {}
             if (!newConf?.line_item) newConf.line_item = {}
-            if (!newConf?.order?.field_map)
-              newConf.order.field_map = [{ formField: '', wcField: '' }]
+            if (!newConf?.order?.field_map) newConf.order.field_map = [{ formField: '', wcField: '' }]
             if (!newConf?.customer?.field_map)
               newConf.customer.field_map = [{ formField: '', wcField: '' }]
             if (!newConf?.line_item?.field_map)
@@ -113,8 +112,8 @@ export const refreshFields = (wcConf, setWcConf, setIsLoading, setSnackbar) => {
 const generateLineMappedFields = (wcConf, mod) => {
   const newConf = deepCopy(wcConf)
 
-  newConf.default.fields[mod].required.forEach((reqFld) => {
-    if (!newConf[mod].field_map.find((fld) => fld.wcField === reqFld)) {
+  newConf.default.fields[mod].required.forEach(reqFld => {
+    if (!newConf[mod].field_map.find(fld => fld.wcField === reqFld)) {
       newConf[mod].field_map.unshift({ formField: '', wcField: reqFld, required: true })
     }
   })
@@ -126,8 +125,8 @@ const generateMappedFields = (wcConf, mod = '') => {
   const newConf = deepCopy(wcConf)
   if (mod === '') mod = newConf.module
 
-  newConf.default.fields[mod].required.forEach((reqFld) => {
-    if (!newConf[mod].field_map.find((fld) => fld.wcField === reqFld)) {
+  newConf.default.fields[mod].required.forEach(reqFld => {
+    if (!newConf[mod].field_map.find(fld => fld.wcField === reqFld)) {
       newConf[mod].field_map.unshift({ formField: '', wcField: reqFld, required: true })
     }
   })
@@ -135,10 +134,10 @@ const generateMappedFields = (wcConf, mod = '') => {
   return newConf
 }
 
-export const checkMappedFields = (fieldMap) => {
+export const checkMappedFields = fieldMap => {
   const mappedFields = fieldMap
     ? fieldMap.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField ||
           !mappedField.wcField ||
           (!mappedField.formField === 'custom' && !mappedField.customValue)
@@ -154,7 +153,7 @@ export const checkMappedFields = (fieldMap) => {
 export const getAllSubscriptionsProducts = (wcConf, setWcConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   bitsFetch({}, 'wc_get_all_subscriptions_products')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = deepCopy(wcConf)
         if (!newConf.default) {

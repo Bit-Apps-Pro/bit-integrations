@@ -14,15 +14,14 @@ export const handleInput = (e, slackConf, setSlackConf) => {
   setSlackConf({ ...newConf })
 }
 
-export const checkMappedFields = (propovoiceCrmConf) => {
+export const checkMappedFields = propovoiceCrmConf => {
   const mappedFields = propovoiceCrmConf?.field_map
     ? propovoiceCrmConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           mappedField.formField === '' ||
           mappedField.salesflareFormField === '' ||
           (mappedField.formField === 'custom' && mappedField.customValue === '') ||
-          (mappedField.salesflareFormField === 'customFieldKey' &&
-            mappedField.customFieldKey === '')
+          (mappedField.salesflareFormField === 'customFieldKey' && mappedField.customFieldKey === '')
       )
     : []
   if (mappedFields.length > 0) {
@@ -31,47 +30,19 @@ export const checkMappedFields = (propovoiceCrmConf) => {
   return true
 }
 
-export const generateMappedField = (propovoiceCrmConf) => {
-  const requiredFlds = propovoiceCrmConf?.leadFields.filter((fld) => fld.required === true)
+export const generateMappedField = propovoiceCrmConf => {
+  const requiredFlds = propovoiceCrmConf?.leadFields.filter(fld => fld.required === true)
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({ formField: '', propovoiceCrmFormField: field.key }))
+    ? requiredFlds.map(field => ({ formField: '', propovoiceCrmFormField: field.key }))
     : [{ formField: '', propovoiceCrmFormField: '' }]
-}
-
-export const getALLPropovoiceFields = (
-  propovoiceCrmConf,
-  setPropovoiceCrmConf,
-  setIsLoading,
-  setSnackbar
-) => {
-  setIsLoading(true)
-  bitsFetch(null, 'propovoice_crm_fetch_all_fields')
-    .then((result) => {
-      if (result && result.success) {
-        const newConf = { ...propovoiceCrmConf }
-        if (!newConf.default) {
-          newConf.default = {}
-        }
-        if (result.data) {
-          newConf.default.allFields = result.data
-        }
-        setPropovoiceCrmConf({ ...newConf })
-        setIsLoading(false)
-        toast.success(__('All fields fetched successfully', 'bit-integrations'))
-        return
-      }
-      setIsLoading(false)
-      toast.error(__('Propovoice Crm fields fetch failed. please try again', 'bit-integrations'))
-    })
-    .catch(() => setIsLoading(false))
 }
 
 export const getAllLeadTags = (propovoiceCrmConf, setPropovoiceCrmConf, loading, setLoading) => {
   setLoading({ ...loading, tags: true })
   bitsFetch(null, 'propovoice_crm_lead_tags')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
-        setPropovoiceCrmConf((prevState) => {
+        setPropovoiceCrmConf(prevState => {
           const newConf = { ...prevState }
           if (!newConf.default) {
             newConf.default = {}
@@ -94,9 +65,9 @@ export const getAllLeadTags = (propovoiceCrmConf, setPropovoiceCrmConf, loading,
 export const getAllLeadLabel = (propovoiceCrmConf, setPropovoiceCrmConf, loading, setLoading) => {
   setLoading({ ...loading, label: true })
   bitsFetch(null, 'propovoice_crm_lead_label')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
-        setPropovoiceCrmConf((prev) => {
+        setPropovoiceCrmConf(prev => {
           const newConf = { ...prev }
           if (!newConf.default) {
             newConf.default = {}

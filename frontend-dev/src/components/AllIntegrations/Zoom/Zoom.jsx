@@ -8,7 +8,7 @@ import Steps from '../../Utilities/Steps'
 import ZoomAuthorization from './ZoomAuthorization'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import { handleInput, checkMappedFields } from './ZoomCommonFunc'
-import { setGrantTokenResponse } from './ZoomIntegrationHelpers'
+import { setGrantTokenResponse } from './ZoomCommonFunc'
 import ZoomIntegLayout from './ZoomIntegLayout'
 import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 
