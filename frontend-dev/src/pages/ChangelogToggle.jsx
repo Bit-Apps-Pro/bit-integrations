@@ -25,7 +25,23 @@ const changeLog = [
     label: __('New Actions', 'bit-integrations'),
     headClass: 'new-integration',
     itemClass: 'integration-list',
-    items: []
+    items: [
+      {
+        label: 'WPCafe',
+        desc: '03 events Added.',
+        isPro: true
+      },
+      {
+        label: 'FluentCart',
+        desc: '12 events Added.',
+        isPro: true
+      },
+      {
+        label: 'Teams for WooCommerce Memberships',
+        desc: '4 events Added.',
+        isPro: true
+      }
+    ]
   },
   {
     label: __('New Triggers', 'bit-integrations'),
@@ -33,13 +49,28 @@ const changeLog = [
     itemClass: 'integration-list',
     items: [
       {
-        label: 'Poptics',
+        label: 'WPCafe',
+        desc: '09 events Added.',
+        isPro: true
+      },
+      {
+        label: 'FluentCart',
+        desc: '13 events Added.',
+        isPro: true
+      },
+      {
+        label: 'Forminator Quiz And Poll',
         desc: '02 events Added.',
         isPro: true
       },
       {
-        label: 'Bit Social',
-        desc: '14 events Added.',
+        label: 'Essential Addons for Elementor',
+        desc: '02 events Added.',
+        isPro: true
+      },
+      {
+        label: 'Teams for WooCommerce Memberships',
+        desc: '7 events Added.',
         isPro: true
       }
     ]
@@ -48,7 +79,23 @@ const changeLog = [
     label: __('New Features', 'bit-integrations'),
     headClass: 'new-feature',
     itemClass: 'feature-list',
-    items: []
+    items: [
+      {
+        label: 'GoHighLevel',
+        desc: 'Introduced the REST API v2 for enhanced integration possibilities.',
+        isPro: true
+      },
+      {
+        label: 'WPForms',
+        desc: 'Repeater fields have been added for better customization in form submissions.',
+        isPro: false
+      },
+      {
+        label: 'GoHighLevel',
+        desc: 'Added an admin alert email feature for failed integrations, providing better notification control.',
+        isPro: false
+      }
+    ]
   },
   {
     label: __('Improvements', 'bit-integrations'),
@@ -62,29 +109,14 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'WooCommerce',
-        desc: 'Fixed issue with creating customer data.',
+        label: 'Google Drive',
+        desc: 'Fixed the file delete utility issue that was affecting the deletion process.',
         isPro: false
       },
       {
-        label: 'Amelia',
-        desc: 'Resolved issue with multiple checkbox data not saving correctly.',
+        label: 'Voxel',
+        desc: 'Resolved the multiselect field value issue, ensuring proper functionality.',
         isPro: false
-      },
-      {
-        label: 'License Deactivation',
-        desc: 'Fixed deactivation issue.',
-        isPro: true
-      },
-      {
-        label: 'Divi Form (Divi Engine)',
-        desc: 'Fixed form type issue.',
-        isPro: true
-      },
-      {
-        label: 'Essential Blocks',
-        desc: 'Fixed blank page issue.',
-        isPro: true
       }
     ]
   }
