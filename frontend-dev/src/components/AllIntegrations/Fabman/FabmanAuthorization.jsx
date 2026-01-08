@@ -26,7 +26,10 @@ export default function FabmanAuthorization({
   const nextPage = () => {
     fetchFabmanWorkspaces(fabmanConf, setFabmanConf, loading, setLoading, 'fetch')
     setTimeout(() => {
-      document.getElementById('btcd-settings-wrp').scrollTop = 0
+      const settingsWrp = document.getElementById('btcd-settings-wrp')
+      if (settingsWrp) {
+        settingsWrp.scrollTop = 0
+      }
     }, 300)
     setStep(2)
   }

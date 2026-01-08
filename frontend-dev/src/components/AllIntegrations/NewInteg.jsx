@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react/jsx-no-undef */
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { $newFlow } from '../../GlobalStates'
@@ -173,9 +173,12 @@ export default function NewInteg({ allIntegURL }) {
   const { integUrlName } = useParams()
   const [flow, setFlow] = useRecoilState($newFlow)
   const navigate = useNavigate()
-  if (!window.opener && !Object.keys(flow).length) {
-    navigate('/flow/new')
-  }
+
+  useEffect(() => {
+    if (!window.opener && !Object.keys(flow).length) {
+      navigate('/flow/new')
+    }
+  }, [flow, navigate])
 
   const NewIntegs = () => {
     switch (integUrlName) {

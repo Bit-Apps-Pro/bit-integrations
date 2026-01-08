@@ -158,7 +158,7 @@ export const isEmailMappingInvalid = (fabmanConf, formFields, checkValidEmail) =
 }
 
 export const isConfigInvalid = (fabmanConf, formFields, checkValidEmail) => {
-  if (!fabmanConf.actionName) return true
+  if (!fabmanConf || !fabmanConf.actionName) return true
 
   if (
     !['delete_member', 'delete_spaces'].includes(fabmanConf.actionName) &&

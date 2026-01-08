@@ -143,7 +143,7 @@ function EditFabman({ allIntegURL }) {
       <IntegrationStepThree
         edit
         saveConfig={saveConfig}
-        disabled={isConfigInvalid(fabmanConf, formField)}
+        disabled={isConfigInvalid(fabmanConf, formField, checkValidEmail)}
         isLoading={loading.list || loading.field || loading.auth}
         dataConf={fabmanConf}
         setDataConf={setFabmanConf}

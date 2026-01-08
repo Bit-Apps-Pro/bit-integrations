@@ -14,7 +14,7 @@ class FabmanController
     {
         if (empty($requestParams->apiKey)) {
             wp_send_json_error(__('API Key is required', 'bit-integrations'), 400);
-
+        }
 
         $header = [
             'Authorization' => 'Bearer ' . $requestParams->apiKey,
@@ -82,7 +82,7 @@ class FabmanController
 
         if ($needsMemberLookup) {
             $email = self::getMappedValue($integrationDetails->field_map, 'emailAddress', $fieldValues);
-            
+
             if (!$email) {
                 return [
                     'success' => false,
@@ -91,7 +91,7 @@ class FabmanController
             }
 
             $memberData = self::fetchMemberByEmail($apiKey, $email);
-            
+
             if (!$memberData) {
                 return [
                     'success' => false,

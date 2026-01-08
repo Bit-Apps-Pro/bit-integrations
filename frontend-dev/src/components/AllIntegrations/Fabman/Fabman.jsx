@@ -21,133 +21,6 @@ import {
 import FabmanIntegLayout from './FabmanIntegLayout'
 import { checkValidEmail } from '../../../Utils/Helpers'
 
-export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
-  const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState(false)
-  const [loading, setLoading] = useState({ auth: false, workspaces: false, members: false })
-  const [step, setStep] = useState(1)
-  const [snack, setSnack] = useState({ show: false })
-
-  const [fabmanConf, setFabmanConf] = useState({
-    name: 'Fabman',
-    type: 'Fabman',
-    field_map: [{ formField: '', fabmanFormField: '' }],
-    customFields: [],
-    actions: {},
-    // Conditional logic configuration for executing actions based on field values
-    // action_behavior: determines when to run integration (e.g., on specific conditions)
-    // actions: array of field-action pairs for conditional execution
-    // logics: array of conditional logic rules (field, comparison operator, value) joined by 'or'/'and'
-    condition: {
-      action_behavior: '',
-      actions: [{ field: '', action: 'value' }],
-      logics: [{ field: '', logic: '', val: '' }, 'or', { field: '', logic: '', val: '' }]
-    },
-
-    fields: [],
-    accountId: '',
-    selectedLockVersion: '',
-    memberStaticFields,
-    spacesStaticFields
-  })
-
-  const saveConfig = () => {
-    if (isConfigInvalid(fabmanConf, formFields, checkValidEmail)) {
-      const errorMsg = getValidationErrorMessage(fabmanConf, formFields, checkValidEmail)
-      if (errorMsg) {
-        setSnack({ show: true, msg: errorMsg })
-      }
-      return
-    }
-    saveIntegConfig(flow, setFlow, allIntegURL, fabmanConf, navigate, '', '', setIsLoading)
-  }
-
-  const nextPage = () => {
-    if (!isConfigInvalid()) {
-      setStep(3)
-      return
-    }
-
-    if (!fabmanConf.actionName) {
-      setSnack({ show: true, msg: __('Please select an action', 'bit-integrations') })
-    } else if (
-      !['delete_member', 'delete_spaces'].includes(fabmanConf.actionName) &&
-      !checkMappedFields(fabmanConf)
-    ) {
-      setSnack({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
-    } else if (
-      ['update_member', 'delete_member'].includes(fabmanConf.actionName) &&
-      isEmailMappingInvalid(fabmanConf, formFields, checkValidEmail)
-    ) {
-      setSnack({ show: true, msg: __('Please map a valid email address', 'bit-integrations') })
-    } else if (
-      ['create_member', 'update_member', 'update_spaces', 'delete_spaces'].includes(
-        fabmanConf.actionName
-      ) &&
-      !fabmanConf.selectedWorkspace
-    ) {
-      setSnack({ show: true, msg: __('Please select a workspace', 'bit-integrations') })
-    } else if (fabmanConf.actionName === 'delete_member') {
-      if (!hasEmailFieldMapped(fabmanConf)) {
-        setSnack({
-          show: true,
-          msg: __('Please map email field for member lookup', 'bit-integrations')
-        })
-      }
-    }
-  }
-
-  return (
-    <div>
-      <SnackMsg snack={snack} setSnackbar={setSnack} />
-      <div className="mt-3 txt-center">
-        <Steps step={3} active={step} />
-      </div>
-      {/* STEP 1 */}
-      <FabmanAuthorization
-        fabmanConf={fabmanConf}
-        setFabmanConf={setFabmanConf}
-        step={step}
-        setStep={setStep}
-        loading={loading}
-        setLoading={setLoading}
-      />
-      {/* STEP 2 */}
-      {step === 2 && (
-        <div
-          className="btcd-stp-page"
-          style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
-          <FabmanIntegLayout
-            formFields={formFields}
-            fabmanConf={fabmanConf}
-            setFabmanConf={setFabmanConf}
-            loading={loading}
-            setLoading={setLoading}
-            setSnackbar={setSnack}
-          />
-          <button
-            onClick={nextPage}
-            disabled={isConfigInvalid()}
-            className="btn f-right btcd-btn-lg purple sh-sm flx"
-            type="button">
-            {__('Next', 'bit-integrations')}
-            <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
-          </button>
-        </div>
-      )}
-      {/* STEP 3 */}
-      <IntegrationStepThree
-        step={step}
-        saveConfig={saveConfig}
-        isLoading={isLoading}
-        dataConf={fabmanConf}
-        setDataConf={setFabmanConf}
-        formFields={formFields}
-      />
-    </div>
-  )
-}
-
 const memberStaticFields = [
   { key: 'emailAddress', label: __('Email Address', 'bit-integrations'), required: false },
   { key: 'firstName', label: __('First Name', 'bit-integrations'), required: true },
@@ -267,3 +140,131 @@ const spacesStaticFields = [
     required: false
   }
 ]
+
+export default function Fabman({ formFields, setFlow, flow, allIntegURL }) {
+  const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState(false)
+  const [loading, setLoading] = useState({ auth: false, workspaces: false, members: false })
+  const [step, setStep] = useState(1)
+  const [snack, setSnack] = useState({ show: false })
+
+  const [fabmanConf, setFabmanConf] = useState({
+    name: 'Fabman',
+    type: 'Fabman',
+    field_map: [{ formField: '', fabmanFormField: '' }],
+    customFields: [],
+    actions: {},
+    // Conditional logic configuration for executing actions based on field values
+    // action_behavior: determines when to run integration (e.g., on specific conditions)
+    // actions: array of field-action pairs for conditional execution
+    // logics: array of conditional logic rules (field, comparison operator, value) joined by 'or'/'and'
+    condition: {
+      action_behavior: '',
+      actions: [{ field: '', action: 'value' }],
+      logics: [{ field: '', logic: '', val: '' }, 'or', { field: '', logic: '', val: '' }]
+    },
+
+    fields: [],
+    accountId: '',
+    apiKey: '',
+    selectedLockVersion: '',
+    memberStaticFields,
+    spacesStaticFields
+  })
+
+  const saveConfig = () => {
+    if (isConfigInvalid(fabmanConf, formFields, checkValidEmail)) {
+      const errorMsg = getValidationErrorMessage(fabmanConf, formFields, checkValidEmail)
+      if (errorMsg) {
+        setSnack({ show: true, msg: errorMsg })
+      }
+      return
+    }
+    saveIntegConfig(flow, setFlow, allIntegURL, fabmanConf, navigate, '', '', setIsLoading)
+  }
+
+  const nextPage = () => {
+    if (!isConfigInvalid(fabmanConf, formFields, checkValidEmail)) {
+      setStep(3)
+      return
+    }
+
+    if (!fabmanConf.actionName) {
+      setSnack({ show: true, msg: __('Please select an action', 'bit-integrations') })
+    } else if (
+      !['delete_member', 'delete_spaces'].includes(fabmanConf.actionName) &&
+      !checkMappedFields(fabmanConf)
+    ) {
+      setSnack({ show: true, msg: __('Please map mandatory fields', 'bit-integrations') })
+    } else if (
+      ['update_member', 'delete_member'].includes(fabmanConf.actionName) &&
+      isEmailMappingInvalid(fabmanConf, formFields, checkValidEmail)
+    ) {
+      setSnack({ show: true, msg: __('Please map a valid email address', 'bit-integrations') })
+    } else if (
+      ['create_member', 'update_member', 'update_spaces', 'delete_spaces'].includes(
+        fabmanConf.actionName
+      ) &&
+      !fabmanConf.selectedWorkspace
+    ) {
+      setSnack({ show: true, msg: __('Please select a workspace', 'bit-integrations') })
+    } else if (fabmanConf.actionName === 'delete_member') {
+      if (!hasEmailFieldMapped(fabmanConf)) {
+        setSnack({
+          show: true,
+          msg: __('Please map email field for member lookup', 'bit-integrations')
+        })
+      }
+    }
+  }
+
+  return (
+    <div>
+      <SnackMsg snack={snack} setSnackbar={setSnack} />
+      <div className="mt-3 txt-center">
+        <Steps step={3} active={step} />
+      </div>
+      {/* STEP 1 */}
+      <FabmanAuthorization
+        fabmanConf={fabmanConf}
+        setFabmanConf={setFabmanConf}
+        step={step}
+        setStep={setStep}
+        loading={loading}
+        setLoading={setLoading}
+      />
+      {/* STEP 2 */}
+      {step === 2 && (
+        <div
+          className="btcd-stp-page"
+          style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+          <FabmanIntegLayout
+            formFields={formFields}
+            fabmanConf={fabmanConf}
+            setFabmanConf={setFabmanConf}
+            loading={loading}
+            setLoading={setLoading}
+            setSnackbar={setSnack}
+          />
+          <button
+            onClick={nextPage}
+            disabled={isConfigInvalid(fabmanConf, formFields, checkValidEmail)}
+            className="btn f-right btcd-btn-lg purple sh-sm flx"
+            type="button">
+            {__('Next', 'bit-integrations')}
+            <div className="btcd-icn icn-arrow_back rev-icn d-in-b" />
+          </button>
+        </div>
+      )}
+      {/* STEP 3 */}
+      <IntegrationStepThree
+        step={step}
+        saveConfig={saveConfig}
+        isLoading={isLoading}
+        dataConf={fabmanConf}
+        setDataConf={setFabmanConf}
+        formFields={formFields}
+      />
+    </div>
+  )
+}
