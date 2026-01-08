@@ -93,8 +93,8 @@ final class LogHandler
             ]
         );
 
-        // Send email notification if integration failed
-        if ($response_type === 'error' || $response_type === 'validation') {
+        $appConfig = get_option('btcbi_app_conf');
+        if (\in_array($response_type, ['error', 'validation']) && !empty($appConfig->enable_failure_email)) {
             self::sendFailureEmail($flow_id, $api_type, $response_obj);
         }
     }

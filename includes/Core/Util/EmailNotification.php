@@ -21,11 +21,6 @@ final class EmailNotification
      */
     public static function sendFailureNotification($flowId, $actionName, $triggerName, $recordType, $errorMessage)
     {
-        $appConfig = get_option('btcbi_app_conf');
-        if (!isset($appConfig->enable_failure_email) || $appConfig->enable_failure_email != 1) {
-            return false;
-        }
-
         $adminEmail = get_option('admin_email');
         if (empty($adminEmail)) {
             return false;
