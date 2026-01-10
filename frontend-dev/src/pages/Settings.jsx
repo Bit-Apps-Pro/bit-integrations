@@ -170,6 +170,7 @@ function Settings() {
               />
             </div>
           </div>
+          <br />
         </div>
         <div className="w-6 mt-3">
           <div className="flx flx-between sh-sm br-10 btcd-setting-opt">
