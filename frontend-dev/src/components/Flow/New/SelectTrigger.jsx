@@ -19,6 +19,7 @@ import SpectraHelper from '../../Triggers/TriggerHelpers/SpectraHelper'
 import CustomFormSubmission from '../../Triggers/CustomFormSubmission'
 import CoblocksHelper from '../../Triggers/TriggerHelpers/CoblocksHelper'
 import ProModal from '../../Utilities/ProModal'
+import toast from 'react-hot-toast'
 
 export default function SelectTrigger() {
   const [showProModal, setShowProModal] = useState(false)
@@ -87,7 +88,7 @@ export default function SelectTrigger() {
     setNewFlow(tempConf)
 
     bitsFetch({ trigger: trigger }, 'trigger/save-listed', null, 'POST').catch(err =>
-      console.error('Failed to save listed triggers:', err)
+      toast.error(__('Failed to save listed triggers: ', 'bit-integrations') + JSON.stringify(err))
     )
   }
 
