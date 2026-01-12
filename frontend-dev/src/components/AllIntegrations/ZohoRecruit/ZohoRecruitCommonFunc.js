@@ -1,5 +1,5 @@
-import { sprintf, __ } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
+import { sprintf, __ } from '../../../Utils/i18nwrap'
 
 export const handleInput = (
   e,
@@ -130,6 +130,39 @@ export const refreshModules = (formID, recruitConf, setRecruitConf, setIsLoading
         setSnackbar({
           show: true,
           msg: __('Modules refresh failed. please try again', 'bit-integrations')
+        })
+      }
+      setIsLoading(false)
+    })
+    .catch(() => setIsLoading(false))
+}
+
+export const refreshOwners = (formID, recruitConf, setRecruitConf, setIsLoading, setSnackbar) => {
+  setIsLoading(true)
+  const getOwnersParams = {
+    module: recruitConf.module,
+    dataCenter: recruitConf.dataCenter,
+    clientId: recruitConf.clientId,
+    clientSecret: recruitConf.clientSecret,
+    tokenDetails: recruitConf.tokenDetails
+  }
+  bitsFetch(getOwnersParams, 'zrecruit_refresh_users')
+    .then(result => {
+      if (result?.success) {
+        const newConf = { ...recruitConf }
+        newConf.default.recruitOwner = result.data.users
+        if (result.data.tokenDetails) {
+          newConf.tokenDetails = result.data.tokenDetails
+        }
+        setRecruitConf({ ...newConf })
+        setSnackbar({
+          show: true,
+          msg: __('Owners refreshed', 'bit-integrations')
+        })
+      } else {
+        setSnackbar({
+          show: true,
+          msg: __('Owners refresh failed. please try again', 'bit-integrations')
         })
       }
       setIsLoading(false)
