@@ -23,7 +23,7 @@ export const handleAuthorize = (conf, setError, setAuthorized, loading, setLoadi
 
   const requestParams = { authKey: conf.authKey }
 
-  bitsFetch(requestParams, 'mailercloud_handle_authorize').then((result) => {
+  bitsFetch(requestParams, 'mailercloud_handle_authorize').then(result => {
     if (!result.data.errors) {
       setAuthorized(true)
       setLoading({ ...loading, auth: false })
@@ -89,20 +89,20 @@ export const getAllFields = async (conf, setConf, loading, setLoading) => {
   return false
 }
 
-export const generateMappedField = (mailercloudConf) => {
-  const requiredFlds = mailercloudConf?.default?.fields.filter((fld) => fld.required === true)
+export const generateMappedField = mailercloudConf => {
+  const requiredFlds = mailercloudConf?.default?.fields.filter(fld => fld.required === true)
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({
+    ? requiredFlds.map(field => ({
         formField: '',
         mailercloudFormField: field.key
       }))
     : [{ formField: '', mailercloudFormField: '' }]
 }
 
-export const checkMappedFields = (mailercloudConf) => {
+const checkMappedFields = mailercloudConf => {
   const mappedFields = mailercloudConf?.field_map
     ? mailercloudConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField ||
           !mappedField.mailercloudFormField ||
           (!mappedField.formField === 'custom' && !mappedField.customValue)
@@ -129,7 +129,7 @@ export const nextPage = (conf, setStep, pageNo) => {
 export const saveConfig = (flow, setFlow, allIntegURL, conf, navigate, setLoading) => {
   setLoading(true)
   const resp = saveIntegConfig(flow, setFlow, allIntegURL, conf, navigate, '', '', setLoading)
-  resp.then((res) => {
+  resp.then(res => {
     if (res.success) {
       toast.success(res.data?.msg)
       navigate(allIntegURL)

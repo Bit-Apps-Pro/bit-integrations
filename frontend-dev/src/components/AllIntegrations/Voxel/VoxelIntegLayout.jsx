@@ -6,7 +6,13 @@ import 'react-multiple-select-dropdown-lite/dist/index.css'
 import VoxelFieldMap from './VoxelFieldMap'
 import { addFieldMap } from './IntegrationHelpers'
 import { getPostFields, getPosts, getPostTypes, voxelStaticFields } from './VoxelCommonFunctions'
-import { COLLECTION_POST_TYPE, POST_TYPE_TASK_ARRAY, PROFILE_POST_TYPE, TASK_LIST, TASKS } from './VoxelConstants'
+import {
+  COLLECTION_POST_TYPE,
+  POST_TYPE_TASK_ARRAY,
+  PROFILE_POST_TYPE,
+  TASK_LIST,
+  TASKS
+} from './VoxelConstants'
 import Loader from '../../Loaders/Loader'
 import Note from '../../Utilities/Note'
 
@@ -18,7 +24,7 @@ export default function VoxelIntegLayout({
   setLoading,
   setSnackbar
 }) {
-  const setChanges = (val) => {
+  const setChanges = val => {
     const newConf = { ...voxelConf }
     newConf.selectedTask = val
     newConf.selectedEvent = ''
@@ -75,8 +81,7 @@ export default function VoxelIntegLayout({
     setVoxelConf({ ...newConf })
   }
 
-  const note =
-    `<h4>${__('If you have "recurring-date, event-date, work-hours" or any kind of image or attachment fields see the instructions below:', 'bit-integrations')}</h4>
+  const note = `<h4>${__('If you have "recurring-date, event-date, work-hours" or any kind of image or attachment fields see the instructions below:', 'bit-integrations')}</h4>
   <ul>
     <li>${__('For any kind of <strong>image, file, or other attachment,</strong> provide an <strong>attachment ID; for multiple, provide comma-separated ids.</strong>', 'bit-integrations')}</li>
     <li>${__('For <strong>Event Unit</strong> field, accepted values: <strong>day, week, month, year.</strong>', 'bit-integrations')}</li>
@@ -85,6 +90,7 @@ export default function VoxelIntegLayout({
     <li>${__('For <strong>Work Status</strong> field, accepted values: <strong> hours, open, close, appointments_only.</strong>', 'bit-integrations')}</li>
     <li>${__('For <strong>Taxonomy</strong> field, provide taxonomy slug(s), separate with comma if multiple allowed.', 'bit-integrations')}</li>
     <li>${__('For <strong>Product & Post Relation</strong> field, provide product id and post id respectively.', 'bit-integrations')}</li>
+    <li>${__('For <strong>Multi Select</strong> field, accepted values: <strong>array</strong> or <strong>comma-separated string</strong>.', 'bit-integrations')}</li>
   </ul>`
 
   return (
@@ -97,7 +103,7 @@ export default function VoxelIntegLayout({
             options={TASK_LIST}
             className="msl-wrp-options"
             defaultValue={voxelConf?.selectedTask}
-            onChange={(val) => setChanges(val)}
+            onChange={val => setChanges(val)}
             singleSelect
           />
         </div>
@@ -110,14 +116,12 @@ export default function VoxelIntegLayout({
               options={voxelConf?.postTypes}
               className="msl-wrp-options"
               defaultValue={voxelConf?.selectedPostType}
-              onChange={(val) => handleMultiSelectChange(val, 'selectedPostType')}
+              onChange={val => handleMultiSelectChange(val, 'selectedPostType')}
               disabled={loading.postTypes}
               singleSelect
             />
             <button
-              onClick={() =>
-                getPostTypes(voxelConf, setVoxelConf, loading, setLoading)
-              }
+              onClick={() => getPostTypes(voxelConf, setVoxelConf, loading, setLoading)}
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `'${__('Refresh Post Types', 'bit-integrations')}'` }}
               disabled={loading.postTypes}
@@ -127,7 +131,8 @@ export default function VoxelIntegLayout({
           </div>
         )}
 
-        {(voxelConf.selectedTask === TASKS.UPDATE_POST || voxelConf.selectedTask === TASKS.UPDATE_COLLECTION_POST) && (
+        {(voxelConf.selectedTask === TASKS.UPDATE_POST ||
+          voxelConf.selectedTask === TASKS.UPDATE_COLLECTION_POST) && (
           <div className="flx mt-3 mb-4">
             <b className="wdt-200 d-in-b">{__('Select Post:', 'bit-integrations')}</b>
             <MultiSelect
@@ -135,7 +140,7 @@ export default function VoxelIntegLayout({
               options={voxelConf.posts}
               className="msl-wrp-options"
               defaultValue={voxelConf?.selectedPost}
-              onChange={(val) => handleMultiSelectChange(val, 'selectedPost')}
+              onChange={val => handleMultiSelectChange(val, 'selectedPost')}
               disabled={loading.posts || loading.postTypes || loading.postFields}
               singleSelect
             />
@@ -145,14 +150,16 @@ export default function VoxelIntegLayout({
               }
               className="icn-btn sh-sm ml-2 mr-2 tooltip"
               style={{ '--tooltip-txt': `'${__('Refresh Posts', 'bit-integrations')}'` }}
-              disabled={loading.posts || loading.postTypes || loading.postFields || !voxelConf.selectedPostType}
+              disabled={
+                loading.posts || loading.postTypes || loading.postFields || !voxelConf.selectedPostType
+              }
               type="button">
               &#x21BB;
             </button>
           </div>
         )}
 
-        {POST_TYPE_TASK_ARRAY.includes(voxelConf.selectedTask) &&
+        {POST_TYPE_TASK_ARRAY.includes(voxelConf.selectedTask) && (
           <div className="flx mt-3 mb-4">
             <b className="wdt-200 d-in-b">{__('Select Post Status:', 'bit-integrations')}</b>
             <MultiSelect
@@ -160,14 +167,15 @@ export default function VoxelIntegLayout({
               options={[
                 { value: 'publish', label: 'Publish' },
                 { value: 'draft', label: 'Draft' },
-                { value: 'pending', label: 'Pending' },
+                { value: 'pending', label: 'Pending' }
               ]}
               className="msl-wrp-options"
               defaultValue={voxelConf?.selectedPostStatus}
-              onChange={(val) => handleMultiSelectChange(val, 'selectedPostStatus')}
+              onChange={val => handleMultiSelectChange(val, 'selectedPostStatus')}
               singleSelect
             />
-          </div>}
+          </div>
+        )}
 
         {(loading.postTypes || loading.postFields || loading.posts) && (
           <Loader
@@ -208,17 +216,10 @@ export default function VoxelIntegLayout({
             />
           ))}
 
-        {(voxelConf?.selectedTask && voxelConf.field_map.length !== 0) && (
+        {voxelConf?.selectedTask && voxelConf.field_map.length !== 0 && (
           <div className="txt-center btcbi-field-map-button mt-2">
             <button
-              onClick={() =>
-                addFieldMap(
-                  voxelConf.field_map.length,
-                  voxelConf,
-                  setVoxelConf,
-                  false
-                )
-              }
+              onClick={() => addFieldMap(voxelConf.field_map.length, voxelConf, setVoxelConf, false)}
               className="icn-btn sh-sm"
               type="button">
               +
@@ -226,8 +227,11 @@ export default function VoxelIntegLayout({
           </div>
         )}
 
-        {(POST_TYPE_TASK_ARRAY.includes(voxelConf.selectedTask) || voxelConf.selectedTask === TASKS.NEW_PROFILE || voxelConf.selectedTask === TASKS.UPDATE_PROFILE) &&
-          <Note note={note} isInstruction isHeadingNull={false} maxWidth='100%' />}
+        {(POST_TYPE_TASK_ARRAY.includes(voxelConf.selectedTask) ||
+          voxelConf.selectedTask === TASKS.NEW_PROFILE ||
+          voxelConf.selectedTask === TASKS.UPDATE_PROFILE) && (
+          <Note note={note} isInstruction isHeadingNull={false} maxWidth="100%" />
+        )}
       </div>
     </>
   )

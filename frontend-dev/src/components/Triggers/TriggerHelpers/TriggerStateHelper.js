@@ -70,7 +70,7 @@ export const FormPluginStateHelper = (val, tmpNewFlow, resp, setNewFlow) => {
   }
 }
 
-export const fluentCrmStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const fluentCrmStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val === 'fluentcrm-1' || val === 'fluentcrm-2') {
     tmpNewFlow.triggerData = {
       ...tmpNewFlow.triggerData,
@@ -93,7 +93,7 @@ export const fluentCrmStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   setNewFlow(tmpNewFlow)
 }
 
-export const tutorlmsStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const tutorlmsStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val === '2') {
     tmpNewFlow.triggerData.quizzes = resp.data.quizzes
   } else if (val === '3') {
@@ -107,21 +107,21 @@ export const tutorlmsStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   setNewFlow(tmpNewFlow)
 }
 
-export const fluentBookingStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const fluentBookingStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val) {
     tmpNewFlow.triggerData.events = resp.data.events
   }
   setNewFlow(tmpNewFlow)
 }
 
-export const SureMembersStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const SureMembersStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val) {
     tmpNewFlow.triggerData.groups = resp.data.groups
   }
   setNewFlow(tmpNewFlow)
 }
 
-export const wpForoStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const wpForoStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val === 'wpforo-1') {
     tmpNewFlow.triggerData = {
       ...tmpNewFlow.triggerData,
@@ -162,7 +162,7 @@ export const wpForoStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   setNewFlow(tmpNewFlow)
 }
 
-export const wpJobManagerStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const wpJobManagerStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (
     val === 'wp_job_manager-1' ||
     val === 'wp_job_manager-4' ||
@@ -209,7 +209,7 @@ export const wpJobManagerStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   setNewFlow(tmpNewFlow)
 }
 
-export const eventsCalendarStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const eventsCalendarStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (
     val === 'events_calendar-1' ||
     val === 'events_calendar-2' ||
@@ -226,7 +226,7 @@ export const eventsCalendarStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   setNewFlow(tmpNewFlow)
 }
 
-export const voxelStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const voxelStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (
     val === 'voxel-7' ||
     val === 'voxel-8' ||
@@ -245,7 +245,7 @@ export const voxelStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   setNewFlow(tmpNewFlow)
 }
 
-export const WCSubscriptionsStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const WCSubscriptionsStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (['user_subscribes_to_product', 'user_purchases_variable_subscription'].includes(val)) {
     tmpNewFlow.triggerData = {
       ...tmpNewFlow.triggerData,
@@ -274,7 +274,7 @@ export const WCSubscriptionsStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   setNewFlow(tmpNewFlow)
 }
 
-export const WooCommerceStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const WooCommerceStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val === '10' || val === '19') {
     tmpNewFlow.triggerData.products = resp.data.products
   }
@@ -291,19 +291,19 @@ export const WooCommerceStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   setNewFlow(tmpNewFlow)
 }
 
-export const groundhoggStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const groundhoggStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val === '2' || val === '3') {
     tmpNewFlow.triggerData.allTag = resp.data.allTag
   }
   setNewFlow(tmpNewFlow)
 }
 
-export const RestrictContentStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const RestrictContentStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   tmpNewFlow.triggerData.allMembership = resp.data.allMembership
   setNewFlow(tmpNewFlow)
 }
 
-export const buddybossStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const buddybossStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val.toString() === '3') {
     tmpNewFlow.triggerData.forums = resp.data.forums
   } else if (
@@ -321,7 +321,7 @@ export const buddybossStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   setNewFlow(tmpNewFlow)
 }
 
-export const LifterLmsStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const LifterLmsStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val.toString() === '1' || val.toString() === '2' || val.toString() === '3') {
     tmpNewFlow.triggerData.allQuiz = resp.data.allQuiz
   } else if (val.toString() === '4') {
@@ -334,7 +334,7 @@ export const LifterLmsStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   setNewFlow(tmpNewFlow)
 }
 
-export const MasterStudyLmsStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const MasterStudyLmsStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val.toString() === '2') {
     tmpNewFlow.triggerData.allLesson = resp.data.allLesson
   }
@@ -350,7 +350,7 @@ export const MasterStudyLmsStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   setNewFlow(tmpNewFlow)
 }
 
-export const ThriveApprenticeStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const ThriveApprenticeStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (['1'].includes(val.toString())) {
     tmpNewFlow.triggerData.allCourse = resp.data.allCourse
   } else if (val.toString() === '2') {
@@ -361,7 +361,7 @@ export const ThriveApprenticeStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   setNewFlow(tmpNewFlow)
 }
 
-export const EDDStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const EDDStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val.toString() === '1') {
     tmpNewFlow.triggerData.allProduct = resp.data.allProduct
   } else if (val.toString() === '2') {
@@ -370,14 +370,14 @@ export const EDDStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   setNewFlow(tmpNewFlow)
 }
 
-export const UltimateMemberStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const UltimateMemberStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val.toString() === 'roleSpecificChange') {
     tmpNewFlow.triggerData.allRole = resp.data.allRole
   }
   setNewFlow(tmpNewFlow)
 }
 
-export const learndashStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const learndashStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val === '1' || val === '2' || val === '3') {
     tmpNewFlow.triggerData.courses = resp.data.courses
   } else if (val === '4' || val === '11') {
@@ -395,7 +395,7 @@ export const learndashStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   setNewFlow(tmpNewFlow)
 }
 
-export const GamiPressStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const GamiPressStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val === '1') {
     tmpNewFlow.triggerData.rankTypes = resp.data.rankTypes
   }
@@ -405,7 +405,7 @@ export const GamiPressStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   setNewFlow(tmpNewFlow)
 }
 
-export const postStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const postStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if ([1, 2, 3, 6].includes(val)) {
     tmpNewFlow.triggerData = {
       ...tmpNewFlow.triggerData,
@@ -422,7 +422,7 @@ export const postStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   setNewFlow(tmpNewFlow)
 }
 
-export const JetEngineStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const JetEngineStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if ([1, 2].includes(val)) {
     tmpNewFlow.triggerData = {
       ...tmpNewFlow.triggerData,
@@ -433,14 +433,14 @@ export const JetEngineStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   setNewFlow(tmpNewFlow)
 }
 
-export const AffiliateStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const AffiliateStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val === '4' || val === '5' || val === '3') {
     tmpNewFlow.triggerData.allType = resp.data.allType
   }
   setNewFlow(tmpNewFlow)
 }
 
-export const MemberpressStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const MemberpressStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val === '1') {
     tmpNewFlow.triggerData.oneTimeMembership = resp.data.oneTimeMembership
   } else if (val === '2' || val === '5') {
@@ -451,27 +451,27 @@ export const MemberpressStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   setNewFlow(tmpNewFlow)
 }
 
-export const PaidMembershipProStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const PaidMembershipProStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   tmpNewFlow.triggerData.AllMembershipLevels = resp.data.AllMembershipLevels
 
   setNewFlow(tmpNewFlow)
 }
 
-export const SliceWpStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const SliceWpStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val === '2') {
     tmpNewFlow.triggerData.AllCommissionType = resp.data.AllCommissionType
   }
   setNewFlow(tmpNewFlow)
 }
 
-export const SureCartStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const SureCartStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val === '1' || val === '2' || val === '3') {
     tmpNewFlow.triggerData.allProduct = resp.data.allProduct
   }
   setNewFlow(tmpNewFlow)
 }
 
-export const GiveWpStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const GiveWpStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val === '1') {
     tmpNewFlow.triggerData.allDonationForms = resp.data.allDonationForms
   }
@@ -481,7 +481,7 @@ export const GiveWpStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   setNewFlow(tmpNewFlow)
 }
 
-export const wpCoursewareStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const wpCoursewareStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val === 'userEnrolledCourse' || val === 'courseCompleted') {
     tmpNewFlow.triggerData = {
       ...tmpNewFlow.triggerData,
@@ -993,6 +993,8 @@ export const UltimateMemberStateIH = (tmpConf, flowData) => {
     tmpConf.allRole = flowData.allRole
   }
 
+  tmpConf.fields = flowData.fields
+
   return tmpConf
 }
 
@@ -1004,7 +1006,7 @@ export const ARMemberStateIH = (tmpConf, flowData) => {
   return tmpConf
 }
 
-export const academylmsStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
+const academylmsStateFP = (val, tmpNewFlow, resp, setNewFlow) => {
   if (val === '2') {
     tmpNewFlow.triggerData.quizzes = resp.data.quizzes
   } else if (val === '3') {

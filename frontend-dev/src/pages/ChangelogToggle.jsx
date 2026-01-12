@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '08th November 2025'
+const releaseDate = '15th December 2025'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -25,13 +25,55 @@ const changeLog = [
     label: __('New Actions', 'bit-integrations'),
     headClass: 'new-integration',
     itemClass: 'integration-list',
-    items: []
+    items: [
+      {
+        label: 'WPCafe',
+        desc: '03 events Added.',
+        isPro: true
+      },
+      {
+        label: 'FluentCart',
+        desc: '12 events Added.',
+        isPro: true
+      },
+      {
+        label: 'Teams for WooCommerce Memberships',
+        desc: '4 events Added.',
+        isPro: true
+      }
+    ]
   },
   {
     label: __('New Triggers', 'bit-integrations'),
     headClass: 'new-trigger',
     itemClass: 'integration-list',
-    items: []
+    items: [
+      {
+        label: 'WPCafe',
+        desc: '07 events Added.',
+        isPro: true
+      },
+      {
+        label: 'FluentCart',
+        desc: '13 events Added.',
+        isPro: true
+      },
+      {
+        label: 'Forminator Quiz And Poll',
+        desc: '02 events Added.',
+        isPro: true
+      },
+      {
+        label: 'Essential Addons for Elementor',
+        desc: '02 events Added.',
+        isPro: true
+      },
+      {
+        label: 'Teams for WooCommerce Memberships',
+        desc: '7 events Added.',
+        isPro: true
+      }
+    ]
   },
   {
     label: __('New Features', 'bit-integrations'),
@@ -39,9 +81,19 @@ const changeLog = [
     itemClass: 'feature-list',
     items: [
       {
-        label: 'MemberPress',
-        desc: 'Added support for user custom fields to extend integration flexibility.',
+        label: 'GoHighLevel',
+        desc: 'Introduced the REST API v2 for enhanced integration possibilities.',
         isPro: true
+      },
+      {
+        label: 'WPForms',
+        desc: 'Repeater fields have been added for better customization in form submissions.',
+        isPro: false
+      },
+      {
+        label: 'GoHighLevel',
+        desc: 'Added an admin alert email feature for failed integrations, providing better notification control.',
+        isPro: false
       }
     ]
   },
@@ -49,18 +101,7 @@ const changeLog = [
     label: __('Improvements', 'bit-integrations'),
     headClass: 'new-improvement',
     itemClass: 'feature-list',
-    items: [
-      {
-        label: 'GiveWP',
-        desc: 'Enhanced trigger functionality with improved data listening.',
-        isPro: true
-      },
-      {
-        label: 'Action Hook',
-        desc: 'Added default field type for triggers to ensure smoother workflows.',
-        isPro: true
-      }
-    ]
+    items: []
   },
   {
     label: __('Bug Fixes', 'bit-integrations'),
@@ -68,28 +109,13 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'Mailchimp',
-        desc: 'Fixed issue with updating existing contacts.',
+        label: 'Google Drive',
+        desc: 'Fixed the file delete utility issue that was affecting the deletion process.',
         isPro: false
       },
       {
-        label: 'GetResponse',
-        desc: 'Fixed issue with updating existing contacts.',
-        isPro: false
-      },
-      {
-        label: 'Telegram',
-        desc: 'Fixed blank page issue triggered by Action Hook to Telegram.',
-        isPro: false
-      },
-      {
-        label: 'GamiPress',
-        desc: 'Corrected fetching utilities query issue.',
-        isPro: false
-      },
-      {
-        label: 'Sendy',
-        desc: 'Authorization issue has been fixed.',
+        label: 'Voxel',
+        desc: 'Resolved the multiselect field value issue, ensuring proper functionality.',
         isPro: false
       }
     ]

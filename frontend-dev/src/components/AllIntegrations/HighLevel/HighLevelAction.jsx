@@ -69,7 +69,7 @@ export default function HighLevelActions({ highLevelConf, setHighLevelConf, load
           highLevelConf.selectedTask === TASK_LIST_VALUES.UPDATE_CONTACT) && (
           <TableCheckBox
             checked={highLevelConf.actions?.dnd || false}
-            onChange={(e) => actionHandler(e, 'checkbox')}
+            onChange={e => actionHandler(e, 'checkbox')}
             className="wdt-200 mt-4 mr-2"
             value="dnd"
             title={__('Do Not Disturb', 'bit-integrations')}
@@ -81,81 +81,84 @@ export default function HighLevelActions({ highLevelConf, setHighLevelConf, load
         {(highLevelConf.selectedTask === TASK_LIST_VALUES.CREATE_CONTACT ||
           highLevelConf.selectedTask === TASK_LIST_VALUES.UPDATE_CONTACT ||
           highLevelConf.selectedTask === TASK_LIST_VALUES.CREATE_OPPORTUNITY ||
-          highLevelConf.selectedTask === TASK_LIST_VALUES.UPDATE_OPPORTUNITY) && (
-          <>
-            <TableCheckBox
-              checked={highLevelConf.selectedTags || false}
-              onChange={(e) => actionHandler(e, 'contactTags')}
-              className="wdt-200 mt-4 mr-2"
-              value="select_menu_post_type"
-              title={__('Select Tags', 'bit-integrations')}
-              subTitle={__('Select tags and assign them to the contact.', 'bit-integrations')}
-              isInfo={!isPro}
-            />
-            <ConfirmModal
-              className="custom-conf-mdl"
-              mainMdlCls="o-v"
-              btnClass="blue"
-              btnTxt={__('Ok', 'bit-integrations')}
-              show={actionMdl.show === 'contactTags'}
-              close={clsActionMdl}
-              action={clsActionMdl}
-              title={__('Post Types', 'bit-integrations')}>
-              <div className="btcd-hr mt-2 mb-2" />
-              <div className="mt-2 flx">
-                {__('Select Tags', 'bit-integrations')}
-                <Cooltip width={350} icnSize={17} className="ml-1">
-                  <div className="txt-body">
-                    {__(
-                      'Choose from the existing tags, or create and add new ones by typing them and pressing enter or comma (,).',
-                      'bit-integrations'
-                    )}
-                  </div>
-                </Cooltip>
-              </div>
-              {loading.options ? (
-                <Loader
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: 45,
-                    transform: 'scale(0.5)'
-                  }}
-                />
-              ) : (
-                <div className="flx flx-between mt-2">
-                  <MultiSelect
-                    options={utilityOptions?.contactTags}
-                    className="msl-wrp-options"
-                    defaultValue={highLevelConf?.selectedTags}
-                    onChange={(val) => setChanges(val, 'selectedTags')}
-                    style={{ width: '100%' }}
-                    customValue
-                  />
-                  <button
-                    onClick={() =>
-                      getHighLevelOptions(
-                        'high_level_contact_tags',
-                        highLevelConf,
-                        utilityOptions,
-                        setUtilityOptions,
-                        'contactTags',
-                        loading,
-                        setLoading,
-                        'Tags'
-                      )
-                    }
-                    className="icn-btn sh-sm ml-2 mr-2 tooltip"
-                    style={{ '--tooltip-txt': `'${__('Refresh Tags', 'bit-integrations')}'` }}
-                    type="button">
-                    &#x21BB;
-                  </button>
+          highLevelConf.selectedTask === TASK_LIST_VALUES.UPDATE_OPPORTUNITY) &&
+          highLevelConf.selectedTask === TASK_LIST_VALUES.UPDATE_OPPORTUNITY &&
+          highLevelConf?.version !== 'v2' && (
+            <>
+              <TableCheckBox
+                checked={highLevelConf.selectedTags || false}
+                onChange={e => actionHandler(e, 'contactTags')}
+                className="wdt-200 mt-4 mr-2"
+                value="select_menu_post_type"
+                title={__('Select Tags', 'bit-integrations')}
+                subTitle={__('Select tags and assign them to the contact.', 'bit-integrations')}
+                isInfo={!isPro}
+              />
+
+              <ConfirmModal
+                className="custom-conf-mdl"
+                mainMdlCls="o-v"
+                btnClass="blue"
+                btnTxt={__('Ok', 'bit-integrations')}
+                show={actionMdl.show === 'contactTags'}
+                close={clsActionMdl}
+                action={clsActionMdl}
+                title={__('Post Types', 'bit-integrations')}>
+                <div className="btcd-hr mt-2 mb-2" />
+                <div className="mt-2 flx">
+                  {__('Select Tags', 'bit-integrations')}
+                  <Cooltip width={350} icnSize={17} className="ml-1">
+                    <div className="txt-body">
+                      {__(
+                        'Choose from the existing tags, or create and add new ones by typing them and pressing enter or comma (,).',
+                        'bit-integrations'
+                      )}
+                    </div>
+                  </Cooltip>
                 </div>
-              )}
-            </ConfirmModal>
-          </>
-        )}
+                {loading.options ? (
+                  <Loader
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      height: 45,
+                      transform: 'scale(0.5)'
+                    }}
+                  />
+                ) : (
+                  <div className="flx flx-between mt-2">
+                    <MultiSelect
+                      options={utilityOptions?.contactTags}
+                      className="msl-wrp-options"
+                      defaultValue={highLevelConf?.selectedTags}
+                      onChange={val => setChanges(val, 'selectedTags')}
+                      style={{ width: '100%' }}
+                      customValue
+                    />
+                    <button
+                      onClick={() =>
+                        getHighLevelOptions(
+                          'high_level_contact_tags',
+                          highLevelConf,
+                          utilityOptions,
+                          setUtilityOptions,
+                          'contactTags',
+                          loading,
+                          setLoading,
+                          'Tags'
+                        )
+                      }
+                      className="icn-btn sh-sm ml-2 mr-2 tooltip"
+                      style={{ '--tooltip-txt': `'${__('Refresh Tags', 'bit-integrations')}'` }}
+                      type="button">
+                      &#x21BB;
+                    </button>
+                  </div>
+                )}
+              </ConfirmModal>
+            </>
+          )}
       </div>
     </>
   )

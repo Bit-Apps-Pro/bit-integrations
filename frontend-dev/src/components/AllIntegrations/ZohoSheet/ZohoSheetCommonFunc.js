@@ -15,13 +15,6 @@ export const handleInput = (e, zohoSheetConf, setZohoSheetConf) => {
   setZohoSheetConf({ ...newConf })
 }
 
-export const generateMappedField = zohoSheetConf => {
-  const requiredFlds = zohoSheetConf?.workSheetHeaders.filter(fld => fld.required === true)
-  return requiredFlds.length > 0
-    ? requiredFlds.map(field => ({ formField: '', zohoSheetFormField: field.key }))
-    : [{ formField: '', zohoSheetFormField: '' }]
-}
-
 export const checkMappedFields = zohoSheetConf => {
   const mappedFields = zohoSheetConf?.field_map
     ? zohoSheetConf.field_map.filter(
@@ -133,4 +126,91 @@ export const setGrantTokenResponse = integ => {
   }
   localStorage.setItem(`__${integ}`, JSON.stringify(grantTokenResponse))
   window.close()
+}
+
+export const handleAuthorization = (
+  confTmp,
+  setConf,
+  setError,
+  setisAuthorized,
+  loading,
+  setLoading
+) => {
+  if (!confTmp.dataCenter || !confTmp.clientId || !confTmp.clientSecret) {
+    setError({
+      dataCenter: !confTmp.dataCenter ? __("Data center can't be empty") : '',
+      clientId: !confTmp.clientId ? __("Client ID can't be empty") : '',
+      clientSecret: !confTmp.clientSecret ? __("Secret key can't be empty") : ''
+    })
+    return
+  }
+  setLoading({ ...loading, auth: true })
+  const scopes = 'ZohoSheet.dataAPI.READ,ZohoSheet.dataAPI.UPDATE'
+  const apiEndpoint = `https://accounts.zoho.${confTmp.dataCenter}/oauth/v2/auth?scope=${scopes}&response_type=code&client_id=${confTmp.clientId}&prompt=Consent&access_type=offline&state=${encodeURIComponent(window.location.href)}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api.base}/redirect`)}`
+  const authWindow = window.open(apiEndpoint, '__zohoSheet', 'width=400,height=609,toolbar=off')
+  const popupURLCheckTimer = setInterval(() => {
+    if (authWindow.closed) {
+      clearInterval(popupURLCheckTimer)
+      let grantTokenResponse = {}
+      let isauthRedirectLocation = false
+      const ZohoSheet = localStorage.getItem('__zohoSheet')
+      if (ZohoSheet) {
+        isauthRedirectLocation = true
+        grantTokenResponse = JSON.parse(ZohoSheet)
+        localStorage.removeItem('__zohoSheet')
+      }
+      if (
+        !grantTokenResponse.code ||
+        grantTokenResponse.error ||
+        !grantTokenResponse ||
+        !isauthRedirectLocation
+      ) {
+        const errorCause = grantTokenResponse.error ? `Cause: ${grantTokenResponse.error}` : ''
+        toast.error(
+          __(
+            `${__('Authorization Failed')} ${errorCause}. ${__('please try again')}`,
+            'bit-integrations'
+          )
+        )
+        setLoading({ ...loading, auth: false })
+      } else {
+        const newConf = { ...confTmp }
+        newConf.accountServer = grantTokenResponse['accounts-server']
+        tokenHelper(grantTokenResponse, newConf, setConf, setisAuthorized, loading, setLoading)
+      }
+    }
+  }, 500)
+}
+
+const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, loading, setLoading) => {
+  const tokenRequestParams = { ...grantToken }
+  tokenRequestParams.dataCenter = confTmp.dataCenter
+  tokenRequestParams.clientId = confTmp.clientId
+  tokenRequestParams.clientSecret = confTmp.clientSecret
+  tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
+  bitsFetch(tokenRequestParams, 'zohoSheet_generate_token')
+    .then(result => result)
+    .then(result => {
+      if (result && result.success) {
+        const newConf = { ...confTmp }
+        newConf.tokenDetails = result.data
+        setConf(newConf)
+        setisAuthorized(true)
+        toast.success(__('Authorized Successfully', 'bit-integrations'))
+        getAllWorkbooks(newConf, setConf, loading, setLoading)
+      } else if (
+        (result && result.data && result.data.data) ||
+        (!result.success && typeof result.data === 'string')
+      ) {
+        toast.error(
+          __(
+            `${__('Authorization failed Cause:')}${result.data.data || result.data}. ${__('please try again')}`,
+            'bit-integrations'
+          )
+        )
+      } else {
+        toast.error(__('Authorization failed. please try again', 'bit-integrations'))
+      }
+      setLoading({ ...loading, auth: false })
+    })
 }

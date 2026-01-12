@@ -25,6 +25,7 @@ const GoogleSheet = lazy(() => import('./GoogleSheet/GoogleSheet'))
 const Mail = lazy(() => import('./Mail/Mail'))
 const MailChimp = lazy(() => import('./MailChimp/MailChimp'))
 const MailPoet = lazy(() => import('./MailPoet/MailPoet'))
+const MailerPress = lazy(() => import('./MailerPress/MailerPress'))
 const Sendinblue = lazy(() => import('./SendinBlue/SendinBlue'))
 const WooCommerce = lazy(() => import('./WooCommerce/WooCommerce'))
 const Pods = lazy(() => import('./Pods/Pods'))
@@ -166,6 +167,11 @@ const Bento = lazy(() => import('./Bento/Bento'))
 const Line = lazy(() => import('./Line/Line'))
 const ACPT = lazy(() => import('./ACPT/ACPT'))
 const WishlistMember = lazy(() => import('./WishlistMember/WishlistMember'))
+const FluentCart = lazy(() => import('./FluentCart/FluentCart'))
+const WPCafe = lazy(() => import('./WPCafe/WPCafe'))
+const TeamsForWooCommerceMemberships = lazy(
+  () => import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMemberships')
+)
 
 export default function NewInteg({ allIntegURL }) {
   const { integUrlName } = useParams()
@@ -274,6 +280,15 @@ export default function NewInteg({ allIntegURL }) {
             formFields={flow?.triggerData?.fields}
             flow={flow}
             setFlow={setFlow}
+          />
+        )
+      case 'MailerPress':
+        return (
+          <MailerPress
+            formFields={flow?.triggerData?.fields}
+            setFlow={setFlow}
+            flow={flow}
+            allIntegURL={allIntegURL}
           />
         )
       case 'Mail Poet':
@@ -1586,6 +1601,33 @@ export default function NewInteg({ allIntegURL }) {
       case 'Wishlist Member':
         return (
           <WishlistMember
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'FluentCart':
+        return (
+          <FluentCart
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'WPCafe':
+        return (
+          <WPCafe
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'Teams For WooCommerce Memberships':
+        return (
+          <TeamsForWooCommerceMemberships
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
             flow={flow}

@@ -53,14 +53,7 @@ export const handleTabChange = (
   settab(recordTab)
 }
 
-export const moduleChange = (
-  recordTab,
-  recruitConf,
-  formID,
-  setRecruitConf,
-  setIsLoading,
-  setSnackbar
-) => {
+const moduleChange = (recordTab, recruitConf, formID, setRecruitConf, setIsLoading, setSnackbar) => {
   const newConf = { ...recruitConf }
   const module = recordTab === 0 ? newConf.module : newConf.relatedlists[recordTab - 1].module
 
@@ -137,39 +130,6 @@ export const refreshModules = (formID, recruitConf, setRecruitConf, setIsLoading
         setSnackbar({
           show: true,
           msg: __('Modules refresh failed. please try again', 'bit-integrations')
-        })
-      }
-      setIsLoading(false)
-    })
-    .catch(() => setIsLoading(false))
-}
-
-export const refreshOwners = (formID, recruitConf, setRecruitConf, setIsLoading, setSnackbar) => {
-  setIsLoading(true)
-  const getOwnersParams = {
-    module: recruitConf.module,
-    dataCenter: recruitConf.dataCenter,
-    clientId: recruitConf.clientId,
-    clientSecret: recruitConf.clientSecret,
-    tokenDetails: recruitConf.tokenDetails
-  }
-  bitsFetch(getOwnersParams, 'zrecruit_refresh_users')
-    .then(result => {
-      if (result?.success) {
-        const newConf = { ...recruitConf }
-        newConf.default.recruitOwner = result.data.users
-        if (result.data.tokenDetails) {
-          newConf.tokenDetails = result.data.tokenDetails
-        }
-        setRecruitConf({ ...newConf })
-        setSnackbar({
-          show: true,
-          msg: __('Owners refreshed', 'bit-integrations')
-        })
-      } else {
-        setSnackbar({
-          show: true,
-          msg: __('Owners refresh failed. please try again', 'bit-integrations')
         })
       }
       setIsLoading(false)
@@ -271,7 +231,7 @@ export const refreshRelatedList = (formID, recruitConf, setRecruitConf, setIsLoa
     .catch(() => setIsLoading(false))
 }
 
-export const getFields = (recordTab, formID, recruitConf, setRecruitConf, setIsLoading, setSnackbar) => {
+const getFields = (recordTab, formID, recruitConf, setRecruitConf, setIsLoading, setSnackbar) => {
   const module = recordTab === 0 ? recruitConf.module : recruitConf.relatedlists[recordTab - 1].module
   if (!module) {
     return
@@ -327,7 +287,7 @@ export const getFields = (recordTab, formID, recruitConf, setRecruitConf, setIsL
     .catch(() => setIsLoading(false))
 }
 
-export const generateMappedField = (recordTab, recruitConf, uploadFields) => {
+const generateMappedField = (recordTab, recruitConf, uploadFields) => {
   const module = recordTab === 0 ? recruitConf.module : recruitConf.relatedlists[recordTab - 1].module
   if (uploadFields) {
     return recruitConf.default.moduleData[module].requiredFileUploadFields.length > 0

@@ -78,7 +78,14 @@ export const customFormIntegrations = [
   'FluentCart',
   'MailMint',
   'BookingCalendarContactForm',
-  'ContactFormEmail'
+  'ContactFormEmail',
+  'MailerPress',
+  'Poptics',
+  'EssentialBlocks',
+  'EssentialAddonsElementor',
+  'ForminatorQuizAndPoll',
+  'TeamsForWooCommerceMemberships',
+  'WPCafe'
 ]
 
 export const actionHookIntegrations = ['ActionHook']

@@ -11,6 +11,10 @@ class WooCommerceStaticFields
     public static function checkoutBasicFields()
     {
         return [
+            'status' => (object) [
+                'fieldKey'  => 'status',
+                'fieldName' => __('Status', 'bit-integrations')
+            ],
             'customer_note' => (object) [
                 'fieldKey'  => 'customer_note',
                 'fieldName' => __('Customer Note', 'bit-integrations')
@@ -209,6 +213,14 @@ class WooCommerceStaticFields
             'Shipping State' => (object) [
                 'fieldKey'  => 'shipping_state',
                 'fieldName' => __('Shipping State', 'bit-integrations')
+            ],
+            'Shipping Email' => (object) [
+                'fieldKey'  => 'shipping_email',
+                'fieldName' => __('Shipping Email', 'bit-integrations')
+            ],
+            'Shipping Phone' => (object) [
+                'fieldKey'  => 'shipping_phone',
+                'fieldName' => __('Shipping Phone', 'bit-integrations')
             ],
         ];
     }

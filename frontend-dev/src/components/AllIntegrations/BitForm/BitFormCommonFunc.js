@@ -22,7 +22,7 @@ export const handleInput = (e, bitFormConf, setBitFormConf, formID, setIsLoading
   setBitFormConf({ ...newConf })
 }
 
-export const listChange = (bitFormConf, formID, setBitFormConf, setIsLoading, setSnackbar) => {
+const listChange = (bitFormConf, formID, setBitFormConf, setIsLoading, setSnackbar) => {
   const newConf = deepCopy(bitFormConf)
   newConf.field_map = [{ formField: '', BitFormMapField: '' }]
 
@@ -32,10 +32,10 @@ export const listChange = (bitFormConf, formID, setBitFormConf, setIsLoading, se
   return newConf
 }
 
-export const checkAddressFieldMapRequired = (sheetConf) => {
+export const checkAddressFieldMapRequired = sheetConf => {
   const requiredFleld = sheetConf?.address_field
     ? sheetConf.address_field.filter(
-        (field) => !field.formField && field.mailChimpAddressField && field.required
+        field => !field.formField && field.mailChimpAddressField && field.required
       )
     : []
   if (requiredFleld.length > 0) {
@@ -61,7 +61,7 @@ export const handleAuthorize = (
 
   const requestParams = { app_domain: confTmp.domainName, api_key: confTmp.api_key }
 
-  bitsFetch(requestParams, 'bitForm_authorization_and_fetch_form_list').then((result) => {
+  bitsFetch(requestParams, 'bitForm_authorization_and_fetch_form_list').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       setConf(newConf)
@@ -80,7 +80,7 @@ export const fetchAllForm = (bitFormConf, setBitFormConf, setIsLoading, setSnack
   const requestParams = { app_domain: bitFormConf.domainName, api_key: bitFormConf.api_key }
 
   bitsFetch(requestParams, 'bitForm_all_form_list')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...bitFormConf }
         if (!newConf.default) {
@@ -100,13 +100,7 @@ export const fetchAllForm = (bitFormConf, setBitFormConf, setIsLoading, setSnack
     .catch(() => setIsLoading(false))
 }
 
-export const fetchSingleFormFeilds = (
-  formID,
-  bitFormConf,
-  setBitFormConf,
-  setIsLoading,
-  setSnackbar
-) => {
+const fetchSingleFormFeilds = (formID, bitFormConf, setBitFormConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   const requestParams = {
     app_domain: bitFormConf.domainName,
@@ -115,7 +109,7 @@ export const fetchSingleFormFeilds = (
   }
 
   bitsFetch(requestParams, 'bitForm_fetch_single_form_fields')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...bitFormConf }
         if (!newConf.default) {
@@ -136,16 +130,9 @@ export const fetchSingleFormFeilds = (
     .catch(() => setIsLoading(false))
 }
 
-export const generateMappedField = (bitFormConf) => {
-  const requiredFlds = bitFormConf?.BitFormFields.filter((fld) => fld.required === true)
-  return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({ formField: '', BitFormMapField: field.key }))
-    : [{ formField: '', BitFormMapField: '' }]
-}
-
-export const checkMappedFields = (bitFormConf) => {
+export const checkMappedFields = bitFormConf => {
   const mappedFleld = bitFormConf.field_map
-    ? bitFormConf.field_map.filter((mapped) => !mapped.formField && !mapped.BitFormMapField)
+    ? bitFormConf.field_map.filter(mapped => !mapped.formField && !mapped.BitFormMapField)
     : []
   if (mappedFleld.length > 0) {
     return false

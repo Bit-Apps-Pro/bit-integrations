@@ -14,13 +14,6 @@ export const addFieldMap = (i, confTmp, setConf, uploadFields, tab) => {
   setConf({ ...newConf })
 }
 
-export const addContactFieldMap = (i, confTmp, setConf) => {
-  const newConf = { ...confTmp }
-
-  newConf.field_map_contact.splice(i, 0, {})
-  setConf({ ...newConf })
-}
-
 export const delFieldMap = (i, confTmp, setConf, uploadFields, tab) => {
   const newConf = { ...confTmp }
   if (tab) {
@@ -37,15 +30,6 @@ export const delFieldMap = (i, confTmp, setConf, uploadFields, tab) => {
     }
   } else if (newConf.field_map.length > 1) {
     newConf.field_map.splice(i, 1)
-  }
-
-  setConf({ ...newConf })
-}
-
-export const delContactFieldMap = (i, confTmp, setConf) => {
-  const newConf = { ...confTmp }
-  if (newConf.field_map_contact.length > 1) {
-    newConf.field_map_contact.splice(i, 1)
   }
 
   setConf({ ...newConf })

@@ -1,5 +1,5 @@
 import { create } from 'mutative'
-import React, { useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useRecoilValue } from 'recoil'
 import { $formFields } from '../../../../GlobalStates'
 import CloseIcn from '../../../../Icons/CloseIcn'
@@ -12,7 +12,7 @@ import PayLoadFieldMap from './PayLoadFieldMap'
 function Body({ webHooks, setWebHooks, isInfo, setTab }) {
   const formFields = useRecoilValue($formFields)
   const formattedFormFields = useMemo(
-    () => formFields.map((field) => ({ key: field.name, value: `\${${field.name}}` })),
+    () => formFields.map(field => ({ key: field.name, value: `\${${field.name}}` })),
     [formFields]
   )
 
@@ -37,7 +37,7 @@ function Body({ webHooks, setWebHooks, isInfo, setTab }) {
     setWebHooks(tmpConf)
   }
 
-  const handleContentType = (e) => {
+  const handleContentType = e => {
     const tmpConf = { ...webHooks }
     tmpConf.body.type = e.target.value
 
@@ -47,7 +47,7 @@ function Body({ webHooks, setWebHooks, isInfo, setTab }) {
     setWebHooks(tmpConf)
   }
 
-  const actionHandler = (e) => {
+  const actionHandler = e => {
     const newConf = { ...webHooks }
     if (e.target.checked) {
       newConf.body.send_all_data = true
@@ -58,9 +58,9 @@ function Body({ webHooks, setWebHooks, isInfo, setTab }) {
     }
     setWebHooks({ ...newConf })
   }
-  const setJsonCustomBody = (data) => {
-    setWebHooks((prevConf) =>
-      create(prevConf, (draftConf) => {
+  const setJsonCustomBody = data => {
+    setWebHooks(prevConf =>
+      create(prevConf, draftConf => {
         draftConf.body.raw = data
       })
     )
@@ -68,14 +68,16 @@ function Body({ webHooks, setWebHooks, isInfo, setTab }) {
 
   return (
     <div className="mt-2">
-      <TableCheckBox
-        isInfo={isInfo}
-        checked={webHooks?.body?.send_all_data || false}
-        onChange={actionHandler}
-        className="wdt-200 mt-4 mr-2 mb-2"
-        value="Send All Data"
-        title={__('Send All Data', 'bit-integrations')}
-      />
+      {formattedFormFields?.length < 100 && (
+        <TableCheckBox
+          isInfo={isInfo}
+          checked={webHooks?.body?.send_all_data || false}
+          onChange={actionHandler}
+          className="wdt-200 mt-4 mr-2 mb-2"
+          value="Send All Data"
+          title={__('Send All Data', 'bit-integrations')}
+        />
+      )}
       <div className="f-m mt-1 mb-2">{__('Add Request Payload', 'bit-integrations')}</div>
       <select
         name="method"

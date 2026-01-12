@@ -12,10 +12,10 @@ export const refreshCrmList = (
 ) => {
   setLoading({ ...loading, fluentCrmList: true })
   bitsFetch({}, 'refresh_fluent_crm_lists')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
-        setFluentCrmConf((prevConf) =>
-          create(prevConf, (newConf) => {
+        setFluentCrmConf(prevConf =>
+          create(prevConf, newConf => {
             newConf.fluentCrmList = result.data.fluentCrmList
             newConf.fluentCrmTags = result.data.fluentCrmTags
           })
@@ -56,10 +56,10 @@ export const refreshCrmTag = (
 ) => {
   setLoading({ ...loading, fluentCrmTags: true })
   bitsFetch({}, 'refresh_fluent_crm_tags')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
-        setFluentCrmConf((prevConf) =>
-          create(prevConf, (newConf) => {
+        setFluentCrmConf(prevConf =>
+          create(prevConf, newConf => {
             if (!newConf.default) {
               newConf.default = {}
             }
@@ -94,19 +94,14 @@ export const refreshCrmTag = (
     .catch(() => setLoading({ ...loading, fluentCrmTags: false }))
 }
 
-export const refreshfluentCrmHeader = (
-  fluentCrmConf,
-  setFluentCrmConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const refreshfluentCrmHeader = (fluentCrmConf, setFluentCrmConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   bitsFetch({}, 'fluent_crm_headers')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         if (result.data.fluentCrmFlelds) {
-          setFluentCrmConf((prevConf) =>
-            create(prevConf, (newConf) => {
+          setFluentCrmConf(prevConf =>
+            create(prevConf, newConf => {
               newConf.fluentCrmFlelds = result.data.fluentCrmFlelds
               newConf.field_map = mapNewRequiredFields(newConf)
             })
@@ -135,44 +130,40 @@ export const refreshfluentCrmHeader = (
     .catch(() => setIsLoading(false))
 }
 
-export const getAllCompanies = (
-  fluentCrmConf,
-  setFluentCrmConf,
-  loading,
-  setLoading,
-  setSnackbar
-) => {
+export const getAllCompanies = (fluentCrmConf, setFluentCrmConf, loading, setLoading, setSnackbar) => {
   setLoading({ ...loading, company: true })
-  bitsFetch({}, 'fluent_crm_get_all_company')
-    .then((result) => {
-      setLoading({ ...loading, company: false })
+  bitsFetch({}, 'fluent_crm_get_all_company').then(result => {
+    setLoading({ ...loading, company: false })
 
-      if (result.success && result?.data) {
-        setFluentCrmConf((prevConf) =>
-          create(prevConf, (draftConf) => {
-            draftConf.companies = result.data
-          })
-        )
-        setSnackbar({ show: true, msg: __('Fluent CRM Companies refreshed', 'bit-integrations') })
+    if (result.success && result?.data) {
+      setFluentCrmConf(prevConf =>
+        create(prevConf, draftConf => {
+          draftConf.companies = result.data
+        })
+      )
+      setSnackbar({ show: true, msg: __('Fluent CRM Companies refreshed', 'bit-integrations') })
 
-        return
-      }
+      return
+    }
 
-      setSnackbar({ show: true, msg: __('Fluent CRM Companies refresh failed. please try again', 'bit-integrations') })
+    setSnackbar({
+      show: true,
+      msg: __('Fluent CRM Companies refresh failed. please try again', 'bit-integrations')
     })
+  })
 }
 
-export const mapNewRequiredFields = (fluentCrmConf) => {
+const mapNewRequiredFields = fluentCrmConf => {
   const { field_map } = fluentCrmConf
   const { fluentCrmFlelds } = fluentCrmConf
   const required = Object.values(fluentCrmFlelds)
-    .filter((f) => f.required)
-    .map((f) => ({ formField: '', fluentCRMField: f.key, required: true }))
+    .filter(f => f.required)
+    .map(f => ({ formField: '', fluentCRMField: f.key, required: true }))
   const requiredFieldNotInFieldMap = required.filter(
-    (f) => !field_map.find((m) => m.fluentCRMField === f.fluentCRMField)
+    f => !field_map.find(m => m.fluentCRMField === f.fluentCRMField)
   )
-  const notEmptyFieldMap = field_map.filter((f) => f.fluentCRMField || f.formField)
-  const newFieldMap = notEmptyFieldMap.map((f) => {
+  const notEmptyFieldMap = field_map.filter(f => f.fluentCRMField || f.formField)
+  const newFieldMap = notEmptyFieldMap.map(f => {
     const field = fluentCrmFlelds[f.fluentCRMField]
     if (field) {
       return { ...f, formField: field.label }
@@ -187,12 +178,11 @@ export const handleInput = (e, fluentCrmConf, setFluentCrmConf) => {
   newConf.name = e.target.value
   setFluentCrmConf({ ...newConf })
 }
-export const checkMappedFields = (fluentCrmConf) => {
+export const checkMappedFields = fluentCrmConf => {
   const mappedFields = fluentCrmConf?.field_map
     ? fluentCrmConf.field_map.filter(
-      (mappedField) =>
-        !mappedField.formField && mappedField.fluentCRMField && mappedField.required
-    )
+        mappedField => !mappedField.formField && mappedField.fluentCRMField && mappedField.required
+      )
     : []
   if (mappedFields.length > 0) {
     return false

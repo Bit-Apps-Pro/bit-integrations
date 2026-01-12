@@ -24,12 +24,12 @@ export default function HighLevelIntegLayout({
   loading,
   setLoading
 }) {
-  const setChanges = (val) => {
+  const setChanges = val => {
     const newConf = highLevelConf
     newConf.selectedTask = val
 
     if (val) {
-      const fieldsAndFieldMap = highLevelStaticFields(val)
+      const fieldsAndFieldMap = highLevelStaticFields(val, newConf?.version || 'v1')
       newConf.highLevelFields = fieldsAndFieldMap.staticFields
       newConf.field_map = fieldsAndFieldMap.fieldMap
 
@@ -59,18 +59,14 @@ export default function HighLevelIntegLayout({
     const newConf = { ...highLevelConf }
     newConf[type] = val
 
-    if (
-      val &&
-      newConf.selectedTask === TASK_LIST_VALUES.UPDATE_TASK &&
-      type === 'selectedContact'
-    ) {
+    if (val && newConf.selectedTask === TASK_LIST_VALUES.UPDATE_TASK && type === 'selectedContact') {
       getHLTasks(newConf, setHighLevelConf, loading, setLoading)
     }
 
     if (val && type === 'selectedPipeline') {
       newConf.selectedStage = ''
       newConf.selectedOpportunity = ''
-      const stageList = newConf.stages[val].map((stage) => ({ label: stage.name, value: stage.id }))
+      const stageList = newConf.stages[val].map(stage => ({ label: stage.name, value: stage.id }))
       newConf.currentStages = stageList
 
       if (highLevelConf.selectedTask === TASK_LIST_VALUES.UPDATE_OPPORTUNITY) {
@@ -115,7 +111,7 @@ export default function HighLevelIntegLayout({
           options={TASK_LIST}
           className={`msl-wrp-options ${!highLevelConf.selectedTask ? 'height-s' : ''}`}
           defaultValue={highLevelConf?.selectedTask}
-          onChange={(val) => setChanges(val)}
+          onChange={val => setChanges(val)}
           singleSelect
         />
       </div>
@@ -130,7 +126,7 @@ export default function HighLevelIntegLayout({
               options={highLevelConf.pipelines}
               className="msl-wrp-options"
               defaultValue={highLevelConf?.selectedPipeline}
-              onChange={(val) => handleMultiSelectChange(val, 'selectedPipeline')}
+              onChange={val => handleMultiSelectChange(val, 'selectedPipeline')}
               disabled={loading.pipelines || loading.contacts || loading.users}
               singleSelect
             />
@@ -150,7 +146,7 @@ export default function HighLevelIntegLayout({
               options={highLevelConf.currentStages}
               className="msl-wrp-options"
               defaultValue={highLevelConf?.selectedStage}
-              onChange={(val) => handleMultiSelectChange(val, 'selectedStage')}
+              onChange={val => handleMultiSelectChange(val, 'selectedStage')}
               disabled={!highLevelConf.selectedPipeline}
               singleSelect
             />
@@ -166,7 +162,7 @@ export default function HighLevelIntegLayout({
             options={highLevelConf.opportunities}
             className="msl-wrp-options"
             defaultValue={highLevelConf?.selectedOpportunity}
-            onChange={(val) => handleMultiSelectChange(val, 'selectedOpportunity')}
+            onChange={val => handleMultiSelectChange(val, 'selectedOpportunity')}
             disabled={!highLevelConf.selectedPipeline || loading.opportunities}
             singleSelect
           />
@@ -198,7 +194,7 @@ export default function HighLevelIntegLayout({
             options={highLevelConf.contacts}
             className="msl-wrp-options"
             defaultValue={highLevelConf?.selectedContact}
-            onChange={(val) => handleMultiSelectChange(val, 'selectedContact')}
+            onChange={val => handleMultiSelectChange(val, 'selectedContact')}
             singleSelect
           />
           <button
@@ -220,7 +216,7 @@ export default function HighLevelIntegLayout({
             options={highLevelConf.hlTasks}
             className="msl-wrp-options"
             defaultValue={highLevelConf?.updateTaskId}
-            onChange={(val) => handleMultiSelectChange(val, 'updateTaskId')}
+            onChange={val => handleMultiSelectChange(val, 'updateTaskId')}
             disabled={!highLevelConf.selectedContact || loading.contacts || loading.hlTasks}
             singleSelect
           />
@@ -249,7 +245,7 @@ export default function HighLevelIntegLayout({
               options={highLevelConf.users}
               className="msl-wrp-options"
               defaultValue={highLevelConf?.selectedUser}
-              onChange={(val) => handleMultiSelectChange(val, 'selectedUser')}
+              onChange={val => handleMultiSelectChange(val, 'selectedUser')}
               singleSelect
             />
             <button
@@ -268,7 +264,7 @@ export default function HighLevelIntegLayout({
               options={getStatusOptions()}
               className="msl-wrp-options"
               defaultValue={highLevelConf?.selectedTaskStatus}
-              onChange={(val) => handleMultiSelectChange(val, 'selectedTaskStatus')}
+              onChange={val => handleMultiSelectChange(val, 'selectedTaskStatus')}
               singleSelect
             />
           </div>

@@ -26,9 +26,9 @@ export const getAllFields = (flowluConf, setFlowluConf, setIsLoading, setSnackba
   }
 
   bitsFetch(requestParams, 'Flowlu_all_fields')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
-        setFlowluConf((prevFlowluConf) => {
+        setFlowluConf(prevFlowluConf => {
           const draftConf = deepCopy(prevFlowluConf)
           draftConf.field_map = [{ formField: '', flowluFormField: '' }]
           if (result.data) {
@@ -52,21 +52,21 @@ export const getAllFields = (flowluConf, setFlowluConf, setIsLoading, setSnackba
     .catch(() => setIsLoading(false))
 }
 
-export const generateMappedField = (flowluConf) => {
+const generateMappedField = flowluConf => {
   const requiredFlds =
-    flowluConf?.flowluFields && flowluConf?.flowluFields.filter((fld) => fld.required === true)
+    flowluConf?.flowluFields && flowluConf?.flowluFields.filter(fld => fld.required === true)
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({
+    ? requiredFlds.map(field => ({
         formField: '',
         flowluFormField: field.key
       }))
     : [{ formField: '', flowluFormField: '' }]
 }
 
-export const checkMappedFields = (flowluConf) => {
+export const checkMappedFields = flowluConf => {
   const mappedFields = flowluConf?.field_map
     ? flowluConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField ||
           !mappedField.flowluFormField ||
           (mappedField.formField === 'custom' && !mappedField.customValue) ||
@@ -90,9 +90,7 @@ export const flowluAuthentication = (
   if (!confTmp.api_key || !confTmp.company_name) {
     setError({
       api_key: !confTmp.api_key ? __("API Key can't be empty", 'bit-integrations') : '',
-      company_name: !confTmp.company_name
-        ? __("Company Name can't be empty", 'bit-integrations')
-        : ''
+      company_name: !confTmp.company_name ? __("Company Name can't be empty", 'bit-integrations') : ''
     })
     return
   }
@@ -105,7 +103,7 @@ export const flowluAuthentication = (
     company_name: confTmp.company_name
   }
 
-  bitsFetch(requestParams, 'flowlu_authentication').then((result) => {
+  bitsFetch(requestParams, 'flowlu_authentication').then(result => {
     if (result && result.success) {
       setIsAuthorized(true)
       setLoading({ ...loading, auth: false })
@@ -113,9 +111,7 @@ export const flowluAuthentication = (
       return
     }
     setLoading({ ...loading, auth: false })
-    toast.error(
-      __('Authorized failed, Please enter valid API Key or Company Name', 'bit-integrations')
-    )
+    toast.error(__('Authorized failed, Please enter valid API Key or Company Name', 'bit-integrations'))
   })
 }
 
@@ -127,7 +123,7 @@ export const getAllAccountCategories = (confTmp, setConf, setLoading) => {
     company_name: confTmp.company_name
   }
 
-  bitsFetch(requestParams, 'flowlu_fetch_all_account_categories').then((result) => {
+  bitsFetch(requestParams, 'flowlu_fetch_all_account_categories').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -152,7 +148,7 @@ export const getAllIndustry = (confTmp, setConf, setLoading) => {
     company_name: confTmp.company_name
   }
 
-  bitsFetch(requestParams, 'flowlu_fetch_all_industries').then((result) => {
+  bitsFetch(requestParams, 'flowlu_fetch_all_industries').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -177,7 +173,7 @@ export const getAllPipeline = (confTmp, setConf, setLoading) => {
     company_name: confTmp.company_name
   }
 
-  bitsFetch(requestParams, 'flowlu_fetch_all_pipelines').then((result) => {
+  bitsFetch(requestParams, 'flowlu_fetch_all_pipelines').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -203,7 +199,7 @@ export const getAllStage = (confTmp, setConf, setLoading) => {
     pipeline_id: confTmp.selectedPipeline
   }
 
-  bitsFetch(requestParams, 'flowlu_fetch_all_stages').then((result) => {
+  bitsFetch(requestParams, 'flowlu_fetch_all_stages').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -228,7 +224,7 @@ export const getAllSource = (confTmp, setConf, setLoading) => {
     company_name: confTmp.company_name
   }
 
-  bitsFetch(requestParams, 'flowlu_fetch_all_sources').then((result) => {
+  bitsFetch(requestParams, 'flowlu_fetch_all_sources').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -253,7 +249,7 @@ export const getAllCustomer = (confTmp, setConf, setLoading) => {
     company_name: confTmp.company_name
   }
 
-  bitsFetch(requestParams, 'flowlu_fetch_all_customers').then((result) => {
+  bitsFetch(requestParams, 'flowlu_fetch_all_customers').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -278,7 +274,7 @@ export const getAllManagers = (confTmp, setConf, setLoading) => {
     company_name: confTmp.company_name
   }
 
-  bitsFetch(requestParams, 'flowlu_fetch_all_managers').then((result) => {
+  bitsFetch(requestParams, 'flowlu_fetch_all_managers').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -303,7 +299,7 @@ export const getAllProjectStage = (confTmp, setConf, setLoading) => {
     company_name: confTmp.company_name
   }
 
-  bitsFetch(requestParams, 'flowlu_fetch_all_project_tages').then((result) => {
+  bitsFetch(requestParams, 'flowlu_fetch_all_project_tages').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -328,7 +324,7 @@ export const getAllPortfolio = (confTmp, setConf, setLoading) => {
     company_name: confTmp.company_name
   }
 
-  bitsFetch(requestParams, 'flowlu_fetch_all_portfolio').then((result) => {
+  bitsFetch(requestParams, 'flowlu_fetch_all_portfolio').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -353,7 +349,7 @@ export const getAllProjectOpportunity = (confTmp, setConf, setLoading) => {
     company_name: confTmp.company_name
   }
 
-  bitsFetch(requestParams, 'flowlu_fetch_all_project_opportunity').then((result) => {
+  bitsFetch(requestParams, 'flowlu_fetch_all_project_opportunity').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {

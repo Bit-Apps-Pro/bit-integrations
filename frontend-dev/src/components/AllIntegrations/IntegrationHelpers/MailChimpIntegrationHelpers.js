@@ -50,15 +50,6 @@ export const handleFieldMapping = (event, index, conftTmp, setConf, uploadFields
   setConf({ ...newConf })
 }
 
-export const handleCustomValue = (event, index, conftTmp, setConf, tab) => {
-  const newConf = { ...conftTmp }
-  if (tab) {
-    newConf.relatedlists[tab - 1].field_map[index].customValue = event.target.value
-  } else {
-    newConf.field_map[index].customValue = event.target.value
-  }
-  setConf({ ...newConf })
-}
 export const handleAddress = (event, index, confTmp, setConf, addressField, tab) => {
   const newConf = { ...confTmp }
   newConf.address_field[index][event.target.name] = event.target.value

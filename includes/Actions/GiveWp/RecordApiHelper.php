@@ -27,9 +27,31 @@ class RecordApiHelper
 
     public function createGiveWpDonar($finalData)
     {
-        $donor = new Give_Donor();
+        if (empty($finalData['name'])) {
+            $finalData['name'] = ($finalData['first_name'] ?? '') . ' ' . ($finalData['last_name'] ?? '');
+        }
 
-        return $donor->create($finalData);
+        $metaKeys = [
+            '_give_donor_first_name' => 'first_name',
+            '_give_donor_last_name'  => 'last_name',
+        ];
+
+        if (!class_exists('Give_Donor') || !\function_exists('Give')) {
+            return;
+        }
+
+        $donor = new Give_Donor();
+        $donorId = $donor->create($finalData);
+
+        if (is_numeric($donorId)) {
+            foreach ($metaKeys as $metaKey => $field) {
+                if (isset($finalData[$field])) {
+                    Give()->donor_meta->update_meta($donorId, $metaKey, $finalData[$field]);
+                }
+            }
+        }
+
+        return $donorId;
     }
 
     public function execute(

@@ -1,33 +1,7 @@
 import { __ } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
 
-export const setGrantTokenResponse = () => {
-  const grantTokenResponse = {}
-  const authWindowLocation = window.location.href
-  const queryParams = authWindowLocation
-    .replace(`${window.opener.location.href}/redirect`, '')
-    .split('&')
-  if (queryParams) {
-    queryParams.forEach((element) => {
-      const gtKeyValue = element.split('=')
-      if (gtKeyValue[1]) {
-        // eslint-disable-next-line prefer-destructuring
-        grantTokenResponse[gtKeyValue[0]] = gtKeyValue[1]
-      }
-    })
-  }
-  localStorage.setItem('__zohoCampaigns', JSON.stringify(grantTokenResponse))
-  window.close()
-}
-
-export const handleInput = (
-  e,
-  formID,
-  campaignsConf,
-  setCampaignsConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const handleInput = (e, formID, campaignsConf, setCampaignsConf, setIsLoading, setSnackbar) => {
   let newConf = { ...campaignsConf }
   newConf[e.target.name] = e.target.value
 
@@ -41,7 +15,7 @@ export const handleInput = (
   setCampaignsConf({ ...newConf })
 }
 
-export const listChange = (campaignsConf, formID, setCampaignsConf, setIsLoading, setSnackbar) => {
+const listChange = (campaignsConf, formID, setCampaignsConf, setIsLoading, setSnackbar) => {
   const newConf = { ...campaignsConf }
   newConf.field_map = [{ formField: '', zohoFormField: 'Contact Email' }]
 
@@ -51,13 +25,7 @@ export const listChange = (campaignsConf, formID, setCampaignsConf, setIsLoading
   return newConf
 }
 
-export const refreshLists = (
-  formID,
-  campaignsConf,
-  setCampaignsConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const refreshLists = (formID, campaignsConf, setCampaignsConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   const refreshListsRequestParams = {
     formID,
@@ -68,7 +36,7 @@ export const refreshLists = (
     tokenDetails: campaignsConf.tokenDetails
   }
   bitsFetch(refreshListsRequestParams, 'zcampaigns_refresh_lists')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...campaignsConf }
         if (result.data.lists) {
@@ -120,7 +88,7 @@ export const refreshContactFields = (
     tokenDetails: campaignsConf.tokenDetails
   }
   bitsFetch(refreshContactFieldsRequestParams, 'zcampaigns_refresh_contact_fields')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...campaignsConf }
         if (result.data.fields) {
@@ -154,10 +122,10 @@ export const refreshContactFields = (
     .catch(() => setIsLoading(false))
 }
 
-export const checkMappedFields = (campaignsConf) => {
+export const checkMappedFields = campaignsConf => {
   const mappedFields = campaignsConf?.field_map
     ? campaignsConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField &&
           mappedField.zohoFormField &&
           campaignsConf?.default?.fields?.[campaignsConf.list]?.required.indexOf(

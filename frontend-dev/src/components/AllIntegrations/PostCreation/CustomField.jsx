@@ -10,7 +10,6 @@ function CustomField({ formFields, postConf, setPostConf, acfFields, mbFields, j
           <div>
             <div className="mt-3 mb-1">
               <b>{__('ACF Fields Mapping', 'bit-integrations')}</b>
-              {/* <button onClick={() => refreshAcfFields(data, setAcfFields, setAcfFileFields)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `'${__('Refresh ACF fields', 'bit-integrations')}'` }} type="button">&#x21BB;</button> */}
             </div>
             <div className="btcd-hr" />
             <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
@@ -49,7 +48,6 @@ function CustomField({ formFields, postConf, setPostConf, acfFields, mbFields, j
           <div>
             <div className="mt-3 mb-1">
               <b>{__('ACF File Upload Fields Mapping', 'bit-integrations')}</b>
-              {/* <button onClick={() => refreshAcfFields(postConf, setPostConf, setAcfFileFields)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `'${__('Refresh ACF fields', 'bit-integrations')}'` }} type="button">&#x21BB;</button> */}
             </div>
             <div className="btcd-hr" />
             <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
@@ -92,7 +90,6 @@ function CustomField({ formFields, postConf, setPostConf, acfFields, mbFields, j
           <div>
             <div className="mt-3 mb-1">
               <b>{__('MetaBox Fields Mapping', 'bit-integrations')}</b>
-              {/* <button onClick={() => refreshAcfFields(data, setAcfFields, setAcfFileFields)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `'${__('Refresh ACF fields', 'bit-integrations')}'` }} type="button">&#x21BB;</button> */}
             </div>
             <div className="btcd-hr" />
             <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
@@ -134,7 +131,6 @@ function CustomField({ formFields, postConf, setPostConf, acfFields, mbFields, j
           <div>
             <div className="mt-3 mb-1">
               <b>{__('MetaBox File Upload Fields Mapping', 'bit-integrations')}</b>
-              {/* <button onClick={() => refreshAcfFields(postConf, setPostConf, setAcfFileFields)} className="icn-btn sh-sm ml-2 mr-2 tooltip" style={{ '--tooltip-txt': `'${__('Refresh ACF fields', 'bit-integrations')}'` }} type="button">&#x21BB;</button> */}
             </div>
             <div className="btcd-hr" />
             <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
@@ -163,12 +159,7 @@ function CustomField({ formFields, postConf, setPostConf, acfFields, mbFields, j
           <div className="txt-center btcbi-field-map-button mt-2">
             <button
               onClick={() =>
-                addFieldMap(
-                  'metabox_file_map',
-                  postConf.metabox_file_map.length,
-                  postConf,
-                  setPostConf
-                )
+                addFieldMap('metabox_file_map', postConf.metabox_file_map.length, postConf, setPostConf)
               }
               className="icn-btn sh-sm"
               type="button">
@@ -210,12 +201,7 @@ function CustomField({ formFields, postConf, setPostConf, acfFields, mbFields, j
           <div className="txt-center btcbi-field-map-button mt-2">
             <button
               onClick={() =>
-                addFieldMap(
-                  'je_cpt_meta_map',
-                  postConf.je_cpt_meta_map.length,
-                  postConf,
-                  setPostConf
-                )
+                addFieldMap('je_cpt_meta_map', postConf.je_cpt_meta_map.length, postConf, setPostConf)
               }
               className="icn-btn sh-sm"
               type="button">
@@ -255,12 +241,7 @@ function CustomField({ formFields, postConf, setPostConf, acfFields, mbFields, j
           <div className="txt-center btcbi-field-map-button mt-2">
             <button
               onClick={() =>
-                addFieldMap(
-                  'je_cpt_file_map',
-                  postConf.je_cpt_file_map.length,
-                  postConf,
-                  setPostConf
-                )
+                addFieldMap('je_cpt_file_map', postConf.je_cpt_file_map.length, postConf, setPostConf)
               }
               className="icn-btn sh-sm"
               type="button">

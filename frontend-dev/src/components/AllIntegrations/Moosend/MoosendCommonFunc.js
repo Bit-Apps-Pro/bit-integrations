@@ -23,7 +23,7 @@ export const handleAuthorize = (conf, setError, setAuthorized, loading, setLoadi
 
   const requestParams = { authKey: conf.authKey }
 
-  bitsFetch(requestParams, 'moosend_handle_authorize').then((result) => {
+  bitsFetch(requestParams, 'moosend_handle_authorize').then(result => {
     if (result.data.Code === 0) {
       setAuthorized(true)
       setLoading({ ...loading, auth: false })
@@ -62,20 +62,20 @@ export const getAllLists = async (conf, setConf, loading, setLoading) => {
   return false
 }
 
-export const generateMappedField = (moosendConf) => {
-  const requiredFlds = moosendConf?.moosendFields.filter((fld) => fld.required === true)
+export const generateMappedField = moosendConf => {
+  const requiredFlds = moosendConf?.moosendFields.filter(fld => fld.required === true)
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({
+    ? requiredFlds.map(field => ({
         formFields: '',
         moosendFormFields: field.key
       }))
     : [{ formFields: '', moosendFormFields: '' }]
 }
 
-export const checkMappedFields = (moosendConf) => {
+const checkMappedFields = moosendConf => {
   const mappedFields = moosendConf?.field_map
     ? moosendConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formFields ||
           !mappedField.moosendFormFields ||
           (!mappedField.formFields === 'custom' && !mappedField.customValue)
@@ -105,7 +105,7 @@ export const nextPage = (conf, setStep, pageNo) => {
 export const saveConfig = (flow, setFlow, allIntegURL, conf, navigate, setLoading) => {
   setLoading(true)
   const resp = saveIntegConfig(flow, setFlow, allIntegURL, conf, navigate, '', '', setLoading)
-  resp.then((res) => {
+  resp.then(res => {
     if (res.success) {
       toast.success(res.data?.msg)
       navigate(allIntegURL)

@@ -25,13 +25,6 @@ export const handleFieldMapping = (event, index, conftTmp, setConf) => {
   setConf({ ...newConf })
 }
 
-export const handleCustomValue = (event, index, conftTmp, setConf) => {
-  const newConf = { ...conftTmp }
-
-  newConf.field_map[index].customValue = event.target.value
-  setConf({ ...newConf })
-}
-
 export const handleCustomField = (event, index, conftTmp, setConf, fieldValue) => {
   const newConf = { ...conftTmp }
   newConf.field_map[index][fieldValue] = event.target.value

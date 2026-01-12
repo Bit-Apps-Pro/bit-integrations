@@ -3,7 +3,6 @@
 namespace BitCode\FI\Triggers\WPF;
 
 use BitCode\FI\Flow\Flow;
-use BitCode\FI\Core\Util\DateTimeHelper;
 
 final class WPFController
 {
@@ -136,35 +135,52 @@ final class WPFController
     public static function wpforms_process_complete($fields, $entry, $form_data, $entry_id)
     {
         $form_id = $form_data['id'];
-        if (!empty($form_id)) {
-            $data = [];
-            if (isset($entry['post_id'])) {
-                $data['post_id'] = $entry['post_id'];
+
+        if (empty($form_id)) {
+            return;
+        }
+
+        $data = [];
+
+        if (!empty($entry['post_id'])) {
+            $data['post_id'] = $entry['post_id'];
+        }
+
+        foreach ($fields as $fldDetail) {
+            $fieldId = $fldDetail['id'];
+            $fieldValue = $fldDetail['value'];
+
+            // Handling different field types
+            switch ($fldDetail['type']) {
+                case 'name':
+                    $data[$fieldId] = $fieldValue;
+                    $data[$fieldId . ':first'] = $fldDetail['first'];
+                    $data[$fieldId . ':last'] = $fldDetail['last'];
+                    $data[$fieldId . ':middle'] = $fldDetail['middle'];
+
+                    break;
+
+                case 'file-upload':
+                    $data[$fieldId] = self::setFiles($fldDetail['value_raw']);
+
+                    break;
+
+                default:
+                    if (strpos($fieldId, '_') !== false) {
+                        $fieldId = strtok($fieldId, '_');
+                        $data[$fieldId] = isset($data[$fieldId])
+                            ? $data[$fieldId] . ', ' . $fieldValue
+                            : $fieldValue;
+                    } else {
+                        $data[$fieldId] = $fieldValue;
+                    }
+
+                    break;
             }
-            $dateTimeHelper = new DateTimeHelper();
-            foreach ($fields as $fldDetail) {
-                if ($fldDetail['type'] == 'name') {
-                    $data[$fldDetail['id']] = $fldDetail['value'];
-                    $data[$fldDetail['id'] . ':first'] = $fldDetail['first'];
-                    $data[$fldDetail['id'] . ':last'] = $fldDetail['last'];
-                    $data[$fldDetail['id'] . ':middle'] = $fldDetail['middle'];
-                } elseif ($fldDetail['type'] == 'date-time') {
-                    $data[$fldDetail['id']] = $fldDetail['value'];
-                    // if (!is_null($fldDetail['time'])) {
-                    //     $date_format = $form_data['fields'][$fldDetail['id']]['date_format'] . " " . $form_data['fields'][$fldDetail['id']]['time_format'];
-                    // } else {
-                    //     $date_format = $form_data['fields'][$fldDetail['id']]['date_format'];
-                    // }
-                    // $data[$fldDetail['id']] = $dateTimeHelper->getFormated($fldDetail['value'], $date_format, wp_timezone(), 'Y-m-d\TH:i', null);
-                } elseif ($fldDetail['type'] == 'file-upload') {
-                    $data[$fldDetail['id']] = self::setFiles($fldDetail['value_raw']);
-                } else {
-                    $data[$fldDetail['id']] = $fldDetail['value'];
-                }
-            }
-            if ($flows = Flow::exists('WPF', $form_id)) {
-                Flow::execute('WPF', $form_id, $data, $flows);
-            }
+        }
+
+        if ($flows = Flow::exists('WPF', $form_id)) {
+            Flow::execute('WPF', $form_id, $data, $flows);
         }
     }
 

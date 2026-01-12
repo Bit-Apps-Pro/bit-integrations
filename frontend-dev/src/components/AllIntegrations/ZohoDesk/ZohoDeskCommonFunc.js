@@ -33,7 +33,7 @@ export const handleInput = (
   setDeskConf({ ...newConf })
 }
 
-export const portalChange = (deskConf, formID, setDeskConf, setIsLoading, setSnackbar) => {
+const portalChange = (deskConf, formID, setDeskConf, setIsLoading, setSnackbar) => {
   const newConf = { ...deskConf }
   newConf.department = ''
   newConf.field_map = [{ formField: '', zohoFormField: '' }]
@@ -46,7 +46,7 @@ export const portalChange = (deskConf, formID, setDeskConf, setIsLoading, setSna
   return newConf
 }
 
-export const departmentChange = (deskConf, formID, setDeskConf, setIsLoading, setSnackbar) => {
+const departmentChange = (deskConf, formID, setDeskConf, setIsLoading, setSnackbar) => {
   const newConf = { ...deskConf }
   newConf.field_map = [{ formField: '', zohoFormField: '' }]
   newConf.actions = {}
@@ -70,7 +70,7 @@ export const refreshOrganizations = (formID, deskConf, setDeskConf, setIsLoading
     tokenDetails: deskConf.tokenDetails
   }
   bitsFetch(refreshOrganizationsRequestParams, 'zdesk_refresh_organizations')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...deskConf }
         if (result.data.organizations) {
@@ -112,7 +112,7 @@ export const refreshDepartments = (formID, deskConf, setDeskConf, setIsLoading, 
     orgId: deskConf.orgId
   }
   bitsFetch(refreshDepartmentsRequestParams, 'zdesk_refresh_departments')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...deskConf }
         if (!newConf.default.departments) {
@@ -164,7 +164,7 @@ export const refreshFields = (formID, deskConf, setDeskConf, setIsLoading, setSn
     orgId: deskConf.orgId
   }
   bitsFetch(refreshFieldsRequestParams, 'zdesk_refresh_fields')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...deskConf }
         if (result.data.fields) {
@@ -211,7 +211,7 @@ export const refreshOwners = (formID, deskConf, setDeskConf, setIsLoading, setSn
     orgId: deskConf.orgId
   }
   bitsFetch(refreshOwnersRequestParams, 'zdesk_refresh_owners')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...deskConf }
         if (!newConf.default.owners) {
@@ -257,7 +257,7 @@ export const refreshProducts = (formID, deskConf, setDeskConf, setIsLoading, set
     departmentId: deskConf.department
   }
   bitsFetch(refreshProductsRequestParams, 'zdesk_refresh_products')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...deskConf }
         if (!newConf.default.products) {
@@ -290,23 +290,21 @@ export const refreshProducts = (formID, deskConf, setDeskConf, setIsLoading, set
     .catch(() => setIsLoading(false))
 }
 
-export const generateMappedField = (deskConf) =>
+const generateMappedField = deskConf =>
   deskConf.default.fields[deskConf.orgId].required.length > 0
-    ? deskConf.default.fields[deskConf.orgId].required?.map((field) => ({
+    ? deskConf.default.fields[deskConf.orgId].required?.map(field => ({
         formField: '',
         zohoFormField: field
       }))
     : [{ formField: '', zohoFormField: '' }]
 
-export const checkMappedFields = (deskConf) => {
+export const checkMappedFields = deskConf => {
   const mappedFields = deskConf?.field_map
     ? deskConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField &&
           mappedField.zohoFormField &&
-          deskConf?.default?.fields?.[deskConf.orgId]?.required.indexOf(
-            mappedField.zohoFormField
-          ) !== -1
+          deskConf?.default?.fields?.[deskConf.orgId]?.required.indexOf(mappedField.zohoFormField) !== -1
       )
     : []
   if (mappedFields.length > 0) {

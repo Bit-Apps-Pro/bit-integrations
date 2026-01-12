@@ -30,7 +30,7 @@ export const handleFieldMapping = (event, index, conftTmp, setConf) => {
 export const handleCustomValue = (event, index, conftTmp, setConf) => {
   const newConf = { ...conftTmp }
 
-  newConf.field_map[index].customValue = event.target.value
+  newConf.field_map[index].customValue = event?.target?.value || event
   setConf({ ...newConf })
 }
 
@@ -40,9 +40,8 @@ export const handleAuthData = async (actionName, tokenDetails, userInfo, setAuth
   requestParams.tokenDetails = tokenDetails
   requestParams.userInfo = userInfo
   await bitsFetch(requestParams, 'store/authData').then(resp => {
-    console.log(resp)
     if (resp.success) {
-      if (resp?.data?.data?.length > 0) {
+      if (resp.data.data.length > 0) {
         setAuthData(resp.data.data)
       }
       // setSnackbar({ show: true, msg: 'Authorization Data Fetched Successfully' })

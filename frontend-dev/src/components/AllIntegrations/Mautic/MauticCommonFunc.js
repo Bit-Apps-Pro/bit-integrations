@@ -39,7 +39,7 @@ export const getAllFields = (mauticConf, setMauticConf, setIsLoading, setSnackba
     tokenDetails: mauticConf.tokenDetails
   }
   bitsFetch(requestParams, 'mautic_get_fields')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...mauticConf }
         if (result.data) {
@@ -80,7 +80,7 @@ export const getAllTags = (mauticConf, setMauticConf, setIsLoading, setSnackbar)
     tokenDetails: mauticConf.tokenDetails
   }
   bitsFetch(requestParams, 'mautic_get_tags')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...mauticConf }
         if (result.data) {
@@ -121,7 +121,7 @@ export const getAllUsers = (mauticConf, setMauticConf, setIsLoading, setSnackbar
     tokenDetails: mauticConf.tokenDetails
   }
   bitsFetch(requestParams, 'mautic_get_users')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...mauticConf }
         if (result.data) {
@@ -153,12 +153,12 @@ export const getAllUsers = (mauticConf, setMauticConf, setIsLoading, setSnackbar
     .catch(() => setIsLoading(false))
 }
 
-export const setGrantTokenResponse = (integ) => {
+export const setGrantTokenResponse = integ => {
   const grantTokenResponse = {}
   const authWindowLocation = window.location.href
   const queryParams = authWindowLocation.replace(`${window.opener.location.href}`, '').split('&')
   if (queryParams) {
-    queryParams.forEach((element) => {
+    queryParams.forEach(element => {
       const gtKeyValue = element.split('=')
       if (gtKeyValue[1]) {
         // eslint-disable-next-line prefer-destructuring
@@ -182,9 +182,7 @@ export const handleMauticAuthorize = (
   if (!confTmp.clientId || !confTmp.clientSecret || !confTmp.baseUrl) {
     setError({
       clientId: !confTmp.clientId ? __("Client Id can't be empty", 'bit-integrations') : '',
-      clientSecret: !confTmp.clientSecret
-        ? __("Secret key can't be empty", 'bit-integrations')
-        : '',
+      clientSecret: !confTmp.clientSecret ? __("Secret key can't be empty", 'bit-integrations') : '',
       baseUrl: !confTmp.baseUrl ? __("Base Url can't be empty", 'bit-integrations') : ''
     })
     return
@@ -228,14 +226,7 @@ export const handleMauticAuthorize = (
       } else {
         const newConf = { ...confTmp }
         newConf.accountServer = grantTokenResponse['accounts-server']
-        tokenHelper(
-          grantTokenResponse,
-          newConf,
-          setConf,
-          setisAuthorized,
-          setIsLoading,
-          setSnackbar
-        )
+        tokenHelper(grantTokenResponse, newConf, setConf, setisAuthorized, setIsLoading, setSnackbar)
       }
     }
   }, 500)
@@ -249,8 +240,8 @@ const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, setIsLoading
   tokenRequestParams.redirectURI = window.location.href
 
   bitsFetch(tokenRequestParams, 'mautic_generate_token')
-    .then((result) => result)
-    .then((result) => {
+    .then(result => result)
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...confTmp }
         newConf.tokenDetails = result.data
@@ -280,9 +271,9 @@ const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, setIsLoading
     })
 }
 
-export const checkMappedFields = (mauticConf) => {
+export const checkMappedFields = mauticConf => {
   const mappedFleld = mauticConf.field_map
-    ? mauticConf.field_map.filter((mapped) => !mapped.formField && !mapped.mauticField)
+    ? mauticConf.field_map.filter(mapped => !mapped.formField && !mapped.mauticField)
     : []
   if (mappedFleld.length > 0) {
     return false
@@ -290,10 +281,10 @@ export const checkMappedFields = (mauticConf) => {
   return true
 }
 
-export const generateMappedField = (mauticFields) => {
-  const requiredFlds = mauticFields.filter((fld) => fld.required === true)
+const generateMappedField = mauticFields => {
+  const requiredFlds = mauticFields.filter(fld => fld.required === true)
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({
+    ? requiredFlds.map(field => ({
         formField: '',
         mauticField: field.fieldAlias
       }))

@@ -30,13 +30,7 @@ export const handleInput = (
   setMarketingHubConf({ ...newConf })
 }
 
-export const listChange = (
-  marketingHubConf,
-  formID,
-  setMarketingHubConf,
-  setIsLoading,
-  setSnackbar
-) => {
+const listChange = (marketingHubConf, formID, setMarketingHubConf, setIsLoading, setSnackbar) => {
   const newConf = { ...marketingHubConf }
   newConf.field_map = [{ formField: '', zohoFormField: 'Contact Email' }]
 
@@ -63,7 +57,7 @@ export const refreshLists = (
     tokenDetails: marketingHubConf.tokenDetails
   }
   bitsFetch(refreshListsRequestParams, 'zmarketingHub_refresh_lists')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...marketingHubConf }
         if (result.data.lists) {
@@ -115,7 +109,7 @@ export const refreshContactFields = (
     tokenDetails: marketingHubConf.tokenDetails
   }
   bitsFetch(refreshContactFieldsRequestParams, 'zmarketingHub_refresh_contact_fields')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...marketingHubConf }
         if (result.data.fields) {
@@ -148,10 +142,10 @@ export const refreshContactFields = (
     .catch(() => setIsLoading(false))
 }
 
-export const checkMappedFields = (marketingHubConf) => {
+export const checkMappedFields = marketingHubConf => {
   const mappedFields = marketingHubConf?.field_map
     ? marketingHubConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField &&
           mappedField.zohoFormField &&
           marketingHubConf?.default?.fields?.[marketingHubConf.list]?.required.indexOf(
@@ -173,7 +167,7 @@ export const setGrantTokenResponse = () => {
     .replace(`${window.opener.location.href}/redirect`, '')
     .split('&')
   if (queryParams) {
-    queryParams.forEach((element) => {
+    queryParams.forEach(element => {
       const gtKeyValue = element.split('=')
       if (gtKeyValue[1]) {
         // eslint-disable-next-line prefer-destructuring
