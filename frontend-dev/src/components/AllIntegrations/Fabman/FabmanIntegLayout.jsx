@@ -207,6 +207,7 @@ export default function FabmanIntegLayout({
 
       {fabmanConf.actionName === 'delete_member' && (
         <>
+          <Note note={fabmanDeleteMemberNote} />
           <div className="mt-5">
             <b className="wdt-100">{__('Field Map', 'bit-integrations')}</b>
           </div>
@@ -300,5 +301,10 @@ const fabmanWorkspaceNote = `<h4>${__(
 
 const fabmanTimezoneNote = `<h4>${__(
   'For Create Spaces, Timezone must be like Asia/Dhaka (IANA timezone format).',
+  'bit-integrations'
+)}</h4>`
+
+const fabmanDeleteMemberNote = `<h4>${__(
+  'For Delete Member, datetime format must be YYYY-MM-DD.',
   'bit-integrations'
 )}</h4>`

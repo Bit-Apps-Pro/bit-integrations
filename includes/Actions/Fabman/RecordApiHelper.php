@@ -10,6 +10,28 @@ use WP_Error;
 
 class RecordApiHelper
 {
+    private const API_ENDPOINT = 'https://fabman.io/api/v1';
+
+    private const SUCCESS_HTTP_CODES = [200, 201, 204];
+
+    private const REQUIRED_FIELDS = ['emailAddress', 'firstName', 'lastName'];
+
+    private const VALID_PRIVILEGES = ['member', 'admin', 'owner'];
+
+    private const DATE_FORMATS = ['Y-m-d', 'd/m/Y', 'm/d/Y', 'Y-m-d H:i:s'];
+
+    private const MAX_STRING_LENGTH = 255;
+
+    private const MAX_NAME_LENGTH = 100;
+
+    private const MAX_NOTES_LENGTH = 1000;
+
+    private const MAX_MEMBER_NUMBER_LENGTH = 50;
+
+    private const MIN_PHONE_LENGTH = 7;
+
+    private const MAX_PHONE_LENGTH = 20;
+
     private $integrationID;
 
     private $apiKey;
@@ -19,8 +41,6 @@ class RecordApiHelper
     private $accountId;
 
     private $memberId;
-
-    private $apiEndpoint;
 
     private $lockVersion;
 
@@ -32,40 +52,22 @@ class RecordApiHelper
         $this->accountId = $accountId;
         $this->memberId = $memberId;
         $this->lockVersion = $lockVersion;
-        $this->apiEndpoint = 'https://fabman.io/api/v1';
     }
 
     public function execute($actionName, $fieldValues, $integrationDetails)
     {
-        $finalData = [];
-        $finalData['account'] = $this->accountId;
-
-        if ($this->workspaceId) {
-            $finalData['space'] = $this->workspaceId;
-        }
-
-        if ($this->memberId) {
-            $finalData['memberId'] = $this->memberId;
-        }
+        $finalData = $this->buildBaseData();
 
         foreach ($integrationDetails->field_map ?? [] as $fieldMap) {
             if (empty($fieldMap->formField) || empty($fieldMap->fabmanFormField)) {
                 continue;
             }
 
-            $rawValue = $fieldMap->formField === 'custom'
-                ? Common::replaceFieldWithValue($fieldMap->customValue, $fieldValues)
-                : ($fieldValues[$fieldMap->formField] ?? null);
-
+            $rawValue = $this->getFieldValue($fieldMap, $fieldValues);
             $validatedValue = $this->validateAndSanitizeField($fieldMap->fabmanFormField, $rawValue);
 
             if ($validatedValue === false) {
-                LogHandler::save(
-                    $this->integrationID,
-                    ['type' => 'validation', 'field' => $fieldMap->fabmanFormField, 'value' => $rawValue],
-                    'error',
-                    __('Field validation failed for: ' . $fieldMap->fabmanFormField, 'bit-integrations')
-                );
+                $this->logValidationError($fieldMap->fabmanFormField, $rawValue);
 
                 continue;
             }
@@ -73,51 +75,89 @@ class RecordApiHelper
             $finalData[$fieldMap->fabmanFormField] = $validatedValue;
         }
 
-        switch ($actionName) {
-            case 'create_member':
-                $apiResponse = $this->createMember($finalData);
-
-                break;
-            case 'update_member':
-                $apiResponse = $this->updateMember($finalData);
-
-                break;
-            case 'delete_member':
-                $apiResponse = $this->deleteMember();
-
-                break;
-            case 'create_spaces':
-                $apiResponse = $this->createSpace($finalData);
-
-                break;
-            case 'update_spaces':
-                $apiResponse = $this->updateSpace($finalData);
-
-                break;
-            default:
-                $apiResponse = new WP_Error(
-                    'INVALID_ACTION',
-                    __('Invalid action name', 'bit-integrations')
-                );
-        }
-
-        if (is_wp_error($apiResponse) || (\is_object($apiResponse) && isset($apiResponse->error))) {
-            $status = 'error';
-        } else {
-            $status = \in_array(HttpHelper::$responseCode, [200, 201, 204]) ? 'success' : 'error';
-        }
-
-        LogHandler::save($this->integrationID, ['type' => 'record', 'type_name' => $actionName], $status, $apiResponse);
+        $apiResponse = $this->executeAction($actionName, $finalData);
+        $this->logResponse($actionName, $apiResponse);
 
         return $apiResponse;
+    }
+
+    private function buildBaseData(): array
+    {
+        $data = ['account' => $this->accountId];
+
+        if ($this->workspaceId) {
+            $data['space'] = $this->workspaceId;
+        }
+
+        if ($this->memberId) {
+            $data['memberId'] = $this->memberId;
+        }
+
+        return $data;
+    }
+
+    private function getFieldValue($fieldMap, $fieldValues)
+    {
+        if ($fieldMap->formField === 'custom') {
+            return Common::replaceFieldWithValue($fieldMap->customValue, $fieldValues);
+        }
+
+        return $fieldValues[$fieldMap->formField] ?? null;
+    }
+
+    private function logValidationError($fieldName, $value): void
+    {
+        LogHandler::save(
+            $this->integrationID,
+            ['type' => 'validation', 'field' => $fieldName, 'value' => $value],
+            'error',
+            __('Field validation failed for: ' . $fieldName, 'bit-integrations')
+        );
+    }
+
+    private function executeAction($actionName, $finalData)
+    {
+        switch ($actionName) {
+            case 'create_member':
+                return $this->createMember($finalData);
+            case 'update_member':
+                return $this->updateMember($finalData);
+            case 'delete_member':
+                return $this->deleteMember();
+            case 'create_spaces':
+                return $this->createSpace($finalData);
+            case 'update_spaces':
+                return $this->updateSpace($finalData);
+            default:
+                return new WP_Error('INVALID_ACTION', __('Invalid action name', 'bit-integrations'));
+        }
+    }
+
+    private function logResponse($actionName, $apiResponse): void
+    {
+        $status = $this->determineResponseStatus($apiResponse);
+        LogHandler::save(
+            $this->integrationID,
+            ['type' => 'record', 'type_name' => $actionName],
+            $status,
+            $apiResponse
+        );
+    }
+
+    private function determineResponseStatus($apiResponse): string
+    {
+        if (is_wp_error($apiResponse) || (\is_object($apiResponse) && isset($apiResponse->error))) {
+            return 'error';
+        }
+
+        return \in_array(HttpHelper::$responseCode, self::SUCCESS_HTTP_CODES) ? 'success' : 'error';
     }
 
     private function createMember($data)
     {
         unset($data['memberId']);
-        $apiEndpoint = $this->apiEndpoint . '/members';
-        $header = $this->setHeaders();
-        $apiResponse = HttpHelper::post($apiEndpoint, json_encode($data), $header);
+        $apiEndpoint = self::API_ENDPOINT . '/members';
+        $apiResponse = HttpHelper::post($apiEndpoint, json_encode($data), $this->setHeaders());
 
         if (\is_wp_error($apiResponse)) {
             return $apiResponse;
@@ -127,18 +167,20 @@ class RecordApiHelper
             return $apiResponse;
         }
 
-        return new WP_Error('API_ERROR', isset($apiResponse->error) ? $apiResponse->error : \__('Failed to create member', 'bit-integrations'));
+        $errorMessage = isset($apiResponse->error) ? $apiResponse->error : \__('Failed to create member', 'bit-integrations');
+
+        return new WP_Error('API_ERROR', $errorMessage);
     }
 
     private function updateMember($data)
     {
-        $data['lockVersion'] = $this->lockVersion;
+        $this->addLockVersionIfValid($data);
 
         if (empty($this->memberId)) {
             return new WP_Error('MISSING_MEMBER_ID', __('The email provided did not match any existing Fabman member.', 'bit-integrations'));
         }
 
-        $response = \apply_filters('btcbi_fabman_update_member', false, json_encode($data), $this->setHeaders(), $this->apiEndpoint, $this->memberId);
+        $response = \apply_filters('btcbi_fabman_update_member', false, json_encode($data), $this->setHeaders(), self::API_ENDPOINT, $this->memberId);
 
         return $this->handleFilterResponse($response);
     }
@@ -149,7 +191,7 @@ class RecordApiHelper
             return new WP_Error('MISSING_MEMBER_ID', __('The email provided did not match any existing Fabman member.', 'bit-integrations'));
         }
 
-        $response = \apply_filters('btcbi_fabman_delete_member', false, $this->setHeaders(), $this->apiEndpoint, $this->memberId);
+        $response = \apply_filters('btcbi_fabman_delete_member', false, $this->setHeaders(), self::API_ENDPOINT, $this->memberId);
 
         return $this->handleFilterResponse($response);
     }
@@ -157,22 +199,38 @@ class RecordApiHelper
     private function createSpace($data)
     {
         unset($data['space']);
-        $response = \apply_filters('btcbi_fabman_create_space', false, json_encode($data), $this->setHeaders(), $this->apiEndpoint);
+        $response = \apply_filters('btcbi_fabman_create_space', false, json_encode($data), $this->setHeaders(), self::API_ENDPOINT);
 
         return $this->handleFilterResponse($response);
     }
 
     private function updateSpace($data)
     {
-        $data['lockVersion'] = $this->lockVersion;
-
         if (empty($this->workspaceId)) {
             return new WP_Error('MISSING_SPACE_ID', __('Please select a space to update.', 'bit-integrations'));
         }
 
-        $response = \apply_filters('btcbi_fabman_update_space', false, json_encode($data), $this->setHeaders(), $this->apiEndpoint, $this->workspaceId);
+        // lockVersion is required for update operations
+        if (empty($this->lockVersion) || !is_numeric($this->lockVersion)) {
+            return new WP_Error('MISSING_LOCK_VERSION', __('Lock version is required for updating space.', 'bit-integrations'));
+        }
+
+        $data['lockVersion'] = (int) $this->lockVersion;
+
+        $response = \apply_filters('btcbi_fabman_update_space', false, json_encode($data), $this->setHeaders(), self::API_ENDPOINT, $this->workspaceId);
 
         return $this->handleFilterResponse($response);
+    }
+
+    private function addLockVersionIfValid(array &$data): void
+    {
+        if ($this->lockVersion === null || $this->lockVersion === '') {
+            return;
+        }
+
+        if (is_numeric($this->lockVersion)) {
+            $data['lockVersion'] = (int) $this->lockVersion;
+        }
     }
 
     private function handleFilterResponse($response)
@@ -194,63 +252,56 @@ class RecordApiHelper
      */
     private function validateAndSanitizeField($fieldName, $value)
     {
-        // Handle null/empty values consistently
-        if ($value === null || $value === '') {
+        if ($this->isEmptyValue($value)) {
             return $this->isFieldRequired($fieldName) ? false : null;
         }
 
-        // Ensure value is string for initial processing
-        $value = (string) $value;
-        $value = trim($value);
-
-        // If still empty after trim, handle as null
+        $value = trim((string) $value);
         if ($value === '') {
             return $this->isFieldRequired($fieldName) ? false : null;
         }
 
+        return $this->validateByFieldType($fieldName, $value);
+    }
+
+    private function isEmptyValue($value): bool
+    {
+        return $value === null || $value === '';
+    }
+
+    private function validateByFieldType($fieldName, $value)
+    {
         switch ($fieldName) {
             case 'emailAddress':
                 return $this->validateEmail($value);
-
             case 'firstName':
             case 'lastName':
             case 'displayName':
                 return $this->validateName($value);
-
             case 'phone':
                 return $this->validatePhone($value);
-
             case 'notes':
                 return $this->validateNotes($value);
-
             case 'lockVersion':
                 return $this->validateLockVersion($value);
-
             case 'privileges':
                 return $this->validatePrivileges($value);
-
             case 'memberNumber':
                 return $this->validateMemberNumber($value);
-
             case 'birthday':
                 return $this->validateDate($value);
-
             case 'space':
             case 'account':
             case 'memberId':
                 return $this->validateId($value);
-
             default:
-                // For unknown fields, apply basic string sanitization
-                return $this->sanitizeString($value, 255);
+                return $this->sanitizeString($value, self::MAX_STRING_LENGTH);
         }
     }
 
-    private function isFieldRequired($fieldName)
+    private function isFieldRequired($fieldName): bool
     {
-        $requiredFields = ['emailAddress', 'firstName', 'lastName'];
-
-        return \in_array($fieldName, $requiredFields);
+        return \in_array($fieldName, self::REQUIRED_FIELDS);
     }
 
     private function validateEmail($value)
@@ -262,17 +313,16 @@ class RecordApiHelper
 
     private function validateName($value)
     {
-        return $this->sanitizeString($value, 100);
+        return $this->sanitizeString($value, self::MAX_NAME_LENGTH);
     }
 
     private function validatePhone($value)
     {
-        // Remove non-digit characters except + and spaces
         $phone = preg_replace('/[^\d\s\+\-\(\)]/', '', $value);
         $phone = trim($phone);
 
-        // Basic phone validation (allow various formats)
-        if (\strlen($phone) < 7 || \strlen($phone) > 20) {
+        $phoneLength = \strlen($phone);
+        if ($phoneLength < self::MIN_PHONE_LENGTH || $phoneLength > self::MAX_PHONE_LENGTH) {
             return false;
         }
 
@@ -281,7 +331,7 @@ class RecordApiHelper
 
     private function validateNotes($value)
     {
-        return $this->sanitizeString($value, 1000);
+        return $this->sanitizeString($value, self::MAX_NOTES_LENGTH);
     }
 
     private function validateLockVersion($value)
@@ -297,56 +347,50 @@ class RecordApiHelper
 
     private function validatePrivileges($value)
     {
-        $validPrivileges = ['member', 'admin', 'owner'];
-
         if (\is_array($value)) {
-            // Sanitize all array elements
-            $sanitizedArray = array_map('sanitize_text_field', $value);
-
-            // Validate each element is in allowed privileges
-            foreach ($sanitizedArray as $privilege) {
-                if (!\in_array($privilege, $validPrivileges, true)) {
-                    return false;
-                }
-            }
-
-            return $sanitizedArray;
+            return $this->validatePrivilegesArray($value);
         }
 
-        // Handle scalar value
+        return $this->validatePrivilegesScalar($value);
+    }
+
+    private function validatePrivilegesArray($value)
+    {
+        $sanitizedArray = array_map('sanitize_text_field', $value);
+
+        foreach ($sanitizedArray as $privilege) {
+            if (!\in_array($privilege, self::VALID_PRIVILEGES, true)) {
+                return false;
+            }
+        }
+
+        return $sanitizedArray;
+    }
+
+    private function validatePrivilegesScalar($value)
+    {
         $sanitizedValue = sanitize_text_field($value);
 
-        // Return sanitized value only if it's in allowed privileges
-        return \in_array($sanitizedValue, $validPrivileges, true) ? $sanitizedValue : false;
+        return \in_array($sanitizedValue, self::VALID_PRIVILEGES, true) ? $sanitizedValue : false;
     }
 
     private function validateMemberNumber($value)
     {
-        // Member number should be alphanumeric
         $memberNumber = preg_replace('/[^a-zA-Z0-9\-_]/', '', $value);
 
-        return \strlen($memberNumber) <= 50 ? $memberNumber : false;
+        return \strlen($memberNumber) <= self::MAX_MEMBER_NUMBER_LENGTH ? $memberNumber : false;
     }
 
     private function validateDate($value)
     {
-        // Try common date formats explicitly
-        $formats = ['Y-m-d', 'd/m/Y', 'm/d/Y', 'Y-m-d H:i:s'];
-        $dateObj = false;
-
-        foreach ($formats as $format) {
+        foreach (self::DATE_FORMATS as $format) {
             $dateObj = DateTime::createFromFormat($format, $value);
             if ($dateObj !== false) {
-                break;
+                return $dateObj->format('c');
             }
         }
 
-        if ($dateObj === false) {
-            return false;
-        }
-
-        // Return in ISO 8601 format
-        return $dateObj->format('c');
+        return false;
     }
 
     private function validateId($value)
@@ -360,12 +404,10 @@ class RecordApiHelper
         return $id > 0 ? $id : false;
     }
 
-    private function sanitizeString($value, $maxLength = 255)
+    private function sanitizeString($value, $maxLength = self::MAX_STRING_LENGTH)
     {
-        // Strip tags but don't double-encode entities - json_encode() will handle escaping
         $sanitized = wp_strip_all_tags($value);
 
-        // Use multibyte-safe length checks and truncation
         if (mb_strlen($sanitized) > $maxLength) {
             $sanitized = mb_substr($sanitized, 0, $maxLength);
         }

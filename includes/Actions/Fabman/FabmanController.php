@@ -75,8 +75,8 @@ class FabmanController
         $integId = $integrationData->id;
         $memberId = $integrationDetails->selectedMember ?? null;
         $lockVersion = $integrationDetails->selectedLockVersion ?? null;
+        error_log('lockVersion: ' . $lockVersion);
 
-        // Fetch member by email if needed for update/delete operations
         $needsMemberLookup = \in_array($actionName, ['update_member', 'delete_member'])
                              && ($actionName === 'delete_member' || empty($memberId));
 
@@ -101,6 +101,14 @@ class FabmanController
 
             $memberId = $memberData['memberId'];
             $lockVersion = $memberData['lockVersion'];
+        }
+
+        // Fetch lockVersion for update_spaces if not provided
+        if ($actionName === 'update_spaces' && (empty($lockVersion) || !is_numeric($lockVersion)) && !empty($selectedWorkspace)) {
+            $spaceData = self::fetchSpaceById($apiKey, $selectedWorkspace);
+            if ($spaceData && isset($spaceData['lockVersion'])) {
+                $lockVersion = $spaceData['lockVersion'];
+            }
         }
 
         $recordApiHelper = new RecordApiHelper(
@@ -150,6 +158,27 @@ class FabmanController
             return [
                 'memberId'    => $apiResponse[0]->id,
                 'lockVersion' => $apiResponse[0]->lockVersion
+            ];
+        }
+    }
+
+    private static function fetchSpaceById($apiKey, $spaceId)
+    {
+        $header = [
+            'Authorization' => 'Bearer ' . $apiKey,
+            'Content-Type'  => 'application/json'
+        ];
+
+        $apiEndpoint = 'https://fabman.io/api/v1/spaces/' . $spaceId;
+        $apiResponse = HttpHelper::get($apiEndpoint, null, $header);
+
+        if (is_wp_error($apiResponse) || !\is_object($apiResponse)) {
+            return;
+        }
+
+        if (isset($apiResponse->lockVersion)) {
+            return [
+                'lockVersion' => $apiResponse->lockVersion
             ];
         }
     }
