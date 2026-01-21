@@ -114,6 +114,7 @@ final class AllTriggersName
             'PeepSo'                         => ['name' => 'PeepSo',  'isPro' => true, 'is_active' => false],
             'Registration'                   => ['name' => 'WP User Registration',  'isPro' => true, 'is_active' => false],
             'RestrictContent'                => ['name' => 'Restrict Content',  'isPro' => true, 'is_active' => false],
+            'SeoPress'                       => ['name' => 'SEOPress',  'isPro' => true, 'is_active' => false],
             'SenseiLMS'                      => ['name' => 'Sensei LMS',  'isPro' => true, 'is_active' => false],
             'SimplyScheduleAppointments'     => ['name' => 'Simply Schedule Appointments',  'isPro' => true, 'is_active' => false],
             'SiteOriginWidgets'              => ['name' => 'SiteOrigin Widgets',  'isPro' => true, 'is_active' => false],

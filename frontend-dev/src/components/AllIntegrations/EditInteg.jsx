@@ -173,6 +173,7 @@ const EditWPCafe = lazy(() => import('./WPCafe/EditWPCafe'))
 const EditTeamsForWooCommerceMemberships = lazy(
   () => import('./TeamsForWooCommerceMemberships/EditTeamsForWooCommerceMemberships')
 )
+const EditSeoPress = lazy(() => import('./SeoPress/EditSeoPress'))
 
 const loaderStyle = {
   display: 'flex',
@@ -577,6 +578,8 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditWPCafe allIntegURL={allIntegURL} />
     case 'Teams For WooCommerce Memberships':
       return <EditTeamsForWooCommerceMemberships allIntegURL={allIntegURL} />
+    case 'SeoPress':
+      return <EditSeoPress allIntegURL={allIntegURL} />
     default:
       return <Loader style={loaderStyle} />
   }

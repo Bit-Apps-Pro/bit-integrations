@@ -174,6 +174,7 @@ const WPCafeAuthorization = lazy(() => import('./WPCafe/WPCafeAuthorization'))
 const TeamsForWooCommerceMembershipsAuthorization = lazy(
   () => import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMembershipsAuthorization')
 )
+const SeoPressAuthorization = lazy(() => import('./SeoPress/SeoPressAuthorization'))
 
 export default function IntegInfo() {
   const { id, type } = useParams()
@@ -612,6 +613,8 @@ export default function IntegInfo() {
             isInfo
           />
         )
+      case 'SeoPress':
+        return <SeoPressAuthorization seoPressConf={integrationConf} step={1} isInfo />
       default:
         return <></>
     }

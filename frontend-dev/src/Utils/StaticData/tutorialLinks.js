@@ -654,6 +654,10 @@ const tutorialLinks = {
   wpcafe: {
     youTubeLink: '',
     docLink: 'https://bit-integrations.com/wp-docs/actions/wpcafe-integrations-as-action/'
+  },
+  seoPress: {
+    youTubeLink: '',
+    docLink: 'https://bit-integrations.com/wp-docs/actions/seopress-integrations-as-action/'
   }
 }
 export default tutorialLinks
