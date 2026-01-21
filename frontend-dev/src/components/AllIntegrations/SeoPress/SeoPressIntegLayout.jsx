@@ -106,18 +106,18 @@ export default function SeoPressIntegLayout({
               setSnackbar={setSnackbar}
             />
           ))}
+          <div className="txt-center btcbi-field-map-button mt-2">
+            <button
+              onClick={() =>
+                addFieldMap(seoPressConf.field_map.length, seoPressConf, setSeoPressConf, false)
+              }
+              className="icn-btn sh-sm"
+              type="button">
+              +
+            </button>
+          </div>
         </div>
       )}
-      <div className="txt-center btcbi-field-map-button mt-2">
-        <button
-          onClick={() =>
-            addFieldMap(seoPressConf.field_map.length, seoPressConf, setSeoPressConf, false)
-          }
-          className="icn-btn sh-sm"
-          type="button">
-          +
-        </button>
-      </div>
     </>
   )
 }
