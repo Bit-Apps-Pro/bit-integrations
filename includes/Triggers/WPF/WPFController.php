@@ -84,14 +84,21 @@ final class WPFController
         if (!self::isExists()) {
             return [];
         }
-        $form = wpforms()->form->get($form_id, ['content_only' => true]);
-        $fieldDetails = $form['fields'];
+        $form = wpforms()->form->get($form_id);
+
+        $formData = json_decode($form->post_content, true);
+        if (empty($formData) || !isset($formData['fields'])) {
+            return [];
+        }
+
+        $fieldDetails = $formData['fields'];
+
         if (empty($fieldDetails)) {
             return $fieldDetails;
         }
 
         $fields = [];
-        $fieldToExclude = ['divider', 'html', 'address', 'page-break', 'pagebreak', 'payment-single', 'payment-multiple', 'payment-checkbox', 'payment-dropdown', 'payment-credit-card', 'payment-total'];
+        $fieldToExclude = ['divider', 'html', 'address', 'page-break', 'pagebreak', 'section', 'captcha', 'hidden'];
         foreach ($fieldDetails as $id => $field) {
             if (\in_array($field['type'], $fieldToExclude)) {
                 continue;
@@ -148,7 +155,7 @@ final class WPFController
 
         foreach ($fields as $fldDetail) {
             $fieldId = $fldDetail['id'];
-            $fieldValue = $fldDetail['value'];
+            $fieldValue = str_replace('&#36;', '', $fldDetail['value']);
 
             // Handling different field types
             switch ($fldDetail['type']) {
