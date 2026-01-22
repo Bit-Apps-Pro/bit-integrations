@@ -408,6 +408,11 @@ final class Helper
             }
 
             $label = ucwords(str_replace('_', ' ', $path ? $currentPath : $key));
+
+            if (\is_string($value) && static::isJson($value)) {
+                $value = json_decode($value, true);
+            }
+
             if (\is_array($value) || \is_object($value)) {
                 $formattedData[$currentPath] = [
                     'name'  => $currentPath . '.value',
