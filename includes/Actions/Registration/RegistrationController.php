@@ -129,7 +129,7 @@ final class RegistrationController
             foreach ($metaFields as $meta) {
                 if (isset($meta['name']) && (isset($meta['value']))) {
                     $metaKey = $meta['name'];
-                    $metaValue = trim($meta['value']);
+                    $metaValue = \is_string($meta['value']) ? trim($meta['value']) : $meta['value'];
                     if (metadata_exists('user', $user, $metaKey)) {
                         update_user_meta($user, $metaKey, $metaValue);
                     } else {
