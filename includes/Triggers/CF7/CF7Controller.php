@@ -2,13 +2,13 @@
 
 namespace BitCode\FI\Triggers\CF7;
 
-use WPCF7_Submission;
-use WPCF7_ContactForm;
-use BitCode\FI\Flow\Flow;
-use WPCF7_FormTagsManager;
-use WPCF7_ShortcodeManager;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\Helper;
+use BitCode\FI\Flow\Flow;
+use WPCF7_ContactForm;
+use WPCF7_FormTagsManager;
+use WPCF7_ShortcodeManager;
+use WPCF7_Submission;
 
 final class CF7Controller
 {

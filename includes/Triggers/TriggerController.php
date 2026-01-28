@@ -17,7 +17,6 @@ final class TriggerController
         }
         $triggers = [];
         $dirs = new FilesystemIterator(__DIR__);
-
         foreach ($dirs as $dirInfo) {
             if ($dirInfo->isDir()) {
                 $trigger = basename($dirInfo);
