@@ -81,7 +81,7 @@ class HookService
         }
 
         $listedTrigger = get_option('btcbi_selected_trigger', []);
-        $activeTrigger = array_merge($activeTrigger, [$listedTrigger]);
+        $activeTrigger = array_merge($activeTrigger, \is_string($listedTrigger) ? [$listedTrigger] : $listedTrigger);
 
         if (empty($activeTrigger) || !\is_array($activeTrigger)) {
             return;

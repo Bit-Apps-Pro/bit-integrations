@@ -1,7 +1,9 @@
+import { __ } from '../../../Utils/i18nwrap'
+
 export const modules = [
   {
     name: 'update_post_meta',
-    label: 'Update Post SEO Meta',
+    label: __('Update Post SEO Meta', 'bit-integrations'),
     is_pro: true
   }
 ]
@@ -9,92 +11,92 @@ export const modules = [
 export const UpdatePostMetaFields = [
   {
     key: 'post_id',
-    label: 'Post ID',
+    label: __('Post ID', 'bit-integrations'),
     required: true
   },
   {
     key: 'title',
-    label: 'Title',
+    label: __('Title', 'bit-integrations'),
     required: false
   },
   {
     key: 'description',
-    label: 'Description',
+    label: __('Description', 'bit-integrations'),
     required: false
   },
   {
     key: 'keywords',
-    label: 'Keywords',
+    label: __('Keywords', 'bit-integrations'),
     required: false
   },
   {
     key: 'canonical',
-    label: 'Canonical URL',
+    label: __('Canonical URL', 'bit-integrations'),
     required: false
   },
   {
     key: 'robots_index',
-    label: 'Robots Index',
+    label: __('Robots Index', 'bit-integrations'),
     required: false
   },
   {
     key: 'robots_follow',
-    label: 'Robots Follow',
+    label: __('Robots Follow', 'bit-integrations'),
     required: false
   },
   {
     key: 'robots_archive',
-    label: 'Robots Archive',
+    label: __('Robots Archive', 'bit-integrations'),
     required: false
   },
   {
     key: 'robots_snippet',
-    label: 'Robots Snippet',
+    label: __('Robots Snippet', 'bit-integrations'),
     required: false
   },
   {
     key: 'robots_imageindex',
-    label: 'Robots Image Index',
+    label: __('Robots Image Index', 'bit-integrations'),
     required: false
   },
   {
     key: 'target_kw',
-    label: 'Target Keyword',
+    label: __('Target Keyword', 'bit-integrations'),
     required: false
   },
   {
     key: 'primary_cat',
-    label: 'Primary Category',
+    label: __('Primary Category', 'bit-integrations'),
     required: false
   },
   {
     key: 'og_title',
-    label: 'Open Graph Title',
+    label: __('Open Graph Title', 'bit-integrations'),
     required: false
   },
   {
     key: 'og_description',
-    label: 'Open Graph Description',
+    label: __('Open Graph Description', 'bit-integrations'),
     required: false
   },
   {
     key: 'og_img',
-    label: 'Open Graph Image',
+    label: __('Open Graph Image', 'bit-integrations'),
     required: false
   },
   {
     key: 'twitter_title',
-    label: 'Twitter Title',
+    label: __('Twitter Title', 'bit-integrations'),
     required: false
   },
   {
     key: 'twitter_desc',
-    label: 'Twitter Description',
+    label: __('Twitter Description', 'bit-integrations'),
     required: false
   },
   {
     key: 'twitter_img',
-    label: 'Twitter Image',
+    label: __('Twitter Image', 'bit-integrations'),
     required: false
   }
 ]

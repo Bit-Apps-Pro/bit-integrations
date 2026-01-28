@@ -39,14 +39,6 @@ export default function SeoPressIntegLayout({
     )
   }
 
-  const setChanges = (val, name) => {
-    setSeoPressConf(prevConf =>
-      create(prevConf, draftConf => {
-        draftConf[name] = val
-      })
-    )
-  }
-
   return (
     <>
       <br />

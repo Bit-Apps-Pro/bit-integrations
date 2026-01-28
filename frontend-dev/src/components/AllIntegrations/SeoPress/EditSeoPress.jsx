@@ -12,7 +12,6 @@ import SeoPressIntegLayout from './SeoPressIntegLayout'
 
 function EditSeoPress({ allIntegURL }) {
   const navigate = useNavigate()
-  const { id } = useParams()
 
   const [seoPressConf, setSeoPressConf] = useRecoilState($actionConf)
   const [flow, setFlow] = useRecoilState($newFlow)
