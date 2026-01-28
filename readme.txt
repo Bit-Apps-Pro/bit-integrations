@@ -703,6 +703,10 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 = 2.7.6 =
 _Release Date - 28th January 2026_
 
+- **Now FREE (Previously Pro Only)**
+ - Bit Assist: 1 events
+ - Bit Social: 14 events
+
 - **New Trigger**
  - SEOPress: 4 new events added (Pro)
 

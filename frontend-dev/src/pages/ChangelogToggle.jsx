@@ -19,7 +19,14 @@ const changeLog = [
     label: __('Note', 'bit-integrations'),
     headClass: 'new-note',
     itemClass: '',
-    items: []
+    items: [
+      {
+        label:
+          'Bit Assist and Bit Social integrations are now available in the Free Plugin! Enjoy enhanced automation and social features today! 🎉',
+        desc: '',
+        isPro: false
+      }
+    ]
   },
   {
     label: __('New Actions', 'bit-integrations'),
