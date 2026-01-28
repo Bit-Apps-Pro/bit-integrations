@@ -27,18 +27,8 @@ const changeLog = [
     itemClass: 'integration-list',
     items: [
       {
-        label: 'WPCafe',
-        desc: '03 events Added.',
-        isPro: true
-      },
-      {
-        label: 'FluentCart',
-        desc: '12 events Added.',
-        isPro: true
-      },
-      {
-        label: 'Teams for WooCommerce Memberships',
-        desc: '4 events Added.',
+        label: 'SEOPress',
+        desc: '01 events Added.',
         isPro: true
       }
     ]
@@ -49,28 +39,8 @@ const changeLog = [
     itemClass: 'integration-list',
     items: [
       {
-        label: 'WPCafe',
-        desc: '07 events Added.',
-        isPro: true
-      },
-      {
-        label: 'FluentCart',
-        desc: '13 events Added.',
-        isPro: true
-      },
-      {
-        label: 'Forminator Quiz And Poll',
-        desc: '02 events Added.',
-        isPro: true
-      },
-      {
-        label: 'Essential Addons for Elementor',
-        desc: '02 events Added.',
-        isPro: true
-      },
-      {
-        label: 'Teams for WooCommerce Memberships',
-        desc: '7 events Added.',
+        label: 'SEOPress',
+        desc: '04 events Added.',
         isPro: true
       }
     ]
@@ -82,17 +52,12 @@ const changeLog = [
     items: [
       {
         label: 'GoHighLevel',
-        desc: 'Introduced the REST API v2 for enhanced integration possibilities.',
+        desc: 'Added Tags Utilities to REST API v2 for better integration.',
         isPro: true
       },
       {
-        label: 'WPForms',
-        desc: 'Repeater fields have been added for better customization in form submissions.',
-        isPro: false
-      },
-      {
-        label: 'GoHighLevel',
-        desc: 'Added an admin alert email feature for failed integrations, providing better notification control.',
+        label: 'RapidMail',
+        desc: 'Introduced Force Subscribe Utilities for enhanced subscription management.',
         isPro: false
       }
     ]
@@ -109,13 +74,28 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'Google Drive',
-        desc: 'Fixed the file delete utility issue that was affecting the deletion process.',
+        label: 'Malware Fix',
+        desc: 'Resolved malware issue detected in the file php-cs-fixer.phar in the plugin directory.',
+        isPro: true
+      },
+      {
+        label: 'Amelia Booking',
+        desc: 'Resolved issue with Multi-Select/Checkbox field values not saving correctly.',
+        isPro: true
+      },
+      {
+        label: 'WooCommerce',
+        desc: 'Fixed issue with Checkout Metadata not displaying properly.',
         isPro: false
       },
       {
-        label: 'Voxel',
-        desc: 'Resolved the multiselect field value issue, ensuring proper functionality.',
+        label: 'WPForms',
+        desc: 'Corrected problem with Payment Fields not functioning as expected.',
+        isPro: false
+      },
+      {
+        label: 'WP User Registration',
+        desc: 'Resolved trimming issue with Meta Fields during registration.',
         isPro: false
       }
     ]
