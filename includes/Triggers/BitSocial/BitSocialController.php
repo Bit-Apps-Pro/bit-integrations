@@ -34,7 +34,7 @@ final class BitSocialController
     public function getAllTasks()
     {
         if (!self::isPluginInstalled()) {
-            wp_send_json_error(\sprintf(__('%s is not installed or activated', 'bit-integrations-pro'), 'Bit Social'));
+            wp_send_json_error(\sprintf(__('%s is not installed or activated', 'bit-integrations'), 'Bit Social'));
         }
 
         wp_send_json_success(StaticData::tasks());

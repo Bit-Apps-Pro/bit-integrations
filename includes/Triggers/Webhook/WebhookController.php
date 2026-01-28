@@ -16,7 +16,7 @@ class WebhookController
         $hook_id = wp_generate_uuid4();
 
         if (!$hook_id) {
-            wp_send_json_error(__('Failed to generate new hook', 'bit-integrations-pro'));
+            wp_send_json_error(__('Failed to generate new hook', 'bit-integrations'));
         }
         add_option('btcbi_webhook_' . $hook_id, [], '', 'no');
         wp_send_json_success(['hook_id' => $hook_id]);
@@ -30,7 +30,7 @@ class WebhookController
             $missing_field = \is_null($missing_field) ? 'Webhook ID' : $missing_field . ', Webhook ID';
         }
         if (!\is_null($missing_field)) {
-            wp_send_json_error(\sprintf(__('%s can\'t be empty or need to be valid', 'bit-integrations-pro'), $missing_field));
+            wp_send_json_error(\sprintf(__('%s can\'t be empty or need to be valid', 'bit-integrations'), $missing_field));
         }
 
         $testData = get_option('btcbi_webhook_' . $data->hook_id);
@@ -38,7 +38,7 @@ class WebhookController
             update_option('btcbi_webhook_' . $data->hook_id, []);
         }
         if (!$testData || empty($testData)) {
-            wp_send_json_error(new WP_Error('webhook_test', __('Webhook data is empty', 'bit-integrations-pro')));
+            wp_send_json_error(new WP_Error('webhook_test', __('Webhook data is empty', 'bit-integrations')));
         }
         wp_send_json_success(['webhook' => $testData]);
     }
@@ -48,13 +48,13 @@ class WebhookController
         $missing_field = null;
 
         if (!Helper::isUserLoggedIn()) {
-            wp_send_json_error(__('Logged in user required!', 'bit-integrations-pro'));
+            wp_send_json_error(__('Logged in user required!', 'bit-integrations'));
         }
         if (!property_exists($data, 'hook_id') || (property_exists($data, 'hook_id') && !wp_is_uuid($data->hook_id))) {
             $missing_field = \is_null($missing_field) ? 'Webhook ID' : $missing_field . ', Webhook ID';
         }
         if (!\is_null($missing_field)) {
-            wp_send_json_error(\sprintf(__('%s can\'t be empty or need to be valid', 'bit-integrations-pro'), $missing_field));
+            wp_send_json_error(\sprintf(__('%s can\'t be empty or need to be valid', 'bit-integrations'), $missing_field));
         }
 
         if (property_exists($data, 'reset') && $data->reset) {
@@ -63,9 +63,9 @@ class WebhookController
             $testData = delete_option('btcbi_webhook_' . $data->hook_id);
         }
         if (!$testData) {
-            wp_send_json_error(new WP_Error('webhook_test', __('Failed to remove test data', 'bit-integrations-pro')));
+            wp_send_json_error(new WP_Error('webhook_test', __('Failed to remove test data', 'bit-integrations')));
         }
-        wp_send_json_success(__('Webhook test data removed successfully', 'bit-integrations-pro'));
+        wp_send_json_success(__('Webhook test data removed successfully', 'bit-integrations'));
     }
 
     public function handle(WP_REST_Request $request)
