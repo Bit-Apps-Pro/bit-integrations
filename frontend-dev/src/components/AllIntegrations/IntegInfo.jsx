@@ -88,6 +88,7 @@ const MailupAuthentication = lazy(() => import('./Mailup/MailupAuthorization'))
 const NotionAuthorization = lazy(() => import('./Notion/NotionAuthorization'))
 const MailjetAuthorization = lazy(() => import('./Mailjet/MailjetAuthorization'))
 const SendGridAuthorization = lazy(() => import('./SendGrid/SendGridAuthorization'))
+const FabmanAuthorization = lazy(() => import('./Fabman/FabmanAuthorization'))
 const PCloudAuthorization = lazy(() => import('./PCloud/PCloudAuthorization'))
 const EmailOctopusAuthorization = lazy(() => import('./EmailOctopus/EmailOctopusAuthorization'))
 const CustomAction = lazy(() => import('./CustomAction/CustomFuncEditor'))
@@ -436,6 +437,8 @@ export default function IntegInfo() {
         return <MailjetAuthorization mailjetConf={integrationConf} step={1} isInfo />
       case 'SendGrid':
         return <SendGridAuthorization sendGridConf={integrationConf} step={1} isInfo />
+      case 'Fabman':
+        return <FabmanAuthorization fabmanConf={integrationConf} step={1} isInfo />
       case 'PCloud':
         return <PCloudAuthorization pCloudConf={integrationConf} step={1} isInfo />
       case 'EmailOctopus':

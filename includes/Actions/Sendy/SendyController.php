@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Sendy Integration
+ * Sendy Integration.
  */
 
 namespace BitCode\FI\Actions\Sendy;
@@ -11,12 +11,12 @@ use BitCode\FI\Log\LogHandler;
 use WP_Error;
 
 /**
- * Provide functionality for Sendy integration
+ * Provide functionality for Sendy integration.
  */
 class SendyController
 {
     /**
-     * Process ajax request for generate_token
+     * Process ajax request for generate_token.
      *
      * @param object $requestsParams Params for generate token
      *
