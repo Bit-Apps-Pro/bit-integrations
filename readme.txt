@@ -708,6 +708,7 @@ _Release Date - 28th January 2026_
 
 - **New Actions**
  - SEOPress: 1 new events added (Pro)
+ - Fabman: 5 new events added (Pro)
 
 - **New Features**
  - GoHighLevel: Added Tags Utilities to REST API v2 for better integration (Pro).

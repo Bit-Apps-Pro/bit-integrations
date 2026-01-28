@@ -30,6 +30,11 @@ const changeLog = [
         label: 'SEOPress',
         desc: '01 events Added.',
         isPro: true
+      },
+      {
+        label: 'Fabman',
+        desc: '05 events Added.',
+        isPro: true
       }
     ]
   },
