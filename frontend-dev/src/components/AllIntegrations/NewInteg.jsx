@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react/jsx-no-undef */
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { $newFlow } from '../../GlobalStates'
@@ -94,6 +94,7 @@ const Mailup = lazy(() => import('./Mailup/Mailup'))
 const Notion = lazy(() => import('./Notion/Notion'))
 const Mailjet = lazy(() => import('./Mailjet/Mailjet'))
 const SendGrid = lazy(() => import('./SendGrid/SendGrid'))
+const Fabman = lazy(() => import('./Fabman/Fabman'))
 const PCloud = lazy(() => import('./PCloud/PCloud'))
 const EmailOctopus = lazy(() => import('./EmailOctopus/EmailOctopus'))
 const Smaily = lazy(() => import('./Smaily/Smaily'))
@@ -177,9 +178,12 @@ export default function NewInteg({ allIntegURL }) {
   const { integUrlName } = useParams()
   const [flow, setFlow] = useRecoilState($newFlow)
   const navigate = useNavigate()
-  if (!window.opener && !Object.keys(flow).length) {
-    navigate('/flow/new')
-  }
+
+  useEffect(() => {
+    if (!window.opener && !Object.keys(flow).length) {
+      navigate('/flow/new')
+    }
+  }, [flow, navigate])
 
   const NewIntegs = () => {
     switch (integUrlName) {
@@ -915,6 +919,15 @@ export default function NewInteg({ allIntegURL }) {
       case 'SendGrid':
         return (
           <SendGrid
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'Fabman':
+        return (
+          <Fabman
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
             flow={flow}

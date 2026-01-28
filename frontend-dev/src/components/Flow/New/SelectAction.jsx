@@ -96,6 +96,7 @@ export default function SelectAction() {
     { type: 'OmniSend' },
     { type: 'Mailjet' },
     { type: 'SendGrid' },
+    { type: 'Fabman' },
     { type: 'PCloud' },
     { type: 'CustomAction' },
     { type: 'PipeDrive' },
