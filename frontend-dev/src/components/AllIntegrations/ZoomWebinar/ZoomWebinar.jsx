@@ -8,7 +8,7 @@ import Steps from '../../Utilities/Steps'
 import ZoomWebinarAuthorization from './ZoomWebinarAuthorization'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import { handleInput, checkMappedFields } from './ZoomCommonFunc'
-import { setGrantTokenResponse } from './ZoomIntegrationHelpers'
+import { setGrantTokenResponse } from './ZoomCommonFunc'
 import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 import ZoomWebinarIntegLayout from './ZoomWebinarIntegLayout'
 

@@ -17,24 +17,12 @@ export const handleInput = (e, sendFoxConf, setSendFoxConf, setIsLoading, setSna
   setSendFoxConf({ ...newConf })
 }
 
-export const checkAddressFieldMapRequired = (sendFoxConf) => {
-  const requiredFleld = sendFoxConf?.address_field
-    ? sendFoxConf.default?.fields.filter(
-        (field) => !field.formField && field.acumbamailFormField && field.required
-      )
-    : []
-  if (requiredFleld.length > 0) {
-    return false
-  }
-  return true
-}
-
 export const fetchAllList = (sendFoxConf, setSendFoxConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   const requestParams = { access_token: sendFoxConf.access_token }
 
   bitsFetch(requestParams, 'sendfox_fetch_all_list')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...sendFoxConf }
         if (!newConf.default) {
@@ -65,9 +53,7 @@ export const handleAuthorize = (
 ) => {
   if (!confTmp.access_token) {
     setError({
-      access_token: !confTmp.access_token
-        ? __("Access Token can't be empty", 'bit-integrations')
-        : ''
+      access_token: !confTmp.access_token ? __("Access Token can't be empty", 'bit-integrations') : ''
     })
     return
   }
@@ -76,7 +62,7 @@ export const handleAuthorize = (
 
   const requestParams = { access_token: confTmp.access_token }
 
-  bitsFetch(requestParams, 'sendFox_authorize').then((result) => {
+  bitsFetch(requestParams, 'sendFox_authorize').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       setConf(newConf)
@@ -90,17 +76,17 @@ export const handleAuthorize = (
   })
 }
 
-export const generateMappedField = (sendFoxConf) => {
-  const requiredFlds = sendFoxConf?.contactFields.filter((fld) => fld.required === true)
+export const generateMappedField = sendFoxConf => {
+  const requiredFlds = sendFoxConf?.contactFields.filter(fld => fld.required === true)
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({ formField: '', sendFoxFormField: field.key }))
+    ? requiredFlds.map(field => ({ formField: '', sendFoxFormField: field.key }))
     : [{ formField: '', sendFoxFormField: '' }]
 }
 
-export const checkMappedFields = (sendFoxConf) => {
+export const checkMappedFields = sendFoxConf => {
   const mappedFields = sendFoxConf?.field_map
     ? sendFoxConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField &&
           mappedField.sendFoxFormField &&
           sendFoxConf?.default?.allFields?.[sendFoxConf.listId]?.required.indexOf(
@@ -117,17 +103,17 @@ export const checkMappedFields = (sendFoxConf) => {
 
 // another
 
-export const generateListMappedField = (sendFoxConf) => {
-  const requiredFlds = sendFoxConf?.listFields.filter((fld) => fld.required === true)
+export const generateListMappedField = sendFoxConf => {
+  const requiredFlds = sendFoxConf?.listFields.filter(fld => fld.required === true)
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({ formField: '', sendFoxListFormField: field.key }))
+    ? requiredFlds.map(field => ({ formField: '', sendFoxListFormField: field.key }))
     : [{ formField: '', sendFoxListFormField: '' }]
 }
 
-export const checkMappedListFields = (sendFoxConf) => {
+export const checkMappedListFields = sendFoxConf => {
   const mappedFields = sendFoxConf?.field_map_list
     ? sendFoxConf.field_map_list.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField &&
           mappedField.sendFoxListFormField &&
           sendFoxConf?.default?.allFields?.[sendFoxConf.listId]?.required.indexOf(
@@ -142,17 +128,17 @@ export const checkMappedListFields = (sendFoxConf) => {
   return true
 }
 
-export const generateunsubscribeMappedField = (sendFoxConf) => {
-  const requiredFlds = sendFoxConf?.unsubscribeFields.filter((fld) => fld.required === true)
+export const generateunsubscribeMappedField = sendFoxConf => {
+  const requiredFlds = sendFoxConf?.unsubscribeFields.filter(fld => fld.required === true)
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({ formField: '', sendFoxUnsubscribeFormField: field.key }))
+    ? requiredFlds.map(field => ({ formField: '', sendFoxUnsubscribeFormField: field.key }))
     : [{ formField: '', sendFoxUnsubscribeFormField: '' }]
 }
 
-export const checkMappedSubscribeFields = (sendFoxConf) => {
+export const checkMappedSubscribeFields = sendFoxConf => {
   const mappedFields = sendFoxConf?.field_map_unsubscribe
     ? sendFoxConf.field_map_unsubscribe.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField &&
           mappedField.sendFoxUnsubscribeFormField &&
           sendFoxConf?.default?.allFields?.[sendFoxConf.listId]?.required.indexOf(
@@ -168,11 +154,9 @@ export const checkMappedSubscribeFields = (sendFoxConf) => {
 }
 
 // eslint-disable-next-line no-nested-ternary
-export const isDisabled = (sendFoxConf) =>
+export const isDisabled = sendFoxConf =>
   sendFoxConf.mainAction === '1'
     ? !checkMappedListFields(sendFoxConf)
     : sendFoxConf.mainAction === '2'
-      ? !checkMappedFields(sendFoxConf) ||
-        sendFoxConf.listId === undefined ||
-        sendFoxConf.listId === ''
+      ? !checkMappedFields(sendFoxConf) || sendFoxConf.listId === undefined || sendFoxConf.listId === ''
       : !checkMappedSubscribeFields(sendFoxConf)

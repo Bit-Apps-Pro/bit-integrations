@@ -13,7 +13,7 @@ export const handleInput = (e, mailerPressConf, setMailerPressConf) => {
   )
 }
 
-export const refreshMailerPressLists = (setMailerPressConf, setIsLoading, setSnackbar) => {
+export const refreshMailerPressLists = (setMailerPressConf, setIsLoading) => {
   setIsLoading(true)
   bitsFetch(null, 'refresh_mailer_press_lists')
     .then(result => {
@@ -34,7 +34,7 @@ export const refreshMailerPressLists = (setMailerPressConf, setIsLoading, setSna
     .catch(() => setIsLoading(false))
 }
 
-export const refreshMailerPressTags = (setMailerPressConf, setIsLoading, setSnackbar) => {
+export const refreshMailerPressTags = (setMailerPressConf, setIsLoading) => {
   setIsLoading(true)
   bitsFetch(null, 'refresh_mailer_press_tags')
     .then(result => {
@@ -79,3 +79,4 @@ export const generateMappedField = fields => {
       }))
     : [{ formField: '', mailerPressField: '' }]
 }
+

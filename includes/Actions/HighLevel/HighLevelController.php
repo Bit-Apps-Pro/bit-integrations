@@ -14,6 +14,8 @@ use WP_Error;
  */
 class HighLevelController
 {
+    private const V2_HEADER_VERSION = '2021-07-28';
+
     private $_integrationID;
 
     public function __construct($integrationID)
@@ -23,18 +25,27 @@ class HighLevelController
 
     public static function highLevelAuthorization($requestsParams)
     {
-        if (empty($requestsParams->api_key)) {
-            wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
+        $apiKey = self::getApiKey($requestsParams);
+        $version = self::getVersion($requestsParams);
+        $headers = self::buildHeaders($apiKey, $version);
+
+        if ($version === 'v2') {
+            $locationId = self::getLocationIdIfV2($requestsParams, $version);
+            $endpoint = "https://services.leadconnectorhq.com/locations/{$locationId}";
+            $response = self::getOrError($endpoint, $headers);
+
+            if (!isset($response->location) && !isset($response->id)) {
+                wp_send_json_error($response, 400);
+            }
+
+            wp_send_json_success($response);
         }
 
-        $header['Authorization'] = 'Bearer ' . $requestsParams->api_key;
+        $endpoint = 'https://rest.gohighlevel.com/v1/contacts/?limit=1';
+        $response = self::getOrError($endpoint, $headers);
 
-        $apiEndpoint = 'https://rest.gohighlevel.com/v1/contacts/?limit=1';
-
-        $response = HttpHelper::get($apiEndpoint, null, $header);
-
-        if (!isset($response->contacts)) {
-            wp_send_json_error(empty($response) ? 'Unknown' : $response, 400);
+        if (!isset($response->contacts) || !\is_array($response->contacts)) {
+            wp_send_json_error($response, 400);
         }
 
         wp_send_json_success($response);
@@ -42,25 +53,26 @@ class HighLevelController
 
     public static function getCustomFields($requestsParams)
     {
-        if (empty($requestsParams->api_key)) {
-            wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
+        $apiKey = self::getApiKey($requestsParams);
+        $version = self::getVersion($requestsParams);
+        $headers = self::buildHeaders($apiKey, $version);
+
+        $endpoint = 'https://rest.gohighlevel.com/v1/custom-fields';
+        if ($version === 'v2') {
+            $locationId = self::getLocationIdIfV2($requestsParams, $version);
+            $endpoint = "https://services.leadconnectorhq.com/locations/{$locationId}/customFields";
         }
 
-        $api_key = $requestsParams->api_key;
-        $apiEndpoint = 'https://rest.gohighlevel.com/v1/custom-fields';
-        $header = ['Authorization' => 'Bearer ' . $api_key];
+        $response = self::getOrError($endpoint, $headers);
+        $rawCustomFields = self::ensureProperty($response, 'customFields', __('Custom fields fetching failed', 'bit-integrations'));
 
-        $response = HttpHelper::get($apiEndpoint, null, $header);
-
-        if (!isset($response->customFields)) {
-            wp_send_json_error(__('Custom fields fetching failed', 'bit-integrations'), 400);
-        }
-
-        $rawCustomFields = $response->customFields;
         $customFields = [];
-
-        if (!empty($rawCustomFields)) {
+        if (!empty($rawCustomFields) && \is_array($rawCustomFields)) {
             foreach ($rawCustomFields as $item) {
+                if (!isset($item->id, $item->name, $item->dataType)) {
+                    continue;
+                }
+
                 $customFields[] = (object) [
                     'key'      => $item->id . '_bihl_' . $item->dataType,
                     'label'    => $item->name,
@@ -72,30 +84,31 @@ class HighLevelController
         wp_send_json_success($customFields, 200);
     }
 
-    public static function getAllTags($fieldsRequestParams)
+    public static function getAllTags($requestsParams)
     {
-        if (empty($fieldsRequestParams->api_key)) {
-            wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
+        $apiKey = self::getApiKey($requestsParams);
+        $version = self::getVersion($requestsParams);
+        $headers = self::buildHeaders($apiKey, $version);
+
+        $endpoint = 'https://rest.gohighlevel.com/v1/tags/';
+        if ($version === 'v2') {
+            $locationId = self::getLocationIdIfV2($requestsParams, $version);
+            $endpoint = "https://services.leadconnectorhq.com/locations/{$locationId}/tags";
         }
 
-        $apiKey = $fieldsRequestParams->api_key;
-        $apiEndpoint = 'https://rest.gohighlevel.com/v1/tags/';
-        $header = ['Authorization' => 'Bearer ' . $apiKey];
+        $response = self::getOrError($endpoint, $headers);
+        $tags = self::ensureProperty($response, 'tags', __('Tags fetching failed', 'bit-integrations'));
 
-        $response = HttpHelper::get($apiEndpoint, null, $header);
-
-        if (!isset($response->tags)) {
-            wp_send_json_error(__('Tags fetching failed', 'bit-integrations'), 400);
-        }
-
-        $tags = $response->tags;
         $tagList = [];
-
-        if (!empty($tags)) {
+        if (!empty($tags) && \is_array($tags)) {
             foreach ($tags as $tag) {
+                if (!isset($tag->name)) {
+                    continue;
+                }
+
                 $tagList[] = (object) [
                     'label' => $tag->name,
-                    'value' => $tag->name
+                    'value' => $tag->name,
                 ];
             }
         }
@@ -105,28 +118,39 @@ class HighLevelController
 
     public static function getContacts($requestsParams)
     {
-        if (empty($requestsParams->api_key)) {
-            wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
+        $apiKey = self::getApiKey($requestsParams);
+        $version = self::getVersion($requestsParams);
+        $headers = self::buildHeaders($apiKey, $version);
+
+        $endpoint = 'https://rest.gohighlevel.com/v1/contacts/?limit=100';
+        if ($version === 'v2') {
+            $locationId = self::getLocationIdIfV2($requestsParams, $version);
+            $endpoint = "https://services.leadconnectorhq.com/contacts?limit=100&locationId={$locationId}";
         }
 
-        $apiKey = $requestsParams->api_key;
-        $apiEndpoint = 'https://rest.gohighlevel.com/v1/contacts/?limit=100';
-        $header = ['Authorization' => 'Bearer ' . $apiKey];
-        $response = HttpHelper::get($apiEndpoint, null, $header);
+        $response = self::getOrError($endpoint, $headers);
+        $contacts = self::ensureProperty($response, 'contacts', __('Contacts fetching failed', 'bit-integrations'));
 
-        if (!isset($response->contacts)) {
-            wp_send_json_error(__('Contacts fetching failed', 'bit-integrations'), 400);
-        }
-
-        $contacts = $response->contacts;
         $contactList = [];
-
-        if (!empty($contacts)) {
+        if (!empty($contacts) && \is_array($contacts)) {
             foreach ($contacts as $contact) {
+                if (!isset($contact->id)) {
+                    continue;
+                }
+
+                $email = isset($contact->email) ? $contact->email : '';
+                $name = isset($contact->contactName) ? $contact->contactName : '';
+
+                $label = $email;
+                if ($name !== '' && $email !== '') {
+                    $label = "{$name} ({$email})";
+                } elseif ($name !== '') {
+                    $label = $name;
+                }
+
                 $contactList[] = (object) [
-                    'label' => !empty($contact->contactName)
-                    ? $contact->contactName . ' (' . $contact->email . ')' : $contact->email,
-                    'value' => $contact->id
+                    'label' => $label,
+                    'value' => $contact->id,
                 ];
             }
         }
@@ -136,27 +160,39 @@ class HighLevelController
 
     public static function getUsers($requestsParams)
     {
-        if (empty($requestsParams->api_key)) {
-            wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
+        $apiKey = self::getApiKey($requestsParams);
+        $version = self::getVersion($requestsParams);
+        $headers = self::buildHeaders($apiKey, $version);
+
+        $endpoint = 'https://rest.gohighlevel.com/v1/users';
+        if ($version === 'v2') {
+            $locationId = self::getLocationIdIfV2($requestsParams, $version);
+            $endpoint = "https://services.leadconnectorhq.com/users/?locationId={$locationId}";
         }
 
-        $apiKey = $requestsParams->api_key;
-        $apiEndpoint = 'https://rest.gohighlevel.com/v1/users';
-        $header = ['Authorization' => 'Bearer ' . $apiKey];
-        $response = HttpHelper::get($apiEndpoint, null, $header);
+        $response = self::getOrError($endpoint, $headers);
+        $users = self::ensureProperty($response, 'users', __('Users fetching failed', 'bit-integrations'));
 
-        if (!isset($response->users)) {
-            wp_send_json_error(__('Contacts fetching failed', 'bit-integrations'), 400);
-        }
-
-        $users = $response->users;
         $userList = [];
-
-        if (!empty($users)) {
+        if (!empty($users) && \is_array($users)) {
             foreach ($users as $user) {
+                if (!isset($user->id)) {
+                    continue;
+                }
+
+                $email = isset($user->email) ? (string) $user->email : '';
+                $name = isset($user->name) ? (string) $user->name : '';
+
+                $label = $email;
+                if ($name !== '' && $email !== '') {
+                    $label = "{$name} ({$email})";
+                } elseif ($name !== '') {
+                    $label = $name;
+                }
+
                 $userList[] = (object) [
-                    'label' => !empty($user->name) ? $user->name . ' (' . $user->email . ')' : $user->email,
-                    'value' => $user->id
+                    'label' => $label,
+                    'value' => $user->id,
                 ];
             }
         }
@@ -166,28 +202,31 @@ class HighLevelController
 
     public static function getHLTasks($requestsParams)
     {
-        if (empty($requestsParams->api_key) || empty($requestsParams->contact_id)) {
-            wp_send_json_error(__('Requested parameter(s) empty', 'bit-integrations'), 400);
+        $apiKey = self::getApiKey($requestsParams);
+        $contactId = self::getStringParam($requestsParams, 'contact_id');
+        self::requireNonEmpty($contactId);
+
+        $version = self::getVersion($requestsParams);
+        $headers = self::buildHeaders($apiKey, $version);
+
+        $endpoint = 'https://rest.gohighlevel.com/v1/contacts/' . $contactId . '/tasks';
+        if ($version === 'v2') {
+            $locationId = self::getLocationIdIfV2($requestsParams, $version);
+            $endpoint = "https://services.leadconnectorhq.com/contacts/{$contactId}/tasks?limit=100&location_id={$locationId}";
         }
 
-        $apiKey = $requestsParams->api_key;
-        $contactId = $requestsParams->contact_id;
-        $apiEndpoint = 'https://rest.gohighlevel.com/v1/contacts/' . $contactId . '/tasks';
-        $header = ['Authorization' => 'Bearer ' . $apiKey];
-        $response = HttpHelper::get($apiEndpoint, null, $header);
+        $response = self::getOrError($endpoint, $headers);
+        $tasks = self::ensureProperty($response, 'tasks', __('Tasks fetching failed', 'bit-integrations'));
 
-        if (!isset($response->tasks)) {
-            wp_send_json_error(__('Tasks fetching failed', 'bit-integrations'), 400);
-        }
-
-        $tasks = $response->tasks;
         $taskList = [];
-
-        if (!empty($tasks)) {
+        if (!empty($tasks) && \is_array($tasks)) {
             foreach ($tasks as $task) {
+                if (!isset($task->id, $task->title)) {
+                    continue;
+                }
                 $taskList[] = (object) [
                     'label' => $task->title,
-                    'value' => $task->id
+                    'value' => $task->id,
                 ];
             }
         }
@@ -197,29 +236,34 @@ class HighLevelController
 
     public static function getPipelines($requestsParams)
     {
-        if (empty($requestsParams->api_key)) {
-            wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
+        $apiKey = self::getApiKey($requestsParams);
+        $version = self::getVersion($requestsParams);
+        $headers = self::buildHeaders($apiKey, $version);
+
+        $endpoint = 'https://rest.gohighlevel.com/v1/pipelines';
+        if ($version === 'v2') {
+            $locationId = self::getLocationIdIfV2($requestsParams, $version);
+            $endpoint = "https://services.leadconnectorhq.com/opportunities/pipelines?locationId={$locationId}";
         }
 
-        $apiKey = $requestsParams->api_key;
-        $apiEndpoint = 'https://rest.gohighlevel.com/v1/pipelines';
-        $header = ['Authorization' => 'Bearer ' . $apiKey];
-        $response = HttpHelper::get($apiEndpoint, null, $header);
+        $response = self::getOrError($endpoint, $headers);
+        $pipelines = self::ensureProperty($response, 'pipelines', __('Pipelines fetching failed', 'bit-integrations'));
 
-        if (!isset($response->pipelines)) {
-            wp_send_json_error(__('Pipelines fetching failed', 'bit-integrations'), 400);
-        }
+        $pipelineList = [];
+        $stages = [];
 
-        $pipelines = $response->pipelines;
-        $pipelineList = $stages = [];
-
-        if (!empty($pipelines)) {
+        if (!empty($pipelines) && \is_array($pipelines)) {
             foreach ($pipelines as $pipeline) {
+                if (!isset($pipeline->id, $pipeline->name)) {
+                    continue;
+                }
+
                 $pipelineList[] = (object) [
                     'label' => $pipeline->name,
-                    'value' => $pipeline->id
+                    'value' => $pipeline->id,
                 ];
-                $stages[$pipeline->id] = $pipeline->stages;
+
+                $stages[$pipeline->id] = isset($pipeline->stages) ? $pipeline->stages : [];
             }
         }
 
@@ -228,28 +272,33 @@ class HighLevelController
 
     public static function getOpportunities($requestsParams)
     {
-        if (empty($requestsParams->api_key) || empty($requestsParams->pipeline_id)) {
-            wp_send_json_error(__('Requested parameter(s) empty', 'bit-integrations'), 400);
+        $apiKey = self::getApiKey($requestsParams);
+        $version = self::getVersion($requestsParams);
+        $headers = self::buildHeaders($apiKey, $version);
+
+        $pipelineId = self::getStringParam($requestsParams, 'pipeline_id');
+
+        $endpoint = 'https://rest.gohighlevel.com/v1/pipelines/' . $pipelineId . '/opportunities?limit=100';
+        if ($version === 'v1') {
+            self::requireNonEmpty($pipelineId);
+        } else {
+            $locationId = self::getLocationIdIfV2($requestsParams, $version);
+            $endpoint = "https://services.leadconnectorhq.com/opportunities/search?location_id={$locationId}";
         }
 
-        $apiKey = $requestsParams->api_key;
-        $pipelineId = $requestsParams->pipeline_id;
-        $apiEndpoint = 'https://rest.gohighlevel.com/v1/pipelines/' . $pipelineId . '/opportunities?limit=100';
-        $header = ['Authorization' => 'Bearer ' . $apiKey];
-        $response = HttpHelper::get($apiEndpoint, null, $header);
+        $response = self::getOrError($endpoint, $headers);
+        $opportunities = self::ensureProperty($response, 'opportunities', __('Opportunities fetching failed', 'bit-integrations'));
 
-        if (!isset($response->opportunities)) {
-            wp_send_json_error(__('Opportunities fetching failed', 'bit-integrations'), 400);
-        }
-
-        $opportunities = $response->opportunities;
         $opportunityList = [];
-
-        if (!empty($opportunities)) {
+        if (!empty($opportunities) && \is_array($opportunities)) {
             foreach ($opportunities as $opportunity) {
+                if (!isset($opportunity->id, $opportunity->name)) {
+                    continue;
+                }
+
                 $opportunityList[] = (object) [
                     'label' => $opportunity->name,
-                    'value' => $opportunity->id
+                    'value' => $opportunity->id,
                 ];
             }
         }
@@ -260,28 +309,41 @@ class HighLevelController
     public function execute($integrationData, $fieldValues)
     {
         $integrationDetails = $integrationData->flow_details;
-        $apiKey = $integrationDetails->api_key;
         $fieldMap = $integrationDetails->field_map;
-        $selectedTask = $integrationDetails->selectedTask;
         $actions = (array) $integrationDetails->actions;
 
+        $apiKey = self::getApiKey($integrationDetails);
+        $version = self::getVersion($integrationDetails);
+        $locationId = self::getLocationIdIfV2($integrationDetails, $version);
+        $selectedTask = self::getStringParam($integrationDetails, 'selectedTask');
+
         if (empty($apiKey) || empty($fieldMap)) {
-            return new WP_Error('REQ_FIELD_EMPTY', sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'HighLevel'));
+            return new WP_Error('REQ_FIELD_EMPTY', \sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'HighLevel'));
         }
 
-        $selectedOptions = [
-            'selectedTags'        => $integrationDetails->selectedTags,
-            'selectedContact'     => $integrationDetails->selectedContact,
-            'selectedTaskStatus'  => $integrationDetails->selectedTaskStatus,
-            'selectedUser'        => $integrationDetails->selectedUser,
-            'updateTaskId'        => $integrationDetails->updateTaskId,
-            'selectedPipeline'    => $integrationDetails->selectedPipeline,
-            'selectedStage'       => $integrationDetails->selectedStage,
-            'selectedOpportunity' => $integrationDetails->selectedOpportunity,
+        if ($version === 'v2' && $locationId === '') {
+            return new WP_Error('REQ_FIELD_EMPTY', \sprintf(__('module, location_id is required for %s v2 api', 'bit-integrations'), 'HighLevel'));
+        }
+
+        $optionKeys = [
+            'selectedTags'        => 'selectedTags',
+            'selectedContact'     => 'selectedContact',
+            'selectedTaskStatus'  => 'selectedTaskStatus',
+            'selectedUser'        => 'selectedUser',
+            'updateTaskId'        => 'updateTaskId',
+            'selectedPipeline'    => 'selectedPipeline',
+            'selectedStage'       => 'selectedStage',
+            'selectedOpportunity' => 'selectedOpportunity',
         ];
 
-        $recordApiHelper = new RecordApiHelper($apiKey, $this->_integrationID);
+        $selectedOptions = array_map(
+            function ($key) use ($integrationDetails) {
+                return self::getStringParam($integrationDetails, $key);
+            },
+            $optionKeys
+        );
 
+        $recordApiHelper = new RecordApiHelper($apiKey, $this->_integrationID, $version, $locationId);
         $highLevelApiResponse = $recordApiHelper->execute($fieldValues, $fieldMap, $selectedTask, $selectedOptions, $actions);
 
         if (is_wp_error($highLevelApiResponse)) {
@@ -289,5 +351,82 @@ class HighLevelController
         }
 
         return $highLevelApiResponse;
+    }
+
+    private static function getStringParam($requestsParams, string $key, string $default = ''): string
+    {
+        if (!isset($requestsParams->{$key})) {
+            return $default;
+        }
+
+        return trim((string) $requestsParams->{$key});
+    }
+
+    private static function requireNonEmpty(string $value): void
+    {
+        if ($value === '') {
+            wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
+        }
+    }
+
+    private static function getApiKey($requestsParams): string
+    {
+        $apiKey = self::getStringParam($requestsParams, 'api_key');
+        self::requireNonEmpty($apiKey);
+
+        return $apiKey;
+    }
+
+    private static function getVersion($requestsParams): string
+    {
+        $version = self::getStringParam($requestsParams, 'version', 'v1');
+
+        return ($version === 'v2') ? 'v2' : 'v1';
+    }
+
+    private static function getLocationIdIfV2($requestsParams, string $version): string
+    {
+        if ($version !== 'v2') {
+            return '';
+        }
+
+        $locationId = self::getStringParam($requestsParams, 'location_id');
+        self::requireNonEmpty($locationId);
+
+        return $locationId;
+    }
+
+    private static function buildHeaders(string $apiKey, string $version): array
+    {
+        $headers = [
+            'Authorization' => 'Bearer ' . $apiKey,
+            'Accept'        => 'application/json',
+        ];
+
+        if ($version === 'v2') {
+            $headers['Version'] = self::V2_HEADER_VERSION;
+        }
+
+        return $headers;
+    }
+
+    private static function getOrError(string $endpoint, array $headers)
+    {
+        $response = HttpHelper::get($endpoint, null, $headers);
+
+        if (empty($response) || !\is_object($response)) {
+            wp_send_json_error('Unknown', 400);
+        }
+
+        return $response;
+    }
+
+    private static function ensureProperty($response, string $prop, string $errorMessage)
+    {
+        if (!isset($response->{$prop})) {
+            wp_send_json_error($errorMessage, 400);
+        }
+
+        return $response->{$prop};
     }
 }

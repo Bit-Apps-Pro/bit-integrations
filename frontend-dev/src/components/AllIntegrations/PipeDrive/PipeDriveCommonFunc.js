@@ -51,14 +51,7 @@ export const handleInput = (
 
   switch (e.target.name) {
     case 'module':
-      newConf = moduleChange(
-        recordTab,
-        formID,
-        newConf,
-        setPipeDriveConf,
-        setIsLoading,
-        setSnackbar
-      )
+      newConf = moduleChange(recordTab, formID, newConf, setPipeDriveConf, setIsLoading, setSnackbar)
       break
     default:
       break
@@ -70,18 +63,10 @@ export const handleTabChange = (recordTab, settab) => {
   settab(recordTab)
 }
 
-export const moduleChange = (
-  recordTab,
-  formID,
-  pipeDriveConf,
-  setPipeDriveConf,
-  setIsLoading,
-  setSnackbar
-) => {
+const moduleChange = (recordTab, formID, pipeDriveConf, setPipeDriveConf, setIsLoading, setSnackbar) => {
   const newConf = { ...pipeDriveConf }
   if (!newConf.relatedlists[recordTab - 1]) newConf.relatedlists[recordTab - 1] = {}
-  const module =
-    recordTab === 0 ? newConf.moduleData.module : newConf.relatedlists[recordTab - 1].module
+  const module = recordTab === 0 ? newConf.moduleData.module : newConf.relatedlists[recordTab - 1].module
 
   if (recordTab === 0) {
     newConf.actions = {}
@@ -90,8 +75,7 @@ export const moduleChange = (
     if (['Leads', 'Deals', 'Activities', 'Notes'].includes(module)) {
       !newConf.default.organizations &&
         refreshOrganizations(newConf, setPipeDriveConf, setIsLoading, setSnackbar)
-      !newConf.default.persons &&
-        refreshPersons(newConf, setPipeDriveConf, setIsLoading, setSnackbar)
+      !newConf.default.persons && refreshPersons(newConf, setPipeDriveConf, setIsLoading, setSnackbar)
     }
 
     if (module !== '' && module !== undefined) {
@@ -111,8 +95,7 @@ export const moduleChange = (
         refreshFields(module, newConf, setPipeDriveConf, recordTab)
       }, 1000)
     } else {
-      newConf.relatedlists[recordTab - 1].field_map = newConf.default.modules?.[module]
-        ?.requiredFields
+      newConf.relatedlists[recordTab - 1].field_map = newConf.default.modules?.[module]?.requiredFields
         ? generateMappedField(recordTab, newConf)
         : [{ formField: '', pipeDriveFormField: '' }]
     }
@@ -121,10 +104,10 @@ export const moduleChange = (
   return newConf
 }
 
-export const refreshFields = (module, pipeDriveConf, setPipeDriveConf, recordTab) => {
+const refreshFields = (module, pipeDriveConf, setPipeDriveConf, recordTab) => {
   const requestParams = { api_key: pipeDriveConf.api_key, module }
 
-  bitsFetch(requestParams, 'PipeDrive_refresh_fields').then((result) => {
+  bitsFetch(requestParams, 'PipeDrive_refresh_fields').then(result => {
     if (result && result.success) {
       const newConf = { ...pipeDriveConf }
       if (!newConf.default.modules[module].fields) newConf.default.modules[module].fields = {}
@@ -146,12 +129,7 @@ export const refreshFields = (module, pipeDriveConf, setPipeDriveConf, recordTab
   })
 }
 
-export const refreshOrganizations = (
-  pipeDriveConf,
-  setPipeDriveConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const refreshOrganizations = (pipeDriveConf, setPipeDriveConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   const requestParams = {
     api_key: pipeDriveConf.api_key,
@@ -159,7 +137,7 @@ export const refreshOrganizations = (
   }
 
   bitsFetch(requestParams, 'PipeDrive_fetch_meta_data')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...pipeDriveConf }
         if (!newConf.default.organizations) newConf.default.organizations = {}
@@ -198,7 +176,7 @@ export const refreshPersons = (pipeDriveConf, setPipeDriveConf, setIsLoading, se
   const requestParams = { api_key: pipeDriveConf.api_key, type: 'persons' }
 
   bitsFetch(requestParams, 'PipeDrive_fetch_meta_data')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...pipeDriveConf }
         if (!newConf.default.persons) newConf.default.persons = {}
@@ -237,7 +215,7 @@ export const getAllOwners = (pipeDriveConf, setPipeDriveConf, setIsLoading, setS
   const requestParams = { api_key: pipeDriveConf.api_key, type: 'users' }
 
   bitsFetch(requestParams, 'PipeDrive_fetch_meta_data')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...pipeDriveConf }
         if (!newConf.default.owners) newConf.default.owners = {}
@@ -276,7 +254,7 @@ export const getAllLeadLabels = (pipeDriveConf, setPipeDriveConf, setIsLoading, 
   const requestParams = { api_key: pipeDriveConf.api_key, type: 'leadLabels' }
 
   bitsFetch(requestParams, 'PipeDrive_fetch_meta_data')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...pipeDriveConf }
         if (!newConf.default.leadLabels) newConf.default.leadLabels = {}
@@ -314,7 +292,7 @@ export const getAllCurrencies = (pipeDriveConf, setPipeDriveConf, setIsLoading, 
   const requestParams = { api_key: pipeDriveConf.api_key, type: 'currencies' }
 
   bitsFetch(requestParams, 'PipeDrive_fetch_meta_data')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...pipeDriveConf }
         if (!newConf.default.currencies) newConf.default.currencies = {}
@@ -353,7 +331,7 @@ export const getDealStages = (pipeDriveConf, setPipeDriveConf, setIsLoading, set
   const requestParams = { api_key: pipeDriveConf.api_key, type: 'stages' }
 
   bitsFetch(requestParams, 'PipeDrive_fetch_meta_data')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...pipeDriveConf }
         if (!newConf.default.stages) newConf.default.stages = {}
@@ -387,47 +365,43 @@ export const getDealStages = (pipeDriveConf, setPipeDriveConf, setIsLoading, set
     .catch(() => setIsLoading(false))
 }
 
-export const generateMappedField = (recordTab, pipeDriveConf) => {
+const generateMappedField = (recordTab, pipeDriveConf) => {
   const module =
-    recordTab === 0
-      ? pipeDriveConf.moduleData.module
-      : pipeDriveConf.relatedlists[recordTab - 1].module
+    recordTab === 0 ? pipeDriveConf.moduleData.module : pipeDriveConf.relatedlists[recordTab - 1].module
 
   const requiredFlds = pipeDriveConf?.default?.modules?.[module]?.fields?.filter(
-    (fld) => fld.required === true
+    fld => fld.required === true
   )
   return requiredFlds?.length > 0
-    ? requiredFlds.map((field) => ({
+    ? requiredFlds.map(field => ({
         formField: '',
         pipeDriveFormField: field.key
       }))
     : [{ formField: '', pipeDriveFormField: '' }]
 }
 
-export const checkMappedFields = (pipeDriveConf) => {
+export const checkMappedFields = pipeDriveConf => {
   const mappedFields = pipeDriveConf?.field_map
     ? pipeDriveConf.field_map.filter(
-        (mappedField) =>
+        mappedField =>
           !mappedField.formField &&
           mappedField.pipeDriveFormField &&
-          pipeDriveConf?.default?.modules?.[
-            pipeDriveConf.moduleData.module
-          ]?.requiredFields?.indexOf(mappedField.pipeDriveFormField) !== -1
+          pipeDriveConf?.default?.modules?.[pipeDriveConf.moduleData.module]?.requiredFields?.indexOf(
+            mappedField.pipeDriveFormField
+          ) !== -1
       )
     : []
-  const mappedRelatedFields = pipeDriveConf.relatedlists.map((relatedlist) =>
-    relatedlist.field_map.filter(
-      (mappedField) => !mappedField.formField && mappedField.pipeDriveFormField
-    )
+  const mappedRelatedFields = pipeDriveConf.relatedlists.map(relatedlist =>
+    relatedlist.field_map.filter(mappedField => !mappedField.formField && mappedField.pipeDriveFormField)
   )
-  if (mappedFields.length > 0 || mappedRelatedFields.some((relatedField) => relatedField.length)) {
+  if (mappedFields.length > 0 || mappedRelatedFields.some(relatedField => relatedField.length)) {
     return false
   }
 
   return true
 }
 
-export const checkRequired = (pipeDriveConf) => {
+export const checkRequired = pipeDriveConf => {
   if (
     pipeDriveConf.moduleData?.module !== '' &&
     pipeDriveConf.default.modules?.[pipeDriveConf?.moduleData?.module]?.required
@@ -458,7 +432,7 @@ export const handleAuthorize = (confTmp, setError, setisAuthorized, setIsLoading
   setIsLoading(true)
   const requestParams = { api_key: confTmp.api_key, type: 'persons' }
 
-  bitsFetch(requestParams, 'PipeDrive_fetch_meta_data').then((result) => {
+  bitsFetch(requestParams, 'PipeDrive_fetch_meta_data').then(result => {
     if (result && result.success) {
       setisAuthorized(true)
       setIsLoading(false)

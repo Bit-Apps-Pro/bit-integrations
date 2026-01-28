@@ -13,12 +13,12 @@ function Settings() {
 
   useEffect(() => {
     // Fetch analytics/check
-    const fetchAnalytics = bitsFetch({}, 'analytics/check', '', 'GET').then((res) => {
+    const fetchAnalytics = bitsFetch({}, 'analytics/check', '', 'GET').then(res => {
       setShowAnalyticsOptin(res.data)
     })
 
     // Fetch get/config
-    const fetchConfig = bitsFetch({}, 'get/config', null, 'GET').then((res) => {
+    const fetchConfig = bitsFetch({}, 'get/config', null, 'GET').then(res => {
       if ('success' in res && res.success) {
         setAppConf(res.data)
       }
@@ -27,21 +27,21 @@ function Settings() {
     })
 
     // Execute both fetches in parallel
-    Promise.all([fetchAnalytics, fetchConfig]).catch((err) => {
+    Promise.all([fetchAnalytics, fetchConfig]).catch(err => {
       console.error(err)
     })
 
     toast.promise(fetchConfig, {
-      success: (data) => data,
+      success: data => data,
       error: __('Error Occurred', 'bit-integrations'),
       loading: __('Fetching...')
     })
   }, [])
 
-  const updatePluginConfig = (name) => {
+  const updatePluginConfig = name => {
     const config = { ...appConf }
     const loadSaving = bitsFetch({ data: config }, 'app/config')
-      .then((res) => {
+      .then(res => {
         if ('success' in res && res.success) {
           return __('Save successfully done', 'bit-integrations')
         }
@@ -51,15 +51,15 @@ function Settings() {
       .catch(() => __('Failed to save', 'bit-integrations'))
 
     toast.promise(loadSaving, {
-      success: (data) => data,
+      success: data => data,
       error: __('Error Occurred', 'bit-integrations'),
       loading: __('Updating...')
     })
   }
 
-  const updateAnalytic = (updatedOptin) => {
+  const updateAnalytic = updatedOptin => {
     bitsFetch({ isChecked: updatedOptin }, 'analytics/optIn')
-      .then((res) => {
+      .then(res => {
         toast.success(__('Opt-in status updated', 'bit-integrations'))
       })
       .catch(() => {
@@ -121,14 +121,17 @@ function Settings() {
         </div>
         <div className="w-6 mt-3">
           <div className="flx flx-between sh-sm br-10 btcd-setting-opt">
-            <div className='flx flx-start'>
-              <span className="btcd-icn  icn-trash-fill mr-2" />
+            <div className="flx flx-start">
+              <span className="btcd-icn icn-information-outline mr-2" />
               <div>
-                <b>
-                  {__('Opt In Telemetry Data', 'bit-integrations')}
-                </b>
+                <b>{__('Opt In Telemetry Data', 'bit-integrations')}</b>
                 <br />
-                <small>{__('If you turn off, Bit Integrations will no longer collect any telemetry data', 'bit-integrations')}</small>
+                <small>
+                  {__(
+                    'If you turn off, Bit Integrations will no longer collect any telemetry data',
+                    'bit-integrations'
+                  )}
+                </small>
               </div>
             </div>
             <SingleToggle2
@@ -166,6 +169,29 @@ function Settings() {
                 className="flx"
               />
             </div>
+          </div>
+        </div>
+        <div className="w-6 mt-3">
+          <div className="flx flx-between sh-sm br-10 btcd-setting-opt">
+            <div className="flx flx-start">
+              <span className="btcd-icn icn-email mr-2" />
+              <div>
+                <b>{__('Enable Email Notifications for Failed Integrations', 'bit-integrations')}</b>
+                <br />
+                <small>
+                  {__(
+                    'When enabled, you will receive an email notification to the admin email whenever an integration execution fails',
+                    'bit-integrations'
+                  )}
+                </small>
+              </div>
+            </div>
+            <SingleToggle2
+              action={checkboxHandle}
+              name="enable_failure_email"
+              checked={appConf?.enable_failure_email}
+              className="flx"
+            />
           </div>
         </div>
         <div className="mb-50" />

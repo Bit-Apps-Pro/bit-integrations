@@ -44,7 +44,7 @@ import {
 import c from 'react-multiple-select-dropdown-lite'
 import { create } from 'mutative'
 
-export const checkWebhookIntegrationsExist = entity => {
+const checkWebhookIntegrationsExist = entity => {
   const integrations = webhookIntegrations
   return integrations.includes(entity)
 }

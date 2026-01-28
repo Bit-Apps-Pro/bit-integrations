@@ -37,6 +37,24 @@ export const handleInput = (
   }
   setZoomConf({ ...newConf })
 }
+
+export const setGrantTokenResponse = integ => {
+  const grantTokenResponse = {}
+  const authWindowLocation = window.location.href
+  const queryParams = authWindowLocation.replace(`${window.opener.location.href}`, '').split('&')
+  if (queryParams) {
+    queryParams.forEach(element => {
+      const gtKeyValue = element.split('=')
+      if (gtKeyValue[1]) {
+        // eslint-disable-next-line prefer-destructuring
+        grantTokenResponse[gtKeyValue[0]] = gtKeyValue[1]
+      }
+    })
+  }
+  localStorage.setItem(`__${integ}`, JSON.stringify(grantTokenResponse))
+  window.close()
+}
+
 export const zoomAllMeeting = (formID, zoomConf, setZoomConf, setIsLoading, setSnackbar) => {
   setIsLoading(true)
   const fetchMeetingModulesRequestParams = {
@@ -48,7 +66,7 @@ export const zoomAllMeeting = (formID, zoomConf, setZoomConf, setIsLoading, setS
     tokenDetails: zoomConf.tokenDetails
   }
   bitsFetch(fetchMeetingModulesRequestParams, 'zoom_fetch_all_meetings')
-    .then((result) => {
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...zoomConf }
         if (!newConf.default) {
@@ -96,11 +114,11 @@ export const refreshFields = (zoomConf, setZoomConf, setIsLoading, setSnackbar) 
     tokenDetails: zoomConf.tokenDetails
   }
   bitsFetch(fetchMeetingModulesRequestParams, 'zoom_fetch_all_fields')
-    .then((result) => {
+    .then(result => {
       setIsLoading(false)
       if (result && result.success) {
-        setZoomConf((prevConf) =>
-          create(prevConf, (draftConf) => {
+        setZoomConf(prevConf =>
+          create(prevConf, draftConf => {
             draftConf.zoomFields = result.data
             draftConf.field_map = generateMappedField(draftConf.zoomFields)
           })
@@ -134,10 +152,11 @@ export const handleAuthorize = (
     return
   }
   setIsLoading(true)
-  const apiEndpoint = `https://zoom.us/oauth/authorize?response_type=code&client_id=${confTmp.clientId
-    }&state=${encodeURIComponent(
-      window.location.href
-    )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api.base}/redirect`)}`
+  const apiEndpoint = `https://zoom.us/oauth/authorize?response_type=code&client_id=${
+    confTmp.clientId
+  }&state=${encodeURIComponent(
+    window.location.href
+  )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api.base}/redirect`)}`
   const authWindow = window.open(apiEndpoint, 'zoom', 'width=400,height=609,toolbar=off')
   const popupURLCheckTimer = setInterval(() => {
     if (authWindow.closed) {
@@ -168,14 +187,7 @@ export const handleAuthorize = (
       } else {
         const newConf = { ...confTmp }
         newConf.accountServer = grantTokenResponse['accounts-server']
-        tokenHelper(
-          grantTokenResponse,
-          newConf,
-          setConf,
-          setisAuthorized,
-          setIsLoading,
-          setSnackbar
-        )
+        tokenHelper(grantTokenResponse, newConf, setConf, setisAuthorized, setIsLoading, setSnackbar)
       }
     }
   }, 500)
@@ -188,8 +200,8 @@ const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, setIsLoading
   // eslint-disable-next-line no-undef
   tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
   bitsFetch(tokenRequestParams, 'zoom_generate_token')
-    .then((result) => result)
-    .then((result) => {
+    .then(result => result)
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...confTmp }
         newConf.tokenDetails = result.data
@@ -205,8 +217,9 @@ const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, setIsLoading
       ) {
         setSnackbar({
           show: true,
-          msg: `${__('Authorization failed Cause:', 'bit-integrations')}${result.data.data || result.data
-            }. ${__('please try again', 'bit-integrations')}`
+          msg: `${__('Authorization failed Cause:', 'bit-integrations')}${
+            result.data.data || result.data
+          }. ${__('please try again', 'bit-integrations')}`
         })
       } else {
         setSnackbar({
@@ -218,9 +231,9 @@ const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, setIsLoading
     })
 }
 
-export const checkMappedFields = (zoomConf) => {
+export const checkMappedFields = zoomConf => {
   const mappedFleld = zoomConf.field_map
-    ? zoomConf.field_map.filter((mapped) => !mapped.formField && !mapped.zoomConf)
+    ? zoomConf.field_map.filter(mapped => !mapped.formField && !mapped.zoomConf)
     : []
   if (mappedFleld.length > 0) {
     return false
@@ -229,8 +242,8 @@ export const checkMappedFields = (zoomConf) => {
 }
 
 export const generateMappedField = (zoomFields = []) => {
-  const requiredFlds = zoomFields?.filter((fld) => fld.required === true)
+  const requiredFlds = zoomFields?.filter(fld => fld.required === true)
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({ formField: '', zoomField: field.key }))
+    ? requiredFlds.map(field => ({ formField: '', zoomField: field.key }))
     : [{ formField: '', zoomField: '' }]
 }

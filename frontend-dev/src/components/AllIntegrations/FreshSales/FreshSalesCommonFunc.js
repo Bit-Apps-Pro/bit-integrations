@@ -16,30 +16,30 @@ export const handleInput = (
   error,
   setError
 ) => {
-  const inputName = e.target.name;
-  const inputValue = e.target.value;
+  const inputName = e.target.name
+  const inputValue = e.target.value
 
   if (isNew) {
-    const rmError = { ...error };
-    rmError[inputName] = '';
-    setError({ ...rmError });
+    const rmError = { ...error }
+    rmError[inputName] = ''
+    setError({ ...rmError })
   }
 
   setFreshSalesConf(prevConf =>
     create(prevConf, draftConf => {
       if (inputValue === '') {
-        delete draftConf.moduleData[inputName];
+        delete draftConf.moduleData[inputName]
         return
       }
 
       if (inputName !== 'module') {
-        draftConf.moduleData[inputName] = parseInt(inputValue);
+        draftConf.moduleData[inputName] = parseInt(inputValue)
       } else {
-        draftConf.moduleData = {};
-        draftConf.moduleData[inputName] = inputValue;
+        draftConf.moduleData = {}
+        draftConf.moduleData[inputName] = inputValue
       }
     })
-  );
+  )
 
   switch (inputName) {
     case 'module':
@@ -54,19 +54,13 @@ export const handleInput = (
     default:
       break
   }
-};
+}
 
-export const moduleChange = (
-  module,
-  freshSalesConf,
-  setFreshSalesConf,
-  setIsLoading,
-  setSnackbar
-) => {
+const moduleChange = (module, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar) => {
   setFreshSalesConf(prevConf =>
     create(prevConf, draftConf => {
-      draftConf.actions = {};
-      draftConf.field_map = [{ formField: '', freshSalesFormField: '' }];
+      draftConf.actions = {}
+      draftConf.field_map = [{ formField: '', freshSalesFormField: '' }]
 
       if (['Contact'].includes(module)) {
         accountRefreshViews(freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
@@ -78,10 +72,10 @@ export const moduleChange = (
         refreshFields(module, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
       }
     })
-  );
-};
+  )
+}
 
-export const accountViewChange = (
+const accountViewChange = (
   accountViewId,
   freshSalesConf,
   setFreshSalesConf,
@@ -91,34 +85,33 @@ export const accountViewChange = (
   const module = freshSalesConf.moduleData.module
 
   if (['Deal', 'Contact'].includes(module)) {
-    refreshAccounts(accountViewId, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar);
+    refreshAccounts(accountViewId, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
   }
 
   if (['Deal', 'Contact'].includes(module) && !freshSalesConf.default.modules[module]?.fields) {
-    refreshFields(module, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar);
+    refreshFields(module, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
   }
-};
+}
 
-export const contactViewChange = (
+const contactViewChange = (
   contactViewId,
   freshSalesConf,
   setFreshSalesConf,
   setIsLoading,
   setSnackbar
 ) => {
-  const module = freshSalesConf.moduleData.module;
+  const module = freshSalesConf.moduleData.module
 
   if (['Deal'].includes(module)) {
-    refreshContacts(contactViewId, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar);
+    refreshContacts(contactViewId, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
   }
 
   if (['Deal'].includes(module) && !freshSalesConf.default.modules[module]?.fields) {
-    refreshFields(module, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar);
+    refreshFields(module, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar)
   }
-};
+}
 
-
-export const refreshFields = (module, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar) => {
+const refreshFields = (module, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar) => {
   const requestParams = {
     api_key: freshSalesConf.api_key,
     bundle_alias: freshSalesConf.bundle_alias,
@@ -126,33 +119,33 @@ export const refreshFields = (module, freshSalesConf, setFreshSalesConf, setIsLo
   }
 
   setIsLoading(true)
-  bitsFetch(requestParams, 'FreshSales_refresh_fields').then((result) => {
+  bitsFetch(requestParams, 'FreshSales_refresh_fields').then(result => {
     setIsLoading(false)
 
     if (!result || !result.success) {
-      setSnackbar({ show: false, msg: __('Fields refresh failed. please try again', 'bit-integrations') })
+      setSnackbar({
+        show: false,
+        msg: __('Fields refresh failed. please try again', 'bit-integrations')
+      })
       return
     }
 
-    setFreshSalesConf(prevConf => create(prevConf, draftConf => {
-      if (!draftConf.default.modules[module].fields) {
-        draftConf.default.modules[module].fields = []
-      }
+    setFreshSalesConf(prevConf =>
+      create(prevConf, draftConf => {
+        if (!draftConf.default.modules[module].fields) {
+          draftConf.default.modules[module].fields = []
+        }
 
-      draftConf.default.modules[module].fields = result?.data || []
-      draftConf.field_map = generateMappedField(draftConf)
+        draftConf.default.modules[module].fields = result?.data || []
+        draftConf.field_map = generateMappedField(draftConf)
 
-      setSnackbar({ show: true, msg: __('Fields refreshed', 'bit-integrations') })
-    }))
+        setSnackbar({ show: true, msg: __('Fields refreshed', 'bit-integrations') })
+      })
+    )
   })
 }
 
-export const accountRefreshViews = (
-  freshSalesConf,
-  setFreshSalesConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const accountRefreshViews = (freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar) => {
   const requestParams = {
     api_key: freshSalesConf.api_key,
     bundle_alias: freshSalesConf.bundle_alias,
@@ -162,27 +155,27 @@ export const accountRefreshViews = (
 
   setIsLoading(true)
   bitsFetch(requestParams, 'FreshSales_fetch_meta_data')
-    .then((result) => {
+    .then(result => {
       setIsLoading(false)
 
       if (!result || !result.success) {
-        setSnackbar({ show: false, msg: __('Account views refresh failed. please try again', 'bit-integrations') })
+        setSnackbar({
+          show: false,
+          msg: __('Account views refresh failed. please try again', 'bit-integrations')
+        })
         return
       }
 
-      setFreshSalesConf(prevConf => create(prevConf, draftConf => {
-        draftConf.default.accountViews = result.data || []
-      }))
+      setFreshSalesConf(prevConf =>
+        create(prevConf, draftConf => {
+          draftConf.default.accountViews = result.data || []
+        })
+      )
     })
     .catch(() => setIsLoading(false))
 }
 
-export const contactRefreshViews = (
-  freshSalesConf,
-  setFreshSalesConf,
-  setIsLoading,
-  setSnackbar
-) => {
+export const contactRefreshViews = (freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar) => {
   const requestParams = {
     api_key: freshSalesConf.api_key,
     bundle_alias: freshSalesConf.bundle_alias,
@@ -192,22 +185,33 @@ export const contactRefreshViews = (
 
   setIsLoading(true)
   bitsFetch(requestParams, 'FreshSales_fetch_meta_data')
-    .then((result) => {
+    .then(result => {
       setIsLoading(false)
 
       if (!result || !result.success) {
-        setSnackbar({ show: false, msg: __('Contact views refresh failed. please try again', 'bit-integrations') })
+        setSnackbar({
+          show: false,
+          msg: __('Contact views refresh failed. please try again', 'bit-integrations')
+        })
         return
       }
 
-      setFreshSalesConf(prevConf => create(prevConf, draftConf => {
-        draftConf.default.contactViews = result.data || []
-      }))
+      setFreshSalesConf(prevConf =>
+        create(prevConf, draftConf => {
+          draftConf.default.contactViews = result.data || []
+        })
+      )
     })
     .catch(() => setIsLoading(false))
 }
 
-export const refreshAccounts = (accountViewId, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar) => {
+export const refreshAccounts = (
+  accountViewId,
+  freshSalesConf,
+  setFreshSalesConf,
+  setIsLoading,
+  setSnackbar
+) => {
   const requestParams = {
     api_key: freshSalesConf.api_key,
     bundle_alias: freshSalesConf.bundle_alias,
@@ -218,22 +222,33 @@ export const refreshAccounts = (accountViewId, freshSalesConf, setFreshSalesConf
 
   setIsLoading(true)
   bitsFetch(requestParams, 'FreshSales_fetch_meta_data')
-    .then((result) => {
+    .then(result => {
       setIsLoading(false)
 
       if (!result || !result.success) {
-        setSnackbar({ show: false, msg: __('Accounts refresh failed. please try again', 'bit-integrations') })
+        setSnackbar({
+          show: false,
+          msg: __('Accounts refresh failed. please try again', 'bit-integrations')
+        })
         return
       }
 
-      setFreshSalesConf(prevConf => create(prevConf, draftConf => {
-        draftConf.default.accounts = result.data || []
-      }))
+      setFreshSalesConf(prevConf =>
+        create(prevConf, draftConf => {
+          draftConf.default.accounts = result.data || []
+        })
+      )
     })
     .catch(() => setIsLoading(false))
 }
 
-export const refreshContacts = (contactViewId, freshSalesConf, setFreshSalesConf, setIsLoading, setSnackbar) => {
+export const refreshContacts = (
+  contactViewId,
+  freshSalesConf,
+  setFreshSalesConf,
+  setIsLoading,
+  setSnackbar
+) => {
   const requestParams = {
     api_key: freshSalesConf.api_key,
     bundle_alias: freshSalesConf.bundle_alias,
@@ -244,45 +259,50 @@ export const refreshContacts = (contactViewId, freshSalesConf, setFreshSalesConf
 
   setIsLoading(true)
   bitsFetch(requestParams, 'FreshSales_fetch_meta_data')
-    .then((result) => {
+    .then(result => {
       setIsLoading(false)
 
       if (!result || !result.success) {
-        setSnackbar({ show: false, msg: __('Contacts refresh failed. please try again', 'bit-integrations') })
+        setSnackbar({
+          show: false,
+          msg: __('Contacts refresh failed. please try again', 'bit-integrations')
+        })
         return
       }
 
-      setFreshSalesConf(prevConf => create(prevConf, draftConf => {
-        draftConf.default.contacts = result.data || []
-      }))
+      setFreshSalesConf(prevConf =>
+        create(prevConf, draftConf => {
+          draftConf.default.contacts = result.data || []
+        })
+      )
     })
     .catch(() => setIsLoading(false))
 }
 
-export const generateMappedField = (freshSalesConf) => {
+const generateMappedField = freshSalesConf => {
   const module = freshSalesConf.moduleData.module
 
   const requiredFlds = freshSalesConf?.default?.modules?.[module]?.fields?.filter(
-    (fld) => fld.required === true
+    fld => fld.required === true
   )
   return requiredFlds?.length > 0
-    ? requiredFlds.map((field) => ({
-      formField: '',
-      freshSalesFormField: field.key
-    }))
+    ? requiredFlds.map(field => ({
+        formField: '',
+        freshSalesFormField: field.key
+      }))
     : [{ formField: '', freshSalesFormField: '' }]
 }
 
-export const checkMappedFields = (freshSalesConf) => {
+export const checkMappedFields = freshSalesConf => {
   const mappedFields = freshSalesConf?.field_map
     ? freshSalesConf.field_map.filter(
-      (mappedField) =>
-        !mappedField.formField &&
-        mappedField.freshSalesFormField &&
-        freshSalesConf?.default?.modules?.[
-          freshSalesConf.moduleData.module
-        ]?.requiredFields?.indexOf(mappedField.freshSalesFormField) !== -1
-    )
+        mappedField =>
+          !mappedField.formField &&
+          mappedField.freshSalesFormField &&
+          freshSalesConf?.default?.modules?.[freshSalesConf.moduleData.module]?.requiredFields?.indexOf(
+            mappedField.freshSalesFormField
+          ) !== -1
+      )
     : []
   if (mappedFields.length > 0) {
     return false
@@ -291,7 +311,7 @@ export const checkMappedFields = (freshSalesConf) => {
   return true
 }
 
-export const checkRequired = (freshSalesConf) => {
+export const checkRequired = freshSalesConf => {
   if (
     freshSalesConf.moduleData?.module !== '' &&
     freshSalesConf.default.modules?.[freshSalesConf?.moduleData?.module]?.required
@@ -332,7 +352,7 @@ export const handleAuthorize = (confTmp, setError, setisAuthorized, setIsLoading
     module: 'filters'
   }
 
-  bitsFetch(requestParams, 'FreshSales_authorization').then((result) => {
+  bitsFetch(requestParams, 'FreshSales_authorization').then(result => {
     if (result && result.success) {
       setisAuthorized(true)
       setIsLoading(false)

@@ -1,5 +1,5 @@
 import { create } from 'mutative'
-import React, { useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useRecoilValue } from 'recoil'
 import { $formFields } from '../../../../GlobalStates'
 import CloseIcn from '../../../../Icons/CloseIcn'

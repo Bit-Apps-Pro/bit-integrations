@@ -4,7 +4,7 @@ Tags: automation, automator, Google Sheets, webhooks, zapier, marketing automati
 Requires at least: 5.1
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.7.4
+Stable tag: 2.7.5
 License: GPLv2 or later
 
 Perfect Automation and integration plugin: Connect 300+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
@@ -699,6 +699,30 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 6. All integration list
 
 == Changelog ==
+
+= 2.7.5 =
+_Release Date - 08th January 2026_
+
+- **New Trigger**
+ - WPCafe: 7 new events added (Pro)
+ - FluentCart: 13 new events added (Pro)
+ - Forminator Quiz And Poll: 2 new events added (Pro)
+ - Teams for WooCommerce Memberships: 7 new events added (Pro)
+ - Essential Addons for Elementor: 2 new events added (Pro)
+
+- **New Actions**
+ - WPCafe: 3 new events added (Pro)
+ - FluentCart: 12 new events added (Pro)
+ - Teams for WooCommerce Memberships: 4 new events added (Pro)
+
+- **New Features**
+ - GoHighLevel: Introduced the REST API v2 for enhanced integration possibilities (Pro).
+ - WPForms: Repeater fields have been added for better customization in form submissions.
+ - Admin Alerts: Added an admin alert email feature for failed integrations, providing better notification control.
+
+- **Bug Fixes**
+ - Google Drive: Fixed the file delete utility issue that was affecting the deletion process.
+ - Voxel: Resolved the multiselect field value issue, ensuring proper functionality.
 
 = 2.7.4 =
 _Release Date - 15th December 2025_

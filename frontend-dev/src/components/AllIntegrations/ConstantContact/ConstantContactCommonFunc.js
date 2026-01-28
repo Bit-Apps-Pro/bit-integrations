@@ -31,10 +31,10 @@ export const handleInput = (
   setConstantContactConf({ ...newConf })
 }
 
-export const checkAddressFieldMapRequired = (constantContactConf) => {
+export const checkAddressFieldMapRequired = constantContactConf => {
   const requiredFleld = constantContactConf?.address_field
     ? constantContactConf.address_field.filter(
-        (field) => !field.formField && field.constantContactAddressField && field.required
+        field => !field.formField && field.constantContactAddressField && field.required
       )
     : []
   if (requiredFleld.length > 0) {
@@ -43,65 +43,11 @@ export const checkAddressFieldMapRequired = (constantContactConf) => {
   return true
 }
 
-export const listChange = (constantContactConf, setConstantContactConf) => {
+const listChange = (constantContactConf, setConstantContactConf) => {
   const newConf = deepCopy(constantContactConf)
   newConf.field_map = [{ formField: '', constantContactFormField: '' }]
   getAllCustomFields(constantContactConf, setConstantContactConf)
   return newConf
-}
-
-export const refreshList = (
-  id,
-  constantContactConf,
-  setConstantContactConf,
-  setIsLoading,
-  setSnackbar
-) => {
-  setIsLoading(true)
-  const refreshModulesRequestParams = {
-    id,
-    clientId: constantContactConf.clientId,
-    clientSecret: constantContactConf.clientSecret,
-    tokenDetails: constantContactConf.tokenDetails
-  }
-  bitsFetch(refreshModulesRequestParams, 'cContact_refresh_list')
-    .then((result) => {
-      if (result && result.success) {
-        const newConf = { ...constantContactConf }
-        if (!newConf.default) {
-          newConf.default = {}
-        }
-        if (result.data.contactList) {
-          newConf.default.contactList = result.data.contactList
-        }
-        if (result.data.tokenDetails) {
-          newConf.tokenDetails = result.data.tokenDetails
-        }
-        setSnackbar({
-          show: true,
-          msg: __('Contact list refreshed', 'bit-integrations')
-        })
-        setConstantContactConf({ ...newConf })
-      } else if (
-        (result && result.data && result.data.data) ||
-        (!result.success && typeof result.data === 'string')
-      ) {
-        setSnackbar({
-          show: true,
-          msg: sprintf(
-            __('Contact list refresh failed Cause: %s. please try again', 'bit-integrations'),
-            result.data.data || result.data
-          )
-        })
-      } else {
-        setSnackbar({
-          show: true,
-          msg: __('Contact list failed. please try again', 'bit-integrations')
-        })
-      }
-      setIsLoading(false)
-    })
-    .catch(() => setIsLoading(false))
 }
 
 export const getAllContactLists = (id, confTmp, setConf, isLoading, setIsLoading) => {
@@ -114,7 +60,7 @@ export const getAllContactLists = (id, confTmp, setConf, isLoading, setIsLoading
     tokenDetails: confTmp.tokenDetails
   }
 
-  bitsFetch(requestParams, 'cContact_refresh_list').then((result) => {
+  bitsFetch(requestParams, 'cContact_refresh_list').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -130,14 +76,15 @@ export const getAllContactLists = (id, confTmp, setConf, isLoading, setIsLoading
     toast.error(__('List fetch failed', 'bit-integrations'))
   })
 }
-export const getAllCustomFields = (confTmp, setConf) => {
+
+const getAllCustomFields = (confTmp, setConf) => {
   const requestParams = {
     clientId: confTmp.clientId,
     clientSecret: confTmp.clientSecret,
     tokenDetails: confTmp.tokenDetails
   }
 
-  bitsFetch(requestParams, 'cContact_custom_fields').then((result) => {
+  bitsFetch(requestParams, 'cContact_custom_fields').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -159,7 +106,7 @@ export const getContactTags = (id, confTmp, setConf, isLoading, setIsLoading) =>
     tokenDetails: confTmp.tokenDetails
   }
 
-  bitsFetch(requestParams, 'cContact_refresh_tags').then((result) => {
+  bitsFetch(requestParams, 'cContact_refresh_tags').then(result => {
     if (result && result.success) {
       const newConf = { ...confTmp }
       if (result.data) {
@@ -176,12 +123,12 @@ export const getContactTags = (id, confTmp, setConf, isLoading, setIsLoading) =>
   })
 }
 
-export const setGrantTokenResponse = (integ) => {
+export const setGrantTokenResponse = integ => {
   const grantTokenResponse = {}
   const authWindowLocation = window.location.href
   const queryParams = authWindowLocation.replace(`${window.opener.location.href}`, '').split('&')
   if (queryParams) {
-    queryParams.forEach((element) => {
+    queryParams.forEach(element => {
       const gtKeyValue = element.split('=')
       if (gtKeyValue[1]) {
         // eslint-disable-next-line prefer-destructuring
@@ -286,8 +233,8 @@ const tokenHelper = (
   tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
 
   bitsFetch(tokenRequestParams, `${ajaxInteg}_generate_token`)
-    .then((result) => result)
-    .then((result) => {
+    .then(result => result)
+    .then(result => {
       if (result && result.success) {
         const newConf = { ...confTmp }
         newConf.tokenDetails = result.data
@@ -317,9 +264,9 @@ const tokenHelper = (
     })
 }
 
-export const checkMappedFields = (sheetconf) => {
+export const checkMappedFields = sheetconf => {
   const mappedFleld = sheetconf.field_map
-    ? sheetconf.field_map.filter((mapped) => !mapped.formField && !mapped.constantContactFormField)
+    ? sheetconf.field_map.filter(mapped => !mapped.formField && !mapped.constantContactFormField)
     : []
   if (mappedFleld.length > 0) {
     return false
@@ -327,12 +274,12 @@ export const checkMappedFields = (sheetconf) => {
   return true
 }
 
-export const generateMappedField = (constantContactConf) => {
+export const generateMappedField = constantContactConf => {
   const requiredFlds = constantContactConf?.default?.constantContactFields.filter(
-    (fld) => fld.required === true
+    fld => fld.required === true
   )
   return requiredFlds.length > 0
-    ? requiredFlds.map((field) => ({
+    ? requiredFlds.map(field => ({
         formField: '',
         constantContactFormField: field.key
       }))

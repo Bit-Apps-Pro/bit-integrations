@@ -5649,6 +5649,8 @@ _:-ms-fullscreen,
       .new-feature,
       .fixes {
         padding: 2px 13px;
+        margin-bottom: 5px;
+        display: inline-block;
       }
 
       .new-integration {
@@ -5719,6 +5721,10 @@ _:-ms-fullscreen,
         & > ul {
           list-style-type: disc;
         }
+      }
+
+      li {
+        margin-bottom: 5px;
       }
     }
     .txt-sm {
