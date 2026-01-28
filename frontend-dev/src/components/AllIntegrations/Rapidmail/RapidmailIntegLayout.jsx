@@ -4,6 +4,7 @@ import { addFieldMap } from './IntegrationHelpers'
 import { getAllRecipient } from './RapidmailCommonFunc'
 import RapidmailFieldMap from './RapidmailFieldMap'
 import RapidmailActions from './RapidmailActions'
+import Note from '../../Utilities/Note'
 
 export default function RapidmailIntegLayout({
   formFields,
@@ -75,6 +76,8 @@ export default function RapidmailIntegLayout({
           +
         </button>
       </div>
+
+      <Note note={note} />
       <br />
       <br />
       <div className="mt-4">
@@ -85,3 +88,11 @@ export default function RapidmailIntegLayout({
     </>
   )
 }
+
+const note = `
+    <h4>${__('To ensure compatibility during data imports, use the following date formats:', 'bit-integrations')}</h4>
+    <ul>
+      <li>${__('<b>Preferred format:</b> YYYY-MM-DD (ISO 8601, e.g., 2025-12-31) for the highest compatibility.', 'bit-integrations')}</li>
+      <li>${__('<b>Time data:</b> If including time, use YYYY-MM-DD HH:mm (e.g., 2025-12-31 14:30).', 'bit-integrations')}</li>
+  </ul>
+  `
