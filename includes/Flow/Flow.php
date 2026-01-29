@@ -2,6 +2,7 @@
 
 namespace BitCode\FI\Flow;
 
+use BitCode\FI\Core\Integration\IntegrationHandler;
 use BitCode\FI\Core\Util\Capabilities;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\CustomFuncValidator;
@@ -433,7 +434,7 @@ final class Flow
                 ) {
                     $error = new WP_Error('Conditional Logic False', __('Conditional Logic not matched', 'bit-integrations'));
                     if (isset($flowData->id)) {
-                        LogHandler::save($flowData->id, 'Conditional Logic', 'validation', $error);
+                        LogHandler::save($flowData->id, 'Conditional Logic', 'validation', $error, $data);
                     }
 
                     continue;
@@ -499,7 +500,8 @@ final class Flow
                         // $data = array_merge($data, $sptagData);
                         $data = $data + $sptagData;
                     }
-                    $handler->execute($flowData, $data);
+                    // Execute with automatic field data capture
+                    IntegrationHandler::executeWithCapture($flowData, $data, $handler);
                 }
             }
         }

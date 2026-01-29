@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 }
 
 global $btcbi_db_version;
-$btcbi_db_version = '1.1';
+$btcbi_db_version = '1.2';
 
 // Define most essential constants.
 define('BTCBI_VERSION', '2.7.5');

@@ -17,6 +17,7 @@ use BitCode\FI\Triggers\TriggerController;
 
 Route::post('log/get', [LogHandler::class, 'get']);
 Route::post('log/delete', [LogHandler::class, 'delete']);
+Route::post('log/reexecute', [LogHandler::class, 'reexecute']);
 
 // Trigger Controller
 Route::get('trigger/list', [TriggerController::class, 'triggerList']);

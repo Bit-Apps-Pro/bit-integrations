@@ -1,16 +1,16 @@
-import { useState, useCallback, useRef, memo } from 'react'
+import { memo, useCallback, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import noData from '../../resource/img/nodata.svg'
+import bitsFetch from '../../Utils/bitsFetch'
 import { __ } from '../../Utils/i18nwrap'
+import Button from '../Utilities/Button'
+import CopyText from '../Utilities/CopyText'
+import EyeIcn from '../Utilities/EyeIcn'
+import Modal from '../Utilities/Modal'
+import Reload from '../Utilities/Reload'
 import SnackMsg from '../Utilities/SnackMsg'
 import Table from '../Utilities/Table'
-import bitsFetch from '../../Utils/bitsFetch'
-import CopyText from '../Utilities/CopyText'
-import noData from '../../resource/img/nodata.svg'
-import Button from '../Utilities/Button'
-import CloseIcn from '../../Icons/CloseIcn'
-import Modal from '../Utilities/Modal'
-import { json } from 'react-router'
-import EyeIcn from '../Utilities/EyeIcn'
+import DataPreviewTabs from './DataPreviewTabs'
 
 function Log({ allIntegURL }) {
   const { id, type } = useParams()
@@ -22,40 +22,80 @@ function Log({ allIntegURL }) {
   const [isLoading, setIsLoading] = useState(false)
   const [refreshLog, setRefreshLog] = useState(0)
   const [response, setResponse] = useState(false)
+  const [dataPreview, setDataPreview] = useState({ input: null, output: null })
 
   const [log, setLog] = useState([])
   const [cols, setCols] = useState([
     {
-      width: 250,
+      width: 100,
       minWidth: 80,
       Header: __('Status', 'bit-integrations'),
       accessor: 'response_type'
     },
     {
-      width: 250,
+      width: 400,
       minWidth: 80,
       Header: __('Record Type', 'bit-integrations'),
       accessor: 'api_type'
     },
+    { width: 220, minWidth: 200, Header: __('Date', 'bit-integrations'), accessor: 'created_at' },
     {
-      width: 220,
+      width: 100,
       minWidth: 200,
       Header: __('Response', 'bit-integrations'),
       accessor: 'response_obj',
       Cell: val => (
         <>
-          <CopyText value={val.row.values.response_obj} setSnackbar={setSnackbar} className="cpyTxt" />
           <Button
             type="button"
-            className="icn-btn tooltip"
-            style={{ '--tooltip-txt': '"Preview"' }}
-            onClick={() => setResponse(val.row.values.response_obj)}>
-            <EyeIcn width="40" height="40" strokeColor="#222" />
+            className="btn btcd-btn-o-blue ml-1"
+            style={{
+              padding: '5px 12px',
+              fontSize: '13px',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px'
+            }}
+            onClick={() => {
+              setDataPreview({
+                input: val.row.original.field_data,
+                output: val.row.values.response_obj
+              })
+              setResponse(true)
+            }}>
+            <EyeIcn width="16" height="16" />
+            <span>{__('View', 'bit-integrations')}</span>
           </Button>
         </>
       )
     },
-    { width: 220, minWidth: 200, Header: __('Date', 'bit-integrations'), accessor: 'created_at' }
+    {
+      width: 180,
+      minWidth: 120,
+      Header: __('Re-execute', 'bit-integrations'),
+      accessor: 'id',
+      Cell: val => (
+        <>
+          {val.row.original.field_data && (
+            <Button
+              type="button"
+              className="btn btcd-btn-o-purple"
+              style={{
+                padding: '5px 12px',
+                fontSize: '13px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px'
+              }}
+              disabled={isLoading}
+              onClick={() => handleReexecute(val.row.original.id)}>
+              <Reload width="16" height="16" />
+              <span>{__('Re-execute', 'bit-integrations')}</span>
+            </Button>
+          )}
+        </>
+      )
+    }
   ])
   const setTableCols = useCallback(newCols => {
     setCols(newCols)
@@ -93,6 +133,28 @@ function Log({ allIntegURL }) {
       }
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const handleReexecute = useCallback(logId => {
+    if (!logId) return
+
+    setSnackbar({ show: true, msg: __('Re-executing integration...', 'bit-integrations') })
+
+    bitsFetch({ log_id: logId }, 'log/reexecute')
+      .then(res => {
+        if (res.success) {
+          setSnackbar({
+            show: true,
+            msg: __('Integration re-executed successfully', 'bit-integrations')
+          })
+          setRefreshLog(1)
+        } else {
+          setSnackbar({ show: true, msg: res.data || __('Re-execution failed', 'bit-integrations') })
+        }
+      })
+      .catch(err => {
+        setSnackbar({ show: true, msg: __('Error during re-execution', 'bit-integrations') })
+      })
   }, [])
 
   const delConfMdl = useCallback(
@@ -203,34 +265,12 @@ function Log({ allIntegURL }) {
 
       {response && (
         <Modal
-          sm
           closeIcon
           show={response}
-          setModal={setResponse}
-          style={{ maxWidth: '900px' }}
-          title={__('Response', 'bit-integrations')}>
-          <div className="flx flx-around mr-1 mt-1">
-            <div
-              className="txt-dp"
-              style={{
-                background: '#1e293b',
-                borderRadius: '8px',
-                padding: '16px',
-                color: '#f8fafc',
-                fontFamily: "'Fira Code', monospace",
-                fontSize: '14px',
-                overflow: 'auto',
-                maxWidth: '800px',
-                maxHeight: '500px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-                width: '100%',
-                height: '100%'
-              }}>
-              <pre style={{ margin: 0 }}>
-                <code className="">{jsonPrint(response)}</code>
-              </pre>
-            </div>
-          </div>
+          setModal={() => setResponse(false)}
+          title={__('Data Preview', 'bit-integrations')}
+          style={{ width: '90vw', maxWidth: '1200px', height: 'min-content' }}>
+          <DataPreviewTabs inputData={dataPreview.input} outputData={dataPreview.output} />
         </Modal>
       )}
     </>
@@ -238,11 +278,3 @@ function Log({ allIntegURL }) {
 }
 
 export default memo(Log)
-
-const jsonPrint = data => {
-  try {
-    return JSON.stringify(JSON.parse(data), null, 2)
-  } catch (e) {
-    return data
-  }
-}

@@ -5836,3 +5836,45 @@ _:-ms-fullscreen,
     }
   }
 }
+
+// Data Preview Tabs
+.btcd-data-preview-tab {
+  padding: 12px 24px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  color: #555;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+  background-color: transparent;
+  border: none;
+  outline: none;
+
+  &:hover {
+    background-color: #eef2f7 !important;
+    color: #333 !important;
+  }
+
+  &.active {
+    color: #1e88e5;
+    border-bottom-color: #1e88e5;
+    background-color: #fff;
+  }
+}
+
+.btcd-data-preview-tab-header {
+  display: flex;
+  gap: 4px;
+  border-bottom: 2px solid #e8e8e8;
+  margin-bottom: 20px;
+  background-color: #f7f9fc;
+  justify-content: center;
+}
+
+.btcd-data-preview-panel {
+  padding: 0 4px;
+}
+
+.btcd-data-preview-content {
+  overflow-y: auto;
+}

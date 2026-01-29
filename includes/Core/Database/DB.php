@@ -42,6 +42,7 @@ final class DB
                 `api_type` varchar(255) DEFAULT NULL,
                 `response_type` varchar(50) DEFAULT NULL,
                 `response_obj` LONGTEXT DEFAULT NULL,
+                `field_data` LONGTEXT DEFAULT NULL,
                 `created_at` DATETIME NOT NULL,
                 PRIMARY KEY (`id`),
                 KEY `flow_id` (`flow_id`)
@@ -77,10 +78,45 @@ final class DB
             dbDelta($table);
         }
 
+        // Add field_data column if it doesn't exist
+        self::addFieldDataColumn();
+
         update_option(
             'btcbi_db_version',
             $btcbi_db_version
         );
+    }
+
+    /**
+     * Add field_data column to btcbi_log table for reexecution feature
+     *
+     * @return void
+     */
+    public static function addFieldDataColumn()
+    {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'btcbi_log';
+
+        // Check if column exists
+        $column_exists = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS 
+                WHERE TABLE_SCHEMA = %s 
+                AND TABLE_NAME = %s 
+                AND COLUMN_NAME = 'field_data'",
+                DB_NAME,
+                $table_name
+            )
+        );
+
+        // Add column if it doesn't exist
+        if (empty($column_exists)) {
+            $wpdb->query(
+                "ALTER TABLE `{$table_name}` 
+                ADD COLUMN `field_data` LONGTEXT DEFAULT NULL 
+                AFTER `response_obj`"
+            );
+        }
     }
 
     public static function fallbackDB()
