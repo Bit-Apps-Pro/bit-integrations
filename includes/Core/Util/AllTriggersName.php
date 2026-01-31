@@ -127,6 +127,7 @@ final class AllTriggersName
             'SureFeedback'                   => ['name' => 'SureFeedback',  'isPro' => true, 'is_active' => false],
             'SureMembers'                    => ['name' => 'SureMembers',  'isPro' => true, 'is_active' => false],
             'EventsCalendar'                 => ['name' => 'The Events Calendar',  'isPro' => true, 'is_active' => false],
+            'ThriveLeads'                    => ['name' => 'Thrive Leads',  'isPro' => true, 'is_active' => false],
             'ThriveApprentice'               => ['name' => 'ThriveApprentice',  'isPro' => true, 'is_active' => false],
             'Tripetto'                       => ['name' => 'Tripetto',  'isPro' => true, 'is_active' => false],
             'TutorLms'                       => ['name' => 'Tutor LMS',  'isPro' => true, 'is_active' => false],

@@ -86,7 +86,8 @@ export const customFormIntegrations = [
   'ForminatorQuizAndPoll',
   'TeamsForWooCommerceMemberships',
   'WPCafe',
-  'SeoPress'
+  'SeoPress',
+  'ThriveLeads'
 ]
 
 export const actionHookIntegrations = ['ActionHook']
