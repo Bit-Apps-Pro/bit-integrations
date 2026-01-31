@@ -2,9 +2,9 @@
 
 namespace BitCode\FI\Triggers\BitAssist;
 
-use BitCode\FI\Actions\WebHooks\WebHooksController;
+use BitCode\FI\Triggers\Webhook\WebhookController;
 
-final class BitAssistController extends WebHooksController
+final class BitAssistController extends WebhookController
 {
     public static function info()
     {

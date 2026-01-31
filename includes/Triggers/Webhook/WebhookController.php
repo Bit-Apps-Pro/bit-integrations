@@ -75,17 +75,17 @@ class WebhookController
         $fileParams = $request->get_file_params() ?? [];
 
         $bodyParams = $request->get_body_params();
-        $decodedBody = \is_array($bodyParams) ? $bodyParams : [];
+        $decodedBodyParams = \is_array($bodyParams) ? $bodyParams : [];
 
-        if (empty($decodedBody)) {
-            $rawBody = (string) $request->get_body();
+        $rawBody = (string) $request->get_body();
 
-            $decodedBody = Helper::isJson($rawBody)
-                ? json_decode($rawBody, true, 512, JSON_THROW_ON_ERROR)
-                : [$rawBody];
-        }
+        $decodedRawBody = Helper::isJson($rawBody)
+        ? json_decode($rawBody, true, 512, JSON_THROW_ON_ERROR)
+        : [$rawBody];
 
-        $flattenedBody = self::flattenPreserveOriginal($decodedBody);
+        $body = array_merge($decodedBodyParams, $decodedRawBody);
+
+        $flattenedBody = self::flattenPreserveOriginal($body);
         $data = array_merge($headers, $flattenedBody, $queryParams, $fileParams);
 
         $params = $request->get_params();
