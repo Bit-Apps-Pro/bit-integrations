@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '15th December 2025'
+const releaseDate = '31th January 2026'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -53,6 +53,11 @@ const changeLog = [
       {
         label: 'SEOPress',
         desc: '04 events Added.',
+        isPro: true
+      },
+      {
+        label: 'Thrive Leads',
+        desc: '02 events Added.',
         isPro: true
       }
     ]
@@ -108,6 +113,11 @@ const changeLog = [
       {
         label: 'WP User Registration',
         desc: 'Resolved trimming issue with Meta Fields during registration.',
+        isPro: false
+      },
+      {
+        label: 'Bit Assist',
+        desc: 'Resolved form submit entries null data issue.',
         isPro: false
       }
     ]

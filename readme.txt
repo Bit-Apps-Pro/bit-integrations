@@ -701,7 +701,7 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 == Changelog ==
 
 = 2.7.6 =
-_Release Date - 28th January 2026_
+_Release Date - 31th January 2026_
 
 - **Now FREE (Previously Pro Only)**
  - Bit Assist: 1 events
@@ -709,6 +709,7 @@ _Release Date - 28th January 2026_
 
 - **New Trigger**
  - SEOPress: 4 new events added (Pro)
+ - Thrive Leads: 2 new events added (Pro)
 
 - **New Actions**
  - SEOPress: 1 new events added (Pro)
@@ -726,6 +727,7 @@ _Release Date - 28th January 2026_
  - WooCommerce: Fixed issue with Checkout Metadata not displaying properly.
  - WPForms: Corrected problem with Payment Fields not functioning as expected.
  - WP User Registration: Resolved trimming issue with Meta Fields during registration.
+ - Bit Assist: Resolved form submit entries null data issue.
 
 = 2.7.5 =
 _Release Date - 08th January 2026_
