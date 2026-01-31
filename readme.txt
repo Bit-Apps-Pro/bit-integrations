@@ -4,7 +4,7 @@ Tags: automation, automator, Google Sheets, webhooks, zapier, marketing automati
 Requires at least: 5.1
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.7.5
+Stable tag: 2.7.6
 License: GPLv2 or later
 
 Perfect Automation and integration plugin: Connect 300+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
@@ -699,6 +699,35 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 6. All integration list
 
 == Changelog ==
+
+= 2.7.6 =
+_Release Date - 31th January 2026_
+
+- **Now FREE (Previously Pro Only)**
+ - Bit Assist: 1 events
+ - Bit Social: 14 events
+
+- **New Trigger**
+ - SEOPress: 4 new events added (Pro)
+ - Thrive Leads: 2 new events added (Pro)
+
+- **New Actions**
+ - SEOPress: 1 new events added (Pro)
+ - Fabman: 5 new events added (Pro)
+
+- **New Features**
+ - GoHighLevel: Added Tags Utilities to REST API v2 for better integration (Pro).
+ - RapidMail: Introduced Force Subscribe Utilities for enhanced subscription management.
+
+- **Security**
+ - Malware Fix: Resolved malware issue detected in the file php-cs-fixer.phar in the plugin directory (Pro).
+
+- **Bug Fixes**
+ - Amelia Booking: Resolved issue with Multi-Select/Checkbox field values not saving correctly (Pro).
+ - WooCommerce: Fixed issue with Checkout Metadata not displaying properly.
+ - WPForms: Corrected problem with Payment Fields not functioning as expected.
+ - WP User Registration: Resolved trimming issue with Meta Fields during registration.
+ - Bit Assist: Resolved form submit entries null data issue.
 
 = 2.7.5 =
 _Release Date - 08th January 2026_

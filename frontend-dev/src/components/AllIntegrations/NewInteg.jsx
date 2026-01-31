@@ -173,6 +173,7 @@ const WPCafe = lazy(() => import('./WPCafe/WPCafe'))
 const TeamsForWooCommerceMemberships = lazy(
   () => import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMemberships')
 )
+const SeoPress = lazy(() => import('./SeoPress/SeoPress'))
 
 export default function NewInteg({ allIntegURL }) {
   const { integUrlName } = useParams()
@@ -1641,6 +1642,15 @@ export default function NewInteg({ allIntegURL }) {
       case 'Teams For WooCommerce Memberships':
         return (
           <TeamsForWooCommerceMemberships
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'SeoPress':
+        return (
+          <SeoPress
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
             flow={flow}

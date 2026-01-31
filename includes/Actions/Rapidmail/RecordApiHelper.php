@@ -27,10 +27,15 @@ class RecordApiHelper
         ];
     }
 
-    public function insertRecipientRecord($data, $send_activationmail)
+    public function insertRecipientRecord($data, $actions)
     {
-        $send_activationmail = $send_activationmail ? 'yes' : 'no';
+        $send_activationmail = isset($actions->send_activationmail) && $actions->send_activationmail ? 'yes' : 'no';
         $insertRecordEndpoint = self::$apiBaseUri . "/recipients?send_activationmail={$send_activationmail}";
+
+        if (isset($actions->force_subscribe) && $actions->force_subscribe) {
+            $data['status'] = 'active';
+        }
+
         $data = \is_string($data) ? $data : wp_json_encode((object) $data);
 
         return HttpHelper::post($insertRecordEndpoint, $data, $this->_defaultHeader);
@@ -58,7 +63,7 @@ class RecordApiHelper
     public function executeRecordApi($integId, $defaultConf, $recipientLists, $fieldValues, $fieldMap, $actions, $isRelated = false)
     {
         $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
-        $apiResponse = $this->insertRecipientRecord($finalData, $actions->send_activationmail);
+        $apiResponse = $this->insertRecipientRecord($finalData, $actions);
 
         if (!isset($apiResponse->id)) {
             LogHandler::save($integId, wp_json_encode(['type' => 'recipient', 'type_name' => 'recipient_add']), 'error', wp_json_encode($apiResponse));

@@ -22,6 +22,7 @@ Route::post('log/delete', [LogHandler::class, 'delete']);
 Route::get('trigger/list', [TriggerController::class, 'triggerList']);
 Route::post('trigger/test', [TriggerController::class, 'getTestData']);
 Route::post('trigger/test/remove', [TriggerController::class, 'removeTestData']);
+Route::post('trigger/save-listed', [TriggerController::class, 'saveListedTriggers']);
 
 Route::get('flow/list', [Flow::class, 'flowList']);
 Route::post('flow/get', [Flow::class, 'get']);

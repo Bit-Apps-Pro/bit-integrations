@@ -327,13 +327,27 @@ final class Helper
         }
 
         $data = [];
-        $order = \is_object($order) ? (array) $order : $order;
         $checkoutFields = WC()->checkout()->get_checkout_fields();
+
+        if (empty($checkoutFields)) {
+            return $data;
+        }
+
+        $isOrderObject = \is_object($order) && method_exists($order, 'get_meta');
+        $orderData = \is_object($order) && method_exists($order, 'get_data') ? $order->get_data() : (array) $order;
 
         foreach ($checkoutFields as $group) {
             foreach ($group as $field) {
-                if (!empty($field['custom'])) {
-                    $data[$field['name']] = $order[$field['name']];
+                if (empty($field['custom'])) {
+                    continue;
+                }
+
+                $fieldName = $field['name'];
+
+                if ($isOrderObject && $order->meta_exists($fieldName)) {
+                    $data[$fieldName] = $order->get_meta($fieldName, true) ?? '';
+                } else {
+                    $data[$fieldName] = $orderData[$fieldName] ?? '';
                 }
             }
         }
@@ -348,7 +362,7 @@ final class Helper
         }
 
         $data = [];
-        $order = \is_object($order) ? (array) $order : $order;
+        $order = \is_object($order) && method_exists($order, 'get_data') ? $order->get_data() : (array) $order;
         $checkoutFields = WC()->checkout()->get_checkout_fields();
 
         foreach ($checkoutFields as $groupKey => $group) {
@@ -408,6 +422,11 @@ final class Helper
             }
 
             $label = ucwords(str_replace('_', ' ', $path ? $currentPath : $key));
+
+            if (\is_string($value) && static::isJson($value)) {
+                $value = json_decode($value, true);
+            }
+
             if (\is_array($value) || \is_object($value)) {
                 $formattedData[$currentPath] = [
                     'name'  => $currentPath . '.value',

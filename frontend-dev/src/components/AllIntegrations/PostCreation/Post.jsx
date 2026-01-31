@@ -213,7 +213,7 @@ function Post({ formFields, setFlow, flow, allIntegURL }) {
             onChange={e => getCustomFields(e.target.name, e.target.value)}
             className="btcd-paper-inp w-5 mt-1">
             <option disabled selected>
-              {('Select Post Type', 'bit-integrations')}
+              {__('Select Post Type', 'bit-integrations')}
             </option>
             {postTypes?.map((postType, key) => (
               <option key={`acf-${key * 2}`} value={postType?.id}>
