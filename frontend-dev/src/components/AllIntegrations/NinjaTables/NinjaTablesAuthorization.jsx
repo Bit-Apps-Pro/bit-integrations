@@ -49,8 +49,8 @@ export default function NinjaTablesAuthorization({
   return (
     <>
       <TutorialLink
-        title={tutorialLinks.ninjaTables?.title || __('NinjaTables', 'bit-integrations')}
-        youTubeLink={tutorialLinks.ninjaTables?.link}
+        title={__('NinjaTables', 'bit-integrations')}
+        docLink={tutorialLinks.ninjaTables?.docLink}
       />
 
       <div
