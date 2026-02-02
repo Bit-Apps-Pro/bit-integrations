@@ -132,10 +132,9 @@ class NinjaTablesController
             return new WP_Error('field_map_empty', __('Field map is empty', 'bit-integrations'));
         }
 
-        $utilities = $integrationDetails->utilities ?? [];
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integrationData->id);
 
-        return $recordApiHelper->execute($fieldValues, $fieldMap, $utilities);
+        return $recordApiHelper->execute($fieldValues, $fieldMap);
     }
 
     /**

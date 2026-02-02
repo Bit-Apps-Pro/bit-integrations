@@ -49,11 +49,10 @@ class RecordApiHelper
      *
      * @param array $fieldValues Field values from form
      * @param array $fieldMap    Field mapping
-     * @param array $utilities   Actions to perform
      *
      * @return array
      */
-    public function execute($fieldValues, $fieldMap, $utilities)
+    public function execute($fieldValues, $fieldMap)
     {
         if (!$this->validateNinjaTables()) {
             return $this->getPluginNotInstalledResponse();
@@ -61,7 +60,7 @@ class RecordApiHelper
 
         $fieldData = $this->prepareFieldData($fieldMap, $fieldValues);
         $mainAction = $this->getMainAction();
-        $response = $this->executeAction($mainAction, $fieldData, $utilities);
+        $response = $this->executeAction($mainAction, $fieldData);
 
         $this->logResponse($mainAction, $response);
 
@@ -230,20 +229,19 @@ class RecordApiHelper
      *
      * @param string $action    Action to execute
      * @param array  $fieldData Field data
-     * @param array  $utilities Utilities
      *
      * @return array
      */
-    private function executeAction($action, $fieldData, $utilities)
+    private function executeAction($action, $fieldData)
     {
         $defaultResponse = $this->getDefaultResponse();
 
         switch ($action) {
             case self::ACTION_ADD_ROW:
-                return $this->executeAddRow($defaultResponse, $fieldData, $utilities);
+                return $this->executeAddRow($defaultResponse, $fieldData);
 
             case self::ACTION_UPDATE_ROW:
-                return $this->executeUpdateRow($defaultResponse, $fieldData, $utilities);
+                return $this->executeUpdateRow($defaultResponse, $fieldData);
 
             default:
                 return $this->getInvalidActionResponse();
@@ -271,18 +269,15 @@ class RecordApiHelper
      *
      * @param array $defaultResponse Default response
      * @param array $fieldData       Field data
-     * @param array $utilities       Utilities
      *
      * @return array
      */
-    private function executeAddRow($defaultResponse, $fieldData, $utilities)
+    private function executeAddRow($defaultResponse, $fieldData)
     {
         return apply_filters(
             self::FILTER_ADD_ROW,
             $defaultResponse,
-            $fieldData,
-            $utilities,
-            $this->_integrationDetails
+            $fieldData
         );
     }
 
@@ -291,18 +286,15 @@ class RecordApiHelper
      *
      * @param array $defaultResponse Default response
      * @param array $fieldData       Field data
-     * @param array $utilities       Utilities
      *
      * @return array
      */
-    private function executeUpdateRow($defaultResponse, $fieldData, $utilities)
+    private function executeUpdateRow($defaultResponse, $fieldData)
     {
         return apply_filters(
             self::FILTER_UPDATE_ROW,
             $defaultResponse,
-            $fieldData,
-            $utilities,
-            $this->_integrationDetails
+            $fieldData
         );
     }
 
