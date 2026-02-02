@@ -4,7 +4,7 @@ Tags: automation, automator, Google Sheets, webhooks, zapier, marketing automati
 Requires at least: 5.1
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.7.6
+Stable tag: 2.7.7
 License: GPLv2 or later
 
 Perfect Automation and integration plugin: Connect 300+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
@@ -699,6 +699,12 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 6. All integration list
 
 == Changelog ==
+
+= 2.7.7 =
+_Release Date - 2nd February 2026_
+
+- **Hotfix**
+ - Bug Fixes: Fixed the issue where the selected trigger hook was empty, preventing the trigger from firing correctly (Pro).
 
 = 2.7.6 =
 _Release Date - 31th January 2026_

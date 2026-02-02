@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '31th January 2026'
+const releaseDate = '2nd February 2026'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -90,6 +90,11 @@ const changeLog = [
     headClass: 'fixes',
     itemClass: 'fixes-list',
     items: [
+      {
+        label: 'Hotfix',
+        desc: 'Fixed the issue where the selected trigger hook was empty, preventing the trigger from firing correctly.',
+        isPro: true
+      },
       {
         label: 'Malware Fix',
         desc: 'Resolved malware issue detected in the file php-cs-fixer.phar in the plugin directory.',
