@@ -101,6 +101,10 @@ class HookService
      */
     private function _includeTriggerTaskHooks($task_name)
     {
+        if (!\is_string($task_name) || empty($task_name)) {
+            return;
+        }
+
         $task_dir = BTCBI_PLUGIN_BASEDIR . 'includes' . DIRECTORY_SEPARATOR;
         $task_path = $task_dir . 'Triggers' . DIRECTORY_SEPARATOR . $task_name . DIRECTORY_SEPARATOR;
         if (is_readable($task_path . 'Hooks.php')) {
