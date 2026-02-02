@@ -171,6 +171,7 @@ const LineAuthorization = lazy(() => import('./Line/LineAuthorization'))
 const ACPTAuthorization = lazy(() => import('./ACPT/ACPTAuthorization'))
 const WishlistMemberAuthorization = lazy(() => import('./WishlistMember/WishlistMemberAuthorization'))
 const FluentCartAuthorization = lazy(() => import('./FluentCart/FluentCartAuthorization'))
+const NinjaTablesAuthorization = lazy(() => import('./NinjaTables/NinjaTablesAuthorization'))
 const WPCafeAuthorization = lazy(() => import('./WPCafe/WPCafeAuthorization'))
 const TeamsForWooCommerceMembershipsAuthorization = lazy(
   () => import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMembershipsAuthorization')
@@ -606,6 +607,8 @@ export default function IntegInfo() {
         return <WishlistMemberAuthorization wishlistMemberConf={integrationConf} step={1} isInfo />
       case 'FluentCart':
         return <FluentCartAuthorization fluentCartConf={integrationConf} step={1} isInfo />
+      case 'Ninja Tables':
+        return <NinjaTablesAuthorization ninjaTablesConf={integrationConf} step={1} isInfo />
       case 'WPCafe':
         return <WPCafeAuthorization wpcafeConf={integrationConf} step={1} isInfo />
       case 'Teams For WooCommerce Memberships':

@@ -38,7 +38,7 @@ function TutorLms({ formFields, setFlow, flow, allIntegURL }) {
       setSnackbar
     })
   }
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -72,15 +72,13 @@ function TutorLms({ formFields, setFlow, flow, allIntegURL }) {
           ...(step === 2 && {
             width: 900,
             height: 'auto',
-            minHeight: step === 2 && `${260}px`,
+            minHeight: step === 2 && '500px',
             overflow: 'visible'
           })
         }}>
         <TutorLmsIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, tutorlmsConf, setTutorlmsConf, setIsLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, tutorlmsConf, setTutorlmsConf, setIsLoading, setSnackbar)}
           tutorlmsConf={tutorlmsConf}
           setTutorlmsConf={setTutorlmsConf}
           isLoading={isLoading}

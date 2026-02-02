@@ -23,7 +23,7 @@ export default function MailPoet({ formFields, setFlow, flow, allIntegURL }) {
     actions: {}
   })
 
-  const nextPage = (val) => {
+  const nextPage = val => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -69,7 +69,7 @@ export default function MailPoet({ formFields, setFlow, flow, allIntegURL }) {
         style={{
           width: step === 2 && 900,
           height: step === 2 && 'auto',
-          minHeight: step === 2 && `${200}px`
+          minHeight: step === 2 && '500px'
         }}>
         <MailPoetIntegLayout
           formID={formID}

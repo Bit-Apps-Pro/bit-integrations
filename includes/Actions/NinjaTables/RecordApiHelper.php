@@ -1,0 +1,412 @@
+<?php
+
+/**
+ * NinjaTables Record Api
+ */
+
+namespace BitCode\FI\Actions\NinjaTables;
+
+use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Log\LogHandler;
+
+/**
+ * Provide functionality for Record insert, update, delete
+ */
+class RecordApiHelper
+{
+    private const ACTION_ADD_ROW = 'add_row_in_table';
+
+    private const ACTION_UPDATE_ROW = 'update_row_in_table';
+
+    private const FILTER_ADD_ROW = 'btcbi_ninjatables_add_row';
+
+    private const FILTER_UPDATE_ROW = 'btcbi_ninjatables_update_row';
+
+    private const LOG_TYPE_ROW = 'row';
+
+    private const LOG_TYPE_NINJA_TABLES = 'NinjaTables';
+
+    private const LOG_ACTION_UNKNOWN = 'unknown';
+
+    private $_integrationID;
+
+    private $_integrationDetails;
+
+    /**
+     * Constructor
+     *
+     * @param object $integrationDetails Integration configuration details
+     * @param int    $integId            Integration ID
+     */
+    public function __construct($integrationDetails, $integId)
+    {
+        $this->_integrationDetails = $integrationDetails;
+        $this->_integrationID = $integId;
+    }
+
+    /**
+     * Execute the integration
+     *
+     * @param array $fieldValues Field values from form
+     * @param array $fieldMap    Field mapping
+     * @param array $utilities   Actions to perform
+     *
+     * @return array
+     */
+    public function execute($fieldValues, $fieldMap, $utilities)
+    {
+        if (!$this->validateNinjaTables()) {
+            return $this->getPluginNotInstalledResponse();
+        }
+
+        $fieldData = $this->prepareFieldData($fieldMap, $fieldValues);
+        $mainAction = $this->getMainAction();
+        $response = $this->executeAction($mainAction, $fieldData, $utilities);
+
+        $this->logResponse($mainAction, $response);
+
+        return $response;
+    }
+
+    /**
+     * Validate if Ninja Tables is installed and activated
+     *
+     * @return bool
+     */
+    private function validateNinjaTables()
+    {
+        return \defined('NINJA_TABLES_VERSION');
+    }
+
+    /**
+     * Get plugin not installed response
+     *
+     * @return array
+     */
+    private function getPluginNotInstalledResponse()
+    {
+        return [
+            'success' => false,
+            'message' => __('Ninja Tables is not installed or activated', 'bit-integrations')
+        ];
+    }
+
+    /**
+     * Prepare field data for processing
+     *
+     * @param array $fieldMap    Field mapping
+     * @param array $fieldValues Field values
+     *
+     * @return array
+     */
+    private function prepareFieldData($fieldMap, $fieldValues)
+    {
+        $fieldData = static::generateReqDataFromFieldMap($fieldMap, $fieldValues);
+
+        $this->addDropdownSelections($fieldData);
+        $this->addRowFields($fieldData, $fieldMap, $fieldValues);
+
+        return $fieldData;
+    }
+
+    /**
+     * Add dropdown selections to field data
+     *
+     * @param array &$fieldData Field data reference
+     *
+     * @return void
+     */
+    private function addDropdownSelections(&$fieldData)
+    {
+        $fieldData['table_id'] = $this->_integrationDetails->selectedTable ?? '';
+        $fieldData['row_id'] = $this->_integrationDetails->selectedRow ?? '';
+        $fieldData['owner_id'] = $this->_integrationDetails->selectedUser ?? '';
+    }
+
+    /**
+     * Add row fields to field data
+     *
+     * @param array &$fieldData  Field data reference
+     * @param array $fieldMap    Field mapping
+     * @param array $fieldValues Field values
+     *
+     * @return void
+     */
+    private function addRowFields(&$fieldData, $fieldMap, $fieldValues)
+    {
+        if (empty($fieldMap) || !\is_array($fieldMap)) {
+            return;
+        }
+
+        $rowFields = $this->processRowFields($fieldMap, $fieldValues);
+
+        if (!empty($rowFields)) {
+            $fieldData['row_fields'] = $rowFields;
+        }
+    }
+
+    /**
+     * Process row fields from field map
+     *
+     * @param array $fieldMap    Field mapping
+     * @param array $fieldValues Field values
+     *
+     * @return array
+     */
+    private function processRowFields($fieldMap, $fieldValues)
+    {
+        $rowFields = [];
+
+        foreach ($fieldMap as $item) {
+            if (empty($item->columnName)) {
+                continue;
+            }
+
+            $columnValue = $this->getColumnValue($item, $fieldValues);
+            $rowFields[$item->columnName] = $columnValue;
+        }
+
+        return $rowFields;
+    }
+
+    /**
+     * Get column value from field item
+     *
+     * @param object $item        Field map item
+     * @param array  $fieldValues Field values
+     *
+     * @return string
+     */
+    private function getColumnValue($item, $fieldValues)
+    {
+        if (!isset($item->formField)) {
+            return '';
+        }
+
+        if ($this->isCustomField($item)) {
+            return $this->getCustomFieldValue($item, $fieldValues);
+        }
+
+        return $fieldValues[$item->formField] ?? '';
+    }
+
+    /**
+     * Check if field is a custom field
+     *
+     * @param object $item Field map item
+     *
+     * @return bool
+     */
+    private function isCustomField($item)
+    {
+        return $item->formField === 'custom' && isset($item->customValue);
+    }
+
+    /**
+     * Get custom field value
+     *
+     * @param object $item        Field map item
+     * @param array  $fieldValues Field values
+     *
+     * @return string
+     */
+    private function getCustomFieldValue($item, $fieldValues)
+    {
+        return Common::replaceFieldWithValue($item->customValue, $fieldValues);
+    }
+
+    /**
+     * Get main action from integration details
+     *
+     * @return string
+     */
+    private function getMainAction()
+    {
+        return $this->_integrationDetails->mainAction ?? self::ACTION_ADD_ROW;
+    }
+
+    /**
+     * Execute the specified action
+     *
+     * @param string $action    Action to execute
+     * @param array  $fieldData Field data
+     * @param array  $utilities Utilities
+     *
+     * @return array
+     */
+    private function executeAction($action, $fieldData, $utilities)
+    {
+        $defaultResponse = $this->getDefaultResponse();
+
+        switch ($action) {
+            case self::ACTION_ADD_ROW:
+                return $this->executeAddRow($defaultResponse, $fieldData, $utilities);
+
+            case self::ACTION_UPDATE_ROW:
+                return $this->executeUpdateRow($defaultResponse, $fieldData, $utilities);
+
+            default:
+                return $this->getInvalidActionResponse();
+        }
+    }
+
+    /**
+     * Get default response for filters
+     *
+     * @return array
+     */
+    private function getDefaultResponse()
+    {
+        return [
+            'success' => false,
+            'message' => wp_sprintf(
+                __('%s plugin is not installed or activate', 'bit-integrations'),
+                'Bit Integrations Pro'
+            )
+        ];
+    }
+
+    /**
+     * Execute add row action
+     *
+     * @param array $defaultResponse Default response
+     * @param array $fieldData       Field data
+     * @param array $utilities       Utilities
+     *
+     * @return array
+     */
+    private function executeAddRow($defaultResponse, $fieldData, $utilities)
+    {
+        return apply_filters(
+            self::FILTER_ADD_ROW,
+            $defaultResponse,
+            $fieldData,
+            $utilities,
+            $this->_integrationDetails
+        );
+    }
+
+    /**
+     * Execute update row action
+     *
+     * @param array $defaultResponse Default response
+     * @param array $fieldData       Field data
+     * @param array $utilities       Utilities
+     *
+     * @return array
+     */
+    private function executeUpdateRow($defaultResponse, $fieldData, $utilities)
+    {
+        return apply_filters(
+            self::FILTER_UPDATE_ROW,
+            $defaultResponse,
+            $fieldData,
+            $utilities,
+            $this->_integrationDetails
+        );
+    }
+
+    /**
+     * Get invalid action response
+     *
+     * @return array
+     */
+    private function getInvalidActionResponse()
+    {
+        return [
+            'success' => false,
+            'message' => __('Invalid action', 'bit-integrations')
+        ];
+    }
+
+    /**
+     * Log the response
+     *
+     * @param string $action   Action executed
+     * @param array  $response Response data
+     *
+     * @return void
+     */
+    private function logResponse($action, $response)
+    {
+        $logData = $this->getLogData($action);
+        $responseType = $this->getResponseType($response);
+
+        LogHandler::save($this->_integrationID, $logData, $responseType, $response);
+    }
+
+    /**
+     * Get log data based on action
+     *
+     * @param string $action Action name
+     *
+     * @return array
+     */
+    private function getLogData($action)
+    {
+        $type = $this->isValidAction($action) ? self::LOG_TYPE_ROW : self::LOG_TYPE_NINJA_TABLES;
+        $actionType = $this->isValidAction($action) ? $action : self::LOG_ACTION_UNKNOWN;
+
+        return [
+            'type'      => $type,
+            'type_name' => $actionType
+        ];
+    }
+
+    /**
+     * Check if action is valid
+     *
+     * @param string $action Action name
+     *
+     * @return bool
+     */
+    private function isValidAction($action)
+    {
+        return \in_array(
+            $action,
+            [
+                self::ACTION_ADD_ROW,
+                self::ACTION_UPDATE_ROW
+            ],
+            true
+        );
+    }
+
+    /**
+     * Get response type for logging
+     *
+     * @param array $response Response data
+     *
+     * @return string
+     */
+    private function getResponseType($response)
+    {
+        return isset($response['success']) && $response['success'] ? 'success' : 'error';
+    }
+
+    /**
+     * Generate request data from field map
+     *
+     * @param array $fieldMap    Field mapping
+     * @param array $fieldValues Field values
+     *
+     * @return array
+     */
+    private static function generateReqDataFromFieldMap($fieldMap, $fieldValues)
+    {
+        $dataFinal = [];
+
+        foreach ($fieldMap as $value) {
+            $triggerValue = $value->formField;
+            $actionValue = $value->columnName;
+
+            if ($triggerValue === 'custom' && isset($value->customValue)) {
+                $dataFinal[$actionValue] = Common::replaceFieldWithValue($value->customValue, $fieldValues);
+            } elseif (isset($fieldValues[$triggerValue]) && !\is_null($fieldValues[$triggerValue])) {
+                $dataFinal[$actionValue] = $fieldValues[$triggerValue];
+            }
+        }
+
+        return $dataFinal;
+    }
+}

@@ -170,6 +170,7 @@ const EditLine = lazy(() => import('./Line/EditLine'))
 const EditACPT = lazy(() => import('./ACPT/EditACPT'))
 const EditWishlistMember = lazy(() => import('./WishlistMember/EditWishlistMember'))
 const EditFluentCart = lazy(() => import('./FluentCart/EditFluentCart'))
+const EditNinjaTables = lazy(() => import('./NinjaTables/EditNinjaTables'))
 const EditWPCafe = lazy(() => import('./WPCafe/EditWPCafe'))
 const EditTeamsForWooCommerceMemberships = lazy(
   () => import('./TeamsForWooCommerceMemberships/EditTeamsForWooCommerceMemberships')
@@ -577,6 +578,8 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditWishlistMember allIntegURL={allIntegURL} />
     case 'FluentCart':
       return <EditFluentCart allIntegURL={allIntegURL} />
+    case 'Ninja Tables':
+      return <EditNinjaTables allIntegURL={allIntegURL} />
     case 'WPCafe':
       return <EditWPCafe allIntegURL={allIntegURL} />
     case 'Teams For WooCommerce Memberships':

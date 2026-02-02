@@ -658,6 +658,10 @@ const tutorialLinks = {
   seoPress: {
     youTubeLink: '',
     docLink: 'https://bit-integrations.com/wp-docs/actions/seopress-integrations-as-action/'
+  },
+  ninjaTables: {
+    youTubeLink: '',
+    docLink: 'https://bit-integrations.com/wp-docs/actions/ninja-tables-integrations/'
   }
 }
 export default tutorialLinks

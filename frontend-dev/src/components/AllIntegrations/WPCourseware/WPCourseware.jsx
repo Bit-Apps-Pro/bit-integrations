@@ -62,7 +62,7 @@ export default function WPCourseware({ formFields, setFlow, flow, allIntegURL })
           overflow: step === 2 && 'initial',
           width: step === 2 && 900,
           height: step === 2 && 'auto',
-          minHeight: step === 2 && `${200}px`
+          minHeight: step === 2 && '500px'
         }}>
         <WPCoursewareIntegLayout
           formID={formID}
@@ -99,7 +99,7 @@ export default function WPCourseware({ formFields, setFlow, flow, allIntegURL })
         style={{
           width: step === 2 && 900,
           height: step === 2 && 'auto',
-          minHeight: step === 2 && `${200}px`
+          minHeight: step === 2 && '500px'
         }}>
         <button
           onClick={() => nextPage(3)}

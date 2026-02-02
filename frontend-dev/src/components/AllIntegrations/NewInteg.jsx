@@ -169,6 +169,7 @@ const Line = lazy(() => import('./Line/Line'))
 const ACPT = lazy(() => import('./ACPT/ACPT'))
 const WishlistMember = lazy(() => import('./WishlistMember/WishlistMember'))
 const FluentCart = lazy(() => import('./FluentCart/FluentCart'))
+const NinjaTables = lazy(() => import('./NinjaTables/NinjaTables'))
 const WPCafe = lazy(() => import('./WPCafe/WPCafe'))
 const TeamsForWooCommerceMemberships = lazy(
   () => import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMemberships')
@@ -1624,6 +1625,15 @@ export default function NewInteg({ allIntegURL }) {
       case 'FluentCart':
         return (
           <FluentCart
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'Ninja Tables':
+        return (
+          <NinjaTables
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
             flow={flow}

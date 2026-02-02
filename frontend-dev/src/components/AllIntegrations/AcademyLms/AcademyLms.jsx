@@ -37,7 +37,7 @@ function AcademyLms({ formFields, setFlow, flow, allIntegURL }) {
       setSnackbar
     })
   }
-  const nextPage = (pageNo) => {
+  const nextPage = pageNo => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -71,15 +71,13 @@ function AcademyLms({ formFields, setFlow, flow, allIntegURL }) {
           ...(step === 2 && {
             width: 900,
             height: 'auto',
-            minHeight: step === 2 && `${260}px`,
+            minHeight: step === 2 && '500px',
             overflow: 'visible'
           })
         }}>
         <AcademyLmsIntegLayout
           formFields={formFields}
-          handleInput={(e) =>
-            handleInput(e, academyLmsConf, setAcademyLmsConf, setIsLoading, setSnackbar)
-          }
+          handleInput={e => handleInput(e, academyLmsConf, setAcademyLmsConf, setIsLoading, setSnackbar)}
           academyLmsConf={academyLmsConf}
           setAcademyLmsConf={setAcademyLmsConf}
           isLoading={isLoading}

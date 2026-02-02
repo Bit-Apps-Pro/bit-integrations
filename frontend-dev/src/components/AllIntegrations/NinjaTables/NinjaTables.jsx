@@ -1,62 +1,64 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useState } from 'react'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useNavigate, useParams } from 'react-router-dom'
 import BackIcn from '../../../Icons/BackIcn'
 import { __ } from '../../../Utils/i18nwrap'
 import SnackMsg from '../../Utilities/SnackMsg'
-import Steps from '../../Utilities/Steps'
 import { saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
-import EnchargeAutorization from './EnchargeAuthorization'
-import { checkMappedFields } from './EnchargeCommonFunc'
-import EnchargeIntegLayout from './EnchargeIntegLayout'
+import NinjaTablesAuthorization from './NinjaTablesAuthorization'
+import { checkMappedFields } from './NinjaTablesCommonFunc'
+import NinjaTablesIntegLayout from './NinjaTablesIntegLayout'
 
-function Encharge({ formFields, setFlow, flow, allIntegURL }) {
+export default function NinjaTables({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
   const { formID } = useParams()
   const [isLoading, setIsLoading] = useState(false)
-  const [step, setstep] = useState(1)
+  const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
-  const [enchargeConf, setEnchargeConf] = useState({
-    name: 'Encharge',
-    type: 'Encharge',
-    tags: '',
-    api_key: '',
-    field_map: [{ formField: '', enChargeFields: '' }],
-    actions: {}
+  const [ninjaTablesConf, setNinjaTablesConf] = useState({
+    name: 'Ninja Tables',
+    type: 'Ninja Tables',
+    field_map: [{ formField: '', columnName: '' }],
+    actions: {},
+    mainAction: '',
+    default: {}
   })
+
   const nextPage = val => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
+
     if (val === 3) {
-      if (!checkMappedFields(enchargeConf)) {
+      if (!checkMappedFields(ninjaTablesConf)) {
         setSnackbar({
           show: true,
-          msg: __('Please map all required fields to continue.', 'bit-integrations')
+          msg: __('Please select all required options to continue.', 'bit-integrations')
         })
         return
       }
-      if (enchargeConf.name !== '' && enchargeConf.field_map.length > 0) {
-        setstep(3)
+
+      if (ninjaTablesConf.name !== '') {
+        setStep(val)
       }
+    } else {
+      setStep(val)
     }
   }
+
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={3} active={step} />
-      </div>
+      <div className="txt-center mt-2">{/* <Steps step={3} active={step} /> */}</div>
 
       {/* STEP 1 */}
-      <EnchargeAutorization
+      <NinjaTablesAuthorization
         formID={formID}
-        enchargeConf={enchargeConf}
-        setEnchargeConf={setEnchargeConf}
+        ninjaTablesConf={ninjaTablesConf}
+        setNinjaTablesConf={setNinjaTablesConf}
         step={step}
-        setstep={setstep}
+        nextPage={nextPage}
         isLoading={isLoading}
         setIsLoading={setIsLoading}
         setSnackbar={setSnackbar}
@@ -67,22 +69,27 @@ function Encharge({ formFields, setFlow, flow, allIntegURL }) {
         className="btcd-stp-page"
         style={{
           width: step === 2 && 900,
-          minHeight: step === 2 && '500px',
-          height: step === 2 && 'auto'
+          height: step === 2 && 'auto',
+          minHeight: step === 2 && '500px'
         }}>
-        <EnchargeIntegLayout
+        <NinjaTablesIntegLayout
           formID={formID}
           formFields={formFields}
-          enchargeConf={enchargeConf}
-          setEnchargeConf={setEnchargeConf}
+          ninjaTablesConf={ninjaTablesConf}
+          setNinjaTablesConf={setNinjaTablesConf}
+          setSnackbar={setSnackbar}
+          setIsLoading={setIsLoading}
+          isLoading={isLoading}
         />
+        <br />
+        <br />
+        <br />
         <button
           onClick={() => nextPage(3)}
-          disabled={enchargeConf.field_map.length < 1}
+          disabled={!checkMappedFields(ninjaTablesConf)}
           className="btn f-right btcd-btn-lg purple sh-sm flx"
           type="button">
           {__('Next', 'bit-integrations')}
-          &nbsp;
           <BackIcn className="ml-1 rev-icn" />
         </button>
       </div>
@@ -91,14 +98,13 @@ function Encharge({ formFields, setFlow, flow, allIntegURL }) {
       <IntegrationStepThree
         step={step}
         saveConfig={() =>
-          saveIntegConfig(flow, setFlow, allIntegURL, enchargeConf, navigate, '', '', setIsLoading)
+          saveIntegConfig(flow, setFlow, allIntegURL, ninjaTablesConf, navigate, '', '', setIsLoading)
         }
         isLoading={isLoading}
-        dataConf={enchargeConf}
-        setDataConf={setEnchargeConf}
+        dataConf={ninjaTablesConf}
+        setDataConf={setNinjaTablesConf}
         formFields={formFields}
       />
     </div>
   )
 }
-export default Encharge

@@ -69,7 +69,7 @@ export default function MailerPress({ formFields, setFlow, flow, allIntegURL }) 
         style={{
           width: step === 2 && 900,
           height: step === 2 && 'auto',
-          minHeight: step === 2 && `${200}px`
+          minHeight: step === 2 && '500px'
         }}>
         <MailerPressIntegLayout
           formID={formID}
@@ -104,4 +104,3 @@ export default function MailerPress({ formFields, setFlow, flow, allIntegURL }) 
     </div>
   )
 }
-
