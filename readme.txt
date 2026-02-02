@@ -701,7 +701,7 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 == Changelog ==
 
 = 2.7.7 =
-_Release Date - 31th January 2026_
+_Release Date - 2nd February 2026_
 
 - **Hotfix**
  - Bug Fixes: Fixed the issue where the selected trigger hook was empty, preventing the trigger from firing correctly (Pro).
