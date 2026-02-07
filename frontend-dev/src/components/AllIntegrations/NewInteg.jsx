@@ -43,6 +43,7 @@ const Integromat = lazy(() => import('./Integromat/Integromat'))
 const Integrately = lazy(() => import('./Integrately/Integrately'))
 const Telegram = lazy(() => import('./Telegram/Telegram'))
 const FluentCrm = lazy(() => import('./FluentCRM/FluentCrm'))
+const FluentCommunity = lazy(() => import('./FluentCommunity/FluentCommunity'))
 const Encharge = lazy(() => import('./Encharge/Encharge'))
 const Post = lazy(() => import('./PostCreation/Post'))
 const Registration = lazy(() => import('./Registration/Registration'))
@@ -443,6 +444,15 @@ export default function NewInteg({ allIntegURL }) {
       case 'Fluent CRM':
         return (
           <FluentCrm
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'Fluent Community':
+        return (
+          <FluentCommunity
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
             flow={flow}

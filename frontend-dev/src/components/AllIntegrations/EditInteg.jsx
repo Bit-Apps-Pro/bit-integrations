@@ -33,6 +33,7 @@ const EditZohoFlow = lazy(() => import('./ZohoFlow/EditZohoFlow'))
 const EditTelegram = lazy(() => import('./Telegram/EditTelegram'))
 const EditTutorLms = lazy(() => import('./TutorLms/EditTutorLms'))
 const EditFluentCrm = lazy(() => import('./FluentCRM/EditFluentCrm'))
+const EditFluentCommunity = lazy(() => import('./FluentCommunity/EditFluentCommunity'))
 const EditEncharge = lazy(() => import('./Encharge/EditEncharge'))
 const EditAutonami = lazy(() => import('./Autonami/EditAutonami'))
 const EditDropbox = lazy(() => import('./Dropbox/EditDropbox'))
@@ -314,6 +315,8 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditTelegram allIntegURL={allIntegURL} />
     case 'Fluent Crm':
       return <EditFluentCrm allIntegURL={allIntegURL} />
+    case 'Fluent Community':
+      return <EditFluentCommunity allIntegURL={allIntegURL} />
     case 'Encharge':
       return <EditEncharge allIntegURL={allIntegURL} />
     case 'Registration':
