@@ -174,6 +174,9 @@ const TeamsForWooCommerceMemberships = lazy(
   () => import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMemberships')
 )
 const SeoPress = lazy(() => import('./SeoPress/SeoPress'))
+const UserRegistrationMembership = lazy(
+  () => import('./UserRegistrationMembership/UserRegistrationMembership')
+)
 
 export default function NewInteg({ allIntegURL }) {
   const { integUrlName } = useParams()
@@ -805,6 +808,15 @@ export default function NewInteg({ allIntegURL }) {
           <Selzy
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'User Registration & Membership':
+        return (
+          <UserRegistrationMembership
+            formFields={flow?.triggerData?.fields}
+            allIntegURL={allIntegURL}
             flow={flow}
             setFlow={setFlow}
           />

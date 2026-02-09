@@ -486,6 +486,11 @@ final class Flow
 
                         break;
 
+                    case 'UserRegistration&Membership':
+                        $integrationName = 'UserRegistrationMembership';
+
+                        break;
+
                     default:
                         $integrationName = $integrationName;
 

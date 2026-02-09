@@ -176,7 +176,8 @@ export default function SelectAction() {
     { type: 'FluentCart' },
     { type: 'WPCafe' },
     { type: 'Teams For WooCommerce Memberships' },
-    { type: 'SeoPress' }
+    { type: 'SeoPress' },
+    { type: 'User Registration & Membership', logo_url: 'userRegistrationMembership' }
   ]
 
   const [availableIntegs, setAvailableIntegs] = useState(sortByField(integs, 'type', 'ASC') || integs)
@@ -252,8 +253,8 @@ export default function SelectAction() {
                   </span>
                 </div>
               )}
-              {/* <img loading="lazy" src={inte.logo} alt="" /> */}
-              <GetLogo name={inte.type} extension="webp" />
+
+              <GetLogo name={inte?.logo_url || inte.type} extension="webp" />
               <div className="txt-center">{inte.type}</div>
             </div>
           ))}

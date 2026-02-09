@@ -176,6 +176,9 @@ const TeamsForWooCommerceMembershipsAuthorization = lazy(
   () => import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMembershipsAuthorization')
 )
 const SeoPressAuthorization = lazy(() => import('./SeoPress/SeoPressAuthorization'))
+const UserRegistrationMembershipAuthorization = lazy(
+  () => import('./UserRegistrationMembership/UserRegistrationMembershipAuthorization')
+)
 
 export default function IntegInfo() {
   const { id, type } = useParams()
@@ -276,6 +279,14 @@ export default function IntegInfo() {
             step={1}
             redirectLocation={location}
             isInfo
+          />
+        )
+      case 'User Registration & Membership':
+        return (
+          <UserRegistrationMembershipAuthorization
+            integrationConf={integrationConf}
+            setIntegrationConf={setIntegrationConf}
+            setSnackbar={setSnackbar}
           />
         )
       case 'Zoho Bigin':
