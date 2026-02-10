@@ -34,7 +34,7 @@ class MailerLiteController
 
         if ('v2' === $refreshFieldsRequestParams->version) {
             $apiKey = $refreshFieldsRequestParams->auth_token;
-            $endpoint = self::$_baseUrlV2 . 'groups';
+            $endpoint = self::$_baseUrlV2 . 'groups?limit=1000';
             $header = [
                 'Authorization' => "Bearer {$apiKey}",
                 'Accept'        => 'application/json',
@@ -50,7 +50,7 @@ class MailerLiteController
                     ];
             }
         } else {
-            $apiEndpoints = self::$_baseUrlV1 . 'groups/';
+            $apiEndpoints = self::$_baseUrlV1 . 'groups?limit=1000';
 
             $header = [
                 'X-Mailerlite-Apikey' => $refreshFieldsRequestParams->auth_token,
@@ -119,7 +119,7 @@ class MailerLiteController
         }
 
         if ('v2' === $refreshFieldsRequestParams->version) {
-            $apiEndpoints = self::$_baseUrlV2 . 'fields';
+            $apiEndpoints = self::$_baseUrlV2 . 'fields?limit=100';
 
             $apiKey = $refreshFieldsRequestParams->auth_token;
             $header = [
@@ -159,7 +159,7 @@ class MailerLiteController
                 );
             }
         } else {
-            $apiEndpoints = self::$_baseUrlV1 . 'fields';
+            $apiEndpoints = self::$_baseUrlV1 . 'fields?limit=100';
 
             $apiKey = $refreshFieldsRequestParams->auth_token;
             $header = [
