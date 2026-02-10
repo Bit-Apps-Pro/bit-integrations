@@ -9,7 +9,10 @@ import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 import { addFieldMap, delFieldMap, handleFieldMapping } from '../IntegrationHelpers/IntegrationHelpers'
 import UserRegistrationMembershipFieldMap from './UserRegistrationMembershipFieldMap'
 import { refreshForms, refreshFormFields } from './UserRegistrationMembershipCommonFunc'
-import { modules } from './staticData'
+
+export const modules = [
+  { name: 'create_user', label: __('Create User', 'bit-integrations'), is_pro: true }
+]
 
 export default function UserRegistrationMembershipIntegLayout({
   formFields,

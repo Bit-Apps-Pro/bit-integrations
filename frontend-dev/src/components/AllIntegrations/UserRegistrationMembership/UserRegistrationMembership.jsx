@@ -70,8 +70,7 @@ export default function UserRegistrationMembership({ formFields, setFlow, flow, 
           minHeight: step === 2 && `${200}px`
         }}>
         <UserRegistrationMembershipIntegLayout
-          formID={formID}
-          formRegistrationConf={userRegistrationConf}
+          userRegistrationConf={userRegistrationConf}
           setUserRegistrationConf={setUserRegistrationConf}
           setSnackbar={setSnackbar}
           setIsLoading={setIsLoading}

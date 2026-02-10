@@ -24,7 +24,7 @@ export default function UserRegistrationMembershipFieldMap({
     userRegistrationConf?.default?.formFields?.filter(fld => fld.required === true) || []
   const nonRequiredFlds =
     userRegistrationConf?.default?.formFields?.filter(fld => fld.required === false) || []
-  console.log(formFields)
+
   return (
     <div className="flx mt-2 mb-2 btcbi-field-map">
       <div className="pos-rel flx">
