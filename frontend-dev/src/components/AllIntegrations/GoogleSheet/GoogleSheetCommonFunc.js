@@ -67,14 +67,11 @@ const worksheetChange = (sheetConf, formID, setSheetConf, setIsLoading, setSnack
 }
 
 export const refreshSpreadsheets = (formID, sheetConf, setSheetConf, setIsLoading, setSnackbar) => {
-  const isCustomAuth =
-    !sheetConf.tokenDetails?.selectedAuthType ||
-    sheetConf.tokenDetails.selectedAuthType === 'Custom Authorization'
   const refreshModulesRequestParams = {
     formID,
     id: sheetConf.id,
-    clientId: isCustomAuth ? sheetConf.clientId : sheetConf.oneClickAuthCredentials.clientId,
-    clientSecret: isCustomAuth ? sheetConf.clientSecret : sheetConf.oneClickAuthCredentials.clientSecret,
+    clientId: sheetConf.clientId,
+    clientSecret: sheetConf.clientSecret,
     tokenDetails: sheetConf.tokenDetails,
     ownerEmail: sheetConf.ownerEmail
   }
@@ -162,17 +159,14 @@ export const refreshWorksheetHeaders = (formID, sheetConf, setSheetConf, setIsLo
   }
 
   setIsLoading(true)
-  const isCustomAuth =
-    !sheetConf.tokenDetails?.selectedAuthType ||
-    sheetConf.tokenDetails.selectedAuthType === 'Custom Authorization'
   const refreshWorksheetHeadersRequestParams = {
     formID,
     spreadsheetId,
     worksheetName,
     header,
     headerRow,
-    clientId: isCustomAuth ? sheetConf.clientId : sheetConf.oneClickAuthCredentials.clientId,
-    clientSecret: isCustomAuth ? sheetConf.clientSecret : sheetConf.oneClickAuthCredentials.clientSecret,
+    clientId: sheetConf.clientId,
+    clientSecret: sheetConf.clientSecret,
     tokenDetails: sheetConf.tokenDetails
   }
 
@@ -222,27 +216,21 @@ export const refreshWorksheetHeaders = (formID, sheetConf, setSheetConf, setIsLo
 }
 
 export const handleAuthorize = (confTmp, selectedAuthType, setError, setIsLoading) => {
-  let clientId = ''
-  if (selectedAuthType === 'One Click Authorization') {
-    clientId = confTmp.oneClickAuthCredentials.clientId
-  } else if (selectedAuthType === 'Custom Authorization') {
-    if (!confTmp.clientId || !confTmp.clientSecret) {
-      setError({
-        clientId: !confTmp.clientId ? __("Client Id can't be empty", 'bit-integrations') : '',
-        clientSecret: !confTmp.clientSecret ? __("Secret key can't be empty", 'bit-integrations') : ''
-      })
-      return
-    }
-    clientId = confTmp.clientId
+  if (!confTmp.clientId || !confTmp.clientSecret) {
+    setError({
+      clientId: !confTmp.clientId ? __("Client Id can't be empty", 'bit-integrations') : '',
+      clientSecret: !confTmp.clientSecret ? __("Secret key can't be empty", 'bit-integrations') : ''
+    })
+    return
   }
+
+  const clientId = confTmp.clientId
 
   setIsLoading(true)
 
   const scopes = 'https://www.googleapis.com/auth/drive'
   // eslint-disable-next-line no-undef
-  const redirectURI = 'https://auth-apps.bitapps.pro/redirect/v2'
-  const finalRedirectUri =
-    selectedAuthType === 'One Click Authorization' ? redirectURI : `${btcbi.api.base}/redirect`
+  const finalRedirectUri = `${btcbi.api.base}/redirect`
 
   const { href, hash } = window.location
   const stateUrl = hash ? href.replace(hash, '#/auth-response/') : `${href}#/auth-response/`
@@ -275,34 +263,16 @@ export const tokenHelper = async (
   }
   const tokenRequestParams = {}
   tokenRequestParams.code = authInfo.code || ''
-  tokenRequestParams.clientId =
-    selectedAuthType === 'One Click Authorization'
-      ? confTmp.oneClickAuthCredentials.clientId
-      : confTmp.clientId
-  tokenRequestParams.clientSecret =
-    selectedAuthType === 'One Click Authorization'
-      ? confTmp.oneClickAuthCredentials.clientSecret
-      : confTmp.clientSecret
+  tokenRequestParams.clientId = confTmp.clientId
+  tokenRequestParams.clientSecret = confTmp.clientSecret
   // eslint-disable-next-line no-undef
-  const redirectURI = 'https://auth-apps.bitapps.pro/redirect/v2'
-  tokenRequestParams.redirectURI =
-    selectedAuthType === 'One Click Authorization' ? redirectURI : `${btcbi.api.base}/redirect`
+  tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
 
   setIsLoading(true)
   await bitsFetch(tokenRequestParams, 'gsheet_generate_token')
     .then(result => result)
     .then(async result => {
       if (result && result.success) {
-        // const userInfo = await fetchUserInfo(result.data)
-        // if (userInfo) {
-        //   const newConf = { ...confTmp }
-        //   result.data.selectedAuthType = selectedAuthType
-        //   await handleAuthData(newConf.type, result.data, userInfo, setAuthData);
-        //   newConf.setisAuthorized = true
-        //   setConf(newConf)
-        //   setSnackbar({ show: true, msg: __('Authorized Successfully', 'bigt-integrations') })
-        // }
-
         setConf(prevConf =>
           create(prevConf, draftConf => {
             draftConf.tokenDetails = result.data

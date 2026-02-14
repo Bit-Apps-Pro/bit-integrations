@@ -634,6 +634,16 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 📢 **We are open for freelance work/custom development. [Connect](https://bitapps.pro/contact) with us for further information.**
 
+== External Services ==
+
+This plugin connects to various third-party external services to enable automation workflows between WordPress and 300+ platforms. **Data is only sent to external services when you actively configure and enable an integration**. No data is transmitted unless you explicitly create a workflow that connects to a specific service.
+
+For a comprehensive list of all external services, including detailed information about what data is sent, when it's sent, and links to each service's terms and privacy policies, please see our complete external services documentation:
+
+**[Complete External Services Documentation](https://github.com/Bit-Apps-Pro/bit-integrations/blob/main/EXTERNAL-SERVICES.md)**
+
+This documentation covers 300+ services including Google (Sheets, Calendar, Drive), Zoho (CRM, Campaigns, Desk), Meta/Facebook (WhatsApp), Email Marketing platforms, CRM systems, Communication tools (Slack, Telegram), Automation platforms (Zapier, Make), Project Management tools, and many more.
+
 == Frequently Asked Questions ==
 
 = 1. What is Bit Integrations and how does it work? =

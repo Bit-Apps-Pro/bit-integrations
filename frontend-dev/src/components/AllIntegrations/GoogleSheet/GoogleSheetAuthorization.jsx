@@ -33,30 +33,6 @@ export default function GoogleSheetAuthorization({
   const [authData, setAuthData] = useState([])
   const [authInfo, setAuthInfo] = useRecoilState(authInfoAtom)
   const [selectedAuthType, setSelectedAuthType] = useState('Custom Authorization')
-  // const [selectedUserId, setSelectedUserId] = useState(null)
-
-  //Commented for one click authorization
-
-  // const handleChange = (option) => {
-  //   setSelectedAuthType(option)
-  //   setIsAuthorized(false)
-
-  //   setSheetConf((prevConf) => ({
-  //     ...prevConf,
-  //     selectedAuthType: option,
-  //     ...(option === "One Click Authorization" && process.env.NODE_ENV !== 'development'
-  //       ? {
-  //         clientId: '',
-  //         clientSecret: '',
-  //       }
-  //       : {}),
-  //   }))
-
-  //   if (option === "One Click Authorization") {
-  //     processAuth(option);
-  //   }
-  //   setIsLoading(false);
-  // };
 
   const processAuth = option => {
     handleAuthorize(sheetConf, option, setError, setIsLoading)
@@ -76,26 +52,6 @@ export default function GoogleSheetAuthorization({
     })
   }
 
-  // useEffect(() => {
-  //   if (step === 1) {
-  //     getAuthData()
-  //   }
-  // }, [])
-
-  // useEffect(() => {
-
-  //   if (step === 1 && isEdit) {
-
-  //     const authIdExists = authData.find(auth => auth.id === sheetConf.authId);
-
-  //     if (authIdExists) {
-  //       setSelectedUserId(sheetConf.authId)
-  //     } else {
-  //       setSelectedUserId(null)
-  //     }
-  //   }
-  // }, [authData])
-
   const handleVerificationCode = async authInfo => {
     await tokenHelper(
       authInfo,
@@ -109,7 +65,6 @@ export default function GoogleSheetAuthorization({
       setSnackbar
     )
     setAuthInfo(undefined)
-    // getAuthData()
   }
 
   useEffect(() => {
@@ -128,13 +83,6 @@ export default function GoogleSheetAuthorization({
   }
 
   const nextPage = () => {
-    // const selectedAuth = authData.find((item) => item.id === selectedUserId)
-    // setSheetConf((prevConf) => ({
-    //   ...prevConf,
-    //   tokenDetails: selectedAuth ? selectedAuth.tokenDetails : '',
-    //   authId: selectedAuth ? selectedAuth.id : '',
-    // }))
-
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -151,16 +99,6 @@ export default function GoogleSheetAuthorization({
         <TutorialLink title="Google Sheets" youTubeLink={googleSheet?.youTubeLink} />
       )}
       {googleSheet?.docLink && <TutorialLink title="Google Sheets" docLink={googleSheet?.docLink} />}
-
-      {/* <div>
-        <h2>Choose channel</h2>
-        <SelectAuthorizationType
-          name="auth"
-          options={['One Click Authorization', 'Custom Authorization']}
-          selectedAuthType={selectedAuthType}
-          handleChange={handleChange}
-        />
-      </div> */}
 
       {selectedAuthType === 'Custom Authorization' && (
         <div>
@@ -258,19 +196,6 @@ export default function GoogleSheetAuthorization({
           }}
         />
       )}
-      {/* {authData.length > 0 &&
-        <>
-          <h2>Choose your connected account</h2>
-          <AuthorizationAccountList
-            authData={authData}
-            setAuthData={setAuthData}
-            selectedUserId={selectedUserId}
-            setSelectedUserId={setSelectedUserId}
-            setIsLoading={setIsLoading}
-            isEdit={isEdit}
-          />
-        </>
-      } */}
       {isAuthorized && selectedAuthType === 'One Click Authorization' && (
         <button
           onClick={() => processAuth()}

@@ -31,19 +31,6 @@ function GoogleSheet({ formFields, setFlow, flow, allIntegURL }) {
     actions: {}
   })
 
-  useEffect(() => {
-    if (sheetConf.oneClickAuthCredentials === undefined) {
-      const requestParams = {
-        actionName: 'googleSheet'
-      }
-      bitsFetch(null, 'get/credentials', requestParams, 'Get').then(res => {
-        setSheetConf(prevConf => {
-          return { ...prevConf, oneClickAuthCredentials: res.data }
-        })
-      })
-    }
-  }, [])
-
   const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0

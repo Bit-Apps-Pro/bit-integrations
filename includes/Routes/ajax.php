@@ -7,7 +7,6 @@ if (!defined('ABSPATH')) {
 
 use BitApps\BTCBI_FI\controller\AuthDataController;
 use BitApps\BTCBI_FI\controller\BtcbiAnalyticsController;
-use BitApps\BTCBI_FI\controller\OneClickCredentialController;
 use BitApps\BTCBI_FI\controller\PostController;
 use BitApps\BTCBI_FI\controller\UserController;
 use BitApps\BTCBI_FI\Core\Util\Route;
@@ -49,5 +48,3 @@ Route::post('store/authData', [AuthDataController::class, 'saveAuthData']);
 Route::get('auth/get', [AuthDataController::class, 'getAuthData']);
 Route::get('auth/getbyId', [AuthDataController::class, 'getAuthDataById']);
 Route::post('auth/account/delete', [AuthDataController::class, 'deleteAuthData']);
-
-Route::get('get/credentials', [OneClickCredentialController::class, 'getCredentials']);
