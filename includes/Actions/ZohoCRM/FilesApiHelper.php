@@ -100,7 +100,17 @@ final class FilesApiHelper
             $payload .= 'Content-Disposition: form-data; name="' . 'file'
                 . '"; filename="' . basename("{$file}") . '"' . "\r\n";
             $payload .= "\r\n";
-            $payload .= file_get_contents("{$file}");
+
+            if (filter_var($file, FILTER_VALIDATE_URL)) {
+                $response = wp_remote_get($file);
+                if (is_wp_error($response)) {
+                    return '';
+                }
+                $payload .= wp_remote_retrieve_body($response);
+            } else {
+                $payload .= file_get_contents("{$file}");
+            }
+
             $payload .= "\r\n";
         }
 

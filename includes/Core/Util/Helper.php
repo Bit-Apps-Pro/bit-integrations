@@ -88,8 +88,20 @@ final class Helper
             }
 
             $imgFileName = basename($file);
+
+            // Get file content using WordPress HTTP API for remote files
+            if (filter_var($file, FILTER_VALIDATE_URL)) {
+                $response = wp_remote_get($file);
+                if (is_wp_error($response)) {
+                    continue;
+                }
+                $fileContent = wp_remote_retrieve_body($response);
+            } else {
+                $fileContent = file_get_contents($file);
+            }
+
             // prepare upload image to WordPress Media Library
-            $upload = wp_upload_bits($imgFileName, null, file_get_contents($file));
+            $upload = wp_upload_bits($imgFileName, null, $fileContent);
 
             if (!empty($upload['error']) || !isset($upload['file'])) {
                 continue;

@@ -47,7 +47,8 @@ class AdminAjax
 
         if (wp_verify_nonce($nonce, 'btcbi_nonce') && isset($_REQUEST['data'])) {
             $inputJSON = stripslashes(wp_unslash($_REQUEST['data']));
-            $input = json_decode($inputJSON);
+            $decoded = json_decode($inputJSON);
+            $input = \is_object($decoded) || \is_array($decoded) ? map_deep($decoded, 'sanitize_text_field') : $decoded;
             $version = isset($input->version) ? sanitize_text_field($input->version) : '';
 
             update_option('btcbi_changelog_version', $version);

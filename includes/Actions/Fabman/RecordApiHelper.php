@@ -111,7 +111,7 @@ class RecordApiHelper
             $this->integrationID,
             ['type' => 'validation', 'field' => $fieldName, 'value' => $value],
             'error',
-            __('Field validation failed for: ' . $fieldName, 'bit-integrations')
+            \sprintf(__('Field validation failed for: %s', 'bit-integrations'), $fieldName)
         );
     }
 

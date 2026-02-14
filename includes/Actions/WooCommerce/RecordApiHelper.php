@@ -618,8 +618,12 @@ class RecordApiHelper
         $image_url = $url;
         $url_array = explode('/', $url);
         $image_name = $url_array[\count($url_array) - 1];
-        $image_data = file_get_contents($image_url);
 
+        $response = wp_remote_get($image_url);
+        if (is_wp_error($response)) {
+            return false;
+        }
+        $image_data = wp_remote_retrieve_body($response);
         $upload_dir = wp_upload_dir();
         $unique_file_name = wp_unique_filename($upload_dir['path'], $image_name);
         $filename = basename($unique_file_name);

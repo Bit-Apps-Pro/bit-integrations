@@ -96,15 +96,17 @@ final class Route
                         && strpos(sanitize_text_field(wp_unslash($_SERVER['CONTENT_TYPE'])), 'x-www-form-urlencoded') === false
                     ) {
                         $inputJSON = file_get_contents('php://input');
-                        $data = \is_string($inputJSON) ? json_decode($inputJSON) : $inputJSON;
+                        $decoded = \is_string($inputJSON) ? json_decode($inputJSON) : $inputJSON;
+                        $data = \is_object($decoded) || \is_array($decoded) ? map_deep($decoded, 'sanitize_text_field') : $decoded;
                     } elseif (isset($_POST['data'])) {
                         $postReq = wp_unslash($_POST['data']);
-                        $data = \is_string($postReq) ? json_decode($postReq) : $postReq;
+                        $decoded = \is_string($postReq) ? json_decode($postReq) : $postReq;
+                        $data = \is_object($decoded) || \is_array($decoded) ? map_deep($decoded, 'sanitize_text_field') : $decoded;
                     } else {
-                        $data = (object) $_POST;
+                        $data = (object) map_deep(wp_unslash($_POST), 'sanitize_text_field');
                     }
                 } else {
-                    $data = (object) $_GET;
+                    $data = (object) map_deep(wp_unslash($_GET), 'sanitize_text_field');
                 }
 
                 $reflectionMethod = new ReflectionMethod($invokeable[0], $invokeable[1]);

@@ -2,9 +2,9 @@
 
 namespace BitCode\FI\Actions\GoogleContacts;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
 
 class RecordApiHelper
 {
@@ -136,8 +136,14 @@ class RecordApiHelper
         //     "personFields" => 'addresses,biographies,emailAddresses,names,phoneNumbers'
         // ];
 
+        $response = wp_remote_get($imageLocation);
+        if (is_wp_error($response)) {
+            return $response;
+        }
+        $imageData = wp_remote_retrieve_body($response);
+
         $dataNew = [
-            'photoBytes'   => base64_encode(file_get_contents($imageLocation)),
+            'photoBytes'   => base64_encode($imageData),
             'personFields' => 'addresses,biographies,emailAddresses,names,phoneNumbers'
         ];
 

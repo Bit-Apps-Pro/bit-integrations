@@ -193,9 +193,10 @@ class AcademyLmsController
         $QuizIds = $wpdb->get_col($wpdb->prepare("select quiz_id from {$wpdb->prefix}academy_quiz_attempts where user_id = '14' AND course_id = %d ", $course_id));
 
         if (!empty($QuizIds)) {
-            $QuizIds = "'" . implode("','", $QuizIds) . "'";
+            $placeholders = implode(',', array_fill(0, \count($QuizIds), '%d'));
             $wpdb->query($wpdb->prepare("DELETE from {$wpdb->prefix}academy_quiz_attempts WHERE user_id = %d AND course_id = %d", $user_id, $course_id));
-            $wpdb->query($wpdb->prepare("DELETE from {$wpdb->prefix}academy_quiz_attempt_answers WHERE user_id = %d AND quiz_id in (%s) ", $user_id, $QuizIds));
+            $query = $wpdb->prepare("DELETE from {$wpdb->prefix}academy_quiz_attempt_answers WHERE user_id = %d AND quiz_id in ({$placeholders}) ", $user_id, ...$QuizIds);
+            $wpdb->query($query);
         }
         $wpdb->query($wpdb->prepare("DELETE from {$wpdb->comments} WHERE comment_agent = 'academy' AND comment_type = 'course_completed' AND comment_post_ID = %d AND user_id = %d", $course_id, $user_id));
 
