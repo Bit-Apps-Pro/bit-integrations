@@ -16,7 +16,6 @@ class Admin_Bar
         Hooks::add('in_admin_header', [$this, 'RemoveAdminNotices']);
         Hooks::add('admin_menu', [$this, 'AdminMenu']);
         Hooks::add('admin_enqueue_scripts', [$this, 'AdminAssets']);
-        // Hooks::filter('btcbi_localized_script', [$this, 'filterAdminScriptVar']);
         add_filter('script_loader_tag', [$this, 'scriptTagFilter'], 0, 3);
         add_filter('script_loader_src', [$this, 'removeQueryParam'], 99999, 3);
     }

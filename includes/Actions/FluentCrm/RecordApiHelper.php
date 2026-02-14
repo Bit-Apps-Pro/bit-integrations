@@ -134,7 +134,7 @@ class RecordApiHelper
 
     public function execute($fieldValues, $fieldMap, $actions, $list_id, $tags, $actionName)
     {
-        $fieldData = apply_filters('fluent_crm_assign_company', [], (array) $actions);
+        $fieldData = apply_filters('btcbi_fluent_crm_assign_company', [], (array) $actions);
 
         foreach ($fieldMap as $fieldKey => $fieldPair) {
             if (!empty($fieldPair->fluentCRMField)) {

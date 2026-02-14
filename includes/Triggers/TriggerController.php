@@ -35,7 +35,7 @@ final class TriggerController
             $triggers = array_merge($triggers, AllTriggersName::allTriggersName());
         }
 
-        return Hooks::apply('bit_integrations_triggers', $triggers);
+        return Hooks::apply('btcbi_triggers', $triggers);
     }
 
     public static function getTriggerField($triggerName, $data)
@@ -51,7 +51,7 @@ final class TriggerController
                 return $trigger::fields($data->id);
             }
         } else {
-            return Hooks::apply('bit_integrations_trigger_fields', $triggerName, $data);
+            return Hooks::apply('btcbi_trigger_fields', $triggerName, $data);
         }
 
         return [];

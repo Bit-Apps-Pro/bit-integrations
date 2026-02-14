@@ -50,7 +50,7 @@ class RecordApiHelper
         }
 
         return self::handleFilterResponse(
-            apply_filters('wishlist_update_level', false, $finalData)
+            apply_filters('btcbi_wishlist_update_level', false, $finalData)
         );
     }
 
@@ -64,7 +64,7 @@ class RecordApiHelper
         }
 
         return self::handleFilterResponse(
-            apply_filters('wishlist_delete_level', false, $finalData)
+            apply_filters('btcbi_wishlist_delete_level', false, $finalData)
         );
     }
 
@@ -84,7 +84,7 @@ class RecordApiHelper
         }
 
         return self::handleFilterResponse(
-            apply_filters('wishlist_create_member', false, $finalData, $levelId, $this->_integrationID)
+            apply_filters('btcbi_wishlist_create_member', false, $finalData, $levelId, $this->_integrationID)
         );
     }
 
@@ -156,28 +156,28 @@ class RecordApiHelper
             case 'update_member':
                 $type = 'member';
                 $type_name = 'Update Member';
-                $recordApiResponse = $this->handleMemberEvents($finalData, 'wishlist_update_member');
+                $recordApiResponse = $this->handleMemberEvents($finalData, 'btcbi_wishlist_update_member');
 
                 break;
 
             case 'delete_member':
                 $type = 'member';
                 $type_name = 'Delete Member';
-                $recordApiResponse = $this->handleMemberEvents($finalData, 'wishlist_delete_member');
+                $recordApiResponse = $this->handleMemberEvents($finalData, 'btcbi_wishlist_delete_member');
 
                 break;
 
             case 'add_member_to_level':
                 $type = 'member';
                 $type_name = 'Add Member To Level';
-                $recordApiResponse = $this->handleMemberAddOrRemoveFromLevel($finalData, 'wishlist_add_member_to_level');
+                $recordApiResponse = $this->handleMemberAddOrRemoveFromLevel($finalData, 'btcbi_wishlist_add_member_to_level');
 
                 break;
 
             case 'remove_member_from_level':
                 $type = 'member';
                 $type_name = 'Remove Member From Level';
-                $recordApiResponse = $this->handleMemberAddOrRemoveFromLevel($finalData, 'wishlist_remove_member_from_level');
+                $recordApiResponse = $this->handleMemberAddOrRemoveFromLevel($finalData, 'btcbi_wishlist_remove_member_from_level');
 
                 break;
 
