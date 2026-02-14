@@ -1,107 +1,95 @@
-name: Deploy to WordPress.org Repository
+name: WordPress Plugin Check
 
 on:
   push:
     branches:
-      - release
-  release:
-    types: [released]
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  PLUGIN_SLUG: bit-smtp
 
 jobs:
-  deploy_to_wp_repository:
-    name: Deploy to WP.org
+  plugin-check:
+    name: Plugin Check
     runs-on: ubuntu-latest
-    env:
-      PLUGIN_SLUG: bit-integrations
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
         with:
-          version: 9
-          run_install: false
+          fetch-depth: 1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+          coverage: none
+          tools: composer:v2, wp-cli
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: "pnpm"
-          cache-dependency-path: "frontend-dev/pnpm-lock.yaml"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
 
       - name: Get pnpm store directory
         id: pnpm-cache
         shell: bash
         run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+          echo "dir=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
 
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Setup package cache
+        uses: actions/cache@v4
         with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          path: |
+            ${{ steps.pnpm-cache.outputs.dir }}
+            ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-plugin-check-${{ hashFiles('**/pnpm-lock.yaml', '**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+            ${{ runner.os }}-plugin-check-
 
-      - name: Install frontend dependencies
+      - name: Install dependencies
         run: |
-          cd frontend-dev
-          pnpm install
+          composer install --prefer-dist --no-progress --no-dev --optimize-autoloader
+          pnpm install --frozen-lockfile
 
-      - name: Check for SVN
-        id: check_svn
+      - name: Build plugin
         run: |
-          if ! command -v svn &> /dev/null; then
-            echo "SVN not found, installing..."
-            sudo apt-get update
-            sudo apt-get install -y subversion
-          else
-            echo "SVN is already installed."
-          fi
+          pnpm production
+          bash .github/copy-assets
 
-      - name: Setup PHP
-        id: setup-php
-        uses: shivammathur/setup-php@v2
+      - name: WordPress Plugin Check
+        uses: wordpress/plugin-check-action@v1
         with:
-          php-version: "8.x"
-          tools: composer:v2, wp-cli
-
-      - name: Determine if this is a release or push
-        id: set-test-action
-        run: |
-          if [[ "${{ github.event_name }}" == "release" ]]; then
-            echo "TEST_ACTION=false" >> $GITHUB_ENV
-          else
-            echo "TEST_ACTION=true" >> $GITHUB_ENV
-          fi
-
-      - name: Build
-        id: build-plugin
-        run: |
-          bash .github/build
-          if [ -d "${{ github.workspace }}/build/${{ env.PLUGIN_SLUG }}" ]; then
-            echo "free_exists=true" >> "${GITHUB_OUTPUT}"
-          else
-            echo "free_exists=false" >> "${GITHUB_OUTPUT}"
-          fi
-
-      - name: WordPress Plugin Deploy
-        if: steps.build-plugin.outputs.free_exists == 'true'
-        id: deploy
-        uses: 10up/action-wordpress-plugin-deploy@stable
-        with:
-          generate-zip: true
-          dry-run: ${{ env.TEST_ACTION }}
-        env:
-          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-          BUILD_DIR: "${{ github.workspace }}/build/${{ env.PLUGIN_SLUG }}"
-          SLUG: ${{ env.PLUGIN_SLUG }}
-      - name: Upload release asset
-        if: steps.build-plugin.outputs.free_exists == 'true'
-        uses: softprops/action-gh-release@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          files: ${{ steps.deploy.outputs['zip-path'] }}
+          build-dir: "./build/${{ env.PLUGIN_SLUG }}"
+          exclude-directories: |
+            vendor
+            node_modules
+          categories: |
+            general
+            security
+            performance
+            accessibility
+            plugin_repo
+          checks: |
+            i18n_usage
+            late_escaping
+            plugin_header
+            plugin_readme
+            file_type
+            performant_wp_query_params
+            plugin_updater
+            enqueued_scripts_size
+            plugin_review_phpcs
+            trademarks

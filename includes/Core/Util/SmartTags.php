@@ -12,10 +12,11 @@ final class SmartTags
     public static function getPostUserData($isReferer)
     {
         $post = [];
-        $postId = $isReferer ? Helper::getPostIdFromReferer($_SERVER['HTTP_REFERER']) : null;
+        $postId = $isReferer ? Helper::getPostIdFromReferer(null) : null;
 
         if (!$isReferer && empty($postId) && isset($_SERVER['REQUEST_URI'])) {
-            $postId = Helper::getPostIdFromReferer($_SERVER['REQUEST_URI']);
+            $requestUri = sanitize_text_field(wp_unslash($_SERVER['REQUEST_URI']));
+            $postId = Helper::getPostIdFromReferer($requestUri);
         }
 
         if ($postId) {

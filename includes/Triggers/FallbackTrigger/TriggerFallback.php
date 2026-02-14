@@ -44,7 +44,7 @@ final class TriggerFallback
         }
 
         $form_data = self::getFormidableFieldsValues($form, $entry_id);
-        $post_id = Helper::getPostIdFromReferer($_SERVER['HTTP_REFERER']);
+        $post_id = Helper::getPostIdFromReferer(null);
 
         if (!empty($form->id)) {
             if (isset($post_id)) {
@@ -1639,7 +1639,7 @@ final class TriggerFallback
         global $wpdb;
         $table_name = $wpdb->prefix . 'bp_xprofile_fields';
 
-        $query = $wpdb->prepare('SELECT id, type, name FROM %1s', $table_name);
+        $query = "SELECT id, type, name FROM " . esc_sql($table_name);
 
         return $wpdb->get_results($query);
     }
@@ -2252,7 +2252,7 @@ final class TriggerFallback
 
     public static function handleForminatorSubmit($entry, $form_id, $form_data)
     {
-        $post_id = Helper::getPostIdFromReferer($_SERVER['HTTP_REFERER']);
+        $post_id = Helper::getPostIdFromReferer(null);
 
         if (!empty($form_id) && $flows = Flow::exists('Forminator', $form_id)) {
             $data = [];
@@ -2741,7 +2741,7 @@ final class TriggerFallback
         $upload_dir = $upload['basedir'];
         $upload_dir = $upload_dir . '/bihappy';
         if (!is_dir($upload_dir)) {
-            mkdir($upload_dir, 0700);
+            wp_mkdir_p($upload_dir);
         }
         $upload_path = $upload_dir;
 
@@ -2777,7 +2777,7 @@ final class TriggerFallback
 
     public static function handleHappySubmit($submission, $form, $a)
     {
-        $post_id = Helper::getPostIdFromReferer($_SERVER['HTTP_REFERER']);
+        $post_id = Helper::getPostIdFromReferer(null);
         $form_id = $form['ID'];
 
         if (!empty($form_id) && $flows = Flow::exists('Happy', $form_id)) {
@@ -4130,10 +4130,12 @@ final class TriggerFallback
     // PiotnetForms all functions
     public static function handlePiotnetSubmit($fields)
     {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Third-party form submission
         if (empty($_REQUEST['post_id'])) {
             return;
         }
 
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Third-party form submission
         $post_id = sanitize_text_field(
             wp_unslash($_REQUEST['post_id'])
         );

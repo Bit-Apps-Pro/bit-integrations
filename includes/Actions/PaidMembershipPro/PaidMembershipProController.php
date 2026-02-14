@@ -28,7 +28,7 @@ class PaidMembershipProController
         global $wpdb;
 
         $levels = $wpdb->get_results(
-            $wpdb->prepare('SELECT * FROM %1s ORDER BY id ASC', $wpdb->pmpro_membership_levels)
+            "SELECT * FROM {$wpdb->pmpro_membership_levels} ORDER BY id ASC"
         );
 
         $allLevels = [];

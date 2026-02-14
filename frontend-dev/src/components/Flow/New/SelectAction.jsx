@@ -52,7 +52,7 @@ export default function SelectAction() {
     { type: 'WooCommerce' },
     { type: 'Zoho Bigin' },
     { type: 'Zoho Campaigns' },
-    { type: 'Zoho Marketing Automation(Zoho Marketing Hub)' },
+    { type: 'Zoho Marketing Automation(Zoho Marketing Hub)', logo: 'zohoMarketingAutomation' },
     { type: 'Zoho Recruit' },
     { type: 'Getgist' },
     { type: 'ElasticEmail' },
@@ -105,7 +105,7 @@ export default function SelectAction() {
     { type: 'CustomApi' },
     { type: 'SureCart' },
     { type: 'Agiled CRM' },
-    { type: 'Kit(ConvertKit)' },
+    { type: 'Kit(ConvertKit)', logo: 'convertKit' },
     { type: 'BenchMark' },
     { type: 'DirectIq' },
     { type: 'GiveWp' },
@@ -124,7 +124,7 @@ export default function SelectAction() {
     { type: 'Propovoice CRM' },
     { type: 'Mail Mint' },
     { type: 'CopperCRM' },
-    { type: 'Sarbacane(Mailify)' },
+    { type: 'Sarbacane(Mailify)', logo: 'sarbacane' },
     { type: 'Lemlist' },
     { type: 'Salesmate' },
     { type: 'LionDesk' },
@@ -145,7 +145,7 @@ export default function SelectAction() {
     { type: 'WPWebhooks' },
     { type: 'AdvancedFormIntegration' },
     { type: 'PerfexCRM' },
-    { type: 'OttoKit (SureTriggers)' },
+    { type: 'OttoKit (SureTriggers)', logo: 'ottoKit' },
     { type: 'OneHashCRM' },
     { type: 'Salesflare' },
     { type: 'AcademyLms' },
@@ -252,8 +252,8 @@ export default function SelectAction() {
                   </span>
                 </div>
               )}
-              {/* <img loading="lazy" src={inte.logo} alt="" /> */}
-              <GetLogo name={inte.type} extension="webp" />
+
+              <GetLogo name={inte?.logo || inte.type} extension="webp" />
               <div className="txt-center">{inte.type}</div>
             </div>
           ))}

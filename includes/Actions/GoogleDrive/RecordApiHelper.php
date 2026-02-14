@@ -47,7 +47,6 @@ class RecordApiHelper
             if (\is_array($file)) {
                 $this->handleAllFiles($file, $actions, $folder);
             } else {
-                error_log(print_r(['action' => $actions], true));
                 $response = $this->uploadFile($folder, $file);
                 $this->storeInState($response);
                 $this->deleteFile($file, $actions);

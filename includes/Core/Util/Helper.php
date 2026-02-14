@@ -187,13 +187,6 @@ final class Helper
         return $attachMentId;
     }
 
-    public static function dd($data)
-    {
-        echo '<pre>';
-        var_dump($data); // or var_dump($data);
-        echo '</pre>';
-    }
-
     public static function isProActivate()
     {
         return \function_exists('btcbi_pro_activate_plugin');
@@ -518,16 +511,17 @@ final class Helper
 
     public static function getPostIdFromReferer($referer)
     {
-        if ($referer === null) {
-            $referer = $_SERVER['HTTP_REFERER'] ?? null;
+        if ($referer === null && isset($_SERVER['HTTP_REFERER'])) {
+            $referer = sanitize_text_field(wp_unslash($_SERVER['HTTP_REFERER']));
         }
 
         if (empty($referer)) {
             return;
         }
 
-        $referer = wp_unslash($referer);
-        $referer = sanitize_text_field($referer);
+        if (!\is_string($referer)) {
+            return;
+        }
 
         return url_to_postid($referer);
     }

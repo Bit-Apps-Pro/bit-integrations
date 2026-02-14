@@ -75,7 +75,6 @@ class FabmanController
         $integId = $integrationData->id;
         $memberId = $integrationDetails->selectedMember ?? null;
         $lockVersion = $integrationDetails->selectedLockVersion ?? null;
-        error_log('lockVersion: ' . $lockVersion);
 
         $needsMemberLookup = \in_array($actionName, ['update_member', 'delete_member'])
                              && ($actionName === 'delete_member' || empty($memberId));

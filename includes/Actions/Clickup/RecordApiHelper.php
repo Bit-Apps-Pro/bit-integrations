@@ -6,9 +6,10 @@
 
 namespace BitCode\FI\Actions\Clickup;
 
-use BitCode\FI\Log\LogHandler;
 use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Core\Util\HttpHelper;
+use BitCode\FI\Log\LogHandler;
+use CURLFile;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -121,7 +122,7 @@ class RecordApiHelper
                 $file = Common::filePath($file);
                 $result = HttpHelper::post(
                     $this->apiUrl . "task/{$taskId}/attachment",
-                    ['attachment' => curl_file_create($file)],
+                    ['attachment' => new CURLFile($file)],
                     [
                         'Authorization' => $this->integrationDetails->api_key,
                         'Content-Type'  => 'multipart/form-data',

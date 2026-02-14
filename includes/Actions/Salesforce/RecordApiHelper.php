@@ -401,7 +401,7 @@ class RecordApiHelper
                 $yy = \intval(substr($clean, -2));
 
                 // Sliding window: interpret two-digit year as closest to current year within 50 years
-                $currentYear = \intval(date('Y'));
+                $currentYear = \intval(gmdate('Y'));
                 $century = \intval($currentYear / 100) * 100;
                 $fullYear = $century + $yy;
                 $window = 50;

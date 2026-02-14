@@ -39,10 +39,7 @@ final class UnInstallation
             ];
             foreach ($tableArray as $tablename) {
                 $wpdb->query(
-                    $wpdb->prepare(
-                        'DROP TABLE IF EXISTS %1s',
-                        $tablename
-                    )
+                    "DROP TABLE IF EXISTS `{$tablename}`" // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
                 );
             }
 
@@ -52,17 +49,15 @@ final class UnInstallation
         foreach ($columns as $column) {
             $wpdb->query(
                 $wpdb->prepare(
-                    'DELETE FROM %1s WHERE option_name= %2s',
-                    "{$wpdb->prefix}options",
-                    $column,
+                    "DELETE FROM `{$wpdb->prefix}options` WHERE option_name = %s",
+                    $column
                 )
             );
         }
 
         $wpdb->query(
             $wpdb->prepare(
-                'DELETE FROM %1s WHERE `option_name` LIKE %2s',
-                "{$wpdb->prefix}options",
+                "DELETE FROM `{$wpdb->prefix}options` WHERE `option_name` LIKE %s",
                 '%btcbi_webhook_%'
             )
         );

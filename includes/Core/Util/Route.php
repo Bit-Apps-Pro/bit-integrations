@@ -26,10 +26,7 @@ final class Route
 
     public static function request($method, $hook, $invokeable)
     {
-        $action = $_REQUEST['action'] ?? $_POST['action'] ?? $_GET['action'] ?? null;
-        $action = sanitize_text_field(
-            wp_unslash($action)
-        );
+        $action = static::getActionFromRequest();
 
         if (
             (
@@ -68,10 +65,7 @@ final class Route
 
     public static function action()
     {
-        $action = $_REQUEST['action'] ?? $_POST['action'] ?? $_GET['action'] ?? null;
-        $action = sanitize_text_field(
-            wp_unslash($action)
-        );
+        $action = static::getActionFromRequest();
 
         $sanitizedMethod = isset($_SERVER['REQUEST_METHOD'])
             ? sanitize_text_field(wp_unslash($_SERVER['REQUEST_METHOD']))
@@ -147,5 +141,20 @@ final class Route
         self::$_ignore_token = true;
 
         return new static();
+    }
+
+    private static function getActionFromRequest()
+    {
+        if (isset($_REQUEST['action'])) {
+            return sanitize_text_field(wp_unslash($_REQUEST['action']));
+        }
+
+        if (isset($_POST['action'])) {
+            return sanitize_text_field(wp_unslash($_POST['action']));
+        }
+
+        if (isset($_GET['action'])) {
+            return sanitize_text_field(wp_unslash($_GET['action']));
+        }
     }
 }

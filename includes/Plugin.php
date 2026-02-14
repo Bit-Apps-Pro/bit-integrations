@@ -51,7 +51,6 @@ final class Plugin
     public function init_plugin()
     {
         Hooks::add('init', [$this, 'init_classes'], 8);
-        Hooks::add('init', [$this, 'localization_setup']);
         Hooks::add('btcbi_delete_integ_log', [$this, 'integrationlogDelete'], PHP_INT_MAX);
         Hooks::filter('plugin_action_links_' . plugin_basename(BTCBI_PLUGIN_MAIN_FILE), [$this, 'plugin_action_links']);
         Hooks::filter('cron_schedules', [$this, 'every_week_time_cron']);
@@ -104,16 +103,6 @@ final class Plugin
         if (Request::Check('admin')) {
             (new Admin_Bar())->register();
         }
-    }
-
-    /**
-     * Initially load the plugin text domain
-     *
-     * @return void
-     */
-    public function localization_setup()
-    {
-        load_plugin_textdomain('bit-integrations', false, basename(BTCBI_PLUGIN_BASEDIR) . '/languages');
     }
 
     /**
