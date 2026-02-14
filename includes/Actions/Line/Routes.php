@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\Line\LineController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Actions\Line\LineController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 Route::post('line_authorization', [LineController::class, 'authorization']);

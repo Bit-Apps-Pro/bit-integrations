@@ -4,11 +4,11 @@
  * WebHooks Integration
  */
 
-namespace BitCode\FI\Actions\WebHooks;
+namespace BitApps\BTCBI_FI\Actions\WebHooks;
 
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Log\LogHandler;
+use BitApps\BTCBI_FI\Core\Util\Common;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Log\LogHandler;
 
 /**
  * Provide functionality for webhooks

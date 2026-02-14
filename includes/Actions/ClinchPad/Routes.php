@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\ClinchPad\ClinchPadController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Actions\ClinchPad\ClinchPadController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 Route::post('clinchPad_authentication', [ClinchPadController::class, 'authentication']);
 Route::post('clinchPad_fetch_custom_fields', [ClinchPadController::class, 'getCustomFields']);

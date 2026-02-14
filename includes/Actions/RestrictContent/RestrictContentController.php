@@ -4,9 +4,9 @@
  * Restrict Content Integration
  */
 
-namespace BitCode\FI\Actions\RestrictContent;
+namespace BitApps\BTCBI_FI\Actions\RestrictContent;
 
-use BitCode\FI\Log\LogHandler;
+use BitApps\BTCBI_FI\Log\LogHandler;
 use WP_Error;
 
 /**

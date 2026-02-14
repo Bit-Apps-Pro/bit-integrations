@@ -4,11 +4,11 @@
  * ZohoMarketingHub Integration
  */
 
-namespace BitCode\FI\Actions\ZohoMarketingHub;
+namespace BitApps\BTCBI_FI\Actions\ZohoMarketingHub;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 
-use BitCode\FI\Flow\FlowController;
+use BitApps\BTCBI_FI\Flow\FlowController;
 use WP_Error;
 
 /**

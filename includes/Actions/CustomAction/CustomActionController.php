@@ -1,9 +1,9 @@
 <?php
 
-namespace BitCode\FI\Actions\CustomAction;
+namespace BitApps\BTCBI_FI\Actions\CustomAction;
 
+use BitApps\BTCBI_FI\Log\LogHandler;
 use Throwable;
-use BitCode\FI\Log\LogHandler;
 
 class CustomActionController
 {

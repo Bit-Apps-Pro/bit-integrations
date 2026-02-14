@@ -4,10 +4,10 @@
  * ACPT Record Api
  */
 
-namespace BitCode\FI\Actions\ACPT;
+namespace BitApps\BTCBI_FI\Actions\ACPT;
 
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Log\LogHandler;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, upsert

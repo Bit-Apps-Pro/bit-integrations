@@ -1,6 +1,6 @@
 <?php
 
-namespace BitCode\FI\Core\Util;
+namespace BitApps\BTCBI_FI\Core\Util;
 
 use WP_REST_Controller;
 use WP_REST_Server;

@@ -4,11 +4,11 @@
  * MailChimp Integration
  */
 
-namespace BitCode\FI\Actions\MailChimp;
+namespace BitApps\BTCBI_FI\Actions\MailChimp;
 
+use BitApps\BTCBI_FI\Core\Util\Helper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
-use BitCode\FI\Core\Util\Helper;
-use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for MailChimp integration

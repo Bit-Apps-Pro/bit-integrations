@@ -1,9 +1,9 @@
 <?php
 
-namespace BitCode\FI\Actions\Mailup;
+namespace BitApps\BTCBI_FI\Actions\Mailup;
 
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Flow\FlowController;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Flow\FlowController;
 use WP_Error;
 
 class MailupController

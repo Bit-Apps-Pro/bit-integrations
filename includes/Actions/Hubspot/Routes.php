@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Core\Util\Route;
-use BitCode\FI\Actions\Hubspot\HubspotController;
+use BitApps\BTCBI_FI\Actions\Hubspot\HubspotController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 Route::post('hubSpot_authorization', [HubspotController::class, 'authorization']);
 Route::post('getFields', [HubspotController::class, 'getFields']);

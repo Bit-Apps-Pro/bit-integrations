@@ -4,9 +4,9 @@
  * slack Integration
  */
 
-namespace BitCode\FI\Actions\Slack;
+namespace BitApps\BTCBI_FI\Actions\Slack;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

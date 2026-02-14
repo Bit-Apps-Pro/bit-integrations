@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\ZagoMail\ZagoMailController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Actions\ZagoMail\ZagoMailController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 Route::post('zagoMail_authorize', [ZagoMailController::class, 'zagoMailAuthorize']);
 Route::post('zagoMail_refresh_fields', [ZagoMailController::class, 'zagoMailRefreshFields']);

@@ -4,11 +4,11 @@
  * ZohoSheet Integration
  */
 
-namespace BitCode\FI\Actions\GoogleSheet;
+namespace BitApps\BTCBI_FI\Actions\GoogleSheet;
 
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Flow\FlowController;
 use WP_Error;
-use BitCode\FI\Flow\FlowController;
-use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for ZohoCrm integration

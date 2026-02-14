@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\SendPulse\SendPulseController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Actions\SendPulse\SendPulseController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 Route::post('sendPulse_authorize', [SendPulseController::class, 'authorization']);
 Route::post('sendPulse_lists', [SendPulseController::class, 'getAllList']);

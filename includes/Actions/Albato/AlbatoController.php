@@ -4,9 +4,9 @@
  * Albato Integration
  */
 
-namespace BitCode\FI\Actions\Albato;
+namespace BitApps\BTCBI_FI\Actions\Albato;
 
-use BitCode\FI\Actions\WebHooks\WebHooksController;
+use BitApps\BTCBI_FI\Actions\WebHooks\WebHooksController;
 
 /**
  * Provide functionality for AlbatoHandler

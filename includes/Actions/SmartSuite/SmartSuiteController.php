@@ -4,9 +4,9 @@
  * SmartSuite Integration
  */
 
-namespace BitCode\FI\Actions\SmartSuite;
+namespace BitApps\BTCBI_FI\Actions\SmartSuite;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 
 class SmartSuiteController
 {

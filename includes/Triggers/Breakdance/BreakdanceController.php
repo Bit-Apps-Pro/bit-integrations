@@ -1,8 +1,8 @@
 <?php
 
-namespace BitCode\FI\Triggers\Breakdance;
+namespace BitApps\BTCBI_FI\Triggers\Breakdance;
 
-use BitCode\FI\Triggers\TriggerController;
+use BitApps\BTCBI_FI\Triggers\TriggerController;
 
 final class BreakdanceController
 {

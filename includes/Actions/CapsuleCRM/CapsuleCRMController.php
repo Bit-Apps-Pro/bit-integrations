@@ -4,9 +4,9 @@
  * CapsuleCRM Integration
  */
 
-namespace BitCode\FI\Actions\CapsuleCRM;
+namespace BitApps\BTCBI_FI\Actions\CapsuleCRM;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

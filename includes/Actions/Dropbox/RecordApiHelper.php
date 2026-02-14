@@ -1,11 +1,11 @@
 <?php
 
-namespace BitCode\FI\Actions\Dropbox;
+namespace BitApps\BTCBI_FI\Actions\Dropbox;
 
+use BitApps\BTCBI_FI\Core\Util\Common;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Log\LogHandler;
 use WP_Error;
-use BitCode\FI\Log\LogHandler;
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Core\Util\HttpHelper;
 
 class RecordApiHelper
 {

@@ -4,9 +4,9 @@
  * Zapier Integration
  */
 
-namespace BitCode\FI\Actions\Zapier;
+namespace BitApps\BTCBI_FI\Actions\Zapier;
 
-use BitCode\FI\Actions\WebHooks\WebHooksController;
+use BitApps\BTCBI_FI\Actions\WebHooks\WebHooksController;
 
 /**
  * Provide functionality for ZapierHandler

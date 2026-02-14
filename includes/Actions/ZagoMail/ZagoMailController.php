@@ -4,9 +4,9 @@
  * ZagoMail Integration
  */
 
-namespace BitCode\FI\Actions\ZagoMail;
+namespace BitApps\BTCBI_FI\Actions\ZagoMail;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

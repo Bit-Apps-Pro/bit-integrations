@@ -4,10 +4,10 @@
  * ZohoCrm Files Api
  */
 
-namespace BitCode\FI\Actions\ZohoCRM;
+namespace BitApps\BTCBI_FI\Actions\ZohoCRM;
 
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Log\LogHandler;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Log\LogHandler;
 
 /**
  * Provide functionality for Upload files

@@ -4,9 +4,9 @@
  * HighLevel Integration
  */
 
-namespace BitCode\FI\Actions\HighLevel;
+namespace BitApps\BTCBI_FI\Actions\HighLevel;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

@@ -4,10 +4,10 @@
  * Trello Integration
  */
 
-namespace BitCode\FI\Actions\Trello;
+namespace BitApps\BTCBI_FI\Actions\Trello;
 
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
-use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Trello integration

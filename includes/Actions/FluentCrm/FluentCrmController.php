@@ -4,15 +4,15 @@
  * Fluent CRM Integration
  */
 
-namespace BitCode\FI\Actions\FluentCrm;
+namespace BitApps\BTCBI_FI\Actions\FluentCrm;
 
-use WP_Error;
-
-use FluentCrm\App\Models\Tag;
-use FluentCrm\App\Models\Lists;
 use FluentCrm\App\Models\Company;
-use FluentCrm\App\Models\Subscriber;
+
 use FluentCrm\App\Models\CustomContactField;
+use FluentCrm\App\Models\Lists;
+use FluentCrm\App\Models\Subscriber;
+use FluentCrm\App\Models\Tag;
+use WP_Error;
 
 /**
  * Provide functionality for ZohoCrm integration

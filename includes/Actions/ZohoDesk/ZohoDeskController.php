@@ -4,11 +4,11 @@
  * ZohoDesk Integration
  */
 
-namespace BitCode\FI\Actions\ZohoDesk;
+namespace BitApps\BTCBI_FI\Actions\ZohoDesk;
 
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Flow\FlowController;
 use WP_Error;
-use BitCode\FI\Flow\FlowController;
-use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for ZohoCrm integration

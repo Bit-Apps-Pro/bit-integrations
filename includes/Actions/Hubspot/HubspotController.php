@@ -1,9 +1,9 @@
 <?php
 
-namespace BitCode\FI\Actions\Hubspot;
+namespace BitApps\BTCBI_FI\Actions\Hubspot;
 
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Log\LogHandler;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Log\LogHandler;
 use WP_Error;
 
 final class HubspotController

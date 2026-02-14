@@ -1,8 +1,8 @@
 <?php
 
-namespace BitCode\FI\controller;
+namespace BitApps\BTCBI_FI\controller;
 
-use BitCode\FI\Core\Database\AuthModel;
+use BitApps\BTCBI_FI\Core\Database\AuthModel;
 
 final class AuthDataController
 {

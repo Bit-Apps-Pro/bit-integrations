@@ -4,11 +4,11 @@
  * OmniSend    Record Api
  */
 
-namespace BitCode\FI\Actions\OmniSend;
+namespace BitApps\BTCBI_FI\Actions\OmniSend;
 
-use BitCode\FI\Log\LogHandler;
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\Common;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -80,7 +80,7 @@ class RecordApiHelper
                 $requestParams[$key] = $value;
             }
         }
-        
+
         return HttpHelper::post($apiEndpoints, wp_json_encode($requestParams), $this->_defaultHeader);
     }
 
@@ -109,7 +109,7 @@ class RecordApiHelper
         $customFieldMap
     ) {
         $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
-        $customProperties = apply_filters('btcbi_omnisend_custom_properties', (object) [], $customFieldMap,$fieldValues);
+        $customProperties = apply_filters('btcbi_omnisend_custom_properties', (object) [], $customFieldMap, $fieldValues);
         $apiResponse = $this->addContact(
             $channels,
             $emailStatus,

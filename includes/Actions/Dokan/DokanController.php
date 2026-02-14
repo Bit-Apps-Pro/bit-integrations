@@ -4,7 +4,7 @@
  * Dokan Integration
  */
 
-namespace BitCode\FI\Actions\Dokan;
+namespace BitApps\BTCBI_FI\Actions\Dokan;
 
 use WeDevs\DokanPro\Modules\Germanized\Helper;
 use WP_Error;

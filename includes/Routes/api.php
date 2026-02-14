@@ -5,12 +5,12 @@
 if (!defined('ABSPATH')) {
     exit;
 }
-use BitCode\FI\Actions\ActionController;
-use BitCode\FI\Core\Util\API as Route;
-use BitCode\FI\Core\Util\Helper;
-use BitCode\FI\Triggers\Webhook\WebhookController;
+use BitApps\BTCBI_FI\Actions\ActionController;
+use BitApps\BTCBI_FI\Core\Util\API as Route;
+use BitApps\BTCBI_FI\Core\Util\Helper;
+use BitApps\BTCBI_FI\Triggers\Webhook\WebhookController;
 
-// use BitCode\FI\Triggers\Webhook\WebhookController;
+// use BitApps\BTCBI_FI\Triggers\Webhook\WebhookController;
 
 Route::get('redirect/', [new ActionController(), 'handleRedirect'], null, ['state' => ['required' => true]]);
 

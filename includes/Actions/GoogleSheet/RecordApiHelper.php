@@ -4,11 +4,11 @@
  * ZohoRecruit Record Api
  */
 
-namespace BitCode\FI\Actions\GoogleSheet;
+namespace BitApps\BTCBI_FI\Actions\GoogleSheet;
 
-use BitCode\FI\Log\LogHandler;
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\Common;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert,upsert
@@ -62,7 +62,7 @@ class RecordApiHelper
     {
         $fieldData = [];
         $allHeaders = $defaultConf->headers->{$spreadsheetId}->{$worksheetName}->{$headerRow};
-        
+
         foreach ($fieldMap as $fieldKey => $fieldPair) {
             if (!empty($fieldPair->googleSheetField)) {
                 if ($fieldPair->formField === 'custom' && isset($fieldPair->customValue)) {
@@ -81,12 +81,12 @@ class RecordApiHelper
                 $values[] = '';
             }
         }
-        
+
         $data = [];
         $data['range'] = "{$worksheetName}!{$headerRow}";
         $data['majorDimension'] = "{$header}";
         $data['values'][] = $values;
-        
+
         $recordApiResponse = $this->insertRecord($spreadsheetId, $worksheetName, $header, $headerRow, wp_json_encode($data));
         $type = 'insert';
         if (isset($recordApiResponse->error)) {

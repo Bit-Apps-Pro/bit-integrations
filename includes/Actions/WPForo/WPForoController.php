@@ -4,7 +4,7 @@
  * WPForo Integration
  */
 
-namespace BitCode\FI\Actions\WPForo;
+namespace BitApps\BTCBI_FI\Actions\WPForo;
 
 use WP_Error;
 

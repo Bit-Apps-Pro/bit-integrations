@@ -4,10 +4,10 @@
  * Smaily Integration
  */
 
-namespace BitCode\FI\Actions\Smaily;
+namespace BitApps\BTCBI_FI\Actions\Smaily;
 
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
-use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Smaily integration

@@ -4,7 +4,7 @@
  * Fluent Support Integration
  */
 
-namespace BitCode\FI\Actions\FluentSupport;
+namespace BitApps\BTCBI_FI\Actions\FluentSupport;
 
 use FluentSupport\App\Models\Agent;
 use FluentSupport\App\Models\MailBox;

@@ -4,9 +4,9 @@
  * SureTriggers Integration
  */
 
-namespace BitCode\FI\Actions\SureTriggers;
+namespace BitApps\BTCBI_FI\Actions\SureTriggers;
 
-use BitCode\FI\Actions\WebHooks\WebHooksController;
+use BitApps\BTCBI_FI\Actions\WebHooks\WebHooksController;
 
 /**
  * Provide functionality for SureTriggersHandler

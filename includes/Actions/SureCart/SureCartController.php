@@ -1,6 +1,6 @@
 <?php
 
-namespace BitCode\FI\Actions\SureCart;
+namespace BitApps\BTCBI_FI\Actions\SureCart;
 
 use WP_Error;
 

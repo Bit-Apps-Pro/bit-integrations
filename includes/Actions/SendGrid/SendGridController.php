@@ -4,9 +4,9 @@
  * SendGrid Integration
  */
 
-namespace BitCode\FI\Actions\SendGrid;
+namespace BitApps\BTCBI_FI\Actions\SendGrid;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

@@ -1,14 +1,14 @@
 <?php
 
-namespace BitCode\FI\Actions\MasterStudyLms;
+namespace BitApps\BTCBI_FI\Actions\MasterStudyLms;
 
-use WP_Error;
-use STM_LMS_Quiz;
+use BitApps\BTCBI_FI\Log\LogHandler;
 use STM_LMS_Course;
-use STM_LMS_Lesson;
 use STM_LMS_Helpers;
-use BitCode\FI\Log\LogHandler;
+use STM_LMS_Lesson;
+use STM_LMS_Quiz;
 use STM_LMS_User_Manager_Course_User;
+use WP_Error;
 
 class RecordApiHelper
 {

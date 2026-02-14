@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\GiveWp\GiveWpController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Actions\GiveWp\GiveWpController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 Route::post('giveWp_authorize', [GiveWpController::class, 'authorizeGiveWp']);

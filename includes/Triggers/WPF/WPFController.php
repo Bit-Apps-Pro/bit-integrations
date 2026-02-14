@@ -1,8 +1,8 @@
 <?php
 
-namespace BitCode\FI\Triggers\WPF;
+namespace BitApps\BTCBI_FI\Triggers\WPF;
 
-use BitCode\FI\Flow\Flow;
+use BitApps\BTCBI_FI\Flow\Flow;
 
 final class WPFController
 {

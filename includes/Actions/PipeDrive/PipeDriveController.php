@@ -4,10 +4,10 @@
  * PipeDrive Integration
  */
 
-namespace BitCode\FI\Actions\PipeDrive;
+namespace BitApps\BTCBI_FI\Actions\PipeDrive;
 
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
-use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for PipeDrive integration

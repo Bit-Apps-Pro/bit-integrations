@@ -4,7 +4,7 @@
  * JetEngine Integration
  */
 
-namespace BitCode\FI\Actions\JetEngine;
+namespace BitApps\BTCBI_FI\Actions\JetEngine;
 
 use Jet_Engine\Modules\Custom_Content_Types\Module;
 use Jet_Engine_CPT;

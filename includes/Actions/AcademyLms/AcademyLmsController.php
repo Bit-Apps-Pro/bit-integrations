@@ -1,8 +1,8 @@
 <?php
 
-namespace BitCode\FI\Actions\AcademyLms;
+namespace BitApps\BTCBI_FI\Actions\AcademyLms;
 
-use BitCode\FI\Log\LogHandler;
+use BitApps\BTCBI_FI\Log\LogHandler;
 
 /**
  * Provide functionality for Academy Lms integration

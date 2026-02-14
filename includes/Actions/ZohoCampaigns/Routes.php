@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\ZohoCampaigns\ZohoCampaignsController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Actions\ZohoCampaigns\ZohoCampaignsController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 Route::post('zcampaigns_generate_token', [ZohoCampaignsController::class, 'generateTokens']);
 Route::post('zcampaigns_refresh_lists', [ZohoCampaignsController::class, 'refreshLists']);

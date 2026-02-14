@@ -1,8 +1,8 @@
 <?php
 
-namespace BitCode\FI\Core\Util;
+namespace BitApps\BTCBI_FI\Core\Util;
 
-use BitCode\FI\Flow\FlowController;
+use BitApps\BTCBI_FI\Flow\FlowController;
 
 class StoreInCache
 {

@@ -4,9 +4,9 @@
  * Active Campaign Integration
  */
 
-namespace BitCode\FI\Actions\ActiveCampaign;
+namespace BitApps\BTCBI_FI\Actions\ActiveCampaign;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

@@ -4,9 +4,9 @@
  * Groundhogg Integration
  */
 
-namespace BitCode\FI\Actions\Groundhogg;
+namespace BitApps\BTCBI_FI\Actions\Groundhogg;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

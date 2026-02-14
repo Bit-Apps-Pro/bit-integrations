@@ -4,9 +4,9 @@
  * freshdesk Integration
  */
 
-namespace BitCode\FI\Actions\Freshdesk;
+namespace BitApps\BTCBI_FI\Actions\Freshdesk;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

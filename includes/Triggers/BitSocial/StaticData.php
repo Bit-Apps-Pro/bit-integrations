@@ -1,6 +1,6 @@
 <?php
 
-namespace BitCode\FI\Triggers\BitSocial;
+namespace BitApps\BTCBI_FI\Triggers\BitSocial;
 
 class StaticData
 {

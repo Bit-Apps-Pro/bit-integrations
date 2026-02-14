@@ -4,10 +4,10 @@
  * SuiteDash Record Api
  */
 
-namespace BitCode\FI\Actions\SuiteDash;
+namespace BitApps\BTCBI_FI\Actions\SuiteDash;
 
-use BitCode\FI\Log\LogHandler;
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, upsert

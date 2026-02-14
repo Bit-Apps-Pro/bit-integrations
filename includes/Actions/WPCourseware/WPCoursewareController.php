@@ -1,9 +1,9 @@
 <?php
 
-namespace BitCode\FI\Actions\WPCourseware;
+namespace BitApps\BTCBI_FI\Actions\WPCourseware;
 
+use BitApps\BTCBI_FI\Log\LogHandler;
 use WP_Error;
-use BitCode\FI\Log\LogHandler;
 
 class WPCoursewareController
 {

@@ -4,9 +4,9 @@
  * Airtable Integration
  */
 
-namespace BitCode\FI\Actions\Airtable;
+namespace BitApps\BTCBI_FI\Actions\Airtable;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

@@ -4,11 +4,11 @@
  * Newsletter Record Api
  */
 
-namespace BitCode\FI\Actions\Newsletter;
+namespace BitApps\BTCBI_FI\Actions\Newsletter;
 
+use BitApps\BTCBI_FI\Core\Util\Common;
+use BitApps\BTCBI_FI\Log\LogHandler;
 use TNP;
-use BitCode\FI\Log\LogHandler;
-use BitCode\FI\Core\Util\Common;
 
 /**
  * Provide functionality for Record insert, update

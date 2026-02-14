@@ -1,10 +1,10 @@
 <?php
 
-namespace BitCode\FI\Actions\SendPulse;
+namespace BitApps\BTCBI_FI\Actions\SendPulse;
 
-use BitCode\FI\Core\Util\Helper;
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Flow\FlowController;
+use BitApps\BTCBI_FI\Core\Util\Helper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Flow\FlowController;
 use WP_Error;
 
 class SendPulseController

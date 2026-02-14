@@ -1,10 +1,10 @@
 <?php
 
-namespace BitCode\FI\Triggers\ActionHook;
+namespace BitApps\BTCBI_FI\Triggers\ActionHook;
 
+use BitApps\BTCBI_FI\Core\Util\Helper;
+use BitApps\BTCBI_FI\Flow\Flow;
 use ReflectionClass;
-use BitCode\FI\Flow\Flow;
-use BitCode\FI\Core\Util\Helper;
 
 class ActionHookController
 {

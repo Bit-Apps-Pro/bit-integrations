@@ -1,11 +1,11 @@
 <?php
 
-namespace BitCode\FI\Core\Hooks;
+namespace BitApps\BTCBI_FI\Core\Hooks;
 
-use BitCode\FI\Admin\AdminAjax;
-use BitCode\FI\Core\Util\Hooks;
-use BitCode\FI\Core\Util\Request;
-use BitCode\FI\Core\Util\StoreInCache;
+use BitApps\BTCBI_FI\Admin\AdminAjax;
+use BitApps\BTCBI_FI\Core\Util\Hooks;
+use BitApps\BTCBI_FI\Core\Util\Request;
+use BitApps\BTCBI_FI\Core\Util\StoreInCache;
 use FilesystemIterator;
 
 class HookService

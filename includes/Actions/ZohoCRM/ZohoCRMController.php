@@ -4,13 +4,13 @@
  * ZohoCrm Integration
  */
 
-namespace BitCode\FI\Actions\ZohoCRM;
+namespace BitApps\BTCBI_FI\Actions\ZohoCRM;
 
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Flow\FlowController;
+use BitApps\BTCBI_FI\Log\LogHandler;
 use stdClass;
 use WP_Error;
-use BitCode\FI\Log\LogHandler;
-use BitCode\FI\Flow\FlowController;
-use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for ZohoCrm integration

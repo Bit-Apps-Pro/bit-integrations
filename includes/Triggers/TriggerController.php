@@ -1,10 +1,10 @@
 <?php
 
-namespace BitCode\FI\Triggers;
+namespace BitApps\BTCBI_FI\Triggers;
 
-use BitCode\FI\Core\Util\AllTriggersName;
-use BitCode\FI\Core\Util\Capabilities;
-use BitCode\FI\Core\Util\Hooks;
+use BitApps\BTCBI_FI\Core\Util\AllTriggersName;
+use BitApps\BTCBI_FI\Core\Util\Capabilities;
+use BitApps\BTCBI_FI\Core\Util\Hooks;
 use FilesystemIterator;
 use WP_Error;
 

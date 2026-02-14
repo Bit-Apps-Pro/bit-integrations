@@ -4,9 +4,9 @@
  * MailerPress Integration
  */
 
-namespace BitCode\FI\Actions\MailerPress;
+namespace BitApps\BTCBI_FI\Actions\MailerPress;
 
-use BitCode\FI\Core\Util\Helper;
+use BitApps\BTCBI_FI\Core\Util\Helper;
 use WP_Error;
 
 /**
@@ -140,4 +140,3 @@ class MailerPressController
         return $mailerPressApiResponse;
     }
 }
-

@@ -4,9 +4,9 @@
  * Encharge Integration
  */
 
-namespace BitCode\FI\Actions\Encharge;
+namespace BitApps\BTCBI_FI\Actions\Encharge;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

@@ -4,10 +4,10 @@
  * Keap Integration
  */
 
-namespace BitCode\FI\Actions\Keap;
+namespace BitApps\BTCBI_FI\Actions\Keap;
 
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Flow\FlowController;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Flow\FlowController;
 use WP_Error;
 
 /**

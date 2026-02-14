@@ -4,7 +4,7 @@
  * Wishlist Member Integration
  */
 
-namespace BitCode\FI\Actions\WishlistMember;
+namespace BitApps\BTCBI_FI\Actions\WishlistMember;
 
 use WP_Error;
 

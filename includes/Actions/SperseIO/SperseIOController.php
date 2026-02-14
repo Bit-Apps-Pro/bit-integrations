@@ -4,9 +4,9 @@
  * SperseIO Integration
  */
 
-namespace BitCode\FI\Actions\SperseIO;
+namespace BitApps\BTCBI_FI\Actions\SperseIO;
 
-use BitCode\FI\Actions\WebHooks\WebHooksController;
+use BitApps\BTCBI_FI\Actions\WebHooks\WebHooksController;
 
 /**
  * Provide functionality for SperseIOHandler

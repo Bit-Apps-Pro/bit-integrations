@@ -1,11 +1,12 @@
 <?php
+
 /**
  * ZohoCrm Tag Api Helper
  */
 
-namespace BitCode\FI\Actions\ZohoCRM;
+namespace BitApps\BTCBI_FI\Actions\ZohoCRM;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

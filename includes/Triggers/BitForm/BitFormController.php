@@ -1,9 +1,9 @@
 <?php
 
-namespace BitCode\FI\Triggers\BitForm;
+namespace BitApps\BTCBI_FI\Triggers\BitForm;
 
-use BitCode\FI\Flow\Flow;
-use BitCode\FI\Core\Util\Common;
+use BitApps\BTCBI_FI\Core\Util\Common;
+use BitApps\BTCBI_FI\Flow\Flow;
 use BitCode\BitForm\Core\Util\FileHandler;
 
 final class BitFormController

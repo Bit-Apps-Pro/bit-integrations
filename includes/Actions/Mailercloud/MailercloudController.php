@@ -4,9 +4,9 @@
  * Mailercloud Integration
  */
 
-namespace BitCode\FI\Actions\Mailercloud;
+namespace BitApps\BTCBI_FI\Actions\Mailercloud;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

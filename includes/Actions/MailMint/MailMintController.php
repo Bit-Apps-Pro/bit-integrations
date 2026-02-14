@@ -1,6 +1,6 @@
 <?php
 
-namespace BitCode\FI\Actions\MailMint;
+namespace BitApps\BTCBI_FI\Actions\MailMint;
 
 use Mint\MRM\Constants;
 use Mint\MRM\DataBase\Models\ContactGroupModel;

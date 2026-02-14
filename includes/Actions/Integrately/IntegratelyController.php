@@ -4,9 +4,9 @@
  * Integrately Integration
  */
 
-namespace BitCode\FI\Actions\Integrately;
+namespace BitApps\BTCBI_FI\Actions\Integrately;
 
-use BitCode\FI\Actions\WebHooks\WebHooksController;
+use BitApps\BTCBI_FI\Actions\WebHooks\WebHooksController;
 
 /**
  * Provide functionality for IntegratelyHandler

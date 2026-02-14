@@ -1,9 +1,9 @@
 <?php
 
-namespace BitCode\FI\Actions\ACPT;
+namespace BitApps\BTCBI_FI\Actions\ACPT;
 
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Core\Util\Helper;
+use BitApps\BTCBI_FI\Core\Util\Common;
+use BitApps\BTCBI_FI\Core\Util\Helper;
 
 class ACPTHelper
 {

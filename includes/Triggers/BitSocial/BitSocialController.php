@@ -1,9 +1,9 @@
 <?php
 
-namespace BitCode\FI\Triggers\BitSocial;
+namespace BitApps\BTCBI_FI\Triggers\BitSocial;
 
-use BitCode\FI\Core\Util\Helper;
-use BitCode\FI\Flow\Flow;
+use BitApps\BTCBI_FI\Core\Util\Helper;
+use BitApps\BTCBI_FI\Flow\Flow;
 
 final class BitSocialController
 {

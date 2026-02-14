@@ -4,9 +4,9 @@
  * ACPT Integration
  */
 
-namespace BitCode\FI\Actions\ACPT;
+namespace BitApps\BTCBI_FI\Actions\ACPT;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

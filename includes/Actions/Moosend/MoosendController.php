@@ -4,9 +4,9 @@
  * Moosend Integration
  */
 
-namespace BitCode\FI\Actions\Moosend;
+namespace BitApps\BTCBI_FI\Actions\Moosend;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

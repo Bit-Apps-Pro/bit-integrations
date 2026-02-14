@@ -4,7 +4,7 @@
  * FluentCart Integration
  */
 
-namespace BitCode\FI\Actions\FluentCart;
+namespace BitApps\BTCBI_FI\Actions\FluentCart;
 
 use WP_Error;
 

@@ -4,9 +4,9 @@
  * Vbout Integration
  */
 
-namespace BitCode\FI\Actions\Vbout;
+namespace BitApps\BTCBI_FI\Actions\Vbout;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

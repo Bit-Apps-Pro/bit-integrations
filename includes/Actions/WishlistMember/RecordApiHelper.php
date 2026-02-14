@@ -4,10 +4,10 @@
  * Wishlist Member Record Api
  */
 
-namespace BitCode\FI\Actions\WishlistMember;
+namespace BitApps\BTCBI_FI\Actions\WishlistMember;
 
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Log\LogHandler;
+use BitApps\BTCBI_FI\Core\Util\Common;
+use BitApps\BTCBI_FI\Log\LogHandler;
 
 class RecordApiHelper
 {

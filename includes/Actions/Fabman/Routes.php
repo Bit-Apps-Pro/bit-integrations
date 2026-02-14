@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\Fabman\FabmanController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Actions\Fabman\FabmanController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 Route::post('fabman_authorization', [FabmanController::class, 'authorization']);
 Route::post('fabman_fetch_workspaces', [FabmanController::class, 'fetchWorkspaces']);

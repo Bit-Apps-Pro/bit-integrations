@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\EmailOctopus\EmailOctopusController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Actions\EmailOctopus\EmailOctopusController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 Route::post('emailOctopus_authentication', [EmailOctopusController::class, 'authentication']);
 Route::post('emailOctopus_fetch_all_tags', [EmailOctopusController::class, 'getAllTags']);

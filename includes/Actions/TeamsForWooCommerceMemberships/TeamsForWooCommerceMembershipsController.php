@@ -4,7 +4,7 @@
  * Teams for WooCommerce Memberships Integration.
  */
 
-namespace BitCode\FI\Actions\TeamsForWooCommerceMemberships;
+namespace BitApps\BTCBI_FI\Actions\TeamsForWooCommerceMemberships;
 
 use WP_Error;
 
@@ -103,4 +103,3 @@ class TeamsForWooCommerceMembershipsController
         return $teamsForWooCommerceMembershipsResponse;
     }
 }
-

@@ -1,8 +1,8 @@
 <?php
 
-namespace BitCode\FI\Triggers\WC;
+namespace BitApps\BTCBI_FI\Triggers\WC;
 
-use BitCode\FI\Core\Util\Helper;
+use BitApps\BTCBI_FI\Core\Util\Helper;
 
 class WCStaticFields
 {

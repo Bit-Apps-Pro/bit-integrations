@@ -1,6 +1,6 @@
 <?php
 
-namespace BitCode\FI\Core\Util;
+namespace BitApps\BTCBI_FI\Core\Util;
 
 /**
  * Email Notification Handler for Integration Failures

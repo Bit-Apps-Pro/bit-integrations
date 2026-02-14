@@ -4,9 +4,9 @@
  * LMFWC Integration
  */
 
-namespace BitCode\FI\Actions\LMFWC;
+namespace BitApps\BTCBI_FI\Actions\LMFWC;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

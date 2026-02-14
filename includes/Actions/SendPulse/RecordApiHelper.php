@@ -1,9 +1,9 @@
 <?php
 
-namespace BitCode\FI\Actions\SendPulse;
+namespace BitApps\BTCBI_FI\Actions\SendPulse;
 
-use BitCode\FI\Log\LogHandler;
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Log\LogHandler;
 
 class RecordApiHelper
 {

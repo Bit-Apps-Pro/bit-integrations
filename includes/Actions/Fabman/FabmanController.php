@@ -4,9 +4,9 @@
  * Fabman Integration
  */
 
-namespace BitCode\FI\Actions\Fabman;
+namespace BitApps\BTCBI_FI\Actions\Fabman;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 
 class FabmanController
 {

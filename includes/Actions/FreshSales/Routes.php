@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\FreshSales\FreshSalesController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Actions\FreshSales\FreshSalesController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 Route::post('FreshSales_authorization', [FreshSalesController::class, 'authorization']);
 Route::post('FreshSales_refresh_fields', [FreshSalesController::class, 'getFields']);

@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\LearnDash\LearnDashController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Actions\LearnDash\LearnDashController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 Route::post('learnDash_authorize', [LearnDashController::class, 'authorizeRestrictContent']);
 Route::post('learDash_fetch_all_course', [LearnDashController::class, 'getCourses']);

@@ -4,9 +4,9 @@
  * ThriveAutomator Integration
  */
 
-namespace BitCode\FI\Actions\ThriveAutomator;
+namespace BitApps\BTCBI_FI\Actions\ThriveAutomator;
 
-use BitCode\FI\Actions\WebHooks\WebHooksController;
+use BitApps\BTCBI_FI\Actions\WebHooks\WebHooksController;
 
 /**
  * Provide functionality for ThriveAutomatorHandler

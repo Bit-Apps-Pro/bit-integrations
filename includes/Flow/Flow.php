@@ -1,15 +1,15 @@
 <?php
 
-namespace BitCode\FI\Flow;
+namespace BitApps\BTCBI_FI\Flow;
 
-use BitCode\FI\Core\Util\Capabilities;
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Core\Util\CustomFuncValidator;
-use BitCode\FI\Core\Util\IpTool;
-use BitCode\FI\Core\Util\SmartTags;
-use BitCode\FI\Core\Util\StoreInCache;
-use BitCode\FI\Log\LogHandler;
-use BitCode\FI\Triggers\TriggerController;
+use BitApps\BTCBI_FI\Core\Util\Capabilities;
+use BitApps\BTCBI_FI\Core\Util\Common;
+use BitApps\BTCBI_FI\Core\Util\CustomFuncValidator;
+use BitApps\BTCBI_FI\Core\Util\IpTool;
+use BitApps\BTCBI_FI\Core\Util\SmartTags;
+use BitApps\BTCBI_FI\Core\Util\StoreInCache;
+use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\BTCBI_FI\Triggers\TriggerController;
 use WP_Error;
 
 /**

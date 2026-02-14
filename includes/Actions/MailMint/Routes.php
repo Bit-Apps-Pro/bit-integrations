@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\MailMint\MailMintController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Actions\MailMint\MailMintController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 Route::post('mailmint_authorize', [MailMintController::class, 'authorizeMailMint']);
 Route::post('fetch_all_mail_mint_list', [MailMintController::class, 'getAllList']);

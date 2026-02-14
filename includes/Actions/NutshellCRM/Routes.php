@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\NutshellCRM\NutshellCRMController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Actions\NutshellCRM\NutshellCRMController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 Route::post('nutshellcrm_authentication', [NutshellCRMController::class, 'authentication']);
 Route::post('nutshellcrm_fetch_all_contacts', [NutshellCRMController::class, 'getContacts']);

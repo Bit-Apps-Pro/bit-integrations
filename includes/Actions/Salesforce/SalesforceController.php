@@ -4,10 +4,10 @@
  * Selesforce Integration
  */
 
-namespace BitCode\FI\Actions\Salesforce;
+namespace BitApps\BTCBI_FI\Actions\Salesforce;
 
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Flow\FlowController;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Flow\FlowController;
 use WP_Error;
 
 class SalesforceController

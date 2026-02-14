@@ -4,7 +4,7 @@
  * Newsletter Integration
  */
 
-namespace BitCode\FI\Actions\Newsletter;
+namespace BitApps\BTCBI_FI\Actions\Newsletter;
 
 use WP_Error;
 

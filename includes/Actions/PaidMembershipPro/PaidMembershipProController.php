@@ -1,6 +1,6 @@
 <?php
 
-namespace BitCode\FI\Actions\PaidMembershipPro;
+namespace BitApps\BTCBI_FI\Actions\PaidMembershipPro;
 
 use WP_Error;
 

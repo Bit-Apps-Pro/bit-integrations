@@ -4,10 +4,10 @@
  * Mailster Record Api
  */
 
-namespace BitCode\FI\Actions\Mailster;
+namespace BitApps\BTCBI_FI\Actions\Mailster;
 
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Log\LogHandler;
+use BitApps\BTCBI_FI\Core\Util\Common;
+use BitApps\BTCBI_FI\Log\LogHandler;
 use MailsterSubscribers;
 
 /**

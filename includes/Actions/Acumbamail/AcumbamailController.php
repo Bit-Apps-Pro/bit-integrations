@@ -4,9 +4,9 @@
  * Acumbamail Integration
  */
 
-namespace BitCode\FI\Actions\Acumbamail;
+namespace BitApps\BTCBI_FI\Actions\Acumbamail;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

@@ -4,9 +4,9 @@
  * Selzy Integration
  */
 
-namespace BitCode\FI\Actions\Selzy;
+namespace BitApps\BTCBI_FI\Actions\Selzy;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

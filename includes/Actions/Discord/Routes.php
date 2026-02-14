@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\Discord\DiscordController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Actions\Discord\DiscordController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 // Discord
 Route::post('handle_authorize', [DiscordController::class, 'handleAuthorize']);

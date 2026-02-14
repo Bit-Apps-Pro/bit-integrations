@@ -4,9 +4,9 @@
  * Insightly Integration
  */
 
-namespace BitCode\FI\Actions\Insightly;
+namespace BitApps\BTCBI_FI\Actions\Insightly;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

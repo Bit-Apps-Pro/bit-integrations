@@ -4,11 +4,11 @@
  * JetEngine Record Api
  */
 
-namespace BitCode\FI\Actions\JetEngine;
+namespace BitApps\BTCBI_FI\Actions\JetEngine;
 
-use BitCode\FI\Log\LogHandler;
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Core\Util\Helper;
+use BitApps\BTCBI_FI\Core\Util\Common;
+use BitApps\BTCBI_FI\Core\Util\Helper;
+use BitApps\BTCBI_FI\Log\LogHandler;
 use Jet_Engine\Modules\Custom_Content_Types\Module;
 
 /**

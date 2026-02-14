@@ -4,11 +4,11 @@
  * ZohoBigin Integration
  */
 
-namespace BitCode\FI\Actions\ZohoBigin;
+namespace BitApps\BTCBI_FI\Actions\ZohoBigin;
 
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Flow\FlowController;
-use BitCode\FI\Log\LogHandler;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Flow\FlowController;
+use BitApps\BTCBI_FI\Log\LogHandler;
 use WP_Error;
 
 /**

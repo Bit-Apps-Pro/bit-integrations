@@ -4,9 +4,9 @@
  * WooCommerce Fields.
  */
 
-namespace BitCode\FI\Actions\WooCommerce;
+namespace BitApps\BTCBI_FI\Actions\WooCommerce;
 
-use BitCode\FI\Core\Util\Helper;
+use BitApps\BTCBI_FI\Core\Util\Helper;
 
 class WooCommerceMetaFields
 {

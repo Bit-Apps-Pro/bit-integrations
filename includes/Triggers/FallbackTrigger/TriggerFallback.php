@@ -1,10 +1,10 @@
 <?php
 
-namespace BitCode\FI\Triggers\FallbackTrigger;
+namespace BitApps\BTCBI_FI\Triggers\FallbackTrigger;
 
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Core\Util\Helper;
-use BitCode\FI\Flow\Flow;
+use BitApps\BTCBI_FI\Core\Util\Common;
+use BitApps\BTCBI_FI\Core\Util\Helper;
+use BitApps\BTCBI_FI\Flow\Flow;
 use DateTime;
 use EDD_Payment;
 use FrmEntryValues;
@@ -1639,7 +1639,7 @@ final class TriggerFallback
         global $wpdb;
         $table_name = $wpdb->prefix . 'bp_xprofile_fields';
 
-        $query = "SELECT id, type, name FROM " . esc_sql($table_name);
+        $query = 'SELECT id, type, name FROM ' . esc_sql($table_name);
 
         return $wpdb->get_results($query);
     }

@@ -4,9 +4,9 @@
  * N8n Integration
  */
 
-namespace BitCode\FI\Actions\N8n;
+namespace BitApps\BTCBI_FI\Actions\N8n;
 
-use BitCode\FI\Actions\WebHooks\WebHooksController;
+use BitApps\BTCBI_FI\Actions\WebHooks\WebHooksController;
 
 /**
  * Provide functionality for N8nHandler

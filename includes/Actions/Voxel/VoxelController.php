@@ -4,9 +4,9 @@
  * Voxel Integration
  */
 
-namespace BitCode\FI\Actions\Voxel;
+namespace BitApps\BTCBI_FI\Actions\Voxel;
 
-use BitCode\FI\Core\Util\Post;
+use BitApps\BTCBI_FI\Core\Util\Post;
 use WP_Error;
 
 /**

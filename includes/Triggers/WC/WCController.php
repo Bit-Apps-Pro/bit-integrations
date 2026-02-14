@@ -1,9 +1,9 @@
 <?php
 
-namespace BitCode\FI\Triggers\WC;
+namespace BitApps\BTCBI_FI\Triggers\WC;
 
-use BitCode\FI\Core\Util\Helper;
-use BitCode\FI\Flow\Flow;
+use BitApps\BTCBI_FI\Core\Util\Helper;
+use BitApps\BTCBI_FI\Flow\Flow;
 use WC_Booking;
 use WC_Checkout;
 use WC_Subscriptions_Product;

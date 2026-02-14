@@ -4,10 +4,10 @@
  * TheEventsCalendar Record Api
  */
 
-namespace BitCode\FI\Actions\TheEventsCalendar;
+namespace BitApps\BTCBI_FI\Actions\TheEventsCalendar;
 
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Log\LogHandler;
+use BitApps\BTCBI_FI\Core\Util\Common;
+use BitApps\BTCBI_FI\Log\LogHandler;
 use Tribe__Tickets__RSVP;
 use Tribe__Tickets__Tickets_Handler;
 

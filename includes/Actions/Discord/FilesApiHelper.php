@@ -4,10 +4,10 @@
  * Discord Files Api
  */
 
-namespace BitCode\FI\Actions\Discord;
+namespace BitApps\BTCBI_FI\Actions\Discord;
 
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use CURLFile;
-use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Upload files

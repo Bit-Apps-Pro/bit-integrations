@@ -1,8 +1,8 @@
 <?php
 
-namespace BitCode\FI\Actions\Line;
+namespace BitApps\BTCBI_FI\Actions\Line;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 
 class LineController
 {

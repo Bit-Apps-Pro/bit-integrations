@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\Dokan\DokanController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Actions\Dokan\DokanController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 Route::post('dokan_authentication', [DokanController::class, 'authentication']);
 Route::post('dokan_fetch_eu_fields', [DokanController::class, 'getEUFields']);

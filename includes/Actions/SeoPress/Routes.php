@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\SeoPress\SeoPressController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Actions\SeoPress\SeoPressController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 Route::post('seopress_authorize', [SeoPressController::class, 'seoPressAuthorize']);

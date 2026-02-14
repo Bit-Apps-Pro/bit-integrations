@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\Insightly\InsightlyController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Actions\Insightly\InsightlyController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 Route::post('insightly_authentication', [InsightlyController::class, 'authentication']);
 Route::post('insightly_fetch_all_organisations', [InsightlyController::class, 'getAllOrganisations']);

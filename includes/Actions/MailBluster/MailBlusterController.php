@@ -4,9 +4,9 @@
  * MailBluster Integration
  */
 
-namespace BitCode\FI\Actions\MailBluster;
+namespace BitApps\BTCBI_FI\Actions\MailBluster;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

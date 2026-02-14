@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Core\Util\Route;
-use BitCode\FI\Triggers\Elementor\ElementorController;
+use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Triggers\Elementor\ElementorController;
 
 Route::get('elementor/get', [ElementorController::class, 'getAllTasks']);

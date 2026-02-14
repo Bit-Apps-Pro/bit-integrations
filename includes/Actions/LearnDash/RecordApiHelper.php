@@ -4,11 +4,11 @@
  * trello Record Api
  */
 
-namespace BitCode\FI\Actions\LearnDash;
+namespace BitApps\BTCBI_FI\Actions\LearnDash;
 
-use BitCode\FI\Actions\Mail\MailController;
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Log\LogHandler;
+use BitApps\BTCBI_FI\Actions\Mail\MailController;
+use BitApps\BTCBI_FI\Core\Util\Common;
+use BitApps\BTCBI_FI\Log\LogHandler;
 use LDLMS_DB;
 
 /**

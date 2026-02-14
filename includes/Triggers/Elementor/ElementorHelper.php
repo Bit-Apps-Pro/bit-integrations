@@ -1,8 +1,8 @@
 <?php
 
-namespace BitCode\FI\Triggers\Elementor;
+namespace BitApps\BTCBI_FI\Triggers\Elementor;
 
-use BitCode\FI\Core\Util\Helper;
+use BitApps\BTCBI_FI\Core\Util\Helper;
 
 class ElementorHelper
 {

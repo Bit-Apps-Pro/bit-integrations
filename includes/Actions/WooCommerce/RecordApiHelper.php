@@ -4,10 +4,10 @@
  * WooCommerce Record Api.
  */
 
-namespace BitCode\FI\Actions\WooCommerce;
+namespace BitApps\BTCBI_FI\Actions\WooCommerce;
 
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Log\LogHandler;
+use BitApps\BTCBI_FI\Core\Util\Common;
+use BitApps\BTCBI_FI\Log\LogHandler;
 use WC_Product_Download;
 use WP_Error;
 

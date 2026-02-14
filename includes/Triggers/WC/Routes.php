@@ -3,8 +3,8 @@
 if (!defined('ABSPATH')) {
     exit;
 }
-use BitCode\FI\Core\Util\Route;
-use BitCode\FI\Triggers\WC\WCController;
+use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Triggers\WC\WCController;
 
 Route::get('wc/get', [WCController::class, 'getAll']);
 Route::post('wc/get/form', [WCController::class, 'get_trigger_field']);

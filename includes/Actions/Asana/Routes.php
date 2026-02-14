@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\Asana\AsanaController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Actions\Asana\AsanaController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 Route::post('asana_authentication', [AsanaController::class, 'authentication']);
 Route::post('asana_fetch_custom_fields', [AsanaController::class, 'getCustomFields']);

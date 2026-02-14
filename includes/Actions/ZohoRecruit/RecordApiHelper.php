@@ -4,12 +4,12 @@
  * ZohoRecruit Record Api
  */
 
-namespace BitCode\FI\Actions\ZohoRecruit;
+namespace BitApps\BTCBI_FI\Actions\ZohoRecruit;
 
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Core\Util\DateTimeHelper;
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Log\LogHandler;
+use BitApps\BTCBI_FI\Core\Util\Common;
+use BitApps\BTCBI_FI\Core\Util\DateTimeHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Log\LogHandler;
 use WP_Error;
 
 /**

@@ -4,10 +4,10 @@
  * SystemeIO Record Api
  */
 
-namespace BitCode\FI\Actions\SystemeIO;
+namespace BitApps\BTCBI_FI\Actions\SystemeIO;
 
-use BitCode\FI\Log\LogHandler;
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, upsert

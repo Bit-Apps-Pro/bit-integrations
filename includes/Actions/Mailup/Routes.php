@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\Mailup\MailupController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Actions\Mailup\MailupController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 Route::post('mailup_authorization', [MailupController::class, 'authorization']);
 Route::post('mailup_fetch_all_list', [MailupController::class, 'getAllList']);

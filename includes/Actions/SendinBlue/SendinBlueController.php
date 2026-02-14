@@ -4,9 +4,9 @@
  * ZohoSheet Integration
  */
 
-namespace BitCode\FI\Actions\SendinBlue;
+namespace BitApps\BTCBI_FI\Actions\SendinBlue;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

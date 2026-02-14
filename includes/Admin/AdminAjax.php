@@ -1,8 +1,8 @@
 <?php
 
-namespace BitCode\FI\Admin;
+namespace BitApps\BTCBI_FI\Admin;
 
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 class AdminAjax
 {

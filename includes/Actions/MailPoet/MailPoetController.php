@@ -4,7 +4,7 @@
  * ZohoSheet Integration
  */
 
-namespace BitCode\FI\Actions\MailPoet;
+namespace BitApps\BTCBI_FI\Actions\MailPoet;
 
 use WP_Error;
 
@@ -13,7 +13,7 @@ use WP_Error;
  */
 class MailPoetController
 {
-    // BitCode\FI\Actions\MailPoet\MailPoetController
+    // BitApps\BTCBI_FI\Actions\MailPoet\MailPoetController
 
     /**
      * Validate if Mail Poet plugin exists or not. If not exits then terminate

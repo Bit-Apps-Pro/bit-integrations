@@ -1,10 +1,10 @@
 <?php
 
-namespace BitCode\FI\Actions;
+namespace BitApps\BTCBI_FI\Actions;
 
+use FilesystemIterator;
 use WP_Error;
 use WP_REST_Request;
-use FilesystemIterator;
 
 final class ActionController
 {

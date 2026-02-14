@@ -8,7 +8,7 @@
  * @author   BitCode Developer <developer@bitcode.pro>
  */
 
-namespace BitCode\FI\Core\Database;
+namespace BitApps\BTCBI_FI\Core\Database;
 
 /**
  * Database Migration

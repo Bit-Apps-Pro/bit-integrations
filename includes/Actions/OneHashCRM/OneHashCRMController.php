@@ -4,9 +4,9 @@
  * OneHashCRM Integration
  */
 
-namespace BitCode\FI\Actions\OneHashCRM;
+namespace BitApps\BTCBI_FI\Actions\OneHashCRM;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

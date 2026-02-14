@@ -4,10 +4,10 @@
  * Slack Files Api
  */
 
-namespace BitCode\FI\Actions\Slack;
+namespace BitApps\BTCBI_FI\Actions\Slack;
 
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use CURLFile;
-use BitCode\FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Upload files
@@ -48,6 +48,7 @@ final class FilesApiHelper
         }
 
         $data['file'] = new CURLFile($file);
+
         return HttpHelper::post(
             $uploadFileEndpoint,
             $data,

@@ -1,6 +1,6 @@
 <?php
 
-namespace BitCode\FI\Actions\Voxel;
+namespace BitApps\BTCBI_FI\Actions\Voxel;
 
 final class VoxelTasks
 {

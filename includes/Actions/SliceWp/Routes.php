@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\SliceWp\SliceWpController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Actions\SliceWp\SliceWpController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 Route::post('slicewp_authorize', [SliceWpController::class, 'authorizeSliceWp']);

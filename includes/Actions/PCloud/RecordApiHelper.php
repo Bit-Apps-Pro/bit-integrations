@@ -1,10 +1,10 @@
 <?php
 
-namespace BitCode\FI\Actions\PCloud;
+namespace BitApps\BTCBI_FI\Actions\PCloud;
 
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Log\LogHandler;
 use CURLFile;
-use BitCode\FI\Log\LogHandler;
-use BitCode\FI\Core\Util\HttpHelper;
 
 class RecordApiHelper
 {

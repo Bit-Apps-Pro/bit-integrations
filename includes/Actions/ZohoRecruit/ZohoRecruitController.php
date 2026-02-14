@@ -4,10 +4,10 @@
  * ZohoRecruit Integration
  */
 
-namespace BitCode\FI\Actions\ZohoRecruit;
+namespace BitApps\BTCBI_FI\Actions\ZohoRecruit;
 
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Flow\FlowController;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Flow\FlowController;
 use WP_Error;
 
 /**

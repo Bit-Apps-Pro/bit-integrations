@@ -2,10 +2,10 @@
 
 // If try to direct access  plugin folder it will Exit
 
-use BitCode\FI\Config;
-use BitCode\FI\controller\BtcbiAnalyticsController;
-use BitCode\FI\Core\Util\Activation;
-use BitCode\FI\Core\Util\Hooks;
+use BitApps\BTCBI_FI\Config;
+use BitApps\BTCBI_FI\controller\BtcbiAnalyticsController;
+use BitApps\BTCBI_FI\Core\Util\Activation;
+use BitApps\BTCBI_FI\Core\Util\Hooks;
 
 if (!defined('ABSPATH')) {
     exit;

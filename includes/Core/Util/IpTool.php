@@ -4,7 +4,7 @@
  * Provides IP related functionality
  */
 
-namespace BitCode\FI\Core\Util;
+namespace BitApps\BTCBI_FI\Core\Util;
 
 final class IpTool
 {

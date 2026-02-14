@@ -16,4 +16,4 @@ define('BTCBI_ASSET_JS_URI', BTCBI_BIT_DEV_URL ? BTCBI_BIT_DEV_URL : BTCBI_ROOT_
 // Autoload vendor files.
 require_once BTCBI_PLUGIN_BASEDIR . 'vendor/autoload.php';
 // Initialize the plugin.
-BitCode\FI\Plugin::load(BTCBI_PLUGIN_MAIN_FILE);
+BitApps\BTCBI_FI\Plugin::load(BTCBI_PLUGIN_MAIN_FILE);

@@ -4,10 +4,10 @@
  * ZohoCreator Integration
  */
 
-namespace BitCode\FI\Actions\ZohoCreator;
+namespace BitApps\BTCBI_FI\Actions\ZohoCreator;
 
-use BitCode\FI\Core\Util\HttpHelper;
-use BitCode\FI\Core\Util\IpTool;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\IpTool;
 
 /**
  * Provide functionality for ZohoCrm integration

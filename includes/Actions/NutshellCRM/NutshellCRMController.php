@@ -4,9 +4,9 @@
  * NutshellCRM Integration
  */
 
-namespace BitCode\FI\Actions\NutshellCRM;
+namespace BitApps\BTCBI_FI\Actions\NutshellCRM;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

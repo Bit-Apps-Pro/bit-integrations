@@ -4,7 +4,7 @@
  * Provides Base Model Class
  */
 
-namespace BitCode\FI\Core\Database;
+namespace BitApps\BTCBI_FI\Core\Database;
 
 /**
  * Undocumented class

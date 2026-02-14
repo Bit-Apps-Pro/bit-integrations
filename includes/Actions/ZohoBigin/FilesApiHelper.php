@@ -4,9 +4,9 @@
  * ZohoBigin Files Api
  */
 
-namespace BitCode\FI\Actions\ZohoBigin;
+namespace BitApps\BTCBI_FI\Actions\ZohoBigin;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Upload files

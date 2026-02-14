@@ -1,8 +1,8 @@
 <?php
 
-namespace BitCode\FI\Core\Util;
+namespace BitApps\BTCBI_FI\Core\Util;
 
-use BitCode\FI\Triggers\TriggerController;
+use BitApps\BTCBI_FI\Triggers\TriggerController;
 use DateTime;
 use DateTimeZone;
 use Exception;

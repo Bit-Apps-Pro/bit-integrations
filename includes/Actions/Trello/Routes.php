@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\Trello\TrelloController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Actions\Trello\TrelloController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 Route::post('trello_fetch_all_board', [TrelloController::class, 'fetchAllBoards']);
 Route::post('trello_fetch_all_list_Individual_board', [TrelloController::class, 'fetchAllLists']);

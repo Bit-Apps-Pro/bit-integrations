@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\WPForo\WPForoController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\BTCBI_FI\Actions\WPForo\WPForoController;
+use BitApps\BTCBI_FI\Core\Util\Route;
 
 Route::post('wpforo_authentication', [WPForoController::class, 'authentication']);
 Route::post('wpforo_fetch_reputations', [WPForoController::class, 'getReputations']);

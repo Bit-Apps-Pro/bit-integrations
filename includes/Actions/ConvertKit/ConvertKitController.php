@@ -4,9 +4,9 @@
  * Convert Kit Integration
  */
 
-namespace BitCode\FI\Actions\ConvertKit;
+namespace BitApps\BTCBI_FI\Actions\ConvertKit;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

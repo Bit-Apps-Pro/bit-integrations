@@ -1,8 +1,8 @@
 <?php
 
-namespace BitCode\FI\Actions\LifterLms;
+namespace BitApps\BTCBI_FI\Actions\LifterLms;
 
-use BitCode\FI\Log\LogHandler;
+use BitApps\BTCBI_FI\Log\LogHandler;
 use LLMS_Course;
 use LLMS_Section;
 use WP_Error;

@@ -1,10 +1,10 @@
 <?php
 
-namespace BitCode\FI\Actions\OneDrive;
+namespace BitApps\BTCBI_FI\Actions\OneDrive;
 
-use BitCode\FI\Log\LogHandler;
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\Common;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Log\LogHandler;
 
 class RecordApiHelper
 {

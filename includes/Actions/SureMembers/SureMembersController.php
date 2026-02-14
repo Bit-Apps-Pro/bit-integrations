@@ -4,7 +4,7 @@
  * SureMembers Integration
  */
 
-namespace BitCode\FI\Actions\SureMembers;
+namespace BitApps\BTCBI_FI\Actions\SureMembers;
 
 use SureMembers\Inc\Access_Groups;
 use WP_Error;

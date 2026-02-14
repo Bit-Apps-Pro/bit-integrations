@@ -1,6 +1,6 @@
 <?php
 
-namespace BitCode\FI\Actions\Voxel;
+namespace BitApps\BTCBI_FI\Actions\Voxel;
 
 class VoxelHelper
 {
@@ -62,7 +62,7 @@ class VoxelHelper
 
                     break;
                 case 'multiselect':
-                    $multiSelectValues = is_array($finalData[$fieldKey]) ? $finalData[$fieldKey] : array_map('trim', explode(',', $finalData[$fieldKey] ?? ''));
+                    $multiSelectValues = \is_array($finalData[$fieldKey]) ? $finalData[$fieldKey] : array_map('trim', explode(',', $finalData[$fieldKey] ?? ''));
 
                     if (!empty($multiSelectValues)) {
                         $field->update($multiSelectValues);

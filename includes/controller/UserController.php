@@ -1,8 +1,8 @@
 <?php
 
-namespace BitCode\FI\controller;
+namespace BitApps\BTCBI_FI\controller;
 
-use BitCode\FI\Core\Util\Capabilities;
+use BitApps\BTCBI_FI\Core\Util\Capabilities;
 
 final class UserController
 {

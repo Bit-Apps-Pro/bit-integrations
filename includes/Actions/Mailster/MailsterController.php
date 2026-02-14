@@ -4,7 +4,7 @@
  * Mailster Integration
  */
 
-namespace BitCode\FI\Actions\Mailster;
+namespace BitApps\BTCBI_FI\Actions\Mailster;
 
 use MailsterBlockForms;
 use MailsterLists;

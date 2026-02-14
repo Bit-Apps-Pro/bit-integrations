@@ -4,9 +4,9 @@
  * DirectIQ Integration
  */
 
-namespace BitCode\FI\Actions\DirectIq;
+namespace BitApps\BTCBI_FI\Actions\DirectIq;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

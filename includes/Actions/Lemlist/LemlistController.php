@@ -1,8 +1,8 @@
 <?php
 
-namespace BitCode\FI\Actions\Lemlist;
+namespace BitApps\BTCBI_FI\Actions\Lemlist;
 
-use BitCode\FI\Core\Util\HttpHelper;
+use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use WP_Error;
 
 class LemlistController

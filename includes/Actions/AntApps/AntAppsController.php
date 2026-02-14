@@ -4,9 +4,9 @@
  * Ant & Apps Integration
  */
 
-namespace BitCode\FI\Actions\AntApps;
+namespace BitApps\BTCBI_FI\Actions\AntApps;
 
-use BitCode\FI\Actions\WebHooks\WebHooksController;
+use BitApps\BTCBI_FI\Actions\WebHooks\WebHooksController;
 
 /**
  * Provide functionality for Ant&Apps

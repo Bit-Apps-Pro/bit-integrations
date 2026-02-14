@@ -4,7 +4,7 @@
  * TheEventsCalendar Integration
  */
 
-namespace BitCode\FI\Actions\TheEventsCalendar;
+namespace BitApps\BTCBI_FI\Actions\TheEventsCalendar;
 
 use WP_Error;
 

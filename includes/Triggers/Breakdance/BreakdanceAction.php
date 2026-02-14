@@ -1,9 +1,9 @@
 <?php
 
-namespace BitCode\FI\Triggers\Breakdance;
+namespace BitApps\BTCBI_FI\Triggers\Breakdance;
 
-use BitCode\FI\Flow\Flow;
-use BitCode\FI\Core\Util\Helper;
+use BitApps\BTCBI_FI\Core\Util\Helper;
+use BitApps\BTCBI_FI\Flow\Flow;
 use Breakdance\Forms\Actions\Action;
 
 if (class_exists('Breakdance\Forms\Actions\Action')) {
