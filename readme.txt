@@ -117,6 +117,14 @@ Because time is money, and automation is freedom.
 🏠 Or just drop by our [Home](https://bit-integrations.com/) page.  
 📢 Join our [Bit Apps Community](https://www.facebook.com/groups/bitapps) & get updates on our plugins.
 
+---
+
+## 💻 Full source code is available at
+
+🔗 **GitHub Repository:** [https://github.com/Bit-Apps-Pro/bit-integrations](https://github.com/Bit-Apps-Pro/bit-integrations)
+
+---
+
 With Bit Integrations, automation is at your fingertips. Automate tasks across your WordPress site, boost efficiency, and simplify your business operations with powerful automation features.
 
 **Bit Integrations | Best WordPress Automation Software! – by SiteKrafter**

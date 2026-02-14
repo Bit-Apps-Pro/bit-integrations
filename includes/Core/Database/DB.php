@@ -5,7 +5,7 @@
  *
  * @category Database
  *
- * @author   BitCode Developer <developer@bitcode.pro>
+ * @author   BitApps Developer <developer@bitcode.pro>
  */
 
 namespace BitApps\BTCBI_FI\Core\Database;
