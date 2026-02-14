@@ -6,10 +6,10 @@
 
 namespace BitCode\FI\Actions\LearnDash;
 
-use LDLMS_DB;
-use BitCode\FI\Log\LogHandler;
-use BitCode\FI\Core\Util\Common;
 use BitCode\FI\Actions\Mail\MailController;
+use BitCode\FI\Core\Util\Common;
+use BitCode\FI\Log\LogHandler;
+use LDLMS_DB;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -630,7 +630,7 @@ class RecordApiHelper
         delete_user_meta($user_id, 'course_completed_' . $course_id);
         delete_user_meta($user_id, 'learndash_course_expired_' . $course_id);
 
-        $activity_ids = $wpdb->get_results($wpdb->prepare("SELECT activity_id FROM ' . {$wpdb->prefix} . 'learndash_user_activity WHERE course_id = %d AND user_id = %d", $course_id, $user_id));
+        $activity_ids = $wpdb->get_results($wpdb->prepare("SELECT activity_id FROM {$wpdb->prefix}learndash_user_activity WHERE course_id = %d AND user_id = %d", $course_id, $user_id));
 
         if ($activity_ids) {
             foreach ($activity_ids as $activity_id) {

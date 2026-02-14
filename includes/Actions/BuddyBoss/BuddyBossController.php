@@ -32,7 +32,7 @@ class BuddyBossController
         include_once ABSPATH . 'wp-admin/includes/plugin.php';
         if (self::pluginActive()) {
             global $wpdb;
-            $groups = $wpdb->get_results("select id,name from {$wpdb->prefix}bp_groups");
+            $groups = $wpdb->get_results($wpdb->prepare("SELECT id, name FROM {$wpdb->prefix}bp_groups"));
 
             wp_send_json_success($groups, 200);
         }
@@ -44,7 +44,7 @@ class BuddyBossController
         include_once ABSPATH . 'wp-admin/includes/plugin.php';
         if (self::pluginActive()) {
             global $wpdb;
-            $users = $wpdb->get_results("select ID,display_name from {$wpdb->prefix}users");
+            $users = $wpdb->get_results($wpdb->prepare("SELECT ID, display_name FROM {$wpdb->prefix}users"));
             wp_send_json_success($users, 200);
         }
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'BuddyBoss'));

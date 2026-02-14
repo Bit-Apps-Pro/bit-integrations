@@ -31,7 +31,7 @@ class MailMintController
             $allFields = [];
             $fields_table = $wpdb->prefix . CustomFieldSchema::$table_name;
             $primaryFields = get_option('mint_contact_primary_fields', Constants::$primary_contact_fields);
-            $customFields = $wpdb->get_results("SELECT title, slug, type, group_id FROM `{$fields_table}`", ARRAY_A); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Querying third-party plugin table
+            $customFields = $wpdb->get_results($wpdb->prepare("SELECT title, slug, type, group_id FROM `{$fields_table}`"), ARRAY_A); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Querying third-party plugin table, table name is from plugin constant
 
             if (!empty($customFields)) {
                 $primaryFields['other'] = array_merge($primaryFields['other'], $customFields);

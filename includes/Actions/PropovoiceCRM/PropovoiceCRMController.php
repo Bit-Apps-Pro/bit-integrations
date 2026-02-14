@@ -24,14 +24,20 @@ class PropovoiceCRMController
     public static function leadTags()
     {
         global $wpdb;
-        $tags = $wpdb->get_results("SELECT term_id, name FROM {$wpdb->terms} WHERE term_id IN (SELECT term_taxonomy_id FROM {$wpdb->term_taxonomy} WHERE taxonomy = 'ndpv_tag')");
+        $tags = $wpdb->get_results($wpdb->prepare(
+            "SELECT term_id, name FROM {$wpdb->terms} WHERE term_id IN (SELECT term_taxonomy_id FROM {$wpdb->term_taxonomy} WHERE taxonomy = %s)",
+            'ndpv_tag'
+        ));
         wp_send_json_success($tags, 200);
     }
 
     public static function leadLabel()
     {
         global $wpdb;
-        $labels = $wpdb->get_results("SELECT term_id, name FROM {$wpdb->terms} WHERE term_id IN (SELECT term_taxonomy_id FROM {$wpdb->term_taxonomy} WHERE taxonomy = 'ndpv_lead_level')");
+        $labels = $wpdb->get_results($wpdb->prepare(
+            "SELECT term_id, name FROM {$wpdb->terms} WHERE term_id IN (SELECT term_taxonomy_id FROM {$wpdb->term_taxonomy} WHERE taxonomy = %s)",
+            'ndpv_lead_level'
+        ));
         wp_send_json_success($labels, 200);
     }
 

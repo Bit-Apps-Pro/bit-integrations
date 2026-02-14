@@ -190,7 +190,7 @@ class AcademyLmsController
         $wpdb->query($wpdb->prepare("DELETE from {$wpdb->usermeta} WHERE user_id = %d AND meta_key = %s", $user_id, $complete_topics));
         $wpdb->query($wpdb->prepare("DELETE from {$wpdb->posts} WHERE post_author = %d AND post_parent = %d AND post_type = %s ", $user_id, $course_id, 'academy_enrolled'));
 
-        $QuizIds = $wpdb->get_col($wpdb->prepare("select quiz_id from {$wpdb->prefix}academy_quiz_attempts where user_id = '14' AND course_id = %d ", $course_id));
+        $QuizIds = $wpdb->get_col($wpdb->prepare("SELECT quiz_id FROM {$wpdb->prefix}academy_quiz_attempts WHERE user_id = %d AND course_id = %d", $user_id, $course_id));
 
         if (!empty($QuizIds)) {
             $placeholders = implode(',', array_fill(0, \count($QuizIds), '%d'));

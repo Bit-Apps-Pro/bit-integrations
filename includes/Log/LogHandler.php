@@ -140,10 +140,9 @@ final class LogHandler
 
     public static function logAutoDelte($intervalDate)
     {
-        $condition = "DATE_ADD(date(created_at), INTERVAL {$intervalDate} DAY) < CURRENT_DATE";
         $logModel = new LogModel();
 
-        return $logModel->autoLogDelete($condition);
+        return $logModel->autoLogDelete($intervalDate);
     }
 
     /**

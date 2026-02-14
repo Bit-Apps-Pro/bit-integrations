@@ -157,11 +157,17 @@ class TutorLmsController
         if (\is_array($completedLessonIds) && \count($completedLessonIds)) {
             $lessonMetaIds = [];
             foreach ($completedLessonIds as $lesson_id) {
+                $lesson_id = absint($lesson_id);
                 $lessonMetaIds[] = '_tutor_completed_lesson_id_' . $lesson_id;
             }
-            $ids = implode("','", $lessonMetaIds);
 
-            $wpdb->query($wpdb->prepare("DELETE from {$wpdb->usermeta} WHERE user_id = %d AND meta_key in(%s) ", $user_id, $ids));
+            // Create placeholders for IN clause
+            $placeholders = implode(', ', array_fill(0, \count($lessonMetaIds), '%s'));
+            $query = $wpdb->prepare(
+                "DELETE from {$wpdb->usermeta} WHERE user_id = %d AND meta_key IN ({$placeholders})",
+                array_merge([$user_id], $lessonMetaIds)
+            );
+            $wpdb->query($query);
         }
 
         $courseContents = tutils()->get_course_contents_by_id($course_id);

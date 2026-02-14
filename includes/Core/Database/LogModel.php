@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Provides Base Model Class
  */
@@ -12,15 +13,22 @@ class LogModel extends Model
 {
     protected static $table = 'btcbi_log';
 
-    public function autoLogDelete($condition)
+    public function autoLogDelete($intervalDays)
     {
         global $wpdb;
         if (
-            !\is_null($condition)
+            !\is_null($intervalDays)
         ) {
             $tableName = $wpdb->prefix . static::$table;
+            $intervalDays = absint($intervalDays);
 
-            $result = $this->app_db->get_results("DELETE FROM {$tableName} WHERE {$condition}", OBJECT_K);
+            $result = $this->app_db->get_results(
+                $wpdb->prepare(
+                    "DELETE FROM {$tableName} WHERE DATE_ADD(date(created_at), INTERVAL %d DAY) < CURRENT_DATE",
+                    $intervalDays
+                ),
+                OBJECT_K
+            );
 
             return $result;
         }
