@@ -177,7 +177,7 @@ export default function SelectAction() {
     { type: 'WPCafe' },
     { type: 'Teams For WooCommerce Memberships' },
     { type: 'SeoPress' },
-    { type: 'User Registration & Membership', logo_url: 'userRegistrationMembership' }
+    { type: 'User Registration & Membership', logo: 'userRegistrationMembership' }
   ]
 
   const [availableIntegs, setAvailableIntegs] = useState(sortByField(integs, 'type', 'ASC') || integs)
@@ -254,7 +254,7 @@ export default function SelectAction() {
                 </div>
               )}
 
-              <GetLogo name={inte?.logo_url || inte.type} extension="webp" />
+              <GetLogo name={inte?.logo || inte.type} extension="webp" />
               <div className="txt-center">{inte.type}</div>
             </div>
           ))}
