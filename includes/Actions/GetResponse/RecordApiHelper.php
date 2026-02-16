@@ -7,7 +7,6 @@
 namespace BitApps\BTCBI_FI\Actions\GetResponse;
 
 use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Core\Util\Helper;
 use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use BitApps\BTCBI_FI\Log\LogHandler;
 
@@ -76,7 +75,7 @@ class RecordApiHelper
             }
         }
 
-        if (isset($this->_integrationDetails->dayOfCycle) && Helper::proActionFeatExists('GetResponse', 'autoResponderDay')) {
+        if (isset($this->_integrationDetails->dayOfCycle)) {
             $requestParams = apply_filters('btcbi_getresponse_autoresponder_day', $requestParams, $this->_integrationDetails->dayOfCycle);
         }
 

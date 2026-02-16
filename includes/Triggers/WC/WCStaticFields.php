@@ -296,11 +296,7 @@ class WCStaticFields
 
     private static function getFlexibleCheckoutFields()
     {
-        if (Helper::proActionFeatExists('WC', 'getFlexibleCheckoutFields')) {
-            return apply_filters('btcbi_woocommerce_flexible_checkout_fields', []);
-        }
-
-        return [];
+        return apply_filters('btcbi_woocommerce_flexible_checkout_fields', []);
     }
 
     private static function checkoutBasicFields()

@@ -7,7 +7,6 @@
 namespace BitApps\BTCBI_FI\Actions\WhatsApp;
 
 use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Core\Util\Helper;
 use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use BitApps\BTCBI_FI\Log\LogHandler;
 
@@ -62,16 +61,10 @@ class RecordApiHelper
         $token,
         $phoneNumber
     ) {
-        if (Helper::proActionFeatExists('WhatsApp', 'sendTextMessages')) {
-            $textBody = $this->_integrationDetails->body;
-            $response = apply_filters('btcbi_whatsapp_send_text_messages', $textBody, $fieldValues, $numberId, $token, $phoneNumber);
+        $textBody = $this->_integrationDetails->body;
+        $response = apply_filters('btcbi_whatsapp_send_text_messages', $textBody, $fieldValues, $numberId, $token, $phoneNumber);
 
-            return static::handleFilterResponse($response);
-        }
-
-        
-        /* translators: %s: Placeholder value */
-        return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')];
+        return static::handleFilterResponse($response);
     }
 
     public function sendMessageWithMedia(
@@ -80,15 +73,9 @@ class RecordApiHelper
         $token,
         $phoneNumber
     ) {
-        if (Helper::proActionFeatExists('WhatsApp', 'sendMediaMessages')) {
-            $response = apply_filters('btcbi_whatsapp_send_media_messages', $this->_integrationDetails, $fieldValues, $numberId, $token, $phoneNumber);
+        $response = apply_filters('btcbi_whatsapp_send_media_messages', $this->_integrationDetails, $fieldValues, $numberId, $token, $phoneNumber);
 
-            return static::handleFilterResponse($response);
-        }
-
-        
-        /* translators: %s: Placeholder value */
-        return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')];
+        return static::handleFilterResponse($response);
     }
 
     public function sendMessageWithContact(
@@ -97,15 +84,9 @@ class RecordApiHelper
         $token,
         $phoneNumber
     ) {
-        if (Helper::proActionFeatExists('WhatsApp', 'sendContactMessages')) {
-            $response = apply_filters('btcbi_whatsapp_send_contact_messages', $this->_integrationDetails, $fieldValues, $numberId, $token, $phoneNumber);
+        $response = apply_filters('btcbi_whatsapp_send_contact_messages', $this->_integrationDetails, $fieldValues, $numberId, $token, $phoneNumber);
 
-            return static::handleFilterResponse($response);
-        }
-
-        
-        /* translators: %s: Placeholder value */
-        return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')];
+        return static::handleFilterResponse($response);
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
@@ -164,8 +145,7 @@ class RecordApiHelper
             return $response;
         }
 
-        
-        /* translators: %s: Placeholder value */
+        // translators: %s: Placeholder value
         return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')];
     }
 

@@ -7,7 +7,6 @@
 namespace BitApps\BTCBI_FI\Actions\FluentSupport;
 
 use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Core\Util\Helper as BtcbiHelper;
 use BitApps\BTCBI_FI\Log\LogHandler;
 use FluentSupport\App\Models\Customer;
 use FluentSupport\App\Models\Ticket;
@@ -153,12 +152,9 @@ class RecordApiHelper
 
     private static function uploadTicketFiles($finalData, $attachments, $ticket, $customer, $flowId)
     {
-        if (BtcbiHelper::proActionFeatExists('FluentSupport', 'uploadTicketAttachments')) {
-            do_action('btcbi_fluent_support_upload_ticket_attachments', $finalData, $attachments, $ticket, $customer, $flowId);
-        }
+        do_action('btcbi_fluent_support_upload_ticket_attachments', $finalData, $attachments, $ticket, $customer, $flowId);
 
-        
-        /* translators: %s: Placeholder value */
+        // translators: %s: Placeholder value
         LogHandler::save($flowId, ['type' => 'Ticket', 'type_name' => 'Upload-Ticket-Attachments'], 'error', wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro'));
     }
 }

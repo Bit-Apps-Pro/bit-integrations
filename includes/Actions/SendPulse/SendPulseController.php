@@ -2,7 +2,6 @@
 
 namespace BitApps\BTCBI_FI\Actions\SendPulse;
 
-use BitApps\BTCBI_FI\Core\Util\Helper;
 use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use BitApps\BTCBI_FI\Flow\FlowController;
 use WP_Error;
@@ -59,15 +58,11 @@ class SendPulseController
             'Phone' => ['fieldValue' => 'phone', 'fieldName' => __('Phone', 'bit-integrations'), 'required' => false]
         ];
 
-        if (Helper::proActionFeatExists('SendPulse', 'refreshFields')) {
-            $apiEndpoint = "https://api.sendpulse.com/addressbooks/{$requestParams->list_id}/variables";
+        $apiEndpoint = "https://api.sendpulse.com/addressbooks/{$requestParams->list_id}/variables";
 
-            $token = self::tokenExpiryCheck($requestParams->tokenDetails, $requestParams->client_id, $requestParams->client_secret);
+        $token = self::tokenExpiryCheck($requestParams->tokenDetails, $requestParams->client_id, $requestParams->client_secret);
 
-            $fields = apply_filters('btcbi_sendPulse_refresh_fields', $fields, $apiEndpoint, $token->access_token);
-        }
-
-        $response['sendPulseField'] = $fields;
+        $response['sendPulseField'] = apply_filters('btcbi_sendPulse_refresh_fields', $fields, $apiEndpoint, $token->access_token);
 
         wp_send_json_success($response);
     }
@@ -112,8 +107,7 @@ class SendPulseController
         }
 
         if (empty($fieldMap) || empty($tokenDetails) || empty($selectedList)) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'SendPulse'));
         }
 

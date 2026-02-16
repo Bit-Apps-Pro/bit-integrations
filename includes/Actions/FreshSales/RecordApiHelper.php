@@ -7,7 +7,6 @@
 namespace BitApps\BTCBI_FI\Actions\FreshSales;
 
 use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Core\Util\Helper;
 use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use BitApps\BTCBI_FI\Log\LogHandler;
 
@@ -65,18 +64,13 @@ class RecordApiHelper
 
     public function upsertRecord($module, $finalData)
     {
-        if (Helper::proActionFeatExists('FreshSales', 'upsertRecord')) {
-            $response = apply_filters('btcbi_freshsales_upsert_record', $module, $finalData, $this->_integrationDetails, $this->_defaultHeader, $this->baseUrl);
+        $response = apply_filters('btcbi_freshsales_upsert_record', $module, $finalData, $this->_integrationDetails, $this->_defaultHeader, $this->baseUrl);
 
-            if (\is_string($response) && $response == $module) {
-                /* translators: %s: Plugin name */
-                return (object) ['errors' => wp_send_json_error(wp_sprintf(__('%s is not active or not installed', 'bit-integrations'), 'Bit Integrations Pro'), 400)];
-            }
-
-            return $response;
+        if (\is_string($response) && $response == $module) {
+            return $this->insertRecord($module, $finalData);
         }
 
-        return $this->insertRecord($module, $finalData);
+        return $response;
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)

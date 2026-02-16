@@ -3,7 +3,6 @@
 namespace BitApps\BTCBI_FI\Triggers\CF7;
 
 use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Core\Util\Helper;
 use BitApps\BTCBI_FI\Flow\Flow;
 use WPCF7_ContactForm;
 use WPCF7_FormTagsManager;
@@ -41,8 +40,7 @@ final class CF7Controller
     public function getAll()
     {
         if (!class_exists('WPCF7_ContactForm')) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             wp_send_json_error(wp_sprintf(__('%s is not installed or activated.', 'bit-integrations'), 'Contact Form 7'));
         }
         $forms = WPCF7_ContactForm::find();
@@ -64,8 +62,7 @@ final class CF7Controller
             $missing_field = 'Form ID';
         }
         if (!\is_null($missing_field)) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             wp_send_json_error(wp_sprintf(__('%s can\'t be empty', 'bit-integrations'), $missing_field));
         }
         if (empty($fields)) {
@@ -151,11 +148,9 @@ final class CF7Controller
 
     private static function getCustomHtmlFields($form_text)
     {
-        if (Helper::proActionFeatExists('CF7', 'getAdvanceCustomHtmlFields')) {
-            $fields = apply_filters('btcbi_cf7_get_advance_custom_html_fields', $form_text);
+        $fields = apply_filters('btcbi_cf7_get_advance_custom_html_fields', $form_text);
 
-            return \is_array($fields) ? $fields : [];
-        }
+        return \is_array($fields) ? $fields : [];
     }
 
     private static function setFileRoot($files)

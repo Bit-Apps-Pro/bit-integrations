@@ -6,7 +6,6 @@
 
 namespace BitApps\BTCBI_FI\Actions\MailChimp;
 
-use BitApps\BTCBI_FI\Core\Util\Helper;
 use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use BitApps\BTCBI_FI\Log\LogHandler;
 
@@ -41,23 +40,20 @@ class RecordApiHelper
 
     public function addRemoveTag($module, $listId, $data)
     {
-        /* translators: %s: Plugin name */
+        // translators: %s: Plugin name
         $msg = wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro');
-        if (Helper::proActionFeatExists('MailChimp', 'addRemoveTag')) {
-            $subscriber_hash = md5(strtolower(trim($data['email_address'])));
-            $endpoint = $this->_apiEndPoint() . "/lists/{$listId}/members/{$subscriber_hash}/tags";
+        $subscriber_hash = md5(strtolower(trim($data['email_address'])));
+        $endpoint = $this->_apiEndPoint() . "/lists/{$listId}/members/{$subscriber_hash}/tags";
 
-            $response = apply_filters('btcbi_mailchimp_add_remove_tag', $module, $data, $endpoint, $this->_defaultHeader);
+        $response = apply_filters('btcbi_mailchimp_add_remove_tag', $module, $data, $endpoint, $this->_defaultHeader);
 
-            if (\is_string($response) && $response == $module) {
-                return (object) ['status' => 400, 'message' => $msg];
-            }
+        if (\is_string($response) && $response == $module) {
+            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => $module], 'error', $msg);
 
-            return $response;
+            return (object) ['status' => 400, 'message' => $msg];
         }
-        LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => $module], 'error', $msg);
 
-        return (object) ['status' => 400, 'message' => $msg];
+        return $response;
     }
 
     public function updateRecord($listId, $contactId, $data)

@@ -141,20 +141,16 @@ class WooCommerceMetaFields
 
     private static function getFlexibleCheckoutFields()
     {
-        if (Helper::proActionFeatExists('WC', 'getFlexibleCheckoutFields')) {
-            $checkoutFields = [];
-            $fields = apply_filters('btcbi_woocommerce_flexible_checkout_fields', []);
+        $checkoutFields = [];
+        $fields = apply_filters('btcbi_woocommerce_flexible_checkout_fields', []);
 
-            foreach ($fields as $field) {
-                $checkoutFields[$field->fieldName] = (object) [
-                    'fieldKey'  => $field->fieldKey,
-                    'fieldName' => $field->fieldName
-                ];
-            }
-
-            return $checkoutFields;
+        foreach ($fields as $field) {
+            $checkoutFields[$field->fieldName] = (object) [
+                'fieldKey'  => $field->fieldKey,
+                'fieldName' => $field->fieldName
+            ];
         }
 
-        return [];
+        return $checkoutFields;
     }
 }

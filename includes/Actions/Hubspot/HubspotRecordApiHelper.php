@@ -7,7 +7,6 @@
 namespace BitApps\BTCBI_FI\Actions\Hubspot;
 
 use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Core\Util\Helper;
 use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use BitApps\BTCBI_FI\Log\LogHandler;
 
@@ -156,7 +155,7 @@ class HubspotRecordApiHelper
     {
         $finalData = ['properties' => $data];
 
-        if ($update && Helper::proActionFeatExists('Hubspot', 'updateEntity')) {
+        if ($update) {
             $id = $this->existsEntity('tickets', 'subject', $data['subject']);
 
             return empty($id)
@@ -177,7 +176,7 @@ class HubspotRecordApiHelper
 
     private function handleDeal($finalData, &$typeName, $update = false)
     {
-        if ($update && Helper::proActionFeatExists('Hubspot', 'updateEntity')) {
+        if ($update) {
             $id = $this->existsEntity('deals', 'dealname', $finalData['dealname']);
 
             return empty($id)
@@ -245,7 +244,7 @@ class HubspotRecordApiHelper
         $response = apply_filters('btcbi_hubspot_update_entity', $id, $finalData, $actionName, $this->defaultHeader);
 
         if (\is_string($response) && $response == $id) {
-            /* translators: %s: Plugin name */
+            // translators: %s: Plugin name
             return (object) ['errors' => wp_sprintf(__('%s is not active or not installed', 'bit-integrations'), 'Bit Integrations Pro')];
         }
 

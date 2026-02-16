@@ -7,7 +7,6 @@
 namespace BitApps\BTCBI_FI\Actions\HighLevel;
 
 use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Core\Util\Helper;
 use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use BitApps\BTCBI_FI\Log\LogHandler;
 
@@ -46,7 +45,7 @@ class RecordApiHelper
 
         $this->v2DefaultResponse = [
             'success' => false,
-            /* translators: %s: Plugin name */
+            // translators: %s: Plugin name
             'message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro'),
             'code'    => 400
         ];
@@ -351,12 +350,10 @@ class RecordApiHelper
         }
 
         if ((isset($selectedOptions['selectedTags']) && !empty($selectedOptions['selectedTags'])) || !empty($actions)) {
-            if (Helper::proActionFeatExists('HighLevel', 'contactUtilities')) {
-                $filterResponse = apply_filters('btcbi_high_level_contact_utilities', $module, $selectedOptions, $actions);
+            $filterResponse = apply_filters('btcbi_high_level_contact_utilities', $module, $selectedOptions, $actions);
 
-                if ($filterResponse !== $module && !empty($filterResponse)) {
-                    $apiRequestData = array_merge($apiRequestData, $filterResponse);
-                }
+            if ($filterResponse !== $module && !empty($filterResponse)) {
+                $apiRequestData = array_merge($apiRequestData, $filterResponse);
             }
         }
 
@@ -377,12 +374,10 @@ class RecordApiHelper
         $apiRequestData['companyName'] = !empty($finalData['companyName']) ? $finalData['companyName'] : '';
 
         if (!empty($selectedOptions['selectedTags'])) {
-            if (Helper::proActionFeatExists('HighLevel', 'opportunityUtilities')) {
-                $filterResponse = apply_filters('btcbi_high_level_opportunity_utilities', $module, $selectedOptions, $actions);
+            $filterResponse = apply_filters('btcbi_high_level_opportunity_utilities', $module, $selectedOptions, $actions);
 
-                if ($filterResponse !== $module && !empty($filterResponse)) {
-                    $apiRequestData = array_merge($apiRequestData, $filterResponse);
-                }
+            if ($filterResponse !== $module && !empty($filterResponse)) {
+                $apiRequestData = array_merge($apiRequestData, $filterResponse);
             }
         }
 
