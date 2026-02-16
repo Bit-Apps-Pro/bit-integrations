@@ -113,6 +113,7 @@ class RecordApiHelper
 
         $hook = 'btcbi_acpt_' . ($isUpdate ? 'update' : 'create') . '_taxonomy';
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Hook name is constructed with proper btcbi_acpt_ prefix
         $response = apply_filters($hook, false, $apiEndpoint, $this->apikey, $finalData);
 
         return ACPTHelper::validateResponse($response);
@@ -197,6 +198,7 @@ class RecordApiHelper
 
         $hook = 'btcbi_acpt_' . ($isUpdate ? 'update' : 'create') . '_option_page';
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Hook name is constructed with proper btcbi_acpt_ prefix
         $response = apply_filters($hook, false, $apiEndpoint, $this->apikey, wp_json_encode($finalData));
 
         return ACPTHelper::validateResponse($response);

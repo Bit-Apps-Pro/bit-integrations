@@ -10,9 +10,10 @@ final class BtcbiAnalyticsController
     public function filterTrackingData($additional_data)
     {
         global $wpdb;
-        $flowTable = $wpdb->prefix . Config::VAR_PREFIX . 'flow';
-        $logTable = $wpdb->prefix . Config::VAR_PREFIX . 'log';
+        $flowTable = esc_sql($wpdb->prefix . Config::VAR_PREFIX . 'flow');
+        $logTable = esc_sql($wpdb->prefix . Config::VAR_PREFIX . 'log');
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names cannot be parameterized
         $flow = $wpdb->get_results("
                     SELECT
                         JSON_UNQUOTE(JSON_EXTRACT(flow.flow_details, '$.type')) AS ActionName,

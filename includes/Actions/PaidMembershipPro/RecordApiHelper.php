@@ -45,6 +45,7 @@ class RecordApiHelper
             return;
         }
         global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for PaidMembershipPro levels
         $pmpro_membership_level = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->pmpro_membership_levels} WHERE id = %d", $membership_level));
 
         if (null === $pmpro_membership_level) {

@@ -37,7 +37,6 @@ class GamiPressController
             wp_send_json_success(true, 200);
         }
         // translators: %s: Plugin name
-        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'GamiPress'));
     }
 
@@ -80,6 +79,7 @@ class GamiPressController
         $selectRankType = $query_params->domainName;
 
         global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for GamiPress ranks
         $ranks = $wpdb->get_results(
             $wpdb->prepare("SELECT ID, post_name, post_title, post_type FROM {$wpdb->posts} where post_type like %s AND post_status = 'publish'", $selectRankType)
         );
@@ -102,6 +102,7 @@ class GamiPressController
         $selectAchievementType = $query_params->achievementType;
 
         global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for GamiPress achievements
         $awards = $wpdb->get_results(
             $wpdb->prepare("SELECT ID, post_name, post_title, post_type FROM {$wpdb->posts} where post_type like %s AND post_status = 'publish'", $selectAchievementType)
         );

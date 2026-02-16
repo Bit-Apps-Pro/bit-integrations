@@ -249,7 +249,9 @@ class RecordApiHelper
         if ($isMailerLiteV2) {
             $requestParams['opted_in_at'] = gmdate('Y-m-d H:i:s');
 
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized on next line
             if (isset($_SERVER['REMOTE_ADDR'])) {
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized below
                 $remoteAddr = wp_unslash($_SERVER['REMOTE_ADDR']);
                 $remoteAddr = sanitize_text_field($remoteAddr);
 

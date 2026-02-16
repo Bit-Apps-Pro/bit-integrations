@@ -2,6 +2,10 @@
 
 namespace BitApps\BTCBI_FI\Core\Util;
 
+if (! \defined('ABSPATH')) {
+    exit;
+}
+
 /**
  * Class handling plugin uninstallation.
  *
@@ -39,7 +43,7 @@ final class UnInstallation
             ];
             foreach ($tableArray as $tablename) {
                 $wpdb->query(
-                    "DROP TABLE IF EXISTS `{$tablename}`" // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+                    "DROP TABLE IF EXISTS `{$tablename}`" // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name cannot be parameterized
                 );
             }
 
@@ -47,6 +51,7 @@ final class UnInstallation
         }
 
         foreach ($columns as $column) {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct queries needed for plugin uninstallation
             $wpdb->query(
                 $wpdb->prepare(
                     "DELETE FROM `{$wpdb->prefix}options` WHERE option_name = %s",
@@ -55,6 +60,7 @@ final class UnInstallation
             );
         }
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $wpdb->query(
             $wpdb->prepare(
                 "DELETE FROM `{$wpdb->prefix}options` WHERE `option_name` LIKE %s",

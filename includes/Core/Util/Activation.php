@@ -2,6 +2,10 @@
 
 namespace BitApps\BTCBI_FI\Core\Util;
 
+if (! \defined('ABSPATH')) {
+    exit;
+}
+
 use BitApps\BTCBI_FI\Core\Database\DB;
 use WP_Site;
 

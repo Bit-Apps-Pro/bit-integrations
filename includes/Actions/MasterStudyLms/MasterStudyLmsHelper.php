@@ -8,6 +8,7 @@ class MasterStudyLmsHelper
     {
         global $wpdb;
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for MasterStudy lessons
         $lesson = $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT ID, post_title,post_content
@@ -42,6 +43,7 @@ class MasterStudyLmsHelper
     public static function getQuizByCourse($courseId)
     {
         global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for MasterStudy quizzes
         $quizzes = $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT ID, post_title,post_content

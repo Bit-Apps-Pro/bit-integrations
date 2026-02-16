@@ -2,6 +2,10 @@
 
 namespace BitApps\BTCBI_FI\Core\Util;
 
+if (! \defined('ABSPATH')) {
+    exit;
+}
+
 /**
  * Class handling plugin deactivation.
  *

@@ -86,6 +86,7 @@ final class DB
     public static function fallbackDB()
     {
         global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.NotPrepared -- Database migration for plugin rename
         $wpdb->query("RENAME TABLE `{$wpdb->prefix}btcfi_log` TO `{$wpdb->prefix}btcbi_log`, 
                                    `{$wpdb->prefix}btcfi_flow` TO `{$wpdb->prefix}btcbi_flow`
                                    `{$wpdb->prefix}btcfi_auth` TO `{$wpdb->prefix}btcbi_auth`
@@ -97,6 +98,7 @@ final class DB
         ];
 
         foreach ($options as $key => $option) {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
             $wpdb->query($wpdb->prepare("UPDATE `{$wpdb->prefix}options` SET `option_name` = %s WHERE `option_name` = %s", $option, $key));
         }
     }

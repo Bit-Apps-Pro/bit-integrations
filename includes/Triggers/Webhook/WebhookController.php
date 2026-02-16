@@ -30,7 +30,7 @@ class WebhookController
             $missing_field = \is_null($missing_field) ? 'Webhook ID' : $missing_field . ', Webhook ID';
         }
         if (!\is_null($missing_field)) {
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             wp_send_json_error(\sprintf(__('%s can\'t be empty or need to be valid', 'bit-integrations'), $missing_field));
         }
 
@@ -55,7 +55,7 @@ class WebhookController
             $missing_field = \is_null($missing_field) ? 'Webhook ID' : $missing_field . ', Webhook ID';
         }
         if (!\is_null($missing_field)) {
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             wp_send_json_error(\sprintf(__('%s can\'t be empty or need to be valid', 'bit-integrations'), $missing_field));
         }
 
@@ -120,6 +120,7 @@ class WebhookController
     public static function flattenPreserveOriginal($array, $prefix = '', $depth = 0, $maxDepth = 30)
     {
         if ($depth > $maxDepth || !\is_array($array)) {
+            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- Debug log
             error_log("Max depth reached or non-array at prefix: {$prefix}");
 
             return [];

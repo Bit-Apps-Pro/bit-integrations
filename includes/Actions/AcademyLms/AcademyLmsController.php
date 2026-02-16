@@ -2,6 +2,10 @@
 
 namespace BitApps\BTCBI_FI\Actions\AcademyLms;
 
+if (! \defined('ABSPATH')) {
+    exit;
+}
+
 use BitApps\BTCBI_FI\Log\LogHandler;
 
 /**
@@ -29,7 +33,6 @@ class AcademyLmsController
         }
 
         // translators: %s: Plugin name
-        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'Academy Lms'));
     }
 
@@ -37,8 +40,6 @@ class AcademyLmsController
     {
         if (!class_exists('Academy')) {
             // translators: %s: Plugin name
-
-            // translators: %s: Placeholder value
             wp_send_json_error(wp_sprintf(__('%s is not installed or activated', 'bit-integrations'), 'Academy Lms'));
         }
 
@@ -60,8 +61,6 @@ class AcademyLmsController
         $action = $queryParams->type;
         if (!class_exists('Academy')) {
             // translators: %s: Plugin name
-
-            // translators: %s: Placeholder value
             wp_send_json_error(wp_sprintf(__('%s is not installed or activated', 'bit-integrations'), 'Academy Lms'));
         }
 
@@ -129,6 +128,7 @@ class AcademyLmsController
         $course_id = $selectedCourse[0];
         $topic_type = 'lesson';
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Using Academy LMS's own hook for compatibility
         do_action('academy/frontend/before_mark_topic_complete', $topic_type, $course_id, $topic_id, $user_id);
 
         $option_name = 'academy_course_' . $course_id . '_completed_topics';
@@ -141,6 +141,7 @@ class AcademyLmsController
         }
         $saved_topics_lists = wp_json_encode($saved_topics_lists);
         update_user_meta($user_id, $option_name, $saved_topics_lists);
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Using Academy LMS's own hook for compatibility
         do_action('academy/frontend/after_mark_topic_complete', $topic_type, $course_id, $topic_id, $user_id);
 
         return 'Lesson Completed';
@@ -158,6 +159,7 @@ class AcademyLmsController
         // hash is unique.
         do {
             $hash = substr(md5(wp_generate_password(32) . $date . $course_id . $user_id), 0, 16);
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for hash validation
             $hasHash = (int) $wpdb->get_var(
                 $wpdb->prepare(
                     "SELECT COUNT(comment_ID) from {$wpdb->comments} 
@@ -178,6 +180,7 @@ class AcademyLmsController
             'comment_type'     => 'course_completed',
             'user_id'          => $user_id,
         ];
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct insert required for course completion
         $is_complete = $wpdb->insert($wpdb->comments, $data);
 
         do_action('academy/admin/course_complete_after', $course_id, $user_id);
@@ -194,19 +197,24 @@ class AcademyLmsController
         $course_id = $selectedCourse[0];
         $complete_topics = "academy_course_{$course_id}_completed_topics";
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct queries needed for course reset
         $wpdb->query($wpdb->prepare("DELETE from {$wpdb->postmeta} WHERE post_id = %d AND meta_key = %s", $course_id, 'academy_course_curriculum'));
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $wpdb->query($wpdb->prepare("DELETE from {$wpdb->usermeta} WHERE user_id = %d AND meta_key = %s", $user_id, $complete_topics));
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $wpdb->query($wpdb->prepare("DELETE from {$wpdb->posts} WHERE post_author = %d AND post_parent = %d AND post_type = %s ", $user_id, $course_id, 'academy_enrolled'));
 
         $QuizIds = $wpdb->get_col($wpdb->prepare("SELECT quiz_id FROM {$wpdb->prefix}academy_quiz_attempts WHERE user_id = %d AND course_id = %d", $user_id, $course_id));
 
         if (!empty($QuizIds)) {
             $placeholders = implode(',', array_fill(0, \count($QuizIds), '%d'));
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
             $wpdb->query($wpdb->prepare("DELETE from {$wpdb->prefix}academy_quiz_attempts WHERE user_id = %d AND course_id = %d", $user_id, $course_id));
             $query_format = \sprintf("DELETE from {$wpdb->prefix}academy_quiz_attempt_answers WHERE user_id = %%d AND quiz_id in ({$placeholders})");
             // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Dynamic IN clause with sprintf for placeholders
             $wpdb->query($wpdb->prepare($query_format, $user_id, ...$QuizIds));
         }
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $wpdb->query($wpdb->prepare("DELETE from {$wpdb->comments} WHERE comment_agent = 'academy' AND comment_type = 'course_completed' AND comment_post_ID = %d AND user_id = %d", $course_id, $user_id));
 
         return 'Course progress reseted';

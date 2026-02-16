@@ -66,7 +66,8 @@ class RecordApiHelper
         $group_title = $finalData['title'];
 
         $ld_group_args = [
-            'post_type'    => 'groups',
+            'post_type' => 'groups',
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Using external plugin hook for compatibility
             'post_status'  => apply_filters('uo_create_new_group_status', 'publish'),
             'post_title'   => $group_title,
             'post_content' => '',
@@ -455,14 +456,16 @@ class RecordApiHelper
                 unset($quizz_progress[$k]);
                 if (!empty($statistic_ref_id)) {
                     if (class_exists('\LDLMS_DB')) {
-                        $pro_quiz_stat_table = LDLMS_DB::get_table_name('quiz_statistic');
-                        $pro_quiz_stat_ref_table = LDLMS_DB::get_table_name('quiz_statistic_ref');
+                        $pro_quiz_stat_table = esc_sql(LDLMS_DB::get_table_name('quiz_statistic'));
+                        $pro_quiz_stat_ref_table = esc_sql(LDLMS_DB::get_table_name('quiz_statistic_ref'));
                     } else {
-                        $pro_quiz_stat_table = $wpdb->prefix . 'wp_pro_quiz_statistic';
-                        $pro_quiz_stat_ref_table = $wpdb->prefix . 'wp_pro_quiz_statistic_ref';
+                        $pro_quiz_stat_table = esc_sql($wpdb->prefix . 'wp_pro_quiz_statistic');
+                        $pro_quiz_stat_ref_table = esc_sql($wpdb->prefix . 'wp_pro_quiz_statistic_ref');
                     }
 
+                    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name cannot be parameterized
                     $wpdb->query($wpdb->prepare("DELETE FROM {$pro_quiz_stat_table} WHERE statistic_ref_id = %d", $statistic_ref_id));
+                    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name cannot be parameterized
                     $wpdb->query($wpdb->prepare("DELETE FROM {$pro_quiz_stat_ref_table} WHERE statistic_ref_id = %d", $statistic_ref_id));
                 }
             }
@@ -630,11 +633,14 @@ class RecordApiHelper
         delete_user_meta($user_id, 'course_completed_' . $course_id);
         delete_user_meta($user_id, 'learndash_course_expired_' . $course_id);
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for LearnDash activity
         $activity_ids = $wpdb->get_results($wpdb->prepare("SELECT activity_id FROM {$wpdb->prefix}learndash_user_activity WHERE course_id = %d AND user_id = %d", $course_id, $user_id));
 
         if ($activity_ids) {
             foreach ($activity_ids as $activity_id) {
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
                 $wpdb->query($wpdb->prepare("DELETE FROM  {$wpdb->prefix}learndash_user_activity_meta WHERE activity_id = %d", $activity_id->activity_id));
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
                 $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}learndash_user_activity WHERE activity_id = %d", $activity_id->activity_id));
             }
         }
@@ -749,7 +755,9 @@ class RecordApiHelper
         $assignments = self::getAssignmentList();
         if ($assignments) {
             foreach ($assignments as $assignment) {
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct queries needed for LearnDash assignments
                 $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->posts} WHERE ID = %d", $assignment));
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
                 $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->postmeta} WHERE post_id = %d", $assignment));
             }
         }

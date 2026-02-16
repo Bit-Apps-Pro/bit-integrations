@@ -97,6 +97,7 @@ class RecordApiHelper
             ];
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Hook name is validated to be properly prefixed
         return self::handleFilterResponse(
             apply_filters($hook, false, $finalData)
         );
@@ -111,6 +112,7 @@ class RecordApiHelper
             ];
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Hook name is validated to be properly prefixed
         return self::handleFilterResponse(
             apply_filters($hook, false, $finalData, $this->integrationDetails->level_id)
         );
@@ -187,7 +189,7 @@ class RecordApiHelper
                 $recordApiResponse = [
                     'success' => false,
                     'code'    => 'INVALID_ACTION',
-                    /* translators: %s: Placeholder value */
+                    // translators: %s: Placeholder value
                     'message' => wp_sprintf(__('The action %s is not supported.', 'bit-integrations'), $action),
                 ];
 

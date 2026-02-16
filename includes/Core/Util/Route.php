@@ -99,7 +99,7 @@ final class Route
                         $decoded = \is_string($inputJSON) ? json_decode($inputJSON) : $inputJSON;
                         $data = \is_object($decoded) || \is_array($decoded) ? map_deep($decoded, 'sanitize_text_field') : $decoded;
                     } elseif (isset($_POST['data'])) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-                        $postReq = wp_unslash($_POST['data']); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+                        $postReq = wp_unslash($_POST['data']); // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized via map_deep on next lines
                         $decoded = \is_string($postReq) ? json_decode($postReq) : $postReq;
                         $data = \is_object($decoded) || \is_array($decoded) ? map_deep($decoded, 'sanitize_text_field') : $decoded;
                     } else {

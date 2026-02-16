@@ -198,6 +198,7 @@ class RecordApiHelper
         if ($updated && !empty($initialSlug) && !empty($finalData['slug']) && $initialSlug !== $finalData['slug']) {
             global $wpdb;
 
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct update needed for JetEngine post type slug change
             $wpdb->update(
                 $wpdb->posts,
                 [

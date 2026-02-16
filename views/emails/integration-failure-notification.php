@@ -20,23 +20,23 @@ if (! defined('ABSPATH')) {
 
 // Prepare translated strings.
 $title = esc_html__('Integration Failure Alert', 'bit-integrations');
-$greeting = sprintf(
-    /* translators: %s: Placeholder value */
+$btcbi_greeting = sprintf(
+    // translators: %s: Placeholder value
     esc_html__('Hello, an integration on your site %s has failed to execute.', 'bit-integrations'),
     '<strong>' . esc_html($siteName) . '</strong>'
 );
-$details_title = esc_html__('Failure Details', 'bit-integrations');
-$flow_label = esc_html__('Integration ID:', 'bit-integrations');
-$action_name_label = esc_html__('Action Name:', 'bit-integrations');
-$trigger_name_label = esc_html__('Trigger Name:', 'bit-integrations');
-$record_type_label = esc_html__('Record Type:', 'bit-integrations');
-$time_label = esc_html__('Time:', 'bit-integrations');
-$error_label = esc_html__('Error Message:', 'bit-integrations');
-$resolve_text = esc_html__('To resolve this issue, please check the integration settings and logs:', 'bit-integrations');
-$view_integration = esc_html__('View Integration', 'bit-integrations');
-$view_logs = esc_html__('View Logs', 'bit-integrations');
-$footer_text = sprintf(
-    /* translators: %s: Placeholder value */
+$btcbi_details_title = esc_html__('Failure Details', 'bit-integrations');
+$btcbi_flow_label = esc_html__('Integration ID:', 'bit-integrations');
+$btcbi_action_name_label = esc_html__('Action Name:', 'bit-integrations');
+$btcbi_trigger_name_label = esc_html__('Trigger Name:', 'bit-integrations');
+$btcbi_record_type_label = esc_html__('Record Type:', 'bit-integrations');
+$btcbi_time_label = esc_html__('Time:', 'bit-integrations');
+$btcbi_error_label = esc_html__('Error Message:', 'bit-integrations');
+$btcbi_resolve_text = esc_html__('To resolve this issue, please check the integration settings and logs:', 'bit-integrations');
+$btcbi_view_integration = esc_html__('View Integration', 'bit-integrations');
+$btcbi_view_logs = esc_html__('View Logs', 'bit-integrations');
+$btcbi_footer_text = sprintf(
+    // translators: %s: Placeholder value
     esc_html__('You are receiving this email because failure notifications are enabled in %s. You can disable these notifications in the plugin settings.', 'bit-integrations'),
     '<strong>Bit Integrations</strong>'
 );
@@ -66,19 +66,19 @@ $footer_text = sprintf(
                     <tr>
                         <td style="padding: 30px;">
                             <p style="margin: 0 0 24px; color: #374151; font-size: 16px; line-height: 1.6;">
-                                <?php echo wp_kses_post($greeting); ?>
+                                <?php echo wp_kses_post($btcbi_greeting); ?>
                             </p>
                             
                             <!-- Failure Details Card -->
                             <div style="background-color: #fef2f2; border-left: 4px solid #ef4444; border-radius: 6px; padding: 20px; margin: 24px 0;">
                                 <h2 style="margin: 0 0 16px; color: #dc2626; font-size: 18px; font-weight: 600;">
-                                    <?php echo esc_html($details_title); ?>
+                                    <?php echo esc_html($btcbi_details_title); ?>
                                 </h2>
                                 
                                 <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                                     <tr>
                                         <td style="padding: 8px 0; color: #6b7280; font-size: 14px; font-weight: 500;">
-                                            <?php echo esc_html($flow_label); ?>
+                                            <?php echo esc_html($btcbi_flow_label); ?>
                                         </td>
                                         <td style="padding: 8px 0; color: #111827; font-size: 14px; font-weight: 600; text-align: right;">
                                             #<?php echo absint($flowId); ?>
@@ -86,7 +86,7 @@ $footer_text = sprintf(
                                     </tr>
                                     <tr>
                                         <td style="padding: 8px 0; color: #6b7280; font-size: 14px; font-weight: 500;">
-                                            <?php echo esc_html($action_name_label); ?>
+                                            <?php echo esc_html($btcbi_action_name_label); ?>
                                         </td>
                                         <td style="padding: 8px 0; color: #111827; font-size: 14px; font-weight: 600; text-align: right;">
                                             <?php echo esc_html($actionName); ?>
@@ -94,7 +94,7 @@ $footer_text = sprintf(
                                     </tr>
                                     <tr>
                                         <td style="padding: 8px 0; color: #6b7280; font-size: 14px; font-weight: 500;">
-                                            <?php echo esc_html($trigger_name_label); ?>
+                                            <?php echo esc_html($btcbi_trigger_name_label); ?>
                                         </td>
                                         <td style="padding: 8px 0; color: #111827; font-size: 14px; font-weight: 600; text-align: right;">
                                             <?php echo esc_html($triggerName); ?>
@@ -102,7 +102,7 @@ $footer_text = sprintf(
                                     </tr>
                                     <tr>
                                         <td style="padding: 8px 0; color: #6b7280; font-size: 14px; font-weight: 500;">
-                                            <?php echo esc_html($record_type_label); ?>
+                                            <?php echo esc_html($btcbi_record_type_label); ?>
                                         </td>
                                         <td style="padding: 8px 0; color: #111827; font-size: 14px; font-weight: 600; text-align: right;">
                                             <?php echo esc_html($recordType); ?>
@@ -110,7 +110,7 @@ $footer_text = sprintf(
                                     </tr>
                                     <tr>
                                         <td style="padding: 8px 0; color: #6b7280; font-size: 14px; font-weight: 500;">
-                                            <?php echo esc_html($time_label); ?>
+                                            <?php echo esc_html($btcbi_time_label); ?>
                                         </td>
                                         <td style="padding: 8px 0; color: #111827; font-size: 14px; font-weight: 600; text-align: right;">
                                             <?php echo esc_html($timestamp); ?>
@@ -120,7 +120,7 @@ $footer_text = sprintf(
                                 
                                 <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #fecaca;">
                                     <p style="margin: 0 0 8px; color: #6b7280; font-size: 14px; font-weight: 500;">
-                                        <?php echo esc_html($error_label); ?>
+                                        <?php echo esc_html($btcbi_error_label); ?>
                                     </p>
                                     <div style="background-color: #fef3c7; border-radius: 4px; padding: 12px; font-family: 'Courier New', Courier, monospace; font-size: 13px; color: #92400e; line-height: 1.5; word-break: break-word;">
                                         <?php echo esc_html($errorMessage); ?>
@@ -131,18 +131,18 @@ $footer_text = sprintf(
                             <!-- Action Section -->
                             <div style="margin: 32px 0;">
                                 <p style="margin: 0 0 16px; color: #374151; font-size: 15px;">
-                                    <?php echo esc_html($resolve_text); ?>
+                                    <?php echo esc_html($btcbi_resolve_text); ?>
                                 </p>
                                 <table role="presentation" cellspacing="0" cellpadding="0" border="0">
                                     <tr>
                                         <td style="padding-right: 12px;">
                                             <a href="<?php echo esc_url($adminUrl); ?>" style="display: inline-block; background-color: #6366f1; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 500; font-size: 14px; transition: background-color 0.2s;">
-                                                <?php echo esc_html($view_integration); ?>
+                                                <?php echo esc_html($btcbi_view_integration); ?>
                                             </a>
                                         </td>
                                         <td>
                                             <a href="<?php echo esc_url($logUrl); ?>" style="display: inline-block; background-color: #10b981; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 500; font-size: 14px; transition: background-color 0.2s;">
-                                                <?php echo esc_html($view_logs); ?>
+                                                <?php echo esc_html($btcbi_view_logs); ?>
                                             </a>
                                         </td>
                                     </tr>
@@ -155,7 +155,7 @@ $footer_text = sprintf(
                     <tr>
                         <td style="background-color: #f9fafb; padding: 20px 30px; border-top: 1px solid #e5e7eb;">
                             <p style="margin: 0; color: #6b7280; font-size: 12px; line-height: 1.5;">
-                                <?php echo wp_kses_post($footer_text); ?>
+                                <?php echo wp_kses_post($btcbi_footer_text); ?>
                             </p>
                         </td>
                     </tr>

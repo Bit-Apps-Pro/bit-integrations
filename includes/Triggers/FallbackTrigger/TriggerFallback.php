@@ -172,7 +172,9 @@ final class TriggerFallback
                     $repeaterFld = $field->field_key;
                     global $wpdb;
 
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct queries needed for Formidable repeater fields
                     $allDividerFlds = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}frm_item_metas WHERE item_id IN (SELECT id FROM {$wpdb->prefix}frm_items WHERE parent_item_id = %d)", $entry_id));
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
                     $allItemId = $wpdb->get_results($wpdb->prepare("SELECT id FROM {$wpdb->prefix}frm_items WHERE parent_item_id = %d", $entry_id));
 
                     $repeater = [];
@@ -1110,10 +1112,12 @@ final class TriggerFallback
     {
         global $wpdb;
         if ($status == '') {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for BuddyBoss group info
             $group = $wpdb->get_results(
                 $wpdb->prepare("select id,name,description from {$wpdb->prefix}bp_groups where id = %d", $group_id)
             );
         } else {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
             $group = $wpdb->get_results(
                 $wpdb->prepare(
                     "SELECT id,name,description FROM {$wpdb->prefix}bp_groups WHERE id = %d AND status = %s",
@@ -1199,6 +1203,7 @@ final class TriggerFallback
     {
         global $wpdb;
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for BuddyBoss activity
         $activity = $wpdb->get_results($wpdb->prepare("select id,content from {$wpdb->prefix}bp_activity where id = %d", $activity_id));
 
         $group = groups_get_group($group_id);
@@ -2378,6 +2383,7 @@ final class TriggerFallback
         }
 
         global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for GamiPress awards
         $awards = $wpdb->get_results(
             $wpdb->prepare('SELECT ID, post_name, post_title, post_type FROM wp_posts where id = %d', $achievement_id)
         );
@@ -3243,6 +3249,7 @@ final class TriggerFallback
     {
         global $wpdb;
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for LifterLMS quiz details
         return $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT ID, post_title FROM {$wpdb->posts}
@@ -3340,6 +3347,7 @@ final class TriggerFallback
     {
         global $wpdb;
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for LifterLMS lesson details
         return $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT ID, post_title FROM {$wpdb->posts}
@@ -3377,6 +3385,7 @@ final class TriggerFallback
     {
         global $wpdb;
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for LifterLMS course details
         return $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT ID, post_title FROM {$wpdb->posts}
@@ -3463,6 +3472,7 @@ final class TriggerFallback
     {
         global $wpdb;
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for LifterLMS membership details
         return $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT ID, post_title FROM {$wpdb->posts}
@@ -3591,6 +3601,7 @@ final class TriggerFallback
     {
         global $wpdb;
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for MasterStudy course details
         return $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT ID, post_title,post_content FROM {$wpdb->posts}
@@ -3662,6 +3673,7 @@ final class TriggerFallback
     {
         global $wpdb;
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for MasterStudy lesson details
         return $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT ID, post_title,post_content FROM {$wpdb->posts}
@@ -3704,6 +3716,7 @@ final class TriggerFallback
     {
         global $wpdb;
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for MasterStudy quiz details
         return $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT ID, post_title,post_content FROM {$wpdb->posts}
@@ -3997,6 +4010,7 @@ final class TriggerFallback
             return;
         }
         global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for PaidMembershipPro level details
         $levels = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->pmpro_membership_levels} WHERE id = %d", $level_id));
         $userData = self::paidMembershipProgetUserInfo($user_id);
         $finalData = array_merge($userData, (array) $levels[0]);
@@ -4037,6 +4051,7 @@ final class TriggerFallback
             return;
         }
         global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $levels = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->pmpro_membership_levels} WHERE id = %d", $cancel_level));
         $userData = self::paidMembershipProgetUserInfo($user_id);
         $finalData = array_merge($userData, (array) $levels[0]);
@@ -4059,6 +4074,7 @@ final class TriggerFallback
         $membership_id = $membership->id;
 
         global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $levels = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->pmpro_membership_levels} WHERE id = %d", $membership_id));
         $userData = self::paidMembershipProgetUserInfo($user_id);
         $finalData = array_merge($userData, (array) $levels[0]);
@@ -4076,6 +4092,7 @@ final class TriggerFallback
     public static function expiryMembershipLevel($user_id, $membership_id)
     {
         global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $levels = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->pmpro_membership_levels} WHERE id = %d", $membership_id));
         $userData = self::paidMembershipProgetUserInfo($user_id);
         $finalData = array_merge($userData, (array) $levels[0]);

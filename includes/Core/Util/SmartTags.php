@@ -50,14 +50,15 @@ final class SmartTags
         }
 
         $smartTags = [
-            '_bi_current_time'       => gmdate('Y-m-d H:i:s'),
-            '_bi_admin_email'        => get_bloginfo('admin_email'),
-            '_bi_date_default'       => wp_date(get_option('date_format')),
-            '_bi_date.m/d/y'         => wp_date('m/d/y'),
-            '_bi_date.d/m/y'         => wp_date('d/m/y'),
-            '_bi_date.y/m/d'         => wp_date('y/m/d'),
-            '_bi_time'               => wp_date(get_option('time_format')),
-            '_bi_weekday'            => wp_date('l'),
+            '_bi_current_time' => gmdate('Y-m-d H:i:s'),
+            '_bi_admin_email'  => get_bloginfo('admin_email'),
+            '_bi_date_default' => wp_date(get_option('date_format')),
+            '_bi_date.m/d/y'   => wp_date('m/d/y'),
+            '_bi_date.d/m/y'   => wp_date('d/m/y'),
+            '_bi_date.y/m/d'   => wp_date('y/m/d'),
+            '_bi_time'         => wp_date(get_option('time_format')),
+            '_bi_weekday'      => wp_date('l'),
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized with sanitize_text_field
             '_bi_http_referer_url'   => isset($_SERVER['HTTP_REFERER']) ? sanitize_text_field(wp_unslash($_SERVER['HTTP_REFERER'])) : '',
             '_bi_ip_address'         => IpTool::getIP(),
             '_bi_browser_name'       => isset($browser) ? $browser : '',

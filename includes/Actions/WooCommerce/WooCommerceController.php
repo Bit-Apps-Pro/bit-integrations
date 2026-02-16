@@ -27,7 +27,7 @@ class WooCommerceController
         }
 
         // translators: %s: Plugin name
-        /* translators: %s: Placeholder value */
+        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'WooCommerce'));
     }
 
@@ -275,6 +275,7 @@ class WooCommerceController
     public static function allSubscriptionsProducts()
     {
         global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared -- Complex query for subscription products
         $allSubscriptions = $wpdb->get_results(
             "SELECT posts.ID, posts.post_title FROM {$wpdb->posts} as posts
         	    LEFT JOIN {$wpdb->term_relationships} as rel ON (posts.ID = rel.object_id)

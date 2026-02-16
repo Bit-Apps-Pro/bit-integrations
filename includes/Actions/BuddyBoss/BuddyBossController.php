@@ -25,7 +25,6 @@ class BuddyBossController
             wp_send_json_success(true, 200);
         }
         // translators: %s: Plugin name
-        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'BuddyBoss'));
     }
 
@@ -34,13 +33,12 @@ class BuddyBossController
         include_once ABSPATH . 'wp-admin/includes/plugin.php';
         if (self::pluginActive()) {
             global $wpdb;
-            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Static query with no user input
-            $groups = $wpdb->get_results($wpdb->prepare("SELECT id, name FROM {$wpdb->prefix}bp_groups"));
+            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Static query with no user input
+            $groups = $wpdb->get_results("SELECT id, name FROM {$wpdb->prefix}bp_groups");
 
             wp_send_json_success($groups, 200);
         }
         // translators: %s: Plugin name
-        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'BuddyBoss'));
     }
 
@@ -49,12 +47,11 @@ class BuddyBossController
         include_once ABSPATH . 'wp-admin/includes/plugin.php';
         if (self::pluginActive()) {
             global $wpdb;
-            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Static query with no user input
-            $users = $wpdb->get_results($wpdb->prepare("SELECT ID, display_name FROM {$wpdb->prefix}users"));
+            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Static query with no user input
+            $users = $wpdb->get_results("SELECT ID, display_name FROM {$wpdb->prefix}users");
             wp_send_json_success($users, 200);
         }
         // translators: %s: Plugin name
-        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'BuddyBoss'));
     }
 
@@ -148,8 +145,6 @@ class BuddyBossController
             || empty($mainAction)
         ) {
             // translators: %s: Integration name
-
-            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'BuddyBoss'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);

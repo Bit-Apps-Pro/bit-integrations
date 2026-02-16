@@ -78,6 +78,7 @@ class WCHelper
     public static function getReviewRating($comment_ID)
     {
         global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for WC review rating
         $rating = $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT meta_value FROM {$wpdb->prefix}commentmeta WHERE comment_id = %d AND meta_key = 'rating'",

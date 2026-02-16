@@ -22,6 +22,7 @@ class LogModel extends Model
             $tableName = esc_sql($wpdb->prefix . static::$table);
             $intervalDays = absint($intervalDays);
 
+            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name cannot be parameterized
             $result = $this->app_db->get_results(
                 $wpdb->prepare(
                     "DELETE FROM {$tableName} WHERE DATE_ADD(date(created_at), INTERVAL %d DAY) < CURRENT_DATE",

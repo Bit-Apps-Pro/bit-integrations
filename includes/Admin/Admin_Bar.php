@@ -2,6 +2,10 @@
 
 namespace BitApps\BTCBI_FI\Admin;
 
+if (! \defined('ABSPATH')) {
+    exit;
+}
+
 use BitApps\BTCBI_FI\Core\Util\Capabilities;
 use BitApps\BTCBI_FI\Core\Util\DateTimeHelper;
 use BitApps\BTCBI_FI\Core\Util\Hooks;

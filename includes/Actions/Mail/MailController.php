@@ -2,6 +2,10 @@
 
 namespace BitApps\BTCBI_FI\Actions\Mail;
 
+if (! \defined('ABSPATH')) {
+    exit;
+}
+
 use BitApps\BTCBI_FI\Core\Util\Common;
 use BitApps\BTCBI_FI\Log\LogHandler;
 
@@ -56,10 +60,10 @@ final class MailController
                     $status = wp_mail($mailTo, $mailSubject, $mailBody, $mailHeaders);
                 }
                 if (!$status) {
-                    /* translators: %s: Placeholder value */
+                    // translators: %s: Placeholder value
                     LogHandler::save($integrationData->id, 'Send Mail', 'failed', wp_sprintf(__('%1$s failed sends mail to %2$s', 'bit-integrations'), $flow->name, implode(', ', $mailTo)));
                 } else {
-                    /* translators: %s: Placeholder value */
+                    // translators: %s: Placeholder value
                     LogHandler::save($integrationData->id, 'Send Mail', 'success', wp_sprintf(__('%1$s successfully sends mail to %2$s', 'bit-integrations'), $flow->name, implode(', ', $mailTo)));
                 }
 

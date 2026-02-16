@@ -125,7 +125,7 @@ class RecordApiHelper
             } elseif (isset($fieldValues['zc_gad'])) {
                 $gclid = $fieldValues['zc_gad'];
             } elseif (isset($_REQUEST['zc_gad'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-                $zc_gad = wp_unslash($_REQUEST['zc_gad']); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                $zc_gad = wp_unslash($_REQUEST['zc_gad']); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized on next line
                 $gclid = sanitize_text_field($zc_gad);
             }
             if (!empty($gclid)) {

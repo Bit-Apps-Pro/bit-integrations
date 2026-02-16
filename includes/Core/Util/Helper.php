@@ -523,7 +523,9 @@ final class Helper
 
     public static function getPostIdFromReferer($referer)
     {
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized on next line
         if ($referer === null && isset($_SERVER['HTTP_REFERER'])) {
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized immediately
             $referer = sanitize_text_field(wp_unslash($_SERVER['HTTP_REFERER']));
         }
 

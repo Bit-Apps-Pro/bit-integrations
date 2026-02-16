@@ -46,6 +46,7 @@ if (class_exists('Breakdance\Forms\Actions\Action')) {
             }
 
             global $wpdb;
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Custom table requires direct query
             $flows = $wpdb->get_results($wpdb->prepare(
                 "SELECT * FROM {$wpdb->prefix}btcbi_flow 
                     WHERE status = true 

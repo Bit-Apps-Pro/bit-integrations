@@ -46,6 +46,7 @@ class AdminAjax
         $nonce = sanitize_text_field(wp_unslash($_REQUEST['_ajax_nonce']));
 
         if (wp_verify_nonce($nonce, 'btcbi_nonce') && isset($_REQUEST['data'])) {
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized via map_deep on next lines
             $inputJSON = stripslashes(wp_unslash($_REQUEST['data']));
             $decoded = json_decode($inputJSON);
             $input = \is_object($decoded) || \is_array($decoded) ? map_deep($decoded, 'sanitize_text_field') : $decoded;

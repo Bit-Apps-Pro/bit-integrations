@@ -61,7 +61,9 @@ final class IpTool
      */
     private static function _checkDevice()
     {
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized on next line
         if (isset($_SERVER, $_SERVER['HTTP_USER_AGENT'])) {
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized immediately
             $user_agent = sanitize_text_field(wp_unslash($_SERVER['HTTP_USER_AGENT']));
         } else {
             $user_agent = '';

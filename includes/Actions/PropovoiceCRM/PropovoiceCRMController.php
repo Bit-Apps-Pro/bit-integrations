@@ -19,13 +19,14 @@ class PropovoiceCRMController
             wp_send_json_success(true, 200);
         }
         // translators: %s: Plugin name
-        /* translators: %s: Placeholder value */
+        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'Propovoice CRM'));
     }
 
     public static function leadTags()
     {
         global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for Propovoice tags
         $tags = $wpdb->get_results($wpdb->prepare(
             "SELECT term_id, name FROM {$wpdb->terms} WHERE term_id IN (SELECT term_taxonomy_id FROM {$wpdb->term_taxonomy} WHERE taxonomy = %s)",
             'ndpv_tag'
@@ -36,6 +37,7 @@ class PropovoiceCRMController
     public static function leadLabel()
     {
         global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for Propovoice labels
         $labels = $wpdb->get_results($wpdb->prepare(
             "SELECT term_id, name FROM {$wpdb->terms} WHERE term_id IN (SELECT term_taxonomy_id FROM {$wpdb->term_taxonomy} WHERE taxonomy = %s)",
             'ndpv_lead_level'
@@ -58,8 +60,7 @@ class PropovoiceCRMController
         ) {
             // translators: %s: Integration name
 
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Propovoice CRM'));
         }
         $recordApiHelper = new RecordApiHelper($integrationId);

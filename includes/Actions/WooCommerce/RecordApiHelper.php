@@ -66,6 +66,7 @@ class RecordApiHelper
 
             return LogHandler::save($this->_integrationID, ['type' => 'customer', 'type_name' => 'create'], 'error', $response);
         }
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Using WooCommerce's own hook for compatibility
         do_action('woocommerce_update_customer', $user_id);
         LogHandler::save($this->_integrationID, ['type' => 'customer', 'type_name' => 'create'], 'success', $user_id);
 
@@ -371,6 +372,7 @@ class RecordApiHelper
 
                 return LogHandler::save($this->_integrationID, ['type' => 'customer', 'type_name' => $entry_type], 'error', $response);
             }
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Using WooCommerce's own hook for compatibility
             do_action('woocommerce_update_customer', $user_id);
             LogHandler::save($this->_integrationID, ['type' => 'customer', 'type_name' => $entry_type], 'success', $user_id);
 
@@ -518,6 +520,7 @@ class RecordApiHelper
             $order->calculate_totals();
             $order->save();
 
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Using WooCommerce's own hook for compatibility
             do_action('woocommerce_checkout_order_processed', $order->ID, [], $order);
 
             if (is_wp_error($order) || !$order) {

@@ -90,6 +90,7 @@ class RecordApiHelper
         }
 
         if (isset($finalData['custom_fields']) && \is_array($finalData['custom_fields'])) {
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Using Fluent Support's own hook for compatibility
             $fields = apply_filters('fluent_support/ticket_custom_fields', []);
 
             if (!empty($fields)) {

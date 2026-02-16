@@ -22,7 +22,7 @@ class MailMintController
             wp_send_json_success(true, 200);
         }
         // translators: %s: Plugin name
-        /* translators: %s: Placeholder value */
+        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'Mail Mint'));
     }
 
@@ -31,9 +31,10 @@ class MailMintController
         if (class_exists('Mint\MRM\DataBase\Models\ContactGroupModel')) {
             global $wpdb;
             $allFields = [];
-            $fields_table = $wpdb->prefix . CustomFieldSchema::$table_name;
+            $fields_table = esc_sql($wpdb->prefix . CustomFieldSchema::$table_name);
             $primaryFields = get_option('mint_contact_primary_fields', Constants::$primary_contact_fields);
-            $customFields = $wpdb->get_results($wpdb->prepare("SELECT title, slug, type, group_id FROM `{$fields_table}`"), ARRAY_A); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Querying third-party plugin table, table name is from plugin constant
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Querying third-party plugin table, table name is from plugin constant
+            $customFields = $wpdb->get_results("SELECT title, slug, type, group_id FROM `{$fields_table}`", ARRAY_A);
 
             if (!empty($customFields)) {
                 $primaryFields['other'] = array_merge($primaryFields['other'], $customFields);
@@ -51,7 +52,7 @@ class MailMintController
             wp_send_json_success($allFields, 200);
         }
         // translators: %s: Plugin name
-        /* translators: %s: Placeholder value */
+        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'Mail Mint'));
     }
 
@@ -103,8 +104,7 @@ class MailMintController
         ) {
             // translators: %s: Integration name
 
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Mail Mint'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);

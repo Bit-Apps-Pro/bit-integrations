@@ -554,6 +554,7 @@ class RecordApiHelper
                     return;
                 }
                 $success = bbp_add_user_subscription($user_id, (int) $forum_id);
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Using BuddyBoss's own hook for compatibility
                 do_action('buddyBoss_subscriptions_handler', $success, $user_id, (int) $forum_id, 'bbp_subscribe');
 
                 if ($success === false && $is_subscription === false) {
@@ -613,6 +614,7 @@ class RecordApiHelper
             }
         } else {
             global $wpdb;
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for BuddyBoss groups
             $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}bp_groups WHERE id = %d", $group_id));
             if ($results) {
                 foreach ($results as $result) {

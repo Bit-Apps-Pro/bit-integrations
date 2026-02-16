@@ -6,6 +6,9 @@
 
 namespace BitApps\BTCBI_FI\Actions\GoogleSheet;
 
+if (! \defined('ABSPATH')) {
+    exit;
+}
 use BitApps\BTCBI_FI\Core\Util\HttpHelper;
 use BitApps\BTCBI_FI\Flow\FlowController;
 use WP_Error;
@@ -262,8 +265,7 @@ class GoogleSheetController
             || empty($worksheetName)
             || empty($fieldMap)
         ) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Google sheet'));
         }
 

@@ -2,6 +2,10 @@
 
 namespace BitApps\BTCBI_FI\Actions\TutorLms;
 
+if (! \defined('ABSPATH')) {
+    exit;
+}
+
 use BitApps\BTCBI_FI\Log\LogHandler;
 
 /**
@@ -184,14 +188,17 @@ class TutorLmsController
             foreach ($courseContents as $content) {
                 if ('tutor_quiz' === $content->post_type) {
                     $quiz_id = $content->ID;
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for TutorLMS quiz cleanup
                     $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->tutor_quiz_attempts} WHERE quiz_id = %d AND user_id = %d", $quiz_id, $user_id));
                 } elseif ('tutor_assignments' === $content->post_type) {
                     $assignment_id = $content->ID;
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
                     $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->comments} WHERE comment_type = 'tutor_assignment' AND user_id = %d AND comment_post_ID = %d", $user_id, $assignment_id));
                 }
             }
         }
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $wpdb->query($wpdb->prepare("DELETE from {$wpdb->comments} WHERE comment_agent = 'TutorLMSPlugin' AND comment_type = 'course_completed' AND comment_post_ID = %d AND user_id = %d", $course_id, $user_id));
 
         return __('Course progress reseted', 'bit-integrations');
@@ -205,10 +212,12 @@ class TutorLmsController
         $date = gmdate('Y-m-d H:i:s', tutor_time());
 
         $hash = substr(md5(wp_generate_password(32) . $date . $course_id . $user_id), 0, 16);
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for hash validation
         $has_unique_hash = $wpdb->get_var($wpdb->prepare("SELECT COUNT(comment_ID) from {$wpdb->comments} WHERE comment_agent = 'TutorLMSPlugin' AND comment_type = 'course_completed' AND comment_content = %s", $hash));
 
         while ((int) $has_unique_hash > 0) {
             $hash = substr(md5(wp_generate_password(32) . $date . $course_id . $user_id), 0, 16);
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
             $has_unique_hash = $wpdb->get_var($wpdb->prepare("SELECT COUNT(comment_ID) from {$wpdb->comments} WHERE comment_agent = 'TutorLMSPlugin' AND comment_type = 'course_completed' AND comment_content = %s", $hash));
         }
 
@@ -224,6 +233,7 @@ class TutorLmsController
             'user_id'          => $user_id,
         ];
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct insert required for course completion
         $wpdb->insert($wpdb->comments, $data);
 
         do_action('tutor_course_complete_after', $course_id);

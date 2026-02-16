@@ -22,7 +22,6 @@ class LifterLmsController
             wp_send_json_success(true, 200);
         }
         // translators: %s: Plugin name
-        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'LifterLms'));
     }
 
@@ -104,7 +103,6 @@ class LifterLmsController
             || empty($mainAction)
         ) {
             // translators: %s: Integration name
-            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('Some important info are missing those are required for %s', 'bit-integrations'), 'LifterLms'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
