@@ -82,8 +82,7 @@ class LifterLmsController
 
         $posts_table = esc_sql($wpdb->posts);
 
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reading posts table directly for LifterLMS courses.
-        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+        // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
         $allCourse = $wpdb->get_results(
             'SELECT ID, post_title FROM ' . $posts_table . ' WHERE ' . $posts_table . ".post_status = 'publish' AND " . $posts_table . ".post_type = 'course' ORDER BY post_title"
         );
@@ -107,8 +106,7 @@ class LifterLmsController
 
         $posts_table = esc_sql($wpdb->posts);
 
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reading posts table directly for LifterLMS memberships.
-        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+        // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
         $allMembership = $wpdb->get_results(
             'SELECT ID, post_title FROM ' . $posts_table . ' WHERE ' . $posts_table . ".post_status = 'publish' AND " . $posts_table . ".post_type = 'llms_membership' ORDER BY post_title"
         );

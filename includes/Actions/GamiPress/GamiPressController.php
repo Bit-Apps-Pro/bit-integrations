@@ -77,8 +77,7 @@ class GamiPressController
 
         $posts_table = esc_sql($wpdb->posts);
 
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reading posts table directly for GamiPress rank types.
-        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+        // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
         $rank_types = $wpdb->get_results(
             'SELECT ID, post_name, post_title, post_type FROM ' . $posts_table . " where post_type = 'rank-type' AND post_status = 'publish'"
         );
@@ -100,8 +99,7 @@ class GamiPressController
 
         if (false === $ranks) {
             $posts_table = esc_sql($wpdb->posts);
-            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reading posts table directly for GamiPress ranks.
-            // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+            // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
             $ranks = $wpdb->get_results(
                 $wpdb->prepare('SELECT ID, post_name, post_title, post_type FROM ' . $posts_table . " where post_type like %s AND post_status = 'publish'", $selectRankType)
             );
@@ -125,8 +123,7 @@ class GamiPressController
 
         $posts_table = esc_sql($wpdb->posts);
 
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reading posts table directly for GamiPress achievement types.
-        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+        // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
         $achievement_types = $wpdb->get_results(
             'SELECT ID, post_name, post_title, post_type FROM ' . $posts_table . " WHERE post_type = 'achievement-type' AND post_status = 'publish' ORDER BY post_title ASC"
         );
@@ -148,8 +145,7 @@ class GamiPressController
 
         if (false === $awards) {
             $posts_table = esc_sql($wpdb->posts);
-            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reading posts table directly for GamiPress achievements.
-            // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+            // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
             $awards = $wpdb->get_results(
                 $wpdb->prepare('SELECT ID, post_name, post_title, post_type FROM ' . $posts_table . " where post_type like %s AND post_status = 'publish'", $selectAchievementType)
             );
@@ -171,8 +167,7 @@ class GamiPressController
 
         if (false === $points) {
             $posts_table = esc_sql($wpdb->posts);
-            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reading posts table directly for GamiPress point types.
-            // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+            // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
             $points = $wpdb->get_results(
                 'SELECT ID, post_name, post_title, post_type FROM ' . $posts_table . " WHERE post_type = 'points-type' AND post_status = 'publish' ORDER BY post_title ASC"
             );

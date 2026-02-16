@@ -34,8 +34,7 @@ class PaidMembershipProController
         if (false === $levels) {
             $membership_table = esc_sql($wpdb->pmpro_membership_levels);
 
-            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reading PMPro plugin table directly; table name comes from PMPro global and has no user input.
-            // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+            // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
             $levels = $wpdb->get_results(
                 'SELECT * FROM ' . $membership_table . ' ORDER BY id ASC'
             );
