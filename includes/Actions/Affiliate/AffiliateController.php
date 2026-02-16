@@ -53,10 +53,12 @@ class AffiliateController
 
         global $wpdb;
         $affiliate_table = esc_sql($wpdb->prefix . 'affiliate_wp_affiliates');
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Reading AffiliateWP table directly; static table name with no user input.
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reading AffiliateWP table directly; static table name with no user input.
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
         $affiliatesIds = $wpdb->get_results(
             'SELECT affiliate_Id FROM ' . $affiliate_table
         );
+        // phpcs:enable
 
         foreach ($affiliatesIds as $val) {
             $affiliates[] = [

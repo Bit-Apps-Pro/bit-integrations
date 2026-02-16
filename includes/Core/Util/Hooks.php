@@ -2,7 +2,7 @@
 
 namespace BitApps\BTCBI_FI\Core\Util;
 
-if (! \defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 

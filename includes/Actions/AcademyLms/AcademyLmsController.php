@@ -2,7 +2,7 @@
 
 namespace BitApps\BTCBI_FI\Actions\AcademyLms;
 
-if (! \defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 

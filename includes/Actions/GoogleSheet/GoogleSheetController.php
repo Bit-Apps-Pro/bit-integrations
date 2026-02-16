@@ -6,7 +6,7 @@
 
 namespace BitApps\BTCBI_FI\Actions\GoogleSheet;
 
-if (! \defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 use BitApps\BTCBI_FI\Core\Util\HttpHelper;

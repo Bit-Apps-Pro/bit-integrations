@@ -82,10 +82,12 @@ class LifterLmsController
 
         $posts_table = esc_sql($wpdb->posts);
 
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Reading posts table directly for LifterLMS courses.
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reading posts table directly for LifterLMS courses.
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
         $allCourse = $wpdb->get_results(
             'SELECT ID, post_title FROM ' . $posts_table . ' WHERE ' . $posts_table . ".post_status = 'publish' AND " . $posts_table . ".post_type = 'course' ORDER BY post_title"
         );
+        // phpcs:enable
 
         wp_cache_set($cache_key, $allCourse, $cache_group, 10 * MINUTE_IN_SECONDS);
 
@@ -105,10 +107,12 @@ class LifterLmsController
 
         $posts_table = esc_sql($wpdb->posts);
 
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Reading posts table directly for LifterLMS memberships.
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reading posts table directly for LifterLMS memberships.
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
         $allMembership = $wpdb->get_results(
             'SELECT ID, post_title FROM ' . $posts_table . ' WHERE ' . $posts_table . ".post_status = 'publish' AND " . $posts_table . ".post_type = 'llms_membership' ORDER BY post_title"
         );
+        // phpcs:enable
 
         wp_cache_set($cache_key, $allMembership, $cache_group, 10 * MINUTE_IN_SECONDS);
 

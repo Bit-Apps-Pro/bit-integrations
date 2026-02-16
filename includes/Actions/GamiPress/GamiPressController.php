@@ -77,10 +77,12 @@ class GamiPressController
 
         $posts_table = esc_sql($wpdb->posts);
 
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Reading posts table directly for GamiPress rank types.
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reading posts table directly for GamiPress rank types.
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
         $rank_types = $wpdb->get_results(
             'SELECT ID, post_name, post_title, post_type FROM ' . $posts_table . " where post_type = 'rank-type' AND post_status = 'publish'"
         );
+        // phpcs:enable
 
         wp_cache_set($cache_key, $rank_types, $cache_group, 10 * MINUTE_IN_SECONDS);
 
@@ -98,10 +100,12 @@ class GamiPressController
 
         if (false === $ranks) {
             $posts_table = esc_sql($wpdb->posts);
-            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Reading posts table directly for GamiPress ranks.
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reading posts table directly for GamiPress ranks.
+            // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
             $ranks = $wpdb->get_results(
                 $wpdb->prepare('SELECT ID, post_name, post_title, post_type FROM ' . $posts_table . " where post_type like %s AND post_status = 'publish'", $selectRankType)
             );
+            // phpcs:enable
             wp_cache_set($cache_key, $ranks, $cache_group, 10 * MINUTE_IN_SECONDS);
         }
 
@@ -121,10 +125,12 @@ class GamiPressController
 
         $posts_table = esc_sql($wpdb->posts);
 
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Reading posts table directly for GamiPress achievement types.
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reading posts table directly for GamiPress achievement types.
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
         $achievement_types = $wpdb->get_results(
             'SELECT ID, post_name, post_title, post_type FROM ' . $posts_table . " WHERE post_type = 'achievement-type' AND post_status = 'publish' ORDER BY post_title ASC"
         );
+        // phpcs:enable
 
         wp_cache_set($cache_key, $achievement_types, $cache_group, 10 * MINUTE_IN_SECONDS);
 
@@ -142,10 +148,12 @@ class GamiPressController
 
         if (false === $awards) {
             $posts_table = esc_sql($wpdb->posts);
-            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Reading posts table directly for GamiPress achievements.
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reading posts table directly for GamiPress achievements.
+            // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
             $awards = $wpdb->get_results(
                 $wpdb->prepare('SELECT ID, post_name, post_title, post_type FROM ' . $posts_table . " where post_type like %s AND post_status = 'publish'", $selectAchievementType)
             );
+            // phpcs:enable
             wp_cache_set($cache_key, $awards, $cache_group, 10 * MINUTE_IN_SECONDS);
         }
 
@@ -163,10 +171,12 @@ class GamiPressController
 
         if (false === $points) {
             $posts_table = esc_sql($wpdb->posts);
-            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Reading posts table directly for GamiPress point types.
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reading posts table directly for GamiPress point types.
+            // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
             $points = $wpdb->get_results(
                 'SELECT ID, post_name, post_title, post_type FROM ' . $posts_table . " WHERE post_type = 'points-type' AND post_status = 'publish' ORDER BY post_title ASC"
             );
+            // phpcs:enable
             wp_cache_set($cache_key, $points, $cache_group, 10 * MINUTE_IN_SECONDS);
         }
 

@@ -6,7 +6,7 @@ namespace BitApps\BTCBI_FI;
 
 // use BitApps\BTCBI\Views\Layout;
 
-if (!\defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     exit;
 }
 

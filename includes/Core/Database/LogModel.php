@@ -22,6 +22,7 @@ class LogModel extends Model
             $tableName = esc_sql($wpdb->prefix . static::$table);
             $intervalDays = absint($intervalDays);
 
+            // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
             $result = $this->app_db->get_results(
                 $wpdb->prepare(
                     'DELETE FROM ' . $tableName . ' WHERE DATE_ADD(date(created_at), INTERVAL %d DAY) < CURRENT_DATE',
@@ -29,6 +30,7 @@ class LogModel extends Model
                 ),
                 OBJECT_K
             );
+            // phpcs:enable
 
             return $result;
         }

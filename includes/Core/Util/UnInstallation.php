@@ -2,7 +2,7 @@
 
 namespace BitApps\BTCBI_FI\Core\Util;
 
-if (! \defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
@@ -36,6 +36,8 @@ final class UnInstallation
         $freeVersionInstalled = get_option('btcbi_installed');
         $columns = ['btcbi_db_version', 'btcbi_installed', 'btcbi_version'];
 
+        // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+
         if (!$freeVersionInstalled) {
             $tableArray = [
                 $wpdb->prefix . 'btcbi_flow',
@@ -43,7 +45,7 @@ final class UnInstallation
             ];
             foreach ($tableArray as $tablename) {
                 $wpdb->query(
-                    "DROP TABLE IF EXISTS `{$tablename}`" // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name cannot be parameterized
+                    "DROP TABLE IF EXISTS `{$tablename}`" // phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name cannot be parameterized
                 );
             }
 
@@ -51,7 +53,6 @@ final class UnInstallation
         }
 
         foreach ($columns as $column) {
-            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct queries needed for plugin uninstallation
             $wpdb->query(
                 $wpdb->prepare(
                     "DELETE FROM `{$wpdb->prefix}options` WHERE option_name = %s",
@@ -60,12 +61,13 @@ final class UnInstallation
             );
         }
 
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $wpdb->query(
             $wpdb->prepare(
                 "DELETE FROM `{$wpdb->prefix}options` WHERE `option_name` LIKE %s",
                 '%btcbi_webhook_%'
             )
         );
+
+        // phpcs:enable
     }
 }

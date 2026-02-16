@@ -2,7 +2,7 @@
 
 namespace BitApps\BTCBI_FI\Actions\Mail;
 
-if (! \defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
