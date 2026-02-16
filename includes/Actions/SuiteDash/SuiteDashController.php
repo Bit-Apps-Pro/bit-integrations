@@ -115,6 +115,8 @@ class SuiteDashController
         $actionName = $integrationDetails->actionName;
 
         if (empty($fieldMap) || empty($publicId) || empty($actionName) || empty($secretKey)) {
+            
+            /* translators: %s: Placeholder value */
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'SuiteDash'));
         }
 

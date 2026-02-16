@@ -21,6 +21,8 @@ class LifterLmsController
         if (self::pluginActive()) {
             wp_send_json_success(true, 200);
         }
+        // translators: %s: Plugin name
+        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'LifterLms'));
     }
 
@@ -72,6 +74,7 @@ class LifterLmsController
     {
         global $wpdb;
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Static query with no user input
         $allCourse = $wpdb->get_results(
             "SELECT ID, post_title FROM {$wpdb->posts} WHERE {$wpdb->posts}.post_status = 'publish' AND {$wpdb->posts}.post_type = 'course' ORDER BY post_title"
         );
@@ -83,6 +86,7 @@ class LifterLmsController
     {
         global $wpdb;
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Static query with no user input
         $allMembership = $wpdb->get_results(
             "SELECT ID, post_title FROM {$wpdb->posts} WHERE {$wpdb->posts}.post_status = 'publish' AND {$wpdb->posts}.post_type = 'llms_membership' ORDER BY post_title"
         );
@@ -99,6 +103,8 @@ class LifterLmsController
             empty($integId)
             || empty($mainAction)
         ) {
+            // translators: %s: Integration name
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('Some important info are missing those are required for %s', 'bit-integrations'), 'LifterLms'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);

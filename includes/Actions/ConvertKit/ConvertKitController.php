@@ -190,6 +190,7 @@ class ConvertKitController
             empty($api_secret)
             || empty($fieldMap)
         ) {
+            /* translators: %s: Placeholder value */
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Kit(ConvertKit)'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $api_secret, $this->_integrationID);

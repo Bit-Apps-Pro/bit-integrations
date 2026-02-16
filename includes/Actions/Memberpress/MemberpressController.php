@@ -29,6 +29,8 @@ class MemberpressController
         if (self::pluginActive()) {
             wp_send_json_success(true, 200);
         }
+        // translators: %s: Plugin name
+        /* translators: %s: Placeholder value */
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'Memberpress'));
     }
 
@@ -63,12 +65,16 @@ class MemberpressController
             }
             wp_send_json_success($allMembership, 200);
         }
+        // translators: %s: Plugin name
+        /* translators: %s: Placeholder value */
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'Memberpress'));
     }
 
     public static function allPaymentGateway()
     {
         if (!self::pluginActive()) {
+            // translators: %s: Plugin name
+            /* translators: %s: Placeholder value */
             wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'Memberpress'));
         }
         $mepr_options = MeprOptions::fetch();
@@ -104,6 +110,10 @@ class MemberpressController
             empty($integId)
             || empty($mainAction) || empty($selectedMembership)
         ) {
+            // translators: %s: Integration name
+
+            
+            /* translators: %s: Placeholder value */
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'memberpress'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);

@@ -28,12 +28,14 @@ class TutorLmsController
             wp_send_json_success(true, 200);
         }
 
+        // translators: %s: Plugin name
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'Tutor LMS'));
     }
 
     public static function getAllLesson()
     {
         if (!\function_exists('tutor')) {
+            // translators: %s: Plugin name
             wp_send_json_error(wp_sprintf(__('%s is not installed or activated.', 'bit-integrations'), 'Tutor LMS'));
         }
 
@@ -58,6 +60,7 @@ class TutorLmsController
     {
         $action = $queryParams->type;
         if (!\function_exists('tutor')) {
+            // translators: %s: Plugin name
             wp_send_json_error(wp_sprintf(__('%s is not installed or activated.', 'bit-integrations'), 'Tutor LMS'));
         }
 
@@ -163,11 +166,16 @@ class TutorLmsController
 
             // Create placeholders for IN clause
             $placeholders = implode(', ', array_fill(0, \count($lessonMetaIds), '%s'));
-            $query = $wpdb->prepare(
-                "DELETE from {$wpdb->usermeta} WHERE user_id = %d AND meta_key IN ({$placeholders})",
-                array_merge([$user_id], $lessonMetaIds)
+            $query = \sprintf(
+                "DELETE from {$wpdb->usermeta} WHERE user_id = %%d AND meta_key IN (%s)",
+                $placeholders
             );
-            $wpdb->query($query);
+            $wpdb->query(
+                $wpdb->prepare(
+                    $query, // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+                    array_merge([$user_id], $lessonMetaIds)
+                )
+            );
         }
 
         $courseContents = tutils()->get_course_contents_by_id($course_id);

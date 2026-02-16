@@ -34,6 +34,7 @@ class JetEngineController
     public static function checkedJetEngineExists()
     {
         if (!is_plugin_active('jet-engine/jet-engine.php')) {
+            /* translators: %s: Plugin name */
             wp_send_json_error(wp_sprintf(__('%s is not active or not installed', 'bit-integrations'), 'JetEngine Plugin'), 400);
         } else {
             return true;

@@ -18,6 +18,8 @@ class PropovoiceCRMController
         if (self::pluginActive()) {
             wp_send_json_success(true, 200);
         }
+        // translators: %s: Plugin name
+        /* translators: %s: Placeholder value */
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'Propovoice CRM'));
     }
 
@@ -54,6 +56,10 @@ class PropovoiceCRMController
             || empty($fieldMap)
 
         ) {
+            // translators: %s: Integration name
+
+            
+            /* translators: %s: Placeholder value */
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Propovoice CRM'));
         }
         $recordApiHelper = new RecordApiHelper($integrationId);

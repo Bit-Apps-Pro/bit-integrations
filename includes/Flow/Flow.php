@@ -88,6 +88,8 @@ final class Flow
             $missing_field = 'Integration ID';
         }
         if (!\is_null($missing_field)) {
+            
+            /* translators: %s: Placeholder value */
             wp_send_json_error(wp_sprintf(__('%s can\'t be empty', 'bit-integrations'), $missing_field));
         }
         $integrationHandler = new FlowController();
@@ -150,6 +152,8 @@ final class Flow
             $missing_field = (\is_null($missing_field) ? null : ', ') . 'Integration details';
         }
         if (!\is_null($missing_field)) {
+            
+            /* translators: %s: Placeholder value */
             wp_send_json_error(wp_sprintf(__('%s can\'t be empty', 'bit-integrations'), $missing_field));
         }
 
@@ -181,6 +185,8 @@ final class Flow
             $missingId = 'Flow ID';
         }
         if (!\is_null($missingId)) {
+            
+            /* translators: %s: Placeholder value */
             wp_send_json_error(wp_sprintf(__('%s can\'t be empty', 'bit-integrations'), $missingId));
         }
         $integrationHandler = new FlowController();
@@ -222,6 +228,8 @@ final class Flow
             $missing_field = 'Flow details';
         }
         if (!\is_null($missing_field)) {
+            
+            /* translators: %s: Placeholder value */
             wp_send_json_error(wp_sprintf(__('%s can\'t be empty', 'bit-integrations'), $missing_field));
         }
 
@@ -291,6 +299,8 @@ final class Flow
             $missing_field = 'Integration id';
         }
         if (!\is_null($missing_field)) {
+            
+            /* translators: %s: Placeholder value */
             wp_send_json_error(wp_sprintf(__('%s can\'t be empty', 'bit-integrations'), $missing_field));
         }
         $integrationHandler = new FlowController();
@@ -309,6 +319,8 @@ final class Flow
             wp_send_json_error(__('User don\'t have permission to access this page', 'bit-integrations'));
         }
         if (!\is_array($param->flowID) || $param->flowID === []) {
+            
+            /* translators: %s: Placeholder value */
             wp_send_json_error(wp_sprintf(__('%s can\'t be empty', 'bit-integrations'), 'Integration id'));
         }
 
@@ -335,6 +347,8 @@ final class Flow
             $missing_field = 'Integration id';
         }
         if (!\is_null($missing_field)) {
+            
+            /* translators: %s: Placeholder value */
             wp_send_json_error(wp_sprintf(__('%s can\'t be empty', 'bit-integrations'), $missing_field));
         }
         $integrationHandler = new FlowController();

@@ -163,6 +163,8 @@ class DirectIqController
         if (
             empty($client_id) || empty($client_secret) || empty($fieldMap)
         ) {
+            
+            /* translators: %s: Placeholder value */
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'DirectIQ'));
         }
         $recordApiHelper = new RecordApiHelper($client_id, $client_secret, $this->_integrationID);

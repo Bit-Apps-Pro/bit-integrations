@@ -43,6 +43,7 @@ class RecordApiHelper
                 $response = apply_filters('btcbi_mailpoet_update_subscriber', $existingSubscriber['id'], $subscriber);
 
                 if ($response === $existingSubscriber['id']) {
+                    /* translators: %s: Plugin name */
                     $errorMessages = wp_sprintf(__('%s is not active or not installed', 'bit-integrations'), 'Bit Integrations Pro');
                 } elseif (!$response['success']) {
                     $errorMessages = $response('message');

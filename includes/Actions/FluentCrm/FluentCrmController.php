@@ -34,6 +34,7 @@ class FluentCrmController
     public static function checkedExistsFluentCRM()
     {
         if (!is_plugin_active('fluent-crm/fluent-crm.php')) {
+            /* translators: %s: Plugin name */
             wp_send_json_error(wp_sprintf(__('%s is not active or not installed', 'bit-integrations'), 'Fluent CRM'), 400);
         } else {
             return true;
@@ -176,6 +177,8 @@ class FluentCrmController
         $actionName = $integrationDetails->actionName;
 
         if (empty($fieldMap)) {
+            
+            /* translators: %s: Placeholder value */
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Fluent CRM'));
         }
 

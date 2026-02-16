@@ -1641,6 +1641,7 @@ final class TriggerFallback
 
         $query = 'SELECT id, type, name FROM ' . esc_sql($table_name);
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Static table name with WordPress prefix, no user input
         return $wpdb->get_results($query);
     }
 
@@ -4137,7 +4138,7 @@ final class TriggerFallback
 
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Third-party form submission
         $post_id = sanitize_text_field(
-            wp_unslash($_REQUEST['post_id'])
+            wp_unslash($_REQUEST['post_id']) // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         );
 
         $flows = Flow::exists('PiotnetForms', $post_id);
@@ -4685,6 +4686,7 @@ final class TriggerFallback
     public static function surecartPurchaseProduct($data)
     {
         if (!self::surecartPluginActive()) {
+            // translators: %s: Placeholder value
             wp_send_json_error(wp_sprintf(__('%s is not installed or activated.', 'bit-integrations'), 'SureCart'));
         }
         $accountDetails = \SureCart\Models\Account::find();

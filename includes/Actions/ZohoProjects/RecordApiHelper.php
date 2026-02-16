@@ -67,7 +67,8 @@ class RecordApiHelper
                     }
                 }
                 if (empty($fieldData[$sEvent][$fieldPair->zohoFormField]) && \in_array($fieldPair->zohoFormField, $required)) {
-                    $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('%s is required for %s', 'bit-integrations'), $fieldPair->zohoFormField, $sEvent));
+                    /* translators: %s: Placeholder value */
+                    $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('%1$s is required for %2$s', 'bit-integrations'), $fieldPair->zohoFormField, $sEvent));
                     // $this->_logResponse->apiResponse($this->_logID, $this->_integrationID, ['type' => 'record', 'type_name' => 'field'], 'validation', $error);
                     LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'record', 'type_name' => 'validation']), 'error', wp_json_encode($error));
 

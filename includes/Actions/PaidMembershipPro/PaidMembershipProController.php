@@ -20,6 +20,8 @@ class PaidMembershipProController
         if (self::pluginActive()) {
             wp_send_json_success(true, 200);
         }
+        // translators: %s: Plugin name
+        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'Paid Membership'));
     }
 
@@ -27,6 +29,7 @@ class PaidMembershipProController
     {
         global $wpdb;
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Static query with no user input
         $levels = $wpdb->get_results(
             "SELECT * FROM {$wpdb->pmpro_membership_levels} ORDER BY id ASC"
         );

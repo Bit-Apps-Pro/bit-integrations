@@ -26,6 +26,8 @@ class WooCommerceController
             wp_send_json_success(true, 200);
         }
 
+        // translators: %s: Plugin name
+        /* translators: %s: Placeholder value */
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'WooCommerce'));
     }
 

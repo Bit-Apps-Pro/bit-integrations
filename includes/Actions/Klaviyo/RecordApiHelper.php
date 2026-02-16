@@ -85,6 +85,7 @@ class RecordApiHelper
         $response = apply_filters('btcbi_klaviyo_update_profile', false, $id, $authKey, $data);
 
         if (!$response) {
+            /* translators: %s: Plugin name */
             return (object) ['errors' => [(object) ['detail' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')]]];
         }
 

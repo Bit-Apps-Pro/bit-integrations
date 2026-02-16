@@ -69,6 +69,7 @@ class RecordApiHelper
             $response = apply_filters('btcbi_freshsales_upsert_record', $module, $finalData, $this->_integrationDetails, $this->_defaultHeader, $this->baseUrl);
 
             if (\is_string($response) && $response == $module) {
+                /* translators: %s: Plugin name */
                 return (object) ['errors' => wp_send_json_error(wp_sprintf(__('%s is not active or not installed', 'bit-integrations'), 'Bit Integrations Pro'), 400)];
             }
 

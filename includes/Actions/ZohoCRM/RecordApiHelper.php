@@ -69,7 +69,8 @@ class RecordApiHelper
                     $fieldData[$fieldPair->zohoFormField] = $this->formatFieldValue($fieldValues[$fieldPair->formField], $defaultConf->layouts->{$module}->{$layout}->fields->{$fieldPair->zohoFormField});
                 }
                 if (empty($fieldData[$fieldPair->zohoFormField]) && \in_array($fieldPair->zohoFormField, $required)) {
-                    $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('%s is required for zoho crm, %s module', 'bit-integrations'), $fieldPair->zohoFormField, $module));
+                    // translators: 1: Field name, 2: Module name
+                    $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('%1$s is required for zoho crm, %2$s module', 'bit-integrations'), $fieldPair->zohoFormField, $module));
                     LogHandler::save($integId, wp_json_encode(['type' => 'record', 'type_name' => 'field']), 'validation', wp_json_encode($error));
 
                     return $error;
@@ -82,7 +83,8 @@ class RecordApiHelper
                         $currentLength = \strlen($fieldData[$fieldPair->zohoFormField]);
                     }
                     if ($currentLength > $requiredLength) {
-                        $error = new WP_Error('REQ_FIELD_LENGTH_EXCEEDED', wp_sprintf(__('zoho crm field %s\'s maximum length is %s, Given %s', 'bit-integrations'), $fieldPair->zohoFormField, $module));
+                        // translators: 1: Field name, 2: Maximum length, 3: Given length
+                        $error = new WP_Error('REQ_FIELD_LENGTH_EXCEEDED', wp_sprintf(__('zoho crm field %1$s\'s maximum length is %2$s, Given %3$s', 'bit-integrations'), $fieldPair->zohoFormField, $module));
                         LogHandler::save($integId, wp_json_encode(['type' => 'length', 'type_name' => 'field']), 'validation', wp_json_encode($error));
 
                         return $error;
@@ -122,8 +124,8 @@ class RecordApiHelper
                 $gclid = $fieldValues['gclid'];
             } elseif (isset($fieldValues['zc_gad'])) {
                 $gclid = $fieldValues['zc_gad'];
-            } elseif (isset($_REQUEST['zc_gad'])) {
-                $zc_gad = wp_unslash($_REQUEST['zc_gad']);
+            } elseif (isset($_REQUEST['zc_gad'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                $zc_gad = wp_unslash($_REQUEST['zc_gad']); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 $gclid = sanitize_text_field($zc_gad);
             }
             if (!empty($gclid)) {

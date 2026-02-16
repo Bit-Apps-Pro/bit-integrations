@@ -25,6 +25,8 @@ class VoxelController
             return true;
         }
 
+        
+        /* translators: %s: Placeholder value */
         wp_send_json_error(wp_sprintf(__('%s is not active or installed!', 'bit-integrations'), 'Voxel'), 400);
     }
 

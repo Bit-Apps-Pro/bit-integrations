@@ -1259,6 +1259,8 @@ final class WCController
     private static function isPluginActivated()
     {
         if (!static::isActivate()) {
+            
+            /* translators: %s: Placeholder value */
             wp_send_json_error(\sprintf(__('%s is not installed or activated', 'bit-integrations'), 'WooCommerce'));
         }
     }

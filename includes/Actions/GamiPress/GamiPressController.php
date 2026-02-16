@@ -36,6 +36,8 @@ class GamiPressController
         if (self::pluginActive()) {
             wp_send_json_success(true, 200);
         }
+        // translators: %s: Plugin name
+        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'GamiPress'));
     }
 
@@ -67,6 +69,7 @@ class GamiPressController
     {
         global $wpdb;
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Static query with no user input
         return $wpdb->get_results(
             "SELECT ID, post_name, post_title, post_type FROM {$wpdb->posts} where post_type = 'rank-type' AND post_status = 'publish'"
         );
@@ -88,6 +91,7 @@ class GamiPressController
     {
         global $wpdb;
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Static query with no user input
         return $wpdb->get_results(
             "SELECT ID, post_name, post_title, post_type FROM {$wpdb->posts} WHERE post_type = 'achievement-type' AND post_status = 'publish' ORDER BY post_title ASC"
         );
@@ -110,6 +114,7 @@ class GamiPressController
     public static function fetchAllPointType()
     {
         global $wpdb;
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Static query with no user input
         $points = $wpdb->get_results(
             "SELECT ID, post_name, post_title, post_type FROM {$wpdb->posts} WHERE post_type = 'points-type' AND post_status = 'publish' ORDER BY post_title ASC"
         );

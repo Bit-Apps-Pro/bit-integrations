@@ -28,7 +28,8 @@ final class EmailNotification
 
         $siteName = get_bloginfo('name');
         $subject = \sprintf(
-            __('[%s] Integration Failure Alert - Flow #%d', 'bit-integrations'),
+            // translators: 1: Site name, 2: Flow ID
+            __('[%1$s] Integration Failure Alert - Flow #%2$d', 'bit-integrations'),
             $siteName,
             $flowId
         );

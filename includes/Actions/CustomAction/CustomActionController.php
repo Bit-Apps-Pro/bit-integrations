@@ -9,24 +9,34 @@ class CustomActionController
 {
     public static function functionValidateHandler($data)
     {
-        $temp_file = tmpfile();
-        fwrite($temp_file, $data);
-        $filePath = stream_get_meta_data($temp_file)['uri'];
+        global $wp_filesystem;
+
+        if (empty($wp_filesystem)) {
+            require_once ABSPATH . '/wp-admin/includes/file.php';
+            WP_Filesystem();
+        }
+
+        $upload_dir = wp_upload_dir();
+        $filePath = $upload_dir['basedir'] . '/temp_validation_' . wp_generate_password(12, false) . '.php';
+
+        $wp_filesystem->put_contents($filePath, $data, FS_CHMOD_FILE);
+
         if (\function_exists('exec') === false) {
-            fclose($temp_file);
+            $wp_filesystem->delete($filePath);
             wp_send_json_success(__('Exec function not found in your server, So we can\'t validate your function. But you can run your custom action.', 'bit-integrations'));
         }
         $response = exec(escapeshellcmd("php -l {$filePath}"), $output, $return);
         if (empty($response)) {
-            fclose($temp_file);
+            $wp_filesystem->delete($filePath);
             wp_send_json_success(__('Exec function not found in your server, So we can\'t validate your function. But you can run your custom action.', 'bit-integrations'));
         }
 
         $msg = str_replace($filePath, 'your function', $response);
-        fclose($temp_file);
+        $wp_filesystem->delete($filePath);
         if (str_contains($response, 'No syntax errors detected')) {
             wp_send_json_success("Congrats, {$msg}");
         }
+
         wp_send_json_error($msg);
     }
 

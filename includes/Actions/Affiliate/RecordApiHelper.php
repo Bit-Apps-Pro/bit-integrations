@@ -174,6 +174,7 @@ class RecordApiHelper
                 $finalData
             );
             if ($apiResponse !== 0) {
+                /* translators: %s: Placeholder value */
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'referral', 'type_name' => 'create-referral']), 'success', wp_json_encode(wp_sprintf(__('Created Referral id %s', 'bit-integrations'), $apiResponse)));
             } else {
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'referral', 'type_name' => 'create-referral']), 'error', wp_json_encode(__('Error in creating referral', 'bit-integrations')));
@@ -192,6 +193,7 @@ class RecordApiHelper
                 $finalData
             );
             if ($apiResponse !== 0) {
+                /* translators: %s: Placeholder value */
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'referral', 'type_name' => 'create-referral']), 'success', wp_json_encode(wp_sprintf(__('Created Referral id %s', 'bit-integrations'), $apiResponse)));
             } else {
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'referral', 'type_name' => 'create-referral']), 'error', wp_json_encode(__('Error in creating referral', 'bit-integrations')));

@@ -127,6 +127,8 @@ class DripController
         $selectedRemoveTags = $integrationDetails->selectedRemoveTags;
 
         if (empty($api_token) || empty($fieldMap) || empty($accountId)) {
+            
+            /* translators: %s: Placeholder value */
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Drip'));
         }
 

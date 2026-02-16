@@ -28,12 +28,17 @@ class AcademyLmsController
             wp_send_json_success(true, 200);
         }
 
+        // translators: %s: Plugin name
+        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'Academy Lms'));
     }
 
     public static function getAllLesson()
     {
         if (!class_exists('Academy')) {
+            // translators: %s: Plugin name
+
+            // translators: %s: Placeholder value
             wp_send_json_error(wp_sprintf(__('%s is not installed or activated', 'bit-integrations'), 'Academy Lms'));
         }
 
@@ -54,6 +59,9 @@ class AcademyLmsController
     {
         $action = $queryParams->type;
         if (!class_exists('Academy')) {
+            // translators: %s: Plugin name
+
+            // translators: %s: Placeholder value
             wp_send_json_error(wp_sprintf(__('%s is not installed or activated', 'bit-integrations'), 'Academy Lms'));
         }
 
@@ -195,8 +203,9 @@ class AcademyLmsController
         if (!empty($QuizIds)) {
             $placeholders = implode(',', array_fill(0, \count($QuizIds), '%d'));
             $wpdb->query($wpdb->prepare("DELETE from {$wpdb->prefix}academy_quiz_attempts WHERE user_id = %d AND course_id = %d", $user_id, $course_id));
-            $query = $wpdb->prepare("DELETE from {$wpdb->prefix}academy_quiz_attempt_answers WHERE user_id = %d AND quiz_id in ({$placeholders}) ", $user_id, ...$QuizIds);
-            $wpdb->query($query);
+            $query_format = \sprintf("DELETE from {$wpdb->prefix}academy_quiz_attempt_answers WHERE user_id = %%d AND quiz_id in ({$placeholders})");
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Dynamic IN clause with sprintf for placeholders
+            $wpdb->query($wpdb->prepare($query_format, $user_id, ...$QuizIds));
         }
         $wpdb->query($wpdb->prepare("DELETE from {$wpdb->comments} WHERE comment_agent = 'academy' AND comment_type = 'course_completed' AND comment_post_ID = %d AND user_id = %d", $course_id, $user_id));
 

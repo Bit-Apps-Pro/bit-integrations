@@ -38,6 +38,7 @@ class ACPTHelper
             if (empty($finalData[$key])) {
                 return [
                     'success' => false,
+                    /* translators: %s: Placeholder value */
                     'message' => \sprintf(__('Required field %s is empty', 'bit-integrations'), $label),
                     'code'    => 422,
                 ];
@@ -129,6 +130,7 @@ class ACPTHelper
     public static function validateResponse($response)
     {
         return !$response
+            /* translators: %s: Plugin name */
             ? ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')]
             : $response;
     }
@@ -144,6 +146,7 @@ class ACPTHelper
             if (empty($finalData[$key])) {
                 return [
                     'success' => false,
+                    /* translators: %s: Placeholder value */
                     'message' => \sprintf(__('Required field %s is empty', 'bit-integrations'), $label),
                     'code'    => 422,
                 ];

@@ -112,6 +112,8 @@ class SendPulseController
         }
 
         if (empty($fieldMap) || empty($tokenDetails) || empty($selectedList)) {
+            
+            /* translators: %s: Placeholder value */
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'SendPulse'));
         }
 

@@ -24,21 +24,24 @@ class CustomFuncValidator
 
     public static function functionIsValid($fileContent)
     {
-        $temp_file = tmpfile();
+        global $wp_filesystem;
 
-        fwrite($temp_file, $fileContent);
-
-        $filePath = stream_get_meta_data($temp_file)['uri'];
-        $response = exec(escapeshellcmd("php -l {$filePath}"), $output, $return);
-
-        if (str_contains($response, 'No syntax errors detected') || empty($response)) {
-            fclose($temp_file);
-
-            return true;
+        if (empty($wp_filesystem)) {
+            require_once ABSPATH . '/wp-admin/includes/file.php';
+            WP_Filesystem();
         }
 
-        fclose($temp_file);
+        $upload_dir = wp_upload_dir();
+        $temp_file_path = $upload_dir['basedir'] . '/temp_validation_' . wp_generate_password(12, false) . '.php';
 
-        return false;
+        $wp_filesystem->put_contents($temp_file_path, $fileContent, FS_CHMOD_FILE);
+
+        $response = exec(escapeshellcmd("php -l {$temp_file_path}"), $output, $return);
+
+        $is_valid = str_contains($response, 'No syntax errors detected') || empty($response);
+
+        $wp_filesystem->delete($temp_file_path);
+
+        return $is_valid;
     }
 }

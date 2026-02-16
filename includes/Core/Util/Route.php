@@ -75,11 +75,11 @@ final class Route
 
         if (
             isset(static::$_invokeable[$action][$requestMethod . '_ignore_token'])
-            || isset($_REQUEST['_ajax_nonce'])
+            || isset($_REQUEST['_ajax_nonce']) // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             && wp_verify_nonce(
                 sanitize_text_field(
                     wp_unslash(
-                        $_REQUEST['_ajax_nonce']
+                        $_REQUEST['_ajax_nonce'] // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                     )
                 ),
                 'btcbi_nonce'
@@ -98,15 +98,15 @@ final class Route
                         $inputJSON = file_get_contents('php://input');
                         $decoded = \is_string($inputJSON) ? json_decode($inputJSON) : $inputJSON;
                         $data = \is_object($decoded) || \is_array($decoded) ? map_deep($decoded, 'sanitize_text_field') : $decoded;
-                    } elseif (isset($_POST['data'])) {
-                        $postReq = wp_unslash($_POST['data']);
+                    } elseif (isset($_POST['data'])) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+                        $postReq = wp_unslash($_POST['data']); // phpcs:ignore WordPress.Security.NonceVerification.Missing
                         $decoded = \is_string($postReq) ? json_decode($postReq) : $postReq;
                         $data = \is_object($decoded) || \is_array($decoded) ? map_deep($decoded, 'sanitize_text_field') : $decoded;
                     } else {
-                        $data = (object) map_deep(wp_unslash($_POST), 'sanitize_text_field');
+                        $data = (object) map_deep(wp_unslash($_POST), 'sanitize_text_field'); // phpcs:ignore WordPress.Security.NonceVerification.Missing
                     }
                 } else {
-                    $data = (object) map_deep(wp_unslash($_GET), 'sanitize_text_field');
+                    $data = (object) map_deep(wp_unslash($_GET), 'sanitize_text_field'); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 }
 
                 $reflectionMethod = new ReflectionMethod($invokeable[0], $invokeable[1]);
@@ -147,16 +147,16 @@ final class Route
 
     private static function getActionFromRequest()
     {
-        if (isset($_REQUEST['action'])) {
-            return sanitize_text_field(wp_unslash($_REQUEST['action']));
+        if (isset($_REQUEST['action'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            return sanitize_text_field(wp_unslash($_REQUEST['action'])); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         }
 
-        if (isset($_POST['action'])) {
-            return sanitize_text_field(wp_unslash($_POST['action']));
+        if (isset($_POST['action'])) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+            return sanitize_text_field(wp_unslash($_POST['action'])); // phpcs:ignore WordPress.Security.NonceVerification.Missing
         }
 
-        if (isset($_GET['action'])) {
-            return sanitize_text_field(wp_unslash($_GET['action']));
+        if (isset($_GET['action'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            return sanitize_text_field(wp_unslash($_GET['action'])); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         }
     }
 }

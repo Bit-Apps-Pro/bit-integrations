@@ -138,6 +138,8 @@ class DiscordController
             || empty($channel_id)
             || empty($body)
         ) {
+            
+            /* translators: %s: Placeholder value */
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Discord'));
         }
         $recordApiHelper = new RecordApiHelper(self::APIENDPOINT, $access_token, $integrationId);

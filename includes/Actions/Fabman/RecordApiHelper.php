@@ -111,6 +111,7 @@ class RecordApiHelper
             $this->integrationID,
             ['type' => 'validation', 'field' => $fieldName, 'value' => $value],
             'error',
+            /* translators: %s: Placeholder value */
             \sprintf(__('Field validation failed for: %s', 'bit-integrations'), $fieldName)
         );
     }
@@ -236,6 +237,7 @@ class RecordApiHelper
     private function handleFilterResponse($response)
     {
         if (empty($response)) {
+            /* translators: %s: Placeholder value */
             return (object) ['error' => \wp_sprintf(\__('%s plugin is not installed or activated', 'bit-integrations'), 'Bit Integration Pro')];
         }
 

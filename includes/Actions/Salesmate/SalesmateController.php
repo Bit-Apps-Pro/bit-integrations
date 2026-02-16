@@ -218,6 +218,8 @@ class SalesmateController
         $linkName = $integrationDetails->link_name;
 
         if (empty($fieldMap) || empty($sessionToken) || empty($actionName) || empty($actionId) || empty($linkName)) {
+            
+            /* translators: %s: Placeholder value */
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Salesmate'));
         }
 

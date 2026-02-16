@@ -49,6 +49,7 @@ class RecordApiHelper
             }
 
             if (empty($fieldData[$fieldPair->zohoFormField]) && \in_array($fieldPair->zohoFormField, $required)) {
+                /* translators: %s: Placeholder value */
                 $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('%s is required for zoho marketing hub', 'bit-integrations'), $fieldPair->zohoFormField));
                 LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'field'], 'validation', $error);
 

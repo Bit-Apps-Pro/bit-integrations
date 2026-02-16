@@ -187,6 +187,7 @@ class RecordApiHelper
                 $recordApiResponse = [
                     'success' => false,
                     'code'    => 'INVALID_ACTION',
+                    /* translators: %s: Placeholder value */
                     'message' => wp_sprintf(__('The action %s is not supported.', 'bit-integrations'), $action),
                 ];
 

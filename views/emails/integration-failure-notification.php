@@ -21,6 +21,7 @@ if (! defined('ABSPATH')) {
 // Prepare translated strings.
 $title = esc_html__('Integration Failure Alert', 'bit-integrations');
 $greeting = sprintf(
+    /* translators: %s: Placeholder value */
     esc_html__('Hello, an integration on your site %s has failed to execute.', 'bit-integrations'),
     '<strong>' . esc_html($siteName) . '</strong>'
 );
@@ -35,6 +36,7 @@ $resolve_text = esc_html__('To resolve this issue, please check the integration 
 $view_integration = esc_html__('View Integration', 'bit-integrations');
 $view_logs = esc_html__('View Logs', 'bit-integrations');
 $footer_text = sprintf(
+    /* translators: %s: Placeholder value */
     esc_html__('You are receiving this email because failure notifications are enabled in %s. You can disable these notifications in the plugin settings.', 'bit-integrations'),
     '<strong>Bit Integrations</strong>'
 );

@@ -428,6 +428,7 @@ class ZohoBiginController
             || empty($module)
             || empty($fieldMap)
         ) {
+            /* translators: %s: Placeholder value */
             $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Zoho Bigin'));
             LogHandler::save($this->_integrationID, 'record', 'validation', $error);
 

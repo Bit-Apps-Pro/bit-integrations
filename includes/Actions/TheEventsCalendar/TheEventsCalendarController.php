@@ -28,6 +28,8 @@ class TheEventsCalendarController
             return true;
         }
 
+        
+        /* translators: %s: Placeholder value */
         wp_send_json_error(wp_sprintf(__('%s are not active or installed!', 'bit-integrations'), 'The Events Calendar and/or Event Tickets'), 400);
     }
 

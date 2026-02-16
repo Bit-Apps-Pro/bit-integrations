@@ -102,6 +102,7 @@ class RecordApiHelper
                 }
             }
             if (empty($fieldData['data'][$fieldPair->zohoFormField]) && \in_array($fieldPair->zohoFormField, $required)) {
+                /* translators: %s: Placeholder value */
                 $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('%s is required for zoho creator', 'bit-integrations'), $fieldPair->zohoFormField));
                 // $this->_logResponse->apiResponse($this->_logID, $this->_integrationID, ['type' => 'record', 'type_name' => 'field'], 'validation', $error);
 

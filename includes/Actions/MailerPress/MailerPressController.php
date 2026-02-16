@@ -120,6 +120,7 @@ class MailerPressController
         $tags = Helper::convertStringToArray($integrationDetails->tags ?? []);
 
         if (empty($fieldMap)) {
+            /* translators: %s: Integration name */
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('Field map is required for %s api', 'bit-integrations'), 'MailerPress'));
         }
 

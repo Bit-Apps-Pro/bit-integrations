@@ -19,7 +19,7 @@ class LogModel extends Model
         if (
             !\is_null($intervalDays)
         ) {
-            $tableName = $wpdb->prefix . static::$table;
+            $tableName = esc_sql($wpdb->prefix . static::$table);
             $intervalDays = absint($intervalDays);
 
             $result = $this->app_db->get_results(

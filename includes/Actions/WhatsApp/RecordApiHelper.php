@@ -69,6 +69,8 @@ class RecordApiHelper
             return static::handleFilterResponse($response);
         }
 
+        
+        /* translators: %s: Placeholder value */
         return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')];
     }
 
@@ -84,6 +86,8 @@ class RecordApiHelper
             return static::handleFilterResponse($response);
         }
 
+        
+        /* translators: %s: Placeholder value */
         return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')];
     }
 
@@ -99,6 +103,8 @@ class RecordApiHelper
             return static::handleFilterResponse($response);
         }
 
+        
+        /* translators: %s: Placeholder value */
         return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')];
     }
 
@@ -158,6 +164,8 @@ class RecordApiHelper
             return $response;
         }
 
+        
+        /* translators: %s: Placeholder value */
         return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')];
     }
 

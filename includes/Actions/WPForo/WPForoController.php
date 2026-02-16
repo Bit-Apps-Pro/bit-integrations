@@ -31,6 +31,7 @@ class WPForoController
     public static function checkedWPForoExists()
     {
         if (!is_plugin_active('wpforo/wpforo.php')) {
+            /* translators: %s: Plugin name */
             wp_send_json_error(wp_sprintf(__('%s is not active or not installed', 'bit-integrations'), 'WPForo Plugin'), 400);
         } else {
             return true;

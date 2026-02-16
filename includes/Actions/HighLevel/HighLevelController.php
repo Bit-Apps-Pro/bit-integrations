@@ -318,10 +318,12 @@ class HighLevelController
         $selectedTask = self::getStringParam($integrationDetails, 'selectedTask');
 
         if (empty($apiKey) || empty($fieldMap)) {
+            /* translators: %s: Placeholder value */
             return new WP_Error('REQ_FIELD_EMPTY', \sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'HighLevel'));
         }
 
         if ($version === 'v2' && $locationId === '') {
+            /* translators: %s: Placeholder value */
             return new WP_Error('REQ_FIELD_EMPTY', \sprintf(__('module, location_id is required for %s v2 api', 'bit-integrations'), 'HighLevel'));
         }
 

@@ -24,7 +24,8 @@ final class FilesApiHelper
                 );
                 $error_file_type = str_replace('image/', '', $file['type']);
 
-                $reg_errors->add('field', wp_sprintf(__('Invalid file type: %s. Supported file types: %s', 'bit-integrations'), $error_file_type, $valid_file_type));
+                /* translators: %s: Placeholder value */
+                $reg_errors->add('field', wp_sprintf(__('Invalid file type: %1$s. Supported file types: %2$s', 'bit-integrations'), $error_file_type, $valid_file_type));
             }
 
             if (!empty($reg_errors->get_error_messages())) {

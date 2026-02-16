@@ -162,6 +162,7 @@ class RecordApiHelper
         $topicId = WPF()->topic->add($args);
 
         if ($topicId) {
+            /* translators: %s: Placeholder value */
             return ['success' => true, 'message' => wp_sprintf(__('New topic created, topic id: %s', 'bit-integrations'), $topicId)];
         }
 

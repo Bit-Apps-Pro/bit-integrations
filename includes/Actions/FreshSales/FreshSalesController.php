@@ -183,6 +183,8 @@ class FreshSalesController
             || empty($api_key)
             || empty($bundle_alias)
         ) {
+            
+            /* translators: %s: Placeholder value */
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'FreshSales'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);

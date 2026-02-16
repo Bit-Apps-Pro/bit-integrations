@@ -35,6 +35,8 @@ final class BitFormController
     public function getAll()
     {
         if (!self::isPluginActive()) {
+            
+            /* translators: %s: Placeholder value */
             wp_send_json_error(wp_sprintf(__('%s is not installed or activated.', 'bit-integrations'), 'Bit Form'));
         }
 

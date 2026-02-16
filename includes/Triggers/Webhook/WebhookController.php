@@ -30,6 +30,7 @@ class WebhookController
             $missing_field = \is_null($missing_field) ? 'Webhook ID' : $missing_field . ', Webhook ID';
         }
         if (!\is_null($missing_field)) {
+            /* translators: %s: Placeholder value */
             wp_send_json_error(\sprintf(__('%s can\'t be empty or need to be valid', 'bit-integrations'), $missing_field));
         }
 
@@ -54,6 +55,7 @@ class WebhookController
             $missing_field = \is_null($missing_field) ? 'Webhook ID' : $missing_field . ', Webhook ID';
         }
         if (!\is_null($missing_field)) {
+            /* translators: %s: Placeholder value */
             wp_send_json_error(\sprintf(__('%s can\'t be empty or need to be valid', 'bit-integrations'), $missing_field));
         }
 

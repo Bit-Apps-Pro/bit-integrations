@@ -34,7 +34,8 @@ class RecordApiHelper
                 }
 
                 if (\in_array($fieldPair->wcField, $required) && empty($fieldValues[$fieldPair->formField])) {
-                    $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('%s is required for woocommerce %s', 'bit-integrations'), $fieldPair->wcField, $module));
+                    /* translators: %s: Placeholder value */
+                    $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('%1$s is required for woocommerce %2$s', 'bit-integrations'), $fieldPair->wcField, $module));
                     LogHandler::save($this->_integrationID, ['type' => $module, 'type_name' => 'create'], 'validation', $error);
 
                     return $error;
@@ -87,7 +88,8 @@ class RecordApiHelper
                 }
 
                 if (\in_array($fieldPair->wcField, $required) && empty($fieldValues[$fieldPair->formField])) {
-                    $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('%s is required for woocommerce %s', 'bit-integrations'), $fieldPair->wcField, $module));
+                    /* translators: %s: Placeholder value */
+                    $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('%1$s is required for woocommerce %2$s', 'bit-integrations'), $fieldPair->wcField, $module));
                     LogHandler::save($this->_integrationID, ['type' => $module, 'type_name' => 'create'], 'validation', $error);
 
                     return $error;
@@ -109,6 +111,7 @@ class RecordApiHelper
             }
             $order->update_status($status);
         } else {
+            /* translators: %s: Placeholder value */
             $error = new WP_Error('ORDER_NOT_FOUND', wp_sprintf(__('Order %s not found', 'bit-integrations'), $id));
             LogHandler::save($this->_integrationID, ['type' => 'order status changed', 'type_name' => 'Change Status'], 'validation', $error);
 
@@ -129,6 +132,7 @@ class RecordApiHelper
             $order->update_status($fieldData['order_status']);
             LogHandler::save($this->_integrationID, ['type' => 'order-status-change', 'type_name' => 'Change Status'], 'success', $fieldData['order_id']);
         } else {
+            /* translators: %s: Placeholder value */
             $error = new WP_Error('wrong order id', wp_sprintf(__('%s is not valid order id', 'bit-integrations'), $fieldData['order_id']));
             LogHandler::save($this->_integrationID, ['type' => 'order status changed', 'type_name' => 'Change Status'], 'validation', $error);
 
@@ -150,6 +154,7 @@ class RecordApiHelper
             }
             LogHandler::save($this->_integrationID, ['type' => 'order-status-change', 'type_name' => 'Change Status'], 'success', $orderIds);
         } else {
+            /* translators: %s: Placeholder value */
             $error = new WP_Error('ORDER_NOT_FOUND', wp_sprintf(__('Order %s not found', 'bit-integrations'), $orders));
             LogHandler::save($this->_integrationID, ['type' => 'order-status-change', 'type_name' => 'Change Status'], 'validation', $error);
 
@@ -256,7 +261,8 @@ class RecordApiHelper
                 }
 
                 if (\in_array($fieldPair->wcField, $required) && empty($fieldValues[$fieldPair->formField])) {
-                    $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('%s is required for woocommerce %s', 'bit-integrations'), $fieldPair->wcField, $module));
+                    /* translators: %s: Placeholder value */
+                    $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('%1$s is required for woocommerce %2$s', 'bit-integrations'), $fieldPair->wcField, $module));
                     LogHandler::save($this->_integrationID, ['type' => $module, 'type_name' => 'create'], 'validation', $error);
 
                     return $error;
@@ -715,7 +721,8 @@ class RecordApiHelper
                 }
 
                 if (\in_array($fieldPair->wcField, $required) && empty($fieldValues[$fieldPair->formField])) {
-                    $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('%s is required for woocommerce %s', 'bit-integrations'), $fieldPair->wcField, $module));
+                    /* translators: %s: Placeholder value */
+                    $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('%1$s is required for woocommerce %2$s', 'bit-integrations'), $fieldPair->wcField, $module));
                     LogHandler::save($this->_integrationID, ['type' => $module, 'type_name' => 'create'], 'validation', $error);
 
                     return $error;
@@ -730,6 +737,7 @@ class RecordApiHelper
             $product_id = wc_get_product_id_by_sku($lineItem->sku);
 
             if (!$product_id) {
+                /* translators: %s: Placeholder value */
                 $error = new WP_Error('wrong product sku', wp_sprintf(__('%s is not valid product sku or product price is empty!', 'bit-integrations'), $lineItem->sku));
                 LogHandler::save($this->_integrationID, ['type' => $module, 'type_name' => 'create'], 'validation', $error);
 

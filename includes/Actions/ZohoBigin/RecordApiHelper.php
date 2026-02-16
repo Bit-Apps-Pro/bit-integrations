@@ -50,7 +50,8 @@ class RecordApiHelper
                 }
 
                 if (empty($fieldData[$fieldPair->zohoFormField]) && \in_array($fieldPair->zohoFormField, $required)) {
-                    $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('%s is required for zoho bigin, %s module', 'bit-integrations'), $fieldPair->zohoFormField, $module));
+                    // translators: 1: Field name, 2: Module name
+                    $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('%1$s is required for zoho bigin, %2$s module', 'bit-integrations'), $fieldPair->zohoFormField, $module));
                     LogHandler::save($this->_integID, ['type' => 'record', 'type_name' => 'field'], 'validation', $error);
 
                     return $error;
@@ -136,6 +137,8 @@ class RecordApiHelper
             $response = apply_filters('btcbi_zbigin_add_tags_to_records', $recordID, $module, $actions->selectedTags, $this->_apiDomain, $this->_defaultHeader);
 
             if ($response === $recordID) {
+                // translators: %s: Plugin name
+                /* translators: %s: Placeholder value */
                 LogHandler::save($this->_integID, ['type' => 'tags', 'type_name' => $module], 'error', wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro'));
             } elseif (\is_object($response) && isset($response->status) && $response->status === 'error') {
                 LogHandler::save($this->_integID, ['type' => 'tags', 'type_name' => $module], 'error', $response);

@@ -182,6 +182,8 @@ class BenchMarkController
         if (empty($api_secret)
             || empty($fieldMap)
         ) {
+            
+            /* translators: %s: Placeholder value */
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Sendinblue'));
         }
         $recordApiHelper = new RecordApiHelper($api_secret, $this->_integrationID);

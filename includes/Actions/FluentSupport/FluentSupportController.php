@@ -34,6 +34,7 @@ class FluentSupportController
     public function getCustomFields()
     {
         if (!class_exists(\FluentSupportPro\App\Services\CustomFieldsService::class)) {
+            /* translators: %s: Plugin name */
             wp_send_json_error(wp_sprintf(__('%s is not active or not installed', 'bit-integrations'), 'Fluent Support'), 400);
         }
 

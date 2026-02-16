@@ -123,7 +123,8 @@ class RecordApiHelper
             $id = $vendor['id'];
             $vendorEmail = isset($vendor['email']) ? ' Email: ' . $vendor['email'] : '';
 
-            return ['success' => true, 'message' => wp_sprintf(__('Vendor deleted successfully. (ID: %s %s)', 'bit-integrations'), $id, $vendorEmail)];
+            // translators: 1: Vendor ID, 2: Vendor email
+            return ['success' => true, 'message' => wp_sprintf(__('Vendor deleted successfully. (ID: %1$s %2$s)', 'bit-integrations'), $id, $vendorEmail)];
         }
 
         return ['success' => false, 'message' => __('Something went wrong!', 'bit-integrations'), 'code' => 400];
@@ -159,7 +160,8 @@ class RecordApiHelper
         $insertWithdraw = dokan()->withdraw->insert_withdraw($args);
 
         if ($insertWithdraw) {
-            return ['success' => true, 'message' => wp_sprintf(__('Withdraw request inserted successfully. (Vendor ID: %s Amount : %s Method: %s)', 'bit-integrations'), $args['user_id'], $args['amount'], $args['method'])];
+            // translators: 1: Vendor ID, 2: Amount, 3: Payment method
+            return ['success' => true, 'message' => wp_sprintf(__('Withdraw request inserted successfully. (Vendor ID: %1$s Amount : %2$s Method: %3$s)', 'bit-integrations'), $args['user_id'], $args['amount'], $args['method'])];
         }
 
         return ['success' => false, 'message' => __('Something went wrong!', 'bit-integrations'), 'code' => 400];
@@ -169,8 +171,9 @@ class RecordApiHelper
     {
         if (!is_plugin_active('dokan-pro/dokan-pro.php')) {
             return [
-                'success' => false,
+                // translators: %s: Plugin name
                 'message' => wp_sprintf(__('%s is not installed or activated.', 'bit-integrations'), 'The Dokan Pro'),
+                'success' => false,
                 'code'    => 400
             ];
         }
@@ -201,7 +204,8 @@ class RecordApiHelper
         $refundAmount = $refund->get_refund_amount();
         $orderId = $refund->get_order_id();
 
-        return ['success' => true, 'message' => wp_sprintf(__('Refund request added successfully. (Order ID: %s Refund Amount: %s)', 'bit-integrations'), $orderId, $refundAmount)];
+        // translators: 1: Order ID, 2: Refund amount
+        return ['success' => true, 'message' => wp_sprintf(__('Refund request added successfully. (Order ID: %1$s Refund Amount: %2$s)', 'bit-integrations'), $orderId, $refundAmount)];
     }
 
     public static function getUserIdFromEmail($email)

@@ -85,6 +85,8 @@ class SendFoxController
             // empty($fieldMap)||
             empty($access_token)
         ) {
+            
+            /* translators: %s: Placeholder value */
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'SendFox'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);

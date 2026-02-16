@@ -41,6 +41,7 @@ class RecordApiHelper
 
     public function addRemoveTag($module, $listId, $data)
     {
+        /* translators: %s: Plugin name */
         $msg = wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro');
         if (Helper::proActionFeatExists('MailChimp', 'addRemoveTag')) {
             $subscriber_hash = md5(strtolower(trim($data['email_address'])));

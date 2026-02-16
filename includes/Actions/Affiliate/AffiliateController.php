@@ -35,6 +35,8 @@ class AffiliateController
         if (self::pluginActive()) {
             wp_send_json_success(true, 200);
         }
+        // translators: %s: Plugin name
+        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'Affiliate'));
     }
 
@@ -43,6 +45,7 @@ class AffiliateController
         $affiliates = [];
 
         global $wpdb;
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Static query with no user input
         $affiliatesIds = $wpdb->get_results(
             "SELECT affiliate_Id FROM {$wpdb->prefix}affiliate_wp_affiliates"
         );
@@ -67,6 +70,10 @@ class AffiliateController
             empty($integId)
             || empty($mainAction) || empty($fieldMap)
         ) {
+            // translators: %s: Integration name
+            // translators: %s: Integration name
+
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Affiliate api'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);

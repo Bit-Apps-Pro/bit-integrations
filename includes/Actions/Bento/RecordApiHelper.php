@@ -82,6 +82,8 @@ class RecordApiHelper
 
         $response = apply_filters('btcbi_bento_store_event', false, $reqParams, $finalData);
 
+        
+        /* translators: %s: Placeholder value */
         return empty($response) ? (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')] : $response;
     }
 

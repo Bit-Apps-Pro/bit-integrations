@@ -230,6 +230,7 @@ class RecordApiHelper
     private function handleFilterResponse($response)
     {
         if (!isset($response)) {
+            /* translators: %s: Placeholder value */
             return (object) ['error' => \wp_sprintf(\__('%s plugin is not installed or activated', 'bit-integrations'), 'Bit Integrations Pro')];
         }
 

@@ -44,9 +44,13 @@ class RecordApiHelper
         $this->typeName = 'Add People to Event Session';
 
         if (!isset($this->integrationDetails->selectedEvent) || empty($this->integrationDetails->selectedEvent)) {
+            // translators: %s: Field name
+            /* translators: %s: Placeholder value */
             return ['success' => false, 'message' => wp_sprintf(__('Required field %s is empty', 'bit-integrations'), __('Event', 'bit-integrations')), 'code' => 400];
         }
         if (!isset($this->integrationDetails->selectedSession) || empty($this->integrationDetails->selectedSession)) {
+            // translators: %s: Field name
+            /* translators: %s: Placeholder value */
             return ['success' => false, 'message' => wp_sprintf(__('Required field %s is empty', 'bit-integrations'), __('Session', 'bit-integrations')), 'code' => 400];
         }
 

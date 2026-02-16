@@ -45,8 +45,11 @@ class ElementorHelper
     public static function setFields($formData)
     {
         $allFields = [
+            /* translators: %s: Placeholder value */
             ['name' => 'id', 'type' => 'text', 'label' => wp_sprintf(__('Form Id (%s)', 'bit-integrations'), $formData['id']), 'value' => $formData['id']],
+            /* translators: %s: Placeholder value */
             ['name' => 'form_post_id', 'type' => 'text', 'label' => wp_sprintf(__('Form Post Id (%s)', 'bit-integrations'), $formData['form_post_id']), 'value' => $formData['form_post_id']],
+            /* translators: %s: Placeholder value */
             ['name' => 'edit_post_id', 'type' => 'text', 'label' => wp_sprintf(__('Edit Post Id (%s)', 'bit-integrations'), $formData['edit_post_id']), 'value' => $formData['edit_post_id']],
         ];
 
