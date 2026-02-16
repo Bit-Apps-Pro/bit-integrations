@@ -675,7 +675,8 @@ class RecordApiHelper
             $assignments = get_posts([
                 'post_type'      => 'sfwd-assignment',
                 'posts_per_page' => 999,
-                'meta_query'     => [
+                // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Required to match LearnDash assignment meta to course/lesson/user.
+                'meta_query' => [
                     'relation' => 'AND',
                     [
                         'key'     => 'lesson_id',
@@ -720,7 +721,8 @@ class RecordApiHelper
                 $assignments = get_posts([
                     'post_type'      => 'sfwd-assignment',
                     'posts_per_page' => 999,
-                    'meta_query'     => [
+                    // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Required to match LearnDash topic assignment meta to course/topic/user.
+                    'meta_query' => [
                         'relation' => 'AND',
                         [
                             'key'     => 'lesson_id',

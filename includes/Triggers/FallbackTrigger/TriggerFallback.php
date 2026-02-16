@@ -2834,6 +2834,7 @@ final class TriggerFallback
         }
 
         $postData = get_post($post_id);
+        // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Array payload keys, not a DB query.
         $finalData = (array) $postData + ['meta_key' => $meta_key, 'meta_value' => $meta_value];
         $postData = get_post($post_id);
         $user_id = get_current_user_id();
@@ -2861,6 +2862,7 @@ final class TriggerFallback
         }
 
         $postData = get_post($post_id);
+        // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Array payload keys, not a DB query.
         $finalData = (array) $postData + ['meta_key' => $meta_key, 'meta_value' => $meta_value];
         $postData = get_post($post_id);
         $user_id = get_current_user_id();

@@ -45,9 +45,8 @@ final class ActionController
         $params = $request->get_params();
         unset($params['rest_route'], $params['state']);
 
-        if (wp_redirect($state . '&' . http_build_query($params), 302)) {
-            exit;
-        }
+        wp_safe_redirect($state . '&' . http_build_query($params), 302);
+        exit;
     }
 
     public static function getHostWithPort($url)
