@@ -4,7 +4,7 @@ Tags: automation, automator, Google Sheets, webhooks, zapier, marketing automati
 Requires at least: 5.1
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.7.7
+Stable tag: 2.7.8
 License: GPLv2 or later
 
 Perfect Automation and integration plugin: Connect 300+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
@@ -717,6 +717,21 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 6. All integration list
 
 == Changelog ==
+
+= 2.7.8 =
+_Release Date - 16th February 2026_
+
+- **Security**
+ - Hardened API helpers and admin components to address reported security vulnerabilities.
+ - Strengthened SQL query handling and improved defensive checks across integrations.
+
+- **Compatibility & Compliance**
+ - Resolved WordPress coding standards and Plugin Check warnings, including hook/query compliance updates.
+ - Updated query suppression handling for cached lookup/direct query patterns to align with current checks.
+
+- **Improvements**
+ - Refactored integration controllers, route files, and helper structures for cleaner namespace consistency.
+ - Updated Google Sheets integration handling and refined redirect/debug-log/slow-query lint issues.
 
 = 2.7.7 =
 _Release Date - 2nd February 2026_

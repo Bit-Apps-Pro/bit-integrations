@@ -80,18 +80,19 @@ class Admin_Bar
         }
 
         if (\defined('BITAPPS_DEV') && BITAPPS_DEV) {
-            wp_enqueue_script('vite-client-helper-BTCBI-MODULE', BTCBI_BIT_DEV_URL . '/config/devHotModule.js', [], null);
-            wp_enqueue_script('vite-client-BTCBI-MODULE', BTCBI_BIT_DEV_URL . '/@vite/client', [], null);
-            wp_enqueue_script('index-BTCBI-MODULE', BTCBI_BIT_DEV_URL . '/main.jsx', [], null);
+            wp_enqueue_script('vite-client-helper-BTCBI-MODULE', BTCBI_BIT_DEV_URL . '/config/devHotModule.js', [], BTCBI_VERSION, true);
+            wp_enqueue_script('vite-client-BTCBI-MODULE', BTCBI_BIT_DEV_URL . '/@vite/client', [], BTCBI_VERSION, true);
+            wp_enqueue_script('index-BTCBI-MODULE', BTCBI_BIT_DEV_URL . '/main.jsx', [], BTCBI_VERSION, true);
         }
 
         if (!\defined('BITAPPS_DEV')) {
             $build_hash = file_get_contents(BTCBI_PLUGIN_DIR_PATH . '/build-hash.txt');
-            wp_enqueue_script('index-BTCBI-MODULE', BTCBI_ASSET_URI . "/main-{$build_hash}.js", $deps, BTCBI_VERSION);
+            wp_enqueue_script('index-BTCBI-MODULE', BTCBI_ASSET_URI . "/main-{$build_hash}.js", $deps, BTCBI_VERSION, true);
             // wp_enqueue_style('bf-css', BTCBI_ASSET_URI . "/main-{$build_hash}.css");
         }
 
         if (!wp_script_is('wp-tinymce')) {
+            // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter,WordPress.WP.EnqueuedResourceParameters.NoExplicitVersion -- Core TinyMCE handle is intentionally enqueued via registration.
             wp_enqueue_script('wp-tinymce');
         }
 

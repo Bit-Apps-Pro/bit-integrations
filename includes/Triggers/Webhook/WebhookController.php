@@ -120,9 +120,6 @@ class WebhookController
     public static function flattenPreserveOriginal($array, $prefix = '', $depth = 0, $maxDepth = 30)
     {
         if ($depth > $maxDepth || !\is_array($array)) {
-            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- Debug log
-            error_log("Max depth reached or non-array at prefix: {$prefix}");
-
             return [];
         }
 

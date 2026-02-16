@@ -11,7 +11,7 @@ import { __, sprintf } from '../Utils/i18nwrap'
 
 // const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
 // const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
-const releaseDate = '2nd February 2026'
+const releaseDate = '16th February 2026'
 
 // Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
 const changeLog = [
@@ -19,110 +19,79 @@ const changeLog = [
     label: __('Note', 'bit-integrations'),
     headClass: 'new-note',
     itemClass: '',
-    items: [
-      {
-        label:
-          'Bit Assist and Bit Social integrations are now available in the Free Plugin! Enjoy enhanced automation and social features today! 🎉',
-        desc: '',
-        isPro: false
-      }
-    ]
+    items: []
   },
   {
     label: __('New Actions', 'bit-integrations'),
     headClass: 'new-integration',
     itemClass: 'integration-list',
-    items: [
-      {
-        label: 'SEOPress',
-        desc: '01 events Added.',
-        isPro: true
-      },
-      {
-        label: 'Fabman',
-        desc: '05 events Added.',
-        isPro: true
-      }
-    ]
+    items: []
   },
   {
     label: __('New Triggers', 'bit-integrations'),
     headClass: 'new-trigger',
     itemClass: 'integration-list',
-    items: [
-      {
-        label: 'SEOPress',
-        desc: '04 events Added.',
-        isPro: true
-      },
-      {
-        label: 'Thrive Leads',
-        desc: '02 events Added.',
-        isPro: true
-      }
-    ]
+    items: []
   },
   {
     label: __('New Features', 'bit-integrations'),
     headClass: 'new-feature',
     itemClass: 'feature-list',
-    items: [
-      {
-        label: 'GoHighLevel',
-        desc: 'Added Tags Utilities to REST API v2 for better integration.',
-        isPro: true
-      },
-      {
-        label: 'RapidMail',
-        desc: 'Introduced Force Subscribe Utilities for enhanced subscription management.',
-        isPro: false
-      }
-    ]
+    items: []
   },
   {
     label: __('Improvements', 'bit-integrations'),
     headClass: 'new-improvement',
     itemClass: 'feature-list',
-    items: []
+    items: [
+      {
+        label: 'Refactor',
+        desc: 'Refactored integration controllers, routes, and helpers for cleaner namespace consistency.',
+        isPro: false
+      },
+      {
+        label: 'Stability',
+        desc: 'Refined redirect, debug-log, slow-query lint issues and updated Google Sheets integration handling.',
+        isPro: false
+      }
+    ]
   },
   {
     label: __('Bug Fixes', 'bit-integrations'),
     headClass: 'fixes',
     itemClass: 'fixes-list',
+    items: []
+  },
+  {
+    label: __('Security', 'bit-integrations'),
+    headClass: 'fixes',
+    itemClass: 'fixes-list',
     items: [
       {
-        label: 'Hotfix',
-        desc: 'Fixed the issue where the selected trigger hook was empty, preventing the trigger from firing correctly.',
-        isPro: true
-      },
-      {
-        label: 'Malware Fix',
-        desc: 'Resolved malware issue detected in the file php-cs-fixer.phar in the plugin directory.',
-        isPro: true
-      },
-      {
-        label: 'Amelia Booking',
-        desc: 'Resolved issue with Multi-Select/Checkbox field values not saving correctly.',
-        isPro: true
-      },
-      {
-        label: 'WooCommerce',
-        desc: 'Fixed issue with Checkout Metadata not displaying properly.',
+        label: 'Hardening',
+        desc: 'Addressed reported security vulnerabilities in API helpers and admin components.',
         isPro: false
       },
       {
-        label: 'WPForms',
-        desc: 'Corrected problem with Payment Fields not functioning as expected.',
+        label: 'Query Safety',
+        desc: 'Improved SQL query handling and defensive checks across integrations.',
+        isPro: false
+      }
+    ]
+  },
+  {
+    label: __('Compatibility & Compliance', 'bit-integrations'),
+    headClass: 'new-improvement',
+    itemClass: 'feature-list',
+    items: [
+      {
+        label: 'WordPress Standards',
+        desc: 'Resolved WPCS and Plugin Check warnings, including hook/query compliance updates.',
         isPro: false
       },
       {
-        label: 'WP User Registration',
-        desc: 'Resolved trimming issue with Meta Fields during registration.',
-        isPro: false
-      },
-      {
-        label: 'Bit Assist',
-        desc: 'Resolved form submit entries null data issue.',
+        label: 'Query Suppression',
+        desc: 'Normalized cached lookup/direct query suppression handling to align with current checks.',
         isPro: false
       }
     ]
