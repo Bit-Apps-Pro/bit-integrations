@@ -190,25 +190,6 @@ Bit Integrations connects to various third-party external services to enable aut
 
 ---
 
-### Zoho Creator
-
-**Service URL**: `https://creator.zoho.{dataCenter}/`
-
-**What it does**: Submits form data to custom Zoho Creator applications.
-
-**Data sent**:
-
-- Form field data as configured
-- Application and form identifiers
-- Authentication tokens
-
-**When data is sent**: When form submission workflows are triggered.
-
-**Terms of Service**: [Zoho Terms of Service](https://www.zoho.com/terms.html)  
-**Privacy Policy**: [Zoho Privacy Policy](https://www.zoho.com/privacy.html)
-
----
-
 ### Zoho Bigin
 
 **Service URL**: `https://www.zohoapis.{dataCenter}/bigin/`
@@ -262,46 +243,6 @@ Bit Integrations connects to various third-party external services to enable aut
 - Authentication tokens
 
 **When data is sent**: When recruitment workflows are triggered.
-
-**Terms of Service**: [Zoho Terms of Service](https://www.zoho.com/terms.html)  
-**Privacy Policy**: [Zoho Privacy Policy](https://www.zoho.com/privacy.html)
-
----
-
-### Zoho Projects
-
-**Service URL**: `https://projectsapi.zoho.{dataCenter}/`
-
-**What it does**: Creates and manages projects, tasks, and bugs in Zoho Projects.
-
-**Data sent**:
-
-- Project and task details
-- User assignments
-- File attachments
-- Time tracking data
-- Authentication tokens
-
-**When data is sent**: When project management workflows are triggered.
-
-**Terms of Service**: [Zoho Terms of Service](https://www.zoho.com/terms.html)  
-**Privacy Policy**: [Zoho Privacy Policy](https://www.zoho.com/privacy.html)
-
----
-
-### Zoho Analytics
-
-**Service URL**: `https://analyticsapi.zoho.{dataCenter}/`
-
-**What it does**: Syncs data to Zoho Analytics for reporting and visualization.
-
-**Data sent**:
-
-- Configured data records for reporting
-- Table and database identifiers
-- Authentication tokens
-
-**When data is sent**: When analytics sync workflows are triggered.
 
 **Terms of Service**: [Zoho Terms of Service](https://www.zoho.com/terms.html)  
 **Privacy Policy**: [Zoho Privacy Policy](https://www.zoho.com/privacy.html)

@@ -648,7 +648,7 @@ This plugin connects to various third-party external services to enable automati
 
 For a comprehensive list of all external services, including detailed information about what data is sent, when it's sent, and links to each service's terms and privacy policies, please see our complete external services documentation:
 
-**[Complete External Services Documentation](https://github.com/Bit-Apps-Pro/bit-integrations/blob/main/EXTERNAL-SERVICES.md)**
+**[Complete External Services Documentation](https://github.com/Bit-Apps-Pro/bit-integrations/blob/main/external-services.md)**
 
 This documentation covers 300+ services including Google (Sheets, Calendar, Drive), Zoho (CRM, Campaigns, Desk), Meta/Facebook (WhatsApp), Email Marketing platforms, CRM systems, Communication tools (Slack, Telegram), Automation platforms (Zapier, Make), Project Management tools, and many more.
 
