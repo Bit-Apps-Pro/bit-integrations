@@ -67,11 +67,24 @@ class GamiPressController
     public static function fetchAllRankType()
     {
         global $wpdb;
+        $cache_key = 'btcbi_gamipress_rank_types';
+        $cache_group = 'btcbi';
+        $rank_types = wp_cache_get($cache_key, $cache_group);
 
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Static query with no user input
-        return $wpdb->get_results(
-            "SELECT ID, post_name, post_title, post_type FROM {$wpdb->posts} where post_type = 'rank-type' AND post_status = 'publish'"
+        if (false !== $rank_types) {
+            return $rank_types;
+        }
+
+        $posts_table = esc_sql($wpdb->posts);
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Reading posts table directly for GamiPress rank types.
+        $rank_types = $wpdb->get_results(
+            'SELECT ID, post_name, post_title, post_type FROM ' . $posts_table . " where post_type = 'rank-type' AND post_status = 'publish'"
         );
+
+        wp_cache_set($cache_key, $rank_types, $cache_group, 10 * MINUTE_IN_SECONDS);
+
+        return $rank_types;
     }
 
     public static function fetchAllRankBYType($query_params)
@@ -79,10 +92,18 @@ class GamiPressController
         $selectRankType = $query_params->domainName;
 
         global $wpdb;
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for GamiPress ranks
-        $ranks = $wpdb->get_results(
-            $wpdb->prepare("SELECT ID, post_name, post_title, post_type FROM {$wpdb->posts} where post_type like %s AND post_status = 'publish'", $selectRankType)
-        );
+        $cache_key = 'btcbi_gamipress_ranks_' . md5((string) $selectRankType);
+        $cache_group = 'btcbi';
+        $ranks = wp_cache_get($cache_key, $cache_group);
+
+        if (false === $ranks) {
+            $posts_table = esc_sql($wpdb->posts);
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Reading posts table directly for GamiPress ranks.
+            $ranks = $wpdb->get_results(
+                $wpdb->prepare('SELECT ID, post_name, post_title, post_type FROM ' . $posts_table . " where post_type like %s AND post_status = 'publish'", $selectRankType)
+            );
+            wp_cache_set($cache_key, $ranks, $cache_group, 10 * MINUTE_IN_SECONDS);
+        }
 
         wp_send_json_success($ranks);
     }
@@ -90,11 +111,24 @@ class GamiPressController
     public static function fetchAllAchievementType()
     {
         global $wpdb;
+        $cache_key = 'btcbi_gamipress_achievement_types';
+        $cache_group = 'btcbi';
+        $achievement_types = wp_cache_get($cache_key, $cache_group);
 
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Static query with no user input
-        return $wpdb->get_results(
-            "SELECT ID, post_name, post_title, post_type FROM {$wpdb->posts} WHERE post_type = 'achievement-type' AND post_status = 'publish' ORDER BY post_title ASC"
+        if (false !== $achievement_types) {
+            return $achievement_types;
+        }
+
+        $posts_table = esc_sql($wpdb->posts);
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Reading posts table directly for GamiPress achievement types.
+        $achievement_types = $wpdb->get_results(
+            'SELECT ID, post_name, post_title, post_type FROM ' . $posts_table . " WHERE post_type = 'achievement-type' AND post_status = 'publish' ORDER BY post_title ASC"
         );
+
+        wp_cache_set($cache_key, $achievement_types, $cache_group, 10 * MINUTE_IN_SECONDS);
+
+        return $achievement_types;
     }
 
     public static function fetchAllAchievementBYType($query_params)
@@ -102,10 +136,18 @@ class GamiPressController
         $selectAchievementType = $query_params->achievementType;
 
         global $wpdb;
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for GamiPress achievements
-        $awards = $wpdb->get_results(
-            $wpdb->prepare("SELECT ID, post_name, post_title, post_type FROM {$wpdb->posts} where post_type like %s AND post_status = 'publish'", $selectAchievementType)
-        );
+        $cache_key = 'btcbi_gamipress_achievements_' . md5((string) $selectAchievementType);
+        $cache_group = 'btcbi';
+        $awards = wp_cache_get($cache_key, $cache_group);
+
+        if (false === $awards) {
+            $posts_table = esc_sql($wpdb->posts);
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Reading posts table directly for GamiPress achievements.
+            $awards = $wpdb->get_results(
+                $wpdb->prepare('SELECT ID, post_name, post_title, post_type FROM ' . $posts_table . " where post_type like %s AND post_status = 'publish'", $selectAchievementType)
+            );
+            wp_cache_set($cache_key, $awards, $cache_group, 10 * MINUTE_IN_SECONDS);
+        }
 
         array_unshift($awards, ['ID' => 'Any', 'post_name' => 'any_achievement', 'post_title' => 'Any Achievement']);
 
@@ -115,10 +157,19 @@ class GamiPressController
     public static function fetchAllPointType()
     {
         global $wpdb;
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Static query with no user input
-        $points = $wpdb->get_results(
-            "SELECT ID, post_name, post_title, post_type FROM {$wpdb->posts} WHERE post_type = 'points-type' AND post_status = 'publish' ORDER BY post_title ASC"
-        );
+        $cache_key = 'btcbi_gamipress_point_types';
+        $cache_group = 'btcbi';
+        $points = wp_cache_get($cache_key, $cache_group);
+
+        if (false === $points) {
+            $posts_table = esc_sql($wpdb->posts);
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Reading posts table directly for GamiPress point types.
+            $points = $wpdb->get_results(
+                'SELECT ID, post_name, post_title, post_type FROM ' . $posts_table . " WHERE post_type = 'points-type' AND post_status = 'publish' ORDER BY post_title ASC"
+            );
+            wp_cache_set($cache_key, $points, $cache_group, 10 * MINUTE_IN_SECONDS);
+        }
+
         wp_send_json_success($points);
     }
 

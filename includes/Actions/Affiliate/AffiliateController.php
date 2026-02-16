@@ -41,12 +41,21 @@ class AffiliateController
 
     public static function getAllAffiliate()
     {
+        $cache_key = 'btcbi_affiliate_wp_all_affiliates';
+        $cache_group = 'btcbi';
+        $affiliates = wp_cache_get($cache_key, $cache_group);
+
+        if (false !== $affiliates) {
+            return $affiliates;
+        }
+
         $affiliates = [];
 
         global $wpdb;
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Static query with no user input
+        $affiliate_table = esc_sql($wpdb->prefix . 'affiliate_wp_affiliates');
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Reading AffiliateWP table directly; static table name with no user input.
         $affiliatesIds = $wpdb->get_results(
-            "SELECT affiliate_Id FROM {$wpdb->prefix}affiliate_wp_affiliates"
+            'SELECT affiliate_Id FROM ' . $affiliate_table
         );
 
         foreach ($affiliatesIds as $val) {
@@ -55,6 +64,8 @@ class AffiliateController
                 'affiliate_name' => affwp_get_affiliate_name($val->affiliate_Id),
             ];
         }
+
+        wp_cache_set($cache_key, $affiliates, $cache_group, 10 * MINUTE_IN_SECONDS);
 
         return $affiliates;
     }

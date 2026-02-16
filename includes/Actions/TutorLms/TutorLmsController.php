@@ -159,6 +159,7 @@ class TutorLmsController
         $user_id = get_current_user_id();
         $course_id = $selectedCourse[0];
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for TutorLMS reset lookup.
         $completedLessonIds = $wpdb->get_col($wpdb->prepare("select post_id from {$wpdb->postmeta} where meta_key = '_tutor_course_id_for_lesson' AND meta_value = %d", $course_id));
 
         if (\is_array($completedLessonIds) && \count($completedLessonIds)) {
@@ -174,6 +175,7 @@ class TutorLmsController
                 "DELETE from {$wpdb->usermeta} WHERE user_id = %%d AND meta_key IN (%s)",
                 $placeholders
             );
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
             $wpdb->query(
                 $wpdb->prepare(
                     $query, // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared

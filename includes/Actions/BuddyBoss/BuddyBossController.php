@@ -33,8 +33,16 @@ class BuddyBossController
         include_once ABSPATH . 'wp-admin/includes/plugin.php';
         if (self::pluginActive()) {
             global $wpdb;
-            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Static query with no user input
-            $groups = $wpdb->get_results("SELECT id, name FROM {$wpdb->prefix}bp_groups");
+            $cache_key = 'btcbi_buddyboss_groups';
+            $cache_group = 'btcbi';
+            $groups = wp_cache_get($cache_key, $cache_group);
+
+            if (false === $groups) {
+                $groups_table = esc_sql($wpdb->prefix . 'bp_groups');
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Reading BuddyBoss groups table directly; static table name.
+                $groups = $wpdb->get_results('SELECT id, name FROM ' . $groups_table);
+                wp_cache_set($cache_key, $groups, $cache_group, 10 * MINUTE_IN_SECONDS);
+            }
 
             wp_send_json_success($groups, 200);
         }
@@ -47,8 +55,17 @@ class BuddyBossController
         include_once ABSPATH . 'wp-admin/includes/plugin.php';
         if (self::pluginActive()) {
             global $wpdb;
-            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Static query with no user input
-            $users = $wpdb->get_results("SELECT ID, display_name FROM {$wpdb->prefix}users");
+            $cache_key = 'btcbi_wp_users_basic';
+            $cache_group = 'btcbi';
+            $users = wp_cache_get($cache_key, $cache_group);
+
+            if (false === $users) {
+                $users_table = esc_sql($wpdb->users);
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Reading users table directly for BuddyBoss user selection.
+                $users = $wpdb->get_results('SELECT ID, display_name FROM ' . $users_table);
+                wp_cache_set($cache_key, $users, $cache_group, 10 * MINUTE_IN_SECONDS);
+            }
+
             wp_send_json_success($users, 200);
         }
         // translators: %s: Plugin name

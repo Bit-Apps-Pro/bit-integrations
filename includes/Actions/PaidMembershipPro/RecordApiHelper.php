@@ -45,8 +45,16 @@ class RecordApiHelper
             return;
         }
         global $wpdb;
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for PaidMembershipPro levels
-        $pmpro_membership_level = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->pmpro_membership_levels} WHERE id = %d", $membership_level));
+        $cache_key = 'btcbi_pmpro_membership_level_' . absint($membership_level);
+        $cache_group = 'btcbi';
+        $pmpro_membership_level = wp_cache_get($cache_key, $cache_group);
+
+        if (false === $pmpro_membership_level) {
+            $membership_table = esc_sql($wpdb->pmpro_membership_levels);
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Reading PMPro levels table directly; static table name from PMPro.
+            $pmpro_membership_level = $wpdb->get_row($wpdb->prepare('SELECT * FROM ' . $membership_table . ' WHERE id = %d', $membership_level));
+            wp_cache_set($cache_key, $pmpro_membership_level, $cache_group, 10 * MINUTE_IN_SECONDS);
+        }
 
         if (null === $pmpro_membership_level) {
             LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'add user', 'type_name' => 'Add the user to a membership level']), 'error', wp_json_encode(__('There is no membership level with the specified ID.', 'bit-integrations')));

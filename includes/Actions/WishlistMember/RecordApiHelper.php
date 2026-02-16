@@ -88,7 +88,7 @@ class RecordApiHelper
         );
     }
 
-    public function handleMemberEvents($finalData, $hook)
+    public function handleMemberEvents($finalData, $event)
     {
         if (empty($finalData['user_email'])) {
             return [
@@ -97,13 +97,14 @@ class RecordApiHelper
             ];
         }
 
-        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Hook name is validated to be properly prefixed
-        return self::handleFilterResponse(
-            apply_filters($hook, false, $finalData)
-        );
+        $response = 'update_member' === $event
+            ? apply_filters('btcbi_wishlist_update_member', false, $finalData)
+            : apply_filters('btcbi_wishlist_delete_member', false, $finalData);
+
+        return self::handleFilterResponse($response);
     }
 
-    public function handleMemberAddOrRemoveFromLevel($finalData, $hook)
+    public function handleMemberAddOrRemoveFromLevel($finalData, $event)
     {
         if (empty($finalData['user_email']) || empty($this->integrationDetails->level_id)) {
             return [
@@ -112,10 +113,11 @@ class RecordApiHelper
             ];
         }
 
-        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Hook name is validated to be properly prefixed
-        return self::handleFilterResponse(
-            apply_filters($hook, false, $finalData, $this->integrationDetails->level_id)
-        );
+        $response = 'add_member_to_level' === $event
+            ? apply_filters('btcbi_wishlist_add_member_to_level', false, $finalData, $this->integrationDetails->level_id)
+            : apply_filters('btcbi_wishlist_remove_member_from_level', false, $finalData, $this->integrationDetails->level_id);
+
+        return self::handleFilterResponse($response);
     }
 
     public function execute($fieldValues, $fieldMap, $action)
@@ -158,28 +160,28 @@ class RecordApiHelper
             case 'update_member':
                 $type = 'member';
                 $type_name = 'Update Member';
-                $recordApiResponse = $this->handleMemberEvents($finalData, 'btcbi_wishlist_update_member');
+                $recordApiResponse = $this->handleMemberEvents($finalData, 'update_member');
 
                 break;
 
             case 'delete_member':
                 $type = 'member';
                 $type_name = 'Delete Member';
-                $recordApiResponse = $this->handleMemberEvents($finalData, 'btcbi_wishlist_delete_member');
+                $recordApiResponse = $this->handleMemberEvents($finalData, 'delete_member');
 
                 break;
 
             case 'add_member_to_level':
                 $type = 'member';
                 $type_name = 'Add Member To Level';
-                $recordApiResponse = $this->handleMemberAddOrRemoveFromLevel($finalData, 'btcbi_wishlist_add_member_to_level');
+                $recordApiResponse = $this->handleMemberAddOrRemoveFromLevel($finalData, 'add_member_to_level');
 
                 break;
 
             case 'remove_member_from_level':
                 $type = 'member';
                 $type_name = 'Remove Member From Level';
-                $recordApiResponse = $this->handleMemberAddOrRemoveFromLevel($finalData, 'btcbi_wishlist_remove_member_from_level');
+                $recordApiResponse = $this->handleMemberAddOrRemoveFromLevel($finalData, 'remove_member_from_level');
 
                 break;
 

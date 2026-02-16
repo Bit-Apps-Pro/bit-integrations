@@ -10,23 +10,32 @@ final class BtcbiAnalyticsController
     public function filterTrackingData($additional_data)
     {
         global $wpdb;
-        $flowTable = esc_sql($wpdb->prefix . Config::VAR_PREFIX . 'flow');
-        $logTable = esc_sql($wpdb->prefix . Config::VAR_PREFIX . 'log');
+        $cache_key = 'btcbi_analytics_flow_summary';
+        $cache_group = 'btcbi';
+        $flow = wp_cache_get($cache_key, $cache_group);
 
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names cannot be parameterized
-        $flow = $wpdb->get_results("
+        if (false === $flow) {
+            $flowTable = esc_sql($wpdb->prefix . Config::VAR_PREFIX . 'flow');
+            $logTable = esc_sql($wpdb->prefix . Config::VAR_PREFIX . 'log');
+
+            $query = '
                     SELECT
-                        JSON_UNQUOTE(JSON_EXTRACT(flow.flow_details, '$.type')) AS ActionName,
+                        JSON_UNQUOTE(JSON_EXTRACT(flow.flow_details, \'$.type\')) AS ActionName,
                         flow.triggered_entity as TriggerName,
                         flow.status as status,
                         COUNT(log.flow_id) AS count
                     FROM
-                        {$flowTable} flow
+                        ' . $flowTable . ' flow
                     LEFT JOIN
-                        {$logTable} log ON flow.id = log.flow_id
+                        ' . $logTable . ' log ON flow.id = log.flow_id
                     GROUP BY
                         log.flow_id, ActionName, TriggerName, status
-                ");
+                ';
+
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Querying plugin-owned analytics tables directly.
+            $flow = $wpdb->get_results($query);
+            wp_cache_set($cache_key, $flow, $cache_group, 10 * MINUTE_IN_SECONDS);
+        }
 
         $additional_data['flows'] = $flow;
 

@@ -27,11 +27,20 @@ class PaidMembershipProController
     public static function getAllPaidMembershipProLevel()
     {
         global $wpdb;
+        $cache_key = 'btcbi_pmpro_membership_levels';
+        $cache_group = 'btcbi';
 
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Static query with no user input
-        $levels = $wpdb->get_results(
-            "SELECT * FROM {$wpdb->pmpro_membership_levels} ORDER BY id ASC"
-        );
+        $levels = wp_cache_get($cache_key, $cache_group);
+        if (false === $levels) {
+            $membership_table = esc_sql($wpdb->pmpro_membership_levels);
+
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Reading PMPro plugin table directly; table name comes from PMPro global and has no user input.
+            $levels = $wpdb->get_results(
+                'SELECT * FROM ' . $membership_table . ' ORDER BY id ASC'
+            );
+
+            wp_cache_set($cache_key, $levels, $cache_group, 10 * MINUTE_IN_SECONDS);
+        }
 
         $allLevels = [];
 

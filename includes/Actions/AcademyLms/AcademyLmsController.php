@@ -204,6 +204,7 @@ class AcademyLmsController
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $wpdb->query($wpdb->prepare("DELETE from {$wpdb->posts} WHERE post_author = %d AND post_parent = %d AND post_type = %s ", $user_id, $course_id, 'academy_enrolled'));
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query needed for AcademyLMS reset lookup.
         $QuizIds = $wpdb->get_col($wpdb->prepare("SELECT quiz_id FROM {$wpdb->prefix}academy_quiz_attempts WHERE user_id = %d AND course_id = %d", $user_id, $course_id));
 
         if (!empty($QuizIds)) {
@@ -211,7 +212,7 @@ class AcademyLmsController
             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
             $wpdb->query($wpdb->prepare("DELETE from {$wpdb->prefix}academy_quiz_attempts WHERE user_id = %d AND course_id = %d", $user_id, $course_id));
             $query_format = \sprintf("DELETE from {$wpdb->prefix}academy_quiz_attempt_answers WHERE user_id = %%d AND quiz_id in ({$placeholders})");
-            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Dynamic IN clause with sprintf for placeholders
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Dynamic IN clause with sprintf for placeholders
             $wpdb->query($wpdb->prepare($query_format, $user_id, ...$QuizIds));
         }
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching

@@ -1643,11 +1643,22 @@ final class TriggerFallback
     {
         global $wpdb;
         $table_name = $wpdb->prefix . 'bp_xprofile_fields';
+        $cache_key = 'btcbi_buddyboss_profile_fields';
+        $cache_group = 'btcbi';
+
+        $cached_fields = wp_cache_get($cache_key, $cache_group);
+        if (false !== $cached_fields) {
+            return $cached_fields;
+        }
 
         $query = 'SELECT id, type, name FROM ' . esc_sql($table_name);
 
-        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Static table name with WordPress prefix, no user input
-        return $wpdb->get_results($query);
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Querying BuddyBoss custom table directly; table name is static and no user input is used.
+        $fields = $wpdb->get_results($query);
+
+        wp_cache_set($cache_key, $fields, $cache_group, 10 * MINUTE_IN_SECONDS);
+
+        return $fields;
     }
 
     public static function buddyBossHandleUpdateProfile($user_id, $posted_field_ids, $errors, $old_values, $new_values)

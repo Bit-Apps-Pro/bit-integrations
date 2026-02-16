@@ -72,11 +72,22 @@ class LifterLmsController
     public static function getAllLifterLmsCourse()
     {
         global $wpdb;
+        $cache_key = 'btcbi_lifterlms_courses';
+        $cache_group = 'btcbi';
+        $allCourse = wp_cache_get($cache_key, $cache_group);
 
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Static query with no user input
+        if (false !== $allCourse) {
+            return $allCourse;
+        }
+
+        $posts_table = esc_sql($wpdb->posts);
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Reading posts table directly for LifterLMS courses.
         $allCourse = $wpdb->get_results(
-            "SELECT ID, post_title FROM {$wpdb->posts} WHERE {$wpdb->posts}.post_status = 'publish' AND {$wpdb->posts}.post_type = 'course' ORDER BY post_title"
+            'SELECT ID, post_title FROM ' . $posts_table . ' WHERE ' . $posts_table . ".post_status = 'publish' AND " . $posts_table . ".post_type = 'course' ORDER BY post_title"
         );
+
+        wp_cache_set($cache_key, $allCourse, $cache_group, 10 * MINUTE_IN_SECONDS);
 
         return $allCourse;
     }
@@ -84,11 +95,22 @@ class LifterLmsController
     public static function getAllLifterLmsMembership()
     {
         global $wpdb;
+        $cache_key = 'btcbi_lifterlms_memberships';
+        $cache_group = 'btcbi';
+        $allMembership = wp_cache_get($cache_key, $cache_group);
 
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Static query with no user input
+        if (false !== $allMembership) {
+            return $allMembership;
+        }
+
+        $posts_table = esc_sql($wpdb->posts);
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Reading posts table directly for LifterLMS memberships.
         $allMembership = $wpdb->get_results(
-            "SELECT ID, post_title FROM {$wpdb->posts} WHERE {$wpdb->posts}.post_status = 'publish' AND {$wpdb->posts}.post_type = 'llms_membership' ORDER BY post_title"
+            'SELECT ID, post_title FROM ' . $posts_table . ' WHERE ' . $posts_table . ".post_status = 'publish' AND " . $posts_table . ".post_type = 'llms_membership' ORDER BY post_title"
         );
+
+        wp_cache_set($cache_key, $allMembership, $cache_group, 10 * MINUTE_IN_SECONDS);
 
         return $allMembership;
     }

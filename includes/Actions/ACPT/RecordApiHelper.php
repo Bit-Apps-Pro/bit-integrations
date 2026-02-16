@@ -111,10 +111,11 @@ class RecordApiHelper
         $path = $isUpdate ? '/taxonomy/' . $slug : '/taxonomy';
         $apiEndpoint = $this->apiUrl . $path;
 
-        $hook = 'btcbi_acpt_' . ($isUpdate ? 'update' : 'create') . '_taxonomy';
-
-        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Hook name is constructed with proper btcbi_acpt_ prefix
-        $response = apply_filters($hook, false, $apiEndpoint, $this->apikey, $finalData);
+        if ($isUpdate) {
+            $response = apply_filters('btcbi_acpt_update_taxonomy', false, $apiEndpoint, $this->apikey, $finalData);
+        } else {
+            $response = apply_filters('btcbi_acpt_create_taxonomy', false, $apiEndpoint, $this->apikey, $finalData);
+        }
 
         return ACPTHelper::validateResponse($response);
     }
@@ -196,10 +197,11 @@ class RecordApiHelper
         $path = $isUpdate ? '/option-page/' . $finalData['menuSlug'] : '/option-page';
         $apiEndpoint = $this->apiUrl . $path;
 
-        $hook = 'btcbi_acpt_' . ($isUpdate ? 'update' : 'create') . '_option_page';
-
-        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Hook name is constructed with proper btcbi_acpt_ prefix
-        $response = apply_filters($hook, false, $apiEndpoint, $this->apikey, wp_json_encode($finalData));
+        if ($isUpdate) {
+            $response = apply_filters('btcbi_acpt_update_option_page', false, $apiEndpoint, $this->apikey, wp_json_encode($finalData));
+        } else {
+            $response = apply_filters('btcbi_acpt_create_option_page', false, $apiEndpoint, $this->apikey, wp_json_encode($finalData));
+        }
 
         return ACPTHelper::validateResponse($response);
     }

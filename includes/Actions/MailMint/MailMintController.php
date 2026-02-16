@@ -33,8 +33,15 @@ class MailMintController
             $allFields = [];
             $fields_table = esc_sql($wpdb->prefix . CustomFieldSchema::$table_name);
             $primaryFields = get_option('mint_contact_primary_fields', Constants::$primary_contact_fields);
-            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Querying third-party plugin table, table name is from plugin constant
-            $customFields = $wpdb->get_results("SELECT title, slug, type, group_id FROM `{$fields_table}`", ARRAY_A);
+            $cache_key = 'btcbi_mailmint_custom_fields';
+            $cache_group = 'btcbi';
+            $customFields = wp_cache_get($cache_key, $cache_group);
+
+            if (false === $customFields) {
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared -- Querying MailMint custom field table directly; static table name from plugin schema.
+                $customFields = $wpdb->get_results('SELECT title, slug, type, group_id FROM `' . $fields_table . '`', ARRAY_A);
+                wp_cache_set($cache_key, $customFields, $cache_group, 10 * MINUTE_IN_SECONDS);
+            }
 
             if (!empty($customFields)) {
                 $primaryFields['other'] = array_merge($primaryFields['other'], $customFields);

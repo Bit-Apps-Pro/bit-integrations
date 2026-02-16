@@ -463,9 +463,9 @@ class RecordApiHelper
                         $pro_quiz_stat_ref_table = esc_sql($wpdb->prefix . 'wp_pro_quiz_statistic_ref');
                     }
 
-                    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name cannot be parameterized
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name cannot be parameterized
                     $wpdb->query($wpdb->prepare("DELETE FROM {$pro_quiz_stat_table} WHERE statistic_ref_id = %d", $statistic_ref_id));
-                    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name cannot be parameterized
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name cannot be parameterized
                     $wpdb->query($wpdb->prepare("DELETE FROM {$pro_quiz_stat_ref_table} WHERE statistic_ref_id = %d", $statistic_ref_id));
                 }
             }
