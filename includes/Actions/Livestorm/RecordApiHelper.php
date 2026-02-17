@@ -4,10 +4,10 @@
  * Livestorm Record Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\Livestorm;
+namespace BitApps\Integrations\Actions\Livestorm;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -45,12 +45,12 @@ class RecordApiHelper
 
         if (!isset($this->integrationDetails->selectedEvent) || empty($this->integrationDetails->selectedEvent)) {
             // translators: %s: Field name
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return ['success' => false, 'message' => wp_sprintf(__('Required field %s is empty', 'bit-integrations'), __('Event', 'bit-integrations')), 'code' => 400];
         }
         if (!isset($this->integrationDetails->selectedSession) || empty($this->integrationDetails->selectedSession)) {
             // translators: %s: Field name
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return ['success' => false, 'message' => wp_sprintf(__('Required field %s is empty', 'bit-integrations'), __('Session', 'bit-integrations')), 'code' => 400];
         }
 

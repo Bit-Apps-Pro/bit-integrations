@@ -1,6 +1,6 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Core\Util;
+namespace BitApps\Integrations\Core\Util;
 
 use WP_User;
 

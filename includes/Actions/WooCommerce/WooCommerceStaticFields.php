@@ -4,7 +4,7 @@
  * WooCommerce Static Fields.
  */
 
-namespace BitApps\BTCBI_FI\Actions\WooCommerce;
+namespace BitApps\Integrations\Actions\WooCommerce;
 
 class WooCommerceStaticFields
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\Mail;
+namespace BitApps\Integrations\Actions\Mail;
 
 if (! defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Log\LogHandler;
 
 final class MailController
 {

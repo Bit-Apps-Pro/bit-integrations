@@ -1,11 +1,11 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\GoogleDrive;
+namespace BitApps\Integrations\Actions\GoogleDrive;
 
-use BitApps\BTCBI_FI\Actions\GoogleDrive\RecordApiHelper as GoogleDriveRecordApiHelper;
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Flow\FlowController;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Actions\GoogleDrive\RecordApiHelper as GoogleDriveRecordApiHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Flow\FlowController;
+use BitApps\Integrations\Log\LogHandler;
 use WP_Error;
 
 class GoogleDriveController
@@ -91,7 +91,7 @@ class GoogleDriveController
     public function execute($integrationData, $fieldValues)
     {
         if (empty($integrationData->flow_details->tokenDetails->access_token)) {
-            /* translators: %s: Service name */
+            // translators: %s: Service name
             LogHandler::save($this->integrationID, wp_json_encode(['type' => 'googleDrive', 'type_name' => 'file_upload']), 'error', wp_sprintf(__('Not Authorization By %s', 'bit-integrations'), 'GoogleDrive'));
 
             return false;

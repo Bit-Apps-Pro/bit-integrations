@@ -4,9 +4,9 @@
  * ZohoSheet Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\ElasticEmail;
+namespace BitApps\Integrations\Actions\ElasticEmail;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 /**
@@ -84,8 +84,7 @@ class ElasticEmailController
         if (empty($api_key)
             || empty($fieldMap)
         ) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Elastic Email'));
         }
         $recordApiHelper = new RecordApiHelper($api_key, $integId);

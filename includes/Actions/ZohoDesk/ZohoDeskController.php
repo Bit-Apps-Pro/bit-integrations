@@ -4,10 +4,10 @@
  * ZohoDesk Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\ZohoDesk;
+namespace BitApps\Integrations\Actions\ZohoDesk;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Flow\FlowController;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Flow\FlowController;
 use WP_Error;
 
 /**

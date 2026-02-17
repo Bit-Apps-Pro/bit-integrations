@@ -1,8 +1,8 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Triggers\Elementor;
+namespace BitApps\Integrations\Triggers\Elementor;
 
-use BitApps\BTCBI_FI\Flow\Flow;
+use BitApps\Integrations\Flow\Flow;
 
 final class ElementorController
 {
@@ -36,8 +36,7 @@ final class ElementorController
     public function getAllTasks()
     {
         if (!self::pluginActive()) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             wp_send_json_error(\sprintf(__('%s is not installed or activated', 'bit-integrations'), 'Elementor'));
         }
 

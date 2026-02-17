@@ -5,12 +5,12 @@
  * Added Pods Custom Fields
  */
 
-namespace BitApps\BTCBI_FI\Actions\Pods;
+namespace BitApps\Integrations\Actions\Pods;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Core\Util\Helper;
-use BitApps\BTCBI_FI\Flow\Flow;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Core\Util\Helper;
+use BitApps\Integrations\Flow\Flow;
+use BitApps\Integrations\Log\LogHandler;
 
 /**
  * Provide functionality for POD integration

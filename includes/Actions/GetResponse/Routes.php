@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\GetResponse\GetResponseController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\GetResponse\GetResponseController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('getresponse_fetch_all_tags', [GetResponseController::class, 'fetchAllTags']);
 Route::post('getresponse_authentication', [GetResponseController::class, 'authentication']);

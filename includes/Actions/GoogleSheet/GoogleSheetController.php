@@ -4,13 +4,13 @@
  * ZohoSheet Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\GoogleSheet;
+namespace BitApps\Integrations\Actions\GoogleSheet;
 
 if (! defined('ABSPATH')) {
     exit;
 }
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Flow\FlowController;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Flow\FlowController;
 use WP_Error;
 
 /**

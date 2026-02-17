@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\Memberpress\MemberpressController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\Memberpress\MemberpressController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('memberpress_authorize', [MemberpressController::class, 'authorizeMemberpress']);
 Route::post('fetch_all_membership', [MemberpressController::class, 'getAllMembership']);

@@ -4,11 +4,11 @@
  * ZohoCrm Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\ZohoCRM;
+namespace BitApps\Integrations\Actions\ZohoCRM;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Flow\FlowController;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Flow\FlowController;
+use BitApps\Integrations\Log\LogHandler;
 use stdClass;
 use WP_Error;
 

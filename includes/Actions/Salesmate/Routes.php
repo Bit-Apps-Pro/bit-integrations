@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\Salesmate\SalesmateController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\Salesmate\SalesmateController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('salesmate_authentication', [SalesmateController::class, 'authentication']);
 Route::post('Salesmate_fields', [SalesmateController::class, 'getAllFields']);

@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\MoxieCRM\MoxieCRMController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\MoxieCRM\MoxieCRMController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('moxiecrm_authentication', [MoxieCRMController::class, 'authentication']);
 // Route::post('moxiecrm_fetch_custom_fields', [MoxieCRMController::class, 'getCustomFields']);

@@ -4,11 +4,11 @@
  * Bento Record Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\Bento;
+namespace BitApps\Integrations\Actions\Bento;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -82,8 +82,7 @@ class RecordApiHelper
 
         $response = apply_filters('btcbi_bento_store_event', false, $reqParams, $finalData);
 
-        
-        /* translators: %s: Placeholder value */
+        // translators: %s: Placeholder value
         return empty($response) ? (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')] : $response;
     }
 

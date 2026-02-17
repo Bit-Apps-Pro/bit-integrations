@@ -4,10 +4,10 @@
  * MailChimp Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\MailChimp;
+namespace BitApps\Integrations\Actions\MailChimp;
 
-use BitApps\BTCBI_FI\Core\Util\Helper;
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\Helper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 /**
@@ -287,8 +287,7 @@ class MailChimpController
             || empty($fieldMap)
             || empty($defaultDataConf)
         ) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Mail Chimp'));
         }
         $recordApiHelper = new RecordApiHelper($tokenDetails, $this->_integrationID, $integrationDetails);

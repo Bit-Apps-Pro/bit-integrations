@@ -1,6 +1,6 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\MasterStudyLms;
+namespace BitApps\Integrations\Actions\MasterStudyLms;
 
 use WP_Error;
 
@@ -22,7 +22,7 @@ class MasterStudyLmsController
             wp_send_json_success(true, 200);
         }
         // translators: %s: Plugin name
-        /* translators: %s: Placeholder value */
+        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'MasterStudyLms'));
     }
 
@@ -44,7 +44,7 @@ class MasterStudyLmsController
             wp_send_json_success($courseList, 200);
         }
         // translators: %s: Plugin name
-        /* translators: %s: Placeholder value */
+        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'MasterStudyLms'));
     }
 
@@ -56,7 +56,7 @@ class MasterStudyLmsController
             wp_send_json_success($allLesson, 200);
         }
         // translators: %s: Plugin name
-        /* translators: %s: Placeholder value */
+        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'MasterStudyLms'));
     }
 
@@ -68,7 +68,7 @@ class MasterStudyLmsController
             wp_send_json_success($allQuiz, 200);
         }
         // translators: %s: Plugin name
-        /* translators: %s: Placeholder value */
+        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'MasterStudyLms'));
     }
 
@@ -82,7 +82,7 @@ class MasterStudyLmsController
             || empty($mainAction)
         ) {
             // translators: %s: Integration name
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('Some important info are missing those are required for %s', 'bit-integrations'), 'MasterStudyLms'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);

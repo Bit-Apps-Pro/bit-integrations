@@ -4,7 +4,7 @@
  * WPCafe Integration.
  */
 
-namespace BitApps\BTCBI_FI\Actions\WPCafe;
+namespace BitApps\Integrations\Actions\WPCafe;
 
 use WP_Error;
 

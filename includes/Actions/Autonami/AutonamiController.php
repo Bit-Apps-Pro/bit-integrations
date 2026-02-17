@@ -1,9 +1,9 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\Autonami;
+namespace BitApps\Integrations\Actions\Autonami;
 
-use BitApps\BTCBI_FI\Core\Util\Helper;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\Helper;
+use BitApps\Integrations\Log\LogHandler;
 use BWFCRM_Fields;
 use BWFCRM_Lists;
 use BWFCRM_Tag;
@@ -112,8 +112,7 @@ class AutonamiController
         }
 
         if (empty($fieldMap)) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Autonami'));
         }
 

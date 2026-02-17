@@ -2,7 +2,7 @@
 
 // phpcs:disable Squiz.NamingConventions.ValidVariableName
 
-namespace BitApps\BTCBI_FI;
+namespace BitApps\Integrations;
 
 // use BitApps\BTCBI\Views\Layout;
 

@@ -4,7 +4,7 @@
   "license": "GPL-2.0-or-later",
   "autoload": {
     "psr-4": {
-      "BitApps\\BTCBI_FI\\": "includes/"
+      "BitApps\\Integrations\\": "includes/"
     }
   },
   "require-dev": {

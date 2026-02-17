@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\ZohoDesk\ZohoDeskController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\ZohoDesk\ZohoDeskController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('zdesk_generate_token', [ZohoDeskController::class, 'generateTokens']);
 Route::post('zdesk_refresh_organizations', [ZohoDeskController::class, 'refreshOrganizations']);

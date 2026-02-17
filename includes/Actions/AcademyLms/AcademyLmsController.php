@@ -1,12 +1,12 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\AcademyLms;
+namespace BitApps\Integrations\Actions\AcademyLms;
 
 if (! defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Log\LogHandler;
 
 /**
  * Provide functionality for Academy Lms integration

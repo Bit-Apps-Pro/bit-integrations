@@ -1,7 +1,7 @@
 <?php
 
-use BitApps\BTCBI_FI\Core\Util\Route;
-use BitApps\BTCBI_FI\Triggers\BitSocial\BitSocialController;
+use BitApps\Integrations\Core\Util\Route;
+use BitApps\Integrations\Triggers\BitSocial\BitSocialController;
 
 if (!defined('ABSPATH')) {
     exit;

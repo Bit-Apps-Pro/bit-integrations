@@ -4,7 +4,7 @@
  * ZohoSheet Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\MailPoet;
+namespace BitApps\Integrations\Actions\MailPoet;
 
 use WP_Error;
 
@@ -13,7 +13,7 @@ use WP_Error;
  */
 class MailPoetController
 {
-    // BitApps\BTCBI_FI\Actions\MailPoet\MailPoetController
+    // BitApps\Integrations\Actions\MailPoet\MailPoetController
 
     /**
      * Validate if Mail Poet plugin exists or not. If not exits then terminate
@@ -96,8 +96,7 @@ class MailPoetController
         $actions = $integrationDetails->actions;
 
         if (empty($fieldMap)) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Google sheet'));
         }
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\GiveWp;
+namespace BitApps\Integrations\Actions\GiveWp;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Log\LogHandler;
 use Give_Donor;
 
 class RecordApiHelper
@@ -67,7 +67,7 @@ class RecordApiHelper
         if ($mainAction === '1') {
             $response = $this->createGiveWpDonar($finalData);
             if (!empty($response)) {
-                /* translators: %s: Placeholder value */
+                // translators: %s: Placeholder value
                 LogHandler::save($integId, wp_json_encode(['type' => 'create-donar', 'type_name' => 'create-donar-giveWp']), 'success', wp_json_encode(wp_sprintf(__('Donar crated successfully and id is %s', 'bit-integrations'), $response)));
             } else {
                 LogHandler::save($integId, wp_json_encode(['type' => 'create-donar', 'type_name' => 'create-donar-giveWp']), 'error', wp_json_encode(__('Failed to create donar', 'bit-integrations')));

@@ -1,8 +1,8 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\CampaignMonitor;
+namespace BitApps\Integrations\Actions\CampaignMonitor;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 class CampaignMonitorController
@@ -70,7 +70,7 @@ class CampaignMonitorController
         if (!isset($apiResponse->Code)) {
             wp_send_json_success($fields, 200);
         } else {
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             wp_send_json_error(wp_sprintf(__('Field fetching failed: %s', 'bit-integrations'), $apiResponse->Message), 400);
         }
     }
@@ -85,8 +85,7 @@ class CampaignMonitorController
         $apiKey = $integrationDetails->api_key;
 
         if (empty($fieldMap) || empty($apiKey) || empty($selectedList)) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Campaign Monitor'));
         }
 

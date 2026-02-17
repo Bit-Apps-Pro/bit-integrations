@@ -1,9 +1,9 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\Memberpress;
+namespace BitApps\Integrations\Actions\Memberpress;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Log\LogHandler;
 use MeprEvent;
 use MeprHooks;
 use MeprProduct;
@@ -163,7 +163,7 @@ class RecordApiHelper
             if (!empty($apiResponse) && \gettype($apiResponse) !== 'integer') {
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'add user', 'type_name' => 'Add the user to a membership']), 'error', wp_json_encode(__('Failed to add user to membership', 'bit-integrations')));
             } else {
-                /* translators: %s: Placeholder value */
+                // translators: %s: Placeholder value
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'add user', 'type_name' => 'Add the user to a membership']), 'success', wp_json_encode(wp_sprintf(__('Successfully user added to the membership and id is: %s', 'bit-integrations'), $apiResponse)));
             }
         } elseif ($mainAction === '2') {

@@ -1,10 +1,10 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\PCloud;
+namespace BitApps\Integrations\Actions\PCloud;
 
-use BitApps\BTCBI_FI\Actions\PCloud\RecordApiHelper as PCloudRecordApiHelper;
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Actions\PCloud\RecordApiHelper as PCloudRecordApiHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Log\LogHandler;
 use WP_Error;
 
 class PCloudController
@@ -68,7 +68,7 @@ class PCloudController
     public function execute($integrationData, $fieldValues)
     {
         if (empty($integrationData->flow_details->tokenDetails->access_token)) {
-            /* translators: %s: Service name */
+            // translators: %s: Service name
             LogHandler::save($this->integrationID, wp_json_encode(['type' => 'pCloud', 'type_name' => 'file_upload']), 'error', wp_sprintf(__('Not Authorization By %s', 'bit-integrations'), 'PCloud'));
 
             return false;

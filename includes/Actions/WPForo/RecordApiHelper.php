@@ -4,10 +4,10 @@
  * WPForo Record Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\WPForo;
+namespace BitApps\Integrations\Actions\WPForo;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, update
@@ -162,7 +162,7 @@ class RecordApiHelper
         $topicId = WPF()->topic->add($args);
 
         if ($topicId) {
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return ['success' => true, 'message' => wp_sprintf(__('New topic created, topic id: %s', 'bit-integrations'), $topicId)];
         }
 

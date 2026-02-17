@@ -1,6 +1,6 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\PropovoiceCRM;
+namespace BitApps\Integrations\Actions\PropovoiceCRM;
 
 use WP_Error;
 
@@ -24,7 +24,7 @@ final class FilesApiHelper
                 );
                 $error_file_type = str_replace('image/', '', $file['type']);
 
-                /* translators: %s: Placeholder value */
+                // translators: %s: Placeholder value
                 $reg_errors->add('field', wp_sprintf(__('Invalid file type: %1$s. Supported file types: %2$s', 'bit-integrations'), $error_file_type, $valid_file_type));
             }
 

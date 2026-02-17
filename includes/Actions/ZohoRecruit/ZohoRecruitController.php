@@ -4,10 +4,10 @@
  * ZohoRecruit Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\ZohoRecruit;
+namespace BitApps\Integrations\Actions\ZohoRecruit;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Flow\FlowController;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Flow\FlowController;
 use WP_Error;
 
 /**
@@ -417,13 +417,11 @@ class ZohoRecruitController
             || empty($module)
             || empty($fieldMap)
         ) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Zoho Recruit'));
         }
         if (empty($defaultDataConf->moduleData->{$module}->fields) || empty($defaultDataConf->modules->{$module})) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Zoho Recruit'));
         }
         if ((\intval($tokenDetails->generates_on) + (55 * 60)) < time()) {

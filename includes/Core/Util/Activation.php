@@ -1,12 +1,12 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Core\Util;
+namespace BitApps\Integrations\Core\Util;
 
 if (! defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Core\Database\DB;
+use BitApps\Integrations\Core\Database\DB;
 use WP_Site;
 
 /**

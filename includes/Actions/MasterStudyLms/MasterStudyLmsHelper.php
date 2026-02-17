@@ -1,6 +1,6 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\MasterStudyLms;
+namespace BitApps\Integrations\Actions\MasterStudyLms;
 
 class MasterStudyLmsHelper
 {

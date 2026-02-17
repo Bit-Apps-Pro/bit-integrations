@@ -1,8 +1,8 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Triggers\BitAssist;
+namespace BitApps\Integrations\Triggers\BitAssist;
 
-use BitApps\BTCBI_FI\Triggers\Webhook\WebhookController;
+use BitApps\Integrations\Triggers\Webhook\WebhookController;
 
 final class BitAssistController extends WebhookController
 {

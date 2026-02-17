@@ -1,9 +1,9 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\Mailup;
+namespace BitApps\Integrations\Actions\Mailup;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Flow\FlowController;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Flow\FlowController;
 use WP_Error;
 
 class MailupController
@@ -151,8 +151,7 @@ class MailupController
         }
 
         if (empty($fieldMap) || empty($tokenDetails) || empty($selectedList)) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Mailup'));
         }
 

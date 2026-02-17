@@ -1,9 +1,9 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\ZoomWebinar;
+namespace BitApps\Integrations\Actions\ZoomWebinar;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Flow\FlowController;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Flow\FlowController;
 use WP_Error;
 
 class ZoomWebinarController
@@ -78,8 +78,7 @@ class ZoomWebinarController
             || empty($fieldMap)
             || empty($defaultDataConf)
         ) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Zoom'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);

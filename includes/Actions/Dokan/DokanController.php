@@ -4,7 +4,7 @@
  * Dokan Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\Dokan;
+namespace BitApps\Integrations\Actions\Dokan;
 
 use WeDevs\DokanPro\Modules\Germanized\Helper;
 use WP_Error;
@@ -32,7 +32,7 @@ class DokanController
     public static function checkedDokanExists()
     {
         if (!is_plugin_active('dokan-lite/dokan.php')) {
-            /* translators: %s: Plugin name */
+            // translators: %s: Plugin name
             wp_send_json_error(wp_sprintf(__('%s is not active or not installed', 'bit-integrations'), 'Dokan'), 400);
         } else {
             return true;
@@ -92,8 +92,7 @@ class DokanController
             wp_send_json_success($fields, 200);
         }
 
-        
-        /* translators: %s: Placeholder value */
+        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('EU Compliance Fields fetching failed - %s or EU Compliance Fields is not enabled', 'bit-integrations'), 'Dokan Pro'), 400);
     }
 

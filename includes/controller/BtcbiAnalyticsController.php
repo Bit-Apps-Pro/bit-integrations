@@ -1,8 +1,8 @@
 <?php
 
-namespace BitApps\BTCBI_FI\controller;
+namespace BitApps\Integrations\controller;
 
-use BitApps\BTCBI_FI\Config;
+use BitApps\Integrations\Config;
 use BTCBI\Deps\BitApps\WPTelemetry\Telemetry\Telemetry;
 
 final class BtcbiAnalyticsController

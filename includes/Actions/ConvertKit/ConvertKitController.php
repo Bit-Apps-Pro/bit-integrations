@@ -4,9 +4,9 @@
  * Convert Kit Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\ConvertKit;
+namespace BitApps\Integrations\Actions\ConvertKit;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 /**
@@ -190,7 +190,7 @@ class ConvertKitController
             empty($api_secret)
             || empty($fieldMap)
         ) {
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Kit(ConvertKit)'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $api_secret, $this->_integrationID);

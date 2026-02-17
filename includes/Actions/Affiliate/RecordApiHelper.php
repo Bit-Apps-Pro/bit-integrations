@@ -4,10 +4,10 @@
  * trello Record Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\Affiliate;
+namespace BitApps\Integrations\Actions\Affiliate;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -174,7 +174,7 @@ class RecordApiHelper
                 $finalData
             );
             if ($apiResponse !== 0) {
-                /* translators: %s: Placeholder value */
+                // translators: %s: Placeholder value
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'referral', 'type_name' => 'create-referral']), 'success', wp_json_encode(wp_sprintf(__('Created Referral id %s', 'bit-integrations'), $apiResponse)));
             } else {
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'referral', 'type_name' => 'create-referral']), 'error', wp_json_encode(__('Error in creating referral', 'bit-integrations')));
@@ -193,7 +193,7 @@ class RecordApiHelper
                 $finalData
             );
             if ($apiResponse !== 0) {
-                /* translators: %s: Placeholder value */
+                // translators: %s: Placeholder value
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'referral', 'type_name' => 'create-referral']), 'success', wp_json_encode(wp_sprintf(__('Created Referral id %s', 'bit-integrations'), $apiResponse)));
             } else {
                 LogHandler::save(self::$integrationID, wp_json_encode(['type' => 'referral', 'type_name' => 'create-referral']), 'error', wp_json_encode(__('Error in creating referral', 'bit-integrations')));

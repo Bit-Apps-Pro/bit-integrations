@@ -4,9 +4,9 @@
  * Mailercloud Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\Mailercloud;
+namespace BitApps\Integrations\Actions\Mailercloud;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 /**
@@ -145,8 +145,7 @@ class MailercloudController
             empty($field_map)
              || empty($authKey)
         ) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Mailercloud'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);

@@ -4,9 +4,9 @@
  * ZagoMail Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\ZagoMail;
+namespace BitApps\Integrations\Actions\ZagoMail;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 /**
@@ -214,8 +214,7 @@ class ZagoMailController
             empty($api_public_key)
             || empty($fieldMap)
         ) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Sendinblue'));
         }
         $recordApiHelper = new RecordApiHelper($api_public_key, $this->_integrationID);

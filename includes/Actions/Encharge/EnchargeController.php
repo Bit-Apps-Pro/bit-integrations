@@ -4,9 +4,9 @@
  * Encharge Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\Encharge;
+namespace BitApps\Integrations\Actions\Encharge;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 /**
@@ -107,8 +107,7 @@ class EnchargeController
         if (empty($api_key)
             || empty($fieldMap)
         ) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Encharge Controller'));
         }
         $recordApiHelper = new RecordApiHelper($api_key, $this->_integrationID);

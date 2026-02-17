@@ -4,10 +4,10 @@
  * SureMembers Record Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\SureMembers;
+namespace BitApps\Integrations\Actions\SureMembers;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Log\LogHandler;
 use SureMembers\Inc\Access;
 
 /**

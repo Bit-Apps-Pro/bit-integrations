@@ -1,6 +1,6 @@
 <?php
 
-namespace BitApps\BTCBI_FI;
+namespace BitApps\Integrations;
 
 /**
  * Main class for the plugin.
@@ -8,16 +8,16 @@ namespace BitApps\BTCBI_FI;
  * @since 1.0.0-alpha
  */
 
-use BitApps\BTCBI_FI\Admin\Admin_Bar;
-use BitApps\BTCBI_FI\Core\Database\DB;
-use BitApps\BTCBI_FI\Core\Hooks\HookService;
-use BitApps\BTCBI_FI\Core\Util\Activation;
-use BitApps\BTCBI_FI\Core\Util\Capabilities;
-use BitApps\BTCBI_FI\Core\Util\Deactivation;
-use BitApps\BTCBI_FI\Core\Util\Hooks;
-use BitApps\BTCBI_FI\Core\Util\Request;
-use BitApps\BTCBI_FI\Core\Util\UnInstallation;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Admin\Admin_Bar;
+use BitApps\Integrations\Core\Database\DB;
+use BitApps\Integrations\Core\Hooks\HookService;
+use BitApps\Integrations\Core\Util\Activation;
+use BitApps\Integrations\Core\Util\Capabilities;
+use BitApps\Integrations\Core\Util\Deactivation;
+use BitApps\Integrations\Core\Util\Hooks;
+use BitApps\Integrations\Core\Util\Request;
+use BitApps\Integrations\Core\Util\UnInstallation;
+use BitApps\Integrations\Log\LogHandler;
 use BTCBI\Deps\BitApps\WPTelemetry\Telemetry\Telemetry;
 use BTCBI\Deps\BitApps\WPTelemetry\Telemetry\TelemetryConfig;
 

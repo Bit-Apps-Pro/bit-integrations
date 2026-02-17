@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\Mailster\MailsterController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\Mailster\MailsterController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('mailster_authentication', [MailsterController::class, 'authentication']);
 Route::post('mailster_fields', [MailsterController::class, 'getMailsterFields']);

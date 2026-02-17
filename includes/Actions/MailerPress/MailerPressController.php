@@ -4,9 +4,9 @@
  * MailerPress Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\MailerPress;
+namespace BitApps\Integrations\Actions\MailerPress;
 
-use BitApps\BTCBI_FI\Core\Util\Helper;
+use BitApps\Integrations\Core\Util\Helper;
 use WP_Error;
 
 /**
@@ -120,7 +120,7 @@ class MailerPressController
         $tags = Helper::convertStringToArray($integrationDetails->tags ?? []);
 
         if (empty($fieldMap)) {
-            /* translators: %s: Integration name */
+            // translators: %s: Integration name
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('Field map is required for %s api', 'bit-integrations'), 'MailerPress'));
         }
 

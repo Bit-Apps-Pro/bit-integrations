@@ -1,11 +1,11 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\OneDrive;
+namespace BitApps\Integrations\Actions\OneDrive;
 
-use BitApps\BTCBI_FI\Actions\OneDrive\RecordApiHelper as OneDriveRecordApiHelper;
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Flow\FlowController;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Actions\OneDrive\RecordApiHelper as OneDriveRecordApiHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Flow\FlowController;
+use BitApps\Integrations\Log\LogHandler;
 
 class OneDriveController
 {
@@ -119,7 +119,7 @@ class OneDriveController
     public function execute($integrationData, $fieldValues)
     {
         if (empty($integrationData->flow_details->tokenDetails->access_token)) {
-            /* translators: %s: Service name */
+            // translators: %s: Service name
             LogHandler::save($this->integrationID, wp_json_encode(['type' => 'oneDrive', 'type_name' => 'file_upload']), 'error', wp_sprintf(__('Not Authorization By %s', 'bit-integrations'), 'OneDrive'));
 
             return false;

@@ -4,7 +4,7 @@
  * Teams for WooCommerce Memberships Integration.
  */
 
-namespace BitApps\BTCBI_FI\Actions\TeamsForWooCommerceMemberships;
+namespace BitApps\Integrations\Actions\TeamsForWooCommerceMemberships;
 
 use WP_Error;
 

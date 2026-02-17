@@ -4,9 +4,9 @@
  * BitForm Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\BitForm;
+namespace BitApps\Integrations\Actions\BitForm;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 /**
@@ -212,8 +212,7 @@ class BitFormController
             || empty($domainName)
             || empty($formId)
         ) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Bit From'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);

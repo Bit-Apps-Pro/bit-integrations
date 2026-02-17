@@ -4,9 +4,9 @@
  * Slack Files Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\Slack;
+namespace BitApps\Integrations\Actions\Slack;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use CURLFile;
 
 /**

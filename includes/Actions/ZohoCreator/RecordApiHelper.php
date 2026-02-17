@@ -4,12 +4,12 @@
  * ZohoCreator Record Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\ZohoCreator;
+namespace BitApps\Integrations\Actions\ZohoCreator;
 
-use BitApps\BTCBI_FI\Core\Util\ApiResponse as UtilApiResponse;
-use BitApps\BTCBI_FI\Core\Util\DateTimeHelper;
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\ApiResponse as UtilApiResponse;
+use BitApps\Integrations\Core\Util\DateTimeHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Log\LogHandler;
 use WP_Error;
 
 /**
@@ -102,7 +102,7 @@ class RecordApiHelper
                 }
             }
             if (empty($fieldData['data'][$fieldPair->zohoFormField]) && \in_array($fieldPair->zohoFormField, $required)) {
-                /* translators: %s: Placeholder value */
+                // translators: %s: Placeholder value
                 $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('%s is required for zoho creator', 'bit-integrations'), $fieldPair->zohoFormField));
                 // $this->_logResponse->apiResponse($this->_logID, $this->_integrationID, ['type' => 'record', 'type_name' => 'field'], 'validation', $error);
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Triggers\Breakdance;
+namespace BitApps\Integrations\Triggers\Breakdance;
 
 class BreakdanceHelper
 {
@@ -9,9 +9,9 @@ class BreakdanceHelper
         // Create a mapping for quick access
         $formFields = array_column($form, null, 'name');
         $allFields = [
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             ['name' => self::findKeyPath($data, 'formId'), 'type' => 'text', 'label' => wp_sprintf(__('Form Id (%s)', 'bit-integrations'), $data['formId']), 'value' => $data['formId']],
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             ['name' => self::findKeyPath($data, 'postId'), 'type' => 'text', 'label' => wp_sprintf(__('Post Id (%s)', 'bit-integrations'), $data['postId']), 'value' => $data['postId']]
         ];
 

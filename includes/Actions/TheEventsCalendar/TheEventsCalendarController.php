@@ -4,7 +4,7 @@
  * TheEventsCalendar Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\TheEventsCalendar;
+namespace BitApps\Integrations\Actions\TheEventsCalendar;
 
 use WP_Error;
 
@@ -28,8 +28,7 @@ class TheEventsCalendarController
             return true;
         }
 
-        
-        /* translators: %s: Placeholder value */
+        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s are not active or installed!', 'bit-integrations'), 'The Events Calendar and/or Event Tickets'), 400);
     }
 

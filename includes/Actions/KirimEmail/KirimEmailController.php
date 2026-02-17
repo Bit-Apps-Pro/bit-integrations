@@ -4,9 +4,9 @@
  * KirimEmail Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\KirimEmail;
+namespace BitApps\Integrations\Actions\KirimEmail;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 /**
@@ -109,8 +109,7 @@ class KirimEmailController
             || empty($fieldMap)
 
         ) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Freshdesk'));
         }
         $recordApiHelper = new RecordApiHelper($integrationId);

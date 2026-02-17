@@ -4,10 +4,10 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Core\Util\Helper;
-use BitApps\BTCBI_FI\Core\Util\Hooks;
-use BitApps\BTCBI_FI\Core\Util\StoreInCache;
-use BitApps\BTCBI_FI\Triggers\ActionHook\ActionHookController;
+use BitApps\Integrations\Core\Util\Helper;
+use BitApps\Integrations\Core\Util\Hooks;
+use BitApps\Integrations\Core\Util\StoreInCache;
+use BitApps\Integrations\Triggers\ActionHook\ActionHookController;
 
 if (!Helper::isProActivate()) {
     $btcbi_flows = StoreInCache::getActionHookFlows() ?? [];

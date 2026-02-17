@@ -4,7 +4,7 @@
  * Affiliate Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\Affiliate;
+namespace BitApps\Integrations\Actions\Affiliate;
 
 use WP_Error;
 

@@ -4,9 +4,9 @@
  * PipeDrive Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\PipeDrive;
+namespace BitApps\Integrations\Actions\PipeDrive;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 /**
@@ -166,8 +166,7 @@ class PipeDriveController
             empty($fieldMap)
              || empty($api_key)
         ) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'PipeDrive'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);

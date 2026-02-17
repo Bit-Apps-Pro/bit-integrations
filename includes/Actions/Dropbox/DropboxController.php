@@ -1,11 +1,11 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\Dropbox;
+namespace BitApps\Integrations\Actions\Dropbox;
 
-use BitApps\BTCBI_FI\Actions\Dropbox\RecordApiHelper as DropboxRecordApiHelper;
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Flow\FlowController;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Actions\Dropbox\RecordApiHelper as DropboxRecordApiHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Flow\FlowController;
+use BitApps\Integrations\Log\LogHandler;
 use WP_Error;
 
 class DropboxController
@@ -99,7 +99,7 @@ class DropboxController
     public function execute($integrationData, $fieldValues)
     {
         if (empty($integrationData->flow_details->tokenDetails->access_token)) {
-            /* translators: %s: Service name */
+            // translators: %s: Service name
             LogHandler::save($this->integrationID, wp_json_encode(['type' => 'dropbox', 'type_name' => 'file_upload']), 'error', wp_sprintf(__('Not Authorization By %s', 'bit-integrations'), 'Dropbox'));
 
             return false;

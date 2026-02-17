@@ -1,10 +1,10 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\Registration;
+namespace BitApps\Integrations\Actions\Registration;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Flow\Flow;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Flow\Flow;
+use BitApps\Integrations\Log\LogHandler;
 
 final class RegistrationController
 {
@@ -29,7 +29,7 @@ final class RegistrationController
 
             LogHandler::save($this->_integrationID, __('New user registration', 'bit-integrations'), 'error', $message);
         } else {
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             LogHandler::save($this->_integrationID, __('New user registration', 'bit-integrations'), 'success', wp_sprintf(__('New user created successfully, user id : %s', 'bit-integrations'), $userId));
 
             $this->saveMetaData($flowDetails->meta_map, $fieldValues, $userId);
@@ -168,7 +168,7 @@ final class RegistrationController
             $message = is_wp_error($updatedUser) ? $updatedUser->get_error_message() : 'error';
             LogHandler::save($this->_integrationID, __('User update', 'bit-integrations'), 'error', $message);
         } else {
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             LogHandler::save($this->_integrationID, __('User update', 'bit-integrations'), 'success', wp_sprintf(__('User updated successfully, user id : %s', 'bit-integrations'), $updatedUser));
             $this->saveMetaData($flowDetails->meta_map, $fieldValues, $updatedUser);
             $this->notification($flowDetails, $updatedUser);

@@ -4,9 +4,9 @@
  * WPWebhooks Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\WPWebhooks;
+namespace BitApps\Integrations\Actions\WPWebhooks;
 
-use BitApps\BTCBI_FI\Actions\WebHooks\WebHooksController;
+use BitApps\Integrations\Actions\WebHooks\WebHooksController;
 
 /**
  * Provide functionality for WPWebhooksHandler

@@ -1,9 +1,9 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Triggers\BitForm;
+namespace BitApps\Integrations\Triggers\BitForm;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Flow\Flow;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Flow\Flow;
 use BitCode\BitForm\Core\Util\FileHandler;
 
 final class BitFormController
@@ -35,8 +35,7 @@ final class BitFormController
     public function getAll()
     {
         if (!self::isPluginActive()) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             wp_send_json_error(wp_sprintf(__('%s is not installed or activated.', 'bit-integrations'), 'Bit Form'));
         }
 

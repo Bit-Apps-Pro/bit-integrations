@@ -1,6 +1,6 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\Voxel;
+namespace BitApps\Integrations\Actions\Voxel;
 
 class VoxelHelper
 {
@@ -139,31 +139,31 @@ class VoxelHelper
         return [
             VoxelHelper::generateFields(
                 $fieldKey . '_event_start_date',
-                /* translators: %s: Placeholder value */
+                // translators: %s: Placeholder value
                 wp_sprintf(__('Event Start Date (%s)', 'bit-integrations'), $postField->get_label()),
                 false
             ),
             VoxelHelper::generateFields(
                 $fieldKey . '_event_end_date',
-                /* translators: %s: Placeholder value */
+                // translators: %s: Placeholder value
                 wp_sprintf(__('Event End Date (%s)', 'bit-integrations'), $postField->get_label()),
                 false
             ),
             VoxelHelper::generateFields(
                 $fieldKey . '_event_frequency',
-                /* translators: %s: Placeholder value */
+                // translators: %s: Placeholder value
                 wp_sprintf(__('Event Frequency (%s)', 'bit-integrations'), $postField->get_label()),
                 false
             ),
             VoxelHelper::generateFields(
                 $fieldKey . '_repeat_every',
-                /* translators: %s: Placeholder value */
+                // translators: %s: Placeholder value
                 wp_sprintf(__('Event unit (%s)', 'bit-integrations'), $postField->get_label()),
                 false
             ),
             VoxelHelper::generateFields(
                 $fieldKey . '_event_until',
-                /* translators: %s: Placeholder value */
+                // translators: %s: Placeholder value
                 wp_sprintf(__('Event Until (%s)', 'bit-integrations'), $postField->get_label()),
                 false
             )
@@ -175,19 +175,19 @@ class VoxelHelper
         return [
             VoxelHelper::generateFields(
                 $fieldKey . '_address',
-                /* translators: %s: Placeholder value */
+                // translators: %s: Placeholder value
                 wp_sprintf(__('Address (%s)', 'bit-integrations'), $postField->get_label()),
                 false
             ),
             VoxelHelper::generateFields(
                 $fieldKey . '_latitude',
-                /* translators: %s: Placeholder value */
+                // translators: %s: Placeholder value
                 wp_sprintf(__('Latitude (%s)', 'bit-integrations'), $postField->get_label()),
                 false
             ),
             VoxelHelper::generateFields(
                 $fieldKey . '_longitude',
-                /* translators: %s: Placeholder value */
+                // translators: %s: Placeholder value
                 wp_sprintf(__('Longitude (%s)', 'bit-integrations'), $postField->get_label()),
                 false
             )
@@ -199,19 +199,19 @@ class VoxelHelper
         return [
             VoxelHelper::generateFields(
                 $fieldKey . '_work_days',
-                /* translators: %s: Placeholder value */
+                // translators: %s: Placeholder value
                 wp_sprintf(__('Work Days (%s)', 'bit-integrations'), $postField->get_label()),
                 false
             ),
             VoxelHelper::generateFields(
                 $fieldKey . '_work_hours',
-                /* translators: %s: Placeholder value */
+                // translators: %s: Placeholder value
                 wp_sprintf(__('Work Hours (%s)', 'bit-integrations'), $postField->get_label()),
                 false
             ),
             VoxelHelper::generateFields(
                 $fieldKey . '_work_status',
-                /* translators: %s: Placeholder value */
+                // translators: %s: Placeholder value
                 wp_sprintf(__('Work Status (%s)', 'bit-integrations'), $postField->get_label()),
                 false
             )

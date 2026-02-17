@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\HighLevel\HighLevelController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\HighLevel\HighLevelController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('highLevel_authorization', [HighLevelController::class, 'highLevelAuthorization']);
 Route::post('get_highLevel_contact_custom_fields', [HighLevelController::class, 'getCustomFields']);

@@ -4,9 +4,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Core\Util\Helper;
-use BitApps\BTCBI_FI\Core\Util\Route;
-use BitApps\BTCBI_FI\Triggers\Webhook\WebhookController;
+use BitApps\Integrations\Core\Util\Helper;
+use BitApps\Integrations\Core\Util\Route;
+use BitApps\Integrations\Triggers\Webhook\WebhookController;
 
 if (!Helper::isProActivate()) {
     Route::get('webhook/new', [WebhookController::class, 'getNewHook']);

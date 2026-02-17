@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\ConstantContact\ConstantContactController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\ConstantContact\ConstantContactController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('cContact_generate_token', [ConstantContactController::class, 'generateTokens']);
 Route::post('cContact_refresh_list', [ConstantContactController::class, 'refreshList']);

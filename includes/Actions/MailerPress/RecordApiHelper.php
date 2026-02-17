@@ -4,10 +4,10 @@
  * MailerPress Record Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\MailerPress;
+namespace BitApps\Integrations\Actions\MailerPress;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, update
@@ -45,7 +45,7 @@ class RecordApiHelper
 
         $defaultResponse = [
             'success' => false,
-            /* translators: %s: Plugin name */
+            // translators: %s: Plugin name
             'message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations')
         ];
 

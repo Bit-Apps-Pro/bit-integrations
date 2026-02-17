@@ -1,10 +1,10 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\KirimEmail;
+namespace BitApps\Integrations\Actions\KirimEmail;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, upsert

@@ -1,8 +1,8 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Triggers\FallbackTrigger;
+namespace BitApps\Integrations\Triggers\FallbackTrigger;
 
-use BitApps\BTCBI_FI\Flow\Flow;
+use BitApps\Integrations\Flow\Flow;
 
 class FallbackTriggerController
 {

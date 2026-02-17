@@ -1,8 +1,8 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\Mailify;
+namespace BitApps\Integrations\Actions\Mailify;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 class MailifyController
@@ -115,8 +115,7 @@ class MailifyController
         $apiKey = $integrationDetails->api_key;
 
         if (empty($fieldMap) || empty($accountId) || empty($apiKey) || empty($selectedList)) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Mailify'));
         }
 

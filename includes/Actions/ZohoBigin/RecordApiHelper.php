@@ -4,12 +4,12 @@
  * ZohoBigin Record Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\ZohoBigin;
+namespace BitApps\Integrations\Actions\ZohoBigin;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Core\Util\DateTimeHelper;
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Core\Util\DateTimeHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Log\LogHandler;
 use WP_Error;
 
 /**
@@ -138,7 +138,7 @@ class RecordApiHelper
 
             if ($response === $recordID) {
                 // translators: %s: Plugin name
-                /* translators: %s: Placeholder value */
+                // translators: %s: Placeholder value
                 LogHandler::save($this->_integID, ['type' => 'tags', 'type_name' => $module], 'error', wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro'));
             } elseif (\is_object($response) && isset($response->status) && $response->status === 'error') {
                 LogHandler::save($this->_integID, ['type' => 'tags', 'type_name' => $module], 'error', $response);

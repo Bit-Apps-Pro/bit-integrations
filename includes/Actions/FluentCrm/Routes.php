@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\FluentCrm\FluentCrmController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\FluentCrm\FluentCrmController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('fluent_crm_authorize', [FluentCrmController::class, 'fluentCrmAuthorize']);
 Route::post('refresh_fluent_crm_lists', [FluentCrmController::class, 'fluentCrmLists']);

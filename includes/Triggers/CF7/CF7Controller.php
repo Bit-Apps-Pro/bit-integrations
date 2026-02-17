@@ -1,9 +1,9 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Triggers\CF7;
+namespace BitApps\Integrations\Triggers\CF7;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Flow\Flow;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Flow\Flow;
 use WPCF7_ContactForm;
 use WPCF7_FormTagsManager;
 use WPCF7_ShortcodeManager;

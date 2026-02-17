@@ -4,7 +4,7 @@
  * Wishlist Member Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\WishlistMember;
+namespace BitApps\Integrations\Actions\WishlistMember;
 
 use WP_Error;
 
@@ -75,8 +75,7 @@ class WishlistMemberController
         $action = $integrationDetails->action;
 
         if (empty($fieldMap) || empty($action)) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Wishlist Member'));
         }
 

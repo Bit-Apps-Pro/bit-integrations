@@ -1,12 +1,12 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\TutorLms;
+namespace BitApps\Integrations\Actions\TutorLms;
 
 if (! defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Log\LogHandler;
 
 /**
  * Provide functionality for Tutor LMS integration

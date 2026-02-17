@@ -1,9 +1,9 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Triggers\ActionHook;
+namespace BitApps\Integrations\Triggers\ActionHook;
 
-use BitApps\BTCBI_FI\Core\Util\Helper;
-use BitApps\BTCBI_FI\Flow\Flow;
+use BitApps\Integrations\Core\Util\Helper;
+use BitApps\Integrations\Flow\Flow;
 use ReflectionClass;
 
 class ActionHookController

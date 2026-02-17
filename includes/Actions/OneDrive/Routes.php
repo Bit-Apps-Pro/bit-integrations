@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\OneDrive\OneDriveController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\OneDrive\OneDriveController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('oneDrive_authorization', [OneDriveController::class, 'authorization']);
 Route::post('oneDrive_get_all_folders', [OneDriveController::class, 'getAllFolders']);

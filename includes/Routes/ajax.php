@@ -5,14 +5,14 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\controller\AuthDataController;
-use BitApps\BTCBI_FI\controller\BtcbiAnalyticsController;
-use BitApps\BTCBI_FI\controller\PostController;
-use BitApps\BTCBI_FI\controller\UserController;
-use BitApps\BTCBI_FI\Core\Util\Route;
-use BitApps\BTCBI_FI\Flow\Flow;
-use BitApps\BTCBI_FI\Log\LogHandler;
-use BitApps\BTCBI_FI\Triggers\TriggerController;
+use BitApps\Integrations\controller\AuthDataController;
+use BitApps\Integrations\controller\BtcbiAnalyticsController;
+use BitApps\Integrations\controller\PostController;
+use BitApps\Integrations\controller\UserController;
+use BitApps\Integrations\Core\Util\Route;
+use BitApps\Integrations\Flow\Flow;
+use BitApps\Integrations\Log\LogHandler;
+use BitApps\Integrations\Triggers\TriggerController;
 
 Route::post('log/get', [LogHandler::class, 'get']);
 Route::post('log/delete', [LogHandler::class, 'delete']);

@@ -4,11 +4,11 @@
  * SmartSuite Record Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\SmartSuite;
+namespace BitApps\Integrations\Actions\SmartSuite;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Log\LogHandler;
 
 class RecordApiHelper
 {
@@ -48,8 +48,7 @@ class RecordApiHelper
             return $response;
         }
 
-        
-        /* translators: %s: Placeholder value */
+        // translators: %s: Placeholder value
         return (object) ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')];
     }
 

@@ -4,9 +4,9 @@
  * Integromat Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\Integromat;
+namespace BitApps\Integrations\Actions\Integromat;
 
-use BitApps\BTCBI_FI\Actions\WebHooks\WebHooksController;
+use BitApps\Integrations\Actions\WebHooks\WebHooksController;
 
 /**
  * Provide functionality for IntegromatHandler

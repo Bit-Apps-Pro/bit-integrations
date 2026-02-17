@@ -4,9 +4,9 @@
  * Bento Record Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\Bento;
+namespace BitApps\Integrations\Actions\Bento;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Record insert, upsert

@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\FluentSupport\FluentSupportController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\FluentSupport\FluentSupportController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('fluentSupport_authorization', [FluentSupportController::class, 'checkAuthorization']);
 Route::post('fluent_support_get_custom_fields', [FluentSupportController::class, 'getCustomFields']);

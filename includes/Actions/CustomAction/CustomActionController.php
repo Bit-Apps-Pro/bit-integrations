@@ -1,8 +1,8 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\CustomAction;
+namespace BitApps\Integrations\Actions\CustomAction;
 
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Log\LogHandler;
 use Throwable;
 
 class CustomActionController

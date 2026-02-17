@@ -4,9 +4,9 @@
  * discord Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\Discord;
+namespace BitApps\Integrations\Actions\Discord;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 /**
@@ -138,8 +138,7 @@ class DiscordController
             || empty($channel_id)
             || empty($body)
         ) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Discord'));
         }
         $recordApiHelper = new RecordApiHelper(self::APIENDPOINT, $access_token, $integrationId);

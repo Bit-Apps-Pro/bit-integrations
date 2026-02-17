@@ -1,6 +1,6 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\PropovoiceCRM;
+namespace BitApps\Integrations\Actions\PropovoiceCRM;
 
 use WP_Error;
 

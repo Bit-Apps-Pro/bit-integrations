@@ -4,9 +4,9 @@
  * WPFusion Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\WPFusion;
+namespace BitApps\Integrations\Actions\WPFusion;
 
-use BitApps\BTCBI_FI\Actions\WebHooks\WebHooksController;
+use BitApps\Integrations\Actions\WebHooks\WebHooksController;
 
 /**
  * Provide functionality for WPFusionHandler

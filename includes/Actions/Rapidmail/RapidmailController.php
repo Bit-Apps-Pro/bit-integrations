@@ -4,11 +4,11 @@
  * Rapidmail Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\Rapidmail;
+namespace BitApps\Integrations\Actions\Rapidmail;
 
-use BitApps\BTCBI_FI\Actions\Rapidmail\RecordApiHelper as RapidmailRecordApiHelper;
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Actions\Rapidmail\RecordApiHelper as RapidmailRecordApiHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Log\LogHandler;
 use WP_Error;
 
 final class RapidmailController

@@ -4,12 +4,12 @@
  * ZohoRecruit Record Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\ZohoAnalytics;
+namespace BitApps\Integrations\Actions\ZohoAnalytics;
 
-use BitApps\BTCBI_FI\Core\Util\ApiResponse as UtilApiResponse;
-use BitApps\BTCBI_FI\Core\Util\FieldValueHandler;
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\ApiResponse as UtilApiResponse;
+use BitApps\Integrations\Core\Util\FieldValueHandler;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert,upsert

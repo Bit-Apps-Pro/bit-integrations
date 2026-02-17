@@ -1,6 +1,6 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\LifterLms;
+namespace BitApps\Integrations\Actions\LifterLms;
 
 use WP_Error;
 

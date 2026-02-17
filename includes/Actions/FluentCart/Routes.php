@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\FluentCart\FluentCartController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\FluentCart\FluentCartController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('fluent_cart_authorize', [FluentCartController::class, 'fluentCartAuthorize']);
 Route::post('refresh_fluent_cart_products', [FluentCartController::class, 'refreshProducts']);

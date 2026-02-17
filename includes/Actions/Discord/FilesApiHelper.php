@@ -4,9 +4,9 @@
  * Discord Files Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\Discord;
+namespace BitApps\Integrations\Actions\Discord;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use CURLFile;
 
 /**

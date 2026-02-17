@@ -4,9 +4,9 @@
  * Slack Files Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\Freshdesk;
+namespace BitApps\Integrations\Actions\Freshdesk;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use CURLFile;
 
 /**

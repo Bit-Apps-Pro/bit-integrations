@@ -1,14 +1,14 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Admin;
+namespace BitApps\Integrations\Admin;
 
 if (! defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Core\Util\Capabilities;
-use BitApps\BTCBI_FI\Core\Util\DateTimeHelper;
-use BitApps\BTCBI_FI\Core\Util\Hooks;
+use BitApps\Integrations\Core\Util\Capabilities;
+use BitApps\Integrations\Core\Util\DateTimeHelper;
+use BitApps\Integrations\Core\Util\Hooks;
 
 /**
  * The admin menu and page handler class

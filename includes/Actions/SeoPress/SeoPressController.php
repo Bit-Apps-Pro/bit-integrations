@@ -4,7 +4,7 @@
  * SEOPress Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\SeoPress;
+namespace BitApps\Integrations\Actions\SeoPress;
 
 use WP_Error;
 

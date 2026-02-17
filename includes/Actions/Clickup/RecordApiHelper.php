@@ -4,11 +4,11 @@
  * Clickup Record Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\Clickup;
+namespace BitApps\Integrations\Actions\Clickup;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Log\LogHandler;
 use CURLFile;
 
 /**

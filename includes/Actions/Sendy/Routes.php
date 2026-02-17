@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\Sendy\SendyController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\Sendy\SendyController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('sendy_authorize', [SendyController::class, 'sendyAuthorize']);
 Route::post('get_all_brands', [SendyController::class, 'getAllBrands']);

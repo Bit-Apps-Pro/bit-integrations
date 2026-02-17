@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\Mailify\MailifyController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\Mailify\MailifyController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('mailify_authorize', [MailifyController::class, 'authorization']);
 Route::post('mailify_lists', [MailifyController::class, 'getAllList']);

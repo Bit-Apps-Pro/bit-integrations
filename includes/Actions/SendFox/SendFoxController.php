@@ -4,9 +4,9 @@
  * SendFox Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\SendFox;
+namespace BitApps\Integrations\Actions\SendFox;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 class SendFoxController
@@ -85,8 +85,7 @@ class SendFoxController
             // empty($fieldMap)||
             empty($access_token)
         ) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'SendFox'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);

@@ -1,6 +1,6 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\Memberpress;
+namespace BitApps\Integrations\Actions\Memberpress;
 
 use MeprOptions;
 use WP_Error;

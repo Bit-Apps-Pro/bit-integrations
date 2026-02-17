@@ -1,9 +1,9 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\ACPT;
+namespace BitApps\Integrations\Actions\ACPT;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Core\Util\Helper;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Core\Util\Helper;
 
 class ACPTHelper
 {
@@ -38,7 +38,7 @@ class ACPTHelper
             if (empty($finalData[$key])) {
                 return [
                     'success' => false,
-                    /* translators: %s: Placeholder value */
+                    // translators: %s: Placeholder value
                     'message' => \sprintf(__('Required field %s is empty', 'bit-integrations'), $label),
                     'code'    => 422,
                 ];
@@ -130,7 +130,7 @@ class ACPTHelper
     public static function validateResponse($response)
     {
         return !$response
-            /* translators: %s: Plugin name */
+            // translators: %s: Plugin name
             ? ['error' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integration Pro')]
             : $response;
     }
@@ -146,7 +146,7 @@ class ACPTHelper
             if (empty($finalData[$key])) {
                 return [
                     'success' => false,
-                    /* translators: %s: Placeholder value */
+                    // translators: %s: Placeholder value
                     'message' => \sprintf(__('Required field %s is empty', 'bit-integrations'), $label),
                     'code'    => 422,
                 ];

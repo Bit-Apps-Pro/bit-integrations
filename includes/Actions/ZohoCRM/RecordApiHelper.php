@@ -4,12 +4,12 @@
  * ZohoCrm Record Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\ZohoCRM;
+namespace BitApps\Integrations\Actions\ZohoCRM;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Core\Util\DateTimeHelper;
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Core\Util\DateTimeHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Log\LogHandler;
 use stdClass;
 use WP_Error;
 
@@ -200,7 +200,7 @@ class RecordApiHelper
             && $recordApiResponse->data[0]->code === 'SUCCESS'
             && !empty($recordApiResponse->data[0]->details->id)
         ) {
-            if (!empty($actions->tag_rec) && class_exists('BitApps\BTCBI_FI\Actions\ZohoCRM\TagApiHelper')) {
+            if (!empty($actions->tag_rec) && class_exists('BitApps\Integrations\Actions\ZohoCRM\TagApiHelper')) {
                 $tags = '';
                 $tag_rec = explode(',', $actions->tag_rec);
                 foreach ($tag_rec as $tag) {

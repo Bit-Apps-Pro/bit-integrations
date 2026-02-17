@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\Vbout\VboutController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\Vbout\VboutController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('vbout_handle_authorize', [VboutController::class, 'handleAuthorize']);
 Route::post('vbout_fetch_all_lists', [VboutController::class, 'fetchAllLists']);

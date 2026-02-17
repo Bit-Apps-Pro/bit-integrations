@@ -1,9 +1,9 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\MailMint;
+namespace BitApps\Integrations\Actions\MailMint;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Log\LogHandler;
 use Mint\MRM\Admin\API\Controllers\MessageController;
 use Mint\MRM\DataBase\Models\ContactGroupModel;
 use Mint\MRM\DataBase\Models\ContactModel;
@@ -174,7 +174,7 @@ class RecordApiHelper
             $apiResponse = $this->createContact($selectedList, $selectedTags, $selectedSubStatus, $finalData);
 
             if ($apiResponse && \gettype($apiResponse) === 'integer') {
-                /* translators: %s: Placeholder value */
+                // translators: %s: Placeholder value
                 LogHandler::save(self::$integrationID, ['type' => 'create', 'type_name' => 'create contact'], 'success', wp_json_encode(wp_sprintf(__('Contact created successfully and id is %s', 'bit-integrations'), $apiResponse)));
             } else {
                 LogHandler::save(self::$integrationID, ['type' => 'create', 'type_name' => 'create contact'], 'error', __('Failed to create contact', 'bit-integrations'));

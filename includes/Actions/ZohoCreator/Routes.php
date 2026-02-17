@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\ZohoCreator\ZohoCreatorController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\ZohoCreator\ZohoCreatorController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('zcreator_generate_token', [ZohoCreatorController::class, 'generateTokens']);
 Route::post('zcreator_refresh_applications', [ZohoCreatorController::class, 'refreshApplicationsAjaxHelper']);

@@ -4,9 +4,9 @@
  * Smaily Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\Smaily;
+namespace BitApps\Integrations\Actions\Smaily;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 /**

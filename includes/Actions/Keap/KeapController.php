@@ -4,10 +4,10 @@
  * Keap Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\Keap;
+namespace BitApps\Integrations\Actions\Keap;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Flow\FlowController;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Flow\FlowController;
 use WP_Error;
 
 /**
@@ -214,8 +214,7 @@ class KeapController
             empty($tokenDetails)
             || empty($fieldMap)
         ) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Keap'));
         }
 

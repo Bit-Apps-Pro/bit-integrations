@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\LifterLms\LifterLmsController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\LifterLms\LifterLmsController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('lifterLms_authorize', [LifterLmsController::class, 'authorizeLifterLms']);
 Route::post('lifterLms_fetch_all_lesson', [LifterLmsController::class, 'getAllLesson']);

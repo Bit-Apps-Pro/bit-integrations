@@ -4,9 +4,9 @@
  * Voxel Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\Voxel;
+namespace BitApps\Integrations\Actions\Voxel;
 
-use BitApps\BTCBI_FI\Core\Util\Post;
+use BitApps\Integrations\Core\Util\Post;
 use WP_Error;
 
 /**
@@ -25,8 +25,7 @@ class VoxelController
             return true;
         }
 
-        
-        /* translators: %s: Placeholder value */
+        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s is not active or installed!', 'bit-integrations'), 'Voxel'), 400);
     }
 

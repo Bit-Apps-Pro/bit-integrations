@@ -1,6 +1,6 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions;
+namespace BitApps\Integrations\Actions;
 
 use FilesystemIterator;
 use WP_Error;

@@ -1,9 +1,9 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Triggers\BitSocial;
+namespace BitApps\Integrations\Triggers\BitSocial;
 
-use BitApps\BTCBI_FI\Core\Util\Helper;
-use BitApps\BTCBI_FI\Flow\Flow;
+use BitApps\Integrations\Core\Util\Helper;
+use BitApps\Integrations\Flow\Flow;
 
 final class BitSocialController
 {
@@ -34,8 +34,7 @@ final class BitSocialController
     public function getAllTasks()
     {
         if (!self::isPluginInstalled()) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             wp_send_json_error(\sprintf(__('%s is not installed or activated', 'bit-integrations'), 'Bit Social'));
         }
 

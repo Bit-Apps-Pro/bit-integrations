@@ -4,6 +4,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Triggers\Breakdance\BreakdanceController;
+use BitApps\Integrations\Triggers\Breakdance\BreakdanceController;
 
 // BreakdanceController::addAction();

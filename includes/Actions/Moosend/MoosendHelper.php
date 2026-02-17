@@ -4,7 +4,7 @@
  * Moosend Record Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\Moosend;
+namespace BitApps\Integrations\Actions\Moosend;
 
 /**
  * Provide functionality for Record Subscribe , Unsubscribe, Unsubscribe from list

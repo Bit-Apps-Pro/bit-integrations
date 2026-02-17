@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\ZohoRecruit\ZohoRecruitController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\ZohoRecruit\ZohoRecruitController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('zrecruit_generate_token', [ZohoRecruitController::class, 'generateTokens']);
 Route::post('zrecruit_refresh_modules', [ZohoRecruitController::class, 'refreshModules']);

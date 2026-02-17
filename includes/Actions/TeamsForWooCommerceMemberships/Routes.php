@@ -4,8 +4,8 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\TeamsForWooCommerceMemberships\TeamsForWooCommerceMembershipsController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\TeamsForWooCommerceMemberships\TeamsForWooCommerceMembershipsController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('teams_for_wc_memberships_authorize', [TeamsForWooCommerceMembershipsController::class, 'teamsForWooCommerceMembershipsAuthorize']);
 Route::post('teams_for_wc_memberships_refresh_teams', [TeamsForWooCommerceMembershipsController::class, 'refreshTeams']);

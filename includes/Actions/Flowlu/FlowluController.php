@@ -4,9 +4,9 @@
  * Flowlu Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\Flowlu;
+namespace BitApps\Integrations\Actions\Flowlu;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 /**
@@ -366,8 +366,7 @@ class FlowluController
         $comapnyName = $integrationDetails->company_name;
 
         if (empty($fieldMap) || empty($apiKey) || empty($actionName) || empty($comapnyName)) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Flowlu'));
         }
 

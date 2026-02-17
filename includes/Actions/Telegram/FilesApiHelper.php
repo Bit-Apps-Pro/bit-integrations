@@ -4,9 +4,9 @@
  * Telegram Files Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\Telegram;
+namespace BitApps\Integrations\Actions\Telegram;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use CURLFile;
 
 /**

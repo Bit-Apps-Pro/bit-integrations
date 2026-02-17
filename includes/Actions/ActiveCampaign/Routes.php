@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\ActiveCampaign\ActiveCampaignController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\ActiveCampaign\ActiveCampaignController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('aCampaign_authorize', [ActiveCampaignController::class, 'activeCampaignAuthorize']);
 Route::post('aCampaign_headers', [ActiveCampaignController::class, 'activeCampaignHeaders']);

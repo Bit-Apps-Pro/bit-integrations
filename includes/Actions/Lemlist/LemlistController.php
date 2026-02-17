@@ -1,8 +1,8 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\Lemlist;
+namespace BitApps\Integrations\Actions\Lemlist;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 class LemlistController
@@ -68,8 +68,7 @@ class LemlistController
         $apiKey = $integrationDetails->api_key;
 
         if (empty($fieldMap) || empty($apiKey) || empty($selectedCampaign)) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Lemlist'));
         }
 

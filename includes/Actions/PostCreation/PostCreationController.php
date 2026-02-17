@@ -6,13 +6,13 @@
  *  Added ACF Custom Fields
  */
 
-namespace BitApps\BTCBI_FI\Actions\PostCreation;
+namespace BitApps\Integrations\Actions\PostCreation;
 
-use BitApps\BTCBI_FI\controller\PostController;
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Core\Util\Helper;
-use BitApps\BTCBI_FI\Flow\Flow;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\controller\PostController;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Core\Util\Helper;
+use BitApps\Integrations\Flow\Flow;
+use BitApps\Integrations\Log\LogHandler;
 
 final class PostCreationController
 {

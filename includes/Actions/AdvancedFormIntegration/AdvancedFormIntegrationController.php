@@ -4,9 +4,9 @@
  * AdvancedFormIntegration Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\AdvancedFormIntegration;
+namespace BitApps\Integrations\Actions\AdvancedFormIntegration;
 
-use BitApps\BTCBI_FI\Actions\WebHooks\WebHooksController;
+use BitApps\Integrations\Actions\WebHooks\WebHooksController;
 
 /**
  * Provide functionality for AdvancedFormIntegrationHandler

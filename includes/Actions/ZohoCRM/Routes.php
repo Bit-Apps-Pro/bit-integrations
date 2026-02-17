@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\ZohoCRM\ZohoCRMController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\ZohoCRM\ZohoCRMController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('zcrm_get_users', [ZohoCRMController::class, 'refreshUsersAjaxHelper']);
 Route::post('zcrm_get_tags', [ZohoCRMController::class, 'refreshTagListAjaxHelper']);

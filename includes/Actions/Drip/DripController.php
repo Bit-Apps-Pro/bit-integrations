@@ -4,9 +4,9 @@
  * Drip Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\Drip;
+namespace BitApps\Integrations\Actions\Drip;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 /**
@@ -127,8 +127,7 @@ class DripController
         $selectedRemoveTags = $integrationDetails->selectedRemoveTags;
 
         if (empty($api_token) || empty($fieldMap) || empty($accountId)) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Drip'));
         }
 

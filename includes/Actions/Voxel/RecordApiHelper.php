@@ -4,10 +4,10 @@
  * Voxel Record Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\Voxel;
+namespace BitApps\Integrations\Actions\Voxel;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, update

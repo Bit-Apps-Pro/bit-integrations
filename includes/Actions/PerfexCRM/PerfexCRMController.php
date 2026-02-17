@@ -4,9 +4,9 @@
  * PerfexCRM Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\PerfexCRM;
+namespace BitApps\Integrations\Actions\PerfexCRM;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 /**
@@ -170,8 +170,7 @@ class PerfexCRMController
         $domain = $integrationDetails->domain;
 
         if (empty($fieldMap) || empty($apiToken) || empty($actionName) || empty($domain)) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'PerfexCRM'));
         }
 

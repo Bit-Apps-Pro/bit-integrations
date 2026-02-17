@@ -1,10 +1,10 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Flow;
+namespace BitApps\Integrations\Flow;
 
-use BitApps\BTCBI_FI\Core\Database\FlowModel;
-use BitApps\BTCBI_FI\Core\Util\IpTool;
-use BitApps\BTCBI_FI\Log\LogHandler as Log;
+use BitApps\Integrations\Core\Database\FlowModel;
+use BitApps\Integrations\Core\Util\IpTool;
+use BitApps\Integrations\Log\LogHandler as Log;
 
 final class FlowController
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Triggers\WC;
+namespace BitApps\Integrations\Triggers\WC;
 
 if (! defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Core\Util\Helper;
-use BitApps\BTCBI_FI\Flow\Flow;
+use BitApps\Integrations\Core\Util\Helper;
+use BitApps\Integrations\Flow\Flow;
 use WC_Booking;
 use WC_Checkout;
 use WC_Subscriptions_Product;

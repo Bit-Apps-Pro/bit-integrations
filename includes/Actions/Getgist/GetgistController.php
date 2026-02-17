@@ -1,8 +1,8 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\Getgist;
+namespace BitApps\Integrations\Actions\Getgist;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 class GetgistController
@@ -46,8 +46,7 @@ class GetgistController
         if (empty($api_key)
             || empty($fieldMap)
         ) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'GetGist'));
         }
         $recordApiHelper = new RecordApiHelper($api_key, $integId);

@@ -1,10 +1,10 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Triggers\FallbackTrigger;
+namespace BitApps\Integrations\Triggers\FallbackTrigger;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Core\Util\Helper;
-use BitApps\BTCBI_FI\Flow\Flow;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Core\Util\Helper;
+use BitApps\Integrations\Flow\Flow;
 use DateTime;
 use EDD_Payment;
 use FrmEntryValues;

@@ -4,9 +4,9 @@
  * Zoho CRM Meta Data Api Helper
  */
 
-namespace BitApps\BTCBI_FI\Actions\ZohoCRM;
+namespace BitApps\Integrations\Actions\ZohoCRM;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 
 /**
  * Provide functionality for Tags in Zoho CRM

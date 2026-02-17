@@ -1,10 +1,10 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Triggers;
+namespace BitApps\Integrations\Triggers;
 
-use BitApps\BTCBI_FI\Core\Util\AllTriggersName;
-use BitApps\BTCBI_FI\Core\Util\Capabilities;
-use BitApps\BTCBI_FI\Core\Util\Hooks;
+use BitApps\Integrations\Core\Util\AllTriggersName;
+use BitApps\Integrations\Core\Util\Capabilities;
+use BitApps\Integrations\Core\Util\Hooks;
 use FilesystemIterator;
 use WP_Error;
 
@@ -66,7 +66,7 @@ final class TriggerController
             update_option("btcbi_{$triggerName}_test", []);
         }
         if (!$testData || empty($testData)) {
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             wp_send_json_error(new WP_Error("{$triggerName}_test", wp_sprintf(__('%s data is empty', 'bit-integrations'), $triggerName)));
         }
 
@@ -87,8 +87,7 @@ final class TriggerController
             wp_send_json_error(new WP_Error("{$triggerName}_test", __('Failed to remove test data', 'bit-integrations')));
         }
 
-        
-        /* translators: %s: Placeholder value */
+        // translators: %s: Placeholder value
         wp_send_json_success(wp_sprintf(__('%s test data removed successfully', 'bit-integrations'), $triggerName));
     }
 

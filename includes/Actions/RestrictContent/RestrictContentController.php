@@ -4,9 +4,9 @@
  * Restrict Content Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\RestrictContent;
+namespace BitApps\Integrations\Actions\RestrictContent;
 
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Log\LogHandler;
 use WP_Error;
 
 /**
@@ -40,7 +40,7 @@ class RestrictContentController
             wp_send_json_success(true, 200);
         }
         // translators: %s: Plugin name
-        /* translators: %s: Placeholder value */
+        // translators: %s: Placeholder value
         wp_send_json_error(wp_sprintf(__('%s must be activated!', 'bit-integrations'), 'Restrict Content'));
     }
 

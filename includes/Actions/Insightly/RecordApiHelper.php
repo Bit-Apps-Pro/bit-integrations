@@ -4,10 +4,10 @@
  * Insightly Record Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\Insightly;
+namespace BitApps\Integrations\Actions\Insightly;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, upsert

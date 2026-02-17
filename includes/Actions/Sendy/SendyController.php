@@ -4,10 +4,10 @@
  * Sendy Integration.
  */
 
-namespace BitApps\BTCBI_FI\Actions\Sendy;
+namespace BitApps\Integrations\Actions\Sendy;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Log\LogHandler;
 use WP_Error;
 
 /**

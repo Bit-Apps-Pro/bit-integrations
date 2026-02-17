@@ -4,11 +4,11 @@
  * Klaviyo    Record Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\Klaviyo;
+namespace BitApps\Integrations\Actions\Klaviyo;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Log\LogHandler;
 
 /**
  * Provide functionality for Record Add Member
@@ -85,7 +85,7 @@ class RecordApiHelper
         $response = apply_filters('btcbi_klaviyo_update_profile', false, $id, $authKey, $data);
 
         if (!$response) {
-            /* translators: %s: Plugin name */
+            // translators: %s: Plugin name
             return (object) ['errors' => [(object) ['detail' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')]]];
         }
 

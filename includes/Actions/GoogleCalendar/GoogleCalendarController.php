@@ -1,11 +1,11 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\GoogleCalendar;
+namespace BitApps\Integrations\Actions\GoogleCalendar;
 
-use BitApps\BTCBI_FI\Actions\GoogleCalendar\RecordApiHelper as GoogleCalendarRecordApiHelper;
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Flow\FlowController;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Actions\GoogleCalendar\RecordApiHelper as GoogleCalendarRecordApiHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Flow\FlowController;
+use BitApps\Integrations\Log\LogHandler;
 use WP_Error;
 
 class GoogleCalendarController
@@ -70,7 +70,7 @@ class GoogleCalendarController
     public function execute($integrationData, $fieldValues)
     {
         if (empty($integrationData->flow_details->tokenDetails->access_token)) {
-            /* translators: %s: Service name */
+            // translators: %s: Service name
             LogHandler::save($this->integrationID, wp_json_encode(['type' => 'record', 'type_name' => 'insert']), 'error', wp_sprintf(__('Not Authorization By %s', 'bit-integrations'), 'GoogleCalendar'));
 
             return false;

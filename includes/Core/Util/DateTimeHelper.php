@@ -1,6 +1,6 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Core\Util;
+namespace BitApps\Integrations\Core\Util;
 
 use DateTime;
 use DateTimeZone;
@@ -309,7 +309,7 @@ final class DateTimeHelper
         $abs_hour = abs($hours);
         $abs_mins = abs($minutes * 60);
 
-        /* translators: %d: Numeric value */
+        // translators: %d: Numeric value
         return wp_sprintf('%s%02d:%02d', $sign, $abs_hour, $abs_mins);
     }
 

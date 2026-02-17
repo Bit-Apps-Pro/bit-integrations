@@ -1,8 +1,8 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Actions\MasterStudyLms;
+namespace BitApps\Integrations\Actions\MasterStudyLms;
 
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Log\LogHandler;
 use STM_LMS_Course;
 use STM_LMS_Helpers;
 use STM_LMS_Lesson;

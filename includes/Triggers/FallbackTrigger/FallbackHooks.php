@@ -1,6 +1,6 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Triggers\FallbackTrigger;
+namespace BitApps\Integrations\Triggers\FallbackTrigger;
 
 final class FallbackHooks
 {

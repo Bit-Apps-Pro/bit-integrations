@@ -4,9 +4,9 @@
  * Klaviyo Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\Klaviyo;
+namespace BitApps\Integrations\Actions\Klaviyo;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 /**
@@ -55,8 +55,7 @@ class KlaviyoController
             empty($field_map)
             || empty($authKey)
         ) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Klaviyo'));
         }
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);

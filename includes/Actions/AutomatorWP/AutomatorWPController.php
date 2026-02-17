@@ -4,9 +4,9 @@
  * AutomatorWP Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\AutomatorWP;
+namespace BitApps\Integrations\Actions\AutomatorWP;
 
-use BitApps\BTCBI_FI\Actions\WebHooks\WebHooksController;
+use BitApps\Integrations\Actions\WebHooks\WebHooksController;
 
 /**
  * Provide functionality for AutomatorWPHandler

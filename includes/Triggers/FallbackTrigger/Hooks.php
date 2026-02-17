@@ -4,11 +4,11 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Core\Util\Helper;
-use BitApps\BTCBI_FI\Core\Util\Hooks;
-use BitApps\BTCBI_FI\Core\Util\StoreInCache;
-use BitApps\BTCBI_FI\Triggers\FallbackTrigger\FallbackHooks;
-use BitApps\BTCBI_FI\Triggers\FallbackTrigger\FallbackTriggerController;
+use BitApps\Integrations\Core\Util\Helper;
+use BitApps\Integrations\Core\Util\Hooks;
+use BitApps\Integrations\Core\Util\StoreInCache;
+use BitApps\Integrations\Triggers\FallbackTrigger\FallbackHooks;
+use BitApps\Integrations\Triggers\FallbackTrigger\FallbackTriggerController;
 
 if (!Helper::isProActivate()) {
     $btcbi_entities = StoreInCache::getFallbackFlowEntities() ?? [];

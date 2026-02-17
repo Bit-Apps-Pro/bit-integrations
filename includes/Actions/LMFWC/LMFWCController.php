@@ -4,9 +4,9 @@
  * LMFWC Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\LMFWC;
+namespace BitApps\Integrations\Actions\LMFWC;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 /**
@@ -127,8 +127,7 @@ class LMFWCController
         $module = $integrationDetails->module;
 
         if (empty($fieldMap) || empty($apiSecret) || empty($module) || empty($apiKey) || empty($baseUrl)) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'License Manager For WooCommerce'));
         }
 

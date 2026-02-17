@@ -4,12 +4,12 @@
  * ZohoAnalytics Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\ZohoAnalytics;
+namespace BitApps\Integrations\Actions\ZohoAnalytics;
 
-use BitApps\BTCBI_FI\Core\Util\ApiResponse as UtilApiResponse;
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Core\Util\IpTool;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\ApiResponse as UtilApiResponse;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\IpTool;
+use BitApps\Integrations\Log\LogHandler;
 use WP_Error;
 
 /**

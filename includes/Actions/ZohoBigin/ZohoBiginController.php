@@ -4,11 +4,11 @@
  * ZohoBigin Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\ZohoBigin;
+namespace BitApps\Integrations\Actions\ZohoBigin;
 
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Flow\FlowController;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Flow\FlowController;
+use BitApps\Integrations\Log\LogHandler;
 use WP_Error;
 
 /**
@@ -428,7 +428,7 @@ class ZohoBiginController
             || empty($module)
             || empty($fieldMap)
         ) {
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Zoho Bigin'));
             LogHandler::save($this->_integrationID, 'record', 'validation', $error);
 

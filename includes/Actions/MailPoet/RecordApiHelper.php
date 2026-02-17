@@ -4,10 +4,10 @@
  * ZohoRecruit Record Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\MailPoet;
+namespace BitApps\Integrations\Actions\MailPoet;
 
-use BitApps\BTCBI_FI\Core\Util\Common;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Log\LogHandler;
 use Exception;
 
 /**
@@ -43,7 +43,7 @@ class RecordApiHelper
                 $response = apply_filters('btcbi_mailpoet_update_subscriber', $existingSubscriber['id'], $subscriber);
 
                 if ($response === $existingSubscriber['id']) {
-                    /* translators: %s: Plugin name */
+                    // translators: %s: Plugin name
                     $errorMessages = wp_sprintf(__('%s is not active or not installed', 'bit-integrations'), 'Bit Integrations Pro');
                 } elseif (!$response['success']) {
                     $errorMessages = $response('message');

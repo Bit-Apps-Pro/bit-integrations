@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Core\Util\Hooks;
-use BitApps\BTCBI_FI\Triggers\BitSocial\BitSocialController;
+use BitApps\Integrations\Core\Util\Hooks;
+use BitApps\Integrations\Triggers\BitSocial\BitSocialController;
 
 Hooks::add('bit_social_facebook_post_publish', [BitSocialController::class, 'facebookPostPublish'], 10, 2);
 Hooks::add('bit_social_linkedin_post_publish', [BitSocialController::class, 'linkedinPostPublish'], 10, 2);

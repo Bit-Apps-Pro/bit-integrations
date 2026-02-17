@@ -4,9 +4,9 @@
  * WooCommerce Integration
  */
 
-namespace BitApps\BTCBI_FI\Actions\WooCommerce;
+namespace BitApps\Integrations\Actions\WooCommerce;
 
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Log\LogHandler;
 use WC_Data_Store;
 use WP_Error;
 

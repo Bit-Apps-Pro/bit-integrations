@@ -4,12 +4,12 @@
  * ZohoRecruit Record Api
  */
 
-namespace BitApps\BTCBI_FI\Actions\ZohoProjects;
+namespace BitApps\Integrations\Actions\ZohoProjects;
 
-use BitApps\BTCBI_FI\Core\Util\ApiResponse as UtilApiResponse;
-use BitApps\BTCBI_FI\Core\Util\FieldValueHandler;
-use BitApps\BTCBI_FI\Core\Util\HttpHelper;
-use BitApps\BTCBI_FI\Log\LogHandler;
+use BitApps\Integrations\Core\Util\ApiResponse as UtilApiResponse;
+use BitApps\Integrations\Core\Util\FieldValueHandler;
+use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Log\LogHandler;
 use WP_Error;
 
 /**
@@ -67,7 +67,7 @@ class RecordApiHelper
                     }
                 }
                 if (empty($fieldData[$sEvent][$fieldPair->zohoFormField]) && \in_array($fieldPair->zohoFormField, $required)) {
-                    /* translators: %s: Placeholder value */
+                    // translators: %s: Placeholder value
                     $error = new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('%1$s is required for %2$s', 'bit-integrations'), $fieldPair->zohoFormField, $sEvent));
                     // $this->_logResponse->apiResponse($this->_logID, $this->_integrationID, ['type' => 'record', 'type_name' => 'field'], 'validation', $error);
                     LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'record', 'type_name' => 'validation']), 'error', wp_json_encode($error));

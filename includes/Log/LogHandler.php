@@ -1,12 +1,12 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Log;
+namespace BitApps\Integrations\Log;
 
-use BitApps\BTCBI_FI\Core\Database\LogModel;
-use BitApps\BTCBI_FI\Core\Util\Capabilities;
-use BitApps\BTCBI_FI\Core\Util\EmailNotification;
-use BitApps\BTCBI_FI\Flow\Flow;
-use BitApps\BTCBI_FI\Flow\FlowController;
+use BitApps\Integrations\Core\Database\LogModel;
+use BitApps\Integrations\Core\Util\Capabilities;
+use BitApps\Integrations\Core\Util\EmailNotification;
+use BitApps\Integrations\Flow\Flow;
+use BitApps\Integrations\Flow\FlowController;
 use WP_Error;
 
 final class LogHandler

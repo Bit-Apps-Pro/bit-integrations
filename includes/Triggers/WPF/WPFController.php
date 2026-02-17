@@ -1,8 +1,8 @@
 <?php
 
-namespace BitApps\BTCBI_FI\Triggers\WPF;
+namespace BitApps\Integrations\Triggers\WPF;
 
-use BitApps\BTCBI_FI\Flow\Flow;
+use BitApps\Integrations\Flow\Flow;
 
 final class WPFController
 {
@@ -47,8 +47,7 @@ final class WPFController
     public function getAll()
     {
         if (!\function_exists('WPForms')) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             wp_send_json_error(wp_sprintf(__('%s is not installed or activated.', 'bit-integrations'), 'WPForms'));
         }
         $forms = WPForms()->form->get();
@@ -67,8 +66,7 @@ final class WPFController
     public function get_a_form($data)
     {
         if (!\function_exists('WPForms')) {
-            
-            /* translators: %s: Placeholder value */
+            // translators: %s: Placeholder value
             wp_send_json_error(wp_sprintf(__('%s is not installed or activated.', 'bit-integrations'), 'WPForms'));
         }
         if (empty($data->id)) {

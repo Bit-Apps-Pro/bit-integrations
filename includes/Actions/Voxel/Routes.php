@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\BTCBI_FI\Actions\Voxel\VoxelController;
-use BitApps\BTCBI_FI\Core\Util\Route;
+use BitApps\Integrations\Actions\Voxel\VoxelController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('voxel_authentication', [VoxelController::class, 'authentication']);
 Route::post('get_voxel_post_types', [VoxelController::class, 'getPostTypes']);
