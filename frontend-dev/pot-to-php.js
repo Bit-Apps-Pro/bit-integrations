@@ -18,10 +18,62 @@ const fileHeader =
     '<?php',
     "if(!defined('ABSPATH')) exit;",
     '/* THIS IS A GENERATED FILE. DO NOT EDIT DIRECTLY. */',
-    `\$${args[2].replace(/[|&;$%@"<>()+-_,]/g, '_')}_i18n_strings = array(`,
+    '$btcbi_i18n_strings = array('
   ].join(NEWLINE) + NEWLINE
 
-const fileFooter = NEWLINE + [');', '/* THIS IS THE END OF THE GENERATED FILE */'].join(NEWLINE) + NEWLINE
+const fileFooter =
+  NEWLINE + [');', '/* THIS IS THE END OF THE GENERATED FILE */'].join(NEWLINE) + NEWLINE
+
+const PLACEHOLDER_REGEX = /%(\d+\$)?[sdfeEgGoxXbcu]/g
+
+/**
+ * Builds a "translators:" PHP comment for strings containing placeholders.
+ * Uses the extracted comment from the POT file if available, otherwise auto-generates one.
+ *
+ * @param {object} translation The translation object from gettext-parser.
+ * @return {string} A PHP comment line with leading TAB indent, or empty string if no placeholders.
+ */
+function buildTranslatorsComment(translation) {
+  const extracted = (translation.comments && translation.comments.extracted) || ''
+  if (extracted.toLowerCase().includes('translators:')) {
+    return `${TAB}/* ${extracted.trim()} */${NEWLINE}`
+  }
+
+  const numbered = numberPlaceholders(translation.msgid)
+  const placeholders = numbered.match(PLACEHOLDER_REGEX)
+  if (!placeholders) return ''
+
+  if (placeholders.length === 1) {
+    return `${TAB}/* translators: ${placeholders[0]}: placeholder */${NEWLINE}`
+  }
+
+  const description = placeholders.map((p, i) => `${i + 1}: ${p} placeholder`).join(' ')
+  return `${TAB}/* translators: ${description} */${NEWLINE}`
+}
+
+/**
+ * Numbers unordered printf placeholders when a string contains more than one.
+ * Converts e.g. "%s ... %s" to "%1$s ... %2$s". Already-numbered placeholders
+ * (like %1$s) are left untouched.
+ *
+ * @param {string} input The string to process.
+ * @return {string} The string with numbered placeholders, or unchanged if 0-1 placeholders.
+ */
+function numberPlaceholders(input) {
+  const matches = input.match(PLACEHOLDER_REGEX)
+  if (!matches || matches.length <= 1) return input
+
+  const hasUnordered = matches.some(m => !/^\%\d+\$/.test(m))
+  if (!hasUnordered) return input
+
+  let counter = 0
+  return input.replace(PLACEHOLDER_REGEX, match => {
+    if (/^\%\d+\$/.test(match)) return match
+    counter++
+    const specifier = match.slice(1)
+    return `%${counter}$${specifier}`
+  })
+}
 
 /**
  * Escapes single quotes.
@@ -48,21 +100,26 @@ function convertTranslationToPHP(translation, textdomain, context = '') {
   let original = translation.msgid
 
   if (original !== '') {
+    const translatorsComment = buildTranslatorsComment(translation)
     original = escapeSingleQuotes(original)
+    const ordered = escapeSingleQuotes(numberPlaceholders(translation.msgid))
 
     if (isEmpty(translation.msgid_plural)) {
+      php += translatorsComment
       if (isEmpty(context)) {
-        php += `${TAB}'${original}' => __('${original}', '${textdomain}')`
+        php += `${TAB}'${original}' => __('${ordered}', '${textdomain}')`
       } else {
-        php += `${TAB}'${original}' => _x('${original}', '${translation.msgctxt}', '${textdomain}')`
+        php += `${TAB}'${original}' => _x('${ordered}', '${translation.msgctxt}', '${textdomain}')`
       }
     } else {
       const plural = escapeSingleQuotes(translation.msgid_plural)
+      const orderedPlural = escapeSingleQuotes(numberPlaceholders(translation.msgid_plural))
 
+      php += translatorsComment
       if (isEmpty(context)) {
-        php += `${TAB}'${original}' => _n_noop('${original}', '${plural}', '${textdomain}')`
+        php += `${TAB}'${original}' => _n_noop('${ordered}', '${orderedPlural}', '${textdomain}')`
       } else {
-        php += `${TAB}'${original}' => _nx_noop('${original}',  '${plural}', '${translation.msgctxt}', '${textdomain}')`
+        php += `${TAB}'${original}' => _nx_noop('${ordered}',  '${orderedPlural}', '${translation.msgctxt}', '${textdomain}')`
       }
     }
   }
@@ -80,8 +137,8 @@ function convertPOTToPHP(potFile, phpFile, options) {
     const translations = parsedPO.translations[context]
 
     const newOutput = Object.values(translations)
-      .map((translation) => convertTranslationToPHP(translation, options.textdomain, context))
-      .filter((php) => php !== '')
+      .map(translation => convertTranslationToPHP(translation, options.textdomain, context))
+      .filter(php => php !== '')
 
     output = [...output, ...newOutput]
   }
@@ -92,5 +149,5 @@ function convertPOTToPHP(potFile, phpFile, options) {
 }
 
 convertPOTToPHP(args[0], args[1], {
-  textdomain: args[2],
+  textdomain: args[2]
 })

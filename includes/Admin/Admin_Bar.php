@@ -136,7 +136,7 @@ class Admin_Bar
 
         if ((get_locale() !== 'en_US' || get_user_locale() !== 'en_US') && file_exists(BTCBI_PLUGIN_BASEDIR . '/languages/generatedString.php')) {
             include_once BTCBI_PLUGIN_BASEDIR . '/languages/generatedString.php';
-            $btcbi['translations'] = $bit_integrations_i18n_strings;
+            $btcbi['translations'] = $btcbi_i18n_strings;
         }
 
         wp_localize_script('index-BTCBI-MODULE', 'btcbi', $btcbi);
