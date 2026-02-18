@@ -4,8 +4,6 @@
 
 namespace BitApps\Integrations;
 
-// use BitApps\BTCBI\Views\Layout;
-
 if (!defined('ABSPATH')) {
     exit;
 }

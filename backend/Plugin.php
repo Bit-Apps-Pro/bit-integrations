@@ -51,13 +51,13 @@ final class Plugin
     public function init_plugin()
     {
         Hooks::add('init', [$this, 'init_classes'], 8);
-        Hooks::add('btcbi_delete_integ_log', [$this, 'integrationlogDelete'], PHP_INT_MAX);
+        Hooks::add(Config::withPrefix('delete_log'), [$this, 'deleteIntegrationLog'], PHP_INT_MAX);
         Hooks::filter('plugin_action_links_' . plugin_basename(BITAPPS_INTEGRATIONS_PLUGIN_FILE), [$this, 'plugin_action_links']);
         Hooks::filter('cron_schedules', [$this, 'every_week_time_cron']);
 
         new HookService();
 
-        $this->btcbi_delete_log_scheduler();
+        $this->deleteLogScheduler();
     }
 
     public function every_week_time_cron($schedules)
@@ -70,10 +70,10 @@ final class Plugin
         return $schedules;
     }
 
-    public function btcbi_delete_log_scheduler()
+    public function deleteLogScheduler()
     {
-        if (!wp_next_scheduled('btcbi_delete_integ_log')) {
-            wp_schedule_event(time(), 'every_week', 'btcbi_delete_integ_log');
+        if (!wp_next_scheduled(Config::withPrefix('delete_log'))) {
+            wp_schedule_event(time(), 'every_week', Config::withPrefix('delete_log'));
         }
     }
 
@@ -153,7 +153,7 @@ final class Plugin
      *
      * @return bool True if the plugin main instance could be loaded, false otherwise./
      */
-    public static function integrationlogDelete()
+    public static function deleteIntegrationLog()
     {
         $option = Config::getOption('app_conf', get_option('btcbi_app_conf', []));
         if (isset($option->enable_log_del, $option->day)) {

@@ -13,9 +13,7 @@ fi
 
 composer i -o --no-dev --ignore-platform-reqs 2>&1 >/dev/null
 
-cd "$PLUGIN_DIR/frontend-dev" && pnpm pda
-
-cd "$PLUGIN_DIR"
+cd "$PLUGIN_DIR" && pnpm pda
 
 cp -r "$PLUGIN_DIR/assets"  "$BUILD_DIR/assets"
 cp -r "$PLUGIN_DIR/bitwpfi.php"  "$BUILD_DIR/bitwpfi.php"

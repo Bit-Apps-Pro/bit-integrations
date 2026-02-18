@@ -27,8 +27,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: "pnpm"
-          cache-dependency-path: "frontend-dev/pnpm-lock.yaml"
+          cache: 'pnpm'
+          cache-dependency-path: 'pnpm-lock.yaml'
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -46,7 +46,6 @@ jobs:
 
       - name: Install frontend dependencies
         run: |
-          cd frontend-dev
           pnpm install
 
       - name: Check for SVN
@@ -64,7 +63,7 @@ jobs:
         id: setup-php
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.x"
+          php-version: '8.x'
           tools: composer:v2, wp-cli
 
       - name: Determine if this is a release or push
@@ -96,7 +95,7 @@ jobs:
         env:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-          BUILD_DIR: "${{ github.workspace }}/build/${{ env.PLUGIN_SLUG }}"
+          BUILD_DIR: '${{ github.workspace }}/build/${{ env.PLUGIN_SLUG }}'
           SLUG: ${{ env.PLUGIN_SLUG }}
       - name: Upload release asset
         if: steps.build-plugin.outputs.free_exists == 'true'

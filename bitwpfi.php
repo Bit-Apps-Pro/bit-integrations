@@ -44,6 +44,10 @@ define('BTCBI_PLUGIN_MAIN_FILE', __FILE__);
 define('BITAPPS_INTEGRATIONS_PLUGIN_FILE', __FILE__);
 
 require_once plugin_dir_path(__FILE__) . 'backend/loader.php';
+
+if (!class_exists(Config::class)) {
+    return;
+}
 /**
  * @deprecated since version 2.7.9. Use `bitapps_integrations_activate_plugin()` instead.
  *

@@ -17,6 +17,10 @@ use WP_Site;
  */
 final class Activation
 {
+    private string $oldVersion;
+
+    private string $newVersion;
+
     public function activate()
     {
         add_action(Config::withPrefix('activation'), [$this, 'install']);
@@ -63,17 +67,16 @@ final class Activation
             $oldVersion = Config::getOption('version', get_option('btcbi_version'));
         }
 
+        $this->oldVersion = $oldVersion ?? '0.0.0';
+        $this->newVersion = Config::VERSION;
         if (!$installed || version_compare($oldVersion, Config::VERSION, '!=')) {
             DB::migrate();
             Config::updateOption('installed', time());
         }
 
-        Config::updateOption('version', Config::VERSION);
+        $this->runVersionUpgradeTask();
 
-        // disable free version if pro version is active
-        // if (defined('BTCBI_PLUGIN_MAIN_FILE') && is_plugin_active(plugin_basename(BTCBI_PLUGIN_MAIN_FILE))) {
-        //     deactivate_plugins(plugin_basename(BTCBI_PLUGIN_MAIN_FILE));
-        // }
+        Config::updateOption('version', Config::VERSION);
     }
 
     public static function handle_new_site(WP_Site $new_site)
@@ -89,5 +92,22 @@ final class Activation
         }
 
         restore_current_blog();
+    }
+
+    public function runVersionUpgradeTask()
+    {
+        return match (true) {
+            version_compare($this->oldVersion, '2.7.9', '<') => $this->upgradeTo279(),
+            default                                          => null,
+        };
+    }
+
+    private function upgradeTo279()
+    {
+        delete_option('btcbi_db_version');
+        delete_option('btcbi_installed');
+        delete_option('btcbi_version');
+
+        wp_clear_scheduled_hook('btcbi_delete_integ_log');
     }
 }
