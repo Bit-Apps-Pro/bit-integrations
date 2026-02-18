@@ -46,7 +46,7 @@ function EditWebhookInteg({ setSnackbar }) {
       <b className="wdt-200 d-in-b">{__('Webhook URL:', 'bit-integrations')}</b>
       <div className="w-5">
         <CopyText
-          value={`${api.base}/callback/${hookID}`}
+          value={`${api}/callback/${hookID}`}
           className="field-key-cpy w-10 ml-0"
           setSnackbar={setSnackbar}
           readOnly

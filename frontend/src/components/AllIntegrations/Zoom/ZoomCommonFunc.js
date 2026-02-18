@@ -2,6 +2,7 @@ import { __, sprintf } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { deepCopy } from '../../../Utils/Helpers'
 import { create } from 'mutative'
+import { $appConfigState } from '../../../GlobalStates'
 
 export const handleInput = (
   e,
@@ -155,7 +156,7 @@ export const handleAuthorize = (
   const apiEndpoint = `https://zoom.us/oauth/authorize?response_type=code&client_id=${
     confTmp.clientId
   }&state=${encodeURIComponent(window.location.href)}/redirect&redirect_uri=${encodeURIComponent(
-    `${btcbi.api.base}/redirect`
+    `${$appConfigState.api}/redirect`
   )}`
   const authWindow = window.open(apiEndpoint, 'zoom', 'width=400,height=609,toolbar=off')
   const popupURLCheckTimer = setInterval(() => {
@@ -198,7 +199,7 @@ const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, setIsLoading
   tokenRequestParams.clientId = confTmp.clientId
   tokenRequestParams.clientSecret = confTmp.clientSecret
   // eslint-disable-next-line no-undef
-  tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
+  tokenRequestParams.redirectURI = `${$appConfigState.api}/redirect`
   bitsFetch(tokenRequestParams, 'zoom_generate_token')
     .then(result => result)
     .then(result => {

@@ -164,7 +164,7 @@ export const handleConstantContactAuthorize = (
   const apiEndpoint = `https://authz.constantcontact.com/oauth2/default/v1/authorize?scope=${scopes}&response_type=code&client_id=${
     confTmp.clientId
   }&state=${encodeURIComponent(window.location.href)}/redirect&redirect_uri=${encodeURIComponent(
-    `${btcbi.api.base}`
+    `${btcbi.api}`
   )}/redirect`
 
   const authWindow = window.open(apiEndpoint, integ, 'width=400,height=609,toolbar=off')
@@ -230,7 +230,7 @@ const tokenHelper = (
   const tokenRequestParams = { ...grantToken }
   tokenRequestParams.clientId = confTmp.clientId
   tokenRequestParams.clientSecret = confTmp.clientSecret
-  tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
+  tokenRequestParams.redirectURI = `${btcbi.api}/redirect`
 
   bitsFetch(tokenRequestParams, `${ajaxInteg}_generate_token`)
     .then(result => result)

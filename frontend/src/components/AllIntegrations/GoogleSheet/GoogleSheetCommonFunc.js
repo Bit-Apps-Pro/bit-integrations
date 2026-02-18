@@ -3,6 +3,7 @@ import bitsFetch from '../../../Utils/bitsFetch'
 import { deepCopy } from '../../../Utils/Helpers'
 import { handleAuthData } from '../GlobalIntegrationHelper'
 import { create } from 'mutative'
+import { $appConfigState } from '../../../GlobalStates'
 
 export const handleInput = (
   e,
@@ -230,7 +231,7 @@ export const handleAuthorize = (confTmp, selectedAuthType, setError, setIsLoadin
 
   const scopes = 'https://www.googleapis.com/auth/drive'
   // eslint-disable-next-line no-undef
-  const finalRedirectUri = `${btcbi.api.base}/redirect`
+  const finalRedirectUri = `${$appConfigState.api}/redirect`
 
   const { href, hash } = window.location
   const stateUrl = hash ? href.replace(hash, '#/auth-response/') : `${href}#/auth-response/`
@@ -268,7 +269,7 @@ export const tokenHelper = async (
   tokenRequestParams.clientId = confTmp.clientId
   tokenRequestParams.clientSecret = confTmp.clientSecret
   // eslint-disable-next-line no-undef
-  tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
+  tokenRequestParams.redirectURI = `${$appConfigState.api}/redirect`
 
   setIsLoading(true)
   await bitsFetch(tokenRequestParams, 'gsheet_generate_token')

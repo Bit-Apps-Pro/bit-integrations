@@ -8,7 +8,6 @@ if (! defined('ABSPATH')) {
 
 use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Capabilities;
-use BitApps\Integrations\Core\Util\DateTimeHelper;
 use BitApps\Integrations\Core\Util\Hooks;
 
 /**
@@ -77,11 +76,11 @@ class Admin_Bar
 
         if (Config::isDev()) {
             $devUrl = Config::getDevUrl();
-            wp_enqueue_script('MODULE' . Config::SLUG . '-vite-client-helper', $devUrl . '/config/devHotModule.js', [], BTCBI_VERSION, true);
-            wp_enqueue_script('MODULE' . Config::SLUG . '-vite-client', $devUrl . '/@vite/client', [], BTCBI_VERSION, true);
-            wp_enqueue_script('MODULE' . Config::SLUG . '-index', $devUrl . '/main.jsx', [], BTCBI_VERSION, true);
+            wp_enqueue_script('MODULE' . Config::SLUG . '-vite-client-helper', $devUrl . '/config/devHotModule.js', [], Config::VERSION, true);
+            wp_enqueue_script('MODULE' . Config::SLUG . '-vite-client', $devUrl . '/@vite/client', [], Config::VERSION, true);
+            wp_enqueue_script('MODULE' . Config::SLUG . '-index', $devUrl . '/main.jsx', [], Config::VERSION, true);
         } else {
-            wp_enqueue_script('MODULE' . Config::SLUG . '-index', Config::get('ASSET_URI') . '/main.' . Config::VERSION . '.js', $deps, BTCBI_VERSION, true);
+            wp_enqueue_script('MODULE' . Config::SLUG . '-index', Config::get('ASSET_URI') . '/main.' . Config::VERSION . '.js', $deps, Config::VERSION, true);
         }
 
         if (!wp_script_is('wp-tinymce')) {
@@ -89,45 +88,7 @@ class Admin_Bar
             wp_enqueue_script('wp-tinymce');
         }
 
-        $userMails = [];
-        if (current_user_can('manage_options')) {
-            $users = get_users(['fields' => ['ID', 'user_nicename', 'user_email', 'display_name']]);
-            foreach ($users as $key => $user) {
-                $userMails[$key]['label'] = !empty($user->display_name) ? $user->display_name : '';
-                $userMails[$key]['value'] = !empty($user->user_email) ? $user->user_email : '';
-                $userMails[$key]['id'] = $user->ID;
-            }
-        }
-
-        $frontendConfig = apply_filters(
-            Config::withPrefix('localized_script'),
-            [
-                'nonce'       => wp_create_nonce(Config::withPrefix('nonce')),
-                'assetsURL'   => Config::get('ASSET_URI'),
-                'baseURL'     => get_admin_url(null, 'admin.php?page=bit-integrations#'),
-                'siteURL'     => site_url(),
-                'ajaxURL'     => admin_url('admin-ajax.php'),
-                'api'         => Config::get('API_URL'),
-                'dateFormat'  => get_option('date_format'),
-                'timeFormat'  => get_option('time_format'),
-                'timeZone'    => DateTimeHelper::wp_timezone_string(),
-                'userMail'    => $userMails,
-                'currentUser' => wp_get_current_user(),
-            ]
-        );
-
-        if (\defined('BTCBI_VERSION')) {
-            $frontendConfig['version'] = \function_exists('btcbi_pro_activate_plugin') ? BTCBI_PRO_VERSION : Config::VERSION;
-        }
-
-        $changelogVersion = Config::getOption('changelog_version', get_option('btcbi_changelog_version', '0.0.0'));
-        $frontendConfig['changelogVersion'] = $changelogVersion;
-
-        if ((get_locale() !== 'en_US' || get_user_locale() !== 'en_US') && file_exists(BTCBI_PLUGIN_BASEDIR . '/languages/generatedString.php')) {
-            include_once BTCBI_PLUGIN_BASEDIR . '/languages/generatedString.php';
-            $frontendConfig['translations'] = $bit_integrations_i18n_strings;
-        }
-
+        $frontendConfig = Config::getFrontendConfig();
         wp_localize_script('MODULE' . Config::SLUG . '-index', Config::VAR_PREFIX, $frontendConfig);
     }
 
@@ -138,7 +99,7 @@ class Admin_Bar
      */
     public function rootPage()
     {
-        include BTCBI_PLUGIN_BASEDIR . '/views/view-root.php';
+        include Config::get('BASEDIR') . '/views/view-root.php';
     }
 
     public function RemoveAdminNotices()

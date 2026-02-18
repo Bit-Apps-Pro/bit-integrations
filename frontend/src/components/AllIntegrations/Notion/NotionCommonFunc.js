@@ -9,6 +9,7 @@ import toast from 'react-hot-toast'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { __ } from '../../../Utils/i18nwrap'
 import { saveActionConf, saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
+import { $appConfigState } from '../../../GlobalStates'
 
 export const handleInput = (e, conf, setConf, error, setError) => {
   const newConf = { ...conf }
@@ -34,7 +35,7 @@ export const handleAuthorize = (conf, setConf, error, setError, setAuthorized, l
     conf.clientId
   }&response_type=code&owner=user&state=${encodeURIComponent(
     window.location.href
-  )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api.base}`)}/redirect`
+  )}/redirect&redirect_uri=${encodeURIComponent(`${$appConfigState.api}`)}/redirect`
   const authWindow = window.open(apiEndpoint, 'Notion', 'width=400,height=609,toolbar=off')
   const popupURLCheckTimer = setInterval(() => {
     if (authWindow.closed) {
@@ -73,7 +74,7 @@ const tokenHelper = (grantToken, conf, setConf, setAuthorized, loading, setLoadi
   tokenRequestParams.clientId = conf.clientId
   tokenRequestParams.clientSecret = conf.clientSecret
   // eslint-disable-next-line no-undef
-  tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
+  tokenRequestParams.redirectURI = `${$appConfigState.api}/redirect`
   bitsFetch(tokenRequestParams, 'notion_authorization').then(result => {
     if (result && result.success) {
       const newConf = { ...conf }

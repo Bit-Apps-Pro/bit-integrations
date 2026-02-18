@@ -83,7 +83,7 @@ final class Activation
     {
         switch_to_blog($new_site->blog_id);
 
-        $plugin = plugin_basename(BITAPPS_INTEGRATIONS_PLUGIN_FILE);
+        $plugin = plugin_basename(BIT_INTEGRATIONS_PLUGIN_FILE);
 
         if (is_plugin_active_for_network($plugin)) {
             // activate_plugin($plugin);
@@ -97,7 +97,7 @@ final class Activation
     public function runVersionUpgradeTask()
     {
         return match (true) {
-            version_compare($this->oldVersion, '2.7.9', '<') => $this->upgradeTo279(),
+            version_compare($this->oldVersion, '2.7.8', '<') => $this->upgradeTo279(),
             default                                          => null,
         };
     }

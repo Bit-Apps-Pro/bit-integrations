@@ -52,7 +52,7 @@ final class Plugin
     {
         Hooks::add('init', [$this, 'init_classes'], 8);
         Hooks::add(Config::withPrefix('delete_log'), [$this, 'deleteIntegrationLog'], PHP_INT_MAX);
-        Hooks::filter('plugin_action_links_' . plugin_basename(BITAPPS_INTEGRATIONS_PLUGIN_FILE), [$this, 'plugin_action_links']);
+        Hooks::filter('plugin_action_links_' . plugin_basename(BIT_INTEGRATIONS_PLUGIN_FILE), [$this, 'plugin_action_links']);
         Hooks::filter('cron_schedules', [$this, 'every_week_time_cron']);
 
         new HookService();

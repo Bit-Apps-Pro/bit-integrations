@@ -2,6 +2,7 @@
 
 namespace BitApps\Integrations\Triggers;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\AllTriggersName;
 use BitApps\Integrations\Core\Util\Capabilities;
 use BitApps\Integrations\Core\Util\Hooks;

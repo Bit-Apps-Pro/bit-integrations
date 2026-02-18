@@ -2,7 +2,6 @@ import { atom } from 'recoil'
 import { atomWithBroadcast } from './components/atomWithBroadcast'
 import { APP_CONFIG } from './config/app'
 
-console.log('APP_CONFIG :>> ', APP_CONFIG)
 // atoms
 // eslint-disable-next-line no-undef
 export const $appConfigState = atom({ key: '$appConfigState', default: APP_CONFIG })

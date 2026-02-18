@@ -7,6 +7,8 @@ import CopyText from '../../Utilities/CopyText'
 import { handleConstantContactAuthorize } from './ConstantContactCommonFunc'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
+import { $appConfigState } from '../../../GlobalStates'
+import { useRecoilValue } from 'recoil'
 
 export default function ConstantContactAuthorization({
   constantContactConf,
@@ -19,6 +21,7 @@ export default function ConstantContactAuthorization({
   redirectLocation,
   isInfo
 }) {
+  const btcbi = useRecoilValue($appConfigState)
   const [isAuthorized, setisAuthorized] = useState(false)
   const { constantContact } = tutorialLinks
   const [error, setError] = useState({
@@ -50,9 +53,9 @@ export default function ConstantContactAuthorization({
       'Goto',
       'bit-integrations'
     )} <a href="https://app.constantcontact.com/pages/dma/portal/?_ga=2.91540634.1868552181.1667660766-5cc88792-fd06-40a8-9b8c-e27659667215">${__(
-    'Constant Contact Application',
-    'bit-integrations'
-  )}</a></li>
+      'Constant Contact Application',
+      'bit-integrations'
+    )}</a></li>
     <li>${__('Then create a new application.', 'bit-integrations')}</li>
     <li>${__(
       'Select  <b>(Authorization Code Flow and Implicit Flow)</b> and <b>(Rotating Refresh Tokens or Long Lived Refresh Tokens).</b>',
@@ -115,7 +118,7 @@ export default function ConstantContactAuthorization({
         <b>{__('Authorized Redirect URIs:', 'bit-integrations')}</b>
       </div>
       <CopyText
-        value={redirectLocation || `${btcbi.api.base}/redirect`}
+        value={redirectLocation || `${btcbi.api}/redirect`}
         setSnackbar={setSnackbar}
         className="field-key-cpy w-6 ml-0"
         readOnly={isInfo}

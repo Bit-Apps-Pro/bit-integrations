@@ -10,8 +10,6 @@ use BitApps\Integrations\Core\Util\API as Route;
 use BitApps\Integrations\Core\Util\Helper;
 use BitApps\Integrations\Triggers\Webhook\WebhookController;
 
-// use BitApps\Integrations\Triggers\Webhook\WebhookController;
-
 Route::get('redirect/', [new ActionController(), 'handleRedirect'], null, ['state' => ['required' => true]]);
 
 if (!Helper::isProActivate()) {

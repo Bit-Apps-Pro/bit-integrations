@@ -16,13 +16,8 @@ export default defineConfig(({ mode }) => {
     base: isDev ? '/' : '',
     assetsDir: 'assets',
     plugins: [
-      react({
-        fastRefresh: true,
-        babel: {
-          plugins: []
-        }
-      }), 
-      copyStatics(mode), 
+      react(),
+      copyStatics(mode),
       setDevelopmentServerConfig()
     ],
     build: {
@@ -89,11 +84,17 @@ export default defineConfig(({ mode }) => {
       commonjsOptions: { transformMixedEsModules: true }
     },
     server: {
+      watch: {
+        ignored: ['**/.git/**', '**/node_modules/**', '**/.port/**'],
+        usePolling: true,
+        interval: 100,
+        include: ['**/*.js', '**/*.jsx', '**/*.css', '**/*.scss']
+      },
       cors: true,
       strictPort: true,
       port: 3000,
-      hmr: { 
-        host: 'localhost',
+      hmr: {
+        // host: 'localhost',
         overlay: true
       },
       commonjsOptions: { transformMixedEsModules: true }
@@ -150,16 +151,15 @@ function setDevelopmentServerConfig() {
           }
         })
 
-        server.watcher.add(['.port'])
-        server.watcher.on('change', file => {
-          if (file === '.port') {
-            server.config.logger.warnOnce('Server restarting for origin mismatch', { timestamp: true })
-            server.restart()
-          }
-        })
+        // server.watcher.add(['.port'])
+        // server.watcher.on('change', file => {
+        //   if (file === '.port') {
+        //     server.config.logger.warnOnce('Server restarting for origin mismatch', { timestamp: true })
+        //     server.restart()
+        //   }
+        // })
 
         server.httpServer.close(() => {
-          server.watcher.close()
           removeStoredPort()
         })
       }

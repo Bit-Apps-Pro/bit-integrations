@@ -94,15 +94,15 @@ class WebhookController
         $params = $request->get_params();
         $hookId = $params['hook_id'] ?? null;
 
-        if (empty(!$hookId)) {
-            rest_ensure_response(['status' => 'failed', 'Hook Id is required.']);
+        if (empty($hookId)) {
+            return rest_ensure_response(['status' => 'failed', 'Hook Id is required.']);
         }
 
         unset($data['hook_id']);
 
         $finalData = self::overrideDataWithBody($data, $flattenedBody);
 
-        $optionKey = 'btcbi_webhook_' . $hookId;
+        $optionKey = Config::withPrefix('webhook_' . $hookId);
         if (get_option($optionKey) !== false) {
             update_option($optionKey, $data);
         }

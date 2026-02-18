@@ -13,6 +13,9 @@ import WebhookDataTable from '../Utilities/WebhookDataTable'
 import EyeIcn from '../Utilities/EyeIcn'
 import EyeOffIcn from '../Utilities/EyeOffIcn'
 import Note from '../Utilities/Note'
+import { APP_CONFIG } from '../../config/app'
+
+console.log('APP_CONFIG : ', APP_CONFIG)
 
 const Webhook = () => {
   const [newFlow, setNewFlow] = useRecoilState($newFlow)
@@ -26,7 +29,6 @@ const Webhook = () => {
   const intervalRef = useRef(null)
   let controller = new AbortController()
   const signal = controller.signal
-
   const setTriggerData = () => {
     const tmpNewFlow = { ...newFlow }
     tmpNewFlow.triggerData = {
@@ -132,7 +134,6 @@ const Webhook = () => {
                 )}</li>
             </ul>
   `
-
   return (
     <div className="trigger-webhook-width">
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
@@ -140,7 +141,7 @@ const Webhook = () => {
         <b>{__('Webhook URL:', 'bit-integrations')}</b>
       </div>
       <CopyText
-        value={`${api.base}/callback/${hookID}`}
+        value={`${api}/callback/${hookID}`}
         className="field-key-cpy w-10 ml-0"
         setSnackbar={setSnackbar}
         readOnly

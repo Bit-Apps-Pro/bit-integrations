@@ -66,7 +66,7 @@ function NotionAuthorization({ notionConf, setNotionConf, step, setStep, isInfo,
           onchange={e => handleInput(e, notionConf, setNotionConf, error, setError)}
         />
         <Input label="Homepage" copytext={window.location.origin} setToast />
-        <Input label="Redirect URIs" copytext={`${btcbi.api.base}/redirect`} setToast />
+        <Input label="Redirect URIs" copytext={`${btcbi.api}/redirect`} setToast />
         <Input
           label={__('OAuth client ID', 'bit-integrations')}
           name="clientId"

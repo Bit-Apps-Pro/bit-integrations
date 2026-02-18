@@ -89,7 +89,7 @@ export const handleAuthorize = (
   const apiEndpoint = `https://api-v2.liondesk.com/oauth2/authorize?response_type=code&client_id=${
     confTmp.clientId
   }&state=${encodeURIComponent(window.location.href)}/redirect&redirect_uri=${encodeURIComponent(
-    `${btcbi.api.base}`
+    `${btcbi.api}`
   )}/redirect&scope=['write','read']`
   const authWindow = window.open(apiEndpoint, integ, 'width=400,height=609,toolbar=off')
   const popupURLCheckTimer = setInterval(() => {
@@ -150,7 +150,7 @@ const tokenHelper = (
   const tokenRequestParams = { ...grantToken }
   tokenRequestParams.clientId = confTmp.clientId
   tokenRequestParams.clientSecret = confTmp.clientSecret
-  tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
+  tokenRequestParams.redirectURI = `${btcbi.api}/redirect`
 
   bitsFetch(tokenRequestParams, `${ajaxInteg}_generate_token`)
     .then(result => result)
@@ -187,7 +187,7 @@ export const getCustomFields = (confTmp, setConf, setIsLoading, btcbi) => {
     token_details: confTmp.tokenDetails,
     client_id: confTmp.clientId,
     client_secret: confTmp.clientSecret,
-    redirect_uri: `${btcbi.api.base}/redirect`
+    redirect_uri: `${btcbi.api}/redirect`
   }
 
   bitsFetch(requestParams, 'lionDesk_fetch_custom_fields').then(result => {

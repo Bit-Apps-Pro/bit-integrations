@@ -85,7 +85,7 @@ export default function SalesforceAuthorization({
         <b>{__('Authorized Redirect URIs:', 'bit-integrations')}</b>
       </div>
       <CopyText
-        value={redirectLocation || `${btcbi.api.base}/redirect`}
+        value={redirectLocation || `${btcbi.api}/redirect`}
         className="field-key-cpy w-6 ml-0"
         setSnackbar={setSnackbar}
         readOnly={isInfo}

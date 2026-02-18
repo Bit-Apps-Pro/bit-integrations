@@ -1,16 +1,14 @@
-import { useState, useCallback, useRef, memo } from 'react'
+import { memo, useCallback, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import noData from '../../resource/img/nodata.svg'
+import bitsFetch from '../../Utils/bitsFetch'
 import { __ } from '../../Utils/i18nwrap'
+import Button from '../Utilities/Button'
+import CopyText from '../Utilities/CopyText'
+import EyeIcn from '../Utilities/EyeIcn'
+import Modal from '../Utilities/Modal'
 import SnackMsg from '../Utilities/SnackMsg'
 import Table from '../Utilities/Table'
-import bitsFetch from '../../Utils/bitsFetch'
-import CopyText from '../Utilities/CopyText'
-import noData from '../../resource/img/nodata.svg'
-import Button from '../Utilities/Button'
-import CloseIcn from '../../Icons/CloseIcn'
-import Modal from '../Utilities/Modal'
-import { json } from 'react-router'
-import EyeIcn from '../Utilities/EyeIcn'
 
 function Log({ allIntegURL }) {
   const { id, type } = useParams()

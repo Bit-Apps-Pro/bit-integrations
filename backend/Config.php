@@ -4,6 +4,8 @@
 
 namespace BitApps\Integrations;
 
+use BitApps\Integrations\Core\Util\DateTimeHelper;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -41,7 +43,7 @@ class Config
     {
         switch ($type) {
             case 'MAIN_FILE':
-                return BITAPPS_INTEGRATIONS_PLUGIN_FILE;
+                return BIT_INTEGRATIONS_PLUGIN_FILE;
 
             case 'BASENAME':
                 return plugin_basename(trim(self::get('MAIN_FILE')));
@@ -169,6 +171,81 @@ class Config
     public static function getDevPort()
     {
         return self::isDev() ? file_get_contents(Config::get('BASEDIR') . '/.port') : null;
+    }
+
+    /**
+     * Build and return the frontend config array for localization
+     *
+     * @return array
+     */
+    public static function getFrontendConfig()
+    {
+        $frontendConfig = apply_filters(
+            Config::withPrefix('localized_script'),
+            [
+                'nonce'       => wp_create_nonce(Config::withPrefix('nonce')),
+                'assetsURL'   => Config::get('ASSET_URI'),
+                'baseURL'     => get_admin_url(null, 'admin.php?page=bit-integrations#'),
+                'siteURL'     => site_url(),
+                'ajaxURL'     => admin_url('admin-ajax.php'),
+                'api'         => Config::get('API_URL'),
+                'dateFormat'  => get_option('date_format'),
+                'timeFormat'  => get_option('time_format'),
+                'timeZone'    => DateTimeHelper::wp_timezone_string(),
+                'userMail'    => self::getUserMails(),
+                'currentUser' => wp_get_current_user(),
+                'version'     => defined('BTCBI_PRO_VERSION') ? \constant('BTCBI_PRO_VERSION') : Config::VERSION
+            ]
+        );
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_localized_script` filter instead.
+         * @since 2.7.8
+         */
+        $frontendConfig = apply_filters('btcbi_localized_script', $frontendConfig);
+
+        $changelogVersion = Config::getOption('changelog_version', '0.0.0');
+
+        if (version_compare($changelogVersion, '0.0.0', '==')) {
+            /**
+             * @deprecated 2.7.8 Use `bit_integrations_changelog_version` option instead.
+             * @since 2.7.8
+             */
+            $frontendConfig['changelogVersion'] = Config::getOption('btcbi_changelog_version', $changelogVersion, true);
+        } else {
+            $frontendConfig['changelogVersion'] = $changelogVersion;
+        }
+
+        if ((get_locale() !== 'en_US' || get_user_locale() !== 'en_US') && file_exists(Config::get('BASEDIR') . '/languages/generatedString.php')) {
+            include_once Config::get('BASEDIR') . '/languages/generatedString.php';
+            if (isset($bit_integrations_i18n_strings)) {
+                $frontendConfig['translations'] = $bit_integrations_i18n_strings;
+            }
+        }
+
+        return $frontendConfig;
+    }
+
+    /**
+     * Get list of users with their email addresses.
+     *
+     * @param string $capability Capability required to retrieve users. Defaults to 'manage_options'.
+     *
+     * @return array Array of users with id, label (display name), and value (email).
+     */
+    public static function getUserMails($capability = 'manage_options')
+    {
+        $userMails = [];
+        if (current_user_can($capability)) {
+            $users = get_users(['fields' => ['ID', 'user_nicename', 'user_email', 'display_name']]);
+            foreach ($users as $key => $user) {
+                $userMails[$key]['label'] = !empty($user->display_name) ? $user->display_name : '';
+                $userMails[$key]['value'] = !empty($user->user_email) ? $user->user_email : '';
+                $userMails[$key]['id'] = $user->ID;
+            }
+        }
+
+        return $userMails;
     }
 
     /**

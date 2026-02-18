@@ -2,6 +2,7 @@
 import toast from 'react-hot-toast'
 import { __ } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
+import { $appConfigState } from '../../../GlobalStates'
 
 export const handleInput = (e, googleDriveConf, setGoogleDriveConf) => {
   const newConf = { ...googleDriveConf }
@@ -32,7 +33,7 @@ export const getAllGoogleDriveFolders = (flowID, googleDriveConf, setGoogleDrive
       setGoogleDriveConf(newConf)
       return __('GoogleDrive Folders List refreshed successfully', 'bit-integrations')
     } else {
-      return __('GoogleDrive Folders List refresh failed. please try again', 'bit-integrations')
+      return __('Failed to refresh GoogleDrive Folders List. please try again', 'bit-integrations')
     }
   })
   toast.promise(loadPostTypes, {
@@ -55,9 +56,7 @@ export const handleAuthorize = (confTmp, setConf, setIsAuthorized, setIsLoading,
   // eslint-disable-next-line no-undef
   const apiEndpoint = `https://accounts.google.com/o/oauth2/v2/auth?scope=${scopes}&access_type=offline&prompt=consent&response_type=code&state=${encodeURIComponent(
     window.location.href
-  )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api.base}/redirect`)}&client_id=${
-    confTmp.clientId
-  }`
+  )}/redirect&redirect_uri=${encodeURIComponent(`${$appConfigState.api}/redirect`)}&client_id=${confTmp.clientId}`
   const authWindow = window.open(apiEndpoint, 'googleDrive', 'width=400,height=609,toolbar=off')
   const popupURLCheckTimer = setInterval(() => {
     if (authWindow.closed) {
@@ -98,7 +97,7 @@ const tokenHelper = (grantToken, confTmp, setConf, setIsAuthorized, setIsLoading
   tokenRequestParams.clientId = confTmp.clientId
   tokenRequestParams.clientSecret = confTmp.clientSecret
   // eslint-disable-next-line no-undef
-  tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
+  tokenRequestParams.redirectURI = `${$appConfigState.api}/redirect`
 
   bitsFetch(tokenRequestParams, 'googleDrive_authorization').then(result => {
     if (result && result.success) {

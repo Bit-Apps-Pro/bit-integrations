@@ -74,8 +74,6 @@ final class AnalyticsController
 
     public function analyticsCheck()
     {
-        return (bool) (Telemetry::report()->isTrackingAllowed() == true)
-
-        ;
+        return (bool) (Telemetry::report()->isTrackingAllowed() == true);
     }
 }

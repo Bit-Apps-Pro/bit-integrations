@@ -37,11 +37,12 @@ export default async function bitsFetch(data, action, queryParam = null, method 
       formData = data
     }
 
-    formData.set('action', `btcbi_${action}`)
+    formData.set('action', APP_CONFIG.withPrefix(action))
     formData.set('_ajax_nonce', APP_CONFIG.nonce)
 
     options.body = formData
   }
+
   const response = await fetch(uri, options)
     .then(res => res.text())
     .then(res => {

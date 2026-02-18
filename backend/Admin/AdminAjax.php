@@ -9,11 +9,9 @@ class AdminAjax
 {
     public function register()
     {
-        Route::post('app/config', [$this, 'updatedAppConfig']);
         Route::get('get/config', [$this, 'getAppConfig']);
-        // CHANGELOG VERSION OPTIONS
+        Route::post('app/config', [$this, 'updatedAppConfig']);
         Route::post('changelog_version', [$this, 'setChangelogVersion']);
-        // add_action('wp_ajax_btcbi_changelog_version', [$this, 'setChangelogVersion']);
     }
 
     public function updatedAppConfig($data)
@@ -28,7 +26,12 @@ class AdminAjax
 
     public function getAppConfig()
     {
-        $data = Config::getOption('app_conf', get_option('btcbi_app_conf', []));
+        // Deprecated: 'btcbi_app_conf'. Use 'bit_integrations_app_conf' instead.
+        $data = Config::getOption('app_conf', []);
+        if (empty($data)) {
+            $data = get_option('btcbi_app_conf', $data);
+        }
+
         wp_send_json_success($data);
     }
 
@@ -53,7 +56,7 @@ class AdminAjax
             $input = \is_object($decoded) || \is_array($decoded) ? map_deep($decoded, 'sanitize_text_field') : $decoded;
             $version = isset($input->version) ? sanitize_text_field($input->version) : '';
 
-            update_option('changelog_version', $version);
+            Config::updateOption('changelog_version', $version, true);
 
             wp_send_json_success($version, 200);
         } else {

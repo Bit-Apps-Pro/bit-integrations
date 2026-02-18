@@ -2,6 +2,7 @@
 
 namespace BitApps\Integrations\Core\Util;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Triggers\TriggerController;
 use DateTime;
 use DateTimeZone;
@@ -201,7 +202,17 @@ final class Helper
 
     public static function isProActivate()
     {
-        return \function_exists('btcbi_pro_activate_plugin');
+        $config = Hooks::apply(Config::withPrefix('localized_script'), []);
+
+        if (empty($config)) {
+            /**
+             * @deprecated 2.7.8 Use `bit_integrations_localized_script` filter instead.
+             * @since 2.7.8
+             */
+            $config = Hooks::apply('btcbi_localized_script', $config);
+        }
+
+        return $config['is_pro'] ?? false;
     }
 
     public static function isUserLoggedIn()

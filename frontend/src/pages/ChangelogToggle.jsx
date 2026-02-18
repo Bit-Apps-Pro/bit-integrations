@@ -9,11 +9,16 @@ import NewYear from '../resource/img/NewYear.png'
 import bitsFetch from '../Utils/bitsFetch'
 import { __, sprintf } from '../Utils/i18nwrap'
 
-// const source = !btcbi.isPro ? 'bit-integrations' : 'bit-integrations-pro'
-// const dealURL = `https://bitapps.pro/new-year-deal/#bit-integrations-pricing`
 const releaseDate = '16th February 2026'
 
-// Changelog items format [{ 'label': '', 'desc': '', 'isPro': true }]
+// Example for items:
+// items: [
+//   {
+//     label: 'Feature Name',
+//     desc: 'Description of the feature.',
+//     isPro: false
+//   }
+// ]
 const changeLog = [
   {
     label: __('Note', 'bit-integrations'),
@@ -99,8 +104,8 @@ const changeLog = [
 ]
 
 export default function ChangelogToggle() {
-  const [btcbi, setBtcbi] = useRecoilState($appConfigState)
-  const [show, setShow] = useState(btcbi.changelogVersion !== btcbi.version)
+  const [config, setConfig] = useRecoilState($appConfigState)
+  const [show, setShow] = useState(config.changelogVersion !== config.version)
   const [showAnalyticsOptin, setShowAnalyticsOptin] = useState(false)
   const [loading, setLoading] = useState('')
   const [step, setStep] = useState(2)
@@ -110,11 +115,11 @@ export default function ChangelogToggle() {
     if (!val) {
       bitsFetch(
         {
-          version: btcbi.version
+          version: config.version
         },
         'changelog_version'
       ).then(() => {
-        setBtcbi(prevBtcbi => ({ ...prevBtcbi, changelogVersion: prevBtcbi.version }))
+        setConfig(prevConfig => ({ ...prevConfig, changelogVersion: prevConfig.version }))
       })
     }
   }
@@ -186,7 +191,7 @@ export default function ChangelogToggle() {
           step === 2 && (
             <div className="changelog content">
               <div className="flx flx-col flx-center whats-new">
-                <h3>{sprintf(__("What's New in v%s", 'bit-integrations'), btcbi.version)}?</h3>
+                <h3>{sprintf(__("What's New in v%s", 'bit-integrations'), config.version)}?</h3>
                 <small className="date">
                   {__('Updated at:', 'bit-integrations')} <b>{releaseDate}</b>
                 </small>

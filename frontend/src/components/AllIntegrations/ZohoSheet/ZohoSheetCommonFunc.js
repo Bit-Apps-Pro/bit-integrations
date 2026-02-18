@@ -3,6 +3,7 @@
 import toast from 'react-hot-toast'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { __ } from '../../../Utils/i18nwrap'
+import { $appConfigState } from '../../../GlobalStates'
 
 export const handleInput = (e, zohoSheetConf, setZohoSheetConf) => {
   const newConf = { ...zohoSheetConf }
@@ -152,7 +153,7 @@ export const handleAuthorization = (
     confTmp.clientId
   }&prompt=Consent&access_type=offline&state=${encodeURIComponent(
     window.location.href
-  )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api.base}/redirect`)}`
+  )}/redirect&redirect_uri=${encodeURIComponent(`${$appConfigState.api}/redirect`)}`
   const authWindow = window.open(apiEndpoint, '__zohoSheet', 'width=400,height=609,toolbar=off')
   const popupURLCheckTimer = setInterval(() => {
     if (authWindow.closed) {
@@ -193,7 +194,7 @@ const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, loading, set
   tokenRequestParams.dataCenter = confTmp.dataCenter
   tokenRequestParams.clientId = confTmp.clientId
   tokenRequestParams.clientSecret = confTmp.clientSecret
-  tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
+  tokenRequestParams.redirectURI = `${$appConfigState.api}/redirect`
   bitsFetch(tokenRequestParams, 'zohoSheet_generate_token')
     .then(result => result)
     .then(result => {

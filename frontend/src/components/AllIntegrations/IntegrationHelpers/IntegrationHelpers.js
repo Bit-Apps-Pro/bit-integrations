@@ -486,7 +486,7 @@ export const handleAuthorize = (
     confTmp.clientId
   }&prompt=Consent&access_type=offline&state=${encodeURIComponent(
     window.location.href
-  )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api.base}`)}/redirect`
+  )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api}`)}/redirect`
   const authWindow = window.open(apiEndpoint, integ, 'width=400,height=609,toolbar=off')
   const popupURLCheckTimer = setInterval(() => {
     if (authWindow.closed) {
@@ -547,7 +547,7 @@ const tokenHelper = (
   tokenRequestParams.clientId = confTmp.clientId
   tokenRequestParams.clientSecret = confTmp.clientSecret
   // tokenRequestParams.redirectURI = `${encodeURIComponent(window.location.href)}/redirect`
-  tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
+  tokenRequestParams.redirectURI = `${btcbi.api}/redirect`
 
   bitsFetch(tokenRequestParams, `${ajaxInteg}_generate_token`)
     .then(result => result)

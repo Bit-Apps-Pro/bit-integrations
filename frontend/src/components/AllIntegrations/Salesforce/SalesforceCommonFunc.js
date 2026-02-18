@@ -616,8 +616,8 @@ export const getAllCustomActionModules = (
       result && result.success
         ? 'Custom Action refresh successfully.'
         : result?.data[0]?.message
-        ? 'Custom Action: ' + result?.data[0]?.message
-        : 'Custom Action refresh failed. please try again'
+          ? 'Custom Action: ' + result?.data[0]?.message
+          : 'Custom Action refresh failed. please try again'
     )
   })
 }
@@ -765,7 +765,7 @@ export const handleAuthorize = (
     confTmp.clientId
   }&prompt=login%20consent&state=${encodeURIComponent(
     window.location.href
-  )}/redirect&redirect_uri=${encodeURIComponent(btcbi.api.base)}/redirect`
+  )}/redirect&redirect_uri=${encodeURIComponent(btcbi.api)}/redirect`
 
   const authWindow = window.open(apiEndpoint, 'salesforce', 'width=400,height=609,toolbar=off')
   const popupURLCheckTimer = setInterval(() => {
@@ -824,7 +824,7 @@ const tokenHelper = (
   const tokenRequestParams = { ...grantToken }
   tokenRequestParams.clientId = confTmp.clientId
   tokenRequestParams.clientSecret = confTmp.clientSecret
-  tokenRequestParams.redirectURI = `${btcbi.api.base}/redirect`
+  tokenRequestParams.redirectURI = `${btcbi.api}/redirect`
 
   bitsFetch(tokenRequestParams, 'selesforce_generate_token').then(result => {
     if (result && result.success) {

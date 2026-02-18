@@ -207,7 +207,7 @@ export default function IntegInfo() {
   // let location = window.location.toString()
   // const toReplaceInd = location.indexOf('/info')
   // location = window.encodeURI(`${location.slice(0, toReplaceInd)}/new/${type}`)
-  let location = `${btcbi.api.base}/redirect`
+  let location = `${btcbi.api}/redirect`
 
   const IntegrationInfo = () => {
     switch (integrationConf.type) {

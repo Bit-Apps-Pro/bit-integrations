@@ -80,7 +80,7 @@ export default function LionDeskAuthorization({
         <b>{__('Authorized Redirect URIs:', 'bit-integrations')}</b>
       </div>
       <CopyText
-        value={`${btcbi.api.base}/redirect`}
+        value={`${btcbi.api}/redirect`}
         setSnackbar={setSnackbar}
         className="field-key-cpy w-6 ml-0"
         readOnly={isInfo}
