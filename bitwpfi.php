@@ -15,21 +15,46 @@
  * License:  GPLv2 or later
  */
 
+use BitApps\Integrations\Config;
+
 // If try to direct access  plugin folder it will Exit
 if (!defined('ABSPATH')) {
     exit;
 }
-
+/**
+ * @deprecated since version 2.7.9. use Config::DB_VERSION instead.
+ */
 global $btcbi_db_version;
 $btcbi_db_version = '1.1';
 
 // Define most essential constants.
-define('BTCBI_VERSION', '2.7.8');
+/**
+ * deprecated since version 2.7.9.
+ *
+ * @deprecated 2.7.9 Use Config::VERSION instead.
+ */
+define('BTCBI_VERSION', '2.7.9');
+/**
+ * deprecated since version 2.7.9.
+ *
+ * @deprecated 2.7.9 Use `BITAPPS_INTEGRATIONS_PLUGIN_FILE` instead.
+ */
 define('BTCBI_PLUGIN_MAIN_FILE', __FILE__);
 
-require_once plugin_dir_path(__FILE__) . 'includes/loader.php';
+define('BITAPPS_INTEGRATIONS_PLUGIN_FILE', __FILE__);
+
+require_once plugin_dir_path(__FILE__) . 'backend/loader.php';
+/**
+ * @deprecated since version 2.7.9. Use `bitapps_integrations_activate_plugin()` instead.
+ *
+ * @param mixed $network_wide
+ */
 function btcbi_activate_plugin($network_wide)
 {
+    bitapps_integrations_activate_plugin($network_wide);
+}
+function bitapps_integrations_activate_plugin($network_wide)
+{
     global $wp_version;
     if (version_compare($wp_version, '5.1', '<')) {
         wp_die(
@@ -43,11 +68,21 @@ function btcbi_activate_plugin($network_wide)
             esc_html__('Error Activating', 'bit-integrations')
         );
     }
-    do_action('btcbi_activation', $network_wide);
+    do_action(Config::withPrefix('activation'), $network_wide);
 }
-
+register_activation_hook(__FILE__, 'bitapps_integrations_activate_plugin');
+/**
+ * @deprecated since version 2.7.9. Use `bitapps_integrations_deactivate_plugin()` instead.
+ *
+ * @param mixed $network_wide
+ */
 function btcbi_deactivate_plugin($network_wide)
 {
+    bitapps_integrations_deactivate_plugin($network_wide);
+}
+
+function bitapps_integrations_deactivate_plugin($network_wide)
+{
     global $wp_version;
     if (version_compare($wp_version, '5.1', '<')) {
         wp_die(
@@ -61,15 +96,20 @@ function btcbi_deactivate_plugin($network_wide)
             esc_html__('Error Deactivating', 'bit-integrations')
         );
     }
-    do_action('btcbi_deactivation', $network_wide);
+    do_action(Config::withPrefix('deactivation'), $network_wide);
 }
+register_deactivation_hook(__FILE__, 'bitapps_integrations_deactivate_plugin');
 
-register_activation_hook(__FILE__, 'btcbi_activate_plugin');
-
-register_deactivation_hook(__FILE__, 'btcbi_deactivate_plugin');
-
+/**
+ * @deprecated since version 2.7.9. Use `bitapps_integrations_uninstall_plugin()` instead.
+ */
 function btcbi_uninstall_plugin()
 {
-    do_action('btcbi_uninstall');
+    bitapps_integrations_uninstall_plugin();
 }
-register_uninstall_hook(__FILE__, 'btcbi_uninstall_plugin');
+
+function bitapps_integrations_uninstall_plugin()
+{
+    do_action(Config::withPrefix('uninstall'));
+}
+register_uninstall_hook(__FILE__, 'bitapps_integrations_uninstall_plugin');
