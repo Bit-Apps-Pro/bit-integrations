@@ -135,7 +135,8 @@ export default function GoogleDriveAuthorization({
                 setGoogleDriveConf,
                 setIsAuthorized,
                 setIsLoading,
-                setError
+                setError,
+                btcbi
               )
             }
             className="btn btcd-btn-lg purple sh-sm flx"

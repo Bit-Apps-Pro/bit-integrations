@@ -136,7 +136,8 @@ export default function GoogleContactsAuthorization({
                 setGoogleContactsConf,
                 setIsAuthorized,
                 setIsLoading,
-                setError
+                setError,
+                btcbi
               )
             }
             className="btn btcd-btn-lg purple sh-sm flx"

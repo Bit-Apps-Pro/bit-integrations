@@ -3,7 +3,6 @@ import toast from 'react-hot-toast'
 import { __ } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { sortArrOfObj } from '../../../Utils/Helpers'
-import { $appConfigState } from '../../../GlobalStates'
 
 export const handleInput = (
   e,
@@ -107,7 +106,6 @@ export const getSingleOneDriveFolders = (
     clientId: oneDriveConf.clientId,
     clientSecret: oneDriveConf.clientSecret,
     tokenDetails: oneDriveConf.tokenDetails,
-    // redirectURI: `${$appConfigState.api}/redirect`,
     team: oneDriveConf.team,
     folder,
     teamType: 'teamType' in oneDriveConf ? 'private' : 'team'
@@ -175,7 +173,7 @@ export const getSingleOneDriveFolders = (
 //   })
 // }
 
-export const handleAuthorize = (confTmp, setConf, setIsAuthorized, setIsLoading, setError) => {
+export const handleAuthorize = (confTmp, setConf, setIsAuthorized, setIsLoading, setError, btcbi) => {
   if (!confTmp.clientId || !confTmp.clientSecret) {
     setError({
       clientId: !confTmp.clientId ? __("Client Id can't be empty", 'bit-integrations') : '',
@@ -190,7 +188,7 @@ export const handleAuthorize = (confTmp, setConf, setIsAuthorized, setIsLoading,
     confTmp.clientId
   }&scope=${scopes}&access_type=offline&prompt=consent&response_type=code&state=${encodeURIComponent(
     window.location.href
-  )}/redirect&redirect_uri=${encodeURIComponent(`${$appConfigState.api}/redirect`)}`
+    )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api}/redirect`)}`
   const authWindow = window.open(apiEndpoint, 'oneDrive', 'width=400,height=609,toolbar=off')
   const popupURLCheckTimer = setInterval(() => {
     if (authWindow.closed) {
@@ -220,18 +218,18 @@ export const handleAuthorize = (confTmp, setConf, setIsAuthorized, setIsLoading,
       } else {
         const newConf = { ...confTmp }
         newConf.accountServer = grantTokenResponse['accounts-server']
-        tokenHelper(grantTokenResponse, newConf, setConf, setIsAuthorized, setIsLoading)
+        tokenHelper(grantTokenResponse, newConf, setConf, setIsAuthorized, setIsLoading, btcbi)
       }
     }
   }, 500)
 }
 
-const tokenHelper = (grantToken, confTmp, setConf, setIsAuthorized, setIsLoading) => {
+const tokenHelper = (grantToken, confTmp, setConf, setIsAuthorized, setIsLoading, btcbi) => {
   const tokenRequestParams = { ...grantToken }
   tokenRequestParams.clientId = confTmp.clientId
   tokenRequestParams.clientSecret = confTmp.clientSecret
   // eslint-disable-next-line no-undef
-  tokenRequestParams.redirectURI = `${$appConfigState.api}/redirect`
+  tokenRequestParams.redirectURI = `${btcbi.api}/redirect`
 
   bitsFetch(tokenRequestParams, 'oneDrive_authorization').then(result => {
     if (result && result.success) {

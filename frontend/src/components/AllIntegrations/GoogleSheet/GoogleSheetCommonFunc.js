@@ -3,7 +3,6 @@ import bitsFetch from '../../../Utils/bitsFetch'
 import { deepCopy } from '../../../Utils/Helpers'
 import { handleAuthData } from '../GlobalIntegrationHelper'
 import { create } from 'mutative'
-import { $appConfigState } from '../../../GlobalStates'
 
 export const handleInput = (
   e,
@@ -216,7 +215,7 @@ export const refreshWorksheetHeaders = (formID, sheetConf, setSheetConf, setIsLo
     .catch(() => setIsLoading(false))
 }
 
-export const handleAuthorize = (confTmp, selectedAuthType, setError, setIsLoading) => {
+export const handleAuthorize = (confTmp, selectedAuthType, setError, setIsLoading, btcbi) => {
   if (!confTmp.clientId || !confTmp.clientSecret) {
     setError({
       clientId: !confTmp.clientId ? __("Client Id can't be empty", 'bit-integrations') : '',
@@ -231,7 +230,7 @@ export const handleAuthorize = (confTmp, selectedAuthType, setError, setIsLoadin
 
   const scopes = 'https://www.googleapis.com/auth/drive'
   // eslint-disable-next-line no-undef
-  const finalRedirectUri = `${$appConfigState.api}/redirect`
+  const finalRedirectUri = `${btcbi.api}/redirect`
 
   const { href, hash } = window.location
   const stateUrl = hash ? href.replace(hash, '#/auth-response/') : `${href}#/auth-response/`
@@ -239,6 +238,7 @@ export const handleAuthorize = (confTmp, selectedAuthType, setError, setIsLoadin
   const apiEndpoint = `https://accounts.google.com/o/oauth2/v2/auth?scope=${scopes}&access_type=offline&prompt=consent&response_type=code&state=${encodeURIComponent(
     stateUrl
   )}&redirect_uri=${encodeURIComponent(finalRedirectUri)}&client_id=${clientId}`
+  console.log(btcbi)
   const authWindow = window.open(apiEndpoint, 'googleSheet', 'width=400,height=609,toolbar=off')
   if (selectedAuthType === 'Custom Authorization') {
     const popupURLCheckTimer = setInterval(() => {
@@ -259,7 +259,8 @@ export const tokenHelper = async (
   authData,
   setAuthData,
   setIsLoading,
-  setSnackbar
+  setSnackbar,
+  btcbi
 ) => {
   if (!selectedAuthType) {
     return
@@ -269,7 +270,7 @@ export const tokenHelper = async (
   tokenRequestParams.clientId = confTmp.clientId
   tokenRequestParams.clientSecret = confTmp.clientSecret
   // eslint-disable-next-line no-undef
-  tokenRequestParams.redirectURI = `${$appConfigState.api}/redirect`
+  tokenRequestParams.redirectURI = `${btcbi.api}/redirect`
 
   setIsLoading(true)
   await bitsFetch(tokenRequestParams, 'gsheet_generate_token')

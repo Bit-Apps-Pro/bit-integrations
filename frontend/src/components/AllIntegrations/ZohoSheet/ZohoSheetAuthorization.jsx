@@ -156,7 +156,7 @@ export default function ZohoSheetAuthorization({
                 setIsAuthorized,
                 loading,
                 setLoading,
-                'authentication'
+                btcbi
               )
             }
             className="btn btcd-btn-lg purple sh-sm flx"

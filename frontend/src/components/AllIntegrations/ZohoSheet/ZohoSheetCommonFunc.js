@@ -3,7 +3,6 @@
 import toast from 'react-hot-toast'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { __ } from '../../../Utils/i18nwrap'
-import { $appConfigState } from '../../../GlobalStates'
 
 export const handleInput = (e, zohoSheetConf, setZohoSheetConf) => {
   const newConf = { ...zohoSheetConf }
@@ -135,7 +134,8 @@ export const handleAuthorization = (
   setError,
   setisAuthorized,
   loading,
-  setLoading
+  setLoading,
+  btcbi
 ) => {
   if (!confTmp.dataCenter || !confTmp.clientId || !confTmp.clientSecret) {
     setError({
@@ -153,7 +153,7 @@ export const handleAuthorization = (
     confTmp.clientId
   }&prompt=Consent&access_type=offline&state=${encodeURIComponent(
     window.location.href
-  )}/redirect&redirect_uri=${encodeURIComponent(`${$appConfigState.api}/redirect`)}`
+  )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api}/redirect`)}`
   const authWindow = window.open(apiEndpoint, '__zohoSheet', 'width=400,height=609,toolbar=off')
   const popupURLCheckTimer = setInterval(() => {
     if (authWindow.closed) {
@@ -183,18 +183,18 @@ export const handleAuthorization = (
       } else {
         const newConf = { ...confTmp }
         newConf.accountServer = grantTokenResponse['accounts-server']
-        tokenHelper(grantTokenResponse, newConf, setConf, setisAuthorized, loading, setLoading)
+        tokenHelper(grantTokenResponse, newConf, setConf, setisAuthorized, loading, setLoading, btcbi)
       }
     }
   }, 500)
 }
 
-const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, loading, setLoading) => {
+const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, loading, setLoading, btcbi) => {
   const tokenRequestParams = { ...grantToken }
   tokenRequestParams.dataCenter = confTmp.dataCenter
   tokenRequestParams.clientId = confTmp.clientId
   tokenRequestParams.clientSecret = confTmp.clientSecret
-  tokenRequestParams.redirectURI = `${$appConfigState.api}/redirect`
+  tokenRequestParams.redirectURI = `${btcbi.api}/redirect`
   bitsFetch(tokenRequestParams, 'zohoSheet_generate_token')
     .then(result => result)
     .then(result => {

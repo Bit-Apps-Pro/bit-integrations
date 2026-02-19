@@ -9,7 +9,6 @@ import toast from 'react-hot-toast'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { __ } from '../../../Utils/i18nwrap'
 import { saveActionConf, saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
-import { $appConfigState } from '../../../GlobalStates'
 
 export const handleInput = (e, conf, setConf, error, setError) => {
   const newConf = { ...conf }
@@ -21,7 +20,7 @@ export const handleInput = (e, conf, setConf, error, setError) => {
   setConf(newConf)
 }
 
-export const handleAuthorize = (conf, setConf, error, setError, setAuthorized, loading, setLoading) => {
+export const handleAuthorize = (conf, setConf, error, setError, setAuthorized, loading, setLoading, btcbi) => {
   if (!conf.clientId || !conf.clientSecret) {
     setError({
       clientId: !conf.clientId ? __("Client Id can't be empty") : '',
@@ -35,7 +34,7 @@ export const handleAuthorize = (conf, setConf, error, setError, setAuthorized, l
     conf.clientId
   }&response_type=code&owner=user&state=${encodeURIComponent(
     window.location.href
-  )}/redirect&redirect_uri=${encodeURIComponent(`${$appConfigState.api}`)}/redirect`
+  )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api}`)}/redirect`
   const authWindow = window.open(apiEndpoint, 'Notion', 'width=400,height=609,toolbar=off')
   const popupURLCheckTimer = setInterval(() => {
     if (authWindow.closed) {
@@ -63,18 +62,18 @@ export const handleAuthorize = (conf, setConf, error, setError, setAuthorized, l
         )
         setLoading({ ...loading, auth: false })
       } else {
-        tokenHelper(grantTokenResponse, conf, setConf, setAuthorized, loading, setLoading)
+        tokenHelper(grantTokenResponse, conf, setConf, setAuthorized, loading, setLoading, btcbi)
       }
     }
   }, 500)
 }
 
-const tokenHelper = (grantToken, conf, setConf, setAuthorized, loading, setLoading) => {
+const tokenHelper = (grantToken, conf, setConf, setAuthorized, loading, setLoading, btcbi) => {
   const tokenRequestParams = { ...grantToken }
   tokenRequestParams.clientId = conf.clientId
   tokenRequestParams.clientSecret = conf.clientSecret
   // eslint-disable-next-line no-undef
-  tokenRequestParams.redirectURI = `${$appConfigState.api}/redirect`
+  tokenRequestParams.redirectURI = `${btcbi.api}/redirect`
   bitsFetch(tokenRequestParams, 'notion_authorization').then(result => {
     if (result && result.success) {
       const newConf = { ...conf }

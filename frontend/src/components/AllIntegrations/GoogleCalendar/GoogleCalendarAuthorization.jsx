@@ -137,7 +137,8 @@ export default function GoogleCalendarAuthorization({
                 setGoogleCalendarConf,
                 setIsAuthorized,
                 setIsLoading,
-                setError
+                setError,
+                btcbi
               )
             }
             className="btn btcd-btn-lg purple sh-sm flx"

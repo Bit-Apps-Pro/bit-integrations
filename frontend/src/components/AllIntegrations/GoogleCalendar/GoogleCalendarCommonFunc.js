@@ -2,7 +2,6 @@
 import toast from 'react-hot-toast'
 import { __ } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
-import { $appConfigState } from '../../../GlobalStates'
 
 export const handleInput = (e, googleCalendarConf, setGoogleCalendarConf) => {
   const newConf = { ...googleCalendarConf }
@@ -51,7 +50,7 @@ export const getAllGoogleCalendarLists = (flowID, googleCalendarConf, setGoogleC
   })
 }
 
-export const handleAuthorize = (confTmp, setConf, setIsAuthorized, setIsLoading, setError) => {
+export const handleAuthorize = (confTmp, setConf, setIsAuthorized, setIsLoading, setError, btcbi) => {
   if (!confTmp.clientId || !confTmp.clientSecret) {
     setError({
       clientId: !confTmp.clientId ? __("Client Id can't be empty", 'bit-integrations') : '',
@@ -64,7 +63,7 @@ export const handleAuthorize = (confTmp, setConf, setIsAuthorized, setIsLoading,
   // eslint-disable-next-line no-undef
   const apiEndpoint = `https://accounts.google.com/o/oauth2/v2/auth?scope=${scopes}&access_type=offline&prompt=consent&response_type=code&state=${encodeURIComponent(
     window.location.href
-  )}/redirect&redirect_uri=${encodeURIComponent(`${$appConfigState.api}/redirect`)}&client_id=${confTmp.clientId}`
+  )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api}/redirect`)}&client_id=${confTmp.clientId}`
   const authWindow = window.open(apiEndpoint, 'googleCalendar', 'width=400,height=609,toolbar=off')
   const popupURLCheckTimer = setInterval(() => {
     if (authWindow.closed) {
@@ -94,18 +93,18 @@ export const handleAuthorize = (confTmp, setConf, setIsAuthorized, setIsLoading,
       } else {
         const newConf = { ...confTmp }
         newConf.accountServer = grantTokenResponse['accounts-server']
-        tokenHelper(grantTokenResponse, newConf, setConf, setIsAuthorized, setIsLoading)
+        tokenHelper(grantTokenResponse, newConf, setConf, setIsAuthorized, setIsLoading, btcbi)
       }
     }
   }, 500)
 }
 
-const tokenHelper = (grantToken, confTmp, setConf, setIsAuthorized, setIsLoading) => {
+const tokenHelper = (grantToken, confTmp, setConf, setIsAuthorized, setIsLoading, btcbi) => {
   const tokenRequestParams = { ...grantToken }
   tokenRequestParams.clientId = confTmp.clientId
   tokenRequestParams.clientSecret = confTmp.clientSecret
   // eslint-disable-next-line no-undef
-  tokenRequestParams.redirectURI = `${$appConfigState.api}/redirect`
+  tokenRequestParams.redirectURI = `${btcbi.api}/redirect`
 
   bitsFetch(tokenRequestParams, 'googleCalendar_authorization').then(result => {
     if (result && result.success) {

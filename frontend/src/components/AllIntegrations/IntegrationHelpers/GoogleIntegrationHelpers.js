@@ -1,6 +1,5 @@
 import bitsFetch from '../../../Utils/bitsFetch'
 import { __ } from '../../../Utils/i18nwrap'
-import { $appConfigState } from '../../../GlobalStates'
 
 export const setGrantTokenResponse = integ => {
   const grantTokenResponse = {}
@@ -28,13 +27,14 @@ const tokenHelper = (
   setConf,
   setisAuthorized,
   setIsLoading,
-  setSnackbar
+  setSnackbar,
+  btcbi
 ) => {
   const tokenRequestParams = { ...grantToken }
   tokenRequestParams.clientId = confTmp.clientId
   tokenRequestParams.clientSecret = confTmp.clientSecret
   // eslint-disable-next-line no-undef
-  tokenRequestParams.redirectURI = `${$appConfigState.api}/redirect`
+  tokenRequestParams.redirectURI = `${btcbi.api}/redirect`
 
   bitsFetch(tokenRequestParams, `${ajaxInteg}_generate_token`)
     .then(result => result)

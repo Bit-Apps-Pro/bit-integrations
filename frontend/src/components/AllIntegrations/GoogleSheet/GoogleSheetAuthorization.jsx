@@ -35,7 +35,7 @@ export default function GoogleSheetAuthorization({
   const [selectedAuthType, setSelectedAuthType] = useState('Custom Authorization')
 
   const processAuth = option => {
-    handleAuthorize(sheetConf, option, setError, setIsLoading)
+    handleAuthorize(sheetConf, option, setError, setIsLoading, btcbi)
   }
 
   const getAuthData = () => {
@@ -62,7 +62,8 @@ export default function GoogleSheetAuthorization({
       authData,
       setAuthData,
       setIsLoading,
-      setSnackbar
+      setSnackbar,
+      btcbi
     )
     setAuthInfo(undefined)
   }

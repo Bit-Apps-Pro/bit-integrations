@@ -97,7 +97,8 @@ function NotionAuthorization({ notionConf, setNotionConf, step, setStep, isInfo,
                 setError,
                 setAuthorized,
                 loading,
-                setLoading
+                setLoading,
+                btcbi
               )
             }
             nextPage={nextPage}

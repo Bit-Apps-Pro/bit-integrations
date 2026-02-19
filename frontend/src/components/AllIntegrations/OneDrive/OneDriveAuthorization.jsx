@@ -128,7 +128,7 @@ export default function OneDriveAuthorization({
         <>
           <button
             onClick={() =>
-              handleAuthorize(oneDriveConf, setOneDriveConf, setIsAuthorized, setIsLoading, setError)
+              handleAuthorize(oneDriveConf, setOneDriveConf, setIsAuthorized, setIsLoading, setError, btcbi)
             }
             className="btn btcd-btn-lg purple sh-sm flx"
             type="button"

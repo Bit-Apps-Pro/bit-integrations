@@ -1,6 +1,5 @@
 import { __, sprintf } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
-import { $appConfigState } from '../../../GlobalStates'
 
 export const handleInput = (
   e,
@@ -29,7 +28,8 @@ export const handleAuthorize = (
   setError,
   setisAuthorized,
   setIsLoading,
-  setSnackbar
+  setSnackbar,
+  btcbi
 ) => {
   if (!confTmp.clientId || !confTmp.clientSecret) {
     setError({
@@ -41,7 +41,7 @@ export const handleAuthorize = (
   setIsLoading(true)
   const apiEndpoint = `https://accounts.infusionsoft.com/app/oauth/authorize?scope=full&access_type=offline&prompt=consent&response_type=code&state=${encodeURIComponent(
     window.location.href
-  )}/redirect&redirect_uri=${encodeURIComponent(`${$appConfigState.api}/redirect`)}&client_id=${confTmp.clientId}`
+  )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api}/redirect`)}&client_id=${confTmp.clientId}`
   const authWindow = window.open(apiEndpoint, 'keap', 'width=400,height=609,toolbar=off')
   const popupURLCheckTimer = setInterval(() => {
     if (authWindow.closed) {
@@ -72,18 +72,18 @@ export const handleAuthorize = (
       } else {
         const newConf = { ...confTmp }
         newConf.accountServer = grantTokenResponse['accounts-server']
-        tokenHelper(grantTokenResponse, newConf, setConf, setisAuthorized, setIsLoading, setSnackbar)
+        tokenHelper(grantTokenResponse, newConf, setConf, setisAuthorized, setIsLoading, setSnackbar, btcbi)
       }
     }
   }, 500)
 }
 
-const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, setIsLoading, setSnackbar) => {
+const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, setIsLoading, setSnackbar, btcbi) => {
   const tokenRequestParams = { ...grantToken }
   tokenRequestParams.clientId = confTmp.clientId
   tokenRequestParams.clientSecret = confTmp.clientSecret
   // eslint-disable-next-line no-undef
-  tokenRequestParams.redirectURI = `${$appConfigState.api}/redirect`
+  tokenRequestParams.redirectURI = `${btcbi.api}/redirect`
   bitsFetch(tokenRequestParams, 'keap_generate_token')
     .then(result => result)
     .then(result => {

@@ -3,7 +3,6 @@
 import toast from 'react-hot-toast'
 import { __ } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
-import { $appConfigState } from '../../../GlobalStates'
 
 export const handleInput = (e, pCloudConf, setPCloudConf) => {
   const newConf = { ...pCloudConf }
@@ -50,7 +49,7 @@ export const getAllPCloudFolders = (pCloudConf, setPCloudConf, type) => {
   })
 }
 
-export const handleAuthorization = (confTmp, setConf, setIsAuthorized, setIsLoading, setError) => {
+export const handleAuthorization = (confTmp, setConf, setIsAuthorized, setIsLoading, setError, btcbi) => {
   if (!confTmp.clientId || !confTmp.clientSecret) {
     setError({
       clientId: !confTmp.clientId ? __("Client Id can't be empty", 'bit-integrations') : '',
@@ -62,7 +61,7 @@ export const handleAuthorization = (confTmp, setConf, setIsAuthorized, setIsLoad
   // eslint-disable-next-line no-undef
   const apiEndpoint = `https://my.pcloud.com/oauth2/authorize?client_id=${
     confTmp.clientId
-  }&response_type=code&redirect_uri=${$appConfigState.api}/redirect&state=${encodeURIComponent(
+  }&response_type=code&redirect_uri=${btcbi.api}/redirect&state=${encodeURIComponent(
     window.location.href
   )}/redirect`
   const authWindow = window.open(apiEndpoint, 'pCloud', 'width=400,height=609,toolbar=off')
@@ -94,18 +93,18 @@ export const handleAuthorization = (confTmp, setConf, setIsAuthorized, setIsLoad
       } else {
         const newConf = { ...confTmp }
         newConf.accountServer = grantTokenResponse['accounts-server']
-        tokenHelper(grantTokenResponse, newConf, setConf, setIsAuthorized, setIsLoading)
+        tokenHelper(grantTokenResponse, newConf, setConf, setIsAuthorized, setIsLoading, btcbi)
       }
     }
   }, 500)
 }
 
-const tokenHelper = (grantToken, confTmp, setConf, setIsAuthorized, setIsLoading) => {
+const tokenHelper = (grantToken, confTmp, setConf, setIsAuthorized, setIsLoading, btcbi) => {
   const tokenRequestParams = { ...grantToken }
   tokenRequestParams.clientId = confTmp.clientId
   tokenRequestParams.clientSecret = confTmp.clientSecret
   // eslint-disable-next-line no-undef
-  tokenRequestParams.redirectURI = `${$appConfigState.api}/redirect`
+  tokenRequestParams.redirectURI = `${btcbi.api}/redirect`
 
   bitsFetch(tokenRequestParams, 'pCloud_authorization').then(result => {
     if (result && result.success) {

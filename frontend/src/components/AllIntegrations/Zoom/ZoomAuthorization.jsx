@@ -148,7 +148,8 @@ export default function ZoomAuthorization({
                 setError,
                 setisAuthorized,
                 setIsLoading,
-                setSnackbar
+                setSnackbar,
+                btcbi
               )
             }
             className="btn btcd-btn-lg purple sh-sm flx"

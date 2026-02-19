@@ -119,7 +119,7 @@ export default function PCloudAuthorization({
         <>
           <button
             onClick={() =>
-              handleAuthorization(pCloudConf, setPCloudConf, setIsAuthorized, setIsLoading, setError)
+              handleAuthorization(pCloudConf, setPCloudConf, setIsAuthorized, setIsLoading, setError, btcbi)
             }
             className="btn btcd-btn-lg purple sh-sm flx"
             type="button"

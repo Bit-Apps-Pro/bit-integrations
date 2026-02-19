@@ -1,7 +1,6 @@
 import { __, sprintf } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { deepCopy } from '../../../Utils/Helpers'
-import { $appConfigState } from '../../../GlobalStates'
 
 export const setGrantTokenResponse = integ => {
   const grantTokenResponse = {}
@@ -99,7 +98,8 @@ export const handleAuthorize = (
   setError,
   setisAuthorized,
   setIsLoading,
-  setSnackbar
+  setSnackbar,
+  btcbi
 ) => {
   if (!confTmp.clientId || !confTmp.clientSecret) {
     setError({
@@ -112,7 +112,7 @@ export const handleAuthorize = (
   const apiEndpoint = `https://zoom.us/oauth/authorize?response_type=code&client_id=${
     confTmp.clientId
   }&state=${encodeURIComponent(window.location.href)}/redirect&redirect_uri=${encodeURIComponent(
-    `${$appConfigState.api}/redirect`
+    `${btcbi.api}/redirect`
   )}`
   const authWindow = window.open(apiEndpoint, 'zoom', 'width=400,height=609,toolbar=off')
   const popupURLCheckTimer = setInterval(() => {
@@ -144,18 +144,18 @@ export const handleAuthorize = (
       } else {
         const newConf = { ...confTmp }
         newConf.accountServer = grantTokenResponse['accounts-server']
-        tokenHelper(grantTokenResponse, newConf, setConf, setisAuthorized, setIsLoading, setSnackbar)
+        tokenHelper(grantTokenResponse, newConf, setConf, setisAuthorized, setIsLoading, setSnackbar, btcbi)
       }
     }
   }, 500)
 }
 
-const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, setIsLoading, setSnackbar) => {
+const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, setIsLoading, setSnackbar, btcbi) => {
   const tokenRequestParams = { ...grantToken }
   tokenRequestParams.clientId = confTmp.clientId
   tokenRequestParams.clientSecret = confTmp.clientSecret
   // eslint-disable-next-line no-undef
-  tokenRequestParams.redirectURI = `${$appConfigState.api}/redirect`
+  tokenRequestParams.redirectURI = `${btcbi.api}/redirect`
   bitsFetch(tokenRequestParams, 'zoom_webinar_generate_token')
     .then(result => result)
     .then(result => {
