@@ -28,6 +28,7 @@ final class UnInstallation
     {
         $option = Config::getOption('app_conf', get_option('btcbi_app_conf', []));
         if (isset($option->erase_db)) {
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- hook is prefixed via Config::VAR_PREFIX.
             add_action(Config::withPrefix('uninstall'), [$this, 'uninstall']);
         }
     }

@@ -72,6 +72,7 @@ function bit_integrations_activate_plugin($network_wide)
             esc_html__('Error Activating', 'bit-integrations')
         );
     }
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- hook is prefixed via Config::VAR_PREFIX.
     do_action(Config::withPrefix('activation'), $network_wide);
 }
 register_activation_hook(__FILE__, 'bit_integrations_activate_plugin');
@@ -100,6 +101,7 @@ function bit_integrations_deactivate_plugin($network_wide)
             esc_html__('Error Deactivating', 'bit-integrations')
         );
     }
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- hook is prefixed via Config::VAR_PREFIX.
     do_action(Config::withPrefix('deactivation'), $network_wide);
 }
 register_deactivation_hook(__FILE__, 'bit_integrations_deactivate_plugin');
@@ -114,6 +116,7 @@ function btcbi_uninstall_plugin()
 
 function bit_integrations_uninstall_plugin()
 {
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- hook is prefixed via Config::VAR_PREFIX.
     do_action(Config::withPrefix('uninstall'));
 }
 register_uninstall_hook(__FILE__, 'bit_integrations_uninstall_plugin');

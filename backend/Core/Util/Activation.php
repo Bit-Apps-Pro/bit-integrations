@@ -23,6 +23,7 @@ final class Activation
 
     public function activate()
     {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- hook is prefixed via Config::VAR_PREFIX.
         add_action(Config::withPrefix('activation'), [$this, 'install']);
 
         Hooks::add(Config::withPrefix('activation'), [$this, 'add_capability_to_administrator']);
@@ -88,6 +89,7 @@ final class Activation
         if (is_plugin_active_for_network($plugin)) {
             // activate_plugin($plugin);
         } else {
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- hook is prefixed via Config::VAR_PREFIX.
             do_action(Config::withPrefix('activation'));
         }
 

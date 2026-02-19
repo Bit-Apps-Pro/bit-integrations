@@ -4,8 +4,8 @@
 
 namespace BitApps\Integrations;
 
-use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Core\Util\DateTimeHelper;
+use BitApps\Integrations\Core\Util\Hooks;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -182,6 +182,7 @@ class Config
     public static function getFrontendConfig()
     {
         $frontendConfig = apply_filters(
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- hook is prefixed via Config::VAR_PREFIX.
             Config::withPrefix('localized_script'),
             [
                 'nonce'       => wp_create_nonce(Config::withPrefix('nonce')),
