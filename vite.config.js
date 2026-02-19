@@ -103,18 +103,20 @@ export default defineConfig(({ mode }) => {
 })
 
 function copyStatics(mode) {
+  const staticDir = path.resolve(__dirname, 'frontend/static')
+  const assetsDir = path.resolve(__dirname, 'assets')
+
   return {
     name: 'copy-static-files',
     closeBundle() {
-      const staticDir = path.resolve('./static')
       if (!fs.existsSync(staticDir)) return
 
-      if (!fs.existsSync(path.resolve('../assets'))) {
-        fs.mkdirSync(path.resolve('../assets'))
+      if (!fs.existsSync(assetsDir)) {
+        fs.mkdirSync(assetsDir, { recursive: true })
       }
 
       fs.readdirSync(staticDir).forEach(file => {
-        fs.copyFileSync(path.resolve(`./static/${file}`), path.resolve(`../assets/${file}`))
+        fs.copyFileSync(path.join(staticDir, file), path.join(assetsDir, file))
       })
     }
   }

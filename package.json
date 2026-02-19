@@ -47,7 +47,7 @@
     "pda": "pnpm build && pnpm i18n:mkdir && pnpm i18n",
     "clear-lint-cache": "eslint . --cache --cache-file eslint-cache/eslintcache",
     "i18n": "pnpm i18n:gettext-parser && pnpm i18n:php && pnpm i18n:pot",
-    "i18n:gettext-parser": "npx react-gettext-parser --output ./locale.pot --config ./gettext-parser.config.js  './src/**/{*.js,*.jsx}'",
+    "i18n:gettext-parser": "npx react-gettext-parser --output ./locale.pot --config ./gettext-parser.config.js  './frontend/src/**/{*.js,*.jsx}'",
     "i18n:json": "npx po2json locale.pot languages/btcbi-admin-script.json -f jed1.x",
     "i18n:mkdir": "node ./bin/mkdir-language.js",
     "i18n:php": "node ./bin/pot-to-php.js locale.pot languages/generatedString.php bit-integrations",

@@ -18,7 +18,7 @@ const fileHeader =
     '<?php',
     "if(!defined('ABSPATH')) exit;",
     '/* THIS IS A GENERATED FILE. DO NOT EDIT DIRECTLY. */',
-    '$btcbi_i18n_strings = array('
+    '$bit_integrations_i18n_strings = array('
   ].join(NEWLINE) + NEWLINE
 
 const fileFooter =
