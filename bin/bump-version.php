@@ -7,7 +7,9 @@ if ($argc < 2) {
 
 $newVersion = $argv[1];
 $pluginFile = 'bitwpfi.php';
-$configFile = 'includes/Config.php';
+
+$configFile = 'backend/Config.php';
+
 $readmeFile = 'readme.txt';
 
 if (!file_exists($pluginFile) || !file_exists($readmeFile) || !file_exists($configFile)) {

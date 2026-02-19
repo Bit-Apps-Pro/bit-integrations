@@ -106,11 +106,14 @@ function copyStatics(mode) {
   return {
     name: 'copy-static-files',
     closeBundle() {
+      const staticDir = path.resolve('./static')
+      if (!fs.existsSync(staticDir)) return
+
       if (!fs.existsSync(path.resolve('../assets'))) {
         fs.mkdirSync(path.resolve('../assets'))
       }
 
-      fs.readdirSync(path.resolve('./static')).forEach(file => {
+      fs.readdirSync(staticDir).forEach(file => {
         fs.copyFileSync(path.resolve(`./static/${file}`), path.resolve(`../assets/${file}`))
       })
     }

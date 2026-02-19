@@ -1,0 +1,4834 @@
+# Copyright (C) 2026 Automation & Integration Plugin - Bit Apps
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Bit Integrations 2.7.8\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/bit-integrations\n"
+"Last-Translator: developer@bitcode.pro\n"
+"Language-Team: support@bitcode.pro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-02-19T06:34:51+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: bit-integrations\n"
+
+#. Plugin Name of the plugin
+#: bitwpfi.php
+#: backend/Admin/Admin_Bar.php:38
+msgid "Bit Integrations"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: bitwpfi.php
+msgid "https://bitapps.pro/bit-integrations"
+msgstr ""
+
+#. Description of the plugin
+#: bitwpfi.php
+msgid "Bit Integrations is a platform that integrates with over 300+ different platforms to help with various tasks on your WordPress site, like WooCommerce, Form builder, Page builder, LMS, Sales funnels, Bookings, CRM, Webhooks, Email marketing, Social media and Spreadsheets, etc"
+msgstr ""
+
+#. Author of the plugin
+#: bitwpfi.php
+msgid "Automation & Integration Plugin - Bit Apps"
+msgstr ""
+
+#. Author URI of the plugin
+#: bitwpfi.php
+msgid "https://bitapps.pro"
+msgstr ""
+
+#. translators: %s: Plugin name
+#. translators: %s: Placeholder value
+#: backend/Actions/AcademyLms/AcademyLmsController.php:36
+#: backend/Actions/Affiliate/AffiliateController.php:40
+#: backend/Actions/BuddyBoss/BuddyBossController.php:29
+#: backend/Actions/BuddyBoss/BuddyBossController.php:51
+#: backend/Actions/BuddyBoss/BuddyBossController.php:73
+#: backend/Actions/GamiPress/GamiPressController.php:41
+#: backend/Actions/GiveWp/GiveWpController.php:25
+#: backend/Actions/LearnDash/LearnDashController.php:45
+#: backend/Actions/LifterLms/LifterLmsController.php:26
+#: backend/Actions/MailMint/MailMintController.php:27
+#: backend/Actions/MailMint/MailMintController.php:64
+#: backend/Actions/MasterStudyLms/MasterStudyLmsController.php:26
+#: backend/Actions/MasterStudyLms/MasterStudyLmsController.php:48
+#: backend/Actions/MasterStudyLms/MasterStudyLmsController.php:60
+#: backend/Actions/MasterStudyLms/MasterStudyLmsController.php:72
+#: backend/Actions/Memberpress/MemberpressController.php:34
+#: backend/Actions/Memberpress/MemberpressController.php:71
+#: backend/Actions/Memberpress/MemberpressController.php:79
+#: backend/Actions/PaidMembershipPro/PaidMembershipProController.php:25
+#: backend/Actions/PropovoiceCRM/PropovoiceCRMController.php:23
+#: backend/Actions/RestrictContent/RestrictContentController.php:44
+#: backend/Actions/SliceWp/SliceWpController.php:25
+#: backend/Actions/TutorLms/TutorLmsController.php:36
+#: backend/Actions/WooCommerce/WooCommerceController.php:31
+msgid "%s must be activated!"
+msgstr ""
+
+#. translators: %s: Plugin name
+#. translators: %s: Placeholder value
+#: backend/Actions/AcademyLms/AcademyLmsController.php:43
+#: backend/Actions/AcademyLms/AcademyLmsController.php:64
+#: backend/Triggers/BitSocial/BitSocialController.php:39
+#: backend/Triggers/Elementor/ElementorController.php:41
+#: backend/Triggers/WC/WCController.php:1267
+msgid "%s is not installed or activated"
+msgstr ""
+
+#: backend/Actions/AcademyLms/AcademyLmsController.php:76
+#: backend/Actions/TutorLms/TutorLmsController.php:80
+msgid "All Course"
+msgstr ""
+
+#: backend/Actions/ACPT/ACPTController.php:31
+msgid "Please enter valid Api key-secret"
+msgstr ""
+
+#: backend/Actions/ACPT/ACPTController.php:36
+#: backend/Actions/AgiledCRM/AgiledCRMController.php:35
+#: backend/Actions/Asana/AsanaController.php:41
+#: backend/Actions/Bento/BentoController.php:30
+#: backend/Actions/CapsuleCRM/CapsuleCRMController.php:41
+#: backend/Actions/Clickup/ClickupController.php:41
+#: backend/Actions/ClinchPad/ClinchPadController.php:41
+#: backend/Actions/CompanyHub/CompanyHubController.php:34
+#: backend/Actions/CopperCRM/CopperCRMController.php:45
+#: backend/Actions/Demio/DemioController.php:34
+#: backend/Actions/Flowlu/FlowluController.php:37
+#: backend/Actions/Gravitec/GravitecController.php:41
+#: backend/Actions/Insightly/InsightlyController.php:35
+#: backend/Actions/Livestorm/LivestormController.php:34
+#: backend/Actions/LMFWC/LMFWCController.php:31
+#: backend/Actions/MoxieCRM/MoxieCRMController.php:42
+#: backend/Actions/Nimble/NimbleController.php:34
+#: backend/Actions/NutshellCRM/NutshellCRMController.php:36
+#: backend/Actions/OneHashCRM/OneHashCRMController.php:34
+#: backend/Actions/PerfexCRM/PerfexCRMController.php:35
+#: backend/Actions/Salesflare/SalesflareController.php:32
+#: backend/Actions/Salesmate/SalesmateController.php:34
+#: backend/Actions/Smaily/SmailyController.php:34
+#: backend/Actions/SmartSuite/SmartSuiteController.php:118
+#: backend/Actions/SuiteDash/SuiteDashController.php:34
+#: backend/Actions/SystemeIO/SystemeIOController.php:34
+#: backend/Actions/WhatsApp/WhatsAppController.php:30
+#: backend/Actions/Woodpecker/WoodpeckerController.php:34
+#: backend/Actions/Zendesk/ZendeskController.php:41
+msgid "Authentication successful"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#. translators: %s: Integration name
+#: backend/Actions/ACPT/ACPTController.php:50
+#: backend/Actions/ActiveCampaign/ActiveCampaignController.php:249
+#: backend/Actions/Acumbamail/AcumbamailController.php:129
+#: backend/Actions/Affiliate/AffiliateController.php:86
+#: backend/Actions/AgiledCRM/AgiledCRMController.php:250
+#: backend/Actions/Asana/AsanaController.php:170
+#: backend/Actions/Autonami/AutonamiController.php:116
+#: backend/Actions/BenchMark/BenchMarkController.php:186
+#: backend/Actions/Bento/BentoController.php:101
+#: backend/Actions/BitForm/BitFormController.php:216
+#: backend/Actions/BuddyBoss/BuddyBossController.php:166
+#: backend/Actions/CampaignMonitor/CampaignMonitorController.php:89
+#: backend/Actions/CapsuleCRM/CapsuleCRMController.php:262
+#: backend/Actions/Clickup/ClickupController.php:229
+#: backend/Actions/ClinchPad/ClinchPadController.php:138
+#: backend/Actions/CompanyHub/CompanyHubController.php:97
+#: backend/Actions/ConstantContact/ConstantContactController.php:253
+#: backend/Actions/ConvertKit/ConvertKitController.php:194
+#: backend/Actions/CopperCRM/CopperCRMController.php:306
+#: backend/Actions/Demio/DemioController.php:97
+#: backend/Actions/DirectIq/DirectIqController.php:167
+#: backend/Actions/Discord/DiscordController.php:142
+#: backend/Actions/Drip/DripController.php:131
+#: backend/Actions/ElasticEmail/ElasticEmailController.php:88
+#: backend/Actions/Encharge/EnchargeController.php:111
+#: backend/Actions/Flowlu/FlowluController.php:370
+#: backend/Actions/FluentCrm/FluentCrmController.php:181
+#: backend/Actions/Freshdesk/FreshdeskController.php:204
+#: backend/Actions/FreshSales/FreshSalesController.php:187
+#: backend/Actions/Getgist/GetgistController.php:50
+#: backend/Actions/GetResponse/GetResponseController.php:153
+#: backend/Actions/GiveWp/GiveWpController.php:42
+#: backend/Actions/GoogleSheet/GoogleSheetController.php:269
+#: backend/Actions/Gravitec/GravitecController.php:58
+#: backend/Actions/Groundhogg/GroundhoggController.php:94
+#: backend/Actions/HighLevel/HighLevelController.php:322
+#: backend/Actions/Insightly/InsightlyController.php:259
+#: backend/Actions/Keap/KeapController.php:218
+#: backend/Actions/KirimEmail/KirimEmailController.php:113
+#: backend/Actions/Klaviyo/KlaviyoController.php:59
+#: backend/Actions/LearnDash/LearnDashController.php:200
+#: backend/Actions/Lemlist/LemlistController.php:72
+#: backend/Actions/LionDesk/LionDeskController.php:138
+#: backend/Actions/Livestorm/LivestormController.php:112
+#: backend/Actions/LMFWC/LMFWCController.php:131
+#: backend/Actions/MailBluster/MailBlusterController.php:71
+#: backend/Actions/MailChimp/MailChimpController.php:291
+#: backend/Actions/Mailercloud/MailercloudController.php:149
+#: backend/Actions/MailerLite/MailerLiteController.php:207
+#: backend/Actions/Mailify/MailifyController.php:119
+#: backend/Actions/Mailjet/MailjetController.php:86
+#: backend/Actions/MailMint/MailMintController.php:116
+#: backend/Actions/MailPoet/MailPoetController.php:100
+#: backend/Actions/MailRelay/MailRelayController.php:108
+#: backend/Actions/Mailup/MailupController.php:155
+#: backend/Actions/Mautic/MauticController.php:203
+#: backend/Actions/Memberpress/MemberpressController.php:117
+#: backend/Actions/Moosend/MoosendController.php:62
+#: backend/Actions/MoxieCRM/MoxieCRMController.php:231
+#: backend/Actions/Nimble/NimbleController.php:123
+#: backend/Actions/Notion/NotionController.php:113
+#: backend/Actions/NutshellCRM/NutshellCRMController.php:233
+#: backend/Actions/OmniSend/OmniSendController.php:66
+#: backend/Actions/OneHashCRM/OneHashCRMController.php:52
+#: backend/Actions/PerfexCRM/PerfexCRMController.php:174
+#: backend/Actions/PipeDrive/PipeDriveController.php:172
+#: backend/Actions/PropovoiceCRM/PropovoiceCRMController.php:64
+#: backend/Actions/Salesflare/SalesflareController.php:145
+#: backend/Actions/Salesmate/SalesmateController.php:222
+#: backend/Actions/Selzy/SelzyController.php:120
+#: backend/Actions/SendFox/SendFoxController.php:89
+#: backend/Actions/SendGrid/SendGridController.php:82
+#: backend/Actions/SendinBlue/SendinBlueController.php:203
+#: backend/Actions/SendPulse/SendPulseController.php:119
+#: backend/Actions/Slack/SlackController.php:76
+#: backend/Actions/SliceWp/SliceWpController.php:42
+#: backend/Actions/SuiteDash/SuiteDashController.php:119
+#: backend/Actions/SureCart/SureCartController.php:76
+#: backend/Actions/SystemeIO/SystemeIOController.php:97
+#: backend/Actions/Telegram/TelegramController.php:128
+#: backend/Actions/Trello/TrelloController.php:152
+#: backend/Actions/Vbout/VboutController.php:128
+#: backend/Actions/WhatsApp/WhatsAppController.php:64
+#: backend/Actions/WishlistMember/WishlistMemberController.php:79
+#: backend/Actions/Woodpecker/WoodpeckerController.php:74
+#: backend/Actions/ZagoMail/ZagoMailController.php:218
+#: backend/Actions/Zendesk/ZendeskController.php:317
+#: backend/Actions/ZohoBigin/ZohoBiginController.php:440
+#: backend/Actions/ZohoRecruit/ZohoRecruitController.php:421
+#: backend/Actions/ZohoRecruit/ZohoRecruitController.php:425
+#: backend/Actions/Zoom/ZoomController.php:132
+#: backend/Actions/ZoomWebinar/ZoomWebinarController.php:82
+msgid "module, fields are required for %s api"
+msgstr ""
+
+#: backend/Actions/ACPT/ACPTController.php:66
+#: backend/Actions/ActiveCampaign/ActiveCampaignController.php:43
+#: backend/Actions/ActiveCampaign/ActiveCampaignController.php:79
+#: backend/Actions/ActiveCampaign/ActiveCampaignController.php:107
+#: backend/Actions/ActiveCampaign/ActiveCampaignController.php:141
+#: backend/Actions/ActiveCampaign/ActiveCampaignController.php:198
+#: backend/Actions/Acumbamail/AcumbamailController.php:23
+#: backend/Actions/Acumbamail/AcumbamailController.php:53
+#: backend/Actions/Acumbamail/AcumbamailController.php:79
+#: backend/Actions/AgiledCRM/AgiledCRMController.php:22
+#: backend/Actions/AgiledCRM/AgiledCRMController.php:44
+#: backend/Actions/AgiledCRM/AgiledCRMController.php:72
+#: backend/Actions/AgiledCRM/AgiledCRMController.php:100
+#: backend/Actions/AgiledCRM/AgiledCRMController.php:128
+#: backend/Actions/AgiledCRM/AgiledCRMController.php:156
+#: backend/Actions/AgiledCRM/AgiledCRMController.php:184
+#: backend/Actions/AgiledCRM/AgiledCRMController.php:212
+#: backend/Actions/Airtable/AirtableController.php:22
+#: backend/Actions/Airtable/AirtableController.php:51
+#: backend/Actions/Airtable/AirtableController.php:79
+#: backend/Actions/Asana/AsanaController.php:29
+#: backend/Actions/Asana/AsanaController.php:50
+#: backend/Actions/Asana/AsanaController.php:82
+#: backend/Actions/Asana/AsanaController.php:109
+#: backend/Actions/Asana/AsanaController.php:136
+#: backend/Actions/BenchMark/BenchMarkController.php:41
+#: backend/Actions/BenchMark/BenchMarkController.php:76
+#: backend/Actions/BenchMark/BenchMarkController.php:116
+#: backend/Actions/Bento/BentoHelper.php:38
+#: backend/Actions/BitForm/BitFormController.php:24
+#: backend/Actions/BitForm/BitFormController.php:55
+#: backend/Actions/BitForm/BitFormController.php:87
+#: backend/Actions/BitForm/BitFormController.php:118
+#: backend/Actions/BitForm/BitFormController.php:158
+#: backend/Actions/BitForm/RecordApiHelper.php:51
+#: backend/Actions/CampaignMonitor/CampaignMonitorController.php:117
+#: backend/Actions/CapsuleCRM/CapsuleCRMController.php:29
+#: backend/Actions/CapsuleCRM/CapsuleCRMController.php:50
+#: backend/Actions/CapsuleCRM/CapsuleCRMController.php:86
+#: backend/Actions/CapsuleCRM/CapsuleCRMController.php:113
+#: backend/Actions/CapsuleCRM/CapsuleCRMController.php:140
+#: backend/Actions/CapsuleCRM/CapsuleCRMController.php:167
+#: backend/Actions/CapsuleCRM/CapsuleCRMController.php:194
+#: backend/Actions/CapsuleCRM/CapsuleCRMController.php:228
+#: backend/Actions/Clickup/ClickupController.php:29
+#: backend/Actions/Clickup/ClickupController.php:50
+#: backend/Actions/Clickup/ClickupController.php:85
+#: backend/Actions/Clickup/ClickupController.php:111
+#: backend/Actions/Clickup/ClickupController.php:138
+#: backend/Actions/Clickup/ClickupController.php:166
+#: backend/Actions/Clickup/ClickupController.php:194
+#: backend/Actions/ClinchPad/ClinchPadController.php:29
+#: backend/Actions/ClinchPad/ClinchPadController.php:50
+#: backend/Actions/ClinchPad/ClinchPadController.php:77
+#: backend/Actions/ClinchPad/ClinchPadController.php:104
+#: backend/Actions/CompanyHub/CompanyHubController.php:113
+#: backend/Actions/ConstantContact/ConstantContactController.php:29
+#: backend/Actions/ConstantContact/ConstantContactController.php:70
+#: backend/Actions/ConstantContact/ConstantContactController.php:127
+#: backend/Actions/ConstantContact/ConstantContactController.php:183
+#: backend/Actions/ConvertKit/ConvertKitController.php:40
+#: backend/Actions/ConvertKit/ConvertKitController.php:72
+#: backend/Actions/ConvertKit/ConvertKitController.php:109
+#: backend/Actions/ConvertKit/ConvertKitController.php:148
+#: backend/Actions/CopperCRM/CopperCRMController.php:29
+#: backend/Actions/CopperCRM/CopperCRMController.php:54
+#: backend/Actions/CopperCRM/CopperCRMController.php:95
+#: backend/Actions/CopperCRM/CopperCRMController.php:122
+#: backend/Actions/CopperCRM/CopperCRMController.php:152
+#: backend/Actions/CopperCRM/CopperCRMController.php:182
+#: backend/Actions/CopperCRM/CopperCRMController.php:206
+#: backend/Actions/CopperCRM/CopperCRMController.php:237
+#: backend/Actions/CopperCRM/CopperCRMController.php:268
+#: backend/Actions/Demio/DemioController.php:113
+#: backend/Actions/DirectIq/DirectIqController.php:42
+#: backend/Actions/DirectIq/DirectIqController.php:77
+#: backend/Actions/DirectIq/DirectIqController.php:119
+#: backend/Actions/Discord/DiscordController.php:33
+#: backend/Actions/Discord/DiscordController.php:62
+#: backend/Actions/Discord/DiscordController.php:95
+#: backend/Actions/Drip/DripController.php:29
+#: backend/Actions/Drip/DripController.php:65
+#: backend/Actions/Drip/DripController.php:100
+#: backend/Actions/Dropbox/DropboxController.php:25
+#: backend/Actions/Dropbox/DropboxController.php:48
+#: backend/Actions/ElasticEmail/ElasticEmailController.php:21
+#: backend/Actions/ElasticEmail/ElasticEmailController.php:49
+#: backend/Actions/EmailOctopus/EmailOctopusController.php:22
+#: backend/Actions/EmailOctopus/EmailOctopusController.php:45
+#: backend/Actions/EmailOctopus/EmailOctopusController.php:70
+#: backend/Actions/Encharge/EnchargeController.php:37
+#: backend/Actions/Encharge/EnchargeController.php:71
+#: backend/Actions/Flowlu/FlowluController.php:391
+#: backend/Actions/Freshdesk/FreshdeskController.php:33
+#: backend/Actions/Freshdesk/FreshdeskController.php:73
+#: backend/Actions/Freshdesk/FreshdeskController.php:139
+#: backend/Actions/Freshdesk/RecordApiHelper.php:36
+#: backend/Actions/Freshdesk/RecordApiHelper.php:123
+#: backend/Actions/Freshdesk/RecordApiHelper.php:147
+#: backend/Actions/Freshdesk/RecordApiHelper.php:180
+#: backend/Actions/FreshSales/FreshSalesController.php:21
+#: backend/Actions/FreshSales/FreshSalesController.php:53
+#: backend/Actions/FreshSales/FreshSalesController.php:83
+#: backend/Actions/Getgist/GetgistController.php:16
+#: backend/Actions/GetResponse/GetResponseController.php:25
+#: backend/Actions/GetResponse/GetResponseController.php:65
+#: backend/Actions/GetResponse/GetResponseController.php:104
+#: backend/Actions/GetResponse/RecordApiHelper.php:41
+#: backend/Actions/GoogleCalendar/GoogleCalendarController.php:23
+#: backend/Actions/GoogleCalendar/GoogleCalendarController.php:48
+#: backend/Actions/GoogleContacts/GoogleContactsController.php:23
+#: backend/Actions/GoogleContacts/GoogleContactsController.php:48
+#: backend/Actions/GoogleDrive/GoogleDriveController.php:23
+#: backend/Actions/GoogleDrive/GoogleDriveController.php:48
+#: backend/Actions/GoogleSheet/GoogleSheetController.php:57
+#: backend/Actions/GoogleSheet/GoogleSheetController.php:99
+#: backend/Actions/GoogleSheet/GoogleSheetController.php:152
+#: backend/Actions/GoogleSheet/GoogleSheetController.php:201
+#: backend/Actions/Gravitec/GravitecController.php:20
+#: backend/Actions/Groundhogg/GroundhoggController.php:24
+#: backend/Actions/Groundhogg/GroundhoggController.php:57
+#: backend/Actions/HighLevel/HighLevelController.php:370
+#: backend/Actions/Hubspot/HubspotController.php:21
+#: backend/Actions/Hubspot/HubspotController.php:41
+#: backend/Actions/Hubspot/HubspotController.php:89
+#: backend/Actions/Hubspot/HubspotController.php:120
+#: backend/Actions/Hubspot/HubspotController.php:146
+#: backend/Actions/Hubspot/HubspotController.php:183
+#: backend/Actions/Hubspot/HubspotController.php:210
+#: backend/Actions/Insightly/InsightlyController.php:22
+#: backend/Actions/Insightly/InsightlyController.php:44
+#: backend/Actions/Insightly/InsightlyController.php:71
+#: backend/Actions/Insightly/InsightlyController.php:106
+#: backend/Actions/Insightly/InsightlyController.php:134
+#: backend/Actions/Insightly/InsightlyController.php:161
+#: backend/Actions/Insightly/InsightlyController.php:188
+#: backend/Actions/Insightly/InsightlyController.php:224
+#: backend/Actions/Keap/KeapController.php:35
+#: backend/Actions/Keap/KeapController.php:82
+#: backend/Actions/Keap/KeapController.php:133
+#: backend/Actions/Keap/KeapController.php:170
+#: backend/Actions/KirimEmail/KirimEmailController.php:27
+#: backend/Actions/KirimEmail/KirimEmailController.php:65
+#: backend/Actions/Klaviyo/KlaviyoController.php:23
+#: backend/Actions/Lemlist/LemlistController.php:20
+#: backend/Actions/Lemlist/LemlistController.php:39
+#: backend/Actions/Line/LineController.php:14
+#: backend/Actions/LionDesk/LionDeskController.php:42
+#: backend/Actions/LionDesk/LionDeskController.php:200
+#: backend/Actions/Livestorm/LivestormController.php:128
+#: backend/Actions/LMFWC/LMFWCController.php:147
+#: backend/Actions/MailBluster/MailBlusterController.php:25
+#: backend/Actions/MailChimp/MailChimpController.php:84
+#: backend/Actions/MailChimp/MailChimpController.php:136
+#: backend/Actions/MailChimp/MailChimpController.php:186
+#: backend/Actions/MailChimp/MailChimpController.php:240
+#: backend/Actions/Mailercloud/MailercloudController.php:23
+#: backend/Actions/Mailercloud/MailercloudController.php:52
+#: backend/Actions/Mailercloud/MailercloudController.php:87
+#: backend/Actions/MailerLite/MailerLiteController.php:27
+#: backend/Actions/MailerLite/MailerLiteController.php:85
+#: backend/Actions/MailerLite/MailerLiteController.php:113
+#: backend/Actions/MailerLite/RecordApiHelper.php:56
+#: backend/Actions/MailerLite/RecordApiHelper.php:75
+#: backend/Actions/Mailify/MailifyController.php:20
+#: backend/Actions/Mailify/MailifyController.php:43
+#: backend/Actions/Mailify/MailifyController.php:82
+#: backend/Actions/Mailjet/MailjetController.php:20
+#: backend/Actions/Mailjet/MailjetController.php:48
+#: backend/Actions/MailRelay/MailRelayController.php:23
+#: backend/Actions/MailRelay/MailRelayController.php:61
+#: backend/Actions/Mailup/MailupController.php:21
+#: backend/Actions/Mailup/MailupController.php:48
+#: backend/Actions/Mailup/MailupController.php:88
+#: backend/Actions/Mailup/MailupController.php:116
+#: backend/Actions/Mautic/MauticController.php:41
+#: backend/Actions/Mautic/MauticController.php:80
+#: backend/Actions/Mautic/MauticController.php:115
+#: backend/Actions/Mautic/MauticController.php:148
+#: backend/Actions/Moosend/MoosendController.php:23
+#: backend/Actions/MoxieCRM/MoxieCRMController.php:29
+#: backend/Actions/MoxieCRM/MoxieCRMController.php:83
+#: backend/Actions/MoxieCRM/MoxieCRMController.php:110
+#: backend/Actions/MoxieCRM/MoxieCRMController.php:138
+#: backend/Actions/MoxieCRM/MoxieCRMController.php:166
+#: backend/Actions/MoxieCRM/MoxieCRMController.php:195
+#: backend/Actions/Nimble/NimbleController.php:139
+#: backend/Actions/Notion/NotionController.php:15
+#: backend/Actions/Notion/NotionController.php:44
+#: backend/Actions/Notion/NotionController.php:73
+#: backend/Actions/NutshellCRM/NutshellCRMController.php:45
+#: backend/Actions/NutshellCRM/NutshellCRMController.php:75
+#: backend/Actions/NutshellCRM/NutshellCRMController.php:105
+#: backend/Actions/NutshellCRM/NutshellCRMController.php:135
+#: backend/Actions/NutshellCRM/NutshellCRMController.php:165
+#: backend/Actions/NutshellCRM/NutshellCRMController.php:195
+#: backend/Actions/NutshellCRM/NutshellCRMController.php:254
+#: backend/Actions/OmniSend/OmniSendController.php:25
+#: backend/Actions/OneDrive/OneDriveController.php:22
+#: backend/Actions/OneDrive/OneDriveController.php:46
+#: backend/Actions/OneDrive/OneDriveController.php:89
+#: backend/Actions/OneHashCRM/OneHashCRMController.php:73
+#: backend/Actions/PCloud/PCloudController.php:22
+#: backend/Actions/PCloud/PCloudController.php:45
+#: backend/Actions/PerfexCRM/PerfexCRMController.php:195
+#: backend/Actions/PipeDrive/PipeDriveController.php:25
+#: backend/Actions/PipeDrive/PipeDriveController.php:68
+#: backend/Actions/Rapidmail/RapidmailController.php:34
+#: backend/Actions/Rapidmail/RapidmailController.php:75
+#: backend/Actions/Rapidmail/RapidmailController.php:109
+#: backend/Actions/Salesflare/SalesflareController.php:166
+#: backend/Actions/Salesforce/SalesforceController.php:39
+#: backend/Actions/Salesforce/SalesforceController.php:79
+#: backend/Actions/Salesforce/SalesforceController.php:127
+#: backend/Actions/Salesforce/SalesforceController.php:184
+#: backend/Actions/Salesforce/SalesforceController.php:220
+#: backend/Actions/Salesforce/SalesforceController.php:256
+#: backend/Actions/Salesforce/SalesforceController.php:292
+#: backend/Actions/Salesforce/SalesforceController.php:547
+#: backend/Actions/Salesmate/SalesmateController.php:243
+#: backend/Actions/Selzy/SelzyController.php:23
+#: backend/Actions/Selzy/SelzyController.php:48
+#: backend/Actions/Selzy/SelzyController.php:72
+#: backend/Actions/SendFox/SendFoxController.php:20
+#: backend/Actions/SendFox/SendFoxController.php:49
+#: backend/Actions/SendGrid/SendGridController.php:20
+#: backend/Actions/SendGrid/SendGridController.php:47
+#: backend/Actions/SendinBlue/SendinBlueController.php:30
+#: backend/Actions/SendinBlue/SendinBlueController.php:64
+#: backend/Actions/SendinBlue/SendinBlueController.php:114
+#: backend/Actions/SendinBlue/SendinBlueController.php:153
+#: backend/Actions/SendPulse/SendPulseController.php:23
+#: backend/Actions/SendPulse/SendPulseController.php:49
+#: backend/Actions/SendPulse/SendPulseController.php:81
+#: backend/Actions/Sendy/SendyController.php:29
+#: backend/Actions/Sendy/SendyController.php:60
+#: backend/Actions/Sendy/SendyController.php:93
+#: backend/Actions/Slack/SlackController.php:33
+#: backend/Actions/Smaily/SmailyController.php:20
+#: backend/Actions/SmartSuite/SmartSuiteController.php:127
+#: backend/Actions/SuiteDash/SuiteDashController.php:135
+#: backend/Actions/SureCart/SureCartController.php:17
+#: backend/Actions/SystemeIO/SystemeIOController.php:113
+#: backend/Actions/Telegram/TelegramController.php:37
+#: backend/Actions/Telegram/TelegramController.php:80
+#: backend/Actions/Trello/TrelloController.php:32
+#: backend/Actions/Trello/TrelloController.php:72
+#: backend/Actions/Trello/TrelloController.php:111
+#: backend/Actions/Twilio/TwilioController.php:34
+#: backend/Actions/Vbout/VboutController.php:23
+#: backend/Actions/Vbout/VboutController.php:49
+#: backend/Actions/Vbout/VboutController.php:84
+#: backend/Actions/WhatsApp/WhatsAppController.php:105
+#: backend/Actions/WooCommerce/WooCommerceController.php:38
+#: backend/Actions/Woodpecker/WoodpeckerController.php:95
+#: backend/Actions/ZagoMail/ZagoMailController.php:40
+#: backend/Actions/ZagoMail/ZagoMailController.php:79
+#: backend/Actions/ZagoMail/ZagoMailController.php:123
+#: backend/Actions/ZagoMail/ZagoMailController.php:166
+#: backend/Actions/Zendesk/ZendeskController.php:29
+#: backend/Actions/Zendesk/ZendeskController.php:50
+#: backend/Actions/Zendesk/ZendeskController.php:85
+#: backend/Actions/Zendesk/ZendeskController.php:112
+#: backend/Actions/Zendesk/ZendeskController.php:141
+#: backend/Actions/Zendesk/ZendeskController.php:168
+#: backend/Actions/Zendesk/ZendeskController.php:195
+#: backend/Actions/Zendesk/ZendeskController.php:222
+#: backend/Actions/Zendesk/ZendeskController.php:251
+#: backend/Actions/Zendesk/ZendeskController.php:278
+#: backend/Actions/ZohoAnalytics/ZohoAnalyticsController.php:45
+#: backend/Actions/ZohoAnalytics/ZohoAnalyticsController.php:89
+#: backend/Actions/ZohoAnalytics/ZohoAnalyticsController.php:135
+#: backend/Actions/ZohoAnalytics/ZohoAnalyticsController.php:188
+#: backend/Actions/ZohoAnalytics/ZohoAnalyticsController.php:245
+#: backend/Actions/ZohoBigin/ZohoBiginController.php:46
+#: backend/Actions/ZohoBigin/ZohoBiginController.php:90
+#: backend/Actions/ZohoBigin/ZohoBiginController.php:146
+#: backend/Actions/ZohoBigin/ZohoBiginController.php:201
+#: backend/Actions/ZohoBigin/ZohoBiginController.php:264
+#: backend/Actions/ZohoBigin/ZohoBiginController.php:344
+#: backend/Actions/ZohoBigin/ZohoBiginController.php:382
+#: backend/Actions/ZohoCampaigns/ZohoCampaignsController.php:46
+#: backend/Actions/ZohoCampaigns/ZohoCampaignsController.php:89
+#: backend/Actions/ZohoCampaigns/ZohoCampaignsController.php:148
+#: backend/Actions/ZohoCreator/ZohoCreatorController.php:41
+#: backend/Actions/ZohoCreator/ZohoCreatorController.php:77
+#: backend/Actions/ZohoCreator/ZohoCreatorController.php:141
+#: backend/Actions/ZohoCreator/ZohoCreatorController.php:205
+#: backend/Actions/ZohoCRM/ZohoCRMController.php:45
+#: backend/Actions/ZohoCRM/ZohoCRMController.php:87
+#: backend/Actions/ZohoCRM/ZohoCRMController.php:187
+#: backend/Actions/ZohoCRM/ZohoCRMController.php:309
+#: backend/Actions/ZohoCRM/ZohoCRMController.php:361
+#: backend/Actions/ZohoCRM/ZohoCRMController.php:412
+#: backend/Actions/ZohoCRM/ZohoCRMController.php:483
+#: backend/Actions/ZohoDesk/ZohoDeskController.php:42
+#: backend/Actions/ZohoDesk/ZohoDeskController.php:78
+#: backend/Actions/ZohoDesk/ZohoDeskController.php:146
+#: backend/Actions/ZohoDesk/ZohoDeskController.php:206
+#: backend/Actions/ZohoDesk/ZohoDeskController.php:288
+#: backend/Actions/ZohoDesk/ZohoDeskController.php:346
+#: backend/Actions/ZohoMarketingHub/ZohoMarketingHubController.php:43
+#: backend/Actions/ZohoMarketingHub/ZohoMarketingHubController.php:86
+#: backend/Actions/ZohoMarketingHub/ZohoMarketingHubController.php:145
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:41
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:77
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:129
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:184
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:238
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:295
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:355
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:395
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:453
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:504
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:555
+#: backend/Actions/ZohoRecruit/ZohoRecruitController.php:42
+#: backend/Actions/ZohoRecruit/ZohoRecruitController.php:85
+#: backend/Actions/ZohoRecruit/ZohoRecruitController.php:152
+#: backend/Actions/ZohoRecruit/ZohoRecruitController.php:210
+#: backend/Actions/ZohoRecruit/ZohoRecruitController.php:270
+#: backend/Actions/ZohoSheet/ZohoSheetController.php:24
+#: backend/Actions/ZohoSheet/ZohoSheetController.php:52
+#: backend/Actions/ZohoSheet/ZohoSheetController.php:82
+#: backend/Actions/ZohoSheet/ZohoSheetController.php:113
+#: backend/Actions/Zoom/ZoomController.php:21
+#: backend/Actions/Zoom/ZoomController.php:44
+#: backend/Actions/Zoom/ZoomController.php:67
+#: backend/Actions/ZoomWebinar/ZoomWebinarController.php:21
+#: backend/Actions/ZoomWebinar/ZoomWebinarController.php:44
+#: backend/Triggers/FallbackTrigger/TriggerFallback.php:1389
+#: backend/Triggers/WC/WCController.php:253
+msgid "Requested parameter is empty"
+msgstr ""
+
+#: backend/Actions/ACPT/ACPTHelper.php:32
+msgid "Post Name"
+msgstr ""
+
+#: backend/Actions/ACPT/ACPTHelper.php:33
+#: backend/Actions/ACPT/ACPTHelper.php:53
+msgid "Singular Label"
+msgstr ""
+
+#: backend/Actions/ACPT/ACPTHelper.php:34
+#: backend/Actions/ACPT/ACPTHelper.php:54
+msgid "Plural Label"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/ACPT/ACPTHelper.php:42
+#: backend/Actions/ACPT/ACPTHelper.php:150
+#: backend/Actions/Livestorm/RecordApiHelper.php:49
+#: backend/Actions/Livestorm/RecordApiHelper.php:54
+msgid "Required field %s is empty"
+msgstr ""
+
+#: backend/Actions/ACPT/ACPTHelper.php:52
+msgid "Slug"
+msgstr ""
+
+#: backend/Actions/ACPT/ACPTHelper.php:63
+msgid "Page Title"
+msgstr ""
+
+#: backend/Actions/ACPT/ACPTHelper.php:64
+msgid "Menu Title"
+msgstr ""
+
+#: backend/Actions/ACPT/ACPTHelper.php:65
+msgid "Menu Slug"
+msgstr ""
+
+#: backend/Actions/ACPT/ACPTHelper.php:66
+msgid "Menu Position"
+msgstr ""
+
+#. translators: %s: Plugin name
+#. translators: %s: Placeholder value
+#: backend/Actions/ACPT/ACPTHelper.php:134
+#: backend/Actions/Bento/RecordApiHelper.php:100
+#: backend/Actions/FluentCart/RecordApiHelper.php:54
+#: backend/Actions/FluentSupport/RecordApiHelper.php:166
+#: backend/Actions/HighLevel/RecordApiHelper.php:51
+#: backend/Actions/Klaviyo/RecordApiHelper.php:103
+#: backend/Actions/LMFWC/RecordApiHelper.php:104
+#: backend/Actions/LMFWC/RecordApiHelper.php:128
+#: backend/Actions/LMFWC/RecordApiHelper.php:161
+#: backend/Actions/LMFWC/RecordApiHelper.php:226
+#: backend/Actions/MailChimp/RecordApiHelper.php:46
+#: backend/Actions/MailerPress/RecordApiHelper.php:51
+#: backend/Actions/SeoPress/RecordApiHelper.php:54
+#: backend/Actions/SmartSuite/RecordApiHelper.php:54
+#: backend/Actions/TeamsForWooCommerceMemberships/RecordApiHelper.php:59
+#: backend/Actions/WhatsApp/RecordApiHelper.php:169
+#: backend/Actions/WPCafe/RecordApiHelper.php:54
+#: backend/Actions/ZohoBigin/RecordApiHelper.php:150
+msgid "%s plugin is not installed or activate"
+msgstr ""
+
+#: backend/Actions/ACPT/RecordApiHelper.php:49
+#: backend/Actions/ACPT/RecordApiHelper.php:212
+#: backend/Actions/Gravitec/RecordApiHelper.php:46
+msgid "Required field Icon is empty"
+msgstr ""
+
+#: backend/Actions/ACPT/RecordApiHelper.php:96
+#: backend/Actions/ACPT/RecordApiHelper.php:154
+msgid "Required field slug is empty"
+msgstr ""
+
+#: backend/Actions/ACPT/RecordApiHelper.php:179
+msgid "Required field taxonomy slug is empty"
+msgstr ""
+
+#: backend/Actions/ACPT/RecordApiHelper.php:186
+msgid "Required field cpt slug is empty"
+msgstr ""
+
+#: backend/Actions/ACPT/RecordApiHelper.php:220
+msgid "Required field Capability is empty"
+msgstr ""
+
+#: backend/Actions/ACPT/RecordApiHelper.php:264
+msgid "Required field menu slug is empty"
+msgstr ""
+
+#: backend/Actions/ACPT/RecordApiHelper.php:289
+msgid "Required field meta group id is empty"
+msgstr ""
+
+#: backend/Actions/ACPT/RecordApiHelper.php:312
+msgid "Required field dynamic block id is empty"
+msgstr ""
+
+#: backend/Actions/ACPT/RecordApiHelper.php:323
+msgid "Dynamic Block Not Found!"
+msgstr ""
+
+#: backend/Actions/ActiveCampaign/ActiveCampaignController.php:224
+#: backend/Actions/WooCommerce/WooCommerceController.php:61
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:43
+#: backend/Actions/Zoom/ZoomController.php:83
+#: backend/Triggers/WC/WCStaticFields.php:759
+#: backend/Triggers/WC/WCStaticFields.php:801
+msgid "First Name"
+msgstr ""
+
+#: backend/Actions/ActiveCampaign/ActiveCampaignController.php:225
+#: backend/Actions/WooCommerce/WooCommerceController.php:65
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:47
+#: backend/Actions/Zoom/ZoomController.php:84
+#: backend/Triggers/WC/WCStaticFields.php:763
+#: backend/Triggers/WC/WCStaticFields.php:805
+msgid "Last Name"
+msgstr ""
+
+#: backend/Actions/ActiveCampaign/ActiveCampaignController.php:226
+#: backend/Actions/SendPulse/SendPulseController.php:58
+#: backend/Actions/WooCommerce/WooCommerceController.php:69
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:51
+#: backend/Actions/Zoom/ZoomController.php:85
+#: backend/Triggers/WC/WCStaticFields.php:767
+#: backend/Triggers/WC/WCStaticFields.php:809
+msgid "Email"
+msgstr ""
+
+#: backend/Actions/ActiveCampaign/ActiveCampaignController.php:227
+#: backend/Actions/SendPulse/SendPulseController.php:60
+msgid "Phone"
+msgstr ""
+
+#: backend/Actions/ActiveCampaign/RecordApiHelper.php:174
+#: backend/Actions/MailMint/RecordApiHelper.php:198
+msgid "Email already exist"
+msgstr ""
+
+#: backend/Actions/Affiliate/RecordApiHelper.php:154
+msgid "User are not affiliate"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Affiliate/RecordApiHelper.php:178
+#: backend/Actions/Affiliate/RecordApiHelper.php:197
+msgid "Created Referral id %s"
+msgstr ""
+
+#: backend/Actions/Affiliate/RecordApiHelper.php:180
+#: backend/Actions/Affiliate/RecordApiHelper.php:199
+msgid "Error in creating referral"
+msgstr ""
+
+#: backend/Actions/AgiledCRM/AgiledCRMController.php:37
+msgid "Please enter valid Brand name & API key"
+msgstr ""
+
+#: backend/Actions/AgiledCRM/AgiledCRMController.php:65
+#: backend/Actions/AgiledCRM/AgiledCRMController.php:93
+#: backend/Actions/AgiledCRM/AgiledCRMController.php:121
+#: backend/Actions/AgiledCRM/AgiledCRMController.php:149
+#: backend/Actions/AgiledCRM/AgiledCRMController.php:177
+#: backend/Actions/CapsuleCRM/CapsuleCRMController.php:133
+#: backend/Actions/CopperCRM/CopperCRMController.php:145
+#: backend/Actions/Insightly/InsightlyController.php:64
+#: backend/Actions/Insightly/InsightlyController.php:127
+#: backend/Actions/Salesmate/SalesmateController.php:206
+msgid "Owners fetching failed"
+msgstr ""
+
+#: backend/Actions/AgiledCRM/AgiledCRMController.php:205
+#: backend/Actions/ClinchPad/ClinchPadController.php:97
+#: backend/Actions/CopperCRM/CopperCRMController.php:292
+#: backend/Actions/Flowlu/FlowluController.php:182
+#: backend/Actions/HighLevel/HighLevelController.php:250
+#: backend/Actions/Hubspot/HubspotController.php:176
+#: backend/Actions/Insightly/InsightlyController.php:217
+#: backend/Actions/MoxieCRM/MoxieCRMController.php:217
+#: backend/Actions/Salesmate/SalesmateController.php:134
+msgid "Pipelines fetching failed"
+msgstr ""
+
+#: backend/Actions/AgiledCRM/AgiledCRMController.php:236
+#: backend/Actions/Insightly/InsightlyController.php:245
+msgid "Pipeline stages fetching failed"
+msgstr ""
+
+#: backend/Actions/AgiledCRM/RecordApiHelper.php:44
+#: backend/Actions/CapsuleCRM/RecordApiHelper.php:43
+#: backend/Actions/ClinchPad/RecordApiHelper.php:44
+#: backend/Actions/ClinchPad/RecordApiHelper.php:70
+#: backend/Actions/CopperCRM/RecordApiHelper.php:46
+#: backend/Actions/CopperCRM/RecordApiHelper.php:90
+#: backend/Actions/Flowlu/RecordApiHelper.php:41
+#: backend/Actions/Insightly/RecordApiHelper.php:43
+#: backend/Actions/LionDesk/RecordApiHelper.php:46
+#: backend/Actions/MoxieCRM/RecordApiHelper.php:43
+#: backend/Actions/Salesmate/RecordApiHelper.php:45
+#: backend/Actions/Zendesk/RecordApiHelper.php:43
+#: backend/Actions/Zendesk/RecordApiHelper.php:80
+msgid "Required field Name is empty"
+msgstr ""
+
+#: backend/Actions/AgiledCRM/RecordApiHelper.php:75
+#: backend/Actions/Insightly/RecordApiHelper.php:70
+msgid "Required field Name or Email is empty"
+msgstr ""
+
+#: backend/Actions/AgiledCRM/RecordApiHelper.php:130
+#: backend/Actions/Zendesk/RecordApiHelper.php:148
+msgid "Required field deal name is empty"
+msgstr ""
+
+#: backend/Actions/Airtable/AirtableController.php:44
+msgid "Authentication failed"
+msgstr ""
+
+#: backend/Actions/Airtable/AirtableController.php:72
+#: backend/Actions/SmartSuite/SmartSuiteController.php:65
+msgid "Tables fetching failed"
+msgstr ""
+
+#: backend/Actions/Airtable/AirtableController.php:109
+msgid "Table fields fetching failed"
+msgstr ""
+
+#: backend/Actions/Airtable/AirtableController.php:121
+msgid "fields are required for Airtable api"
+msgstr ""
+
+#: backend/Actions/Airtable/RecordApiHelper.php:90
+msgid "Record created successfully"
+msgstr ""
+
+#: backend/Actions/Asana/AsanaController.php:43
+#: backend/Actions/CapsuleCRM/CapsuleCRMController.php:43
+#: backend/Actions/Clickup/ClickupController.php:43
+#: backend/Actions/ClinchPad/ClinchPadController.php:43
+#: backend/Actions/CopperCRM/CopperCRMController.php:47
+#: backend/Actions/GetResponse/GetResponseController.php:133
+#: backend/Actions/MailBluster/MailBlusterController.php:53
+#: backend/Actions/Mailjet/MailjetController.php:41
+#: backend/Actions/MoxieCRM/MoxieCRMController.php:44
+#: backend/Actions/Nimble/NimbleController.php:36
+#: backend/Actions/Salesflare/SalesflareController.php:34
+#: backend/Actions/SendGrid/SendGridController.php:40
+#: backend/Actions/Woodpecker/WoodpeckerController.php:32
+#: backend/Actions/Zendesk/ZendeskController.php:43
+msgid "Please enter valid API key"
+msgstr ""
+
+#: backend/Actions/Asana/AsanaController.php:75
+#: backend/Actions/CapsuleCRM/CapsuleCRMController.php:79
+#: backend/Actions/Clickup/ClickupController.php:78
+#: backend/Actions/CopperCRM/CopperCRMController.php:88
+#: backend/Actions/LionDesk/LionDeskController.php:94
+#: backend/Actions/Zendesk/ZendeskController.php:78
+msgid "Custom field fetching failed"
+msgstr ""
+
+#: backend/Actions/Asana/AsanaController.php:102
+#: backend/Actions/Clickup/ClickupController.php:104
+msgid "Task fetching failed"
+msgstr ""
+
+#: backend/Actions/Asana/AsanaController.php:129
+msgid "Projects fetching failed"
+msgstr ""
+
+#: backend/Actions/Asana/AsanaController.php:156
+msgid "Sections fetching failed"
+msgstr ""
+
+#: backend/Actions/Asana/RecordApiHelper.php:44
+#: backend/Actions/Clickup/RecordApiHelper.php:45
+#: backend/Actions/CopperCRM/RecordApiHelper.php:191
+msgid "Required field task name is empty"
+msgstr ""
+
+#: backend/Actions/Autonami/AutonamiController.php:24
+#: backend/Actions/Autonami/AutonamiController.php:91
+msgid "Autonami Pro Plugin is not active or installed"
+msgstr ""
+
+#: backend/Actions/Autonami/AutonamiController.php:98
+msgid "Autonami Pro Plugins not found"
+msgstr ""
+
+#: backend/Actions/Autonami/RecordApiHelper.php:25
+#: backend/Actions/FluentCrm/RecordApiHelper.php:34
+msgid "Contact already exists!"
+msgstr ""
+
+#: backend/Actions/Autonami/RecordApiHelper.php:46
+#: backend/Actions/FluentCrm/RecordApiHelper.php:53
+#: backend/Actions/FluentCrm/RecordApiHelper.php:78
+#: backend/Actions/WPCourseware/RecordApiHelper.php:47
+msgid "Insert successfully!"
+msgstr ""
+
+#: backend/Actions/Autonami/RecordApiHelper.php:48
+#: backend/Actions/FluentCrm/RecordApiHelper.php:58
+#: backend/Actions/FluentCrm/RecordApiHelper.php:83
+msgid "Something wrong!"
+msgstr ""
+
+#: backend/Actions/BenchMark/RecordApiHelper.php:91
+#: backend/Actions/BenchMark/RecordApiHelper.php:94
+#: backend/Actions/CampaignMonitor/RecordApiHelper.php:81
+#: backend/Actions/ConvertKit/RecordApiHelper.php:99
+#: backend/Actions/Lemlist/RecordApiHelper.php:83
+#: backend/Actions/Lemlist/RecordApiHelper.php:84
+#: backend/Actions/Mailify/RecordApiHelper.php:89
+#: backend/Actions/Mailify/RecordApiHelper.php:90
+#: backend/Actions/ZagoMail/RecordApiHelper.php:103
+#: backend/Actions/ZagoMail/RecordApiHelper.php:106
+msgid "Email address already exists in the system"
+msgstr ""
+
+#: backend/Actions/Bento/BentoController.php:35
+msgid "Please enter valid Publishable Key, Secret Key & Site UUID"
+msgstr ""
+
+#: backend/Actions/Bento/BentoController.php:44
+msgid "Email Address"
+msgstr ""
+
+#: backend/Actions/Bento/RecordApiHelper.php:50
+#: backend/Actions/Bento/RecordApiHelper.php:86
+#: backend/Actions/ConstantContact/RecordApiHelper.php:58
+#: backend/Actions/Demio/RecordApiHelper.php:50
+#: backend/Actions/Drip/RecordApiHelper.php:41
+#: backend/Actions/EmailOctopus/RecordApiHelper.php:34
+#: backend/Actions/GetResponse/RecordApiHelper.php:63
+#: backend/Actions/LionDesk/RecordApiHelper.php:59
+#: backend/Actions/MailBluster/RecordApiHelper.php:44
+#: backend/Actions/MailerLite/RecordApiHelper.php:96
+#: backend/Actions/MailerLite/RecordApiHelper.php:147
+#: backend/Actions/Mailjet/RecordApiHelper.php:37
+#: backend/Actions/MailRelay/RecordApiHelper.php:48
+#: backend/Actions/Mailster/RecordApiHelper.php:28
+#: backend/Actions/Mailup/RecordApiHelper.php:36
+#: backend/Actions/MoxieCRM/RecordApiHelper.php:72
+#: backend/Actions/Newsletter/RecordApiHelper.php:28
+#: backend/Actions/PerfexCRM/RecordApiHelper.php:62
+#: backend/Actions/SendGrid/RecordApiHelper.php:37
+#: backend/Actions/Smaily/RecordApiHelper.php:37
+#: backend/Actions/SuiteDash/RecordApiHelper.php:53
+#: backend/Actions/SystemeIO/RecordApiHelper.php:46
+#: backend/Actions/Vbout/RecordApiHelper.php:51
+#: backend/Actions/Woodpecker/RecordApiHelper.php:43
+msgid "Required field Email is empty"
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:127
+msgid "Successfully add user to group"
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:129
+msgid "Unauthorized user"
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:132
+msgid "Failed to add user to group"
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:141
+msgid "Successfully end friendship with user"
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:143
+msgid "Failed to end friendship with user"
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:157
+msgid "A user can not follow itself."
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:169
+msgid "The user successfully start following a member ID - %s"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:172
+msgid "The user was already following a member ID - %s"
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:188
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:733
+msgid "Sorry, This forum is a category. No discussions can be created in this forum."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:193
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:738
+msgid "Sorry, This forum has been closed to new discussions."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:218
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:763
+msgid "Sorry, This forum is private and you do not have the capability to read or create new discussions in it."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:227
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:772
+msgid "Sorry, This forum is hidden and you do not have the capability to read or create new discussions in it."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:241
+msgid "Duplicate discussion detected; it looks as though you've already said that!"
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:247
+msgid "Sorry, Your discussion cannot be created at this time."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:269
+msgid "We are facing a problem to creating a topic."
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:274
+msgid "Post created successfully and id is %s"
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:533
+msgid "Stop following users successfully ."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:553
+msgid "The user is already subscribed to the specified forum."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:562
+msgid "There was a problem subscribing to that forum!"
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:664
+msgid "There is an error on posting stream."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:721
+msgid "Sorry, Discussion does not exist."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:727
+msgid "Sorry, Forum does not exist."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:796
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:814
+msgid "Sorry, Discussion is closed."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:802
+msgid "Sorry, Your reply cannot be created at this time."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:837
+msgid "The following problems have been found with your reply:"
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:838
+msgid "We are facing a problem to creating a reply."
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:911
+msgid "Group created successfully and is is %s"
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:948
+msgid "User removed from group successfully ."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:950
+msgid "Failed to remove user form group ."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:959
+msgid "Send friend request successfully ."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:961
+msgid "Failed to send friend request to user ."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:970
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1003
+msgid "Notification are send successfully ."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:972
+msgid "BuddyBoss notification module is not active."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:981
+msgid "Send private message to all group member successfully ."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:983
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:996
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1005
+msgid "BuddyBoss message module is not active."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:994
+msgid "Send private message to user successfully ."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1020
+msgid "Forum subscribe successfully ."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1022
+msgid "Failed to subscribe Forum ."
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1032
+msgid "Post added to group successfully and id is -> %s"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1043
+msgid "Post added to sitewide activity stream successfully and id is -> %s"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1054
+msgid "Post added to Users activity stream successfully and id is -> %s"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1066
+msgid "Reply forum topic successfully and id is -> %s"
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1068
+msgid "Failed to reply forum topic."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1075
+msgid "Change user status successfully ."
+msgstr ""
+
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1077
+msgid "To change members status in your network, please activate the Moderation component."
+msgstr ""
+
+#: backend/Actions/CampaignMonitor/CampaignMonitorController.php:51
+#: backend/Actions/Clickup/ClickupController.php:215
+msgid "Lists fetching failed"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/CampaignMonitor/CampaignMonitorController.php:74
+msgid "Field fetching failed: %s"
+msgstr ""
+
+#: backend/Actions/CampaignMonitor/RecordApiHelper.php:65
+#: backend/Actions/Mailster/RecordApiHelper.php:76
+#: backend/Actions/Mailup/RecordApiHelper.php:82
+#: backend/Actions/Newsletter/RecordApiHelper.php:60
+#: backend/Actions/Sendy/RecordApiHelper.php:71
+msgid "Subscriber added successfully"
+msgstr ""
+
+#: backend/Actions/CapsuleCRM/CapsuleCRMController.php:106
+#: backend/Actions/CopperCRM/CopperCRMController.php:115
+#: backend/Actions/MoxieCRM/MoxieCRMController.php:103
+msgid "Opportunity fetching failed"
+msgstr ""
+
+#: backend/Actions/CapsuleCRM/CapsuleCRMController.php:160
+#: backend/Actions/Clickup/ClickupController.php:131
+#: backend/Actions/Zendesk/ZendeskController.php:161
+msgid "Teams fetching failed"
+msgstr ""
+
+#: backend/Actions/CapsuleCRM/CapsuleCRMController.php:187
+#: backend/Actions/Salesmate/SalesmateController.php:111
+#: backend/Actions/Zendesk/ZendeskController.php:188
+msgid "Currencies fetching failed"
+msgstr ""
+
+#: backend/Actions/CapsuleCRM/CapsuleCRMController.php:221
+msgid "Parties fetching failed"
+msgstr ""
+
+#: backend/Actions/CapsuleCRM/CapsuleCRMController.php:248
+msgid "Milestones fetching failed"
+msgstr ""
+
+#: backend/Actions/CapsuleCRM/RecordApiHelper.php:212
+msgid "Required field project name is empty"
+msgstr ""
+
+#: backend/Actions/Clickup/ClickupController.php:159
+msgid "Spaces fetching failed"
+msgstr ""
+
+#: backend/Actions/Clickup/ClickupController.php:187
+#: backend/Actions/PCloud/PCloudController.php:64
+msgid "Folders fetching failed"
+msgstr ""
+
+#: backend/Actions/ClinchPad/ClinchPadController.php:70
+#: backend/Actions/Zendesk/ZendeskController.php:134
+msgid "ParentOrganizations fetching failed"
+msgstr ""
+
+#: backend/Actions/ClinchPad/ClinchPadController.php:124
+#: backend/Actions/CompanyHub/CompanyHubController.php:82
+#: backend/Actions/HighLevel/HighLevelController.php:132
+#: backend/Actions/Hubspot/HubspotController.php:203
+#: backend/Actions/NutshellCRM/NutshellCRMController.php:68
+#: backend/Actions/NutshellCRM/NutshellCRMController.php:98
+#: backend/Actions/Salesmate/SalesmateController.php:159
+#: backend/Actions/Zendesk/ZendeskController.php:271
+msgid "Contacts fetching failed"
+msgstr ""
+
+#: backend/Actions/ClinchPad/RecordApiHelper.php:101
+#: backend/Actions/Zendesk/RecordApiHelper.php:111
+msgid "Required field lead name is empty"
+msgstr ""
+
+#: backend/Actions/CompanyHub/CompanyHubController.php:36
+msgid "Please enter valid Sub Domain & API Key"
+msgstr ""
+
+#: backend/Actions/CompanyHub/CompanyHubController.php:59
+#: backend/Actions/CopperCRM/CopperCRMController.php:175
+#: backend/Actions/Salesmate/SalesmateController.php:183
+#: backend/Actions/Zendesk/ZendeskController.php:244
+msgid "Companies fetching failed"
+msgstr ""
+
+#: backend/Actions/CompanyHub/RecordApiHelper.php:47
+#: backend/Actions/PerfexCRM/RecordApiHelper.php:60
+#: backend/Actions/SuiteDash/RecordApiHelper.php:50
+msgid "Required field Last Name is empty"
+msgstr ""
+
+#: backend/Actions/CompanyHub/RecordApiHelper.php:67
+#: backend/Actions/Nimble/RecordApiHelper.php:52
+#: backend/Actions/Woodpecker/RecordApiHelper.php:72
+msgid "Required field Company Name is empty"
+msgstr ""
+
+#: backend/Actions/CompanyHub/RecordApiHelper.php:81
+msgid "Required field Deal Name is empty"
+msgstr ""
+
+#: backend/Actions/ConstantContact/ConstantContactController.php:86
+#: backend/Actions/ConstantContact/ConstantContactController.php:142
+#: backend/Actions/ConstantContact/ConstantContactController.php:198
+#: backend/Actions/ConstantContact/ConstantContactController.php:267
+#: backend/Actions/ZohoCRM/ZohoCRMController.php:101
+#: backend/Actions/ZohoCRM/ZohoCRMController.php:628
+msgid "Failed to refresh access token"
+msgstr ""
+
+#: backend/Actions/ConstantContact/RecordApiHelper.php:67
+msgid "Email already exists"
+msgstr ""
+
+#: backend/Actions/CopperCRM/CopperCRMController.php:197
+msgid "Unknown error"
+msgstr ""
+
+#: backend/Actions/CopperCRM/CopperCRMController.php:230
+#: backend/Actions/MoxieCRM/MoxieCRMController.php:159
+msgid "PipelineStages fetching failed"
+msgstr ""
+
+#: backend/Actions/CopperCRM/CopperCRMController.php:261
+#: backend/Actions/MoxieCRM/MoxieCRMController.php:188
+msgid "Peoples fetching failed"
+msgstr ""
+
+#: backend/Actions/CopperCRM/RecordApiHelper.php:145
+#: backend/Actions/Insightly/RecordApiHelper.php:101
+#: backend/Actions/Insightly/RecordApiHelper.php:139
+#: backend/Actions/Insightly/RecordApiHelper.php:177
+#: backend/Actions/Insightly/RecordApiHelper.php:207
+#: backend/Actions/Mailercloud/RecordApiHelper.php:33
+#: backend/Actions/MoxieCRM/RecordApiHelper.php:103
+msgid "Required field opportunity name is empty"
+msgstr ""
+
+#. translators: %s: validation result message
+#: backend/Actions/CustomAction/CustomActionController.php:19
+msgid "Congrats, %s"
+msgstr ""
+
+#: backend/Actions/CustomAction/CustomActionController.php:44
+msgid "Custom action Failed"
+msgstr ""
+
+#: backend/Actions/Demio/DemioController.php:36
+#: backend/Actions/SystemeIO/SystemeIOController.php:36
+msgid "Please enter valid API Key & API Secret"
+msgstr ""
+
+#: backend/Actions/Demio/DemioController.php:59
+#: backend/Actions/Demio/DemioController.php:82
+#: backend/Actions/Livestorm/LivestormController.php:76
+msgid "Events fetching failed"
+msgstr ""
+
+#: backend/Actions/Demio/RecordApiHelper.php:47
+#: backend/Actions/Nimble/RecordApiHelper.php:49
+#: backend/Actions/OneHashCRM/RecordApiHelper.php:61
+#: backend/Actions/PerfexCRM/RecordApiHelper.php:58
+#: backend/Actions/Salesflare/RecordApiHelper.php:57
+#: backend/Actions/SuiteDash/RecordApiHelper.php:47
+msgid "Required field First Name is empty"
+msgstr ""
+
+#: backend/Actions/Demio/RecordApiHelper.php:53
+msgid "Required field Event is empty"
+msgstr ""
+
+#: backend/Actions/DirectIq/RecordApiHelper.php:82
+msgid "There is an error while inserting record"
+msgstr ""
+
+#: backend/Actions/DirectIq/RecordApiHelper.php:84
+msgid "Record inserted successfully"
+msgstr ""
+
+#: backend/Actions/Discord/DiscordController.php:85
+msgid "Servers fetching failed"
+msgstr ""
+
+#: backend/Actions/Discord/DiscordController.php:118
+msgid "Channels fetching failed"
+msgstr ""
+
+#: backend/Actions/Dokan/DokanController.php:23
+msgid "Please! Install Dokan"
+msgstr ""
+
+#. translators: %s: Plugin name
+#: backend/Actions/Dokan/DokanController.php:36
+#: backend/Actions/FluentCrm/FluentCrmController.php:38
+#: backend/Actions/FluentSupport/FluentSupportController.php:38
+#: backend/Actions/Hubspot/HubspotRecordApiHelper.php:256
+#: backend/Actions/JetEngine/JetEngineController.php:38
+#: backend/Actions/MailPoet/RecordApiHelper.php:55
+#: backend/Actions/WPForo/WPForoController.php:35
+msgid "%s is not active or not installed"
+msgstr ""
+
+#: backend/Actions/Dokan/DokanController.php:68
+msgid "Company Name"
+msgstr ""
+
+#: backend/Actions/Dokan/DokanController.php:69
+msgid "Company ID/EUID Number"
+msgstr ""
+
+#: backend/Actions/Dokan/DokanController.php:70
+msgid "VAT/TAX Number"
+msgstr ""
+
+#: backend/Actions/Dokan/DokanController.php:71
+msgid "Name of Bank"
+msgstr ""
+
+#: backend/Actions/Dokan/DokanController.php:72
+msgid "Bank IBAN"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Dokan/DokanController.php:96
+msgid "EU Compliance Fields fetching failed - %s or EU Compliance Fields is not enabled"
+msgstr ""
+
+#: backend/Actions/Dokan/DokanController.php:112
+msgid "Fields map, task are required for Dokan"
+msgstr ""
+
+#: backend/Actions/Dokan/RecordApiHelper.php:30
+msgid "Required field email, username or store name is empty!"
+msgstr ""
+
+#: backend/Actions/Dokan/RecordApiHelper.php:41
+msgid "Vendor created successfully."
+msgstr ""
+
+#: backend/Actions/Dokan/RecordApiHelper.php:47
+msgid "Required field vendor is empty!"
+msgstr ""
+
+#: backend/Actions/Dokan/RecordApiHelper.php:58
+msgid "Vendor updated successfully."
+msgstr ""
+
+#: backend/Actions/Dokan/RecordApiHelper.php:102
+msgid "Vendor email or id is required!"
+msgstr ""
+
+#: backend/Actions/Dokan/RecordApiHelper.php:118
+#: backend/Actions/Dokan/RecordApiHelper.php:125
+msgid "Vendor not found!"
+msgstr ""
+
+#. translators: 1: Vendor ID, 2: Vendor email
+#: backend/Actions/Dokan/RecordApiHelper.php:132
+msgid "Vendor deleted successfully. (ID: %1$s %2$s)"
+msgstr ""
+
+#: backend/Actions/Dokan/RecordApiHelper.php:135
+#: backend/Actions/Dokan/RecordApiHelper.php:172
+#: backend/Actions/WPForo/RecordApiHelper.php:101
+#: backend/Actions/WPForo/RecordApiHelper.php:169
+#: backend/Actions/WPForo/RecordApiHelper.php:190
+msgid "Something went wrong!"
+msgstr ""
+
+#: backend/Actions/Dokan/RecordApiHelper.php:141
+#: backend/Actions/Dokan/RecordApiHelper.php:187
+#: backend/Actions/JetEngine/RecordApiHelper.php:30
+#: backend/Actions/JetEngine/RecordApiHelper.php:65
+#: backend/Actions/JetEngine/RecordApiHelper.php:105
+#: backend/Actions/JetEngine/RecordApiHelper.php:140
+msgid "Request parameters are empty!"
+msgstr ""
+
+#: backend/Actions/Dokan/RecordApiHelper.php:156
+msgid "Vendor already have pending withdraw request(s)!"
+msgstr ""
+
+#. translators: 1: Vendor ID, 2: Amount, 3: Payment method
+#: backend/Actions/Dokan/RecordApiHelper.php:169
+msgid "Withdraw request inserted successfully. (Vendor ID: %1$s Amount : %2$s Method: %3$s)"
+msgstr ""
+
+#. translators: %s: Plugin name
+#. translators: %s: Placeholder value
+#: backend/Actions/Dokan/RecordApiHelper.php:180
+#: backend/Actions/TutorLms/TutorLmsController.php:43
+#: backend/Actions/TutorLms/TutorLmsController.php:68
+#: backend/Triggers/BitForm/BitFormController.php:39
+#: backend/Triggers/CF7/CF7Controller.php:46
+#: backend/Triggers/FallbackTrigger/TriggerFallback.php:4721
+#: backend/Triggers/WPF/WPFController.php:51
+#: backend/Triggers/WPF/WPFController.php:70
+msgid "%s is not installed or activated."
+msgstr ""
+
+#. translators: 1: Order ID, 2: Refund amount
+#: backend/Actions/Dokan/RecordApiHelper.php:213
+msgid "Refund request added successfully. (Order ID: %1$s Refund Amount: %2$s)"
+msgstr ""
+
+#: backend/Actions/Drip/DripController.php:78
+#: backend/Actions/Mailjet/MailjetController.php:71
+msgid "Custom fields fetch failed"
+msgstr ""
+
+#: backend/Actions/Drip/DripController.php:116
+#: backend/Actions/HighLevel/HighLevelController.php:100
+#: backend/Actions/LionDesk/LionDeskController.php:124
+#: backend/Actions/NutshellCRM/NutshellCRMController.php:188
+#: backend/Actions/Salesmate/SalesmateController.php:89
+#: backend/Actions/SuiteDash/SuiteDashController.php:104
+#: backend/Actions/SystemeIO/SystemeIOController.php:59
+msgid "Tags fetching failed"
+msgstr ""
+
+#: backend/Actions/Drip/RecordApiHelper.php:35
+msgid "Account id is Required"
+msgstr ""
+
+#: backend/Actions/Drip/RecordApiHelper.php:102
+msgid "Subscriber upserted successfully"
+msgstr ""
+
+#. translators: %s: Service name
+#: backend/Actions/Dropbox/DropboxController.php:103
+#: backend/Actions/GoogleCalendar/GoogleCalendarController.php:74
+#: backend/Actions/GoogleContacts/GoogleContactsController.php:74
+#: backend/Actions/GoogleDrive/GoogleDriveController.php:95
+#: backend/Actions/OneDrive/OneDriveController.php:123
+#: backend/Actions/PCloud/PCloudController.php:72
+msgid "Not Authorization By %s"
+msgstr ""
+
+#: backend/Actions/Dropbox/DropboxController.php:117
+#: backend/Actions/GoogleCalendar/GoogleCalendarController.php:91
+#: backend/Actions/GoogleContacts/GoogleContactsController.php:89
+#: backend/Actions/GoogleDrive/GoogleDriveController.php:109
+#: backend/Actions/PCloud/PCloudController.php:83
+msgid "Required fields not mapped"
+msgstr ""
+
+#: backend/Actions/Dropbox/RecordApiHelper.php:84
+#: backend/Actions/GoogleDrive/RecordApiHelper.php:80
+#: backend/Actions/OneDrive/RecordApiHelper.php:103
+msgid "All Files Uploaded."
+msgstr ""
+
+#: backend/Actions/Dropbox/RecordApiHelper.php:87
+#: backend/Actions/GoogleDrive/RecordApiHelper.php:83
+#: backend/Actions/OneDrive/RecordApiHelper.php:106
+msgid "Some Files Can't Upload."
+msgstr ""
+
+#: backend/Actions/EmailOctopus/EmailOctopusController.php:38
+msgid "Please a enter valid API key"
+msgstr ""
+
+#: backend/Actions/EmailOctopus/EmailOctopusController.php:63
+msgid "Groups fetch failed"
+msgstr ""
+
+#: backend/Actions/EmailOctopus/EmailOctopusController.php:85
+msgid "Groups fetching failed"
+msgstr ""
+
+#: backend/Actions/EmailOctopus/EmailOctopusController.php:101
+msgid "fields are required for EmailOctopus api"
+msgstr ""
+
+#: backend/Actions/Fabman/FabmanController.php:16
+#: backend/Actions/Fabman/FabmanController.php:44
+msgid "API Key is required"
+msgstr ""
+
+#: backend/Actions/Fabman/FabmanController.php:32
+msgid "Invalid API credentials"
+msgstr ""
+
+#: backend/Actions/Fabman/FabmanController.php:60
+msgid "Failed to fetch workspaces"
+msgstr ""
+
+#: backend/Actions/Fabman/FabmanController.php:88
+msgid "Email address is required to identify the member"
+msgstr ""
+
+#: backend/Actions/Fabman/FabmanController.php:97
+msgid "Member not found with the provided email"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Fabman/RecordApiHelper.php:117
+msgid "Field validation failed for: %s"
+msgstr ""
+
+#: backend/Actions/Fabman/RecordApiHelper.php:135
+msgid "Invalid action name"
+msgstr ""
+
+#: backend/Actions/Fabman/RecordApiHelper.php:173
+msgid "Failed to create member"
+msgstr ""
+
+#: backend/Actions/Fabman/RecordApiHelper.php:183
+#: backend/Actions/Fabman/RecordApiHelper.php:200
+msgid "The email provided did not match any existing Fabman member."
+msgstr ""
+
+#: backend/Actions/Fabman/RecordApiHelper.php:231
+msgid "Please select a space to update."
+msgstr ""
+
+#: backend/Actions/Fabman/RecordApiHelper.php:236
+msgid "Lock version is required for updating space."
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Fabman/RecordApiHelper.php:267
+#: backend/Actions/Line/RecordApiHelper.php:236
+msgid "%s plugin is not installed or activated"
+msgstr ""
+
+#: backend/Actions/Flowlu/FlowluController.php:39
+#: backend/Actions/Salesmate/SalesmateController.php:36
+#: backend/Actions/SuiteDash/SuiteDashController.php:36
+msgid "Please enter valid Session Token or Link Name"
+msgstr ""
+
+#: backend/Actions/Flowlu/FlowluController.php:107
+#: backend/Actions/Salesmate/SalesmateController.php:67
+#: backend/Actions/SuiteDash/SuiteDashController.php:48
+msgid "Fields fetching failed"
+msgstr ""
+
+#: backend/Actions/Flowlu/FlowluController.php:132
+msgid "Category fetching failed"
+msgstr ""
+
+#: backend/Actions/Flowlu/FlowluController.php:157
+msgid "Industry fetching failed"
+msgstr ""
+
+#: backend/Actions/Flowlu/FlowluController.php:209
+msgid "Opportunity stages fetching failed"
+msgstr ""
+
+#: backend/Actions/Flowlu/FlowluController.php:234
+msgid "Source fetching failed"
+msgstr ""
+
+#: backend/Actions/Flowlu/FlowluController.php:259
+msgid "Customer fetching failed"
+msgstr ""
+
+#: backend/Actions/Flowlu/FlowluController.php:284
+#: backend/Actions/Flowlu/FlowluController.php:308
+#: backend/Actions/Flowlu/FlowluController.php:332
+#: backend/Actions/Flowlu/FlowluController.php:356
+msgid "Project Manager fetching failed"
+msgstr ""
+
+#: backend/Actions/Flowlu/RecordApiHelper.php:43
+msgid "Required field Account type is empty"
+msgstr ""
+
+#: backend/Actions/Flowlu/RecordApiHelper.php:64
+#: backend/Actions/Flowlu/RecordApiHelper.php:91
+#: backend/Actions/Salesmate/RecordApiHelper.php:70
+msgid "Required field lastName is empty"
+msgstr ""
+
+#: backend/Actions/Flowlu/RecordApiHelper.php:66
+msgid "Required field Pipeline is empty"
+msgstr ""
+
+#: backend/Actions/Flowlu/RecordApiHelper.php:68
+msgid "Required field Opportunity Stage is empty"
+msgstr ""
+
+#: backend/Actions/FluentCart/FluentCartController.php:20
+msgid "FluentCart is not activated or not installed"
+msgstr ""
+
+#: backend/Actions/FluentCart/FluentCartController.php:195
+#: backend/Actions/SeoPress/SeoPressController.php:61
+#: backend/Actions/TeamsForWooCommerceMemberships/TeamsForWooCommerceMembershipsController.php:93
+#: backend/Actions/WPCafe/WPCafeController.php:42
+msgid "Field map is empty"
+msgstr ""
+
+#: backend/Actions/FluentCart/RecordApiHelper.php:43
+msgid "FluentCart is not installed or activated"
+msgstr ""
+
+#: backend/Actions/FluentCart/RecordApiHelper.php:218
+#: backend/Actions/MailerPress/RecordApiHelper.php:125
+#: backend/Actions/SeoPress/RecordApiHelper.php:74
+#: backend/Actions/TeamsForWooCommerceMemberships/RecordApiHelper.php:119
+#: backend/Actions/WPCafe/RecordApiHelper.php:101
+msgid "Invalid action"
+msgstr ""
+
+#: backend/Actions/FluentCrm/FluentCrmController.php:159
+msgid "Please! Install Fluent CRM"
+msgstr ""
+
+#: backend/Actions/FluentCrm/RecordApiHelper.php:97
+#: backend/Actions/FluentCrm/RecordApiHelper.php:123
+msgid "Contact doesn't exists!"
+msgstr ""
+
+#: backend/Actions/FluentCrm/RecordApiHelper.php:104
+msgid "Tag added successfully!"
+msgstr ""
+
+#: backend/Actions/FluentCrm/RecordApiHelper.php:107
+msgid "Tag remove successfully!"
+msgstr ""
+
+#: backend/Actions/FluentCrm/RecordApiHelper.php:133
+msgid "User remove from list successfully!"
+msgstr ""
+
+#: backend/Actions/FluentSupport/FluentSupportController.php:23
+msgid "Fluent Support Plugin is not active or not installed"
+msgstr ""
+
+#: backend/Actions/FluentSupport/FluentSupportController.php:84
+msgid "module, required fields are empty"
+msgstr ""
+
+#: backend/Actions/FluentSupport/RecordApiHelper.php:59
+msgid "Create Customer Failed!"
+msgstr ""
+
+#: backend/Actions/FluentSupport/RecordApiHelper.php:85
+msgid "Create Ticket Failed!"
+msgstr ""
+
+#: backend/Actions/FreshSales/FreshSalesController.php:34
+msgid "Authorization Success"
+msgstr ""
+
+#: backend/Actions/FreshSales/FreshSalesController.php:40
+#: backend/Actions/FreshSales/FreshSalesController.php:164
+#: backend/Actions/GetResponse/GetResponseController.php:55
+#: backend/Actions/GetResponse/GetResponseController.php:94
+msgid "The token is invalid"
+msgstr ""
+
+#: backend/Actions/FreshSales/FreshSalesController.php:112
+#: backend/Actions/SendPulse/SendPulseController.php:59
+msgid "Name"
+msgstr ""
+
+#: backend/Actions/FreshSales/FreshSalesController.php:118
+#: backend/Actions/WooCommerce/WooCommerceController.php:91
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:73
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:875
+#: backend/Triggers/WC/WCStaticFields.php:144
+msgid "Description"
+msgstr ""
+
+#: backend/Actions/FreshSales/FreshSalesController.php:124
+msgid "Sku number"
+msgstr ""
+
+#: backend/Actions/FreshSales/FreshSalesController.php:130
+msgid "Valid till"
+msgstr ""
+
+#: backend/Actions/FreshSales/FreshSalesController.php:136
+msgid "Product code"
+msgstr ""
+
+#: backend/Actions/GamiPress/GamiPressController.php:193
+msgid "module, select action are require for GamiPress api"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/GamiPress/RecordApiHelper.php:136
+msgid "Added successfully, post id %1$s and post title %2$s"
+msgstr ""
+
+#: backend/Actions/GamiPress/RecordApiHelper.php:138
+msgid "Failed to add rank"
+msgstr ""
+
+#: backend/Actions/GamiPress/RecordApiHelper.php:145
+msgid "Achievement added successfully"
+msgstr ""
+
+#: backend/Actions/GamiPress/RecordApiHelper.php:147
+msgid "Failed to add achievement"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/GamiPress/RecordApiHelper.php:158
+msgid "Point added successfully and total points are %s"
+msgstr ""
+
+#: backend/Actions/GamiPress/RecordApiHelper.php:160
+#: backend/Actions/GamiPress/RecordApiHelper.php:163
+msgid "Failed to add point"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/GamiPress/RecordApiHelper.php:171
+msgid "Revoked rank successfully, post id %1$s and post title %2$s"
+msgstr ""
+
+#: backend/Actions/GamiPress/RecordApiHelper.php:173
+msgid "Failed to revoke rank"
+msgstr ""
+
+#: backend/Actions/GamiPress/RecordApiHelper.php:180
+msgid "Achievement revoked successfully"
+msgstr ""
+
+#: backend/Actions/GamiPress/RecordApiHelper.php:182
+msgid "Failed to revoke achievement"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/GamiPress/RecordApiHelper.php:193
+msgid "Point revoked successfully and total points are %s"
+msgstr ""
+
+#: backend/Actions/GamiPress/RecordApiHelper.php:195
+msgid "Failed to revoke point"
+msgstr ""
+
+#: backend/Actions/GamiPress/RecordApiHelper.php:198
+msgid "Failed operation , point is not valid number"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/GiveWp/RecordApiHelper.php:71
+msgid "Donar crated successfully and id is %s"
+msgstr ""
+
+#: backend/Actions/GiveWp/RecordApiHelper.php:73
+msgid "Failed to create donar"
+msgstr ""
+
+#: backend/Actions/GoogleCalendar/RecordApiHelper.php:122
+msgid "Please check if your have access to insert event in this selected calendar"
+msgstr ""
+
+#: backend/Actions/GoogleContacts/RecordApiHelper.php:177
+msgid "Fail to add contact"
+msgstr ""
+
+#: backend/Actions/GoogleContacts/RecordApiHelper.php:193
+msgid "Fail to update contact"
+msgstr ""
+
+#: backend/Actions/GoogleContacts/RecordApiHelper.php:203
+msgid "Contact not found, please check the name"
+msgstr ""
+
+#: backend/Actions/Gravitec/GravitecController.php:31
+msgid "Authorized Successfully"
+msgstr ""
+
+#: backend/Actions/Gravitec/GravitecController.php:43
+msgid "Please enter valid Site Url, App Key & App Secret"
+msgstr ""
+
+#: backend/Actions/Gravitec/RecordApiHelper.php:43
+msgid "Required field Message is empty"
+msgstr ""
+
+#: backend/Actions/Gravitec/RecordApiHelper.php:49
+msgid "Required field Refirect URL is empty"
+msgstr ""
+
+#: backend/Actions/Groundhogg/RecordApiHelper.php:72
+#: backend/Actions/Groundhogg/RecordApiHelper.php:110
+msgid "Request parameter is empty"
+msgstr ""
+
+#: backend/Actions/HighLevel/HighLevelController.php:67
+msgid "Custom fields fetching failed"
+msgstr ""
+
+#: backend/Actions/HighLevel/HighLevelController.php:174
+msgid "Users fetching failed"
+msgstr ""
+
+#: backend/Actions/HighLevel/HighLevelController.php:219
+msgid "Tasks fetching failed"
+msgstr ""
+
+#: backend/Actions/HighLevel/HighLevelController.php:290
+msgid "Opportunities fetching failed"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/HighLevel/HighLevelController.php:327
+msgid "module, location_id is required for %s v2 api"
+msgstr ""
+
+#: backend/Actions/HighLevel/RecordApiHelper.php:59
+#: backend/Actions/HighLevel/RecordApiHelper.php:131
+#: backend/Actions/HighLevel/RecordApiHelper.php:180
+#: backend/Actions/HighLevel/RecordApiHelper.php:227
+#: backend/Actions/HighLevel/RecordApiHelper.php:268
+#: backend/Actions/TheEventsCalendar/RecordApiHelper.php:29
+#: backend/Actions/Voxel/RecordApiHelper.php:27
+#: backend/Actions/Voxel/RecordApiHelper.php:59
+#: backend/Actions/Voxel/RecordApiHelper.php:123
+#: backend/Actions/Voxel/RecordApiHelper.php:150
+msgid "Request parameter(s) empty!"
+msgstr ""
+
+#: backend/Actions/HighLevel/RecordApiHelper.php:81
+msgid "Contact created successfully."
+msgstr ""
+
+#: backend/Actions/HighLevel/RecordApiHelper.php:84
+msgid "Failed to create contact!"
+msgstr ""
+
+#: backend/Actions/HighLevel/RecordApiHelper.php:90
+#: backend/Actions/HighLevel/RecordApiHelper.php:127
+#: backend/Actions/HighLevel/RecordApiHelper.php:172
+msgid "Contact id not found in request!"
+msgstr ""
+
+#: backend/Actions/HighLevel/RecordApiHelper.php:118
+msgid "Contact updated successfully."
+msgstr ""
+
+#: backend/Actions/HighLevel/RecordApiHelper.php:121
+msgid "Failed to update contact!"
+msgstr ""
+
+#: backend/Actions/HighLevel/RecordApiHelper.php:163
+msgid "Task created successfully."
+msgstr ""
+
+#: backend/Actions/HighLevel/RecordApiHelper.php:166
+msgid "Failed to create task!"
+msgstr ""
+
+#: backend/Actions/HighLevel/RecordApiHelper.php:176
+msgid "Task id not found in request!"
+msgstr ""
+
+#: backend/Actions/HighLevel/RecordApiHelper.php:218
+msgid "Task updated successfully."
+msgstr ""
+
+#: backend/Actions/HighLevel/RecordApiHelper.php:221
+msgid "Failed to update task!"
+msgstr ""
+
+#: backend/Actions/HighLevel/RecordApiHelper.php:237
+#: backend/Actions/HighLevel/RecordApiHelper.php:288
+msgid "Either a Contact ID, Email, or Phone Number is required!"
+msgstr ""
+
+#: backend/Actions/HighLevel/RecordApiHelper.php:259
+msgid "Opportunity created successfully."
+msgstr ""
+
+#: backend/Actions/HighLevel/RecordApiHelper.php:262
+msgid "Failed to create opportunity!"
+msgstr ""
+
+#: backend/Actions/HighLevel/RecordApiHelper.php:272
+msgid "Opportunity id not found in request!"
+msgstr ""
+
+#: backend/Actions/HighLevel/RecordApiHelper.php:310
+msgid "Opportunity updated successfully."
+msgstr ""
+
+#: backend/Actions/HighLevel/RecordApiHelper.php:313
+msgid "Failed to update opportunity!"
+msgstr ""
+
+#: backend/Actions/Hubspot/HubspotController.php:32
+msgid "Authorization successfull"
+msgstr ""
+
+#: backend/Actions/Hubspot/HubspotController.php:34
+msgid "Authorization failed"
+msgstr ""
+
+#: backend/Actions/Hubspot/HubspotController.php:82
+#: backend/Actions/Hubspot/HubspotController.php:113
+#: backend/Actions/Hubspot/HubspotController.php:229
+msgid "fields fetching failed"
+msgstr ""
+
+#: backend/Actions/Hubspot/HubspotController.php:241
+msgid "Access token, fields map are required for hubspot api"
+msgstr ""
+
+#: backend/Actions/Insightly/InsightlyController.php:37
+msgid "Please enter valid API URL & API key"
+msgstr ""
+
+#: backend/Actions/Insightly/InsightlyController.php:154
+#: backend/Actions/Insightly/InsightlyController.php:181
+msgid "Lead Status fetching failed"
+msgstr ""
+
+#: backend/Actions/JetEngine/JetEngineController.php:25
+msgid "Please! Install JetEngine"
+msgstr ""
+
+#: backend/Actions/JetEngine/JetEngineController.php:62
+msgid "Icon options fetching failed!"
+msgstr ""
+
+#: backend/Actions/JetEngine/JetEngineController.php:83
+msgid "Menu position fetching failed!"
+msgstr ""
+
+#: backend/Actions/JetEngine/JetEngineController.php:97
+msgid "Support options fetching failed!"
+msgstr ""
+
+#: backend/Actions/JetEngine/JetEngineController.php:110
+msgid "Post types fetching failed!"
+msgstr ""
+
+#: backend/Actions/JetEngine/JetEngineController.php:130
+msgid "Relation types fetching failed!"
+msgstr ""
+
+#: backend/Actions/JetEngine/JetEngineController.php:236
+msgid "Fields map, task are required for JetEngine"
+msgstr ""
+
+#: backend/Actions/JetEngine/RecordApiHelper.php:52
+msgid "Failed to add post type!"
+msgstr ""
+
+#: backend/Actions/JetEngine/RecordApiHelper.php:55
+msgid "Post type created successfully"
+msgstr ""
+
+#: backend/Actions/JetEngine/RecordApiHelper.php:61
+msgid "Module - Custom Content Type is not active!"
+msgstr ""
+
+#: backend/Actions/JetEngine/RecordApiHelper.php:96
+msgid "Failed to add custom content type!"
+msgstr ""
+
+#: backend/Actions/JetEngine/RecordApiHelper.php:99
+msgid "Custom content type created successfully"
+msgstr ""
+
+#: backend/Actions/JetEngine/RecordApiHelper.php:128
+msgid "Failed to add taxonomy!"
+msgstr ""
+
+#: backend/Actions/JetEngine/RecordApiHelper.php:131
+msgid "Taxonomy added successfully"
+msgstr ""
+
+#: backend/Actions/JetEngine/RecordApiHelper.php:165
+msgid "Failed to add new relation!"
+msgstr ""
+
+#: backend/Actions/JetEngine/RecordApiHelper.php:168
+msgid "Relation added successfully"
+msgstr ""
+
+#: backend/Actions/KirimEmail/RecordApiHelper.php:113
+msgid "Subscriber not found , failed to delete subscriber"
+msgstr ""
+
+#: backend/Actions/Klaviyo/KlaviyoController.php:35
+#: backend/Actions/Mailercloud/MailercloudController.php:38
+#: backend/Actions/Mailercloud/MailercloudController.php:72
+#: backend/Actions/Mailercloud/MailercloudController.php:107
+#: backend/Actions/Moosend/MoosendController.php:38
+#: backend/Actions/Notion/NotionController.php:59
+#: backend/Actions/Notion/NotionController.php:88
+#: backend/Actions/Selzy/SelzyController.php:34
+#: backend/Actions/Selzy/SelzyController.php:59
+#: backend/Actions/Selzy/SelzyController.php:80
+#: backend/Actions/Vbout/VboutController.php:35
+msgid "Invalid token"
+msgstr ""
+
+#: backend/Actions/LearnDash/RecordApiHelper.php:114
+msgid "The function ld_update_course_access does not exist"
+msgstr ""
+
+#: backend/Actions/LearnDash/RecordApiHelper.php:334
+msgid "Group not found"
+msgstr ""
+
+#: backend/Actions/LearnDash/RecordApiHelper.php:876
+msgid "failed lesson not complete"
+msgstr ""
+
+#: backend/Actions/LearnDash/RecordApiHelper.php:920
+msgid "Remove Leader from group and its children successfully"
+msgstr ""
+
+#: backend/Actions/LearnDash/RecordApiHelper.php:922
+msgid "Failed to remove leader from group and its children"
+msgstr ""
+
+#: backend/Actions/LearnDash/RecordApiHelper.php:930
+msgid "Fail to remove user from group"
+msgstr ""
+
+#: backend/Actions/LearnDash/RecordApiHelper.php:932
+msgid "User removed from group successfully"
+msgstr ""
+
+#: backend/Actions/LearnDash/RecordApiHelper.php:940
+msgid "Remove user from group and its children successfully"
+msgstr ""
+
+#: backend/Actions/LearnDash/RecordApiHelper.php:942
+msgid "Failed to remove user from group and its children"
+msgstr ""
+
+#: backend/Actions/LearnDash/RecordApiHelper.php:950
+msgid "Fail to reset quiz"
+msgstr ""
+
+#: backend/Actions/LearnDash/RecordApiHelper.php:952
+msgid "Quiz reset successfully"
+msgstr ""
+
+#: backend/Actions/LearnDash/RecordApiHelper.php:976
+msgid "users-unenroll-course-successfully"
+msgstr ""
+
+#: backend/Actions/LearnDash/RecordApiHelper.php:978
+msgid "users-unenroll-course-failed"
+msgstr ""
+
+#: backend/Actions/Lemlist/LemlistController.php:57
+msgid "Campaign fetching failed"
+msgstr ""
+
+#. translators: %s: Integration name
+#. translators: %s: Placeholder value
+#: backend/Actions/LifterLms/LifterLmsController.php:131
+#: backend/Actions/MasterStudyLms/MasterStudyLmsController.php:86
+msgid "Some important info are missing those are required for %s"
+msgstr ""
+
+#: backend/Actions/LifterLms/RecordApiHelper.php:26
+#: backend/Actions/LifterLms/RecordApiHelper.php:39
+#: backend/Actions/LifterLms/RecordApiHelper.php:60
+#: backend/Actions/LifterLms/RecordApiHelper.php:73
+#: backend/Actions/LifterLms/RecordApiHelper.php:103
+#: backend/Actions/LifterLms/RecordApiHelper.php:116
+#: backend/Actions/MasterStudyLms/RecordApiHelper.php:29
+msgid "User not logged in"
+msgstr ""
+
+#: backend/Actions/LifterLms/RecordApiHelper.php:160
+#: backend/Actions/MasterStudyLms/RecordApiHelper.php:323
+msgid "Lesson completed successfully"
+msgstr ""
+
+#: backend/Actions/LifterLms/RecordApiHelper.php:162
+#: backend/Actions/MasterStudyLms/RecordApiHelper.php:325
+msgid "Failed to completed lesson"
+msgstr ""
+
+#: backend/Actions/LifterLms/RecordApiHelper.php:168
+msgid "section completed successfully."
+msgstr ""
+
+#: backend/Actions/LifterLms/RecordApiHelper.php:170
+msgid "Failed to completed section."
+msgstr ""
+
+#: backend/Actions/LifterLms/RecordApiHelper.php:176
+msgid "User enrolled into course successfully."
+msgstr ""
+
+#: backend/Actions/LifterLms/RecordApiHelper.php:178
+msgid "Failed to enroll user into course."
+msgstr ""
+
+#: backend/Actions/LifterLms/RecordApiHelper.php:184
+msgid "User enrolled into membership successfully."
+msgstr ""
+
+#: backend/Actions/LifterLms/RecordApiHelper.php:186
+msgid "Failed to enroll user into membership."
+msgstr ""
+
+#: backend/Actions/LifterLms/RecordApiHelper.php:192
+msgid "User completed course successfully."
+msgstr ""
+
+#: backend/Actions/LifterLms/RecordApiHelper.php:194
+msgid "Failed to complete course."
+msgstr ""
+
+#: backend/Actions/LifterLms/RecordApiHelper.php:200
+msgid "User unenrolled from course successfully."
+msgstr ""
+
+#: backend/Actions/LifterLms/RecordApiHelper.php:202
+msgid "Failed to unenroll user from course."
+msgstr ""
+
+#: backend/Actions/LifterLms/RecordApiHelper.php:208
+msgid "User unenrolled from membership successfully."
+msgstr ""
+
+#: backend/Actions/LifterLms/RecordApiHelper.php:210
+msgid "Failed to unenroll user from membership."
+msgstr ""
+
+#: backend/Actions/Livestorm/LivestormController.php:38
+msgid "Authorized failed, Please enter valid API Key"
+msgstr ""
+
+#: backend/Actions/Livestorm/LivestormController.php:99
+msgid "Session fetching failed"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Livestorm/RecordApiHelper.php:49
+msgid "Event"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Livestorm/RecordApiHelper.php:54
+msgid "Session"
+msgstr ""
+
+#: backend/Actions/LMFWC/LMFWCController.php:34
+msgid "Please enter valid Consumer key & Consumer secret"
+msgstr ""
+
+#: backend/Actions/LMFWC/RecordApiHelper.php:49
+#: backend/Actions/LMFWC/RecordApiHelper.php:173
+msgid "Required field license key is empty"
+msgstr ""
+
+#: backend/Actions/LMFWC/RecordApiHelper.php:52
+msgid "Required field status is empty"
+msgstr ""
+
+#: backend/Actions/LMFWC/RecordApiHelper.php:79
+msgid "Required field license is empty"
+msgstr ""
+
+#: backend/Actions/LMFWC/RecordApiHelper.php:116
+msgid "Required field Generator is empty"
+msgstr ""
+
+#: backend/Actions/LMFWC/RecordApiHelper.php:140
+#: backend/Actions/PerfexCRM/RecordApiHelper.php:90
+#: backend/Actions/PerfexCRM/RecordApiHelper.php:122
+#: backend/Actions/Salesmate/RecordApiHelper.php:93
+msgid "Required field name is empty"
+msgstr ""
+
+#: backend/Actions/LMFWC/RecordApiHelper.php:143
+msgid "Required field Character map is empty"
+msgstr ""
+
+#: backend/Actions/LMFWC/RecordApiHelper.php:146
+msgid "Required field Number of chunks is empty"
+msgstr ""
+
+#: backend/Actions/LMFWC/RecordApiHelper.php:149
+msgid "Required field Chunk length is empty"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Mail/MailController.php:64
+msgid "%1$s failed sends mail to %2$s"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Mail/MailController.php:67
+msgid "%1$s successfully sends mail to %2$s"
+msgstr ""
+
+#: backend/Actions/MailChimp/MailChimpController.php:45
+msgid "Add a member to an audience"
+msgstr ""
+
+#: backend/Actions/MailChimp/MailChimpController.php:55
+msgid "Add tag to a member"
+msgstr ""
+
+#: backend/Actions/MailChimp/MailChimpController.php:59
+msgid "Remove tag from a member"
+msgstr ""
+
+#: backend/Actions/MailerLite/MailerLiteController.php:154
+msgid "Invalid API Token"
+msgstr ""
+
+#: backend/Actions/MailerLite/RecordApiHelper.php:113
+msgid "Subscriber already exist"
+msgstr ""
+
+#: backend/Actions/MailerLite/RecordApiHelper.php:139
+msgid "This action is not supported for Classic accounts."
+msgstr ""
+
+#: backend/Actions/MailerLite/RecordApiHelper.php:157
+msgid "Subscriber not exist"
+msgstr ""
+
+#: backend/Actions/MailerLite/RecordApiHelper.php:170
+msgid "Bit Integrations Pro is required."
+msgstr ""
+
+#: backend/Actions/MailerLite/RecordApiHelper.php:204
+msgid "Subscriber deleted successfully"
+msgstr ""
+
+#: backend/Actions/MailerLite/RecordApiHelper.php:218
+msgid "Subscriber updated successfully"
+msgstr ""
+
+#: backend/Actions/MailerLite/RecordApiHelper.php:218
+msgid "Subscriber created successfully"
+msgstr ""
+
+#: backend/Actions/MailerPress/MailerPressController.php:27
+msgid "MailerPress is not activated or not installed"
+msgstr ""
+
+#. translators: %s: Integration name
+#: backend/Actions/MailerPress/MailerPressController.php:124
+msgid "Field map is required for %s api"
+msgstr ""
+
+#: backend/Actions/MailerPress/RecordApiHelper.php:42
+#: backend/Actions/MailerPress/RecordApiHelper.php:184
+msgid "MailerPress is not installed or activated"
+msgstr ""
+
+#: backend/Actions/MailerPress/RecordApiHelper.php:157
+msgid "Email is required"
+msgstr ""
+
+#: backend/Actions/MailerPress/RecordApiHelper.php:207
+#: backend/Actions/MailMint/RecordApiHelper.php:191
+msgid "Contact updated successfully"
+msgstr ""
+
+#: backend/Actions/MailerPress/RecordApiHelper.php:207
+msgid "Contact created successfully"
+msgstr ""
+
+#: backend/Actions/MailerPress/RecordApiHelper.php:213
+msgid "Failed to create or update contact"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/MailMint/RecordApiHelper.php:178
+msgid "Contact created successfully and id is %s"
+msgstr ""
+
+#: backend/Actions/MailMint/RecordApiHelper.php:180
+#: backend/Actions/MailMint/RecordApiHelper.php:193
+msgid "Failed to create contact"
+msgstr ""
+
+#: backend/Actions/MailPoet/MailPoetController.php:28
+msgid "MailPoet is not activate or not installed"
+msgstr ""
+
+#: backend/Actions/MailRelay/MailRelayController.php:51
+msgid "Please enter valid Domain name & API key"
+msgstr ""
+
+#: backend/Actions/Mailster/MailsterController.php:25
+msgid "Please! Install Mailster"
+msgstr ""
+
+#: backend/Actions/Mailster/MailsterController.php:38
+msgid "Mailster Plugin is not active or not installed"
+msgstr ""
+
+#: backend/Actions/Mailster/MailsterController.php:57
+msgid "Fields fetching failed!"
+msgstr ""
+
+#: backend/Actions/Mailster/MailsterController.php:91
+msgid "Lists fetching failed!"
+msgstr ""
+
+#: backend/Actions/Mailster/MailsterController.php:110
+#: backend/Actions/Salesflare/SalesflareController.php:80
+msgid "Tags fetching failed!"
+msgstr ""
+
+#: backend/Actions/Mailster/MailsterController.php:132
+msgid "fields map are required for Mailster"
+msgstr ""
+
+#: backend/Actions/MasterStudyLms/RecordApiHelper.php:314
+msgid "Course completed successfully"
+msgstr ""
+
+#: backend/Actions/MasterStudyLms/RecordApiHelper.php:316
+msgid "Failed to completed course"
+msgstr ""
+
+#: backend/Actions/MasterStudyLms/RecordApiHelper.php:332
+msgid "quiz completed successfully"
+msgstr ""
+
+#: backend/Actions/MasterStudyLms/RecordApiHelper.php:334
+msgid "Failed to completed quiz"
+msgstr ""
+
+#: backend/Actions/MasterStudyLms/RecordApiHelper.php:340
+msgid "Course reset successfully"
+msgstr ""
+
+#: backend/Actions/MasterStudyLms/RecordApiHelper.php:342
+msgid "Failed to reset course"
+msgstr ""
+
+#: backend/Actions/MasterStudyLms/RecordApiHelper.php:349
+msgid "Lesson reset successfully"
+msgstr ""
+
+#: backend/Actions/MasterStudyLms/RecordApiHelper.php:351
+msgid "Failed to reset lesson"
+msgstr ""
+
+#: backend/Actions/Mautic/RecordApiHelper.php:69
+#: backend/Actions/SendPulse/RecordApiHelper.php:68
+msgid "Contact Added Successfully"
+msgstr ""
+
+#: backend/Actions/Memberpress/RecordApiHelper.php:164
+msgid "Failed to add user to membership"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Memberpress/RecordApiHelper.php:167
+msgid "Successfully user added to the membership and id is: %s"
+msgstr ""
+
+#: backend/Actions/Memberpress/RecordApiHelper.php:173
+msgid "Successfully user removed form membership"
+msgstr ""
+
+#: backend/Actions/Memberpress/RecordApiHelper.php:175
+msgid "Failed to remove user form membership"
+msgstr ""
+
+#: backend/Actions/MoxieCRM/MoxieCRMController.php:131
+msgid "Clients fetching failed"
+msgstr ""
+
+#: backend/Actions/Newsletter/NewsletterController.php:22
+msgid "Please! Install Newsletter"
+msgstr ""
+
+#: backend/Actions/Newsletter/NewsletterController.php:35
+msgid "Newsletter Plugin is not active or not installed"
+msgstr ""
+
+#: backend/Actions/Newsletter/NewsletterController.php:56
+msgid "fields map are required for Newsletter"
+msgstr ""
+
+#: backend/Actions/Nimble/NimbleController.php:109
+msgid "Field fetching failed"
+msgstr ""
+
+#: backend/Actions/NutshellCRM/NutshellCRMController.php:38
+msgid "Please enter valid User Name & Secret or Access Api URL"
+msgstr ""
+
+#: backend/Actions/NutshellCRM/NutshellCRMController.php:128
+msgid "Products fetching failed"
+msgstr ""
+
+#: backend/Actions/NutshellCRM/NutshellCRMController.php:158
+#: backend/Actions/Zendesk/ZendeskController.php:303
+msgid "Sources fetching failed"
+msgstr ""
+
+#: backend/Actions/NutshellCRM/NutshellCRMController.php:218
+msgid "CompanyTypes fetching failed"
+msgstr ""
+
+#: backend/Actions/NutshellCRM/RecordApiHelper.php:43
+msgid "Required field First Name or Email is empty"
+msgstr ""
+
+#: backend/Actions/NutshellCRM/RecordApiHelper.php:91
+#: backend/Actions/OneHashCRM/RecordApiHelper.php:43
+msgid "Required field Full Name is empty"
+msgstr ""
+
+#: backend/Actions/NutshellCRM/RecordApiHelper.php:138
+msgid "Required field Description is empty"
+msgstr ""
+
+#: backend/Actions/OmniSend/RecordApiHelper.php:49
+msgid "At least one channel is required"
+msgstr ""
+
+#: backend/Actions/OneHashCRM/OneHashCRMController.php:36
+msgid "Please enter valid API Key & Secret or Access Api URL"
+msgstr ""
+
+#: backend/Actions/OneHashCRM/RecordApiHelper.php:45
+msgid "Required field Customer Type is empty"
+msgstr ""
+
+#: backend/Actions/OneHashCRM/RecordApiHelper.php:99
+msgid "Required Person Name is empty"
+msgstr ""
+
+#: backend/Actions/OneHashCRM/RecordApiHelper.php:101
+msgid "Required Organization Name is empty"
+msgstr ""
+
+#: backend/Actions/OneHashCRM/RecordApiHelper.php:103
+msgid "Required Lead Status is empty"
+msgstr ""
+
+#: backend/Actions/PaidMembershipPro/PaidMembershipProController.php:75
+msgid "module, There is an some error."
+msgstr ""
+
+#: backend/Actions/PaidMembershipPro/RecordApiHelper.php:44
+msgid "User is already a member of the specified level."
+msgstr ""
+
+#: backend/Actions/PaidMembershipPro/RecordApiHelper.php:61
+msgid "There is no membership level with the specified ID."
+msgstr ""
+
+#: backend/Actions/PaidMembershipPro/RecordApiHelper.php:87
+msgid "User membership level added successfully"
+msgstr ""
+
+#: backend/Actions/PaidMembershipPro/RecordApiHelper.php:91
+msgid "Failed to add membership level"
+msgstr ""
+
+#: backend/Actions/PaidMembershipPro/RecordApiHelper.php:101
+msgid "User does not belong to any membership levels"
+msgstr ""
+
+#: backend/Actions/PaidMembershipPro/RecordApiHelper.php:108
+msgid "User removed from all membership level successfully"
+msgstr ""
+
+#: backend/Actions/PaidMembershipPro/RecordApiHelper.php:113
+msgid "User was not a member of the specified level"
+msgstr ""
+
+#: backend/Actions/PaidMembershipPro/RecordApiHelper.php:119
+msgid "User removed from membership level successfully"
+msgstr ""
+
+#: backend/Actions/PCloud/RecordApiHelper.php:94
+msgid "All Files Uploaded"
+msgstr ""
+
+#: backend/Actions/PCloud/RecordApiHelper.php:97
+msgid "Some Files Can't Upload"
+msgstr ""
+
+#: backend/Actions/PerfexCRM/RecordApiHelper.php:45
+msgid "Required field Company is empty"
+msgstr ""
+
+#: backend/Actions/PerfexCRM/RecordApiHelper.php:64
+#: backend/Actions/PerfexCRM/RecordApiHelper.php:132
+msgid "Required field Customer is empty"
+msgstr ""
+
+#: backend/Actions/PerfexCRM/RecordApiHelper.php:92
+msgid "Required field Lead Status Id is empty"
+msgstr ""
+
+#: backend/Actions/PerfexCRM/RecordApiHelper.php:94
+msgid "Required field Lead Source Id is empty"
+msgstr ""
+
+#: backend/Actions/PerfexCRM/RecordApiHelper.php:96
+msgid "Required field Lead Assigned By is empty"
+msgstr ""
+
+#: backend/Actions/PerfexCRM/RecordApiHelper.php:124
+msgid "Required field Start Date is empty"
+msgstr ""
+
+#: backend/Actions/PerfexCRM/RecordApiHelper.php:126
+msgid "Required field Project Status is empty"
+msgstr ""
+
+#: backend/Actions/PerfexCRM/RecordApiHelper.php:128
+msgid "Required field Project Type is empty"
+msgstr ""
+
+#: backend/Actions/PerfexCRM/RecordApiHelper.php:130
+msgid "Required field Billing Type is empty"
+msgstr ""
+
+#: backend/Actions/PipeDrive/PipeDriveController.php:139
+msgid "Cost Per Unit"
+msgstr ""
+
+#: backend/Actions/PipeDrive/PipeDriveController.php:143
+msgid "Direct Cost"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/PropovoiceCRM/FilesApiHelper.php:28
+msgid "Invalid file type: %1$s. Supported file types: %2$s"
+msgstr ""
+
+#: backend/Actions/PropovoiceCRM/RecordApiHelper.php:66
+msgid "Lead Created Successfully"
+msgstr ""
+
+#: backend/Actions/Rapidmail/RapidmailController.php:151
+msgid "username, password, fields are required for rapidmail api"
+msgstr ""
+
+#: backend/Actions/Rapidmail/RapidmailController.php:157
+msgid "Recipient List are required for rapidmail api"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Registration/RegistrationController.php:30
+#: backend/Actions/Registration/RegistrationController.php:33
+msgid "New user registration"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Registration/RegistrationController.php:33
+msgid "New user created successfully, user id : %s"
+msgstr ""
+
+#: backend/Actions/Registration/RegistrationController.php:148
+msgid "This username is already registered. Please choose another one."
+msgstr ""
+
+#: backend/Actions/Registration/RegistrationController.php:150
+msgid "This email  is already registered. Please choose another one."
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Registration/RegistrationController.php:160
+#: backend/Actions/Registration/RegistrationController.php:169
+#: backend/Actions/Registration/RegistrationController.php:172
+msgid "User update"
+msgstr ""
+
+#: backend/Actions/Registration/RegistrationController.php:160
+msgid "You are not logged in."
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Registration/RegistrationController.php:172
+msgid "User updated successfully, user id : %s"
+msgstr ""
+
+#: backend/Actions/RestrictContent/RecordApiHelper.php:61
+msgid "You must have at least one active membership level."
+msgstr ""
+
+#: backend/Actions/RestrictContent/RestrictContentController.php:71
+msgid "field map are required for restrict content"
+msgstr ""
+
+#: backend/Actions/Salesflare/RecordApiHelper.php:43
+msgid "Required field Account Name is empty"
+msgstr ""
+
+#: backend/Actions/Salesflare/RecordApiHelper.php:60
+msgid "Required field Email Address is empty"
+msgstr ""
+
+#: backend/Actions/Salesflare/RecordApiHelper.php:74
+msgid "Required Opportunity Name is empty"
+msgstr ""
+
+#: backend/Actions/Salesflare/RecordApiHelper.php:76
+msgid "Required Account field is empty"
+msgstr ""
+
+#: backend/Actions/Salesflare/RecordApiHelper.php:78
+msgid "Required Pipeline field is empty"
+msgstr ""
+
+#: backend/Actions/Salesflare/RecordApiHelper.php:80
+msgid "Required Stage field is empty"
+msgstr ""
+
+#: backend/Actions/Salesflare/SalesflareController.php:105
+#: backend/Actions/Salesflare/SalesflareController.php:131
+msgid "Accounts fetching failed!"
+msgstr ""
+
+#: backend/Actions/Salesforce/RecordApiHelper.php:187
+msgid "Contact Updated Successfully"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Salesforce/RecordApiHelper.php:190
+msgid "Created contact id is : %s"
+msgstr ""
+
+#: backend/Actions/Salesforce/RecordApiHelper.php:213
+msgid "Lead Updated Successfully"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Salesforce/RecordApiHelper.php:216
+msgid "Created lead id is : %s"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Salesforce/RecordApiHelper.php:234
+msgid "Created account id is : %s"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Salesforce/RecordApiHelper.php:243
+msgid "Created campaign id is : %s"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Salesforce/RecordApiHelper.php:255
+msgid "Created campaign member id is : %s"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Salesforce/RecordApiHelper.php:268
+msgid "Created task id is : %s"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Salesforce/RecordApiHelper.php:282
+msgid "Created opportunity id is : %s"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Salesforce/RecordApiHelper.php:294
+msgid "Created event id is : %s"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Salesforce/RecordApiHelper.php:314
+msgid "Created case id is : %s"
+msgstr ""
+
+#: backend/Actions/Salesforce/SalesforceController.php:423
+#: backend/Actions/ZohoDesk/ZohoDeskController.php:404
+msgid "list are required for zoho desk api"
+msgstr ""
+
+#: backend/Actions/Salesmate/RecordApiHelper.php:47
+msgid "Required field unit Price is empty"
+msgstr ""
+
+#: backend/Actions/Salesmate/RecordApiHelper.php:118
+msgid "Required field title is empty"
+msgstr ""
+
+#: backend/Actions/SendPulse/SendPulseController.php:102
+msgid "List fetching failed"
+msgstr ""
+
+#: backend/Actions/Sendy/RecordApiHelper.php:73
+msgid "Failed to add subscriber"
+msgstr ""
+
+#: backend/Actions/Sendy/SendyController.php:133
+msgid "api key, fields map are required for sendy api"
+msgstr ""
+
+#: backend/Actions/SeoPress/RecordApiHelper.php:43
+msgid "SEOPress is not installed or activated"
+msgstr ""
+
+#: backend/Actions/SeoPress/SeoPressController.php:26
+msgid "SEOPress is not activated or not installed"
+msgstr ""
+
+#: backend/Actions/SliceWp/RecordApiHelper.php:86
+msgid "Failed to add commission"
+msgstr ""
+
+#: backend/Actions/Smaily/SmailyController.php:36
+msgid "Please enter valid subdomain name and api credentials"
+msgstr ""
+
+#: backend/Actions/Smaily/SmailyController.php:47
+msgid "fields are required for Smaily api"
+msgstr ""
+
+#: backend/Actions/SmartSuite/SmartSuiteController.php:41
+msgid "Solutions fetching failed"
+msgstr ""
+
+#: backend/Actions/SmartSuite/SmartSuiteController.php:89
+msgid "User fetching failed"
+msgstr ""
+
+#: backend/Actions/SuiteDash/RecordApiHelper.php:56
+msgid "Required Role is empty"
+msgstr ""
+
+#: backend/Actions/SureMembers/RecordApiHelper.php:28
+#: backend/Actions/SureMembers/RecordApiHelper.php:45
+#: backend/Actions/WPForo/RecordApiHelper.php:48
+#: backend/Actions/WPForo/RecordApiHelper.php:65
+msgid "Required field email or group is empty!"
+msgstr ""
+
+#: backend/Actions/SureMembers/RecordApiHelper.php:34
+#: backend/Actions/SureMembers/RecordApiHelper.php:51
+#: backend/Actions/WPForo/RecordApiHelper.php:33
+#: backend/Actions/WPForo/RecordApiHelper.php:54
+#: backend/Actions/WPForo/RecordApiHelper.php:71
+#: backend/Actions/WPForo/RecordApiHelper.php:117
+msgid "The user does not exist on your site, or the email is invalid!"
+msgstr ""
+
+#: backend/Actions/SureMembers/SureMembersController.php:23
+msgid "Please! Install SureMembers"
+msgstr ""
+
+#: backend/Actions/SureMembers/SureMembersController.php:36
+msgid "SureMembers Plugin is not active or not installed"
+msgstr ""
+
+#: backend/Actions/SureMembers/SureMembersController.php:55
+msgid "No access groups found!"
+msgstr ""
+
+#: backend/Actions/SureMembers/SureMembersController.php:81
+msgid "Fields map, task and group are required for SureMembers"
+msgstr ""
+
+#: backend/Actions/SystemeIO/RecordApiHelper.php:62
+msgid "Contact is not created"
+msgstr ""
+
+#: backend/Actions/SystemeIO/RecordApiHelper.php:65
+msgid "Required field tag is empty"
+msgstr ""
+
+#: backend/Actions/SystemeIO/SystemeIOController.php:83
+msgid "Contact Field fetching failed"
+msgstr ""
+
+#: backend/Actions/TeamsForWooCommerceMemberships/RecordApiHelper.php:43
+msgid "Teams for WooCommerce Memberships is not installed or activated"
+msgstr ""
+
+#: backend/Actions/TeamsForWooCommerceMemberships/TeamsForWooCommerceMembershipsController.php:20
+msgid "Teams for WooCommerce Memberships is not activated or not installed"
+msgstr ""
+
+#: backend/Actions/TheEventsCalendar/RecordApiHelper.php:33
+msgid "The Events Calendar or Event Tickets plugin not installed!"
+msgstr ""
+
+#: backend/Actions/TheEventsCalendar/RecordApiHelper.php:37
+msgid "Number of Guests should be a numeric value."
+msgstr ""
+
+#: backend/Actions/TheEventsCalendar/RecordApiHelper.php:44
+msgid "No RSVP tickets found."
+msgstr ""
+
+#: backend/Actions/TheEventsCalendar/RecordApiHelper.php:62
+msgid "No capacity available for new attendee!"
+msgstr ""
+
+#: backend/Actions/TheEventsCalendar/RecordApiHelper.php:78
+msgid "New attendee registered successfully."
+msgstr ""
+
+#: backend/Actions/TheEventsCalendar/RecordApiHelper.php:81
+msgid "Failed to register new attendee!"
+msgstr ""
+
+#: backend/Actions/TheEventsCalendar/TheEventsCalendarController.php:21
+msgid "The Events Calendar and/or Event Tickets are not active or installed!"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/TheEventsCalendar/TheEventsCalendarController.php:32
+msgid "%s are not active or installed!"
+msgstr ""
+
+#: backend/Actions/TheEventsCalendar/TheEventsCalendarController.php:72
+msgid "Fields map, task and event are required for The Events Calendar"
+msgstr ""
+
+#: backend/Actions/TutorLms/TutorLmsController.php:119
+msgid "course enrolled"
+msgstr ""
+
+#: backend/Actions/TutorLms/TutorLmsController.php:125
+msgid "course unenrolled"
+msgstr ""
+
+#: backend/Actions/TutorLms/TutorLmsController.php:134
+msgid "Lesson completed"
+msgstr ""
+
+#: backend/Actions/TutorLms/TutorLmsController.php:153
+msgid "Course Completed"
+msgstr ""
+
+#: backend/Actions/TutorLms/TutorLmsController.php:206
+msgid "Course progress reseted"
+msgstr ""
+
+#: backend/Actions/Twilio/TwilioController.php:78
+msgid "SID, Auth Token,From Number and mapping fields are required for rapidmail api"
+msgstr ""
+
+#: backend/Actions/Vbout/RecordApiHelper.php:69
+msgid "Your contact already exists in list!"
+msgstr ""
+
+#: backend/Actions/Vbout/RecordApiHelper.php:104
+#: backend/Actions/Vbout/RecordApiHelper.php:107
+msgid "Your contact has been updated successfully"
+msgstr ""
+
+#: backend/Actions/Vbout/RecordApiHelper.php:104
+msgid "Your contact has been created successfully"
+msgstr ""
+
+#: backend/Actions/Voxel/RecordApiHelper.php:53
+msgid "New post created successfully. Post ID: "
+msgstr ""
+
+#: backend/Actions/Voxel/RecordApiHelper.php:85
+msgid "New collection post created successfully. Post ID: "
+msgstr ""
+
+#: backend/Actions/Voxel/RecordApiHelper.php:91
+msgid "User email not found!"
+msgstr ""
+
+#: backend/Actions/Voxel/RecordApiHelper.php:97
+msgid "User email is not valid!"
+msgstr ""
+
+#: backend/Actions/Voxel/RecordApiHelper.php:103
+msgid "User not found!"
+msgstr ""
+
+#: backend/Actions/Voxel/RecordApiHelper.php:117
+msgid "New profile created successfully. Profile ID: "
+msgstr ""
+
+#: backend/Actions/Voxel/RecordApiHelper.php:144
+msgid "Post updated successfully. Post ID: "
+msgstr ""
+
+#: backend/Actions/Voxel/RecordApiHelper.php:170
+msgid "Collection post updated successfully. Post ID: "
+msgstr ""
+
+#: backend/Actions/Voxel/RecordApiHelper.php:176
+#: backend/Actions/Voxel/RecordApiHelper.php:237
+msgid "Profile id not found!"
+msgstr ""
+
+#: backend/Actions/Voxel/RecordApiHelper.php:183
+msgid "Profile not found!"
+msgstr ""
+
+#: backend/Actions/Voxel/RecordApiHelper.php:188
+msgid "Profile updated successfully. Profile ID: "
+msgstr ""
+
+#: backend/Actions/Voxel/RecordApiHelper.php:194
+#: backend/Actions/Voxel/RecordApiHelper.php:213
+msgid "Post id not found!"
+msgstr ""
+
+#: backend/Actions/Voxel/RecordApiHelper.php:202
+#: backend/Actions/Voxel/RecordApiHelper.php:226
+msgid "Post not found!"
+msgstr ""
+
+#: backend/Actions/Voxel/RecordApiHelper.php:207
+msgid "Post set as verified. Post ID: "
+msgstr ""
+
+#: backend/Actions/Voxel/RecordApiHelper.php:220
+#: backend/Actions/Voxel/RecordApiHelper.php:244
+msgid "Post type not matched!"
+msgstr ""
+
+#: backend/Actions/Voxel/RecordApiHelper.php:231
+msgid "Post collection set as verified. Post ID: "
+msgstr ""
+
+#: backend/Actions/Voxel/RecordApiHelper.php:251
+msgid "Profile set as verified. Profile ID: "
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Voxel/VoxelController.php:29
+msgid "%s is not active or installed!"
+msgstr ""
+
+#: backend/Actions/Voxel/VoxelController.php:69
+#: backend/Actions/Voxel/VoxelController.php:90
+msgid "No post type found!"
+msgstr ""
+
+#: backend/Actions/Voxel/VoxelController.php:75
+msgid "No post found!"
+msgstr ""
+
+#: backend/Actions/Voxel/VoxelController.php:168
+msgid "Fields map, task are required for Voxel"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Voxel/VoxelHelper.php:143
+msgid "Event Start Date (%s)"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Voxel/VoxelHelper.php:149
+msgid "Event End Date (%s)"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Voxel/VoxelHelper.php:155
+msgid "Event Frequency (%s)"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Voxel/VoxelHelper.php:161
+msgid "Event unit (%s)"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Voxel/VoxelHelper.php:167
+msgid "Event Until (%s)"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Voxel/VoxelHelper.php:179
+msgid "Address (%s)"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Voxel/VoxelHelper.php:185
+msgid "Latitude (%s)"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Voxel/VoxelHelper.php:191
+msgid "Longitude (%s)"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Voxel/VoxelHelper.php:203
+msgid "Work Days (%s)"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Voxel/VoxelHelper.php:209
+msgid "Work Hours (%s)"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/Voxel/VoxelHelper.php:215
+msgid "Work Status (%s)"
+msgstr ""
+
+#: backend/Actions/Voxel/VoxelHelper.php:229
+msgid "User Email"
+msgstr ""
+
+#: backend/Actions/Voxel/VoxelHelper.php:240
+msgid "Profile ID"
+msgstr ""
+
+#: backend/Actions/Voxel/VoxelHelper.php:251
+msgid "Post Author Email"
+msgstr ""
+
+#: backend/Actions/WebHooks/WebHooksController.php:28
+msgid "Test webhook executed succcessfully"
+msgstr ""
+
+#: backend/Actions/WishlistMember/RecordApiHelper.php:31
+msgid "Level name is required field."
+msgstr ""
+
+#: backend/Actions/WishlistMember/RecordApiHelper.php:38
+msgid "WishlistMember API function not available."
+msgstr ""
+
+#: backend/Actions/WishlistMember/RecordApiHelper.php:50
+msgid "Level id and name are required field."
+msgstr ""
+
+#: backend/Actions/WishlistMember/RecordApiHelper.php:70
+msgid "Level id is required field."
+msgstr ""
+
+#: backend/Actions/WishlistMember/RecordApiHelper.php:90
+msgid "Username, email are required fields."
+msgstr ""
+
+#: backend/Actions/WishlistMember/RecordApiHelper.php:116
+msgid "Email is a required field."
+msgstr ""
+
+#: backend/Actions/WishlistMember/RecordApiHelper.php:146
+msgid "Email and level are required fields."
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/WishlistMember/RecordApiHelper.php:243
+msgid "The action %s is not supported."
+msgstr ""
+
+#: backend/Actions/WishlistMember/RecordApiHelper.php:278
+msgid "Failed to connect to WishlistMember. Please check your configuration."
+msgstr ""
+
+#: backend/Actions/WishlistMember/WishlistMemberController.php:33
+msgid "WishlistMember is not activated or not installed"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/WooCommerce/RecordApiHelper.php:38
+#: backend/Actions/WooCommerce/RecordApiHelper.php:93
+#: backend/Actions/WooCommerce/RecordApiHelper.php:266
+#: backend/Actions/WooCommerce/RecordApiHelper.php:728
+msgid "%1$s is required for woocommerce %2$s"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/WooCommerce/RecordApiHelper.php:116
+#: backend/Actions/WooCommerce/RecordApiHelper.php:159
+msgid "Order %s not found"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/WooCommerce/RecordApiHelper.php:137
+msgid "%s is not valid order id"
+msgstr ""
+
+#: backend/Actions/WooCommerce/RecordApiHelper.php:563
+msgid "Subscription cancelled successfully"
+msgstr ""
+
+#: backend/Actions/WooCommerce/RecordApiHelper.php:565
+msgid "Subscription not cancelled"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/WooCommerce/RecordApiHelper.php:744
+msgid "%s is not valid product sku or product price is empty!"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:74
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:56
+#: backend/Triggers/WC/WCStaticFields.php:771
+#: backend/Triggers/WC/WCStaticFields.php:813
+msgid "Username"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:79
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:61
+#: backend/Triggers/WC/WCStaticFields.php:775
+#: backend/Triggers/WC/WCStaticFields.php:817
+msgid "Password"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:83
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:65
+#: backend/Triggers/WC/WCStaticFields.php:779
+#: backend/Triggers/WC/WCStaticFields.php:821
+msgid "Display Name"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:87
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:69
+#: backend/Triggers/WC/WCStaticFields.php:783
+#: backend/Triggers/WC/WCStaticFields.php:825
+msgid "Nickname"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:95
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:77
+#: backend/Triggers/WC/WCStaticFields.php:829
+msgid "Locale"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:99
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:81
+#: backend/Triggers/WC/WCStaticFields.php:152
+#: backend/Triggers/WC/WCStaticFields.php:787
+#: backend/Triggers/WC/WCStaticFields.php:833
+msgid "Website"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:103
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:133
+#: backend/Triggers/WC/WCStaticFields.php:418
+#: backend/Triggers/WC/WCStaticFields.php:837
+msgid "Billing First Name"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:107
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:137
+#: backend/Triggers/WC/WCStaticFields.php:422
+#: backend/Triggers/WC/WCStaticFields.php:841
+msgid "Billing Last Name"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:111
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:141
+#: backend/Triggers/WC/WCStaticFields.php:426
+#: backend/Triggers/WC/WCStaticFields.php:845
+msgid "Billing Company"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:115
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:145
+#: backend/Triggers/WC/WCStaticFields.php:430
+#: backend/Triggers/WC/WCStaticFields.php:849
+msgid "Billing Address 1"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:119
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:149
+#: backend/Triggers/WC/WCStaticFields.php:434
+#: backend/Triggers/WC/WCStaticFields.php:853
+msgid "Billing Address 2"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:123
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:153
+#: backend/Triggers/WC/WCStaticFields.php:438
+#: backend/Triggers/WC/WCStaticFields.php:857
+msgid "Billing City"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:127
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:157
+#: backend/Triggers/WC/WCStaticFields.php:442
+#: backend/Triggers/WC/WCStaticFields.php:861
+msgid "Billing Post Code"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:131
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:161
+#: backend/Triggers/WC/WCStaticFields.php:446
+#: backend/Triggers/WC/WCStaticFields.php:865
+msgid "Billing Country"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:135
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:165
+#: backend/Triggers/WC/WCStaticFields.php:450
+#: backend/Triggers/WC/WCStaticFields.php:869
+msgid "Billing State"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:139
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:169
+#: backend/Triggers/WC/WCStaticFields.php:454
+#: backend/Triggers/WC/WCStaticFields.php:873
+msgid "Billing Email"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:143
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:173
+#: backend/Triggers/WC/WCStaticFields.php:458
+#: backend/Triggers/WC/WCStaticFields.php:877
+msgid "Billing Phone"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:147
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:183
+#: backend/Triggers/WC/WCStaticFields.php:462
+#: backend/Triggers/WC/WCStaticFields.php:881
+msgid "Shipping First Name"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:151
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:187
+#: backend/Triggers/WC/WCStaticFields.php:466
+#: backend/Triggers/WC/WCStaticFields.php:885
+msgid "Shipping Last Name"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:155
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:191
+#: backend/Triggers/WC/WCStaticFields.php:470
+#: backend/Triggers/WC/WCStaticFields.php:889
+msgid "Shipping Company"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:159
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:195
+#: backend/Triggers/WC/WCStaticFields.php:474
+#: backend/Triggers/WC/WCStaticFields.php:893
+msgid "Shipping Address 1"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:163
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:199
+#: backend/Triggers/WC/WCStaticFields.php:478
+#: backend/Triggers/WC/WCStaticFields.php:897
+msgid "Shipping Address 2"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:167
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:203
+#: backend/Triggers/WC/WCStaticFields.php:482
+#: backend/Triggers/WC/WCStaticFields.php:901
+msgid "Shipping City"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:171
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:207
+#: backend/Triggers/WC/WCStaticFields.php:486
+#: backend/Triggers/WC/WCStaticFields.php:905
+msgid "Shipping Post Code"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:175
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:211
+#: backend/Triggers/WC/WCStaticFields.php:490
+#: backend/Triggers/WC/WCStaticFields.php:909
+msgid "Shipping Country"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:179
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:215
+#: backend/Triggers/WC/WCStaticFields.php:913
+msgid "Shipping State"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:194
+msgid "Order ID"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:199
+msgid "Order Status"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:204
+msgid "Customer Email"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:209
+msgid "From Date"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:214
+msgid "To Date"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:219
+msgid "N Days"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:224
+msgid "N Weeks"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:229
+msgid "N Months"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:294
+#: backend/Triggers/WC/WCHelper.php:73
+#: backend/Triggers/WC/WCHelper.php:97
+msgid "Any Product"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceController.php:317
+msgid "module and field map are required for woocommerce"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:16
+#: backend/Triggers/WC/WCStaticFields.php:381
+msgid "Status"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:20
+#: backend/Triggers/WC/WCStaticFields.php:518
+msgid "Customer Note"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:24
+#: backend/Triggers/WC/WCStaticFields.php:494
+msgid "Payment Method"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:28
+#: backend/Triggers/WC/WCStaticFields.php:498
+msgid "Payment Method Title"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:33
+#: backend/Triggers/WC/WCStaticFields.php:128
+msgid "Coupon Code"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:91
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:233
+#: backend/Triggers/WC/WCStaticFields.php:578
+#: backend/Triggers/WC/WCStaticFields.php:612
+msgid "Product Name"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:96
+msgid "Sku"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:101
+#: backend/Triggers/WC/WCStaticFields.php:210
+#: backend/Triggers/WC/WCStaticFields.php:582
+msgid "Quantity"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:106
+msgid "Price"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:111
+#: backend/Triggers/WC/WCStaticFields.php:598
+msgid "Tax Class"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:115
+msgid "Line Subtotal"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:119
+msgid "Line Subtotal Tax"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:123
+msgid "Line Total"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:219
+msgid "Shipping Email"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:223
+msgid "Shipping Phone"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:238
+#: backend/Triggers/WC/WCStaticFields.php:617
+msgid "Product Description"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:242
+#: backend/Triggers/WC/WCStaticFields.php:621
+msgid "Product Short Description"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:246
+#: backend/Triggers/WC/WCStaticFields.php:629
+msgid "Post Date"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:250
+#: backend/Triggers/WC/WCStaticFields.php:633
+msgid "Post Date GMT"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:254
+#: backend/Triggers/WC/WCStaticFields.php:637
+msgid "Product Status"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:258
+#: backend/Triggers/WC/WCStaticFields.php:641
+msgid "Product Tag"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:262
+#: backend/Triggers/WC/WCStaticFields.php:645
+msgid "Product Category"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:266
+#: backend/Triggers/WC/WCStaticFields.php:649
+msgid "Catalog Visibility"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:270
+#: backend/Triggers/WC/WCStaticFields.php:653
+msgid "Featured Product"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:274
+msgid "Post Password"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:278
+#: backend/Triggers/WC/WCStaticFields.php:657
+msgid "Regular Price"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:282
+#: backend/Triggers/WC/WCStaticFields.php:661
+msgid "Sale Price"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:286
+#: backend/Triggers/WC/WCStaticFields.php:665
+msgid "Sale Price From Date"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:290
+#: backend/Triggers/WC/WCStaticFields.php:669
+msgid "Sale Price To Date"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:294
+#: backend/Triggers/WC/WCStaticFields.php:673
+msgid "SKU"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:299
+#: backend/Triggers/WC/WCStaticFields.php:677
+msgid "Manage Stock"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:303
+#: backend/Triggers/WC/WCStaticFields.php:681
+msgid "Stock Quantity"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:307
+#: backend/Triggers/WC/WCStaticFields.php:685
+msgid "Allow Backorders"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:311
+#: backend/Triggers/WC/WCStaticFields.php:689
+msgid "Low Stock Threshold"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:315
+#: backend/Triggers/WC/WCStaticFields.php:693
+msgid "Stock Status"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:319
+#: backend/Triggers/WC/WCStaticFields.php:697
+msgid "Sold Individually"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:323
+#: backend/Triggers/WC/WCStaticFields.php:701
+msgid "Weight"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:327
+#: backend/Triggers/WC/WCStaticFields.php:705
+msgid "Length"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:331
+#: backend/Triggers/WC/WCStaticFields.php:709
+msgid "Width"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:335
+#: backend/Triggers/WC/WCStaticFields.php:713
+msgid "Height"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:339
+#: backend/Triggers/WC/WCStaticFields.php:717
+msgid "Purchase Note"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:343
+#: backend/Triggers/WC/WCStaticFields.php:721
+msgid "Menu Order"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:347
+#: backend/Triggers/WC/WCStaticFields.php:725
+msgid "Enable Reviews"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:351
+#: backend/Triggers/WC/WCStaticFields.php:192
+#: backend/Triggers/WC/WCStaticFields.php:729
+msgid "Virtual"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:355
+#: backend/Triggers/WC/WCStaticFields.php:733
+msgid "Downloadable"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:359
+#: backend/Triggers/WC/WCStaticFields.php:737
+msgid "Download Limit"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:363
+#: backend/Triggers/WC/WCStaticFields.php:741
+msgid "Download Expiry"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:367
+#: backend/Triggers/WC/WCStaticFields.php:745
+msgid "Product Type"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:371
+#: backend/Triggers/WC/WCStaticFields.php:749
+msgid "Product URL"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:375
+msgid "Button Text"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:385
+msgid "Product Image"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:389
+msgid "Product Gallery"
+msgstr ""
+
+#: backend/Actions/WooCommerce/WooCommerceStaticFields.php:393
+msgid "Downloadable Files"
+msgstr ""
+
+#: backend/Actions/Woodpecker/RecordApiHelper.php:52
+msgid "Required Campaign field is empty"
+msgstr ""
+
+#: backend/Actions/Woodpecker/WoodpeckerController.php:47
+msgid "Campaign not found!"
+msgstr ""
+
+#: backend/Actions/WPCafe/RecordApiHelper.php:43
+msgid "WPCafe is not installed or activated"
+msgstr ""
+
+#: backend/Actions/WPCafe/WPCafeController.php:20
+msgid "WPCafe is not activated or not installed"
+msgstr ""
+
+#: backend/Actions/WPCourseware/RecordApiHelper.php:27
+msgid "No Course Available!"
+msgstr ""
+
+#: backend/Actions/WPCourseware/RecordApiHelper.php:50
+msgid "Somethings wrong, please try again!"
+msgstr ""
+
+#: backend/Actions/WPCourseware/WPCoursewareController.php:20
+#: backend/Actions/WPCourseware/WPCoursewareController.php:29
+msgid "WP Courseware Plugin is not active or installed"
+msgstr ""
+
+#: backend/Actions/WPCourseware/WPCoursewareController.php:53
+msgid "WP Courseware Plugins not found"
+msgstr ""
+
+#: backend/Actions/WPCourseware/WPCoursewareController.php:65
+msgid "Action, Course are required for WP Courseware api"
+msgstr ""
+
+#: backend/Actions/WPForo/RecordApiHelper.php:27
+msgid "Required field email or reputation is empty!"
+msgstr ""
+
+#: backend/Actions/WPForo/RecordApiHelper.php:42
+msgid "User reputation changed"
+msgstr ""
+
+#: backend/Actions/WPForo/RecordApiHelper.php:59
+msgid "User group changed"
+msgstr ""
+
+#: backend/Actions/WPForo/RecordApiHelper.php:97
+msgid "User removed from group"
+msgstr ""
+
+#: backend/Actions/WPForo/RecordApiHelper.php:107
+msgid "Required fields are empty!"
+msgstr ""
+
+#: backend/Actions/WPForo/RecordApiHelper.php:111
+msgid "Forum id is required!"
+msgstr ""
+
+#: backend/Actions/WPForo/RecordApiHelper.php:142
+msgid "The content is too short"
+msgstr ""
+
+#: backend/Actions/WPForo/RecordApiHelper.php:147
+#: backend/Actions/WPForo/RecordApiHelper.php:151
+msgid "Add Topic error: No forum selected"
+msgstr ""
+
+#: backend/Actions/WPForo/RecordApiHelper.php:155
+msgid "You don't have permission to create topic into this forum"
+msgstr ""
+
+#: backend/Actions/WPForo/RecordApiHelper.php:159
+msgid "You are posting too quickly. Slow down."
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/WPForo/RecordApiHelper.php:166
+msgid "New topic created, topic id: %s"
+msgstr ""
+
+#: backend/Actions/WPForo/RecordApiHelper.php:175
+msgid "Topic id is required!"
+msgstr ""
+
+#: backend/Actions/WPForo/RecordApiHelper.php:187
+msgid "Topic deleted successfully"
+msgstr ""
+
+#: backend/Actions/WPForo/WPForoController.php:22
+msgid "Please! Install WPForo"
+msgstr ""
+
+#: backend/Actions/WPForo/WPForoController.php:48
+msgid "No reputations found!"
+msgstr ""
+
+#: backend/Actions/WPForo/WPForoController.php:68
+msgid "No groups found!"
+msgstr ""
+
+#: backend/Actions/WPForo/WPForoController.php:88
+msgid "No forums found!"
+msgstr ""
+
+#: backend/Actions/WPForo/WPForoController.php:108
+msgid "No topics found!"
+msgstr ""
+
+#: backend/Actions/WPForo/WPForoController.php:140
+msgid "Fields map, task and group are required for WPForo"
+msgstr ""
+
+#: backend/Actions/Zendesk/ZendeskController.php:105
+msgid "Lead fetching failed"
+msgstr ""
+
+#: backend/Actions/Zendesk/ZendeskController.php:215
+msgid "Stages fetching failed"
+msgstr ""
+
+#: backend/Actions/ZohoAnalytics/ZohoAnalyticsController.php:300
+msgid "workspace, table, fields are required for zoho analytics api"
+msgstr ""
+
+#. translators: 1: Field name, 2: Module name
+#: backend/Actions/ZohoBigin/RecordApiHelper.php:56
+msgid "%1$s is required for zoho bigin, %2$s module"
+msgstr ""
+
+#: backend/Actions/ZohoBigin/RecordApiHelper.php:154
+msgid "Tags added successfully"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/ZohoCampaigns/RecordApiHelper.php:53
+msgid "%s is required for zoho campaigns"
+msgstr ""
+
+#: backend/Actions/ZohoCampaigns/ZohoCampaignsController.php:205
+msgid "list are required for zoho campaigns api"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/ZohoCreator/RecordApiHelper.php:106
+msgid "%s is required for zoho creator"
+msgstr ""
+
+#: backend/Actions/ZohoCreator/ZohoCreatorController.php:307
+msgid "tokenDetails error"
+msgstr ""
+
+#. translators: 1: Field name, 2: Module name
+#: backend/Actions/ZohoCRM/RecordApiHelper.php:73
+msgid "%1$s is required for zoho crm, %2$s module"
+msgstr ""
+
+#. translators: 1: Field name, 2: Maximum length, 3: Given length
+#: backend/Actions/ZohoCRM/RecordApiHelper.php:87
+msgid "zoho crm field %1$s's maximum length is %2$s, Given %3$s"
+msgstr ""
+
+#: backend/Actions/ZohoCRM/ZohoCRMController.php:334
+msgid "Assignment rules is empty"
+msgstr ""
+
+#: backend/Actions/ZohoCRM/ZohoCRMController.php:386
+msgid "RelatedList is empty"
+msgstr ""
+
+#: backend/Actions/ZohoCRM/ZohoCRMController.php:502
+msgid "Tag is empty"
+msgstr ""
+
+#: backend/Actions/ZohoCRM/ZohoCRMController.php:520
+msgid "module, layout are required for zoho crm relatedlist"
+msgstr ""
+
+#: backend/Actions/ZohoCRM/ZohoCRMController.php:607
+#: backend/Actions/ZohoCRM/ZohoCRMController.php:613
+msgid "module, layout, fields are required for zoho crm api"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/ZohoDesk/RecordApiHelper.php:74
+msgid "%s is required for zoho bigin"
+msgstr ""
+
+#: backend/Actions/ZohoDesk/ZohoDeskController.php:230
+msgid "Contact Name - Last Name"
+msgstr ""
+
+#: backend/Actions/ZohoDesk/ZohoDeskController.php:236
+msgid "Contact Name - First Name"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/ZohoMarketingHub/RecordApiHelper.php:53
+msgid "%s is required for zoho marketing hub"
+msgstr ""
+
+#: backend/Actions/ZohoMarketingHub/ZohoMarketingHubController.php:202
+msgid "list are required for zoho marketingHub api"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Actions/ZohoProjects/RecordApiHelper.php:71
+msgid "%1$s is required for %2$s"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:613
+msgid "list are required for zoho projects api"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:651
+msgid "Project Title"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:656
+msgid "Project Overview"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:660
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:744
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:796
+msgid "Start Date"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:664
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:749
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:800
+msgid "End Date"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:668
+msgid "Strict Project"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:672
+msgid "Project Budget"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:676
+msgid "Budget Amount"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:680
+msgid "Billing Method"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:684
+#: backend/Triggers/WC/WCStaticFields.php:329
+msgid "Currency"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:688
+msgid "Threshold Limit"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:692
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:820
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:883
+msgid "Rate Per Hour"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:696
+msgid "Fixed Cost"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:700
+msgid "Bill Status"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:739
+msgid "Milestone Title"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:768
+msgid "Tasklist Title"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:787
+msgid "Task Title"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:792
+msgid "Task Description"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:804
+msgid "Duration"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:808
+msgid "Duration Type"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:812
+msgid "Start Time"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:816
+msgid "End Time"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:824
+msgid "Priority"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:870
+msgid "Issue Title"
+msgstr ""
+
+#: backend/Actions/ZohoProjects/ZohoProjectsController.php:879
+msgid "Due Date"
+msgstr ""
+
+#. translators: 1: Field name, 2: Module name
+#: backend/Actions/ZohoRecruit/RecordApiHelper.php:56
+msgid "%1$s is required for zoho recruit, %2$s module"
+msgstr ""
+
+#: backend/Actions/ZohoRecruit/ZohoRecruitController.php:297
+msgid "Candidate Profile Photo"
+msgstr ""
+
+#: backend/Actions/ZohoSheet/ZohoSheetController.php:143
+msgid "No header found"
+msgstr ""
+
+#: backend/Actions/ZohoSheet/ZohoSheetController.php:146
+msgid "Header fetching failed"
+msgstr ""
+
+#: backend/Actions/ZohoSheet/ZohoSheetController.php:161
+msgid "Field map, token details are required for ZohoSheet api"
+msgstr ""
+
+#: backend/Actions/Zoom/RecordApiHelper.php:150
+#: backend/Actions/ZoomWebinar/RecordApiHelper.php:149
+msgid "User deleted successfully"
+msgstr ""
+
+#: backend/Actions/Zoom/RecordApiHelper.php:156
+#: backend/Actions/ZoomWebinar/RecordApiHelper.php:155
+msgid "Attendee deleted successfully"
+msgstr ""
+
+#: backend/Admin/AdminAjax.php:20
+msgid "Data can't be empty"
+msgstr ""
+
+#: backend/Admin/AdminAjax.php:24
+msgid "save successfully done"
+msgstr ""
+
+#: backend/Admin/AdminAjax.php:42
+msgid "Token expired"
+msgstr ""
+
+#: backend/Admin/AdminAjax.php:63
+msgid "Token expired or no data received"
+msgstr ""
+
+#: backend/Admin/Admin_Bar.php:38
+msgid "Integrations for WordPress Forms"
+msgstr ""
+
+#: backend/Admin/Admin_Bar.php:45
+msgid "All Integrations"
+msgstr ""
+
+#: backend/Admin/Admin_Bar.php:46
+msgid "Doc & Support"
+msgstr ""
+
+#: backend/Admin/Admin_Bar.php:47
+#: backend/Config.php:262
+msgid "Settings"
+msgstr ""
+
+#: backend/Config.php:266
+msgid "Help"
+msgstr ""
+
+#: backend/controller/PostController.php:17
+#: backend/controller/PostController.php:155
+#: backend/controller/PostController.php:177
+#: backend/controller/PostController.php:192
+#: backend/controller/UserController.php:17
+#: backend/controller/UserController.php:28
+#: backend/Flow/Flow.php:53
+#: backend/Flow/Flow.php:84
+#: backend/Flow/Flow.php:139
+#: backend/Flow/Flow.php:178
+#: backend/Flow/Flow.php:218
+#: backend/Flow/Flow.php:314
+#: backend/Flow/Flow.php:334
+#: backend/Log/LogHandler.php:23
+#: backend/Log/LogHandler.php:118
+#: backend/Triggers/TriggerController.php:17
+msgid "User don't have permission to access this page"
+msgstr ""
+
+#: backend/Core/Database/Model.php:47
+msgid "Form data is empty"
+msgstr ""
+
+#: backend/Core/Database/Model.php:156
+#: backend/Core/Database/Model.php:490
+msgid "Result is empty"
+msgstr ""
+
+#: backend/Core/Database/Model.php:183
+#: backend/Core/Database/Model.php:216
+msgid "Nothing to update"
+msgstr ""
+
+#: backend/Core/Database/Model.php:269
+msgid "Nothing to duplicate"
+msgstr ""
+
+#: backend/Core/Database/Model.php:314
+#: backend/Core/Database/Model.php:339
+#: backend/Core/Database/Model.php:361
+#: backend/Core/Database/Model.php:373
+msgid "At least 1 condition needed"
+msgstr ""
+
+#: backend/Core/Database/Model.php:446
+msgid "Require ASSOC_ARRAY but found N_ARRAY"
+msgstr ""
+
+#: backend/Core/Database/Model.php:462
+msgid "prepared query is empty"
+msgstr ""
+
+#. translators: 1: Site name, 2: Flow ID
+#: backend/Core/Util/EmailNotification.php:32
+msgid "[%1$s] Integration Failure Alert - Flow #%2$d"
+msgstr ""
+
+#: backend/Core/Util/PhpSyntaxChecker.php:23
+msgid "Empty code provided."
+msgstr ""
+
+#: backend/Core/Util/PhpSyntaxChecker.php:36
+msgid "No syntax errors detected in your function."
+msgstr ""
+
+#: backend/Core/Util/Route.php:124
+msgid "Token expired or invalid. Please refresh the page and try again."
+msgstr ""
+
+#: backend/Flow/Flow.php:31
+msgid "Create a new post"
+msgstr ""
+
+#: backend/Flow/Flow.php:33
+msgid "Updated a post"
+msgstr ""
+
+#: backend/Flow/Flow.php:35
+msgid "Delete a post"
+msgstr ""
+
+#: backend/Flow/Flow.php:37
+msgid "User views a post"
+msgstr ""
+
+#: backend/Flow/Flow.php:39
+msgid "User comments on a post"
+msgstr ""
+
+#: backend/Flow/Flow.php:41
+msgid "Change post status"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Flow/Flow.php:92
+#: backend/Flow/Flow.php:155
+#: backend/Flow/Flow.php:187
+#: backend/Flow/Flow.php:229
+#: backend/Flow/Flow.php:299
+#: backend/Flow/Flow.php:318
+#: backend/Flow/Flow.php:345
+#: backend/Triggers/CF7/CF7Controller.php:68
+msgid "%s can't be empty"
+msgstr ""
+
+#: backend/Flow/Flow.php:110
+msgid "Trigger does not exists"
+msgstr ""
+
+#: backend/Flow/Flow.php:172
+msgid "Integration saved successfully"
+msgstr ""
+
+#: backend/Flow/Flow.php:211
+msgid "Flow ID is not exists"
+msgstr ""
+
+#: backend/Flow/Flow.php:252
+msgid "Integration updated successfully"
+msgstr ""
+
+#: backend/Flow/Flow.php:291
+msgid "User don't have permission to Delete Integration"
+msgstr ""
+
+#: backend/Flow/Flow.php:308
+#: backend/Flow/Flow.php:328
+msgid "Integration deleted successfully"
+msgstr ""
+
+#: backend/Flow/Flow.php:354
+msgid "Status changed successfully"
+msgstr ""
+
+#: backend/Flow/Flow.php:441
+msgid "Conditional Logic not matched"
+msgstr ""
+
+#: backend/Log/LogHandler.php:27
+msgid "Integration Id can't be empty"
+msgstr ""
+
+#: backend/Log/LogHandler.php:106
+msgid "Integration Id or Log Id required"
+msgstr ""
+
+#: backend/Log/LogHandler.php:112
+msgid "Log deleted successfully"
+msgstr ""
+
+#: backend/Plugin.php:67
+msgid "Every Week"
+msgstr ""
+
+#: backend/Plugin.php:117
+msgid "Docs"
+msgstr ""
+
+#: backend/Triggers/BitAssist/BitAssistController.php:13
+msgid "Get callback data through an URL"
+msgstr ""
+
+#: backend/Triggers/BitForm/BitFormController.php:17
+msgid "Contact Form Plugin - Fastest Contact Form Builder Plugin for WordPress by Bit Forms."
+msgstr ""
+
+#: backend/Triggers/BitForm/BitFormController.php:56
+#: backend/Triggers/WPF/WPFController.php:73
+msgid "Form doesn't exists"
+msgstr ""
+
+#: backend/Triggers/BitForm/BitFormController.php:60
+#: backend/Triggers/CF7/CF7Controller.php:71
+#: backend/Triggers/FallbackTrigger/TriggerFallback.php:78
+#: backend/Triggers/WPF/WPFController.php:77
+msgid "Form doesn't exists any field"
+msgstr ""
+
+#: backend/Triggers/BitSocial/StaticData.php:11
+msgid "Facebook Post Published"
+msgstr ""
+
+#: backend/Triggers/BitSocial/StaticData.php:16
+msgid "LinkedIn Post Published"
+msgstr ""
+
+#: backend/Triggers/BitSocial/StaticData.php:21
+msgid "Discord Post Published"
+msgstr ""
+
+#: backend/Triggers/BitSocial/StaticData.php:26
+msgid "Instagram Post Published"
+msgstr ""
+
+#: backend/Triggers/BitSocial/StaticData.php:31
+msgid "Pinterest Post Published"
+msgstr ""
+
+#: backend/Triggers/BitSocial/StaticData.php:36
+msgid "Threads Post Published"
+msgstr ""
+
+#: backend/Triggers/BitSocial/StaticData.php:41
+msgid "Tumblr Post Published"
+msgstr ""
+
+#: backend/Triggers/BitSocial/StaticData.php:46
+msgid "X (Twitter) Post Published"
+msgstr ""
+
+#: backend/Triggers/BitSocial/StaticData.php:51
+msgid "Google Business Profile Post Published"
+msgstr ""
+
+#: backend/Triggers/BitSocial/StaticData.php:56
+msgid "TikTok Post Published"
+msgstr ""
+
+#: backend/Triggers/BitSocial/StaticData.php:61
+msgid "Bluesky Post Published"
+msgstr ""
+
+#: backend/Triggers/BitSocial/StaticData.php:66
+msgid "Telegram Post Published"
+msgstr ""
+
+#: backend/Triggers/BitSocial/StaticData.php:71
+msgid "Line Post Published"
+msgstr ""
+
+#: backend/Triggers/BitSocial/StaticData.php:76
+msgid "All Platforms Post Published"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Triggers/Breakdance/BreakdanceHelper.php:13
+#: backend/Triggers/Elementor/ElementorHelper.php:49
+msgid "Form Id (%s)"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Triggers/Breakdance/BreakdanceHelper.php:15
+msgid "Post Id (%s)"
+msgstr ""
+
+#: backend/Triggers/CF7/CF7Controller.php:22
+msgid "Just another contact form plugin. Simple but flexible"
+msgstr ""
+
+#: backend/Triggers/CF7/CF7Controller.php:28
+msgid "The feature <b>Advanced Custom HTML Fields</b> is available only in the Bit Integrations Pro starting from v2.1.6 of the plugin. Please upgrade to access this feature."
+msgstr ""
+
+#: backend/Triggers/Elementor/ElementorController.php:16
+msgid "Elementor is the platform web creators choose to build professional WordPress websites, grow their skills, and build their business. Start for free today!"
+msgstr ""
+
+#: backend/Triggers/Elementor/ElementorController.php:45
+msgid "Form Submission"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Triggers/Elementor/ElementorHelper.php:51
+msgid "Form Post Id (%s)"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Triggers/Elementor/ElementorHelper.php:53
+msgid "Edit Post Id (%s)"
+msgstr ""
+
+#: backend/Triggers/FallbackTrigger/TriggerFallback.php:5837
+msgid "Index out of bounds or invalid"
+msgstr ""
+
+#: backend/Triggers/FallbackTrigger/TriggerFallback.php:5845
+#: backend/Triggers/FallbackTrigger/TriggerFallback.php:5851
+msgid "Invalid path"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Triggers/TriggerController.php:71
+msgid "%s data is empty"
+msgstr ""
+
+#: backend/Triggers/TriggerController.php:88
+#: backend/Triggers/Webhook/WebhookController.php:69
+msgid "Failed to remove test data"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Triggers/TriggerController.php:92
+msgid "%s test data removed successfully"
+msgstr ""
+
+#: backend/Triggers/TriggerController.php:98
+msgid "User doesn't have permission to save triggers"
+msgstr ""
+
+#: backend/Triggers/TriggerController.php:102
+msgid "Invalid trigger data"
+msgstr ""
+
+#: backend/Triggers/TriggerController.php:107
+msgid "Listed trigger saved successfully"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:95
+msgid "WooCommerce is the world’s most popular open-source eCommerce solution"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:131
+msgid "Customer-Create"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:132
+msgid "Customer-Edit"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:133
+msgid "Customer-Delete"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:134
+msgid "Product-Create"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:135
+msgid "Product-Edit"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:136
+msgid "Product-Delete"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:137
+msgid "Restore Product"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:138
+msgid "Order-Create"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:138
+#: backend/Triggers/WC/WCController.php:139
+#: backend/Triggers/WC/WCController.php:140
+#: backend/Triggers/WC/WCController.php:150
+#: backend/Triggers/WC/WCController.php:152
+#: backend/Triggers/WC/WCController.php:153
+#: backend/Triggers/WC/WCController.php:157
+msgid "Flexible Checkout Fields are a feature available in the Pro version"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:139
+msgid "Order-Edit"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:140
+msgid "Order-Delete"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:141
+msgid "Restore Order"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:142
+msgid "Coupon Created or Updated"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:143
+msgid "Order Status Set to Pending"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:144
+msgid "Order Status Set to Failed"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:145
+msgid "Order Status Set to On-hold"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:146
+msgid "Order Status Set to Processing"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:147
+msgid "Order Status Set to Completed"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:148
+msgid "Order Status Set to Refunded"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:149
+msgid "Order Status Set to Cancelled"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:150
+msgid "Order-Status-Change-Specific-Status"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:151
+msgid "Product Status Changed"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:152
+msgid "Order-Specific-Product"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:153
+msgid "Order-Specific-Category"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:154
+msgid "Product Added to Cart"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:155
+msgid "Product Removed from Cart"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:156
+msgid "User reviews a product"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:157
+msgid "User purchases a variable product with selected variation"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:168
+msgid "Doesn't exists"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:172
+msgid "Doesn't exists any field"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:303
+msgid "Old Status"
+msgstr ""
+
+#: backend/Triggers/WC/WCController.php:307
+msgid "New Status"
+msgstr ""
+
+#: backend/Triggers/WC/WCHelper.php:124
+msgid "Any Variation"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:25
+msgid "Specified Product By Category"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:62
+#: backend/Triggers/WC/WCStaticFields.php:206
+#: backend/Triggers/WC/WCStaticFields.php:570
+msgid "Product Id"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:66
+msgid "Product Title"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:70
+msgid "Product Url"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:74
+msgid "Product Price"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:78
+msgid "Product Review"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:82
+msgid "Product Sku"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:86
+msgid "Product Tags"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:90
+msgid "Product Categories"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:94
+msgid "Product Rating"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:98
+msgid "Review Id"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:102
+msgid "Review Date"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:106
+msgid "Author Id"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:110
+msgid "Review Author Name"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:114
+msgid "Author Email"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:124
+msgid "Coupon Id"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:132
+msgid "Coupon Amount"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:136
+msgid "Coupon Status"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:140
+msgid "Discount Type"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:148
+msgid "Date Created"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:156
+msgid "Date Expires"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:160
+msgid "Usage Count"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:164
+msgid "Usage Limit"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:168
+msgid "Usage Limit Per User"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:172
+msgid "Limit Usage To x Items"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:176
+msgid "Free Shipping"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:180
+msgid "Exclude Sale Items"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:184
+msgid "Minimum Amount"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:188
+msgid "Maximum Amount"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:202
+#: backend/Triggers/WC/WCStaticFields.php:240
+msgid "Cart Item Key"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:214
+#: backend/Triggers/WC/WCStaticFields.php:574
+msgid "Variation Id"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:218
+msgid "Variation"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:222
+msgid "Cart Item Data"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:226
+msgid "Cart Total"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:230
+msgid "Cart Line Items"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:244
+msgid "Applied Coupons"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:248
+msgid "Cart Session Data"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:252
+msgid "Removed Cart Contents"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:317
+msgid "Order Id"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:321
+msgid "Order Key"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:325
+msgid "Cart Tax"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:333
+msgid "Discount Tax"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:337
+msgid "Discount To Display"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:341
+msgid "Discount Total"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:345
+msgid "Shipping Tax"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:349
+msgid "Shipping Total"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:353
+msgid "Total Tax"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:357
+#: backend/Triggers/WC/WCStaticFields.php:590
+msgid "Total"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:361
+msgid "Total Refunded"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:365
+msgid "Tax Refunded"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:369
+msgid "Total Shipping Refunded"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:373
+msgid "Total Qty Refunded"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:377
+msgid "remaining_refund_amount"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:385
+msgid "shipping method"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:389
+msgid "Created Via"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:393
+msgid "Date created"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:397
+msgid "Date Modified"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:401
+msgid "Date completed"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:405
+msgid "Date paid"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:410
+msgid "Prices Include Tax"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:414
+#: backend/Triggers/WC/WCStaticFields.php:797
+msgid "Customer Id"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:502
+msgid "Line Items"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:506
+msgid "Line Items Quantity"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:510
+msgid "Product Names"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:514
+msgid "order_received_url"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:528
+msgid "Device Type"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:532
+msgid "Referring source"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:536
+msgid "Session Count"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:540
+msgid "Session Entry"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:544
+msgid "Session page views"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:548
+msgid "Session Start Time"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:552
+msgid "Source Type"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:556
+msgid "User Agent"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:560
+msgid "Origin"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:586
+msgid "Subtotal"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:594
+msgid "Subtotal Tax"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:602
+msgid "Tax Status"
+msgstr ""
+
+#: backend/Triggers/WC/WCStaticFields.php:625
+msgid "Product ID"
+msgstr ""
+
+#: backend/Triggers/Webhook/WebhookController.php:20
+msgid "Failed to generate new hook"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: backend/Triggers/Webhook/WebhookController.php:35
+#: backend/Triggers/Webhook/WebhookController.php:60
+msgid "%s can't be empty or need to be valid"
+msgstr ""
+
+#: backend/Triggers/Webhook/WebhookController.php:43
+msgid "Webhook data is empty"
+msgstr ""
+
+#: backend/Triggers/Webhook/WebhookController.php:53
+msgid "Logged in user required!"
+msgstr ""
+
+#: backend/Triggers/Webhook/WebhookController.php:71
+msgid "Webhook test data removed successfully"
+msgstr ""
+
+#: backend/Triggers/WPF/WPFController.php:20
+msgid "Contact Form by WPForms - Drag & Drop Form Builder for WordPress"
+msgstr ""
+
+#: bitwpfi.php:65
+#: bitwpfi.php:93
+msgid "This plugin requires WordPress version 5.1 or higher."
+msgstr ""
+
+#: bitwpfi.php:66
+#: bitwpfi.php:72
+msgid "Error Activating"
+msgstr ""
+
+#: bitwpfi.php:71
+#: bitwpfi.php:99
+msgid "Bit Integrations requires PHP version 7.4."
+msgstr ""
+
+#: bitwpfi.php:94
+#: bitwpfi.php:100
+msgid "Error Deactivating"
+msgstr ""
+
+#: views/emails/integration-failure-notification.php:22
+msgid "Integration Failure Alert"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: views/emails/integration-failure-notification.php:25
+msgid "Hello, an integration on your site %s has failed to execute."
+msgstr ""
+
+#: views/emails/integration-failure-notification.php:28
+msgid "Failure Details"
+msgstr ""
+
+#: views/emails/integration-failure-notification.php:29
+msgid "Integration ID:"
+msgstr ""
+
+#: views/emails/integration-failure-notification.php:30
+msgid "Action Name:"
+msgstr ""
+
+#: views/emails/integration-failure-notification.php:31
+msgid "Trigger Name:"
+msgstr ""
+
+#: views/emails/integration-failure-notification.php:32
+msgid "Record Type:"
+msgstr ""
+
+#: views/emails/integration-failure-notification.php:33
+msgid "Time:"
+msgstr ""
+
+#: views/emails/integration-failure-notification.php:34
+msgid "Error Message:"
+msgstr ""
+
+#: views/emails/integration-failure-notification.php:35
+msgid "To resolve this issue, please check the integration settings and logs:"
+msgstr ""
+
+#: views/emails/integration-failure-notification.php:36
+msgid "View Integration"
+msgstr ""
+
+#: views/emails/integration-failure-notification.php:37
+msgid "View Logs"
+msgstr ""
+
+#. translators: %s: Placeholder value
+#: views/emails/integration-failure-notification.php:40
+msgid "You are receiving this email because failure notifications are enabled in %s. You can disable these notifications in the plugin settings."
+msgstr ""

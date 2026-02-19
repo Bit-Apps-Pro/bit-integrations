@@ -11,7 +11,7 @@ const path = require('path')
 const { execSync } = require('child_process')
 
 // Configuration
-const PLUGIN_DIR = path.resolve(__dirname, '../..')
+const PLUGIN_DIR = path.resolve(__dirname, '..')
 const PLUGINS_DIR = path.join(PLUGIN_DIR, '..')
 const BUILD_DIR_SLUG = 'bit-integrations'
 
