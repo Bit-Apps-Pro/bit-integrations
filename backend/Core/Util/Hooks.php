@@ -20,7 +20,7 @@ final class Hooks
      *
      * @return mixed
      */
-    public function run($tag, ...$arg)
+    public static function run($tag, ...$arg)
     {
         // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- General-purpose wrapper accepting any hook name
         return do_action($tag, ...$arg);

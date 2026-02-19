@@ -6,8 +6,10 @@
 
 namespace BitApps\Integrations\Actions\SmartSuite;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
 use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Log\LogHandler;
 
 class RecordApiHelper
@@ -64,14 +66,26 @@ class RecordApiHelper
 
     public function createTable($requestParams)
     {
-        $response = apply_filters('btcbi_smartSuite_create_table', false, $requestParams, $this->workspaceId, $this->apiToken, $this->integrationDetails->selectedSolution);
+        $response = Hooks::apply(Config::withPrefix('smartSuite_create_table'), false, $requestParams, $this->workspaceId, $this->apiToken, $this->integrationDetails->selectedSolution);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_smartSuite_create_table` filter instead.
+         * @since 2.7.8
+         */
+        $response = Hooks::apply('btcbi_smartSuite_create_table', $response, $requestParams, $this->workspaceId, $this->apiToken, $this->integrationDetails->selectedSolution);
 
         return $this->handleFilterResponse($response);
     }
 
     public function createRecord($requestParams)
     {
-        $response = apply_filters('btcbi_smartSuite_create_record', false, $requestParams, $this->integrationDetails, $this->workspaceId, $this->apiToken);
+        $response = Hooks::apply(Config::withPrefix('smartSuite_create_record'), false, $requestParams, $this->integrationDetails, $this->workspaceId, $this->apiToken);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_smartSuite_create_record` filter instead.
+         * @since 2.7.8
+         */
+        $response = Hooks::apply('btcbi_smartSuite_create_record', $response, $requestParams, $this->integrationDetails, $this->workspaceId, $this->apiToken);
 
         return $this->handleFilterResponse($response);
     }

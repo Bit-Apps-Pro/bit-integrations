@@ -2,8 +2,10 @@
 
 namespace BitApps\Integrations\Actions\Line;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
 use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Log\LogHandler;
 
 class RecordApiHelper
@@ -252,14 +254,26 @@ class RecordApiHelper
 
     private function sendReplyMessage($data)
     {
-        $response = \apply_filters('btcbi_line_reply_message', false, $data, $this->setHeaders(), $this->apiEndPoint);
+        $response = Hooks::apply(Config::withPrefix('line_reply_message'), false, $data, $this->setHeaders(), $this->apiEndPoint);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_line_reply_message` filter instead.
+         * @since 2.7.8
+         */
+        $response = Hooks::apply('btcbi_line_reply_message', $response, $data, $this->setHeaders(), $this->apiEndPoint);
 
         return static::handleFilterResponse($response);
     }
 
     private function sendBroadcastMessage($data)
     {
-        $response = \apply_filters('btcbi_line_broadcast_message', false, $data, $this->setHeaders(), $this->apiEndPoint);
+        $response = Hooks::apply(Config::withPrefix('line_broadcast_message'), false, $data, $this->setHeaders(), $this->apiEndPoint);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_line_broadcast_message` filter instead.
+         * @since 2.7.8
+         */
+        $response = Hooks::apply('btcbi_line_broadcast_message', $response, $data, $this->setHeaders(), $this->apiEndPoint);
 
         return static::handleFilterResponse($response);
     }

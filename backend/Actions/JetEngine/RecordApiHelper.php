@@ -6,7 +6,9 @@
 
 namespace BitApps\Integrations\Actions\JetEngine;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Log\LogHandler;
 use Jet_Engine\Modules\Custom_Content_Types\Module;
 
@@ -30,7 +32,13 @@ class RecordApiHelper
 
         $finalData['slug'] = str_replace(' ', '-', strtolower($finalData['name']));
 
-        $filterResponse = apply_filters('btcbi_jet_engine_create_post_type_actions', 'createPostType', $createCPTSelectedOptions, $actions);
+        $filterResponse = Hooks::apply(Config::withPrefix('jet_engine_create_post_type_actions'), 'createPostType', $createCPTSelectedOptions, $actions);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_jet_engine_create_post_type_actions` filter instead.
+         * @since 2.7.8
+         */
+        $filterResponse = Hooks::apply('btcbi_jet_engine_create_post_type_actions', $filterResponse, $createCPTSelectedOptions, $actions);
 
         if ($filterResponse !== 'createPostType' && !empty($filterResponse)) {
             $finalData = array_merge($finalData, $filterResponse);
@@ -65,7 +73,13 @@ class RecordApiHelper
             $args['capability'] = $finalData['capability'];
         }
 
-        $filterResponse = apply_filters('btcbi_jet_engine_create_content_type_actions', 'createContentType', $createCPTSelectedOptions, $actions);
+        $filterResponse = Hooks::apply(Config::withPrefix('jet_engine_create_content_type_actions'), 'createContentType', $createCPTSelectedOptions, $actions);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_jet_engine_create_content_type_actions` filter instead.
+         * @since 2.7.8
+         */
+        $filterResponse = Hooks::apply('btcbi_jet_engine_create_content_type_actions', $filterResponse, $createCPTSelectedOptions, $actions);
 
         if ($filterResponse !== 'createContentType' && !empty($filterResponse)) {
             $args = array_merge($args, $filterResponse);
@@ -94,7 +108,13 @@ class RecordApiHelper
         $finalData['slug'] = str_replace(' ', '-', strtolower($finalData['name']));
         $finalData['object_type'] = explode(',', $taxOptions['selectedTaxPostTypes']);
 
-        $filterResponse = apply_filters('btcbi_jet_engine_create_taxonomy_actions', 'createTaxonomy', $taxOptions, $actions);
+        $filterResponse = Hooks::apply(Config::withPrefix('jet_engine_create_taxonomy_actions'), 'createTaxonomy', $taxOptions, $actions);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_jet_engine_create_taxonomy_actions` filter instead.
+         * @since 2.7.8
+         */
+        $filterResponse = Hooks::apply('btcbi_jet_engine_create_taxonomy_actions', $filterResponse, $taxOptions, $actions);
 
         if ($filterResponse !== 'createTaxonomy' && !empty($filterResponse)) {
             $finalData = array_merge($finalData, $filterResponse);
@@ -125,7 +145,13 @@ class RecordApiHelper
         $args['type'] = $relOptions['selectedRelationType'];
         $args['labels'] = $finalData;
 
-        $filterResponse = apply_filters('btcbi_jet_engine_create_relation_actions', 'createRelation', $relOptions, $actions);
+        $filterResponse = Hooks::apply(Config::withPrefix('jet_engine_create_relation_actions'), 'createRelation', $relOptions, $actions);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_jet_engine_create_relation_actions` filter instead.
+         * @since 2.7.8
+         */
+        $filterResponse = Hooks::apply('btcbi_jet_engine_create_relation_actions', $filterResponse, $relOptions, $actions);
 
         if ($filterResponse !== 'createRelation' && !empty($filterResponse)) {
             $args = array_merge($args, $filterResponse);
@@ -164,7 +190,13 @@ class RecordApiHelper
             $finalData['slug'] = str_replace(' ', '-', strtolower($finalData['name']));
         }
 
-        $filterResponse = apply_filters('btcbi_jet_engine_create_post_type_actions', 'updatePostType', $createCPTSelectedOptions, $actions);
+        $filterResponse = Hooks::apply(Config::withPrefix('jet_engine_create_post_type_actions'), 'updatePostType', $createCPTSelectedOptions, $actions);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_jet_engine_create_post_type_actions` filter instead.
+         * @since 2.7.8
+         */
+        $filterResponse = Hooks::apply('btcbi_jet_engine_create_post_type_actions', $filterResponse, $createCPTSelectedOptions, $actions);
 
         if ($filterResponse !== 'updatePostType' && !empty($filterResponse)) {
             $finalData = array_merge($finalData, $filterResponse);
@@ -236,7 +268,13 @@ class RecordApiHelper
             $args['capability'] = $finalData['capability'];
         }
 
-        $filterResponse = apply_filters('btcbi_jet_engine_create_content_type_actions', 'updateContentType', $createCPTSelectedOptions, $actions);
+        $filterResponse = Hooks::apply(Config::withPrefix('jet_engine_create_content_type_actions'), 'updateContentType', $createCPTSelectedOptions, $actions);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_jet_engine_create_content_type_actions` filter instead.
+         * @since 2.7.8
+         */
+        $filterResponse = Hooks::apply('btcbi_jet_engine_create_content_type_actions', $filterResponse, $createCPTSelectedOptions, $actions);
 
         if ($filterResponse !== 'updateContentType' && !empty($filterResponse)) {
             $args = array_merge($args, $filterResponse);
@@ -281,7 +319,13 @@ class RecordApiHelper
             $finalData['slug'] = $initialSlug;
         }
 
-        $filterResponse = apply_filters('btcbi_jet_engine_create_taxonomy_actions', 'updateTaxonomy', $taxOptions, $actions);
+        $filterResponse = Hooks::apply(Config::withPrefix('jet_engine_create_taxonomy_actions'), 'updateTaxonomy', $taxOptions, $actions);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_jet_engine_create_taxonomy_actions` filter instead.
+         * @since 2.7.8
+         */
+        $filterResponse = Hooks::apply('btcbi_jet_engine_create_taxonomy_actions', $filterResponse, $taxOptions, $actions);
 
         if ($filterResponse !== 'updateTaxonomy' && !empty($filterResponse)) {
             $finalData = array_merge($finalData, $filterResponse);
@@ -327,7 +371,13 @@ class RecordApiHelper
 
         $args['labels'] = $finalData;
 
-        $filterResponse = apply_filters('btcbi_jet_engine_create_relation_actions', 'updateRelation', $relOptions, $actions);
+        $filterResponse = Hooks::apply(Config::withPrefix('jet_engine_create_relation_actions'), 'updateRelation', $relOptions, $actions);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_jet_engine_create_relation_actions` filter instead.
+         * @since 2.7.8
+         */
+        $filterResponse = Hooks::apply('btcbi_jet_engine_create_relation_actions', $filterResponse, $relOptions, $actions);
 
         if ($filterResponse !== 'updateRelation' && !empty($filterResponse)) {
             $args = array_merge($args, $filterResponse);

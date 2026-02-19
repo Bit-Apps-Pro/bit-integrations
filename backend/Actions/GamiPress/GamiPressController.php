@@ -6,6 +6,7 @@
 
 namespace BitApps\Integrations\Actions\GamiPress;
 
+use BitApps\Integrations\Config;
 use WP_Error;
 
 /**
@@ -67,8 +68,8 @@ class GamiPressController
     public static function fetchAllRankType()
     {
         global $wpdb;
-        $cache_key = 'btcbi_gamipress_rank_types';
-        $cache_group = 'btcbi';
+        $cache_key = Config::withPrefix('gamipress_rank_types');
+        $cache_group = Config::VAR_PREFIX;
         $rank_types = wp_cache_get($cache_key, $cache_group);
 
         if (false !== $rank_types) {
@@ -93,8 +94,8 @@ class GamiPressController
         $selectRankType = $query_params->domainName;
 
         global $wpdb;
-        $cache_key = 'btcbi_gamipress_ranks_' . md5((string) $selectRankType);
-        $cache_group = 'btcbi';
+        $cache_key = Config::withPrefix('gamipress_ranks_') . md5((string) $selectRankType);
+        $cache_group = Config::VAR_PREFIX;
         $ranks = wp_cache_get($cache_key, $cache_group);
 
         if (false === $ranks) {
@@ -113,8 +114,8 @@ class GamiPressController
     public static function fetchAllAchievementType()
     {
         global $wpdb;
-        $cache_key = 'btcbi_gamipress_achievement_types';
-        $cache_group = 'btcbi';
+        $cache_key = Config::withPrefix('gamipress_achievement_types');
+        $cache_group = Config::VAR_PREFIX;
         $achievement_types = wp_cache_get($cache_key, $cache_group);
 
         if (false !== $achievement_types) {
@@ -139,8 +140,8 @@ class GamiPressController
         $selectAchievementType = $query_params->achievementType;
 
         global $wpdb;
-        $cache_key = 'btcbi_gamipress_achievements_' . md5((string) $selectAchievementType);
-        $cache_group = 'btcbi';
+        $cache_key = Config::withPrefix('gamipress_achievements_') . md5((string) $selectAchievementType);
+        $cache_group = Config::VAR_PREFIX;
         $awards = wp_cache_get($cache_key, $cache_group);
 
         if (false === $awards) {
@@ -161,8 +162,8 @@ class GamiPressController
     public static function fetchAllPointType()
     {
         global $wpdb;
-        $cache_key = 'btcbi_gamipress_point_types';
-        $cache_group = 'btcbi';
+        $cache_key = Config::withPrefix('gamipress_point_types');
+        $cache_group = Config::VAR_PREFIX;
         $points = wp_cache_get($cache_key, $cache_group);
 
         if (false === $points) {

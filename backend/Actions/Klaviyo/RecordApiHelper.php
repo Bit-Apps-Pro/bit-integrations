@@ -6,8 +6,10 @@
 
 namespace BitApps\Integrations\Actions\Klaviyo;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
 use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Log\LogHandler;
 
 /**
@@ -75,14 +77,26 @@ class RecordApiHelper
             ]
         ];
 
-        $data = apply_filters('btcbi_klaviyo_custom_properties', $data, $this->_integrationDetails->custom_field_map ?? [], $fieldValues);
+        $data = Hooks::apply(Config::withPrefix('klaviyo_custom_properties'), $data, $this->_integrationDetails->custom_field_map ?? [], $fieldValues);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_klaviyo_custom_properties` filter instead.
+         * @since 2.7.8
+         */
+        $data = Hooks::apply('btcbi_klaviyo_custom_properties', $data, $this->_integrationDetails->custom_field_map ?? [], $fieldValues);
 
         if (empty($this->_integrationDetails->update) || empty($id)) {
             return $this->createProfile($authKey, $listId, $data, $fieldValues);
         }
 
         $typeName = 'update-members';
-        $response = apply_filters('btcbi_klaviyo_update_profile', false, $id, $authKey, $data);
+        $response = Hooks::apply(Config::withPrefix('klaviyo_update_profile'), false, $id, $authKey, $data);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_klaviyo_update_profile` filter instead.
+         * @since 2.7.8
+         */
+        $response = Hooks::apply('btcbi_klaviyo_update_profile', $response, $id, $authKey, $data);
 
         if (!$response) {
             // translators: %s: Plugin name

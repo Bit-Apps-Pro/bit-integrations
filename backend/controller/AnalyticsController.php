@@ -46,7 +46,7 @@ final class AnalyticsController
     {
         if (\function_exists('btcbi_pro_activate_plugin')) {
             $pro = [];
-            $integrateData = get_option('btcbi_integrate_key_data');
+            $integrateData = get_option('bit_integrations_pro_integrate_key_data');
             $pro['version'] = BTCBI_PRO_VERSION;
             $pro['hasLicense'] = $integrateData['key'] ? true : false;
             $pro['license'] = $integrateData['key'];

@@ -6,9 +6,11 @@
 
 namespace BitApps\Integrations\Actions\ZohoBigin;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
 use BitApps\Integrations\Core\Util\DateTimeHelper;
 use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Log\LogHandler;
 use WP_Error;
 
@@ -134,7 +136,13 @@ class RecordApiHelper
         }
 
         if (isset($actions->selectedTags)) {
-            $response = apply_filters('btcbi_zbigin_add_tags_to_records', $recordID, $module, $actions->selectedTags, $this->_apiDomain, $this->_defaultHeader);
+            $response = Hooks::apply(Config::withPrefix('zbigin_add_tags_to_records'), $recordID, $module, $actions->selectedTags, $this->_apiDomain, $this->_defaultHeader);
+
+            /**
+             * @deprecated 2.7.8 Use `bit_integrations_zbigin_add_tags_to_records` filter instead.
+             * @since 2.7.8
+             */
+            $response = Hooks::apply('btcbi_zbigin_add_tags_to_records', $response, $module, $actions->selectedTags, $this->_apiDomain, $this->_defaultHeader);
 
             if ($response === $recordID) {
                 // translators: %s: Plugin name

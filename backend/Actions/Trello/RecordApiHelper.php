@@ -6,7 +6,9 @@
 
 namespace BitApps\Integrations\Actions\Trello;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Core\Util\HttpHelper;
 use BitApps\Integrations\Log\LogHandler;
 
@@ -62,7 +64,13 @@ class RecordApiHelper
         }
 
         if (!empty($apiResponse->id) && !empty($customFieldMap)) {
-            do_action('btcbi_trello_store_custom_fields', $apiResponse->id, $customFieldMap, $fieldValues, $this->_integrationID, $this->_integrationDetails);
+            Hooks::run(Config::withPrefix('trello_store_custom_fields'), $apiResponse->id, $customFieldMap, $fieldValues, $this->_integrationID, $this->_integrationDetails);
+
+            /**
+             * @deprecated 2.7.8 Use `bit_integrations_trello_store_custom_fields` action instead.
+             * @since 2.7.8
+             */
+            Hooks::run('btcbi_trello_store_custom_fields', $apiResponse->id, $customFieldMap, $fieldValues, $this->_integrationID, $this->_integrationDetails);
         }
 
         return $apiResponse;

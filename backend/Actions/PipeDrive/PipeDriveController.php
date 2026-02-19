@@ -6,6 +6,8 @@
 
 namespace BitApps\Integrations\Actions\PipeDrive;
 
+use BitApps\Integrations\Config;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
@@ -181,7 +183,13 @@ class PipeDriveController
         }
 
         if (isset($pipeDriveApiResponse->success, $pipeDriveApiResponse->data) && $pipeDriveApiResponse->success && \count($integrationDetails->relatedlists)) {
-            do_action('btcbi_pipedrive_store_related_list', $pipeDriveApiResponse, $integrationDetails, $fieldValues, $module, $integrationDetails->api_key, $integId);
+            Hooks::run(Config::withPrefix('pipedrive_store_related_list'), $pipeDriveApiResponse, $integrationDetails, $fieldValues, $module, $integrationDetails->api_key, $integId);
+
+            /**
+             * @deprecated 2.7.8 Use `bit_integrations_pipedrive_store_related_list` action instead.
+             * @since 2.7.8
+             */
+            Hooks::run('btcbi_pipedrive_store_related_list', $pipeDriveApiResponse, $integrationDetails, $fieldValues, $module, $integrationDetails->api_key, $integId);
         }
 
         return $pipeDriveApiResponse;

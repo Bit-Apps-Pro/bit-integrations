@@ -6,7 +6,9 @@
 
 namespace BitApps\Integrations\Actions\Bento;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\Hooks;
 use WP_Error;
 
 /**
@@ -40,11 +42,23 @@ class BentoController
         switch ($fieldsRequestParams->action) {
             case 'add_people':
                 $defaultFields = [(object) ['label' => __('Email Address', 'bit-integrations'), 'key' => 'email', 'required' => true]];
-                $fields = apply_filters('btcbi_bento_get_user_fields', $defaultFields, $fieldsRequestParams);
+                $fields = Hooks::apply(Config::withPrefix('bento_get_user_fields'), $defaultFields, $fieldsRequestParams);
+
+                /**
+                 * @deprecated 2.7.8 Use `bit_integrations_bento_get_user_fields` filter instead.
+                 * @since 2.7.8
+                 */
+                $fields = Hooks::apply('btcbi_bento_get_user_fields', $fields, $fieldsRequestParams);
 
                 break;
             case 'add_event':
-                $fields = apply_filters('btcbi_bento_get_event_fields', []);
+                $fields = Hooks::apply(Config::withPrefix('bento_get_event_fields'), []);
+
+                /**
+                 * @deprecated 2.7.8 Use `bit_integrations_bento_get_event_fields` filter instead.
+                 * @since 2.7.8
+                 */
+                $fields = Hooks::apply('btcbi_bento_get_event_fields', $fields);
 
                 break;
 
@@ -61,7 +75,13 @@ class BentoController
     {
         BentoHelper::checkValidation($fieldsRequestParams);
 
-        $tags = apply_filters('btcbi_bento_get_all_tags', [], $fieldsRequestParams);
+        $tags = Hooks::apply(Config::withPrefix('bento_get_all_tags'), [], $fieldsRequestParams);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_bento_get_all_tags` filter instead.
+         * @since 2.7.8
+         */
+        $tags = Hooks::apply('btcbi_bento_get_all_tags', $tags, $fieldsRequestParams);
 
         wp_send_json_success($tags, 200);
     }

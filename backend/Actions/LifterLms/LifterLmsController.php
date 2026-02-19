@@ -2,6 +2,7 @@
 
 namespace BitApps\Integrations\Actions\LifterLms;
 
+use BitApps\Integrations\Config;
 use WP_Error;
 
 class LifterLmsController
@@ -72,8 +73,8 @@ class LifterLmsController
     public static function getAllLifterLmsCourse()
     {
         global $wpdb;
-        $cache_key = 'btcbi_lifterlms_courses';
-        $cache_group = 'btcbi';
+        $cache_key = Config::withPrefix('lifterlms_courses');
+        $cache_group = Config::VAR_PREFIX;
         $allCourse = wp_cache_get($cache_key, $cache_group);
 
         if (false !== $allCourse) {
@@ -96,8 +97,8 @@ class LifterLmsController
     public static function getAllLifterLmsMembership()
     {
         global $wpdb;
-        $cache_key = 'btcbi_lifterlms_memberships';
-        $cache_group = 'btcbi';
+        $cache_key = Config::withPrefix('lifterlms_memberships');
+        $cache_group = Config::VAR_PREFIX;
         $allMembership = wp_cache_get($cache_key, $cache_group);
 
         if (false !== $allMembership) {

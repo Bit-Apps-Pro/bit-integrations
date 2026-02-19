@@ -6,7 +6,9 @@
 
 namespace BitApps\Integrations\Actions\WishlistMember;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Log\LogHandler;
 
 class RecordApiHelper
@@ -49,9 +51,15 @@ class RecordApiHelper
             ];
         }
 
-        return self::handleFilterResponse(
-            apply_filters('btcbi_wishlist_update_level', false, $finalData)
-        );
+        $response = Hooks::apply(Config::withPrefix('wishlist_update_level'), false, $finalData);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_wishlist_update_level` filter instead.
+         * @since 2.7.8
+         */
+        $response = Hooks::apply('btcbi_wishlist_update_level', $response, $finalData);
+
+        return self::handleFilterResponse($response);
     }
 
     public function deleteLevel($finalData)
@@ -63,9 +71,15 @@ class RecordApiHelper
             ];
         }
 
-        return self::handleFilterResponse(
-            apply_filters('btcbi_wishlist_delete_level', false, $finalData)
-        );
+        $response = Hooks::apply(Config::withPrefix('wishlist_delete_level'), false, $finalData);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_wishlist_delete_level` filter instead.
+         * @since 2.7.8
+         */
+        $response = Hooks::apply('btcbi_wishlist_delete_level', $response, $finalData);
+
+        return self::handleFilterResponse($response);
     }
 
     public function createMember($finalData)
@@ -83,9 +97,15 @@ class RecordApiHelper
             $levelId = $this->integrationDetails->level_id;
         }
 
-        return self::handleFilterResponse(
-            apply_filters('btcbi_wishlist_create_member', false, $finalData, $levelId, $this->_integrationID)
-        );
+        $response = Hooks::apply(Config::withPrefix('wishlist_create_member'), false, $finalData, $levelId, $this->_integrationID);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_wishlist_create_member` filter instead.
+         * @since 2.7.8
+         */
+        $response = Hooks::apply('btcbi_wishlist_create_member', $response, $finalData, $levelId, $this->_integrationID);
+
+        return self::handleFilterResponse($response);
     }
 
     public function handleMemberEvents($finalData, $event)
@@ -97,9 +117,23 @@ class RecordApiHelper
             ];
         }
 
-        $response = 'update_member' === $event
-            ? apply_filters('btcbi_wishlist_update_member', false, $finalData)
-            : apply_filters('btcbi_wishlist_delete_member', false, $finalData);
+        if ('update_member' === $event) {
+            $response = Hooks::apply(Config::withPrefix('wishlist_update_member'), false, $finalData);
+
+            /**
+             * @deprecated 2.7.8 Use `bit_integrations_wishlist_update_member` filter instead.
+             * @since 2.7.8
+             */
+            $response = Hooks::apply('btcbi_wishlist_update_member', $response, $finalData);
+        } else {
+            $response = Hooks::apply(Config::withPrefix('wishlist_delete_member'), false, $finalData);
+
+            /**
+             * @deprecated 2.7.8 Use `bit_integrations_wishlist_delete_member` filter instead.
+             * @since 2.7.8
+             */
+            $response = Hooks::apply('btcbi_wishlist_delete_member', $response, $finalData);
+        }
 
         return self::handleFilterResponse($response);
     }
@@ -113,9 +147,23 @@ class RecordApiHelper
             ];
         }
 
-        $response = 'add_member_to_level' === $event
-            ? apply_filters('btcbi_wishlist_add_member_to_level', false, $finalData, $this->integrationDetails->level_id)
-            : apply_filters('btcbi_wishlist_remove_member_from_level', false, $finalData, $this->integrationDetails->level_id);
+        if ('add_member_to_level' === $event) {
+            $response = Hooks::apply(Config::withPrefix('wishlist_add_member_to_level'), false, $finalData, $this->integrationDetails->level_id);
+
+            /**
+             * @deprecated 2.7.8 Use `bit_integrations_wishlist_add_member_to_level` filter instead.
+             * @since 2.7.8
+             */
+            $response = Hooks::apply('btcbi_wishlist_add_member_to_level', $response, $finalData, $this->integrationDetails->level_id);
+        } else {
+            $response = Hooks::apply(Config::withPrefix('wishlist_remove_member_from_level'), false, $finalData, $this->integrationDetails->level_id);
+
+            /**
+             * @deprecated 2.7.8 Use `bit_integrations_wishlist_remove_member_from_level` filter instead.
+             * @since 2.7.8
+             */
+            $response = Hooks::apply('btcbi_wishlist_remove_member_from_level', $response, $finalData, $this->integrationDetails->level_id);
+        }
 
         return self::handleFilterResponse($response);
     }

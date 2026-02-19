@@ -61,10 +61,10 @@ final class TriggerController
     public static function getTestData($data)
     {
         $triggerName = $data->triggered_entity_id;
-        $testData = get_option("btcbi_{$triggerName}_test");
+        $testData = get_option(Config::withPrefix("{$triggerName}_test"));
 
         if ($testData === false) {
-            update_option("btcbi_{$triggerName}_test", []);
+            update_option(Config::withPrefix("{$triggerName}_test"), []);
         }
         if (!$testData || empty($testData)) {
             // translators: %s: Placeholder value
@@ -79,9 +79,9 @@ final class TriggerController
         $triggerName = $data->triggered_entity_id;
 
         if (\is_object($data) && property_exists($data, 'reset') && $data->reset) {
-            $testData = update_option("btcbi_{$triggerName}_test", []);
+            $testData = update_option(Config::withPrefix("{$triggerName}_test"), []);
         } else {
-            $testData = delete_option("btcbi_{$triggerName}_test");
+            $testData = delete_option(Config::withPrefix("{$triggerName}_test"));
         }
 
         if (!$testData) {

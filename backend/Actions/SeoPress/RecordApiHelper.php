@@ -6,7 +6,9 @@
 
 namespace BitApps\Integrations\Actions\SeoPress;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Log\LogHandler;
 
 /**
@@ -54,7 +56,14 @@ class RecordApiHelper
 
         switch ($mainAction) {
             case 'update_post_meta':
-                $response = apply_filters('btcbi_seopress_update_post_meta', $defaultResponse, $fieldData);
+                $response = Hooks::apply(Config::withPrefix('seopress_update_post_meta'), $defaultResponse, $fieldData);
+
+                /**
+                 * @deprecated 2.7.8 Use `bit_integrations_seopress_update_post_meta` filter instead.
+                 * @since 2.7.8
+                 */
+                $response = Hooks::apply('btcbi_seopress_update_post_meta', $response, $fieldData);
+
                 $actionType = 'update_post_meta';
 
                 break;

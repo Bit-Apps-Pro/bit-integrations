@@ -6,6 +6,7 @@
 
 namespace BitApps\Integrations\Actions\Freshdesk;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
@@ -162,7 +163,7 @@ class FreshdeskController
         foreach ($apiResponse as $value) {
             if (!\in_array($value->name, $excludingFields)) {
                 $responseData[] = (object) [
-                    'key'      => $value->default ? $value->name : "btcbi_cf_{$value->name}",
+                    'key'      => $value->default ? $value->name : Config::withPrefix("cf_{$value->name}"),
                     'label'    => $value->label,
                     'required' => $value->name == 'email' || $value->name == 'name' ? true : $value->required_for_agents
                 ];

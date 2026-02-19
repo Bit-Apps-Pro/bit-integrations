@@ -6,7 +6,9 @@
 
 namespace BitApps\Integrations\Actions\MailerPress;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Log\LogHandler;
 
 /**
@@ -58,31 +60,61 @@ class RecordApiHelper
                 break;
 
             case 'delete_contact':
-                $response = apply_filters('btcbi_mailerpress_delete_contact', $defaultResponse, $fieldData);
+                $response = Hooks::apply(Config::withPrefix('mailerpress_delete_contact'), $defaultResponse, $fieldData);
+
+                /**
+                 * @deprecated 2.7.8 Use `bit_integrations_mailerpress_delete_contact` filter instead.
+                 * @since 2.7.8
+                 */
+                $response = Hooks::apply('btcbi_mailerpress_delete_contact', $response, $fieldData);
                 $actionType = 'delete';
 
                 break;
 
             case 'add_tags':
-                $response = apply_filters('btcbi_mailerpress_add_tags', $defaultResponse, $fieldData, $tags);
+                $response = Hooks::apply(Config::withPrefix('mailerpress_add_tags'), $defaultResponse, $fieldData, $tags);
+
+                /**
+                 * @deprecated 2.7.8 Use `bit_integrations_mailerpress_add_tags` filter instead.
+                 * @since 2.7.8
+                 */
+                $response = Hooks::apply('btcbi_mailerpress_add_tags', $response, $fieldData, $tags);
                 $actionType = 'add_tags';
 
                 break;
 
             case 'remove_tags':
-                $response = apply_filters('btcbi_mailerpress_remove_tags', $defaultResponse, $fieldData, $tags);
+                $response = Hooks::apply(Config::withPrefix('mailerpress_remove_tags'), $defaultResponse, $fieldData, $tags);
+
+                /**
+                 * @deprecated 2.7.8 Use `bit_integrations_mailerpress_remove_tags` filter instead.
+                 * @since 2.7.8
+                 */
+                $response = Hooks::apply('btcbi_mailerpress_remove_tags', $response, $fieldData, $tags);
                 $actionType = 'remove_tags';
 
                 break;
 
             case 'add_to_lists':
-                $response = apply_filters('btcbi_mailerpress_add_to_lists', $defaultResponse, $fieldData, $lists);
+                $response = Hooks::apply(Config::withPrefix('mailerpress_add_to_lists'), $defaultResponse, $fieldData, $lists);
+
+                /**
+                 * @deprecated 2.7.8 Use `bit_integrations_mailerpress_add_to_lists` filter instead.
+                 * @since 2.7.8
+                 */
+                $response = Hooks::apply('btcbi_mailerpress_add_to_lists', $response, $fieldData, $lists);
                 $actionType = 'add_to_lists';
 
                 break;
 
             case 'remove_from_lists':
-                $response = apply_filters('btcbi_mailerpress_remove_from_lists', $defaultResponse, $fieldData, $lists);
+                $response = Hooks::apply(Config::withPrefix('mailerpress_remove_from_lists'), $defaultResponse, $fieldData, $lists);
+
+                /**
+                 * @deprecated 2.7.8 Use `bit_integrations_mailerpress_remove_from_lists` filter instead.
+                 * @since 2.7.8
+                 */
+                $response = Hooks::apply('btcbi_mailerpress_remove_from_lists', $response, $fieldData, $lists);
                 $actionType = 'remove_from_lists';
 
                 break;

@@ -6,9 +6,9 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
+use WP_Site;
 use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Database\DB;
-use WP_Site;
 
 /**
  * Class handling plugin activation.
@@ -97,12 +97,12 @@ final class Activation
     public function runVersionUpgradeTask()
     {
         return match (true) {
-            version_compare($this->oldVersion, '2.7.8', '<') => $this->upgradeTo279(),
+            version_compare($this->oldVersion, '2.7.8', '<') => $this->upgradeTo278(),
             default                                          => null,
         };
     }
 
-    private function upgradeTo279()
+    private function upgradeTo278()
     {
         delete_option('btcbi_db_version');
         delete_option('btcbi_installed');

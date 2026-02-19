@@ -2,12 +2,12 @@
 
 namespace BitApps\Integrations\Core\Hooks;
 
-use BitApps\Integrations\Admin\AdminAjax;
+use FilesystemIterator;
 use BitApps\Integrations\Config;
+use BitApps\Integrations\Admin\AdminAjax;
 use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Core\Util\Request;
 use BitApps\Integrations\Core\Util\StoreInCache;
-use FilesystemIterator;
 
 class HookService
 {
@@ -81,7 +81,7 @@ class HookService
             $activeTrigger = [];
         }
 
-        $listedTrigger = Config::getOption('selected_trigger', get_option('btcbi_selected_trigger', []));
+        $listedTrigger = Config::getOption('selected_trigger', []);
         $activeTrigger = array_unique(
             array_merge(
                 $activeTrigger,

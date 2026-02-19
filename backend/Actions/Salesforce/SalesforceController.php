@@ -6,7 +6,9 @@
 
 namespace BitApps\Integrations\Actions\Salesforce;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Flow\FlowController;
 use WP_Error;
 
@@ -359,28 +361,52 @@ class SalesforceController
 
     public function getAllLeadSources($params)
     {
-        $response = apply_filters('btcbi_salesforce_get_lead_utilities', [], $params, 'LeadSource');
+        $response = Hooks::apply(Config::withPrefix('salesforce_get_lead_utilities'), [], $params, 'LeadSource');
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_salesforce_get_lead_utilities` filter instead.
+         * @since 2.7.8
+         */
+        $response = Hooks::apply('btcbi_salesforce_get_lead_utilities', $response, $params, 'LeadSource');
 
         return self::getFilterHookResponse($response);
     }
 
     public function getAllLeadStatus($params)
     {
-        $response = apply_filters('btcbi_salesforce_get_lead_utilities', [], $params, 'Status');
+        $response = Hooks::apply(Config::withPrefix('salesforce_get_lead_utilities'), [], $params, 'Status');
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_salesforce_get_lead_utilities` filter instead.
+         * @since 2.7.8
+         */
+        $response = Hooks::apply('btcbi_salesforce_get_lead_utilities', $response, $params, 'Status');
 
         return self::getFilterHookResponse($response);
     }
 
     public function getAllLeadRatings($params)
     {
-        $response = apply_filters('btcbi_salesforce_get_lead_utilities', [], $params, 'Rating');
+        $response = Hooks::apply(Config::withPrefix('salesforce_get_lead_utilities'), [], $params, 'Rating');
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_salesforce_get_lead_utilities` filter instead.
+         * @since 2.7.8
+         */
+        $response = Hooks::apply('btcbi_salesforce_get_lead_utilities', $response, $params, 'Rating');
 
         return self::getFilterHookResponse($response);
     }
 
     public function getAllLeadIndustries($params)
     {
-        $response = apply_filters('btcbi_salesforce_get_lead_utilities', [], $params, 'Industry');
+        $response = Hooks::apply(Config::withPrefix('salesforce_get_lead_utilities'), [], $params, 'Industry');
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_salesforce_get_lead_utilities` filter instead.
+         * @since 2.7.8
+         */
+        $response = Hooks::apply('btcbi_salesforce_get_lead_utilities', $response, $params, 'Industry');
 
         return self::getFilterHookResponse($response);
     }

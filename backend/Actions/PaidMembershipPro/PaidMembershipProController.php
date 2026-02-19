@@ -2,6 +2,7 @@
 
 namespace BitApps\Integrations\Actions\PaidMembershipPro;
 
+use BitApps\Integrations\Config;
 use WP_Error;
 
 class PaidMembershipProController
@@ -27,8 +28,8 @@ class PaidMembershipProController
     public static function getAllPaidMembershipProLevel()
     {
         global $wpdb;
-        $cache_key = 'btcbi_pmpro_membership_levels';
-        $cache_group = 'btcbi';
+        $cache_key = Config::withPrefix('pmpro_membership_levels');
+        $cache_group = Config::VAR_PREFIX;
 
         $levels = wp_cache_get($cache_key, $cache_group);
         if (false === $levels) {

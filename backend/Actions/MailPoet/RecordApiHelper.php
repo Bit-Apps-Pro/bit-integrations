@@ -6,7 +6,9 @@
 
 namespace BitApps\Integrations\Actions\MailPoet;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Log\LogHandler;
 use Exception;
 
@@ -40,7 +42,13 @@ class RecordApiHelper
             }
 
             if (!empty($actions->update)) {
-                $response = apply_filters('btcbi_mailpoet_update_subscriber', $existingSubscriber['id'], $subscriber);
+                $response = Hooks::apply(Config::withPrefix('mailpoet_update_subscriber'), $existingSubscriber['id'], $subscriber);
+
+                /**
+                 * @deprecated 2.7.8 Use `bit_integrations_mailpoet_update_subscriber` filter instead.
+                 * @since 2.7.8
+                 */
+                $response = Hooks::apply('btcbi_mailpoet_update_subscriber', $response, $subscriber);
 
                 if ($response === $existingSubscriber['id']) {
                     // translators: %s: Plugin name

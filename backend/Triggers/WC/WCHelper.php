@@ -2,7 +2,9 @@
 
 namespace BitApps\Integrations\Triggers\WC;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Helper;
+use BitApps\Integrations\Core\Util\Hooks;
 use WC_Product_Booking;
 
 class WCHelper
@@ -160,7 +162,13 @@ class WCHelper
         $acfFielddata = Helper::getAcfFieldData($acfFieldGroups, $orderId);
         $checkoutFields = Helper::getWCCustomCheckoutData($order);
 
-        $flexibleFields = apply_filters('btcbi_woocommerce_flexible_checkout_fields_value', (array) $order);
+        $flexibleFields = Hooks::apply(Config::withPrefix('woocommerce_flexible_checkout_fields_value'), (array) $order);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_woocommerce_flexible_checkout_fields_value` filter instead.
+         * @since 2.7.8
+         */
+        $flexibleFields = Hooks::apply('btcbi_woocommerce_flexible_checkout_fields_value', $flexibleFields);
 
         return array_merge($orderData, $acfFielddata, $checkoutFields, $flexibleFields, $extra);
     }

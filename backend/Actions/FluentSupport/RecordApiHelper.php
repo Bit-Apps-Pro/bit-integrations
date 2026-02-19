@@ -6,7 +6,9 @@
 
 namespace BitApps\Integrations\Actions\FluentSupport;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Log\LogHandler;
 use FluentSupport\App\Models\Customer;
 use FluentSupport\App\Models\Ticket;
@@ -152,7 +154,13 @@ class RecordApiHelper
 
     private static function uploadTicketFiles($finalData, $attachments, $ticket, $customer, $flowId)
     {
-        do_action('btcbi_fluent_support_upload_ticket_attachments', $finalData, $attachments, $ticket, $customer, $flowId);
+        Hooks::run(Config::withPrefix('fluent_support_upload_ticket_attachments'), $finalData, $attachments, $ticket, $customer, $flowId);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_fluent_support_upload_ticket_attachments` action instead.
+         * @since 2.7.8
+         */
+        Hooks::run('btcbi_fluent_support_upload_ticket_attachments', $finalData, $attachments, $ticket, $customer, $flowId);
 
         // translators: %s: Placeholder value
         LogHandler::save($flowId, ['type' => 'Ticket', 'type_name' => 'Upload-Ticket-Attachments'], 'error', wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro'));

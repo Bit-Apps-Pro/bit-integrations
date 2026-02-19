@@ -6,7 +6,9 @@
 
 namespace BitApps\Integrations\Actions\WPCafe;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Log\LogHandler;
 
 /**
@@ -55,21 +57,39 @@ class RecordApiHelper
         // Route to appropriate action method
         switch ($mainAction) {
             case 'create_reservation':
-                $response = apply_filters('btcbi_wpcafe_create_reservation', $defaultResponse, $fieldData);
+                $response = Hooks::apply(Config::withPrefix('wpcafe_create_reservation'), $defaultResponse, $fieldData);
+
+                /**
+                 * @deprecated 2.7.8 Use `bit_integrations_wpcafe_create_reservation` filter instead.
+                 * @since 2.7.8
+                 */
+                $response = Hooks::apply('btcbi_wpcafe_create_reservation', $response, $fieldData);
                 $type = 'reservation';
                 $actionType = 'create_reservation';
 
                 break;
 
             case 'update_reservation':
-                $response = apply_filters('btcbi_wpcafe_update_reservation', $defaultResponse, $fieldData);
+                $response = Hooks::apply(Config::withPrefix('wpcafe_update_reservation'), $defaultResponse, $fieldData);
+
+                /**
+                 * @deprecated 2.7.8 Use `bit_integrations_wpcafe_update_reservation` filter instead.
+                 * @since 2.7.8
+                 */
+                $response = Hooks::apply('btcbi_wpcafe_update_reservation', $response, $fieldData);
                 $type = 'reservation';
                 $actionType = 'update_reservation';
 
                 break;
 
             case 'delete_reservation':
-                $response = apply_filters('btcbi_wpcafe_delete_reservation', $defaultResponse, $fieldData['reservation_id'] ?? 0);
+                $response = Hooks::apply(Config::withPrefix('wpcafe_delete_reservation'), $defaultResponse, $fieldData['reservation_id'] ?? 0);
+
+                /**
+                 * @deprecated 2.7.8 Use `bit_integrations_wpcafe_delete_reservation` filter instead.
+                 * @since 2.7.8
+                 */
+                $response = Hooks::apply('btcbi_wpcafe_delete_reservation', $response, $fieldData['reservation_id'] ?? 0);
                 $type = 'reservation';
                 $actionType = 'delete_reservation';
 

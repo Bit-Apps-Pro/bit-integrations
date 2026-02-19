@@ -1644,8 +1644,8 @@ final class TriggerFallback
     {
         global $wpdb;
         $table_name = $wpdb->prefix . 'bp_xprofile_fields';
-        $cache_key = 'btcbi_buddyboss_profile_fields';
-        $cache_group = 'btcbi';
+        $cache_key = Config::withPrefix('buddyboss_profile_fields');
+        $cache_group = Config::VAR_PREFIX;
 
         $cached_fields = wp_cache_get($cache_key, $cache_group);
         if (false !== $cached_fields) {

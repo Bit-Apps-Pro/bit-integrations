@@ -6,8 +6,10 @@
 
 namespace BitApps\Integrations\Actions\FreshSales;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
 use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Log\LogHandler;
 
 /**
@@ -64,7 +66,13 @@ class RecordApiHelper
 
     public function upsertRecord($module, $finalData)
     {
-        $response = apply_filters('btcbi_freshsales_upsert_record', $module, $finalData, $this->_integrationDetails, $this->_defaultHeader, $this->baseUrl);
+        $response = Hooks::apply(Config::withPrefix('freshsales_upsert_record'), $module, $finalData, $this->_integrationDetails, $this->_defaultHeader, $this->baseUrl);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_freshsales_upsert_record` filter instead.
+         * @since 2.7.8
+         */
+        $response = Hooks::apply('btcbi_freshsales_upsert_record', $response, $finalData, $this->_integrationDetails, $this->_defaultHeader, $this->baseUrl);
 
         if (\is_string($response) && $response == $module) {
             return $this->insertRecord($module, $finalData);

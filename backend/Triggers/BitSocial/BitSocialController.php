@@ -2,6 +2,7 @@
 
 namespace BitApps\Integrations\Triggers\BitSocial;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Helper;
 use BitApps\Integrations\Flow\Flow;
 
@@ -119,7 +120,7 @@ final class BitSocialController
             return;
         }
 
-        Helper::setTestData("btcbi_{$entityId}_test", array_values($formData));
+        Helper::setTestData(Config::withPrefix("{$entityId}_test"), array_values($formData));
 
         $flows = Flow::exists('BitSocial', $entityId);
 

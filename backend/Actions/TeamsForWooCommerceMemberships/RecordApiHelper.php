@@ -6,7 +6,9 @@
 
 namespace BitApps\Integrations\Actions\TeamsForWooCommerceMemberships;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Log\LogHandler;
 
 /**
@@ -60,28 +62,52 @@ class RecordApiHelper
         // Route to appropriate action method
         switch ($mainAction) {
             case 'add_member_to_team':
-                $response = apply_filters('btcbi_teams_for_wc_memberships_add_member', $defaultResponse, $fieldData, $this->_integrationDetails);
+                $response = Hooks::apply(Config::withPrefix('teams_for_wc_memberships_add_member'), $defaultResponse, $fieldData, $this->_integrationDetails);
+
+                /**
+                 * @deprecated 2.7.8 Use `bit_integrations_teams_for_wc_memberships_add_member` filter instead.
+                 * @since 2.7.8
+                 */
+                $response = Hooks::apply('btcbi_teams_for_wc_memberships_add_member', $response, $fieldData, $this->_integrationDetails);
                 $type = 'team_member';
                 $actionType = 'add_member_to_team';
 
                 break;
 
             case 'remove_member_from_team':
-                $response = apply_filters('btcbi_teams_for_wc_memberships_remove_member', $defaultResponse, $fieldData, $this->_integrationDetails);
+                $response = Hooks::apply(Config::withPrefix('teams_for_wc_memberships_remove_member'), $defaultResponse, $fieldData, $this->_integrationDetails);
+
+                /**
+                 * @deprecated 2.7.8 Use `bit_integrations_teams_for_wc_memberships_remove_member` filter instead.
+                 * @since 2.7.8
+                 */
+                $response = Hooks::apply('btcbi_teams_for_wc_memberships_remove_member', $response, $fieldData, $this->_integrationDetails);
                 $type = 'team_member';
                 $actionType = 'remove_member_from_team';
 
                 break;
 
             case 'invite_user_to_team':
-                $response = apply_filters('btcbi_teams_for_wc_memberships_invite_user', $defaultResponse, $fieldData, $this->_integrationDetails);
+                $response = Hooks::apply(Config::withPrefix('teams_for_wc_memberships_invite_user'), $defaultResponse, $fieldData, $this->_integrationDetails);
+
+                /**
+                 * @deprecated 2.7.8 Use `bit_integrations_teams_for_wc_memberships_invite_user` filter instead.
+                 * @since 2.7.8
+                 */
+                $response = Hooks::apply('btcbi_teams_for_wc_memberships_invite_user', $response, $fieldData, $this->_integrationDetails);
                 $type = 'team_invitation';
                 $actionType = 'invite_user_to_team';
 
                 break;
 
             case 'update_member_role':
-                $response = apply_filters('btcbi_teams_for_wc_memberships_update_role', $defaultResponse, $fieldData, $this->_integrationDetails);
+                $response = Hooks::apply(Config::withPrefix('teams_for_wc_memberships_update_role'), $defaultResponse, $fieldData, $this->_integrationDetails);
+
+                /**
+                 * @deprecated 2.7.8 Use `bit_integrations_teams_for_wc_memberships_update_role` filter instead.
+                 * @since 2.7.8
+                 */
+                $response = Hooks::apply('btcbi_teams_for_wc_memberships_update_role', $response, $fieldData, $this->_integrationDetails);
                 $type = 'team_member';
                 $actionType = 'update_member_role';
 

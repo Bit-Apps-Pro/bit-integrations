@@ -4,21 +4,26 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\Integrations\Core\Util\Helper;
 use BitApps\Integrations\Core\Util\Hooks;
+use BitApps\Integrations\Core\Util\Helper;
 use BitApps\Integrations\Core\Util\StoreInCache;
 use BitApps\Integrations\Triggers\FallbackTrigger\FallbackHooks;
 use BitApps\Integrations\Triggers\FallbackTrigger\FallbackTriggerController;
 
 if (!Helper::isProActivate()) {
-    $btcbi_entities = StoreInCache::getFallbackFlowEntities() ?? [];
+    $bit_integrations_entities = StoreInCache::getFallbackFlowEntities() ?? [];
 
-    if (!empty($btcbi_entities)) {
-        foreach (FallbackHooks::$triggerHookList as $btcbi_trigger) {
-            if (isset($btcbi_entities[$btcbi_trigger['entity']])) {
-                $btcbi_hookFunction = $btcbi_trigger['isFilterHook'] ? 'filter' : 'add';
+    if (!empty($bit_integrations_entities)) {
+        foreach (FallbackHooks::$triggerHookList as $bit_integrations_trigger) {
+            if (isset($bit_integrations_entities[$bit_integrations_trigger['entity']])) {
+                $bit_integrations_hookFunction = $bit_integrations_trigger['isFilterHook'] ? 'filter' : 'add';
 
-                Hooks::$btcbi_hookFunction($btcbi_trigger['hook'], [FallbackTriggerController::class, 'triggerFallbackHandler'], $btcbi_trigger['priority'], PHP_INT_MAX);
+                Hooks::$bit_integrations_hookFunction(
+                    $bit_integrations_trigger['hook'], 
+                    [FallbackTriggerController::class, 'triggerFallbackHandler'], 
+                    $bit_integrations_trigger['priority'], 
+                    PHP_INT_MAX
+                );
             }
         }
     }

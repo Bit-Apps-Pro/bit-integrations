@@ -6,8 +6,10 @@
 
 namespace BitApps\Integrations\Actions\OmniSend;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
 use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Log\LogHandler;
 
 /**
@@ -109,7 +111,14 @@ class RecordApiHelper
         $customFieldMap
     ) {
         $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
-        $customProperties = apply_filters('btcbi_omnisend_custom_properties', (object) [], $customFieldMap, $fieldValues);
+        $customProperties = Hooks::apply(Config::withPrefix('omnisend_custom_properties'), (object) [], $customFieldMap, $fieldValues);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_omnisend_custom_properties` filter instead.
+         * @since 2.7.8
+         */
+        $customProperties = Hooks::apply('btcbi_omnisend_custom_properties', $customProperties, $customFieldMap, $fieldValues);
+
         $apiResponse = $this->addContact(
             $channels,
             $emailStatus,

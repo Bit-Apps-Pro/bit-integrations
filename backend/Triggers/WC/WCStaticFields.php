@@ -2,7 +2,9 @@
 
 namespace BitApps\Integrations\Triggers\WC;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Helper;
+use BitApps\Integrations\Core\Util\Hooks;
 
 class WCStaticFields
 {
@@ -296,7 +298,15 @@ class WCStaticFields
 
     private static function getFlexibleCheckoutFields()
     {
-        return apply_filters('btcbi_woocommerce_flexible_checkout_fields', []);
+        $fields = Hooks::apply(Config::withPrefix('woocommerce_flexible_checkout_fields'), []);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_woocommerce_flexible_checkout_fields` filter instead.
+         * @since 2.7.8
+         */
+        $fields = Hooks::apply('btcbi_woocommerce_flexible_checkout_fields', $fields);
+
+        return $fields;
     }
 
     private static function checkoutBasicFields()

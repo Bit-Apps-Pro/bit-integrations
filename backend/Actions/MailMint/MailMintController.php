@@ -2,6 +2,7 @@
 
 namespace BitApps\Integrations\Actions\MailMint;
 
+use BitApps\Integrations\Config;
 use Mint\MRM\Constants;
 use Mint\MRM\DataBase\Models\ContactGroupModel;
 use Mint\MRM\DataBase\Tables\CustomFieldSchema;
@@ -33,8 +34,8 @@ class MailMintController
             $allFields = [];
             $fields_table = esc_sql($wpdb->prefix . CustomFieldSchema::$table_name);
             $primaryFields = get_option('mint_contact_primary_fields', Constants::$primary_contact_fields);
-            $cache_key = 'btcbi_mailmint_custom_fields';
-            $cache_group = 'btcbi';
+            $cache_key = Config::withPrefix('mailmint_custom_fields');
+            $cache_group = Config::VAR_PREFIX;
             $customFields = wp_cache_get($cache_key, $cache_group);
 
             if (false === $customFields) {

@@ -6,8 +6,10 @@
 
 namespace BitApps\Integrations\Actions\Moosend;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
 use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Log\LogHandler;
 
 /**
@@ -40,7 +42,15 @@ class RecordApiHelper
             }
         }
 
-        return apply_filters('btcbi_moosend_map_custom_fields', $dataFinal, $data, $field_map);
+        $filtered = Hooks::apply(Config::withPrefix('moosend_map_custom_fields'), $dataFinal, $data, $field_map);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_moosend_map_custom_fields` filter instead.
+         * @since 2.7.8
+         */
+        $filtered = Hooks::apply('btcbi_moosend_map_custom_fields', $filtered, $data, $field_map);
+
+        return $filtered;
     }
 
     public function response($status, $code, $type, $typeName, $apiResponse)

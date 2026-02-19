@@ -6,8 +6,10 @@
 
 namespace BitApps\Integrations\Actions\Hubspot;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
 use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Log\LogHandler;
 
 /**
@@ -241,7 +243,13 @@ class HubspotRecordApiHelper
     private function updateEntity($id, $finalData, $actionName, &$typeName)
     {
         $typeName = "{$actionName}-update";
-        $response = apply_filters('btcbi_hubspot_update_entity', $id, $finalData, $actionName, $this->defaultHeader);
+        $response = Hooks::apply(Config::withPrefix('hubspot_update_entity'), $id, $finalData, $actionName, $this->defaultHeader);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_hubspot_update_entity` filter instead.
+         * @since 2.7.8
+         */
+        $response = Hooks::apply('btcbi_hubspot_update_entity', $response, $id, $finalData, $actionName, $this->defaultHeader);
 
         if (\is_string($response) && $response == $id) {
             // translators: %s: Plugin name

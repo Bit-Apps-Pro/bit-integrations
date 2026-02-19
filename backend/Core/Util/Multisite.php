@@ -2,6 +2,8 @@
 
 namespace BitApps\Integrations\Core\Util;
 
+use BitApps\Integrations\Config;
+
 class Multisite
 {
     public static function all_blog_ids()
@@ -13,8 +15,8 @@ class Multisite
         if (\function_exists('get_sites') && \function_exists('get_current_network_id')) {
             $site_ids = get_sites(['fields' => 'ids', 'network_id' => get_current_network_id()]);
         } else {
-            $cache_key = 'btcbi_multisite_site_ids_' . absint($wpdb->siteid);
-            $cache_group = 'btcbi';
+            $cache_key = Config::withPrefix('multisite_site_ids_') . absint($wpdb->siteid);
+            $cache_group = Config::VAR_PREFIX;
             $site_ids = wp_cache_get($cache_key, $cache_group);
 
             if (false === $site_ids) {

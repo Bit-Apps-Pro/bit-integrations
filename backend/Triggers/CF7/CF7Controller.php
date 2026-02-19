@@ -2,7 +2,9 @@
 
 namespace BitApps\Integrations\Triggers\CF7;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Flow\Flow;
 use WPCF7_ContactForm;
 use WPCF7_FormTagsManager;
@@ -148,7 +150,13 @@ final class CF7Controller
 
     private static function getCustomHtmlFields($form_text)
     {
-        $fields = apply_filters('btcbi_cf7_get_advance_custom_html_fields', $form_text);
+        $fields = Hooks::apply(Config::withPrefix('cf7_get_advance_custom_html_fields'), $form_text);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_cf7_get_advance_custom_html_fields` filter instead.
+         * @since 2.7.8
+         */
+        $fields = Hooks::apply('btcbi_cf7_get_advance_custom_html_fields', $fields);
 
         return \is_array($fields) ? $fields : [];
     }

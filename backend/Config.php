@@ -4,6 +4,7 @@
 
 namespace BitApps\Integrations;
 
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Core\Util\DateTimeHelper;
 
 if (!defined('ABSPATH')) {
@@ -91,7 +92,7 @@ class Config
      *
      * @param string $option Variable name
      *
-     * @return array
+     * @return string
      */
     public static function withPrefix($option)
     {
@@ -202,7 +203,7 @@ class Config
          * @deprecated 2.7.8 Use `bit_integrations_localized_script` filter instead.
          * @since 2.7.8
          */
-        $frontendConfig = apply_filters('btcbi_localized_script', $frontendConfig);
+        $frontendConfig = Hooks::apply('btcbi_localized_script', $frontendConfig);
 
         $changelogVersion = Config::getOption('changelog_version', '0.0.0');
 

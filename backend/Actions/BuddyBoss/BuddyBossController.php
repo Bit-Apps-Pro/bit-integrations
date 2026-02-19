@@ -6,6 +6,7 @@
 
 namespace BitApps\Integrations\Actions\BuddyBoss;
 
+use BitApps\Integrations\Config;
 use WP_Error;
 
 /**
@@ -33,8 +34,8 @@ class BuddyBossController
         include_once ABSPATH . 'wp-admin/includes/plugin.php';
         if (self::pluginActive()) {
             global $wpdb;
-            $cache_key = 'btcbi_buddyboss_groups';
-            $cache_group = 'btcbi';
+            $cache_key = Config::withPrefix('buddyboss_groups');
+            $cache_group = Config::VAR_PREFIX;
             $groups = wp_cache_get($cache_key, $cache_group);
 
             if (false === $groups) {
@@ -55,8 +56,8 @@ class BuddyBossController
         include_once ABSPATH . 'wp-admin/includes/plugin.php';
         if (self::pluginActive()) {
             global $wpdb;
-            $cache_key = 'btcbi_wp_users_basic';
-            $cache_group = 'btcbi';
+            $cache_key = Config::withPrefix('wp_users_basic');
+            $cache_group = Config::VAR_PREFIX;
             $users = wp_cache_get($cache_key, $cache_group);
 
             if (false === $users) {

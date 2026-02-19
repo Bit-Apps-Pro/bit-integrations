@@ -8,9 +8,11 @@
 
 namespace BitApps\Integrations\Actions\PostCreation;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\controller\PostController;
 use BitApps\Integrations\Core\Util\Common;
 use BitApps\Integrations\Core\Util\Helper;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Flow\Flow;
 use BitApps\Integrations\Log\LogHandler;
 
@@ -306,7 +308,13 @@ final class PostCreationController
 
         unset($updateData['_thumbnail_id'] , $updateData['post_id']);
 
-        do_action('btcbi_add_post_tag', $postId, $flowDetails->post_tags ?? null);
+        Hooks::run(Config::withPrefix('add_post_tag'), $postId, $flowDetails->post_tags ?? null);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_add_post_tag` action instead.
+         * @since 2.7.8
+         */
+        Hooks::run('btcbi_add_post_tag', $postId, $flowDetails->post_tags ?? null);
 
         $result = wp_update_post($updateData, true);
 

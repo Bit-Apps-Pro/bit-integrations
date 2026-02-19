@@ -6,9 +6,10 @@
 
 namespace BitApps\Integrations\Actions\Freshdesk;
 
+use BitApps\Integrations\Config;
+use BitApps\Integrations\Log\LogHandler;
 use BitApps\Integrations\Core\Util\Common;
 use BitApps\Integrations\Core\Util\HttpHelper;
-use BitApps\Integrations\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, upsert
@@ -94,7 +95,7 @@ class RecordApiHelper
                 $triggerValue = $field->formField;
             }
 
-            if (strpos($actionValue, 'btcbi_cf_') === 0) {
+            if (strpos($actionValue, 'btcbi_cf_') === 0 || strpos($actionValue, (string) Config::withPrefix('cf_')) === 0) {
                 $fieldName = substr($actionValue, 9);
 
                 $customFields[$fieldName] = $data[$triggerValue];

@@ -6,6 +6,7 @@
 
 namespace BitApps\Integrations\Actions\Affiliate;
 
+use BitApps\Integrations\Config;
 use WP_Error;
 
 /**
@@ -41,8 +42,8 @@ class AffiliateController
 
     public static function getAllAffiliate()
     {
-        $cache_key = 'btcbi_affiliate_wp_all_affiliates';
-        $cache_group = 'btcbi';
+        $cache_key = Config::withPrefix('affiliate_wp_all_affiliates');
+        $cache_group = Config::VAR_PREFIX;
         $affiliates = wp_cache_get($cache_key, $cache_group);
 
         if (false !== $affiliates) {

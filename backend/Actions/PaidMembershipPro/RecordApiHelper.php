@@ -2,6 +2,7 @@
 
 namespace BitApps\Integrations\Actions\PaidMembershipPro;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
 use BitApps\Integrations\Log\LogHandler;
 
@@ -45,8 +46,8 @@ class RecordApiHelper
             return;
         }
         global $wpdb;
-        $cache_key = 'btcbi_pmpro_membership_level_' . absint($membership_level);
-        $cache_group = 'btcbi';
+        $cache_key = Config::withPrefix('pmpro_membership_level_') . absint($membership_level);
+        $cache_group = Config::VAR_PREFIX;
         $pmpro_membership_level = wp_cache_get($cache_key, $cache_group);
 
         if (false === $pmpro_membership_level) {

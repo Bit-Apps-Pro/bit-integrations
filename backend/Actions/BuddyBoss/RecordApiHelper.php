@@ -6,6 +6,7 @@
 
 namespace BitApps\Integrations\Actions\BuddyBoss;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
 use BitApps\Integrations\Log\LogHandler;
 use BP_Suspend_Member;
@@ -584,8 +585,8 @@ class RecordApiHelper
         if ('any' === $group_id) {
             global $wpdb;
             $statuses = ['public', 'private', 'hidden'];
-            $cache_key = 'btcbi_buddyboss_groups_all_statuses';
-            $cache_group = 'btcbi';
+            $cache_key = Config::withPrefix('buddyboss_groups_all_statuses');
+            $cache_group = Config::VAR_PREFIX;
             $results = wp_cache_get($cache_key, $cache_group);
 
             if (false === $results) {
@@ -621,8 +622,8 @@ class RecordApiHelper
             }
         } else {
             global $wpdb;
-            $cache_key = 'btcbi_buddyboss_group_' . absint($group_id);
-            $cache_group = 'btcbi';
+            $cache_key = Config::withPrefix('buddyboss_group_') . absint($group_id);
+            $cache_group = Config::VAR_PREFIX;
             $results = wp_cache_get($cache_key, $cache_group);
 
             if (false === $results) {

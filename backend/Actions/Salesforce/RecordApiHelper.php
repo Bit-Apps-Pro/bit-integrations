@@ -2,8 +2,10 @@
 
 namespace BitApps\Integrations\Actions\Salesforce;
 
+use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
 use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Log\LogHandler;
 use DateTime;
 use DateTimeImmutable;
@@ -56,7 +58,13 @@ class RecordApiHelper
             return $response;
         }
 
-        return apply_filters('btcbi_salesforce_update_record', $response, $apiEndpoint, $finalData, $this->_defaultHeader);
+        $filteredResult = Hooks::apply(Config::withPrefix('salesforce_update_record'), $response, $apiEndpoint, $finalData, $this->_defaultHeader);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_salesforce_update_record` filter instead.
+         * @since 2.7.8
+         */
+        return Hooks::apply('btcbi_salesforce_update_record', $filteredResult, $apiEndpoint, $finalData, $this->_defaultHeader);
     }
 
     public function insertRecord($finalData, $action)
@@ -76,7 +84,13 @@ class RecordApiHelper
             return $response;
         }
 
-        return apply_filters('btcbi_salesforce_update_record', $response, $apiEndpoint, $finalData, $this->_defaultHeader);
+        $filteredResult = Hooks::apply(Config::withPrefix('salesforce_update_record'), $response, $apiEndpoint, $finalData, $this->_defaultHeader);
+
+        /**
+         * @deprecated 2.7.8 Use `bit_integrations_salesforce_update_record` filter instead.
+         * @since 2.7.8
+         */
+        return Hooks::apply('btcbi_salesforce_update_record', $filteredResult, $apiEndpoint, $finalData, $this->_defaultHeader);
     }
 
     public function createAccount($finalData)
@@ -180,7 +194,13 @@ class RecordApiHelper
         } elseif ($actionName === 'lead-create') {
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
 
-            $finalData = apply_filters('btcbi_salesforce_add_lead_utilities', $finalData, $actions);
+            $finalData = Hooks::apply(Config::withPrefix('salesforce_add_lead_utilities'), $finalData, $actions);
+
+            /**
+             * @deprecated 2.7.8 Use `bit_integrations_salesforce_add_lead_utilities` filter instead.
+             * @since 2.7.8
+             */
+            $finalData = Hooks::apply('btcbi_salesforce_add_lead_utilities', $finalData, $actions);
 
             $insertLeadResponse = $this->insertLead($finalData, $update);
 
