@@ -1,7 +1,7 @@
 import { useRecoilValue } from 'recoil'
 import { $appConfigState } from '../../../GlobalStates'
 import TrashIcn from '../../../Icons/TrashIcn'
-import { __ } from '../../../Utils/i18nwrap'
+import { __, sprintf } from '../../../Utils/i18nwrap'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import TagifyInput from '../../Utilities/TagifyInput'
 import { addFieldMap, delFieldMap, handleFieldMapping } from './PodHelperFunction'

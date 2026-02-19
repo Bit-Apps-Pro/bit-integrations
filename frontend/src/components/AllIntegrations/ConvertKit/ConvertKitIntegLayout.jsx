@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { __ } from '../../../Utils/i18nwrap'
+import { __, sprintf } from '../../../Utils/i18nwrap'
 import { useEffect } from 'react'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import Loader from '../../Loaders/Loader'

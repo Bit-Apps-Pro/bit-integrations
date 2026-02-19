@@ -1,5 +1,5 @@
 import { useRecoilValue } from 'recoil'
-import { __ } from '../../../Utils/i18nwrap'
+import { __, sprintf } from '../../../Utils/i18nwrap'
 import MtInput from '../../Utilities/MtInput'
 import {
   addFieldMap,

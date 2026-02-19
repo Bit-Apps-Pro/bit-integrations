@@ -2,7 +2,7 @@
 import { useRecoilValue } from 'recoil'
 import { $appConfigState } from '../../../GlobalStates'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
-import { __ } from '../../../Utils/i18nwrap'
+import { __, sprintf } from '../../../Utils/i18nwrap'
 import CustomField from './CustomField'
 import { addFieldMap, delFieldMap, handleFieldMapping } from './IntegrationHelpers'
 import { generateMappedField } from './LionDeskCommonFunc'
