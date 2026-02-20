@@ -88,13 +88,13 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'Hardening',
-        desc: 'Addressed reported security vulnerabilities in API helpers and admin components.',
+        label: 'Vulnerability Fixes',
+        desc: 'Fixed SQL injection vulnerabilities and hardened API helpers and admin components.',
         isPro: false
       },
       {
         label: 'Query Safety',
-        desc: 'Improved SQL query handling and defensive checks across integrations.',
+        desc: 'Improved SQL query handling with better placeholder usage and defensive checks across integrations.',
         isPro: false
       }
     ]
@@ -112,6 +112,16 @@ const changeLog = [
       {
         label: 'Query Suppression',
         desc: 'Normalized cached lookup/direct query suppression handling to align with current checks.',
+        isPro: false
+      },
+      {
+        label: 'Plugin Check',
+        desc: 'Added translators comments and ordered placeholders for WP Plugin Check compliance.',
+        isPro: false
+      },
+      {
+        label: 'Translation Support',
+        desc: 'Fixed production build POT file generation issues for better translation support.',
         isPro: false
       }
     ]
