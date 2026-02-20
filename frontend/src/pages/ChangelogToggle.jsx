@@ -9,7 +9,7 @@ import NewYear from '../resource/img/NewYear.png'
 import bitsFetch from '../Utils/bitsFetch'
 import { __, sprintf } from '../Utils/i18nwrap'
 
-const releaseDate = '16th February 2026'
+const releaseDate = '20th February 2026'
 
 // Example for items:
 // items: [
@@ -55,8 +55,23 @@ const changeLog = [
         isPro: false
       },
       {
+        label: 'Architecture',
+        desc: 'Restructured project to backend/frontend architecture for better code organization.',
+        isPro: false
+      },
+      {
+        label: 'Cleanup',
+        desc: 'Cleaned up deprecated code and improved version upgrade handling with prefix consistency.',
+        isPro: false
+      },
+      {
         label: 'Stability',
         desc: 'Refined redirect, debug-log, slow-query lint issues and updated Google Sheets integration handling.',
+        isPro: false
+      },
+      {
+        label: 'Authentication',
+        desc: 'Fixed OAuth2 redirect URL issues and resolved namespace issues in trigger checks for improved reliability.',
         isPro: false
       }
     ]

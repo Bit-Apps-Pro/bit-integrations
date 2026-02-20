@@ -80,6 +80,7 @@ export const handleAuthorize = (
         setIsLoading(false)
       } else {
         const newConf = { ...confTmp }
+        grantTokenResponse['accounts-server'] = decodeURIComponent(grantTokenResponse['accounts-server'])
         newConf.accountServer = grantTokenResponse['accounts-server']
         tokenHelper(grantTokenResponse, newConf, setConf, setisAuthorized, setIsLoading, setSnackbar)
       }

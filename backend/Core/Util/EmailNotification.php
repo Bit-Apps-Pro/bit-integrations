@@ -2,6 +2,8 @@
 
 namespace BitApps\Integrations\Core\Util;
 
+use BitApps\Integrations\Config;
+
 /**
  * Email Notification Handler for Integration Failures
  */
@@ -22,6 +24,7 @@ final class EmailNotification
     public static function sendFailureNotification($flowId, $actionName, $triggerName, $recordType, $errorMessage)
     {
         $adminEmail = get_option('admin_email');
+
         if (empty($adminEmail)) {
             return false;
         }
@@ -64,10 +67,9 @@ final class EmailNotification
         $timestamp = current_time('mysql');
 
         // Load email template
-        $templatePath = \dirname(BTCBI_PLUGIN_BASEDIR) . '/views/emails/integration-failure-notification.php';
-
         ob_start();
-        include $templatePath;
+
+        include Config::get('BASEDIR') . '/views/emails/integration-failure-notification.php';
 
         return ob_get_clean();
     }

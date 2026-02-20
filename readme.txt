@@ -719,19 +719,28 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 == Changelog ==
 
 = 2.7.8 =
-_Release Date - 16th February 2026_
+_Release Date - 20th February 2026_
 
 - **Security**
+ - Fixed SQL injection vulnerabilities in database queries and improved placeholder handling.
  - Hardened API helpers and admin components to address reported security vulnerabilities.
  - Strengthened SQL query handling and improved defensive checks across integrations.
 
 - **Compatibility & Compliance**
  - Resolved WordPress coding standards and Plugin Check warnings, including hook/query compliance updates.
  - Updated query suppression handling for cached lookup/direct query patterns to align with current checks.
+ - Added translators comments and ordered placeholders for WP Plugin Check compliance.
+ - Fixed production build POT file generation issues for better translation support.
 
 - **Improvements**
  - Refactored integration controllers, route files, and helper structures for cleaner namespace consistency.
  - Updated Google Sheets integration handling and refined redirect/debug-log/slow-query lint issues.
+ - Restructured project to backend/frontend architecture for better code organization.
+ - Cleaned up deprecated code and improved version upgrade handling.
+ - Converted btcbi_ prefixed hooks, cache keys, and options to bit_integrations_ prefix for consistency.
+ - Sanitized pro actions event hooks and updated external services documentation.
+ - Fixed OAuth2 redirect URL issues for improved authentication flow.
+ - Resolved namespace issues in trigger existence checks and pro triggers fetching filter hooks.
 
 = 2.7.7 =
 _Release Date - 2nd February 2026_
