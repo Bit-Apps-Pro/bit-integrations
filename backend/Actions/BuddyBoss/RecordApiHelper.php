@@ -584,16 +584,13 @@ class RecordApiHelper
 
         if ('any' === $group_id) {
             global $wpdb;
-            $statuses = ['public', 'private', 'hidden'];
             $cache_key = Config::withPrefix('buddyboss_groups_all_statuses');
             $cache_group = Config::VAR_PREFIX;
             $results = wp_cache_get($cache_key, $cache_group);
 
             if (false === $results) {
-                $placeholders = implode(', ', array_fill(0, \count($statuses), '%s'));
-                $query_format = \sprintf("SELECT * FROM {$wpdb->prefix}bp_groups WHERE status IN ({$placeholders})");
                 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Dynamic IN clause with sprintf for placeholders.
-                $results = $wpdb->get_results($wpdb->prepare($query_format, ...$statuses));
+                $results = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}bp_groups WHERE status IN ('public', 'private', 'hidden')");
                 wp_cache_set($cache_key, $results, $cache_group, 10 * MINUTE_IN_SECONDS);
             }
             if ($results) {
