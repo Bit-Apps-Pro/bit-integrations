@@ -4,7 +4,7 @@
   "license": "GPL-2.0-or-later",
   "autoload": {
     "psr-4": {
-      "BitCode\\FI\\": "includes/"
+      "BitApps\\Integrations\\": "backend/"
     }
   },
   "require-dev": {
@@ -13,7 +13,7 @@
     "friendsofphp/php-cs-fixer": "^3.54"
   },
   "scripts": {
-    "version-checker": "phpcs -p --standard=PHPCompatibilityWP --runtime-set testVersion 7.4- includes",
+    "version-checker": "phpcs -p --standard=PHPCompatibilityWP --runtime-set testVersion 7.4- backend",
     "bump-version": "php ./bin/bump-version.php"
   },
   "config": {
@@ -28,7 +28,7 @@
   },
   "extra": {
     "imposter": {
-      "namespace": "BTCBI\\Deps\\"
+      "namespace": "BitApps\\Integrations\\Deps\\"
     }
   }
 }

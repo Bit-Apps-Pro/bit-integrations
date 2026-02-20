@@ -1,17 +1,10 @@
 .idea
 locale.pot
 assets/
-languages/
 
 vendor/
 node_modules
 
-composer.lock
-package-lock.json
-pnpm-lock.yaml
-yarn.lock
-yarn-error.log
-
 .php-cs-fixer.cache
-build-hash.txt
 build/
+.port

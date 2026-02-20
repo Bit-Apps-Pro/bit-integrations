@@ -1,0 +1,15 @@
+.btcd-editor {
+  width: 98% !important;
+  position: absolute;
+  z-index: 100;
+}
+
+.hidden {
+  visibility: hidden !important;
+  display: none !important;
+}
+
+.visible {
+  visibility: visible !important;
+  display: block !important;
+}

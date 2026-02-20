@@ -1,10 +1,10 @@
 === Bit integrations - Easy Automator with no-code automation, integrate Webhook and automate 300+ Platform ===
 Contributors: bitpressadmin, akaioum, rishadbitcode, niloy121, fahimsakib, shuvomohajan, tanvirchy, shakhawathosen, khoaiz, mazharul78
-Tags: automation, automator, Google Sheets, webhooks, zapier, marketing automation, WooCommerce Integration, no-code automation, email marketing automation, ecommerce automation, digital marketing automation, conditional logic
+Tags: automation, automator, google sheets connector, zapier, WooCommerce Integration
 Requires at least: 5.1
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.7.7
+Stable tag: 2.7.8
 License: GPLv2 or later
 
 Perfect Automation and integration plugin: Connect 300+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
@@ -116,6 +116,14 @@ Because time is money, and automation is freedom.
 ▶️ Need help? Visit our [Video Tutorials](https://youtube.com/playlist?list=PL7c6CDwwm-ALMEsKLYKebKb5XLGPWMNue).
 🏠 Or just drop by our [Home](https://bit-integrations.com/) page.  
 📢 Join our [Bit Apps Community](https://www.facebook.com/groups/bitapps) & get updates on our plugins.
+
+---
+
+## 💻 Full source code is available at
+
+🔗 **GitHub Repository:** [https://github.com/Bit-Apps-Pro/bit-integrations](https://github.com/Bit-Apps-Pro/bit-integrations)
+
+---
 
 With Bit Integrations, automation is at your fingertips. Automate tasks across your WordPress site, boost efficiency, and simplify your business operations with powerful automation features.
 
@@ -634,6 +642,16 @@ Please check [**Bit Integrations Pro**](https://www.bitapps.pro/bit-integrations
 
 📢 **We are open for freelance work/custom development. [Connect](https://bitapps.pro/contact) with us for further information.**
 
+== External Services ==
+
+This plugin connects to various third-party external services to enable automation workflows between WordPress and 300+ platforms. **Data is only sent to external services when you actively configure and enable an integration**. No data is transmitted unless you explicitly create a workflow that connects to a specific service.
+
+For a comprehensive list of all external services, including detailed information about what data is sent, when it's sent, and links to each service's terms and privacy policies, please see our complete external services documentation:
+
+**[Complete External Services Documentation](https://github.com/Bit-Apps-Pro/bit-integrations/blob/main/external-services.md)**
+
+This documentation covers 300+ services including Google (Sheets, Calendar, Drive), Zoho (CRM, Campaigns, Desk), Meta/Facebook (WhatsApp), Email Marketing platforms, CRM systems, Communication tools (Slack, Telegram), Automation platforms (Zapier, Make), Project Management tools, and many more.
+
 == Frequently Asked Questions ==
 
 = 1. What is Bit Integrations and how does it work? =
@@ -699,6 +717,30 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 6. All integration list
 
 == Changelog ==
+
+= 2.7.8 =
+_Release Date - 20th February 2026_
+
+- **Security**
+ - Fixed SQL injection vulnerabilities in database queries and improved placeholder handling.
+ - Hardened API helpers and admin components to address reported security vulnerabilities.
+ - Strengthened SQL query handling and improved defensive checks across integrations.
+
+- **Compatibility & Compliance**
+ - Resolved WordPress coding standards and Plugin Check warnings, including hook/query compliance updates.
+ - Updated query suppression handling for cached lookup/direct query patterns to align with current checks.
+ - Added translators comments and ordered placeholders for WP Plugin Check compliance.
+ - Fixed production build POT file generation issues for better translation support.
+
+- **Improvements**
+ - Refactored integration controllers, route files, and helper structures for cleaner namespace consistency.
+ - Updated Google Sheets integration handling and refined redirect/debug-log/slow-query lint issues.
+ - Restructured project to backend/frontend architecture for better code organization.
+ - Cleaned up deprecated code and improved version upgrade handling.
+ - Converted btcbi_ prefixed hooks, cache keys, and options to bit_integrations_ prefix for consistency.
+ - Sanitized pro actions event hooks and updated external services documentation.
+ - Fixed OAuth2 redirect URL issues for improved authentication flow.
+ - Resolved namespace issues in trigger existence checks and pro triggers fetching filter hooks.
 
 = 2.7.7 =
 _Release Date - 2nd February 2026_
