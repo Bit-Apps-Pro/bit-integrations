@@ -525,6 +525,8 @@ final class Flow
             return "BitApps\\Integrations\\Actions\\{$name}\\{$name}Controller";
         } elseif (class_exists("BitApps\\BTCBI_PRO\\Actions\\{$name}\\{$name}Controller")) {
             return "BitApps\\BTCBI_PRO\\Actions\\{$name}\\{$name}Controller";
+        } elseif (class_exists("BitApps\\IntegrationsPro\\Actions\\{$name}\\{$name}Controller")) {
+            return "BitApps\\IntegrationsPro\\Actions\\{$name}\\{$name}Controller";
         }
 
         return false;
@@ -543,6 +545,8 @@ final class Flow
             return "BitApps\\Integrations\\Triggers\\{$name}\\{$name}Controller";
         } elseif (class_exists("BitApps\\BTCBI_PRO\\Triggers\\{$name}\\{$name}Controller")) {
             return "BitApps\\BTCBI_PRO\\Triggers\\{$name}\\{$name}Controller";
+        } elseif (class_exists("BitApps\\IntegrationsPro\\Triggers\\{$name}\\{$name}Controller")) {
+            return "BitApps\\IntegrationsPro\\Triggers\\{$name}\\{$name}Controller";
         }
 
         return false;
