@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-02-20T05:52:34+00:00\n"
+"POT-Creation-Date: 2026-02-21T09:19:58+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: bit-integrations\n"
@@ -964,22 +964,22 @@ msgid "The user was already following a member ID - %s"
 msgstr ""
 
 #: backend/Actions/BuddyBoss/RecordApiHelper.php:188
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:733
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:730
 msgid "Sorry, This forum is a category. No discussions can be created in this forum."
 msgstr ""
 
 #: backend/Actions/BuddyBoss/RecordApiHelper.php:193
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:738
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:735
 msgid "Sorry, This forum has been closed to new discussions."
 msgstr ""
 
 #: backend/Actions/BuddyBoss/RecordApiHelper.php:218
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:763
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:760
 msgid "Sorry, This forum is private and you do not have the capability to read or create new discussions in it."
 msgstr ""
 
 #: backend/Actions/BuddyBoss/RecordApiHelper.php:227
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:772
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:769
 msgid "Sorry, This forum is hidden and you do not have the capability to read or create new discussions in it."
 msgstr ""
 
@@ -1012,116 +1012,116 @@ msgstr ""
 msgid "There was a problem subscribing to that forum!"
 msgstr ""
 
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:664
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:661
 msgid "There is an error on posting stream."
 msgstr ""
 
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:721
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:718
 msgid "Sorry, Discussion does not exist."
 msgstr ""
 
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:727
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:724
 msgid "Sorry, Forum does not exist."
 msgstr ""
 
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:796
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:814
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:793
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:811
 msgid "Sorry, Discussion is closed."
 msgstr ""
 
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:802
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:799
 msgid "Sorry, Your reply cannot be created at this time."
 msgstr ""
 
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:837
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:834
 msgid "The following problems have been found with your reply:"
 msgstr ""
 
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:838
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:835
 msgid "We are facing a problem to creating a reply."
 msgstr ""
 
 #. translators: %s: Placeholder value
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:911
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:908
 msgid "Group created successfully and is is %s"
 msgstr ""
 
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:948
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:945
 msgid "User removed from group successfully ."
 msgstr ""
 
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:950
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:947
 msgid "Failed to remove user form group ."
 msgstr ""
 
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:959
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:956
 msgid "Send friend request successfully ."
 msgstr ""
 
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:961
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:958
 msgid "Failed to send friend request to user ."
 msgstr ""
 
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:970
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:1003
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:967
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1000
 msgid "Notification are send successfully ."
 msgstr ""
 
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:972
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:969
 msgid "BuddyBoss notification module is not active."
 msgstr ""
 
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:981
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:978
 msgid "Send private message to all group member successfully ."
 msgstr ""
 
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:983
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:996
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:1005
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:980
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:993
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1002
 msgid "BuddyBoss message module is not active."
 msgstr ""
 
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:994
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:991
 msgid "Send private message to user successfully ."
 msgstr ""
 
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:1020
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1017
 msgid "Forum subscribe successfully ."
 msgstr ""
 
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:1022
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1019
 msgid "Failed to subscribe Forum ."
 msgstr ""
 
 #. translators: %s: Placeholder value
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:1032
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1029
 msgid "Post added to group successfully and id is -> %s"
 msgstr ""
 
 #. translators: %s: Placeholder value
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:1043
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1040
 msgid "Post added to sitewide activity stream successfully and id is -> %s"
 msgstr ""
 
 #. translators: %s: Placeholder value
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:1054
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1051
 msgid "Post added to Users activity stream successfully and id is -> %s"
 msgstr ""
 
 #. translators: %s: Placeholder value
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:1066
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1063
 msgid "Reply forum topic successfully and id is -> %s"
 msgstr ""
 
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:1068
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1065
 msgid "Failed to reply forum topic."
 msgstr ""
 
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:1075
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1072
 msgid "Change user status successfully ."
 msgstr ""
 
-#: backend/Actions/BuddyBoss/RecordApiHelper.php:1077
+#: backend/Actions/BuddyBoss/RecordApiHelper.php:1074
 msgid "To change members status in your network, please activate the Moderation component."
 msgstr ""
 
