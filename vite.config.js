@@ -87,17 +87,16 @@ export default defineConfig(({ mode }) => {
       watch: {
         ignored: ['**/.git/**', '**/node_modules/**', '**/.port/**'],
         usePolling: true,
-        interval: 100,
-        include: ['**/*.js', '**/*.jsx', '**/*.css', '**/*.scss']
+        interval: 100
       },
       cors: true,
       strictPort: true,
       port: 3000,
       hmr: {
-        // host: 'localhost',
+        host: 'localhost',
+        protocol: 'ws',
         overlay: true
-      },
-      commonjsOptions: { transformMixedEsModules: true }
+      }
     }
   }
 })
@@ -142,7 +141,13 @@ function setDevelopmentServerConfig() {
           port = await detectPort(3000).then(detectedPort => detectedPort)
           updateStoredPort(port)
         }
-        return { server: { origin: `http://localhost:${port}`, port } }
+        return {
+          server: {
+            origin: `http://localhost:${port}`,
+            port,
+            hmr: { host: 'localhost', port, protocol: 'ws' }
+          }
+        }
       }
       removeStoredPort()
     },

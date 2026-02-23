@@ -184,7 +184,8 @@ export default function NewInteg({ allIntegURL }) {
     if (!window.opener && !Object.keys(flow).length) {
       navigate('/flow/new')
     }
-  }, [flow, navigate])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const NewIntegs = () => {
     switch (integUrlName) {

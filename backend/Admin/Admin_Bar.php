@@ -81,6 +81,22 @@ class Admin_Bar
             wp_enqueue_script('MODULE' . Config::SLUG . '-index', $devUrl . '/main.jsx', [], Config::VERSION, true);
         } else {
             wp_enqueue_script('MODULE' . Config::SLUG . '-index', Config::get('ASSET_URI') . '/main.' . Config::VERSION . '.js', $deps, Config::VERSION, true);
+
+            $manifestPath = Config::get('BASEDIR') . 'assets/.vite/manifest.json';
+            if (file_exists($manifestPath)) {
+                // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+                $manifest = json_decode(file_get_contents($manifestPath), true);
+                if (!empty($manifest['main.jsx']['css'])) {
+                    foreach ($manifest['main.jsx']['css'] as $index => $cssFile) {
+                        wp_enqueue_style(
+                            Config::SLUG . '-main-' . $index,
+                            Config::get('ASSET_URI') . '/' . $cssFile,
+                            [],
+                            Config::VERSION
+                        );
+                    }
+                }
+            }
         }
 
         if (!wp_script_is('wp-tinymce')) {

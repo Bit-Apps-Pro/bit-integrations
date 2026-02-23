@@ -48,83 +48,46 @@ const changeLog = [
     label: __('Improvements', 'bit-integrations'),
     headClass: 'new-improvement',
     itemClass: 'feature-list',
-    items: [
-      {
-        label: 'Refactor',
-        desc: 'Refactored integration controllers, routes, and helpers for cleaner namespace consistency.',
-        isPro: false
-      },
-      {
-        label: 'Architecture',
-        desc: 'Restructured project to backend/frontend architecture for better code organization.',
-        isPro: false
-      },
-      {
-        label: 'Cleanup',
-        desc: 'Cleaned up deprecated code and improved version upgrade handling with prefix consistency.',
-        isPro: false
-      },
-      {
-        label: 'Stability',
-        desc: 'Refined redirect, debug-log, slow-query lint issues and updated Google Sheets integration handling.',
-        isPro: false
-      },
-      {
-        label: 'Authentication',
-        desc: 'Fixed OAuth2 redirect URL issues and resolved namespace issues in trigger checks for improved reliability.',
-        isPro: false
-      }
-    ]
+    items: []
   },
   {
     label: __('Bug Fixes', 'bit-integrations'),
     headClass: 'fixes',
     itemClass: 'fixes-list',
-    items: []
+    items: [
+      {
+        label: 'Blank page',
+        desc: 'Fixed blank page issue on integrations authorization screen across multiple integration field maps and triggers.',
+        isPro: false
+      },
+      {
+        label: 'Redirect',
+        desc: 'Fixed redirect issue after saving a new integration.',
+        isPro: false
+      },
+      {
+        label: 'Style Breaks',
+        desc: 'Fixed style issue in the admin bar.',
+        isPro: false
+      },
+      {
+        label: 'Triggers Loading',
+        desc: 'Fixed active triggers loading issue',
+        isPro: true
+      }
+    ]
   },
   {
     label: __('Security', 'bit-integrations'),
     headClass: 'fixes',
     itemClass: 'fixes-list',
-    items: [
-      {
-        label: 'Vulnerability Fixes',
-        desc: 'Fixed SQL injection vulnerabilities and hardened API helpers and admin components.',
-        isPro: false
-      },
-      {
-        label: 'Query Safety',
-        desc: 'Improved SQL query handling with better placeholder usage and defensive checks across integrations.',
-        isPro: false
-      }
-    ]
+    items: []
   },
   {
     label: __('Compatibility & Compliance', 'bit-integrations'),
     headClass: 'new-improvement',
     itemClass: 'feature-list',
-    items: [
-      {
-        label: 'WordPress Standards',
-        desc: 'Resolved WPCS and Plugin Check warnings, including hook/query compliance updates.',
-        isPro: false
-      },
-      {
-        label: 'Query Suppression',
-        desc: 'Normalized cached lookup/direct query suppression handling to align with current checks.',
-        isPro: false
-      },
-      {
-        label: 'Plugin Check',
-        desc: 'Added translators comments and ordered placeholders for WP Plugin Check compliance.',
-        isPro: false
-      },
-      {
-        label: 'Translation Support',
-        desc: 'Fixed production build POT file generation issues for better translation support.',
-        isPro: false
-      }
-    ]
+    items: []
   }
 ]
 
