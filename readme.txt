@@ -4,7 +4,7 @@ Tags: automation, automator, google sheets connector, zapier, WooCommerce Integr
 Requires at least: 5.1
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.7.9
+Stable tag: 2.7.10
 License: GPLv2 or later
 
 Perfect Automation and integration plugin: Connect 300+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
@@ -717,6 +717,15 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 6. All integration list
 
 == Changelog ==
+
+= 2.7.9 - 2.7.10 =
+_Release Date - 23rd February 2026_
+
+- **Bug Fixes**
+ - Fixed blank page issue on integrations authorization screen across multiple integration field maps and triggers.
+ - Fixed redirect issue after saving a new integration.
+ - Fixed style issue in the admin bar.
+ - Fixed active triggers loading issue (Pro).
 
 = 2.7.8 =
 _Release Date - 20th February 2026_
