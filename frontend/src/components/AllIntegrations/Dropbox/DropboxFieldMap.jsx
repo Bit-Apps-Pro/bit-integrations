@@ -1,7 +1,7 @@
 import { useRecoilValue } from 'recoil'
 import { $appConfigState } from '../../../GlobalStates'
 import { sortByField } from '../../../Utils/Helpers'
-import { __ } from '../../../Utils/i18nwrap'
+import { __, sprintf } from '../../../Utils/i18nwrap'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import { addFieldMap, delFieldMap } from './IntegrationHelpers'
 

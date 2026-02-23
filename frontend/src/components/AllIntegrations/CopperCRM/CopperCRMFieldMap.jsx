@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { useRecoilValue } from 'recoil'
-import { __ } from '../../../Utils/i18nwrap'
+import { __, sprintf } from '../../../Utils/i18nwrap'
 import { addFieldMap, delFieldMap, handleCustomValue, handleFieldMapping } from './IntegrationHelpers'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import { $appConfigState } from '../../../GlobalStates'
