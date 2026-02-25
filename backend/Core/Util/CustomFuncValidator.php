@@ -6,12 +6,12 @@ class CustomFuncValidator
 {
     public static function functionValidateHandler($data)
     {
-        $fileContent = html_entity_decode($data->flow_details->value, ENT_QUOTES, 'UTF-8');
+        $fileContent = $data->flow_details->value;
         $fileName = $data->flow_details->randomFileName;
         $checkingValue = "defined('ABSPATH')";
         $isExits = str_contains($fileContent, $checkingValue);
         $checkFuncIsValid = self::functionIsValid($fileContent);
-        
+
         if ($isExits && $checkFuncIsValid) {
             global $wp_filesystem;
 
@@ -32,6 +32,7 @@ class CustomFuncValidator
     public static function functionIsValid($fileContent)
     {
         $result = PhpSyntaxChecker::validate($fileContent);
+
         return $result['is_valid'];
     }
 }

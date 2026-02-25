@@ -5,8 +5,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\Integrations\controller\AuthDataController;
 use BitApps\Integrations\controller\AnalyticsController;
+use BitApps\Integrations\controller\AuthDataController;
 use BitApps\Integrations\controller\PostController;
 use BitApps\Integrations\controller\UserController;
 use BitApps\Integrations\Core\Util\Route;
@@ -31,6 +31,10 @@ Route::post('flow/delete', [Flow::class, 'delete']);
 Route::post('flow/bulk-delete', [Flow::class, 'bulkDelete']);
 Route::post('flow/toggleStatus', [Flow::class, 'toggle_status']);
 Route::post('flow/clone', [Flow::class, 'flowClone']);
+
+// Custom Action
+Route::no_sanitize()->post('flow/custom-action/save', [Flow::class, 'save']);
+Route::no_sanitize()->post('flow/custom-action/update', [Flow::class, 'update']);
 
 // Controller
 Route::post('customfield/list', [PostController::class, 'getCustomFields']);

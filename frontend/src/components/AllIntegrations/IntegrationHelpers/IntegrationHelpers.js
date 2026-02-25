@@ -223,6 +223,11 @@ export const saveIntegConfig = async (
   if (edit) {
     action = 'flow/update'
   }
+
+  if (confTmp?.type === 'CustomAction') {
+    action = edit ? 'flow/custom-action/update' : 'flow/custom-action/save'
+  }
+
   try {
     const res = await bitsFetch(data, action)
     if (!edit && res.success) {
@@ -405,6 +410,11 @@ export const saveActionConf = async ({
   if (edit) {
     action = 'flow/update'
   }
+
+  if (conf?.type === 'CustomAction') {
+    action = edit ? 'flow/custom-action/update' : 'flow/custom-action/save'
+  }
+
   try {
     await bitsFetch(data, action).then(res => {
       if (!edit && res.success) {
