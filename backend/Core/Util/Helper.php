@@ -323,15 +323,25 @@ final class Helper
         $isOrderObject = \is_object($order) && method_exists($order, 'get_meta');
         $orderData = \is_object($order) && method_exists($order, 'get_data') ? $order->get_data() : (array) $order;
 
-        foreach ($checkoutFields as $group) {
-            foreach ($group as $field) {
-                if (empty($field['custom'])) {
-                    continue;
-                }
+        foreach ($checkoutFields as $groupKey => $group) {
+            foreach ($group as $fieldKey => $field) {
+                $fieldName = $field['name'] ?? $fieldKey;
+                $metaKey = null;
 
-                $fieldName = $field['name'];
+                // if field matches booster for woocommerce plugin custom key format
+                if (strpos($fieldKey, "{$groupKey}_wcj_checkout_field_") !== false) {
+                    if ($isOrderObject) {
+                        if ($order->meta_exists($fieldName)) {
+                            $metaKey = $fieldName;
+                        } elseif ($order->meta_exists("_{$fieldName}")) {
+                            $metaKey = "_{$fieldName}";
+                        }
 
-                if ($isOrderObject && $order->meta_exists($fieldName)) {
+                        $data[$fieldName] = $metaKey ? $order->get_meta($metaKey, true) : '';
+                    } else {
+                        $data[$fieldName] = $orderData[$fieldName] ?? '';
+                    }
+                } elseif ($isOrderObject && $order->meta_exists($fieldName)) {
                     $data[$fieldName] = $order->get_meta($fieldName, true) ?? '';
                 } else {
                     $data[$fieldName] = $orderData[$fieldName] ?? '';
