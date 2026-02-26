@@ -15,8 +15,6 @@ import EyeOffIcn from '../Utilities/EyeOffIcn'
 import Note from '../Utilities/Note'
 import { APP_CONFIG } from '../../config/app'
 
-console.log('APP_CONFIG : ', APP_CONFIG)
-
 const Webhook = () => {
   const [newFlow, setNewFlow] = useRecoilState($newFlow)
   const setFlowStep = useSetRecoilState($flowStep)

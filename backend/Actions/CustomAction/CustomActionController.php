@@ -2,7 +2,7 @@
 
 namespace BitApps\Integrations\Actions\CustomAction;
 
-use BitApps\Integrations\Core\Util\PhpSyntaxChecker;
+use BitApps\Integrations\Core\Util\CustomFuncValidator;
 use BitApps\Integrations\Log\LogHandler;
 use Throwable;
 
@@ -10,19 +10,17 @@ class CustomActionController
 {
     public static function functionValidateHandler($data)
     {
-        $result = PhpSyntaxChecker::validate($data);
+        if (empty($data)) {
+            wp_send_json_error(__('No function content provided.', 'bit-integrations'));
 
-        if ($result['is_valid']) {
-            wp_send_json_success(
-                sprintf(
-                    /* translators: %s: validation result message */
-                    __('Congrats, %s', 'bit-integrations'),
-                    $result['message']
-                )
-            );
+            return;
         }
 
-        wp_send_json_error($result['message']);
+        if (!CustomFuncValidator::loopbackValidateContent($data)) {
+            return;
+        }
+
+        wp_send_json_success(__('No syntax errors detected in your function.', 'bit-integrations'));
     }
 
     public function execute($integrationData, $fieldValues)

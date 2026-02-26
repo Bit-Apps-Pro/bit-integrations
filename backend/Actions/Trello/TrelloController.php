@@ -7,8 +7,8 @@
 namespace BitApps\Integrations\Actions\Trello;
 
 use BitApps\Integrations\Config;
-use BitApps\Integrations\Core\Util\HttpHelper;
 use BitApps\Integrations\Core\Util\Hooks;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 /**
@@ -118,12 +118,13 @@ class TrelloController
 
         $allFields = Hooks::apply(Config::withPrefix('trello_get_all_custom_fields'), [], $queryParams->boardId, $queryParams->clientId, $queryParams->accessToken);
 
-        /**
-         * @deprecated 2.7.8 Use `bit_integrations_trello_get_all_custom_fields` filter instead.
-         * @since 2.7.8
-         */
-        $allFields = Hooks::apply('btcbi_trello_get_all_custom_fields', $allFields, $queryParams->boardId, $queryParams->clientId, $queryParams->accessToken);
-
+        if (empty($allFields)) {
+            /**
+             * @deprecated 2.7.8 Use `bit_integrations_trello_get_all_custom_fields` filter instead.
+             * @since 2.7.8
+             */
+            $allFields = Hooks::apply('btcbi_trello_get_all_custom_fields', [], $queryParams->boardId, $queryParams->clientId, $queryParams->accessToken);
+        }
         wp_send_json_success($allFields, 200);
     }
 

@@ -13,6 +13,8 @@ final class Route
 
     private static $_ignore_token = false;
 
+    private static $_no_sanitize = false;
+
     public static function get($hook, $invokeable)
     {
         return static::request('GET', $hook, $invokeable);
@@ -43,12 +45,21 @@ final class Route
                 static::$_ignore_token = false;
             }
 
+            if (static::$_no_sanitize) {
+                static::$_no_sanitize = false;
+            }
+
             return;
         }
 
         if (static::$_ignore_token) {
             static::$_ignore_token = false;
             static::$_invokeable[Config::VAR_PREFIX . $hook][$method . '_ignore_token'] = true;
+        }
+
+        if (static::$_no_sanitize) {
+            static::$_no_sanitize = false;
+            static::$_invokeable[Config::VAR_PREFIX . $hook][$method . '_no_sanitize'] = true;
         }
 
         static::$_invokeable[Config::VAR_PREFIX . $hook][$method] = $invokeable;
@@ -88,6 +99,9 @@ final class Route
             unset($_POST['_ajax_nonce'], $_POST['action'], $_GET['_ajax_nonce'], $_GET['action']);
 
             if (method_exists($invokeable[0], $invokeable[1])) {
+                $noSanitize = isset(static::$_invokeable[$action][$requestMethod . '_no_sanitize'])
+                    && static::$_invokeable[$action][$requestMethod . '_no_sanitize'];
+
                 if ($requestMethod == 'POST') {
                     if (
                         isset($_SERVER['CONTENT_TYPE'])
@@ -96,16 +110,24 @@ final class Route
                     ) {
                         $inputJSON = file_get_contents('php://input');
                         $decoded = \is_string($inputJSON) ? json_decode($inputJSON) : $inputJSON;
-                        $data = \is_object($decoded) || \is_array($decoded) ? map_deep($decoded, 'sanitize_text_field') : $decoded;
+                        $data = $noSanitize
+                            ? $decoded
+                            : (\is_object($decoded) || \is_array($decoded) ? map_deep($decoded, 'sanitize_text_field') : $decoded);
                     } elseif (isset($_POST['data'])) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
                         $postReq = wp_unslash($_POST['data']); // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized via map_deep on next lines
                         $decoded = \is_string($postReq) ? json_decode($postReq) : $postReq;
-                        $data = \is_object($decoded) || \is_array($decoded) ? map_deep($decoded, 'sanitize_text_field') : $decoded;
+                        $data = $noSanitize
+                            ? $decoded
+                            : (\is_object($decoded) || \is_array($decoded) ? map_deep($decoded, 'sanitize_text_field') : $decoded);
                     } else {
-                        $data = (object) map_deep(wp_unslash($_POST), 'sanitize_text_field'); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+                        $data = $noSanitize // phpcs:ignore WordPress.Security.NonceVerification.Missing
+                            ? (object) wp_unslash($_POST) // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+                            : (object) map_deep(wp_unslash($_POST), 'sanitize_text_field'); // phpcs:ignore WordPress.Security.NonceVerification.Missing
                     }
                 } else {
-                    $data = (object) map_deep(wp_unslash($_GET), 'sanitize_text_field'); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                    $data = $noSanitize // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                        ? (object) wp_unslash($_GET) // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+                        : (object) map_deep(wp_unslash($_GET), 'sanitize_text_field'); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 }
 
                 $reflectionMethod = new ReflectionMethod($invokeable[0], $invokeable[1]);
@@ -140,6 +162,13 @@ final class Route
     public static function ignore_token()
     {
         self::$_ignore_token = true;
+
+        return new static();
+    }
+
+    public static function no_sanitize()
+    {
+        self::$_no_sanitize = true;
 
         return new static();
     }

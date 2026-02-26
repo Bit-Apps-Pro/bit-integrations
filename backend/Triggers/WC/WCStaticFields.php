@@ -282,8 +282,19 @@ class WCStaticFields
         $fields = [];
         $checkoutFields = WC()->checkout()->get_checkout_fields();
 
-        foreach ($checkoutFields as $group) {
-            foreach ($group as $field) {
+        foreach ($checkoutFields as $groupKey => $group) {
+            foreach ($group as $fieldKey => $field) {
+                if (strpos($fieldKey, "{$groupKey}_wcj_checkout_field_") !== false) {
+                    $fieldName = $field['name'] ?? $fieldKey;
+
+                    $fields[$fieldName] = (object) [
+                        'fieldKey'  => $fieldName,
+                        'fieldName' => $field['label']
+                    ];
+
+                    continue;
+                }
+
                 if (!empty($field['custom']) && $field['custom']) {
                     $fields[$field['name']] = (object) [
                         'fieldKey'  => $field['name'],
@@ -300,11 +311,13 @@ class WCStaticFields
     {
         $fields = Hooks::apply(Config::withPrefix('woocommerce_flexible_checkout_fields'), []);
 
-        /**
-         * @deprecated 2.7.8 Use `bit_integrations_woocommerce_flexible_checkout_fields` filter instead.
-         * @since 2.7.8
-         */
-        $fields = Hooks::apply('btcbi_woocommerce_flexible_checkout_fields', $fields);
+        if (empty($fields)) {
+            /**
+             * @deprecated 2.7.8 Use `bit_integrations_woocommerce_flexible_checkout_fields` filter instead.
+             * @since 2.7.8
+             */
+            $fields = Hooks::apply('btcbi_woocommerce_flexible_checkout_fields', []);
+        }
 
         return $fields;
     }

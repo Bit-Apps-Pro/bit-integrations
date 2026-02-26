@@ -9,7 +9,7 @@ import NewYear from '../resource/img/NewYear.png'
 import bitsFetch from '../Utils/bitsFetch'
 import { __, sprintf } from '../Utils/i18nwrap'
 
-const releaseDate = '20th February 2026'
+const releaseDate = '26th February 2026'
 
 // Example for items:
 // items: [
@@ -42,13 +42,30 @@ const changeLog = [
     label: __('New Features', 'bit-integrations'),
     headClass: 'new-feature',
     itemClass: 'feature-list',
-    items: []
+    items: [
+      {
+        label: 'WooCommerce',
+        desc: 'Booster for WooCommerce checkout fields added.',
+        isPro: false
+      }
+    ]
   },
   {
     label: __('Improvements', 'bit-integrations'),
     headClass: 'new-improvement',
     itemClass: 'feature-list',
-    items: []
+    items: [
+      {
+        label: 'Breakdance',
+        desc: 'Updated Breakdance trigger test endpoints to use the shared trigger test routes.',
+        isPro: true
+      },
+      {
+        label: 'Custom Action',
+        desc: 'Reworked PHP function validation to use loopback-based fatal error checks and return cleaner syntax validation feedback.',
+        isPro: false
+      }
+    ]
   },
   {
     label: __('Bug Fixes', 'bit-integrations'),
@@ -56,23 +73,18 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'Blank page',
-        desc: 'Fixed blank page issue on integrations authorization screen across multiple integration field maps and triggers.',
-        isPro: false
+        label: 'License',
+        desc: 'Fixed license expiry day calculation in the license status notice.',
+        isPro: true
       },
       {
-        label: 'Redirect',
-        desc: 'Fixed redirect issue after saving a new integration.',
-        isPro: false
+        label: 'License',
+        desc: 'Added backward-compatible removal for legacy license key option data.',
+        isPro: true
       },
       {
-        label: 'Style Breaks',
-        desc: 'Fixed style issue in the admin bar.',
-        isPro: false
-      },
-      {
-        label: 'Triggers Loading',
-        desc: 'Fixed active triggers loading issue',
+        label: 'Custom Trigger',
+        desc: 'Fixed custom trigger test data remove response key and success message labels.',
         isPro: true
       }
     ]

@@ -5,10 +5,11 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\Integrations\controller\AuthDataController;
 use BitApps\Integrations\controller\AnalyticsController;
+use BitApps\Integrations\controller\AuthDataController;
 use BitApps\Integrations\controller\PostController;
 use BitApps\Integrations\controller\UserController;
+use BitApps\Integrations\Core\Util\CustomFuncValidator;
 use BitApps\Integrations\Core\Util\Route;
 use BitApps\Integrations\Flow\Flow;
 use BitApps\Integrations\Log\LogHandler;
@@ -31,6 +32,11 @@ Route::post('flow/delete', [Flow::class, 'delete']);
 Route::post('flow/bulk-delete', [Flow::class, 'bulkDelete']);
 Route::post('flow/toggleStatus', [Flow::class, 'toggle_status']);
 Route::post('flow/clone', [Flow::class, 'flowClone']);
+
+// Custom Action
+Route::no_sanitize()->post('flow/custom-action/save', [Flow::class, 'save']);
+Route::no_sanitize()->post('flow/custom-action/update', [Flow::class, 'update']);
+Route::no_auth()->ignore_token()->get('custom-action/scrape', [CustomFuncValidator::class, 'scrapeCustomActionFile']);
 
 // Controller
 Route::post('customfield/list', [PostController::class, 'getCustomFields']);
