@@ -138,11 +138,13 @@ class RecordApiHelper
     {
         $fieldData = Hooks::apply(Config::withPrefix('fluent_crm_assign_company'), [], (array) $actions);
 
-        /**
-         * @deprecated 2.7.8 Use `bit_integrations_fluent_crm_assign_company` filter instead.
-         * @since 2.7.8
-         */
-        $fieldData = Hooks::apply('btcbi_fluent_crm_assign_company', $fieldData, (array) $actions);
+        if (empty($fieldData)) {
+            /**
+             * @deprecated 2.7.8 Use `bit_integrations_fluent_crm_assign_company` filter instead.
+             * @since 2.7.8
+             */
+            $fieldData = Hooks::apply('btcbi_fluent_crm_assign_company', [], (array) $actions);
+        }
 
         foreach ($fieldMap as $fieldKey => $fieldPair) {
             if (!empty($fieldPair->fluentCRMField)) {

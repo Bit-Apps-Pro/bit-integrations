@@ -357,11 +357,13 @@ class ZohoBiginController
         $accessToken = isset($response['tokenDetails']->access_token) ? $response['tokenDetails']->access_token : $queryParams->tokenDetails->access_token;
         $response['tags'] = Hooks::apply(Config::withPrefix('zbigin_get_tags'), [], $accessToken, $queryParams->dataCenter, $queryParams->module);
 
-        /**
-         * @deprecated 2.7.8 Use `bit_integrations_zbigin_get_tags` filter instead.
-         * @since 2.7.8
-         */
-        $response['tags'] = Hooks::apply('btcbi_zbigin_get_tags', $response['tags'], $accessToken, $queryParams->dataCenter, $queryParams->module);
+        if (empty($response['tags'])) {
+            /**
+             * @deprecated 2.7.8 Use `bit_integrations_zbigin_get_tags` filter instead.
+             * @since 2.7.8
+             */
+            $response['tags'] = Hooks::apply('btcbi_zbigin_get_tags', [], $accessToken, $queryParams->dataCenter, $queryParams->module);
+        }
 
         if (!empty($response['tokenDetails']) && !empty($queryParams->id)) {
             self::saveRefreshedToken($queryParams->id, $response['tokenDetails'], $response['lists']);
