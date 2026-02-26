@@ -30,31 +30,16 @@ class CustomFuncValidator
             return;
         }
 
-        global $wp_filesystem;
-
-        if (empty($wp_filesystem)) {
-            require_once ABSPATH . '/wp-admin/includes/file.php';
-            WP_Filesystem();
-        }
-
-        $uploadDir = wp_upload_dir();
-        $fileLocation = "{$uploadDir['basedir']}/{$fileName}.php";
-
-        $previousContent = file_exists($fileLocation) ? file_get_contents($fileLocation) : null;
-
-        $written = $wp_filesystem->put_contents($fileLocation, $fileContent, FS_CHMOD_FILE);
-
-        if (!$written) {
-            wp_send_json_error(__('Unable to write to file.', 'bit-integrations'));
-
+        $fileWriteResult = self::writeCustomFunctionFile($fileName, $fileContent);
+        if (false === $fileWriteResult) {
             return;
         }
 
-        if (!self::loopbackCheck($fileLocation, $previousContent, $wp_filesystem)) {
+        if (!self::loopbackCheck($fileWriteResult['fileLocation'], $fileWriteResult['previousContent'], $fileWriteResult['filesystem'])) {
             return;
         }
 
-        $data->flow_details->funcFileLocation = $fileLocation;
+        $data->flow_details->funcFileLocation = $fileWriteResult['fileLocation'];
     }
 
     /**
@@ -126,11 +111,11 @@ class CustomFuncValidator
      */
     public static function loopbackValidateContent($fileContent)
     {
-        global $wp_filesystem;
+        $wp_filesystem = self::getFilesystem();
+        if (false === $wp_filesystem) {
+            wp_send_json_error(__('Unable to initialize filesystem.', 'bit-integrations'));
 
-        if (empty($wp_filesystem)) {
-            require_once ABSPATH . '/wp-admin/includes/file.php';
-            WP_Filesystem();
+            return false;
         }
 
         $uploadDir = wp_upload_dir();
@@ -152,6 +137,61 @@ class CustomFuncValidator
         }
 
         return $passed;
+    }
+
+    /**
+     * Get initialized WP filesystem instance.
+     *
+     * @return WP_Filesystem_Base|false
+     */
+    private static function getFilesystem()
+    {
+        global $wp_filesystem;
+
+        if (empty($wp_filesystem)) {
+            require_once ABSPATH . '/wp-admin/includes/file.php';
+
+            if (!WP_Filesystem()) {
+                return false;
+            }
+        }
+
+        return $wp_filesystem instanceof WP_Filesystem_Base ? $wp_filesystem : false;
+    }
+
+    /**
+     * Initialize filesystem, resolve file path, and write custom function content.
+     *
+     * @param string $fileName
+     * @param string $fileContent
+     *
+     * @return array{filesystem: WP_Filesystem_Base, fileLocation: string, previousContent: string|null}|false
+     */
+    private static function writeCustomFunctionFile($fileName, $fileContent)
+    {
+        $wp_filesystem = self::getFilesystem();
+        if (false === $wp_filesystem) {
+            wp_send_json_error(__('Unable to initialize filesystem.', 'bit-integrations'));
+
+            return false;
+        }
+
+        $uploadDir     = wp_upload_dir();
+        $fileLocation  = "{$uploadDir['basedir']}/{$fileName}.php";
+        $previousContent = file_exists($fileLocation) ? file_get_contents($fileLocation) : null;
+        $written       = $wp_filesystem->put_contents($fileLocation, $fileContent, FS_CHMOD_FILE);
+
+        if (!$written) {
+            wp_send_json_error(__('Unable to write to file.', 'bit-integrations'));
+
+            return false;
+        }
+
+        return [
+            'filesystem'      => $wp_filesystem,
+            'fileLocation'    => $fileLocation,
+            'previousContent' => $previousContent,
+        ];
     }
 
     /**
