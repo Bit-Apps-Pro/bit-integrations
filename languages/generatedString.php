@@ -1106,6 +1106,10 @@ $bit_integrations_i18n_strings = array(
 
     'Update Responses with ActiveCampaign existing email?' => __('Update Responses with ActiveCampaign existing email?', 'bit-integrations'),
 
+    'Update ActiveCampaign Tags' => __('Update ActiveCampaign Tags', 'bit-integrations'),
+
+    'Update existing contact tags in ActiveCampaign?' => __('Update existing contact tags in ActiveCampaign?', 'bit-integrations'),
+
     'Integration name can\'t be empty' => __('Integration name can\'t be empty', 'bit-integrations'),
 
     'Access Api Key can\'t be empty' => __('Access Api Key can\'t be empty', 'bit-integrations'),
