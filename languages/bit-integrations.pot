@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-02-28T06:26:16+00:00\n"
+"POT-Creation-Date: 2026-02-28T07:33:45+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: bit-integrations\n"
@@ -326,7 +326,7 @@ msgstr ""
 #: backend/Actions/GetResponse/GetResponseController.php:104
 #: backend/Actions/GetResponse/RecordApiHelper.php:41
 #: backend/Actions/GoogleCalendar/GoogleCalendarController.php:23
-#: backend/Actions/GoogleCalendar/GoogleCalendarController.php:48
+#: backend/Actions/GoogleCalendar/GoogleCalendarController.php:49
 #: backend/Actions/GoogleContacts/GoogleContactsController.php:23
 #: backend/Actions/GoogleContacts/GoogleContactsController.php:48
 #: backend/Actions/GoogleDrive/GoogleDriveController.php:23
@@ -1484,7 +1484,7 @@ msgstr ""
 
 #. translators: %s: Service name
 #: backend/Actions/Dropbox/DropboxController.php:103
-#: backend/Actions/GoogleCalendar/GoogleCalendarController.php:74
+#: backend/Actions/GoogleCalendar/GoogleCalendarController.php:75
 #: backend/Actions/GoogleContacts/GoogleContactsController.php:74
 #: backend/Actions/GoogleDrive/GoogleDriveController.php:95
 #: backend/Actions/OneDrive/OneDriveController.php:123
@@ -1493,7 +1493,7 @@ msgid "Not Authorization By %s"
 msgstr ""
 
 #: backend/Actions/Dropbox/DropboxController.php:117
-#: backend/Actions/GoogleCalendar/GoogleCalendarController.php:91
+#: backend/Actions/GoogleCalendar/GoogleCalendarController.php:92
 #: backend/Actions/GoogleContacts/GoogleContactsController.php:89
 #: backend/Actions/GoogleDrive/GoogleDriveController.php:109
 #: backend/Actions/PCloud/PCloudController.php:83

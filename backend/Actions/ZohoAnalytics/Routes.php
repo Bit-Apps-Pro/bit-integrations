@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
 use BitApps\Integrations\Actions\ZohoAnalytics\ZohoAnalyticsController;
 use BitApps\Integrations\Core\Util\Route;
 
-Route::post('zanalytics_generate_token', [ZohoAnalyticsController::class, 'generateTokens']);
+Route::no_sanitize()->post('zanalytics_generate_token', [ZohoAnalyticsController::class, 'generateTokens']);
 Route::post('zanalytics_refresh_workspaces', [ZohoAnalyticsController::class, 'refreshWorkspacesAjaxHelper']);
 Route::post('zanalytics_refresh_users', [ZohoAnalyticsController::class, 'refreshUsersAjaxHelper']);
 Route::post('zanalytics_refresh_tables', [ZohoAnalyticsController::class, 'refreshTablesAjaxHelper']);
