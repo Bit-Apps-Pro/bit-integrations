@@ -130,16 +130,20 @@ class RecordApiHelper
                 'contact' => $contactId,
                 'status'  => 1
             ];
-            $result['contactLists'] = $this->storeOrModifyRecord('contactLists', wp_json_encode($data));
+            $result['lists'] = $this->storeOrModifyRecord('contactLists', wp_json_encode($data));
         }
         if (!empty($tags)) {
-            $result['contactTags'] = [];
+            if ($integrationDetails->actions->tagUpdate) {
+                $result['tags_removed'] = HttpHelper::delete("{$this->_apiEndpoint}/contactTags/{$contactId}", null, $this->_defaultHeader);
+            }
+
+            $result['tags_added'] = [];
             foreach ($tags as $tag) {
                 $data['contactTag'] = (object) [
                     'contact' => $contactId,
                     'tag'     => $tag
                 ];
-                $result['contactTags'][] = $this->storeOrModifyRecord('contactTags', wp_json_encode($data));
+                $result['tags_added'][] = $this->storeOrModifyRecord('contactTags', wp_json_encode($data));
             }
         }
         if (!empty($integrationDetails->selectedAccount)) {
@@ -150,7 +154,7 @@ class RecordApiHelper
             if (!empty($integrationDetails->job_title)) {
                 $data['accountContact']['jobTitle'] = $integrationDetails->job_title;
             }
-            $result['accountContacts'] = $this->storeOrModifyRecord('accountContacts', wp_json_encode((object) $data));
+            $result['account'] = $this->storeOrModifyRecord('accountContacts', wp_json_encode((object) $data));
         }
 
         return $result;

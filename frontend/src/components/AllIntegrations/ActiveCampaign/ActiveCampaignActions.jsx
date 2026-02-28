@@ -6,13 +6,12 @@ import TableCheckBox from '../../Utilities/TableCheckBox'
 export default function ActiveCampaignActions({ activeCampaingConf, setActiveCampaingConf }) {
   const actionHandler = (e, type) => {
     const newConf = { ...activeCampaingConf }
-    if (type === 'update') {
-      if (e.target.checked) {
-        newConf.actions.update = true
-      } else {
-        delete newConf.actions.update
-      }
+    if (e.target.checked) {
+      newConf.actions[type] = true
+    } else {
+      delete newConf.actions[type]
     }
+
     setActiveCampaingConf({ ...newConf })
   }
 
@@ -25,6 +24,14 @@ export default function ActiveCampaignActions({ activeCampaingConf, setActiveCam
         value="user_share"
         title={__('Update ActiveCampaign', 'bit-integrations')}
         subTitle={__('Update Responses with ActiveCampaign existing email?', 'bit-integrations')}
+      />
+      <TableCheckBox
+        checked={activeCampaingConf.actions?.tagUpdate || false}
+        onChange={e => actionHandler(e, 'tagUpdate')}
+        className="wdt-200 mt-4 mr-2"
+        value="user_share"
+        title={__('Update ActiveCampaign Tags', 'bit-integrations')}
+        subTitle={__('Update existing contact tags in ActiveCampaign?', 'bit-integrations')}
       />
     </div>
   )
