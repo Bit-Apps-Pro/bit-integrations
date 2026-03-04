@@ -29,6 +29,27 @@ export const checkMappedFields = notificationXConf => {
   return unmapped.length === 0
 }
 
+export const refreshNotificationsBySource = (action, setNotificationXConf, setIsLoading, setSnackbar) => {
+  if (!action) return
+  setIsLoading(true)
+  bitsFetch({ action: action }, 'notificationx_get_notifications_by_source').then(result => {
+    if (result && result.success) {
+      setNotificationXConf(prev =>
+        create(prev, draft => {
+          draft.notifications = result.data
+        })
+      )
+    }else {
+      setSnackbar({ msg: result.message || __('Failed to fetch notifications', 'bit-integrations'), show: true })
+    }
+
+    setIsLoading(false)
+  }).catch(() => {
+    setSnackbar({ msg: __('Failed to fetch notifications', 'bit-integrations'), show: true })
+    setIsLoading(false)
+  })
+}
+
 export const notificationXAuthentication = (
   confTmp,
   setConf,
@@ -51,8 +72,13 @@ export const notificationXAuthentication = (
   bitsFetch(requestParams, 'notificationx_authorize').then(result => {
     if (result && result.success) {
       setIsAuthorized(true)
+    }else {
+      setError({ name: result.message || __('Authorization failed', 'bit-integrations') })
     }
 
+    setIsLoading(false)
+  }).catch(() => {
+    setError({ name: __('Authorization failed', 'bit-integrations') })
     setIsLoading(false)
   })
 }

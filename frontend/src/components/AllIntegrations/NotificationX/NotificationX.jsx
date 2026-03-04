@@ -23,6 +23,8 @@ export default function NotificationX({ formFields, setFlow, flow, allIntegURL }
     entry_map: [],
     actions: {},
     mainAction: '',
+    selected_notification_id: '',
+    notifications: [],
   })
 
   const nextPage = val => {

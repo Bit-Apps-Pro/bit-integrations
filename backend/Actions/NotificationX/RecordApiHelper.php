@@ -37,7 +37,44 @@ class RecordApiHelper
             'message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro'),
         ];
 
+        if (\in_array($mainAction, ['add_sales_notification', 'add_reviews', 'add_email_subscription'])) {
+            $payload = [
+                'notification_id' => absint($this->_integrationDetails->selected_notification_id ?? 0),
+                'entry_data'      => $fieldData,
+            ];
+        } elseif ($mainAction === 'add_notification_entry') {
+            $entryMap = isset($this->_integrationDetails->entry_map)
+                ? $this->_integrationDetails->entry_map
+                : [];
+            $entryData = static::generateEntryDataFromEntryMap($entryMap, $fieldValues);
+            $payload = [
+                'notification_id' => $fieldData['notification_id'] ?? 0,
+                'entry_data'      => $entryData,
+            ];
+        }
+
         switch ($mainAction) {
+            case 'add_sales_notification':
+                $response = Hooks::apply(Config::withPrefix('notificationx_add_sales_notification'), $defaultResponse, $payload);
+                $type = 'notification';
+                $actionType = 'add_sales_notification';
+
+                break;
+
+            case 'add_reviews':
+                $response = Hooks::apply(Config::withPrefix('notificationx_add_reviews'), $defaultResponse, $payload);
+                $type = 'notification';
+                $actionType = 'add_reviews';
+
+                break;
+
+            case 'add_email_subscription':
+                $response = Hooks::apply(Config::withPrefix('notificationx_add_email_subscription'), $defaultResponse, $payload);
+                $type = 'notification';
+                $actionType = 'add_email_subscription';
+
+                break;
+
             case 'delete_notification':
                 $response = Hooks::apply(Config::withPrefix('notificationx_delete_notification'), $defaultResponse, $fieldData['notification_id'] ?? '');
                 $type = 'notification';
@@ -60,17 +97,10 @@ class RecordApiHelper
                 break;
 
             case 'add_notification_entry':
-                $entryMap = isset($this->_integrationDetails->entry_map)
-                    ? $this->_integrationDetails->entry_map
-                    : [];
-                $entryData = static::generateEntryDataFromEntryMap($entryMap, $fieldValues);
-                $payload = [
-                    'notification_id' => $fieldData['notification_id'] ?? 0,
-                    'entry_data'      => $entryData,
-                ];
                 $response = Hooks::apply(Config::withPrefix('notificationx_add_notification_entry'), $defaultResponse, $payload);
                 $type = 'notification';
                 $actionType = 'add_notification_entry';
+
                 break;
 
             default:

@@ -1,15 +1,25 @@
+import { useState } from 'react'
 import { create } from 'mutative'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import { useRecoilValue } from 'recoil'
 import { $appConfigState } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
+import LoaderSm from '../../Loaders/LoaderSm'
 import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 import { addFieldMap } from '../IntegrationHelpers/IntegrationHelpers'
-import { generateMappedField } from './NotificationXCommonFunc'
+import { generateMappedField, refreshNotificationsBySource } from './NotificationXCommonFunc'
 import NotificationXEntryFieldMap from './NotificationXEntryFieldMap'
 import NotificationXFieldMap from './NotificationXFieldMap'
-import { NotificationIdField, modules } from './staticData'
+import {
+  ACTION_SOURCES,
+  EmailSubscriptionFields,
+  NotificationIdField,
+  ReviewFields,
+  SalesNotificationFields,
+  SOURCE_ACTIONS,
+  modules,
+} from './staticData'
 
 export default function NotificationXIntegLayout({
   formID,
@@ -22,19 +32,38 @@ export default function NotificationXIntegLayout({
 }) {
   const btcbi = useRecoilValue($appConfigState)
   const { isPro } = btcbi
+  const [notifLoading, setNotifLoading] = useState(false)
 
   const handleMainAction = value => {
     setNotificationXConf(prevConf =>
       create(prevConf, draftConf => {
         draftConf.mainAction = value
+        draftConf.entry_map = []
 
         switch (value) {
+          case 'add_sales_notification':
+            draftConf.notificationXFields = SalesNotificationFields
+            draftConf.field_map = generateMappedField(SalesNotificationFields)
+            draftConf.selected_notification_id = ''
+            draftConf.notifications = []
+            break
+          case 'add_reviews':
+            draftConf.notificationXFields = ReviewFields
+            draftConf.field_map = generateMappedField(ReviewFields)
+            draftConf.selected_notification_id = ''
+            draftConf.notifications = []
+            break
+          case 'add_email_subscription':
+            draftConf.notificationXFields = EmailSubscriptionFields
+            draftConf.field_map = generateMappedField(EmailSubscriptionFields)
+            draftConf.selected_notification_id = ''
+            draftConf.notifications = []
+            break
           case 'delete_notification':
           case 'enable_notification':
           case 'disable_notification':
             draftConf.notificationXFields = NotificationIdField
             draftConf.field_map = generateMappedField(NotificationIdField)
-            draftConf.entry_map = []
             break
           case 'add_notification_entry':
             draftConf.notificationXFields = NotificationIdField
@@ -46,14 +75,14 @@ export default function NotificationXIntegLayout({
           default:
             draftConf.notificationXFields = []
             draftConf.field_map = []
-            draftConf.entry_map = []
         }
       })
     )
-  }
 
-  const showFieldMap = notificationXConf?.mainAction && notificationXConf?.notificationXFields
-  const isEntryAction = notificationXConf?.mainAction === 'add_notification_entry'
+    if (['add_sales_notification', 'add_reviews', 'add_email_subscription'].includes(value)) {
+      refreshNotificationsBySource(value, setNotificationXConf, setNotifLoading, setSnackbar)
+    }
+  }
 
   return (
     <>
@@ -75,6 +104,45 @@ export default function NotificationXIntegLayout({
         />
       </div>
 
+      {['add_sales_notification', 'add_reviews', 'add_email_subscription'].includes(notificationXConf?.mainAction) && (
+        <div className="flx mt-3">
+          <b className="wdt-200 d-in-b">{__('Select Notification:', 'bit-integrations')}</b>
+          <MultiSelect
+            title="selected_notification_id"
+            defaultValue={notificationXConf?.selected_notification_id ?? null}
+            className="w-5"
+            onChange={value =>
+              setNotificationXConf(prev =>
+                create(prev, draft => {
+                  draft.selected_notification_id = value
+                })
+              )
+            }
+            options={(notificationXConf?.notifications || []).map(n => ({
+              label: n.label,
+              value: n.value,
+            }))}
+            singleSelect
+            closeOnSelect
+          />
+          <button
+            onClick={() =>
+              refreshNotificationsBySource(
+                notificationXConf.mainAction,
+                setNotificationXConf,
+                setNotifLoading,
+                setSnackbar
+              )
+            }
+            className="icn-btn sh-sm ml-2 mr-2 tooltip"
+            style={{ '--tooltip-txt': `'${__('Refresh Notifications', 'bit-integrations')}'` }}
+            type="button"
+            disabled={notifLoading}>
+            &#x21BB;
+          </button>
+        </div>
+      )}
+
       {isLoading && (
         <Loader
           style={{
@@ -87,7 +155,7 @@ export default function NotificationXIntegLayout({
         />
       )}
 
-      {showFieldMap && notificationXConf.field_map?.length > 0 && (
+      {notificationXConf?.notificationXFields?.length > 0 && notificationXConf.field_map?.length > 0 && (
         <div className="mt-4">
           <b className="wdt-100">{__('Map Fields', 'bit-integrations')}</b>
           <div className="btcd-hr mt-1" />
@@ -123,7 +191,7 @@ export default function NotificationXIntegLayout({
         </div>
       )}
 
-      {isEntryAction && (
+      {notificationXConf?.mainAction === 'add_notification_entry' && (
         <div className="mt-4">
           <b className="wdt-100">{__('Entry Data Mapping', 'bit-integrations')}</b>
           <div className="btcd-hr mt-1" />
@@ -161,8 +229,6 @@ export default function NotificationXIntegLayout({
           <br />
         </div>
       )}
-
-      {showFieldMap && !isEntryAction && <br />}
     </>
   )
 }
