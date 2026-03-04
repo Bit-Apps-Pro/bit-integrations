@@ -170,6 +170,7 @@ const ACPT = lazy(() => import('./ACPT/ACPT'))
 const WishlistMember = lazy(() => import('./WishlistMember/WishlistMember'))
 const FluentCart = lazy(() => import('./FluentCart/FluentCart'))
 const WPCafe = lazy(() => import('./WPCafe/WPCafe'))
+const NotificationX = lazy(() => import('./NotificationX/NotificationX'))
 const TeamsForWooCommerceMemberships = lazy(() =>
   import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMemberships')
 )
@@ -1634,6 +1635,15 @@ export default function NewInteg({ allIntegURL }) {
       case 'WPCafe':
         return (
           <WPCafe
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'NotificationX':
+        return (
+          <NotificationX
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
             flow={flow}

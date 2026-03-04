@@ -176,7 +176,8 @@ export default function SelectAction() {
     { type: 'FluentCart' },
     { type: 'WPCafe' },
     { type: 'Teams For WooCommerce Memberships' },
-    { type: 'SeoPress' }
+    { type: 'SeoPress' },
+    { type: 'NotificationX' },
   ]
 
   const [availableIntegs, setAvailableIntegs] = useState(sortByField(integs, 'type', 'ASC') || integs)
@@ -242,9 +243,8 @@ export default function SelectAction() {
               onKeyPress={() => !inte.disable && !inte.pro && setAction(inte.type)}
               role="button"
               tabIndex="0"
-              className={`btcd-inte-card inte-sm mr-4 mt-3 ${
-                inte.disable && !inte.pro && 'btcd-inte-dis'
-              } ${inte.pro && 'btcd-inte-pro'}`}>
+              className={`btcd-inte-card inte-sm mr-4 mt-3 ${inte.disable && !inte.pro && 'btcd-inte-dis'
+                } ${inte.pro && 'btcd-inte-pro'}`}>
               {inte.pro && (
                 <div className="pro-filter">
                   <span className="txt-pro">
