@@ -112,13 +112,13 @@ final class Route
                         $decoded = \is_string($inputJSON) ? json_decode($inputJSON) : $inputJSON;
                         $data = $noSanitize
                             ? $decoded
-                            : (\is_object($decoded) || \is_array($decoded) ? map_deep($decoded, 'sanitize_text_field') : $decoded);
+                            : (\is_object($decoded) || \is_array($decoded) ? map_deep($decoded, [__CLASS__, 'sanitizeValue']) : $decoded);
                     } elseif (isset($_POST['data'])) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
                         $postReq = wp_unslash($_POST['data']); // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized via map_deep on next lines
                         $decoded = \is_string($postReq) ? json_decode($postReq) : $postReq;
                         $data = $noSanitize
                             ? $decoded
-                            : (\is_object($decoded) || \is_array($decoded) ? map_deep($decoded, 'sanitize_text_field') : $decoded);
+                            : (\is_object($decoded) || \is_array($decoded) ? map_deep($decoded, [__CLASS__, 'sanitizeValue']) : $decoded);
                     } else {
                         $data = $noSanitize // phpcs:ignore WordPress.Security.NonceVerification.Missing
                             ? (object) wp_unslash($_POST) // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
@@ -171,6 +171,25 @@ final class Route
         self::$_no_sanitize = true;
 
         return new static();
+    }
+
+    /**
+     * Type-aware sanitizer for decoded JSON data.
+     * Preserves booleans, integers, floats, and nulls so that JSON boolean
+     * values (true/false) decoded from the request are not coerced to the
+     * PHP string representations "1" and "" by sanitize_text_field().
+     *
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    public static function sanitizeValue($value)
+    {
+        if (\is_bool($value) || \is_int($value) || \is_float($value) || \is_null($value)) {
+            return $value;
+        }
+
+        return sanitize_text_field($value);
     }
 
     private static function getActionFromRequest()
