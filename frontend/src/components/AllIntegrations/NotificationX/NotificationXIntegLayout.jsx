@@ -20,6 +20,7 @@ import {
   SOURCE_ACTIONS,
   modules,
 } from './staticData'
+import Note from '../../Utilities/Note'
 
 export default function NotificationXIntegLayout({
   formID,
@@ -228,6 +229,18 @@ export default function NotificationXIntegLayout({
           </div>
           <br />
         </div>
+      )}
+
+      <br />
+      {['add_sales_notification', 'add_reviews', 'add_email_subscription'].includes(notificationXConf?.mainAction) && (
+        <Note
+          note={
+            __(
+              'Make sure to select Bit Integrations as the notification source in your NotificationX settings for this action.',
+              'bit-integrations'
+            )
+          }
+        />
       )}
     </>
   )
