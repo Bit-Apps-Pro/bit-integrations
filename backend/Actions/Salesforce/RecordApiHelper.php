@@ -4,8 +4,8 @@ namespace BitApps\Integrations\Actions\Salesforce;
 
 use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
-use BitApps\Integrations\Core\Util\HttpHelper;
 use BitApps\Integrations\Core\Util\Hooks;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use BitApps\Integrations\Log\LogHandler;
 use DateTime;
 use DateTimeImmutable;
@@ -178,7 +178,7 @@ class RecordApiHelper
             $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
             $response = $this->insertContact($finalData, $update);
 
-            $responseType = !\is_null($response) || (\is_object($response) && isset($response->id)) ? 'success' : 'error';
+            $responseType = self::getResponseType();
             $typeName = !$update || (\is_object($response) && isset($response->id)) ? 'Contact-create' : 'Contact-update';
 
             $message = wp_json_encode($response);
@@ -204,7 +204,7 @@ class RecordApiHelper
 
             $insertLeadResponse = $this->insertLead($finalData, $update);
 
-            $responseType = !\is_null($insertLeadResponse) || (\is_object($insertLeadResponse) && isset($insertLeadResponse->id)) ? 'success' : 'error';
+            $responseType = self::getResponseType();
             $typeName = !$update || (\is_object($insertLeadResponse) && isset($insertLeadResponse->id)) ? 'Lead-create' : 'Lead-update';
 
             $message = wp_json_encode($insertLeadResponse);
@@ -501,5 +501,10 @@ class RecordApiHelper
     private static function validateNumericDateWithLength($input, $length)
     {
         return is_numeric($input) && \strlen($input) === $length;
+    }
+
+    private static function getResponseType()
+    {
+        return strpos(HttpHelper::$responseCode, 20) === 0 ? 'success' : 'error';
     }
 }
