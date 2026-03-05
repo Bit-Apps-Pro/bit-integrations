@@ -157,7 +157,6 @@ class WCHelper
     {
         $order = empty($order) ? wc_get_order($orderId) : $order;
         $orderData = self::accessOrderData($order);
-
         $acfFieldGroups = Helper::acfGetFieldGroups(['shop_order']);
         $acfFielddata = Helper::getAcfFieldData($acfFieldGroups, $orderId);
         $checkoutFields = Helper::getWCCustomCheckoutData($order);
@@ -172,7 +171,13 @@ class WCHelper
             $flexibleFields = Hooks::apply('btcbi_woocommerce_flexible_checkout_fields_value', (array) $order);
         }
 
-        return array_merge($orderData, $acfFielddata, $checkoutFields, $flexibleFields, $extra);
+        return array_merge(
+            $orderData,
+            self::filteredEmptyValues($acfFielddata),
+            self::filteredEmptyValues($checkoutFields),
+            self::filteredEmptyValues($flexibleFields),
+            self::filteredEmptyValues($extra)
+        );
     }
 
     public static function accessOrderData($order)
@@ -332,5 +337,12 @@ class WCHelper
             '_product_image'         => $imageUrl,
             '_product_gallery'       => $galleryImages,
         ];
+    }
+
+    private static function filteredEmptyValues($data)
+    {
+        return array_filter((array) $data, function ($v) {
+            return $v !== '' && $v !== null && $v !== [];
+        });
     }
 }
