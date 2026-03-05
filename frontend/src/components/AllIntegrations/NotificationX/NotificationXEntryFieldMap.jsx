@@ -90,7 +90,7 @@ export default function NotificationXEntryFieldMap({
           value={field.entryKey || ''}
           onChange={handleChange}
           type="text"
-          placeholder={__('Entry Key', 'bit-integrations')}
+          placeholder={__('Entry Fields Key', 'bit-integrations')}
         />
       </div>
 

@@ -33,6 +33,14 @@ export default function NotificationX({ formFields, setFlow, flow, allIntegURL }
     }, 300)
 
     if (val === 3) {
+      if (['add_sales_notification', 'add_reviews', 'add_email_subscription'].includes(notificationXConf?.mainAction) && !notificationXConf?.selected_notification_id) {
+        setSnackbar({
+          show: true,
+          msg: __('Please select a notification to continue.', 'bit-integrations'),
+        })
+        return
+      }
+
       if (!checkMappedFields(notificationXConf)) {
         setSnackbar({
           show: true,
@@ -72,7 +80,7 @@ export default function NotificationX({ formFields, setFlow, flow, allIntegURL }
         style={{
           width: step === 2 && 900,
           height: step === 2 && 'auto',
-          minHeight: step === 2 && `${200}px`,
+          minHeight: step === 2 && `${500}px`,
         }}>
         <NotificationXIntegLayout
           formID={formID}

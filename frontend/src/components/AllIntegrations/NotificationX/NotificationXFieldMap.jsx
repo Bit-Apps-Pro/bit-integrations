@@ -23,9 +23,6 @@ export default function NotificationXFieldMap({
   const requiredFlds = notificationXConf?.notificationXFields?.filter(fld => fld.required === true) || []
   const nonRequiredFlds = notificationXConf?.notificationXFields?.filter(fld => fld?.required === false) || []
 
-  console.log(notificationXConf?.notificationXFields)
-  console.log(nonRequiredFlds)
-
   return (
     <div className="flx mt-2 mb-2 btcbi-field-map">
       <div className="pos-rel flx">
