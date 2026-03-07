@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-02-28T07:33:45+00:00\n"
+"POT-Creation-Date: 2026-03-07T09:14:31+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: bit-integrations\n"
@@ -18505,31 +18505,31 @@ msgid "Selzy Fields"
 msgstr ""
 
 #: languages/generatedString.php:7013
-msgid "Create List"
-msgstr ""
-
-#: languages/generatedString.php:7015
-msgid "Unsubscribe Contact"
-msgstr ""
-
-#: languages/generatedString.php:7017
 msgid "SendFox Access Token"
 msgstr ""
 
-#: languages/generatedString.php:7019
+#: languages/generatedString.php:7015
 msgid "SendFox List Fields"
 msgstr ""
 
-#: languages/generatedString.php:7021
+#: languages/generatedString.php:7017
 msgid "Refresh SendFox List"
 msgstr ""
 
-#: languages/generatedString.php:7023
+#: languages/generatedString.php:7019
 msgid "SendFox Fields"
 msgstr ""
 
-#: languages/generatedString.php:7025
+#: languages/generatedString.php:7021
 msgid "SendFox Unsubscribe Fields"
+msgstr ""
+
+#: languages/generatedString.php:7023
+msgid "Create List"
+msgstr ""
+
+#: languages/generatedString.php:7025
+msgid "Unsubscribe Contact"
 msgstr ""
 
 #: languages/generatedString.php:7027

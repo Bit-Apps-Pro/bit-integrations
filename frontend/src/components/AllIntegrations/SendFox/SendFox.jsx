@@ -32,10 +32,6 @@ function SendFox({ formFields, setFlow, flow, allIntegURL }) {
     field_map: [{ formField: '', sendFoxFormField: '' }],
     field_map_list: [{ formField: '', sendFoxListFormField: '' }],
     field_map_unsubscribe: [{ formField: '', sendFoxUnsubscribeFormField: '' }],
-    allActions,
-    contactFields,
-    unsubscribeFields,
-    listFields,
     actions: {}
   })
 

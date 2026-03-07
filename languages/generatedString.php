@@ -7010,10 +7010,6 @@ $bit_integrations_i18n_strings = array(
 
     'Selzy Fields' => __('Selzy Fields', 'bit-integrations'),
 
-    'Create List' => __('Create List', 'bit-integrations'),
-
-    'Unsubscribe Contact' => __('Unsubscribe Contact', 'bit-integrations'),
-
     'SendFox Access Token' => __('SendFox Access Token', 'bit-integrations'),
 
     'SendFox List Fields' => __('SendFox List Fields', 'bit-integrations'),
@@ -7023,6 +7019,10 @@ $bit_integrations_i18n_strings = array(
     'SendFox Fields' => __('SendFox Fields', 'bit-integrations'),
 
     'SendFox Unsubscribe Fields' => __('SendFox Unsubscribe Fields', 'bit-integrations'),
+
+    'Create List' => __('Create List', 'bit-integrations'),
+
+    'Unsubscribe Contact' => __('Unsubscribe Contact', 'bit-integrations'),
 
     'Alternate Emails' => __('Alternate Emails', 'bit-integrations'),
 
