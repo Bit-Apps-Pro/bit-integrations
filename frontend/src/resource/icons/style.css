@@ -1,0 +1,259 @@
+@font-face {
+  font-family: 'btcd-icn';
+  src: url('fonts/btcd-icn.eot?zeuff');
+  src: url('fonts/btcd-icn.eot?zeuff#iefix') format('embedded-opentype'),
+    url('fonts/btcd-icn.ttf?zeuff') format('truetype'), url('fonts/btcd-icn.woff?zeuff') format('woff'),
+    url('fonts/btcd-icn.svg?zeuff#btcd-icn') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+.btcd-icn {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'btcd-icn' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Enable Ligatures ================ */
+  letter-spacing: 0;
+  -webkit-font-feature-settings: 'liga';
+  -moz-font-feature-settings: 'liga=1';
+  -moz-font-feature-settings: 'liga';
+  -ms-font-feature-settings: 'liga' 1;
+  font-feature-settings: 'liga';
+  -webkit-font-variant-ligatures: discretionary-ligatures;
+  font-variant-ligatures: discretionary-ligatures;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icn-move1:before {
+  content: '\e938';
+}
+
+.icn-clear:before {
+  content: '\e936';
+}
+
+.icn-file_download:before {
+  content: '\e935';
+}
+
+.icn-tablet_android:before {
+  content: '\e931';
+}
+
+.icn-phone_android:before {
+  content: '\e932';
+}
+
+.icn-laptop_mac:before {
+  content: '\e933';
+}
+
+.icn-layout:before {
+  content: '\e92b';
+}
+
+.icn-lock:before {
+  content: '\e92d';
+}
+
+.icn-settings:before {
+  content: '\e925';
+}
+
+.icn-chevron-right:before {
+  content: '\e913';
+}
+
+.icn-chevron-left:before {
+  content: '\e912';
+}
+
+.icn-external-link:before {
+  content: '\e911';
+}
+
+.icn-keyboard_arrow_down:before {
+  content: '\e90f';
+}
+
+.icn-keyboard_arrow_up:before {
+  content: '\e910';
+}
+
+.icn-file_copy:before {
+  content: '\e902';
+}
+
+.icn-arrow_back:before {
+  content: '\e90a';
+}
+
+.icn-search:before {
+  content: '\e909';
+}
+
+.icn-toggle_off:before {
+  content: '\e900';
+}
+
+.icn-visibility_off:before {
+  content: '\e901';
+}
+
+.icn-remove_red_eye:before {
+  content: '\e90b';
+}
+
+.icn-visibility:before {
+  content: '\e90b';
+}
+
+.icn-trash-2:before {
+  content: '\e907';
+}
+
+.icn-file:before {
+  content: '\e904';
+}
+
+.icn-edit:before {
+  content: '\e905';
+}
+
+.icn-recaptcha:before {
+  content: '\e934';
+}
+
+.icn-one:before {
+  content: '\e929';
+}
+
+.icn-r-block:before {
+  content: '\e92f';
+}
+
+.icn-text:before {
+  content: '\e920';
+}
+
+.icn-textarea:before {
+  content: '\e91f';
+}
+
+.icn-radio:before {
+  content: '\e918';
+}
+
+.icn-select:before {
+  content: '\e91e';
+}
+
+.icn-date:before {
+  content: '\e916';
+}
+
+.icn-check:before {
+  content: '\e914';
+}
+
+.icn-color:before {
+  content: '\e915';
+}
+
+.icn-datetime-local:before {
+  content: '\e917';
+}
+
+.icn-email:before {
+  content: '\e919';
+}
+
+.icn-file-up:before {
+  content: '\e91a';
+}
+
+.icn-month:before {
+  content: '\e91b';
+}
+
+.icn-number:before {
+  content: '\e91c';
+}
+
+.icn-password:before {
+  content: '\e91d';
+}
+
+.icn-time:before {
+  content: '\e921';
+}
+
+.icn-url:before {
+  content: '\e922';
+}
+
+.icn-week:before {
+  content: '\e923';
+}
+
+.icn-dots-three-horizontal:before {
+  content: '\e930';
+}
+
+.icn-block:before {
+  content: '\e92a';
+}
+
+.icn-information-outline:before {
+  content: '\e926';
+}
+
+.icn-code:before {
+  content: '\e906';
+}
+
+.icn-flow-tree:before {
+  content: '\e90e';
+}
+
+.icn-stack:before {
+  content: '\e92e';
+}
+
+.icn-params:before {
+  content: '\e927';
+}
+
+.icn-document-edit:before {
+  content: '\e90c';
+}
+
+.icn-loop:before {
+  content: '\e928';
+}
+
+.icn-trash-fill:before {
+  content: '\e903';
+}
+
+.icn-copy:before {
+  content: '\e92c';
+}
+
+.icn-envelope-open-o:before {
+  content: '\e90d';
+}
+
+.icn-sort:before {
+  content: '\e908';
+}
