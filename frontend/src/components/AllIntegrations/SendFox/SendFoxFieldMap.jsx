@@ -10,15 +10,6 @@ import TagifyInput from '../../Utilities/TagifyInput'
 import { handleCustomValue } from '../IntegrationHelpers/IntegrationHelpers'
 
 export default function SendFoxFieldMap({ i, formFields, field, sendFoxConf, setSendFoxConf }) {
-  useEffect(() => {
-    if (sendFoxConf?.field_map?.length === 1 && field.sendFoxFormField === '') {
-      const newConf = { ...sendFoxConf }
-      const tmp = generateMappedField(newConf)
-      newConf.field_map = tmp
-      setSendFoxConf(newConf)
-    }
-  })
-
   const requiredFlds = sendFoxConf?.contactFields.filter(fld => fld.required === true) || []
   const nonRequiredFlds = sendFoxConf?.contactFields.filter(fld => fld.required === false) || []
 

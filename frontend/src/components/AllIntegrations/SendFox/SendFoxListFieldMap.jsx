@@ -13,15 +13,6 @@ import {
 import { generateListMappedField } from './SendFoxCommonFunc'
 
 export default function SendFoxListFieldMap({ i, formFields, field, sendFoxConf, setSendFoxConf }) {
-  useEffect(() => {
-    if (sendFoxConf?.field_map_list?.length === 1 && field.sendFoxListFormField === '') {
-      const newConf = { ...sendFoxConf }
-      const tmp = generateListMappedField(newConf)
-      newConf.field_map_list = tmp
-      setSendFoxConf(newConf)
-    }
-  })
-
   const requiredFlds = sendFoxConf?.listFields.filter(fld => fld.required === true) || []
   const nonRequiredFlds = sendFoxConf?.listFields.filter(fld => fld.required === false) || []
 
