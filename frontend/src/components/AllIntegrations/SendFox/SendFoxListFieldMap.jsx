@@ -13,8 +13,8 @@ import {
 import { generateListMappedField } from './SendFoxCommonFunc'
 
 export default function SendFoxListFieldMap({ i, formFields, field, sendFoxConf, setSendFoxConf }) {
-  const requiredFlds = sendFoxConf?.listFields.filter(fld => fld.required === true) || []
-  const nonRequiredFlds = sendFoxConf?.listFields.filter(fld => fld.required === false) || []
+  const requiredFlds = listFields.filter(fld => fld.required === true) || []
+  const nonRequiredFlds = listFields.filter(fld => fld.required === false) || []
 
   const btcbi = useRecoilValue($appConfigState)
   const { isPro } = btcbi
@@ -105,3 +105,5 @@ export default function SendFoxListFieldMap({ i, formFields, field, sendFoxConf,
     </div>
   )
 }
+
+export const listFields = [{ key: 'name', label: __('Name', 'bit-integrations'), required: true }]

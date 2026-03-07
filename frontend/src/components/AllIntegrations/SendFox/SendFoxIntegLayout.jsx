@@ -58,12 +58,11 @@ export default function SendFoxIntegLayout({
         value={sendFoxConf.mainAction}
         className="btcd-paper-inp w-5">
         <option value="">{__('Select Actions', 'bit-integrations')}</option>
-        {sendFoxConf.allActions &&
-          sendFoxConf.allActions.map(({ key, label }) => (
-            <option key={key} value={key}>
-              {label}
-            </option>
-          ))}
+        {allActions.map(({ key, label }) => (
+          <option key={key} value={key}>
+            {label}
+          </option>
+        ))}
       </select>
       <br />
       <br />
@@ -206,3 +205,9 @@ export default function SendFoxIntegLayout({
     </>
   )
 }
+
+const allActions = [
+  { key: '1', label: __('Create List', 'bit-integrations') },
+  { key: '2', label: __('Create Contact', 'bit-integrations') },
+  { key: '3', label: __('Unsubscribe Contact', 'bit-integrations') }
+]

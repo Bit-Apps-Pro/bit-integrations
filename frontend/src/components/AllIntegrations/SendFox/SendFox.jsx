@@ -24,21 +24,6 @@ function SendFox({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setstep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
 
-  const allActions = [
-    { key: '1', label: __('Create List', 'bit-integrations') },
-    { key: '2', label: __('Create Contact', 'bit-integrations') },
-    { key: '3', label: __('Unsubscribe Contact', 'bit-integrations') }
-  ]
-
-  const contactFields = [
-    { key: 'email', label: __('Email', 'bit-integrations'), required: true },
-    { key: 'first_name', label: __('First Name', 'bit-integrations'), required: false },
-    { key: 'last_name', label: __('Last Name', 'bit-integrations'), required: false }
-  ]
-
-  const listFields = [{ key: 'name', label: __('Name', 'bit-integrations'), required: true }]
-  const unsubscribeFields = [{ key: 'email', label: __('Email', 'bit-integrations'), required: true }]
-
   const [sendFoxConf, setSendFoxConf] = useState({
     name: 'SendFox',
     type: 'SendFox',
