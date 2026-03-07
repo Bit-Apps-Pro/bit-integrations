@@ -4,10 +4,11 @@
  * NinjaTables Record Api
  */
 
-namespace BitCode\FI\Actions\NinjaTables;
+namespace BitApps\Integrations\Actions\NinjaTables;
 
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Log\LogHandler;
+use BitApps\Integrations\Config;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Log\LogHandler;
 
 /**
  * Provide functionality for Record insert, update, delete
@@ -18,9 +19,9 @@ class RecordApiHelper
 
     private const ACTION_UPDATE_ROW = 'update_row_in_table';
 
-    private const FILTER_ADD_ROW = 'btcbi_ninjatables_add_row';
+    private const FILTER_ADD_ROW = 'ninjatables_add_row';
 
-    private const FILTER_UPDATE_ROW = 'btcbi_ninjatables_update_row';
+    private const FILTER_UPDATE_ROW = 'ninjatables_update_row';
 
     private const LOG_TYPE_ROW = 'row';
 
@@ -275,7 +276,7 @@ class RecordApiHelper
     private function executeAddRow($defaultResponse, $fieldData)
     {
         return apply_filters(
-            self::FILTER_ADD_ROW,
+            Config::withPrefix(self::FILTER_ADD_ROW),
             $defaultResponse,
             $fieldData
         );
@@ -292,7 +293,7 @@ class RecordApiHelper
     private function executeUpdateRow($defaultResponse, $fieldData)
     {
         return apply_filters(
-            self::FILTER_UPDATE_ROW,
+            Config::withPrefix(self::FILTER_UPDATE_ROW),
             $defaultResponse,
             $fieldData
         );

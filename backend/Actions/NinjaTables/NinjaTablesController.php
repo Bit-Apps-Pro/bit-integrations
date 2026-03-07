@@ -4,7 +4,7 @@
  * NinjaTables Integration
  */
 
-namespace BitCode\FI\Actions\NinjaTables;
+namespace BitApps\Integrations\Actions\NinjaTables;
 
 use WP_Error;
 

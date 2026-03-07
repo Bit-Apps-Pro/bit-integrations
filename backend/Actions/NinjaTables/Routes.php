@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\NinjaTables\NinjaTablesController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\Integrations\Actions\NinjaTables\NinjaTablesController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('ninja_tables_authorize', [NinjaTablesController::class, 'ninjaTablesAuthorize']);
 Route::post('refresh_ninja_tables', [NinjaTablesController::class, 'refreshTables']);

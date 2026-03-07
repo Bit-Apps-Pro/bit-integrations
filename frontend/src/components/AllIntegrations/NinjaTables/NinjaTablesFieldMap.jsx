@@ -1,6 +1,6 @@
 import { create } from 'mutative'
 import { useRecoilValue } from 'recoil'
-import { $btcbi } from '../../../GlobalStates'
+import { $appConfigState } from '../../../GlobalStates'
 import TrashIcn from '../../../Icons/TrashIcn'
 import { __ } from '../../../Utils/i18nwrap'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
@@ -13,8 +13,7 @@ export default function NinjaTablesFieldMap({
   ninjaTablesConf,
   setNinjaTablesConf
 }) {
-  const btcbi = useRecoilValue($btcbi)
-  const { isPro } = btcbi
+  const { isPro } = useRecoilValue($appConfigState)
 
   /**
    * Update field mapping configuration

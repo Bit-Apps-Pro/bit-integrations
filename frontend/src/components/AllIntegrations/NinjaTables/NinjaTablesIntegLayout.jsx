@@ -1,22 +1,20 @@
 import { create } from 'mutative'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import { useRecoilValue } from 'recoil'
-import { $btcbi } from '../../../GlobalStates'
+import { $appConfigState } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
-import Loader from '../../Loaders/Loader'
 import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 import { addFieldMap } from '../IntegrationHelpers/IntegrationHelpers'
 import {
   ACTIONS,
   generateMappedField,
   refreshNinjaTables,
+  refreshNinjaTablesColumns,
   refreshNinjaTablesRows,
-  refreshNinjaTablesUsers,
-  refreshNinjaTablesColumns
+  refreshNinjaTablesUsers
 } from './NinjaTablesCommonFunc'
 import NinjaTablesFieldMap from './NinjaTablesFieldMap'
 import { modules } from './staticData'
-import Note from '../../Utilities/Note'
 
 /**
  * Check if action requires field mapping
@@ -37,8 +35,7 @@ export default function NinjaTablesIntegLayout({
   setIsLoading,
   setSnackbar
 }) {
-  const btcbi = useRecoilValue($btcbi)
-  const { isPro } = btcbi
+  const { isPro } = useRecoilValue($appConfigState)
 
   /**
    * Reset configuration fields when action changes
