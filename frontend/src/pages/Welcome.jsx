@@ -4,7 +4,13 @@ import { Link } from 'react-router-dom'
 import { __ } from '../Utils/i18nwrap'
 import greeting from '../resource/img/home.svg'
 
+const preloadFlowBuilder = () => import('./FlowBuilder')
+
 export default function Welcome({ setModal, isValidUser, integrations }) {
+  const handleCreateIntegrationIntent = () => {
+    void preloadFlowBuilder()
+  }
+
   return (
     <div className="btcd-greeting">
       <img src={greeting} alt="" />
@@ -14,7 +20,13 @@ export default function Welcome({ setModal, isValidUser, integrations }) {
         {__('Create Integration', 'bit-integrations')}
       </Link> */}
 
-      <Link to="/flow/new" className="btn round btcd-btn-lg purple purple-sh">
+      <Link
+        to="/flow/new"
+        className="btn round btcd-btn-lg purple purple-sh"
+        onMouseEnter={handleCreateIntegrationIntent}
+        onFocus={handleCreateIntegrationIntent}
+        onTouchStart={handleCreateIntegrationIntent}
+        onMouseDown={handleCreateIntegrationIntent}>
         {__('Create Integration', 'bit-integrations')}
       </Link>
     </div>

@@ -1106,6 +1106,10 @@ $bit_integrations_i18n_strings = array(
 
     'Update Responses with ActiveCampaign existing email?' => __('Update Responses with ActiveCampaign existing email?', 'bit-integrations'),
 
+    'Update ActiveCampaign Tags' => __('Update ActiveCampaign Tags', 'bit-integrations'),
+
+    'Update existing contact tags in ActiveCampaign?' => __('Update existing contact tags in ActiveCampaign?', 'bit-integrations'),
+
     'Integration name can\'t be empty' => __('Integration name can\'t be empty', 'bit-integrations'),
 
     'Access Api Key can\'t be empty' => __('Access Api Key can\'t be empty', 'bit-integrations'),
@@ -7006,10 +7010,6 @@ $bit_integrations_i18n_strings = array(
 
     'Selzy Fields' => __('Selzy Fields', 'bit-integrations'),
 
-    'Create List' => __('Create List', 'bit-integrations'),
-
-    'Unsubscribe Contact' => __('Unsubscribe Contact', 'bit-integrations'),
-
     'SendFox Access Token' => __('SendFox Access Token', 'bit-integrations'),
 
     'SendFox List Fields' => __('SendFox List Fields', 'bit-integrations'),
@@ -7019,6 +7019,10 @@ $bit_integrations_i18n_strings = array(
     'SendFox Fields' => __('SendFox Fields', 'bit-integrations'),
 
     'SendFox Unsubscribe Fields' => __('SendFox Unsubscribe Fields', 'bit-integrations'),
+
+    'Create List' => __('Create List', 'bit-integrations'),
+
+    'Unsubscribe Contact' => __('Unsubscribe Contact', 'bit-integrations'),
 
     'Alternate Emails' => __('Alternate Emails', 'bit-integrations'),
 

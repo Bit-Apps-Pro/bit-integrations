@@ -3,10 +3,11 @@ import MultiSelect from 'react-multiple-select-dropdown-lite'
 import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
 import { addFieldMap } from '../IntegrationHelpers/IntegrationHelpers'
-import { fetchAllList } from './SendFoxCommonFunc'
+import { fetchAllList, generateListMappedField, generateMappedField, generateunsubscribeMappedField } from './SendFoxCommonFunc'
 import SendFoxFieldMap from './SendFoxFieldMap'
 import SendFoxListFieldMap from './SendFoxListFieldMap'
 import SendFoxUnsubscribeFieldMap from './SendFoxUnsubscribeFieldMap'
+import { create } from 'mutative'
 
 export default function SendFoxIntegLayout({
   formFields,
@@ -21,9 +22,7 @@ export default function SendFoxIntegLayout({
     label: name,
     value: `${id}`
   }))
-  // const options = [
-  //   { type: 'group', title: 'Groundhogg Tags', childs: organizedList },
-  // ]
+
   const onListHandler = val => {
     const newConf = { ...sendFoxConf }
     if (val) {
@@ -33,6 +32,21 @@ export default function SendFoxIntegLayout({
     }
     setSendFoxConf({ ...newConf })
   }
+
+  const setMainAction = (value) => {
+    setSendFoxConf(prev => create(prev, draft => {
+      draft[field] = value
+
+      if (value === '2') {
+        draft.field_map = generateMappedField(newConf)
+      } else if (value === '1') {
+        draft.field_map_list = generateListMappedField(newConf)
+      } else if (value === '3') {
+        draft.field_map_unsubscribe = generateunsubscribeMappedField(newConf)
+      }
+    }))
+  }
+
   return (
     <>
       <br />
@@ -44,12 +58,11 @@ export default function SendFoxIntegLayout({
         value={sendFoxConf.mainAction}
         className="btcd-paper-inp w-5">
         <option value="">{__('Select Actions', 'bit-integrations')}</option>
-        {sendFoxConf.allActions &&
-          sendFoxConf.allActions.map(({ key, label }) => (
-            <option key={key} value={key}>
-              {label}
-            </option>
-          ))}
+        {allActions.map(({ key, label }) => (
+          <option key={key} value={key}>
+            {label}
+          </option>
+        ))}
       </select>
       <br />
       <br />
@@ -192,3 +205,9 @@ export default function SendFoxIntegLayout({
     </>
   )
 }
+
+const allActions = [
+  { key: '1', label: __('Create List', 'bit-integrations') },
+  { key: '2', label: __('Create Contact', 'bit-integrations') },
+  { key: '3', label: __('Unsubscribe Contact', 'bit-integrations') }
+]
