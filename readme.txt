@@ -4,7 +4,7 @@ Tags: automation, automator, google sheets connector, zapier, WooCommerce Integr
 Requires at least: 5.1
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.7.11
+Stable tag: 2.7.12
 License: GPLv2 or later
 
 Perfect Automation and integration plugin: Connect 300+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
@@ -717,6 +717,25 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 6. All integration list
 
 == Changelog ==
+
+= 2.7.12 =
+_Release Date - 10th March 2026_
+
+- **New Features**
+ - ActiveCampaign: Tags update feature added.
+
+- **Improvements**
+ - ActiveCampaign: Refactored update contact handling.
+ - Custom Function: Improved validator logic.
+ - Removed unnecessary sanitation on get-access-token routes for smoother OAuth flow.
+
+- **Bug Fixes**
+ - SendFox: Fixed blank page issue.
+ - SendFox: Fixed fieldmap disappearance issue.
+ - WooCommerce: Fixed billing and shipping address overwrite issue.
+ - Salesforce: Fixed lead response type issue.
+ - Google Products: Fixed authentication issue.
+ - Brekadance: Fixed trigger listening data issue (Pro).
 
 = 2.7.11 =
 _Release Date - 26th February 2026_
