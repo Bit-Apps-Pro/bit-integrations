@@ -6,7 +6,7 @@
   "search.useGlobalIgnoreFiles": false,
   "search.useParentIgnoreFiles": false,
   "prettier.enable": true,
-  "prettier.prettierPath": "frontend-dev/node_modules/prettier/index.cjs",
+  "prettier.prettierPath": "node_modules/prettier/index.cjs",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
@@ -75,7 +75,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "typescript.validate.enable": false
 }

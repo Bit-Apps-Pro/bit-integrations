@@ -5,7 +5,7 @@ $finder = PhpCsFixer\Finder::create()
         __DIR__ . '/vendor',
     ])
     ->in([
-        __DIR__ . '/includes',
+        __DIR__ . '/backend',
         __DIR__ . '/views',
     ])
     ->ignoreVCSIgnored(true);
@@ -80,7 +80,7 @@ return $config
         'multiline_whitespace_before_semicolons'        => false,
         'no_whitespace_before_comma_in_array'           => true,
         'native_function_casing'                        => true,
-        'native_function_invocation'                    => ['include' => ['@compiler_optimized'], 'scope' => 'namespaced', 'strict' => false],
+        'native_function_invocation'                    => ['include' => ['@compiler_optimized'], 'scope' => 'namespaced', 'strict' => false, 'exclude' => ['defined']],
         'new_with_braces'                               => true,
         'no_alias_language_construct_call'              => true,
         'no_alternative_syntax'                         => true,

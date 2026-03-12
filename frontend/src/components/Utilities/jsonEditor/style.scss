@@ -1,0 +1,29 @@
+.json-editor {
+  position: relative;
+  overflow: visible !important;
+
+  section {
+    border-radius: 10px !important;
+    border: 1px solid #f0f0f0 !important;
+    overflow: hidden !important;
+  }
+
+  .form-fields {
+    position: absolute;
+    width: 200px;
+    top: 50%;
+    left: 62%;
+    transform: translateY(-50%);
+    z-index: 9999;
+  }
+
+  .prettier-btn {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    z-index: 9999;
+    background-color: darkblue !important;
+    color: #fff !important;
+    padding: 5px 8px;
+  }
+}
