@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { __ } from '../Utils/i18nwrap'
 import greeting from '../resource/img/home.svg'
 

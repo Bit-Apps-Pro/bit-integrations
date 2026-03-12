@@ -4,7 +4,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 
 import { lazy, Suspense, useEffect, useState } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router'
 import './resource/sass/app.scss'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Toaster } from 'react-hot-toast'
@@ -137,23 +137,27 @@ function App() {
               }
             />
 
-            <Route
-              path="/flow/action/*"
-              element={
-                <Suspense fallback={<Loader className="g-c" style={loaderStyle} />}>
-                  <Integrations />
-                </Suspense>
-              }
-            />
+            <Route path="/flow/action">
+              <Route
+                path="*"
+                element={
+                  <Suspense fallback={<Loader className="g-c" style={loaderStyle} />}>
+                    <Integrations />
+                  </Suspense>
+                }
+              />
+            </Route>
 
-            <Route
-              path="/auth-response/*"
-              element={
-                <Suspense fallback={<Loader className="g-c" style={loaderStyle} />}>
-                  <AuthResponse />
-                </Suspense>
-              }
-            />
+            <Route path="/auth-response">
+              <Route
+                path="*"
+                element={
+                  <Suspense fallback={<Loader className="g-c" style={loaderStyle} />}>
+                    <AuthResponse />
+                  </Suspense>
+                }
+              />
+            </Route>
 
             <Route path="*" element={<Error404 />} />
           </Routes>

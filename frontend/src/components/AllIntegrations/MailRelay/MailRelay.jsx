@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-expressions */
 import { useState } from 'react'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import toast from 'react-hot-toast'
 import { __ } from '../../../Utils/i18nwrap'
 import SnackMsg from '../../Utilities/SnackMsg'

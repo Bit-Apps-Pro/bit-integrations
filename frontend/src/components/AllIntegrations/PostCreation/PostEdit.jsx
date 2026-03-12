@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { $actionConf, $appConfigState, $formFields, $newFlow } from '../../../GlobalStates'
 import { deepCopy } from '../../../Utils/Helpers'
