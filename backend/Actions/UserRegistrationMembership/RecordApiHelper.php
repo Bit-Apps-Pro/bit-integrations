@@ -1,12 +1,13 @@
 <?php
 
-namespace BitCode\FI\Actions\UserRegistrationMembership;
+namespace BitApps\Integrations\Actions\UserRegistrationMembership;
 
-use BitCode\FI\Core\Util\Common;
-use BitCode\FI\Log\LogHandler;
+use BitApps\Integrations\Config;
+use BitApps\Integrations\Core\Util\Common;
+use BitApps\Integrations\Log\LogHandler;
 
 /**
- * Provide functionality for User Registration and Membership integration
+ * Provide functionality for User Registration and Membership integration.
  */
 class RecordApiHelper
 {
@@ -52,7 +53,7 @@ class RecordApiHelper
 
         switch ($mainAction) {
             case 'create_user':
-                return apply_filters('btcbi_user_registration_create_user', $defaultResponse, $fieldData, $this->_integrationDetails);
+                return apply_filters(Config::withPrefix('user_registration_create_user'), $defaultResponse, $fieldData, $this->_integrationDetails);
 
             default:
                 return [

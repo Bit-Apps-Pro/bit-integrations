@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitCode\FI\Actions\UserRegistrationMembership\UserRegistrationMembershipController;
-use BitCode\FI\Core\Util\Route;
+use BitApps\Integrations\Actions\UserRegistrationMembership\UserRegistrationMembershipController;
+use BitApps\Integrations\Core\Util\Route;
 
 Route::post('user_registration_authorize', [UserRegistrationMembershipController::class, 'userRegistrationAuthorize']);
 Route::post('refresh_user_registration_forms', [UserRegistrationMembershipController::class, 'refreshForms']);

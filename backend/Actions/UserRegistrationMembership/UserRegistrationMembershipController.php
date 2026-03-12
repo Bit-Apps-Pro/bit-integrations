@@ -1,11 +1,11 @@
 <?php
 
-namespace BitCode\FI\Actions\UserRegistrationMembership;
+namespace BitApps\Integrations\Actions\UserRegistrationMembership;
 
 use WP_Error;
 
 /**
- * Provide functionality for User Registration and Membership integration
+ * Provide functionality for User Registration and Membership integration.
  */
 class UserRegistrationMembershipController
 {
@@ -64,9 +64,8 @@ class UserRegistrationMembershipController
         }
 
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integrationData->id);
-        $response = $recordApiHelper->execute($fieldValues, $fieldMap);
 
-        return is_wp_error($response) ? $response : $response;
+        return $recordApiHelper->execute($fieldValues, $fieldMap);
     }
 
     private function getFormFields($formId)
