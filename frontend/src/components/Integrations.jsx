@@ -15,6 +15,7 @@ function Integrations() {
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
       <Routes>
         <Route path="new/:integUrlName">
+          <Route index element={<NewInteg allIntegURL="/" />} />
           <Route path="*" element={<NewInteg allIntegURL="/" />} />
         </Route>
 

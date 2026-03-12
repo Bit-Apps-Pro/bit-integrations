@@ -43,9 +43,9 @@ export default function LMFWCAuthorization({
   const ActiveInstructions = `
             <b>${__('Requirements', 'bit-integrations')}</b>
             <p>${__('WordPress permalinks must be enabled at', 'bit-integrations')}: <b>${__(
-    'Settings',
-    'bit-integrations'
-  )}</b> > <b>${__('Permalinks', 'bit-integrations')}</b></p>
+              'Settings',
+              'bit-integrations'
+            )}</b> > <b>${__('Permalinks', 'bit-integrations')}</b></p>
             <h4>${__('To Get Consumer key & Consumer secret', 'bit-integrations')}</h4>
             <ul>
                 <li>${__('First go to "WooCommerce"', 'bit-integrations')}</li>

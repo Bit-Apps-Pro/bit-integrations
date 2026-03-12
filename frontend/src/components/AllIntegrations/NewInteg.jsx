@@ -170,8 +170,8 @@ const ACPT = lazy(() => import('./ACPT/ACPT'))
 const WishlistMember = lazy(() => import('./WishlistMember/WishlistMember'))
 const FluentCart = lazy(() => import('./FluentCart/FluentCart'))
 const WPCafe = lazy(() => import('./WPCafe/WPCafe'))
-const TeamsForWooCommerceMemberships = lazy(() =>
-  import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMemberships')
+const TeamsForWooCommerceMemberships = lazy(
+  () => import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMemberships')
 )
 const SeoPress = lazy(() => import('./SeoPress/SeoPress'))
 

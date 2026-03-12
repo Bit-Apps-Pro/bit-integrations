@@ -27,9 +27,8 @@ export function delItem(el) {
 
   fInp.files = createFileList(...fileList.files)
   if (fInp.files.length > 0) {
-    el.parentNode.parentNode.parentNode.querySelector(
-      '.btcd-f-title'
-    ).innerHTML = `${fInp.files.length} File Selected`
+    el.parentNode.parentNode.parentNode.querySelector('.btcd-f-title').innerHTML =
+      `${fInp.files.length} File Selected`
   } else {
     el.parentNode.parentNode.parentNode.querySelector('.btcd-f-title').innerHTML = 'No File Chosen'
   }
@@ -143,9 +142,8 @@ export function handleFile(e) {
 
   // set File list view
   if (e.target.files.length > 0) {
-    e.target.parentNode.querySelector(
-      '.btcd-f-title'
-    ).innerHTML = `${e.target.files.length} File Selected`
+    e.target.parentNode.querySelector('.btcd-f-title').innerHTML =
+      `${e.target.files.length} File Selected`
     e.target.parentNode.parentNode.querySelector('.btcd-files').innerHTML = ''
     for (let i = 0; i < e.target.files.length; i += 1) {
       let img = null

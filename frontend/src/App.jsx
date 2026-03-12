@@ -139,6 +139,14 @@ function App() {
 
             <Route path="/flow/action">
               <Route
+                index
+                element={
+                  <Suspense fallback={<Loader className="g-c" style={loaderStyle} />}>
+                    <Integrations />
+                  </Suspense>
+                }
+              />
+              <Route
                 path="*"
                 element={
                   <Suspense fallback={<Loader className="g-c" style={loaderStyle} />}>
@@ -149,6 +157,14 @@ function App() {
             </Route>
 
             <Route path="/auth-response">
+              <Route
+                index
+                element={
+                  <Suspense fallback={<Loader className="g-c" style={loaderStyle} />}>
+                    <AuthResponse />
+                  </Suspense>
+                }
+              />
               <Route
                 path="*"
                 element={

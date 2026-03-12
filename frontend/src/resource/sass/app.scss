@@ -1,3 +1,28 @@
+@use 'sass:color';
+@use 'sass:math';
+
+// Keep legacy function names while using the non-deprecated API.
+@function _to-percent($amount) {
+  @if math.is-unitless($amount) {
+    @return $amount * 1%;
+  }
+
+  @return $amount;
+}
+
+@function transparentize($color, $amount) {
+  @return color.adjust($color, $alpha: -$amount);
+}
+
+@function darken($color, $amount) {
+  $percent-amount: _to-percent($amount);
+  @return color.adjust($color, $lightness: -$percent-amount);
+}
+
+@function lighten($color, $amount) {
+  @return color.adjust($color, $lightness: _to-percent($amount));
+}
+
 :root {
   --tooltip-txt: '';
   --tt-left: 50%;
@@ -180,7 +205,9 @@ button.check {
 
     &:focus {
       border-color: $purple !important;
-      box-shadow: 0 0 0 0px $purple, 0 0 0 4px rgba(0, 131, 243, 0.1) !important;
+      box-shadow:
+        0 0 0 0px $purple,
+        0 0 0 4px rgba(0, 131, 243, 0.1) !important;
     }
   }
 }
@@ -853,7 +880,8 @@ input[type='checkbox'].disabled:checked:before {
   $ie-bottom-track-color: darken($track-color, $contrast) !default;
 
   @mixin shadow($shadow-size, $shadow-blur, $shadow-color) {
-    box-shadow: $shadow-size $shadow-size $shadow-blur $shadow-color,
+    box-shadow:
+      $shadow-size $shadow-size $shadow-blur $shadow-color,
       0 0 $shadow-size lighten($shadow-color, 5%);
   }
 
@@ -1348,7 +1376,9 @@ input[type='checkbox'].disabled:checked:before {
   border: 1px solid #dce7ff;
   // box-shadow: 0px 2px 3px #d7e0ed;
   background-color: aliceblue;
-  transition: box-shadow 0.2s, transform 0.3s;
+  transition:
+    box-shadow 0.2s,
+    transform 0.3s;
 
   & > .txt-center {
     word-break: break-word;
@@ -1552,7 +1582,9 @@ input[type='checkbox'].disabled:checked:before {
       border-radius: 22px 15px 12px 30px;
       z-index: 1;
       box-shadow: 0px 2px 4px #e1d4ff;
-      transition: box-shadow 0.2s, transform 0.3s;
+      transition:
+        box-shadow 0.2s,
+        transform 0.3s;
     }
   }
 }
@@ -1577,7 +1609,7 @@ input[type='checkbox'].disabled:checked:before {
   justify-content: center;
   align-items: center;
   font-family: 'Outfit', sans-serif;
-  background-image: url(../img/bit-social-promo.png);
+  background-image: url(../img/bit-social-promo.webp);
   background-repeat: no-repeat;
   background-position: left;
   color: #fff;
@@ -1839,7 +1871,9 @@ nav.top-nav {
   overflow: hidden;
   border-radius: 15px;
   box-shadow: 2px 2px 5px 0px #444444;
-  transition: width 0.4s, border-radius 0.4s;
+  transition:
+    width 0.4s,
+    border-radius 0.4s;
   width: 190px;
 
   & img {
@@ -2410,7 +2444,10 @@ nav.top-nav {
     -webkit-user-select: none;
     -webkit-user-drag: none;
     opacity: 0;
-    transition: transform 100ms, opacity 300ms, border-radius cubic-bezier(0, 0, 0, 1) 500ms;
+    transition:
+      transform 100ms,
+      opacity 300ms,
+      border-radius cubic-bezier(0, 0, 0, 1) 500ms;
   }
 
   &:hover::after {
@@ -2419,7 +2456,9 @@ nav.top-nav {
     transform-origin: 0%;
     opacity: 1;
     transform: scale(1) translate(-50%, 0);
-    transition: transform 400ms, border-radius cubic-bezier(0, 0, 0, 1) 500ms;
+    transition:
+      transform 400ms,
+      border-radius cubic-bezier(0, 0, 0, 1) 500ms;
   }
 }
 
@@ -2457,7 +2496,11 @@ nav.top-nav {
   overflow: hidden;
   z-index: 999;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.22);
-  transition: left 200ms, width 0.3s, height 0.3s, border-radius 0.5s;
+  transition:
+    left 200ms,
+    width 0.3s,
+    height 0.3s,
+    border-radius 0.5s;
 
   & > a,
   button {
@@ -2559,7 +2602,9 @@ nav.top-nav {
   & .btcd-modal {
     border-radius: 20px;
     transform: scale(1);
-    transition: transform 0.1s, border-radius 0.2s;
+    transition:
+      transform 0.1s,
+      border-radius 0.2s;
   }
 }
 
@@ -2592,7 +2637,9 @@ nav.top-nav {
   overflow: hidden;
   width: 700px;
   height: 70%;
-  transition: transform 0.3s, border-radius 0.5s ease;
+  transition:
+    transform 0.3s,
+    border-radius 0.5s ease;
   box-shadow: 0 0 14px 1px rgba(0, 0, 0, 0.64);
 }
 
@@ -2739,8 +2786,10 @@ nav.top-nav {
 }
 
 .btcd-builder-wrp {
-  background: linear-gradient(90deg, #ffffff 12px, transparent 1%) center,
-    linear-gradient(#ffffff 12px, transparent 1%) center, #000000;
+  background:
+    linear-gradient(90deg, #ffffff 12px, transparent 1%) center,
+    linear-gradient(#ffffff 12px, transparent 1%) center,
+    #000000;
   // background: white !important;
   position: fixed !important;
   top: 80px !important;
@@ -3109,7 +3158,9 @@ nav.top-nav {
 
   &:focus {
     border-color: $purple !important;
-    box-shadow: 0 0 0 0px $purple, 0 0 0 4px rgba(0, 131, 243, 0.1) !important;
+    box-shadow:
+      0 0 0 0px $purple,
+      0 0 0 4px rgba(0, 131, 243, 0.1) !important;
   }
 
   &:disabled {
@@ -3173,7 +3224,10 @@ select.btcd-paper-inp {
   height: auto !important;
   padding: 10px 24px 10px 10px !important;
   appearance: none;
-  transition: background-position-y 0.2s, border 0.2s, box-shadow 0.2s !important;
+  transition:
+    background-position-y 0.2s,
+    border 0.2s,
+    box-shadow 0.2s !important;
 
   &:hover:not(:disabled),
   :focus {
@@ -3193,7 +3247,9 @@ select.btcd-paper-inp {
 
   &:focus {
     border-color: $purple !important;
-    box-shadow: 0 0 0 0px $purple, 0 0 0 4px rgba(0, 131, 243, 0.1) !important;
+    box-shadow:
+      0 0 0 0px $purple,
+      0 0 0 4px rgba(0, 131, 243, 0.1) !important;
   }
 
   &:hover:not(:disabled, :focus) {
@@ -3625,17 +3681,23 @@ select.btcd-paper-inp {
   font-size: 0.875rem;
   padding: 10px 15px;
   border-radius: 5px;
-  transition: bottom 0.5s, transform 0.5s;
+  transition:
+    bottom 0.5s,
+    transform 0.5s;
   z-index: 999999;
   transform: scale(0);
-  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14),
+  box-shadow:
+    0px 3px 5px -1px rgba(0, 0, 0, 0.2),
+    0px 6px 10px 0px rgba(0, 0, 0, 0.14),
     0px 1px 18px 0px rgba(0, 0, 0, 0.12);
 }
 
 .btcd-snack-a-enter-active {
   bottom: 30px;
   transform: scale(1);
-  transition: bottom 0.5s, transform 0.5s;
+  transition:
+    bottom 0.5s,
+    transform 0.5s;
 }
 
 .btcd-snack-cls {
@@ -3908,7 +3970,9 @@ select.btcd-paper-inp {
   font-size: inherit;
   line-height: inherit;
   caret-color: $purple;
-  transition: border 0.2s, box-shadow 0.2s;
+  transition:
+    border 0.2s,
+    box-shadow 0.2s;
 }
 
 /* Span */
@@ -3927,7 +3991,10 @@ select.btcd-paper-inp {
   font-size: 75%;
   line-height: 15px;
   cursor: text;
-  transition: color 0.2s, font-size 0.2s, line-height 0.2s;
+  transition:
+    color 0.2s,
+    font-size 0.2s,
+    line-height 0.2s;
 }
 
 /* Corners */
@@ -3945,7 +4012,9 @@ select.btcd-paper-inp {
   height: 8px;
   pointer-events: none;
   box-shadow: inset 0 1px transparent;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 .btcd-mt-inp > input + span::before,
@@ -4006,7 +4075,10 @@ select.btcd-paper-inp {
 .btcd-mt-inp > textarea:focus {
   border-color: $purple;
   border-top-color: transparent;
-  box-shadow: inset 2px 0 $purple, inset -2px 0 $purple, inset 0 -2px $purple;
+  box-shadow:
+    inset 2px 0 $purple,
+    inset -2px 0 $purple,
+    inset 0 -2px $purple;
   outline: none;
 }
 
@@ -4102,7 +4174,10 @@ select.btcd-paper-inp {
     padding: 10px;
     outline: none;
     border: 1px solid $gray;
-    transition: background-position-y 0.2s, border 0.2s, box-shadow 0.2s;
+    transition:
+      background-position-y 0.2s,
+      border 0.2s,
+      box-shadow 0.2s;
     appearance: none;
     font-size: 16px;
 
@@ -4150,7 +4225,10 @@ select.btcd-paper-inp {
 select.btcd-ud-inp {
   background: url($select-arrow) no-repeat right #fff;
   appearance: none;
-  transition: background-position-y 0.2s, border 0.2s, box-shadow 0.2s;
+  transition:
+    background-position-y 0.2s,
+    border 0.2s,
+    box-shadow 0.2s;
 }
 
 .btcd-lgc {
@@ -4305,19 +4383,25 @@ select.btcd-ud-inp {
   color: $dp-bg;
   text-decoration: none;
   cursor: pointer;
-  box-shadow: 6px 6px 10px rgba(120, 136, 194, 0.4), -6px -6px 10px rgba(255, 255, 255, 0.9);
+  box-shadow:
+    6px 6px 10px rgba(120, 136, 194, 0.4),
+    -6px -6px 10px rgba(255, 255, 255, 0.9);
   border-radius: 10px;
   padding: 10px;
   border: none;
   outline: none;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 
   &:hover {
     background-color: darken($light-bg, 5);
   }
 
   &:active {
-    box-shadow: 3px 3px 6px rgba(120, 136, 194, 0.4), -6px -6px 10px rgba(255, 255, 255, 0.9);
+    box-shadow:
+      3px 3px 6px rgba(120, 136, 194, 0.4),
+      -6px -6px 10px rgba(255, 255, 255, 0.9);
     transform: scale(0.9);
   }
 }
@@ -4330,7 +4414,9 @@ select.btcd-ud-inp {
 }
 
 .btcd-neu-btn.neu-sh-sm {
-  box-shadow: 3px 3px 6px rgba(120, 136, 194, 0.4), -3px -3px 6px rgba(255, 255, 255, 0.9);
+  box-shadow:
+    3px 3px 6px rgba(120, 136, 194, 0.4),
+    -3px -3px 6px rgba(255, 255, 255, 0.9);
 }
 
 .btcd-neu-inp {
@@ -4345,11 +4431,14 @@ select.btcd-ud-inp {
     border: 3px solid $light-bg;
     outline: none;
     margin: 0;
-    transition: box-shadow 0.2s, border 0.2s;
+    transition:
+      box-shadow 0.2s,
+      border 0.2s;
 
     &:focus {
       background: white;
-      box-shadow: 1px 1px 2px rgba(120, 136, 194, 0.4) inset,
+      box-shadow:
+        1px 1px 2px rgba(120, 136, 194, 0.4) inset,
         -1px -1px 2px rgba(255, 255, 255, 0.9) inset;
       border: 3px solid darken($light-bg, 7);
     }
@@ -4391,7 +4480,9 @@ select.btcd-ud-inp {
   width: 0;
   height: 0;
   transition-delay: height 1s;
-  transition: width 0.4s, height 0.4s;
+  transition:
+    width 0.4s,
+    height 0.4s;
 }
 
 .error-404 {
@@ -5334,7 +5425,9 @@ _:-ms-fullscreen,
     border-top-left-radius: 5px;
 
     &.active {
-      box-shadow: -1px -1px 4px 0px rgba(#0069ff, 0.2), 1px 0 4px 0px rgba(#0069ff, 0.2);
+      box-shadow:
+        -1px -1px 4px 0px rgba(#0069ff, 0.2),
+        1px 0 4px 0px rgba(#0069ff, 0.2);
     }
   }
 }

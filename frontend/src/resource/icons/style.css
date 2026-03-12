@@ -1,8 +1,10 @@
 @font-face {
   font-family: 'btcd-icn';
   src: url('fonts/btcd-icn.eot?zeuff');
-  src: url('fonts/btcd-icn.eot?zeuff#iefix') format('embedded-opentype'),
-    url('fonts/btcd-icn.ttf?zeuff') format('truetype'), url('fonts/btcd-icn.woff?zeuff') format('woff'),
+  src:
+    url('fonts/btcd-icn.eot?zeuff#iefix') format('embedded-opentype'),
+    url('fonts/btcd-icn.ttf?zeuff') format('truetype'),
+    url('fonts/btcd-icn.woff?zeuff') format('woff'),
     url('fonts/btcd-icn.svg?zeuff#btcd-icn') format('svg');
   font-weight: normal;
   font-style: normal;
