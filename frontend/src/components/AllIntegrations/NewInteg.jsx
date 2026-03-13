@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react/jsx-no-undef */
 import { lazy, Suspense, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router'
 import { useRecoilState } from 'recoil'
 import { $newFlow } from '../../GlobalStates'
 import { __ } from '../../Utils/i18nwrap'
@@ -170,8 +170,8 @@ const ACPT = lazy(() => import('./ACPT/ACPT'))
 const WishlistMember = lazy(() => import('./WishlistMember/WishlistMember'))
 const FluentCart = lazy(() => import('./FluentCart/FluentCart'))
 const WPCafe = lazy(() => import('./WPCafe/WPCafe'))
-const TeamsForWooCommerceMemberships = lazy(() =>
-  import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMemberships')
+const TeamsForWooCommerceMemberships = lazy(
+  () => import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMemberships')
 )
 const SeoPress = lazy(() => import('./SeoPress/SeoPress'))
 

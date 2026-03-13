@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { lazy, memo, Suspense, useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router'
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil'
 import { $actionConf, $formFields, $newFlow } from '../../GlobalStates'
 import useFetch from '../../hooks/useFetch'
@@ -139,8 +139,8 @@ const EditAutomatorWP = lazy(() => import('./AutomatorWP/EditAutomatorWP'))
 const EditUncannyAutomator = lazy(() => import('./UncannyAutomator/EditUncannyAutomator'))
 const EditThriveAutomator = lazy(() => import('./ThriveAutomator/EditThriveAutomator'))
 const EditWPWebhooks = lazy(() => import('./WPWebhooks/EditWPWebhooks'))
-const EditAdvancedFormIntegration = lazy(() =>
-  import('./AdvancedFormIntegration/EditAdvancedFormIntegration')
+const EditAdvancedFormIntegration = lazy(
+  () => import('./AdvancedFormIntegration/EditAdvancedFormIntegration')
 )
 const EditPerfexCRM = lazy(() => import('./PerfexCRM/EditPerfexCRM'))
 const EditSureTriggers = lazy(() => import('./SureTriggers/EditSureTriggers'))
@@ -171,8 +171,8 @@ const EditACPT = lazy(() => import('./ACPT/EditACPT'))
 const EditWishlistMember = lazy(() => import('./WishlistMember/EditWishlistMember'))
 const EditFluentCart = lazy(() => import('./FluentCart/EditFluentCart'))
 const EditWPCafe = lazy(() => import('./WPCafe/EditWPCafe'))
-const EditTeamsForWooCommerceMemberships = lazy(() =>
-  import('./TeamsForWooCommerceMemberships/EditTeamsForWooCommerceMemberships')
+const EditTeamsForWooCommerceMemberships = lazy(
+  () => import('./TeamsForWooCommerceMemberships/EditTeamsForWooCommerceMemberships')
 )
 const EditSeoPress = lazy(() => import('./SeoPress/EditSeoPress'))
 

@@ -4,7 +4,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 
 import { lazy, Suspense, useEffect, useState } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router'
 import './resource/sass/app.scss'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Toaster } from 'react-hot-toast'
@@ -33,6 +33,17 @@ const Error404 = lazy(() => import('./pages/Error404'))
 function App() {
   const loaderStyle = { height: '82vh' }
   const btcbi = useRecoilValue($appConfigState)
+  const defaultLoaderFallback = <Loader className="g-c" style={loaderStyle} />
+  const integrationsElement = (
+    <Suspense fallback={defaultLoaderFallback}>
+      <Integrations />
+    </Suspense>
+  )
+  const authResponseElement = (
+    <Suspense fallback={defaultLoaderFallback}>
+      <AuthResponse />
+    </Suspense>
+  )
 
   // check if integrations are available
   const { data, isLoading } = useFetch({ payload: {}, action: 'flow/list', method: 'get' })
@@ -113,7 +124,7 @@ function App() {
             <Route
               path="/app-settings"
               element={
-                <Suspense fallback={<Loader className="g-c" style={loaderStyle} />}>
+                <Suspense fallback={defaultLoaderFallback}>
                   <Settings />
                 </Suspense>
               }
@@ -122,7 +133,7 @@ function App() {
             <Route
               path="/doc-support"
               element={
-                <Suspense fallback={<Loader className="g-c" style={loaderStyle} />}>
+                <Suspense fallback={defaultLoaderFallback}>
                   <DocSupport />
                 </Suspense>
               }
@@ -131,29 +142,21 @@ function App() {
             <Route
               path="/flow/new"
               element={
-                <Suspense fallback={<Loader className="g-c" style={loaderStyle} />}>
+                <Suspense fallback={defaultLoaderFallback}>
                   <FlowBuilder />
                 </Suspense>
               }
             />
 
-            <Route
-              path="/flow/action/*"
-              element={
-                <Suspense fallback={<Loader className="g-c" style={loaderStyle} />}>
-                  <Integrations />
-                </Suspense>
-              }
-            />
+            <Route path="/flow/action">
+              <Route index element={integrationsElement} />
+              <Route path="*" element={integrationsElement} />
+            </Route>
 
-            <Route
-              path="/auth-response/*"
-              element={
-                <Suspense fallback={<Loader className="g-c" style={loaderStyle} />}>
-                  <AuthResponse />
-                </Suspense>
-              }
-            />
+            <Route path="/auth-response">
+              <Route index element={authResponseElement} />
+              <Route path="*" element={authResponseElement} />
+            </Route>
 
             <Route path="*" element={<Error404 />} />
           </Routes>
