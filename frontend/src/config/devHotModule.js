@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import RefreshRuntime from '/@react-refresh'
 
 RefreshRuntime.injectIntoGlobalHook(window)
