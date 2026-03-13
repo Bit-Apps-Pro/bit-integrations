@@ -251,8 +251,13 @@ class WCHelper
         }
 
         foreach ($order->get_items() as $item) {
+            if (empty($item)) {
+                continue;
+            }
+
             $productId = $item->get_product_id();
             $product = $item->get_product();
+
             $itemData = [
                 'product_id'         => $productId,
                 'variation_id'       => $item->get_variation_id() ?? '',
@@ -263,8 +268,8 @@ class WCHelper
                 'subtotal_tax'       => $item->get_subtotal_tax() ?? '',
                 'tax_class'          => $item->get_tax_class() ?? '',
                 'tax_status'         => $item->get_tax_status() ?? '',
-                'product_sku'        => $product->get_sku() ?? '',
-                'product_unit_price' => $product->get_price() ?? '',
+                'product_sku'        => $product && $product->get_sku() ? $product->get_sku() : '',
+                'product_unit_price' => $product && $product->get_price() ? $product->get_price() : '',
             ];
 
             $acfFieldGroups = Helper::acfGetFieldGroups(['product']);
