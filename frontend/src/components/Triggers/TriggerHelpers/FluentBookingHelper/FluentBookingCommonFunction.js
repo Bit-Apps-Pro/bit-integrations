@@ -5,11 +5,11 @@ import { __ } from '../../../../Utils/i18nwrap'
 export const getFluentFluentBookingFields = (setFlowData, value, edit, setFormFields) => {
   const loadFields = bitsFetch({ id: value }, 'fluentbooking/get/fields', null, 'POST').then(result => {
     if (result && result.success) {
-      if (edit) {
-        setFormFields(result.data)
-      } else {
+      setFormFields(result.data)
+
+      if (!edit) {
         setFlowData(result.data, 'fields')
-      }
+      } 
 
       return __('Fetched fields successfully', 'bit-integrations')
     }

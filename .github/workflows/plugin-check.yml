@@ -37,6 +37,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
+          version: 9
           run_install: false
 
       - name: Get pnpm store directory
@@ -66,7 +67,7 @@ jobs:
 
       - name: Build plugin
         run: |
-          pnpm production
+          pnpm build
           bash .github/copy-assets
 
       - name: WordPress Plugin Check

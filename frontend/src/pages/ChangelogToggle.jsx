@@ -30,13 +30,33 @@ const changeLog = [
     label: __('New Actions', 'bit-integrations'),
     headClass: 'new-integration',
     itemClass: 'integration-list',
-    items: []
+    items: [
+      {
+        label: 'User Registration & Membership',
+        desc: '1 new events added',
+        isPro: true
+      }, {
+        label: 'NotificationX',
+        desc: '7 new events added',
+        isPro: true
+      }
+    ]
   },
   {
     label: __('New Triggers', 'bit-integrations'),
     headClass: 'new-trigger',
     itemClass: 'integration-list',
-    items: []
+    items: [
+      {
+        label: 'User Registration & Membership',
+        desc: '2 new events added',
+        isPro: true
+      }, {
+        label: 'NotificationX',
+        desc: '2 new events added',
+        isPro: true
+      }
+    ]
   },
   {
     label: __('New Features', 'bit-integrations'),
@@ -44,9 +64,9 @@ const changeLog = [
     itemClass: 'feature-list',
     items: [
       {
-        label: 'ActiveCampaign',
-        desc: 'Tags update feature added.',
-        isPro: false
+        label: 'Forminator Quiz & Poll',
+        desc: 'Included lead data in quiz trigger payloads.',
+        isPro: true
       }
     ]
   },
@@ -54,23 +74,7 @@ const changeLog = [
     label: __('Improvements', 'bit-integrations'),
     headClass: 'new-improvement',
     itemClass: 'feature-list',
-    items: [
-      {
-        label: 'ActiveCampaign',
-        desc: 'Refactored update contact handling.',
-        isPro: false
-      },
-      {
-        label: 'Custom Function',
-        desc: 'Improved validator logic.',
-        isPro: false
-      },
-      {
-        label: 'get-access-token',
-        desc: 'Removed unnecessary sanitation on get-access-token routes for smoother OAuth flow.',
-        isPro: false
-      }
-    ]
+    items: []
   },
   {
     label: __('Bug Fixes', 'bit-integrations'),
@@ -78,29 +82,29 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'SendFox',
-        desc: 'Fixed blank page issue and fieldmap disappearance issue.',
+        label: 'GoHighLevel',
+        desc: 'Fixed opportunity creation by sending the selected pipeline ID correctly.',
+        isPro: false
+      },
+      {
+        label: 'ActiveCampaign',
+        desc: 'Fixed tag update handling so existing tags are removed correctly before new tags are applied.',
+        isPro: false
+      },
+      {
+        label: 'FluentBooking',
+        desc: 'Fixed fetched fields not being set consistently during trigger configuration.',
+        isPro: false
+      },
+      {
+        label: 'Webhook',
+        desc: 'Fixed payload field mapping when form fields are unavailable during setup.',
         isPro: false
       },
       {
         label: 'WooCommerce',
-        desc: 'Fixed billing and shipping address overwrite issue.',
+        desc: 'Fixed product data access issues for order items without product objects.',
         isPro: false
-      },
-      {
-        label: 'Salesforce',
-        desc: 'Fixed lead response type issue.',
-        isPro: false
-      },
-      {
-        label: 'Google Products',
-        desc: 'Fixed authentication issue.',
-        isPro: false
-      },
-      {
-        label: 'Brekadance',
-        desc: 'Fixed trigger listening data issue.',
-        isPro: true
       }
     ]
   },

@@ -4,7 +4,7 @@ Tags: automation, automator, google sheets connector, zapier, WooCommerce Integr
 Requires at least: 5.1
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.7.12
+Stable tag: 2.8.0
 License: GPLv2 or later
 
 Perfect Automation and integration plugin: Connect 300+ platforms and automate CRM, Email marketing tools, Google Sheets, Contact forms, LMS and more
@@ -717,6 +717,27 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 6. All integration list
 
 == Changelog ==
+
+= 2.8.0 =
+_Release Date - 16th March 2026_
+
+- **New Triggers**
+ - User Registration & Membership: 2 new events added (Pro)
+ - NotificationX: 2 new events added (Pro)
+
+- **New Actions**
+ - User Registration & Membership: 1 new events added (Pro)
+ - NotificationX: 7 new events added (Pro)
+
+- **New Features**
+ - Forminator Quiz & Poll: Included lead data in quiz trigger payloads (Pro).
+
+- **Bug Fixes**
+ - GoHighLevel: Fixed opportunity creation by sending the selected pipeline ID correctly (Pro).
+ - ActiveCampaign: Fixed tag update handling so existing tags are removed correctly before new tags are applied.
+ - FluentBooking: Fixed fetched fields not being set consistently during trigger configuration.
+ - Webhook: Fixed payload field mapping when form fields are unavailable during setup.
+ - WooCommerce: Fixed product data access issues for order items without product objects.
 
 = 2.7.12 =
 _Release Date - 10th March 2026_
