@@ -122,12 +122,12 @@ final class Route
                     } else {
                         $data = $noSanitize // phpcs:ignore WordPress.Security.NonceVerification.Missing
                             ? (object) wp_unslash($_POST) // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-                            : (object) map_deep(wp_unslash($_POST), 'sanitize_text_field'); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+                            : (object) map_deep(wp_unslash($_POST), [__CLASS__, 'sanitizeValue']); // phpcs:ignore WordPress.Security.NonceVerification.Missing
                     }
                 } else {
                     $data = $noSanitize // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                         ? (object) wp_unslash($_GET) // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-                        : (object) map_deep(wp_unslash($_GET), 'sanitize_text_field'); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                        : (object) map_deep(wp_unslash($_GET), [__CLASS__, 'sanitizeValue']); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 }
 
                 $reflectionMethod = new ReflectionMethod($invokeable[0], $invokeable[1]);

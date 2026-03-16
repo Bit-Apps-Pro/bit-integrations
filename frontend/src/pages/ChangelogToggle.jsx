@@ -9,7 +9,7 @@ import NewYear from '../resource/img/NewYear.png'
 import bitsFetch from '../Utils/bitsFetch'
 import { __, sprintf } from '../Utils/i18nwrap'
 
-const releaseDate = '26th February 2026'
+const releaseDate = '10th March 2026'
 
 // Example for items:
 // items: [
@@ -44,8 +44,8 @@ const changeLog = [
     itemClass: 'feature-list',
     items: [
       {
-        label: 'WooCommerce',
-        desc: 'Booster for WooCommerce checkout fields added.',
+        label: 'ActiveCampaign',
+        desc: 'Tags update feature added.',
         isPro: false
       }
     ]
@@ -56,13 +56,18 @@ const changeLog = [
     itemClass: 'feature-list',
     items: [
       {
-        label: 'Breakdance',
-        desc: 'Updated Breakdance trigger test endpoints to use the shared trigger test routes.',
-        isPro: true
+        label: 'ActiveCampaign',
+        desc: 'Refactored update contact handling.',
+        isPro: false
       },
       {
-        label: 'Custom Action',
-        desc: 'Reworked PHP function validation to use loopback-based fatal error checks and return cleaner syntax validation feedback.',
+        label: 'Custom Function',
+        desc: 'Improved validator logic.',
+        isPro: false
+      },
+      {
+        label: 'get-access-token',
+        desc: 'Removed unnecessary sanitation on get-access-token routes for smoother OAuth flow.',
         isPro: false
       }
     ]
@@ -73,18 +78,28 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'License',
-        desc: 'Fixed license expiry day calculation in the license status notice.',
-        isPro: true
+        label: 'SendFox',
+        desc: 'Fixed blank page issue and fieldmap disappearance issue.',
+        isPro: false
       },
       {
-        label: 'License',
-        desc: 'Added backward-compatible removal for legacy license key option data.',
-        isPro: true
+        label: 'WooCommerce',
+        desc: 'Fixed billing and shipping address overwrite issue.',
+        isPro: false
       },
       {
-        label: 'Custom Trigger',
-        desc: 'Fixed custom trigger test data remove response key and success message labels.',
+        label: 'Salesforce',
+        desc: 'Fixed lead response type issue.',
+        isPro: false
+      },
+      {
+        label: 'Google Products',
+        desc: 'Fixed authentication issue.',
+        isPro: false
+      },
+      {
+        label: 'Brekadance',
+        desc: 'Fixed trigger listening data issue.',
         isPro: true
       }
     ]

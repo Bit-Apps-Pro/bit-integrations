@@ -10,17 +10,8 @@ import TagifyInput from '../../Utilities/TagifyInput'
 import { handleCustomValue } from '../IntegrationHelpers/IntegrationHelpers'
 
 export default function SendFoxFieldMap({ i, formFields, field, sendFoxConf, setSendFoxConf }) {
-  useEffect(() => {
-    if (sendFoxConf?.field_map?.length === 1 && field.sendFoxFormField === '') {
-      const newConf = { ...sendFoxConf }
-      const tmp = generateMappedField(newConf)
-      newConf.field_map = tmp
-      setSendFoxConf(newConf)
-    }
-  })
-
-  const requiredFlds = sendFoxConf?.contactFields.filter(fld => fld.required === true) || []
-  const nonRequiredFlds = sendFoxConf?.contactFields.filter(fld => fld.required === false) || []
+  const requiredFlds = contactFields.filter(fld => fld.required === true) || []
+  const nonRequiredFlds = contactFields.filter(fld => fld.required === false) || []
 
   const btcbi = useRecoilValue($appConfigState)
   const { isPro } = btcbi
@@ -110,3 +101,9 @@ export default function SendFoxFieldMap({ i, formFields, field, sendFoxConf, set
     </div>
   )
 }
+
+export const contactFields = [
+  { key: 'email', label: __('Email', 'bit-integrations'), required: true },
+  { key: 'first_name', label: __('First Name', 'bit-integrations'), required: false },
+  { key: 'last_name', label: __('Last Name', 'bit-integrations'), required: false }
+]

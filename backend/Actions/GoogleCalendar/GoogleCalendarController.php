@@ -33,6 +33,7 @@ class GoogleCalendarController
 
         $apiEndpoint = 'https://oauth2.googleapis.com/token';
         $header['Content-Type'] = 'application/x-www-form-urlencoded';
+
         $apiResponse = HttpHelper::post($apiEndpoint, $body, $header);
 
         if (is_wp_error($apiResponse) || !empty($apiResponse->error)) {

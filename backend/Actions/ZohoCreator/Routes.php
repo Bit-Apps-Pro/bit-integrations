@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
 use BitApps\Integrations\Actions\ZohoCreator\ZohoCreatorController;
 use BitApps\Integrations\Core\Util\Route;
 
-Route::post('zcreator_generate_token', [ZohoCreatorController::class, 'generateTokens']);
+Route::no_sanitize()->post('zcreator_generate_token', [ZohoCreatorController::class, 'generateTokens']);
 Route::post('zcreator_refresh_applications', [ZohoCreatorController::class, 'refreshApplicationsAjaxHelper']);
 Route::post('zcreator_refresh_forms', [ZohoCreatorController::class, 'refreshFormsAjaxHelper']);
 Route::post('zcreator_refresh_fields', [ZohoCreatorController::class, 'refreshFieldsAjaxHelper']);
