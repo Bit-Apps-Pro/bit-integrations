@@ -132,6 +132,7 @@ final class AllTriggersName
             'Tripetto'                       => ['name' => 'Tripetto',  'isPro' => true, 'is_active' => false],
             'TutorLms'                       => ['name' => 'Tutor LMS',  'isPro' => true, 'is_active' => false],
             'TeamsForWooCommerceMemberships' => ['name' => 'Teams For WooCommerce Memberships',  'isPro' => true, 'is_active' => false],
+            'UserRegistrationMembership'     => ['name' => 'User Registration & Membership',  'isPro' => true, 'is_active' => false],
             'UltimateMember'                 => ['name' => 'UltimateMember',  'isPro' => true, 'is_active' => false],
             'UserFeedback'                   => ['name' => 'UserFeedback',  'isPro' => true, 'is_active' => false],
             'Voxel'                          => ['name' => 'Voxel',  'isPro' => true, 'is_active' => false],
