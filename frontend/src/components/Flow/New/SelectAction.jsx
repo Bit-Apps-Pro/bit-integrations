@@ -176,7 +176,9 @@ export default function SelectAction() {
     { type: 'FluentCart' },
     { type: 'WPCafe' },
     { type: 'Teams For WooCommerce Memberships' },
-    { type: 'SeoPress' }
+    { type: 'SeoPress' },
+    { type: 'NotificationX' },
+    { type: 'User Registration & Membership', logo: 'userRegistrationMembership' }
   ]
 
   const [availableIntegs, setAvailableIntegs] = useState(sortByField(integs, 'type', 'ASC') || integs)

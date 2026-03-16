@@ -6,22 +6,26 @@ import { __ } from '../../../Utils/i18nwrap'
 import SnackMsg from '../../Utilities/SnackMsg'
 import { saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
-import SeoPressAuthorization from './SeoPressAuthorization'
-import { checkMappedFields } from './SeoPressCommonFunc'
-import SeoPressIntegLayout from './SeoPressIntegLayout'
+import NotificationXAuthorization from './NotificationXAuthorization'
+import { checkMappedFields } from './NotificationXCommonFunc'
+import NotificationXIntegLayout from './NotificationXIntegLayout'
+import { NOTIFICATION_SELECTION_ACTIONS } from './staticData'
 
-export default function SeoPress({ formFields, setFlow, flow, allIntegURL }) {
+export default function NotificationX({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
   const { formID } = useParams()
   const [isLoading, setIsLoading] = useState(false)
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
-  const [seoPressConf, setSeoPressConf] = useState({
-    name: 'SEOPress',
-    type: 'SeoPress',
-    field_map: [{ formField: '', seoPressField: '' }],
+  const [notificationXConf, setNotificationXConf] = useState({
+    name: 'NotificationX',
+    type: 'NotificationX',
+    field_map: [{ formField: '', notificationXField: '' }],
+    entry_map: [],
     actions: {},
-    mainAction: ''
+    mainAction: '',
+    selected_notification_id: '',
+    notifications: [],
   })
 
   const nextPage = val => {
@@ -29,19 +33,27 @@ export default function SeoPress({ formFields, setFlow, flow, allIntegURL }) {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
 
-    if (val !== 3) {
-      setStep(val)
-    }
+    if (val === 3) {
+      if (NOTIFICATION_SELECTION_ACTIONS.includes(notificationXConf?.mainAction) && !notificationXConf?.selected_notification_id) {
+        setSnackbar({
+          show: true,
+          msg: __('Please select a notification to continue.', 'bit-integrations'),
+        })
+        return
+      }
 
-    if (!checkMappedFields(seoPressConf)) {
-      setSnackbar({
-        show: true,
-        msg: __('Please map all required fields to continue.', 'bit-integrations')
-      })
-      return
-    }
+      if (!checkMappedFields(notificationXConf)) {
+        setSnackbar({
+          show: true,
+          msg: __('Please map all required fields to continue.', 'bit-integrations'),
+        })
+        return
+      }
 
-    if (seoPressConf.name !== '' && seoPressConf.field_map.length > 0) {
+      if (notificationXConf.name !== '') {
+        setStep(val)
+      }
+    } else {
       setStep(val)
     }
   }
@@ -49,13 +61,13 @@ export default function SeoPress({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">{/* <Steps step={3} active={step} /> */}</div>
+      <div className="txt-center mt-2" />
 
       {/* STEP 1 */}
-      <SeoPressAuthorization
+      <NotificationXAuthorization
         formID={formID}
-        seoPressConf={seoPressConf}
-        setSeoPressConf={setSeoPressConf}
+        notificationXConf={notificationXConf}
+        setNotificationXConf={setNotificationXConf}
         step={step}
         nextPage={nextPage}
         isLoading={isLoading}
@@ -69,13 +81,13 @@ export default function SeoPress({ formFields, setFlow, flow, allIntegURL }) {
         style={{
           width: step === 2 && 900,
           height: step === 2 && 'auto',
-          minHeight: step === 2 && `${200}px`
+          minHeight: step === 2 && `${500}px`,
         }}>
-        <SeoPressIntegLayout
+        <NotificationXIntegLayout
           formID={formID}
           formFields={formFields}
-          seoPressConf={seoPressConf}
-          setSeoPressConf={setSeoPressConf}
+          notificationXConf={notificationXConf}
+          setNotificationXConf={setNotificationXConf}
           setSnackbar={setSnackbar}
           setIsLoading={setIsLoading}
           isLoading={isLoading}
@@ -85,9 +97,9 @@ export default function SeoPress({ formFields, setFlow, flow, allIntegURL }) {
         <br />
         <button
           onClick={() => nextPage(3)}
+          disabled={!notificationXConf.mainAction}
           className="btn f-right btcd-btn-lg purple sh-sm flx"
-          type="button"
-          disabled={!checkMappedFields(seoPressConf)}>
+          type="button">
           {__('Next', 'bit-integrations')}
           <BackIcn className="ml-1 rev-icn" />
         </button>
@@ -97,7 +109,16 @@ export default function SeoPress({ formFields, setFlow, flow, allIntegURL }) {
       <IntegrationStepThree
         step={step}
         saveConfig={() =>
-          saveIntegConfig(flow, setFlow, allIntegURL, seoPressConf, navigate, '', '', setIsLoading)
+          saveIntegConfig(
+            flow,
+            setFlow,
+            allIntegURL,
+            notificationXConf,
+            navigate,
+            '',
+            '',
+            setIsLoading
+          )
         }
         isLoading={isLoading}
       />

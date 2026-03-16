@@ -171,10 +171,14 @@ const EditACPT = lazy(() => import('./ACPT/EditACPT'))
 const EditWishlistMember = lazy(() => import('./WishlistMember/EditWishlistMember'))
 const EditFluentCart = lazy(() => import('./FluentCart/EditFluentCart'))
 const EditWPCafe = lazy(() => import('./WPCafe/EditWPCafe'))
+const EditNotificationX = lazy(() => import('./NotificationX/EditNotificationX'))
 const EditTeamsForWooCommerceMemberships = lazy(() =>
   import('./TeamsForWooCommerceMemberships/EditTeamsForWooCommerceMemberships')
 )
 const EditSeoPress = lazy(() => import('./SeoPress/EditSeoPress'))
+const EditUserRegistrationMembership = lazy(
+  () => import('./UserRegistrationMembership/EditUserRegistrationMembership')
+)
 
 const loaderStyle = {
   display: 'flex',
@@ -352,6 +356,8 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditSendy allIntegURL={allIntegURL} />
     case 'Keap':
       return <EditKeap allIntegURL={allIntegURL} />
+    case 'User Registration & Membership':
+      return <EditUserRegistrationMembership allIntegURL={allIntegURL} />
     case 'Freshdesk':
       return <EditFreshdesk allIntegURL={allIntegURL} />
     case 'Zoom':
@@ -579,6 +585,8 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditFluentCart allIntegURL={allIntegURL} />
     case 'WPCafe':
       return <EditWPCafe allIntegURL={allIntegURL} />
+    case 'NotificationX':
+      return <EditNotificationX allIntegURL={allIntegURL} />
     case 'Teams For WooCommerce Memberships':
       return <EditTeamsForWooCommerceMemberships allIntegURL={allIntegURL} />
     case 'SeoPress':
