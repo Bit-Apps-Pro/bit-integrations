@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { __ } from '../../../Utils/i18nwrap'
+import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import LoaderSm from '../../Loaders/LoaderSm'
 import Note from '../../Utilities/Note'
-import { userRegistrationAuthorize } from './UserRegistrationMembershipCommonFunc'
-import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
+import { userRegistrationAuthorize } from './UserRegistrationMembershipCommonFunc'
 
 export default function UserRegistrationMembershipAuthorization({
   userRegistrationConf,

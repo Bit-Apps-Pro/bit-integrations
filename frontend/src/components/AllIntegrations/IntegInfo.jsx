@@ -284,9 +284,9 @@ export default function IntegInfo() {
       case 'User Registration & Membership':
         return (
           <UserRegistrationMembershipAuthorization
-            integrationConf={integrationConf}
-            setIntegrationConf={setIntegrationConf}
-            setSnackbar={setSnackbar}
+            userRegistrationConf={integrationConf}
+            step={1}
+            isInfo
           />
         )
       case 'Zoho Bigin':

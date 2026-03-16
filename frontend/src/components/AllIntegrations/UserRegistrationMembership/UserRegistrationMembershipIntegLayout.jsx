@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useRecoilValue } from 'recoil'
@@ -6,9 +5,9 @@ import { $appConfigState } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
 import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
-import { addFieldMap, delFieldMap, handleFieldMapping } from '../IntegrationHelpers/IntegrationHelpers'
+import { addFieldMap } from '../IntegrationHelpers/IntegrationHelpers'
+import { refreshFormFields, refreshForms } from './UserRegistrationMembershipCommonFunc'
 import UserRegistrationMembershipFieldMap from './UserRegistrationMembershipFieldMap'
-import { refreshForms, refreshFormFields } from './UserRegistrationMembershipCommonFunc'
 
 export const modules = [
   { name: 'create_user', label: __('Create User', 'bit-integrations'), is_pro: true }

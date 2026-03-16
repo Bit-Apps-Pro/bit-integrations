@@ -1,5 +1,5 @@
-import { __ } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
+import { __ } from '../../../Utils/i18nwrap'
 
 export const handleInput = (e, userRegistrationConf, setUserRegistrationConf) => {
   const { name, value } = e.target

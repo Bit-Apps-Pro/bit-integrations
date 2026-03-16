@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import BackIcn from '../../../Icons/BackIcn'
 import { __ } from '../../../Utils/i18nwrap'
 import SnackMsg from '../../Utilities/SnackMsg'
@@ -82,11 +82,7 @@ export default function UserRegistrationMembership({ formFields, setFlow, flow, 
         <br />
         <button
           onClick={() => nextPage(3)}
-          disabled={
-            !userRegistrationConf.mainAction ||
-            !userRegistrationConf.selectedForm ||
-            userRegistrationConf.field_map.length < 1
-          }
+          disabled={!checkMappedFields(userRegistrationConf)}
           className="btn f-right btcd-btn-lg purple sh-sm flx"
           type="button">
           {__('Next', 'bit-integrations')}

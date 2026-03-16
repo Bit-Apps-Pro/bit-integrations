@@ -15,7 +15,7 @@ class UserRegistrationMembershipController
         wp_send_json_success(true);
     }
 
-    public function refreshForms()
+    public static function refreshForms()
     {
         self::checkPluginExists();
 
@@ -39,7 +39,7 @@ class UserRegistrationMembershipController
         wp_send_json_success(['forms' => $forms], 200);
     }
 
-    public function refreshFormFields($request)
+    public static function refreshFormFields($request)
     {
         self::checkPluginExists();
 
@@ -49,7 +49,7 @@ class UserRegistrationMembershipController
             wp_send_json_error(__('Form ID is required', 'bit-integrations'), 400);
         }
 
-        $fields = $this->getFormFields($formId);
+        $fields = self::getFormFields($formId);
 
         wp_send_json_success(['fields' => array_values($fields)], 200);
     }
@@ -68,7 +68,7 @@ class UserRegistrationMembershipController
         return $recordApiHelper->execute($fieldValues, $fieldMap);
     }
 
-    private function getFormFields($formId)
+    private static function getFormFields($formId)
     {
         if (!\function_exists('ur_get_form_fields')) {
             return [];
