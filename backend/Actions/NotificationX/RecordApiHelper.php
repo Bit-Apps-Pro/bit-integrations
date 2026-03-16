@@ -30,11 +30,12 @@ class RecordApiHelper
     {
         $mainAction = $this->_integrationDetails->mainAction ?? '';
 
-        $fieldData = static::generateReqDataFromFieldMap($fieldMap, $fieldValues);
+        $fieldData = static::generateDataFromMap($fieldMap, $fieldValues, 'notificationXField');
 
         $defaultResponse = [
             'success' => false,
-            'message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro'),
+            // translators: %s is the plugin name "Bit Integrations Pro"
+            'message' => wp_sprintf(__('%s plugin is not installed or activated', 'bit-integrations'), 'Bit Integrations Pro'),
         ];
 
         if (\in_array($mainAction, ['add_sales_notification', 'add_reviews', 'add_email_subscription'])) {
@@ -46,9 +47,9 @@ class RecordApiHelper
             $entryMap = isset($this->_integrationDetails->entry_map)
                 ? $this->_integrationDetails->entry_map
                 : [];
-            $entryData = static::generateEntryDataFromEntryMap($entryMap, $fieldValues);
+            $entryData = static::generateDataFromMap($entryMap, $fieldValues, 'entryKey', true);
             $payload = [
-                'notification_id' => $fieldData['notification_id'] ?? 0,
+                'notification_id' => absint($fieldData['notification_id'] ?? 0),
                 'entry_data'      => $entryData,
             ];
         }
@@ -56,49 +57,42 @@ class RecordApiHelper
         switch ($mainAction) {
             case 'add_sales_notification':
                 $response = Hooks::apply(Config::withPrefix('notificationx_add_sales_notification'), $defaultResponse, $payload);
-                $type = 'notification';
                 $actionType = 'add_sales_notification';
 
                 break;
 
             case 'add_reviews':
                 $response = Hooks::apply(Config::withPrefix('notificationx_add_reviews'), $defaultResponse, $payload);
-                $type = 'notification';
                 $actionType = 'add_reviews';
 
                 break;
 
             case 'add_email_subscription':
                 $response = Hooks::apply(Config::withPrefix('notificationx_add_email_subscription'), $defaultResponse, $payload);
-                $type = 'notification';
                 $actionType = 'add_email_subscription';
 
                 break;
 
             case 'delete_notification':
                 $response = Hooks::apply(Config::withPrefix('notificationx_delete_notification'), $defaultResponse, $fieldData['notification_id'] ?? '');
-                $type = 'notification';
                 $actionType = 'delete_notification';
 
                 break;
 
             case 'enable_notification':
                 $response = Hooks::apply(Config::withPrefix('notificationx_enable_notification'), $defaultResponse, $fieldData['notification_id'] ?? '');
-                $type = 'notification';
                 $actionType = 'enable_notification';
 
                 break;
 
             case 'disable_notification':
                 $response = Hooks::apply(Config::withPrefix('notificationx_disable_notification'), $defaultResponse, $fieldData['notification_id'] ?? '');
-                $type = 'notification';
                 $actionType = 'disable_notification';
 
                 break;
 
             case 'add_notification_entry':
                 $response = Hooks::apply(Config::withPrefix('notificationx_add_notification_entry'), $defaultResponse, $payload);
-                $type = 'notification';
                 $actionType = 'add_notification_entry';
 
                 break;
@@ -108,49 +102,33 @@ class RecordApiHelper
                     'success' => false,
                     'message' => __('Invalid action', 'bit-integrations'),
                 ];
-                $type = 'NotificationX';
                 $actionType = 'unknown';
 
                 break;
         }
 
         $responseType = isset($response['success']) && $response['success'] ? 'success' : 'error';
-        LogHandler::save($this->_integrationID, ['type' => $type, 'type_name' => $actionType], $responseType, $response);
+        LogHandler::save($this->_integrationID, ['type' => 'Notification', 'type_name' => $actionType], $responseType, $response);
 
         return $response;
     }
 
-    private static function generateEntryDataFromEntryMap($entryMap, $fieldValues)
+    private static function generateDataFromMap($map, $fieldValues, $targetKey, $skipEmptyTargetKey = false)
     {
-        $entryData = [];
-        foreach ($entryMap as $item) {
+        $data = [];
+        foreach ($map as $item) {
             $triggerValue = $item->formField ?? '';
-            $entryKey = $item->entryKey ?? '';
+            $targetValue = $item->{$targetKey} ?? '';
 
-            if (empty($entryKey)) {
+            if ($skipEmptyTargetKey && empty($targetValue)) {
                 continue;
             }
 
-            $entryData[$entryKey] = $triggerValue === 'custom' && isset($item->customValue)
+            $data[$targetValue] = $triggerValue === 'custom' && isset($item->customValue)
                 ? Common::replaceFieldWithValue($item->customValue, $fieldValues)
                 : ($fieldValues[$triggerValue] ?? '');
         }
 
-        return $entryData;
-    }
-
-    private static function generateReqDataFromFieldMap($fieldMap, $fieldValues)
-    {
-        $dataFinal = [];
-        foreach ($fieldMap as $item) {
-            $triggerValue = $item->formField;
-            $actionValue = $item->notificationXField;
-
-            $dataFinal[$actionValue] = $triggerValue === 'custom' && isset($item->customValue)
-                ? Common::replaceFieldWithValue($item->customValue, $fieldValues)
-                : ($fieldValues[$triggerValue] ?? '');
-        }
-
-        return $dataFinal;
+        return $data;
     }
 }

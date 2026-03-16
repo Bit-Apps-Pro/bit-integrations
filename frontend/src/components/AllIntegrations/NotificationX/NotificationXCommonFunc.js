@@ -19,11 +19,11 @@ export const generateMappedField = allFields => {
 export const checkMappedFields = notificationXConf => {
   const unmapped = notificationXConf?.field_map
     ? notificationXConf.field_map.filter(
-        mappedField =>
-          !mappedField.formField ||
-          !mappedField.notificationXField ||
-          (mappedField.formField === 'custom' && !mappedField.customValue)
-      )
+      mappedField =>
+        !mappedField.formField ||
+        !mappedField.notificationXField ||
+        (mappedField.formField === 'custom' && !mappedField.customValue)
+    )
     : []
 
   return unmapped.length === 0
@@ -39,8 +39,9 @@ export const refreshNotificationsBySource = (action, setNotificationXConf, setIs
           draft.notifications = result.data
         })
       )
-    }else {
-      setSnackbar({ msg: result.message || __('Failed to fetch notifications', 'bit-integrations'), show: true })
+    } else {
+      const errorMsg = typeof result?.data === 'string' ? result.data : result?.message
+      setSnackbar({ msg: errorMsg || __('Failed to fetch notifications', 'bit-integrations'), show: true })
     }
 
     setIsLoading(false)
@@ -72,8 +73,9 @@ export const notificationXAuthentication = (
   bitsFetch(requestParams, 'notificationx_authorize').then(result => {
     if (result && result.success) {
       setIsAuthorized(true)
-    }else {
-      setError({ name: result.message || __('Authorization failed', 'bit-integrations') })
+    } else {
+      const errorMsg = typeof result?.data === 'string' ? result.data : result?.message
+      setError({ name: errorMsg || __('Authorization failed', 'bit-integrations') })
     }
 
     setIsLoading(false)

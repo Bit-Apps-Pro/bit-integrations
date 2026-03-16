@@ -1,26 +1,24 @@
-import { useState } from 'react'
 import { create } from 'mutative'
+import { useState } from 'react'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import { useRecoilValue } from 'recoil'
 import { $appConfigState } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
-import LoaderSm from '../../Loaders/LoaderSm'
+import Note from '../../Utilities/Note'
 import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 import { addFieldMap } from '../IntegrationHelpers/IntegrationHelpers'
 import { generateMappedField, refreshNotificationsBySource } from './NotificationXCommonFunc'
 import NotificationXEntryFieldMap from './NotificationXEntryFieldMap'
 import NotificationXFieldMap from './NotificationXFieldMap'
 import {
-  ACTION_SOURCES,
   EmailSubscriptionFields,
+  modules,
+  NOTIFICATION_SELECTION_ACTIONS,
   NotificationIdField,
   ReviewFields,
-  SalesNotificationFields,
-  SOURCE_ACTIONS,
-  modules,
+  SalesNotificationFields
 } from './staticData'
-import Note from '../../Utilities/Note'
 
 export default function NotificationXIntegLayout({
   formID,
@@ -80,7 +78,7 @@ export default function NotificationXIntegLayout({
       })
     )
 
-    if (['add_sales_notification', 'add_reviews', 'add_email_subscription'].includes(value)) {
+    if (NOTIFICATION_SELECTION_ACTIONS.includes(value)) {
       refreshNotificationsBySource(value, setNotificationXConf, setNotifLoading, setSnackbar)
     }
   }
@@ -105,7 +103,7 @@ export default function NotificationXIntegLayout({
         />
       </div>
 
-      {['add_sales_notification', 'add_reviews', 'add_email_subscription'].includes(notificationXConf?.mainAction) && (
+      {NOTIFICATION_SELECTION_ACTIONS.includes(notificationXConf?.mainAction) && (
         <div className="flx mt-3">
           <b className="wdt-200 d-in-b">{__('Select Notification:', 'bit-integrations')}</b>
           <MultiSelect

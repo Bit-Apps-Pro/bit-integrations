@@ -87,11 +87,5 @@ export const EmailSubscriptionFields = [
   { key: 'city_country', label: __('City, Country', 'bit-integrations'), required: false },
 ]
 
-export const ACTION_SOURCES = {
-  add_sales_notification: 'bitintegrations_conversions',
-  add_reviews: 'bitintegrations_reviews',
-  add_email_subscription: 'bitintegration_email_subscription',
-}
-
-export const SOURCE_ACTIONS = Object.keys(ACTION_SOURCES)
+export const NOTIFICATION_SELECTION_ACTIONS = ['add_sales_notification', 'add_reviews', 'add_email_subscription']
 

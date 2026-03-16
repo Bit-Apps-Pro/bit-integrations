@@ -1,3 +1,4 @@
+import { create } from 'mutative'
 import { useRecoilValue } from 'recoil'
 import { $appConfigState } from '../../../GlobalStates'
 import { __, sprintf } from '../../../Utils/i18nwrap'
@@ -16,29 +17,37 @@ export default function NotificationXEntryFieldMap({
   const { isPro } = btcbi
 
   const handleChange = e => {
-    const newConf = { ...notificationXConf }
-    newConf.entry_map[i][e.target.name] = e.target.value
-    setNotificationXConf({ ...newConf })
+    setNotificationXConf(prevConf =>
+      create(prevConf, draftConf => {
+        draftConf.entry_map[i][e.target.name] = e.target.value
+      })
+    )
   }
 
   const handleCustomValue = val => {
-    const newConf = { ...notificationXConf }
-    newConf.entry_map[i].customValue = val
-    setNotificationXConf({ ...newConf })
+    setNotificationXConf(prevConf =>
+      create(prevConf, draftConf => {
+        draftConf.entry_map[i].customValue = val
+      })
+    )
   }
 
   const addRow = () => {
-    const newConf = { ...notificationXConf }
-    newConf.entry_map.splice(i + 1, 0, { formField: '', entryKey: '' })
-    setNotificationXConf({ ...newConf })
+    setNotificationXConf(prevConf =>
+      create(prevConf, draftConf => {
+        draftConf.entry_map.splice(i + 1, 0, { formField: '', entryKey: '' })
+      })
+    )
   }
 
   const delRow = () => {
-    const newConf = { ...notificationXConf }
-    if (newConf.entry_map.length > 1) {
-      newConf.entry_map.splice(i, 1)
-    }
-    setNotificationXConf({ ...newConf })
+    setNotificationXConf(prevConf =>
+      create(prevConf, draftConf => {
+        if (draftConf.entry_map.length > 1) {
+          draftConf.entry_map.splice(i, 1)
+        }
+      })
+    )
   }
 
   return (

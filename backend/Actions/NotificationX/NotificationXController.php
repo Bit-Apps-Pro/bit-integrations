@@ -85,12 +85,7 @@ class NotificationXController
         }
 
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
-        $notificationXResponse = $recordApiHelper->execute($fieldValues, $fieldMap);
 
-        if (is_wp_error($notificationXResponse)) {
-            return $notificationXResponse;
-        }
-
-        return $notificationXResponse;
+        return $recordApiHelper->execute($fieldValues, $fieldMap);
     }
 }

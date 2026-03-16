@@ -9,6 +9,7 @@ import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import NotificationXAuthorization from './NotificationXAuthorization'
 import { checkMappedFields } from './NotificationXCommonFunc'
 import NotificationXIntegLayout from './NotificationXIntegLayout'
+import { NOTIFICATION_SELECTION_ACTIONS } from './staticData'
 
 export default function NotificationX({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
@@ -33,7 +34,7 @@ export default function NotificationX({ formFields, setFlow, flow, allIntegURL }
     }, 300)
 
     if (val === 3) {
-      if (['add_sales_notification', 'add_reviews', 'add_email_subscription'].includes(notificationXConf?.mainAction) && !notificationXConf?.selected_notification_id) {
+      if (NOTIFICATION_SELECTION_ACTIONS.includes(notificationXConf?.mainAction) && !notificationXConf?.selected_notification_id) {
         setSnackbar({
           show: true,
           msg: __('Please select a notification to continue.', 'bit-integrations'),
