@@ -88,6 +88,7 @@ export const customFormIntegrations = [
   'WPCafe',
   'SeoPress',
   'ThriveLeads',
+  'NotificationX',
   'UserRegistrationMembership'
 ]
 

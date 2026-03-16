@@ -177,6 +177,7 @@ export default function SelectAction() {
     { type: 'WPCafe' },
     { type: 'Teams For WooCommerce Memberships' },
     { type: 'SeoPress' },
+    { type: 'NotificationX' },
     { type: 'User Registration & Membership', logo: 'userRegistrationMembership' }
   ]
 
