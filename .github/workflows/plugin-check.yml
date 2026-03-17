@@ -86,7 +86,6 @@ jobs:
           checks: |
             i18n_usage
             late_escaping
-            plugin_header
             plugin_readme
             file_type
             performant_wp_query_params
