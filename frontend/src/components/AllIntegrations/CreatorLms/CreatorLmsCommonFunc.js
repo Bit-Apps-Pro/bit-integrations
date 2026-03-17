@@ -1,7 +1,4 @@
 import { create } from 'mutative'
-import toast from 'react-hot-toast'
-import bitsFetch from '../../../Utils/bitsFetch'
-import { __ } from '../../../Utils/i18nwrap'
 
 export const handleInput = (e, creatorLmsConf, setCreatorLmsConf) => {
   const { name, value } = e.target

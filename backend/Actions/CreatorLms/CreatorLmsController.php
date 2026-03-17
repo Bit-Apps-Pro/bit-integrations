@@ -44,12 +44,7 @@ class CreatorLmsController
         }
 
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
-        $creatorLmsResponse = $recordApiHelper->execute($fieldValues, $fieldMap, $utilities);
 
-        if (is_wp_error($creatorLmsResponse)) {
-            return $creatorLmsResponse;
-        }
-
-        return $creatorLmsResponse;
+        return $recordApiHelper->execute($fieldValues, $fieldMap, $utilities);
     }
 }

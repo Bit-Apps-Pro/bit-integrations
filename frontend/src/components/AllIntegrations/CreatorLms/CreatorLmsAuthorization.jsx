@@ -14,7 +14,8 @@ export default function CreatorLmsAuthorization({
   nextPage,
   isLoading,
   setIsLoading,
-  setSnackbar
+  setSnackbar,
+  isInfo
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
@@ -63,6 +64,7 @@ export default function CreatorLmsAuthorization({
         value={creatorLmsConf.name}
         type="text"
         placeholder={__('Integration Name...', 'bit-integrations')}
+        disabled={isInfo}
       />
 
       {isLoading === 'auth' && (
@@ -98,7 +100,7 @@ export default function CreatorLmsAuthorization({
         onClick={authorizeHandler}
         className="btn btcd-btn-lg purple sh-sm flx"
         type="button"
-        disabled={isAuthorized || isLoading === 'auth'}>
+        disabled={isAuthorized || isLoading === 'auth' || isInfo}>
         {isAuthorized
           ? __('Connected', 'bit-integrations')
           : __('Connect to Creator LMS', 'bit-integrations')}
