@@ -169,6 +169,7 @@ const EditBento = lazy(() => import('./Bento/EditBento'))
 const EditLine = lazy(() => import('./Line/EditLine'))
 const EditACPT = lazy(() => import('./ACPT/EditACPT'))
 const EditWishlistMember = lazy(() => import('./WishlistMember/EditWishlistMember'))
+const EditCreatorLms = lazy(() => import('./CreatorLms/EditCreatorLms'))
 const EditFluentCart = lazy(() => import('./FluentCart/EditFluentCart'))
 const EditWPCafe = lazy(() => import('./WPCafe/EditWPCafe'))
 const EditNotificationX = lazy(() => import('./NotificationX/EditNotificationX'))
@@ -581,6 +582,8 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditACPT allIntegURL={allIntegURL} />
     case 'Wishlist Member':
       return <EditWishlistMember allIntegURL={allIntegURL} />
+    case 'CreatorLms':
+      return <EditCreatorLms allIntegURL={allIntegURL} />
     case 'FluentCart':
       return <EditFluentCart allIntegURL={allIntegURL} />
     case 'WPCafe':

@@ -67,7 +67,7 @@ export default function UserRegistrationMembership({ formFields, setFlow, flow, 
         style={{
           width: step === 2 && 900,
           height: step === 2 && 'auto',
-          minHeight: step === 2 && `${200}px`
+          minHeight: step === 2 && `${500}px`
         }}>
         <UserRegistrationMembershipIntegLayout
           userRegistrationConf={userRegistrationConf}

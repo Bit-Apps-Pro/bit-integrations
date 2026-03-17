@@ -6,20 +6,21 @@ import { __ } from '../../../Utils/i18nwrap'
 import SnackMsg from '../../Utilities/SnackMsg'
 import { saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
-import TeamsForWooCommerceMembershipsAuthorization from './TeamsForWooCommerceMembershipsAuthorization'
-import { checkMappedFields } from './TeamsForWooCommerceMembershipsCommonFunc'
-import TeamsForWooCommerceMembershipsIntegLayout from './TeamsForWooCommerceMembershipsIntegLayout'
+import CreatorLmsAuthorization from './CreatorLmsAuthorization'
+import { checkMappedFields } from './CreatorLmsCommonFunc'
+import CreatorLmsIntegLayout from './CreatorLmsIntegLayout'
 
-export default function TeamsForWooCommerceMemberships({ formFields, setFlow, flow, allIntegURL }) {
+export default function CreatorLms({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
   const { formID } = useParams()
   const [isLoading, setIsLoading] = useState(false)
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
-  const [teamsForWcConf, setTeamsForWcConf] = useState({
-    name: 'Teams For WooCommerce Memberships',
-    type: 'Teams For WooCommerce Memberships',
-    field_map: [{ formField: '', teamsForWooCommerceMembershipsField: '' }],
+  const [creatorLmsConf, setCreatorLmsConf] = useState({
+    name: 'Creator LMS',
+    type: 'CreatorLms',
+    field_map: [{ formField: '', creatorLmsField: '' }],
+    actions: {},
     mainAction: ''
   })
 
@@ -29,7 +30,7 @@ export default function TeamsForWooCommerceMemberships({ formFields, setFlow, fl
     }, 300)
 
     if (val === 3) {
-      if (!checkMappedFields(teamsForWcConf)) {
+      if (!checkMappedFields(creatorLmsConf)) {
         setSnackbar({
           show: true,
           msg: __('Please map all required fields to continue.', 'bit-integrations')
@@ -37,7 +38,7 @@ export default function TeamsForWooCommerceMemberships({ formFields, setFlow, fl
         return
       }
 
-      if (teamsForWcConf.name !== '' && teamsForWcConf.field_map.length > 0) {
+      if (creatorLmsConf.name !== '' && creatorLmsConf.field_map.length > 0) {
         setStep(val)
       }
     } else {
@@ -51,10 +52,10 @@ export default function TeamsForWooCommerceMemberships({ formFields, setFlow, fl
       <div className="txt-center mt-2">{/* <Steps step={3} active={step} /> */}</div>
 
       {/* STEP 1 */}
-      <TeamsForWooCommerceMembershipsAuthorization
+      <CreatorLmsAuthorization
         formID={formID}
-        teamsForWcConf={teamsForWcConf}
-        setTeamsForWcConf={setTeamsForWcConf}
+        creatorLmsConf={creatorLmsConf}
+        setCreatorLmsConf={setCreatorLmsConf}
         step={step}
         nextPage={nextPage}
         isLoading={isLoading}
@@ -70,11 +71,11 @@ export default function TeamsForWooCommerceMemberships({ formFields, setFlow, fl
           height: step === 2 && 'auto',
           minHeight: step === 2 && `${500}px`
         }}>
-        <TeamsForWooCommerceMembershipsIntegLayout
+        <CreatorLmsIntegLayout
           formID={formID}
           formFields={formFields}
-          teamsForWcConf={teamsForWcConf}
-          setTeamsForWcConf={setTeamsForWcConf}
+          creatorLmsConf={creatorLmsConf}
+          setCreatorLmsConf={setCreatorLmsConf}
           setSnackbar={setSnackbar}
           setIsLoading={setIsLoading}
           isLoading={isLoading}
@@ -84,7 +85,7 @@ export default function TeamsForWooCommerceMemberships({ formFields, setFlow, fl
         <br />
         <button
           onClick={() => nextPage(3)}
-          disabled={teamsForWcConf.field_map.length < 1}
+          disabled={!checkMappedFields(creatorLmsConf)}
           className="btn f-right btcd-btn-lg purple sh-sm flx"
           type="button">
           {__('Next', 'bit-integrations')}
@@ -96,12 +97,9 @@ export default function TeamsForWooCommerceMemberships({ formFields, setFlow, fl
       <IntegrationStepThree
         step={step}
         saveConfig={() =>
-          saveIntegConfig(flow, setFlow, allIntegURL, teamsForWcConf, navigate, '', '', setIsLoading)
+          saveIntegConfig(flow, setFlow, allIntegURL, creatorLmsConf, navigate, '', '', setIsLoading)
         }
         isLoading={isLoading}
-        dataConf={teamsForWcConf}
-        setDataConf={setTeamsForWcConf}
-        formFields={formFields}
       />
     </div>
   )
