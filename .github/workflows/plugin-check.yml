@@ -67,7 +67,6 @@ jobs:
 
       - name: Build plugin
         run: |
-          pnpm build
           bash .github/build
 
       - name: WordPress Plugin Check
