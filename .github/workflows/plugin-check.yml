@@ -68,7 +68,7 @@ jobs:
       - name: Build plugin
         run: |
           pnpm build
-          bash .github/copy-assets
+          bash .github/build
 
       - name: WordPress Plugin Check
         uses: wordpress/plugin-check-action@v1
