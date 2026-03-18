@@ -1,21 +1,12 @@
 import { useRecoilValue } from 'recoil'
-import { __, sprintf } from '../../../Utils/i18nwrap'
-import MtInput from '../../Utilities/MtInput'
-import { addFieldMap, delFieldMap, handleFieldMapping } from './KeapIntegrationHelpers'
-import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import { $appConfigState } from '../../../GlobalStates'
-import { generateMappedField } from './KeapCommonFunc'
+import { __, sprintf } from '../../../Utils/i18nwrap'
+import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import TagifyInput from '../../Utilities/TagifyInput'
 import { handleCustomValue } from '../IntegrationHelpers/IntegrationHelpers'
+import { addFieldMap, delFieldMap, handleFieldMapping } from './KeapIntegrationHelpers'
 
 export default function KeapFieldMap({ i, formFields, field, keapConf, setKeapConf }) {
-  if (keapConf?.field_map?.length === 1 && field.keapField === '') {
-    const newConf = { ...keapConf }
-    const tmp = generateMappedField(newConf)
-    newConf.field_map = tmp
-    setKeapConf(newConf)
-  }
-
   const allFields = keapConf?.customFields
     ? [...keapConf?.contactFields, ...keapConf?.customFields]
     : keapConf?.contactFields
