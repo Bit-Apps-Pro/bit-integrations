@@ -12,7 +12,8 @@ import {
   checkAddressFieldMapRequired,
   handleInput,
   setGrantTokenResponse,
-  checkMappedFields
+  checkMappedFields,
+  generateMappedField
 } from './ConstantContactCommonFunc'
 import ConstantContactIntegLayout from './ConstantContactIntegLayout'
 
@@ -86,7 +87,7 @@ function ConstantContact({ formFields, setFlow, flow, allIntegURL }) {
     source_type: '',
     tag_ids: '',
     tags: [],
-    field_map: [{ formField: '', constantContactFormField: '' }],
+    field_map: generateMappedField(constantContactFields),
     address_type: '',
     address_field: [],
     phone_type: '',
