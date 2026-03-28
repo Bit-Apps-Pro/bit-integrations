@@ -53,8 +53,7 @@ final class MailController
                     }
                 }
 
-                $mailBody = str_replace(['\r\n', '\r', '\n'], '<br>', $mailBody);
-                $mailBody = stripcslashes($mailBody);
+                $mailBody = stripcslashes(wpautop($mailBody));
                 $mailSubject = stripcslashes($mailSubject);
                 add_filter('wp_mail_content_type', [self::class, 'filterMailContentType']);
                 $status = wp_mail($mailTo, $mailSubject, $mailBody, $mailHeaders, $attachments);
