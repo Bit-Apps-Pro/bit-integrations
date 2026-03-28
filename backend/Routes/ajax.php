@@ -33,6 +33,10 @@ Route::post('flow/bulk-delete', [Flow::class, 'bulkDelete']);
 Route::post('flow/toggleStatus', [Flow::class, 'toggle_status']);
 Route::post('flow/clone', [Flow::class, 'flowClone']);
 
+// Mail Action
+Route::no_sanitize()->post('flow/mail/save', [Flow::class, 'save']);
+Route::no_sanitize()->post('flow/mail/update', [Flow::class, 'update']);
+
 // Custom Action
 Route::no_sanitize()->post('flow/custom-action/save', [Flow::class, 'save']);
 Route::no_sanitize()->post('flow/custom-action/update', [Flow::class, 'update']);
