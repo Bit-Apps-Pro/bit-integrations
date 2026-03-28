@@ -322,6 +322,7 @@ final class PostCreationController
             $message = is_wp_error($result) ? $result->get_error_message() : 'error';
             LogHandler::save($integrationData->id, 'WP Post Creation', 'error', $message);
         } else {
+            self::setPostCategories($postId, $flowDetails->post_categories ?? null);
             LogHandler::save($integrationData->id, 'WP Post Creation', 'success', $result);
         }
 
@@ -360,6 +361,21 @@ final class PostCreationController
             self::HandleJeCPTFieldMap($jeCPTFieldMap, $updatedJeCPTValues, $postId, $fields);
             self::HandleJeCPTFileMap($jeCPTFileMap, $updatedJeCPTValues, $postId, $fields);
         }
+    }
+
+    private static function setPostCategories($postId, $postCategories)
+    {
+        if (empty($postCategories)) {
+            return;
+        }
+
+        $categories = \is_array($postCategories) ? $postCategories : explode(',', $postCategories);
+
+        if (empty($categories)) {
+            return;
+        }
+
+        wp_set_post_categories($postId, array_unique($categories), false);
     }
 
     private static function uploadACFFile($postId, $files, $actionValue, $fieldObject)

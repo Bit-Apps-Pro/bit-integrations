@@ -32,6 +32,51 @@ final class PostController
         wp_send_json_success(array_values($lists));
     }
 
+    public function getPostCategories($data)
+    {
+        if (!(Capabilities::Check('manage_options') || Capabilities::Check('bit_integrations_manage_integrations') || Capabilities::Check('bit_integrations_create_integrations') || Capabilities::Check('bit_integrations_edit_integrations'))) {
+            wp_send_json_error(__('User don\'t have permission to access this page', 'bit-integrations'));
+        }
+
+        $postType = isset($data->post_type) ? sanitize_text_field($data->post_type) : '';
+
+        if (empty($postType)) {
+            wp_send_json_success([], 200);
+        }
+
+        $categories = [];
+        $taxonomies = get_object_taxonomies($postType, 'objects');
+
+        foreach ($taxonomies as $taxonomy) {
+            if (empty($taxonomy->hierarchical)) {
+                continue;
+            }
+
+            $terms = get_terms(
+                [
+                    'taxonomy'   => $taxonomy->name,
+                    'hide_empty' => false,
+                ]
+            );
+
+            if (empty($terms) || is_wp_error($terms)) {
+                continue;
+            }
+
+            $categories = array_map(
+                function ($term) {
+                    return [
+                        'label' => $term->name,
+                        'value' => (string) $term->term_id,
+                    ];
+                },
+                $terms
+            );
+        }
+
+        wp_send_json_success($categories, 200);
+    }
+
     public static function getAcfFields($postType)
     {
         $acfFields = [];

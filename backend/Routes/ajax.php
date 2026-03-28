@@ -43,6 +43,7 @@ Route::post('customfield/list', [PostController::class, 'getCustomFields']);
 Route::get('pods/list', [PostController::class, 'getPodsPostType']);
 Route::get('page/list', [PostController::class, 'getPages']);
 Route::post('post-types/list', [PostController::class, 'getPostTypes']);
+Route::post('post-categories/list', [PostController::class, 'getPostCategories']);
 Route::post('pods/fields', [PostController::class, 'getPodsField']);
 Route::post('user/list', [UserController::class, 'getWpUsers']);
 Route::get('role/list', [UserController::class, 'getUserRoles']);
