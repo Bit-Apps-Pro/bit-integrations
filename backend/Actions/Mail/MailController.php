@@ -52,6 +52,8 @@ final class MailController
                         $attachments = array_merge($attachments, $this->processAttachment($files, $fieldValues));
                     }
                 }
+
+                $mailBody = str_replace(['\r\n', '\r', '\n'], '<br>', $mailBody);
                 $mailBody = stripcslashes($mailBody);
                 $mailSubject = stripcslashes($mailSubject);
                 add_filter('wp_mail_content_type', [self::class, 'filterMailContentType']);
