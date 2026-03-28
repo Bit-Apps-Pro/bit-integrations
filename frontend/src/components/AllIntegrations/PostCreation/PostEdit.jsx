@@ -44,12 +44,16 @@ function Post({ allIntegURL }) {
   // const [postConf, setPostConf] = useState({ ...flow.flow_details })
   const btcbi = useRecoilValue($appConfigState)
   const { isPro } = btcbi
-
   const handleInput = (typ, val) => {
     const tmpData = { ...postConf }
     tmpData[typ] = val
     setPostConf(tmpData)
   }
+
+  const postCategoriesValue = Array.isArray(postConf?.post_categories)
+    ? postConf.post_categories.map(String).join(',')
+    : postConf?.post_categories?.toString() || ''
+
   useEffect(() => {
     const tmpData = deepCopy({ ...postConf })
     bitsFetch({}, 'user/list').then(res => {
@@ -61,6 +65,8 @@ function Post({ allIntegURL }) {
       const { data } = res
       setPostTypes(data)
     })
+
+    refreshPostCategories(postConf?.post_type, setPostCategories)
 
     bitsFetch({ post_type: postConf?.post_type }, 'customfield/list').then(res => {
       const { data } = res
@@ -206,10 +212,13 @@ function Post({ allIntegURL }) {
         </div>
         <div className='flx'>
           <MultiSelect
-            key={`post-categories-${postConf?.post_type || 'default'}-${postConf?.post_categories || ''}`}
+            key={`post-categories-${postConf?.post_type || 'default'}-${postCategoriesValue}-${postCategories?.length || 0}`}
             className="mt-2 w-5"
-            defaultValue={postConf?.post_categories || ''}
-            options={postCategories}
+            defaultValue={postCategoriesValue}
+            options={postCategories?.map(category => ({
+              label: category?.label,
+              value: category?.value?.toString()
+            }))}
             onChange={val => handleInput('post_categories', val)}
           />
           <button

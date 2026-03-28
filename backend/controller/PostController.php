@@ -67,7 +67,7 @@ final class PostController
                 function ($term) {
                     return [
                         'label' => $term->name,
-                        'value' => (string) $term->term_id,
+                        'value' => $term->term_id,
                     ];
                 },
                 $terms
