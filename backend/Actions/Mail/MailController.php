@@ -52,7 +52,8 @@ final class MailController
                         $attachments = array_merge($attachments, $this->processAttachment($files, $fieldValues));
                     }
                 }
-                $mailBody = stripcslashes($mailBody);
+
+                $mailBody = stripcslashes(wpautop($mailBody));
                 $mailSubject = stripcslashes($mailSubject);
                 add_filter('wp_mail_content_type', [self::class, 'filterMailContentType']);
                 $status = wp_mail($mailTo, $mailSubject, $mailBody, $mailHeaders, $attachments);

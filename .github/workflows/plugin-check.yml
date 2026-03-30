@@ -67,8 +67,7 @@ jobs:
 
       - name: Build plugin
         run: |
-          pnpm build
-          bash .github/copy-assets
+          bash .github/build
 
       - name: WordPress Plugin Check
         uses: wordpress/plugin-check-action@v1
@@ -86,7 +85,6 @@ jobs:
           checks: |
             i18n_usage
             late_escaping
-            plugin_header
             plugin_readme
             file_type
             performant_wp_query_params

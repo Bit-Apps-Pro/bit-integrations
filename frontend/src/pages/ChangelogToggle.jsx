@@ -9,7 +9,7 @@ import NewYear from '../resource/img/NewYear.png'
 import bitsFetch from '../Utils/bitsFetch'
 import { __, sprintf } from '../Utils/i18nwrap'
 
-const releaseDate = '10th March 2026'
+const releaseDate = '30th March 2026'
 
 // Example for items:
 // items: [
@@ -30,33 +30,13 @@ const changeLog = [
     label: __('New Actions', 'bit-integrations'),
     headClass: 'new-integration',
     itemClass: 'integration-list',
-    items: [
-      {
-        label: 'User Registration & Membership',
-        desc: '1 new events added',
-        isPro: true
-      }, {
-        label: 'NotificationX',
-        desc: '7 new events added',
-        isPro: true
-      }
-    ]
+    items: []
   },
   {
     label: __('New Triggers', 'bit-integrations'),
     headClass: 'new-trigger',
     itemClass: 'integration-list',
-    items: [
-      {
-        label: 'User Registration & Membership',
-        desc: '2 new events added',
-        isPro: true
-      }, {
-        label: 'NotificationX',
-        desc: '2 new events added',
-        isPro: true
-      }
-    ]
+    items: []
   },
   {
     label: __('New Features', 'bit-integrations'),
@@ -64,8 +44,13 @@ const changeLog = [
     itemClass: 'feature-list',
     items: [
       {
-        label: 'Forminator Quiz & Poll',
-        desc: 'Included lead data in quiz trigger payloads.',
+        label: 'WP Post Creation',
+        desc: 'Added support for selecting and assigning one or multiple post categories during post creation.',
+        isPro: false
+      },
+      {
+        label: 'GiveWP',
+        desc: 'Added donation type data.',
         isPro: true
       }
     ]
@@ -82,30 +67,10 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'GoHighLevel',
-        desc: 'Fixed opportunity creation by sending the selected pipeline ID correctly.',
+        label: 'Mail Action',
+        desc: 'Fixed multi-line email message formatting to render correctly in sent emails.',
         isPro: false
       },
-      {
-        label: 'ActiveCampaign',
-        desc: 'Fixed tag update handling so existing tags are removed correctly before new tags are applied.',
-        isPro: false
-      },
-      {
-        label: 'FluentBooking',
-        desc: 'Fixed fetched fields not being set consistently during trigger configuration.',
-        isPro: false
-      },
-      {
-        label: 'Webhook',
-        desc: 'Fixed payload field mapping when form fields are unavailable during setup.',
-        isPro: false
-      },
-      {
-        label: 'WooCommerce',
-        desc: 'Fixed product data access issues for order items without product objects.',
-        isPro: false
-      }
     ]
   },
   {
