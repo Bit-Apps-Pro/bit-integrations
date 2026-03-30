@@ -417,7 +417,7 @@ export const saveActionConf = async ({
   if (conf?.type === 'CustomAction') {
     action = edit ? 'flow/custom-action/update' : 'flow/custom-action/save'
   }
-  if (confTmp?.type === 'Mail') {
+  if (conf?.type === 'Mail') {
     action = edit ? 'flow/mail/update' : 'flow/mail/save'
   }
 
