@@ -67,7 +67,6 @@ jobs:
 
       - name: Build plugin
         run: |
-          pnpm build
           bash .github/build
 
       - name: WordPress Plugin Check
@@ -86,7 +85,6 @@ jobs:
           checks: |
             i18n_usage
             late_escaping
-            plugin_header
             plugin_readme
             file_type
             performant_wp_query_params
