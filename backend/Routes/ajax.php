@@ -34,8 +34,8 @@ Route::post('flow/toggleStatus', [Flow::class, 'toggle_status']);
 Route::post('flow/clone', [Flow::class, 'flowClone']);
 
 // Mail Action
-Route::no_sanitize()->post('flow/mail/save', [Flow::class, 'save']);
-Route::no_sanitize()->post('flow/mail/update', [Flow::class, 'update']);
+Route::sanitize_post_content()->post('flow/mail/save', [Flow::class, 'save']);
+Route::sanitize_post_content()->post('flow/mail/update', [Flow::class, 'update']);
 
 // Custom Action
 Route::no_sanitize()->post('flow/custom-action/save', [Flow::class, 'save']);
