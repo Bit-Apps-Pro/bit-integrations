@@ -15,6 +15,8 @@ final class Route
 
     private static $_no_sanitize = false;
 
+    private static $_sanitize_post_content = false;
+
     public static function get($hook, $invokeable)
     {
         return static::request('GET', $hook, $invokeable);
@@ -49,6 +51,10 @@ final class Route
                 static::$_no_sanitize = false;
             }
 
+            if (static::$_sanitize_post_content) {
+                static::$_sanitize_post_content = false;
+            }
+
             return;
         }
 
@@ -60,6 +66,11 @@ final class Route
         if (static::$_no_sanitize) {
             static::$_no_sanitize = false;
             static::$_invokeable[Config::VAR_PREFIX . $hook][$method . '_no_sanitize'] = true;
+        }
+
+        if (static::$_sanitize_post_content) {
+            static::$_sanitize_post_content = false;
+            static::$_invokeable[Config::VAR_PREFIX . $hook][$method . '_sanitize_post_content'] = true;
         }
 
         static::$_invokeable[Config::VAR_PREFIX . $hook][$method] = $invokeable;
@@ -101,6 +112,9 @@ final class Route
             if (method_exists($invokeable[0], $invokeable[1])) {
                 $noSanitize = isset(static::$_invokeable[$action][$requestMethod . '_no_sanitize'])
                     && static::$_invokeable[$action][$requestMethod . '_no_sanitize'];
+
+                self::$_sanitize_post_content = isset(static::$_invokeable[$action][$requestMethod . '_sanitize_post_content'])
+                    && static::$_invokeable[$action][$requestMethod . '_sanitize_post_content'];
 
                 if ($requestMethod == 'POST') {
                     if (
@@ -173,6 +187,13 @@ final class Route
         return new static();
     }
 
+    public static function sanitize_post_content()
+    {
+        self::$_sanitize_post_content = true;
+
+        return new static();
+    }
+
     /**
      * Type-aware sanitizer for decoded JSON data.
      * Preserves booleans, integers, floats, and nulls so that JSON boolean
@@ -189,7 +210,7 @@ final class Route
             return $value;
         }
 
-        return sanitize_text_field($value);
+        return self::$_sanitize_post_content ? wp_kses_post($value) : sanitize_text_field($value);
     }
 
     private static function getActionFromRequest()

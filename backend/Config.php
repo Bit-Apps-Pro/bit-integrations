@@ -22,7 +22,7 @@ class Config
 
     public const VAR_PREFIX = 'bit_integrations_';
 
-    public const VERSION = '2.7.12';
+    public const VERSION = '2.8.1';
 
     public const DB_VERSION = '1.1';
 

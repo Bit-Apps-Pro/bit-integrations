@@ -294,7 +294,7 @@ final class Common
             $fieldName = substr($field, 2, \strlen($field) - 3);
             $smartTagValue = SmartTags::getSmartTagValue($fieldName, true);
             if (isset($fieldValues[$fieldName]) && !self::isEmpty($fieldValues[$fieldName])) {
-                $stringToReplaceField = !\is_array($fieldValues[$fieldName]) ? str_replace($field, $fieldValues[$fieldName], $stringToReplaceField)
+                $stringToReplaceField = !\is_array($fieldValues[$fieldName]) && !\is_object($fieldValues[$fieldName]) ? str_replace($field, $fieldValues[$fieldName], $stringToReplaceField)
                     : str_replace(['"' . $field . '"', $field], wp_json_encode($fieldValues[$fieldName], JSON_UNESCAPED_UNICODE), $stringToReplaceField);
             } elseif (!empty($smartTagValue)) {
                 $stringToReplaceField = str_replace($field, $smartTagValue, $stringToReplaceField);

@@ -25,7 +25,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.1"
+          php-version: '8.1'
           coverage: none
           tools: composer:v2, wp-cli
 
@@ -67,13 +67,12 @@ jobs:
 
       - name: Build plugin
         run: |
-          pnpm build
-          bash .github/copy-assets
+          bash .github/build
 
       - name: WordPress Plugin Check
         uses: wordpress/plugin-check-action@v1
         with:
-          build-dir: "./build/${{ env.PLUGIN_SLUG }}"
+          build-dir: './build/${{ env.PLUGIN_SLUG }}'
           exclude-directories: |
             vendor
             node_modules
@@ -86,7 +85,6 @@ jobs:
           checks: |
             i18n_usage
             late_escaping
-            plugin_header
             plugin_readme
             file_type
             performant_wp_query_params

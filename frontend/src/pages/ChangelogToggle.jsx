@@ -9,7 +9,7 @@ import NewYear from '../resource/img/NewYear.png'
 import bitsFetch from '../Utils/bitsFetch'
 import { __, sprintf } from '../Utils/i18nwrap'
 
-const releaseDate = '10th March 2026'
+const releaseDate = '30th March 2026'
 
 // Example for items:
 // items: [
@@ -44,9 +44,14 @@ const changeLog = [
     itemClass: 'feature-list',
     items: [
       {
-        label: 'ActiveCampaign',
-        desc: 'Tags update feature added.',
+        label: 'WP Post Creation',
+        desc: 'Added support for selecting and assigning one or multiple post categories during post creation.',
         isPro: false
+      },
+      {
+        label: 'GiveWP',
+        desc: 'Added donation type data.',
+        isPro: true
       }
     ]
   },
@@ -54,23 +59,7 @@ const changeLog = [
     label: __('Improvements', 'bit-integrations'),
     headClass: 'new-improvement',
     itemClass: 'feature-list',
-    items: [
-      {
-        label: 'ActiveCampaign',
-        desc: 'Refactored update contact handling.',
-        isPro: false
-      },
-      {
-        label: 'Custom Function',
-        desc: 'Improved validator logic.',
-        isPro: false
-      },
-      {
-        label: 'get-access-token',
-        desc: 'Removed unnecessary sanitation on get-access-token routes for smoother OAuth flow.',
-        isPro: false
-      }
-    ]
+    items: []
   },
   {
     label: __('Bug Fixes', 'bit-integrations'),
@@ -78,30 +67,10 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'SendFox',
-        desc: 'Fixed blank page issue and fieldmap disappearance issue.',
+        label: 'Mail Action',
+        desc: 'Fixed multi-line email message formatting to render correctly in sent emails.',
         isPro: false
       },
-      {
-        label: 'WooCommerce',
-        desc: 'Fixed billing and shipping address overwrite issue.',
-        isPro: false
-      },
-      {
-        label: 'Salesforce',
-        desc: 'Fixed lead response type issue.',
-        isPro: false
-      },
-      {
-        label: 'Google Products',
-        desc: 'Fixed authentication issue.',
-        isPro: false
-      },
-      {
-        label: 'Brekadance',
-        desc: 'Fixed trigger listening data issue.',
-        isPro: true
-      }
     ]
   },
   {
