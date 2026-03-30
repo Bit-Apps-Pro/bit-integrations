@@ -96,18 +96,18 @@ export const refreshPostTypes = (postTypes, setPostTypes) => {
 }
 
 export const refreshPostCategories = (postType, setPostCategories) => {
-  const loadPostTypes = bitsFetch({ post_type: postType }, 'post-categories/list').then(result => {
+  const loadPostCategories = bitsFetch({ post_type: postType }, 'post-categories/list').then(result => {
     if (result && result.success) {
       const { data } = result
       if (data) {
         setPostCategories(data)
       }
-      if (data !== 0) return __('Successfully refresh Post Categories.', 'bit-integrations')
+      if (data && data.length > 0) return __('Successfully refreshed Post Categories.', 'bit-integrations')
       return __('Post Categories not found', 'bit-integrations')
     }
   })
 
-  toast.promise(loadPostTypes, {
+  toast.promise(loadPostCategories, {
     success: data => data,
     error: __('Error Occurred', 'bit-integrations'),
     loading: __('Loading Post Categories...')

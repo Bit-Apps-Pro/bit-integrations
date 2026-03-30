@@ -370,12 +370,13 @@ final class PostCreationController
         }
 
         $categories = \is_array($postCategories) ? $postCategories : explode(',', $postCategories);
+        $categoryIds = array_filter(array_map('intval', $categories));
 
-        if (empty($categories)) {
+        if (empty($categoryIds)) {
             return;
         }
 
-        wp_set_post_categories($postId, array_unique($categories), false);
+        wp_set_post_categories($postId, array_unique($categoryIds), false);
     }
 
     private static function uploadACFFile($postId, $files, $actionValue, $fieldObject)

@@ -35,7 +35,7 @@ final class PostController
     public function getPostCategories($data)
     {
         if (!(Capabilities::Check('manage_options') || Capabilities::Check('bit_integrations_manage_integrations') || Capabilities::Check('bit_integrations_create_integrations') || Capabilities::Check('bit_integrations_edit_integrations'))) {
-            wp_send_json_error(__('User don\'t have permission to access this page', 'bit-integrations'));
+            wp_send_json_error(__('User doesn\'t have permission to access this page', 'bit-integrations'));
         }
 
         $postType = isset($data->post_type) ? sanitize_text_field($data->post_type) : '';
@@ -63,14 +63,17 @@ final class PostController
                 continue;
             }
 
-            $categories = array_map(
-                function ($term) {
-                    return [
-                        'label' => $term->name,
-                        'value' => $term->term_id,
-                    ];
-                },
-                $terms
+            $categories = array_merge(
+                $categories,
+                array_map(
+                    function ($term) {
+                        return [
+                            'label' => $term->name,
+                            'value' => $term->term_id,
+                        ];
+                    },
+                    $terms
+                )
             );
         }
 
