@@ -100,7 +100,7 @@ final class WPFController
         }
 
         $fields = [];
-        $fieldToExclude = ['divider', 'html', 'address', 'page-break', 'pagebreak', 'section', 'captcha', 'hidden'];
+        $fieldToExclude = ['divider', 'html', 'address', 'page-break', 'pagebreak', 'section', 'captcha'];
         foreach ($fieldDetails as $id => $field) {
             if (\in_array($field['type'], $fieldToExclude)) {
                 continue;
