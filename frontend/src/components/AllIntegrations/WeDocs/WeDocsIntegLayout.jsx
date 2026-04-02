@@ -8,14 +8,13 @@ import Loader from '../../Loaders/Loader'
 import Note from '../../Utilities/Note'
 import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 import { addFieldMap } from '../IntegrationHelpers/IntegrationHelpers'
-import WeDocsFieldMap from './WeDocsFieldMap'
 import {
   checkMappedFields,
   generateMappedField,
-  getActionFields,
   refreshDocumentations,
   refreshSections
 } from './WeDocsCommonFunc'
+import WeDocsFieldMap from './WeDocsFieldMap'
 import {
   documentationSelectionActions,
   modules,
