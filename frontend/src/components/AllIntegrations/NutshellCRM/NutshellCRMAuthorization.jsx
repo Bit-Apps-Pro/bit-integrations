@@ -20,9 +20,7 @@ export default function NutshellCRMAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ api_token: '' })
-  const { nutshellCRM } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -54,10 +52,7 @@ export default function NutshellCRMAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {nutshellCRM?.youTubeLink && (
-        <TutorialLink title="Nutshell CRM" youTubeLink={nutshellCRM?.youTubeLink} />
-      )}
-      {nutshellCRM?.docLink && <TutorialLink title="Nutshell CRM" docLink={nutshellCRM?.docLink} />}
+            <TutorialLink title="Nutshell CRM" links={tutorialLinks?.nutshellCRM || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

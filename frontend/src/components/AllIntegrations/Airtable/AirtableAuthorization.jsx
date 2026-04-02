@@ -18,7 +18,6 @@ export default function AirtableAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', auth_token: '' })
-  const { airtable } = tutorialLinks
 
   const nextPage = () => {
     setTimeout(() => {
@@ -42,8 +41,7 @@ export default function AirtableAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {airtable?.youTubeLink && <TutorialLink title="Airtable" youTubeLink={airtable?.youTubeLink} />}
-      {airtable?.docLink && <TutorialLink title="Airtable" docLink={airtable?.docLink} />}
+            <TutorialLink title="Airtable" links={tutorialLinks?.airtable || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

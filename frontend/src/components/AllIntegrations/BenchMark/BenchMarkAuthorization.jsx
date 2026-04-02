@@ -19,8 +19,7 @@ export default function BenchMarkAuthorization({
   isLoading,
   setIsLoading
 }) {
-  const { benchMark } = tutorialLinks
-  const [isAuthorized, setisAuthorized] = useState(false)
+const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', api_secret: '' })
   const [showAuthMsg, setShowAuthMsg] = useState(false)
 
@@ -77,10 +76,7 @@ export default function BenchMarkAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {benchMark?.youTubeLink && (
-        <TutorialLink title="Benchmark Email" youTubeLink={benchMark?.youTubeLink} />
-      )}
-      {benchMark?.docLink && <TutorialLink title="Benchmark Email" docLink={benchMark?.docLink} />}
+            <TutorialLink title="Benchmark Email" links={tutorialLinks?.benchMark || {}} />
 
       <div className="mt-3 wdt-200">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

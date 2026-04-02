@@ -24,9 +24,7 @@ export default function ZohoCRMAuthorization({
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ dataCenter: '', clientId: '', clientSecret: '' })
   const btcbi = useRecoilValue($appConfigState)
-  const { zohoCRM } = tutorialLinks
-
-  const scopes = 'ZohoCRM.modules.ALL,ZohoCRM.settings.ALL,ZohoCRM.users.Read,zohocrm.files.CREATE'
+const scopes = 'ZohoCRM.modules.ALL,ZohoCRM.settings.ALL,ZohoCRM.users.Read,zohocrm.files.CREATE'
   const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
@@ -48,8 +46,7 @@ export default function ZohoCRMAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {zohoCRM?.youTubeLink && <TutorialLink title="Zoho CRM" youTubeLink={zohoCRM?.youTubeLink} />}
-      {zohoCRM?.docLink && <TutorialLink title="Zoho CRM" docLink={zohoCRM?.docLink} />}
+            <TutorialLink title="Zoho CRM" links={tutorialLinks?.zohoCRM || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

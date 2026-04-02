@@ -16,8 +16,7 @@ function Albato({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
   const [isLoading, setIsLoading] = useState(false)
-  const { albato: albatoLinks } = tutorialLinks
-  const [albato, setAlbato] = useState({
+const [albato, setAlbato] = useState({
     name: 'Albato Web Hooks',
     type: 'Albato',
     method: 'POST',
@@ -36,10 +35,7 @@ function Albato({ formFields, setFlow, flow, allIntegURL }) {
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
-        {albatoLinks?.youTubeLink && (
-          <TutorialLink title="Albato" youTubeLink={albatoLinks?.youTubeLink} />
-        )}
-        {albatoLinks?.docLink && <TutorialLink title="Albato" docLink={albatoLinks?.docLink} />}
+                <TutorialLink title="Albato" links={tutorialLinks?.albato || {}} />
 
         <WebHooksIntegration
           formID={formID}

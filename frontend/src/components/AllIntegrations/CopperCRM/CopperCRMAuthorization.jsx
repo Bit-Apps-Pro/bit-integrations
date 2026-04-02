@@ -19,9 +19,7 @@ export default function CopperCRMAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ api_key: '', api_email: '' })
-  const { coppercrm } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -51,10 +49,7 @@ export default function CopperCRMAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {coppercrm?.youTubeLink && (
-        <TutorialLink title="Copper CRM" youTubeLink={coppercrm?.youTubeLink} />
-      )}
-      {coppercrm?.docLink && <TutorialLink title="Copper CRM" docLink={coppercrm?.docLink} />}
+            <TutorialLink title="Copper CRM" links={tutorialLinks?.coppercrm || {}} />
 
       <div className="mt-3">
         <bapi_email>{__('Integration Name:', 'bit-integrations')}</bapi_email>

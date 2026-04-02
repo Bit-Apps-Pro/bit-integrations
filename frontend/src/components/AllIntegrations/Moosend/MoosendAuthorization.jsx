@@ -21,7 +21,6 @@ function MoosendAuthorization({
 }) {
   const [authorized, setAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', authKey: '' })
-  const { moosend } = tutorialLinks
 
   const nextPage = async () => {
     setTimeout(() => {
@@ -51,8 +50,7 @@ function MoosendAuthorization({
 
   return (
     <StepPage step={step} stepNo={1} style={{ width: 900, height: 'auto' }}>
-      {moosend?.youTubeLink && <TutorialLink title="Moosend" youTubeLink={moosend?.youTubeLink} />}
-      {moosend?.docLink && <TutorialLink title="Moosend" docLink={moosend?.docLink} />}
+            <TutorialLink title="Moosend" links={tutorialLinks?.moosend || {}} />
 
       <div className="mt-2">
         {/* Moosend Authorization */}

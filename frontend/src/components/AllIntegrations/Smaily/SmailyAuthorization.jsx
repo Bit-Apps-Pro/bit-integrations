@@ -24,9 +24,7 @@ export default function SmailyAuthorization({
     api_user_name: '',
     api_user_password: ''
   })
-  const { smaily } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -65,8 +63,7 @@ export default function SmailyAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {smaily?.youTubeLink && <TutorialLink title="Smaily" youTubeLink={smaily?.youTubeLink} />}
-      {smaily?.docLink && <TutorialLink title="Smaily" docLink={smaily?.docLink} />}
+            <TutorialLink title="Smaily" links={tutorialLinks?.smaily || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

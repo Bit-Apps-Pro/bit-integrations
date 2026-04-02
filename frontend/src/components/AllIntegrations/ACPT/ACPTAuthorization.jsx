@@ -19,10 +19,7 @@ export default function ACPTAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ api_key: '', api_secret: '' })
-
-  const { acpt } = tutorialLinks
-
-  const handleInput = useCallback(e => {
+const handleInput = useCallback(e => {
     const { name, value } = e.target
 
     setAcptConf(prev => ({
@@ -50,8 +47,7 @@ export default function ACPTAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {acpt?.youTubeLink && <TutorialLink title="ACPT" youTubeLink={acpt?.youTubeLink} />}
-      {acpt?.docLink && <TutorialLink title="ACPT" docLink={acpt?.docLink} />}
+            <TutorialLink title="ACPT" links={tutorialLinks?.acpt || {}} />
 
       <div>
         <div className="mt-3">

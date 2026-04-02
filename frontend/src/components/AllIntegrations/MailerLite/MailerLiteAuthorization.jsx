@@ -19,9 +19,7 @@ export default function MailerLiteAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', auth_token: '' })
-  const { mailerLite } = tutorialLinks
-
-  const url =
+const url =
     mailerLiteConf.version === 'v2'
       ? 'https://dashboard.mailerlite.com/integrations/api'
       : 'https://app.mailerlite.com/integrations/api/'
@@ -59,10 +57,7 @@ export default function MailerLiteAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {mailerLite?.youTubeLink && (
-        <TutorialLink title="MailerLite" youTubeLink={mailerLite?.youTubeLink} />
-      )}
-      {mailerLite?.docLink && <TutorialLink title="MailerLite" docLink={mailerLite?.docLink} />}
+            <TutorialLink title="MailerLite" links={tutorialLinks?.mailerLite || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

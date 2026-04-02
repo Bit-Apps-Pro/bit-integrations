@@ -21,7 +21,6 @@ export default function FabmanAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', apiKey: '' })
-  const { fabman } = tutorialLinks
 
   const nextPage = () => {
     fetchFabmanWorkspaces(fabmanConf, setFabmanConf, loading, setLoading, 'fetch')
@@ -42,8 +41,7 @@ export default function FabmanAuthorization({
 
   return (
     <div className="btcd-stp-page" style={step === 1 ? STEP_ONE_STYLE : undefined}>
-      {fabman?.youTubeLink && <TutorialLink title="Fabman" youTubeLink={fabman?.youTubeLink} />}
-      {fabman?.docLink && <TutorialLink title="Fabman" docLink={fabman?.docLink} />}
+            <TutorialLink title="Fabman" links={tutorialLinks?.fabman || {}} />
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>
       </div>

@@ -18,9 +18,7 @@ export default function TeamsForWooCommerceMembershipsAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
-  const { teamsForWooCommerceMemberships } = tutorialLinks
-
-  const authorizeHandler = () => {
+const authorizeHandler = () => {
     setIsLoading('auth')
     bitsFetch({}, 'teams_for_wc_memberships_authorize').then(result => {
       if (result?.success) {
@@ -48,18 +46,7 @@ export default function TeamsForWooCommerceMembershipsAuthorization({
         width: step === 1 && 900,
         height: step === 1 && 'auto'
       }}>
-      {teamsForWooCommerceMemberships?.youTubeLink && (
-        <TutorialLink
-          title="Teams for WooCommerce Memberships"
-          youTubeLink={teamsForWooCommerceMemberships?.youTubeLink}
-        />
-      )}
-      {teamsForWooCommerceMemberships?.docLink && (
-        <TutorialLink
-          title="Teams for WooCommerce Memberships"
-          docLink={teamsForWooCommerceMemberships?.docLink}
-        />
-      )}
+            <TutorialLink title="Teams for WooCommerce Memberships" links={tutorialLinks?.teamsForWooCommerceMemberships || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

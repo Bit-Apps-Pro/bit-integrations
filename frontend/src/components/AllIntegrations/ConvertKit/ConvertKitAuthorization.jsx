@@ -19,8 +19,7 @@ export default function ConvertKitAuthorization({
   isLoading,
   setIsLoading
 }) {
-  const { convertKit } = tutorialLinks
-  const [isAuthorized, setisAuthorized] = useState(false)
+const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', api_secret: '' })
   const [showAuthMsg, setShowAuthMsg] = useState(false)
 
@@ -80,10 +79,7 @@ export default function ConvertKitAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {convertKit?.youTubeLink && (
-        <TutorialLink title="ConvertKit" youTubeLink={convertKit?.youTubeLink} />
-      )}
-      {convertKit?.docLink && <TutorialLink title="ConvertKit" docLink={convertKit?.docLink} />}
+            <TutorialLink title="ConvertKit" links={tutorialLinks?.convertKit || {}} />
 
       <div className="mt-3 wdt-200">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

@@ -21,9 +21,7 @@ export default function WPCoursewareAuthorization({
   const [showAuthMsg, setShowAuthMsg] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isMounted, setIsMounted] = useState(true)
-  const { wpCourseware } = tutorialLinks
-
-  useEffect(
+useEffect(
     () => () => {
       setIsMounted(false)
     },
@@ -57,10 +55,7 @@ export default function WPCoursewareAuthorization({
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-        {wpCourseware?.youTubeLink && (
-          <TutorialLink title="WP Courseware" youTubeLink={wpCourseware?.youTubeLink} />
-        )}
-        {wpCourseware?.docLink && <TutorialLink title="WP Courseware" docLink={wpCourseware?.docLink} />}
+                <TutorialLink title="WP Courseware" links={tutorialLinks?.wpCourseware || {}} />
 
         <div className="mt-3">
           <b>{__('Integration Name:', 'bit-integrations')}</b>

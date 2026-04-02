@@ -20,9 +20,7 @@ export default function LineAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ accessToken: '' })
-  const { line } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -46,8 +44,7 @@ export default function LineAuthorization({
         ...{ width: step === 1 && 900 },
         ...{ height: step === 1 && 'auto' }
       }}>
-      {line?.youTubeLink && <TutorialLink title="Line" youTubeLink={line?.youTubeLink} />}
-      {line?.docLink && <TutorialLink title="Line" docLink={line?.docLink} />}
+            <TutorialLink title="Line" links={tutorialLinks?.line || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

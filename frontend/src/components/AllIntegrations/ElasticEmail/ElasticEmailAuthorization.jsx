@@ -20,9 +20,7 @@ export default function ElasticEmailAuthorization({
   const [error, setError] = useState({ name: '', api_key: '' })
   const [showAuthMsg, setShowAuthMsg] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const { elasticEmail } = tutorialLinks
-
-  const handleAuthorize = () => {
+const handleAuthorize = () => {
     const newConf = { ...elasticEmailConf }
     if (!newConf.name || !newConf.api_key) {
       setError({
@@ -62,10 +60,7 @@ export default function ElasticEmailAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {elasticEmail?.youTubeLink && (
-        <TutorialLink title="Elastic Email" youTubeLink={elasticEmail?.youTubeLink} />
-      )}
-      {elasticEmail?.docLink && <TutorialLink title="Elastic Email" docLink={elasticEmail?.docLink} />}
+            <TutorialLink title="Elastic Email" links={tutorialLinks?.elasticEmail || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

@@ -19,9 +19,7 @@ export default function MailPoetAuthorization({
   const [error, setError] = useState({ integrationName: '' })
   const [showAuthMsg, setShowAuthMsg] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const { mailPoet } = tutorialLinks
-
-  const handleAuthorize = () => {
+const handleAuthorize = () => {
     setIsLoading('auth')
     bitsFetch({}, 'mail_poet_authorize').then(result => {
       if (result?.success) {
@@ -45,8 +43,7 @@ export default function MailPoetAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {mailPoet?.youTubeLink && <TutorialLink title="MailPoet" youTubeLink={mailPoet?.youTubeLink} />}
-      {mailPoet?.docLink && <TutorialLink title="MailPoet" docLink={mailPoet?.docLink} />}
+            <TutorialLink title="MailPoet" links={tutorialLinks?.mailPoet || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

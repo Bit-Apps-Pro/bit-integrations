@@ -16,8 +16,7 @@ function UncannyAutomator({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
   const [isLoading, setIsLoading] = useState(false)
-  const { uncannyAutomatorLinks } = tutorialLinks
-  const [uncannyAutomator, setUncannyAutomator] = useState({
+const [uncannyAutomator, setUncannyAutomator] = useState({
     name: 'UncannyAutomator Web Hooks',
     type: 'UncannyAutomator',
     method: 'POST',
@@ -35,12 +34,7 @@ function UncannyAutomator({ formFields, setFlow, flow, allIntegURL }) {
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
-        {uncannyAutomatorLinks?.youTubeLink && (
-          <TutorialLink title="Uncanny Automator" youTubeLink={uncannyAutomatorLinks?.youTubeLink} />
-        )}
-        {uncannyAutomatorLinks?.docLink && (
-          <TutorialLink title="Uncanny Automator" docLink={uncannyAutomatorLinks?.docLink} />
-        )}
+                <TutorialLink title="Uncanny Automator" links={tutorialLinks?.uncannyAutomatorLinks || {}} />
 
         <WebHooksIntegration
           formID={formID}

@@ -18,9 +18,7 @@ export default function SendGridAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', secretKey: '' })
-  const { sendGrid } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -42,8 +40,7 @@ export default function SendGridAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {sendGrid?.youTubeLink && <TutorialLink title="SendGrid" youTubeLink={sendGrid?.youTubeLink} />}
-      {sendGrid?.docLink && <TutorialLink title="SendGrid" docLink={sendGrid?.docLink} />}
+            <TutorialLink title="SendGrid" links={tutorialLinks?.sendGrid || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

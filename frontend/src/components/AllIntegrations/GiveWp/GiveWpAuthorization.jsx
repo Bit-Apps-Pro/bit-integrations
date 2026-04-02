@@ -19,9 +19,7 @@ export default function GiveWpAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
-  const { giveWp } = tutorialLinks
-
-  const authorizeHandler = () => {
+const authorizeHandler = () => {
     setIsLoading('auth')
     bitsFetch({}, 'giveWp_authorize').then(result => {
       if (result?.success) {
@@ -49,8 +47,7 @@ export default function GiveWpAuthorization({
         width: step === 1 && 900,
         height: step === 1 && 'auto'
       }}>
-      {giveWp?.youTubeLink && <TutorialLink title="GiveWp" youTubeLink={giveWp?.youTubeLink} />}
-      {giveWp?.docLink && <TutorialLink title="GiveWp" docLink={giveWp?.docLink} />}
+            <TutorialLink title="GiveWp" links={tutorialLinks?.giveWp || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

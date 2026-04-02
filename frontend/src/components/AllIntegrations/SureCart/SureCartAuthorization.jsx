@@ -19,8 +19,7 @@ export default function SureCartAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ api_key: '' })
-  const { sureCart } = tutorialLinks
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -43,8 +42,7 @@ export default function SureCartAuthorization({
         ...{ width: step === 1 && 900 },
         ...{ height: step === 1 && 'auto' }
       }}>
-      {sureCart?.youTubeLink && <TutorialLink title="SureCart" youTubeLink={sureCart?.youTubeLink} />}
-      {sureCart?.docLink && <TutorialLink title="SureCart" docLink={sureCart?.docLink} />}
+            <TutorialLink title="SureCart" links={tutorialLinks?.sureCart || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

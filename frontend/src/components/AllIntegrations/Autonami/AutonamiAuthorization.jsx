@@ -19,8 +19,7 @@ export default function AutonamiAuthorization({
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ integrationName: '' })
   const [showAuthMsg, setShowAuthMsg] = useState(false)
-  const { autonami } = tutorialLinks
-  const [isLoading, setIsLoading] = useState(false)
+const [isLoading, setIsLoading] = useState(false)
   const [isMounted, setIsMounted] = useState(true)
   useEffect(
     () => () => {
@@ -56,10 +55,7 @@ export default function AutonamiAuthorization({
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-        {autonami?.youTubeLink && (
-          <TutorialLink title="FunnelKit (Autonami)" youTubeLink={autonami?.youTubeLink} />
-        )}
-        {autonami?.docLink && <TutorialLink title="FunnelKit (Autonami)" docLink={autonami?.docLink} />}
+                <TutorialLink title="FunnelKit (Autonami)" links={tutorialLinks?.autonami || {}} />
 
         <div className="mt-3">
           <b>{__('Integration Name:', 'bit-integrations')}</b>

@@ -4744,6 +4744,21 @@ _:-ms-fullscreen,
   margin-right: 0 !important;
 }
 
+.mx-1 {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.mx-2 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.mx-3 {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
 .my-1 {
   margin-top: 5px;
   margin-bottom: 5px;
@@ -5689,7 +5704,7 @@ _:-ms-fullscreen,
   border: 1px solid #008228;
   border-radius: 8px;
   font-size: 14px;
-  text-decoration: underline;
+  // text-decoration: underline;
   margin-top: 16px;
 }
 
@@ -5704,10 +5719,21 @@ _:-ms-fullscreen,
 .youtube {
   background: #ff000005;
   border: 1px solid #ff3d00;
+  color: #ff3d00 !important;
+
+  & > a {
+    color: #ff3d00 !important;
+  }
 }
 
-.youtube a {
-  color: #000;
+.chatgpt {
+  background: #ff000005;
+  border: 1px solid #080808;
+    color: #080808;
+
+  & > a {
+    color: #080808;
+  }
 }
 
 .trigger-task-note {

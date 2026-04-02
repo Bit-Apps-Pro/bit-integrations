@@ -20,7 +20,6 @@ export default function DiscordAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ accessToken: '' })
-  const { discord } = tutorialLinks
   const nextPage = () => {
     getAllServers(discordConf, setDiscordConf, setIsLoading)
     setTimeout(() => {
@@ -62,8 +61,7 @@ export default function DiscordAuthorization({
         ...{ width: step === 1 && 900 },
         ...{ height: step === 1 && 'auto' }
       }}>
-      {discord?.youTubeLink && <TutorialLink title="Discord" youTubeLink={discord?.youTubeLink} />}
-      {discord?.docLink && <TutorialLink title="Discord" docLink={discord?.docLink} />}
+            <TutorialLink title="Discord" links={tutorialLinks?.discord || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

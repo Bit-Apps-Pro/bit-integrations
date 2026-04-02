@@ -17,9 +17,7 @@ export default function TutorLmsAuthorization({
   const [isAuthorized, setisAuthorized] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
-  const { tutorlms } = tutorialLinks
-
-  const authorizeHandler = () => {
+const authorizeHandler = () => {
     setIsLoading('auth')
     bitsFetch({}, 'tutor_authorize').then(result => {
       if (result?.success) {
@@ -47,8 +45,7 @@ export default function TutorLmsAuthorization({
         width: step === 1 && 900,
         height: step === 1 && 'auto'
       }}>
-      {tutorlms?.youTubeLink && <TutorialLink title="Tutor LMS" youTubeLink={tutorlms?.youTubeLink} />}
-      {tutorlms?.docLink && <TutorialLink title="Tutor LMS" docLink={tutorlms?.docLink} />}
+            <TutorialLink title="Tutor LMS" links={tutorialLinks?.tutorlms || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

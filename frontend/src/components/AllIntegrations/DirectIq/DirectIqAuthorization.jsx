@@ -19,8 +19,7 @@ export default function DirectIqAuthorization({
   isLoading,
   setIsLoading
 }) {
-  const { directIq } = tutorialLinks
-  const [isAuthorized, setisAuthorized] = useState(false)
+const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', client_secret: '' })
   const [showAuthMsg, setShowAuthMsg] = useState(false)
 
@@ -79,8 +78,7 @@ export default function DirectIqAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {directIq?.youTubeLink && <TutorialLink title="DirectIQ" youTubeLink={directIq?.youTubeLink} />}
-      {directIq?.docLink && <TutorialLink title="DirectIQ" docLink={directIq?.docLink} />}
+            <TutorialLink title="DirectIQ" links={tutorialLinks?.directIq || {}} />
 
       <div className="mt-3 wdt-200">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

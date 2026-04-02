@@ -22,9 +22,7 @@ export default function LemlistAuthorization({
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', api_key: '' })
   const [showAuthMsg, setShowAuthMsg] = useState(false)
-  const { lemlist } = tutorialLinks
-
-  const handleAuthorize = () => {
+const handleAuthorize = () => {
     const newConf = { ...lemlistConf }
     if (!newConf.name || !newConf.api_key) {
       setError({
@@ -93,8 +91,7 @@ export default function LemlistAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {lemlist?.youTubeLink && <TutorialLink title="Lemlist" youTubeLink={lemlist?.youTubeLink} />}
-      {lemlist?.docLink && <TutorialLink title="Lemlist" docLink={lemlist?.docLink} />}
+            <TutorialLink title="Lemlist" links={tutorialLinks?.lemlist || {}} />
 
       <div className="mt-3 wdt-200">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

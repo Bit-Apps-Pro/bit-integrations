@@ -27,9 +27,7 @@ export default function ZohoBiginAuthorization({
   const btcbi = useRecoilValue($appConfigState)
   const scopes =
     'ZohoBigin.settings.modules.READ,ZohoBigin.settings.fields.READ,ZohoBigin.settings.tags.READ,ZohoBigin.users.READ,ZohoBigin.modules.ALL,ZohoBigin.settings.layouts.READ'
-  const { zohoBigin } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -50,10 +48,7 @@ export default function ZohoBiginAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {zohoBigin?.youTubeLink && (
-        <TutorialLink title="Zoho Bigin" youTubeLink={zohoBigin?.youTubeLink} />
-      )}
-      {zohoBigin?.docLink && <TutorialLink title="Zoho Bigin" docLink={zohoBigin?.docLink} />}
+            <TutorialLink title="Zoho Bigin" links={tutorialLinks?.zohoBigin || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

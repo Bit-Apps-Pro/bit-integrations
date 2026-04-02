@@ -18,9 +18,7 @@ export default function CapsuleCRMAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ api_key: '', api_url: '' })
-  const { capsulecrm } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -42,10 +40,7 @@ export default function CapsuleCRMAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {capsulecrm?.youTubeLink && (
-        <TutorialLink title="Capsule CRM" youTubeLink={capsulecrm?.youTubeLink} />
-      )}
-      {capsulecrm?.docLink && <TutorialLink title="Capsule CRM" docLink={capsulecrm?.docLink} />}
+            <TutorialLink title="Capsule CRM" links={tutorialLinks?.capsulecrm || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

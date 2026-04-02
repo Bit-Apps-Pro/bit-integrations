@@ -19,9 +19,7 @@ export default function CompanyHubAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ sub_domain: '', api_key: '' })
-  const { companyHub } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -53,10 +51,7 @@ export default function CompanyHubAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {companyHub?.youTubeLink && (
-        <TutorialLink title="CompanyHub" youTubeLink={companyHub?.youTubeLink} />
-      )}
-      {companyHub?.docLink && <TutorialLink title="CompanyHub" docLink={companyHub?.docLink} />}
+            <TutorialLink title="CompanyHub" links={tutorialLinks?.companyHub || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

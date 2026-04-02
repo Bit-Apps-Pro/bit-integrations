@@ -19,8 +19,7 @@ export default function FluentSupportAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ api_key: '' })
-  const { fluentSupport } = tutorialLinks
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -44,12 +43,7 @@ export default function FluentSupportAuthorization({
         ...{ width: step === 1 && 900 },
         ...{ height: step === 1 && 'auto' }
       }}>
-      {fluentSupport?.youTubeLink && (
-        <TutorialLink title="Fluent Support" youTubeLink={fluentSupport?.youTubeLink} />
-      )}
-      {fluentSupport?.docLink && (
-        <TutorialLink title="Fluent Support" docLink={fluentSupport?.docLink} />
-      )}
+            <TutorialLink title="Fluent Support" links={tutorialLinks?.fluentSupport || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

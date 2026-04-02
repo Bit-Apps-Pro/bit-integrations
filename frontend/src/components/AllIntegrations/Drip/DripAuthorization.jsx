@@ -19,8 +19,7 @@ export default function DripAuthorization({
   loading,
   setLoading
 }) {
-  const { drip } = tutorialLinks
-  const [isAuthorized, setisAuthorized] = useState(false)
+const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', api_token: '' })
 
   const handleInput = e => {
@@ -57,8 +56,7 @@ export default function DripAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {drip?.youTubeLink && <TutorialLink title="Drip" youTubeLink={drip?.youTubeLink} />}
-      {drip?.docLink && <TutorialLink title="Drip" docLink={drip?.docLink} />}
+            <TutorialLink title="Drip" links={tutorialLinks?.drip || {}} />
 
       <div className="mt-3 wdt-200">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

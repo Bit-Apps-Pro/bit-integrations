@@ -16,18 +16,11 @@ export default function WishlistMemberAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const { wishlistMember } = tutorialLinks
-
-  return (
+return (
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {wishlistMember?.youTubeLink && (
-        <TutorialLink title="WishlistMember" youTubeLink={wishlistMember?.youTubeLink} />
-      )}
-      {wishlistMember?.docLink && (
-        <TutorialLink title="WishlistMember" docLink={wishlistMember?.docLink} />
-      )}
+            <TutorialLink title="WishlistMember" links={tutorialLinks?.wishlistMember || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

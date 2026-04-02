@@ -18,9 +18,7 @@ export default function ZendeskAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ api_key: '' })
-  const { zendesk } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -42,8 +40,7 @@ export default function ZendeskAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {zendesk?.youTubeLink && <TutorialLink title="Zendesk" youTubeLink={zendesk?.youTubeLink} />}
-      {zendesk?.docLink && <TutorialLink title="Zendesk" docLink={zendesk?.docLink} />}
+            <TutorialLink title="Zendesk" links={tutorialLinks?.zendesk || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

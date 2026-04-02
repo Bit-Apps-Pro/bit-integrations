@@ -20,9 +20,7 @@ export default function SendinBlueAuthorization({
   const [error, setError] = useState({ name: '', api_key: '' })
   const [showAuthMsg, setShowAuthMsg] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const { sendinBlue } = tutorialLinks
-
-  const handleAuthorize = () => {
+const handleAuthorize = () => {
     const newConf = { ...sendinBlueConf }
     if (!newConf.name || !newConf.api_key) {
       setError({
@@ -63,10 +61,7 @@ export default function SendinBlueAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {sendinBlue?.youTubeLink && (
-        <TutorialLink title="Brevo (Sendinblue)" youTubeLink={sendinBlue?.youTubeLink} />
-      )}
-      {sendinBlue?.docLink && <TutorialLink title="Brevo (Sendinblue)" docLink={sendinBlue?.docLink} />}
+            <TutorialLink title="Brevo (Sendinblue)" links={tutorialLinks?.sendinBlue || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

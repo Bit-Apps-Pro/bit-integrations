@@ -19,9 +19,7 @@ export default function SeoPressAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
-  const { seoPress } = tutorialLinks
-
-  const authorizeHandler = () => {
+const authorizeHandler = () => {
     setIsLoading('auth')
     bitsFetch({}, 'seopress_authorize').then(result => {
       if (result?.success) {
@@ -49,8 +47,7 @@ export default function SeoPressAuthorization({
         width: step === 1 && 900,
         height: step === 1 && 'auto'
       }}>
-      {seoPress?.youTubeLink && <TutorialLink title="SEOPress" youTubeLink={seoPress?.youTubeLink} />}
-      {seoPress?.docLink && <TutorialLink title="SEOPress" docLink={seoPress?.docLink} />}
+            <TutorialLink title="SEOPress" links={tutorialLinks?.seoPress || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

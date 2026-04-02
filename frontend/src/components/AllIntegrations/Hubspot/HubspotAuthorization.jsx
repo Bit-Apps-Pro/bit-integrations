@@ -21,9 +21,7 @@ export default function HubspotAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', api_key: '' })
-  const { hubspot } = tutorialLinks
-
-  const handleInput = e => {
+const handleInput = e => {
     const newConf = { ...hubspotConf }
     const rmError = { ...error }
     rmError[e.target.name] = ''
@@ -59,8 +57,7 @@ export default function HubspotAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {hubspot?.youTubeLink && <TutorialLink title="HubSpot" youTubeLink={hubspot?.youTubeLink} />}
-      {hubspot?.docLink && <TutorialLink title="HubSpot" docLink={hubspot?.docLink} />}
+            <TutorialLink title="HubSpot" links={tutorialLinks?.hubspot || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

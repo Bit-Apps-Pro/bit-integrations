@@ -18,9 +18,7 @@ export default function TwilioAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ username: '', password: '' })
-  const { twilio } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -40,8 +38,7 @@ export default function TwilioAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {twilio?.youTubeLink && <TutorialLink title="Twilio" youTubeLink={twilio?.youTubeLink} />}
-      {twilio?.docLink && <TutorialLink title="Twilio" docLink={twilio?.docLink} />}
+            <TutorialLink title="Twilio" links={tutorialLinks?.twilio || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

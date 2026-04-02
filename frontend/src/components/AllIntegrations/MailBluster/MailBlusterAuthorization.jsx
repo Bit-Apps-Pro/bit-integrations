@@ -18,9 +18,7 @@ export default function MailBlusterAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', auth_token: '' })
-  const { mailBluster } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -60,10 +58,7 @@ export default function MailBlusterAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {mailBluster?.youTubeLink && (
-        <TutorialLink title="MailBluster" youTubeLink={mailBluster?.youTubeLink} />
-      )}
-      {mailBluster?.docLink && <TutorialLink title="MailBluster" docLink={mailBluster?.docLink} />}
+            <TutorialLink title="MailBluster" links={tutorialLinks?.mailBluster || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

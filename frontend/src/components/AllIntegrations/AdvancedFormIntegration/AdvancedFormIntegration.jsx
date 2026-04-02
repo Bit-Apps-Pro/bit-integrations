@@ -22,9 +22,7 @@ function AdvancedFormIntegration({ formFields, setFlow, flow, allIntegURL }) {
     method: 'POST',
     url: ''
   })
-  const { afi } = tutorialLinks
-
-  return (
+return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
       <div className="txt-center mt-2">
@@ -35,10 +33,7 @@ function AdvancedFormIntegration({ formFields, setFlow, flow, allIntegURL }) {
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
-        {afi?.youTubeLink && (
-          <TutorialLink title="Advanced Form Integration" youTubeLink={afi?.youTubeLink} />
-        )}
-        {afi?.docLink && <TutorialLink title="Advanced Form Integration" docLink={afi?.docLink} />}
+                <TutorialLink title="Advanced Form Integration" links={tutorialLinks?.afi || {}} />
 
         <WebHooksIntegration
           formID={formID}

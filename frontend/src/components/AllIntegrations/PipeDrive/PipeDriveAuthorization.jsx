@@ -18,9 +18,7 @@ export default function PipeDriveAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', api_key: '' })
-  const { pipeDrive } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -57,8 +55,7 @@ export default function PipeDriveAuthorization({
         ...{ width: step === 1 && 900 },
         ...{ height: step === 1 && 'auto' }
       }}>
-      {pipeDrive?.youTubeLink && <TutorialLink title="Pipedrive" youTubeLink={pipeDrive?.youTubeLink} />}
-      {pipeDrive?.docLink && <TutorialLink title="Pipedrive" docLink={pipeDrive?.docLink} />}
+            <TutorialLink title="Pipedrive" links={tutorialLinks?.pipeDrive || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

@@ -20,9 +20,7 @@ export default function MailMintAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
-  const { mailMint } = tutorialLinks
-
-  const authorizeHandler = () => {
+const authorizeHandler = () => {
     setIsLoading('auth')
     bitsFetch({}, 'mailmint_authorize').then(result => {
       if (result?.success) {
@@ -53,8 +51,7 @@ export default function MailMintAuthorization({
         width: step === 1 && 900,
         height: step === 1 && 'auto'
       }}>
-      {mailMint?.youTubeLink && <TutorialLink title="Mail Mint" youTubeLink={mailMint?.youTubeLink} />}
-      {mailMint?.docLink && <TutorialLink title="Mail Mint" docLink={mailMint?.docLink} />}
+            <TutorialLink title="Mail Mint" links={tutorialLinks?.mailMint || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

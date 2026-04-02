@@ -16,7 +16,6 @@ function SperseIO({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
   const [isLoading, setIsLoading] = useState(false)
-  const { sperse } = tutorialLinks
   const [sperseIO, setSperseIO] = useState({
     name: 'SperseIO Web Hooks',
     type: 'SperseIO',
@@ -36,8 +35,7 @@ function SperseIO({ formFields, setFlow, flow, allIntegURL }) {
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
-        {sperse?.youTubeLink && <TutorialLink title="Sperse IO" youTubeLink={sperse?.youTubeLink} />}
-        {sperse?.docLink && <TutorialLink title="Sperse IO" docLink={sperse?.docLink} />}
+                <TutorialLink title="Sperse IO" links={tutorialLinks?.sperse || {}} />
 
         <WebHooksIntegration
           formID={formID}

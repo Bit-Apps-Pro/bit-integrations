@@ -21,7 +21,6 @@ export default function TrelloAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ dataCenter: '', clientId: '' })
-  const { trello } = tutorialLinks
   const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
@@ -44,8 +43,7 @@ export default function TrelloAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {trello?.youTubeLink && <TutorialLink title="Trello" youTubeLink={trello?.youTubeLink} />}
-      {trello?.docLink && <TutorialLink title="Trello" docLink={trello?.docLink} />}
+            <TutorialLink title="Trello" links={tutorialLinks?.trello || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

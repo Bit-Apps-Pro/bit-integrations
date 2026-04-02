@@ -19,9 +19,7 @@ export default function GravitecAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ site_url: '', app_key: '', app_secret: '' })
-  const { gravitec } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -52,8 +50,7 @@ export default function GravitecAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {gravitec?.youTubeLink && <TutorialLink title="Gravitec" youTubeLink={gravitec?.youTubeLink} />}
-      {gravitec?.docLink && <TutorialLink title="Gravitec" docLink={gravitec?.docLink} />}
+            <TutorialLink title="Gravitec" links={tutorialLinks?.gravitec || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

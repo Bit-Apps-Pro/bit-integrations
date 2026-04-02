@@ -20,9 +20,7 @@ export default function EnchargeAuthorization({
   const [error, setError] = useState({ name: '', api_key: '' })
   const [showAuthMsg, setShowAuthMsg] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const { encharge } = tutorialLinks
-
-  const handleAuthorize = () => {
+const handleAuthorize = () => {
     const newConf = { ...enchargeConf }
     if (!newConf.name || !newConf.api_key) {
       setError({
@@ -63,8 +61,7 @@ export default function EnchargeAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {encharge?.youTubeLink && <TutorialLink title="Encharge" youTubeLink={encharge?.youTubeLink} />}
-      {encharge?.docLink && <TutorialLink title="Encharge" docLink={encharge?.docLink} />}
+            <TutorialLink title="Encharge" links={tutorialLinks?.encharge || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

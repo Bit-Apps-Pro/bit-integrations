@@ -19,9 +19,7 @@ export default function PaidMembershipProAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
-  const { paidMembershipPro } = tutorialLinks
-
-  const authorizeHandler = () => {
+const authorizeHandler = () => {
     setIsLoading('auth')
     bitsFetch({}, 'paid_membership_pro_authorize').then(result => {
       if (result?.success) {
@@ -49,12 +47,7 @@ export default function PaidMembershipProAuthorization({
         width: step === 1 && 900,
         height: step === 1 && 'auto'
       }}>
-      {paidMembershipPro?.youTubeLink && (
-        <TutorialLink title="Paid Memberships Pro" youTubeLink={paidMembershipPro?.youTubeLink} />
-      )}
-      {paidMembershipPro?.docLink && (
-        <TutorialLink title="Paid Memberships Pro" docLink={paidMembershipPro?.docLink} />
-      )}
+            <TutorialLink title="Paid Memberships Pro" links={tutorialLinks?.paidMembershipPro || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

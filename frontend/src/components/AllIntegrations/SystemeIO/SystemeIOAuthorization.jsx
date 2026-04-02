@@ -18,8 +18,7 @@ export default function SystemeIOAuthorization({
   isInfo
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
-  const { systemeIO } = tutorialLinks
-  const [error, setError] = useState({ api_key: '' })
+const [error, setError] = useState({ api_key: '' })
 
   const nextPage = () => {
     setTimeout(() => {
@@ -58,8 +57,7 @@ export default function SystemeIOAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {systemeIO?.youTubeLink && <TutorialLink title="SystemeIO" youTubeLink={systemeIO?.youTubeLink} />}
-      {systemeIO?.docLink && <TutorialLink title="SystemeIO" docLink={systemeIO?.docLink} />}
+            <TutorialLink title="SystemeIO" links={tutorialLinks?.systemeIO || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

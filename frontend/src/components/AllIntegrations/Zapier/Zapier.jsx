@@ -16,8 +16,7 @@ function Zapier({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setstep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
   const [isLoading, setIsLoading] = useState(false)
-  const { zapierLinks } = tutorialLinks
-  const [zapier, setZapier] = useState({
+const [zapier, setZapier] = useState({
     name: 'Zapier Web Hooks',
     type: 'Zapier',
     method: 'POST',
@@ -35,10 +34,7 @@ function Zapier({ formFields, setFlow, flow, allIntegURL }) {
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-        {zapierLinks?.youTubeLink && (
-          <TutorialLink title="Zapier" youTubeLink={zapierLinks?.youTubeLink} />
-        )}
-        {zapierLinks?.docLink && <TutorialLink title="Zapier" docLink={zapierLinks?.docLink} />}
+                <TutorialLink title="Zapier" links={tutorialLinks?.zapierLinks || {}} />
 
         <WebHooksIntegration
           formID={formID}

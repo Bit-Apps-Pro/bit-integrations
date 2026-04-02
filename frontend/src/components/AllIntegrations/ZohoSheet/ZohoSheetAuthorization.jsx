@@ -24,9 +24,7 @@ export default function ZohoSheetAuthorization({
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ dataCenter: '', clientId: '', clientSecret: '' })
   const btcbi = useRecoilValue($appConfigState)
-  const { zohoSheet } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -48,10 +46,7 @@ export default function ZohoSheetAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {zohoSheet?.youTubeLink && (
-        <TutorialLink title="Zoho Sheet" youTubeLink={zohoSheet?.youTubeLink} />
-      )}
-      {zohoSheet?.docLink && <TutorialLink title="Zoho Sheet" docLink={zohoSheet?.docLink} />}
+            <TutorialLink title="Zoho Sheet" links={tutorialLinks?.zohoSheet || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

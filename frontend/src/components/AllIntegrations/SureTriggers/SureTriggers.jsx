@@ -16,8 +16,7 @@ function SureTriggers({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
   const [isLoading, setIsLoading] = useState(false)
-  const { sureTriggersLinks } = tutorialLinks
-  const [sureTriggers, setSureTriggers] = useState({
+const [sureTriggers, setSureTriggers] = useState({
     name: 'OttoKit (SureTriggers) Web Hooks',
     type: 'OttoKit (SureTriggers)',
     method: 'POST',
@@ -35,12 +34,7 @@ function SureTriggers({ formFields, setFlow, flow, allIntegURL }) {
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
-        {sureTriggersLinks?.youTubeLink && (
-          <TutorialLink title="SureTriggers" youTubeLink={sureTriggersLinks?.youTubeLink} />
-        )}
-        {sureTriggersLinks?.docLink && (
-          <TutorialLink title="SureTriggers" docLink={sureTriggersLinks?.docLink} />
-        )}
+                <TutorialLink title="SureTriggers" links={tutorialLinks?.sureTriggersLinks || {}} />
 
         <WebHooksIntegration
           formID={formID}

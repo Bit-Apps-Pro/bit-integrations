@@ -26,9 +26,7 @@ export default function ZohoMarketingAuthorization({
   const [error, setError] = useState({ dataCenter: '', clientId: '', clientSecret: '' })
   const btcbi = useRecoilValue($appConfigState)
   const scopes = 'ZohoMarketingHub.lead.READ,ZohoMarketingHub.lead.CREATE,ZohoMarketingHub.lead.UPDATE'
-  const { zohoMarketingHub } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -49,18 +47,7 @@ export default function ZohoMarketingAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {zohoMarketingHub?.youTubeLink && (
-        <TutorialLink
-          title="Zoho Marketing Automation (Zoho Marketing Hub)"
-          youTubeLink={zohoMarketingHub?.youTubeLink}
-        />
-      )}
-      {zohoMarketingHub?.docLink && (
-        <TutorialLink
-          title="Zoho Marketing Automation (Zoho Marketing Hub)"
-          docLink={zohoMarketingHub?.docLink}
-        />
-      )}
+            <TutorialLink title="Zoho Marketing Automation (Zoho Marketing Hub)" links={tutorialLinks?.zohoMarketingHub || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

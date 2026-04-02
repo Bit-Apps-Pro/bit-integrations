@@ -19,9 +19,7 @@ export default function SalesflareAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ api_token: '' })
-  const { salesflare } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -51,10 +49,7 @@ export default function SalesflareAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {salesflare?.youTubeLink && (
-        <TutorialLink title="Salesflare" youTubeLink={salesflare?.youTubeLink} />
-      )}
-      {salesflare?.docLink && <TutorialLink title="Salesflare" docLink={salesflare?.docLink} />}
+            <TutorialLink title="Salesflare" links={tutorialLinks?.salesflare || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

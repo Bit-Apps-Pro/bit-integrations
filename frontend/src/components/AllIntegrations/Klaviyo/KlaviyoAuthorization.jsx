@@ -17,9 +17,7 @@ function KlaviyoAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', authKey: '' })
-  const { klaviyo } = tutorialLinks
-
-  const handleInput = e => {
+const handleInput = e => {
     const newConf = { ...klaviyoConf }
     const koError = { ...error }
     koError[e.target.name] = ''
@@ -59,8 +57,7 @@ function KlaviyoAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {klaviyo?.youTubeLink && <TutorialLink title="Klaviyo" youTubeLink={klaviyo?.youTubeLink} />}
-      {klaviyo?.docLink && <TutorialLink title="Klaviyo" docLink={klaviyo?.docLink} />}
+            <TutorialLink title="Klaviyo" links={tutorialLinks?.klaviyo || {}} />
 
       <div className="mt-2">
         <div className="my-1">

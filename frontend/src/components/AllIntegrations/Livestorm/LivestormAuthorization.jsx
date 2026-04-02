@@ -19,9 +19,7 @@ export default function LivestormAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ api_key: '' })
-  const { livestorm } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -54,8 +52,7 @@ export default function LivestormAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {livestorm?.youTubeLink && <TutorialLink title="Livestorm" youTubeLink={livestorm?.youTubeLink} />}
-      {livestorm?.docLink && <TutorialLink title="Livestorm" docLink={livestorm?.docLink} />}
+            <TutorialLink title="Livestorm" links={tutorialLinks?.livestorm || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

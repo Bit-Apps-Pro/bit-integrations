@@ -16,8 +16,7 @@ function N8n({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
   const [isLoading, setIsLoading] = useState(false)
-  const { n8nLinks } = tutorialLinks
-  const [n8n, setN8n] = useState({
+const [n8n, setN8n] = useState({
     name: 'N8n Web Hooks',
     type: 'N8n',
     method: 'POST',
@@ -36,8 +35,7 @@ function N8n({ formFields, setFlow, flow, allIntegURL }) {
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
-        {n8nLinks?.youTubeLink && <TutorialLink title="n8n.io" youTubeLink={n8nLinks?.youTubeLink} />}
-        {n8nLinks?.docLink && <TutorialLink title="n8n.io" docLink={n8nLinks?.docLink} />}
+                <TutorialLink title="n8n.io" links={tutorialLinks?.n8nLinks || {}} />
 
         <WebHooksIntegration
           formID={formID}

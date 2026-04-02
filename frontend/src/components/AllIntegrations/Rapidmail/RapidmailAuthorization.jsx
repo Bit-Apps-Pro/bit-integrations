@@ -19,9 +19,7 @@ export default function RapidmailAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ username: '', password: '' })
-  const { rapidmail } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -61,8 +59,7 @@ export default function RapidmailAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {rapidmail?.youTubeLink && <TutorialLink title="Rapidmail" youTubeLink={rapidmail?.youTubeLink} />}
-      {rapidmail?.docLink && <TutorialLink title="Rapidmail" docLink={rapidmail?.docLink} />}
+            <TutorialLink title="Rapidmail" links={tutorialLinks?.rapidmail || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

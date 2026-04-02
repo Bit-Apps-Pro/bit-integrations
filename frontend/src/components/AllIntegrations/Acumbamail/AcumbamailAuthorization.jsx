@@ -19,7 +19,6 @@ export default function AcumbamailAuthorization({
   redirectLocation,
   isInfo
 }) {
-  const { acumbamail } = tutorialLinks
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ dataCenter: '', clientId: '' })
   const nextPage = () => {
@@ -44,10 +43,7 @@ export default function AcumbamailAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {acumbamail?.youTubeLink && (
-        <TutorialLink title="Acumbamail" youTubeLink={acumbamail?.youTubeLink} />
-      )}
-      {acumbamail?.docLink && <TutorialLink title="Acumbamail" docLink={acumbamail?.docLink} />}
+            <TutorialLink title="Acumbamail" links={tutorialLinks?.acumbamail || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

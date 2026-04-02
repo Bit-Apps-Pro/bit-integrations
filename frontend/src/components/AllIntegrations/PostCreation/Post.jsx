@@ -40,8 +40,7 @@ function Post({ formFields, setFlow, flow, allIntegURL }) {
   const [acf, setAcf] = useState({ fields: [], files: [] })
   const [mb, setMb] = useState({ fields: [], files: [] })
   const [jeCPTMeta, setJeCPTMeta] = useState({ fields: [], files: [] })
-  const { postCreation } = tutorialLinks
-  const btcbi = useRecoilValue($appConfigState)
+const btcbi = useRecoilValue($appConfigState)
   const { isPro } = btcbi
 
   const [postConf, setPostConf] = useState({
@@ -175,12 +174,7 @@ function Post({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      {postCreation?.youTubeLink && (
-        <TutorialLink title="WP Post Creation" youTubeLink={postCreation?.youTubeLink} />
-      )}
-      {postCreation?.docLink && (
-        <TutorialLink title="WP Post Creation" docLink={postCreation?.docLink} />
-      )}
+            <TutorialLink title="WP Post Creation" links={tutorialLinks?.postCreation || {}} />
 
       <div className="txt-center mt-2">
         <Steps step={3} active={step} />

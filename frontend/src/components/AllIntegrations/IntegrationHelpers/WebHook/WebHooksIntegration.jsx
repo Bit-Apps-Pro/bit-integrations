@@ -11,6 +11,8 @@ import Body from './Body'
 import TableCheckBox from '../../../Utilities/TableCheckBox'
 import ConditionalLogic from '../../../ConditionalLogic'
 import Note from '../../../Utilities/Note'
+import TutorialLink from '../../../Utilities/TutorialLink'
+import tutorialLinks from '../../../../Utils/StaticData/tutorialLinks'
 
 export default function WebHooksIntegration({
   formFields,
@@ -89,6 +91,7 @@ export default function WebHooksIntegration({
 
   return (
     <div style={{ ...{ width: isInfo && 900 } }}>
+      <TutorialLink title="Web Hooks" links={tutorialLinks?.webHooksLinks || {}} />
       <div className="flx ">
         <div className="w-8 mr-2 mt-2 mb-4">
           <div className="f-m">{__('Integration Name', 'bit-integrations')}</div>

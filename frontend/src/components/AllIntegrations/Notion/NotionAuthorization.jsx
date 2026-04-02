@@ -16,8 +16,7 @@ function NotionAuthorization({ notionConf, setNotionConf, step, setStep, isInfo,
   const btcbi = useRecoilValue($appConfigState)
   const [authorized, setAuthorized] = useState(false)
   const [error, setError] = useState({ clientId: '', clientSecret: '' })
-  const { notion } = tutorialLinks
-  const nextPage = async () => {
+const nextPage = async () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -52,8 +51,7 @@ function NotionAuthorization({ notionConf, setNotionConf, step, setStep, isInfo,
 `
   return (
     <StepPage step={step} stepNo={1} style={{ width: 900, height: 'auto' }}>
-      {notion?.youTubeLink && <TutorialLink title="Notion" youTubeLink={notion?.youTubeLink} />}
-      {notion?.docLink && <TutorialLink title="Notion" docLink={notion?.docLink} />}
+            <TutorialLink title="Notion" links={tutorialLinks?.notion || {}} />
 
       <div className="mt-2">
         {/* Notion Authorization */}

@@ -16,8 +16,7 @@ function AntApps({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
   const [isLoading, setIsLoading] = useState(false)
-  const { antsAndApps } = tutorialLinks
-  const [antapps, setAntapps] = useState({
+const [antapps, setAntapps] = useState({
     name: 'Ants & Apps',
     type: 'Ant Apps',
     method: 'POST',
@@ -36,10 +35,7 @@ function AntApps({ formFields, setFlow, flow, allIntegURL }) {
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
-        {antsAndApps?.youTubeLink && (
-          <TutorialLink title="Ants and Apps" youTubeLink={antsAndApps?.youTubeLink} />
-        )}
-        {antsAndApps?.docLink && <TutorialLink title="Ants and Apps" docLink={antsAndApps?.docLink} />}
+                <TutorialLink title="Ants and Apps" links={tutorialLinks?.antsAndApps || {}} />
 
         <WebHooksIntegration
           formID={formID}

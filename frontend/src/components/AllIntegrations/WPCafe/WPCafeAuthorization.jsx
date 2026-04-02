@@ -18,9 +18,7 @@ export default function WPCafeAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ name: '' })
-  const { wpcafe } = tutorialLinks
-
-  const handleInput = e => {
+const handleInput = e => {
     const newConf = { ...wpcafeConf }
     newConf[e.target.name] = e.target.value
     setWpcafeConf(newConf)
@@ -30,8 +28,7 @@ export default function WPCafeAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {wpcafe?.youTubeLink && <TutorialLink title="WPCafe" youTubeLink={wpcafe?.youTubeLink} />}
-      {wpcafe?.docLink && <TutorialLink title="WPCafe" docLink={wpcafe?.docLink} />}
+            <TutorialLink title="WPCafe" links={tutorialLinks?.wpcafe || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

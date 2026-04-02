@@ -26,8 +26,7 @@ export default function ZohoCreatorAuthorization({
     clientSecret: '',
     ownerEmail: ''
   })
-  const { zohoCreator } = tutorialLinks
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -54,10 +53,7 @@ export default function ZohoCreatorAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {zohoCreator?.youTubeLink && (
-        <TutorialLink title="Zoho Creator" youTubeLink={zohoCreator?.youTubeLink} />
-      )}
-      {zohoCreator?.docLink && <TutorialLink title="Zoho Creator" docLink={zohoCreator?.docLink} />}
+            <TutorialLink title="Zoho Creator" links={tutorialLinks?.zohoCreator || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

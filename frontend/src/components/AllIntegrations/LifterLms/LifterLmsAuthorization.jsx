@@ -19,9 +19,7 @@ export default function LifterLmsAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
-  const { lifterLms } = tutorialLinks
-
-  const authorizeHandler = () => {
+const authorizeHandler = () => {
     setIsLoading('auth')
     bitsFetch({}, 'lifterLms_authorize').then(result => {
       if (result?.success) {
@@ -49,8 +47,7 @@ export default function LifterLmsAuthorization({
         width: step === 1 && 900,
         height: step === 1 && 'auto'
       }}>
-      {lifterLms?.youTubeLink && <TutorialLink title="LifterLMS" youTubeLink={lifterLms?.youTubeLink} />}
-      {lifterLms?.docLink && <TutorialLink title="LifterLMS" docLink={lifterLms?.docLink} />}
+            <TutorialLink title="LifterLMS" links={tutorialLinks?.lifterLms || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

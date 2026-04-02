@@ -19,9 +19,7 @@ const CustomAction = ({ formFields, setFlow, flow, allIntegURL }) => {
   const [loading, setLoading] = useState({})
   const [snack, setSnackbar] = useState({ show: false })
   const randomFileName = uuid()
-  const { customAction } = tutorialLinks
-
-  const [customActionConf, setCustomActionConf] = useState({
+const [customActionConf, setCustomActionConf] = useState({
     name: 'Custom Action',
     type: 'CustomAction',
     randomFileName,
@@ -63,10 +61,7 @@ const CustomAction = ({ formFields, setFlow, flow, allIntegURL }) => {
       <div
         className="btcd-stp-page"
         style={{ ...(step === 1 && { width: '70%', height: 'auto', overflow: 'visible' }) }}>
-        {customAction?.youTubeLink && (
-          <TutorialLink title="Custom Action" youTubeLink={customAction?.youTubeLink} />
-        )}
-        {customAction?.docLink && <TutorialLink title="Custom Action" docLink={customAction?.docLink} />}
+                <TutorialLink title="Custom Action" links={tutorialLinks?.customAction || {}} />
 
         <div className="d-flx my-3">
           <div className="wdt-200 d-in-b mt-3">

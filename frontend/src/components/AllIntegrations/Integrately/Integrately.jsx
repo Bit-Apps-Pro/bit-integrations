@@ -16,8 +16,7 @@ function Integrately({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
   const [isLoading, setIsLoading] = useState(false)
-  const { integratelyLinks } = tutorialLinks
-  const [integrately, setIntegrately] = useState({
+const [integrately, setIntegrately] = useState({
     name: 'Integrately Web Hooks',
     type: 'Integrately',
     method: 'POST',
@@ -36,12 +35,7 @@ function Integrately({ formFields, setFlow, flow, allIntegURL }) {
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
-        {integratelyLinks?.youTubeLink && (
-          <TutorialLink title="Integrately" youTubeLink={integratelyLinks?.youTubeLink} />
-        )}
-        {integratelyLinks?.docLink && (
-          <TutorialLink title="Integrately" docLink={integratelyLinks?.docLink} />
-        )}
+                <TutorialLink title="Integrately" links={tutorialLinks?.integratelyLinks || {}} />
 
         <WebHooksIntegration
           formID={formID}

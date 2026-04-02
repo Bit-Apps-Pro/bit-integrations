@@ -24,9 +24,7 @@ export default function LionDeskAuthorization({
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ session_token: '' })
   const btcbi = useRecoilValue($appConfigState)
-  const { lionDesk } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -60,8 +58,7 @@ export default function LionDeskAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {lionDesk?.youTubeLink && <TutorialLink title="LionDesk" youTubeLink={lionDesk?.youTubeLink} />}
-      {lionDesk?.docLink && <TutorialLink title="LionDesk" docLink={lionDesk?.docLink} />}
+            <TutorialLink title="LionDesk" links={tutorialLinks?.lionDesk || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

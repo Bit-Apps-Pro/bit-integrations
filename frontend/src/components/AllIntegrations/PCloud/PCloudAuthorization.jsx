@@ -25,9 +25,7 @@ export default function PCloudAuthorization({
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ clientId: '', clientSecret: '' })
   const btcbi = useRecoilValue($appConfigState)
-  const { pCloud } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -49,8 +47,7 @@ export default function PCloudAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {pCloud?.youTubeLink && <TutorialLink title="pCloud" youTubeLink={pCloud?.youTubeLink} />}
-      {pCloud?.docLink && <TutorialLink title="pCloud" docLink={pCloud?.docLink} />}
+            <TutorialLink title="pCloud" links={tutorialLinks?.pCloud || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

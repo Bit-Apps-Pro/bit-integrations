@@ -18,9 +18,7 @@ export default function DropboxAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ clientId: '', clientSecret: '' })
-  const { dropbox } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -58,8 +56,7 @@ export default function DropboxAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {dropbox?.youTubeLink && <TutorialLink title="Dropbox" youTubeLink={dropbox?.youTubeLink} />}
-      {dropbox?.docLink && <TutorialLink title="Dropbox" docLink={dropbox?.docLink} />}
+            <TutorialLink title="Dropbox" links={tutorialLinks?.dropbox || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>
