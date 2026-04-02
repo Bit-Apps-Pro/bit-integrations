@@ -1,57 +1,51 @@
 import { memo, useEffect, useRef, useState } from 'react'
-import DocIcn from '../../Icons/DocIcn'
-import YoutubeIcn from '../../Icons/YoutubeIcn'
 import AiSparkleIcn from '../../Icons/AiSparkleIcn'
+import BlackboxIcn from '../../Icons/BlackboxIcn'
+import ChatGPTIcn from '../../Icons/ChatGPTIcn'
+import ClaudeIcn from '../../Icons/ClaudeIcn'
+import DocIcn from '../../Icons/DocIcn'
+import DuckAiIcn from '../../Icons/DuckAiIcn'
+import GrokIcn from '../../Icons/GrokIcn'
+import PerplexityIcn from '../../Icons/PerplexityIcn'
+import YoutubeIcn from '../../Icons/YoutubeIcn'
 import { __, sprintf } from '../../Utils/i18nwrap'
 
 const aiTools = [
   {
     id: 'chatgpt',
     name: 'ChatGPT',
-    shortName: 'GPT',
-    color: '#111827',
-    textColor: '#FFFFFF',
+    Icon: ChatGPTIcn,
     url: 'https://chatgpt.com/?q='
   },
   {
     id: 'claude',
     name: 'Claude',
-    shortName: 'CL',
-    color: '#D97706',
-    textColor: '#FFFFFF',
+    Icon: ClaudeIcn,
     url: 'https://claude.ai/new?q='
   },
   {
     id: 'perplexity',
     name: 'Perplexity',
-    shortName: 'PX',
-    color: '#0E7A78',
-    textColor: '#FFFFFF',
+    Icon: PerplexityIcn,
     url: 'https://www.perplexity.ai/search/new?q='
-  },
-  {
-    id: 'duckai',
-    name: 'Duck.ai',
-    shortName: 'DK',
-    color: '#DE5833',
-    textColor: '#FFFFFF',
-    url: 'https://duckduckgo.com/?ia=chat&q='
   },
   {
     id: 'grok',
     name: 'Grok',
-    shortName: 'GK',
-    color: '#1F2937',
-    textColor: '#FFFFFF',
+    Icon: GrokIcn,
     url: 'https://grok.com/?q='
   },
   {
-    id: 'mistral',
-    name: 'Mistral Le Chat',
-    shortName: 'ML',
-    color: '#EA580C',
-    textColor: '#FFFFFF',
-    url: 'https://chat.mistral.ai/chat/?q='
+    id: 'duckai',
+    name: 'Duck.ai',
+    Icon: DuckAiIcn,
+    url: 'https://duckduckgo.com/?ia=chat&q='
+  },
+  {
+    id: 'blackbox',
+    name: 'Blackbox AI',
+    Icon: BlackboxIcn,
+    url: 'https://app.blackbox.ai/?q='
   }
 ]
 
@@ -149,10 +143,8 @@ function TutorialLink({ title, subtitle, links, style }) {
                     href={`${tool.url}${encodedPrompt}`}
                     title={sprintf(__('Summarize using %s', 'bit-integrations'), tool.name)}
                     onClick={() => setShowAiTools(false)}>
-                    <span
-                      className="ai-tool-icon"
-                      style={{ backgroundColor: tool.color, color: tool.textColor }}>
-                      {tool.shortName}
+                    <span className="ai-tool-icon">
+                      <tool.Icon size="24" className="ai-tool-logo" />
                     </span>
                     <span className="ai-tool-name">{tool.name}</span>
                   </a>
