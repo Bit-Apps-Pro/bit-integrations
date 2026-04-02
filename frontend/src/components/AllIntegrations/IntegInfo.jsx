@@ -177,6 +177,7 @@ const TeamsForWooCommerceMembershipsAuthorization = lazy(
 )
 const SeoPressAuthorization = lazy(() => import('./SeoPress/SeoPressAuthorization'))
 const NotificationXAuthorization = lazy(() => import('./NotificationX/NotificationXAuthorization'))
+const WeDocsAuthorization = lazy(() => import('./WeDocs/WeDocsAuthorization'))
 const UserRegistrationMembershipAuthorization = lazy(
   () => import('./UserRegistrationMembership/UserRegistrationMembershipAuthorization')
 )
@@ -632,6 +633,9 @@ export default function IntegInfo() {
         return <SeoPressAuthorization seoPressConf={integrationConf} step={1} isInfo />
       case 'NotificationX':
         return <NotificationXAuthorization notificationXConf={integrationConf} step={1} isInfo />
+      case 'weDocs':
+      case 'WeDocs':
+        return <WeDocsAuthorization weDocsConf={integrationConf} step={1} isInfo />
       default:
         return <></>
     }

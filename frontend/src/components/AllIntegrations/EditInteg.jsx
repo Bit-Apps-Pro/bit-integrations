@@ -139,8 +139,8 @@ const EditAutomatorWP = lazy(() => import('./AutomatorWP/EditAutomatorWP'))
 const EditUncannyAutomator = lazy(() => import('./UncannyAutomator/EditUncannyAutomator'))
 const EditThriveAutomator = lazy(() => import('./ThriveAutomator/EditThriveAutomator'))
 const EditWPWebhooks = lazy(() => import('./WPWebhooks/EditWPWebhooks'))
-const EditAdvancedFormIntegration = lazy(() =>
-  import('./AdvancedFormIntegration/EditAdvancedFormIntegration')
+const EditAdvancedFormIntegration = lazy(
+  () => import('./AdvancedFormIntegration/EditAdvancedFormIntegration')
 )
 const EditPerfexCRM = lazy(() => import('./PerfexCRM/EditPerfexCRM'))
 const EditSureTriggers = lazy(() => import('./SureTriggers/EditSureTriggers'))
@@ -172,8 +172,9 @@ const EditWishlistMember = lazy(() => import('./WishlistMember/EditWishlistMembe
 const EditFluentCart = lazy(() => import('./FluentCart/EditFluentCart'))
 const EditWPCafe = lazy(() => import('./WPCafe/EditWPCafe'))
 const EditNotificationX = lazy(() => import('./NotificationX/EditNotificationX'))
-const EditTeamsForWooCommerceMemberships = lazy(() =>
-  import('./TeamsForWooCommerceMemberships/EditTeamsForWooCommerceMemberships')
+const EditWeDocs = lazy(() => import('./WeDocs/EditWeDocs'))
+const EditTeamsForWooCommerceMemberships = lazy(
+  () => import('./TeamsForWooCommerceMemberships/EditTeamsForWooCommerceMemberships')
 )
 const EditSeoPress = lazy(() => import('./SeoPress/EditSeoPress'))
 const EditUserRegistrationMembership = lazy(
@@ -587,6 +588,9 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditWPCafe allIntegURL={allIntegURL} />
     case 'NotificationX':
       return <EditNotificationX allIntegURL={allIntegURL} />
+    case 'weDocs':
+    case 'WeDocs':
+      return <EditWeDocs allIntegURL={allIntegURL} />
     case 'Teams For WooCommerce Memberships':
       return <EditTeamsForWooCommerceMemberships allIntegURL={allIntegURL} />
     case 'SeoPress':

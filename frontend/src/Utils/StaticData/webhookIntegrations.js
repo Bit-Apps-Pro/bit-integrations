@@ -89,6 +89,7 @@ export const customFormIntegrations = [
   'SeoPress',
   'ThriveLeads',
   'NotificationX',
+  'WeDocs',
   'UserRegistrationMembership'
 ]
 

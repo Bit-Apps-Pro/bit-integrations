@@ -141,6 +141,7 @@ final class AllTriggersName
             'WCSubscriptions'                => ['name' => 'WooCommerce Subscriptions',  'isPro' => true, 'is_active' => false],
             'Webhook'                        => ['name' => 'Webhook',  'isPro' => true, 'is_active' => false],
             'WeForms'                        => ['name' => 'WeForms',  'isPro' => true, 'is_active' => false],
+            'WeDocs'                         => ['name' => 'weDocs',  'isPro' => true, 'is_active' => false],
             'WPCourseware'                   => ['name' => 'WP Courseware',  'isPro' => true, 'is_active' => false],
             'WPEF'                           => ['name' => 'eForm',  'isPro' => true, 'is_active' => false],
             'WPForo'                         => ['name' => 'wpForo Forum',  'isPro' => true, 'is_active' => false],

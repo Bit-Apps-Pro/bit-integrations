@@ -178,6 +178,7 @@ export default function SelectAction() {
     { type: 'Teams For WooCommerce Memberships' },
     { type: 'SeoPress' },
     { type: 'NotificationX' },
+    { type: 'weDocs' },
     { type: 'User Registration & Membership', logo: 'userRegistrationMembership' }
   ]
 
