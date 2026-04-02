@@ -1,7 +1,7 @@
 import { memo, useEffect, useRef, useState } from 'react'
 import DocIcn from '../../Icons/DocIcn'
 import YoutubeIcn from '../../Icons/YoutubeIcn'
-import ChatGPTIcn from '../../Icons/ChatGPTIcn'
+import AiSparkleIcn from '../../Icons/AiSparkleIcn'
 import { __, sprintf } from '../../Utils/i18nwrap'
 
 const aiTools = [
@@ -14,28 +14,12 @@ const aiTools = [
     url: 'https://chatgpt.com/?q='
   },
   {
-    id: 'gemini',
-    name: 'Gemini',
-    shortName: 'GE',
-    color: '#3F51B5',
-    textColor: '#FFFFFF',
-    url: 'https://gemini.google.com/app?q='
-  },
-  {
     id: 'claude',
     name: 'Claude',
     shortName: 'CL',
     color: '#D97706',
     textColor: '#FFFFFF',
     url: 'https://claude.ai/new?q='
-  },
-  {
-    id: 'deepseek',
-    name: 'DeepSeek',
-    shortName: 'DS',
-    color: '#0B57D0',
-    textColor: '#FFFFFF',
-    url: 'https://chat.deepseek.com/?q='
   },
   {
     id: 'perplexity',
@@ -46,20 +30,12 @@ const aiTools = [
     url: 'https://www.perplexity.ai/search/new?q='
   },
   {
-    id: 'copilot',
-    name: 'Microsoft Copilot',
-    shortName: 'MC',
-    color: '#2563EB',
+    id: 'duckai',
+    name: 'Duck.ai',
+    shortName: 'DK',
+    color: '#DE5833',
     textColor: '#FFFFFF',
-    url: 'https://copilot.microsoft.com/?q='
-  },
-  {
-    id: 'qwen',
-    name: 'Qwen',
-    shortName: 'QW',
-    color: '#DC2626',
-    textColor: '#FFFFFF',
-    url: 'https://chat.qwen.ai/?q='
+    url: 'https://duckduckgo.com/?ia=chat&q='
   },
   {
     id: 'grok',
@@ -75,7 +51,7 @@ const aiTools = [
     shortName: 'ML',
     color: '#EA580C',
     textColor: '#FFFFFF',
-    url: 'https://chat.mistral.ai/chat?q='
+    url: 'https://chat.mistral.ai/chat/?q='
   }
 ]
 
@@ -154,8 +130,8 @@ function TutorialLink({ title, subtitle, links, style }) {
             onClick={() => setShowAiTools(prevState => !prevState)}
             aria-expanded={showAiTools}
             aria-haspopup="true">
-            <ChatGPTIcn size="18" className="mr-1" />
-            {__('Samarize with AI', 'bit-integrations')}
+            <AiSparkleIcn size="18" className="mr-1" />
+            {__('Summarize with AI', 'bit-integrations')}
           </button>
 
           {showAiTools && (
