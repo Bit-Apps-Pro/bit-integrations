@@ -1,11 +1,11 @@
 /* eslint-disable max-len */
-export default function PerplexityIcn({ size, color = '#0B0B0B', className }) {
+export default function PerplexityIcn({ size, color = '#080808', className }) {
   return (
-    <svg viewBox="0 0 24 24" width={size} height={size} className={className}>
-      <rect width="24" height="24" rx="5" fill={color} />
+    <svg viewBox="0 0 127.69 148.35" width={size} height={size} className={className}>
       <path
-        fill="#FFFFFF"
-        d="M22.3977 7.0896h-2.3106V.0676l-7.5094 6.3542V.1577h-1.1554v6.1966L4.4904 0v7.0896H1.6023v10.3976h2.8882V24l6.932-6.3591v6.2005h1.1554v-6.0469l6.9318 6.1807v-6.4879h2.8882V7.0896zm-3.4657-4.531v4.531h-5.355l5.355-4.531zm-13.2862.0676 4.8691 4.4634H5.6458V2.6262zM2.7576 16.332V8.245h7.8476l-6.1149 6.1147v1.9723H2.7576zm2.8882 5.0404v-3.8852h.0001v-2.6488l5.7763-5.7764v7.0111l-5.7764 5.2993zm12.7086.0248-5.7766-5.1509V9.0618l5.7766 5.7766v6.5588zm2.8882-5.0652h-1.733v-1.9723L13.3948 8.245h7.8478v8.087z"
+        fill={color}
+        fillRule="evenodd"
+        d="M17.37 0 59.62 38.92h0V.09h8.22v39L110.27 0V44.37h17.42v64H110.32v39.51L67.84 110.57v37.75H59.62V111.18l-42.2 37.17v-40H0v-64H17.37ZM53.42 52.5H8.22v47.76h9.19V85.19ZM25.64 88.8v41.42l34-29.92V57.94ZM68.08 99.91v-42l34 30.86v19.62h0V129.8Zm42.24.35h9.15V52.5H74.61l35.71 32.35Zm-8.27-55.89V18.68L74.16 44.37Zm-48.57 0H25.6V18.68Z"
       />
     </svg>
   )

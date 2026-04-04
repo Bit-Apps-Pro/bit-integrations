@@ -1,10 +1,15 @@
 /* eslint-disable max-len */
-export default function GrokIcn({ size, color = '#0F172A', className }) {
+export default function GrokIcn({ size, color = '#080808', className }) {
   return (
-    <svg viewBox="0 0 24 24" width={size} height={size} className={className}>
-      <circle cx="12" cy="12" r="11" fill={color} />
-      <path d="M16.9 6.7A7.1 7.1 0 1 0 16.9 17.3" fill="none" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M7.1 16.9L16.9 7.1" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" />
+    <svg viewBox="0 0 148.84 142.89" width={size} height={size} className={className}>
+      <path
+        d="M57.48 91.72 107 55.15A4.58 4.58 0 0 1 114 56.84a40.72 40.72 0 0 1-8.73 44.45C93.17 113.41 76.33 116.07 60.94 110l-16.82 7.79c24.12 16.51 53.41 12.43 71.71-5.91a55.41 55.41 0 0 0 14.81-52.21l0 0c-6.1-26.25 1.5-36.74 17-58.19L148.84 0 128.37 20.5v-.07l-70.9 71.3"
+        fill={color}
+      />
+      <path
+        d="M47.27 100.61C30 84.05 33 58.43 47.72 43.65c10.92-10.93 28.81-15.4 44.44-8.83l16.77-7.76a48.06 48.06 0 0 0-11.34-6.19A55.74 55.74 0 0 0 24.94 93.6C31.28 109 20.89 119.94 10.43 131A122.23 122.23 0 0 0 0 142.89l47.26-42.27"
+        fill={color}
+      />
     </svg>
   )
 }
