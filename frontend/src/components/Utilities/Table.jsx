@@ -241,6 +241,13 @@ function Table(props) {
     setconfMdl({ ...confMdl })
   }
 
+  const showBulkTagAssignModal = () => {
+    props.setBulkTagAssign(selectedFlatRows, {
+      fetchData,
+      data: { pageIndex, pageSize, sortBy, filters, globalFilter: search }
+    })
+  }
+
   const closeConfMdl = () => {
     confMdl.show = false
     setconfMdl({ ...confMdl })
@@ -289,6 +296,16 @@ function Table(props) {
                   aria-label="icon-btn"
                   type="button">
                   <span className="btcd-icn icn-file_copy" style={{ fontSize: 16 }} />
+                </button>
+              )}
+              {'setBulkTagAssign' in props && (
+                <button
+                  onClick={showBulkTagAssignModal}
+                  className="icn-btn tooltip tag-add-btn bulk-tag-assign-btn"
+                  style={{ '--tooltip-txt': `'${__('Assign Tags', 'bit-integrations')}'` }}
+                  aria-label="icon-btn"
+                  type="button">
+                  +
                 </button>
               )}
               <button
