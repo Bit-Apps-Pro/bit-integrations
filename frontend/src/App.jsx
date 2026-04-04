@@ -8,20 +8,22 @@ import { Route, Routes } from 'react-router'
 import './resource/sass/app.scss'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Toaster } from 'react-hot-toast'
-import logo from '../logo.svg'
-import Loader from './components/Loaders/Loader'
-import TableLoader from './components/Loaders/TableLoader2'
-import useFetch from './hooks/useFetch'
-import './resource/icons/style.css'
-import { __ } from './Utils/i18nwrap'
-import { $appConfigState } from './GlobalStates'
-import ChangelogToggle from './pages/ChangelogToggle'
-import CashbackModal from './pages/CashbackModal'
 import { useRecoilValue } from 'recoil'
 import 'regenerator-runtime/runtime.js'
-import AnnouncementModal from './pages/AnnouncementModal'
+import logo from '../logo.svg'
+import {
+  defaultLoaderFallback,
+  getIntegrationsElement
+} from './components/AppRouteElements'
+import Loader from './components/Loaders/Loader'
+import TableLoader from './components/Loaders/TableLoader2'
 import ProModalBtn from './components/Utilities/ProModalBtn'
 import { APP_CONFIG } from './config/app'
+import { $appConfigState } from './GlobalStates'
+import useFetch from './hooks/useFetch'
+import ChangelogToggle from './pages/ChangelogToggle'
+import './resource/icons/style.css'
+import { __ } from './Utils/i18nwrap'
 const AuthResponse = lazy(() => import('./pages/AuthResponse'))
 const AllIntegrations = lazy(() => import('./pages/AllIntegrations'))
 const Integrations = lazy(() => import('./components/Integrations'))
@@ -30,20 +32,12 @@ const DocSupport = lazy(() => import('./pages/DocSupport'))
 const FlowBuilder = lazy(() => import('./pages/FlowBuilder'))
 const Error404 = lazy(() => import('./pages/Error404'))
 
+const integrationsElement = getIntegrationsElement(Integrations)
+const authResponseElement = getIntegrationsElement(AuthResponse)
+
 function App() {
-  const loaderStyle = { height: '82vh' }
   const btcbi = useRecoilValue($appConfigState)
-  const defaultLoaderFallback = <Loader className="g-c" style={loaderStyle} />
-  const integrationsElement = (
-    <Suspense fallback={defaultLoaderFallback}>
-      <Integrations />
-    </Suspense>
-  )
-  const authResponseElement = (
-    <Suspense fallback={defaultLoaderFallback}>
-      <AuthResponse />
-    </Suspense>
-  )
+  const loaderStyle = { height: '82vh' }
 
   // check if integrations are available
   const { data, isLoading } = useFetch({ payload: {}, action: 'flow/list', method: 'get' })
