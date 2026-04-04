@@ -9,7 +9,7 @@ import NewYear from '../resource/img/NewYear.png'
 import bitsFetch from '../Utils/bitsFetch'
 import { __, sprintf } from '../Utils/i18nwrap'
 
-const releaseDate = '26th February 2026'
+const releaseDate = '30th March 2026'
 
 // Example for items:
 // items: [
@@ -44,9 +44,14 @@ const changeLog = [
     itemClass: 'feature-list',
     items: [
       {
-        label: 'WooCommerce',
-        desc: 'Booster for WooCommerce checkout fields added.',
+        label: 'WP Post Creation',
+        desc: 'Added support for selecting and assigning one or multiple post categories during post creation.',
         isPro: false
+      },
+      {
+        label: 'GiveWP',
+        desc: 'Added donation type data.',
+        isPro: true
       }
     ]
   },
@@ -54,18 +59,7 @@ const changeLog = [
     label: __('Improvements', 'bit-integrations'),
     headClass: 'new-improvement',
     itemClass: 'feature-list',
-    items: [
-      {
-        label: 'Breakdance',
-        desc: 'Updated Breakdance trigger test endpoints to use the shared trigger test routes.',
-        isPro: true
-      },
-      {
-        label: 'Custom Action',
-        desc: 'Reworked PHP function validation to use loopback-based fatal error checks and return cleaner syntax validation feedback.',
-        isPro: false
-      }
-    ]
+    items: []
   },
   {
     label: __('Bug Fixes', 'bit-integrations'),
@@ -73,20 +67,10 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'License',
-        desc: 'Fixed license expiry day calculation in the license status notice.',
-        isPro: true
+        label: 'Mail Action',
+        desc: 'Fixed multi-line email message formatting to render correctly in sent emails.',
+        isPro: false
       },
-      {
-        label: 'License',
-        desc: 'Added backward-compatible removal for legacy license key option data.',
-        isPro: true
-      },
-      {
-        label: 'Custom Trigger',
-        desc: 'Fixed custom trigger test data remove response key and success message labels.',
-        isPro: true
-      }
     ]
   },
   {

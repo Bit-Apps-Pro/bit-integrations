@@ -33,6 +33,10 @@ Route::post('flow/bulk-delete', [Flow::class, 'bulkDelete']);
 Route::post('flow/toggleStatus', [Flow::class, 'toggle_status']);
 Route::post('flow/clone', [Flow::class, 'flowClone']);
 
+// Mail Action
+Route::sanitize_post_content()->post('flow/mail/save', [Flow::class, 'save']);
+Route::sanitize_post_content()->post('flow/mail/update', [Flow::class, 'update']);
+
 // Custom Action
 Route::no_sanitize()->post('flow/custom-action/save', [Flow::class, 'save']);
 Route::no_sanitize()->post('flow/custom-action/update', [Flow::class, 'update']);
@@ -43,6 +47,7 @@ Route::post('customfield/list', [PostController::class, 'getCustomFields']);
 Route::get('pods/list', [PostController::class, 'getPodsPostType']);
 Route::get('page/list', [PostController::class, 'getPages']);
 Route::post('post-types/list', [PostController::class, 'getPostTypes']);
+Route::post('post-categories/list', [PostController::class, 'getPostCategories']);
 Route::post('pods/fields', [PostController::class, 'getPodsField']);
 Route::post('user/list', [UserController::class, 'getWpUsers']);
 Route::get('role/list', [UserController::class, 'getUserRoles']);

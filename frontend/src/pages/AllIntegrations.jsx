@@ -3,7 +3,7 @@
 /* eslint-disable max-len */
 import { lazy, memo, useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import Loader from '../components/Loaders/Loader'
 import ConfirmModal from '../components/Utilities/ConfirmModal'
 import MenuBtn from '../components/Utilities/MenuBtn'
@@ -17,6 +17,7 @@ import { useRecoilState } from 'recoil'
 import { $flowStep, $newFlow } from '../GlobalStates'
 
 const Welcome = lazy(() => import('./Welcome'))
+const preloadFlowBuilder = () => import('./FlowBuilder')
 
 function AllIntegrations({ isValidUser }) {
   const { data, isLoading, mutate } = useFetch({ payload: {}, action: 'flow/list', method: 'get' })
@@ -199,6 +200,9 @@ function AllIntegrations({ isValidUser }) {
   const setTableCols = useCallback(newCols => {
     setCols(newCols)
   }, [])
+  const handleCreateIntegrationIntent = useCallback(() => {
+    void preloadFlowBuilder()
+  }, [])
   const closeConfMdl = () => {
     confMdl.show = false
     setconfMdl({ ...confMdl })
@@ -258,7 +262,13 @@ function AllIntegrations({ isValidUser }) {
           <div className="af-header flx flx-between">
             <h2>{__('Integrations', 'bit-integrations')}</h2>
 
-            <Link to="/flow/new" className="btn round btcd-btn-lg purple purple-sh">
+            <Link
+              to="/flow/new"
+              className="btn round btcd-btn-lg purple purple-sh"
+              onMouseEnter={handleCreateIntegrationIntent}
+              onFocus={handleCreateIntegrationIntent}
+              onTouchStart={handleCreateIntegrationIntent}
+              onMouseDown={handleCreateIntegrationIntent}>
               {__('Create Integration', 'bit-integrations')}
             </Link>
           </div>

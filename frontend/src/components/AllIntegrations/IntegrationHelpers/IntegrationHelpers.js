@@ -227,6 +227,9 @@ export const saveIntegConfig = async (
   if (confTmp?.type === 'CustomAction') {
     action = edit ? 'flow/custom-action/update' : 'flow/custom-action/save'
   }
+  if (confTmp?.type === 'Mail') {
+    action = edit ? 'flow/mail/update' : 'flow/mail/save'
+  }
 
   try {
     const res = await bitsFetch(data, action)
@@ -414,6 +417,9 @@ export const saveActionConf = async ({
   if (conf?.type === 'CustomAction') {
     action = edit ? 'flow/custom-action/update' : 'flow/custom-action/save'
   }
+  if (conf?.type === 'Mail') {
+    action = edit ? 'flow/mail/update' : 'flow/mail/save'
+  }
 
   try {
     await bitsFetch(data, action).then(res => {
@@ -509,7 +515,7 @@ export const handleAuthorize = (
         grantTokenResponse = JSON.parse(bitformsZoho)
         localStorage.removeItem(`__${integ}`)
       }
-      
+
       if (
         !grantTokenResponse.code ||
         grantTokenResponse.error ||

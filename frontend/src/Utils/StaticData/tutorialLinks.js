@@ -662,6 +662,10 @@ const tutorialLinks = {
   ninjaTables: {
     youTubeLink: '',
     docLink: 'https://bit-integrations.com/wp-docs/actions/ninja-tables-integrations/'
+  },
+  userRegistrationMembership: {
+    youTubeLink: '',
+    docLink: 'https://bit-integrations.com/wp-docs/actions/user-registration-and-membership-as-action/'
   }
 }
 export default tutorialLinks

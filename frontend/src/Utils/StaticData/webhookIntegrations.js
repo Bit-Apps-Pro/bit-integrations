@@ -87,7 +87,9 @@ export const customFormIntegrations = [
   'TeamsForWooCommerceMemberships',
   'WPCafe',
   'SeoPress',
-  'ThriveLeads'
+  'ThriveLeads',
+  'NotificationX',
+  'UserRegistrationMembership'
 ]
 
 export const actionHookIntegrations = ['ActionHook']

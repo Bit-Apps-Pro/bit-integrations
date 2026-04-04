@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
 import { setFieldInputOnMsgBody } from '../IntegrationHelpers/IntegrationHelpers'

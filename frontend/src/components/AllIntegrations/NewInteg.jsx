@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react/jsx-no-undef */
 import { lazy, Suspense, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router'
 import { useRecoilState } from 'recoil'
 import { $newFlow } from '../../GlobalStates'
 import { __ } from '../../Utils/i18nwrap'
@@ -171,10 +171,14 @@ const WishlistMember = lazy(() => import('./WishlistMember/WishlistMember'))
 const FluentCart = lazy(() => import('./FluentCart/FluentCart'))
 const NinjaTables = lazy(() => import('./NinjaTables/NinjaTables'))
 const WPCafe = lazy(() => import('./WPCafe/WPCafe'))
+const NotificationX = lazy(() => import('./NotificationX/NotificationX'))
 const TeamsForWooCommerceMemberships = lazy(() =>
   import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMemberships')
 )
 const SeoPress = lazy(() => import('./SeoPress/SeoPress'))
+const UserRegistrationMembership = lazy(
+  () => import('./UserRegistrationMembership/UserRegistrationMembership')
+)
 
 export default function NewInteg({ allIntegURL }) {
   const { integUrlName } = useParams()
@@ -807,6 +811,15 @@ export default function NewInteg({ allIntegURL }) {
           <Selzy
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'User Registration & Membership':
+        return (
+          <UserRegistrationMembership
+            formFields={flow?.triggerData?.fields}
+            allIntegURL={allIntegURL}
             flow={flow}
             setFlow={setFlow}
           />
@@ -1644,6 +1657,15 @@ export default function NewInteg({ allIntegURL }) {
       case 'WPCafe':
         return (
           <WPCafe
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'NotificationX':
+        return (
+          <NotificationX
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
             flow={flow}

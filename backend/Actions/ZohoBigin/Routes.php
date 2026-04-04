@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
 use BitApps\Integrations\Actions\ZohoBigin\ZohoBiginController;
 use BitApps\Integrations\Core\Util\Route;
 
-Route::post('zbigin_generate_token', [ZohoBiginController::class, 'generateTokens']);
+Route::no_sanitize()->post('zbigin_generate_token', [ZohoBiginController::class, 'generateTokens']);
 Route::post('zbigin_refresh_modules', [ZohoBiginController::class, 'refreshModules']);
 Route::post('zbigin_refresh_playouts', [ZohoBiginController::class, 'refreshPLayouts']);
 Route::post('zbigin_refresh_notetypes', [ZohoBiginController::class, 'refreshNoteTypes']);

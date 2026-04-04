@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router'
 import { __ } from '../Utils/i18nwrap'
 import space from '../resource/img/space.svg'
 

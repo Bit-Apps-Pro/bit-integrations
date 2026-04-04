@@ -49,7 +49,14 @@ export const getAllPCloudFolders = (pCloudConf, setPCloudConf, type) => {
   })
 }
 
-export const handleAuthorization = (confTmp, setConf, setIsAuthorized, setIsLoading, setError, btcbi) => {
+export const handleAuthorization = (
+  confTmp,
+  setConf,
+  setIsAuthorized,
+  setIsLoading,
+  setError,
+  btcbi
+) => {
   if (!confTmp.clientId || !confTmp.clientSecret) {
     setError({
       clientId: !confTmp.clientId ? __("Client Id can't be empty", 'bit-integrations') : '',

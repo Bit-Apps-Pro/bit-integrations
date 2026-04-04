@@ -55,119 +55,55 @@ class RecordApiHelper
         $fieldData = [];
         $customFields = [];
 
-        foreach ($fieldMap as $fieldKey => $fieldPair) {
-            if (!empty($fieldPair->activeCampaignField)) {
-                if ($fieldPair->formField === 'custom' && isset($fieldPair->customValue) && !is_numeric($fieldPair->activeCampaignField)) {
-                    $fieldData[$fieldPair->activeCampaignField] = $fieldPair->customValue;
-                } elseif (is_numeric($fieldPair->activeCampaignField) && $fieldPair->formField === 'custom' && isset($fieldPair->customValue)) {
-                    $customFields[] = ['field' => (int) $fieldPair->activeCampaignField, 'value' => $fieldPair->customValue];
-                } elseif (is_numeric($fieldPair->activeCampaignField)) {
-                    $customFields[] = ['field' => (int) $fieldPair->activeCampaignField, 'value' => $fieldValues[$fieldPair->formField]];
+        // Efficient field mapping
+        foreach ($fieldMap as $fieldPair) {
+            if (empty($fieldPair->activeCampaignField)) {
+                continue;
+            }
+            $acField = $fieldPair->activeCampaignField;
+            $formField = $fieldPair->formField;
+            $customValue = $fieldPair->customValue ?? null;
+
+            if ($formField === 'custom' && isset($customValue)) {
+                if (is_numeric($acField)) {
+                    $customFields[] = ['field' => (int) $acField, 'value' => $customValue];
                 } else {
-                    $fieldData[$fieldPair->activeCampaignField] = $fieldValues[$fieldPair->formField];
+                    $fieldData[$acField] = $customValue;
                 }
+            } elseif (is_numeric($acField)) {
+                $customFields[] = ['field' => (int) $acField, 'value' => $fieldValues[$formField] ?? ''];
+            } else {
+                $fieldData[$acField] = $fieldValues[$formField] ?? '';
             }
         }
 
-        if (!empty($customFields)) {
+        if ($customFields) {
             $fieldData['fieldValues'] = $customFields;
         }
-        $activeCampaign['contact'] = (object) $fieldData;
-        $existContact = $this->existContact($activeCampaign['contact']->email);
+        $activeCampaign = ['contact' => (object) $fieldData];
+        $email = $fieldData['email'] ?? null;
+        $existContact = $email ? $this->existContact($email) : null;
 
+        $updateContact = !empty($actions->update);
+        $hasContact = !empty($existContact->contacts);
         $type = 'notSet';
-        $updateContact = $actions->update;
-        if (!$updateContact && empty($existContact->contacts)) {
+        $recordApiResponse = null;
+
+        if (!$updateContact && !$hasContact) {
             $recordApiResponse = $this->storeOrModifyRecord('contacts', wp_json_encode($activeCampaign));
             $type = 'insert';
-            if (isset($recordApiResponse->contact)) {
-                $recordApiResponse = ['success' => true, 'id' => $recordApiResponse->contact->id];
-                if (isset($listId) && !empty($listId)) {
-                    $data['contactList'] = (object) [
-                        'list'    => $listId,
-                        'contact' => $recordApiResponse['id'],
-                        'status'  => 1
-                    ];
-                    $this->storeOrModifyRecord('contactLists', wp_json_encode($data));
-                }
-                if (isset($tags) && !empty($tags)) {
-                    foreach ($tags as $tag) {
-                        $data['contactTag'] = (object) [
-                            'contact' => $recordApiResponse['id'],
-                            'tag'     => $tag
-                        ];
-                        $this->storeOrModifyRecord('contactTags', wp_json_encode($data));
-                    }
-                }
-                if (isset($integrationDetails->selectedAccount) && !empty($integrationDetails->selectedAccount)) {
-                    $data['accountContact'] = [
-                        'account' => $listId,
-                        'contact' => $recordApiResponse['id'],
-                    ];
-                    if (isset($integrationDetails->job_title)) {
-                        $data['accountContact'] += ['jobTitle' => $integrationDetails->job_title];
-                    }
-                    $this->storeOrModifyRecord('accountContacts', wp_json_encode((object) $data));
-                }
-            }
-        } elseif ($updateContact && !empty($existContact->contacts)) {
-            $recordApiResponse = $this->updateRecord($existContact->contacts[0]->id, $activeCampaign, $existContact);
-            if (isset($tags) && !empty($tags)) {
-                foreach ($tags as $tag) {
-                    $data['contactTag'] = (object) [
-                        'contact' => $recordApiResponse->contact->id,
-                        'tag'     => $tag
-                    ];
-                    $this->storeOrModifyRecord('contactTags', wp_json_encode($data));
-                }
-            }
-            if (isset($recordApiResponse->contact)) {
-                $recordApiResponse = ['success' => true, 'id' => $recordApiResponse->contact->id];
-            }
-            if (isset($integrationDetails->selectedAccount) && !empty($integrationDetails->selectedAccount)) {
-                $data['accountContact'] = [
-                    'account' => $listId,
-                    'contact' => $recordApiResponse->contact->id,
-                ];
-                if (isset($integrationDetails->job_title)) {
-                    $data['accountContact'] += ['jobTitle' => $integrationDetails->job_title];
-                }
-                $this->storeOrModifyRecord('accountContacts', wp_json_encode((object) $data));
-            }
+        } elseif ($updateContact && $hasContact) {
+            $contactId = $existContact->contacts[0]->id;
+            $recordApiResponse = $this->updateRecord($contactId, $activeCampaign, $existContact);
             $type = 'update';
-        } elseif ($updateContact && empty($existContact->contacts)) {
+        } elseif ($updateContact && !$hasContact) {
             $recordApiResponse = $this->storeOrModifyRecord('contacts', wp_json_encode($activeCampaign));
             $type = 'insert';
-            if (isset($recordApiResponse->contact)) {
-                $recordApiResponse = ['success' => true, 'id' => $recordApiResponse->contact->id];
-                if (isset($listId) && !empty($listId)) {
-                    $data['contactList'] = (object) [
-                        'list'    => $listId,
-                        'contact' => $recordApiResponse['id'],
-                        'status'  => 1
-                    ];
-                    $this->storeOrModifyRecord('contactLists', wp_json_encode($data));
-                }
-                if (isset($tags) && !empty($tags)) {
-                    foreach ($tags as $tag) {
-                        $data['contactTag'] = (object) [
-                            'contact' => $recordApiResponse['id'],
-                            'tag'     => $tag
-                        ];
-                        $this->storeOrModifyRecord('contactTags', wp_json_encode($data));
-                    }
-                }
-                if (isset($integrationDetails->selectedAccount) && !empty($integrationDetails->selectedAccount)) {
-                    $data['accountContact'] = [
-                        'account' => $listId,
-                        'contact' => $recordApiResponse['id'],
-                    ];
-                    if (isset($integrationDetails->job_title)) {
-                        $data['accountContact'] += ['jobTitle' => $integrationDetails->job_title];
-                    }
-                    $this->storeOrModifyRecord('accountContacts', wp_json_encode((object) $data));
-                }
-            }
+        }
+
+        if (!empty($recordApiResponse->contact)) {
+            $related = $this->handleRelatedActions($recordApiResponse->contact->id, $listId, $tags, $integrationDetails);
+            $recordApiResponse = (object) array_merge((array) $recordApiResponse, $related);
         }
 
         if ($type === 'notSet') {
@@ -175,13 +111,74 @@ class RecordApiHelper
 
             return false;
         }
-        if ($recordApiResponse && isset($recordApiResponse->errors)) {
+        if ($recordApiResponse && !empty($recordApiResponse->errors)) {
             LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => $type], 'error', $recordApiResponse->errors);
         } else {
             LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => $type], 'success', $recordApiResponse);
         }
 
         return $recordApiResponse;
+    }
+
+    private function handleRelatedActions($contactId, $listId, $tags, $integrationDetails)
+    {
+        $data = [];
+        $result = [];
+        if (!empty($listId)) {
+            $data['contactList'] = (object) [
+                'list'    => $listId,
+                'contact' => $contactId,
+                'status'  => 1
+            ];
+            $result['lists'] = $this->storeOrModifyRecord('contactLists', wp_json_encode($data));
+        }
+
+        if (!empty($tags)) {
+            // Remove existing tags if tag update is enabled
+            if ($integrationDetails->actions->tagUpdate) {
+                $contactTagsResponse = HttpHelper::get("{$this->_apiEndpoint}/contacts/{$contactId}/contactTags", null, $this->_defaultHeader);
+                $contactTags = $contactTagsResponse->contactTags ?? [];
+
+                if (!empty($contactTags)) {
+                    foreach ($contactTags as $contactTag) {
+                        HttpHelper::delete("{$this->_apiEndpoint}/contactTags/{$contactTag->id}", null, $this->_defaultHeader);
+                        $result['tags_removed'][] = HttpHelper::$responseCode === 200
+                            ? __('Tag removed successfully', 'bit-integrations')
+                            : __('Failed to remove tag', 'bit-integrations');
+                    }
+                } else {
+                    $result['tags_removed'] = __('No tags to remove', 'bit-integrations');
+                }
+            }
+
+            // Add new tags
+            $result['tags_added'] = array_map(
+                function ($tag) use ($contactId) {
+                    $data = [
+                        'contactTag' => (object) [
+                            'contact' => $contactId,
+                            'tag'     => $tag
+                        ]
+                    ];
+
+                    return $this->storeOrModifyRecord('contactTags', wp_json_encode($data));
+                },
+                $tags
+            );
+        }
+
+        if (!empty($integrationDetails->selectedAccount)) {
+            $data['accountContact'] = [
+                'account' => $integrationDetails->selectedAccount,
+                'contact' => $contactId,
+            ];
+            if (!empty($integrationDetails->job_title)) {
+                $data['accountContact']['jobTitle'] = $integrationDetails->job_title;
+            }
+            $result['account'] = $this->storeOrModifyRecord('accountContacts', wp_json_encode((object) $data));
+        }
+
+        return $result;
     }
 
     private function existContact($email)

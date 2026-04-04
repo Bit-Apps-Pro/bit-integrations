@@ -188,7 +188,7 @@ export const handleAuthorize = (confTmp, setConf, setIsAuthorized, setIsLoading,
     confTmp.clientId
   }&scope=${scopes}&access_type=offline&prompt=consent&response_type=code&state=${encodeURIComponent(
     window.location.href
-    )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api}/redirect`)}`
+  )}/redirect&redirect_uri=${encodeURIComponent(`${btcbi.api}/redirect`)}`
   const authWindow = window.open(apiEndpoint, 'oneDrive', 'width=400,height=609,toolbar=off')
   const popupURLCheckTimer = setInterval(() => {
     if (authWindow.closed) {

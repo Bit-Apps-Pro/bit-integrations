@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import { Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
-import { HashRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router'
 import { RecoilRoot } from 'recoil'
 import RecoilNexus from 'recoil-nexus'
 import App from './App'

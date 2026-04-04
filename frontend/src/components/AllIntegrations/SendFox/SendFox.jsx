@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router'
 import BackIcn from '../../../Icons/BackIcn'
 import { __ } from '../../../Utils/i18nwrap'
 import SnackMsg from '../../Utilities/SnackMsg'
@@ -24,21 +24,6 @@ function SendFox({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setstep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
 
-  const allActions = [
-    { key: '1', label: __('Create List', 'bit-integrations') },
-    { key: '2', label: __('Create Contact', 'bit-integrations') },
-    { key: '3', label: __('Unsubscribe Contact', 'bit-integrations') }
-  ]
-
-  const contactFields = [
-    { key: 'email', label: __('Email', 'bit-integrations'), required: true },
-    { key: 'first_name', label: __('First Name', 'bit-integrations'), required: false },
-    { key: 'last_name', label: __('Last Name', 'bit-integrations'), required: false }
-  ]
-
-  const listFields = [{ key: 'name', label: __('Name', 'bit-integrations'), required: true }]
-  const unsubscribeFields = [{ key: 'email', label: __('Email', 'bit-integrations'), required: true }]
-
   const [sendFoxConf, setSendFoxConf] = useState({
     name: 'SendFox',
     type: 'SendFox',
@@ -47,10 +32,6 @@ function SendFox({ formFields, setFlow, flow, allIntegURL }) {
     field_map: [{ formField: '', sendFoxFormField: '' }],
     field_map_list: [{ formField: '', sendFoxListFormField: '' }],
     field_map_unsubscribe: [{ formField: '', sendFoxUnsubscribeFormField: '' }],
-    allActions,
-    contactFields,
-    unsubscribeFields,
-    listFields,
     actions: {}
   })
 

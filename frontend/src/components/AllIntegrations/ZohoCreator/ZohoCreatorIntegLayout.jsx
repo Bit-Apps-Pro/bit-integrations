@@ -1,7 +1,6 @@
 import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
 import { addFieldMap } from '../IntegrationHelpers/IntegrationHelpers'
-import ZohoCreatorActions from './ZohoCreatorActions'
 import { refreshApplications, refreshFields, refreshForms } from './ZohoCreatorCommonFunc'
 import ZohoCreatorFieldMap from './ZohoCreatorFieldMap'
 
@@ -175,12 +174,6 @@ export default function ZohoCreatorIntegLayout({
                   <br />
                 </>
               )}
-              <div className="mt-4">
-                <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
-              </div>
-              <div className="btcd-hr mt-1" />
-
-              <ZohoCreatorActions creatorConf={creatorConf} setCreatorConf={setCreatorConf} />
             </>
           )}
         </>

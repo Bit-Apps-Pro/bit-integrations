@@ -244,8 +244,8 @@ const CustomFormSubmission = () => {
               {isLoading
                 ? __('Waiting for form submission...', 'bit-integrations')
                 : newFlow.triggerDetail?.data
-                ? __('Fetched ✔', 'bit-integrations')
-                : __('Fetch', 'bit-integrations')}
+                  ? __('Fetched ✔', 'bit-integrations')
+                  : __('Fetch', 'bit-integrations')}
               {isLoading && <LoaderSm size="20" clr="#022217" className="ml-2" />}
             </button>
             {newFlow.triggerDetail?.data?.length > 0 && !skipPrimaryKey && (
@@ -342,13 +342,13 @@ const info = newFlow => `<h4>${sprintf(
               )}</li>
             </ul>
             <p><b>${__('Important', 'bit-integrations')}:</b> ${__(
-  'The Fetch button will keep spinning until you submit the form/task.',
-  'bit-integrations'
-)}</p>
+              'The Fetch button will keep spinning until you submit the form/task.',
+              'bit-integrations'
+            )}</p>
             <p><b>${__('Important', 'bit-integrations')}:</b> ${__(
-  'Choose a consistent unique identifier like <b>Form ID</b> (default) or <b>Post ID</b> for each form entry, or create a hidden custom field if unavailable.',
-  'bit-integrations'
-)}</p>
+              'Choose a consistent unique identifier like <b>Form ID</b> (default) or <b>Post ID</b> for each form entry, or create a hidden custom field if unavailable.',
+              'bit-integrations'
+            )}</p>
             ${
               newFlow?.triggerDetail?.note
                 ? `<h4 className="mt-0">Note</h4>${newFlow?.triggerDetail?.note}`

@@ -2,6 +2,9 @@ import toast from 'react-hot-toast'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { deepCopy } from '../../../Utils/Helpers'
 import { sprintf, __ } from '../../../Utils/i18nwrap'
+import { contactFields } from './SendFoxFieldMap'
+import { listFields } from './SendFoxListFieldMap'
+import { unsubscribeFields } from './SendFoxUnsubscribeFieldMap'
 
 export const handleInput = (e, sendFoxConf, setSendFoxConf, setIsLoading, setSnackbar, formID) => {
   const newConf = { ...sendFoxConf }
@@ -77,7 +80,7 @@ export const handleAuthorize = (
 }
 
 export const generateMappedField = sendFoxConf => {
-  const requiredFlds = sendFoxConf?.contactFields.filter(fld => fld.required === true)
+  const requiredFlds = contactFields.filter(fld => fld.required === true)
   return requiredFlds.length > 0
     ? requiredFlds.map(field => ({ formField: '', sendFoxFormField: field.key }))
     : [{ formField: '', sendFoxFormField: '' }]
@@ -104,7 +107,7 @@ export const checkMappedFields = sendFoxConf => {
 // another
 
 export const generateListMappedField = sendFoxConf => {
-  const requiredFlds = sendFoxConf?.listFields.filter(fld => fld.required === true)
+  const requiredFlds = listFields.filter(fld => fld.required === true)
   return requiredFlds.length > 0
     ? requiredFlds.map(field => ({ formField: '', sendFoxListFormField: field.key }))
     : [{ formField: '', sendFoxListFormField: '' }]
@@ -129,7 +132,7 @@ export const checkMappedListFields = sendFoxConf => {
 }
 
 export const generateunsubscribeMappedField = sendFoxConf => {
-  const requiredFlds = sendFoxConf?.unsubscribeFields.filter(fld => fld.required === true)
+  const requiredFlds = unsubscribeFields.filter(fld => fld.required === true)
   return requiredFlds.length > 0
     ? requiredFlds.map(field => ({ formField: '', sendFoxUnsubscribeFormField: field.key }))
     : [{ formField: '', sendFoxUnsubscribeFormField: '' }]
@@ -158,5 +161,5 @@ export const isDisabled = sendFoxConf =>
   sendFoxConf.mainAction === '1'
     ? !checkMappedListFields(sendFoxConf)
     : sendFoxConf.mainAction === '2'
-    ? !checkMappedFields(sendFoxConf) || sendFoxConf.listId === undefined || sendFoxConf.listId === ''
-    : !checkMappedSubscribeFields(sendFoxConf)
+      ? !checkMappedFields(sendFoxConf) || sendFoxConf.listId === undefined || sendFoxConf.listId === ''
+      : !checkMappedSubscribeFields(sendFoxConf)

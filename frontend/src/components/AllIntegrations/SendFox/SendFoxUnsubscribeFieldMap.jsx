@@ -19,17 +19,8 @@ export default function SendFoxUnsubscribeFieldMap({
   sendFoxConf,
   setSendFoxConf
 }) {
-  useEffect(() => {
-    if (sendFoxConf?.field_map_unsubscribe?.length === 1 && field.sendFoxUnsubscribeFormField === '') {
-      const newConf = { ...sendFoxConf }
-      const tmp = generateunsubscribeMappedField(newConf)
-      newConf.field_map_unsubscribe = tmp
-      setSendFoxConf(newConf)
-    }
-  })
-
-  const requiredFlds = sendFoxConf?.unsubscribeFields.filter(fld => fld.required === true) || []
-  const nonRequiredFlds = sendFoxConf?.unsubscribeFields.filter(fld => fld.required === false) || []
+  const requiredFlds = unsubscribeFields.filter(fld => fld.required === true) || []
+  const nonRequiredFlds = unsubscribeFields.filter(fld => fld.required === false) || []
 
   const btcbi = useRecoilValue($appConfigState)
   const { isPro } = btcbi
@@ -122,3 +113,7 @@ export default function SendFoxUnsubscribeFieldMap({
     </div>
   )
 }
+
+export const unsubscribeFields = [
+  { key: 'email', label: __('Email', 'bit-integrations'), required: true }
+]

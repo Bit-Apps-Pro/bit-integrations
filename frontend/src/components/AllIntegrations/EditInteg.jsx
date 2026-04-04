@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { lazy, memo, Suspense, useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router'
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil'
 import { $actionConf, $formFields, $newFlow } from '../../GlobalStates'
 import useFetch from '../../hooks/useFetch'
@@ -139,8 +139,8 @@ const EditAutomatorWP = lazy(() => import('./AutomatorWP/EditAutomatorWP'))
 const EditUncannyAutomator = lazy(() => import('./UncannyAutomator/EditUncannyAutomator'))
 const EditThriveAutomator = lazy(() => import('./ThriveAutomator/EditThriveAutomator'))
 const EditWPWebhooks = lazy(() => import('./WPWebhooks/EditWPWebhooks'))
-const EditAdvancedFormIntegration = lazy(() =>
-  import('./AdvancedFormIntegration/EditAdvancedFormIntegration')
+const EditAdvancedFormIntegration = lazy(
+  () => import('./AdvancedFormIntegration/EditAdvancedFormIntegration')
 )
 const EditPerfexCRM = lazy(() => import('./PerfexCRM/EditPerfexCRM'))
 const EditSureTriggers = lazy(() => import('./SureTriggers/EditSureTriggers'))
@@ -172,10 +172,14 @@ const EditWishlistMember = lazy(() => import('./WishlistMember/EditWishlistMembe
 const EditFluentCart = lazy(() => import('./FluentCart/EditFluentCart'))
 const EditNinjaTables = lazy(() => import('./NinjaTables/EditNinjaTables'))
 const EditWPCafe = lazy(() => import('./WPCafe/EditWPCafe'))
+const EditNotificationX = lazy(() => import('./NotificationX/EditNotificationX'))
 const EditTeamsForWooCommerceMemberships = lazy(() =>
   import('./TeamsForWooCommerceMemberships/EditTeamsForWooCommerceMemberships')
 )
 const EditSeoPress = lazy(() => import('./SeoPress/EditSeoPress'))
+const EditUserRegistrationMembership = lazy(
+  () => import('./UserRegistrationMembership/EditUserRegistrationMembership')
+)
 
 const loaderStyle = {
   display: 'flex',
@@ -353,6 +357,8 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditSendy allIntegURL={allIntegURL} />
     case 'Keap':
       return <EditKeap allIntegURL={allIntegURL} />
+    case 'User Registration & Membership':
+      return <EditUserRegistrationMembership allIntegURL={allIntegURL} />
     case 'Freshdesk':
       return <EditFreshdesk allIntegURL={allIntegURL} />
     case 'Zoom':
@@ -582,6 +588,8 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditNinjaTables allIntegURL={allIntegURL} />
     case 'WPCafe':
       return <EditWPCafe allIntegURL={allIntegURL} />
+    case 'NotificationX':
+      return <EditNotificationX allIntegURL={allIntegURL} />
     case 'Teams For WooCommerce Memberships':
       return <EditTeamsForWooCommerceMemberships allIntegURL={allIntegURL} />
     case 'SeoPress':

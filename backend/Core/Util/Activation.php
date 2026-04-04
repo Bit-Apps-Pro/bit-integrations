@@ -6,9 +6,9 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-use WP_Site;
 use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Database\DB;
+use WP_Site;
 
 /**
  * Class handling plugin activation.
@@ -98,10 +98,12 @@ final class Activation
 
     public function runVersionUpgradeTask()
     {
-        return match (true) {
-            version_compare($this->oldVersion, '2.7.8', '<') => $this->upgradeTo278(),
-            default                                          => null,
-        };
+        switch (true) {
+            case version_compare($this->oldVersion, '2.7.8', '<'):
+                return $this->upgradeTo278();
+            default:
+                return;
+        }
     }
 
     private function upgradeTo278()
