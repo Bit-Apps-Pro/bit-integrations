@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { $actionConf, $appConfigState, $formFields, $newFlow } from '../../../GlobalStates'
 import { deepCopy } from '../../../Utils/Helpers'
@@ -20,13 +20,17 @@ import {
   checkMappedJEFields,
   checkMappedMbFields,
   checkMappedPostFields,
+  refreshPostCategories,
   refreshPostTypes
 } from './PostHelperFunction'
 import { ProFeatureTitle } from '../IntegrationHelpers/ActionProFeatureLabels'
+import MultiSelect from 'react-multiple-select-dropdown-lite'
+import 'react-multiple-select-dropdown-lite/dist/index.css'
 
 function Post({ allIntegURL }) {
   const [users, setUsers] = useState([])
   const [postTypes, setPostTypes] = useState([])
+  const [postCategories, setPostCategories] = useState([])
   const navigate = useNavigate()
   const { formID, id } = useParams()
   const [postConf, setPostConf] = useRecoilState($actionConf)
@@ -40,12 +44,16 @@ function Post({ allIntegURL }) {
   // const [postConf, setPostConf] = useState({ ...flow.flow_details })
   const btcbi = useRecoilValue($appConfigState)
   const { isPro } = btcbi
-
   const handleInput = (typ, val) => {
     const tmpData = { ...postConf }
     tmpData[typ] = val
     setPostConf(tmpData)
   }
+
+  const postCategoriesValue = Array.isArray(postConf?.post_categories)
+    ? postConf.post_categories.map(String).join(',')
+    : postConf?.post_categories?.toString() || ''
+
   useEffect(() => {
     const tmpData = deepCopy({ ...postConf })
     bitsFetch({}, 'user/list').then(res => {
@@ -57,6 +65,8 @@ function Post({ allIntegURL }) {
       const { data } = res
       setPostTypes(data)
     })
+
+    refreshPostCategories(postConf?.post_type, setPostCategories)
 
     bitsFetch({ post_type: postConf?.post_type }, 'customfield/list').then(res => {
       const { data } = res
@@ -71,6 +81,8 @@ function Post({ allIntegURL }) {
   const getCustomFields = (typ, val) => {
     const tmpData = { ...postConf }
     tmpData[typ] = val
+    refreshPostCategories(val, setPostCategories)
+
     bitsFetch({ post_type: val }, 'customfield/list').then(res => {
       const { data } = res
       setAcf({ fields: data.acf_fields, files: data.acf_files })
@@ -184,6 +196,35 @@ function Post({ allIntegURL }) {
             onClick={() => refreshPostTypes(postTypes, setPostTypes)}
             className="icn-btn sh-sm ml-2 mr-2 tooltip"
             style={{ '--tooltip-txt': `'${__('Refresh Post Types', 'bit-integrations')}'` }}
+            type="button">
+            &#x21BB;
+          </button>
+        </div>
+
+        <div className="mt-3">
+          <b>{__('Post Categories', 'bit-integrations')}</b>
+          <Cooltip width={250} icnSize={17} className="ml-2">
+            <div className="txt-body">
+              {__('Select one or multiple categories for the post', 'bit-integrations')}
+              <br />
+            </div>
+          </Cooltip>
+        </div>
+        <div className='flx'>
+          <MultiSelect
+            key={`post-categories-${postConf?.post_type || 'default'}-${postCategoriesValue}-${postCategories?.length || 0}`}
+            className="mt-2 w-5"
+            defaultValue={postCategoriesValue}
+            options={postCategories?.map(category => ({
+              label: category?.label,
+              value: category?.value?.toString()
+            }))}
+            onChange={val => handleInput('post_categories', val)}
+          />
+          <button
+            onClick={() => refreshPostCategories(postConf?.post_type, setPostCategories)}
+            className="icn-btn sh-sm ml-2 mr-2 tooltip"
+            style={{ '--tooltip-txt': `'${__('Refresh Post Categories', 'bit-integrations')}'` }}
             type="button">
             &#x21BB;
           </button>

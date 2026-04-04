@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router'
 import { __ } from '../../../Utils/i18nwrap'
 // import { postFields } from '../../../Utils/StaticData/postField'
 import Cooltip from '../../Utilities/Cooltip'
@@ -13,6 +13,7 @@ import {
   checkMappedJEFields,
   checkMappedMbFields,
   checkMappedPostFields,
+  refreshPostCategories,
   refreshPostTypes
 } from './PostHelperFunction'
 import FieldMap from './FieldMap'
@@ -30,6 +31,7 @@ import { ProFeatureTitle } from '../IntegrationHelpers/ActionProFeatureLabels'
 function Post({ formFields, setFlow, flow, allIntegURL }) {
   const [users, setUsers] = useState([])
   const [postTypes, setPostTypes] = useState([])
+  const [postCategories, setPostCategories] = useState([])
   const navigate = useNavigate()
   const { formID } = useParams()
   const [isLoading, setIsLoading] = useState(false)
@@ -51,7 +53,8 @@ function Post({ formFields, setFlow, flow, allIntegURL }) {
     metabox_map: [{}],
     metabox_file_map: [{}],
     je_cpt_meta_map: [{}],
-    je_cpt_file_map: [{}]
+    je_cpt_file_map: [{}],
+    post_categories: ''
   })
 
   const handleInput = (typ, val) => {
@@ -80,6 +83,8 @@ function Post({ formFields, setFlow, flow, allIntegURL }) {
   const getCustomFields = (typ, val) => {
     const tmpData = { ...postConf }
     tmpData[typ] = val
+    refreshPostCategories(val, setPostCategories)
+
     bitsFetch({ post_type: val }, 'customfield/list').then(res => {
       const { data } = res
       setAcf({ fields: data.acf_fields, files: data.acf_files })
@@ -225,6 +230,32 @@ function Post({ formFields, setFlow, flow, allIntegURL }) {
             onClick={() => refreshPostTypes(postTypes, setPostTypes)}
             className="icn-btn sh-sm ml-2 mr-2 tooltip"
             style={{ '--tooltip-txt': `'${__('Refresh Post Types', 'bit-integrations')}'` }}
+            type="button">
+            &#x21BB;
+          </button>
+        </div>
+
+        <div className="mt-3">
+          <b>{__('Post Categories', 'bit-integrations')}</b>
+          <Cooltip width={250} icnSize={17} className="ml-2">
+            <div className="txt-body">
+              {__('Select one or multiple categories for the post', 'bit-integrations')}
+              <br />
+            </div>
+          </Cooltip>
+        </div>
+        <div className='flx'>
+          <MultiSelect
+            key={`post-categories-${postConf?.post_type || 'default'}-${postConf?.post_categories || ''}`}
+            className="mt-2 w-5"
+            defaultValue={postConf?.post_categories || ''}
+            options={postCategories}
+            onChange={val => handleInput('post_categories', val)}
+          />
+          <button
+            onClick={() => refreshPostCategories(postConf?.post_type, setPostCategories)}
+            className="icn-btn sh-sm ml-2 mr-2 tooltip"
+            style={{ '--tooltip-txt': `'${__('Refresh Post Categories', 'bit-integrations')}'` }}
             type="button">
             &#x21BB;
           </button>

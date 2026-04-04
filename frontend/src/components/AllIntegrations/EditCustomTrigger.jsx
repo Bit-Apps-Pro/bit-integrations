@@ -207,8 +207,8 @@ function EditCustomTrigger() {
           {isLoading
             ? __('Stop', 'bit-integrations')
             : flow.flow_details?.rawData
-            ? __('Fetched ✔', 'bit-integrations')
-            : __('Fetch', 'bit-integrations')}
+              ? __('Fetched ✔', 'bit-integrations')
+              : __('Fetch', 'bit-integrations')}
           {isLoading && <LoaderSm size="20" clr="#022217" className="ml-2" />}
         </button>
       </div>

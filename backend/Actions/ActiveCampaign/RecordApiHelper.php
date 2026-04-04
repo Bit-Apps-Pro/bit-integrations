@@ -132,20 +132,41 @@ class RecordApiHelper
             ];
             $result['lists'] = $this->storeOrModifyRecord('contactLists', wp_json_encode($data));
         }
+
         if (!empty($tags)) {
+            // Remove existing tags if tag update is enabled
             if ($integrationDetails->actions->tagUpdate) {
-                $result['tags_removed'] = HttpHelper::delete("{$this->_apiEndpoint}/contactTags/{$contactId}", null, $this->_defaultHeader);
+                $contactTagsResponse = HttpHelper::get("{$this->_apiEndpoint}/contacts/{$contactId}/contactTags", null, $this->_defaultHeader);
+                $contactTags = $contactTagsResponse->contactTags ?? [];
+
+                if (!empty($contactTags)) {
+                    foreach ($contactTags as $contactTag) {
+                        HttpHelper::delete("{$this->_apiEndpoint}/contactTags/{$contactTag->id}", null, $this->_defaultHeader);
+                        $result['tags_removed'][] = HttpHelper::$responseCode === 200
+                            ? __('Tag removed successfully', 'bit-integrations')
+                            : __('Failed to remove tag', 'bit-integrations');
+                    }
+                } else {
+                    $result['tags_removed'] = __('No tags to remove', 'bit-integrations');
+                }
             }
 
-            $result['tags_added'] = [];
-            foreach ($tags as $tag) {
-                $data['contactTag'] = (object) [
-                    'contact' => $contactId,
-                    'tag'     => $tag
-                ];
-                $result['tags_added'][] = $this->storeOrModifyRecord('contactTags', wp_json_encode($data));
-            }
+            // Add new tags
+            $result['tags_added'] = array_map(
+                function ($tag) use ($contactId) {
+                    $data = [
+                        'contactTag' => (object) [
+                            'contact' => $contactId,
+                            'tag'     => $tag
+                        ]
+                    ];
+
+                    return $this->storeOrModifyRecord('contactTags', wp_json_encode($data));
+                },
+                $tags
+            );
         }
+
         if (!empty($integrationDetails->selectedAccount)) {
             $data['accountContact'] = [
                 'account' => $integrationDetails->selectedAccount,

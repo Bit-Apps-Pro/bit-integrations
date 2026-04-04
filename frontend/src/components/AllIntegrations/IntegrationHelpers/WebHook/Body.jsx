@@ -12,7 +12,7 @@ import PayLoadFieldMap from './PayLoadFieldMap'
 function Body({ webHooks, setWebHooks, isInfo, setTab }) {
   const formFields = useRecoilValue($formFields)
   const formattedFormFields = useMemo(
-    () => formFields.map(field => ({ key: field.name, value: `\${${field.name}}` })),
+    () => formFields?.map(field => ({ key: field.name, value: `\${${field.name}}` })),
     [formFields]
   )
 

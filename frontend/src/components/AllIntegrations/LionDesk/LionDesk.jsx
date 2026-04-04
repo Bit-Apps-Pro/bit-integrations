@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { __ } from '../../../Utils/i18nwrap'
 import SnackMsg from '../../Utilities/SnackMsg'
 import Steps from '../../Utilities/Steps'

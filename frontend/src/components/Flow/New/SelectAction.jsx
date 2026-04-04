@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import c from 'react-multiple-select-dropdown-lite'
 import { $appConfigState, $flowStep, $newFlow } from '../../../GlobalStates'
@@ -177,7 +177,9 @@ export default function SelectAction() {
     { type: 'WC Affiliate' },
     { type: 'WPCafe' },
     { type: 'Teams For WooCommerce Memberships' },
-    { type: 'SeoPress' }
+    { type: 'SeoPress' },
+    { type: 'NotificationX' },
+    { type: 'User Registration & Membership', logo: 'userRegistrationMembership' }
   ]
 
   const [availableIntegs, setAvailableIntegs] = useState(sortByField(integs, 'type', 'ASC') || integs)
