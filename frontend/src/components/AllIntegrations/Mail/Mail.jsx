@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-syntax */
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { $actionConf, $appConfigState, $formFields, $newFlow } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'

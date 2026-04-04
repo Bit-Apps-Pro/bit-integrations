@@ -41,9 +41,9 @@ const nextPage = async () => {
       'Goto Account and click on',
       'bit-integrations'
     )} <a href="https://app.mailercloud.com/account/api-integrations" target='_blank'>${__(
-    'Integration',
-    'bit-integrations'
-  )}</a></li>
+      'Integration',
+      'bit-integrations'
+    )}</a></li>
     <li>${__('Click on API Integrations .', 'bit-integrations')}</li>
     <li>${__(
       'Copy the <b>API Key</b> and paste into <b>API Key</b> field of your authorization form.',

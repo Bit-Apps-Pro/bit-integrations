@@ -46,9 +46,9 @@ const [isAuthorized, setisAuthorized] = useState(false)
                   'First go to your',
                   'bit-integrations'
                 )} <a href="https://www.getdrip.com/user/edit" target="_blank">${__(
-    'Drip user settings',
-    'bit-integrations'
-  )}</a>.</li>
+                  'Drip user settings',
+                  'bit-integrations'
+                )}</a>.</li>
                 <li>${__('Copy the the API Token from "User Info"', 'bit-integrations')}</li>
             </ul>`
 

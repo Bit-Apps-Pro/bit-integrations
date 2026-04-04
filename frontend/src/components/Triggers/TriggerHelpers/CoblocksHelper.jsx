@@ -190,8 +190,8 @@ const CoblocksHelper = () => {
           {isLoading
             ? __('Stop', 'bit-integrations')
             : newFlow.triggerDetail?.data
-            ? __('Fetched ✔', 'bit-integrations')
-            : __('Fetch', 'bit-integrations')}
+              ? __('Fetched ✔', 'bit-integrations')
+              : __('Fetch', 'bit-integrations')}
           {isLoading && <LoaderSm size="20" clr="#022217" className="ml-2" />}
         </button>
         {selectedFields.length > 0 && (

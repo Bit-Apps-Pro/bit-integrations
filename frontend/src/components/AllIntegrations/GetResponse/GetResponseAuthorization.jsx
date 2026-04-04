@@ -48,9 +48,9 @@ useEffect(() => {
         'Goto',
         'bit-integrations'
       )} <a target="_blank" href="https://app.getresponse.com/api">${__(
-    'Generate API Token',
-    'bit-integrations'
-  )}</a></li>
+        'Generate API Token',
+        'bit-integrations'
+      )}</a></li>
       <li>${__(
         'Copy the <b>Token</b> and paste into <b>API Token</b> field of your authorization form.',
         'bit-integrations'

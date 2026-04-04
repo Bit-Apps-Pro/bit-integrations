@@ -125,7 +125,14 @@ const nextPage = () => {
         <>
           <button
             onClick={() =>
-              handleAuthorize(oneDriveConf, setOneDriveConf, setIsAuthorized, setIsLoading, setError, btcbi)
+              handleAuthorize(
+                oneDriveConf,
+                setOneDriveConf,
+                setIsAuthorized,
+                setIsLoading,
+                setError,
+                btcbi
+              )
             }
             className="btn btcd-btn-lg purple sh-sm flx"
             type="button"

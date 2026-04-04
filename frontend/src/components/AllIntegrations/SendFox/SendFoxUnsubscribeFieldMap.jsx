@@ -114,4 +114,6 @@ export default function SendFoxUnsubscribeFieldMap({
   )
 }
 
-export const unsubscribeFields = [{ key: 'email', label: __('Email', 'bit-integrations'), required: true }]
+export const unsubscribeFields = [
+  { key: 'email', label: __('Email', 'bit-integrations'), required: true }
+]

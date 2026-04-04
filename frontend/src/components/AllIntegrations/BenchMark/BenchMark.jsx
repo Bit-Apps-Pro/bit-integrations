@@ -2,7 +2,7 @@
 import { __ } from '../../../Utils/i18nwrap'
 import { useState } from 'react'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router'
 import BackIcn from '../../../Icons/BackIcn'
 import SnackMsg from '../../Utilities/SnackMsg'
 import Steps from '../../Utilities/Steps'

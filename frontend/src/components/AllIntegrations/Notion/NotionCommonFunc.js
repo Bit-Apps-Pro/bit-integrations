@@ -20,7 +20,16 @@ export const handleInput = (e, conf, setConf, error, setError) => {
   setConf(newConf)
 }
 
-export const handleAuthorize = (conf, setConf, error, setError, setAuthorized, loading, setLoading, btcbi) => {
+export const handleAuthorize = (
+  conf,
+  setConf,
+  error,
+  setError,
+  setAuthorized,
+  loading,
+  setLoading,
+  btcbi
+) => {
   if (!conf.clientId || !conf.clientSecret) {
     setError({
       clientId: !conf.clientId ? __("Client Id can't be empty") : '',

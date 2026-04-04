@@ -40,9 +40,9 @@ const nextPage = () => {
         'Goto',
         'bit-integrations'
       )} <a href="https://www.myfreshworks.com/crm/sales/personal-settings/api-settings">${__(
-    'Generate API Token',
-    'bit-integrations'
-  )}</a></li>
+        'Generate API Token',
+        'bit-integrations'
+      )}</a></li>
       <li>${__(
         'Copy the <b>Token</b> and paste into <b>API Token</b> field of your authorization form.',
         'bit-integrations'

@@ -43,9 +43,9 @@ const nextPage = () => {
         'Goto',
         'bit-integrations'
       )} <a target="_blank" href="https://app.mailbluster.com/vM7N8vG0Pp/settings/api-keys">${__(
-    'Generate API Token',
-    'bit-integrations'
-  )}</a></li>
+        'Generate API Token',
+        'bit-integrations'
+      )}</a></li>
       <li>${__(
         'Copy the <b>Token</b> and paste into <b>API Token</b> field of your authorization form.',
         'bit-integrations'

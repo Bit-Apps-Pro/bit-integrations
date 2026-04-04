@@ -37,9 +37,9 @@ const nextPage = () => {
     <h4>${__('Step of generate API token:', 'bit-integrations')}</h4>
     <ul>
       <li>${__('Goto', 'bit-integrations')} <a href="https://app.pipedrive.com/settings/api">${__(
-    'Generate API Token',
-    'bit-integrations'
-  )}</a></li>
+        'Generate API Token',
+        'bit-integrations'
+      )}</a></li>
       <li>${__(
         'Copy the <b>Token</b> and paste into <b>API Token</b> field of your authorization form.',
         'bit-integrations'

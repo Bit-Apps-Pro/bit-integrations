@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { __ } from '../../../Utils/i18nwrap'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
 import { addFieldMap, checkMappedPostFields, checkMappedPodFields } from './PodHelperFunction'

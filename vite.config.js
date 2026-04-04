@@ -43,7 +43,7 @@ export default defineConfig(({ mode }) => {
           },
           manualChunks: {
             'react-vendor': ['react', 'react-dom'],
-            'react-router-dom': ['react-router-dom']
+            'react-router': ['react-router']
           },
           chunkFileNames: () => `[name].[hash].js`,
           assetFileNames: fInfo => {
