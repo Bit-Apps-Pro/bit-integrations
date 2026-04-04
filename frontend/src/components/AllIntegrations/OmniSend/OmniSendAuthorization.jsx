@@ -43,9 +43,9 @@ export default function OmniSendAuthorization({
         'Goto',
         'bit-integrations'
       )} <a href="https://app.omnisend.com/o/my-account/integrations/api-keys">${__(
-    'Generate API Token',
-    'bit-integrations'
-  )}</a></li>
+        'Generate API Token',
+        'bit-integrations'
+      )}</a></li>
       <li>${__(
         'Copy the <b>Token</b> and paste into <b>API Token</b> field of your authorization form.',
         'bit-integrations'

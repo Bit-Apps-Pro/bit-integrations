@@ -3,7 +3,7 @@
 /* eslint-disable max-len */
 import { lazy, memo, useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import Loader from '../components/Loaders/Loader'
 import ConfirmModal from '../components/Utilities/ConfirmModal'
 import MenuBtn from '../components/Utilities/MenuBtn'

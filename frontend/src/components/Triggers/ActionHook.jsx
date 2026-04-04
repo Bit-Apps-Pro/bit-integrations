@@ -217,9 +217,9 @@ const ActionHook = () => {
               <li>${__('Click <b>Next</b> and <b>Go</b></b>', 'bit-integrations')}</li>
             </ul>
             <p><b>${__('Important', 'bit-integrations')}:</b> ${__(
-    'Choose a consistent and unique identifier for each form entry, like a <b>Form ID</b> or <b>PostID</b>. If unavailable, create and hide a custom field to serve as the unique key.',
-    'bit-integrations'
-  )}</p>
+              'Choose a consistent and unique identifier for each form entry, like a <b>Form ID</b> or <b>PostID</b>. If unavailable, create and hide a custom field to serve as the unique key.',
+              'bit-integrations'
+            )}</p>
             <h5>
               <a className="btcd-link" href="https://bitapps.pro/docs/bit-integrations/trigger-hooks" target="_blank" rel="noreferrer">${__(
                 'Bit Integrations Trigger Hooks',
@@ -295,8 +295,8 @@ const ActionHook = () => {
           {isLoading
             ? __('Stop', 'bit-integrations')
             : newFlow.triggerDetail?.data
-            ? __('Fetched ✔', 'bit-integrations')
-            : __('Fetch', 'bit-integrations')}
+              ? __('Fetched ✔', 'bit-integrations')
+              : __('Fetch', 'bit-integrations')}
           {isLoading && <LoaderSm size="20" clr="#022217" className="ml-2" />}
         </button>
         {selectedFields.length > 0 && (

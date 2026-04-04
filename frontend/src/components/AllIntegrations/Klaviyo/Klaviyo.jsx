@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { __ } from '../../../Utils/i18nwrap'
 import Steps from '../../Utilities/Steps'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'

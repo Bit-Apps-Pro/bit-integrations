@@ -2,7 +2,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { __ } from '../../../Utils/i18nwrap'
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import SnackMsg from '../../Utilities/SnackMsg'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'

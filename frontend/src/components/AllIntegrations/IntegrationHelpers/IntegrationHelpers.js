@@ -515,7 +515,7 @@ export const handleAuthorize = (
         grantTokenResponse = JSON.parse(bitformsZoho)
         localStorage.removeItem(`__${integ}`)
       }
-      
+
       if (
         !grantTokenResponse.code ||
         grantTokenResponse.error ||

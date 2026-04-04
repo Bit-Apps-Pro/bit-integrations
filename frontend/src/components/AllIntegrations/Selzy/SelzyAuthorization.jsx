@@ -34,9 +34,9 @@ function SelzyAuthorization({ selzyConf, setSelzyConf, step, setStep, loading, s
       'Goto Settings and click on',
       'bit-integrations'
     )} <a href="https://cp.selzy.com/en/v5/user/info/api" target='_blank'>${__(
-    'Integration and API.',
-    'bit-integrations'
-  )}</a></li>
+      'Integration and API.',
+      'bit-integrations'
+    )}</a></li>
     <li>${__('API access section API key click show full.', 'bit-integrations')}</li>
     <li>${__('Enter your password and click send', 'bit-integrations')}</li>
     <li>${__(
