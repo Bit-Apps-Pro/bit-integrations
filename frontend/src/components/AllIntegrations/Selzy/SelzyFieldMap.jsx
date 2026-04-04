@@ -8,7 +8,7 @@ import { addFieldMap, delFieldMap, handleFieldMapping } from '../GlobalIntegrati
 import { handleCustomValue } from '../IntegrationHelpers/IntegrationHelpers'
 import { generateMappedField } from './SelzyCommonFunc'
 
-function selzyFieldMap({ i, field, formFields, selzyConf, setSelzyConf }) {
+function SelzyFieldMap({ i, field, formFields, selzyConf, setSelzyConf }) {
   const btcbi = useRecoilValue($appConfigState)
   const { isPro } = btcbi
 
@@ -120,4 +120,4 @@ function selzyFieldMap({ i, field, formFields, selzyConf, setSelzyConf }) {
   )
 }
 
-export default selzyFieldMap
+export default SelzyFieldMap

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import c from 'react-multiple-select-dropdown-lite'
 import { $appConfigState, $flowStep, $newFlow } from '../../../GlobalStates'

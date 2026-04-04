@@ -36,11 +36,11 @@ export const handleAuthorize = async (
             'bit-integrations'
           )}`
         : typeof result?.data === 'string'
-        ? `${__('Authorization failed Cause:', 'bit-integrations')} ${result.data}. ${__(
-            'Please try again',
-            'bit-integrations'
-          )}`
-        : __('Authorization failed. Please try again', 'bit-integrations')
+          ? `${__('Authorization failed Cause:', 'bit-integrations')} ${result.data}. ${__(
+              'Please try again',
+              'bit-integrations'
+            )}`
+          : __('Authorization failed. Please try again', 'bit-integrations')
 
       setSnackbar({ show: true, msg })
     }

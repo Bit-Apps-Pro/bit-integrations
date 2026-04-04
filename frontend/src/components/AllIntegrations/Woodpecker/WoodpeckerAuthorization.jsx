@@ -46,9 +46,9 @@ export default function WoodpeckerAuthorization({
                   'Log into your Woodpecker account on',
                   'bit-integrations'
                 )} <a className="btcd-link" href="https://app.woodpecker.co/panel" target="_blank">${__(
-    'app.woodpecker.co.',
-    'bit-integrations'
-  )}</a></li>
+                  'app.woodpecker.co.',
+                  'bit-integrations'
+                )}</a></li>
                 <li>${__(
                   'Go to the <b>Marketplace</b> → <b>INTEGRATIONS</b> → <b>API keys</b>.',
                   'bit-integrations'

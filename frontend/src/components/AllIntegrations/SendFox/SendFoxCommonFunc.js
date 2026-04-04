@@ -161,5 +161,5 @@ export const isDisabled = sendFoxConf =>
   sendFoxConf.mainAction === '1'
     ? !checkMappedListFields(sendFoxConf)
     : sendFoxConf.mainAction === '2'
-    ? !checkMappedFields(sendFoxConf) || sendFoxConf.listId === undefined || sendFoxConf.listId === ''
-    : !checkMappedSubscribeFields(sendFoxConf)
+      ? !checkMappedFields(sendFoxConf) || sendFoxConf.listId === undefined || sendFoxConf.listId === ''
+      : !checkMappedSubscribeFields(sendFoxConf)

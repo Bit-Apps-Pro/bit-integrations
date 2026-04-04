@@ -43,9 +43,9 @@ function KlaviyoAuthorization({
       'Goto Settings and click on',
       'bit-integrations'
     )} <a href="https://www.klaviyo.com/account#api-keys-tab" target='_blank'>${__(
-    'API Keys.',
-    'bit-integrations'
-  )}</a></li>
+      'API Keys.',
+      'bit-integrations'
+    )}</a></li>
     <li>${__('Click on Create Private API key.', 'bit-integrations')}</li>
     <li>${__(
       'Copy the <b>Private API Key</b> and paste into <b>API Key</b> field of your authorization form.',

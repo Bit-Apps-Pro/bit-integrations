@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import CloseIcn from '../../../../Icons/CloseIcn'
-import EyeIcon from '../../../../Icons/EyeIcon'
 import TrashIcn from '../../../../Icons/TrashIcn'
 import { __ } from '../../../../Utils/i18nwrap'
 import Button from '../../../Utilities/Button'
