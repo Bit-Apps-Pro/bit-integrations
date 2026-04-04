@@ -39,7 +39,8 @@ function GlobalFilter({
   data,
   cols,
   formID,
-  report
+  report,
+  placeholder
 }) {
   const [delay, setDelay] = useState(null)
   const handleSearch = e => {
@@ -71,7 +72,7 @@ function GlobalFilter({
         <input
           value={globalFilter || ''}
           onChange={handleSearch}
-          placeholder={__('Search', 'bit-integrations')}
+          placeholder={placeholder || __('Search', 'bit-integrations')}
         />
       </label>
     </div>
@@ -87,7 +88,7 @@ function ColumnHide({ cols, setCols, tableCol, tableAllCols }) {
             <div
               key={tableAllCols[i + 1].id}
               className={`btcd-pane ${
-                (column.Header === 'Actions' || typeof column.Header === 'object') && 'd-non'
+                (column.Header === 'Actions' || column.accessor === 't_action') && 'd-non'
               }`}>
               <TableCheckBox
                 cls="scl-7"
@@ -265,65 +266,66 @@ function Table(props) {
         btn2Action={confMdl.btn2Action}
         btnClass={confMdl.btnClass}
       />
-      <div className="btcd-t-actions">
-        <div className="flx">
-          {props.columnHidable && (
-            <ColumnHide
-              cols={props.columns}
-              setCols={props.setTableCols}
-              tableCol={columns}
-              tableAllCols={allColumns}
-            />
-          )}
+      <div className="btcd-table-top">
+        <div className="btcd-t-actions">
+          <div className="flx">
+            {props.columnHidable && (
+              <ColumnHide
+                cols={props.columns}
+                setCols={props.setTableCols}
+                tableCol={columns}
+                tableAllCols={allColumns}
+              />
+            )}
 
-          {props.rowSeletable && selectedFlatRows.length > 0 && (
-            <>
-              {'setBulkStatus' in props && (
+            {props.rowSeletable && selectedFlatRows.length > 0 && (
+              <>
+                {'setBulkStatus' in props && (
+                  <button
+                    onClick={showStModal}
+                    className="icn-btn btcd-icn-lg tooltip"
+                    style={{ '--tooltip-txt': `'${__('Status', 'bit-integrations')}'` }}
+                    aria-label="icon-btn"
+                    type="button">
+                    <span className="btcd-icn icn-toggle_off" />
+                  </button>
+                )}
+                {'duplicateData' in props && (
+                  <button
+                    onClick={showBulkDupMdl}
+                    className="icn-btn btcd-icn-lg tooltip"
+                    style={{ '--tooltip-txt': `'${__('Clone', 'bit-integrations')}'` }}
+                    aria-label="icon-btn"
+                    type="button">
+                    <span className="btcd-icn icn-file_copy" style={{ fontSize: 16 }} />
+                  </button>
+                )}
+                {'setBulkTagAssign' in props && (
+                  <button
+                    onClick={showBulkTagAssignModal}
+                    className="icn-btn tooltip tag-add-btn bulk-tag-assign-btn"
+                    style={{ '--tooltip-txt': `'${__('Assign Tags', 'bit-integrations')}'` }}
+                    aria-label="icon-btn"
+                    type="button">
+                    +
+                  </button>
+                )}
                 <button
-                  onClick={showStModal}
+                  onClick={showDelModal}
                   className="icn-btn btcd-icn-lg tooltip"
-                  style={{ '--tooltip-txt': `'${__('Status', 'bit-integrations')}'` }}
+                  style={{ '--tooltip-txt': `'${__('Delete', 'bit-integrations')}'` }}
                   aria-label="icon-btn"
                   type="button">
-                  <span className="btcd-icn icn-toggle_off" />
+                  <span className="btcd-icn icn-trash-fill" style={{ fontSize: 16 }} />
                 </button>
-              )}
-              {'duplicateData' in props && (
-                <button
-                  onClick={showBulkDupMdl}
-                  className="icn-btn btcd-icn-lg tooltip"
-                  style={{ '--tooltip-txt': `'${__('Clone', 'bit-integrations')}'` }}
-                  aria-label="icon-btn"
-                  type="button">
-                  <span className="btcd-icn icn-file_copy" style={{ fontSize: 16 }} />
-                </button>
-              )}
-              {'setBulkTagAssign' in props && (
-                <button
-                  onClick={showBulkTagAssignModal}
-                  className="icn-btn tooltip tag-add-btn bulk-tag-assign-btn"
-                  style={{ '--tooltip-txt': `'${__('Assign Tags', 'bit-integrations')}'` }}
-                  aria-label="icon-btn"
-                  type="button">
-                  +
-                </button>
-              )}
-              <button
-                onClick={showDelModal}
-                className="icn-btn btcd-icn-lg tooltip"
-                style={{ '--tooltip-txt': `'${__('Delete', 'bit-integrations')}'` }}
-                aria-label="icon-btn"
-                type="button">
-                <span className="btcd-icn icn-trash-fill" style={{ fontSize: 16 }} />
-              </button>
-              <small className="btcd-pill">
-                {selectedFlatRows.length} {__('Row Selected', 'bit-integrations')}
-              </small>
-            </>
-          )}
+                <small className="btcd-pill">
+                  {selectedFlatRows.length} {__('Row Selected', 'bit-integrations')}
+                </small>
+              </>
+            )}
+          </div>
         </div>
-      </div>
-      <>
+
         {props.search && (
           <GlobalFilter
             preGlobalFilteredRows={preGlobalFilteredRows}
@@ -335,95 +337,97 @@ function Table(props) {
             cols={props.columns}
             formID={props.formID}
             report={report}
+            placeholder={props.searchPlaceholder}
           />
         )}
-        <div className="mt-2">
-          <Scrollbars className="btcd-scroll" style={{ height: props.height }}>
-            <div
-              {...getTableProps()}
-              className={`${props.className} ${props.rowClickable && 'rowClickable'}`}>
-              <div className="thead">
-                {headerGroups.map((headerGroup, i) => (
-                  <div key={`t-th-${i + 8}`} className="tr" {...headerGroup.getHeaderGroupProps()}>
-                    {headerGroup.headers.map(column => (
-                      <div key={column.id} className="th flx" {...column.getHeaderProps()}>
-                        <div {...(column.id !== 't_action' && column.getSortByToggleProps())}>
-                          {column.render('Header')}{' '}
-                          {column.id !== 't_action' && column.id !== 'selection' && (
-                            <span>
-                              {column.isSorted ? (
-                                column.isSortedDesc ? (
-                                  String.fromCharCode(9662)
-                                ) : (
-                                  String.fromCharCode(9652)
-                                )
+      </div>
+
+      <div className="mt-2">
+        <Scrollbars className="btcd-scroll" style={{ height: props.height }}>
+          <div
+            {...getTableProps()}
+            className={`${props.className} ${props.rowClickable && 'rowClickable'}`}>
+            <div className="thead">
+              {headerGroups.map((headerGroup, i) => (
+                <div key={`t-th-${i + 8}`} className="tr" {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map(column => (
+                    <div key={column.id} className="th flx" {...column.getHeaderProps()}>
+                      <div {...(column.id !== 't_action' && column.getSortByToggleProps())}>
+                        {column.render('Header')}{' '}
+                        {column.id !== 't_action' && column.id !== 'selection' && (
+                          <span>
+                            {column.isSorted ? (
+                              column.isSortedDesc ? (
+                                String.fromCharCode(9662)
                               ) : (
-                                <span
-                                  className="btcd-icn icn-sort"
-                                  style={{ fontSize: 10, marginLeft: 5 }}
-                                />
-                              )}
-                            </span>
-                          )}
-                        </div>
-                        {props.resizable && (
-                          <div
-                            {...column.getResizerProps()}
-                            className={`btcd-t-resizer ${column.isResizing ? 'isResizing' : ''}`}
-                          />
+                                String.fromCharCode(9652)
+                              )
+                            ) : (
+                              <span
+                                className="btcd-icn icn-sort"
+                                style={{ fontSize: 10, marginLeft: 5 }}
+                              />
+                            )}
+                          </span>
                         )}
                       </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-              {props.loading ? (
-                <TableLoader2 />
-              ) : (
-                <div className="tbody" {...getTableBodyProps()}>
-                  {page.map(row => {
-                    prepareRow(row)
-                    return (
-                      <div
-                        key={`t-r-${row.index}`}
-                        className={`tr ${row.isSelected ? 'btcd-row-selected' : ''}`}
-                        {...row.getRowProps()}>
-                        {row.cells.map(cell => (
-                          <div
-                            key={`t-d-${cell.row.index}`}
-                            className="td flx"
-                            {...cell.getCellProps()}
-                            onClick={e =>
-                              props.rowClickable &&
-                              typeof cell.column.Header === 'string' &&
-                              props.onRowClick(e, row.cells, cell.row.index, {
-                                fetchData,
-                                data: { pageIndex, pageSize, sortBy, filters, globalFilter }
-                              })
-                            }
-                            onKeyPress={e =>
-                              props.rowClickable &&
-                              typeof cell.column.Header === 'string' &&
-                              props.onRowClick(e, row.cells, cell.row.index, {
-                                fetchData,
-                                data: { pageIndex, pageSize, sortBy, filters, globalFilter }
-                              })
-                            }
-                            role="button"
-                            tabIndex={0}
-                            aria-label="cell">
-                            {cell.render('Cell')}
-                          </div>
-                        ))}
-                      </div>
-                    )
-                  })}
+                      {props.resizable && (
+                        <div
+                          {...column.getResizerProps()}
+                          className={`btcd-t-resizer ${column.isResizing ? 'isResizing' : ''}`}
+                        />
+                      )}
+                    </div>
+                  ))}
                 </div>
-              )}
+              ))}
             </div>
-          </Scrollbars>
-        </div>
-      </>
+            {props.loading ? (
+              <TableLoader2 />
+            ) : (
+              <div className="tbody" {...getTableBodyProps()}>
+                {page.map(row => {
+                  prepareRow(row)
+                  return (
+                    <div
+                      key={`t-r-${row.index}`}
+                      className={`tr ${row.isSelected ? 'btcd-row-selected' : ''}`}
+                      {...row.getRowProps()}>
+                      {row.cells.map(cell => (
+                        <div
+                          key={`t-d-${cell.row.index}`}
+                          className="td flx"
+                          {...cell.getCellProps()}
+                          onClick={e =>
+                            props.rowClickable &&
+                            typeof cell.column.Header === 'string' &&
+                            props.onRowClick(e, row.cells, cell.row.index, {
+                              fetchData,
+                              data: { pageIndex, pageSize, sortBy, filters, globalFilter }
+                            })
+                          }
+                          onKeyPress={e =>
+                            props.rowClickable &&
+                            typeof cell.column.Header === 'string' &&
+                            props.onRowClick(e, row.cells, cell.row.index, {
+                              fetchData,
+                              data: { pageIndex, pageSize, sortBy, filters, globalFilter }
+                            })
+                          }
+                          role="button"
+                          tabIndex={0}
+                          aria-label="cell">
+                          {cell.render('Cell')}
+                        </div>
+                      ))}
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </div>
+        </Scrollbars>
+      </div>
 
       <div className="btcd-pagination">
         <small>

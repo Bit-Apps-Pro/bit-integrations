@@ -43,6 +43,9 @@ function AllIntegrations({ isValidUser }) {
   const [editingIntegrationId, setEditingIntegrationId] = useState(null)
   const [bulkTagIntegrationIds, setBulkTagIntegrationIds] = useState([])
   const [tagToDelete, setTagToDelete] = useState(null)
+  const [isCompactTagColumn, setIsCompactTagColumn] = useState(
+    typeof window !== 'undefined' ? window.innerWidth <= 1100 : false
+  )
 
   useEffect(() => {
     setFlowStep(1)
@@ -77,6 +80,19 @@ function AllIntegrations({ isValidUser }) {
   useEffect(() => {
     fetchTagData()
   }, [fetchTagData])
+
+  useEffect(() => {
+    const updateTagColumnMode = () => {
+      setIsCompactTagColumn(window.innerWidth <= 1100)
+    }
+
+    updateTagColumnMode()
+    window.addEventListener('resize', updateTagColumnMode)
+
+    return () => {
+      window.removeEventListener('resize', updateTagColumnMode)
+    }
+  }, [])
 
   const persistTagData = useCallback(
     (nextTags, nextIntegrationTags, successMsg = '') =>
@@ -139,8 +155,8 @@ function AllIntegrations({ isValidUser }) {
     )
 
     ncols.push({
-      width: 220,
-      minWidth: 180,
+      width: isCompactTagColumn ? 170 : 220,
+      minWidth: isCompactTagColumn ? 140 : 180,
       Header: <span className="table-tags-header">{__('Tags', 'bit-integrations')}</span>,
       accessor: 'tags',
       Cell: value => {
@@ -149,7 +165,7 @@ function AllIntegrations({ isValidUser }) {
         const assignedTags = assignedTagIds
           .map(tagId => tags.find(currentTag => String(currentTag.id) === String(tagId)))
           .filter(Boolean)
-        const visibleAssignedTags = assignedTags.slice(0, 2)
+        const visibleAssignedTags = assignedTags.slice(0, isCompactTagColumn ? 1 : 2)
         const hiddenAssignedTagsCount = Math.max(assignedTags.length - visibleAssignedTags.length, 0)
 
         return (
@@ -225,7 +241,7 @@ function AllIntegrations({ isValidUser }) {
       )
     })
     setCols([...ncols])
-  }, [integrations, tags, integrationTags])
+  }, [integrations, tags, integrationTags, isCompactTagColumn])
 
   const handleStatus = (e, id) => {
     const status = e.target.checked
@@ -1033,6 +1049,7 @@ function AllIntegrations({ isValidUser }) {
               setBulkDelete={setBulkDelete}
               setBulkTagAssign={setBulkTagAssign}
               search
+              searchPlaceholder={__('Search integrations...', 'bit-integrations')}
             />
           </div>
         </>
