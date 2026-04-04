@@ -1,5 +1,5 @@
 import MultiSelect from 'react-multiple-select-dropdown-lite'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 import { __ } from '../../../Utils/i18nwrap'
 import CheckBox from '../../Utilities/CheckBox'
 import Loader from '../../Loaders/Loader'

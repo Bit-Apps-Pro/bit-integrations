@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import CopyIcn from '../../Icons/CopyIcn'
 import EditIcn from '../../Icons/EditIcn'
 import InfoIcn from '../../Icons/InfoIcn'

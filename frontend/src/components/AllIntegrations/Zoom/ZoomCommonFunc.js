@@ -188,13 +188,29 @@ export const handleAuthorize = (
       } else {
         const newConf = { ...confTmp }
         newConf.accountServer = grantTokenResponse['accounts-server']
-        tokenHelper(grantTokenResponse, newConf, setConf, setisAuthorized, setIsLoading, setSnackbar, btcbi)
+        tokenHelper(
+          grantTokenResponse,
+          newConf,
+          setConf,
+          setisAuthorized,
+          setIsLoading,
+          setSnackbar,
+          btcbi
+        )
       }
     }
   }, 500)
 }
 
-const tokenHelper = (grantToken, confTmp, setConf, setisAuthorized, setIsLoading, setSnackbar, btcbi) => {
+const tokenHelper = (
+  grantToken,
+  confTmp,
+  setConf,
+  setisAuthorized,
+  setIsLoading,
+  setSnackbar,
+  btcbi
+) => {
   const tokenRequestParams = { ...grantToken }
   tokenRequestParams.clientId = confTmp.clientId
   tokenRequestParams.clientSecret = confTmp.clientSecret
