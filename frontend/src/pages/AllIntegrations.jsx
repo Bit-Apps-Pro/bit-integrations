@@ -157,7 +157,7 @@ function AllIntegrations({ isValidUser }) {
     ncols.push({
       width: isCompactTagColumn ? 170 : 220,
       minWidth: isCompactTagColumn ? 140 : 180,
-      Header: <span className="table-tags-header">{__('Tags', 'bit-integrations')}</span>,
+      Header: __('Tags', 'bit-integrations'),
       accessor: 'tags',
       Cell: value => {
         const integrationId = String(value.row.original.id)
@@ -225,19 +225,21 @@ function AllIntegrations({ isValidUser }) {
     })
     ncols.push({
       sticky: 'right',
-      width: 100,
-      minWidth: 60,
-      Header: __('Actions', 'bit-integrations'),
+      width: 64,
+      minWidth: 52,
+      Header: '',
       accessor: 't_action',
       Cell: val => (
-        <MenuBtn
-          isValidUser={isValidUser}
-          id={val.row.original.id}
-          name={val.row.original.name}
-          index={val.row.id}
-          del={() => showDelModal(val.row.original.id, val.row.index)}
-          dup={() => showDupMdl(val.row.original.id, val.row.index)}
-        />
+        <div className="table-actions-cell">
+          <MenuBtn
+            isValidUser={isValidUser}
+            id={val.row.original.id}
+            name={val.row.original.name}
+            index={val.row.id}
+            del={() => showDelModal(val.row.original.id, val.row.index)}
+            dup={() => showDupMdl(val.row.original.id, val.row.index)}
+          />
+        </div>
       )
     })
     setCols([...ncols])
@@ -273,7 +275,7 @@ function AllIntegrations({ isValidUser }) {
           const updatedMapping = { ...integrationTags }
           delete updatedMapping[integrationKey]
           setIntegrationTags(updatedMapping)
-          persistTagData(tags, updatedMapping).catch(() => {})
+          persistTagData(tags, updatedMapping).catch(() => { })
         }
 
         return __('Integration deleted successfully', 'bit-integrations')
@@ -343,7 +345,7 @@ function AllIntegrations({ isValidUser }) {
 
           if (isMappingUpdated) {
             setIntegrationTags(updatedMapping)
-            persistTagData(tags, updatedMapping).catch(() => {})
+            persistTagData(tags, updatedMapping).catch(() => { })
           }
 
           return __('Integration Deleted Successfully', 'bit-integrations')
@@ -640,7 +642,7 @@ function AllIntegrations({ isValidUser }) {
       updatedTags,
       updatedMapping,
       __('Tag deleted successfully', 'bit-integrations')
-    ).catch(() => {})
+    ).catch(() => { })
   }
 
   const confirmDeleteTag = tagId => {
@@ -712,7 +714,7 @@ function AllIntegrations({ isValidUser }) {
 
     setIntegrationTags(updatedMapping)
     persistTagData(tags, updatedMapping, __('Tag removed successfully', 'bit-integrations')).catch(
-      () => {}
+      () => { }
     )
   }
 
@@ -736,9 +738,9 @@ function AllIntegrations({ isValidUser }) {
   const filteredIntegrations =
     selectedTags.length > 0
       ? integrations.filter(integration => {
-          const assignedTagIds = integrationTags[String(integration.id)] || []
-          return selectedTags.some(tagId => assignedTagIds.includes(tagId))
-        })
+        const assignedTagIds = integrationTags[String(integration.id)] || []
+        return selectedTags.some(tagId => assignedTagIds.includes(tagId))
+      })
       : integrations
 
   const selectedTagNamesFromPicker = []
@@ -833,24 +835,24 @@ function AllIntegrations({ isValidUser }) {
         <div className="tag-modal-overlay" onClick={closeTagPickerModal}>
           <div className="tag-modal-content tag-picker-modal-content" onClick={e => e.stopPropagation()}>
             <div className="tag-picker-header">
-              <h3 className="tag-modal-title">
+              <h4 className="tag-modal-title">
                 {bulkTagIntegrationIds.length > 0
                   ? __('Bulk Assign Tags', 'bit-integrations')
                   : editingIntegrationId
                     ? __('Assign Tags', 'bit-integrations')
                     : __('Create Tags', 'bit-integrations')}
-              </h3>
+              </h4>
               <p className="tag-picker-subtitle">
                 {bulkTagIntegrationIds.length > 0
                   ? __(
-                      'Search existing tags or create new tags, then assign them to all selected integrations.',
-                      'bit-integrations'
-                    )
+                    'Search existing tags or create new tags, then assign them to all selected integrations.',
+                    'bit-integrations'
+                  )
                   : editingIntegrationId
                     ? __(
-                        'Search existing tags or create new tags, then save assignment.',
-                        'bit-integrations'
-                      )
+                      'Search existing tags or create new tags, then save assignment.',
+                      'bit-integrations'
+                    )
                     : __('Search existing tags or create new ones for filtering.', 'bit-integrations')}
               </p>
             </div>
@@ -871,9 +873,9 @@ function AllIntegrations({ isValidUser }) {
               <p className="tag-picker-counter">
                 {bulkTagIntegrationIds.length > 0
                   ? __(
-                      'Tip: selected tags will be added to all selected integrations (20 characters max).',
-                      'bit-integrations'
-                    )
+                    'Tip: selected tags will be added to all selected integrations (20 characters max).',
+                    'bit-integrations'
+                  )
                   : __('Tip: press Enter to create a new tag (20 characters max).', 'bit-integrations')}
               </p>
             </div>
@@ -955,85 +957,13 @@ function AllIntegrations({ isValidUser }) {
 
             <Link
               to="/flow/new"
-              className="btn round btcd-btn-lg purple purple-sh"
+              className="btn btcd-btn-lg purple purple-sh"
               onMouseEnter={handleCreateIntegrationIntent}
               onFocus={handleCreateIntegrationIntent}
               onTouchStart={handleCreateIntegrationIntent}
               onMouseDown={handleCreateIntegrationIntent}>
               {__('Create Integration', 'bit-integrations')}
             </Link>
-          </div>
-
-          <div className="tag-filter-section ml-5 mr-4">
-            <div className="tag-filter-inline">
-              <h4 className="tag-filter-title">{__('Filter by Tags', 'bit-integrations')}</h4>
-              <div className="tag-buttons-container">
-                <button
-                  type="button"
-                  onClick={() => toggleTagFilter('ALL')}
-                  className={`tag-btn-all ${selectedTags.length === 0 ? 'active' : ''}`}>
-                  {__('ALL', 'bit-integrations')}
-                </button>
-
-                {tags.map(tag => {
-                  const isSelected = selectedTags.includes(tag.id)
-                  return (
-                    <div key={tag.id} className={`tag-pill ${isSelected ? 'active show-actions' : ''}`}>
-                      <button type="button" onClick={() => toggleTagFilter(tag.id)} className="tag-btn">
-                        {tag.name}
-                      </button>
-                      <div className="tag-pill-actions">
-                        <button
-                          type="button"
-                          onClick={e => {
-                            e.stopPropagation()
-                            openEditTagModal(tag)
-                          }}
-                          className="tag-icon-btn"
-                          title={__('Edit tag', 'bit-integrations')}>
-                          <span className="btcd-icn icn-edit" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={e => {
-                            e.stopPropagation()
-                            confirmDeleteTag(tag.id)
-                          }}
-                          className="tag-icon-btn delete"
-                          title={__('Delete tag', 'bit-integrations')}>
-                          <span className="btcd-icn icn-trash-2" />
-                        </button>
-                      </div>
-                    </div>
-                  )
-                })}
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setEditingIntegrationId(null)
-                    setBulkTagIntegrationIds([])
-                    setTagPickerInput('')
-                    setShowTagPickerModal(true)
-                  }}
-                  className="tag-add-btn"
-                  title={__('Add or select tag', 'bit-integrations')}>
-                  +
-                </button>
-              </div>
-              {selectedTags.length > 0 && (
-                <button type="button" onClick={clearTagFilters} className="tag-clear-btn">
-                  <span className="tag-clear-icon">×</span>
-                  {__('Clear filter', 'bit-integrations')}
-                </button>
-              )}
-            </div>
-            {selectedTags.length > 0 && (
-              <p className="tag-filter-count">
-                <span className="highlight">{filteredIntegrations.length}</span>{' '}
-                {__('integrations matched', 'bit-integrations')}
-              </p>
-            )}
           </div>
 
           <div className="forms">
@@ -1050,6 +980,73 @@ function AllIntegrations({ isValidUser }) {
               setBulkTagAssign={setBulkTagAssign}
               search
               searchPlaceholder={__('Search integrations...', 'bit-integrations')}
+              bulkDeleteLabel={__('Delete Integration', 'bit-integrations')}
+              bulkTagAssignLabel={__('Bulk Tag Assign', 'bit-integrations')}
+              topLeftContent={
+                <div className="tag-filter-inline table-top-tag-filter">
+                  <h4 className="tag-filter-title">{__('Filter by Tags', 'bit-integrations')}</h4>
+                  <div className="tag-buttons-container">
+                    <button
+                      type="button"
+                      onClick={() => toggleTagFilter('ALL')}
+                      className={`tag-btn-all ${selectedTags.length === 0 ? 'active' : ''}`}>
+                      {__('ALL', 'bit-integrations')}
+                    </button>
+
+                    {tags.map(tag => {
+                      const isSelected = selectedTags.includes(tag.id)
+                      return (
+                        <div key={tag.id} className={`tag-pill ${isSelected ? 'active show-actions' : ''}`}>
+                          <button type="button" onClick={() => toggleTagFilter(tag.id)} className="tag-btn">
+                            {tag.name}
+                          </button>
+                          <div className="tag-pill-actions">
+                            <button
+                              type="button"
+                              onClick={e => {
+                                e.stopPropagation()
+                                openEditTagModal(tag)
+                              }}
+                              className="tag-icon-btn"
+                              title={__('Edit tag', 'bit-integrations')}>
+                              <span className="btcd-icn icn-edit" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={e => {
+                                e.stopPropagation()
+                                confirmDeleteTag(tag.id)
+                              }}
+                              className="tag-icon-btn delete"
+                              title={__('Delete tag', 'bit-integrations')}>
+                              <span className="btcd-icn icn-trash-2" />
+                            </button>
+                          </div>
+                        </div>
+                      )
+                    })}
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditingIntegrationId(null)
+                        setBulkTagIntegrationIds([])
+                        setTagPickerInput('')
+                        setShowTagPickerModal(true)
+                      }}
+                      className="tag-add-btn"
+                      title={__('Add or select tag', 'bit-integrations')}>
+                      +
+                    </button>
+                  </div>
+                  {selectedTags.length > 0 && (
+                    <button type="button" onClick={clearTagFilters} className="tag-clear-btn">
+                      <span className="tag-clear-icon">×</span>
+                      {__('Clear filter', 'bit-integrations')}
+                    </button>
+                  )}
+                </div>
+              }
             />
           </div>
         </>

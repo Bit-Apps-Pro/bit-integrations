@@ -16,6 +16,7 @@ import {
   useTable
 } from 'react-table'
 import { useSticky } from 'react-table-sticky'
+import TrashIcn from '../../Icons/TrashIcn'
 import { __ } from '../../Utils/i18nwrap'
 import TableLoader2 from '../Loaders/TableLoader2'
 import ConfirmModal from './ConfirmModal'
@@ -30,6 +31,38 @@ const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
   }, [resolvedRef, indeterminate])
   return <TableCheckBox refer={resolvedRef} rest={rest} />
 })
+
+function VerticalDotsIcn({ size = 16 }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      style={{ pointerEvents: 'none' }}>
+      <circle cx="12" cy="5" r="2" fill="currentColor" />
+      <circle cx="12" cy="12" r="2" fill="currentColor" />
+      <circle cx="12" cy="19" r="2" fill="currentColor" />
+    </svg>
+  )
+}
+
+function TagAssignIcn({ size = 15 }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      style={{ pointerEvents: 'none' }}>
+      <path
+        className="svg-icn"
+        d="M3.5 12.5L12.5 3.5h6l2 2v6l-9 9a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8z"
+      />
+      <circle cx="16" cy="8" r="1.5" fill="currentColor" />
+    </svg>
+  )
+}
 
 function GlobalFilter({
   globalFilter,
@@ -81,8 +114,13 @@ function GlobalFilter({
 
 function ColumnHide({ cols, setCols, tableCol, tableAllCols }) {
   return (
-    <Menu icn="icn-remove_red_eye">
-      <Scrollbars autoHide style={{ width: 200 }}>
+    <Menu
+      icn="icn-layout"
+      title={__('Columns', 'bit-integrations')}
+      btnClassName="btcd-columns-btn"
+      menuClassName="btcd-columns-menu"
+      showTooltip={false}>
+      <div className="btcd-columns-scroll">
         <ReactSortable list={cols} setList={l => setCols(l)} handle=".btcd-pane-drg">
           {tableCol.map((column, i) => (
             <div
@@ -100,13 +138,15 @@ function ColumnHide({ cols, setCols, tableCol, tableAllCols }) {
             </div>
           ))}
         </ReactSortable>
-      </Scrollbars>
+      </div>
     </Menu>
   )
 }
 
 function Table(props) {
   const [confMdl, setconfMdl] = useState({ show: false, btnTxt: '' })
+  const [isBulkMenuOpen, setIsBulkMenuOpen] = useState(false)
+  const bulkMenuRef = useRef(null)
   const { columns, data, fetchData, report } = props
   const {
     getTableProps,
@@ -175,12 +215,41 @@ function Table(props) {
   )
 
   const [search, setSearch] = useState(globalFilter)
+  const hasSelectedRows = props.rowSeletable && selectedFlatRows.length > 0
+  const hasBulkMenuActions =
+    'setBulkStatus' in props ||
+    'duplicateData' in props ||
+    'setBulkTagAssign' in props ||
+    'setBulkDelete' in props
 
   useEffect(() => {
     if (fetchData) {
       fetchData({ pageIndex, pageSize })
     }
   }, [fetchData, pageIndex, pageSize])
+
+  useEffect(() => {
+    if (!isBulkMenuOpen) {
+      return undefined
+    }
+
+    const handleClickOutside = e => {
+      if (bulkMenuRef.current && !bulkMenuRef.current.contains(e.target)) {
+        setIsBulkMenuOpen(false)
+      }
+    }
+
+    document.addEventListener('click', handleClickOutside, true)
+    return () => {
+      document.removeEventListener('click', handleClickOutside, true)
+    }
+  }, [isBulkMenuOpen])
+
+  useEffect(() => {
+    if (!hasSelectedRows && isBulkMenuOpen) {
+      setIsBulkMenuOpen(false)
+    }
+  }, [hasSelectedRows, isBulkMenuOpen])
 
   useEffect(() => {
     if (pageIndex > pageCount) {
@@ -268,78 +337,111 @@ function Table(props) {
       />
       <div className="btcd-table-top">
         <div className="btcd-t-actions">
-          <div className="flx">
-            {props.columnHidable && (
-              <ColumnHide
-                cols={props.columns}
-                setCols={props.setTableCols}
-                tableCol={columns}
-                tableAllCols={allColumns}
-              />
-            )}
-
-            {props.rowSeletable && selectedFlatRows.length > 0 && (
-              <>
-                {'setBulkStatus' in props && (
-                  <button
-                    onClick={showStModal}
-                    className="icn-btn btcd-icn-lg tooltip"
-                    style={{ '--tooltip-txt': `'${__('Status', 'bit-integrations')}'` }}
-                    aria-label="icon-btn"
-                    type="button">
-                    <span className="btcd-icn icn-toggle_off" />
-                  </button>
-                )}
-                {'duplicateData' in props && (
-                  <button
-                    onClick={showBulkDupMdl}
-                    className="icn-btn btcd-icn-lg tooltip"
-                    style={{ '--tooltip-txt': `'${__('Clone', 'bit-integrations')}'` }}
-                    aria-label="icon-btn"
-                    type="button">
-                    <span className="btcd-icn icn-file_copy" style={{ fontSize: 16 }} />
-                  </button>
-                )}
-                {'setBulkTagAssign' in props && (
-                  <button
-                    onClick={showBulkTagAssignModal}
-                    className="icn-btn tooltip tag-add-btn bulk-tag-assign-btn"
-                    style={{ '--tooltip-txt': `'${__('Assign Tags', 'bit-integrations')}'` }}
-                    aria-label="icon-btn"
-                    type="button">
-                    +
-                  </button>
-                )}
-                <button
-                  onClick={showDelModal}
-                  className="icn-btn btcd-icn-lg tooltip"
-                  style={{ '--tooltip-txt': `'${__('Delete', 'bit-integrations')}'` }}
-                  aria-label="icon-btn"
-                  type="button">
-                  <span className="btcd-icn icn-trash-fill" style={{ fontSize: 16 }} />
-                </button>
-                <small className="btcd-pill">
-                  {selectedFlatRows.length} {__('Row Selected', 'bit-integrations')}
-                </small>
-              </>
-            )}
-          </div>
+          {props.topLeftContent || <div />}
         </div>
 
-        {props.search && (
-          <GlobalFilter
-            preGlobalFilteredRows={preGlobalFilteredRows}
-            globalFilter={state.globalFilter}
-            setGlobalFilter={setGlobalFilter}
-            setSearch={setSearch}
-            exportImportMenu={props.exportImportMenu}
-            data={props.data}
-            cols={props.columns}
-            formID={props.formID}
-            report={report}
-            placeholder={props.searchPlaceholder}
-          />
-        )}
+        <div className="btcd-t-controls">
+          {hasSelectedRows && hasBulkMenuActions && (
+            <div className="btcd-bulk-top btcd-bulk-top-right">
+              <small className="btcd-bulk-selected">
+                {selectedFlatRows.length} {__('selected', 'bit-integrations')}
+              </small>
+              <div className="btcd-bulk-menu" ref={bulkMenuRef}>
+                <button
+                  type="button"
+                  className="icn-btn btcd-bulk-menu-btn"
+                  aria-label={__('Bulk actions', 'bit-integrations')}
+                  onClick={() => setIsBulkMenuOpen(oldState => !oldState)}>
+                  <VerticalDotsIcn size={16} />
+                </button>
+
+                {isBulkMenuOpen && (
+                  <div className="btcd-bulk-menu-list">
+                    {'setBulkTagAssign' in props && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          showBulkTagAssignModal()
+                          setIsBulkMenuOpen(false)
+                        }}>
+                        <span className="btcd-bulk-menu-item-icon">
+                          <TagAssignIcn size={14} />
+                        </span>
+                        <span>{props.bulkTagAssignLabel || __('Bulk Tag Assign', 'bit-integrations')}</span>
+                      </button>
+                    )}
+
+                    {'setBulkDelete' in props && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          showDelModal()
+                          setIsBulkMenuOpen(false)
+                        }}>
+                        <span className="btcd-bulk-menu-item-icon">
+                          <TrashIcn size={14} />
+                        </span>
+                        <span>{props.bulkDeleteLabel || __('Delete', 'bit-integrations')}</span>
+                      </button>
+                    )}
+
+                    {'setBulkStatus' in props && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          showStModal()
+                          setIsBulkMenuOpen(false)
+                        }}>
+                        <span className="btcd-bulk-menu-item-icon">
+                          <span className="btcd-icn icn-toggle_off" />
+                        </span>
+                        <span>{__('Change Status', 'bit-integrations')}</span>
+                      </button>
+                    )}
+
+                    {'duplicateData' in props && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          showBulkDupMdl()
+                          setIsBulkMenuOpen(false)
+                        }}>
+                        <span className="btcd-bulk-menu-item-icon">
+                          <span className="btcd-icn icn-file_copy" />
+                        </span>
+                        <span>{__('Clone', 'bit-integrations')}</span>
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {props.search && (
+            <GlobalFilter
+              preGlobalFilteredRows={preGlobalFilteredRows}
+              globalFilter={state.globalFilter}
+              setGlobalFilter={setGlobalFilter}
+              setSearch={setSearch}
+              exportImportMenu={props.exportImportMenu}
+              data={props.data}
+              cols={props.columns}
+              formID={props.formID}
+              report={report}
+              placeholder={props.searchPlaceholder}
+            />
+          )}
+
+          {props.columnHidable && (
+            <ColumnHide
+              cols={props.columns}
+              setCols={props.setTableCols}
+              tableCol={columns}
+              tableAllCols={allColumns}
+            />
+          )}
+        </div>
       </div>
 
       <div className="mt-2">
