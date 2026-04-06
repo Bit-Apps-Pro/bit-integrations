@@ -170,6 +170,9 @@ const BentoAuthorization = lazy(() => import('./Bento/BentoAuthorization'))
 const LineAuthorization = lazy(() => import('./Line/LineAuthorization'))
 const ACPTAuthorization = lazy(() => import('./ACPT/ACPTAuthorization'))
 const WishlistMemberAuthorization = lazy(() => import('./WishlistMember/WishlistMemberAuthorization'))
+const UltimateAffiliateProAuthorization = lazy(
+  () => import('./UltimateAffiliatePro/UltimateAffiliateProAuthorization')
+)
 const FluentCartAuthorization = lazy(() => import('./FluentCart/FluentCartAuthorization'))
 const WPCafeAuthorization = lazy(() => import('./WPCafe/WPCafeAuthorization'))
 const TeamsForWooCommerceMembershipsAuthorization = lazy(
@@ -616,6 +619,14 @@ export default function IntegInfo() {
         return <ACPTAuthorization acptConf={integrationConf} step={1} isInfo />
       case 'WishlistMember':
         return <WishlistMemberAuthorization wishlistMemberConf={integrationConf} step={1} isInfo />
+      case 'Ultimate Affiliate Pro':
+        return (
+          <UltimateAffiliateProAuthorization
+            ultimateAffiliateProConf={integrationConf}
+            step={1}
+            isInfo
+          />
+        )
       case 'FluentCart':
         return <FluentCartAuthorization fluentCartConf={integrationConf} step={1} isInfo />
       case 'WPCafe':
