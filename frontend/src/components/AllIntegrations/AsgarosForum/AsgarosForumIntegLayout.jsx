@@ -100,18 +100,9 @@ export default function AsgarosForumIntegLayout({ formFields, asgarosForumConf, 
           <br />
           <Note
             note={__(
-              'For root forum creation, map Parent ID to 0. Otherwise, use a valid parent/category ID.',
+              'use a valid parent/category ID. Otherwise, root forum will be created.',
               'bit-integrations'
             )}
-          />
-        </>
-      )}
-
-      {!checkMappedFields(asgarosForumConf) && !!asgarosForumConf?.mainAction && (
-        <>
-          <br />
-          <Note
-            note={__('Please complete all required mappings before continuing.', 'bit-integrations')}
           />
         </>
       )}

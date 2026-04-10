@@ -175,9 +175,6 @@ const TeamsForWooCommerceMemberships = lazy(() =>
   import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMemberships')
 )
 const AsgarosForum = lazy(() => import('./AsgarosForum/AsgarosForum'))
-const TeamsForWooCommerceMemberships = lazy(
-  () => import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMemberships')
-)
 const SeoPress = lazy(() => import('./SeoPress/SeoPress'))
 const UserRegistrationMembership = lazy(
   () => import('./UserRegistrationMembership/UserRegistrationMembership')

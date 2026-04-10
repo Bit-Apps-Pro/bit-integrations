@@ -31,7 +31,7 @@ export const asgarosForumActionFields = {
     { key: 'author_id', label: __('Author ID', 'bit-integrations'), required: false }
   ],
   create_forum: [
-    { key: 'parent_id', label: __('Parent ID', 'bit-integrations'), required: true },
+    { key: 'parent_id', label: __('Parent ID', 'bit-integrations'), required: false },
     { key: 'forum_name', label: __('Forum Name', 'bit-integrations'), required: true },
     { key: 'forum_description', label: __('Forum Description', 'bit-integrations'), required: false },
     { key: 'forum_icon', label: __('Forum Icon', 'bit-integrations'), required: false }
