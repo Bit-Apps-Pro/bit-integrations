@@ -27,7 +27,8 @@ export default function AsgarosForum({ formFields, setFlow, flow, allIntegURL })
 
   const nextPage = val => {
     setTimeout(() => {
-      document.getElementById('btcd-settings-wrp').scrollTop = 0
+      const settingsWrapper = document.getElementById('btcd-settings-wrp')
+      if (settingsWrapper) settingsWrapper.scrollTop = 0
     }, 300)
 
     if (val === 3) {

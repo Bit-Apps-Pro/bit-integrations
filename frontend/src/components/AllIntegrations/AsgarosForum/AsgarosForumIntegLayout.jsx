@@ -6,8 +6,8 @@ import { __ } from '../../../Utils/i18nwrap'
 import Note from '../../Utilities/Note'
 import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 import { addFieldMap } from '../IntegrationHelpers/IntegrationHelpers'
+import { generateMappedField, getActionFields } from './AsgarosForumCommonFunc'
 import AsgarosForumFieldMap from './AsgarosForumFieldMap'
-import { checkMappedFields, generateMappedField, getActionFields } from './AsgarosForumCommonFunc'
 import { modules } from './staticData'
 
 export default function AsgarosForumIntegLayout({ formFields, asgarosForumConf, setAsgarosForumConf }) {
@@ -100,7 +100,7 @@ export default function AsgarosForumIntegLayout({ formFields, asgarosForumConf, 
           <br />
           <Note
             note={__(
-              'use a valid parent/category ID. Otherwise, root forum will be created.',
+              'Use a valid parent/category ID. Otherwise, root forum will be created.',
               'bit-integrations'
             )}
           />
