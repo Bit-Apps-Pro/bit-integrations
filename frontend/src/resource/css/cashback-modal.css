@@ -104,7 +104,8 @@
   display: flex;
   align-items: center;
   --active: 0.15;
-  box-shadow: 0 0 calc(var(--active) * 8em) calc(var(--active) * 1em) hsl(260 97% 61% / 0.75),
+  box-shadow:
+    0 0 calc(var(--active) * 8em) calc(var(--active) * 1em) hsl(260 97% 61% / 0.75),
     0 0.05em 0 0 hsl(260 calc(var(--active) * 97%) calc((var(--active) * 50%) + 30%)) inset,
     0 -0.05em 0 0 hsl(260 calc(var(--active) * 97%) calc(var(--active) * 60%)) inset !important;
 }
@@ -119,7 +120,7 @@
   justify-content: center;
   align-items: center;
   font-family: 'Outfit', sans-serif;
-  background-image: url(../img/bit-social-promo.png);
+  background-image: url(../img/bit-social-promo.webp);
   background-repeat: no-repeat;
   background-position: left;
   color: #fff;

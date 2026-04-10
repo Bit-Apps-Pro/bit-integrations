@@ -2,7 +2,7 @@
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable no-unused-expressions */
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { __ } from '../../../Utils/i18nwrap'
 import StepPage from '../../Utilities/StepPage'
 import Steps from '../../Utilities/Steps'

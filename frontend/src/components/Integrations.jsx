@@ -1,6 +1,6 @@
 /* eslint-disable-next-line no-undef */
 import { useState } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router'
 import EditInteg from './AllIntegrations/EditInteg'
 import IntegInfo from './AllIntegrations/IntegInfo'
 import Log from './AllIntegrations/Log'
@@ -14,7 +14,10 @@ function Integrations() {
     <div className="btcd-s-wrp" id="btcd-settings-wrp">
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
       <Routes>
-        <Route path="new/:integUrlName/*" element={<NewInteg allIntegURL="/" />} />
+        <Route path="new/:integUrlName">
+          <Route index element={<NewInteg allIntegURL="/" />} />
+          <Route path="*" element={<NewInteg allIntegURL="/" />} />
+        </Route>
 
         <Route path="edit/:id" element={<EditInteg allIntegURL="/" />} />
 

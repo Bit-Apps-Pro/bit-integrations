@@ -3,7 +3,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react/jsx-no-undef */
 import { lazy, Suspense, useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router'
 import useFetch from '../../hooks/useFetch'
 import { __ } from '../../Utils/i18nwrap'
 import SnackMsg from '../Utilities/SnackMsg'

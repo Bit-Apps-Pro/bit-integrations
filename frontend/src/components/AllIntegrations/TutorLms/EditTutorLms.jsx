@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import toast from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { __ } from '../../../Utils/i18nwrap'
 import EditFormInteg from '../EditFormInteg'
