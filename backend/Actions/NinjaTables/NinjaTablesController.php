@@ -146,15 +146,16 @@ class NinjaTablesController
     {
         global $wpdb;
 
-        $query = $wpdb->prepare(
-            "SELECT ID, post_title FROM {$wpdb->prefix}posts 
+        return $wpdb->get_results(
+            $wpdb->prepare(
+                'SELECT ID, post_title FROM ' . esc_sql($wpdb->prefix . 'posts') . ' 
             WHERE post_type = %s AND post_status = %s 
-            ORDER BY post_title ASC",
-            self::POST_TYPE,
-            self::POST_STATUS
-        );
-
-        return $wpdb->get_results($query, ARRAY_A) ?? [];
+            ORDER BY post_title ASC',
+                self::POST_TYPE,
+                self::POST_STATUS
+            ),
+            ARRAY_A
+        ) ?? [];
     }
 
     /**
@@ -217,13 +218,15 @@ class NinjaTablesController
     {
         global $wpdb;
 
-        $tableName = $wpdb->prefix . self::TABLE_NAME_ITEMS;
-        $query = $wpdb->prepare(
-            "SELECT id, table_id, owner_id FROM {$tableName} WHERE table_id = %d ORDER BY id DESC",
-            $tableId
-        );
+        $tableName = esc_sql($wpdb->prefix . self::TABLE_NAME_ITEMS);
 
-        return $wpdb->get_results($query, ARRAY_A) ?? [];
+        return $wpdb->get_results(
+            $wpdb->prepare(
+                'SELECT id, table_id, owner_id FROM ' . $tableName . ' WHERE table_id = %d ORDER BY id DESC',
+                $tableId
+            ),
+            ARRAY_A
+        ) ?? [];
     }
 
     /**
