@@ -146,9 +146,12 @@ class NinjaTablesController
     {
         global $wpdb;
 
+        $posts_table = esc_sql($wpdb->posts);
+
+        // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared
         return $wpdb->get_results(
             $wpdb->prepare(
-                'SELECT ID, post_title FROM ' . esc_sql($wpdb->prefix . 'posts') . ' 
+                'SELECT ID, post_title FROM ' . $posts_table . ' 
             WHERE post_type = %s AND post_status = %s 
             ORDER BY post_title ASC',
                 self::POST_TYPE,
@@ -156,6 +159,7 @@ class NinjaTablesController
             ),
             ARRAY_A
         ) ?? [];
+        // phpcs:enable
     }
 
     /**
@@ -218,15 +222,17 @@ class NinjaTablesController
     {
         global $wpdb;
 
-        $tableName = esc_sql($wpdb->prefix . self::TABLE_NAME_ITEMS);
+        $table_name = esc_sql($wpdb->prefix . self::TABLE_NAME_ITEMS);
 
+        // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared
         return $wpdb->get_results(
             $wpdb->prepare(
-                'SELECT id, table_id, owner_id FROM ' . $tableName . ' WHERE table_id = %d ORDER BY id DESC',
+                'SELECT id, table_id, owner_id FROM ' . $table_name . ' WHERE table_id = %d ORDER BY id DESC',
                 $tableId
             ),
             ARRAY_A
         ) ?? [];
+        // phpcs:enable
     }
 
     /**
