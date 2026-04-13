@@ -3,17 +3,16 @@
 /* eslint-disable max-len */
 import { lazy, memo, useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import MultiSelect from 'react-multiple-select-dropdown-lite'
-import 'react-multiple-select-dropdown-lite/dist/index.css'
-import { Link } from 'react-router'
 import { useRecoilState } from 'recoil'
 import { $flowStep, $newFlow } from '../GlobalStates'
+import EditTagModal from '../components/AllIntegrations/EditTagModal'
+import IntegrationsTableView from '../components/AllIntegrations/IntegrationsTableView'
+import TagPickerModal from '../components/AllIntegrations/TagPickerModal'
 import Loader from '../components/Loaders/Loader'
 import ConfirmModal from '../components/Utilities/ConfirmModal'
 import MenuBtn from '../components/Utilities/MenuBtn'
 import SingleToggle2 from '../components/Utilities/SingleToggle2'
 import SnackMsg from '../components/Utilities/SnackMsg'
-import Table from '../components/Utilities/Table'
 import useFetch from '../hooks/useFetch'
 import bitsFetch from '../Utils/bitsFetch'
 import { __ } from '../Utils/i18nwrap'
@@ -440,6 +439,13 @@ function AllIntegrations({ isValidUser }) {
     setBulkTagIntegrationIds([])
   }
 
+  const openTagPickerModal = useCallback(() => {
+    setEditingIntegrationId(null)
+    setBulkTagIntegrationIds([])
+    setTagPickerInput('')
+    setShowTagPickerModal(true)
+  }, [])
+
   const saveTagFromPicker = () => {
     const normalizedTagNames = []
     const seenTagNames = new Set()
@@ -832,225 +838,42 @@ function AllIntegrations({ isValidUser }) {
         />
       )}
 
-      {showTagPickerModal && (
-        <div className="tag-modal-overlay" onClick={closeTagPickerModal}>
-          <div className="tag-modal-content tag-picker-modal-content" onClick={e => e.stopPropagation()}>
-            <div className="tag-picker-header">
-              <h4 className="tag-modal-title">
-                {bulkTagIntegrationIds.length > 0
-                  ? __('Bulk Assign Tags', 'bit-integrations')
-                  : editingIntegrationId
-                    ? __('Assign Tags', 'bit-integrations')
-                    : __('Create Tags', 'bit-integrations')}
-              </h4>
-              <p className="tag-picker-subtitle">
-                {bulkTagIntegrationIds.length > 0
-                  ? __(
-                    'Search existing tags or create new tags, then assign them to all selected integrations.',
-                    'bit-integrations'
-                  )
-                  : editingIntegrationId
-                    ? __(
-                      'Search existing tags or create new tags, then save assignment.',
-                      'bit-integrations'
-                    )
-                    : __('Search existing tags or create new ones for filtering.', 'bit-integrations')}
-              </p>
-            </div>
+      <TagPickerModal
+        show={showTagPickerModal}
+        onClose={closeTagPickerModal}
+        bulkTagIntegrationIds={bulkTagIntegrationIds}
+        editingIntegrationId={editingIntegrationId}
+        tagPickerInput={tagPickerInput}
+        tagPickerOptions={tagPickerOptions}
+        onTagPickerInputChange={setTagPickerInput}
+        onSubmit={saveTagFromPicker}
+        primaryBtnLabel={tagPickerPrimaryBtnLabel}
+      />
 
-            <div className="tag-picker-field-wrap">
-              <label className="tag-modal-label">{__('Tags', 'bit-integrations')}</label>
-              <MultiSelect
-                className="tag-picker-multiselect msl-wrp-options w-10"
-                defaultValue={tagPickerInput}
-                options={tagPickerOptions}
-                onChange={value =>
-                  setTagPickerInput(Array.isArray(value) ? value.join(',') : value || '')
-                }
-                placeholder={__('Search or create new tag', 'bit-integrations')}
-                customValue
-                closeOnSelect={false}
-              />
-              <p className="tag-picker-counter">
-                {bulkTagIntegrationIds.length > 0
-                  ? __(
-                    'Tip: selected tags will be added to all selected integrations (20 characters max).',
-                    'bit-integrations'
-                  )
-                  : __('Tip: press Enter to create a new tag (20 characters max).', 'bit-integrations')}
-              </p>
-            </div>
-
-            <div className="tag-modal-actions tag-picker-actions">
-              <button
-                type="button"
-                onClick={closeTagPickerModal}
-                className="tag-modal-btn-cancel tag-picker-btn-cancel">
-                {__('Cancel', 'bit-integrations')}
-              </button>
-              <button
-                type="button"
-                onClick={saveTagFromPicker}
-                className="tag-modal-btn-create tag-picker-btn-primary">
-                {tagPickerPrimaryBtnLabel}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showEditTagModal && (
-        <div className="tag-modal-overlay" onClick={closeEditTagModal}>
-          <div
-            className="tag-modal-content tag-picker-modal-content tag-edit-modal-content"
-            onClick={e => e.stopPropagation()}>
-            <div className="tag-picker-header tag-edit-header">
-              <h3 className="tag-modal-title">{__('Edit Tag', 'bit-integrations')}</h3>
-              <p className="tag-picker-subtitle">
-                {__('Rename this tag for filters and integration assignments.', 'bit-integrations')}
-              </p>
-            </div>
-
-            <div className="tag-picker-field-wrap tag-edit-field-wrap">
-              <label className="tag-modal-label">{__('Tag Name', 'bit-integrations')}</label>
-              <input
-                type="text"
-                value={editTagName}
-                onChange={e => setEditTagName(e.target.value)}
-                onKeyDown={e => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault()
-                    updateTag()
-                  }
-                }}
-                placeholder={__('Enter tag name...', 'bit-integrations')}
-                maxLength={20}
-                autoFocus
-                className="tag-modal-input tag-edit-input"
-              />
-              <p className="tag-picker-counter tag-edit-counter">
-                {`${editTagName.length}/20 ${__('characters', 'bit-integrations')}`}
-              </p>
-            </div>
-
-            <div className="tag-modal-actions tag-picker-actions tag-edit-actions">
-              <button
-                type="button"
-                onClick={closeEditTagModal}
-                className="tag-modal-btn-cancel tag-picker-btn-cancel">
-                {__('Cancel', 'bit-integrations')}
-              </button>
-              <button
-                type="button"
-                onClick={updateTag}
-                className="tag-modal-btn-create tag-picker-btn-primary tag-edit-btn-primary">
-                {__('Update Tag', 'bit-integrations')}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <EditTagModal
+        show={showEditTagModal}
+        editTagName={editTagName}
+        onEditTagNameChange={setEditTagName}
+        onClose={closeEditTagModal}
+        onSubmit={updateTag}
+      />
 
       {integrations && integrations?.length ? (
-        <>
-          <div className="af-header flx flx-between">
-            <h2>{__('Integrations', 'bit-integrations')}</h2>
-
-            <Link
-              to="/flow/new"
-              className="btn btcd-btn-lg purple purple-sh"
-              onMouseEnter={handleCreateIntegrationIntent}
-              onFocus={handleCreateIntegrationIntent}
-              onTouchStart={handleCreateIntegrationIntent}
-              onMouseDown={handleCreateIntegrationIntent}>
-              {__('Create Integration', 'bit-integrations')}
-            </Link>
-          </div>
-
-          <div className="forms">
-            <Table
-              className="f-table btcd-all-frm"
-              height="60vh"
-              columns={cols}
-              data={filteredIntegrations}
-              rowSeletable
-              resizable
-              columnHidable
-              setTableCols={setTableCols}
-              setBulkDelete={setBulkDelete}
-              setBulkTagAssign={setBulkTagAssign}
-              search
-              searchPlaceholder={__('Search integrations...', 'bit-integrations')}
-              bulkDeleteLabel={__('Delete Integration', 'bit-integrations')}
-              bulkTagAssignLabel={__('Bulk Tag Assign', 'bit-integrations')}
-              topLeftContent={
-                <div className="tag-filter-inline table-top-tag-filter">
-                  <h4 className="tag-filter-title">{__('Filter by Tags', 'bit-integrations')}</h4>
-                  <div className="tag-buttons-container">
-                    <button
-                      type="button"
-                      onClick={() => toggleTagFilter('ALL')}
-                      className={`tag-btn-all ${selectedTags.length === 0 ? 'active' : ''}`}>
-                      {__('ALL', 'bit-integrations')}
-                    </button>
-
-                    {tags.map(tag => {
-                      const isSelected = selectedTags.includes(tag.id)
-                      return (
-                        <div key={tag.id} className={`tag-pill ${isSelected ? 'active show-actions' : ''}`}>
-                          <button type="button" onClick={() => toggleTagFilter(tag.id)} className="tag-btn">
-                            {tag.name}
-                          </button>
-                          <div className="tag-pill-actions">
-                            <button
-                              type="button"
-                              onClick={e => {
-                                e.stopPropagation()
-                                openEditTagModal(tag)
-                              }}
-                              className="tag-icon-btn"
-                              title={__('Edit tag', 'bit-integrations')}>
-                              <span className="btcd-icn icn-edit" />
-                            </button>
-                            <button
-                              type="button"
-                              onClick={e => {
-                                e.stopPropagation()
-                                confirmDeleteTag(tag.id)
-                              }}
-                              className="tag-icon-btn delete"
-                              title={__('Delete tag', 'bit-integrations')}>
-                              <span className="btcd-icn icn-trash-2" />
-                            </button>
-                          </div>
-                        </div>
-                      )
-                    })}
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEditingIntegrationId(null)
-                        setBulkTagIntegrationIds([])
-                        setTagPickerInput('')
-                        setShowTagPickerModal(true)
-                      }}
-                      className="tag-add-btn"
-                      title={__('Add or select tag', 'bit-integrations')}>
-                      +
-                    </button>
-                  </div>
-                  {selectedTags.length > 0 && (
-                    <button type="button" onClick={clearTagFilters} className="tag-clear-btn">
-                      <span className="tag-clear-icon">×</span>
-                      {__('Clear filter', 'bit-integrations')}
-                    </button>
-                  )}
-                </div>
-              }
-            />
-          </div>
-        </>
+        <IntegrationsTableView
+          cols={cols}
+          filteredIntegrations={filteredIntegrations}
+          setTableCols={setTableCols}
+          setBulkDelete={setBulkDelete}
+          setBulkTagAssign={setBulkTagAssign}
+          selectedTags={selectedTags}
+          tags={tags}
+          onToggleTagFilter={toggleTagFilter}
+          onOpenEditTagModal={openEditTagModal}
+          onConfirmDeleteTag={confirmDeleteTag}
+          onOpenTagPicker={openTagPickerModal}
+          onClearTagFilters={clearTagFilters}
+          onPreloadFlowBuilder={handleCreateIntegrationIntent}
+        />
       ) : (
         <Welcome isValidUser={isValidUser} integrations={integrations} />
       )}
