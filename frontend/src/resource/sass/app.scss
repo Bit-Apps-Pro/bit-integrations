@@ -5811,16 +5811,6 @@ _:-ms-fullscreen,
   color: #000;
 }
 
-.chatgpt {
-  background: #ff000005;
-  border: 1px solid #080808;
-  color: #080808;
-
-  & > a {
-    color: #080808;
-  }
-}
-
 .tutoriallink-btn {
   align-items: center;
   background: transparent;
@@ -7175,7 +7165,7 @@ _:-ms-fullscreen,
   background: transparent;
 }
 
-.f-table .tbody .tr .td:nth-child(2) {
+.f-table .tbody .tr .td.table-tags-cell {
   color: #1f293f;
   font-weight: 600;
 }

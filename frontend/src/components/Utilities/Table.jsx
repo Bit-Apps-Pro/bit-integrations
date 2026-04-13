@@ -125,9 +125,8 @@ function ColumnHide({ cols, setCols, tableCol, tableAllCols }) {
           {tableCol.map((column, i) => (
             <div
               key={tableAllCols[i + 1].id}
-              className={`btcd-pane ${
-                (column.Header === 'Actions' || column.accessor === 't_action') && 'd-non'
-              }`}>
+              className={`btcd-pane ${(column.Header === 'Actions' || column.accessor === 't_action') && 'd-non'
+                }`}>
               <TableCheckBox
                 cls="scl-7"
                 id={tableAllCols[i + 1].id}
@@ -196,21 +195,21 @@ function Table(props) {
     props.rowSeletable ? useRowSelect : '', // row select
     props.rowSeletable
       ? hooks => {
-          hooks.allColumns.push(cols => [
-            {
-              id: 'selection',
-              width: 50,
-              maxWidth: 50,
-              minWidth: 67,
-              sticky: 'left',
-              Header: ({ getToggleAllRowsSelectedProps }) => (
-                <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-              ),
-              Cell: ({ row }) => <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-            },
-            ...cols
-          ])
-        }
+        hooks.allColumns.push(cols => [
+          {
+            id: 'selection',
+            width: 50,
+            maxWidth: 50,
+            minWidth: 67,
+            sticky: 'left',
+            Header: ({ getToggleAllRowsSelectedProps }) => (
+              <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+            ),
+            Cell: ({ row }) => <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+          },
+          ...cols
+        ])
+      }
       : ''
   )
 
@@ -268,9 +267,8 @@ function Table(props) {
     confMdl.btnTxt = __('Clone', 'bit-integrations')
     confMdl.btn2Txt = null
     confMdl.btnClass = 'purple'
-    confMdl.body = `${__('Do You want Deplicate these', 'bit-integrations')} ${
-      selectedFlatRows.length
-    } ${__('item', 'bit-integrations')} ?`
+    confMdl.body = `${__('Do You want Deplicate these', 'bit-integrations')} ${selectedFlatRows.length
+      } ${__('item', 'bit-integrations')} ?`
     confMdl.show = true
     setconfMdl({ ...confMdl })
   }
@@ -286,9 +284,8 @@ function Table(props) {
     }
     confMdl.btnTxt = __('Disable', 'bit-integrations')
     confMdl.btn2Txt = __('Enable', 'bit-integrations')
-    confMdl.body = `${__('Do you want to change these', 'bit-integrations')} ${
-      selectedFlatRows.length
-    } ${__('status', 'bit-integrations')} ?`
+    confMdl.body = `${__('Do you want to change these', 'bit-integrations')} ${selectedFlatRows.length
+      } ${__('status', 'bit-integrations')} ?`
     confMdl.show = true
     setconfMdl({ ...confMdl })
   }
@@ -304,9 +301,8 @@ function Table(props) {
     confMdl.btnTxt = __('Delete', 'bit-integrations')
     confMdl.btn2Txt = null
     confMdl.btnClass = ''
-    confMdl.body = `${__('Are you sure to delete these', 'bit-integrations')} ${
-      selectedFlatRows.length
-    } ${__('items', 'bit-integrations')} ?`
+    confMdl.body = `${__('Are you sure to delete these', 'bit-integrations')} ${selectedFlatRows.length
+      } ${__('items', 'bit-integrations')} ?`
     confMdl.show = true
     setconfMdl({ ...confMdl })
   }
@@ -498,7 +494,7 @@ function Table(props) {
                       {row.cells.map(cell => (
                         <div
                           key={`t-d-${cell.row.index}`}
-                          className="td flx"
+                          className={`td flx ${cell.column.className || ''}`}
                           {...cell.getCellProps()}
                           onClick={e =>
                             props.rowClickable &&

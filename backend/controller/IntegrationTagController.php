@@ -24,6 +24,10 @@ final class IntegrationTagController
             wp_send_json_error(__('User don\'t have permission to access this page', 'bit-integrations'));
         }
 
+        if (!$this->hasValidTagDataStructure($data)) {
+            wp_send_json_error(__('Invalid tag data', 'bit-integrations'), 400);
+        }
+
         $normalizedTagData = $this->normalizeTagData($data);
 
         Config::updateOption('integration_tags', $normalizedTagData);
@@ -37,6 +41,27 @@ final class IntegrationTagController
             || Capabilities::Check('bit_integrations_manage_integrations')
             || Capabilities::Check('bit_integrations_create_integrations')
             || Capabilities::Check('bit_integrations_edit_integrations');
+    }
+
+    private function hasValidTagDataStructure($data)
+    {
+        if (\is_object($data)) {
+            $hasTags = property_exists($data, 'tags') && \is_array($data->tags);
+            $hasIntegrationTags = (property_exists($data, 'integrationTags') && (\is_array($data->integrationTags) || \is_object($data->integrationTags)))
+                || (property_exists($data, 'mapping') && (\is_array($data->mapping) || \is_object($data->mapping)));
+
+            return $hasTags && $hasIntegrationTags;
+        }
+
+        if (\is_array($data)) {
+            $hasTags = isset($data['tags']) && \is_array($data['tags']);
+            $hasIntegrationTags = (isset($data['integrationTags']) && (\is_array($data['integrationTags']) || \is_object($data['integrationTags'])))
+                || (isset($data['mapping']) && (\is_array($data['mapping']) || \is_object($data['mapping'])));
+
+            return $hasTags && $hasIntegrationTags;
+        }
+
+        return false;
     }
 
     private function normalizeTagData($data)

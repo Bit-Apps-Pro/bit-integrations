@@ -159,6 +159,7 @@ function AllIntegrations({ isValidUser }) {
       minWidth: isCompactTagColumn ? 140 : 180,
       Header: __('Tags', 'bit-integrations'),
       accessor: 'tags',
+      className: 'table-tags-cell',
       Cell: value => {
         const integrationId = String(value.row.original.id)
         const assignedTagIds = integrationTags[integrationId] || []
