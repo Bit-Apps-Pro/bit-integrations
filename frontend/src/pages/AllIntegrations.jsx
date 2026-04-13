@@ -3,18 +3,19 @@
 /* eslint-disable max-len */
 import { lazy, memo, useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { Link } from 'react-router'
+import { useRecoilState } from 'recoil'
+import { $flowStep, $newFlow } from '../GlobalStates'
+import EditTagModal from '../components/AllIntegrations/EditTagModal'
+import IntegrationsTableView from '../components/AllIntegrations/IntegrationsTableView'
+import TagPickerModal from '../components/AllIntegrations/TagPickerModal'
 import Loader from '../components/Loaders/Loader'
 import ConfirmModal from '../components/Utilities/ConfirmModal'
 import MenuBtn from '../components/Utilities/MenuBtn'
 import SingleToggle2 from '../components/Utilities/SingleToggle2'
 import SnackMsg from '../components/Utilities/SnackMsg'
-import Table from '../components/Utilities/Table'
 import useFetch from '../hooks/useFetch'
 import bitsFetch from '../Utils/bitsFetch'
 import { __ } from '../Utils/i18nwrap'
-import { useRecoilState } from 'recoil'
-import { $flowStep, $newFlow } from '../GlobalStates'
 
 const Welcome = lazy(() => import('./Welcome'))
 const preloadFlowBuilder = () => import('./FlowBuilder')
@@ -27,13 +28,105 @@ function AllIntegrations({ isValidUser }) {
   const [snack, setSnackbar] = useState({ show: false })
   const [confMdl, setconfMdl] = useState({ show: false, btnTxt: '' })
 
-  const [newFlow, setNewFlow] = useRecoilState($newFlow)
-  const [flowStep, setFlowStep] = useRecoilState($flowStep)
+  const [, setNewFlow] = useRecoilState($newFlow)
+  const [, setFlowStep] = useRecoilState($flowStep)
+
+  const [tags, setTags] = useState([])
+  const [integrationTags, setIntegrationTags] = useState({})
+  const [selectedTags, setSelectedTags] = useState([])
+  const [showTagPickerModal, setShowTagPickerModal] = useState(false)
+  const [tagPickerInput, setTagPickerInput] = useState('')
+  const [showEditTagModal, setShowEditTagModal] = useState(false)
+  const [tagToEdit, setTagToEdit] = useState(null)
+  const [editTagName, setEditTagName] = useState('')
+  const [editingIntegrationId, setEditingIntegrationId] = useState(null)
+  const [bulkTagIntegrationIds, setBulkTagIntegrationIds] = useState([])
+  const [tagToDelete, setTagToDelete] = useState(null)
+  const [isCompactTagColumn, setIsCompactTagColumn] = useState(
+    typeof window !== 'undefined' ? window.innerWidth <= 1100 : false
+  )
 
   useEffect(() => {
     setFlowStep(1)
     setNewFlow({})
   }, [])
+
+  const fetchTagData = useCallback(
+    (showErrorMsg = true) =>
+      bitsFetch({}, 'integration-tags/get', null, 'GET')
+        .then(res => {
+          if (!res?.success) {
+            throw new Error('tag_load_failed')
+          }
+
+          const fetchedTags = Array.isArray(res?.data?.tags) ? res.data.tags : []
+          const fetchedIntegrationTags =
+            res?.data?.integrationTags && typeof res.data.integrationTags === 'object'
+              ? res.data.integrationTags
+              : {}
+
+          setTags(fetchedTags)
+          setIntegrationTags(fetchedIntegrationTags)
+        })
+        .catch(() => {
+          if (showErrorMsg) {
+            toast.error(__('Failed to load tags', 'bit-integrations'))
+          }
+        }),
+    []
+  )
+
+  useEffect(() => {
+    fetchTagData()
+  }, [fetchTagData])
+
+  useEffect(() => {
+    const updateTagColumnMode = () => {
+      setIsCompactTagColumn(window.innerWidth <= 1100)
+    }
+
+    updateTagColumnMode()
+    window.addEventListener('resize', updateTagColumnMode)
+
+    return () => {
+      window.removeEventListener('resize', updateTagColumnMode)
+    }
+  }, [])
+
+  const persistTagData = useCallback(
+    (nextTags, nextIntegrationTags, successMsg = '') =>
+      bitsFetch(
+        {
+          tags: nextTags,
+          integrationTags: nextIntegrationTags
+        },
+        'integration-tags/save'
+      )
+        .then(res => {
+          if (!res?.success) {
+            throw new Error('tag_save_failed')
+          }
+
+          const savedTags = Array.isArray(res?.data?.tags) ? res.data.tags : nextTags
+          const savedIntegrationTags =
+            res?.data?.integrationTags && typeof res.data.integrationTags === 'object'
+              ? res.data.integrationTags
+              : nextIntegrationTags
+
+          setTags(savedTags)
+          setIntegrationTags(savedIntegrationTags)
+
+          if (successMsg) {
+            toast.success(successMsg)
+          }
+        })
+        .catch(() => {
+          fetchTagData(false)
+          toast.error(__('Failed to save tags', 'bit-integrations'))
+          throw new Error('tag_save_failed')
+        }),
+    [fetchTagData]
+  )
 
   const [cols, setCols] = useState([
     {
@@ -48,20 +141,6 @@ function AllIntegrations({ isValidUser }) {
       minWidth: 200,
       Header: __('Created At', 'bit-integrations'),
       accessor: 'created_at'
-    },
-    // { width: 150, minWidth: 130, Header: __('Authorization Status', 'bit-integrations'), accessor: 'isAuthorized', Cell: value => <Button className="flx" action={(e) => handleStatus(e, value.row.original.id)} checked={Number(value.row.original.status) === 1} > Not Authorized <RemoveIcn size="14" className="icn-rotate-45" /></Button>  },
-    {
-      width: 70,
-      minWidth: 60,
-      Header: __('Status', 'bit-integrations'),
-      accessor: 'status',
-      Cell: value => (
-        <SingleToggle2
-          className="flx"
-          action={e => handleStatus(e, value.row.original.id)}
-          checked={Number(value.row.original.status) === 1}
-        />
-      )
     }
   ])
 
@@ -70,7 +149,67 @@ function AllIntegrations({ isValidUser }) {
   }, [data])
 
   useEffect(() => {
-    const ncols = cols.filter(itm => itm.accessor !== 't_action' && itm.accessor !== 'status')
+    const ncols = cols.filter(
+      itm => itm.accessor !== 't_action' && itm.accessor !== 'status' && itm.accessor !== 'tags'
+    )
+
+    ncols.push({
+      width: isCompactTagColumn ? 170 : 220,
+      minWidth: isCompactTagColumn ? 140 : 180,
+      Header: __('Tags', 'bit-integrations'),
+      accessor: 'tags',
+      className: 'table-tags-cell',
+      Cell: value => {
+        const integrationId = String(value.row.original.id)
+        const assignedTagIds = integrationTags[integrationId] || []
+        const assignedTags = assignedTagIds
+          .map(tagId => tags.find(currentTag => String(currentTag.id) === String(tagId)))
+          .filter(Boolean)
+        const visibleAssignedTags = assignedTags.slice(0, isCompactTagColumn ? 1 : 2)
+        const hiddenAssignedTagsCount = Math.max(assignedTags.length - visibleAssignedTags.length, 0)
+
+        return (
+          <div className="table-tags-container">
+            {visibleAssignedTags.map(tag => (
+              <span key={`${integrationId}-${tag.id}`} className="table-tag-badge" title={tag.name}>
+                <span className="table-tag-badge-label">{tag.name}</span>
+                <button
+                  type="button"
+                  className="table-tag-remove-btn"
+                  onClick={e => {
+                    e.stopPropagation()
+                    removeTagFromIntegration(integrationId, tag.id)
+                  }}
+                  title={__('Remove tag', 'bit-integrations')}>
+                  <span className="btcd-icn icn-clear" />
+                </button>
+              </span>
+            ))}
+            {hiddenAssignedTagsCount > 0 && (
+              <span className="table-tag-more-badge" title={__('More tags', 'bit-integrations')}>
+                +{hiddenAssignedTagsCount}
+              </span>
+            )}
+            <button
+              type="button"
+              onClick={() => {
+                const assignedTagNames = assignedTagIds
+                  .map(tagId => tags.find(currentTag => String(currentTag.id) === String(tagId))?.name)
+                  .filter(Boolean)
+                setEditingIntegrationId(value.row.original.id)
+                setBulkTagIntegrationIds([])
+                setTagPickerInput(assignedTagNames.join(','))
+                setShowTagPickerModal(true)
+              }}
+              className="table-tag-add-btn"
+              title={__('Manage tags', 'bit-integrations')}>
+              +
+            </button>
+          </div>
+        )
+      }
+    })
+
     ncols.push({
       width: 70,
       minWidth: 60,
@@ -86,23 +225,25 @@ function AllIntegrations({ isValidUser }) {
     })
     ncols.push({
       sticky: 'right',
-      width: 100,
-      minWidth: 60,
-      Header: __('Actions', 'bit-integrations'),
+      width: 64,
+      minWidth: 52,
+      Header: '',
       accessor: 't_action',
       Cell: val => (
-        <MenuBtn
-          isValidUser={isValidUser}
-          id={val.row.original.id}
-          name={val.row.original.name}
-          index={val.row.id}
-          del={() => showDelModal(val.row.original.id, val.row.index)}
-          dup={() => showDupMdl(val.row.original.id, val.row.index)}
-        />
+        <div className="table-actions-cell">
+          <MenuBtn
+            isValidUser={isValidUser}
+            id={val.row.original.id}
+            name={val.row.original.name}
+            index={val.row.id}
+            del={() => showDelModal(val.row.original.id, val.row.index)}
+            dup={() => showDupMdl(val.row.original.id, val.row.index)}
+          />
+        </div>
       )
     })
     setCols([...ncols])
-  }, [integrations])
+  }, [integrations, tags, integrationTags, isCompactTagColumn])
 
   const handleStatus = (e, id) => {
     const status = e.target.checked
@@ -128,6 +269,15 @@ function AllIntegrations({ isValidUser }) {
         tmpIntegrations.splice(index, 1)
         mutate(tmpIntegrations)
         setIntegrations(tmpIntegrations)
+
+        const integrationKey = String(id)
+        if (integrationTags[integrationKey]) {
+          const updatedMapping = { ...integrationTags }
+          delete updatedMapping[integrationKey]
+          setIntegrationTags(updatedMapping)
+          persistTagData(tags, updatedMapping).catch(() => { })
+        }
+
         return __('Integration deleted successfully', 'bit-integrations')
       }
       return response.data
@@ -182,6 +332,22 @@ function AllIntegrations({ isValidUser }) {
             newData.splice(Number(rowID[i]), 1)
           }
           setIntegrations(newData)
+
+          const updatedMapping = { ...integrationTags }
+          let isMappingUpdated = false
+          flowID.forEach(deletedIntegId => {
+            const integrationKey = String(deletedIntegId)
+            if (updatedMapping[integrationKey]) {
+              delete updatedMapping[integrationKey]
+              isMappingUpdated = true
+            }
+          })
+
+          if (isMappingUpdated) {
+            setIntegrationTags(updatedMapping)
+            persistTagData(tags, updatedMapping).catch(() => { })
+          }
+
           return __('Integration Deleted Successfully', 'bit-integrations')
         }
         return response.data
@@ -194,19 +360,52 @@ function AllIntegrations({ isValidUser }) {
       })
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [integrations]
+    [integrations, integrationTags, tags, persistTagData]
   )
 
   const setTableCols = useCallback(newCols => {
     setCols(newCols)
   }, [])
+
+  const setBulkTagAssign = useCallback(rows => {
+    const selectedIntegrationIds = []
+    const selectedIntegrationIdsSet = new Set()
+
+    rows.forEach(row => {
+      const integrationId = row?.original?.id
+      if (integrationId === undefined || integrationId === null) {
+        return
+      }
+
+      const integrationIdKey = String(integrationId)
+      if (selectedIntegrationIdsSet.has(integrationIdKey)) {
+        return
+      }
+
+      selectedIntegrationIdsSet.add(integrationIdKey)
+      selectedIntegrationIds.push(integrationId)
+    })
+
+    if (!selectedIntegrationIds.length) {
+      toast.error(__('Please select at least one integration', 'bit-integrations'))
+      return
+    }
+
+    setBulkTagIntegrationIds(selectedIntegrationIds)
+    setEditingIntegrationId(null)
+    setTagPickerInput('')
+    setShowTagPickerModal(true)
+  }, [])
+
   const handleCreateIntegrationIntent = useCallback(() => {
     void preloadFlowBuilder()
   }, [])
+
   const closeConfMdl = () => {
     confMdl.show = false
     setconfMdl({ ...confMdl })
   }
+
   const showDelModal = (id, index) => {
     confMdl.action = () => {
       handleDelete(id, index)
@@ -233,6 +432,373 @@ function AllIntegrations({ isValidUser }) {
     setconfMdl({ ...confMdl })
   }
 
+  const closeTagPickerModal = () => {
+    setShowTagPickerModal(false)
+    setTagPickerInput('')
+    setEditingIntegrationId(null)
+    setBulkTagIntegrationIds([])
+  }
+
+  const openTagPickerModal = useCallback(() => {
+    setEditingIntegrationId(null)
+    setBulkTagIntegrationIds([])
+    setTagPickerInput('')
+    setShowTagPickerModal(true)
+  }, [])
+
+  const saveTagFromPicker = () => {
+    const normalizedTagNames = []
+    const seenTagNames = new Set()
+
+    tagPickerInput
+      .split(',')
+      .map(tagName => tagName.trim().replace(/\s+/g, ' '))
+      .filter(Boolean)
+      .forEach(tagName => {
+        const normalizedNameKey = tagName.toLowerCase()
+        if (seenTagNames.has(normalizedNameKey)) {
+          return
+        }
+        seenTagNames.add(normalizedNameKey)
+        normalizedTagNames.push(tagName)
+      })
+
+    if (!normalizedTagNames.length && !editingIntegrationId) {
+      toast.error(__('Please select or create at least one tag', 'bit-integrations'))
+      return Promise.resolve(false)
+    }
+
+    const overLimitTag = normalizedTagNames.find(tagName => tagName.length > 20)
+    if (overLimitTag) {
+      toast.error(__('Tag name must be 20 characters or less', 'bit-integrations'))
+      return Promise.resolve(false)
+    }
+
+    const updatedTags = [...tags]
+    const resolvedTagIds = []
+    let createdTagCount = 0
+
+    normalizedTagNames.forEach((tagName, index) => {
+      const existingTag = updatedTags.find(
+        tag => tag.name.trim().toLowerCase() === tagName.toLowerCase()
+      )
+
+      if (existingTag) {
+        resolvedTagIds.push(existingTag.id)
+        return
+      }
+
+      const newTag = {
+        id: `${Date.now()}-${index}`,
+        name: tagName,
+        color: '#6f42c1'
+      }
+
+      updatedTags.push(newTag)
+      resolvedTagIds.push(newTag.id)
+      createdTagCount += 1
+    })
+
+    const uniqueResolvedTagIds = []
+    const seenTagIds = new Set()
+    resolvedTagIds.forEach(tagId => {
+      const tagIdKey = String(tagId)
+      if (!seenTagIds.has(tagIdKey)) {
+        seenTagIds.add(tagIdKey)
+        uniqueResolvedTagIds.push(tagId)
+      }
+    })
+
+    if (editingIntegrationId) {
+      const integrationKey = String(editingIntegrationId)
+      const updatedMapping = { ...integrationTags }
+      const currentTagIds = (updatedMapping[integrationKey] || []).map(tagId => String(tagId))
+      const nextTagIds = uniqueResolvedTagIds.map(tagId => String(tagId))
+      const isAssignmentChanged =
+        currentTagIds.length !== nextTagIds.length ||
+        currentTagIds.some(tagId => !nextTagIds.includes(tagId))
+
+      if (!isAssignmentChanged && createdTagCount === 0) {
+        toast.success(__('No changes found', 'bit-integrations'))
+        closeTagPickerModal()
+        return Promise.resolve(true)
+      }
+
+      if (uniqueResolvedTagIds.length > 0) {
+        updatedMapping[integrationKey] = uniqueResolvedTagIds
+      } else {
+        delete updatedMapping[integrationKey]
+      }
+
+      const successMessage =
+        createdTagCount > 0
+          ? __('Tags created and assigned successfully', 'bit-integrations')
+          : __('Tags assigned successfully', 'bit-integrations')
+
+      return persistTagData(updatedTags, updatedMapping, successMessage)
+        .then(() => {
+          closeTagPickerModal()
+          return true
+        })
+        .catch(() => false)
+    }
+
+    if (bulkTagIntegrationIds.length > 0) {
+      const updatedMapping = { ...integrationTags }
+      let hasAssignmentChange = false
+
+      bulkTagIntegrationIds.forEach(integrationId => {
+        const integrationKey = String(integrationId)
+        const currentTagIds = updatedMapping[integrationKey] || []
+        const mergedTagIds = [...currentTagIds]
+
+        uniqueResolvedTagIds.forEach(tagId => {
+          if (!mergedTagIds.some(currentTagId => String(currentTagId) === String(tagId))) {
+            mergedTagIds.push(tagId)
+          }
+        })
+
+        if (
+          mergedTagIds.length !== currentTagIds.length ||
+          mergedTagIds.some(
+            mergedTagId =>
+              !currentTagIds.some(currentTagId => String(currentTagId) === String(mergedTagId))
+          )
+        ) {
+          hasAssignmentChange = true
+        }
+
+        if (mergedTagIds.length > 0) {
+          updatedMapping[integrationKey] = mergedTagIds
+        }
+      })
+
+      if (!hasAssignmentChange && createdTagCount === 0) {
+        toast.success(__('No changes found', 'bit-integrations'))
+        closeTagPickerModal()
+        return Promise.resolve(true)
+      }
+
+      const successMessage =
+        createdTagCount > 0
+          ? __('Tags created and assigned successfully', 'bit-integrations')
+          : __('Tags assigned successfully', 'bit-integrations')
+
+      return persistTagData(updatedTags, updatedMapping, successMessage)
+        .then(() => {
+          closeTagPickerModal()
+          return true
+        })
+        .catch(() => false)
+    }
+
+    if (createdTagCount === 0) {
+      setSelectedTags(prevSelectedTags => {
+        const nextSelectedTags = [...prevSelectedTags]
+        uniqueResolvedTagIds.forEach(tagId => {
+          if (!nextSelectedTags.some(selectedTagId => String(selectedTagId) === String(tagId))) {
+            nextSelectedTags.push(tagId)
+          }
+        })
+        return nextSelectedTags
+      })
+      toast.success(__('Tag selected successfully', 'bit-integrations'))
+      closeTagPickerModal()
+      return Promise.resolve(true)
+    }
+
+    return persistTagData(
+      updatedTags,
+      integrationTags,
+      __('Tags created successfully', 'bit-integrations')
+    )
+      .then(() => {
+        setSelectedTags(prevSelectedTags => {
+          const nextSelectedTags = [...prevSelectedTags]
+          uniqueResolvedTagIds.forEach(tagId => {
+            if (!nextSelectedTags.some(selectedTagId => String(selectedTagId) === String(tagId))) {
+              nextSelectedTags.push(tagId)
+            }
+          })
+          return nextSelectedTags
+        })
+
+        closeTagPickerModal()
+        return true
+      })
+      .catch(() => false)
+  }
+
+  const deleteTag = tagId => {
+    const updatedTags = tags.filter(tag => String(tag.id) !== String(tagId))
+    const updatedMapping = { ...integrationTags }
+
+    Object.keys(updatedMapping).forEach(integrationId => {
+      const tagIds = updatedMapping[integrationId].filter(currentTagId => currentTagId !== tagId)
+      if (tagIds.length) {
+        updatedMapping[integrationId] = tagIds
+      } else {
+        delete updatedMapping[integrationId]
+      }
+    })
+
+    setSelectedTags(prev => prev.filter(selectedTagId => selectedTagId !== tagId))
+    setTagToDelete(null)
+
+    persistTagData(
+      updatedTags,
+      updatedMapping,
+      __('Tag deleted successfully', 'bit-integrations')
+    ).catch(() => { })
+  }
+
+  const confirmDeleteTag = tagId => {
+    setTagToDelete(tagId)
+  }
+
+  const openEditTagModal = tag => {
+    setTagToEdit(tag.id)
+    setEditTagName(tag.name)
+    setShowEditTagModal(true)
+  }
+
+  const closeEditTagModal = () => {
+    setShowEditTagModal(false)
+    setTagToEdit(null)
+    setEditTagName('')
+  }
+
+  const updateTag = () => {
+    const trimmedTagName = editTagName.trim()
+
+    if (!trimmedTagName) {
+      toast.error(__('Please enter a tag name', 'bit-integrations'))
+      return Promise.resolve(false)
+    }
+
+    if (trimmedTagName.length > 20) {
+      toast.error(__('Tag name must be 20 characters or less', 'bit-integrations'))
+      return Promise.resolve(false)
+    }
+
+    if (
+      tags.some(
+        tag =>
+          String(tag.id) !== String(tagToEdit) && tag.name.toLowerCase() === trimmedTagName.toLowerCase()
+      )
+    ) {
+      toast.error(__('Tag already exists', 'bit-integrations'))
+      return Promise.resolve(false)
+    }
+
+    const updatedTags = tags.map(tag =>
+      String(tag.id) === String(tagToEdit) ? { ...tag, name: trimmedTagName } : tag
+    )
+
+    return persistTagData(
+      updatedTags,
+      integrationTags,
+      __('Tag updated successfully', 'bit-integrations')
+    )
+      .then(() => {
+        closeEditTagModal()
+        return true
+      })
+      .catch(() => false)
+  }
+
+  const removeTagFromIntegration = (integrationId, tagId) => {
+    const integrationKey = String(integrationId)
+    const updatedMapping = { ...integrationTags }
+    const currentTags = updatedMapping[integrationKey] || []
+    const nextTags = currentTags.filter(currentTagId => String(currentTagId) !== String(tagId))
+
+    if (nextTags.length > 0) {
+      updatedMapping[integrationKey] = nextTags
+    } else {
+      delete updatedMapping[integrationKey]
+    }
+
+    setIntegrationTags(updatedMapping)
+    persistTagData(tags, updatedMapping, __('Tag removed successfully', 'bit-integrations')).catch(
+      () => { }
+    )
+  }
+
+  const toggleTagFilter = tagId => {
+    if (tagId === 'ALL') {
+      setSelectedTags([])
+      return
+    }
+
+    if (selectedTags.includes(tagId)) {
+      setSelectedTags(selectedTags.filter(id => id !== tagId))
+    } else {
+      setSelectedTags([...selectedTags, tagId])
+    }
+  }
+
+  const clearTagFilters = () => {
+    setSelectedTags([])
+  }
+
+  const filteredIntegrations =
+    selectedTags.length > 0
+      ? integrations.filter(integration => {
+        const assignedTagIds = integrationTags[String(integration.id)] || []
+        return selectedTags.some(tagId => assignedTagIds.includes(tagId))
+      })
+      : integrations
+
+  const selectedTagNamesFromPicker = []
+  const selectedTagNamesSet = new Set()
+  tagPickerInput
+    .split(',')
+    .map(tagName => tagName.trim().replace(/\s+/g, ' '))
+    .filter(Boolean)
+    .forEach(tagName => {
+      const normalizedTagName = tagName.toLowerCase()
+      if (!selectedTagNamesSet.has(normalizedTagName)) {
+        selectedTagNamesSet.add(normalizedTagName)
+        selectedTagNamesFromPicker.push(tagName)
+      }
+    })
+
+  const hasCustomTagInPicker = selectedTagNamesFromPicker.some(
+    tagName => !tags.some(tag => tag.name.trim().toLowerCase() === tagName.toLowerCase())
+  )
+
+  const tagPickerOptions = []
+  const tagOptionNames = new Set()
+  tags.forEach(tag => {
+    const tagName = tag?.name?.trim()
+    if (!tagName) {
+      return
+    }
+    const tagNameKey = tagName.toLowerCase()
+    if (tagOptionNames.has(tagNameKey)) {
+      return
+    }
+    tagOptionNames.add(tagNameKey)
+    tagPickerOptions.push({
+      label: tagName,
+      value: tagName
+    })
+  })
+
+  let tagPickerPrimaryBtnLabel = __('Select Tag', 'bit-integrations')
+  if (bulkTagIntegrationIds.length > 0) {
+    tagPickerPrimaryBtnLabel = hasCustomTagInPicker
+      ? __('Create & Assign', 'bit-integrations')
+      : __('Assign Tags', 'bit-integrations')
+  } else if (editingIntegrationId) {
+    tagPickerPrimaryBtnLabel = hasCustomTagInPicker
+      ? __('Create & Assign', 'bit-integrations')
+      : __('Save Tags', 'bit-integrations')
+  } else if (hasCustomTagInPicker) {
+    tagPickerPrimaryBtnLabel = __('Create Tag', 'bit-integrations')
+  }
+
   const loaderStyle = {
     display: 'flex',
     height: '82vh',
@@ -257,36 +823,57 @@ function AllIntegrations({ isValidUser }) {
         btn2Action={confMdl.btn2Action}
         btnClass={confMdl.btnClass}
       />
-      {integrations && integrations?.length ? (
-        <>
-          <div className="af-header flx flx-between">
-            <h2>{__('Integrations', 'bit-integrations')}</h2>
 
-            <Link
-              to="/flow/new"
-              className="btn round btcd-btn-lg purple purple-sh"
-              onMouseEnter={handleCreateIntegrationIntent}
-              onFocus={handleCreateIntegrationIntent}
-              onTouchStart={handleCreateIntegrationIntent}
-              onMouseDown={handleCreateIntegrationIntent}>
-              {__('Create Integration', 'bit-integrations')}
-            </Link>
-          </div>
-          <div className="forms">
-            <Table
-              className="f-table btcd-all-frm"
-              height={500}
-              columns={cols}
-              data={integrations}
-              rowSeletable
-              resizable
-              columnHidable
-              setTableCols={setTableCols}
-              setBulkDelete={setBulkDelete}
-              search
-            />
-          </div>
-        </>
+      {tagToDelete && (
+        <ConfirmModal
+          show={tagToDelete !== null}
+          close={() => setTagToDelete(null)}
+          action={() => deleteTag(tagToDelete)}
+          body={__(
+            'Are you sure you want to delete this tag? It will be removed from all integrations.',
+            'bit-integrations'
+          )}
+          btnTxt={__('Delete', 'bit-integrations')}
+          btnClass=""
+        />
+      )}
+
+      <TagPickerModal
+        show={showTagPickerModal}
+        onClose={closeTagPickerModal}
+        bulkTagIntegrationIds={bulkTagIntegrationIds}
+        editingIntegrationId={editingIntegrationId}
+        tagPickerInput={tagPickerInput}
+        tagPickerOptions={tagPickerOptions}
+        onTagPickerInputChange={setTagPickerInput}
+        onSubmit={saveTagFromPicker}
+        primaryBtnLabel={tagPickerPrimaryBtnLabel}
+      />
+
+      <EditTagModal
+        show={showEditTagModal}
+        editTagName={editTagName}
+        onEditTagNameChange={setEditTagName}
+        onClose={closeEditTagModal}
+        onSubmit={updateTag}
+      />
+
+      {integrations && integrations?.length ? (
+        <IntegrationsTableView
+          cols={cols}
+          filteredIntegrations={filteredIntegrations}
+          setTableCols={setTableCols}
+          setBulkDelete={setBulkDelete}
+          setBulkTagAssign={setBulkTagAssign}
+          selectedTags={selectedTags}
+          tags={tags}
+          onToggleTagFilter={toggleTagFilter}
+          onOpenEditTagModal={openEditTagModal}
+          onConfirmDeleteTag={confirmDeleteTag}
+          onOpenTagPicker={openTagPickerModal}
+          onClearTagFilters={clearTagFilters}
+          onPreloadFlowBuilder={handleCreateIntegrationIntent}
+        />
       ) : (
         <Welcome isValidUser={isValidUser} integrations={integrations} />
       )}
