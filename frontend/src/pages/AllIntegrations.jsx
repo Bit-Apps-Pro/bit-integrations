@@ -970,7 +970,7 @@ function AllIntegrations({ isValidUser }) {
           <div className="forms">
             <Table
               className="f-table btcd-all-frm"
-              height={500}
+              height="60vh"
               columns={cols}
               data={filteredIntegrations}
               rowSeletable
