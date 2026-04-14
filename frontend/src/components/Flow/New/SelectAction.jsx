@@ -175,6 +175,7 @@ export default function SelectAction() {
     { type: 'Ultimate Affiliate Pro' },
     { type: 'MailerPress' },
     { type: 'FluentCart' },
+    { type: 'WC Affiliate' },
     { type: 'WPCafe' },
     { type: 'Teams For WooCommerce Memberships' },
     { type: 'SeoPress' },

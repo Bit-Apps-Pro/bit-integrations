@@ -71,6 +71,7 @@ export const customFormIntegrations = [
   'WPTravelEngine',
   'WPUserFrontend',
   'FluentAffiliate',
+  'WCAffiliate',
   'EasyCommerce',
   'FormGent',
   'GeoDirectory',

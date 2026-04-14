@@ -47,6 +47,7 @@ final class AllTriggersName
             'EVF'                            => ['name' => 'Everest Forms',  'isPro' => true, 'is_active' => false],
             'FormGent'                       => ['name' => 'FormGent',  'isPro' => true, 'is_active' => false],
             'FluentAffiliate'                => ['name' => 'FluentAffiliate',  'isPro' => true, 'is_active' => false],
+            'WCAffiliate'                    => ['name' => 'WC Affiliate',  'isPro' => true, 'is_active' => false],
             'FF'                             => ['name' => 'Fluent Forms',  'isPro' => true, 'is_active' => false],
             'FluentBoards'                   => ['name' => 'Fluent Boards',  'isPro' => true, 'is_active' => false],
             'FluentBooking'                  => ['name' => 'Fluent Booking',  'isPro' => true, 'is_active' => false],
