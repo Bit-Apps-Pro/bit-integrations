@@ -7,6 +7,21 @@ import TimeIcn from '../../Icons/TimeIcn'
 import TrashIcn from '../../Icons/TrashIcn'
 import { __ } from '../../Utils/i18nwrap'
 
+function HorizontalDotsIcn({ size = 14 }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      style={{ pointerEvents: 'none' }}>
+      <circle cx="6" cy="12" r="1.7" fill="currentColor" />
+      <circle cx="12" cy="12" r="1.7" fill="currentColor" />
+      <circle cx="18" cy="12" r="1.7" fill="currentColor" />
+    </svg>
+  )
+}
+
 export default function MenuBtn(props) {
   const menuList = useRef(null)
   const menuButton = useRef(null)
@@ -40,14 +55,15 @@ export default function MenuBtn(props) {
     <div className="btcd-menu">
       <button
         ref={menuButton}
-        className="btcd-menu-btn btcd-mnu sh-sm"
+        className="btcd-menu-btn table-action-menu-btn"
         onClick={() => setIsMenuOpen(oldState => !oldState)}
         aria-label="toggle menu"
-        type="button"
-      />
+        type="button">
+        <HorizontalDotsIcn size={14} />
+      </button>
       <div
         ref={menuList}
-        className={`btcd-menu-list ${isMenuOpen ? 'btcd-m-a' : ''}`}
+        className={`btcd-menu-list table-action-menu-list ${isMenuOpen ? 'btcd-m-a' : ''}`}
         style={{ height }}>
         <Link
           to={`/flow/action/info/${props.id}/${props.name}`}

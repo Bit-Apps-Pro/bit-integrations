@@ -7,6 +7,7 @@ if (!defined('ABSPATH')) {
 
 use BitApps\Integrations\controller\AnalyticsController;
 use BitApps\Integrations\controller\AuthDataController;
+use BitApps\Integrations\controller\IntegrationTagController;
 use BitApps\Integrations\controller\PostController;
 use BitApps\Integrations\controller\UserController;
 use BitApps\Integrations\Core\Util\CustomFuncValidator;
@@ -32,6 +33,8 @@ Route::post('flow/delete', [Flow::class, 'delete']);
 Route::post('flow/bulk-delete', [Flow::class, 'bulkDelete']);
 Route::post('flow/toggleStatus', [Flow::class, 'toggle_status']);
 Route::post('flow/clone', [Flow::class, 'flowClone']);
+Route::get('integration-tags/get', [IntegrationTagController::class, 'get']);
+Route::post('integration-tags/save', [IntegrationTagController::class, 'save']);
 
 // Mail Action
 Route::sanitize_post_content()->post('flow/mail/save', [Flow::class, 'save']);
