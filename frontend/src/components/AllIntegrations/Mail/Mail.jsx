@@ -27,9 +27,7 @@ function Mail({ allIntegURL, isInfo, edit, isLearnDash = false, learnDashConf })
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
   const [snack, setSnackbar] = useState({ show: false })
-  const { mailLinks } = tutorialLinks
-
-  const btcbi = useRecoilValue($appConfigState)
+const btcbi = useRecoilValue($appConfigState)
   const { isPro } = btcbi
 
   const mailOptions = () => {
@@ -173,8 +171,7 @@ function Mail({ allIntegURL, isInfo, edit, isLearnDash = false, learnDashConf })
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      {mailLinks?.youTubeLink && <TutorialLink title="Mail" youTubeLink={mailLinks?.youTubeLink} />}
-      {mailLinks?.docLink && <TutorialLink title="Mail" docLink={mailLinks?.docLink} />}
+            <TutorialLink title="Mail" links={tutorialLinks?.mailLinks || {}} />
 
       <span className="f-m wdt-200 d-in-b">{__('Integration Name', 'bit-integration')}</span>
       <input

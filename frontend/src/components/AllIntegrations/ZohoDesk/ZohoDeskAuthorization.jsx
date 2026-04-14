@@ -27,9 +27,7 @@ export default function ZohoDeskAuthorization({
   const scopes =
     'Desk.settings.READ,Desk.basic.READ,Desk.search.READ,Desk.contacts.READ,Desk.contacts.CREATE,Desk.contacts.UPDATE,Desk.tickets.CREATE,Desk.tickets.UPDATE'
   const btcbi = useRecoilValue($appConfigState)
-  const { zohoDesk } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -50,8 +48,7 @@ export default function ZohoDeskAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {zohoDesk?.youTubeLink && <TutorialLink title="Zoho Desk" youTubeLink={zohoDesk?.youTubeLink} />}
-      {zohoDesk?.docLink && <TutorialLink title="Zoho Desk" docLink={zohoDesk?.docLink} />}
+            <TutorialLink title="Zoho Desk" links={tutorialLinks?.zohoDesk || {}} />
 
       <div className="wdt-200 d-in-b mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

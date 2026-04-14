@@ -18,9 +18,7 @@ export default function MailsterAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ name: '' })
-  const { mailster } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -45,8 +43,7 @@ export default function MailsterAuthorization({
         ...{ width: step === 1 && 900 },
         ...{ height: step === 1 && 'auto' }
       }}>
-      {mailster?.youTubeLink && <TutorialLink title="Mailster" youTubeLink={mailster?.youTubeLink} />}
-      {mailster?.docLink && <TutorialLink title="Mailster" docLink={mailster?.docLink} />}
+            <TutorialLink title="Mailster" links={tutorialLinks?.mailster || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

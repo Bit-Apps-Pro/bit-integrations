@@ -21,9 +21,7 @@ export default function MemberpressAuthorization({
   const [isAuthorized, setisAuthorized] = useState(false)
   // const [isLoading, setIsLoading] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
-  const { memberpress } = tutorialLinks
-
-  const authorizeHandler = () => {
+const authorizeHandler = () => {
     setIsLoading('auth')
     bitsFetch({}, 'memberpress_authorize').then(result => {
       if (result?.success) {
@@ -53,10 +51,7 @@ export default function MemberpressAuthorization({
         width: step === 1 && 900,
         height: step === 1 && 'auto'
       }}>
-      {memberpress?.youTubeLink && (
-        <TutorialLink title="MemberPress" youTubeLink={memberpress?.youTubeLink} />
-      )}
-      {memberpress?.docLink && <TutorialLink title="MemberPress" docLink={memberpress?.docLink} />}
+            <TutorialLink title="MemberPress" links={tutorialLinks?.memberpress || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

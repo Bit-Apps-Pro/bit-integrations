@@ -18,9 +18,7 @@ export default function WooCommerceAuthorization({
   const [isAuthorized, setisAuthorized] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
-  const { wooCommerce } = tutorialLinks
-
-  const authorizeHandler = () => {
+const authorizeHandler = () => {
     setIsLoading('auth')
     bitsFetch({}, 'wc_authorize').then(result => {
       if (result?.success) {
@@ -48,10 +46,7 @@ export default function WooCommerceAuthorization({
         width: step === 1 && 900,
         height: step === 1 && 'auto'
       }}>
-      {wooCommerce?.youTubeLink && (
-        <TutorialLink title="WooCommerce" youTubeLink={wooCommerce?.youTubeLink} />
-      )}
-      {wooCommerce?.docLink && <TutorialLink title="WooCommerce" docLink={wooCommerce?.docLink} />}
+            <TutorialLink title="WooCommerce" links={tutorialLinks?.wooCommerce || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

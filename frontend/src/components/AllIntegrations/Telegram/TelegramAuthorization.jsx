@@ -20,9 +20,7 @@ export default function TelegramAuthorization({
   const [error, setError] = useState({ name: '', bot_api_key: '', apiError: '' })
   const [showAuthMsg, setShowAuthMsg] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const { telegram } = tutorialLinks
-
-  const handleAuthorize = () => {
+const handleAuthorize = () => {
     const newConf = { ...telegramConf }
 
     if (!newConf.name || !newConf.bot_api_key) {
@@ -68,8 +66,7 @@ export default function TelegramAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {telegram?.youTubeLink && <TutorialLink title="Telegram" youTubeLink={telegram?.youTubeLink} />}
-      {telegram?.docLink && <TutorialLink title="Telegram" docLink={telegram?.docLink} />}
+            <TutorialLink title="Telegram" links={tutorialLinks?.telegram || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

@@ -20,9 +20,7 @@ export default function VboutAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', auth_token: '' })
-  const { vbout } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -60,8 +58,7 @@ export default function VboutAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {vbout?.youTubeLink && <TutorialLink title="VBOUT" youTubeLink={vbout?.youTubeLink} />}
-      {vbout?.docLink && <TutorialLink title="VBOUT" docLink={vbout?.docLink} />}
+            <TutorialLink title="VBOUT" links={tutorialLinks?.vbout || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

@@ -21,6 +21,7 @@ import FieldContainer from '../Utilities/FieldContainer'
 import Note from '../Utilities/Note'
 import SnackMsg from '../Utilities/SnackMsg'
 import TreeViewer from '../Utilities/treeViewer/TreeViewer'
+import TutorialLink from '../Utilities/TutorialLink'
 
 const ActionHook = () => {
   const [newFlow, setNewFlow] = useRecoilState($newFlow)
@@ -174,9 +175,9 @@ const ActionHook = () => {
       !val
         ? undefined
         : {
-            key: val,
-            value: extractValueFromPath(newFlow.triggerDetail?.data, val)
-          }
+          key: val,
+          value: extractValueFromPath(newFlow.triggerDetail?.data, val)
+        }
     )
   }
 
@@ -206,37 +207,6 @@ const ActionHook = () => {
       resetActionHookFlowData(setNewFlow)
     }
   }
-
-  const info = `<h4>${sprintf(
-    __('Follow these simple steps to set up the %s', 'bit-integrations'),
-    'Action Hook'
-  )}</h4>
-            <ul>
-              <li>${__('Click <b>Fetch</b>', 'bit-integrations')}</li>
-              <li>${__('Submit <b>Integrable Form</b>', 'bit-integrations')}</li>
-              <li>${__('Click <b>Next</b> and <b>Go</b></b>', 'bit-integrations')}</li>
-            </ul>
-            <p><b>${__('Important', 'bit-integrations')}:</b> ${__(
-              'Choose a consistent and unique identifier for each form entry, like a <b>Form ID</b> or <b>PostID</b>. If unavailable, create and hide a custom field to serve as the unique key.',
-              'bit-integrations'
-            )}</p>
-            <h5>
-              <a className="btcd-link" href="https://bitapps.pro/docs/bit-integrations/trigger-hooks" target="_blank" rel="noreferrer">${__(
-                'Bit Integrations Trigger Hooks',
-                'bit-integrations'
-              )}</a>
-              <br />            
-              ${__('More Details on', 'bit-integrations')} 
-              <a className="btcd-link" href="https://bitapps.pro/docs/bit-integrations/trigger/action-hook-integrations" target="_blank" rel="noreferrer">${__(
-                'Documentation',
-                'bit-integrations'
-              )}</a>
-              ${__('or', 'bit-integrations')}
-              <a className="btcd-link" href="https://youtu.be/pZ-8JuZfIco?si=Xxv857hJjv6p5Tcu" target="_blank" rel="noreferrer">${__(
-                'Youtube Tutorials',
-                'bit-integrations'
-              )}</a>
-            </h5>`
 
   return (
     <div className="trigger-custom-width">
@@ -287,9 +257,8 @@ const ActionHook = () => {
       <div className="flx flx-between">
         <button
           onClick={handleFetch}
-          className={`btn btcd-btn-lg sh-sm flx ${
-            isLoading ? 'purple' : newFlow.triggerDetail?.data ? 'gray' : 'purple'
-          }`}
+          className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'purple' : newFlow.triggerDetail?.data ? 'gray' : 'purple'
+            }`}
           type="button"
           disabled={!hookID}>
           {isLoading
@@ -369,7 +338,15 @@ const ActionHook = () => {
           </button>
         </div>
       )}
-      <Note note={info} />
+      <Note note={info} isInstruction={true} maxWidth="100%" >
+        <TutorialLink
+          style={{ margin: 0 }}
+          links={{
+            docLink: "https://bitapps.pro/docs/bit-integrations/trigger/action-hook-integrations",
+            youTubeLink: "https://youtu.be/pZ-8JuZfIco?si=Xxv857hJjv6p5Tcu"
+          }}
+        />
+      </Note>
     </div>
   )
 }
@@ -380,3 +357,33 @@ const hookLabel = (logo, label) => (
     <GetLogo name={logo} style={{ width: '25px' }} extension="webp" /> <span>&nbsp; {label}</span>
   </div>
 )
+
+const info = `<h4>${sprintf(
+  __('Follow these simple steps to set up the %s', 'bit-integrations'),
+  'Action Hook'
+)}</h4>
+            <ul>
+              <li>${__('Click the <b>Fetch</b> button.', 'bit-integrations')}</li>
+              <li>${__(
+  'Submit <b>The Form</b> while the Fetch button is <b>spinning</b>.',
+  'bit-integrations'
+)}</li>
+              <li>${__(
+  'After submitting the form, Click <b>Next</b> and then <b>Go</b></b>',
+  'bit-integrations'
+)}</li>
+            </ul>
+            <p><b>${__('Important', 'bit-integrations')}:</b> ${__(
+  'The Fetch button will keep spinning until you submit the form/task.',
+  'bit-integrations'
+)}</p>
+            <p><b>${__('Important', 'bit-integrations')}:</b> ${__(
+  'Choose a consistent unique identifier like <b>Form ID</b> (default) or <b>Post ID</b> for each form entry, or create a hidden custom field if unavailable.',
+  'bit-integrations'
+)}</p>
+            <h5>
+              <a className="btcd-link" href="https://bitapps.pro/docs/bit-integrations/trigger-hooks" target="_blank" rel="noreferrer">${__(
+  'Bit Integrations Trigger Hooks',
+  'bit-integrations'
+)}</a>
+            </h5>`

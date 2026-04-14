@@ -11,9 +11,7 @@ export default function GetgistAuthorization({ getgistConf, setGetgistConf, step
   const [error, setError] = useState({ name: '', api_key: '' })
   const [showAuthMsg, setShowAuthMsg] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const { getgist } = tutorialLinks
-
-  const handleAuthorize = () => {
+const handleAuthorize = () => {
     const newConf = { ...getgistConf }
     if (!newConf.name || !newConf.api_key) {
       setError({
@@ -54,8 +52,7 @@ export default function GetgistAuthorization({ getgistConf, setGetgistConf, step
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {getgist?.youTubeLink && <TutorialLink title="GetGist" youTubeLink={getgist?.youTubeLink} />}
-      {getgist?.docLink && <TutorialLink title="GetGist" docLink={getgist?.docLink} />}
+            <TutorialLink title="GetGist" links={tutorialLinks?.getgist || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

@@ -19,9 +19,7 @@ export default function AffiliateAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
-  const { affiliate } = tutorialLinks
-
-  const authorizeHandler = () => {
+const authorizeHandler = () => {
     setIsLoading('auth')
     bitsFetch({}, 'affiliate_authorize').then(result => {
       if (result?.success) {
@@ -49,10 +47,7 @@ export default function AffiliateAuthorization({
         width: step === 1 && 900,
         height: step === 1 && 'auto'
       }}>
-      {affiliate?.youTubeLink && (
-        <TutorialLink title="AffiliateWP" youTubeLink={affiliate?.youTubeLink} />
-      )}
-      {affiliate?.docLink && <TutorialLink title="AffiliateWP" docLink={affiliate?.docLink} />}
+            <TutorialLink title="AffiliateWP" links={tutorialLinks?.affiliate || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

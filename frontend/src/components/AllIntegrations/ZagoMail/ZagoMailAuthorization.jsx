@@ -19,8 +19,7 @@ export default function ZagoMailAuthorization({
   isLoading,
   setIsLoading
 }) {
-  const { zagoMail } = tutorialLinks
-  const [isAuthorized, setisAuthorized] = useState(false)
+const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', api_public_key: '' })
   const [showAuthMsg, setShowAuthMsg] = useState(false)
 
@@ -78,8 +77,7 @@ export default function ZagoMailAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {zagoMail?.youTubeLink && <TutorialLink title="Zago Mail" youTubeLink={zagoMail?.youTubeLink} />}
-      {zagoMail?.docLink && <TutorialLink title="Zago Mail" docLink={zagoMail?.docLink} />}
+            <TutorialLink title="Zago Mail" links={tutorialLinks?.zagoMail || {}} />
 
       <div className="mt-3 wdt-200">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

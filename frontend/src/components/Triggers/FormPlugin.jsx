@@ -6,13 +6,14 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { $appConfigState, $flowStep, $formFields, $newFlow } from '../../GlobalStates'
 import useFetch from '../../hooks/useFetch'
 import bitsFetch from '../../Utils/bitsFetch'
-import { __ } from '../../Utils/i18nwrap'
+import { __, sprintf } from '../../Utils/i18nwrap'
 import Loader from '../Loaders/Loader'
 import LoaderSm from '../Loaders/LoaderSm'
 import Note from '../Utilities/Note'
 import SnackMsg from '../Utilities/SnackMsg'
 import { FormPluginStateHelper } from './TriggerHelpers/TriggerStateHelper'
 import TriggerMultiOption from './TriggerMultiOption'
+import TutorialLink from '../Utilities/TutorialLink'
 
 const FormPlugin = () => {
   const [newFlow, setNewFlow] = useRecoilState($newFlow)
@@ -145,16 +146,36 @@ const FormPlugin = () => {
                 </div>
               </div>
 
-              {newFlow.triggerDetail?.note && (
-                <Note note={__(newFlow.triggerDetail?.note, 'bit-integrations')} />
-              )}
+              <Note note={info(newFlow)} isInstruction={true}>
+                <TutorialLink
+                  style={{ marginTop: 0 }}
+                  links={{
+                    docLink: newFlow?.triggerDetail?.documentation_url || '',
+                    youTubeLink: newFlow?.triggerDetail?.tutorial_url || ''
+                  }}
+                />
+              </Note>
             </>
           )}
         </div>
-      )}
-    </div>
+      )
+      }
+    </div >
   )
 }
 export default FormPlugin
 
 const isFormSelectable = (isProPluginActivated, formIsPro = false) => !formIsPro || isProPluginActivated
+
+const info = newFlow => `<h4>${sprintf(
+  __('Set up %s in a few quick steps', 'bit-integrations'),
+  newFlow?.triggerDetail?.name
+)}</h4>
+            <ul>
+              <li>${__('Choose the form or task you want to use.', 'bit-integrations')}</li>
+              <li>${__('Click <b>Next</b> to <b>Go</b>.', 'bit-integrations')}</li>
+            </ul>
+            ${newFlow?.triggerDetail?.note
+    ? `<h4>${__('Note', 'bit-integrations')}</h4>${newFlow?.triggerDetail?.note}`
+    : ''
+  }`

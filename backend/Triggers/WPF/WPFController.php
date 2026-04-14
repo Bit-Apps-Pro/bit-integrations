@@ -16,15 +16,15 @@ final class WPFController
         $plugin_path = 'wpforms-lite/wpforms.php';
 
         return [
-            'name'           => 'WPForms',
-            'title'          => __('Contact Form by WPForms - Drag & Drop Form Builder for WordPress', 'bit-integrations'),
-            'slug'           => $plugin_path,
-            'pro'            => 'wpforms/wpforms.php',
-            'type'           => 'form',
-            'is_active'      => \function_exists('WPForms'),
-            'activation_url' => wp_nonce_url(self_admin_url('plugins.php?action=activate&amp;plugin=' . $plugin_path . '&amp;plugin_status=all&amp;paged=1&amp;s'), 'activate-plugin_' . $plugin_path),
-            'install_url'    => wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=' . $plugin_path), 'install-plugin_' . $plugin_path),
-            'list'           => [
+            'name'              => 'WPForms',
+            'title'             => __('Contact Form by WPForms - Drag & Drop Form Builder for WordPress', 'bit-integrations'),
+            'slug'              => $plugin_path,
+            'pro'               => 'wpforms/wpforms.php',
+            'type'              => 'form',
+            'is_active'         => \function_exists('WPForms'),
+            'documentation_url' => 'https://bit-integrations.com/wp-docs/trigger/wpforms-integrations/',
+            'tutorial_url'      => 'https://youtube.com/playlist?list=PL7c6CDwwm-AKn6NqhMqYhgi61eZELRHFK&si=gOwFHSVzkxlm2D5G',
+            'list'              => [
                 'action' => 'wpf/get',
                 'method' => 'get',
             ],
@@ -100,7 +100,7 @@ final class WPFController
         }
 
         $fields = [];
-        $fieldToExclude = ['divider', 'html', 'address', 'page-break', 'pagebreak', 'section', 'captcha', 'hidden'];
+        $fieldToExclude = ['divider', 'html', 'address', 'page-break', 'pagebreak', 'section', 'captcha'];
         foreach ($fieldDetails as $id => $field) {
             if (\in_array($field['type'], $fieldToExclude)) {
                 continue;

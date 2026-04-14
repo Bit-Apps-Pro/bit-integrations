@@ -24,9 +24,7 @@ export default function OneDriveAuthorization({
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ clientId: '', clientSecret: '' })
   const btcbi = useRecoilValue($appConfigState)
-  const { oneDrive } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -48,8 +46,7 @@ export default function OneDriveAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {oneDrive?.youTubeLink && <TutorialLink title="OneDrive" youTubeLink={oneDrive?.youTubeLink} />}
-      {oneDrive?.docLink && <TutorialLink title="OneDrive" docLink={oneDrive?.docLink} />}
+            <TutorialLink title="OneDrive" links={tutorialLinks?.oneDrive || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

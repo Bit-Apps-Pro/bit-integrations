@@ -18,8 +18,7 @@ export default function LMFWCAuthorization({
   isInfo
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
-  const { lmfwc } = tutorialLinks
-  const [error, setError] = useState({ api_key: '', api_secret: '' })
+const [error, setError] = useState({ api_key: '', api_secret: '' })
 
   const nextPage = () => {
     setTimeout(() => {
@@ -63,12 +62,7 @@ export default function LMFWCAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {lmfwc?.youTubeLink && (
-        <TutorialLink title="License Manager For WooCommerce" youTubeLink={lmfwc?.youTubeLink} />
-      )}
-      {lmfwc?.docLink && (
-        <TutorialLink title="License Manager For WooCommerce" docLink={lmfwc?.docLink} />
-      )}
+            <TutorialLink title="License Manager For WooCommerce" links={tutorialLinks?.lmfwc || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

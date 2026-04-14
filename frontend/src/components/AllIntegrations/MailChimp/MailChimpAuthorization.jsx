@@ -21,8 +21,7 @@ export default function MailChimpAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ dataCenter: '', clientId: '', clientSecret: '' })
-  const { mailchimp } = tutorialLinks
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -43,10 +42,7 @@ export default function MailChimpAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {mailchimp?.youTubeLink && (
-        <TutorialLink title="Mail chimp" youTubeLink={mailchimp?.youTubeLink} />
-      )}
-      {mailchimp?.docLink && <TutorialLink title="Mail chimp" docLink={mailchimp?.docLink} />}
+            <TutorialLink title="Mail chimp" links={tutorialLinks?.mailchimp || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

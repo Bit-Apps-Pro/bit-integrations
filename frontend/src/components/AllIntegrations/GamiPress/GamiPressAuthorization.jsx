@@ -19,9 +19,7 @@ export default function GamiPressAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
-  const { gamiPress } = tutorialLinks
-
-  const authorizeHandler = () => {
+const authorizeHandler = () => {
     setIsLoading('auth')
     bitsFetch({}, 'gamiPress_authorize').then(result => {
       if (result?.success) {
@@ -49,8 +47,7 @@ export default function GamiPressAuthorization({
         width: step === 1 && 900,
         height: step === 1 && 'auto'
       }}>
-      {gamiPress?.youTubeLink && <TutorialLink title="GamiPress" youTubeLink={gamiPress?.youTubeLink} />}
-      {gamiPress?.docLink && <TutorialLink title="GamiPress" docLink={gamiPress?.docLink} />}
+            <TutorialLink title="GamiPress" links={tutorialLinks?.gamiPress || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

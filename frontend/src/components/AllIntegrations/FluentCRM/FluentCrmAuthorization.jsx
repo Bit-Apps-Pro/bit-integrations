@@ -20,8 +20,7 @@ export default function FluentCrmAuthorization({
   const [error, setError] = useState({ integrationName: '' })
   const [showAuthMsg, setShowAuthMsg] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const { fluentCrm } = tutorialLinks
-  const [isMounted, setIsMounted] = useState(true)
+const [isMounted, setIsMounted] = useState(true)
   useEffect(
     () => () => {
       setIsMounted(false)
@@ -56,10 +55,7 @@ export default function FluentCrmAuthorization({
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-        {fluentCrm?.youTubeLink && (
-          <TutorialLink title="FluentCRM" youTubeLink={fluentCrm?.youTubeLink} />
-        )}
-        {fluentCrm?.docLink && <TutorialLink title="FluentCRM" docLink={fluentCrm?.docLink} />}
+                <TutorialLink title="FluentCRM" links={tutorialLinks?.fluentCrm || {}} />
 
         <div className="mt-3">
           <b>{__('Integration Name:', 'bit-integrations')}</b>

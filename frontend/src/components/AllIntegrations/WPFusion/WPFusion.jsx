@@ -16,8 +16,7 @@ function WPFusion({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
   const [isLoading, setIsLoading] = useState(false)
-  const { wpFusionLinks } = tutorialLinks
-  const [wpFusion, setWPFusion] = useState({
+const [wpFusion, setWPFusion] = useState({
     name: 'WPFusion Web Hooks',
     type: 'WPFusion',
     method: 'POST',
@@ -35,10 +34,7 @@ function WPFusion({ formFields, setFlow, flow, allIntegURL }) {
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
-        {wpFusionLinks?.youTubeLink && (
-          <TutorialLink title="WP Fusion" youTubeLink={wpFusionLinks?.youTubeLink} />
-        )}
-        {wpFusionLinks?.docLink && <TutorialLink title="WP Fusion" docLink={wpFusionLinks?.docLink} />}
+                <TutorialLink title="WP Fusion" links={tutorialLinks?.wpFusionLinks || {}} />
 
         <WebHooksIntegration
           formID={formID}

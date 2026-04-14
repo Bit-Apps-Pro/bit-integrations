@@ -18,9 +18,7 @@ export default function NotificationXAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ name: '' })
-  const { notificationX } = tutorialLinks
-
-  const handleInput = e => {
+const handleInput = e => {
     const newConf = { ...notificationXConf }
     newConf[e.target.name] = e.target.value
     setNotificationXConf(newConf)
@@ -30,12 +28,7 @@ export default function NotificationXAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {notificationX?.youTubeLink && (
-        <TutorialLink title="NotificationX" youTubeLink={notificationX?.youTubeLink} />
-      )}
-      {notificationX?.docLink && (
-        <TutorialLink title="NotificationX" docLink={notificationX?.docLink} />
-      )}
+            <TutorialLink title="NotificationX" links={tutorialLinks?.notificationX || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

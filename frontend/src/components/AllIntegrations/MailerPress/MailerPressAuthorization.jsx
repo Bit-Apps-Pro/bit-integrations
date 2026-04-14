@@ -18,9 +18,7 @@ export default function MailerPressAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
-  const { mailerPress } = tutorialLinks
-
-  const authorizeHandler = () => {
+const authorizeHandler = () => {
     setIsLoading('auth')
     bitsFetch({}, 'mailer_press_authorize').then(result => {
       if (result?.success) {
@@ -48,10 +46,7 @@ export default function MailerPressAuthorization({
         width: step === 1 && 900,
         height: step === 1 && 'auto'
       }}>
-      {mailerPress?.youTubeLink && (
-        <TutorialLink title="MailerPress" youTubeLink={mailerPress?.youTubeLink} />
-      )}
-      {mailerPress?.docLink && <TutorialLink title="MailerPress" docLink={mailerPress?.docLink} />}
+            <TutorialLink title="MailerPress" links={tutorialLinks?.mailerPress || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

@@ -16,8 +16,7 @@ function Pabbly({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
   const [isLoading, setIsLoading] = useState(false)
-  const { pabblyLinks } = tutorialLinks
-  const [pabbly, setPabbly] = useState({
+const [pabbly, setPabbly] = useState({
     name: 'Pabbly Web Hooks',
     type: 'Pabbly',
     method: 'POST',
@@ -36,10 +35,7 @@ function Pabbly({ formFields, setFlow, flow, allIntegURL }) {
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
-        {pabblyLinks?.youTubeLink && (
-          <TutorialLink title="Pabbly" youTubeLink={pabblyLinks?.youTubeLink} />
-        )}
-        {pabblyLinks?.docLink && <TutorialLink title="Pabbly" docLink={pabblyLinks?.docLink} />}
+                <TutorialLink title="Pabbly" links={tutorialLinks?.pabblyLinks || {}} />
 
         <WebHooksIntegration
           formID={formID}

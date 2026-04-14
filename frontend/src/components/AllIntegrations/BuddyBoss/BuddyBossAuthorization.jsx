@@ -20,9 +20,7 @@ export default function BuddyBossAuthorization({
   const [isAuthorized, setisAuthorized] = useState(false)
   // const [isLoading, setIsLoading] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
-  const { buddyBoss } = tutorialLinks
-
-  const authorizeHandler = () => {
+const authorizeHandler = () => {
     setIsLoading('auth')
     bitsFetch({}, 'buddyBoss_authorize').then(result => {
       if (result?.success) {
@@ -50,8 +48,7 @@ export default function BuddyBossAuthorization({
         width: step === 1 && 900,
         height: step === 1 && 'auto'
       }}>
-      {buddyBoss?.youTubeLink && <TutorialLink title="BuddyBoss" youTubeLink={buddyBoss?.youTubeLink} />}
-      {buddyBoss?.docLink && <TutorialLink title="BuddyBoss" docLink={buddyBoss?.docLink} />}
+            <TutorialLink title="BuddyBoss" links={tutorialLinks?.buddyBoss || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

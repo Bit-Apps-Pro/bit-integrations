@@ -20,8 +20,7 @@ export default function SlackAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ accessToken: '' })
-  const { slack } = tutorialLinks
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -58,8 +57,7 @@ export default function SlackAuthorization({
         ...{ width: step === 1 && 900 },
         ...{ height: step === 1 && 'auto' }
       }}>
-      {slack?.youTubeLink && <TutorialLink title="Slack" youTubeLink={slack?.youTubeLink} />}
-      {slack?.docLink && <TutorialLink title="Slack" docLink={slack?.docLink} />}
+            <TutorialLink title="Slack" links={tutorialLinks?.slack || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

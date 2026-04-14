@@ -19,7 +19,6 @@ export default function ActiveCampaignAuthorization({
   isLoading,
   setIsLoading
 }) {
-  const { activeCampaign } = tutorialLinks
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', api_key: '' })
   const [showAuthMsg, setShowAuthMsg] = useState(false)
@@ -78,12 +77,7 @@ export default function ActiveCampaignAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {activeCampaign?.youTubeLink && (
-        <TutorialLink title="ActiveCampaign" youTubeLink={activeCampaign?.youTubeLink} />
-      )}
-      {activeCampaign?.docLink && (
-        <TutorialLink title="ActiveCampaign" docLink={activeCampaign?.docLink} />
-      )}
+            <TutorialLink title="ActiveCampaign" links={tutorialLinks?.activeCampaign || {}} />
 
       <div className="mt-3 wdt-200">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

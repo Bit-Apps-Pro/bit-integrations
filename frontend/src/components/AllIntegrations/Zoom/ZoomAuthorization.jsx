@@ -25,9 +25,7 @@ export default function ZoomAuthorization({
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ clientId: '', clientSecret: '' })
   const btcbi = useRecoilValue($appConfigState)
-  const { zoomMeeting } = tutorialLinks
-
-  const handleInput = e => {
+const handleInput = e => {
     const newConf = { ...zoomConf }
     const rmError = { ...error }
     rmError[e.target.name] = ''
@@ -62,10 +60,7 @@ export default function ZoomAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && `${100}%` } }}>
-      {zoomMeeting?.youTubeLink && (
-        <TutorialLink title="Zoom Meeting" youTubeLink={zoomMeeting?.youTubeLink} />
-      )}
-      {zoomMeeting?.docLink && <TutorialLink title="Zoom Meeting" docLink={zoomMeeting?.docLink} />}
+            <TutorialLink title="Zoom Meeting" links={tutorialLinks?.zoomMeeting || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

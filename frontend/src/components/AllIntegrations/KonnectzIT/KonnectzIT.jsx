@@ -16,8 +16,7 @@ function KonnectzIT({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
   const [isLoading, setIsLoading] = useState(false)
-  const { konnectzITLinks } = tutorialLinks
-  const [konnectzIT, setKonnectzIT] = useState({
+const [konnectzIT, setKonnectzIT] = useState({
     name: 'konnectzIT Web Hooks',
     type: 'konnectzIT',
     method: 'POST',
@@ -36,12 +35,7 @@ function KonnectzIT({ formFields, setFlow, flow, allIntegURL }) {
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
-        {konnectzITLinks?.youTubeLink && (
-          <TutorialLink title="KonnectzIT" youTubeLink={konnectzITLinks?.youTubeLink} />
-        )}
-        {konnectzITLinks?.docLink && (
-          <TutorialLink title="KonnectzIT" docLink={konnectzITLinks?.docLink} />
-        )}
+                <TutorialLink title="KonnectzIT" links={tutorialLinks?.konnectzITLinks || {}} />
 
         <WebHooksIntegration
           formID={formID}

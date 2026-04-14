@@ -19,9 +19,7 @@ export default function PropovoiceCrmAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
-  const { propovoiceCrm } = tutorialLinks
-
-  const authorizeHandler = () => {
+const authorizeHandler = () => {
     setIsLoading('auth')
     bitsFetch({}, 'propovoice_authorize').then(result => {
       if (result?.success) {
@@ -49,12 +47,7 @@ export default function PropovoiceCrmAuthorization({
         width: step === 1 && 900,
         height: step === 1 && 'auto'
       }}>
-      {propovoiceCrm?.youTubeLink && (
-        <TutorialLink title="Propovoice CRM" youTubeLink={propovoiceCrm?.youTubeLink} />
-      )}
-      {propovoiceCrm?.docLink && (
-        <TutorialLink title="Propovoice CRM" docLink={propovoiceCrm?.docLink} />
-      )}
+            <TutorialLink title="Propovoice CRM" links={tutorialLinks?.propovoiceCrm || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

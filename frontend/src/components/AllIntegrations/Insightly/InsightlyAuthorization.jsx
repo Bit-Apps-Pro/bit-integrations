@@ -18,9 +18,7 @@ export default function InsightlyAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ api_key: '', api_url: '' })
-  const { insightly } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -42,8 +40,7 @@ export default function InsightlyAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {insightly?.youTubeLink && <TutorialLink title="Insightly" youTubeLink={insightly?.youTubeLink} />}
-      {insightly?.docLink && <TutorialLink title="Insightly" docLink={insightly?.docLink} />}
+            <TutorialLink title="Insightly" links={tutorialLinks?.insightly || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

@@ -16,8 +16,7 @@ function SyncSpider({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
   const [isLoading, setIsLoading] = useState(false)
-  const { syncSpiderLinks } = tutorialLinks
-  const [syncSpider, setSyncSpider] = useState({
+const [syncSpider, setSyncSpider] = useState({
     name: 'SyncSpider Web Hooks',
     type: 'SyncSpider',
     method: 'POST',
@@ -36,12 +35,7 @@ function SyncSpider({ formFields, setFlow, flow, allIntegURL }) {
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
-        {syncSpiderLinks?.youTubeLink && (
-          <TutorialLink title="SyncSpider" youTubeLink={syncSpiderLinks?.youTubeLink} />
-        )}
-        {syncSpiderLinks?.docLink && (
-          <TutorialLink title="SyncSpider" docLink={syncSpiderLinks?.docLink} />
-        )}
+                <TutorialLink title="SyncSpider" links={tutorialLinks?.syncSpiderLinks || {}} />
 
         <WebHooksIntegration
           formID={formID}

@@ -19,9 +19,7 @@ export default function OmniSendAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', api_key: '' })
-  const { omniSend } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -61,8 +59,7 @@ export default function OmniSendAuthorization({
         ...{ width: step === 1 && 900 },
         ...{ height: step === 1 && 'auto' }
       }}>
-      {omniSend?.youTubeLink && <TutorialLink title="Omnisend" youTubeLink={omniSend?.youTubeLink} />}
-      {omniSend?.docLink && <TutorialLink title="Omnisend" docLink={omniSend?.docLink} />}
+            <TutorialLink title="Omnisend" links={tutorialLinks?.omniSend || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

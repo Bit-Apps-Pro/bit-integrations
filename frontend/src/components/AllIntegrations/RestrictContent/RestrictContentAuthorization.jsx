@@ -19,9 +19,7 @@ export default function RestrictContentAuthorization({
   const [isAuthorized, setisAuthorized] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
-  const { restrictContent } = tutorialLinks
-
-  const authorizeHandler = () => {
+const authorizeHandler = () => {
     setIsLoading('auth')
     bitsFetch({}, 'restrict_authorize').then(result => {
       if (result?.success) {
@@ -57,12 +55,7 @@ export default function RestrictContentAuthorization({
         width: step === 1 && 900,
         height: step === 1 && 'auto'
       }}>
-      {restrictContent?.youTubeLink && (
-        <TutorialLink title="Restrict Content" youTubeLink={restrictContent?.youTubeLink} />
-      )}
-      {restrictContent?.docLink && (
-        <TutorialLink title="Restrict Content" docLink={restrictContent?.docLink} />
-      )}
+            <TutorialLink title="Restrict Content" links={tutorialLinks?.restrictContent || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

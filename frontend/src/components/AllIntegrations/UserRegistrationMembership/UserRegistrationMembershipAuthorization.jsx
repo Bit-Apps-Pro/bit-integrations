@@ -17,7 +17,6 @@ export default function UserRegistrationMembershipAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
-  const { userRegistrationMembership } = tutorialLinks
 
   const handleAuthorize = () => {
     userRegistrationAuthorize(setIsAuthorized, setShowAuthMsg, setIsLoading, setSnackbar, nextPage)
@@ -27,18 +26,10 @@ export default function UserRegistrationMembershipAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {userRegistrationMembership?.youTubeLink && (
-        <TutorialLink
-          title={userRegistrationMembership?.title}
-          youTubeLink={userRegistrationMembership?.youTubeLink}
-        />
-      )}
-      {userRegistrationMembership?.docLink && (
-        <TutorialLink
-          title={userRegistrationMembership?.title}
-          docLink={userRegistrationMembership?.docLink}
-        />
-      )}
+      <TutorialLink
+        title={tutorialLinks?.userRegistrationMembership?.title}
+        links={tutorialLinks?.userRegistrationMembership || {}}
+      />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

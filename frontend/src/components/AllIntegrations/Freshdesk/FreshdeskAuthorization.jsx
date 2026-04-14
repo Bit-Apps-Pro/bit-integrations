@@ -20,8 +20,7 @@ export default function FreshdeskAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ api_key: '' })
-  const { freshdesk } = tutorialLinks
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -79,8 +78,7 @@ export default function FreshdeskAuthorization({
         ...{ width: step === 1 && 900 },
         ...{ height: step === 1 && 'auto' }
       }}>
-      {freshdesk?.youTubeLink && <TutorialLink title="Freshdesk" youTubeLink={freshdesk?.youTubeLink} />}
-      {freshdesk?.docLink && <TutorialLink title="Freshdesk" docLink={freshdesk?.docLink} />}
+            <TutorialLink title="Freshdesk" links={tutorialLinks?.freshdesk || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

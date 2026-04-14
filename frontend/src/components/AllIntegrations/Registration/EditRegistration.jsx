@@ -33,9 +33,7 @@ export default function EditRegistration({ allIntegURL }) {
   const [flow, setFlow] = useRecoilState($newFlow)
   const formFields = useRecoilValue($formFields)
   const [userConf, setUserConf] = useRecoilState($actionConf)
-  const { registration } = tutorialLinks
-
-  useEffect(() => {
+useEffect(() => {
     const tmpConf = { ...userConf }
 
     if (!tmpConf?.user_map?.[0]?.userField) {
@@ -111,12 +109,7 @@ export default function EditRegistration({ allIntegURL }) {
   return (
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      {registration?.youTubeLink && (
-        <TutorialLink title="WP User Registration" youTubeLink={registration?.youTubeLink} />
-      )}
-      {registration?.docLink && (
-        <TutorialLink title="WP User Registration" docLink={registration?.docLink} />
-      )}
+            <TutorialLink title="WP User Registration" links={tutorialLinks?.registration || {}} />
       <br />
       <br />
 

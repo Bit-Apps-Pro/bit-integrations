@@ -25,9 +25,7 @@ export default function Registration({ formFields, setFlow, flow, allIntegURL })
   const [roles, setRoles] = useState([])
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
-  const { registration } = tutorialLinks
-
-  const [userConf, setUserConf] = useState({
+const [userConf, setUserConf] = useState({
     name: 'WP User Registration',
     type: 'WP User Registration',
     user_map: [{}],
@@ -110,12 +108,7 @@ export default function Registration({ formFields, setFlow, flow, allIntegURL })
   return (
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      {registration?.youTubeLink && (
-        <TutorialLink title="WP User Registration" youTubeLink={registration?.youTubeLink} />
-      )}
-      {registration?.docLink && (
-        <TutorialLink title="WP User Registration" docLink={registration?.docLink} />
-      )}
+            <TutorialLink title="WP User Registration" links={tutorialLinks?.registration || {}} />
       <br />{' '}
       <div>
         <CheckBox

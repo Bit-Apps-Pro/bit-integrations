@@ -18,9 +18,7 @@ export default function FreshSalesAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', api_key: '' })
-  const { freshSales } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -60,10 +58,7 @@ export default function FreshSalesAuthorization({
         ...{ width: step === 1 && 900 },
         ...{ height: step === 1 && 'auto' }
       }}>
-      {freshSales?.youTubeLink && (
-        <TutorialLink title="Freshsales" youTubeLink={freshSales?.youTubeLink} />
-      )}
-      {freshSales?.docLink && <TutorialLink title="Freshsales" docLink={freshSales?.docLink} />}
+            <TutorialLink title="Freshsales" links={tutorialLinks?.freshSales || {}} />
 
       <div className="mt-3">
         <b>{__('Bundle Alias(Your Account URL):', 'bit-integrations')}</b>

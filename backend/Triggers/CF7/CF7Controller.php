@@ -18,15 +18,14 @@ final class CF7Controller
         $plugin_path = 'contact-form-7/wp-contact-form-7.php';
 
         return [
-            'name'           => 'Contact Form 7',
-            'title'          => __('Just another contact form plugin. Simple but flexible', 'bit-integrations'),
-            'slug'           => $plugin_path,
-            'type'           => 'form',
-            'is_active'      => class_exists('WPCF7_ContactForm'),
-            'activation_url' => wp_nonce_url(self_admin_url('plugins.php?action=activate&amp;plugin=' . $plugin_path . '&amp;plugin_status=all&amp;paged=1&amp;s'), 'activate-plugin_' . $plugin_path),
-            'install_url'    => wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=' . $plugin_path), 'install-plugin_' . $plugin_path),
-            'note'           => '<p>' . __('The feature <b>Advanced Custom HTML Fields</b> is available only in the Bit Integrations Pro starting from v2.1.6 of the plugin. Please upgrade to access this feature.', 'bit-integrations') . '</p>',
-            'list'           => [
+            'name'              => 'Contact Form 7',
+            'title'             => __('Just another contact form plugin. Simple but flexible', 'bit-integrations'),
+            'type'              => 'form',
+            'is_active'         => class_exists('WPCF7_ContactForm'),
+            'documentation_url' => 'https://bit-integrations.com/wp-docs/trigger/contact-form-7-integrations/',
+            'tutorial_url'      => 'https://youtube.com/playlist?list=PL7c6CDwwm-AL85-ajsYQ7LOhs1t2y6toV&si=fI1erzdRK67TQ_Ng',
+            'note'              => '<p>' . __('The feature <b>Advanced Custom HTML Fields</b> is available only in the Bit Integrations Pro starting from v2.1.6 of the plugin. Please upgrade to access this feature.', 'bit-integrations') . '</p>',
+            'list'              => [
                 'action' => 'cf7/get',
                 'method' => 'get',
             ],

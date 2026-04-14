@@ -18,9 +18,7 @@ export default function MailjetAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', secretKey: '' })
-  const { mailjet } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -42,8 +40,7 @@ export default function MailjetAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {mailjet?.youTubeLink && <TutorialLink title="Mailjet" youTubeLink={mailjet?.youTubeLink} />}
-      {mailjet?.docLink && <TutorialLink title="Mailjet" docLink={mailjet?.docLink} />}
+            <TutorialLink title="Mailjet" links={tutorialLinks?.mailjet || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

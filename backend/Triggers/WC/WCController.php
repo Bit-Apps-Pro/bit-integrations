@@ -91,15 +91,14 @@ final class WCController
         $plugin_path = 'woocommerce/woocommerce.php';
 
         return [
-            'name'           => 'WooCommerce',
-            'title'          => __('WooCommerce is the world’s most popular open-source eCommerce solution', 'bit-integrations'),
-            'slug'           => $plugin_path,
-            'pro'            => 'woocommerce/woocommerce.php',
-            'type'           => 'form',
-            'is_active'      => static::isActivate(),
-            'activation_url' => wp_nonce_url(self_admin_url('plugins.php?action=activate&amp;plugin=' . $plugin_path . '&amp;plugin_status=all&amp;paged=1&amp;s'), 'activate-plugin_' . $plugin_path),
-            'install_url'    => wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=' . $plugin_path), 'install-plugin_' . $plugin_path),
-            'list'           => [
+            'name'              => 'WooCommerce',
+            'slug'              => $plugin_path,
+            'pro'               => 'woocommerce/woocommerce.php',
+            'type'              => 'form',
+            'is_active'         => static::isActivate(),
+            'documentation_url' => 'https://bit-integrations.com/wp-docs/trigger/woocommerce-integrations-as-a-trigger/',
+            'tutorial_url'      => 'https://youtube.com/playlist?list=PL7c6CDwwm-AIjBabvB9-BmttQmFQGVd7_&si=Z8QEFEsoNl4FIUo0',
+            'list'              => [
                 'action' => 'wc/get',
                 'method' => 'get',
             ],

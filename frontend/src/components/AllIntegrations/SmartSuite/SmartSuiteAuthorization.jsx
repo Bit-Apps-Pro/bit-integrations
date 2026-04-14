@@ -19,8 +19,7 @@ export default function SmartSuiteAuthorization({
   isInfo
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
-  const { smartSuite } = tutorialLinks
-  const [error, setError] = useState({ workspaceId: '', apiToken: '' })
+const [error, setError] = useState({ workspaceId: '', apiToken: '' })
 
   const nextPage = () => {
     setTimeout(() => {
@@ -63,10 +62,7 @@ export default function SmartSuiteAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {smartSuite?.youTubeLink && (
-        <TutorialLink title="SmartSuite" youTubeLink={smartSuite?.youTubeLink} />
-      )}
-      {smartSuite?.docLink && <TutorialLink title="SmartSuite" docLink={smartSuite?.docLink} />}
+            <TutorialLink title="SmartSuite" links={tutorialLinks?.smartSuite || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

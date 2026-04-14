@@ -19,9 +19,7 @@ export default function MasterStudyLmsAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
-  const { masterStudyLMS } = tutorialLinks
-
-  const authorizeHandler = () => {
+const authorizeHandler = () => {
     setIsLoading('auth')
     bitsFetch({}, 'MasterStudyLms_authorize').then(result => {
       if (result?.success) {
@@ -49,12 +47,7 @@ export default function MasterStudyLmsAuthorization({
         width: step === 1 && 900,
         height: step === 1 && 'auto'
       }}>
-      {masterStudyLMS?.youTubeLink && (
-        <TutorialLink title="MasterStudy LMS" youTubeLink={masterStudyLMS?.youTubeLink} />
-      )}
-      {masterStudyLMS?.docLink && (
-        <TutorialLink title="MasterStudy LMS" docLink={masterStudyLMS?.docLink} />
-      )}
+            <TutorialLink title="MasterStudy LMS" links={tutorialLinks?.masterStudyLMS || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

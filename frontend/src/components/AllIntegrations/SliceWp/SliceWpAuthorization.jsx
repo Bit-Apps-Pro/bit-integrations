@@ -19,9 +19,7 @@ export default function SliceWpAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
-  const { sliceWp } = tutorialLinks
-
-  const authorizeHandler = () => {
+const authorizeHandler = () => {
     setIsLoading('auth')
     bitsFetch({}, 'slicewp_authorize').then(result => {
       if (result?.success) {
@@ -49,8 +47,7 @@ export default function SliceWpAuthorization({
         width: step === 1 && 900,
         height: step === 1 && 'auto'
       }}>
-      {sliceWp?.youTubeLink && <TutorialLink title="SliceWP" youTubeLink={sliceWp?.youTubeLink} />}
-      {sliceWp?.docLink && <TutorialLink title="SliceWP" docLink={sliceWp?.docLink} />}
+            <TutorialLink title="SliceWP" links={tutorialLinks?.sliceWp || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

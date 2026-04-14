@@ -15,7 +15,7 @@ final class BitSocialController
             'type'              => 'custom_form_submission',
             'is_active'         => self::isPluginInstalled(),
             'documentation_url' => 'https://bit-integrations.com/wp-docs/trigger/bit-social-integrations/',
-            'tutorial_url'      => '#',
+            'tutorial_url'      => 'https://youtube.com/playlist?list=PL7c6CDwwm-ALFAjnM5ZPuId8qcGqPBDvK&si=2JWVnfQgCWLKVywa',
             'tasks'             => [
                 'action' => 'bit-social/get',
                 'method' => 'get',

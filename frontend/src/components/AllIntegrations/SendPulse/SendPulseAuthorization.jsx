@@ -23,9 +23,7 @@ export default function SendPulseAuthorization({
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', client_secret: '' })
   const [showAuthMsg, setShowAuthMsg] = useState(false)
-  const { sendPulse } = tutorialLinks
-
-  const handleAuthorize = () => {
+const handleAuthorize = () => {
     const newConf = { ...sendPulseConf }
     if (!newConf.name || !newConf.client_secret) {
       setError({
@@ -94,8 +92,7 @@ export default function SendPulseAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {sendPulse?.youTubeLink && <TutorialLink title="SendPulse" youTubeLink={sendPulse?.youTubeLink} />}
-      {sendPulse?.docLink && <TutorialLink title="SendPulse" docLink={sendPulse?.docLink} />}
+            <TutorialLink title="SendPulse" links={tutorialLinks?.sendPulse || {}} />
 
       <div className="mt-3 wdt-200">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

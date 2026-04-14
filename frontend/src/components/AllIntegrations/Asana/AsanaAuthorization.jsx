@@ -18,9 +18,7 @@ export default function AsanaAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ api_key: '' })
-  const { asana } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -42,8 +40,7 @@ export default function AsanaAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {asana?.youTubeLink && <TutorialLink title="Asana" youTubeLink={asana?.youTubeLink} />}
-      {asana?.docLink && <TutorialLink title="Asana" docLink={asana?.docLink} />}
+            <TutorialLink title="Asana" links={tutorialLinks?.asana || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

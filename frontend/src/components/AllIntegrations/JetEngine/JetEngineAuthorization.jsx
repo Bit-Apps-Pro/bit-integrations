@@ -18,9 +18,7 @@ export default function JetEngineAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ name: '' })
-  const { jetEngine } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -42,10 +40,7 @@ export default function JetEngineAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {jetEngine?.youTubeLink && (
-        <TutorialLink title="jet Engine" youTubeLink={jetEngine?.youTubeLink} />
-      )}
-      {jetEngine?.docLink && <TutorialLink title="jet Engine" docLink={jetEngine?.docLink} />}
+            <TutorialLink title="jet Engine" links={tutorialLinks?.jetEngine || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

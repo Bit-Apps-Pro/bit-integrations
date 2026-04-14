@@ -18,8 +18,7 @@ export default function DemioAuthorization({
   isInfo
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
-  const { demio } = tutorialLinks
-  const [error, setError] = useState({ api_key: '', api_secret: '' })
+const [error, setError] = useState({ api_key: '', api_secret: '' })
 
   const nextPage = () => {
     setTimeout(() => {
@@ -54,8 +53,7 @@ export default function DemioAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {demio?.youTubeLink && <TutorialLink title="Demio" youTubeLink={demio?.youTubeLink} />}
-      {demio?.docLink && <TutorialLink title="Demio" docLink={demio?.docLink} />}
+            <TutorialLink title="Demio" links={tutorialLinks?.demio || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

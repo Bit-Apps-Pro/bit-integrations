@@ -16,8 +16,7 @@ function ThriveAutomator({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
   const [isLoading, setIsLoading] = useState(false)
-  const { thriveAutomatorLinks } = tutorialLinks
-  const [thriveAutomator, setThriveAutomator] = useState({
+const [thriveAutomator, setThriveAutomator] = useState({
     name: 'ThriveAutomator Web Hooks',
     type: 'ThriveAutomator',
     method: 'POST',
@@ -35,12 +34,7 @@ function ThriveAutomator({ formFields, setFlow, flow, allIntegURL }) {
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
-        {thriveAutomatorLinks?.youTubeLink && (
-          <TutorialLink title="Thrive Automator" youTubeLink={thriveAutomatorLinks?.youTubeLink} />
-        )}
-        {thriveAutomatorLinks?.docLink && (
-          <TutorialLink title="Thrive Automator" docLink={thriveAutomatorLinks?.docLink} />
-        )}
+                <TutorialLink title="Thrive Automator" links={tutorialLinks?.thriveAutomatorLinks || {}} />
 
         <WebHooksIntegration
           formID={formID}

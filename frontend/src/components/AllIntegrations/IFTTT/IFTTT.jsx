@@ -16,8 +16,7 @@ function IFTTT({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setstep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
   const [isLoading, setIsLoading] = useState(false)
-  const { iFTTT } = tutorialLinks
-  const [ifttt, setIfttt] = useState({
+const [ifttt, setIfttt] = useState({
     name: 'IFTTT Web Hooks',
     type: 'IFTTT',
     method: 'POST',
@@ -35,8 +34,7 @@ function IFTTT({ formFields, setFlow, flow, allIntegURL }) {
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-        {iFTTT?.youTubeLink && <TutorialLink title="IFTTT" youTubeLink={iFTTT?.youTubeLink} />}
-        {iFTTT?.docLink && <TutorialLink title="IFTTT" docLink={iFTTT?.docLink} />}
+                <TutorialLink title="IFTTT" links={tutorialLinks?.iFTTT || {}} />
 
         <WebHooksIntegration
           formID={formID}

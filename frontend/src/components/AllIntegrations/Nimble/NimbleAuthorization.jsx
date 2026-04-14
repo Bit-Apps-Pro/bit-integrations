@@ -19,9 +19,7 @@ export default function NimbleAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ api_key: '' })
-  const { nimble } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -53,8 +51,7 @@ export default function NimbleAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {nimble?.youTubeLink && <TutorialLink title="NimbleCRM" youTubeLink={nimble?.youTubeLink} />}
-      {nimble?.docLink && <TutorialLink title="NimbleCRM" docLink={nimble?.docLink} />}
+            <TutorialLink title="NimbleCRM" links={tutorialLinks?.nimble || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

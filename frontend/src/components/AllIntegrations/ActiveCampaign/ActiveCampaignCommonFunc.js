@@ -3,6 +3,88 @@ import { __ } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { create } from 'mutative'
 
+const normalizeFieldId = fieldId => (fieldId || fieldId === 0 ? String(fieldId) : '')
+
+const getFieldMeta = fields => {
+  const refreshedFields = Object.values(fields || {})
+  const requiredFieldIds = refreshedFields
+    .filter(field => field.required)
+    .map(field => normalizeFieldId(field.fieldId))
+    .filter(Boolean)
+
+  return {
+    requiredFieldIds,
+    requiredFieldIdSet: new Set(requiredFieldIds),
+    allFieldIdSet: new Set(
+      refreshedFields.map(field => normalizeFieldId(field.fieldId)).filter(Boolean)
+    )
+  }
+}
+
+const getExistingMapByFieldId = fieldMap => {
+  const existingMapByFieldId = new Map()
+
+  fieldMap.forEach(mappedField => {
+    const fieldId = normalizeFieldId(mappedField?.activeCampaignField)
+    if (!fieldId) {
+      return
+    }
+
+    const existingMappedField = existingMapByFieldId.get(fieldId)
+    if (!existingMappedField || (!existingMappedField.formField && mappedField.formField)) {
+      existingMapByFieldId.set(fieldId, { ...mappedField })
+    }
+  })
+
+  return existingMapByFieldId
+}
+
+const getRequiredMappedFields = (requiredFieldIds, existingMapByFieldId) =>
+  requiredFieldIds.map(requiredFieldId => {
+    const existingMappedField = existingMapByFieldId.get(requiredFieldId)
+    if (existingMappedField) {
+      return {
+        ...existingMappedField,
+        required: true
+      }
+    }
+
+    return {
+      formField: '',
+      activeCampaignField: requiredFieldId,
+      required: true
+    }
+  })
+
+const getOptionalMappedFields = (existingFieldMap, requiredFieldIdSet, allFieldIdSet) =>
+  existingFieldMap
+    .filter(mappedField => !requiredFieldIdSet.has(normalizeFieldId(mappedField?.activeCampaignField)))
+    .map(mappedField => {
+      const clonedMappedField = { ...mappedField }
+      const fieldId = normalizeFieldId(clonedMappedField?.activeCampaignField)
+
+      if (fieldId && !allFieldIdSet.has(fieldId)) {
+        clonedMappedField.activeCampaignField = ''
+      }
+
+      if (clonedMappedField.required) {
+        delete clonedMappedField.required
+      }
+
+      return clonedMappedField
+    })
+
+const mergeFieldMapWithRefreshedFields = (fieldMap, fields) => {
+  const existingFieldMap = Array.isArray(fieldMap) ? fieldMap : []
+  const { requiredFieldIds, requiredFieldIdSet, allFieldIdSet } = getFieldMeta(fields)
+  const existingMapByFieldId = getExistingMapByFieldId(existingFieldMap)
+
+  return [
+    ...getRequiredMappedFields(requiredFieldIds, existingMapByFieldId),
+    ...getOptionalMappedFields(existingFieldMap, requiredFieldIdSet, allFieldIdSet)
+  ]
+}
+
 export const handleInput = (e, activeCampaingConf, setActiveCampaingConf) => {
   const newConf = { ...activeCampaingConf }
   newConf.name = e.target.value
@@ -166,13 +248,10 @@ export const refreshActiveCampaingHeader = (
                 draftConf.default = {}
               }
               draftConf.default.fields = result.data.activeCampaignField
-              draftConf.field_map = Object.values(draftConf.default.fields)
-                .filter(f => f.required)
-                .map(f => ({
-                  formField: '',
-                  activeCampaignField: f.fieldId,
-                  required: true
-                }))
+              draftConf.field_map = mergeFieldMapWithRefreshedFields(
+                draftConf.field_map,
+                draftConf.default.fields
+              )
             })
           )
           setSnackbar({

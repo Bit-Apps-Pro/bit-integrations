@@ -22,8 +22,7 @@ export default function GroundhoggAuthorization({
 }) {
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ token: '', public_key: '', domainName: '' })
-  const { groundhogg } = tutorialLinks
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -52,10 +51,7 @@ export default function GroundhoggAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {groundhogg?.youTubeLink && (
-        <TutorialLink title="Groundhogg" youTubeLink={groundhogg?.youTubeLink} />
-      )}
-      {groundhogg?.docLink && <TutorialLink title="Groundhogg" docLink={groundhogg?.docLink} />}
+            <TutorialLink title="Groundhogg" links={tutorialLinks?.groundhogg || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

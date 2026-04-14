@@ -24,9 +24,7 @@ export default function GoogleDriveAuthorization({
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ clientId: '', clientSecret: '' })
   const btcbi = useRecoilValue($appConfigState)
-  const { googleDrive } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -48,10 +46,7 @@ export default function GoogleDriveAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {googleDrive?.youTubeLink && (
-        <TutorialLink title="Google Drive" youTubeLink={googleDrive?.youTubeLink} />
-      )}
-      {googleDrive?.docLink && <TutorialLink title="Google Drive" docLink={googleDrive?.docLink} />}
+            <TutorialLink title="Google Drive" links={tutorialLinks?.googleDrive || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

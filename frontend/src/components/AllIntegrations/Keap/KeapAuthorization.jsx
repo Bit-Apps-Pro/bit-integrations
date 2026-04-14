@@ -24,7 +24,6 @@ export default function KeapAuthorization({
   const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ clientId: '', clientSecret: '' })
   const btcbi = useRecoilValue($appConfigState)
-  const { keap } = tutorialLinks
 
   const handleInput = e => {
     const newConf = { ...keapConf }
@@ -46,8 +45,7 @@ export default function KeapAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {keap?.youTubeLink && <TutorialLink title="Keap" youTubeLink={keap?.youTubeLink} />}
-      {keap?.docLink && <TutorialLink title="Keap" docLink={keap?.docLink} />}
+      <TutorialLink title="Keap" links={tutorialLinks?.keap || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

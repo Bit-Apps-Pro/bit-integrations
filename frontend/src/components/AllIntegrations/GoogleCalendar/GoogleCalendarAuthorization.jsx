@@ -24,9 +24,7 @@ export default function GoogleCalendarAuthorization({
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ clientId: '', clientSecret: '' })
   const btcbi = useRecoilValue($appConfigState)
-  const { googleCalendar } = tutorialLinks
-
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -48,12 +46,7 @@ export default function GoogleCalendarAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {googleCalendar?.youTubeLink && (
-        <TutorialLink title="Google Calendar" youTubeLink={googleCalendar?.youTubeLink} />
-      )}
-      {googleCalendar?.docLink && (
-        <TutorialLink title="Google Calendar" docLink={googleCalendar?.docLink} />
-      )}
+            <TutorialLink title="Google Calendar" links={tutorialLinks?.googleCalendar || {}} />
 
       <div className="mt-3">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

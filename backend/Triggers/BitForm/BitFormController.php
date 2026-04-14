@@ -13,14 +13,14 @@ final class BitFormController
         $plugin_path = 'bitform/bitforms.php';
 
         return [
-            'name'           => 'Bit Form',
-            'title'          => __('Contact Form Plugin - Fastest Contact Form Builder Plugin for WordPress by Bit Forms.', 'bit-integrations'),
-            'slug'           => $plugin_path,
-            'type'           => 'form',
-            'is_active'      => self::isPluginActive(),
-            'activation_url' => wp_nonce_url(self_admin_url('plugins.php?action=activate&amp;plugin=' . $plugin_path . '&amp;plugin_status=all&amp;paged=1&amp;s'), 'activate-plugin_' . $plugin_path),
-            'install_url'    => wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=' . $plugin_path), 'install-plugin_' . $plugin_path),
-            'list'           => [
+            'name'              => 'Bit Form',
+            'title'             => __('Contact Form Plugin - Fastest Contact Form Builder Plugin for WordPress by Bit Forms.', 'bit-integrations'),
+            'slug'              => $plugin_path,
+            'type'              => 'form',
+            'is_active'         => self::isPluginActive(),
+            'documentation_url' => 'https://bit-integrations.com/wp-docs/trigger/bit-form-integrations-as-a-trigger/',
+            'tutorial_url'      => 'https://youtube.com/playlist?list=PL7c6CDwwm-AK3kOJHtdkmuc-DigLa5TSy&si=x7whwFsbtGHOeYCN',
+            'list'              => [
                 'action' => 'bitform/get',
                 'method' => 'get',
             ],

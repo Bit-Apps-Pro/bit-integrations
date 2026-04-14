@@ -20,8 +20,7 @@ export default function MailifyAuthorization({
   isLoading,
   setIsLoading
 }) {
-  const { mailify } = tutorialLinks
-  const [isAuthorized, setisAuthorized] = useState(false)
+const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', api_key: '' })
   const [showAuthMsg, setShowAuthMsg] = useState(false)
 
@@ -101,10 +100,7 @@ export default function MailifyAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {mailify?.youTubeLink && (
-        <TutorialLink title="Mailify (Sarbacane)" youTubeLink={mailify?.youTubeLink} />
-      )}
-      {mailify?.docLink && <TutorialLink title="Mailify (Sarbacane)" docLink={mailify?.docLink} />}
+            <TutorialLink title="Mailify (Sarbacane)" links={tutorialLinks?.mailify || {}} />
 
       <div className="mt-3 wdt-200">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

@@ -16,8 +16,7 @@ function FlowMattic({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
   const [isLoading, setIsLoading] = useState(false)
-  const { flowMatticLinks } = tutorialLinks
-  const [flowMattic, setFlowMattic] = useState({
+const [flowMattic, setFlowMattic] = useState({
     name: 'FlowMattic Web Hooks',
     type: 'FlowMattic',
     method: 'POST',
@@ -35,12 +34,7 @@ function FlowMattic({ formFields, setFlow, flow, allIntegURL }) {
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 1100 }, ...{ height: step === 1 && 'auto' } }}>
-        {flowMatticLinks?.youTubeLink && (
-          <TutorialLink title="FlowMattic" youTubeLink={flowMatticLinks?.youTubeLink} />
-        )}
-        {flowMatticLinks?.docLink && (
-          <TutorialLink title="FlowMattic" docLink={flowMatticLinks?.docLink} />
-        )}
+                <TutorialLink title="FlowMattic" links={tutorialLinks?.flowMatticLinks || {}} />
 
         <WebHooksIntegration
           formID={formID}

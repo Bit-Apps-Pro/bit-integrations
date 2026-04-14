@@ -24,8 +24,7 @@ export default function HighLevelAuthorization({
 }) {
   const btcbi = useRecoilValue($appConfigState)
   const { isPro } = btcbi
-  const { highLevel } = tutorialLinks
-  const [isAuthorized, setisAuthorized] = useState(false)
+const [isAuthorized, setisAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', api_key: '' })
 
   const handleInput = e => {
@@ -49,8 +48,7 @@ export default function HighLevelAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-      {highLevel?.youTubeLink && <TutorialLink title="HighLevel" youTubeLink={highLevel?.youTubeLink} />}
-      {highLevel?.docLink && <TutorialLink title="HighLevel" docLink={highLevel?.docLink} />}
+            <TutorialLink title="HighLevel" links={tutorialLinks?.highLevel || {}} />
 
       <div className="mt-3 wdt-200">
         <b>{__('Integration Name:', 'bit-integrations')}</b>

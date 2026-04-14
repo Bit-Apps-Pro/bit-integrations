@@ -21,8 +21,7 @@ export default function CustomApiAuthorization({
   isInfo
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
-  const { customApi } = tutorialLinks
-  const nextPage = () => {
+const nextPage = () => {
     setTimeout(() => {
       document.getElementById('btcd-settings-wrp').scrollTop = 0
     }, 300)
@@ -72,10 +71,7 @@ export default function CustomApiAuthorization({
     <div
       className="btcd-stp-page"
       style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && '1000px' } }}>
-      {customApi?.youTubeLink && (
-        <TutorialLink title="Custom Api" youTubeLink={customApi?.youTubeLink} />
-      )}
-      {customApi?.docLink && <TutorialLink title="Custom Api" docLink={customApi?.docLink} />}
+            <TutorialLink title="Custom Api" links={tutorialLinks?.customApi || {}} />
 
       <div className="d-flx">
         <div className="wdt-200 d-in-b mt-3">
