@@ -53,7 +53,7 @@ class RecordApiHelper
         $header['Content-Type'] = 'application/json';
         $insertTagEndpoint = 'https://api.infusionsoft.com/crm/rest/v1/contacts/' . $contactId . '/tags';
 
-        return $response = HttpHelper::post($insertTagEndpoint, wp_json_encode($data), $header);
+        return HttpHelper::post($insertTagEndpoint, wp_json_encode($data), $header);
     }
 
     public function generateReqDataFromFieldMap($data, $fieldMap)
@@ -136,18 +136,17 @@ class RecordApiHelper
 
     public function execute($defaultConf, $fieldValues, $fieldMap, $actions)
     {
-        $fieldData = [];
         $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
         $apiResponse = $this->insertCard($finalData);
 
+        $responseType = $apiResponse->id ? 'success' : 'error';
+        LogHandler::save($this->_integrationID, ['type' => 'contact', 'type_name' => 'add-contact'], $responseType, $apiResponse);
+
         if ($defaultConf->actions->tags || isset($apiResponse->id)) {
             $tagResponse = $this->insertTag($apiResponse->id, $defaultConf->selectedTags);
-        }
+            $reponseType = HttpHelper::$responseCode === 200 ? 'success' : 'error';
 
-        if (!(isset($apiResponse->id))) {
-            LogHandler::save($this->_integrationID, ['type' => 'contact', 'type_name' => 'add-contact'], 'error', $apiResponse);
-        } else {
-            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'add-contact'], 'success', $apiResponse);
+            LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'add-tags'], $reponseType, $tagResponse);
         }
 
         return $apiResponse;

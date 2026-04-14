@@ -1,24 +1,25 @@
 import { useState } from 'react'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
-import { useNavigate } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import BackIcn from '../../../Icons/BackIcn'
 import { __ } from '../../../Utils/i18nwrap'
 import SnackMsg from '../../Utilities/SnackMsg'
 import { saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
-import UserRegistrationMembershipAuthorization from './UserRegistrationMembershipAuthorization'
-import { checkMappedFields } from './UserRegistrationMembershipCommonFunc'
-import UserRegistrationMembershipIntegLayout from './UserRegistrationMembershipIntegLayout'
+import CreatorLmsAuthorization from './CreatorLmsAuthorization'
+import { checkMappedFields } from './CreatorLmsCommonFunc'
+import CreatorLmsIntegLayout from './CreatorLmsIntegLayout'
 
-export default function UserRegistrationMembership({ formFields, setFlow, flow, allIntegURL }) {
+export default function CreatorLms({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
+  const { formID } = useParams()
   const [isLoading, setIsLoading] = useState(false)
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
-  const [userRegistrationConf, setUserRegistrationConf] = useState({
-    name: 'User Registration & Membership',
-    type: 'User Registration & Membership',
-    field_map: [{ formField: '', userRegistrationField: '' }],
+  const [creatorLmsConf, setCreatorLmsConf] = useState({
+    name: 'Creator LMS',
+    type: 'CreatorLms',
+    field_map: [{ formField: '', creatorLmsField: '' }],
     actions: {},
     mainAction: ''
   })
@@ -29,7 +30,7 @@ export default function UserRegistrationMembership({ formFields, setFlow, flow, 
     }, 300)
 
     if (val === 3) {
-      if (!checkMappedFields(userRegistrationConf)) {
+      if (!checkMappedFields(creatorLmsConf)) {
         setSnackbar({
           show: true,
           msg: __('Please map all required fields to continue.', 'bit-integrations')
@@ -37,7 +38,7 @@ export default function UserRegistrationMembership({ formFields, setFlow, flow, 
         return
       }
 
-      if (userRegistrationConf.name !== '' && userRegistrationConf.field_map.length > 0) {
+      if (creatorLmsConf.name !== '' && creatorLmsConf.field_map.length > 0) {
         setStep(val)
       }
     } else {
@@ -51,9 +52,10 @@ export default function UserRegistrationMembership({ formFields, setFlow, flow, 
       <div className="txt-center mt-2">{/* <Steps step={3} active={step} /> */}</div>
 
       {/* STEP 1 */}
-      <UserRegistrationMembershipAuthorization
-        userRegistrationConf={userRegistrationConf}
-        setUserRegistrationConf={setUserRegistrationConf}
+      <CreatorLmsAuthorization
+        formID={formID}
+        creatorLmsConf={creatorLmsConf}
+        setCreatorLmsConf={setCreatorLmsConf}
         step={step}
         nextPage={nextPage}
         isLoading={isLoading}
@@ -69,20 +71,21 @@ export default function UserRegistrationMembership({ formFields, setFlow, flow, 
           height: step === 2 && 'auto',
           minHeight: step === 2 && `${500}px`
         }}>
-        <UserRegistrationMembershipIntegLayout
-          userRegistrationConf={userRegistrationConf}
-          setUserRegistrationConf={setUserRegistrationConf}
+        <CreatorLmsIntegLayout
+          formID={formID}
+          formFields={formFields}
+          creatorLmsConf={creatorLmsConf}
+          setCreatorLmsConf={setCreatorLmsConf}
           setSnackbar={setSnackbar}
           setIsLoading={setIsLoading}
           isLoading={isLoading}
-          formFields={formFields}
         />
         <br />
         <br />
         <br />
         <button
           onClick={() => nextPage(3)}
-          disabled={!checkMappedFields(userRegistrationConf)}
+          disabled={!checkMappedFields(creatorLmsConf)}
           className="btn f-right btcd-btn-lg purple sh-sm flx"
           type="button">
           {__('Next', 'bit-integrations')}
@@ -94,21 +97,9 @@ export default function UserRegistrationMembership({ formFields, setFlow, flow, 
       <IntegrationStepThree
         step={step}
         saveConfig={() =>
-          saveIntegConfig(
-            flow,
-            setFlow,
-            allIntegURL,
-            userRegistrationConf,
-            navigate,
-            '',
-            '',
-            setIsLoading
-          )
+          saveIntegConfig(flow, setFlow, allIntegURL, creatorLmsConf, navigate, '', '', setIsLoading)
         }
         isLoading={isLoading}
-        dataConf={userRegistrationConf}
-        setDataConf={setUserRegistrationConf}
-        formFields={formFields}
       />
     </div>
   )
