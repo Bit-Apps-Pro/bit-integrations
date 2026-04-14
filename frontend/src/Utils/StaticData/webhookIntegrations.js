@@ -71,6 +71,7 @@ export const customFormIntegrations = [
   'WPTravelEngine',
   'WPUserFrontend',
   'FluentAffiliate',
+  'WCAffiliate',
   'EasyCommerce',
   'FormGent',
   'GeoDirectory',
@@ -90,7 +91,8 @@ export const customFormIntegrations = [
   'ThriveLeads',
   'NotificationX',
   'WeDocs',
-  'UserRegistrationMembership'
+  'UserRegistrationMembership',
+  'UltimateAffiliatePro',
 ]
 
 export const actionHookIntegrations = ['ActionHook']
