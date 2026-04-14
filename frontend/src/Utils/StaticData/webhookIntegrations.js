@@ -89,7 +89,8 @@ export const customFormIntegrations = [
   'SeoPress',
   'ThriveLeads',
   'NotificationX',
-  'UserRegistrationMembership'
+  'UserRegistrationMembership',
+  'UltimateAffiliatePro',
 ]
 
 export const actionHookIntegrations = ['ActionHook']

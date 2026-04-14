@@ -172,6 +172,7 @@ export default function SelectAction() {
     { type: 'Line' },
     { type: 'ACPT' },
     { type: 'Wishlist Member' },
+    { type: 'Ultimate Affiliate Pro' },
     { type: 'MailerPress' },
     { type: 'FluentCart' },
     { type: 'WPCafe' },
