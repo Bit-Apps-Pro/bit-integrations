@@ -558,6 +558,10 @@ const tutorialLinks = {
       'https://youtube.com/playlist?list=PL7c6CDwwm-AL0ckxqJPUdiG0syI65HXg2&si=JkJ_0Q0iOA24_wtl',
     docLink: 'https://bit-integrations.com/wp-docs/actions/academy-lms-integrations-as-an-action/'
   },
+  creatorLms: {
+    youTubeLink: '',
+    docLink: 'https://bit-integrations.com/wp-docs/actions/creator-lms-integrations/'
+  },
   woodpecker: {
     youTubeLink:
       'https://youtube.com/playlist?list=PL7c6CDwwm-AL0mmQk0yX6u-HnqDzJeXDu&si=MdiwtkYVb0kBIjPD',

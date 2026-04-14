@@ -6,56 +6,58 @@ import { __ } from '../../../Utils/i18nwrap'
 import SnackMsg from '../../Utilities/SnackMsg'
 import { saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
-import WPCafeAuthorization from './WPCafeAuthorization'
-import { checkMappedFields } from './WPCafeCommonFunc'
-import WPCafeIntegLayout from './WPCafeIntegLayout'
+import AsgarosForumAuthorization from './AsgarosForumAuthorization'
+import { checkMappedFields } from './AsgarosForumCommonFunc'
+import AsgarosForumIntegLayout from './AsgarosForumIntegLayout'
 
-export default function WPCafe({ formFields, setFlow, flow, allIntegURL }) {
+export default function AsgarosForum({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
   const { formID } = useParams()
   const [isLoading, setIsLoading] = useState(false)
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
-  const [wpcafeConf, setWpcafeConf] = useState({
-    name: 'WPCafe',
-    type: 'WPCafe',
-    field_map: [{ formField: '', wpcafeField: '' }],
+  const [asgarosForumConf, setAsgarosForumConf] = useState({
+    name: 'Asgaros Forum',
+    type: 'Asgaros Forum',
+    field_map: [],
+    asgarosForumFields: [],
     actions: {},
     mainAction: ''
   })
 
   const nextPage = val => {
     setTimeout(() => {
-      document.getElementById('btcd-settings-wrp').scrollTop = 0
+      const settingsWrapper = document.getElementById('btcd-settings-wrp')
+      if (settingsWrapper) settingsWrapper.scrollTop = 0
     }, 300)
 
     if (val === 3) {
-      if (!checkMappedFields(wpcafeConf)) {
+      if (!checkMappedFields(asgarosForumConf)) {
         setSnackbar({
           show: true,
-          msg: __('Please map all required fields to continue.', 'bit-integrations')
+          msg: __('Please complete all required fields to continue.', 'bit-integrations')
         })
         return
       }
 
-      if (wpcafeConf.name !== '' && wpcafeConf.field_map.length > 0) {
+      if (asgarosForumConf.name !== '') {
         setStep(val)
       }
-    } else {
-      setStep(val)
+      return
     }
+
+    setStep(val)
   }
 
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">{/* <Steps step={3} active={step} /> */}</div>
+      <div className="txt-center mt-2" />
 
-      {/* STEP 1 */}
-      <WPCafeAuthorization
+      <AsgarosForumAuthorization
         formID={formID}
-        wpcafeConf={wpcafeConf}
-        setWpcafeConf={setWpcafeConf}
+        asgarosForumConf={asgarosForumConf}
+        setAsgarosForumConf={setAsgarosForumConf}
         step={step}
         nextPage={nextPage}
         isLoading={isLoading}
@@ -63,7 +65,6 @@ export default function WPCafe({ formFields, setFlow, flow, allIntegURL }) {
         setSnackbar={setSnackbar}
       />
 
-      {/* STEP 2 */}
       <div
         className="btcd-stp-page"
         style={{
@@ -71,11 +72,11 @@ export default function WPCafe({ formFields, setFlow, flow, allIntegURL }) {
           height: step === 2 && 'auto',
           minHeight: step === 2 && `${500}px`
         }}>
-        <WPCafeIntegLayout
+        <AsgarosForumIntegLayout
           formID={formID}
           formFields={formFields}
-          wpcafeConf={wpcafeConf}
-          setWpcafeConf={setWpcafeConf}
+          asgarosForumConf={asgarosForumConf}
+          setAsgarosForumConf={setAsgarosForumConf}
           setSnackbar={setSnackbar}
           setIsLoading={setIsLoading}
           isLoading={isLoading}
@@ -85,7 +86,7 @@ export default function WPCafe({ formFields, setFlow, flow, allIntegURL }) {
         <br />
         <button
           onClick={() => nextPage(3)}
-          disabled={wpcafeConf.field_map.length < 1}
+          disabled={!asgarosForumConf.mainAction || !checkMappedFields(asgarosForumConf)}
           className="btn f-right btcd-btn-lg purple sh-sm flx"
           type="button">
           {__('Next', 'bit-integrations')}
@@ -93,11 +94,10 @@ export default function WPCafe({ formFields, setFlow, flow, allIntegURL }) {
         </button>
       </div>
 
-      {/* STEP 3 */}
       <IntegrationStepThree
         step={step}
         saveConfig={() =>
-          saveIntegConfig(flow, setFlow, allIntegURL, wpcafeConf, navigate, '', '', setIsLoading)
+          saveIntegConfig(flow, setFlow, allIntegURL, asgarosForumConf, navigate, '', '', setIsLoading)
         }
         isLoading={isLoading}
       />
