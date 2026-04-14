@@ -9,7 +9,6 @@ import { useRecoilState, useSetRecoilState } from 'recoil'
 import { $flowStep, $formFields, $newFlow } from '../../GlobalStates'
 import bitsFetch from '../../Utils/bitsFetch'
 import CustomFetcherHelper, { startFetching } from '../../Utils/CustomFetcherHelper'
-import { TriggerDocLink } from '../../Utils/Helpers'
 import { __, sprintf } from '../../Utils/i18nwrap'
 import LoaderSm from '../Loaders/LoaderSm'
 import ConfirmModal from '../Utilities/ConfirmModal'
@@ -17,6 +16,7 @@ import EyeIcn from '../Utilities/EyeIcn'
 import EyeOffIcn from '../Utilities/EyeOffIcn'
 import Note from '../Utilities/Note'
 import SnackMsg from '../Utilities/SnackMsg'
+import TutorialLink from '../Utilities/TutorialLink'
 import WebhookDataTable from '../Utilities/WebhookDataTable'
 import useFetch from '../../hooks/useFetch'
 import Loader from '../Loaders/Loader'
@@ -232,14 +232,12 @@ const CustomFormSubmission = () => {
         <>
           <SnackMsg snack={snack} setSnackbar={setSnackbar} />
           <div
-            className={`flx mt-2 flx-${
-              newFlow.triggerDetail?.data && !skipPrimaryKey ? 'between' : 'around'
-            }`}>
+            className={`flx mt-2 flx-${newFlow.triggerDetail?.data && !skipPrimaryKey ? 'between' : 'around'
+              }`}>
             <button
               onClick={handleFetch}
-              className={`btn btcd-btn-lg sh-sm flx ${
-                isLoading ? 'purple' : newFlow.triggerDetail?.data ? 'gray' : 'purple'
-              }`}
+              className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'purple' : newFlow.triggerDetail?.data ? 'gray' : 'purple'
+                }`}
               type="button">
               {isLoading
                 ? __('Waiting for form submission...', 'bit-integrations')
@@ -251,9 +249,8 @@ const CustomFormSubmission = () => {
             {newFlow.triggerDetail?.data?.length > 0 && !skipPrimaryKey && (
               <button
                 onClick={() => setPrimaryKeyModal(true)}
-                className={`btn btcd-btn-lg sh-sm flx ${
-                  newFlow.triggerDetail?.data?.length > 0 && 'gray'
-                }`}
+                className={`btn btcd-btn-lg sh-sm flx ${newFlow.triggerDetail?.data?.length > 0 && 'gray'
+                  }`}
                 type="button"
                 disabled={!newFlow.triggerDetail?.data?.length > 0}>
                 {primaryKey
@@ -320,11 +317,23 @@ const CustomFormSubmission = () => {
         </>
       )}
       <div className="flx flx-center">
-        <Note note={info(newFlow)} isInstruction={true} />
+        <div style={{ width: '100%', maxWidth: 450 }}>
+          <Note note={info(newFlow)} isInstruction={true} maxWidth="100%" >
+            <TutorialLink
+              style={{ marginTop: 0 }}
+              links={{
+                docLink: newFlow?.triggerDetail?.documentation_url,
+                youTubeLink: newFlow?.triggerDetail?.tutorial_url
+              }}
+            />
+          </Note>
+        </div>
       </div>
     </div>
   )
 }
+
+export default CustomFormSubmission
 
 const info = newFlow => `<h4>${sprintf(
   __('Follow these simple steps to set up the %s', 'bit-integrations'),
@@ -333,30 +342,24 @@ const info = newFlow => `<h4>${sprintf(
             <ul>
               <li>${__('Click the <b>Fetch</b> button.', 'bit-integrations')}</li>
               <li>${__(
-                'Submit <b>The Form</b> while the Fetch button is <b>spinning</b>.',
-                'bit-integrations'
-              )}</li>
+  'Submit <b>The Form</b> while the Fetch button is <b>spinning</b>.',
+  'bit-integrations'
+)}</li>
               <li>${__(
-                'After submitting the form, Click <b>Next</b> and then <b>Go</b></b>',
-                'bit-integrations'
-              )}</li>
+  'After submitting the form, Click <b>Next</b> and then <b>Go</b></b>',
+  'bit-integrations'
+)}</li>
             </ul>
             <p><b>${__('Important', 'bit-integrations')}:</b> ${__(
-              'The Fetch button will keep spinning until you submit the form/task.',
-              'bit-integrations'
-            )}</p>
+  'The Fetch button will keep spinning until you submit the form/task.',
+  'bit-integrations'
+)}</p>
             <p><b>${__('Important', 'bit-integrations')}:</b> ${__(
-              'Choose a consistent unique identifier like <b>Form ID</b> (default) or <b>Post ID</b> for each form entry, or create a hidden custom field if unavailable.',
-              'bit-integrations'
-            )}</p>
-            ${
-              newFlow?.triggerDetail?.note
-                ? `<h4 className="mt-0">Note</h4>${newFlow?.triggerDetail?.note}`
-                : ''
-            }
-            ${TriggerDocLink(
-              newFlow?.triggerDetail?.documentation_url,
-              newFlow?.triggerDetail?.tutorial_url
-            )}`
+  'Choose a consistent unique identifier like <b>Form ID</b> (default) or <b>Post ID</b> for each form entry, or create a hidden custom field if unavailable.',
+  'bit-integrations'
+)}</p>
+            ${newFlow?.triggerDetail?.note
+    ? `<h4 className="mt-0">Note</h4>${newFlow?.triggerDetail?.note}`
+    : ''
+  }`
 
-export default CustomFormSubmission

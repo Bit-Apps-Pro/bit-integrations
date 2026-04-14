@@ -117,32 +117,3 @@ export const extractValueFromPath = (json, path) => {
   toast.error(__('Invalid path', 'bit-integrations'))
   return
 }
-
-const isLinkEmpty = link => {
-  return link === '' || link === '#'
-}
-
-export const TriggerDocLink = (doc, youtube) => {
-  return !isLinkEmpty(doc) || !isLinkEmpty(youtube)
-    ? `<h5>
-          ${__('More Details on', 'bit-integrations')} 
-          ${
-            !isLinkEmpty(doc)
-              ? `<a className="btcd-link" href=${doc} target="_blank" rel="noreferrer">${__(
-                  'Documentation',
-                  'bit-integrations'
-                )}</a>`
-              : ''
-          }
-          ${!isLinkEmpty(doc) && !isLinkEmpty(youtube) ? __('or', 'bit-integrations') : ''}
-          ${
-            !isLinkEmpty(youtube)
-              ? `<a className="btcd-link" href=${youtube} target="_blank" rel="noreferrer">${__(
-                  'Youtube Tutorials',
-                  'bit-integrations'
-                )}</a>`
-              : ''
-          }
-        </h5 > `
-    : ''
-}

@@ -4,7 +4,7 @@ import BlackboxIcn from '../../Icons/BlackboxIcn'
 import ChatGPTIcn from '../../Icons/ChatGPTIcn'
 import ClaudeIcn from '../../Icons/ClaudeIcn'
 import DocIcn from '../../Icons/DocIcn'
-import DuckAiIcn from '../../Icons/DuckAiIcn'
+import GoogleAiModeIcn from '../../Icons/GoogleAiModeIcn'
 import GrokIcn from '../../Icons/GrokIcn'
 import PerplexityIcn from '../../Icons/PerplexityIcn'
 import YoutubeIcn from '../../Icons/YoutubeIcn'
@@ -16,6 +16,12 @@ const aiTools = [
     name: 'ChatGPT',
     Icon: ChatGPTIcn,
     url: 'https://chatgpt.com/?q='
+  },
+  {
+    id: 'googleAiMode',
+    name: 'Google AI Mode',
+    Icon: GoogleAiModeIcn,
+    url: 'https://www.google.com/search?udm=50&aep=11&q='
   },
   {
     id: 'claude',
@@ -34,18 +40,6 @@ const aiTools = [
     name: 'Grok',
     Icon: GrokIcn,
     url: 'https://grok.com/?q='
-  },
-  {
-    id: 'duckai',
-    name: 'Duck.ai',
-    Icon: DuckAiIcn,
-    url: 'https://duckduckgo.com/?ia=chat&q='
-  },
-  {
-    id: 'blackbox',
-    name: 'Blackbox AI',
-    Icon: BlackboxIcn,
-    url: 'https://app.blackbox.ai/?q='
   }
 ]
 

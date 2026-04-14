@@ -14,6 +14,7 @@ import EyeIcn from '../Utilities/EyeIcn'
 import EyeOffIcn from '../Utilities/EyeOffIcn'
 import Note from '../Utilities/Note'
 import { APP_CONFIG } from '../../config/app'
+import TutorialLink from '../Utilities/TutorialLink'
 
 const Webhook = () => {
   const [newFlow, setNewFlow] = useRecoilState($newFlow)
@@ -113,25 +114,6 @@ const Webhook = () => {
     setShowResponse(prevState => !prevState)
   }
 
-  const info = `${__(
-    'You can test any kind of webhook using',
-    'bit-integrations'
-  )} <a href="https://webhook.is/" target="_blank" rel="noreferrer">${__(
-    'webhook.is',
-    'bit-integrations'
-  )}</a>
-            <h4>${__('Setup', 'bit-integrations')}</h4>
-            <a className="btcd-link" href="https://bitapps.pro/docs/bit-integrations/trigger/webhook-integrations" target="_blank" rel="noreferrer">${__(
-              'Details on Documentation',
-              'bit-integrations'
-            )}</a>
-            <ul>
-                <li>${__(
-                  'Click on the <b>Fetch</b> button & Submit your <b>Form</b> to get the form data',
-                  'bit-integrations'
-                )}</li>
-            </ul>
-  `
   return (
     <div className="trigger-webhook-width">
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
@@ -180,8 +162,48 @@ const Webhook = () => {
         disabled={!newFlow.triggerDetail?.data}>
         {__('Set Action', 'bit-integrations')}
       </button>
-      <Note note={info} />
+      <div className="flx flx-center">
+        <div style={{ width: '100%', maxWidth: 500 }}>
+          <Note note={info} isInstruction={true} maxWidth="100%" >
+            <TutorialLink
+              style={{ marginTop: 0 }}
+              links={{
+                docLink: newFlow?.triggerDetail?.documentation_url || '',
+                youTubeLink: newFlow?.triggerDetail?.tutorial_url || ''
+              }}
+            />
+          </Note>
+        </div>
+      </div>
     </div>
   )
 }
 export default Webhook
+
+const info = `${__(
+  'You can test this webhook with',
+  'bit-integrations'
+)} <a href="https://webhook.is/" target="_blank" rel="noreferrer">${__(
+  'webhook.is',
+  'bit-integrations'
+)}</a>
+            <h4>${__('Quick Setup', 'bit-integrations')}</h4>
+            <ul>
+                <li>${__(
+  'Copy the Webhook URL and add it to your form or app.',
+  'bit-integrations'
+)}</li>
+                <li>${__(
+  'Click <b>Fetch</b>, then submit your form (or send a test request).',
+  'bit-integrations'
+)}</li>
+                <li>${__(
+  'When response data appears, click <b>Set Action</b> to continue.',
+  'bit-integrations'
+)}</li>
+            </ul>
+            <p><b>${__('Important', 'bit-integrations')}:</b> ${__(
+  'The Fetch button will keep spinning until you submit the form/task.',
+  'bit-integrations'
+)}</p>
+  `

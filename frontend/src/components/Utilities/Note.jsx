@@ -4,7 +4,8 @@ export default function Note({
   note,
   isInstruction = false,
   isHeadingNull = false,
-  maxWidth = '450px'
+  maxWidth = '450px',
+  children
 }) {
   return (
     <div className="note" style={{ maxWidth: maxWidth }}>
@@ -14,6 +15,7 @@ export default function Note({
         </h4>
       )}
       <div className="note-text" dangerouslySetInnerHTML={{ __html: __(note, 'bit-integrations') }} />
+      {children}
     </div>
   )
 }
