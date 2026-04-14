@@ -78,7 +78,7 @@ export default function FluentCrm({ formFields, setFlow, flow, allIntegURL }) {
         style={{
           width: step === 2 && 900,
           height: step === 2 && 'auto',
-          minHeight: step === 2 && `${500}px`
+          minHeight: step === 2 && '500px'
         }}>
         <FluentCrmIntegLayout
           formID={formID}

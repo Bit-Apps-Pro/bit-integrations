@@ -71,7 +71,7 @@ function AcademyLms({ formFields, setFlow, flow, allIntegURL }) {
           ...(step === 2 && {
             width: 900,
             height: 'auto',
-            minHeight: step === 2 && `${260}px`,
+            minHeight: step === 2 && '500px',
             overflow: 'visible'
           })
         }}>

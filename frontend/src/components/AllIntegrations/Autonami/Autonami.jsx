@@ -69,7 +69,7 @@ export default function Autonami({ formFields, setFlow, flow, allIntegURL }) {
         style={{
           width: step === 2 && 900,
           height: step === 2 && 'auto',
-          minHeight: step === 2 && `${500}px`
+          minHeight: step === 2 && '500px'
         }}>
         <AutonamiIntegLayout
           formID={formID}
