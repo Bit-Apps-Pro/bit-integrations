@@ -170,6 +170,7 @@ const BentoAuthorization = lazy(() => import('./Bento/BentoAuthorization'))
 const LineAuthorization = lazy(() => import('./Line/LineAuthorization'))
 const ACPTAuthorization = lazy(() => import('./ACPT/ACPTAuthorization'))
 const WishlistMemberAuthorization = lazy(() => import('./WishlistMember/WishlistMemberAuthorization'))
+const CreatorLmsAuthorization = lazy(() => import('./CreatorLms/CreatorLmsAuthorization'))
 const UltimateAffiliateProAuthorization = lazy(
   () => import('./UltimateAffiliatePro/UltimateAffiliateProAuthorization')
 )
@@ -621,6 +622,8 @@ export default function IntegInfo() {
         return <ACPTAuthorization acptConf={integrationConf} step={1} isInfo />
       case 'WishlistMember':
         return <WishlistMemberAuthorization wishlistMemberConf={integrationConf} step={1} isInfo />
+      case 'CreatorLms':
+        return <CreatorLmsAuthorization creatorLmsConf={integrationConf} step={1} isInfo />
       case 'Ultimate Affiliate Pro':
         return (
           <UltimateAffiliateProAuthorization

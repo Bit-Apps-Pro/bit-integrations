@@ -1,15 +1,13 @@
 import { useRecoilValue } from 'recoil'
+import { $appConfigState } from '../../../GlobalStates'
 import { __, sprintf } from '../../../Utils/i18nwrap'
-import MtInput from '../../Utilities/MtInput'
+import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
+import TagifyInput from '../../Utilities/TagifyInput'
 import {
   addFieldMap,
   delFieldMap,
   handleFieldMapping
 } from '../IntegrationHelpers/ConstantContactIntegrationHelpers'
-import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
-import { $appConfigState } from '../../../GlobalStates'
-import { generateMappedField } from './ConstantContactCommonFunc'
-import TagifyInput from '../../Utilities/TagifyInput'
 import { handleCustomValue } from '../IntegrationHelpers/IntegrationHelpers'
 
 export default function ConstantContactFieldMap({
@@ -19,17 +17,11 @@ export default function ConstantContactFieldMap({
   constantContactConf,
   setConstantContactConf
 }) {
-  if (constantContactConf?.field_map?.length === 1 && field.constantContactFormField === '') {
-    const newConf = { ...constantContactConf }
-    const tmp = generateMappedField(newConf)
-    newConf.field_map = tmp
-    setConstantContactConf(newConf)
-  }
-
   const requiredFlds =
     constantContactConf?.default?.constantContactFields.filter(fld => fld.required === true) || []
   const nonRequiredFlds =
     constantContactConf?.default?.constantContactFields.filter(fld => fld.required === false) || []
+
   const btcbi = useRecoilValue($appConfigState)
   const { isPro } = btcbi
 

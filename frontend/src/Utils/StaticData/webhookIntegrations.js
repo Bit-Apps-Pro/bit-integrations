@@ -76,6 +76,7 @@ export const customFormIntegrations = [
   'FormGent',
   'GeoDirectory',
   'StoreEngine',
+  'CreatorLms',
   'FluentCart',
   'MailMint',
   'BookingCalendarContactForm',

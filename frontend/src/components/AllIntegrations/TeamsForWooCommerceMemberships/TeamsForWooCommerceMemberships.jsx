@@ -68,7 +68,7 @@ export default function TeamsForWooCommerceMemberships({ formFields, setFlow, fl
         style={{
           width: step === 2 && 900,
           height: step === 2 && 'auto',
-          minHeight: step === 2 && `${200}px`
+          minHeight: step === 2 && `${500}px`
         }}>
         <TeamsForWooCommerceMembershipsIntegLayout
           formID={formID}

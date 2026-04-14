@@ -4,58 +4,58 @@ import { useNavigate, useParams } from 'react-router'
 import BackIcn from '../../../Icons/BackIcn'
 import { __ } from '../../../Utils/i18nwrap'
 import SnackMsg from '../../Utilities/SnackMsg'
-import Steps from '../../Utilities/Steps'
-import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
+import { saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
-import AutonamiAuthorization from './AutonamiAuthorization'
-import { checkMappedFields, getAutonamiFields } from './AutonamiCommonFunc'
-import AutonamiIntegLayout from './AutonamiIntegLayout'
+import CreatorLmsAuthorization from './CreatorLmsAuthorization'
+import { checkMappedFields } from './CreatorLmsCommonFunc'
+import CreatorLmsIntegLayout from './CreatorLmsIntegLayout'
 
-export default function Autonami({ formFields, setFlow, flow, allIntegURL }) {
+export default function CreatorLms({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
   const { formID } = useParams()
   const [isLoading, setIsLoading] = useState(false)
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
-  const [autonamiConf, setAutonamiConf] = useState({
-    name: 'Autonami',
-    type: 'Autonami',
-    field_map: [{ formField: '', autonamiField: '' }],
-    actions: {}
+  const [creatorLmsConf, setCreatorLmsConf] = useState({
+    name: 'Creator LMS',
+    type: 'CreatorLms',
+    field_map: [{ formField: '', creatorLmsField: '' }],
+    actions: {},
+    mainAction: ''
   })
 
   const nextPage = val => {
-    if (val == 2 && autonamiConf.name !== '') {
-      getAutonamiFields(autonamiConf, setAutonamiConf, setIsLoading, setSnackbar)
-      setStep(val)
-    } else if (val == 3) {
-      if (!checkMappedFields(autonamiConf)) {
+    setTimeout(() => {
+      document.getElementById('btcd-settings-wrp').scrollTop = 0
+    }, 300)
+
+    if (val === 3) {
+      if (!checkMappedFields(creatorLmsConf)) {
         setSnackbar({
           show: true,
           msg: __('Please map all required fields to continue.', 'bit-integrations')
         })
         return
       }
-      if (autonamiConf.field_map.length > 0) {
+
+      if (creatorLmsConf.name !== '' && creatorLmsConf.field_map.length > 0) {
         setStep(val)
       }
+    } else {
+      setStep(val)
     }
-
-    document.getElementById('btcd-settings-wrp').scrollTop = 0
   }
 
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <div className="txt-center mt-2">
-        <Steps step={3} active={step} />
-      </div>
+      <div className="txt-center mt-2">{/* <Steps step={3} active={step} /> */}</div>
 
       {/* STEP 1 */}
-      <AutonamiAuthorization
+      <CreatorLmsAuthorization
         formID={formID}
-        autonamiConf={autonamiConf}
-        setAutonamiConf={setAutonamiConf}
+        creatorLmsConf={creatorLmsConf}
+        setCreatorLmsConf={setCreatorLmsConf}
         step={step}
         nextPage={nextPage}
         isLoading={isLoading}
@@ -71,20 +71,21 @@ export default function Autonami({ formFields, setFlow, flow, allIntegURL }) {
           height: step === 2 && 'auto',
           minHeight: step === 2 && `${500}px`
         }}>
-        <AutonamiIntegLayout
+        <CreatorLmsIntegLayout
           formID={formID}
           formFields={formFields}
-          autonamiConf={autonamiConf}
-          setAutonamiConf={setAutonamiConf}
-          setIsLoading={setIsLoading}
+          creatorLmsConf={creatorLmsConf}
+          setCreatorLmsConf={setCreatorLmsConf}
           setSnackbar={setSnackbar}
+          setIsLoading={setIsLoading}
+          isLoading={isLoading}
         />
         <br />
         <br />
         <br />
         <button
           onClick={() => nextPage(3)}
-          disabled={autonamiConf.field_map.length < 1}
+          disabled={!checkMappedFields(creatorLmsConf)}
           className="btn f-right btcd-btn-lg purple sh-sm flx"
           type="button">
           {__('Next', 'bit-integrations')}
@@ -96,20 +97,9 @@ export default function Autonami({ formFields, setFlow, flow, allIntegURL }) {
       <IntegrationStepThree
         step={step}
         saveConfig={() =>
-          saveActionConf({
-            flow,
-            setFlow,
-            allIntegURL,
-            conf: autonamiConf,
-            navigate,
-            setIsLoading,
-            setSnackbar
-          })
+          saveIntegConfig(flow, setFlow, allIntegURL, creatorLmsConf, navigate, '', '', setIsLoading)
         }
         isLoading={isLoading}
-        dataConf={autonamiConf}
-        setDataConf={setAutonamiConf}
-        formFields={formFields}
       />
     </div>
   )

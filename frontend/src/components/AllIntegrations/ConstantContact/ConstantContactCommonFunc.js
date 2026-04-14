@@ -274,10 +274,11 @@ export const checkMappedFields = sheetconf => {
   return true
 }
 
-export const generateMappedField = constantContactConf => {
-  const requiredFlds = constantContactConf?.default?.constantContactFields.filter(
+export const generateMappedField = constantContactFields => {
+  const requiredFlds = constantContactFields?.filter(
     fld => fld.required === true
   )
+  
   return requiredFlds.length > 0
     ? requiredFlds.map(field => ({
         formField: '',

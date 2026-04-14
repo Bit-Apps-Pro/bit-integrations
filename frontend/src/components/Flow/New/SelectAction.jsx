@@ -174,6 +174,7 @@ export default function SelectAction() {
     { type: 'Wishlist Member' },
     { type: 'Ultimate Affiliate Pro' },
     { type: 'MailerPress' },
+    { type: 'CreatorLms' },
     { type: 'FluentCart' },
     { type: 'WC Affiliate' },
     { type: 'WPCafe' },
