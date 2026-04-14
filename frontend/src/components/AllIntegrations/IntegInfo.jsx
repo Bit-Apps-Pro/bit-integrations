@@ -175,6 +175,7 @@ const UltimateAffiliateProAuthorization = lazy(
   () => import('./UltimateAffiliatePro/UltimateAffiliateProAuthorization')
 )
 const FluentCartAuthorization = lazy(() => import('./FluentCart/FluentCartAuthorization'))
+const NinjaTablesAuthorization = lazy(() => import('./NinjaTables/NinjaTablesAuthorization'))
 const WCAffiliateAuthorization = lazy(() => import('./WCAffiliate/WCAffiliateAuthorization'))
 const WPCafeAuthorization = lazy(() => import('./WPCafe/WPCafeAuthorization'))
 const TeamsForWooCommerceMembershipsAuthorization = lazy(
@@ -182,6 +183,7 @@ const TeamsForWooCommerceMembershipsAuthorization = lazy(
 )
 const SeoPressAuthorization = lazy(() => import('./SeoPress/SeoPressAuthorization'))
 const NotificationXAuthorization = lazy(() => import('./NotificationX/NotificationXAuthorization'))
+const WeDocsAuthorization = lazy(() => import('./WeDocs/WeDocsAuthorization'))
 const AsgarosForumAuthorization = lazy(() => import('./AsgarosForum/AsgarosForumAuthorization'))
 const UserRegistrationMembershipAuthorization = lazy(
   () => import('./UserRegistrationMembership/UserRegistrationMembershipAuthorization')
@@ -634,6 +636,8 @@ export default function IntegInfo() {
         )
       case 'FluentCart':
         return <FluentCartAuthorization fluentCartConf={integrationConf} step={1} isInfo />
+      case 'Ninja Tables':
+        return <NinjaTablesAuthorization ninjaTablesConf={integrationConf} step={1} isInfo />
       case 'WC Affiliate':
         return <WCAffiliateAuthorization wcAffiliateConf={integrationConf} step={1} isInfo />
       case 'WPCafe':
@@ -650,6 +654,9 @@ export default function IntegInfo() {
         return <SeoPressAuthorization seoPressConf={integrationConf} step={1} isInfo />
       case 'NotificationX':
         return <NotificationXAuthorization notificationXConf={integrationConf} step={1} isInfo />
+      case 'weDocs':
+      case 'WeDocs':
+        return <WeDocsAuthorization weDocsConf={integrationConf} step={1} isInfo />
       case 'Asgaros Forum':
       case 'AsgarosForum':
         return <AsgarosForumAuthorization asgarosForumConf={integrationConf} step={1} isInfo />

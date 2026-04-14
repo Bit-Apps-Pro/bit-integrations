@@ -176,11 +176,13 @@ export default function SelectAction() {
     { type: 'MailerPress' },
     { type: 'CreatorLms' },
     { type: 'FluentCart' },
+    { type: 'Ninja Tables' },
     { type: 'WC Affiliate' },
     { type: 'WPCafe' },
     { type: 'Teams For WooCommerce Memberships' },
     { type: 'SeoPress' },
     { type: 'NotificationX' },
+    { type: 'weDocs' },
     { type: 'Asgaros Forum', logo: 'asgaros' },
     { type: 'User Registration & Membership', logo: 'userRegistrationMembership' }
   ]

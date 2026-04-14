@@ -171,11 +171,13 @@ const WishlistMember = lazy(() => import('./WishlistMember/WishlistMember'))
 const CreatorLms = lazy(() => import('./CreatorLms/CreatorLms'))
 const UltimateAffiliatePro = lazy(() => import('./UltimateAffiliatePro/UltimateAffiliatePro'))
 const FluentCart = lazy(() => import('./FluentCart/FluentCart'))
+const NinjaTables = lazy(() => import('./NinjaTables/NinjaTables'))
 const WCAffiliate = lazy(() => import('./WCAffiliate/WCAffiliate'))
 const WPCafe = lazy(() => import('./WPCafe/WPCafe'))
 const NotificationX = lazy(() => import('./NotificationX/NotificationX'))
-const TeamsForWooCommerceMemberships = lazy(() =>
-  import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMemberships')
+const WeDocs = lazy(() => import('./WeDocs/WeDocs'))
+const TeamsForWooCommerceMemberships = lazy(
+  () => import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMemberships')
 )
 const AsgarosForum = lazy(() => import('./AsgarosForum/AsgarosForum'))
 const SeoPress = lazy(() => import('./SeoPress/SeoPress'))
@@ -1666,6 +1668,15 @@ export default function NewInteg({ allIntegURL }) {
             setFlow={setFlow}
           />
         )
+      case 'Ninja Tables':
+        return (
+          <NinjaTables
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
       case 'WC Affiliate':
         return (
           <WCAffiliate
@@ -1687,6 +1698,16 @@ export default function NewInteg({ allIntegURL }) {
       case 'NotificationX':
         return (
           <NotificationX
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'weDocs':
+      case 'WeDocs':
+        return (
+          <WeDocs
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
             flow={flow}
