@@ -169,7 +169,9 @@ const Line = lazy(() => import('./Line/Line'))
 const ACPT = lazy(() => import('./ACPT/ACPT'))
 const WishlistMember = lazy(() => import('./WishlistMember/WishlistMember'))
 const CreatorLms = lazy(() => import('./CreatorLms/CreatorLms'))
+const UltimateAffiliatePro = lazy(() => import('./UltimateAffiliatePro/UltimateAffiliatePro'))
 const FluentCart = lazy(() => import('./FluentCart/FluentCart'))
+const WCAffiliate = lazy(() => import('./WCAffiliate/WCAffiliate'))
 const WPCafe = lazy(() => import('./WPCafe/WPCafe'))
 const NotificationX = lazy(() => import('./NotificationX/NotificationX'))
 const TeamsForWooCommerceMemberships = lazy(() =>
@@ -1645,9 +1647,27 @@ export default function NewInteg({ allIntegURL }) {
             setFlow={setFlow}
           />
         )
+      case 'Ultimate Affiliate Pro':
+        return (
+          <UltimateAffiliatePro
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
       case 'FluentCart':
         return (
           <FluentCart
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'WC Affiliate':
+        return (
+          <WCAffiliate
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
             flow={flow}
