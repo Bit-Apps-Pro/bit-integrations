@@ -338,7 +338,6 @@ const ActionHook = () => {
           </button>
         </div>
       )}
-      {/* <Note note={info} /> */}
       <Note note={info} isInstruction={true} maxWidth="100%" >
         <TutorialLink
           style={{ margin: 0 }}

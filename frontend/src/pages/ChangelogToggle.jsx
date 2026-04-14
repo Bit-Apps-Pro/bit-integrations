@@ -70,7 +70,7 @@ const changeLog = [
     items: [
       {
         label: 'weDocs',
-        desc: '3 new events added.',
+        desc: '8 new events added.',
         isPro: true
       },
       {
