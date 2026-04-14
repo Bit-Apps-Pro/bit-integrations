@@ -169,8 +169,10 @@ const EditBento = lazy(() => import('./Bento/EditBento'))
 const EditLine = lazy(() => import('./Line/EditLine'))
 const EditACPT = lazy(() => import('./ACPT/EditACPT'))
 const EditWishlistMember = lazy(() => import('./WishlistMember/EditWishlistMember'))
+const EditUltimateAffiliatePro = lazy(() => import('./UltimateAffiliatePro/EditUltimateAffiliatePro'))
 const EditFluentCart = lazy(() => import('./FluentCart/EditFluentCart'))
 const EditNinjaTables = lazy(() => import('./NinjaTables/EditNinjaTables'))
+const EditWCAffiliate = lazy(() => import('./WCAffiliate/EditWCAffiliate'))
 const EditWPCafe = lazy(() => import('./WPCafe/EditWPCafe'))
 const EditNotificationX = lazy(() => import('./NotificationX/EditNotificationX'))
 const EditTeamsForWooCommerceMemberships = lazy(() =>
@@ -582,10 +584,14 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditACPT allIntegURL={allIntegURL} />
     case 'Wishlist Member':
       return <EditWishlistMember allIntegURL={allIntegURL} />
+    case 'Ultimate Affiliate Pro':
+      return <EditUltimateAffiliatePro allIntegURL={allIntegURL} />
     case 'FluentCart':
       return <EditFluentCart allIntegURL={allIntegURL} />
     case 'Ninja Tables':
       return <EditNinjaTables allIntegURL={allIntegURL} />
+    case 'WC Affiliate':
+      return <EditWCAffiliate allIntegURL={allIntegURL} />
     case 'WPCafe':
       return <EditWPCafe allIntegURL={allIntegURL} />
     case 'NotificationX':
