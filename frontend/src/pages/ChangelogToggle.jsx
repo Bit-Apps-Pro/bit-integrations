@@ -9,7 +9,7 @@ import NewYear from '../resource/img/NewYear.png'
 import bitsFetch from '../Utils/bitsFetch'
 import { __, sprintf } from '../Utils/i18nwrap'
 
-const releaseDate = '30th March 2026'
+const releaseDate = '15th April 2026'
 
 // Example for items:
 // items: [
@@ -30,13 +30,65 @@ const changeLog = [
     label: __('New Actions', 'bit-integrations'),
     headClass: 'new-integration',
     itemClass: 'integration-list',
-    items: []
+    items: [
+      {
+        label: 'weDocs',
+        desc: '3 new events added.',
+        isPro: true
+      },
+      {
+        label: 'Creator LMS',
+        desc: '5 new events added.',
+        isPro: true
+      },
+      {
+        label: 'Ninja Tables',
+        desc: '2 new events added.',
+        isPro: true
+      },
+      {
+        label: 'WC Affiliate',
+        desc: '6 new events added.',
+        isPro: true
+      },
+      {
+        label: 'Asgaros Forum',
+        desc: '4 new events added.',
+        isPro: true
+      },
+      {
+        label: 'Ultimate Affiliate Pro',
+        desc: '4 new events added.',
+        isPro: true
+      }
+    ]
   },
   {
     label: __('New Triggers', 'bit-integrations'),
     headClass: 'new-trigger',
     itemClass: 'integration-list',
-    items: []
+    items: [
+      {
+        label: 'weDocs',
+        desc: '3 new events added.',
+        isPro: true
+      },
+      {
+        label: 'Creator LMS',
+        desc: '5 new events added.',
+        isPro: true
+      },
+      {
+        label: 'WC Affiliate',
+        desc: '3 new events added.',
+        isPro: true
+      },
+      {
+        label: 'Ultimate Affiliate Pro',
+        desc: '8 new events added.',
+        isPro: true
+      }
+    ]
   },
   {
     label: __('New Features', 'bit-integrations'),
@@ -44,14 +96,9 @@ const changeLog = [
     itemClass: 'feature-list',
     items: [
       {
-        label: 'WP Post Creation',
-        desc: 'Added support for selecting and assigning one or multiple post categories during post creation.',
+        label: 'Tags',
+        desc: 'Added tag creation and management support in integrations.',
         isPro: false
-      },
-      {
-        label: 'GiveWP',
-        desc: 'Added donation type data.',
-        isPro: true
       }
     ]
   },
@@ -59,7 +106,17 @@ const changeLog = [
     label: __('Improvements', 'bit-integrations'),
     headClass: 'new-improvement',
     itemClass: 'feature-list',
-    items: []
+    items: [
+      {
+        label: 'Dashboard',
+        desc: 'Improved all integrations table UI and component structure.',
+        isPro: false
+      }, {
+        label: 'WPForms',
+        desc: 'Hidden fields support enabled.',
+        isPro: true
+      },
+    ]
   },
   {
     label: __('Bug Fixes', 'bit-integrations'),
@@ -67,10 +124,10 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'Mail Action',
-        desc: 'Fixed multi-line email message formatting to render correctly in sent emails.',
+        label: 'ActiveCampaign',
+        desc: 'Fixed field map reset issue.',
         isPro: false
-      },
+      }
     ]
   },
   {
