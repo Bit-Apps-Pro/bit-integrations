@@ -44,8 +44,8 @@ const aiTools = [
 ]
 
 function TutorialLink({ title, subtitle, links, style }) {
-  const youTubeLink = links?.youTubeLink || undefined
-  const docLink = links?.docLink || undefined
+  const youTubeLink = links?.youTubeLink && links.youTubeLink !== '#' ? links.youTubeLink : undefined
+  const docLink = links?.docLink && links.docLink !== '#' ? links.docLink : undefined
   const [showAiTools, setShowAiTools] = useState(false)
   const aiToolRef = useRef(null)
   const aiSummaryPrompt = docLink
