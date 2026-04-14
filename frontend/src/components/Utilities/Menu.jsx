@@ -3,12 +3,10 @@ import { __ } from '../../Utils/i18nwrap'
 
 export default function Menu(props) {
   const [isComponentVisible, setIsComponentVisible] = useState(false)
-  const ref = useRef(null)
+  const wrapRef = useRef(null)
 
   const handleClickOutside = event => {
-    if (ref.current && !ref.current.contains(event.target)) {
-      // props.onClickOut()
-      // isComponentVisible && props.onClickOut()
+    if (wrapRef.current && !wrapRef.current.contains(event.target)) {
       setIsComponentVisible(false)
     }
   }
@@ -21,26 +19,32 @@ export default function Menu(props) {
   })
 
   const handleMenu = () => {
-    setIsComponentVisible(true)
+    setIsComponentVisible(oldState => !oldState)
   }
 
+  const showTooltip = props.showTooltip !== false
+  const buttonClassName = props.btnClassName || `icn-btn btcd-icn-lg ${showTooltip ? 'tooltip' : ''}`
+  const menuClassName = props.menuClassName ? ` ${props.menuClassName}` : ''
+  const buttonStyle = showTooltip
+    ? {
+        '--tooltip-txt': `'${props.tooltipText || __('Column  Visibility', 'bit-integrations')}'`,
+        '--tt-left': props.tooltipLeft || '148%'
+      }
+    : undefined
+
   return (
-    <div className="btcd-menu">
+    <div className="btcd-menu" ref={wrapRef}>
       <button
-        ref={ref}
         onClick={handleMenu}
-        className="icn-btn btcd-icn-lg tooltip"
-        style={{
-          '--tooltip-txt': `'${__('Column  Visibility', 'bit-integrations')}'`,
-          '--tt-left': '148%'
-        }}
+        className={buttonClassName}
+        style={buttonStyle}
         aria-label="icon-btn"
         type="button">
         <span className={`btcd-icn ${props.icn}`} />
         {props.title}
       </button>
       <div />
-      <div ref={ref} className={`btcd-menu-li ${isComponentVisible ? 'btcd-menu-a' : ''}`}>
+      <div className={`btcd-menu-li ${isComponentVisible ? 'btcd-menu-a' : ''}${menuClassName}`}>
         {props.children}
       </div>
     </div>
