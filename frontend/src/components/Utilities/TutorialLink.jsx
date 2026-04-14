@@ -1,6 +1,5 @@
 import { memo, useEffect, useRef, useState } from 'react'
 import AiSparkleIcn from '../../Icons/AiSparkleIcn'
-import BlackboxIcn from '../../Icons/BlackboxIcn'
 import ChatGPTIcn from '../../Icons/ChatGPTIcn'
 import ClaudeIcn from '../../Icons/ClaudeIcn'
 import DocIcn from '../../Icons/DocIcn'
