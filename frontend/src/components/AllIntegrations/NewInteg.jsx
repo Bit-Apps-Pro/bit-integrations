@@ -174,8 +174,9 @@ const FluentCart = lazy(() => import('./FluentCart/FluentCart'))
 const WCAffiliate = lazy(() => import('./WCAffiliate/WCAffiliate'))
 const WPCafe = lazy(() => import('./WPCafe/WPCafe'))
 const NotificationX = lazy(() => import('./NotificationX/NotificationX'))
-const TeamsForWooCommerceMemberships = lazy(() =>
-  import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMemberships')
+const WeDocs = lazy(() => import('./WeDocs/WeDocs'))
+const TeamsForWooCommerceMemberships = lazy(
+  () => import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMemberships')
 )
 const AsgarosForum = lazy(() => import('./AsgarosForum/AsgarosForum'))
 const SeoPress = lazy(() => import('./SeoPress/SeoPress'))
@@ -1687,6 +1688,16 @@ export default function NewInteg({ allIntegURL }) {
       case 'NotificationX':
         return (
           <NotificationX
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'weDocs':
+      case 'WeDocs':
+        return (
+          <WeDocs
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
             flow={flow}

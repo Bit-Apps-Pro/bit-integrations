@@ -175,8 +175,9 @@ const EditFluentCart = lazy(() => import('./FluentCart/EditFluentCart'))
 const EditWCAffiliate = lazy(() => import('./WCAffiliate/EditWCAffiliate'))
 const EditWPCafe = lazy(() => import('./WPCafe/EditWPCafe'))
 const EditNotificationX = lazy(() => import('./NotificationX/EditNotificationX'))
-const EditTeamsForWooCommerceMemberships = lazy(() =>
-  import('./TeamsForWooCommerceMemberships/EditTeamsForWooCommerceMemberships')
+const EditWeDocs = lazy(() => import('./WeDocs/EditWeDocs'))
+const EditTeamsForWooCommerceMemberships = lazy(
+  () => import('./TeamsForWooCommerceMemberships/EditTeamsForWooCommerceMemberships')
 )
 const EditAsgarosForum = lazy(() => import('./AsgarosForum/EditAsgarosForum'))
 const EditSeoPress = lazy(() => import('./SeoPress/EditSeoPress'))
@@ -597,6 +598,9 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditWPCafe allIntegURL={allIntegURL} />
     case 'NotificationX':
       return <EditNotificationX allIntegURL={allIntegURL} />
+    case 'weDocs':
+    case 'WeDocs':
+      return <EditWeDocs allIntegURL={allIntegURL} />
     case 'Asgaros Forum':
     case 'AsgarosForum':
       return <EditAsgarosForum allIntegURL={allIntegURL} />
