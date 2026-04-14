@@ -174,6 +174,7 @@ export default function SelectAction() {
     { type: 'Wishlist Member' },
     { type: 'Ultimate Affiliate Pro' },
     { type: 'MailerPress' },
+    { type: 'CreatorLms' },
     { type: 'FluentCart' },
     { type: 'WC Affiliate' },
     { type: 'WPCafe' },
@@ -181,6 +182,7 @@ export default function SelectAction() {
     { type: 'SeoPress' },
     { type: 'NotificationX' },
     { type: 'weDocs' },
+    { type: 'Asgaros Forum', logo: 'asgaros' },
     { type: 'User Registration & Membership', logo: 'userRegistrationMembership' }
   ]
 
@@ -247,9 +249,7 @@ export default function SelectAction() {
               onKeyPress={() => !inte.disable && !inte.pro && setAction(inte.type)}
               role="button"
               tabIndex="0"
-              className={`btcd-inte-card inte-sm mr-4 mt-3 ${
-                inte.disable && !inte.pro && 'btcd-inte-dis'
-              } ${inte.pro && 'btcd-inte-pro'}`}>
+              className={`btcd-inte-card inte-sm mr-4 mt-3 ${inte.disable && !inte.pro && 'btcd-inte-dis'} ${inte.pro && 'btcd-inte-pro'}`}>
               {inte.pro && (
                 <div className="pro-filter">
                   <span className="txt-pro">

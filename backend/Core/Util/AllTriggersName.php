@@ -51,6 +51,7 @@ final class AllTriggersName
             'FF'                             => ['name' => 'Fluent Forms',  'isPro' => true, 'is_active' => false],
             'FluentBoards'                   => ['name' => 'Fluent Boards',  'isPro' => true, 'is_active' => false],
             'FluentBooking'                  => ['name' => 'Fluent Booking',  'isPro' => true, 'is_active' => false],
+            'CreatorLms'                     => ['name' => 'Creator LMS', 'isPro' => true, 'is_active' => false],
             'FluentCart'                     => ['name' => 'FluentCart',  'isPro' => true, 'is_active' => false],
             'FluentCrm'                      => ['name' => 'Fluent CRM',  'isPro' => true, 'is_active' => false],
             'FluentCommunity'                => ['name' => 'Fluent Community',  'isPro' => true, 'is_active' => false],

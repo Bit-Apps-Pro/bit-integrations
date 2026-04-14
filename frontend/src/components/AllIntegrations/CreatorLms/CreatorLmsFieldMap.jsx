@@ -3,18 +3,26 @@ import { $appConfigState } from '../../../GlobalStates'
 import { __, sprintf } from '../../../Utils/i18nwrap'
 import { SmartTagField } from '../../../Utils/StaticData/SmartTagField'
 import TagifyInput from '../../Utilities/TagifyInput'
-import { handleCustomValue } from '../IntegrationHelpers/IntegrationHelpers'
-import { addFieldMap, delFieldMap, handleFieldMapping } from './KeapIntegrationHelpers'
+import {
+  addFieldMap,
+  delFieldMap,
+  handleCustomValue,
+  handleFieldMapping
+} from '../GlobalIntegrationHelper'
 
-export default function KeapFieldMap({ i, formFields, field, keapConf, setKeapConf }) {
-  const allFields = keapConf?.customFields
-    ? [...keapConf?.contactFields, ...keapConf?.customFields]
-    : keapConf?.contactFields
-  const requiredFlds = allFields.filter(fld => fld.required === true) || []
-  const nonRequiredFlds = allFields.filter(fld => fld.required === false) || []
-
+export default function CreatorLmsFieldMap({
+  i,
+  formFields,
+  field,
+  creatorLmsConf,
+  setCreatorLmsConf
+}) {
   const btcbi = useRecoilValue($appConfigState)
   const { isPro } = btcbi
+
+  const requiredFlds = creatorLmsConf?.creatorLmsFields?.filter(fld => fld.required === true) || []
+  const nonRequiredFlds =
+    creatorLmsConf?.creatorLmsFields?.filter(fld => fld.required === false) || []
 
   return (
     <div className="flx mt-2 mb-2 btcbi-field-map">
@@ -24,7 +32,7 @@ export default function KeapFieldMap({ i, formFields, field, keapConf, setKeapCo
             className="btcd-paper-inp mr-2"
             name="formField"
             value={field.formField || ''}
-            onChange={ev => handleFieldMapping(ev, i, keapConf, setKeapConf)}>
+            onChange={ev => handleFieldMapping(ev, i, creatorLmsConf, setCreatorLmsConf)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             <optgroup label={__('Form Fields', 'bit-integrations')}>
               {formFields?.map(f => (
@@ -50,7 +58,7 @@ export default function KeapFieldMap({ i, formFields, field, keapConf, setKeapCo
 
           {field.formField === 'custom' && (
             <TagifyInput
-              onChange={e => handleCustomValue(e, i, keapConf, setKeapConf)}
+              onChange={e => handleCustomValue(e, i, creatorLmsConf, setCreatorLmsConf)}
               label={__('Custom Value', 'bit-integrations')}
               className="mr-2"
               type="text"
@@ -63,9 +71,11 @@ export default function KeapFieldMap({ i, formFields, field, keapConf, setKeapCo
           <select
             className="btcd-paper-inp"
             disabled={i < requiredFlds.length}
-            name="keapField"
-            value={i < requiredFlds.length ? requiredFlds[i].key || '' : field.keapField || ''}
-            onChange={ev => handleFieldMapping(ev, i, keapConf, setKeapConf)}>
+            name="creatorLmsField"
+            value={
+              i < requiredFlds.length ? requiredFlds[i]?.key || '' : field.creatorLmsField || ''
+            }
+            onChange={ev => handleFieldMapping(ev, i, creatorLmsConf, setCreatorLmsConf)}>
             <option value="">{__('Select Field', 'bit-integrations')}</option>
             {i < requiredFlds.length ? (
               <option key={requiredFlds[i].key} value={requiredFlds[i].key}>
@@ -83,13 +93,13 @@ export default function KeapFieldMap({ i, formFields, field, keapConf, setKeapCo
         {i >= requiredFlds.length && (
           <>
             <button
-              onClick={() => addFieldMap(i, keapConf, setKeapConf)}
+              onClick={() => addFieldMap(i, creatorLmsConf, setCreatorLmsConf)}
               className="icn-btn sh-sm ml-2 mr-1"
               type="button">
               +
             </button>
             <button
-              onClick={() => delFieldMap(i, keapConf, setKeapConf)}
+              onClick={() => delFieldMap(i, creatorLmsConf, setCreatorLmsConf)}
               className="icn-btn sh-sm ml-1"
               type="button"
               aria-label="btn">

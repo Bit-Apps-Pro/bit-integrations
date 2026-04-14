@@ -168,6 +168,7 @@ const Bento = lazy(() => import('./Bento/Bento'))
 const Line = lazy(() => import('./Line/Line'))
 const ACPT = lazy(() => import('./ACPT/ACPT'))
 const WishlistMember = lazy(() => import('./WishlistMember/WishlistMember'))
+const CreatorLms = lazy(() => import('./CreatorLms/CreatorLms'))
 const UltimateAffiliatePro = lazy(() => import('./UltimateAffiliatePro/UltimateAffiliatePro'))
 const FluentCart = lazy(() => import('./FluentCart/FluentCart'))
 const WCAffiliate = lazy(() => import('./WCAffiliate/WCAffiliate'))
@@ -177,6 +178,7 @@ const WeDocs = lazy(() => import('./WeDocs/WeDocs'))
 const TeamsForWooCommerceMemberships = lazy(
   () => import('./TeamsForWooCommerceMemberships/TeamsForWooCommerceMemberships')
 )
+const AsgarosForum = lazy(() => import('./AsgarosForum/AsgarosForum'))
 const SeoPress = lazy(() => import('./SeoPress/SeoPress'))
 const UserRegistrationMembership = lazy(
   () => import('./UserRegistrationMembership/UserRegistrationMembership')
@@ -1638,6 +1640,15 @@ export default function NewInteg({ allIntegURL }) {
             setFlow={setFlow}
           />
         )
+      case 'CreatorLms':
+        return (
+          <CreatorLms
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
       case 'Ultimate Affiliate Pro':
         return (
           <UltimateAffiliatePro
@@ -1687,6 +1698,16 @@ export default function NewInteg({ allIntegURL }) {
       case 'WeDocs':
         return (
           <WeDocs
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'Asgaros Forum':
+      case 'AsgarosForum':
+        return (
+          <AsgarosForum
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
             flow={flow}

@@ -169,6 +169,7 @@ const EditBento = lazy(() => import('./Bento/EditBento'))
 const EditLine = lazy(() => import('./Line/EditLine'))
 const EditACPT = lazy(() => import('./ACPT/EditACPT'))
 const EditWishlistMember = lazy(() => import('./WishlistMember/EditWishlistMember'))
+const EditCreatorLms = lazy(() => import('./CreatorLms/EditCreatorLms'))
 const EditUltimateAffiliatePro = lazy(() => import('./UltimateAffiliatePro/EditUltimateAffiliatePro'))
 const EditFluentCart = lazy(() => import('./FluentCart/EditFluentCart'))
 const EditWCAffiliate = lazy(() => import('./WCAffiliate/EditWCAffiliate'))
@@ -178,6 +179,7 @@ const EditWeDocs = lazy(() => import('./WeDocs/EditWeDocs'))
 const EditTeamsForWooCommerceMemberships = lazy(
   () => import('./TeamsForWooCommerceMemberships/EditTeamsForWooCommerceMemberships')
 )
+const EditAsgarosForum = lazy(() => import('./AsgarosForum/EditAsgarosForum'))
 const EditSeoPress = lazy(() => import('./SeoPress/EditSeoPress'))
 const EditUserRegistrationMembership = lazy(
   () => import('./UserRegistrationMembership/EditUserRegistrationMembership')
@@ -584,6 +586,8 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditACPT allIntegURL={allIntegURL} />
     case 'Wishlist Member':
       return <EditWishlistMember allIntegURL={allIntegURL} />
+    case 'CreatorLms':
+      return <EditCreatorLms allIntegURL={allIntegURL} />
     case 'Ultimate Affiliate Pro':
       return <EditUltimateAffiliatePro allIntegURL={allIntegURL} />
     case 'FluentCart':
@@ -597,6 +601,9 @@ const IntegType = memo(({ allIntegURL, flow }) => {
     case 'weDocs':
     case 'WeDocs':
       return <EditWeDocs allIntegURL={allIntegURL} />
+    case 'Asgaros Forum':
+    case 'AsgarosForum':
+      return <EditAsgarosForum allIntegURL={allIntegURL} />
     case 'Teams For WooCommerce Memberships':
       return <EditTeamsForWooCommerceMemberships allIntegURL={allIntegURL} />
     case 'SeoPress':

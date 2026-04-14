@@ -197,8 +197,8 @@ export const refreshCustomFields = (id, confTmp, setConf, setIsLoading, setSnack
       const newConf = { ...confTmp }
       if (result.data) {
         newConf.customFields = result.data
-        newConf.field_map = generateMappedField(newConf)
       }
+      newConf.field_map = generateMappedField(newConf)
       setConf(newConf)
       setIsLoading(false)
 

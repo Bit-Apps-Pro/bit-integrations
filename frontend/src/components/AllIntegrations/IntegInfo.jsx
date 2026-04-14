@@ -170,6 +170,7 @@ const BentoAuthorization = lazy(() => import('./Bento/BentoAuthorization'))
 const LineAuthorization = lazy(() => import('./Line/LineAuthorization'))
 const ACPTAuthorization = lazy(() => import('./ACPT/ACPTAuthorization'))
 const WishlistMemberAuthorization = lazy(() => import('./WishlistMember/WishlistMemberAuthorization'))
+const CreatorLmsAuthorization = lazy(() => import('./CreatorLms/CreatorLmsAuthorization'))
 const UltimateAffiliateProAuthorization = lazy(
   () => import('./UltimateAffiliatePro/UltimateAffiliateProAuthorization')
 )
@@ -182,6 +183,7 @@ const TeamsForWooCommerceMembershipsAuthorization = lazy(
 const SeoPressAuthorization = lazy(() => import('./SeoPress/SeoPressAuthorization'))
 const NotificationXAuthorization = lazy(() => import('./NotificationX/NotificationXAuthorization'))
 const WeDocsAuthorization = lazy(() => import('./WeDocs/WeDocsAuthorization'))
+const AsgarosForumAuthorization = lazy(() => import('./AsgarosForum/AsgarosForumAuthorization'))
 const UserRegistrationMembershipAuthorization = lazy(
   () => import('./UserRegistrationMembership/UserRegistrationMembershipAuthorization')
 )
@@ -621,6 +623,8 @@ export default function IntegInfo() {
         return <ACPTAuthorization acptConf={integrationConf} step={1} isInfo />
       case 'WishlistMember':
         return <WishlistMemberAuthorization wishlistMemberConf={integrationConf} step={1} isInfo />
+      case 'CreatorLms':
+        return <CreatorLmsAuthorization creatorLmsConf={integrationConf} step={1} isInfo />
       case 'Ultimate Affiliate Pro':
         return (
           <UltimateAffiliateProAuthorization
@@ -650,6 +654,9 @@ export default function IntegInfo() {
       case 'weDocs':
       case 'WeDocs':
         return <WeDocsAuthorization weDocsConf={integrationConf} step={1} isInfo />
+      case 'Asgaros Forum':
+      case 'AsgarosForum':
+        return <AsgarosForumAuthorization asgarosForumConf={integrationConf} step={1} isInfo />
       default:
         return <></>
     }
