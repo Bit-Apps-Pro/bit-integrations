@@ -18,6 +18,7 @@ import FieldContainer from '../Utilities/FieldContainer'
 import Note from '../Utilities/Note'
 import SnackMsg from '../Utilities/SnackMsg'
 import TreeViewer from '../Utilities/treeViewer/TreeViewer'
+import TutorialLink from '../Utilities/TutorialLink'
 
 const CustomTrigger = () => {
   const [selectedFields, setSelectedFields] = useState([])
@@ -170,27 +171,6 @@ const CustomTrigger = () => {
     }
   }
 
-  const info = `<h4>${sprintf(
-    __('Follow these simple steps to set up the %s', 'bit-integrations'),
-    'Action Hook'
-  )}</h4>
-            <ul>
-            <li>${__(
-              'Copy <b>do action hook</b> & past in your form submiting function',
-              'bit-integrations'
-            )}</li>
-              <li>${__('Click <b>Fetch</b>', 'bit-integrations')}</li>
-              <li>${__('Submit <b>The Form</b>', 'bit-integrations')}</li>
-              <li>${__('Click <b>Next</b> and <b>Go</b></b>', 'bit-integrations')}</li>
-            </ul>
-            <h5>
-              ${__('More Details on', 'bit-integrations')} 
-              <a className="btcd-link" href="https://bit-integrations.com/wp-docs/trigger/custom-trigger-integrations/" target="_blank" rel="noreferrer">${__(
-                'Documentation',
-                'bit-integrations'
-              )}</a>
-            </h5>`
-
   return (
     <div className="trigger-custom-width">
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
@@ -232,9 +212,8 @@ const CustomTrigger = () => {
       <div className="flx flx-between">
         <button
           onClick={handleFetch}
-          className={`btn btcd-btn-lg sh-sm flx ${
-            isLoading ? 'purple' : newFlow.triggerDetail?.data ? 'gray' : 'purple'
-          }`}
+          className={`btn btcd-btn-lg sh-sm flx ${isLoading ? 'purple' : newFlow.triggerDetail?.data ? 'gray' : 'purple'
+            }`}
           type="button"
           disabled={!hookID}>
           {isLoading
@@ -280,8 +259,30 @@ const CustomTrigger = () => {
           </button>
         </div>
       )}
-      <Note note={info} />
+      <Note note={info} isInstruction={true} >
+        <TutorialLink
+          style={{ marginTop: 0 }}
+          links={{
+            docLink: newFlow?.triggerDetail?.documentation_url || '',
+            youTubeLink: newFlow?.triggerDetail?.tutorial_url || ''
+          }}
+        />
+      </Note>
     </div>
   )
 }
 export default CustomTrigger
+
+const info = `<h4>${sprintf(
+  __('Set up the %s in a few quick steps', 'bit-integrations'),
+  'Action Hook'
+)}</h4>
+            <ul>
+            <li>${__(
+  'Copy the <b>do action hook</b> snippet and paste it into your form submission function.',
+  'bit-integrations'
+)}</li>
+              <li>${__('Click <b>Fetch</b>.', 'bit-integrations')}</li>
+              <li>${__('Submit the form to send test data.', 'bit-integrations')}</li>
+              <li>${__('Select the fields you need, then click <b>Set Action</b>.', 'bit-integrations')}</li>
+            </ul>`
