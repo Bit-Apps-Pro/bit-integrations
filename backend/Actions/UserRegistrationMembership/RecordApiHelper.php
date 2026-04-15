@@ -54,6 +54,7 @@ class RecordApiHelper
 
         switch ($mainAction) {
             case 'create_user':
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- hook is prefixed via Config::VAR_PREFIX.
                 return apply_filters(Config::withPrefix('user_registration_create_user'), $defaultResponse, $fieldData, $this->_integrationDetails);
 
             default:
