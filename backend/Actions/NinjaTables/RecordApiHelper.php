@@ -258,10 +258,8 @@ class RecordApiHelper
     {
         return [
             'success' => false,
-            'message' => wp_sprintf(
-                __('%s plugin is not installed or activate', 'bit-integrations'),
-                'Bit Integrations Pro'
-            )
+            // translators: %s is the plugin name
+            'message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro')
         ];
     }
 
@@ -276,6 +274,7 @@ class RecordApiHelper
     private function executeAddRow($defaultResponse, $fieldData)
     {
         return apply_filters(
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- hook is prefixed via Config::VAR_PREFIX.
             Config::withPrefix(self::FILTER_ADD_ROW),
             $defaultResponse,
             $fieldData
@@ -293,6 +292,7 @@ class RecordApiHelper
     private function executeUpdateRow($defaultResponse, $fieldData)
     {
         return apply_filters(
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- hook is prefixed via Config::VAR_PREFIX.
             Config::withPrefix(self::FILTER_UPDATE_ROW),
             $defaultResponse,
             $fieldData
