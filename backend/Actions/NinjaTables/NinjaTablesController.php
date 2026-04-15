@@ -7,6 +7,7 @@
 namespace BitApps\Integrations\Actions\NinjaTables;
 
 use BitApps\Integrations\Config;
+use BitApps\Integrations\Core\Util\Post;
 use WP_Error;
 
 /**
@@ -151,7 +152,7 @@ class NinjaTablesController
         $tables = wp_cache_get($cache_key, self::CACHE_GROUP);
 
         if (false === $tables) {
-            $tables = get_posts(
+            $tables = Post::all(
                 [
                     'post_type'      => self::POST_TYPE,
                     'post_status'    => self::POST_STATUS,
