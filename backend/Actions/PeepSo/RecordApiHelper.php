@@ -43,7 +43,7 @@ class RecordApiHelper
             ];
         }
 
-        $fieldData = static::generateReqDataFromFieldMap($fieldMap, $fieldValues);
+        $fieldData = self::generateReqDataFromFieldMap($fieldMap, $fieldValues);
 
         $mainAction = $this->_integrationDetails->mainAction ?? 'add_post_activity_stream';
 
@@ -92,7 +92,7 @@ class RecordApiHelper
         return $response;
     }
 
-    private function generateReqDataFromFieldMap($fieldMap, $fieldValues)
+    private static function generateReqDataFromFieldMap($fieldMap, $fieldValues)
     {
         $dataFinal = [];
         foreach ($fieldMap as $item) {

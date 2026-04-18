@@ -43,12 +43,7 @@ class PeepSoController
         }
 
         $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
-        $peepSoResponse = $recordApiHelper->execute($fieldValues, $fieldMap);
 
-        if (is_wp_error($peepSoResponse)) {
-            return $peepSoResponse;
-        }
-
-        return $peepSoResponse;
+        return $recordApiHelper->execute($fieldValues, $fieldMap);
     }
 }
