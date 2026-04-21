@@ -33,6 +33,17 @@ class RecordApiHelper
             ),
         ];
 
+        if (strpos($mainAction, 'get') === 0) {
+            $response = [
+                'success' => false,
+                'message' => __('Get data actions are no longer available in WordPress integration.', 'bit-integrations'),
+            ];
+
+            LogHandler::save($this->_integrationID, ['type' => 'WordPress', 'type_name' => $mainAction], 'error', $response);
+
+            return $response;
+        }
+
         switch ($mainAction) {
             // === User Management ===
             case 'createNewUser':
@@ -50,43 +61,7 @@ class RecordApiHelper
 
                 break;
 
-            // === User Retrieval ===
-            case 'getAllUsers':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getAllUsers'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getAllUsersByRole':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getAllUsersByRole'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getUserById':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getUserById'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getUserByEmail':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getUserByEmail'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getUserByField':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getUserByField'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
             // === User Metadata ===
-            case 'getUserMetadata':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getUserMetadata'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getUserMetadataByMetaKey':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getUserMetadataByMetaKey'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
             case 'updateUserMetadata':
                 $response = Hooks::apply(Config::withPrefix('wordpress_updateUserMetadata'), $defaultResponse, $fieldData, $integrationDetails);
 
@@ -102,12 +77,6 @@ class RecordApiHelper
                 $response = Hooks::apply(Config::withPrefix('wordpress_deleteRole'), $defaultResponse, $fieldData, $integrationDetails);
 
                 break;
-
-            case 'getAllRoles':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getAllRoles'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
             case 'addUserRoles':
                 $response = Hooks::apply(Config::withPrefix('wordpress_addUserRoles'), $defaultResponse, $fieldData, $integrationDetails);
 
@@ -124,16 +93,6 @@ class RecordApiHelper
                 break;
 
             // === Capabilities ===
-            case 'getAllCapabilities':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getAllCapabilities'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getRoleCapabilities':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getRoleCapabilities'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
             case 'addRoleCapabilities':
                 $response = Hooks::apply(Config::withPrefix('wordpress_addRoleCapabilities'), $defaultResponse, $fieldData, $integrationDetails);
 
@@ -143,12 +102,6 @@ class RecordApiHelper
                 $response = Hooks::apply(Config::withPrefix('wordpress_removeRoleCapabilities'), $defaultResponse, $fieldData, $integrationDetails);
 
                 break;
-
-            case 'getUserCapabilities':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getUserCapabilities'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
             case 'addUserCapabilities':
                 $response = Hooks::apply(Config::withPrefix('wordpress_addUserCapabilities'), $defaultResponse, $fieldData, $integrationDetails);
 
@@ -160,56 +113,6 @@ class RecordApiHelper
                 break;
 
             // === Post Management ===
-            case 'getAllPosts':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getAllPosts'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getPostById':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getPostById'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getPostsByPostType':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getPostsByPostType'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getPostsByMetadata':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getPostsByMetadata'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getPostMetadata':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getPostMetadata'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getPostMetadataByMetaKey':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getPostMetadataByMetaKey'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getPostPermalink':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getPostPermalink'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getPostContent':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getPostContent'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getPostExcerpt':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getPostExcerpt'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getPostStatus':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getPostStatus'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
             case 'createNewPost':
                 $response = Hooks::apply(Config::withPrefix('wordpress_createNewPost'), $defaultResponse, $fieldData, $integrationDetails);
 
@@ -231,36 +134,6 @@ class RecordApiHelper
                 break;
 
             // === Comments ===
-            case 'getAllPostComments':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getAllPostComments'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getPostComments':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getPostComments'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getUserComments':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getUserComments'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getUserCommentsByEmail':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getUserCommentsByEmail'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getCommentMetadata':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getCommentMetadata'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getCommentMetadataByMetaKey':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getCommentMetadataByMetaKey'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
             case 'createNewComment':
                 $response = Hooks::apply(Config::withPrefix('wordpress_createNewComment'), $defaultResponse, $fieldData, $integrationDetails);
 
@@ -277,16 +150,6 @@ class RecordApiHelper
                 break;
 
             // === Post Types ===
-            case 'getAllPostTypes':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getAllPostTypes'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getPostType':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getPostType'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
             case 'registerPostType':
                 $response = Hooks::apply(Config::withPrefix('wordpress_registerPostType'), $defaultResponse, $fieldData, $integrationDetails);
 
@@ -317,17 +180,6 @@ class RecordApiHelper
                 $response = Hooks::apply(Config::withPrefix('wordpress_deletePostTag'), $defaultResponse, $fieldData, $integrationDetails);
 
                 break;
-
-            case 'getAllPostTags':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getAllPostTags'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getPostTag':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getPostTag'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
             case 'addTaxonomyToPost':
                 $response = Hooks::apply(Config::withPrefix('wordpress_addTaxonomyToPost'), $defaultResponse, $fieldData, $integrationDetails);
 
@@ -363,33 +215,7 @@ class RecordApiHelper
                 $response = Hooks::apply(Config::withPrefix('wordpress_renameMedia'), $defaultResponse, $fieldData, $integrationDetails);
 
                 break;
-
-            case 'getAllMedia':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getAllMedia'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getMediaByTitle':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getMediaByTitle'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getMediaById':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getMediaById'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
             // === Taxonomies ===
-            case 'getAllTaxonomies':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getAllTaxonomies'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getTaxonomy':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getTaxonomy'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
             case 'registerTaxonomy':
                 $response = Hooks::apply(Config::withPrefix('wordpress_registerTaxonomy'), $defaultResponse, $fieldData, $integrationDetails);
 
@@ -401,26 +227,6 @@ class RecordApiHelper
                 break;
 
             // === Terms ===
-            case 'getAllTerms':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getAllTerms'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getTerm':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getTerm'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getTermByField':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getTermByField'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getTermByTaxonomy':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getTermByTaxonomy'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
             case 'createNewTerm':
                 $response = Hooks::apply(Config::withPrefix('wordpress_createNewTerm'), $defaultResponse, $fieldData, $integrationDetails);
 
@@ -456,17 +262,6 @@ class RecordApiHelper
                 $response = Hooks::apply(Config::withPrefix('wordpress_addCategoryToPost'), $defaultResponse, $fieldData, $integrationDetails);
 
                 break;
-
-            case 'getAllCategories':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getAllCategories'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getCategory':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getCategory'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
             // === Product Tags (WooCommerce) ===
             case 'createProductTag':
                 $response = Hooks::apply(Config::withPrefix('wordpress_createProductTag'), $defaultResponse, $fieldData, $integrationDetails);
@@ -482,17 +277,6 @@ class RecordApiHelper
                 $response = Hooks::apply(Config::withPrefix('wordpress_deleteProductTag'), $defaultResponse, $fieldData, $integrationDetails);
 
                 break;
-
-            case 'getAllProductTags':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getAllProductTags'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getProductTag':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getProductTag'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
             // === Product Categories (WooCommerce) ===
             case 'createProductCategory':
                 $response = Hooks::apply(Config::withPrefix('wordpress_createProductCategory'), $defaultResponse, $fieldData, $integrationDetails);
@@ -508,17 +292,6 @@ class RecordApiHelper
                 $response = Hooks::apply(Config::withPrefix('wordpress_deleteProductCategory'), $defaultResponse, $fieldData, $integrationDetails);
 
                 break;
-
-            case 'getAllProductCategories':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getAllProductCategories'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getProductCategory':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getProductCategory'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
             // === Product Types (WooCommerce) ===
             case 'createProductType':
                 $response = Hooks::apply(Config::withPrefix('wordpress_createProductType'), $defaultResponse, $fieldData, $integrationDetails);
@@ -534,17 +307,6 @@ class RecordApiHelper
                 $response = Hooks::apply(Config::withPrefix('wordpress_deleteProductType'), $defaultResponse, $fieldData, $integrationDetails);
 
                 break;
-
-            case 'getAllProductTypes':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getAllProductTypes'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
-            case 'getProductType':
-                $response = Hooks::apply(Config::withPrefix('wordpress_getProductType'), $defaultResponse, $fieldData, $integrationDetails);
-
-                break;
-
             // === Plugin Management ===
             case 'checkPluginActivationStatus':
                 $response = Hooks::apply(Config::withPrefix('wordpress_checkPluginActivationStatus'), $defaultResponse, $fieldData, $integrationDetails);

@@ -83,7 +83,9 @@ export default function WordPressIntegLayout({
 
           <div className="txt-center btcbi-field-map-button mt-2">
             <button
-              onClick={() => addFieldMap(wordPressConf.field_map.length, wordPressConf, setWordPressConf)}
+              onClick={() =>
+                addFieldMap(wordPressConf.field_map.length, wordPressConf, setWordPressConf)
+              }
               className="icn-btn sh-sm"
               type="button">
               +

@@ -5,59 +5,40 @@ export const modules = [
   { name: 'createNewUser', label: __('Create New User', 'bit-integrations'), is_pro: true },
   { name: 'updateUser', label: __('Update User', 'bit-integrations'), is_pro: true },
   { name: 'deleteExistingUser', label: __('Delete User', 'bit-integrations'), is_pro: true },
-  // User Retrieval
-  { name: 'getAllUsers', label: __('Get All Users', 'bit-integrations'), is_pro: true },
-  { name: 'getAllUsersByRole', label: __('Get All Users By Role', 'bit-integrations'), is_pro: true },
-  { name: 'getUserById', label: __('Get User By ID', 'bit-integrations'), is_pro: true },
-  { name: 'getUserByEmail', label: __('Get User By Email', 'bit-integrations'), is_pro: true },
-  { name: 'getUserByField', label: __('Get User By Field', 'bit-integrations'), is_pro: true },
-  // User Metadata
-  { name: 'getUserMetadata', label: __('Get User Metadata', 'bit-integrations'), is_pro: true },
-  { name: 'getUserMetadataByMetaKey', label: __('Get User Metadata By Meta Key', 'bit-integrations'), is_pro: true },
   { name: 'updateUserMetadata', label: __('Update User Metadata', 'bit-integrations'), is_pro: true },
   // Role Management
   { name: 'createRole', label: __('Create Role', 'bit-integrations'), is_pro: true },
   { name: 'deleteRole', label: __('Delete Role', 'bit-integrations'), is_pro: true },
-  { name: 'getAllRoles', label: __('Get All Roles', 'bit-integrations'), is_pro: true },
   { name: 'addUserRoles', label: __('Add User Roles', 'bit-integrations'), is_pro: true },
   { name: 'removeUserRole', label: __('Remove User Role', 'bit-integrations'), is_pro: true },
   { name: 'updateUserRole', label: __('Update User Role', 'bit-integrations'), is_pro: true },
   // Capabilities
-  { name: 'getAllCapabilities', label: __('Get All Capabilities', 'bit-integrations'), is_pro: true },
-  { name: 'getRoleCapabilities', label: __('Get Role Capabilities', 'bit-integrations'), is_pro: true },
   { name: 'addRoleCapabilities', label: __('Add Role Capabilities', 'bit-integrations'), is_pro: true },
-  { name: 'removeRoleCapabilities', label: __('Remove Role Capabilities', 'bit-integrations'), is_pro: true },
-  { name: 'getUserCapabilities', label: __('Get User Capabilities', 'bit-integrations'), is_pro: true },
+  {
+    name: 'removeRoleCapabilities',
+    label: __('Remove Role Capabilities', 'bit-integrations'),
+    is_pro: true
+  },
   { name: 'addUserCapabilities', label: __('Add User Capabilities', 'bit-integrations'), is_pro: true },
-  { name: 'removeUserCapabilities', label: __('Remove User Capabilities', 'bit-integrations'), is_pro: true },
+  {
+    name: 'removeUserCapabilities',
+    label: __('Remove User Capabilities', 'bit-integrations'),
+    is_pro: true
+  },
   // Post Management
-  { name: 'getAllPosts', label: __('Get All Posts', 'bit-integrations'), is_pro: true },
-  { name: 'getPostById', label: __('Get Post By ID', 'bit-integrations'), is_pro: true },
-  { name: 'getPostsByPostType', label: __('Get Posts By Post Type', 'bit-integrations'), is_pro: true },
-  { name: 'getPostsByMetadata', label: __('Get Posts By Metadata', 'bit-integrations'), is_pro: true },
-  { name: 'getPostMetadata', label: __('Get Post Metadata', 'bit-integrations'), is_pro: true },
-  { name: 'getPostMetadataByMetaKey', label: __('Get Post Metadata By Meta Key', 'bit-integrations'), is_pro: true },
-  { name: 'getPostPermalink', label: __('Get Post Permalink', 'bit-integrations'), is_pro: true },
-  { name: 'getPostContent', label: __('Get Post Content', 'bit-integrations'), is_pro: true },
-  { name: 'getPostExcerpt', label: __('Get Post Excerpt', 'bit-integrations'), is_pro: true },
-  { name: 'getPostStatus', label: __('Get Post Status', 'bit-integrations'), is_pro: true },
   { name: 'createNewPost', label: __('Create New Post', 'bit-integrations'), is_pro: true },
   { name: 'updateExistingPost', label: __('Update Existing Post', 'bit-integrations'), is_pro: true },
   { name: 'updatePostStatus', label: __('Update Post Status', 'bit-integrations'), is_pro: true },
   { name: 'deleteExistingPost', label: __('Delete Existing Post', 'bit-integrations'), is_pro: true },
   // Comments
-  { name: 'getAllPostComments', label: __('Get All Post Comments', 'bit-integrations'), is_pro: true },
-  { name: 'getPostComments', label: __('Get Post Comments', 'bit-integrations'), is_pro: true },
-  { name: 'getUserComments', label: __('Get User Comments', 'bit-integrations'), is_pro: true },
-  { name: 'getUserCommentsByEmail', label: __('Get User Comments By Email', 'bit-integrations'), is_pro: true },
-  { name: 'getCommentMetadata', label: __('Get Comment Metadata', 'bit-integrations'), is_pro: true },
-  { name: 'getCommentMetadataByMetaKey', label: __('Get Comment Metadata By Meta Key', 'bit-integrations'), is_pro: true },
   { name: 'createNewComment', label: __('Create New Comment', 'bit-integrations'), is_pro: true },
   { name: 'replyToComment', label: __('Reply To Comment', 'bit-integrations'), is_pro: true },
-  { name: 'deleteExistingComment', label: __('Delete Existing Comment', 'bit-integrations'), is_pro: true },
+  {
+    name: 'deleteExistingComment',
+    label: __('Delete Existing Comment', 'bit-integrations'),
+    is_pro: true
+  },
   // Post Types
-  { name: 'getAllPostTypes', label: __('Get All Post Types', 'bit-integrations'), is_pro: true },
-  { name: 'getPostType', label: __('Get Post Type', 'bit-integrations'), is_pro: true },
   { name: 'registerPostType', label: __('Register Post Type', 'bit-integrations'), is_pro: true },
   { name: 'unregisterPostType', label: __('Unregister Post Type', 'bit-integrations'), is_pro: true },
   { name: 'addPostTypeFeatures', label: __('Add Post Type Features', 'bit-integrations'), is_pro: true },
@@ -65,29 +46,22 @@ export const modules = [
   { name: 'createPostTag', label: __('Create Post Tag', 'bit-integrations'), is_pro: true },
   { name: 'updatePostTag', label: __('Update Post Tag', 'bit-integrations'), is_pro: true },
   { name: 'deletePostTag', label: __('Delete Post Tag', 'bit-integrations'), is_pro: true },
-  { name: 'getAllPostTags', label: __('Get All Post Tags', 'bit-integrations'), is_pro: true },
-  { name: 'getPostTag', label: __('Get Post Tag', 'bit-integrations'), is_pro: true },
   { name: 'addTaxonomyToPost', label: __('Add Taxonomy To Post', 'bit-integrations'), is_pro: true },
-  { name: 'removeTaxonomyFromPost', label: __('Remove Taxonomy From Post', 'bit-integrations'), is_pro: true },
+  {
+    name: 'removeTaxonomyFromPost',
+    label: __('Remove Taxonomy From Post', 'bit-integrations'),
+    is_pro: true
+  },
   { name: 'addTagsToPost', label: __('Add Tags To Post', 'bit-integrations'), is_pro: true },
   { name: 'removeTagsFromPost', label: __('Remove Tags From Post', 'bit-integrations'), is_pro: true },
   // Media
   { name: 'addNewImage', label: __('Add New Image', 'bit-integrations'), is_pro: true },
   { name: 'deleteMedia', label: __('Delete Media', 'bit-integrations'), is_pro: true },
   { name: 'renameMedia', label: __('Rename Media', 'bit-integrations'), is_pro: true },
-  { name: 'getAllMedia', label: __('Get All Media', 'bit-integrations'), is_pro: true },
-  { name: 'getMediaByTitle', label: __('Get Media By Title', 'bit-integrations'), is_pro: true },
-  { name: 'getMediaById', label: __('Get Media By ID', 'bit-integrations'), is_pro: true },
   // Taxonomies
-  { name: 'getAllTaxonomies', label: __('Get All Taxonomies', 'bit-integrations'), is_pro: true },
-  { name: 'getTaxonomy', label: __('Get Taxonomy', 'bit-integrations'), is_pro: true },
   { name: 'registerTaxonomy', label: __('Register Taxonomy', 'bit-integrations'), is_pro: true },
   { name: 'unregisterTaxonomy', label: __('Unregister Taxonomy', 'bit-integrations'), is_pro: true },
   // Terms
-  { name: 'getAllTerms', label: __('Get All Terms', 'bit-integrations'), is_pro: true },
-  { name: 'getTerm', label: __('Get Term', 'bit-integrations'), is_pro: true },
-  { name: 'getTermByField', label: __('Get Term By Field', 'bit-integrations'), is_pro: true },
-  { name: 'getTermByTaxonomy', label: __('Get Term By Taxonomy', 'bit-integrations'), is_pro: true },
   { name: 'createNewTerm', label: __('Create New Term', 'bit-integrations'), is_pro: true },
   { name: 'updateTerm', label: __('Update Term', 'bit-integrations'), is_pro: true },
   { name: 'termDelete', label: __('Delete Term', 'bit-integrations'), is_pro: true },
@@ -96,29 +70,37 @@ export const modules = [
   { name: 'updateCategory', label: __('Update Category', 'bit-integrations'), is_pro: true },
   { name: 'deleteCategory', label: __('Delete Category', 'bit-integrations'), is_pro: true },
   { name: 'addCategoryToPost', label: __('Add Category To Post', 'bit-integrations'), is_pro: true },
-  { name: 'getAllCategories', label: __('Get All Categories', 'bit-integrations'), is_pro: true },
-  { name: 'getCategory', label: __('Get Category', 'bit-integrations'), is_pro: true },
   // WooCommerce Product Tags
   { name: 'createProductTag', label: __('Create Product Tag', 'bit-integrations'), is_pro: true },
   { name: 'updateProductTag', label: __('Update Product Tag', 'bit-integrations'), is_pro: true },
   { name: 'deleteProductTag', label: __('Delete Product Tag', 'bit-integrations'), is_pro: true },
-  { name: 'getAllProductTags', label: __('Get All Product Tags', 'bit-integrations'), is_pro: true },
-  { name: 'getProductTag', label: __('Get Product Tag', 'bit-integrations'), is_pro: true },
   // WooCommerce Product Categories
-  { name: 'createProductCategory', label: __('Create Product Category', 'bit-integrations'), is_pro: true },
-  { name: 'updateProductCategory', label: __('Update Product Category', 'bit-integrations'), is_pro: true },
-  { name: 'deleteProductCategory', label: __('Delete Product Category', 'bit-integrations'), is_pro: true },
-  { name: 'getAllProductCategories', label: __('Get All Product Categories', 'bit-integrations'), is_pro: true },
-  { name: 'getProductCategory', label: __('Get Product Category', 'bit-integrations'), is_pro: true },
+  {
+    name: 'createProductCategory',
+    label: __('Create Product Category', 'bit-integrations'),
+    is_pro: true
+  },
+  {
+    name: 'updateProductCategory',
+    label: __('Update Product Category', 'bit-integrations'),
+    is_pro: true
+  },
+  {
+    name: 'deleteProductCategory',
+    label: __('Delete Product Category', 'bit-integrations'),
+    is_pro: true
+  },
   // WooCommerce Product Types
   { name: 'createProductType', label: __('Create Product Type', 'bit-integrations'), is_pro: true },
   { name: 'updateProductType', label: __('Update Product Type', 'bit-integrations'), is_pro: true },
   { name: 'deleteProductType', label: __('Delete Product Type', 'bit-integrations'), is_pro: true },
-  { name: 'getAllProductTypes', label: __('Get All Product Types', 'bit-integrations'), is_pro: true },
-  { name: 'getProductType', label: __('Get Product Type', 'bit-integrations'), is_pro: true },
   // Plugin Management
-  { name: 'checkPluginActivationStatus', label: __('Check Plugin Activation Status', 'bit-integrations'), is_pro: true },
-  { name: 'activatePlugin', label: __('Activate Plugin', 'bit-integrations'), is_pro: true },
+  {
+    name: 'checkPluginActivationStatus',
+    label: __('Check Plugin Activation Status', 'bit-integrations'),
+    is_pro: true
+  },
+  { name: 'activatePlugin', label: __('Activate Plugin', 'bit-integrations'), is_pro: true }
 ]
 
 // === User Fields ===
@@ -131,7 +113,7 @@ export const CreateUserFields = [
   { key: 'last_name', label: __('Last Name', 'bit-integrations'), required: false },
   { key: 'user_url', label: __('Website URL', 'bit-integrations'), required: false },
   { key: 'description', label: __('Description', 'bit-integrations'), required: false },
-  { key: 'role', label: __('Role', 'bit-integrations'), required: false },
+  { key: 'role', label: __('Role', 'bit-integrations'), required: false }
 ]
 
 export const UpdateUserFields = [
@@ -143,68 +125,76 @@ export const UpdateUserFields = [
   { key: 'last_name', label: __('Last Name', 'bit-integrations'), required: false },
   { key: 'user_url', label: __('Website URL', 'bit-integrations'), required: false },
   { key: 'description', label: __('Description', 'bit-integrations'), required: false },
-  { key: 'role', label: __('Role', 'bit-integrations'), required: false },
+  { key: 'role', label: __('Role', 'bit-integrations'), required: false }
 ]
 
-export const UserIdField = [
-  { key: 'user_id', label: __('User ID', 'bit-integrations'), required: true },
-]
+export const UserIdField = [{ key: 'user_id', label: __('User ID', 'bit-integrations'), required: true }]
 
 export const UserEmailField = [
-  { key: 'user_email', label: __('Email', 'bit-integrations'), required: true },
+  { key: 'user_email', label: __('Email', 'bit-integrations'), required: true }
 ]
 
 export const UserByFieldFields = [
   { key: 'field', label: __('Field Name (login/email/slug/id)', 'bit-integrations'), required: true },
-  { key: 'value', label: __('Field Value', 'bit-integrations'), required: true },
+  { key: 'value', label: __('Field Value', 'bit-integrations'), required: true }
 ]
 
-export const UserRoleField = [
-  { key: 'role', label: __('Role', 'bit-integrations'), required: true },
-]
+export const UserRoleField = [{ key: 'role', label: __('Role', 'bit-integrations'), required: true }]
 
 export const UserMetaFields = [
   { key: 'user_id', label: __('User ID', 'bit-integrations'), required: true },
-  { key: 'meta_key', label: __('Meta Key', 'bit-integrations'), required: true },
+  { key: 'meta_key', label: __('Meta Key', 'bit-integrations'), required: true }
 ]
 
 export const UpdateUserMetaFields = [
   { key: 'user_id', label: __('User ID', 'bit-integrations'), required: true },
   { key: 'meta_key', label: __('Meta Key', 'bit-integrations'), required: true },
-  { key: 'meta_value', label: __('Meta Value', 'bit-integrations'), required: true },
+  { key: 'meta_value', label: __('Meta Value', 'bit-integrations'), required: true }
 ]
 
 // === Role Fields ===
 export const CreateRoleFields = [
   { key: 'role_name', label: __('Role Name (slug)', 'bit-integrations'), required: true },
   { key: 'display_name', label: __('Display Name', 'bit-integrations'), required: true },
-  { key: 'capabilities', label: __('Capabilities (comma separated)', 'bit-integrations'), required: false },
+  {
+    key: 'capabilities',
+    label: __('Capabilities (comma separated)', 'bit-integrations'),
+    required: false
+  }
 ]
 
 export const RoleNameField = [
-  { key: 'role_name', label: __('Role Name', 'bit-integrations'), required: true },
+  { key: 'role_name', label: __('Role Name', 'bit-integrations'), required: true }
 ]
 
 export const UserRoleManageFields = [
   { key: 'user_id', label: __('User ID', 'bit-integrations'), required: true },
-  { key: 'role', label: __('Role', 'bit-integrations'), required: true },
+  { key: 'role', label: __('Role', 'bit-integrations'), required: true }
 ]
 
 export const UpdateUserRoleFields = [
   { key: 'user_id', label: __('User ID', 'bit-integrations'), required: true },
   { key: 'old_role', label: __('Old Role', 'bit-integrations'), required: true },
-  { key: 'new_role', label: __('New Role', 'bit-integrations'), required: true },
+  { key: 'new_role', label: __('New Role', 'bit-integrations'), required: true }
 ]
 
 // === Capability Fields ===
 export const RoleCapabilitiesFields = [
   { key: 'role_name', label: __('Role Name', 'bit-integrations'), required: true },
-  { key: 'capabilities', label: __('Capabilities (comma separated)', 'bit-integrations'), required: true },
+  {
+    key: 'capabilities',
+    label: __('Capabilities (comma separated)', 'bit-integrations'),
+    required: true
+  }
 ]
 
 export const UserCapabilitiesFields = [
   { key: 'user_id', label: __('User ID', 'bit-integrations'), required: true },
-  { key: 'capabilities', label: __('Capabilities (comma separated)', 'bit-integrations'), required: true },
+  {
+    key: 'capabilities',
+    label: __('Capabilities (comma separated)', 'bit-integrations'),
+    required: true
+  }
 ]
 
 // === Post Fields ===
@@ -218,9 +208,13 @@ export const CreatePostFields = [
   { key: 'post_name', label: __('Post Slug', 'bit-integrations'), required: false },
   { key: 'post_excerpt', label: __('Post Excerpt', 'bit-integrations'), required: false },
   { key: 'menu_order', label: __('Menu Order', 'bit-integrations'), required: false },
-  { key: 'comment_status', label: __('Comment Status (open/closed)', 'bit-integrations'), required: false },
+  {
+    key: 'comment_status',
+    label: __('Comment Status (open/closed)', 'bit-integrations'),
+    required: false
+  },
   { key: 'featured_image_url', label: __('Featured Image URL', 'bit-integrations'), required: false },
-  { key: 'post_password', label: __('Post Password', 'bit-integrations'), required: false },
+  { key: 'post_password', label: __('Post Password', 'bit-integrations'), required: false }
 ]
 
 export const UpdatePostFields = [
@@ -233,30 +227,28 @@ export const UpdatePostFields = [
   { key: 'post_date', label: __('Post Date', 'bit-integrations'), required: false },
   { key: 'post_name', label: __('Post Slug', 'bit-integrations'), required: false },
   { key: 'post_excerpt', label: __('Post Excerpt', 'bit-integrations'), required: false },
-  { key: 'featured_image_url', label: __('Featured Image URL', 'bit-integrations'), required: false },
+  { key: 'featured_image_url', label: __('Featured Image URL', 'bit-integrations'), required: false }
 ]
 
-export const PostIdField = [
-  { key: 'post_id', label: __('Post ID', 'bit-integrations'), required: true },
-]
+export const PostIdField = [{ key: 'post_id', label: __('Post ID', 'bit-integrations'), required: true }]
 
 export const PostTypeField = [
-  { key: 'post_type', label: __('Post Type', 'bit-integrations'), required: true },
+  { key: 'post_type', label: __('Post Type', 'bit-integrations'), required: true }
 ]
 
 export const PostsByMetaFields = [
   { key: 'meta_key', label: __('Meta Key', 'bit-integrations'), required: true },
-  { key: 'meta_value', label: __('Meta Value', 'bit-integrations'), required: true },
+  { key: 'meta_value', label: __('Meta Value', 'bit-integrations'), required: true }
 ]
 
 export const PostMetaByKeyFields = [
   { key: 'post_id', label: __('Post ID', 'bit-integrations'), required: true },
-  { key: 'meta_key', label: __('Meta Key', 'bit-integrations'), required: true },
+  { key: 'meta_key', label: __('Meta Key', 'bit-integrations'), required: true }
 ]
 
 export const UpdatePostStatusFields = [
   { key: 'post_id', label: __('Post ID', 'bit-integrations'), required: true },
-  { key: 'post_status', label: __('Post Status', 'bit-integrations'), required: true },
+  { key: 'post_status', label: __('Post Status', 'bit-integrations'), required: true }
 ]
 
 // === Comment Fields ===
@@ -266,7 +258,7 @@ export const CreateCommentFields = [
   { key: 'comment_author', label: __('Author Name', 'bit-integrations'), required: false },
   { key: 'comment_author_email', label: __('Author Email', 'bit-integrations'), required: false },
   { key: 'comment_author_url', label: __('Author URL', 'bit-integrations'), required: false },
-  { key: 'comment_parent', label: __('Parent Comment ID', 'bit-integrations'), required: false },
+  { key: 'comment_parent', label: __('Parent Comment ID', 'bit-integrations'), required: false }
 ]
 
 export const ReplyCommentFields = [
@@ -274,16 +266,16 @@ export const ReplyCommentFields = [
   { key: 'comment_content', label: __('Comment Content', 'bit-integrations'), required: true },
   { key: 'comment_post_ID', label: __('Post ID', 'bit-integrations'), required: false },
   { key: 'comment_author', label: __('Author Name', 'bit-integrations'), required: false },
-  { key: 'comment_author_email', label: __('Author Email', 'bit-integrations'), required: false },
+  { key: 'comment_author_email', label: __('Author Email', 'bit-integrations'), required: false }
 ]
 
 export const CommentIdField = [
-  { key: 'comment_id', label: __('Comment ID', 'bit-integrations'), required: true },
+  { key: 'comment_id', label: __('Comment ID', 'bit-integrations'), required: true }
 ]
 
 export const CommentMetaByKeyFields = [
   { key: 'comment_id', label: __('Comment ID', 'bit-integrations'), required: true },
-  { key: 'meta_key', label: __('Meta Key', 'bit-integrations'), required: true },
+  { key: 'meta_key', label: __('Meta Key', 'bit-integrations'), required: true }
 ]
 
 // === Post Type Fields ===
@@ -291,41 +283,39 @@ export const RegisterPostTypeFields = [
   { key: 'post_type', label: __('Post Type Slug', 'bit-integrations'), required: true },
   { key: 'label', label: __('Label', 'bit-integrations'), required: true },
   { key: 'description', label: __('Description', 'bit-integrations'), required: false },
-  { key: 'supports', label: __('Supports (comma separated)', 'bit-integrations'), required: false },
+  { key: 'supports', label: __('Supports (comma separated)', 'bit-integrations'), required: false }
 ]
 
 export const PostTypeFeaturesFields = [
   { key: 'post_type', label: __('Post Type', 'bit-integrations'), required: true },
-  { key: 'features', label: __('Features (comma separated)', 'bit-integrations'), required: true },
+  { key: 'features', label: __('Features (comma separated)', 'bit-integrations'), required: true }
 ]
 
 // === Tag / Taxonomy / Term Fields ===
 export const CreateTagFields = [
   { key: 'name', label: __('Tag Name', 'bit-integrations'), required: true },
   { key: 'slug', label: __('Slug', 'bit-integrations'), required: false },
-  { key: 'description', label: __('Description', 'bit-integrations'), required: false },
+  { key: 'description', label: __('Description', 'bit-integrations'), required: false }
 ]
 
 export const UpdateTagFields = [
   { key: 'tag_id', label: __('Tag ID', 'bit-integrations'), required: true },
   { key: 'name', label: __('Tag Name', 'bit-integrations'), required: false },
   { key: 'slug', label: __('Slug', 'bit-integrations'), required: false },
-  { key: 'description', label: __('Description', 'bit-integrations'), required: false },
+  { key: 'description', label: __('Description', 'bit-integrations'), required: false }
 ]
 
-export const TagIdField = [
-  { key: 'tag_id', label: __('Tag ID', 'bit-integrations'), required: true },
-]
+export const TagIdField = [{ key: 'tag_id', label: __('Tag ID', 'bit-integrations'), required: true }]
 
 export const TaxonomyToPostFields = [
   { key: 'post_id', label: __('Post ID', 'bit-integrations'), required: true },
   { key: 'taxonomy', label: __('Taxonomy', 'bit-integrations'), required: true },
-  { key: 'term', label: __('Term (ID or slug)', 'bit-integrations'), required: true },
+  { key: 'term', label: __('Term (ID or slug)', 'bit-integrations'), required: true }
 ]
 
 export const TagsToPostFields = [
   { key: 'post_id', label: __('Post ID', 'bit-integrations'), required: true },
-  { key: 'tags', label: __('Tags (comma separated IDs/slugs)', 'bit-integrations'), required: true },
+  { key: 'tags', label: __('Tags (comma separated IDs/slugs)', 'bit-integrations'), required: true }
 ]
 
 // === Media Fields ===
@@ -335,44 +325,42 @@ export const AddImageFields = [
   { key: 'caption', label: __('Caption', 'bit-integrations'), required: false },
   { key: 'description', label: __('Description', 'bit-integrations'), required: false },
   { key: 'alt_text', label: __('Alt Text', 'bit-integrations'), required: false },
-  { key: 'parent_post_id', label: __('Parent Post ID', 'bit-integrations'), required: false },
+  { key: 'parent_post_id', label: __('Parent Post ID', 'bit-integrations'), required: false }
 ]
 
 export const MediaIdField = [
-  { key: 'media_id', label: __('Media ID', 'bit-integrations'), required: true },
+  { key: 'media_id', label: __('Media ID', 'bit-integrations'), required: true }
 ]
 
 export const RenameMediaFields = [
   { key: 'media_id', label: __('Media ID', 'bit-integrations'), required: true },
-  { key: 'new_title', label: __('New Title', 'bit-integrations'), required: true },
+  { key: 'new_title', label: __('New Title', 'bit-integrations'), required: true }
 ]
 
-export const MediaTitleField = [
-  { key: 'title', label: __('Title', 'bit-integrations'), required: true },
-]
+export const MediaTitleField = [{ key: 'title', label: __('Title', 'bit-integrations'), required: true }]
 
 // === Taxonomy Fields ===
 export const TaxonomyField = [
-  { key: 'taxonomy', label: __('Taxonomy', 'bit-integrations'), required: true },
+  { key: 'taxonomy', label: __('Taxonomy', 'bit-integrations'), required: true }
 ]
 
 export const RegisterTaxonomyFields = [
   { key: 'taxonomy', label: __('Taxonomy Slug', 'bit-integrations'), required: true },
   { key: 'post_types', label: __('Post Types (comma separated)', 'bit-integrations'), required: true },
   { key: 'label', label: __('Label', 'bit-integrations'), required: true },
-  { key: 'description', label: __('Description', 'bit-integrations'), required: false },
+  { key: 'description', label: __('Description', 'bit-integrations'), required: false }
 ]
 
 // === Term Fields ===
 export const TermIdTaxonomyFields = [
   { key: 'term_id', label: __('Term ID', 'bit-integrations'), required: true },
-  { key: 'taxonomy', label: __('Taxonomy', 'bit-integrations'), required: true },
+  { key: 'taxonomy', label: __('Taxonomy', 'bit-integrations'), required: true }
 ]
 
 export const TermByFieldFields = [
   { key: 'field', label: __('Field (id/name/slug)', 'bit-integrations'), required: true },
   { key: 'value', label: __('Value', 'bit-integrations'), required: true },
-  { key: 'taxonomy', label: __('Taxonomy', 'bit-integrations'), required: true },
+  { key: 'taxonomy', label: __('Taxonomy', 'bit-integrations'), required: true }
 ]
 
 export const CreateTermFields = [
@@ -380,7 +368,7 @@ export const CreateTermFields = [
   { key: 'taxonomy', label: __('Taxonomy', 'bit-integrations'), required: true },
   { key: 'slug', label: __('Slug', 'bit-integrations'), required: false },
   { key: 'description', label: __('Description', 'bit-integrations'), required: false },
-  { key: 'parent', label: __('Parent Term ID', 'bit-integrations'), required: false },
+  { key: 'parent', label: __('Parent Term ID', 'bit-integrations'), required: false }
 ]
 
 export const UpdateTermFields = [
@@ -388,7 +376,7 @@ export const UpdateTermFields = [
   { key: 'taxonomy', label: __('Taxonomy', 'bit-integrations'), required: true },
   { key: 'name', label: __('Term Name', 'bit-integrations'), required: false },
   { key: 'slug', label: __('Slug', 'bit-integrations'), required: false },
-  { key: 'description', label: __('Description', 'bit-integrations'), required: false },
+  { key: 'description', label: __('Description', 'bit-integrations'), required: false }
 ]
 
 // === Category Fields ===
@@ -396,71 +384,75 @@ export const CreateCategoryFields = [
   { key: 'name', label: __('Category Name', 'bit-integrations'), required: true },
   { key: 'slug', label: __('Slug', 'bit-integrations'), required: false },
   { key: 'description', label: __('Description', 'bit-integrations'), required: false },
-  { key: 'parent', label: __('Parent Category ID', 'bit-integrations'), required: false },
+  { key: 'parent', label: __('Parent Category ID', 'bit-integrations'), required: false }
 ]
 
 export const UpdateCategoryFields = [
   { key: 'category_id', label: __('Category ID', 'bit-integrations'), required: true },
   { key: 'name', label: __('Category Name', 'bit-integrations'), required: false },
   { key: 'slug', label: __('Slug', 'bit-integrations'), required: false },
-  { key: 'description', label: __('Description', 'bit-integrations'), required: false },
+  { key: 'description', label: __('Description', 'bit-integrations'), required: false }
 ]
 
 export const CategoryIdField = [
-  { key: 'category_id', label: __('Category ID', 'bit-integrations'), required: true },
+  { key: 'category_id', label: __('Category ID', 'bit-integrations'), required: true }
 ]
 
 export const AddCategoryToPostFields = [
   { key: 'post_id', label: __('Post ID', 'bit-integrations'), required: true },
-  { key: 'category_ids', label: __('Category IDs (comma separated)', 'bit-integrations'), required: true },
+  {
+    key: 'category_ids',
+    label: __('Category IDs (comma separated)', 'bit-integrations'),
+    required: true
+  }
 ]
 
 // === WooCommerce Tag/Category/Type Fields ===
 export const CreateProductTagFields = [
   { key: 'name', label: __('Tag Name', 'bit-integrations'), required: true },
   { key: 'slug', label: __('Slug', 'bit-integrations'), required: false },
-  { key: 'description', label: __('Description', 'bit-integrations'), required: false },
+  { key: 'description', label: __('Description', 'bit-integrations'), required: false }
 ]
 
 export const UpdateProductTagFields = [
   { key: 'tag_id', label: __('Tag ID', 'bit-integrations'), required: true },
   { key: 'name', label: __('Tag Name', 'bit-integrations'), required: false },
   { key: 'slug', label: __('Slug', 'bit-integrations'), required: false },
-  { key: 'description', label: __('Description', 'bit-integrations'), required: false },
+  { key: 'description', label: __('Description', 'bit-integrations'), required: false }
 ]
 
 export const CreateProductCategoryFields = [
   { key: 'name', label: __('Category Name', 'bit-integrations'), required: true },
   { key: 'slug', label: __('Slug', 'bit-integrations'), required: false },
   { key: 'description', label: __('Description', 'bit-integrations'), required: false },
-  { key: 'parent', label: __('Parent Category ID', 'bit-integrations'), required: false },
+  { key: 'parent', label: __('Parent Category ID', 'bit-integrations'), required: false }
 ]
 
 export const UpdateProductCategoryFields = [
   { key: 'category_id', label: __('Category ID', 'bit-integrations'), required: true },
   { key: 'name', label: __('Category Name', 'bit-integrations'), required: false },
   { key: 'slug', label: __('Slug', 'bit-integrations'), required: false },
-  { key: 'description', label: __('Description', 'bit-integrations'), required: false },
+  { key: 'description', label: __('Description', 'bit-integrations'), required: false }
 ]
 
 export const CreateProductTypeFields = [
   { key: 'name', label: __('Type Name', 'bit-integrations'), required: true },
-  { key: 'slug', label: __('Slug', 'bit-integrations'), required: false },
+  { key: 'slug', label: __('Slug', 'bit-integrations'), required: false }
 ]
 
 export const UpdateProductTypeFields = [
   { key: 'type_id', label: __('Type ID', 'bit-integrations'), required: true },
   { key: 'name', label: __('Type Name', 'bit-integrations'), required: false },
-  { key: 'slug', label: __('Slug', 'bit-integrations'), required: false },
+  { key: 'slug', label: __('Slug', 'bit-integrations'), required: false }
 ]
 
 export const ProductTypeIdField = [
-  { key: 'type_id', label: __('Type ID', 'bit-integrations'), required: true },
+  { key: 'type_id', label: __('Type ID', 'bit-integrations'), required: true }
 ]
 
 // === Plugin Fields ===
 export const PluginPathField = [
-  { key: 'plugin_path', label: __('Plugin Path (folder/file.php)', 'bit-integrations'), required: true },
+  { key: 'plugin_path', label: __('Plugin Path (folder/file.php)', 'bit-integrations'), required: true }
 ]
 
 export const EmptyFields = []
