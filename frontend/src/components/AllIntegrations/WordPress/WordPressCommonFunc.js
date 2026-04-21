@@ -6,49 +6,32 @@ import {
   AddCategoryToPostFields,
   AddImageFields,
   CategoryIdField,
-  CommentIdField,
   CreateCategoryFields,
-  CreateCommentFields,
-  CreatePostFields,
   CreateProductCategoryFields,
   CreateProductTagFields,
   CreateProductTypeFields,
-  CreateRoleFields,
   CreateTagFields,
   CreateTermFields,
-  CreateUserFields,
   EmptyFields,
   MediaIdField,
   PluginPathField,
-  PostIdField,
   PostTypeFeaturesFields,
   PostTypeField,
   ProductTypeIdField,
   RegisterPostTypeFields,
   RegisterTaxonomyFields,
   RenameMediaFields,
-  ReplyCommentFields,
-  RoleCapabilitiesFields,
-  RoleNameField,
   TagIdField,
   TagsToPostFields,
   TaxonomyField,
   TaxonomyToPostFields,
   TermIdTaxonomyFields,
   UpdateCategoryFields,
-  UpdatePostFields,
-  UpdatePostStatusFields,
   UpdateProductCategoryFields,
   UpdateProductTagFields,
   UpdateProductTypeFields,
   UpdateTagFields,
-  UpdateTermFields,
-  UpdateUserFields,
-  UpdateUserMetaFields,
-  UpdateUserRoleFields,
-  UserCapabilitiesFields,
-  UserIdField,
-  UserRoleManageFields
+  UpdateTermFields
 } from './staticData'
 
 export const handleInput = (e, wordPressConf, setWordPressConf) => {
@@ -62,52 +45,6 @@ export const handleInput = (e, wordPressConf, setWordPressConf) => {
 
 export const getFieldsForAction = action => {
   switch (action) {
-    // User Management
-    case 'createNewUser':
-      return CreateUserFields
-    case 'updateUser':
-      return UpdateUserFields
-    case 'deleteExistingUser':
-      return UserIdField
-    // User Metadata
-    case 'updateUserMetadata':
-      return UpdateUserMetaFields
-    // Role Management
-    case 'createRole':
-      return CreateRoleFields
-    case 'deleteRole':
-      return RoleNameField
-    case 'addUserRoles':
-      return UserRoleManageFields
-    case 'removeUserRole':
-      return UserRoleManageFields
-    case 'updateUserRole':
-      return UpdateUserRoleFields
-    // Capabilities
-    case 'addRoleCapabilities':
-      return RoleCapabilitiesFields
-    case 'removeRoleCapabilities':
-      return RoleCapabilitiesFields
-    case 'addUserCapabilities':
-      return UserCapabilitiesFields
-    case 'removeUserCapabilities':
-      return UserCapabilitiesFields
-    // Post Management
-    case 'createNewPost':
-      return CreatePostFields
-    case 'updateExistingPost':
-      return UpdatePostFields
-    case 'updatePostStatus':
-      return UpdatePostStatusFields
-    case 'deleteExistingPost':
-      return PostIdField
-    // Comments
-    case 'createNewComment':
-      return CreateCommentFields
-    case 'replyToComment':
-      return ReplyCommentFields
-    case 'deleteExistingComment':
-      return CommentIdField
     // Post Types
     case 'registerPostType':
       return RegisterPostTypeFields

@@ -94,6 +94,7 @@ export const customFormIntegrations = [
   'WeDocs',
   'UserRegistrationMembership',
   'UltimateAffiliatePro',
+  'Registration'
 ]
 
 export const actionHookIntegrations = ['ActionHook']

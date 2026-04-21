@@ -1,43 +1,9 @@
 import { __ } from '../../../Utils/i18nwrap'
 
 export const modules = [
-  // User Management
-  { name: 'createNewUser', label: __('Create New User', 'bit-integrations'), is_pro: true },
-  { name: 'updateUser', label: __('Update User', 'bit-integrations'), is_pro: true },
-  { name: 'deleteExistingUser', label: __('Delete User', 'bit-integrations'), is_pro: true },
-  { name: 'updateUserMetadata', label: __('Update User Metadata', 'bit-integrations'), is_pro: true },
-  // Role Management
-  { name: 'createRole', label: __('Create Role', 'bit-integrations'), is_pro: true },
-  { name: 'deleteRole', label: __('Delete Role', 'bit-integrations'), is_pro: true },
-  { name: 'addUserRoles', label: __('Add User Roles', 'bit-integrations'), is_pro: true },
-  { name: 'removeUserRole', label: __('Remove User Role', 'bit-integrations'), is_pro: true },
-  { name: 'updateUserRole', label: __('Update User Role', 'bit-integrations'), is_pro: true },
-  // Capabilities
-  { name: 'addRoleCapabilities', label: __('Add Role Capabilities', 'bit-integrations'), is_pro: true },
-  {
-    name: 'removeRoleCapabilities',
-    label: __('Remove Role Capabilities', 'bit-integrations'),
-    is_pro: true
-  },
-  { name: 'addUserCapabilities', label: __('Add User Capabilities', 'bit-integrations'), is_pro: true },
-  {
-    name: 'removeUserCapabilities',
-    label: __('Remove User Capabilities', 'bit-integrations'),
-    is_pro: true
-  },
-  // Post Management
-  { name: 'createNewPost', label: __('Create New Post', 'bit-integrations'), is_pro: true },
-  { name: 'updateExistingPost', label: __('Update Existing Post', 'bit-integrations'), is_pro: true },
-  { name: 'updatePostStatus', label: __('Update Post Status', 'bit-integrations'), is_pro: true },
-  { name: 'deleteExistingPost', label: __('Delete Existing Post', 'bit-integrations'), is_pro: true },
-  // Comments
-  { name: 'createNewComment', label: __('Create New Comment', 'bit-integrations'), is_pro: true },
-  { name: 'replyToComment', label: __('Reply To Comment', 'bit-integrations'), is_pro: true },
-  {
-    name: 'deleteExistingComment',
-    label: __('Delete Existing Comment', 'bit-integrations'),
-    is_pro: true
-  },
+  // User/Post actions moved to dedicated actions:
+  // - WP User Registration
+  // - WP Post Creation
   // Post Types
   { name: 'registerPostType', label: __('Register Post Type', 'bit-integrations'), is_pro: true },
   { name: 'unregisterPostType', label: __('Unregister Post Type', 'bit-integrations'), is_pro: true },

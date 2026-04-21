@@ -286,6 +286,10 @@ final class PostCreationController
         if (\in_array($fieldValues['bit-integrator%trigger_data%']['triggered_entity'], $triggers)) {
             $fieldValues = Helper::splitStringToarray($fieldValues);
         }
+        $actionType = isset($flowDetails->action_type) ? $flowDetails->action_type : 'createNewPost';
+        if ($actionType !== 'createNewPost' && $this->executeWordPressPostAction($flowDetails, $fieldValues, $actionType, $integrationData->id)) {
+            return;
+        }
 
         $postData = $this->postFieldData($flowDetails);
         $postFieldMap = $flowDetails->post_map;
@@ -361,6 +365,63 @@ final class PostCreationController
             self::HandleJeCPTFieldMap($jeCPTFieldMap, $updatedJeCPTValues, $postId, $fields);
             self::HandleJeCPTFileMap($jeCPTFileMap, $updatedJeCPTValues, $postId, $fields);
         }
+    }
+
+    private function executeWordPressPostAction($flowDetails, $fieldValues, $actionType, $integrationId)
+    {
+        $actionMap = [
+            'updateExistingPost' => 'wordpress_updateExistingPost',
+            'updatePostStatus' => 'wordpress_updatePostStatus',
+            'deleteExistingPost' => 'wordpress_deleteExistingPost',
+            'createNewComment' => 'wordpress_createNewComment',
+            'replyToComment' => 'wordpress_replyToComment',
+            'deleteExistingComment' => 'wordpress_deleteExistingComment',
+        ];
+
+        if (!isset($actionMap[$actionType])) {
+            return false;
+        }
+
+        $defaultResponse = [
+            'success' => false,
+            'message' => wp_sprintf(
+                // translators: %s: Plugin name
+                __('%s plugin is not installed or activated', 'bit-integrations'),
+                'Bit Integrations Pro'
+            ),
+        ];
+
+        $response = Hooks::apply(
+            Config::withPrefix($actionMap[$actionType]),
+            $defaultResponse,
+            $this->buildRequestDataFromPostMap(isset($flowDetails->post_map) ? $flowDetails->post_map : [], $fieldValues),
+            $flowDetails
+        );
+
+        $responseType = isset($response['success']) && $response['success'] ? 'success' : 'error';
+        LogHandler::save($integrationId, ['type' => 'WP Post Creation', 'type_name' => $actionType], $responseType, $response);
+
+        return true;
+    }
+
+    private function buildRequestDataFromPostMap($postMap, $fieldValues)
+    {
+        $dataFinal = [];
+
+        foreach ($postMap as $mapItem) {
+            if (empty($mapItem->formField) || empty($mapItem->postField)) {
+                continue;
+            }
+
+            $triggerValue = $mapItem->formField;
+            $actionValue = $mapItem->postField;
+
+            $dataFinal[$actionValue] = $triggerValue === 'custom' && isset($mapItem->customValue)
+                ? Common::replaceFieldWithValue($mapItem->customValue, $fieldValues)
+                : ($fieldValues[$triggerValue] ?? '');
+        }
+
+        return $dataFinal;
     }
 
     private static function setPostCategories($postId, $postCategories)

@@ -16,7 +16,7 @@ function WebHooks({ formFields, setFlow, flow, allIntegURL }) {
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
   const [isLoading, setIsLoading] = useState(false)
-const [webHooks, setWebHooks] = useState({
+  const [webHooks, setWebHooks] = useState({
     name: 'Web Hooks',
     type: 'Web Hooks',
     method: 'POST',
@@ -34,8 +34,6 @@ const [webHooks, setWebHooks] = useState({
       <div
         className="btcd-stp-page"
         style={{ ...{ width: step === 1 && 900 }, ...{ height: step === 1 && 'auto' } }}>
-                <TutorialLink title="Web Hooks" links={tutorialLinks?.webHooksLinks || {}} />
-
         <WebHooksIntegration
           formID={formID}
           formFields={formFields}
