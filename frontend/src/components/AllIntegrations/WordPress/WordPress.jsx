@@ -35,7 +35,10 @@ export default function WordPress({ formFields, setFlow, flow, allIntegURL }) {
         return
       }
       if (!checkMappedFields(wordPressConf)) {
-        setSnackbar({ show: true, msg: __('Please map all required fields to continue.', 'bit-integrations') })
+        setSnackbar({
+          show: true,
+          msg: __('Please map all required fields to continue.', 'bit-integrations')
+        })
         return
       }
     }
@@ -61,14 +64,16 @@ export default function WordPress({ formFields, setFlow, flow, allIntegURL }) {
       {/* STEP 2 */}
       <div
         className="btcd-stp-page"
-        style={{ width: step === 2 && 900, height: step === 2 && 'auto', minHeight: step === 2 && '500px' }}>
+        style={{
+          width: step === 2 && 900,
+          height: step === 2 && 'auto',
+          minHeight: step === 2 && '500px'
+        }}>
         <WordPressIntegLayout
           formID={formID}
           formFields={formFields}
           wordPressConf={wordPressConf}
           setWordPressConf={setWordPressConf}
-          setSnackbar={setSnackbar}
-          setIsLoading={setIsLoading}
           isLoading={isLoading}
         />
         <br />

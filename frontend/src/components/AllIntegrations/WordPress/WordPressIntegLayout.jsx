@@ -1,6 +1,9 @@
 import { create } from 'mutative'
+import { useRecoilValue } from 'recoil'
+import { $appConfigState } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
+import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 import { addFieldMap } from '../IntegrationHelpers/IntegrationHelpers'
 import { generateMappedField, getFieldsForAction } from './WordPressCommonFunc'
 import WordPressFieldMap from './WordPressFieldMap'
@@ -10,10 +13,10 @@ export default function WordPressIntegLayout({
   formFields,
   wordPressConf,
   setWordPressConf,
-  isLoading,
-  setIsLoading,
-  setSnackbar
+  isLoading
 }) {
+  const { isPro } = useRecoilValue($appConfigState)
+
   const handleMainAction = value => {
     setWordPressConf(prevConf =>
       create(prevConf, draftConf => {
@@ -35,9 +38,9 @@ export default function WordPressIntegLayout({
           value={wordPressConf?.mainAction || ''}
           onChange={e => handleMainAction(e.target.value)}>
           <option value="">{__('Select Action', 'bit-integrations')}</option>
-          {modules.map(m => (
-            <option key={m.name} value={m.name}>
-              {m.label}
+          {modules.map(action => (
+            <option key={action.name} value={action.name} disabled={!checkIsPro(isPro, action.is_pro)}>
+              {checkIsPro(isPro, action.is_pro) ? action.label : getProLabel(action.label)}
             </option>
           ))}
         </select>

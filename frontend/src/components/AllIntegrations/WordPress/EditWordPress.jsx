@@ -44,8 +44,6 @@ export default function EditWordPress({ allIntegURL }) {
         formFields={formFields}
         wordPressConf={wordPressConf}
         setWordPressConf={setWordPressConf}
-        setSnackbar={setSnackbar}
-        setIsLoading={setIsLoading}
         isLoading={isLoading}
       />
 
