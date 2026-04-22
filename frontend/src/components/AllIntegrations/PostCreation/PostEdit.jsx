@@ -26,6 +26,7 @@ import {
   refreshPostTypes
 } from './PostHelperFunction'
 import { ProFeatureTitle } from '../IntegrationHelpers/ActionProFeatureLabels'
+import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
 
@@ -34,7 +35,7 @@ function Post({ allIntegURL }) {
   const [postTypes, setPostTypes] = useState([])
   const [postCategories, setPostCategories] = useState([])
   const navigate = useNavigate()
-  const { formID, id } = useParams()
+  const { id } = useParams()
   const [postConf, setPostConf] = useRecoilState($actionConf)
   const formFields = useRecoilValue($formFields)
   const [flow, setFlow] = useRecoilState($newFlow)
@@ -193,8 +194,8 @@ function Post({ allIntegURL }) {
           onChange={e => setActionType(e.target.value)}>
           <option value="createNewPost">{__('Create New Post', 'bit-integrations')}</option>
           {postCreationExtraActions.map(action => (
-            <option key={action.value} value={action.value}>
-              {action.label}
+            <option key={action.value} value={action.value} disabled={!checkIsPro(isPro, action.is_pro)}>
+              {checkIsPro(isPro, action.is_pro) ? action.label : getProLabel(action.label)}
             </option>
           ))}
         </select>
@@ -229,7 +230,7 @@ function Post({ allIntegURL }) {
                 ))}
               </select>
               <button
-                onClick={() => refreshPostTypes(postTypes, setPostTypes)}
+                onClick={() => refreshPostTypes(setPostTypes)}
                 className="icn-btn sh-sm ml-2 mr-2 tooltip"
                 style={{ '--tooltip-txt': `'${__('Refresh Post Types', 'bit-integrations')}'` }}
                 type="button">
@@ -393,7 +394,9 @@ function Post({ allIntegURL }) {
 
         <div className="txt-center btcbi-field-map-button mt-2">
           <button
-            onClick={() => addFieldMap('post_map', postConf?.post_map?.length || 0, postConf, setPostConf)}
+            onClick={() =>
+              addFieldMap('post_map', postConf?.post_map?.length || 0, postConf, setPostConf)
+            }
             className="icn-btn sh-sm"
             type="button">
             +
@@ -404,14 +407,9 @@ function Post({ allIntegURL }) {
       {isLegacyAction && (
         <div>
           <CustomField
-            formID={formID}
             formFields={formFields}
-            handleInput={e => handleInput(e, postConf, setPostConf, formID, setIsLoading, setSnackbar)}
             postConf={postConf}
             setPostConf={setPostConf}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
-            setSnackbar={setSnackbar}
             acfFields={acf}
             mbFields={mb}
             jeCPTFields={jeCPTMeta}

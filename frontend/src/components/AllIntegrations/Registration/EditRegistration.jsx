@@ -1,39 +1,36 @@
 /* eslint-disable no-param-reassign */
 import { useEffect, useState } from 'react'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate } from 'react-router'
 import { useRecoilState, useRecoilValue } from 'recoil'
-import bitsFetch from '../../../Utils/bitsFetch'
+import { $actionConf, $appConfigState, $formFields, $newFlow } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
+import ConditionalLogic from '../../ConditionalLogic'
+import LoaderSm from '../../Loaders/LoaderSm'
+import Note from '../../Utilities/Note'
+import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 import SnackMsg from '../../Utilities/SnackMsg'
-import { saveActionConf, saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
+import TableCheckBox from '../../Utilities/TableCheckBox'
+import TutorialLink from '../../Utilities/TutorialLink'
+import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
+import SetEditIntegComponents from '../IntegrationHelpers/SetEditIntegComponents'
+import RegistrationActions from './RegistrationActions'
 import UserFieldMap from './UserFieldMap'
-import UserMetaField from './UserMetaField'
 import {
   checkMappedUserFields,
   generateRegistrationFieldMap,
   getRegistrationFieldsByAction,
   isLegacyRegistrationAction,
-  registrationExtraActions
+  registrationMainActions
 } from './UserHelperFunction'
-import EditFormInteg from '../EditFormInteg'
-import SetEditIntegComponents from '../IntegrationHelpers/SetEditIntegComponents'
-import LoaderSm from '../../Loaders/LoaderSm'
-import { $actionConf, $formFields, $newFlow } from '../../../GlobalStates'
-import EditWebhookInteg from '../EditWebhookInteg'
-import TableCheckBox from '../../Utilities/TableCheckBox'
-import ConditionalLogic from '../../ConditionalLogic'
-import Note from '../../Utilities/Note'
-import RegistrationActions from './RegistrationActions'
-import TutorialLink from '../../Utilities/TutorialLink'
+import UserMetaField from './UserMetaField'
 
 export default function EditRegistration({ allIntegURL }) {
   const navigate = useNavigate()
-  const { formID } = useParams()
   const [snack, setSnackbar] = useState({ show: false })
-  const [roles, setRoles] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [flow, setFlow] = useRecoilState($newFlow)
+  const { isPro } = useRecoilValue($appConfigState)
   const formFields = useRecoilValue($formFields)
   const [userConf, setUserConf] = useRecoilState($actionConf)
   useEffect(() => {
@@ -61,11 +58,6 @@ export default function EditRegistration({ allIntegURL }) {
 
   const isLegacyAction = isLegacyRegistrationAction(userConf?.action_type)
   const selectedUserFields = getRegistrationFieldsByAction(userConf?.action_type || 'new_user')
-  const registrationMainActions = [
-    { value: 'new_user', label: __('New User Create', 'bit-integrations') },
-    { value: 'updated_user', label: __('Updated User', 'bit-integrations') },
-    ...registrationExtraActions
-  ]
 
   const saveConfig = () => {
     if (!userConf.action_type) {
@@ -109,23 +101,6 @@ export default function EditRegistration({ allIntegURL }) {
     setActionType(e.target.value)
   }
 
-  const userUpdateInstruction = `
-  <ul>
-  <li>${__('The user must be logged in when updating profile', 'bit-integrations')}</li>
-  <li>${__(
-    'The user cannot change the value of the username field when updating the user profile.',
-    'bit-integrations'
-  )}</li>
-     
-  </ul>`
-  const userCreateInstruction = `
-  <ul>
-  <li>${__(
-    'If the Username and Password fields are blank then the user will take the value of the email field as the field and the password will be auto-generated.',
-    'bit-integrations'
-  )}</li>  
-  </ul>`
-
   return (
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
@@ -135,15 +110,17 @@ export default function EditRegistration({ allIntegURL }) {
 
       <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
       <div className="flx mt-3">
-        <div className="wdt-200 d-in-b">{__('Action type', 'bit-integrations')}</div>
+        <div className="wdt-200 d-in-b">
+          <b>{__('Action type', 'bit-integrations')}</b>
+        </div>
         <select
-          className="btcd-paper-inp w-5 ml-2"
+          className="btcd-paper-inp w-5"
           value={userConf?.action_type || 'new_user'}
           onChange={actionTypeHandler}>
           <option value="">{__('Select Action', 'bit-integrations')}</option>
           {registrationMainActions.map(action => (
-            <option key={action.value} value={action.value}>
-              {action.label}
+            <option key={action.value} value={action.value} disabled={!checkIsPro(isPro, action.is_pro)}>
+              {checkIsPro(isPro, action.is_pro) ? action.label : getProLabel(action.label)}
             </option>
           ))}
         </select>
@@ -154,10 +131,8 @@ export default function EditRegistration({ allIntegURL }) {
       <div>
         <UserFieldMap
           formFields={formFields}
-          formID={formID}
           userConf={userConf}
           setUserConf={setUserConf}
-          roles={roles}
           userFields={selectedUserFields}
         />
         <br />
@@ -165,12 +140,7 @@ export default function EditRegistration({ allIntegURL }) {
       {isLegacyAction && (
         <>
           <div>
-            <UserMetaField
-              formFields={formFields}
-              formID={formID}
-              userConf={userConf}
-              setUserConf={setUserConf}
-            />
+            <UserMetaField formFields={formFields} userConf={userConf} setUserConf={setUserConf} />
             <br />
           </div>
 
@@ -182,7 +152,9 @@ export default function EditRegistration({ allIntegURL }) {
 
           <br />
           <Note
-            note={userConf?.action_type === 'updated_user' ? userUpdateInstruction : userCreateInstruction}
+            note={
+              userConf?.action_type === 'updated_user' ? userUpdateInstruction : userCreateInstruction
+            }
           />
         </>
       )}
@@ -217,3 +189,22 @@ export default function EditRegistration({ allIntegURL }) {
     </div>
   )
 }
+
+
+
+const userUpdateInstruction = `
+  <ul>
+  <li>${__('The user must be logged in when updating profile', 'bit-integrations')}</li>
+  <li>${__(
+  'The user cannot change the value of the username field when updating the user profile.',
+  'bit-integrations'
+)}</li>
+     
+  </ul>`
+const userCreateInstruction = `
+  <ul>
+  <li>${__(
+  'If the Username and Password fields are blank then the user will take the value of the email field as the field and the password will be auto-generated.',
+  'bit-integrations'
+)}</li>  
+  </ul>`

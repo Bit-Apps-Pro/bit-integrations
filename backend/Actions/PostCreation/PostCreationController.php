@@ -120,20 +120,30 @@ final class PostCreationController
     {
         foreach ($metaboxMapField as $fieldPair) {
             if (property_exists($fieldPair, 'metaboxFileUpload')) {
-                if (!empty($fieldValues[$fieldPair->formField])) {
-                    $triggerValue = $fieldPair->formField;
-                    $actionValue = $fieldPair->metaboxFile;
-                    $fieldObject = $metaboxFields->{$actionValue};
+                if (empty($fieldPair->formField) || empty($fieldPair->metaboxFileUpload)) {
+                    continue;
+                }
 
-                    if ($fieldObject['multiple'] == false) {
-                        static::uploadMBFile($postId, $fieldValues[$triggerValue], $fieldObject);
-                    } elseif ($fieldObject['multiple'] == true) {
-                        $attachMentId = Helper::multiFileMoveWpMedia($fieldValues[$triggerValue], $postId);
+                if (empty($fieldValues[$fieldPair->formField])) {
+                    continue;
+                }
 
-                        if (!empty($attachMentId) && \is_array($attachMentId)) {
-                            foreach ($attachMentId as $attachemnt) {
-                                add_post_meta($postId, $fieldObject['field_name'], $attachemnt);
-                            }
+                $triggerValue = $fieldPair->formField;
+                $actionValue = $fieldPair->metaboxFileUpload;
+                $fieldObject = isset($metaboxFields[$actionValue]) ? $metaboxFields[$actionValue] : null;
+
+                if (empty($fieldObject)) {
+                    continue;
+                }
+
+                if (empty($fieldObject['multiple'])) {
+                    static::uploadMBFile($postId, $fieldValues[$triggerValue], $fieldObject);
+                } else {
+                    $attachMentId = Helper::multiFileMoveWpMedia($fieldValues[$triggerValue], $postId);
+
+                    if (!empty($attachMentId) && \is_array($attachMentId)) {
+                        foreach ($attachMentId as $attachemnt) {
+                            add_post_meta($postId, $fieldObject['field_name'], $attachemnt);
                         }
                     }
                 }

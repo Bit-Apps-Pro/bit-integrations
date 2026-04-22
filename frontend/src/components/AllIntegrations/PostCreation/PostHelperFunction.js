@@ -5,16 +5,19 @@ import { __ } from '../../../Utils/i18nwrap'
 import { postFields as defaultPostFields } from '../../../Utils/StaticData/postField'
 
 export const postCreationExtraActions = [
-  { value: 'updateExistingPost', label: __('Update Existing Post', 'bit-integrations') },
-  { value: 'updatePostStatus', label: __('Update Post Status', 'bit-integrations') },
-  { value: 'deleteExistingPost', label: __('Delete Existing Post', 'bit-integrations') },
-  { value: 'createNewComment', label: __('Create New Comment', 'bit-integrations') },
-  { value: 'replyToComment', label: __('Reply To Comment', 'bit-integrations') },
-  { value: 'deleteExistingComment', label: __('Delete Existing Comment', 'bit-integrations') }
+  { value: 'updateExistingPost', label: __('Update Existing Post', 'bit-integrations'), is_pro: true },
+  { value: 'updatePostStatus', label: __('Update Post Status', 'bit-integrations'), is_pro: true },
+  { value: 'deleteExistingPost', label: __('Delete Existing Post', 'bit-integrations'), is_pro: true },
+  { value: 'createNewComment', label: __('Create New Comment', 'bit-integrations'), is_pro: true },
+  { value: 'replyToComment', label: __('Reply To Comment', 'bit-integrations'), is_pro: true },
+  {
+    value: 'deleteExistingComment',
+    label: __('Delete Existing Comment', 'bit-integrations'),
+    is_pro: true
+  }
 ]
 
-export const isLegacyPostCreationAction = actionType =>
-  !actionType || actionType === 'createNewPost'
+export const isLegacyPostCreationAction = actionType => !actionType || actionType === 'createNewPost'
 
 const postCreationActionFields = {
   updateExistingPost: [
@@ -150,7 +153,7 @@ export const checkMappedJEFields = data => {
   return true
 }
 
-export const refreshPostTypes = (postTypes, setPostTypes) => {
+export const refreshPostTypes = setPostTypes => {
   const loadPostTypes = bitsFetch({}, 'post-types/list').then(result => {
     if (result && result.success) {
       const { data } = result
@@ -176,7 +179,8 @@ export const refreshPostCategories = (postType, setPostCategories) => {
       if (data) {
         setPostCategories(data)
       }
-      if (data && data.length > 0) return __('Successfully refreshed Post Categories.', 'bit-integrations')
+      if (data && data.length > 0)
+        return __('Successfully refreshed Post Categories.', 'bit-integrations')
       return __('Post Categories not found', 'bit-integrations')
     }
   })

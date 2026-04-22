@@ -76,24 +76,6 @@ final class RegistrationController
 
     private function executeWordPressUserAction($flowDetails, $fieldValues, $actionType)
     {
-        $actionMap = [
-            'deleteExistingUser' => 'wordpress_deleteExitingUser',
-            'updateUserMetadata' => 'wordpress_updateUserMetadata',
-            'createRole' => 'wordpress_createRole',
-            'deleteRole' => 'wordpress_deleteRole',
-            'addUserRoles' => 'wordpress_addUserRoles',
-            'removeUserRole' => 'wordpress_removeUserRole',
-            'updateUserRole' => 'wordpress_updateUserRole',
-            'addRoleCapabilities' => 'wordpress_addRoleCapabilities',
-            'removeRoleCapabilities' => 'wordpress_removeRoleCapabilities',
-            'addUserCapabilities' => 'wordpress_addUserCapabilities',
-            'removeUserCapabilities' => 'wordpress_removeUserCapabilities',
-        ];
-
-        if (!isset($actionMap[$actionType])) {
-            return;
-        }
-
         $defaultResponse = [
             'success' => false,
             'message' => wp_sprintf(
@@ -104,7 +86,7 @@ final class RegistrationController
         ];
 
         $response = Hooks::apply(
-            Config::withPrefix($actionMap[$actionType]),
+            Config::withPrefix($actionType),
             $defaultResponse,
             $this->buildRequestDataFromUserMap(isset($flowDetails->user_map) ? $flowDetails->user_map : [], $fieldValues),
             $flowDetails
