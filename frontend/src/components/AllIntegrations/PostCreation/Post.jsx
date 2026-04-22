@@ -22,7 +22,6 @@ import FieldMap from './FieldMap'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
-import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
@@ -193,7 +192,7 @@ function Post({ formFields, setFlow, flow, allIntegURL }) {
   return (
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <TutorialLink title="WP Post Creation" links={tutorialLinks?.postCreation || {}} />
+      <TutorialLink linkKey="postCreation" />
 
       <div className="txt-center mt-2">
         <Steps step={3} active={step} />

@@ -7,7 +7,6 @@ import Steps from '../../Utilities/Steps'
 import { saveIntegConfig } from '../IntegrationHelpers/IntegrationHelpers'
 import WebHooksStepTwo from '../IntegrationHelpers/WebHook/WebHooksStepTwo'
 import WebHooksIntegration from '../IntegrationHelpers/WebHook/WebHooksIntegration'
-import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 
 function WebHooks({ formFields, setFlow, flow, allIntegURL }) {

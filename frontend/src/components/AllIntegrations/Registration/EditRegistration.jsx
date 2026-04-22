@@ -25,7 +25,6 @@ import TableCheckBox from '../../Utilities/TableCheckBox'
 import ConditionalLogic from '../../ConditionalLogic'
 import Note from '../../Utilities/Note'
 import RegistrationActions from './RegistrationActions'
-import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 
 export default function EditRegistration({ allIntegURL }) {
@@ -130,7 +129,7 @@ export default function EditRegistration({ allIntegURL }) {
   return (
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <TutorialLink title="WP User Registration" links={tutorialLinks?.registration || {}} />
+      <TutorialLink linkKey="registration" />
       <br />
       <br />
 

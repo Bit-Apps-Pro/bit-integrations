@@ -19,7 +19,6 @@ import LoaderSm from '../../Loaders/LoaderSm'
 import ConditionalLogic from '../../ConditionalLogic'
 import TableCheckBox from '../../Utilities/TableCheckBox'
 import Note from '../../Utilities/Note'
-import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 import RegistrationActions from './RegistrationActions'
 
@@ -130,7 +129,7 @@ export default function Registration({ formFields, setFlow, flow, allIntegURL })
   return (
     <div style={{ width: 900 }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
-      <TutorialLink title="WP User Registration" links={tutorialLinks?.registration || {}} />
+      <TutorialLink linkKey="registration" />
       <br />{' '}
       <div>
         <div className="mt-2">

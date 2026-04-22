@@ -37,6 +37,12 @@ const ActionHook = () => {
   const [snack, setSnackbar] = useState({ show: false })
   const [showResponse, setShowResponse] = useState(false)
   const isFetchingRef = useRef(false)
+  const actionHookTutorialLinks = {
+    actionHook: {
+      docLink: 'https://bitapps.pro/docs/bit-integrations/trigger/action-hook-integrations',
+      youTubeLink: 'https://youtu.be/pZ-8JuZfIco?si=Xxv857hJjv6p5Tcu'
+    }
+  }
 
   let controller = new AbortController()
   const signal = controller.signal
@@ -338,14 +344,8 @@ const ActionHook = () => {
           </button>
         </div>
       )}
-      <Note note={info} isInstruction={true} maxWidth="100%" >
-        <TutorialLink
-          style={{ margin: 0 }}
-          links={{
-            docLink: "https://bitapps.pro/docs/bit-integrations/trigger/action-hook-integrations",
-            youTubeLink: "https://youtu.be/pZ-8JuZfIco?si=Xxv857hJjv6p5Tcu"
-          }}
-        />
+      <Note note={info} isInstruction={true} maxWidth="100%">
+        <TutorialLink linkKey="actionHook" linksMap={actionHookTutorialLinks} style={{ margin: 0 }} />
       </Note>
     </div>
   )
