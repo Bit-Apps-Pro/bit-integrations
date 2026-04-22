@@ -291,7 +291,6 @@ export const AddImageFields = [
   { key: 'caption', label: __('Caption', 'bit-integrations'), required: false },
   { key: 'description', label: __('Description', 'bit-integrations'), required: false },
   { key: 'alt_text', label: __('Alt Text', 'bit-integrations'), required: false },
-  { key: 'parent_post_id', label: __('Parent Post ID', 'bit-integrations'), required: false }
 ]
 
 export const MediaIdField = [

@@ -53,10 +53,6 @@ export default function WordPressAuthorization({
         placeholder={__('Integration Name...', 'bit-integrations')}
       />
 
-      <div className="mt-4">
-        <p>{__('WordPress is always available. Click Connect to proceed.', 'bit-integrations')}</p>
-      </div>
-
       <button
         onClick={authorizeHandler}
         className="btn btcd-btn-lg purple sh-sm flx"
