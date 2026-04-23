@@ -33,65 +33,64 @@ export const isLegacyRegistrationAction = actionType =>
 
 const registrationActionFields = {
   deleteExistingUser: [
-    { key: 'userEmail', name: __('User Email', 'bit-integrations'), required: true},
-    { key: 'reassignId', name: __('Reassign ID', 'bit-integrations'), required: false}
+    { key: 'user_email', name: __('User Email', 'bit-integrations'), required: true},
+    { key: 'reassign_id', name: __('Reassign ID', 'bit-integrations'), required: false}
   ],
   updateUserMetadata: [
-    { key: 'userEmail', name: __('User Email', 'bit-integrations'), required: true },
-    { key: 'metaKey', name: __('Meta Key', 'bit-integrations'), required: true },
-    { key: 'metaValue', name: __('Meta Value', 'bit-integrations'), required: true }
+    { key: 'user_email', name: __('User Email', 'bit-integrations'), required: true },
+    { key: 'meta_key', name: __('Meta Key', 'bit-integrations'), required: true },
+    { key: 'meta_value', name: __('Meta Value', 'bit-integrations'), required: true }
   ],
   createRole: [
-    { key: 'roleName', name: __('Role Name', 'bit-integrations'), required: true },
-    { key: 'roleDisplayName', name: __('Display Name', 'bit-integrations'), required: true },
+    { key: 'role_name', name: __('Role Name', 'bit-integrations'), required: true },
+    { key: 'role_display_name', name: __('Display Name', 'bit-integrations'), required: true },
     {
-      key: 'roleCapabilities',
+      key: 'role_capabilities',
       name: __('Capabilities (comma separated)', 'bit-integrations'),
       required: false
     }
   ],
-  deleteRole: [{ key: 'roleName', name: __('Role Name', 'bit-integrations'), required: true }],
+  deleteRole: [{ key: 'role_name', name: __('Role Name', 'bit-integrations'), required: true }],
   addUserRoles: [
-    { key: 'userEmail', name: __('User Email', 'bit-integrations'), required: true },
-    { key: 'userRole', name: __('Role', 'bit-integrations'), required: true }
+    { key: 'user_email', name: __('User Email', 'bit-integrations'), required: true },
+    { key: 'user_role', name: __('Role', 'bit-integrations'), required: true }
   ],
   removeUserRole: [
-    { key: 'userEmail', name: __('User Email', 'bit-integrations'), required: true },
-    { key: 'userRole', name: __('Role', 'bit-integrations'), required: true }
+    { key: 'user_email', name: __('User Email', 'bit-integrations'), required: true },
+    { key: 'user_role', name: __('Role', 'bit-integrations'), required: true }
   ],
   updateUserRole: [
-    { key: 'userEmail', name: __('User Email', 'bit-integrations'), required: true },
-    { key: 'oldRole', name: __('Old Role', 'bit-integrations'), required: false },
-    { key: 'newRole', name: __('New Role', 'bit-integrations'), required: true }
+    { key: 'user_email', name: __('User Email', 'bit-integrations'), required: true },
+    { key: 'new_role', name: __('New Role', 'bit-integrations'), required: true }
   ],
   addRoleCapabilities: [
-    { key: 'roleName', name: __('Role Name', 'bit-integrations'), required: true },
+    { key: 'role_name', name: __('Role Name', 'bit-integrations'), required: true },
     {
-      key: 'roleCapabilities',
+      key: 'role_capabilities',
       name: __('Capabilities (comma separated)', 'bit-integrations'),
       required: true
     }
   ],
   removeRoleCapabilities: [
-    { key: 'roleName', name: __('Role Name', 'bit-integrations'), required: true },
+    { key: 'role_name', name: __('Role Name', 'bit-integrations'), required: true },
     {
-      key: 'roleCapabilities',
+      key: 'role_capabilities',
       name: __('Capabilities (comma separated)', 'bit-integrations'),
       required: true
     }
   ],
   addUserCapabilities: [
-    { key: 'userEmail', name: __('User Email', 'bit-integrations'), required: true },
+    { key: 'user_email', name: __('User Email', 'bit-integrations'), required: true },
     {
-      key: 'roleCapabilities',
+      key: 'role_capabilities',
       name: __('Capabilities (comma separated)', 'bit-integrations'),
       required: true
     }
   ],
   removeUserCapabilities: [
-    { key: 'userEmail', name: __('User Email', 'bit-integrations'), required: true },
+    { key: 'user_email', name: __('User Email', 'bit-integrations'), required: true },
     {
-      key: 'roleCapabilities',
+      key: 'role_capabilities',
       name: __('Capabilities (comma separated)', 'bit-integrations'),
       required: true
     }
