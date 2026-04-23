@@ -71,14 +71,12 @@ function EditMondayCom({ allIntegURL }) {
 
       <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
       <MondayComIntegLayout
-        formID={flow.triggered_entity_id}
         formFields={formField}
         mondayComConf={mondayComConf}
         setMondayComConf={setMondayComConf}
         loading={loading}
         setLoading={setLoading}
-        setIsLoading={setIsLoading}
-        setSnackbar={setSnackbar}
+        isLoading={isLoading}
       />
 
       <IntegrationStepThree

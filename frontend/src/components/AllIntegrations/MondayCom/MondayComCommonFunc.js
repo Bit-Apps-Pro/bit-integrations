@@ -71,7 +71,12 @@ export const mondayComAuthentication = (confTmp, setError, setIsAuthorized, load
       return
     }
     setLoading({ ...loading, auth: false })
-    toast.error(__('Authorized failed', 'bit-integrations'))
+    const authErrorMessage = result?.message || result?.error || result?.data?.message
+    toast.error(
+      authErrorMessage
+        ? `${__('Authorization failed', 'bit-integrations')}: ${authErrorMessage}`
+        : __('Authorization failed', 'bit-integrations')
+    )
   })
 }
 

@@ -110,8 +110,6 @@ function MondayCom({ formFields, setFlow, flow, allIntegURL }) {
           loading={loading}
           setLoading={setLoading}
           isLoading={isLoading}
-          setIsLoading={setIsLoading}
-          setSnackbar={setSnackbar}
         />
 
         {mondayComConf?.mainAction && (

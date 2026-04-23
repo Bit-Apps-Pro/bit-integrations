@@ -196,43 +196,6 @@ export default function MondayComIntegLayout({
           </>
         )}
 
-      {mainAction === 'create_item'
-        && mondayComConf?.selectedBoard
-        && !loading.group && (
-          <>
-            <br />
-            <div className="flx">
-              <b className="wdt-200 d-in-b">{__('Group (Optional):', 'bit-integrations')}</b>
-              <MultiSelect
-                options={
-                  mondayComConf?.groups
-                  && mondayComConf.groups.map(g => ({ label: g.name, value: `${g.id}` }))
-                }
-                className="msl-wrp-options dropdown-custom-width"
-                defaultValue={mondayComConf?.selectedGroup}
-                onChange={val => handleSelectChange(val, 'selectedGroup')}
-                singleSelect
-                closeOnSelect
-              />
-              <button
-                onClick={() =>
-                  getAllGroups(
-                    mondayComConf,
-                    setMondayComConf,
-                    mondayComConf.selectedBoard,
-                    setLoading
-                  )
-                }
-                className="icn-btn sh-sm ml-2 mr-2 tooltip"
-                style={{ '--tooltip-txt': `'${__('Refresh Groups', 'bit-integrations')}'` }}
-                type="button"
-                disabled={loading.group}>
-                &#x21BB;
-              </button>
-            </div>
-          </>
-        )}
-
       {mainAction
         && needsItem.includes(mainAction)
         && mondayComConf?.selectedBoard

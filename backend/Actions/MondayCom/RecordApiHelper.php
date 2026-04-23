@@ -67,12 +67,9 @@ class RecordApiHelper
         $mainAction = $this->integrationDetails->mainAction ?? '';
         $apiResponse = null;
         $responseType = null;
-        $default = null;
 
         $this->type = 'item';
         $this->typeName = $mainAction;
-
-        $default = (object) ['error' => wp_sprintf(__('%s plugin is not installed or activated', 'bit-integrations'), 'Bit Integrations Pro')];
 
         switch ($mainAction) {
             case 'create_item':
