@@ -107,7 +107,7 @@ class RecordApiHelper
                 break;
             case 'archive_board':
                 $this->type = 'board';
-                $apiResponse = Hooks::apply(Config::withPrefix('mondayCom_archive_board'), false, $fieldData, $this->integrationDetails, $this->apiToken);
+                $apiResponse = Hooks::apply(Config::withPrefix('mondayCom_archive_board'), false, $fieldData, $this->apiToken);
 
                 break;
             case 'archive_group':
