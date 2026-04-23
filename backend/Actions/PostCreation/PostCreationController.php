@@ -297,8 +297,8 @@ final class PostCreationController
             $fieldValues = Helper::splitStringToarray($fieldValues);
         }
         $actionType = isset($flowDetails->action_type) ? $flowDetails->action_type : 'createNewPost';
-        if ($actionType !== 'createNewPost' && $this->executeWordPressPostAction($flowDetails, $fieldValues, $actionType, $integrationData->id)) {
-            return;
+        if ($actionType !== 'createNewPost') {
+            return $this->executeWordPressPostAction($flowDetails, $fieldValues, $actionType, $integrationData->id);
         }
 
         $postData = $this->postFieldData($flowDetails);
@@ -379,19 +379,6 @@ final class PostCreationController
 
     private function executeWordPressPostAction($flowDetails, $fieldValues, $actionType, $integrationId)
     {
-        $actionMap = [
-            'updateExistingPost' => 'wordpress_updateExistingPost',
-            'updatePostStatus' => 'wordpress_updatePostStatus',
-            'deleteExistingPost' => 'wordpress_deleteExistingPost',
-            'createNewComment' => 'wordpress_createNewComment',
-            'replyToComment' => 'wordpress_replyToComment',
-            'deleteExistingComment' => 'wordpress_deleteExistingComment',
-        ];
-
-        if (!isset($actionMap[$actionType])) {
-            return false;
-        }
-
         $defaultResponse = [
             'success' => false,
             'message' => wp_sprintf(
@@ -402,7 +389,7 @@ final class PostCreationController
         ];
 
         $response = Hooks::apply(
-            Config::withPrefix($actionMap[$actionType]),
+            Config::withPrefix($actionType),
             $defaultResponse,
             $this->buildRequestDataFromPostMap(isset($flowDetails->post_map) ? $flowDetails->post_map : [], $fieldValues),
             $flowDetails

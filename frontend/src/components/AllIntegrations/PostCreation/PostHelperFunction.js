@@ -5,6 +5,7 @@ import { __ } from '../../../Utils/i18nwrap'
 import { postFields as defaultPostFields } from '../../../Utils/StaticData/postField'
 
 export const postCreationExtraActions = [
+  { value: 'createNewPost', label: __('Create New Post', 'bit-integrations'), is_pro: false },
   { value: 'updateExistingPost', label: __('Update Existing Post', 'bit-integrations'), is_pro: true },
   { value: 'updatePostStatus', label: __('Update Post Status', 'bit-integrations'), is_pro: true },
   { value: 'deleteExistingPost', label: __('Delete Existing Post', 'bit-integrations'), is_pro: true },
@@ -36,7 +37,10 @@ const postCreationActionFields = {
     { key: 'post_id', name: __('Post ID', 'bit-integrations'), required: true },
     { key: 'post_status', name: __('Post Status', 'bit-integrations'), required: true }
   ],
-  deleteExistingPost: [{ key: 'post_id', name: __('Post ID', 'bit-integrations'), required: true }],
+  deleteExistingPost: [
+    { key: 'post_id', name: __('Post ID', 'bit-integrations'), required: true },
+    { key: 'force_delete', name: __('Force Delete (true/false)', 'bit-integrations'), required: false }
+  ],
   createNewComment: [
     { key: 'comment_post_ID', name: __('Post ID', 'bit-integrations'), required: true },
     { key: 'comment_content', name: __('Comment Content', 'bit-integrations'), required: true },
@@ -48,12 +52,13 @@ const postCreationActionFields = {
   replyToComment: [
     { key: 'comment_parent', name: __('Parent Comment ID', 'bit-integrations'), required: true },
     { key: 'comment_content', name: __('Comment Content', 'bit-integrations'), required: true },
-    { key: 'comment_post_ID', name: __('Post ID', 'bit-integrations'), required: false },
+    { key: 'comment_post_ID', name: __('Post ID', 'bit-integrations'), required: true },
     { key: 'comment_author', name: __('Author Name', 'bit-integrations'), required: false },
     { key: 'comment_author_email', name: __('Author Email', 'bit-integrations'), required: false }
   ],
   deleteExistingComment: [
-    { key: 'comment_id', name: __('Comment ID', 'bit-integrations'), required: true }
+    { key: 'comment_id', name: __('Comment ID', 'bit-integrations'), required: true },
+    { key: 'force_delete', name: __('Force Delete (true/false)', 'bit-integrations'), required: false }
   ]
 }
 

@@ -219,7 +219,6 @@ function Post({ formFields, setFlow, flow, allIntegURL }) {
           className="btcd-paper-inp w-5 mt-1"
           value={postConf?.action_type || 'createNewPost'}
           onChange={e => setActionType(e.target.value)}>
-          <option value="createNewPost">{__('Create New Post', 'bit-integrations')}</option>
           {postCreationExtraActions.map(action => (
             <option key={action.value} value={action.value} disabled={!checkIsPro(isPro, action.is_pro)}>
               {checkIsPro(isPro, action.is_pro) ? action.label : getProLabel(action.label)}

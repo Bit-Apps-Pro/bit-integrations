@@ -29,6 +29,7 @@ import { ProFeatureTitle } from '../IntegrationHelpers/ActionProFeatureLabels'
 import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import 'react-multiple-select-dropdown-lite/dist/index.css'
+import TutorialLink from '../../Utilities/TutorialLink'
 
 function Post({ allIntegURL }) {
   const [users, setUsers] = useState([])
@@ -170,35 +171,38 @@ function Post({ allIntegURL }) {
     <div>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
       <div style={{ width: 900 }}>
-        <div className="mt-3">
-          <b>{__('Integration Name', 'bit-integrations')}</b>
+        <TutorialLink linkKey="postCreation" />
+        <div className="flx mt-3">
+          <div className="wdt-200 d-in-b">
+            <b>{__('Integration Name', 'bit-integrations')}</b>
+          </div>
+          <input
+            className="btcd-paper-inp w-5 mt-1"
+            onChange={e => handleInput(e.target.name, e.target.value)}
+            name="name"
+            value={postConf.name}
+            type="text"
+            placeholder={__('Integration Name...', 'bit-integrations')}
+          />
         </div>
-        <input
-          className="btcd-paper-inp w-5 mt-1"
-          onChange={e => handleInput(e.target.name, e.target.value)}
-          name="name"
-          value={postConf.name}
-          type="text"
-          placeholder={__('Integration Name...', 'bit-integrations')}
-        />
-        <br />
         <br />
         <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
 
-        <div className="mt-3">
-          <b>{__('Action Type', 'bit-integrations')}</b>
+        <div className="flx mt-2">
+          <div className="wdt-200 d-in-b">
+            <b>{__('Action type', 'bit-integrations')}</b>
+          </div>
+          <select
+            className="btcd-paper-inp w-5 mt-1"
+            value={postConf?.action_type || 'createNewPost'}
+            onChange={e => setActionType(e.target.value)}>
+            {postCreationExtraActions.map(action => (
+              <option key={action.value} value={action.value} disabled={!checkIsPro(isPro, action.is_pro)}>
+                {checkIsPro(isPro, action.is_pro) ? action.label : getProLabel(action.label)}
+              </option>
+            ))}
+          </select>
         </div>
-        <select
-          className="btcd-paper-inp w-5 mt-1"
-          value={postConf?.action_type || 'createNewPost'}
-          onChange={e => setActionType(e.target.value)}>
-          <option value="createNewPost">{__('Create New Post', 'bit-integrations')}</option>
-          {postCreationExtraActions.map(action => (
-            <option key={action.value} value={action.value} disabled={!checkIsPro(isPro, action.is_pro)}>
-              {checkIsPro(isPro, action.is_pro) ? action.label : getProLabel(action.label)}
-            </option>
-          ))}
-        </select>
 
         {isLegacyAction && (
           <>
