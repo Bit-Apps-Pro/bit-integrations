@@ -119,7 +119,7 @@ class MondayComController
                 'type'     => $c->type,
                 'required' => false,
             ],
-            $response->data->boards[0]->columns
+            reset($response->data->boards)->columns
         );
 
         wp_send_json_success($columns, 200);

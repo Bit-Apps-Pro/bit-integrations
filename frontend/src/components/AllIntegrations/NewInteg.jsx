@@ -1606,7 +1606,7 @@ export default function NewInteg({ allIntegURL }) {
             setFlow={setFlow}
           />
         )
-      case 'MondayCom':
+      case 'Monday.Com':
         return (
           <MondayCom
             allIntegURL={allIntegURL}

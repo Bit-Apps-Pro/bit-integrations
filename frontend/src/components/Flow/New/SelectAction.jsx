@@ -168,7 +168,7 @@ export default function SelectAction() {
     { type: 'License Manager For WooCommerce' },
     { type: 'Voxel' },
     { type: 'SmartSuite' },
-    { type: 'MondayCom', logo: 'mondayCom' },
+    { type: 'Monday.Com', logo: 'mondayCom' },
     { type: 'Bento' },
     { type: 'Line' },
     { type: 'ACPT' },

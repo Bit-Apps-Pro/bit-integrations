@@ -617,7 +617,7 @@ export default function IntegInfo() {
         return <VoxelAuthorization voxelConf={integrationConf} step={1} isInfo />
       case 'SmartSuite':
         return <SmartSuiteAuthorization smartSuiteConf={integrationConf} step={1} isInfo />
-      case 'MondayCom':
+      case 'Monday.Com':
         return <MondayComAuthorization mondayComConf={integrationConf} step={1} isInfo />
       case 'Bento':
         return <BentoAuthorization bentoConf={integrationConf} step={1} isInfo />

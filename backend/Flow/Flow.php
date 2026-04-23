@@ -498,6 +498,11 @@ final class Flow
 
                         break;
 
+                    case 'Monday.Com':
+                        $integrationName = 'MondayCom';
+
+                        break;
+
                     default:
                         $integrationName = $integrationName;
 

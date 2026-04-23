@@ -580,7 +580,7 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditVoxel allIntegURL={allIntegURL} />
     case 'SmartSuite':
       return <EditSmartSuite allIntegURL={allIntegURL} />
-    case 'MondayCom':
+    case 'Monday.Com':
       return <EditMondayCom allIntegURL={allIntegURL} />
     case 'Bento':
       return <EditBento allIntegURL={allIntegURL} />

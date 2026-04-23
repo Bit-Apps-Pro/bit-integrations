@@ -18,12 +18,12 @@ import {
   staticFieldsMap,
   columnTypeList,
   needsBoard,
-  needsGroup,
   needsItem,
   needsColumnMap
 } from './staticData'
 import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 import { create } from 'mutative'
+import MondayComActions from './MondayComActions'
 
 export default function MondayComIntegLayout({
   formFields,
@@ -84,9 +84,6 @@ export default function MondayComIntegLayout({
 
     if (needsColumnMap.includes(action)) {
       getAllColumns(mondayComConf, setMondayComConf, val, setLoading)
-    }
-    if (needsGroup.includes(action) || action === 'create_item') {
-      getAllGroups(mondayComConf, setMondayComConf, val, setLoading)
     }
     if (needsItem.includes(action)) {
       getAllItems(mondayComConf, setMondayComConf, val, setLoading)
@@ -163,7 +160,6 @@ export default function MondayComIntegLayout({
       )}
 
       {mainAction
-        && needsGroup.includes(mainAction)
         && mondayComConf?.selectedBoard
         && !loading.group && (
           <>
@@ -198,7 +194,7 @@ export default function MondayComIntegLayout({
               </button>
             </div>
           </>
-      )}
+        )}
 
       {mainAction === 'create_item'
         && mondayComConf?.selectedBoard
@@ -235,7 +231,7 @@ export default function MondayComIntegLayout({
               </button>
             </div>
           </>
-      )}
+        )}
 
       {mainAction
         && needsItem.includes(mainAction)
@@ -273,7 +269,7 @@ export default function MondayComIntegLayout({
               </button>
             </div>
           </>
-      )}
+        )}
 
       {mainAction === 'create_column' && (
         <>
@@ -287,20 +283,6 @@ export default function MondayComIntegLayout({
               onChange={val => handleSelectChange(val, 'columnType')}
               singleSelect
               closeOnSelect
-            />
-          </div>
-        </>
-      )}
-
-      {mainAction === 'duplicate_group' && (
-        <>
-          <br />
-          <div className="flx">
-            <b className="wdt-200 d-in-b">{__('Add To Top:', 'bit-integrations')}</b>
-            <input
-              type="checkbox"
-              checked={!!mondayComConf?.addToTop}
-              onChange={e => handleSelectChange(e.target.checked, 'addToTop')}
             />
           </div>
         </>
@@ -363,6 +345,17 @@ export default function MondayComIntegLayout({
           )}
           <br />
         </div>
+      )}
+
+      {mainAction === 'duplicate_group' && (
+        <>
+          <br />
+          <div className="mt-4">
+            <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
+          </div>
+          <div className="btcd-hr mt-1" />
+          <MondayComActions mondayComConf={mondayComConf} setMondayComConf={setMondayComConf} />
+        </>
       )}
     </>
   )

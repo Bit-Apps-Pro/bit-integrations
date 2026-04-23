@@ -12,7 +12,7 @@ import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
 import MondayComAuthorization from './MondayComAuthorization'
 import { checkMappedFields, generateMappedField } from './MondayComCommonFunc'
 import MondayComIntegLayout from './MondayComIntegLayout'
-import { actionLists, needsBoard, needsGroup, needsItem } from './staticData'
+import { actionLists, needsBoard, needsItem } from './staticData'
 
 function MondayCom({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
@@ -24,8 +24,8 @@ function MondayCom({ formFields, setFlow, flow, allIntegURL }) {
 
   const mondayComFields = []
   const [mondayComConf, setMondayComConf] = useState({
-    name: 'MondayCom',
-    type: 'MondayCom',
+    name: 'Monday.Com',
+    type: 'Monday.Com',
     apiToken: '',
     field_map: generateMappedField(mondayComFields),
     mainAction: '',
@@ -70,10 +70,6 @@ function MondayCom({ formFields, setFlow, flow, allIntegURL }) {
       toast.error(__('Please select a board', 'bit-integrations'))
       return
     }
-    if (needsGroup.includes(action) && !mondayComConf.selectedGroup) {
-      toast.error(__('Please select a group', 'bit-integrations'))
-      return
-    }
     if (needsItem.includes(action) && !mondayComConf.selectedItem) {
       toast.error(__('Please select an item', 'bit-integrations'))
       return
@@ -106,7 +102,7 @@ function MondayCom({ formFields, setFlow, flow, allIntegURL }) {
       {/* STEP 2 */}
       <div
         className="btcd-stp-page"
-        style={{ ...(step === 2 && { width: 900, height: 'auto', overflow: 'visible' }) }}>
+        style={{ ...(step === 2 && { width: 900, minHeight: 500, overflow: 'visible' }) }}>
         <MondayComIntegLayout
           formFields={formFields}
           mondayComConf={mondayComConf}

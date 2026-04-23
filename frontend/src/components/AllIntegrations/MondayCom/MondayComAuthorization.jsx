@@ -46,7 +46,7 @@ export default function MondayComAuthorization({
     <ul>
       <li>${__('Log in to your Monday.com account.', 'bit-integrations')}</li>
       <li>${__('Click on your avatar in the bottom left corner.', 'bit-integrations')}</li>
-      <li>${__('Select Developers → My access tokens.', 'bit-integrations')}</li>
+      <li>${__('Select Developers → API Token.', 'bit-integrations')}</li>
       <li>${__('Copy your personal API token (v2).', 'bit-integrations')}</li>
     </ul>`
 

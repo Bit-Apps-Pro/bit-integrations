@@ -6,12 +6,12 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { $actionConf, $formFields, $newFlow } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
 import SnackMsg from '../../Utilities/SnackMsg'
-import SetEditIntegComponents from '../IntegrationHelpers/SetEditIntegComponents'
 import { saveActionConf } from '../IntegrationHelpers/IntegrationHelpers'
 import IntegrationStepThree from '../IntegrationHelpers/IntegrationStepThree'
+import SetEditIntegComponents from '../IntegrationHelpers/SetEditIntegComponents'
 import { checkMappedFields, handleInput } from './MondayComCommonFunc'
 import MondayComIntegLayout from './MondayComIntegLayout'
-import { needsBoard, needsGroup, needsItem } from './staticData'
+import { needsBoard, needsItem } from './staticData'
 
 function EditMondayCom({ allIntegURL }) {
   const navigate = useNavigate()
@@ -30,10 +30,6 @@ function EditMondayCom({ allIntegURL }) {
     const action = mondayComConf.mainAction
     if (needsBoard.includes(action) && !mondayComConf.selectedBoard) {
       toast.error(__('Please select a board', 'bit-integrations'))
-      return
-    }
-    if (needsGroup.includes(action) && !mondayComConf.selectedGroup) {
-      toast.error(__('Please select a group', 'bit-integrations'))
       return
     }
     if (needsItem.includes(action) && !mondayComConf.selectedItem) {
@@ -57,7 +53,7 @@ function EditMondayCom({ allIntegURL }) {
   }
 
   return (
-    <div style={{ width: 900 }}>
+    <div style={{ width: 900, minHeight: 500, overflow: 'visible' }}>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
 
       <div className="flx mt-3">
