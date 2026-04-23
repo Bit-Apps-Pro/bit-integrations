@@ -5,6 +5,7 @@ import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
 import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 import { addFieldMap } from '../IntegrationHelpers/IntegrationHelpers'
+import WordPressActions from './WordPressActions'
 import { generateMappedField, getFieldsForAction } from './WordPressCommonFunc'
 import WordPressFieldMap from './WordPressFieldMap'
 import { modules } from './staticData'
@@ -16,11 +17,26 @@ export default function WordPressIntegLayout({
   isLoading
 }) {
   const { isPro } = useRecoilValue($appConfigState)
+  const displayedFieldMaps = (wordPressConf?.field_map || []).reduce((acc, fieldMap, index) => {
+    acc.push({ fieldMap, index })
+
+    return acc
+  }, [])
 
   const handleMainAction = value => {
     setWordPressConf(prevConf =>
       create(prevConf, draftConf => {
         draftConf.mainAction = value
+        delete draftConf.append
+        delete draftConf.forceDelete
+        delete draftConf.public
+        delete draftConf.hierarchy
+        delete draftConf.showUI
+        delete draftConf.showInMenu
+        delete draftConf.showInNavMenu
+        delete draftConf.showInAdminBar
+        delete draftConf.adminUI
+        delete draftConf.restApi
         const fields = getFieldsForAction(value)
         draftConf.wordPressFields = fields
         draftConf.field_map = generateMappedField(fields)
@@ -73,11 +89,11 @@ export default function WordPressIntegLayout({
             </div>
           </div>
 
-          {wordPressConf.field_map.map((itm, i) => (
+          {displayedFieldMaps.map(({ fieldMap, index }) => (
             <WordPressFieldMap
-              key={`wp-m-${i + 9}`}
-              i={i}
-              field={itm}
+              key={`wp-m-${index + 9}`}
+              i={index}
+              field={fieldMap}
               wordPressConf={wordPressConf}
               formFields={formFields}
               setWordPressConf={setWordPressConf}
@@ -93,6 +109,9 @@ export default function WordPressIntegLayout({
               type="button">
               +
             </button>
+          </div>
+          <div className="mt-3">
+            <WordPressActions wordPressConf={wordPressConf} setWordPressConf={setWordPressConf} />
           </div>
         </>
       )}

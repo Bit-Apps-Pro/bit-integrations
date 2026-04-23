@@ -392,7 +392,6 @@ final class PostCreationController
             Config::withPrefix($actionType),
             $defaultResponse,
             $this->buildRequestDataFromPostMap(isset($flowDetails->post_map) ? $flowDetails->post_map : [], $fieldValues),
-            $flowDetails
         );
 
         $responseType = isset($response['success']) && $response['success'] ? 'success' : 'error';

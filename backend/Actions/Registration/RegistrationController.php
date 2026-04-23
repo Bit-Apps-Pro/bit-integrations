@@ -89,7 +89,6 @@ final class RegistrationController
             Config::withPrefix($actionType),
             $defaultResponse,
             $this->buildRequestDataFromUserMap(isset($flowDetails->user_map) ? $flowDetails->user_map : [], $fieldValues),
-            $flowDetails
         );
 
         $responseType = isset($response['success']) && $response['success'] ? 'success' : 'error';

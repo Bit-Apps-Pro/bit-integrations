@@ -247,7 +247,9 @@ export const RegisterPostTypeFields = [
   { key: 'key', label: __('Post Type Slug', 'bit-integrations'), required: true },
   { key: 'label', label: __('Label', 'bit-integrations'), required: true },
   { key: 'description', label: __('Description', 'bit-integrations'), required: false },
-  { key: 'supports', label: __('Supports (comma separated)', 'bit-integrations'), required: false }
+  { key: 'supports', label: __('Supports (comma separated)', 'bit-integrations'), required: false },
+  { key: 'menuPosition', label: __('Menu Position', 'bit-integrations'), required: false },
+  { key: 'rewriteSlug', label: __('Rewrite Slug', 'bit-integrations'), required: false }
 ]
 
 export const PostTypeFeaturesFields = [
@@ -307,7 +309,8 @@ export const RegisterTaxonomyFields = [
   { key: 'slug', label: __('Taxonomy Slug', 'bit-integrations'), required: true },
   { key: 'postTypes', label: __('Post Types (comma separated)', 'bit-integrations'), required: true },
   { key: 'name', label: __('Label', 'bit-integrations'), required: true },
-  { key: 'description', label: __('Description', 'bit-integrations'), required: false }
+  { key: 'description', label: __('Description', 'bit-integrations'), required: false },
+  { key: 'rewriteSlug', label: __('Rewrite Slug', 'bit-integrations'), required: false }
 ]
 
 // === Term Fields ===
@@ -326,8 +329,7 @@ export const CreateTermFields = [
   { key: 'name', label: __('Term Name', 'bit-integrations'), required: true },
   { key: 'taxonomy', label: __('Taxonomy', 'bit-integrations'), required: true },
   { key: 'slug', label: __('Slug', 'bit-integrations'), required: false },
-  { key: 'description', label: __('Description', 'bit-integrations'), required: false },
-  { key: 'parent', label: __('Parent Term ID', 'bit-integrations'), required: false }
+  { key: 'description', label: __('Description', 'bit-integrations'), required: false }
 ]
 
 export const UpdateTermFields = [
@@ -342,8 +344,7 @@ export const UpdateTermFields = [
 export const CreateCategoryFields = [
   { key: 'name', label: __('Category Name', 'bit-integrations'), required: true },
   { key: 'slug', label: __('Slug', 'bit-integrations'), required: false },
-  { key: 'description', label: __('Description', 'bit-integrations'), required: false },
-  { key: 'parent', label: __('Parent Category ID', 'bit-integrations'), required: false }
+  { key: 'description', label: __('Description', 'bit-integrations'), required: false }
 ]
 
 export const UpdateCategoryFields = [
@@ -383,8 +384,7 @@ export const UpdateProductTagFields = [
 export const CreateProductCategoryFields = [
   { key: 'name', label: __('Category Name', 'bit-integrations'), required: true },
   { key: 'slug', label: __('Slug', 'bit-integrations'), required: false },
-  { key: 'description', label: __('Description', 'bit-integrations'), required: false },
-  { key: 'parent', label: __('Parent Category ID', 'bit-integrations'), required: false }
+  { key: 'description', label: __('Description', 'bit-integrations'), required: false }
 ]
 
 export const UpdateProductCategoryFields = [

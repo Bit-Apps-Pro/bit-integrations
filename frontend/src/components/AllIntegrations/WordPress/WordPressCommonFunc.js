@@ -132,12 +132,13 @@ export const generateMappedField = fields => {
 
 export const checkMappedFields = wordPressConf => {
   const mappedFields = wordPressConf?.field_map
-    ? wordPressConf.field_map.filter(
-        mappedField =>
+    ? wordPressConf.field_map.filter(mappedField => {
+        return (
           !mappedField.formField ||
           !mappedField.wordPressField ||
           (mappedField.formField === 'custom' && !mappedField.customValue)
-      )
+        )
+      })
     : []
   return mappedFields.length === 0
 }
