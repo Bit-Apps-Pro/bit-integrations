@@ -61,8 +61,7 @@ export const ContactUpdateFields = [
 ]
 
 export const ContactDeleteFields = [
-  { key: 'contact_id', label: __('Contact ID', 'bit-integrations'), required: true },
-  { key: 'force_delete', label: __('Force Delete (1/0)', 'bit-integrations'), required: false }
+  { key: 'contact_id', label: __('Contact ID', 'bit-integrations'), required: true }
 ]
 
 export const CompanyFields = [
@@ -85,8 +84,7 @@ export const CompanyUpdateFields = [
 ]
 
 export const CompanyDeleteFields = [
-  { key: 'company_id', label: __('Company ID', 'bit-integrations'), required: true },
-  { key: 'force_delete', label: __('Force Delete (1/0)', 'bit-integrations'), required: false }
+  { key: 'company_id', label: __('Company ID', 'bit-integrations'), required: true }
 ]
 
 export const ContactGroupFields = [
@@ -96,7 +94,6 @@ export const ContactGroupFields = [
 
 export const GroupSubscriberFields = [
   { key: 'contact_id', label: __('Contact ID', 'bit-integrations'), required: true },
-  { key: 'group_id', label: __('Group ID', 'bit-integrations'), required: true }
 ]
 
 export const NoteFields = [

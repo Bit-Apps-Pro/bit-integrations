@@ -15,6 +15,7 @@ import {
   refreshLifeStages
 } from './WpErpCommonFunc'
 import WpErpFieldMap from './WpErpFieldMap'
+import WpErpActions from './WpErpActions'
 import {
   CompanyDeleteFields,
   CompanyFields,
@@ -272,6 +273,12 @@ export default function WpErpIntegLayout({
             </button>
           </div>
           <br />
+          <br />
+          <div className="mt-4">
+            <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
+          </div>
+          <div className="btcd-hr mt-1" />
+          <WpErpActions wpErpConf={wpErpConf} setWpErpConf={setWpErpConf} />
         </div>
       )}
     </>
