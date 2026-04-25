@@ -5,7 +5,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\Integrations\controller\AnalyticsController;
 use BitApps\Integrations\controller\AuthDataController;
 use BitApps\Integrations\controller\IntegrationTagController;
 use BitApps\Integrations\controller\PostController;
@@ -54,9 +53,6 @@ Route::post('post-categories/list', [PostController::class, 'getPostCategories']
 Route::post('pods/fields', [PostController::class, 'getPodsField']);
 Route::post('user/list', [UserController::class, 'getWpUsers']);
 Route::get('role/list', [UserController::class, 'getUserRoles']);
-// Controller
-Route::post('analytics/optIn', [AnalyticsController::class, 'analyticsOptIn']);
-Route::get('analytics/check', [AnalyticsController::class, 'analyticsCheck']);
 
 Route::post('store/authData', [AuthDataController::class, 'saveAuthData']);
 Route::get('auth/get', [AuthDataController::class, 'getAuthData']);

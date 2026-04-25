@@ -17,8 +17,6 @@ use BitApps\Integrations\Core\Util\Deactivation;
 use BitApps\Integrations\Core\Util\Hooks;
 use BitApps\Integrations\Core\Util\Request;
 use BitApps\Integrations\Core\Util\UnInstallation;
-use BitApps\Integrations\Deps\BitApps\WPTelemetry\Telemetry\Telemetry;
-use BitApps\Integrations\Deps\BitApps\WPTelemetry\Telemetry\TelemetryConfig;
 use BitApps\Integrations\Log\LogHandler;
 
 final class Plugin
@@ -44,8 +42,6 @@ final class Plugin
         (new Activation())->activate();
         (new Deactivation())->register();
         (new UnInstallation())->register();
-
-        $this->initWPTelemetry();
     }
 
     public function init_plugin()
@@ -75,21 +71,6 @@ final class Plugin
         if (!wp_next_scheduled(Config::withPrefix('delete_log'))) {
             wp_schedule_event(time(), 'every_week', Config::withPrefix('delete_log'));
         }
-    }
-
-    public function initWPTelemetry()
-    {
-        TelemetryConfig::setSlug(Config::SLUG);
-        TelemetryConfig::setTitle(Config::TITLE);
-        TelemetryConfig::setVersion(Config::VERSION);
-        TelemetryConfig::setPrefix(Config::VAR_PREFIX);
-
-        TelemetryConfig::setServerBaseUrl('https://wp-api.bitapps.pro/public/');
-        TelemetryConfig::setTermsUrl('https://bitapps.pro/terms-of-service/');
-        TelemetryConfig::setPolicyUrl('https://bitapps.pro/privacy-policy/');
-
-        Telemetry::report()->addPluginData()->init();
-        Telemetry::feedback()->init();
     }
 
     /**
