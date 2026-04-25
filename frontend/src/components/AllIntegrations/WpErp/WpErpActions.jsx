@@ -23,7 +23,7 @@ export default function WpErpActions({ wpErpConf, setWpErpConf }) {
     <div className="pos-rel d-flx flx-wrp">
       {deleteActions.includes(wpErpConf.mainAction) &&
         (
-          < TableCheckBox
+          <TableCheckBox
             checked={wpErpConf.utilities?.force_delete || false}
             onChange={e => actionHandler(e, 'force_delete')}
             className="wdt-200 mt-4 mr-2"

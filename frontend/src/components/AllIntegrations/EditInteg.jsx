@@ -259,7 +259,6 @@ export default function EditInteg({ allIntegURL }) {
   )
 }
 const IntegType = memo(({ allIntegURL, flow }) => {
-  console.log(flow?.flow_details?.type)
   switch (flow?.flow_details?.type) {
     case 'Zoho CRM':
       return <EditZohoCRM allIntegURL={allIntegURL} />
