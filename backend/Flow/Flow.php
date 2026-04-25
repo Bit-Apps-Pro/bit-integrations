@@ -498,6 +498,11 @@ final class Flow
 
                         break;
 
+                    case 'WPERP':
+                        $integrationName = 'WpErp';
+
+                        break;
+
                     default:
                         $integrationName = $integrationName;
 
