@@ -147,10 +147,10 @@ const changeLog = [
 export default function ChangelogToggle() {
   const [config, setConfig] = useRecoilState($appConfigState)
   const [show, setShow] = useState(config.changelogVersion !== config.version)
-  const [showAnalyticsOptin, setShowAnalyticsOptin] = useState(false)
+  const [showAnalyticsOptin, setShowAnalyticsOptin] = useState(null)
   const [loading, setLoading] = useState('')
   const [step, setStep] = useState(2)
-
+  console.log(showAnalyticsOptin)
   const setChangeLogVersion = val => {
     setShow(val)
     if (!val) {
@@ -179,7 +179,7 @@ export default function ChangelogToggle() {
     if (show) {
       setLoading(true)
       bitsFetch({}, 'analytics/check', '', 'GET').then(res => {
-        setShowAnalyticsOptin(res.data)
+        if (res?.success) setShowAnalyticsOptin(res.data)
         setLoading(false)
       })
     }
@@ -202,7 +202,7 @@ export default function ChangelogToggle() {
         sm={step !== 1}
         show={show}
         setModal={closeModal}
-        closeIcon={showAnalyticsOptin && step === 2}
+        closeIcon={(showAnalyticsOptin || showAnalyticsOptin === null) && step === 2}
         style={{
           height: 'auto',
           width: '550px'
@@ -237,7 +237,7 @@ export default function ChangelogToggle() {
                   {__('Updated at:', 'bit-integrations')} <b>{releaseDate}</b>
                 </small>
               </div>
-              <div className="changelog-content">
+              <div className="changelog-content" style={showAnalyticsOptin !== false ? { maxHeight: '60vh' } : undefined}>
                 {changeLog.map((log, index) => (
                   <Fragment key={index}>
                     {log.items.length > 0 && (
@@ -287,7 +287,7 @@ export default function ChangelogToggle() {
                   />
                 </div>
               ) : (
-                !showAnalyticsOptin && (
+                showAnalyticsOptin === false && (
                   <div>
                     <div className="btcd-hr mt-2"></div>
                     <div className="flx flx-col flx-center">
