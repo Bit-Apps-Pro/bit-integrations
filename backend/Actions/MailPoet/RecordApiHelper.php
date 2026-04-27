@@ -91,6 +91,8 @@ class RecordApiHelper
         }
 
         $fieldData = static::setFieldMap($fieldMap, $fieldValues);
+        $fieldMap['send_confirmation_email'] = isset($actions->send_confirmation_email) ? (bool) $actions->send_confirmation_email : false;
+
         $recordApiResponse = $this->insertRecord($fieldData, $lists, $actions);
 
         if ($recordApiResponse['success']) {
