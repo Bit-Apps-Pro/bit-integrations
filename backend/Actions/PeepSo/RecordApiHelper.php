@@ -96,8 +96,12 @@ class RecordApiHelper
     {
         $dataFinal = [];
         foreach ($fieldMap as $item) {
-            $triggerValue = $item->formField;
-            $actionValue = $item->peepSoField;
+            $triggerValue = $item->formField ?? null;
+            $actionValue = $item->peepSoField ?? null;
+
+            if (empty($triggerValue) || empty($actionValue)) {
+                continue;
+            }
 
             $dataFinal[$actionValue] = $triggerValue === 'custom' && isset($item->customValue)
                 ? Common::replaceFieldWithValue($item->customValue, $fieldValues)

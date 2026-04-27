@@ -40,12 +40,9 @@ export default function EditPeepSo({ allIntegURL }) {
       <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
 
       <PeepSoIntegLayout
-        formID={formID}
         formFields={formFields}
         peepSoConf={peepSoConf}
         setPeepSoConf={setPeepSoConf}
-        setSnackbar={setSnackbar}
-        setIsLoading={setIsLoading}
         isLoading={isLoading}
       />
 

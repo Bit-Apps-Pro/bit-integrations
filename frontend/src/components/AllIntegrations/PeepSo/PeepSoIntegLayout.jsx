@@ -12,13 +12,10 @@ import { AddPostFields, ChangeUserRoleFields, FollowUserFields, modules } from '
 import Note from '../../Utilities/Note'
 
 export default function PeepSoIntegLayout({
-  formID,
   formFields,
   peepSoConf,
   setPeepSoConf,
   isLoading,
-  setIsLoading,
-  setSnackbar
 }) {
   const btcbi = useRecoilValue($appConfigState)
   const { isPro } = btcbi
@@ -94,7 +91,7 @@ export default function PeepSoIntegLayout({
 
           {peepSoConf?.field_map?.map((itm, i) => (
             <PeepSoFieldMap
-              key={`peepso-m-${i + 9}`}
+              key={i}
               i={i}
               field={itm}
               peepSoConf={peepSoConf}

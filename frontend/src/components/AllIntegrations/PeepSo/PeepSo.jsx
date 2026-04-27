@@ -53,7 +53,6 @@ export default function PeepSo({ formFields, setFlow, flow, allIntegURL }) {
 
       {/* STEP 1 */}
       <PeepSoAuthorization
-        formID={formID}
         peepSoConf={peepSoConf}
         setPeepSoConf={setPeepSoConf}
         step={step}
@@ -72,12 +71,9 @@ export default function PeepSo({ formFields, setFlow, flow, allIntegURL }) {
           minHeight: step === 2 && '500px'
         }}>
         <PeepSoIntegLayout
-          formID={formID}
           formFields={formFields}
           peepSoConf={peepSoConf}
           setPeepSoConf={setPeepSoConf}
-          setSnackbar={setSnackbar}
-          setIsLoading={setIsLoading}
           isLoading={isLoading}
         />
         <br />
