@@ -150,7 +150,7 @@ export default function ChangelogToggle() {
   const [showAnalyticsOptin, setShowAnalyticsOptin] = useState(null)
   const [loading, setLoading] = useState('')
   const [step, setStep] = useState(2)
-  console.log(showAnalyticsOptin)
+
   const setChangeLogVersion = val => {
     setShow(val)
     if (!val) {
@@ -167,7 +167,7 @@ export default function ChangelogToggle() {
 
   const handleSubmit = () => {
     bitsFetch({ isChecked: true }, 'analytics/optIn')
-    setShow(false)
+    closeModal()
   }
 
   const closeModal = () => {
