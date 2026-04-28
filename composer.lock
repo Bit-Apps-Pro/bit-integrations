@@ -4,60 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2011ff2b7a4005209f7af1696e980073",
+    "content-hash": "2b35b94632f05f5390ce2364c1396147",
     "packages": [
-        {
-            "name": "bitapps/wp-telemetry",
-            "version": "v0.0.9",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Bit-Apps-Pro/wp-telemetry.git",
-                "reference": "6d9f5577396fe5e0ee96a7c9f05838d9f47e8721"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Bit-Apps-Pro/wp-telemetry/zipball/6d9f5577396fe5e0ee96a7c9f05838d9f47e8721",
-                "reference": "6d9f5577396fe5e0ee96a7c9f05838d9f47e8721",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.6"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "dev-master",
-                "pestphp/pest": "3.x-dev",
-                "phpcompatibility/php-compatibility": "*",
-                "squizlabs/php_codesniffer": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "BitApps\\WPTelemetry\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "BitApps",
-                    "email": "developer@bitcode.pro"
-                }
-            ],
-            "description": "A simple telemetry library for WordPress.",
-            "homepage": "https://bitapps.pro",
-            "keywords": [
-                "telemetry",
-                "wordpress",
-                "wp"
-            ],
-            "support": {
-                "issues": "https://github.com/Bit-Apps-Pro/wp-telemetry/issues",
-                "source": "https://github.com/Bit-Apps-Pro/wp-telemetry"
-            },
-            "time": "2024-10-09T10:08:11+00:00"
-        },
         {
             "name": "typisttech/imposter",
             "version": "0.6.1",
