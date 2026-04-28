@@ -112,15 +112,17 @@ class MondayComController
             wp_send_json_error(self::errorMessage($response, __('Columns fetching failed', 'bit-integrations')), 400);
         }
 
-        $columns = array_map(
-            fn ($c) => (object) [
-                'key'      => $c->id,
-                'label'    => $c->title,
-                'type'     => $c->type,
-                'required' => false,
-            ],
-            reset($response->data->boards)->columns
-        );
+        $columns = [];
+        foreach (reset($response->data->boards)->columns as $column) {
+            if ($column->type !== 'file') {
+                $columns[] = (object) [
+                    'key'      => $column->id,
+                    'label'    => $column->title,
+                    'type'     => $column->type,
+                    'required' => false,
+                ];
+            }
+        }
 
         wp_send_json_success($columns, 200);
     }
@@ -161,6 +163,8 @@ class MondayComController
             fn ($i) => (object) ['id' => $i->id, 'name' => $i->name],
             $response->data->boards[0]->items_page->items
         );
+
+        error_log(print_r($items, true));
 
         wp_send_json_success($items, 200);
     }

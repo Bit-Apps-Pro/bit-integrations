@@ -82,6 +82,8 @@ export default function MondayComIntegLayout({
 
     const action = mondayComConf.mainAction
 
+    getAllGroups(mondayComConf, setMondayComConf, val, setLoading)
+
     if (needsColumnMap.includes(action)) {
       getAllColumns(mondayComConf, setMondayComConf, val, setLoading)
     }
@@ -160,6 +162,7 @@ export default function MondayComIntegLayout({
       )}
 
       {mainAction
+        && !['create_column', 'delete_group', 'archive_group', 'duplicate_group', 'archive_item', 'delete_item', 'move_item_to_group'].includes(mainAction)
         && mondayComConf?.selectedBoard
         && !loading.group && (
           <>
