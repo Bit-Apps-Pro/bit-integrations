@@ -38,7 +38,7 @@ class RecordApiHelper
             $existingSubscriber = static::$mailPoet_api->getSubscriber($subscriber['email']);
 
             if (!$existingSubscriber) {
-                return static::addSubscriber($subscriber, $lists);
+                return static::addSubscriber($subscriber, $lists, $actions);
             }
 
             if (!empty($actions->update)) {
@@ -54,19 +54,25 @@ class RecordApiHelper
                     // translators: %s: Plugin name
                     $errorMessages = wp_sprintf(__('%s is not active or not installed', 'bit-integrations'), 'Bit Integrations Pro');
                 } elseif (!$response['success']) {
-                    $errorMessages = $response('message');
+                    $errorMessages = $response['message'];
                 }
 
                 if (isset($errorMessages)) {
-                    LogHandler::save($this->_integrationID, ['type' => 'record', 'type_name' => 'update'], 'error', $errorMessages);
+                    return [
+                        'success' => false,
+                        'message' => $errorMessages,
+                    ];
+                }
+
+                $newLists = static::getFilteredList($lists, $existingSubscriber['subscriptions']);
+                if (!empty($newLists)) {
+                    return static::addSubscribeToLists($existingSubscriber['id'], $newLists);
                 }
             }
-
-            return static::addSubscribeToLists($existingSubscriber['id'], $lists);
         } catch (\MailPoet\API\MP\v1\APIException $e) {
             if ($e->getCode() == 4) {
                 // Handle the case where the subscriber doesn't exist
-                return static::addSubscriber($subscriber, $lists);
+                return static::addSubscriber($subscriber, $lists, $actions);
             }
 
             return [
@@ -91,6 +97,8 @@ class RecordApiHelper
         }
 
         $fieldData = static::setFieldMap($fieldMap, $fieldValues);
+        $fieldMap['send_confirmation_email'] = isset($actions->send_confirmation_email) ? (bool) $actions->send_confirmation_email : false;
+
         $recordApiResponse = $this->insertRecord($fieldData, $lists, $actions);
 
         if ($recordApiResponse['success']) {
@@ -119,14 +127,23 @@ class RecordApiHelper
         return $fieldData;
     }
 
-    private static function addSubscriber($subscriber, $lists)
+    private static function addSubscriber($subscriber, $lists, $actions)
     {
         try {
-            $subscriber = static::$mailPoet_api->addSubscriber($subscriber, $lists);
+            $options = [];
+            if (isset($actions->send_confirmation_email)) {
+                $options['send_confirmation_email'] = (bool) $actions->send_confirmation_email;
+            }
+
+            $subscriber = static::$mailPoet_api->addSubscriber($subscriber, $lists, $options);
+
+            if (isset($subscriber['id']) && !empty($lists)) {
+                return static::addSubscribeToLists($subscriber['id'], $lists);
+            }
 
             return [
-                'success' => true,
-                'id'      => $subscriber['id'],
+                'success' => false,
+                'data'    => $subscriber,
             ];
         } catch (\MailPoet\API\MP\v1\APIException $e) {
             return [
@@ -153,5 +170,17 @@ class RecordApiHelper
                 'message' => $e->getMessage(),
             ];
         }
+    }
+
+    private static function getFilteredList($listIds, $subscriptions)
+    {
+        $segmentIds = array_column($subscriptions, 'segment_id');
+
+        return array_filter(
+            $listIds,
+            function ($listId) use ($segmentIds) {
+                return !\in_array($listId, $segmentIds);
+            }
+        );
     }
 }
