@@ -171,6 +171,7 @@ const WishlistMember = lazy(() => import('./WishlistMember/WishlistMember'))
 const CreatorLms = lazy(() => import('./CreatorLms/CreatorLms'))
 const UltimateAffiliatePro = lazy(() => import('./UltimateAffiliatePro/UltimateAffiliatePro'))
 const FluentCart = lazy(() => import('./FluentCart/FluentCart'))
+const PeepSo = lazy(() => import('./PeepSo/PeepSo'))
 const NinjaTables = lazy(() => import('./NinjaTables/NinjaTables'))
 const WCAffiliate = lazy(() => import('./WCAffiliate/WCAffiliate'))
 const WPCafe = lazy(() => import('./WPCafe/WPCafe'))
@@ -1662,6 +1663,15 @@ export default function NewInteg({ allIntegURL }) {
       case 'FluentCart':
         return (
           <FluentCart
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'PeepSo':
+        return (
+          <PeepSo
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
             flow={flow}

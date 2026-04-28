@@ -154,7 +154,7 @@ function Log({ allIntegURL }) {
     <>
       <SnackMsg snack={snack} setSnackbar={setSnackbar} />
       <div className="flx">
-        <div>
+        <div className="ml-2">
           <Link to={allIntegURL} className="btn btcd-btn-o-gray">
             <span className="btcd-icn icn-chevron-left" />
             &nbsp;{__('Back', 'bit-integrations')}
