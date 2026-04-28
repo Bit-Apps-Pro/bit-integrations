@@ -164,8 +164,6 @@ class MondayComController
             $response->data->boards[0]->items_page->items
         );
 
-        error_log(print_r($items, true));
-
         wp_send_json_success($items, 200);
     }
 
