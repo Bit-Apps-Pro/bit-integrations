@@ -8,8 +8,8 @@ namespace BitApps\Integrations\Actions\MailerLite;
 
 use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
-use BitApps\Integrations\Core\Util\HttpHelper;
 use BitApps\Integrations\Core\Util\Hooks;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use BitApps\Integrations\Log\LogHandler;
 
 /**
@@ -170,6 +170,38 @@ class RecordApiHelper
         return $response ? $response : (object) ['success' => false, 'message' => __('Bit Integrations Pro is required.', 'bit-integrations'), 'code' => 400];
     }
 
+    public function unassignSubscriberFromGroup($auth_token, $groupId, $finalData)
+    {
+        if (!$this->_isMailerLiteV2) {
+            return [
+                'success' => false,
+                'message' => __('This action is not supported for Classic accounts.', 'bit-integrations'),
+                'code'    => 400
+            ];
+        }
+
+        if (empty($finalData['email'])) {
+            return [
+                'success' => false,
+                'message' => __('Required field Email is empty', 'bit-integrations'),
+                'code'    => 400
+            ];
+        }
+
+        $subscriberId = $this->existSubscriber($auth_token, $finalData['email']);
+        if (empty($subscriberId)) {
+            return [
+                'success' => false,
+                'message' => __('Subscriber not exist', 'bit-integrations'),
+                'code'    => 400
+            ];
+        }
+
+        $response = Hooks::apply(Config::withPrefix('mailerlite_unassign_subscriber_from_group'), false, $subscriberId, $groupId, $this->_baseUrl, $this->_defaultHeader);
+
+        return $response ? $response : (object) ['success' => false, 'message' => __('Bit Integrations Pro is required.', 'bit-integrations'), 'code' => 400];
+    }
+
     public function generateReqDataFromFieldMap($data, $fieldMap)
     {
         $dataFinal = [];
@@ -188,7 +220,7 @@ class RecordApiHelper
     }
 
     public function execute(
-        $groupId,
+        $integrationDetails,
         $type,
         $fieldValues,
         $fieldMap,
@@ -212,7 +244,17 @@ class RecordApiHelper
 
                 break;
 
+            case 'unassign_subscriber_from_group':
+                $groupId = $integrationDetails->selected_group_id ?? '';
+                $apiResponse = $this->unassignSubscriberFromGroup($auth_token, $groupId, $finalData);
+                error_log(print_r(['apiResponse' => $apiResponse], true));
+                $typeName = 'unassign-subscriber-from-group';
+                $res = ['success' => true, 'message' => __('Subscriber unassigned from group successfully', 'bit-integrations'), 'code' => 200];
+
+                break;
+
             default:
+                $groupId = $integrationDetails->group_ids ?? '';
                 $apiResponse = $this->addSubscriber($auth_token, $groupId, $type, $finalData);
                 $typeName = 'add-subscriber';
                 $res = ['success' => true, 'message' => isset($apiResponse->update) ? __('Subscriber updated successfully', 'bit-integrations') : __('Subscriber created successfully', 'bit-integrations'), 'code' => 200];
@@ -220,7 +262,7 @@ class RecordApiHelper
                 break;
         }
 
-        if (isset($apiResponse->data->id) || isset($apiResponse->id) || str_starts_with((string) HttpHelper::$responseCode, '20')) {
+        if (isset($apiResponse->data->id) || isset($apiResponse->id) || strpos((string) HttpHelper::$responseCode, '20') === 0) {
             LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'subscriber', 'type_name' => $typeName]), 'success', wp_json_encode($res));
         } else {
             LogHandler::save($this->_integrationID, wp_json_encode(['type' => 'subscriber', 'type_name' => $typeName]), 'error', wp_json_encode($apiResponse));

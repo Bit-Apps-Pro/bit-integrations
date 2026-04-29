@@ -3,12 +3,13 @@ import Loader from '../../Loaders/Loader'
 import { addFieldMap } from './IntegrationHelpers'
 import MailerLiteFieldMap from './MailerLiteFieldMap'
 import MailerLiteActions from './MailerLiteActions'
-import { mailerliteRefreshFields } from './MailerLiteCommonFunc'
-import { useState } from 'react'
+import { getAllGroups, mailerliteRefreshFields } from './MailerLiteCommonFunc'
+import { useEffect } from 'react'
 import Note from '../../Utilities/Note'
 import { useRecoilValue } from 'recoil'
 import { $appConfigState } from '../../../GlobalStates'
 import { getProLabel } from '../../Utilities/ProUtilHelpers'
+import { create } from 'mutative'
 
 export default function MailerLiteIntegLayout({
   formFields,
@@ -51,9 +52,39 @@ export default function MailerLiteIntegLayout({
             ? __('Forget subscriber', 'bit-integrations')
             : getProLabel(__('Forget subscriber', 'bit-integrations'))}
         </option>
+        <option
+          value="unassign_subscriber_from_group"
+          data-action_name="unassign_subscriber_from_group"
+          disabled={mailerLiteConf.version === 'v1' || !isPro}>
+          {isPro
+            ? __('Unassign subscriber from a group', 'bit-integrations')
+            : getProLabel(__('Unassign subscriber from a group', 'bit-integrations'))}
+        </option>
       </select>
 
-      {loading.field && (
+      {mailerLiteConf?.action === 'unassign_subscriber_from_group' && (
+        <div className="mt-4">
+          <b className="wdt-200 d-in-b">{__('Select Group:', 'bit-integrations')}</b>
+          <select className="btcd-paper-inp w-5" name="selected_group_id" value={mailerLiteConf?.selected_group_id || ''} onChange={handleInput}>
+            <option value="">{__('Select a group', 'bit-integrations')}</option>
+            {mailerLiteConf?.groups?.map(group => (
+              <option key={group.group_id} value={group.group_id}>
+                {group.name}
+              </option>
+            ))}
+          </select>
+          <button
+            onClick={() => getAllGroups(mailerLiteConf, setMailerLiteConf, loading, setLoading)}
+            className="icn-btn sh-sm ml-2 mr-2 tooltip"
+            style={{ '--tooltip-txt': `${__('Refresh Groups', 'bit-integrations')}'` }}
+            type="button"
+            disabled={loading.group}>
+            &#x21BB;
+          </button>
+        </div>
+      )}
+
+      {(loading.field || loading.group) && (
         <Loader
           style={{
             display: 'flex',
@@ -142,7 +173,7 @@ export default function MailerLiteIntegLayout({
 
 const note = `
     <p>${__(
-      'This action requires a MailerLite New account. It isn’t supported with Classic accounts.',
-      'bit-integrations'
-    )}</p>
+  'This action requires a MailerLite New account. It isn’t supported with Classic accounts.',
+  'bit-integrations'
+)}</p>
   `
