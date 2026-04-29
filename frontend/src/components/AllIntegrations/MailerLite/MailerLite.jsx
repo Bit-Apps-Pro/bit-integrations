@@ -119,7 +119,7 @@ function MailerLite({ formFields, setFlow, flow, allIntegURL }) {
             onClick={() => nextPage(3)}
             disabled={
               !checkMappedFields(mailerLiteConf) ||
-              (mailerLiteConf?.action === 'unassign_subscriber_from_group' && !hasSelectedGroup())
+              (mailerLiteConf?.action === 'unassign_subscriber_from_group' && !mailerLiteConf?.selected_group_id)
             }
             className="btn f-right btcd-btn-lg purple sh-sm flx"
             type="button">
