@@ -65,7 +65,10 @@ class RecordApiHelper
 
         $response = HttpHelper::get($apiEndpoints, null, $this->_defaultHeader);
 
-        return $response->data->id ?? false;
+        return [
+            'id'   => $response->data->id ?? null,
+            'data' => $response->data ?? null
+        ];
     }
 
     public function enableDoubleOptIn($auth_token)
@@ -104,10 +107,8 @@ class RecordApiHelper
 
         $requestParams = self::prepareRequestParams($finalData, $type, $this->_isMailerLiteV2);
 
-        $isExist = $this->existSubscriber($auth_token, $email);
-        $response = null;
-
-        if ($isExist && empty($this->_actions->update)) {
+        $existSubscriber = $this->existSubscriber($auth_token, $email);
+        if ($existSubscriber['id'] && empty($this->_actions->update)) {
             return [
                 'success' => false,
                 'message' => __('Subscriber already exist', 'bit-integrations'),
@@ -121,7 +122,11 @@ class RecordApiHelper
             return self::sendToGroups($this, $splitGroupIds, $requestParams, $this->_isMailerLiteV2);
         }
 
-        if ($isExist) {
+        if ($existSubscriber['id']) {
+            if (isset($existSubscriber['data']->status) && 'unsubscribed' === $existSubscriber['data']->status) {
+                $requestParams['resubscribe'] = true;
+            }
+
             $response = HttpHelper::post($apiEndpoint, $requestParams, $this->_defaultHeader);
             $response->update = true;
 
@@ -149,15 +154,17 @@ class RecordApiHelper
             ];
         }
 
-        $subscriberId = $this->existSubscriber($auth_token, $finalData['email']);
+        $existSubscriber = $this->existSubscriber($auth_token, $finalData['email']);
 
-        if (empty($subscriberId)) {
+        if (empty($existSubscriber['id'])) {
             return [
                 'success' => false,
                 'message' => __('Subscriber not exist', 'bit-integrations'),
                 'code'    => 400
             ];
         }
+
+        $subscriberId = $existSubscriber['id'];
 
         $response = Hooks::apply(Config::withPrefix('mailerlite_delete_subscriber'), false, $subscriberId, $finalData, $this->_baseUrl, $this->_defaultHeader, $forget);
 
@@ -188,8 +195,8 @@ class RecordApiHelper
             ];
         }
 
-        $subscriberId = $this->existSubscriber($auth_token, $finalData['email']);
-        if (empty($subscriberId)) {
+        $existSubscriber = $this->existSubscriber($auth_token, $finalData['email']);
+        if (empty($existSubscriber['id'])) {
             return [
                 'success' => false,
                 'message' => __('Subscriber not exist', 'bit-integrations'),
@@ -197,7 +204,7 @@ class RecordApiHelper
             ];
         }
 
-        $response = Hooks::apply(Config::withPrefix('mailerlite_unassign_subscriber_from_group'), false, $subscriberId, $groupId, $this->_baseUrl, $this->_defaultHeader);
+        $response = Hooks::apply(Config::withPrefix('mailerlite_unassign_subscriber_from_group'), false, $existSubscriber['id'], $groupId, $this->_baseUrl, $this->_defaultHeader);
 
         return $response ? $response : (object) ['success' => false, 'message' => __('Bit Integrations Pro is required.', 'bit-integrations'), 'code' => 400];
     }
@@ -247,7 +254,6 @@ class RecordApiHelper
             case 'unassign_subscriber_from_group':
                 $groupId = $integrationDetails->selected_group_id ?? '';
                 $apiResponse = $this->unassignSubscriberFromGroup($auth_token, $groupId, $finalData);
-                error_log(print_r(['apiResponse' => $apiResponse], true));
                 $typeName = 'unassign-subscriber-from-group';
                 $res = ['success' => true, 'message' => __('Subscriber unassigned from group successfully', 'bit-integrations'), 'code' => 200];
 
