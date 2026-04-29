@@ -16,10 +16,6 @@ export const handleInput = (e, mailerLiteConf, setMailerLiteConf, loading, setLo
   if (name === 'action' && value !== '') {
     mailerliteRefreshFields(updatedConf, setMailerLiteConf, loading, setLoading)
   }
-
-  if(name === 'action' && value === 'unassign_subscriber_from_group') {
-    getAllGroups(updatedConf, setMailerLiteConf, loading, setLoading)
-  }
 }
 
 export const generateMappedField = mailerLiteConf => {
