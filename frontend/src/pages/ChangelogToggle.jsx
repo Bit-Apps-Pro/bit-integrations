@@ -266,7 +266,7 @@ export default function ChangelogToggle() {
                 <div>
                   <span className="footer">{__('For more details,')}</span>
                   <a
-                    href="https://bitapps.pro/docs/bit-integrations/free-changelogs/"
+                    href="https://bit-integrations.com/wp-docs/free-changelogs/"
                     target="_blank"
                     rel="noreferrer">
                     {__('Click here')}&nbsp;
