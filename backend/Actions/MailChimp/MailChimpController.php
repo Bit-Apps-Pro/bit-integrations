@@ -6,6 +6,8 @@
 
 namespace BitApps\Integrations\Actions\MailChimp;
 
+use BitApps\Integrations\Authorization\AuthorizationFactory;
+use BitApps\Integrations\Authorization\AuthorizationType;
 use BitApps\Integrations\Core\Util\Helper;
 use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
@@ -106,6 +108,9 @@ class MailChimpController
         $metaData = HttpHelper::post($metaDataEndPoint, null, $authorizationHeader);
 
         $apiResponse->dc = $metaData->dc;
+        $apiResponse->accountname = $metaData->accountname ?? null;
+        $apiResponse->login_email = $metaData->login->email ?? null;
+        $apiResponse->login_name = $metaData->login->login_name ?? null;
 
         if (is_wp_error($apiResponse) || !empty($apiResponse->error)) {
             wp_send_json_error(
@@ -272,7 +277,11 @@ class MailChimpController
     {
         $integrationDetails = $integrationData->flow_details;
 
-        $tokenDetails = $integrationDetails->tokenDetails;
+        $tokenDetails = self::resolveTokenDetails($integrationDetails);
+        if (is_wp_error($tokenDetails)) {
+            return $tokenDetails;
+        }
+
         $listId = $integrationDetails->listId;
         $module = isset($integrationDetails->module) ? $integrationDetails->module : '';
         $tags = $integrationDetails->tags;
@@ -307,5 +316,38 @@ class MailChimpController
         }
 
         return $mChimpApiResponse;
+    }
+
+    /**
+     * Resolve MailChimp tokenDetails for execution.
+     *
+     * Prefers the new Connection store when `connection_id` is present in flow_details;
+     * falls back to legacy inline tokenDetails for older flows.
+     */
+    private static function resolveTokenDetails($integrationDetails)
+    {
+        $connectionId = isset($integrationDetails->connection_id) ? (int) $integrationDetails->connection_id : 0;
+
+        if ($connectionId > 0) {
+            try {
+                $handler = AuthorizationFactory::getAuthorizationHandler(AuthorizationType::OAUTH2, $connectionId, 'MailChimp');
+                $authDetails = $handler->getAuthDetails();
+            } catch (\Exception $e) {
+                return new WP_Error('CONN_AUTH_FAIL', $e->getMessage());
+            }
+
+            if (isset($authDetails['error']) && $authDetails['error']) {
+                return new WP_Error('CONN_AUTH_FAIL', $authDetails['message'] ?? 'Connection authorization failed');
+            }
+
+            return (object) [
+                'access_token' => $authDetails['access_token'] ?? '',
+                'dc'           => $authDetails['dc'] ?? ($authDetails['userInfo']['dc'] ?? ''),
+                'expires_in'   => $authDetails['expires_in'] ?? null,
+                'generated_at' => $authDetails['generated_at'] ?? null,
+            ];
+        }
+
+        return $integrationDetails->tokenDetails ?? null;
     }
 }

@@ -26,6 +26,8 @@ function MailChimp({ formFields, setFlow, flow, allIntegURL }) {
   const [mailChimpConf, setMailChimpConf] = useState({
     name: 'Mail Chimp',
     type: 'Mail Chimp',
+    connection_id: null,
+    connectionName: '',
     clientId: '',
     clientSecret: '',
     listId: '',

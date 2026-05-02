@@ -2,6 +2,33 @@ import bitsFetch from '../../../Utils/bitsFetch'
 import { deepCopy } from '../../../Utils/Helpers'
 import { __, sprintf } from '../../../Utils/i18nwrap'
 import { create } from 'mutative'
+import { persistConnection, reauthorizeConnection } from '../../../Utils/connectionApi'
+
+const APP_SLUG = 'MailChimp'
+// Flat auth_details shape — matches OAuth2Authorization::getAccessToken contract.
+const ENCRYPT_KEYS = ['access_token', 'refresh_token', 'client_secret']
+
+export const applyConnectionToConf = (connection, setMailChimpConf) => {
+  if (!connection) return
+  const auth = connection.auth_details || {}
+
+  setMailChimpConf(prev =>
+    create(prev, draft => {
+      draft.connection_id = connection.id
+      draft.clientId = auth.client_id || ''
+      draft.clientSecret = auth.client_secret || ''
+      draft.tokenDetails = {
+        access_token: auth.access_token,
+        dc: auth.dc,
+        expires_in: auth.expires_in,
+        generates_on: auth.generated_at,
+        accountname: auth.accountname,
+        login_email: auth.login_email,
+        login_name: auth.login_name
+      }
+    })
+  )
+}
 
 export const handleInput = (
   e,
@@ -262,7 +289,8 @@ export const handleMailChimpAuthorize = (
   setError,
   setisAuthorized,
   setIsLoading,
-  setSnackbar
+  setSnackbar,
+  setConnections
 ) => {
   if (!confTmp.clientId || !confTmp.clientSecret) {
     setError({
@@ -317,7 +345,8 @@ export const handleMailChimpAuthorize = (
           setConf,
           setisAuthorized,
           setIsLoading,
-          setSnackbar
+          setSnackbar,
+          setConnections
         )
       }
     }
@@ -331,7 +360,8 @@ const tokenHelper = (
   setConf,
   setisAuthorized,
   setIsLoading,
-  setSnackbar
+  setSnackbar,
+  setConnections
 ) => {
   const tokenRequestParams = { ...grantToken }
   tokenRequestParams.clientId = confTmp.clientId
@@ -340,11 +370,63 @@ const tokenHelper = (
 
   bitsFetch(tokenRequestParams, `${ajaxInteg}_generate_token`)
     .then(result => result)
-    .then(result => {
+    .then(async result => {
       if (result && result.success) {
-        const newConf = { ...confTmp }
-        newConf.tokenDetails = result.data
-        setConf(newConf)
+        const tokenDetails = result.data
+        const accountName = tokenDetails.login_email || tokenDetails.accountname || tokenDetails.dc
+        const connectionName =
+          confTmp.connectionName?.trim() ||
+          (tokenDetails.accountname && tokenDetails.login_email
+            ? `${tokenDetails.accountname} (${tokenDetails.login_email})`
+            : accountName)
+
+        const authDetails = {
+          access_token: tokenDetails.access_token,
+          refresh_token: tokenDetails.refresh_token || '',
+          dc: tokenDetails.dc,
+          expires_in: tokenDetails.expires_in || 0,
+          generated_at: tokenDetails.generates_on || Math.floor(Date.now() / 1000),
+          client_id: confTmp.clientId,
+          client_secret: confTmp.clientSecret,
+          accountname: tokenDetails.accountname,
+          login_email: tokenDetails.login_email,
+          login_name: tokenDetails.login_name
+        }
+
+        const persist = confTmp.connection_id
+          ? reauthorizeConnection({
+              id: confTmp.connection_id,
+              auth_details: authDetails,
+              encrypt_keys: ENCRYPT_KEYS,
+              account_name: accountName,
+              connection_name: connectionName
+            })
+          : persistConnection({
+              appSlug: APP_SLUG,
+              authType: 'oauth2',
+              connectionName,
+              accountName,
+              authDetails,
+              encryptKeys: ENCRYPT_KEYS
+            })
+
+        const connRes = await persist
+        const connection = connRes?.data?.data || null
+
+        setConf(prev =>
+          create(prev, draft => {
+            draft.tokenDetails = tokenDetails
+            if (connection?.id) draft.connection_id = connection.id
+          })
+        )
+
+        if (connection && setConnections) {
+          setConnections(prev => {
+            const filtered = prev.filter(c => c.id !== connection.id)
+            return [connection, ...filtered]
+          })
+        }
+
         setisAuthorized(true)
         setSnackbar({
           show: true,
