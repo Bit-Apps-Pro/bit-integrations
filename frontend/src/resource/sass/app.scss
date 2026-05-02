@@ -7379,6 +7379,126 @@ _:-ms-fullscreen,
   }
 }
 
+#connections-page {
+  .f-table .thead .tr .th,
+  .f-table .tbody .tr .td {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  .f-table .thead .tr .th:first-child,
+  .f-table .tbody .tr .td:first-child {
+    padding-left: 10px;
+  }
+
+  .connections-count-txt {
+    font-size: 13px;
+    color: #5f6d8a;
+    align-self: center;
+  }
+
+  .connections-table-filters {
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .connections-filter-select {
+    width: 220px;
+  }
+
+  .connections-app-tag {
+    display: inline-block;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #d8e0f1;
+    background: #f2f5fb;
+    color: #34415f;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .connections-auth-tag {
+    display: inline-block;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #f4d8b8;
+    background: #fff4e7;
+    color: #8f5c21;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .connections-name-cell {
+    line-height: 1.35;
+    overflow: visible !important;
+    position: relative;
+    z-index: 20;
+  }
+
+  .connections-name-row {
+    gap: 6px;
+    min-width: 0;
+
+    & > span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .connections-name-row .tooltip {
+    position: relative;
+    z-index: 30;
+  }
+
+  .connections-name-row .tooltip::after {
+    z-index: 1200;
+  }
+
+  .connections-edit-row {
+    width: 100%;
+    align-items: center;
+    gap: 6px;
+
+    .btcd-paper-inp {
+      min-width: 140px;
+    }
+  }
+
+  .connections-action-cell {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .connections-empty-note {
+    color: #697694;
+    line-height: 1.5;
+    padding-bottom: 12px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  #connections-page {
+    .connections-table-filters {
+      width: 100%;
+    }
+
+    .connections-filter-select {
+      width: 100%;
+      max-width: none;
+    }
+
+    .connections-count-txt {
+      display: none;
+    }
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

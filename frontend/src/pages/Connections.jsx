@@ -1,35 +1,27 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import EditIcn from '../Icons/EditIcn'
 import TrashIcn from '../Icons/TrashIcn'
+import Table from '../components/Utilities/Table'
+import ConfirmModal from '../components/Utilities/ConfirmModal'
 import {
   deleteConnection,
   listConnections,
   updateConnection
 } from '../Utils/connectionApi'
-import Loader from '../components/Loaders/Loader'
-import ConfirmModal from '../components/Utilities/ConfirmModal'
 import { __ } from '../Utils/i18nwrap'
-
-const loaderStyle = {
-  display: 'flex',
-  height: '60vh',
-  justifyContent: 'center',
-  alignItems: 'center'
-}
 
 export default function Connections() {
   const [connections, setConnections] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [filterApp, setFilterApp] = useState('')
-  const [search, setSearch] = useState('')
   const [editingId, setEditingId] = useState(null)
-  const [editValue, setEditValue] = useState('')
   const [deletingId, setDeletingId] = useState(null)
   const [savingId, setSavingId] = useState(null)
   const inputRef = useRef(null)
+  const editValueRef = useRef('')
 
-  const fetchConnections = () => {
+  const fetchConnections = useCallback(() => {
     setIsLoading(true)
     listConnections('')
       .then(res => {
@@ -41,11 +33,11 @@ export default function Connections() {
       })
       .catch(() => toast.error(__('Failed to load connections', 'bit-integrations')))
       .finally(() => setIsLoading(false))
-  }
+  }, [])
 
   useEffect(() => {
     fetchConnections()
-  }, [])
+  }, [fetchConnections])
 
   useEffect(() => {
     if (editingId !== null && inputRef.current) inputRef.current.focus()
@@ -56,73 +48,68 @@ export default function Connections() {
     return Array.from(set).sort()
   }, [connections])
 
-  const filtered = useMemo(() => {
-    const term = search.trim().toLowerCase()
-    return connections.filter(conn => {
-      if (filterApp && conn.app_slug !== filterApp) return false
-      if (!term) return true
-      return (
-        (conn.connection_name || '').toLowerCase().includes(term) ||
-        (conn.account_name || '').toLowerCase().includes(term) ||
-        (conn.app_slug || '').toLowerCase().includes(term)
-      )
-    })
-  }, [connections, filterApp, search])
+  const filteredConnections = useMemo(
+    () => connections.filter(conn => !filterApp || conn.app_slug === filterApp),
+    [connections, filterApp]
+  )
 
-  const startEdit = conn => {
+  const startEdit = useCallback(conn => {
     setEditingId(conn.id)
-    setEditValue(conn.connection_name || '')
-  }
+    editValueRef.current = conn.connection_name || ''
+  }, [])
 
-  const cancelEdit = () => {
+  const cancelEdit = useCallback(() => {
     setEditingId(null)
-    setEditValue('')
-  }
+    editValueRef.current = ''
+  }, [])
 
-  const saveRename = id => {
-    const next = editValue.trim()
-    if (!next) {
-      toast.error(__('Connection name cannot be empty', 'bit-integrations'))
-      return
-    }
+  const saveRename = useCallback(
+    (id, rawName = editValueRef.current) => {
+      const next = (rawName || '').trim()
+      if (!next) {
+        toast.error(__('Connection name cannot be empty', 'bit-integrations'))
+        return
+      }
 
-    const previous = connections.find(c => c.id === id)
-    if (previous && previous.connection_name === next) {
-      cancelEdit()
-      return
-    }
+      const previous = connections.find(c => c.id === id)
+      if (previous && previous.connection_name === next) {
+        cancelEdit()
+        return
+      }
 
-    setSavingId(id)
-    const promise = updateConnection({ id, connection_name: next }).then(res => {
-      if (!res?.success) throw new Error('rename_failed')
-      const row = res.data?.data
-      setConnections(prev =>
-        prev.map(item => (item.id === id ? { ...item, ...(row || { connection_name: next }) } : item))
-      )
-      cancelEdit()
-      return __('Renamed', 'bit-integrations')
-    })
-
-    toast
-      .promise(promise, {
-        success: msg => msg,
-        error: __('Failed to rename', 'bit-integrations'),
-        loading: __('Saving...', 'bit-integrations')
+      setSavingId(id)
+      const promise = updateConnection({ id, connection_name: next }).then(res => {
+        if (!res?.success) throw new Error('rename_failed')
+        const row = res.data?.data
+        setConnections(prev =>
+          prev.map(item => (item.id === id ? { ...item, ...(row || { connection_name: next }) } : item))
+        )
+        cancelEdit()
+        return __('Renamed', 'bit-integrations')
       })
-      .finally(() => setSavingId(null))
-  }
+
+      toast
+        .promise(promise, {
+          success: msg => msg,
+          error: __('Failed to rename', 'bit-integrations'),
+          loading: __('Saving...', 'bit-integrations')
+        })
+        .finally(() => setSavingId(null))
+    },
+    [connections, cancelEdit]
+  )
 
   const handleKeyDown = (e, id) => {
     if (e.key === 'Enter') {
       e.preventDefault()
-      saveRename(id)
+      saveRename(id, e.currentTarget.value)
     } else if (e.key === 'Escape') {
       e.preventDefault()
       cancelEdit()
     }
   }
 
-  const confirmDelete = () => {
+  const confirmDelete = useCallback(() => {
     const id = deletingId
     if (!id) return
 
@@ -139,12 +126,161 @@ export default function Connections() {
     })
 
     setDeletingId(null)
-  }
+  }, [deletingId])
 
-  if (isLoading) return <Loader style={loaderStyle} />
+  const setBulkDelete = useCallback(rows => {
+    const ids = []
+
+    if (Array.isArray(rows)) {
+      rows.forEach(row => {
+        if (row?.original?.id) {
+          ids.push(row.original.id)
+        }
+      })
+    } else if (rows?.original?.id) {
+      ids.push(rows.original.id)
+    }
+
+    if (ids.length < 1) {
+      return
+    }
+
+    const promise = Promise.all(
+      ids.map(id =>
+        deleteConnection(id).then(res => {
+          if (!res?.success) {
+            throw new Error('bulk_delete_failed')
+          }
+
+          return id
+        })
+      )
+    ).then(() => {
+      setConnections(prev => prev.filter(item => !ids.includes(item.id)))
+
+      return ids.length > 1
+        ? __('Connections deleted', 'bit-integrations')
+        : __('Connection deleted', 'bit-integrations')
+    })
+
+    toast.promise(promise, {
+      success: msg => msg,
+      error: __('Failed to delete', 'bit-integrations'),
+      loading: __('Deleting...', 'bit-integrations')
+    })
+  }, [])
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: __('App', 'bit-integrations'),
+        accessor: 'app_slug',
+        width: 130,
+        minWidth: 90,
+        Cell: ({ value }) => <span className="connections-app-tag">{value || '—'}</span>
+      },
+      {
+        Header: __('Connection Name', 'bit-integrations'),
+        accessor: 'connection_name',
+        width: 250,
+        minWidth: 170,
+        className: 'connections-name-cell',
+        Cell: ({ row, value }) => {
+          const conn = row.original
+
+          if (editingId === conn.id) {
+            return (
+              <div className="flx connections-edit-row">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  className="btcd-paper-inp"
+                  defaultValue={editValueRef.current}
+                  onChange={e => {
+                    editValueRef.current = e.target.value
+                  }}
+                  onKeyDown={e => handleKeyDown(e, conn.id)}
+                  disabled={savingId === conn.id}
+                />
+                <button
+                  type="button"
+                  className="btn btcd-btn-sm purple"
+                  onClick={() => saveRename(conn.id, inputRef.current?.value ?? editValueRef.current)}
+                  disabled={savingId === conn.id}>
+                  {__('Save', 'bit-integrations')}
+                </button>
+                <button
+                  type="button"
+                  className="btn btcd-btn-sm gray"
+                  onClick={cancelEdit}
+                  disabled={savingId === conn.id}>
+                  {__('Cancel', 'bit-integrations')}
+                </button>
+              </div>
+            )
+          }
+
+          return (
+            <div className="flx connections-name-row">
+              <span>{value || '—'}</span>
+              <button
+                type="button"
+                className="icn-btn tooltip"
+                style={{ '--tooltip-txt': `'${__('Rename connection', 'bit-integrations')}'` }}
+                onClick={() => startEdit(conn)}>
+                <EditIcn size={14} />
+              </button>
+            </div>
+          )
+        }
+      },
+      {
+        Header: __('Account', 'bit-integrations'),
+        accessor: 'account_name',
+        width: 180,
+        minWidth: 120,
+        Cell: ({ value }) => value || '—'
+      },
+      {
+        Header: __('Auth Type', 'bit-integrations'),
+        accessor: 'auth_type',
+        width: 120,
+        minWidth: 95,
+        Cell: ({ value }) => <span className="connections-auth-tag">{value || '—'}</span>
+      },
+      {
+        Header: __('Created', 'bit-integrations'),
+        accessor: 'created_at',
+        width: 140,
+        minWidth: 110,
+        Cell: ({ value }) => value || '—'
+      },
+      {
+        id: 't_action',
+        Header: '',
+        accessor: 'id',
+        width: 70,
+        minWidth: 60,
+        maxWidth: 80,
+        disableSortBy: true,
+        Cell: ({ row }) => (
+          <div className="flx connections-action-cell">
+            <button
+              type="button"
+              className="icn-btn tooltip"
+              style={{ '--tooltip-txt': `'${__('Delete', 'bit-integrations')}'` }}
+              onClick={() => setDeletingId(row.original.id)}>
+              <TrashIcn size={18} />
+            </button>
+          </div>
+        )
+      }
+    ],
+    [editingId, savingId, cancelEdit, saveRename, startEdit]
+  )
 
   return (
-    <div id="connections-page" className="p-4">
+    <div id="connections-page">
       <ConfirmModal
         show={deletingId !== null}
         body={__(
@@ -159,120 +295,59 @@ export default function Connections() {
 
       <div className="af-header flx flx-between mt-3">
         <h2>{__('Connections', 'bit-integrations')}</h2>
+        <small className="connections-count-txt">
+          {__('Showing', 'bit-integrations')} {filteredConnections.length} {__('of', 'bit-integrations')}{' '}
+          {connections.length}
+        </small>
       </div>
 
-      <div className="flx mt-3 mb-3" style={{ gap: 12, flexWrap: 'wrap', padding: '0 20px' }}>
-        <input
-          type="text"
-          className="btcd-paper-inp"
-          style={{ width: 300 }}
-          placeholder={__('Search connections...', 'bit-integrations')}
-          value={search}
-          onChange={e => setSearch(e.target.value)}
+      <div className="forms">
+        <Table
+          className="f-table btcd-all-frm"
+          height="60vh"
+          columns={columns}
+          data={filteredConnections}
+          loading={isLoading}
+          countEntries={filteredConnections.length}
+          rowSeletable
+          resizable
+          search
+          searchPlaceholder={__('Search connections...', 'bit-integrations')}
+          setBulkDelete={setBulkDelete}
+          bulkDeleteLabel={__('Delete Connection', 'bit-integrations')}
+          topLeftContent={
+            <div className="connections-table-filters flx">
+              <select
+                className="btcd-paper-inp connections-filter-select"
+                value={filterApp}
+                onChange={e => setFilterApp(e.target.value)}>
+                <option value="">{__('All apps', 'bit-integrations')}</option>
+                {apps.map(app => (
+                  <option key={app} value={app}>
+                    {app}
+                  </option>
+                ))}
+              </select>
+
+              <button
+                type="button"
+                className="icn-btn sh-sm tooltip"
+                style={{ '--tooltip-txt': `'${__('Refresh connections', 'bit-integrations')}'` }}
+                onClick={fetchConnections}
+                disabled={isLoading}
+                aria-label={__('Refresh connections', 'bit-integrations')}>
+                &#x21BB;
+              </button>
+            </div>
+          }
         />
 
-        <select
-          className="btcd-paper-inp"
-          style={{ width: 200 }}
-          value={filterApp}
-          onChange={e => setFilterApp(e.target.value)}>
-          <option value="">{__('All apps', 'bit-integrations')}</option>
-          {apps.map(app => (
-            <option key={app} value={app}>
-              {app}
-            </option>
-          ))}
-        </select>
-
-        <button
-          type="button"
-          className="btn btcd-btn-md sh-sm"
-          onClick={fetchConnections}
-          title={__('Refresh', 'bit-integrations')}>
-          {__('Refresh', 'bit-integrations')}
-        </button>
-      </div>
-
-      <div className="forms" style={{ padding: '0 20px' }}>
-        {filtered.length === 0 ? (
-          <p className="txt-center mt-5" style={{ color: '#888' }}>
+        {!isLoading && filteredConnections.length === 0 && (
+          <p className="txt-center mt-3 connections-empty-note">
             {connections.length === 0
               ? __('No connections saved yet. Authorize an app from any integration to add one.', 'bit-integrations')
               : __('No connections match the current filters.', 'bit-integrations')}
           </p>
-        ) : (
-          <table className="f-table btcd-all-frm" style={{ width: '100%' }}>
-            <thead>
-              <tr>
-                <th style={{ width: 160 }}>{__('App', 'bit-integrations')}</th>
-                <th>{__('Connection Name', 'bit-integrations')}</th>
-                <th style={{ width: 220 }}>{__('Account', 'bit-integrations')}</th>
-                <th style={{ width: 120 }}>{__('Auth Type', 'bit-integrations')}</th>
-                <th style={{ width: 180 }}>{__('Created', 'bit-integrations')}</th>
-                <th style={{ width: 110 }}></th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map(conn => (
-                <tr key={conn.id}>
-                  <td>{conn.app_slug}</td>
-                  <td>
-                    {editingId === conn.id ? (
-                      <div className="flx" style={{ gap: 6 }}>
-                        <input
-                          ref={inputRef}
-                          type="text"
-                          className="btcd-paper-inp"
-                          style={{ flex: 1 }}
-                          value={editValue}
-                          onChange={e => setEditValue(e.target.value)}
-                          onKeyDown={e => handleKeyDown(e, conn.id)}
-                          disabled={savingId === conn.id}
-                        />
-                        <button
-                          type="button"
-                          className="btn btcd-btn-sm purple sh-sm"
-                          onClick={() => saveRename(conn.id)}
-                          disabled={savingId === conn.id}>
-                          {__('Save', 'bit-integrations')}
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btcd-btn-sm sh-sm"
-                          onClick={cancelEdit}
-                          disabled={savingId === conn.id}>
-                          {__('Cancel', 'bit-integrations')}
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="flx" style={{ gap: 6, alignItems: 'center' }}>
-                        <span>{conn.connection_name || '—'}</span>
-                        <button
-                          type="button"
-                          className="icn-btn"
-                          title={__('Rename', 'bit-integrations')}
-                          onClick={() => startEdit(conn)}>
-                          <EditIcn size={14} />
-                        </button>
-                      </div>
-                    )}
-                  </td>
-                  <td>{conn.account_name || '—'}</td>
-                  <td>{conn.auth_type}</td>
-                  <td>{conn.created_at || '—'}</td>
-                  <td>
-                    <button
-                      type="button"
-                      className="delete-button"
-                      title={__('Delete', 'bit-integrations')}
-                      onClick={() => setDeletingId(conn.id)}>
-                      <TrashIcn />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         )}
       </div>
     </div>
