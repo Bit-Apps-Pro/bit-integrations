@@ -4,6 +4,7 @@ import bitsFetch from '../../../Utils/bitsFetch'
 import { __ } from '../../../Utils/i18nwrap'
 import LoaderSm from '../../Loaders/LoaderSm'
 import TutorialLink from '../../Utilities/TutorialLink'
+import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 
 export default function BookingPressAuthorization({
   bookingPressConf,
@@ -18,7 +19,7 @@ export default function BookingPressAuthorization({
   const [showAuthMsg, setShowAuthMsg] = useState(false)
 
   const authorizeHandler = () => {
-    setIsLoading('auth')
+    setIsLoading(true)
     bitsFetch({}, 'bookingpress_authorize').then(result => {
       if (result?.success) {
         setIsAuthorized(true)

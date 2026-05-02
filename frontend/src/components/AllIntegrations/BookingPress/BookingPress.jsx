@@ -12,7 +12,6 @@ import BookingPressIntegLayout from './BookingPressIntegLayout'
 
 export default function BookingPress({ formFields, setFlow, flow, allIntegURL }) {
   const navigate = useNavigate()
-  const { formID } = useParams()
   const [isLoading, setIsLoading] = useState(false)
   const [step, setStep] = useState(1)
   const [snack, setSnackbar] = useState({ show: false })
@@ -70,7 +69,6 @@ export default function BookingPress({ formFields, setFlow, flow, allIntegURL })
           minHeight: step === 2 && '500px',
         }}>
         <BookingPressIntegLayout
-          formID={formID}
           formFields={formFields}
           bookingPressConf={bookingPressConf}
           setBookingPressConf={setBookingPressConf}

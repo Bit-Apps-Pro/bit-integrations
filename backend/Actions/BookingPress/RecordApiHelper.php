@@ -28,7 +28,7 @@ class RecordApiHelper
             ];
         }
 
-        $fieldData = static::generateReqDataFromFieldMap($fieldMap, $fieldValues);
+        $fieldData = $this->generateReqDataFromFieldMap($fieldMap, $fieldValues);
         $mainAction = $this->_integrationDetails->mainAction ?? 'cancel_appointment';
 
         $defaultResponse = [

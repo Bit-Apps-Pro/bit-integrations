@@ -9,15 +9,14 @@ import { generateMappedField } from './BookingPressCommonFunc'
 import BookingPressFieldMap from './BookingPressFieldMap'
 import {
   appointmentIdField,
-  CreateCustomerFields,
-  DeleteCustomerFields,
+  createCustomerFields,
+  deleteCustomerFields,
   modules,
-  UpdateAppointmentStatusFields,
-  UpdateCustomerFields
+  updateAppointmentStatusFields,
+  updateCustomerFields
 } from './staticData'
 
 export default function BookingPressIntegLayout({
-  formID,
   formFields,
   bookingPressConf,
   setBookingPressConf,
@@ -36,19 +35,19 @@ export default function BookingPressIntegLayout({
             draftConf.bookingPressFields = appointmentIdField
             break
           case 'update_appointment_status':
-            draftConf.bookingPressFields = UpdateAppointmentStatusFields
+            draftConf.bookingPressFields = updateAppointmentStatusFields
             break
           case 'create_customer':
-            draftConf.bookingPressFields = CreateCustomerFields
+            draftConf.bookingPressFields = createCustomerFields
             break
           case 'update_customer':
-            draftConf.bookingPressFields = UpdateCustomerFields
+            draftConf.bookingPressFields = updateCustomerFields
             break
           case 'delete_appointment':
             draftConf.bookingPressFields = appointmentIdField
             break
           case 'delete_customer':
-            draftConf.bookingPressFields = DeleteCustomerFields
+            draftConf.bookingPressFields = deleteCustomerFields
             break
           default:
             draftConf.bookingPressFields = []
@@ -72,7 +71,7 @@ export default function BookingPressIntegLayout({
           options={modules?.map(action => ({
             label: checkIsPro(isPro, action.is_pro) ? action.label : getProLabel(action.label),
             value: action.name,
-            disabled: checkIsPro(isPro, action.is_pro) ? false : true,
+            disabled: !checkIsPro(isPro, action.is_pro),
           }))}
           singleSelect
           closeOnSelect

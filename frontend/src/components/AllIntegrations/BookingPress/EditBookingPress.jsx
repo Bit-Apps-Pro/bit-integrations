@@ -12,7 +12,7 @@ import BookingPressIntegLayout from './BookingPressIntegLayout'
 
 export default function EditBookingPress({ allIntegURL }) {
   const navigate = useNavigate()
-  const { id, formID } = useParams()
+  const { id } = useParams()
 
   const [bookingPressConf, setBookingPressConf] = useRecoilState($actionConf)
   const [flow, setFlow] = useRecoilState($newFlow)
@@ -40,7 +40,6 @@ export default function EditBookingPress({ allIntegURL }) {
       <SetEditIntegComponents entity={flow.triggered_entity} setSnackbar={setSnackbar} />
 
       <BookingPressIntegLayout
-        formID={formID}
         formFields={formFields}
         bookingPressConf={bookingPressConf}
         setBookingPressConf={setBookingPressConf}

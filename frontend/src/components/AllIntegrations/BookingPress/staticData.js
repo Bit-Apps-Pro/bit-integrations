@@ -13,19 +13,19 @@ export const appointmentIdField = [
   { key: 'appointment_id', label: __('Appointment ID', 'bit-integrations'), required: true },
 ]
 
-export const UpdateAppointmentStatusFields = [
+export const updateAppointmentStatusFields = [
   { key: 'appointment_id', label: __('Appointment ID', 'bit-integrations'), required: true },
   { key: 'status', label: __('Status', 'bit-integrations'), required: true },
 ]
 
-export const CreateCustomerFields = [
+export const createCustomerFields = [
   { key: 'first_name', label: __('First Name', 'bit-integrations'), required: true },
   { key: 'last_name', label: __('Last Name', 'bit-integrations'), required: true },
   { key: 'email', label: __('Email', 'bit-integrations'), required: true },
   { key: 'phone', label: __('Phone', 'bit-integrations'), required: false },
 ]
 
-export const UpdateCustomerFields = [
+export const updateCustomerFields = [
   { key: 'customer_id', label: __('Customer ID', 'bit-integrations'), required: true },
   { key: 'bookingpress_user_firstname', label: __('First Name', 'bit-integrations'), required: false },
   { key: 'bookingpress_user_lastname', label: __('Last Name', 'bit-integrations'), required: false },
@@ -33,6 +33,6 @@ export const UpdateCustomerFields = [
   { key: 'bookingpress_user_phone', label: __('Phone', 'bit-integrations'), required: false },
 ]
 
-export const DeleteCustomerFields = [
+export const deleteCustomerFields = [
   { key: 'customer_id', label: __('Customer ID', 'bit-integrations'), required: true },
 ]
