@@ -1,8 +1,7 @@
-import bitsFetch from '../../../Utils/bitsFetch'
-import { deepCopy } from '../../../Utils/Helpers'
-import { __, sprintf } from '../../../Utils/i18nwrap'
 import { create } from 'mutative'
-import { persistConnection, reauthorizeConnection } from '../../../Utils/connectionApi'
+import bitsFetch from '../../../Utils/bitsFetch'
+import { reauthorizeConnection, saveConnection } from '../../../Utils/connectionApi'
+import { __, sprintf } from '../../../Utils/i18nwrap'
 
 const APP_SLUG = 'MailChimp'
 // Flat auth_details shape — matches OAuth2Authorization::getAccessToken contract.
@@ -374,11 +373,7 @@ const tokenHelper = (
       if (result && result.success) {
         const tokenDetails = result.data
         const accountName = tokenDetails.login_email || tokenDetails.accountname || tokenDetails.dc
-        const connectionName =
-          confTmp.connectionName?.trim() ||
-          (tokenDetails.accountname && tokenDetails.login_email
-            ? `${tokenDetails.accountname} (${tokenDetails.login_email})`
-            : accountName)
+        const connectionName = confTmp.connectionName?.trim() || sprintf(__('MailChimp Connection (%s)', 'bit-integrations'), accountName)
 
         const authDetails = {
           access_token: tokenDetails.access_token,
@@ -401,13 +396,13 @@ const tokenHelper = (
               account_name: accountName,
               connection_name: connectionName
             })
-          : persistConnection({
-              appSlug: APP_SLUG,
-              authType: 'oauth2',
-              connectionName,
-              accountName,
-              authDetails,
-              encryptKeys: ENCRYPT_KEYS
+          : saveConnection({
+              app_slug: APP_SLUG,
+              auth_type: 'oauth2',
+              auth_details: authDetails,
+              encrypt_keys: ENCRYPT_KEYS,
+              account_name: accountName,
+              connection_name: connectionName
             })
 
         const connRes = await persist

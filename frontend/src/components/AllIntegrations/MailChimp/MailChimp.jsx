@@ -27,7 +27,7 @@ function MailChimp({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Mail Chimp',
     type: 'Mail Chimp',
     connection_id: null,
-    connectionName: '',
+    connectionName: 'Mail Chimp Connection',
     clientId: '',
     clientSecret: '',
     listId: '',

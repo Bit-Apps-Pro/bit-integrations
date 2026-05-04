@@ -7,30 +7,13 @@ const NEW_VALUE = '__new__'
 
 export default function ConnectionAccountSelect({
   connections,
-  setConnections,
   selectedId,
   onSelect,
   onAddNew,
-  onReauthorize,
-  setIsLoading,
-  setSnackbar,
   isInfo,
   label = __('Account:', 'bit-integrations'),
   newOptionLabel = __('+ Add new connection', 'bit-integrations')
 }) {
-  const [confirmOpen, setConfirmOpen] = useState(false)
-  const popoverRef = useRef(null)
-
-  useEffect(() => {
-    const handleClickOutside = event => {
-      if (popoverRef.current && !popoverRef.current.contains(event.target)) {
-        setConfirmOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
-
   const handleChange = e => {
     const value = e.target.value
 
@@ -47,24 +30,6 @@ export default function ConnectionAccountSelect({
     const id = Number(value)
     const conn = connections.find(c => c.id === id)
     if (conn) onSelect(conn)
-  }
-
-  const handleDelete = () => {
-    if (!selectedId) return
-    if (setIsLoading) setIsLoading(true)
-    deleteConnection(selectedId)
-      .then(res => {
-        if (res?.success) {
-          setConnections(prev => prev.filter(c => c.id !== selectedId))
-          onSelect(null)
-        } else if (setSnackbar) {
-          setSnackbar({ show: true, msg: __('Failed to delete account', 'bit-integrations') })
-        }
-      })
-      .finally(() => {
-        if (setIsLoading) setIsLoading(false)
-        setConfirmOpen(false)
-      })
   }
 
   const dropdownValue = selectedId ? String(selectedId) : ''
@@ -95,47 +60,6 @@ export default function ConnectionAccountSelect({
           })}
           <option value={NEW_VALUE}>{newOptionLabel}</option>
         </select>
-
-        {selectedId && !isInfo && (
-          <>
-            {onReauthorize && (
-              <button
-                type="button"
-                className="btn btcd-btn-sm sh-sm"
-                onClick={() => {
-                  const conn = connections.find(c => c.id === selectedId)
-                  if (conn) onReauthorize(conn)
-                }}>
-                {__('Reauthorize', 'bit-integrations')}
-              </button>
-            )}
-
-            <div style={{ position: 'relative' }}>
-              {confirmOpen ? (
-                <div className="confirmation-popover" ref={popoverRef}>
-                  <p>{__('Delete this account?', 'bit-integrations')}</p>
-                  <button type="button" className="confirm-button" onClick={handleDelete}>
-                    {__('Yes', 'bit-integrations')}
-                  </button>
-                  <button
-                    type="button"
-                    className="cancel-button"
-                    onClick={() => setConfirmOpen(false)}>
-                    {__('No', 'bit-integrations')}
-                  </button>
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  className="delete-button"
-                  title={__('Delete account', 'bit-integrations')}
-                  onClick={() => setConfirmOpen(true)}>
-                  <TrashIcn />
-                </button>
-              )}
-            </div>
-          </>
-        )}
       </div>
     </div>
   )

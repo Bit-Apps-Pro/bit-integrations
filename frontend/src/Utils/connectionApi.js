@@ -23,19 +23,19 @@ export const deleteConnection = id => bitsFetch({ id }, 'connections/delete')
  *
  * @returns {Promise<{ success: boolean, data: object }>}
  */
-export const persistConnection = ({
-  appSlug,
-  authType = 'oauth2',
-  connectionName,
-  accountName,
-  authDetails,
-  encryptKeys = []
-}) =>
-  saveConnection({
-    app_slug: appSlug,
-    auth_type: authType,
-    connection_name: connectionName,
-    account_name: accountName,
-    auth_details: authDetails,
-    encrypt_keys: encryptKeys
-  })
+// export const persistConnection = ({
+//   appSlug,
+//   authType = 'oauth2',
+//   connectionName,
+//   accountName,
+//   authDetails,
+//   encryptKeys = []
+// }) =>
+//   saveConnection({
+//     app_slug: appSlug,
+//     auth_type: authType,
+//     connection_name: connectionName,
+//     account_name: accountName,
+//     auth_details: authDetails,
+//     encrypt_keys: encryptKeys
+//   })

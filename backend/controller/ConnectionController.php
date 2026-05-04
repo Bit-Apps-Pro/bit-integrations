@@ -91,19 +91,19 @@ final class ConnectionController
             wp_send_json_error($payload->get_error_message());
         }
 
-        $existingId = $this->findExistingIdForAccount($payload['app_slug'], $payload['account_name']);
+        // $existingId = $this->findExistingIdForAccount($payload['app_slug'], $payload['account_name']);
 
-        if ($existingId > 0) {
-            $payload['id'] = $existingId;
+        // if ($existingId > 0) {
+        //     $payload['id'] = $existingId;
 
-            $updated = $this->persist($payload, $existingId);
+        //     $updated = $this->persist($payload, $existingId);
 
-            if (is_wp_error($updated)) {
-                wp_send_json_error($updated->get_error_message());
-            }
+        //     if (is_wp_error($updated)) {
+        //         wp_send_json_error($updated->get_error_message());
+        //     }
 
-            wp_send_json_success(['data' => $this->formatRow($updated)]);
-        }
+        //     wp_send_json_success(['data' => $this->formatRow($updated)]);
+        // }
 
         $created = $this->persist($payload, 0);
 
@@ -235,7 +235,7 @@ final class ConnectionController
             return new WP_Error('missing_app_slug', __('App slug is required', 'bit-integrations'));
         }
 
-        if ($authType !== '' && !in_array($authType, self::ALLOWED_AUTH_TYPES, true)) {
+        if ($authType !== '' && !\in_array($authType, self::ALLOWED_AUTH_TYPES, true)) {
             return new WP_Error('invalid_auth_type', __('Invalid auth type', 'bit-integrations'));
         }
 
@@ -320,7 +320,7 @@ final class ConnectionController
         foreach ($encryptKeys as $path) {
             $value = $this->getNestedValue($authDetails, $path);
 
-            if (!is_string($value) || $value === '') {
+            if (!\is_string($value) || $value === '') {
                 continue;
             }
 
@@ -335,7 +335,7 @@ final class ConnectionController
         foreach ($encryptKeys as $path) {
             $value = $this->getNestedValue($authDetails, $path);
 
-            if (!is_string($value) || $value === '') {
+            if (!\is_string($value) || $value === '') {
                 continue;
             }
 
@@ -409,11 +409,11 @@ final class ConnectionController
             return [];
         }
 
-        if (is_string($request->encrypt_keys)) {
+        if (\is_string($request->encrypt_keys)) {
             return $this->parseEncryptKeys($request->encrypt_keys);
         }
 
-        if (is_array($request->encrypt_keys)) {
+        if (\is_array($request->encrypt_keys)) {
             $keys = [];
             foreach ($request->encrypt_keys as $key) {
                 $key = $this->sanitizeScalar($key);
@@ -431,9 +431,9 @@ final class ConnectionController
 
     private function parseEncryptKeys($value): array
     {
-        if (is_array($value)) {
+        if (\is_array($value)) {
             $keys = array_filter(array_map([$this, 'sanitizeScalar'], $value));
-        } elseif (is_string($value) && $value !== '') {
+        } elseif (\is_string($value) && $value !== '') {
             $keys = array_filter(array_map('trim', explode(',', $value)));
         } else {
             return [];
@@ -444,18 +444,18 @@ final class ConnectionController
 
     private function normalizeArray($value): array
     {
-        if (is_array($value)) {
+        if (\is_array($value)) {
             return $value;
         }
 
-        if (is_object($value)) {
+        if (\is_object($value)) {
             return json_decode(wp_json_encode($value), true) ?: [];
         }
 
-        if (is_string($value) && $value !== '') {
+        if (\is_string($value) && $value !== '') {
             $decoded = json_decode($value, true);
 
-            return is_array($decoded) ? $decoded : [];
+            return \is_array($decoded) ? $decoded : [];
         }
 
         return [];
@@ -464,15 +464,15 @@ final class ConnectionController
     private function getNestedValue(array $data, string $path)
     {
         if ($path === '') {
-            return null;
+            return;
         }
 
         $segments = explode('.', $path);
         $cursor = $data;
 
         foreach ($segments as $segment) {
-            if (!is_array($cursor) || !array_key_exists($segment, $cursor)) {
-                return null;
+            if (!\is_array($cursor) || !\array_key_exists($segment, $cursor)) {
+                return;
             }
 
             $cursor = $cursor[$segment];
@@ -492,7 +492,7 @@ final class ConnectionController
         $cursor = &$data;
 
         foreach ($segments as $segment) {
-            if (!isset($cursor[$segment]) || !is_array($cursor[$segment])) {
+            if (!isset($cursor[$segment]) || !\is_array($cursor[$segment])) {
                 $cursor[$segment] = [];
             }
 
@@ -508,7 +508,7 @@ final class ConnectionController
             return absint($request);
         }
 
-        if (is_object($request)) {
+        if (\is_object($request)) {
             foreach (['id', 'connection_id', 'connectionId'] as $key) {
                 if (!empty($request->{$key})) {
                     return absint($request->{$key});
@@ -516,7 +516,7 @@ final class ConnectionController
             }
         }
 
-        if (is_array($request)) {
+        if (\is_array($request)) {
             foreach (['id', 'connection_id', 'connectionId'] as $key) {
                 if (!empty($request[$key])) {
                     return absint($request[$key]);
@@ -529,7 +529,7 @@ final class ConnectionController
 
     private function sanitizeScalar($value): string
     {
-        if (!is_scalar($value)) {
+        if (!\is_scalar($value)) {
             return '';
         }
 

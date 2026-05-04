@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react'
 import BackIcn from '../../../Icons/BackIcn'
-import { __ } from '../../../Utils/i18nwrap'
 import { listConnections } from '../../../Utils/connectionApi'
+import { __ } from '../../../Utils/i18nwrap'
+import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
+import ConnectionAccountSelect from '../../Connections/ConnectionAccountSelect'
 import LoaderSm from '../../Loaders/LoaderSm'
 import CopyText from '../../Utilities/CopyText'
+import TutorialLink from '../../Utilities/TutorialLink'
 import {
   applyConnectionToConf,
   handleMailChimpAuthorize,
   refreshModules
 } from './MailChimpCommonFunc'
-import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
-import TutorialLink from '../../Utilities/TutorialLink'
-import ConnectionAccountSelect from '../../Connections/ConnectionAccountSelect'
 
 const APP_SLUG = 'MailChimp'
 
@@ -153,13 +153,9 @@ export default function MailChimpAuthorization({
       {!isInfo && (
         <ConnectionAccountSelect
           connections={connections}
-          setConnections={setConnections}
           selectedId={mailChimpConf.connection_id || null}
           onSelect={handleSelectConnection}
           onAddNew={enterNewForm}
-          onReauthorize={handleReauthorize}
-          setIsLoading={setIsLoading}
-          setSnackbar={setSnackbar}
           isInfo={isInfo}
           label={__('MailChimp account:', 'bit-integrations')}
         />
