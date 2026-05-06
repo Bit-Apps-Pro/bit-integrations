@@ -63,6 +63,7 @@ Route::post('auth/account/delete', [AuthDataController::class, 'deleteAuthData']
 // Connection management (encrypted reusable credentials)
 Route::get('connections/list', [ConnectionController::class, 'index']);
 Route::get('connections/get', [ConnectionController::class, 'getById']);
+Route::post('connections/authorize', [ConnectionController::class, 'authorize']);
 Route::post('connections/save', [ConnectionController::class, 'save']);
 Route::post('connections/update', [ConnectionController::class, 'update']);
 Route::post('connections/reauthorize', [ConnectionController::class, 'reauthorize']);

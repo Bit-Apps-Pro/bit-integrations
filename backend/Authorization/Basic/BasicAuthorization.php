@@ -23,4 +23,18 @@ class BasicAuthorization extends AbstractBaseAuthorization
 
         return 'Basic ' . base64_encode($authDetails['username'] . ':' . $authDetails['password']);
     }
+
+    public function setAuthHeadersOrParams()
+    {
+        $token = $this->getAccessToken();
+
+        if (is_array($token) && !empty($token['error'])) {
+            return $token;
+        }
+
+        return [
+            'authLocation' => 'header',
+            'data'         => ['Authorization' => $token],
+        ];
+    }
 }

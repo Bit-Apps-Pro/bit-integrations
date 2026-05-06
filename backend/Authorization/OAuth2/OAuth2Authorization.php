@@ -77,6 +77,20 @@ class OAuth2Authorization extends AbstractBaseAuthorization
         return $this->tokenPrefix . $authDetails['access_token'];
     }
 
+    public function setAuthHeadersOrParams()
+    {
+        $token = $this->getAccessToken();
+
+        if (is_array($token) && !empty($token['error'])) {
+            return $token;
+        }
+
+        return [
+            'authLocation' => 'header',
+            'data'         => ['Authorization' => $token],
+        ];
+    }
+
     public function refreshAccessToken(array $authDetails)
     {
         $url = $this->refreshTokenUrl ?: ($authDetails['refresh_token_url'] ?? ($authDetails['refreshTokenUrl'] ?? ''));

@@ -7,6 +7,7 @@ if (!defined('ABSPATH')) {
 }
 
 use BitApps\Integrations\Authorization\AuthorizationType;
+use BitApps\Integrations\Authorization\AuthorizationFactory;
 use BitApps\Integrations\Core\Database\ConnectionModel;
 use BitApps\Integrations\Core\Util\Capabilities;
 use BitApps\Integrations\Core\Util\Hash;
@@ -205,6 +206,66 @@ final class ConnectionController
         }
 
         wp_send_json_success(['data' => $this->formatRow($row)]);
+    }
+
+    public function authorize($request)
+    {
+        $this->guardWrite();
+
+        $authType = $this->sanitizeScalar($request->auth_type ?? '');
+        $appSlug = $this->sanitizeScalar($request->app_slug ?? '');
+        $apiEndpoint = esc_url_raw((string) ($request->api_endpoint ?? ''));
+        $method = strtoupper($this->sanitizeScalar($request->method ?? 'GET'));
+        $payload = isset($request->payload) ? $this->normalizePayload($request->payload) : null;
+        $headers = $this->normalizeHeaders($request->headers ?? []);
+
+        if ($authType === '') {
+            wp_send_json_error(__('Auth type is required', 'bit-integrations'));
+        }
+
+        if (!\in_array($authType, self::ALLOWED_AUTH_TYPES, true)) {
+            wp_send_json_error(__('Invalid auth type', 'bit-integrations'));
+        }
+
+        if (empty($request->auth_details)) {
+            wp_send_json_error(__('Authorization details are required', 'bit-integrations'));
+        }
+
+        if ($apiEndpoint === '') {
+            wp_send_json_error(__('API endpoint is required', 'bit-integrations'));
+        }
+
+        $authDetails = $this->normalizeArray($request->auth_details);
+
+        if (empty($authDetails)) {
+            wp_send_json_error(__('Authorization details are required', 'bit-integrations'));
+        }
+
+        try {
+            $handler = AuthorizationFactory::getAuthorizationHandler($authType, 0, $appSlug);
+            $handler->setAuthDetailsOverride($authDetails);
+            $result = $handler->authorize($apiEndpoint, $method, $payload, $headers);
+        } catch (\Exception $e) {
+            wp_send_json_error($e->getMessage());
+        }
+
+        if (!empty($result['error'])) {
+            wp_send_json_error(
+                [
+                    'message'  => $result['message'] ?? __('Authorization failed', 'bit-integrations'),
+                    'response' => $result['response'] ?? null,
+                ],
+                400
+            );
+        }
+
+        wp_send_json_success(
+            [
+                'message'  => __('Authorization successful', 'bit-integrations'),
+                'response' => $result['response'] ?? null,
+            ],
+            200
+        );
     }
 
     public function delete($request)
@@ -459,6 +520,48 @@ final class ConnectionController
         }
 
         return [];
+    }
+
+    private function normalizePayload($value)
+    {
+        if (\is_array($value)) {
+            return $value;
+        }
+
+        if (\is_object($value)) {
+            return json_decode(wp_json_encode($value), true) ?: [];
+        }
+
+        return $value;
+    }
+
+    private function normalizeHeaders($value): array
+    {
+        if (\is_object($value)) {
+            $value = json_decode(wp_json_encode($value), true) ?: [];
+        }
+
+        if (!\is_array($value)) {
+            return [];
+        }
+
+        $headers = [];
+
+        foreach ($value as $key => $headerValue) {
+            if (!\is_scalar($key)) {
+                continue;
+            }
+
+            $headerName = sanitize_text_field((string) $key);
+
+            if ($headerName === '' || !\is_scalar($headerValue)) {
+                continue;
+            }
+
+            $headers[$headerName] = sanitize_text_field((string) $headerValue);
+        }
+
+        return $headers;
     }
 
     private function getNestedValue(array $data, string $path)

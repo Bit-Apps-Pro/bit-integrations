@@ -10,6 +10,8 @@ export const listConnections = appSlug =>
 
 export const getConnection = id => bitsFetch(null, 'connections/get', { id }, 'GET')
 
+export const authorizeConnection = payload => bitsFetch(payload, 'connections/authorize')
+
 export const saveConnection = payload => bitsFetch(payload, 'connections/save')
 
 export const updateConnection = payload => bitsFetch(payload, 'connections/update')

@@ -8,12 +8,15 @@ if (!defined('ABSPATH')) {
 
 use BitApps\Integrations\Core\Database\ConnectionModel;
 use BitApps\Integrations\Core\Util\Hash;
+use BitApps\Integrations\Core\Util\HttpHelper;
 
 abstract class AbstractBaseAuthorization
 {
     protected $connectionId;
 
     protected $connection;
+
+    protected $authDetailsOverride;
 
     public function __construct($connectionId)
     {
@@ -22,9 +25,99 @@ abstract class AbstractBaseAuthorization
 
     abstract public function getAccessToken();
 
+    public function setAuthHeadersOrParams()
+    {
+        $token = $this->getAccessToken();
+
+        if (is_array($token) && !empty($token['error'])) {
+            return $token;
+        }
+
+        return [
+            'authLocation' => 'header',
+            'data'         => ['Authorization' => $token],
+        ];
+    }
+
+    /**
+     * Test authorization credentials by calling an API endpoint.
+     */
+    public function authorize(string $apiEndpoint, string $method = 'GET', $payload = null, array $headers = []): array
+    {
+        if ($apiEndpoint === '') {
+            return [
+                'error'   => true,
+                'message' => 'API endpoint is required',
+            ];
+        }
+
+        $authConfig = $this->setAuthHeadersOrParams();
+
+        if (isset($authConfig['error']) && $authConfig['error']) {
+            return $authConfig;
+        }
+
+        $url = $apiEndpoint;
+        $authLocation = $authConfig['authLocation'] ?? 'header';
+        $authData = (isset($authConfig['data']) && is_array($authConfig['data'])) ? $authConfig['data'] : [];
+
+        if ($authLocation === 'query' && !empty($authData)) {
+            $query = http_build_query($authData);
+            $separator = strpos($url, '?') !== false ? '&' : '?';
+            $url .= $separator . $query;
+        } elseif (!empty($authData)) {
+            $headers = array_merge($headers, $authData);
+        }
+
+        $response = $this->sendRequest($url, strtoupper($method), $payload, $headers);
+
+        if (is_wp_error($response)) {
+            return [
+                'error'    => true,
+                'message'  => $response->get_error_message(),
+                'response' => $response,
+            ];
+        }
+
+        if ((is_object($response) && !empty($response->error)) || (is_array($response) && !empty($response['error']))) {
+            return [
+                'error'    => true,
+                'message'  => is_object($response) ? ($response->error ?? 'Authorization failed') : ($response['error'] ?? 'Authorization failed'),
+                'response' => $response,
+            ];
+        }
+
+        if (isset(HttpHelper::$responseCode) && (int) HttpHelper::$responseCode >= 400) {
+            return [
+                'error'    => true,
+                'message'  => 'Authorization failed',
+                'response' => $response,
+            ];
+        }
+
+        return [
+            'success'  => true,
+            'response' => $response,
+        ];
+    }
+
     public function getConnectionId(): int
     {
         return (int) $this->connectionId;
+    }
+
+    public function setAuthDetailsOverride(array $authDetails)
+    {
+        $this->authDetailsOverride = $authDetails;
+
+        return $this;
+    }
+
+    public function clearAuthDetailsOverride()
+    {
+        $this->authDetailsOverride = null;
+
+        return $this;
     }
 
     public function getConnection()
@@ -38,6 +131,10 @@ abstract class AbstractBaseAuthorization
 
     public function getAuthDetails()
     {
+        if (is_array($this->authDetailsOverride)) {
+            return $this->authDetailsOverride;
+        }
+
         $connection = $this->getConnection();
 
         if (!$connection) {
@@ -151,6 +248,20 @@ abstract class AbstractBaseAuthorization
     protected function http()
     {
         return new HttpHelper();
+    }
+
+    protected function sendRequest(string $url, string $method, $payload, array $headers)
+    {
+        switch ($method) {
+            case 'GET':
+                return HttpHelper::get($url, $payload, $headers);
+
+            case 'POST':
+                return HttpHelper::post($url, $payload, $headers);
+
+            default:
+                return HttpHelper::request($url, $method, $payload, $headers);
+        }
     }
 
     protected static function getNestedValue(array $data, string $path)
