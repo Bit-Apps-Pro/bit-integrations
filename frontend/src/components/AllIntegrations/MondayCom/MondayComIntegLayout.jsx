@@ -139,8 +139,7 @@ export default function MondayComIntegLayout({
             <b className="wdt-200 d-in-b">{__('Select Board:', 'bit-integrations')}</b>
             <MultiSelect
               options={
-                mondayComConf?.boards
-                && mondayComConf.boards.map(b => ({ label: b.name, value: `${b.id}` }))
+                mondayComConf?.boards?.map(b => ({ label: b.name, value: `${b.id}` })) || []
               }
               className="msl-wrp-options dropdown-custom-width"
               defaultValue={mondayComConf?.selectedBoard}
@@ -171,8 +170,7 @@ export default function MondayComIntegLayout({
               <b className="wdt-200 d-in-b">{__('Select Group:', 'bit-integrations')}</b>
               <MultiSelect
                 options={
-                  mondayComConf?.groups
-                  && mondayComConf.groups.map(g => ({ label: g.name, value: `${g.id}` }))
+                  mondayComConf?.groups?.map(g => ({ label: g.name, value: `${g.id}` })) || []
                 }
                 className="msl-wrp-options dropdown-custom-width"
                 defaultValue={mondayComConf?.selectedGroup}
@@ -209,8 +207,7 @@ export default function MondayComIntegLayout({
               <b className="wdt-200 d-in-b">{__('Select Item:', 'bit-integrations')}</b>
               <MultiSelect
                 options={
-                  mondayComConf?.items
-                  && mondayComConf.items.map(it => ({ label: it.name, value: `${it.id}` }))
+                  mondayComConf?.items?.map(it => ({ label: it.name, value: `${it.id}` })) || []
                 }
                 className="msl-wrp-options dropdown-custom-width"
                 defaultValue={mondayComConf?.selectedItem}

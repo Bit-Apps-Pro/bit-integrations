@@ -99,7 +99,7 @@ export default function MondayComFieldMap({
               onClick={() => delFieldMap(i, mondayComConf, setMondayComConf)}
               className="icn-btn sh-sm ml-1"
               type="button"
-              aria-label="btn">
+              aria-label={__('Remove field mapping', 'bit-integrations')}>
               <span className="btcd-icn icn-trash-2" />
             </button>
           </>

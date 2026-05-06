@@ -49,19 +49,19 @@ export const staticFieldsMap = {
 }
 
 export const columnTypeList = [
-  { label: 'Text', value: 'text' },
-  { label: 'Long Text', value: 'long_text' },
-  { label: 'Number', value: 'numbers' },
-  { label: 'Status', value: 'status' },
-  { label: 'Date', value: 'date' },
-  { label: 'Checkbox', value: 'checkbox' },
-  { label: 'Email', value: 'email' },
-  { label: 'Phone', value: 'phone' },
-  { label: 'Link', value: 'link' },
-  { label: 'Rating', value: 'rating' },
-  { label: 'Tags', value: 'tag' },
-  { label: 'People', value: 'people' },
-  { label: 'Timeline', value: 'timeline' }
+  { label: __('Text', 'bit-integrations'), value: 'text' },
+  { label: __('Long Text', 'bit-integrations'), value: 'long_text' },
+  { label: __('Number', 'bit-integrations'), value: 'numbers' },
+  { label: __('Status', 'bit-integrations'), value: 'status' },
+  { label: __('Date', 'bit-integrations'), value: 'date' },
+  { label: __('Checkbox', 'bit-integrations'), value: 'checkbox' },
+  { label: __('Email', 'bit-integrations'), value: 'email' },
+  { label: __('Phone', 'bit-integrations'), value: 'phone' },
+  { label: __('Link', 'bit-integrations'), value: 'link' },
+  { label: __('Rating', 'bit-integrations'), value: 'rating' },
+  { label: __('Tags', 'bit-integrations'), value: 'tag' },
+  { label: __('People', 'bit-integrations'), value: 'people' },
+  { label: __('Timeline', 'bit-integrations'), value: 'timeline' }
 ]
 
 export const needsBoard = [
@@ -78,6 +78,6 @@ export const needsBoard = [
   'create_column'
 ]
 
-export const needsItem = [  'create_subitem',]
+export const needsItem = ['create_subitem']
 
 export const needsColumnMap = ['create_item', 'update_item']
