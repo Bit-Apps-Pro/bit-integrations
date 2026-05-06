@@ -77,11 +77,11 @@ class OAuth2Authorization extends AbstractBaseAuthorization
         return $this->tokenPrefix . $authDetails['access_token'];
     }
 
-    public function setAuthHeadersOrParams()
+    public function getAuthHeadersOrParams()
     {
         $token = $this->getAccessToken();
 
-        if (is_array($token) && !empty($token['error'])) {
+        if (\is_array($token) && !empty($token['error'])) {
             return $token;
         }
 
@@ -106,15 +106,15 @@ class OAuth2Authorization extends AbstractBaseAuthorization
 
         $response = HttpHelper::post($url, $body, ['Content-Type' => 'application/x-www-form-urlencoded']);
 
-        if (HttpHelper::$responseCode !== 200 || (is_object($response) && isset($response->error))) {
+        if (HttpHelper::$responseCode !== 200 || (\is_object($response) && isset($response->error))) {
             return [
                 'error'    => true,
-                'message'  => is_object($response) && isset($response->error) ? $response->error : 'Token refresh failed',
+                'message'  => \is_object($response) && isset($response->error) ? $response->error : 'Token refresh failed',
                 'response' => $response,
             ];
         }
 
-        $response = is_object($response) ? json_decode(wp_json_encode($response), true) : (array) $response;
+        $response = \is_object($response) ? json_decode(wp_json_encode($response), true) : (array) $response;
 
         $authDetails['access_token'] = $response['access_token'] ?? ($authDetails['access_token'] ?? '');
 

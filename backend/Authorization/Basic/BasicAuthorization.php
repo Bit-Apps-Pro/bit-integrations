@@ -24,11 +24,11 @@ class BasicAuthorization extends AbstractBaseAuthorization
         return 'Basic ' . base64_encode($authDetails['username'] . ':' . $authDetails['password']);
     }
 
-    public function setAuthHeadersOrParams()
+    public function getAuthHeadersOrParams()
     {
         $token = $this->getAccessToken();
 
-        if (is_array($token) && !empty($token['error'])) {
+        if (\is_array($token) && !empty($token['error'])) {
             return $token;
         }
 

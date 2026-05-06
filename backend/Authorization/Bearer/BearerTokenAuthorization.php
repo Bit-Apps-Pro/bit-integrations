@@ -24,11 +24,11 @@ class BearerTokenAuthorization extends AbstractBaseAuthorization
         return 'Bearer ' . $authDetails['token'];
     }
 
-    public function setAuthHeadersOrParams()
+    public function getAuthHeadersOrParams()
     {
         $token = $this->getAccessToken();
 
-        if (is_array($token) && !empty($token['error'])) {
+        if (\is_array($token) && !empty($token['error'])) {
             return $token;
         }
 

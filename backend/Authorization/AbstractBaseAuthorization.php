@@ -25,25 +25,18 @@ abstract class AbstractBaseAuthorization
 
     abstract public function getAccessToken();
 
-    public function setAuthHeadersOrParams()
-    {
-        $token = $this->getAccessToken();
-
-        if (is_array($token) && !empty($token['error'])) {
-            return $token;
-        }
-
-        return [
-            'authLocation' => 'header',
-            'data'         => ['Authorization' => $token],
-        ];
-    }
+    abstract public function getAuthHeadersOrParams();
 
     /**
      * Test authorization credentials by calling an API endpoint.
+     *
+     * @param null|mixed $payload
      */
     public function authorize(string $apiEndpoint, string $method = 'GET', $payload = null, array $headers = []): array
     {
+        $apiEndpoint = trim($apiEndpoint);
+        $method = strtoupper(trim($method));
+
         if ($apiEndpoint === '') {
             return [
                 'error'   => true,
@@ -51,7 +44,14 @@ abstract class AbstractBaseAuthorization
             ];
         }
 
-        $authConfig = $this->setAuthHeadersOrParams();
+        $authConfig = $this->getAuthHeadersOrParams();
+
+        if (!\is_array($authConfig)) {
+            return [
+                'error'   => true,
+                'message' => 'Invalid authorization config',
+            ];
+        }
 
         if (isset($authConfig['error']) && $authConfig['error']) {
             return $authConfig;
@@ -59,7 +59,7 @@ abstract class AbstractBaseAuthorization
 
         $url = $apiEndpoint;
         $authLocation = $authConfig['authLocation'] ?? 'header';
-        $authData = (isset($authConfig['data']) && is_array($authConfig['data'])) ? $authConfig['data'] : [];
+        $authData = (isset($authConfig['data']) && \is_array($authConfig['data'])) ? $authConfig['data'] : [];
 
         if ($authLocation === 'query' && !empty($authData)) {
             $query = http_build_query($authData);
@@ -69,7 +69,7 @@ abstract class AbstractBaseAuthorization
             $headers = array_merge($headers, $authData);
         }
 
-        $response = $this->sendRequest($url, strtoupper($method), $payload, $headers);
+        $response = $this->sendRequest($url, $method === '' ? 'GET' : $method, $payload, $headers);
 
         if (is_wp_error($response)) {
             return [
@@ -79,15 +79,15 @@ abstract class AbstractBaseAuthorization
             ];
         }
 
-        if ((is_object($response) && !empty($response->error)) || (is_array($response) && !empty($response['error']))) {
+        if ((\is_object($response) && !empty($response->error)) || (\is_array($response) && !empty($response['error']))) {
             return [
                 'error'    => true,
-                'message'  => is_object($response) ? ($response->error ?? 'Authorization failed') : ($response['error'] ?? 'Authorization failed'),
+                'message'  => \is_object($response) ? ($response->error ?? 'Authorization failed') : ($response['error'] ?? 'Authorization failed'),
                 'response' => $response,
             ];
         }
 
-        if (isset(HttpHelper::$responseCode) && (int) HttpHelper::$responseCode >= 400) {
+        if (isset(HttpHelper::$responseCode) && ((int) HttpHelper::$responseCode < 200 || (int) HttpHelper::$responseCode >= 300)) {
             return [
                 'error'    => true,
                 'message'  => 'Authorization failed',
@@ -131,14 +131,14 @@ abstract class AbstractBaseAuthorization
 
     public function getAuthDetails()
     {
-        if (is_array($this->authDetailsOverride)) {
+        if (\is_array($this->authDetailsOverride)) {
             return $this->authDetailsOverride;
         }
 
         $connection = $this->getConnection();
 
         if (!$connection) {
-            return null;
+            return;
         }
 
         $authDetails = $this->decodeAuthDetails($connection->auth_details ?? null);
@@ -156,7 +156,7 @@ abstract class AbstractBaseAuthorization
         foreach ($encryptKeys as $path) {
             $value = self::getNestedValue($authDetails, $path);
 
-            if (!is_string($value) || $value === '') {
+            if (!\is_string($value) || $value === '') {
                 continue;
             }
 
@@ -188,7 +188,7 @@ abstract class AbstractBaseAuthorization
         foreach ($encryptKeys as $path) {
             $value = self::getNestedValue($authDetails, $path);
 
-            if (!is_string($value) || $value === '') {
+            if (!\is_string($value) || $value === '') {
                 continue;
             }
 
@@ -215,18 +215,18 @@ abstract class AbstractBaseAuthorization
 
     protected function decodeAuthDetails($value): array
     {
-        if (is_array($value)) {
+        if (\is_array($value)) {
             return $value;
         }
 
-        if (is_object($value)) {
+        if (\is_object($value)) {
             return json_decode(wp_json_encode($value), true) ?: [];
         }
 
-        if (is_string($value) && $value !== '') {
+        if (\is_string($value) && $value !== '') {
             $decoded = json_decode($value, true);
 
-            return is_array($decoded) ? $decoded : [];
+            return \is_array($decoded) ? $decoded : [];
         }
 
         return [];
@@ -234,11 +234,11 @@ abstract class AbstractBaseAuthorization
 
     protected function parseEncryptKeys($value): array
     {
-        if (is_array($value)) {
+        if (\is_array($value)) {
             return array_values(array_filter(array_map('strval', $value)));
         }
 
-        if (is_string($value) && $value !== '') {
+        if (\is_string($value) && $value !== '') {
             return array_values(array_filter(array_map('trim', explode(',', $value))));
         }
 
@@ -267,15 +267,15 @@ abstract class AbstractBaseAuthorization
     protected static function getNestedValue(array $data, string $path)
     {
         if ($path === '') {
-            return null;
+            return;
         }
 
         $segments = explode('.', $path);
         $cursor = $data;
 
         foreach ($segments as $segment) {
-            if (!is_array($cursor) || !array_key_exists($segment, $cursor)) {
-                return null;
+            if (!\is_array($cursor) || !\array_key_exists($segment, $cursor)) {
+                return;
             }
 
             $cursor = $cursor[$segment];
@@ -295,7 +295,7 @@ abstract class AbstractBaseAuthorization
         $cursor = &$data;
 
         foreach ($segments as $segment) {
-            if (!isset($cursor[$segment]) || !is_array($cursor[$segment])) {
+            if (!isset($cursor[$segment]) || !\is_array($cursor[$segment])) {
                 $cursor[$segment] = [];
             }
 
@@ -315,7 +315,7 @@ abstract class AbstractBaseAuthorization
         );
 
         if (is_wp_error($result) || empty($result[0])) {
-            return null;
+            return;
         }
 
         return $result[0];

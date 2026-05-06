@@ -24,7 +24,7 @@ class ApiKeyAuthorization extends AbstractBaseAuthorization
         return $authDetails['value'];
     }
 
-    public function setAuthHeadersOrParams()
+    public function getAuthHeadersOrParams()
     {
         $authDetails = $this->getAuthDetails();
 
