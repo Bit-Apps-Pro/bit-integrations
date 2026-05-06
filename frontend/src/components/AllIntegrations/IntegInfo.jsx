@@ -166,6 +166,7 @@ const TheEventsCalendarAuthorization = lazy(
 const LMFWCAuthorization = lazy(() => import('./LMFWC/LMFWCAuthorization'))
 const VoxelAuthorization = lazy(() => import('./Voxel/VoxelAuthorization'))
 const SmartSuiteAuthorization = lazy(() => import('./SmartSuite/SmartSuiteAuthorization'))
+const MondayComAuthorization = lazy(() => import('./MondayCom/MondayComAuthorization'))
 const BentoAuthorization = lazy(() => import('./Bento/BentoAuthorization'))
 const LineAuthorization = lazy(() => import('./Line/LineAuthorization'))
 const ACPTAuthorization = lazy(() => import('./ACPT/ACPTAuthorization'))
@@ -618,6 +619,8 @@ export default function IntegInfo() {
         return <VoxelAuthorization voxelConf={integrationConf} step={1} isInfo />
       case 'SmartSuite':
         return <SmartSuiteAuthorization smartSuiteConf={integrationConf} step={1} isInfo />
+      case 'Monday.Com':
+        return <MondayComAuthorization mondayComConf={integrationConf} step={1} isInfo />
       case 'Bento':
         return <BentoAuthorization bentoConf={integrationConf} step={1} isInfo />
       case 'Line':
