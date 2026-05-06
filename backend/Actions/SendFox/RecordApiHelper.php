@@ -135,7 +135,7 @@ class RecordApiHelper
         if ($integrationDetails->mainAction === '1') {
             $finalData = $this->generateListReqDataFromFieldMap($fieldValues, $integrationDetails->field_map_list);
             $apiResponse = $this->createContactList($access_token, $finalData);
-            $type = 'list';
+            $type = 'List';
             $event_name = 'Create List';
         }
         if ($integrationDetails->mainAction === '2') {

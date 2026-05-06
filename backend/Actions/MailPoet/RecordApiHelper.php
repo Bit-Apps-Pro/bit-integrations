@@ -137,7 +137,7 @@ class RecordApiHelper
             }
 
             return [
-                'success' => false,
+                'success' => isset($subscriber['id']) ? true : false,
                 'data'    => $subscriber,
             ];
         } catch (\MailPoet\API\MP\v1\APIException $e) {
