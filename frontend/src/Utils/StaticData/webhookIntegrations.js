@@ -95,7 +95,9 @@ export const customFormIntegrations = [
   'UserRegistrationMembership',
   'UltimateAffiliatePro',
   'Registration',
-  'Post'
+  'Post',
+  'WordPress',
+  'FluentPdfGenerator'
 ]
 
 export const actionHookIntegrations = ['ActionHook']
