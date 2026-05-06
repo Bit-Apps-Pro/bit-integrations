@@ -8,13 +8,13 @@ import { __ } from '../Utils/i18nwrap'
 
 function Settings() {
   const [appConf, setAppConf] = useState({})
-  const [showAnalyticsOptin, setShowAnalyticsOptin] = useState([])
+  const [showAnalyticsOptin, setShowAnalyticsOptin] = useState(null)
   const [snack, setSnackbar] = useState({ show: false })
 
   useEffect(() => {
-    // Fetch analytics/check
+    // Fetch analytics/check — route exists only when pro plugin active
     const fetchAnalytics = bitsFetch({}, 'analytics/check', '', 'GET').then(res => {
-      setShowAnalyticsOptin(res.data)
+      if (res?.success) setShowAnalyticsOptin(res.data)
     })
 
     // Fetch get/config
@@ -119,30 +119,32 @@ function Settings() {
           </div>
           <br />
         </div>
-        <div className="w-6 mt-3">
-          <div className="flx flx-between sh-sm br-10 btcd-setting-opt">
-            <div className="flx flx-start">
-              <span className="btcd-icn icn-information-outline mr-2" />
-              <div>
-                <b>{__('Opt In Telemetry Data', 'bit-integrations')}</b>
-                <br />
-                <small>
-                  {__(
-                    'If you turn off, Bit Integrations will no longer collect any telemetry data',
-                    'bit-integrations'
-                  )}
-                </small>
+        {showAnalyticsOptin !== null && (
+          <div className="w-6 mt-3">
+            <div className="flx flx-between sh-sm br-10 btcd-setting-opt">
+              <div className="flx flx-start">
+                <span className="btcd-icn icn-information-outline mr-2" />
+                <div>
+                  <b>{__('Opt In Telemetry Data', 'bit-integrations')}</b>
+                  <br />
+                  <small>
+                    {__(
+                      'If you turn off, Bit Integrations will no longer collect any telemetry data',
+                      'bit-integrations'
+                    )}
+                  </small>
+                </div>
               </div>
+              <SingleToggle2
+                action={analyticsHandle}
+                name="erase_db"
+                checked={showAnalyticsOptin}
+                className="flx"
+              />
             </div>
-            <SingleToggle2
-              action={analyticsHandle}
-              name="erase_db"
-              checked={showAnalyticsOptin}
-              className="flx"
-            />
+            <br />
           </div>
-          <br />
-        </div>
+        )}
         <div className="w-6 mt-3">
           <div className="flx flx-between sh-sm br-10 btcd-setting-opt">
             <div className="">

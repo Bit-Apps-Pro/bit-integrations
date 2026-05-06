@@ -3145,6 +3145,10 @@ nav.top-nav {
   padding: 30px;
   margin-left: 0;
   overflow: auto;
+  
+  &:has(.btcd-table-top){
+    padding: 30px 10px !important;
+  }
 }
 
 .btcd-s-inp {

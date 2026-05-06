@@ -177,6 +177,7 @@ export default function SelectAction() {
     { type: 'CreatorLms' },
     { type: 'FluentCart' },
     { type: 'WordPress' },
+    { type: 'PeepSo' },
     { type: 'Ninja Tables' },
     { type: 'WC Affiliate' },
     { type: 'WPCafe' },
