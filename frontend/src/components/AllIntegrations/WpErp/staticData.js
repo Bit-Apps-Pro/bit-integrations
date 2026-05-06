@@ -4,18 +4,14 @@ export const modules = [
   // CRM
   { name: 'createContact', label: __('Create Contact', 'bit-integrations'), is_pro: true, group: 'CRM' },
   { name: 'updateContact', label: __('Update Contact', 'bit-integrations'), is_pro: true, group: 'CRM' },
-  { name: 'deleteContact', label: __('Delete Contact', 'bit-integrations'), is_pro: true, group: 'CRM' },
   { name: 'createCompany', label: __('Create Company', 'bit-integrations'), is_pro: true, group: 'CRM' },
   { name: 'updateCompany', label: __('Update Company', 'bit-integrations'), is_pro: true, group: 'CRM' },
-  { name: 'deleteCompany', label: __('Delete Company', 'bit-integrations'), is_pro: true, group: 'CRM' },
   { name: 'createContactGroup', label: __('Create Contact Group', 'bit-integrations'), is_pro: true, group: 'CRM' },
   { name: 'addContactToGroup', label: __('Add Contact To Group', 'bit-integrations'), is_pro: true, group: 'CRM' },
   { name: 'removeContactFromGroup', label: __('Remove Contact From Group', 'bit-integrations'), is_pro: true, group: 'CRM' },
   { name: 'addNote', label: __('Add Note To Contact', 'bit-integrations'), is_pro: true, group: 'CRM' },
   { name: 'createTask', label: __('Create Task', 'bit-integrations'), is_pro: true, group: 'CRM' },
   // HRM
-  { name: 'createEmployee', label: __('Create Employee', 'bit-integrations'), is_pro: true, group: 'HRM' },
-  { name: 'updateEmployee', label: __('Update Employee', 'bit-integrations'), is_pro: true, group: 'HRM' },
   { name: 'createDepartment', label: __('Create Department', 'bit-integrations'), is_pro: true, group: 'HRM' },
   { name: 'createDesignation', label: __('Create Designation', 'bit-integrations'), is_pro: true, group: 'HRM' },
   { name: 'createHoliday', label: __('Create Holiday', 'bit-integrations'), is_pro: true, group: 'HRM' },
@@ -60,10 +56,6 @@ export const ContactUpdateFields = [
   { key: 'country', label: __('Country', 'bit-integrations'), required: false }
 ]
 
-export const ContactDeleteFields = [
-  { key: 'contact_id', label: __('Contact ID', 'bit-integrations'), required: true }
-]
-
 export const CompanyFields = [
   { key: 'company', label: __('Company Name', 'bit-integrations'), required: true },
   { key: 'email', label: __('Email', 'bit-integrations'), required: true },
@@ -81,10 +73,6 @@ export const CompanyFields = [
 export const CompanyUpdateFields = [
   { key: 'id', label: __('Company ID', 'bit-integrations'), required: true },
   ...CompanyFields.map(f => ({ ...f, required: false })).filter(f => f.key !== 'id')
-]
-
-export const CompanyDeleteFields = [
-  { key: 'company_id', label: __('Company ID', 'bit-integrations'), required: true }
 ]
 
 export const ContactGroupFields = [
@@ -108,39 +96,6 @@ export const TaskFields = [
   { key: 'start_date', label: __('Start Date (Y-m-d H:i:s)', 'bit-integrations'), required: false },
   { key: 'end_date', label: __('End Date (Y-m-d H:i:s)', 'bit-integrations'), required: false },
   { key: 'assigned_to', label: __('Assigned To User ID', 'bit-integrations'), required: false }
-]
-
-export const EmployeeFields = [
-  { key: 'first_name', label: __('First Name', 'bit-integrations'), required: true },
-  { key: 'last_name', label: __('Last Name', 'bit-integrations'), required: true },
-  { key: 'user_email', label: __('Email', 'bit-integrations'), required: true },
-  { key: 'middle_name', label: __('Middle Name', 'bit-integrations'), required: false },
-  { key: 'phone', label: __('Phone', 'bit-integrations'), required: false },
-  { key: 'mobile', label: __('Mobile', 'bit-integrations'), required: false },
-  { key: 'employee_id', label: __('Employee ID', 'bit-integrations'), required: false },
-  { key: 'date_of_birth', label: __('Date of Birth', 'bit-integrations'), required: false },
-  { key: 'hiring_date', label: __('Hiring Date', 'bit-integrations'), required: false },
-  { key: 'location', label: __('Location', 'bit-integrations'), required: false },
-  { key: 'type', label: __('Employment Type', 'bit-integrations'), required: false },
-  { key: 'status', label: __('Status', 'bit-integrations'), required: false },
-  { key: 'gender', label: __('Gender', 'bit-integrations'), required: false },
-  { key: 'marital_status', label: __('Marital Status', 'bit-integrations'), required: false },
-  { key: 'nationality', label: __('Nationality', 'bit-integrations'), required: false },
-  { key: 'reporting_to', label: __('Reporting To', 'bit-integrations'), required: false },
-  { key: 'pay_rate', label: __('Pay Rate', 'bit-integrations'), required: false },
-  { key: 'pay_type', label: __('Pay Type', 'bit-integrations'), required: false },
-  { key: 'personal_email', label: __('Personal Email', 'bit-integrations'), required: false },
-  { key: 'street_1', label: __('Street 1', 'bit-integrations'), required: false },
-  { key: 'street_2', label: __('Street 2', 'bit-integrations'), required: false },
-  { key: 'city', label: __('City', 'bit-integrations'), required: false },
-  { key: 'state', label: __('State', 'bit-integrations'), required: false },
-  { key: 'postal_code', label: __('Postal Code', 'bit-integrations'), required: false },
-  { key: 'country', label: __('Country', 'bit-integrations'), required: false }
-]
-
-export const EmployeeUpdateFields = [
-  { key: 'user_id', label: __('User ID', 'bit-integrations'), required: true },
-  ...EmployeeFields.map(f => ({ ...f, required: false }))
 ]
 
 export const DepartmentFields = [

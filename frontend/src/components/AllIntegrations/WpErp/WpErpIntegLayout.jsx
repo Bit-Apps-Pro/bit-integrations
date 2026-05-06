@@ -10,24 +10,17 @@ import { addFieldMap } from '../IntegrationHelpers/IntegrationHelpers'
 import {
   generateMappedField,
   refreshContactGroups,
-  refreshDepartments,
-  refreshDesignations,
   refreshLifeStages
 } from './WpErpCommonFunc'
 import WpErpFieldMap from './WpErpFieldMap'
-import WpErpActions from './WpErpActions'
 import {
-  CompanyDeleteFields,
   CompanyFields,
   CompanyUpdateFields,
-  ContactDeleteFields,
   ContactFields,
   ContactGroupFields,
   ContactUpdateFields,
   DepartmentFields,
   DesignationFields,
-  EmployeeFields,
-  EmployeeUpdateFields,
   ExpenseFields,
   GroupSubscriberFields,
   HolidayFields,
@@ -40,17 +33,13 @@ import {
 const FIELDS_BY_ACTION = {
   createContact: ContactFields,
   updateContact: ContactUpdateFields,
-  deleteContact: ContactDeleteFields,
   createCompany: CompanyFields,
   updateCompany: CompanyUpdateFields,
-  deleteCompany: CompanyDeleteFields,
   createContactGroup: ContactGroupFields,
   addContactToGroup: GroupSubscriberFields,
   removeContactFromGroup: GroupSubscriberFields,
   addNote: NoteFields,
   createTask: TaskFields,
-  createEmployee: EmployeeFields,
-  updateEmployee: EmployeeUpdateFields,
   createDepartment: DepartmentFields,
   createDesignation: DesignationFields,
   createHoliday: HolidayFields,
@@ -60,7 +49,6 @@ const FIELDS_BY_ACTION = {
 
 const CRM_GROUP_ACTIONS = ['createContact', 'updateContact', 'addContactToGroup', 'removeContactFromGroup']
 const LIFE_STAGE_ACTIONS = ['createContact', 'updateContact']
-const HRM_DEPT_ACTIONS = ['createEmployee', 'updateEmployee']
 
 export default function WpErpIntegLayout({
   formFields,
@@ -83,10 +71,6 @@ export default function WpErpIntegLayout({
 
     if (CRM_GROUP_ACTIONS.includes(value)) refreshContactGroups(setWpErpConf, setIsLoading)
     if (LIFE_STAGE_ACTIONS.includes(value)) refreshLifeStages(setWpErpConf, setIsLoading)
-    if (HRM_DEPT_ACTIONS.includes(value)) {
-      refreshDepartments(setWpErpConf, setIsLoading)
-      refreshDesignations(setWpErpConf, setIsLoading)
-    }
   }
 
   useEffect(() => {
@@ -180,53 +164,6 @@ export default function WpErpIntegLayout({
         </>
       )}
 
-      {HRM_DEPT_ACTIONS.includes(wpErpConf?.mainAction) && (
-        <>
-          <br />
-          <div className="flx">
-            <b className="wdt-200 d-in-b">{__('Department:', 'bit-integrations')}</b>
-            <MultiSelect
-              title="department"
-              defaultValue={wpErpConf?.utilities?.department ?? null}
-              className="btcd-paper-drpdwn w-5"
-              options={(wpErpConf?.allDepartments || []).map(dept => ({ label: dept?.label, value: dept?.value?.toString() }))}
-              onChange={val => setUtility('department', val)}
-              singleSelect
-              closeOnSelect
-            />
-            <button
-              onClick={() => refreshDepartments(setWpErpConf, setIsLoading)}
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `'${__('Refresh Departments', 'bit-integrations')}'` }}
-              type="button"
-              disabled={isLoading}>
-              &#x21BB;
-            </button>
-          </div>
-          <br />
-          <div className="flx">
-            <b className="wdt-200 d-in-b">{__('Designation:', 'bit-integrations')}</b>
-            <MultiSelect
-              title="designation"
-              defaultValue={wpErpConf?.utilities?.designation ?? null}
-              className="btcd-paper-drpdwn w-5"
-              options={(wpErpConf?.allDesignations || []).map(designation => ({ label: designation?.label, value: designation?.value?.toString() }))}
-              onChange={val => setUtility('designation', val)}
-              singleSelect
-              closeOnSelect
-            />
-            <button
-              onClick={() => refreshDesignations(setWpErpConf, setIsLoading)}
-              className="icn-btn sh-sm ml-2 mr-2 tooltip"
-              style={{ '--tooltip-txt': `'${__('Refresh Designations', 'bit-integrations')}'` }}
-              type="button"
-              disabled={isLoading}>
-              &#x21BB;
-            </button>
-          </div>
-        </>
-      )}
-
       {isLoading && (
         <Loader
           style={{
@@ -274,11 +211,6 @@ export default function WpErpIntegLayout({
           </div>
           <br />
           <br />
-          <div className="mt-4">
-            <b className="wdt-100">{__('Utilities', 'bit-integrations')}</b>
-          </div>
-          <div className="btcd-hr mt-1" />
-          <WpErpActions wpErpConf={wpErpConf} setWpErpConf={setWpErpConf} />
         </div>
       )}
     </>
