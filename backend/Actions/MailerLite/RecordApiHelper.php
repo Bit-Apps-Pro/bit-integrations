@@ -194,6 +194,13 @@ class RecordApiHelper
                 'code'    => 400
             ];
         }
+        if (empty($groupId)) {
+            return [
+                'success' => false,
+                'message' => __('Required field Group is empty', 'bit-integrations'),
+                'code'    => 400
+            ];
+        }
 
         $existSubscriber = $this->existSubscriber($auth_token, $finalData['email']);
         if (empty($existSubscriber['id'])) {

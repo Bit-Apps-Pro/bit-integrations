@@ -111,7 +111,7 @@ function AllIntegrations({ isValidUser }) {
         btnTxt: __('Clone', 'bit-integration'),
         btn2Txt: null,
         btnClass: 'purple',
-        body: __('Are you sure to clone this Integration ?', 'bitform')
+        body: __('Are you sure to clone this Integration ?', 'bit-integrations')
       })
     },
     [handleClone, closeConfMdl]
@@ -153,7 +153,7 @@ function AllIntegrations({ isValidUser }) {
         tags,
         updatedMapping,
         __('Tag removed successfully', 'bit-integrations')
-      ).catch(() => {})
+      ).catch(() => { })
     },
     [integrationTags, setIntegrationTags, persistTagData, tags]
   )
@@ -244,7 +244,7 @@ function AllIntegrations({ isValidUser }) {
         updatedTags,
         updatedMapping,
         __('Tag deleted successfully', 'bit-integrations')
-      ).catch(() => {})
+      ).catch(() => { })
     },
     [tags, integrationTags, persistTagData]
   )

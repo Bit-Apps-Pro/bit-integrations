@@ -68,7 +68,7 @@ https://www.youtube.com/watch?v=Jocbz2lAqKU
 
 - 🧩 **Powerful data mapping**: Powerful data mapping for seamless data transfer automation.
 
-- 🎯 **Custom Triggre & Conditional Logic**: Use custom triggers and conditional logic to tailor actions.
+- 🎯 **Custom Trigger & Conditional Logic**: Use custom triggers and conditional logic to tailor actions.
 
 - 🔄 **Real-time data sync**: Ensure real-time data sync across tools.
 

@@ -1,16 +1,15 @@
-import { __ } from '../../../Utils/i18nwrap'
+import { create } from 'mutative'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
-import Loader from '../../Loaders/Loader'
-import { addFieldMap } from './IntegrationHelpers'
-import MailerLiteFieldMap from './MailerLiteFieldMap'
-import MailerLiteActions from './MailerLiteActions'
-import { getAllGroups, mailerliteRefreshFields } from './MailerLiteCommonFunc'
-import { useEffect } from 'react'
-import Note from '../../Utilities/Note'
 import { useRecoilValue } from 'recoil'
 import { $appConfigState } from '../../../GlobalStates'
+import { __ } from '../../../Utils/i18nwrap'
+import Loader from '../../Loaders/Loader'
+import Note from '../../Utilities/Note'
 import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
-import { create } from 'mutative'
+import { addFieldMap } from './IntegrationHelpers'
+import MailerLiteActions from './MailerLiteActions'
+import { getAllGroups, mailerliteRefreshFields } from './MailerLiteCommonFunc'
+import MailerLiteFieldMap from './MailerLiteFieldMap'
 
 const actionOptions = [
   {
@@ -106,7 +105,7 @@ export default function MailerLiteIntegLayout({
           <button
             onClick={() => getAllGroups(mailerLiteConf, setMailerLiteConf, loading, setLoading)}
             className="icn-btn sh-sm ml-2 mr-2 tooltip"
-            style={{ '--tooltip-txt': `${__('Refresh Groups', 'bit-integrations')}'` }}
+            style={{ '--tooltip-txt': `'${__('Refresh Groups', 'bit-integrations')}'` }}
             type="button"
             disabled={loading.group}>
             &#x21BB;
