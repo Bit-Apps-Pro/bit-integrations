@@ -83,7 +83,7 @@ export default function WpErp({ formFields, setFlow, flow, allIntegURL }) {
         <br />
         <button
           onClick={() => nextPage(3)}
-          disabled={wpErpConf.field_map.length < 1}
+          disabled={wpErpConf.field_map.length < 1 || !checkMappedFields(wpErpConf)}
           className="btn f-right btcd-btn-lg purple sh-sm flx"
           type="button">
           {__('Next', 'bit-integrations')}
