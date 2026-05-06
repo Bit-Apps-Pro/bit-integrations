@@ -104,7 +104,7 @@ class WpErpController
         $integrationDetails = $integrationData->flow_details;
         $integId = $integrationData->id;
         $fieldMap = $integrationDetails->field_map;
-        $utilities = isset($integrationDetails->utilities) ? $integrationDetails->utilities : [];
+        $utilities = $integrationDetails->utilities ?? [];
 
         if (empty($fieldMap)) {
             return new WP_Error('field_map_empty', __('Field map is empty', 'bit-integrations'));
