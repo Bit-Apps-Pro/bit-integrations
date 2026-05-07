@@ -1,65 +1,64 @@
-import { useEffect, useRef, useState } from 'react'
-import TrashIcn from '../../Icons/TrashIcn'
+import { useParams } from 'react-router'
 import { __ } from '../../Utils/i18nwrap'
-import { deleteConnection } from '../../Utils/connectionApi'
+import MultiSelect from 'react-multiple-select-dropdown-lite'
+import 'react-multiple-select-dropdown-lite/dist/index.css'
 
 const NEW_VALUE = '__new__'
 
 export default function ConnectionAccountSelect({
+  config,
+  setConfig,
   connections,
-  selectedId,
-  onSelect,
-  onAddNew,
+  setShowNewConnection,
   isInfo,
-  label = __('Account:', 'bit-integrations'),
-  newOptionLabel = __('+ Add new connection', 'bit-integrations')
 }) {
-  const handleChange = e => {
-    const value = e.target.value
+  const { integUrlName } = useParams()
+
+  const handleChange = value => {
 
     if (value === NEW_VALUE) {
-      if (onAddNew) onAddNew()
+      setShowNewConnection(true)
       return
     }
-
-    if (!value) {
-      onSelect(null)
-      return
-    }
-
-    const id = Number(value)
-    const conn = connections.find(c => c.id === id)
-    if (conn) onSelect(conn)
+    setShowNewConnection(false)
+    setConfig(prev => ({ ...prev, connection_id: value }))
   }
 
-  const dropdownValue = selectedId ? String(selectedId) : ''
+  const dropdownValue = config?.connection_id ? String(config.connection_id) : ''
+
+  const options = [
+    ...(Array.isArray(connections) ? connections?.map(conn => {
+      const accountName = conn.account_name || conn.connection_name
+      const label =
+        conn.connection_name && conn.account_name && conn.connection_name !== conn.account_name
+          ? `${conn.connection_name} (${accountName})`
+          : conn.connection_name || accountName
+
+      return {
+        label,
+        value: String(conn.id)
+      }
+    }) : []),
+    { label: __('+ Add new connection', 'bit-integrations'), value: NEW_VALUE }
+  ]
 
   return (
     <div className="connection-select-wrap">
       <div className="mt-3">
-        <b>{label}</b>
+        <b>{integUrlName ? `${integUrlName} ${__('Connections:', 'bit-integrations')}` : __('Connections:', 'bit-integrations')}</b>
       </div>
       <div className="flx mt-1" style={{ gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
-        <select
-          className="btcd-paper-inp w-6"
-          value={dropdownValue}
+        <MultiSelect
+          className="btcd-paper-drpdwn msl-wrp-options w-6"
+          defaultValue={dropdownValue}
+          options={options}
           onChange={handleChange}
-          disabled={isInfo}>
-          <option value="">{__('Select an account...', 'bit-integrations')}</option>
-          {connections.map(conn => {
-            const accountName = conn.account_name || conn.connection_name
-            const label =
-              conn.connection_name && conn.account_name && conn.connection_name !== conn.account_name
-                ? `${conn.connection_name} (${accountName})`
-                : conn.connection_name || accountName
-            return (
-              <option key={conn.id} value={conn.id}>
-                {label}
-              </option>
-            )
-          })}
-          <option value={NEW_VALUE}>{newOptionLabel}</option>
-        </select>
+          singleSelect
+          closeOnSelect
+          showSearch
+          placeholder={__('Select a connection...', 'bit-integrations')}
+          disabled={isInfo}
+        />
       </div>
     </div>
   )
