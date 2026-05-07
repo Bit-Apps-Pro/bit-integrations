@@ -1,108 +1,164 @@
-import { add, set } from 'lodash'
+import { useCallback, useState } from 'react'
+import toast from 'react-hot-toast'
 import { AUTH_TYPES, defaultEncryptKeys } from '../../Utils/connectionAuth'
+import { authorizeConnection, saveConnection } from '../../Utils/connectionApi'
 import { __ } from '../../Utils/i18nwrap'
 import LoaderSm from '../Loaders/LoaderSm'
-import toast from 'react-hot-toast'
-import { useState } from 'react'
-import { authorizeConnection, saveConnection } from '../../Utils/connectionApi'
+
+const ERROR_TEXT_STYLE = { color: 'red', fontSize: '15px' }
+
+const getAuthPayload = ({ authType, apiEndpoint, method, authData, authDetails }) => {
+  const basePayload = {
+    auth_type: authType,
+    api_endpoint: apiEndpoint || '',
+    method: method || 'GET',
+    auth_details: {}
+  }
+
+  if (authType === AUTH_TYPES.API_KEY) {
+    basePayload.auth_details = {
+      key: authDetails?.key || 'X-API-Key',
+      value: authData.api_key,
+      addTo: authData.addTo || 'header'
+    }
+    return basePayload
+  }
+
+  if (authType === AUTH_TYPES.BASIC_AUTH) {
+    basePayload.auth_details = {
+      username: authData.username,
+      password: authData.password
+    }
+    return basePayload
+  }
+
+  if (authType === AUTH_TYPES.BEARER_TOKEN) {
+    basePayload.auth_details = {
+      token: authData.token
+    }
+  }
+
+  return basePayload
+}
+
+const getValidationErrors = (authType, authData) => {
+  const nextErrors = {}
+
+  if (!authData.connectionName?.trim()) {
+    nextErrors.connectionName = __('Connection name is required', 'bit-integrations')
+  }
+
+  if (authType === AUTH_TYPES.API_KEY && !authData.api_key?.trim()) {
+    nextErrors.api_key = __('API key is required', 'bit-integrations')
+  }
+
+  if (authType === AUTH_TYPES.BASIC_AUTH) {
+    if (!authData.username?.trim()) {
+      nextErrors.username = __('Username is required', 'bit-integrations')
+    }
+
+    if (!authData.password?.trim()) {
+      nextErrors.password = __('Password is required', 'bit-integrations')
+    }
+  }
+
+  if (authType === AUTH_TYPES.BEARER_TOKEN && !authData.token?.trim()) {
+    nextErrors.token = __('Bearer token is required', 'bit-integrations')
+  }
+
+  return nextErrors
+}
 
 export default function AddNewConnection({
   authDetails,
   config,
   setConfig,
   isInfo = false,
-  setShowNextButton,
-  customAuthFields
+  customAuthFields,
+  onConnectionSaved
 }) {
   const [authData, setAuthData] = useState({})
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [errors, setErrors] = useState({ connectionName: '' })
+  const [errors, setErrors] = useState({})
   const { authType, apiEndpoint, method } = authDetails || {}
 
-  const handleChange = e => {
-    const { name, value } = e.target
+  const handleChange = useCallback(event => {
+    const { name, value } = event.target
+
     setAuthData(prev => ({ ...prev, [name]: value }))
-  }
+    setErrors(prev => ({ ...prev, [name]: '' }))
+  }, [])
 
-  const resetErrors = () => {
-    setErrors({ connectionName: '' })
-  }
+  const handleAuthorize = useCallback(async () => {
+    const validationErrors = getValidationErrors(authType, authData)
+    setErrors(validationErrors)
 
-  const handleAuthorize = () => {
-    resetErrors()
-    if (!authData.connectionName) {
-      setErrors({ connectionName: __('Connection name is required', 'bit-integrations') })
+    if (Object.keys(validationErrors).length > 0) {
       return
     }
 
-    if (authType === AUTH_TYPES.API_KEY && !authData.api_key) {
-      setErrors(prev => ({ ...prev, api_key: __('API key is required', 'bit-integrations') }))
-      return
-    }
-
-    if (authType === AUTH_TYPES.BASIC_AUTH && (!authData.username || !authData.password)) {
-      setErrors(prev => ({
-        ...prev,
-        username: !authData.username ? __('Username is required', 'bit-integrations') : '',
-        password: !authData.password ? __('Password is required', 'bit-integrations') : ''
-      }))
-      return
-    }
-
-    if (authType === AUTH_TYPES.BEARER_TOKEN && !authData.token) {
-      setErrors(prev => ({ ...prev, token: __('Bearer token is required', 'bit-integrations') }))
-      return
-    }
-
-    let payload = {
-      auth_type: authType,
-      api_endpoint: apiEndpoint || '',
-      method: method || 'GET',
-      auth_details: {}
-    }
-
-    if (authType === AUTH_TYPES.API_KEY) {
-      payload.auth_details = { key: authDetails?.key || 'X-API-Key', value: authData.api_key, addTo: authData.addTo || 'header' }
-    } else if (authType === AUTH_TYPES.BASIC_AUTH) {
-      payload.auth_details = { username: authData.username, password: authData.password }
-    } else if (authType === AUTH_TYPES.BEARER_TOKEN) {
-      payload.auth_details = { token: authData.token }
-    }
+    const payload = getAuthPayload({
+      authType,
+      apiEndpoint,
+      method,
+      authData,
+      authDetails
+    })
 
     setIsLoading(true)
-    authorizeConnection(payload).then(res => {
-      if (res?.success) {
-        saveConnection({
-          app_slug: config?.app_slug || config?.type,
-          auth_type: authType,
-          connection_name: authData.connectionName,
-          account_name: authData.connectionName,
-          auth_details: payload.auth_details,
-          encrypt_keys: defaultEncryptKeys[authType] || []
-        }).then(saveRes => {
-          if (saveRes?.success) {
-            const connection = saveRes?.data?.data || null
-            setConfig(prev => ({ ...prev, connection_id: connection?.id }))
-            setIsAuthorized(true)
-            setShowNextButton(true)
-            toast.success(__('Authorized Successfully', 'bit-integrations'))
-          } else {
-            toast.error(
-              `${__('Failed to save connection Cause:', 'bit-integrations')}${saveRes?.data?.data || saveRes?.data || ''
-              }. ${__('please try again', 'bit-integrations')}`
-            )
-          }
-        })
-      } else {
+
+    try {
+      const authorizeRes = await authorizeConnection(payload)
+
+      if (!authorizeRes?.success) {
         setIsAuthorized(false)
         toast.error(
-          `${__('Authorization failed Cause:', 'bit-integrations')}${res?.data?.data || res?.data || 'Unknown error'}. ${__('please try again', 'bit-integrations')}`
+          `${__('Authorization failed Cause:', 'bit-integrations')}${
+            authorizeRes?.data?.data || authorizeRes?.data || 'Unknown error'
+          }. ${__('please try again', 'bit-integrations')}`
         )
+        return
       }
+
+      const saveRes = await saveConnection({
+        app_slug: config?.app_slug || config?.type,
+        auth_type: authType,
+        connection_name: authData.connectionName,
+        account_name: authData.connectionName,
+        auth_details: payload.auth_details,
+        encrypt_keys: defaultEncryptKeys[authType] || []
+      })
+
+      if (!saveRes?.success) {
+        toast.error(
+          `${__('Failed to save connection Cause:', 'bit-integrations')}${
+            saveRes?.data?.data || saveRes?.data || ''
+          }. ${__('please try again', 'bit-integrations')}`
+        )
+        return
+      }
+
+      const connection = saveRes?.data?.data || null
+      setConfig(prev => ({ ...prev, connection_id: connection?.id }))
+
+      if (onConnectionSaved) {
+        await onConnectionSaved(connection)
+      }
+
+      setIsAuthorized(true)
+      toast.success(__('Authorized Successfully', 'bit-integrations'))
+    } catch (error) {
+      setIsAuthorized(false)
+      toast.error(
+        `${__('Authorization failed Cause:', 'bit-integrations')} ${
+          error?.message || 'Unknown error'
+        }. ${__('please try again', 'bit-integrations')}`
+      )
+    } finally {
       setIsLoading(false)
-    })
-  }
+    }
+  }, [apiEndpoint, authData, authDetails, authType, config?.app_slug, config?.type, method, onConnectionSaved, setConfig])
 
   return (
     <>
@@ -113,11 +169,11 @@ export default function AddNewConnection({
         className="btcd-paper-inp w-6 mt-1"
         onChange={handleChange}
         name="connectionName"
-        value={authData?.connectionName || ''}
+        value={authData.connectionName || ''}
         type="text"
         placeholder={__('Connection Name...', 'bit-integrations')}
       />
-      <div style={{ color: 'red', fontSize: '15px' }}>{errors?.connectionName}</div>
+      <div style={ERROR_TEXT_STYLE}>{errors.connectionName || ''}</div>
 
       {authType === AUTH_TYPES.API_KEY && (
         <>
@@ -128,40 +184,12 @@ export default function AddNewConnection({
             className="btcd-paper-inp w-6 mt-1"
             onChange={handleChange}
             name="api_key"
-            value={authData.api_key ?? ''}
+            value={authData.api_key || ''}
             type="text"
             placeholder={__('api_key', 'bit-integrations')}
             disabled={isInfo}
           />
-          <div style={{ color: 'red', fontSize: '15px' }}>{errors?.api_key || ''}</div>
-
-          {/* <div className="mt-3">
-          <b>{__('API Key Value:', 'bit-integrations')}</b>
-        </div>
-        <input
-          className="btcd-paper-inp w-6 mt-1"
-          onChange={handleChange}
-          name="value"
-          value={authData.value ?? ''}
-          type="text"
-          placeholder={__('Your API key...', 'bit-integrations')}
-          disabled={isInfo}
-        />
-        <div style={{ color: 'red', fontSize: '15px' }}>{errors.value || ''}</div> */}
-
-          {/* <div className="mt-3">
-          <b>{__('Send Key Via:', 'bit-integrations')}</b>
-        </div>
-        <select
-          className="btcd-paper-inp w-6 mt-1"
-          onChange={handleChange}
-          name="addTo"
-          value={authData.addTo || 'header'}
-          disabled={isInfo}>
-          <option value="header">{__('Header', 'bit-integrations')}</option>
-          <option value="query_params">{__('Query Params', 'bit-integrations')}</option>
-        </select>
-        <div style={{ color: 'red', fontSize: '15px' }}>{errors.addTo || ''}</div> */}
+          <div style={ERROR_TEXT_STYLE}>{errors.api_key || ''}</div>
         </>
       )}
 
@@ -174,12 +202,12 @@ export default function AddNewConnection({
             className="btcd-paper-inp w-6 mt-1"
             onChange={handleChange}
             name="username"
-            value={authData.username ?? ''}
+            value={authData.username || ''}
             type="text"
             placeholder={__('Username...', 'bit-integrations')}
             disabled={isInfo}
           />
-          <div style={{ color: 'red', fontSize: '15px' }}>{errors?.username || ''}</div>
+          <div style={ERROR_TEXT_STYLE}>{errors.username || ''}</div>
 
           <div className="mt-3">
             <b>{__('Password:', 'bit-integrations')}</b>
@@ -188,12 +216,12 @@ export default function AddNewConnection({
             className="btcd-paper-inp w-6 mt-1"
             onChange={handleChange}
             name="password"
-            value={authData.password ?? ''}
+            value={authData.password || ''}
             type="password"
             placeholder={__('Password...', 'bit-integrations')}
             disabled={isInfo}
           />
-          <div style={{ color: 'red', fontSize: '15px' }}>{errors?.password || ''}</div>
+          <div style={ERROR_TEXT_STYLE}>{errors.password || ''}</div>
         </>
       )}
 
@@ -206,12 +234,12 @@ export default function AddNewConnection({
             className="btcd-paper-inp w-6 mt-1"
             onChange={handleChange}
             name="token"
-            value={authData.token ?? ''}
+            value={authData.token || ''}
             type="text"
             placeholder={__('Bearer token...', 'bit-integrations')}
             disabled={isInfo}
           />
-          <div style={{ color: 'red', fontSize: '15px' }}>{errors?.token || ''}</div>
+          <div style={ERROR_TEXT_STYLE}>{errors.token || ''}</div>
         </>
       )}
 
@@ -221,7 +249,7 @@ export default function AddNewConnection({
         onClick={handleAuthorize}
         className="btn btcd-btn-lg purple mt-3 sh-sm flx"
         type="button"
-        disabled={isInfo}>
+        disabled={isInfo || isLoading}>
         {isAuthorized ? __('Authorized ✔', 'bit-integrations') : __('Authorize', 'bit-integrations')}
         {isLoading && <LoaderSm size={20} clr="#022217" className="ml-2" />}
       </button>
