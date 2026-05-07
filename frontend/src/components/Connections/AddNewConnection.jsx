@@ -114,8 +114,7 @@ export default function AddNewConnection({
       if (!authorizeRes?.success) {
         setIsAuthorized(false)
         toast.error(
-          `${__('Authorization failed Cause:', 'bit-integrations')}${
-            authorizeRes?.data?.data || authorizeRes?.data || 'Unknown error'
+          `${__('Authorization failed Cause:', 'bit-integrations')}${authorizeRes?.data?.data || authorizeRes?.data || 'Unknown error'
           }. ${__('please try again', 'bit-integrations')}`
         )
         return
@@ -132,8 +131,7 @@ export default function AddNewConnection({
 
       if (!saveRes?.success) {
         toast.error(
-          `${__('Failed to save connection Cause:', 'bit-integrations')}${
-            saveRes?.data?.data || saveRes?.data || ''
+          `${__('Failed to save connection Cause:', 'bit-integrations')}${saveRes?.data?.data || saveRes?.data || ''
           }. ${__('please try again', 'bit-integrations')}`
         )
         return
@@ -151,8 +149,7 @@ export default function AddNewConnection({
     } catch (error) {
       setIsAuthorized(false)
       toast.error(
-        `${__('Authorization failed Cause:', 'bit-integrations')} ${
-          error?.message || 'Unknown error'
+        `${__('Authorization failed Cause:', 'bit-integrations')} ${error?.message || 'Unknown error'
         }. ${__('please try again', 'bit-integrations')}`
       )
     } finally {
