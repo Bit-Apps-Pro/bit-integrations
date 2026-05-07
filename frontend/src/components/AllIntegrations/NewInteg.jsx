@@ -164,6 +164,7 @@ const TheEventsCalendar = lazy(() => import('./TheEventsCalendar/TheEventsCalend
 const LMFWC = lazy(() => import('./LMFWC/LMFWC'))
 const Voxel = lazy(() => import('./Voxel/Voxel'))
 const SmartSuite = lazy(() => import('./SmartSuite/SmartSuite'))
+const MondayCom = lazy(() => import('./MondayCom/MondayCom'))
 const Bento = lazy(() => import('./Bento/Bento'))
 const Line = lazy(() => import('./Line/Line'))
 const ACPT = lazy(() => import('./ACPT/ACPT'))
@@ -171,6 +172,7 @@ const WishlistMember = lazy(() => import('./WishlistMember/WishlistMember'))
 const CreatorLms = lazy(() => import('./CreatorLms/CreatorLms'))
 const UltimateAffiliatePro = lazy(() => import('./UltimateAffiliatePro/UltimateAffiliatePro'))
 const FluentCart = lazy(() => import('./FluentCart/FluentCart'))
+const WpErp = lazy(() => import('./WpErp/WpErp'))
 const PeepSo = lazy(() => import('./PeepSo/PeepSo'))
 const NinjaTables = lazy(() => import('./NinjaTables/NinjaTables'))
 const WCAffiliate = lazy(() => import('./WCAffiliate/WCAffiliate'))
@@ -1606,6 +1608,15 @@ export default function NewInteg({ allIntegURL }) {
             setFlow={setFlow}
           />
         )
+      case 'Monday.Com':
+        return (
+          <MondayCom
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
       case 'Bento':
         return (
           <Bento
@@ -1663,6 +1674,15 @@ export default function NewInteg({ allIntegURL }) {
       case 'FluentCart':
         return (
           <FluentCart
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'WP ERP':
+        return (
+          <WpErp
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
             flow={flow}
