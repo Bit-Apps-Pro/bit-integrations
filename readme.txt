@@ -1,10 +1,10 @@
-=== Bit integrations - Form Integration, Webhook, Google Sheet, CRM, LMS & Email Automation ===
+=== Bit integrations - Form Integration, Webhook, Spreadsheets, CRM, LMS & Email Automation ===
 Contributors: bitpressadmin, akaioum, rishadbitcode, niloy121, fahimsakib, shuvomohajan, tanvirchy, shakhawathosen, khoaiz, mazharul78
 Tags: automation, automator, google sheets integration, form integration, WooCommerce Integration
 Requires at least: 5.1
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.3
+Stable tag: 2.8.4
 License: GPLv2 or later
 
 Contact Form, Google Sheet, MailChimp, Brevo, Webhook, Zoho CRM Automation and Integration plugin that Connect 300+ platforms
