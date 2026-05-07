@@ -7,19 +7,40 @@ import LoaderSm from '../Loaders/LoaderSm'
 
 const ERROR_TEXT_STYLE = { color: 'red', fontSize: '15px' }
 
+const normalizeAdditionalHeaders = headers => {
+  if (!headers || typeof headers !== 'object') {
+    return {}
+  }
+
+  return Object.entries(headers).reduce((acc, [key, value]) => {
+    const normalizedKey = String(key || '').trim()
+    const normalizedValue = value == null ? '' : String(value).trim()
+
+    if (normalizedKey && normalizedValue) {
+      acc[normalizedKey] = normalizedValue
+    }
+
+    return acc
+  }, {})
+}
+
 const getAuthPayload = ({ authType, apiEndpoint, method, authData, authDetails }) => {
+  const additionalHeaders = normalizeAdditionalHeaders(authDetails?.headers)
+  const sslVerify = authDetails?.ssl_verify !== false
   const basePayload = {
     auth_type: authType,
     api_endpoint: apiEndpoint || '',
     method: method || 'GET',
-    auth_details: {}
+    auth_details: {},
+    headers: additionalHeaders
   }
 
   if (authType === AUTH_TYPES.API_KEY) {
     basePayload.auth_details = {
       key: authDetails?.key || 'X-API-Key',
       value: authData.api_key,
-      addTo: authData.addTo || 'header'
+      addTo: authData.addTo || 'header',
+      ssl_verify: sslVerify
     }
     return basePayload
   }
@@ -27,14 +48,16 @@ const getAuthPayload = ({ authType, apiEndpoint, method, authData, authDetails }
   if (authType === AUTH_TYPES.BASIC_AUTH) {
     basePayload.auth_details = {
       username: authData.username,
-      password: authData.password
+      password: authData.password,
+      ssl_verify: sslVerify
     }
     return basePayload
   }
 
   if (authType === AUTH_TYPES.BEARER_TOKEN) {
     basePayload.auth_details = {
-      token: authData.token
+      token: authData.token,
+      ssl_verify: sslVerify
     }
   }
 

@@ -18,6 +18,7 @@ export default function PlatformAuthorization({
   isInfo,
   tutorialTitle,
   tutorialLinks,
+  extraFields,
   noteDetails = undefined,
   authDetails = {},
   customAuthFields
@@ -119,6 +120,7 @@ export default function PlatformAuthorization({
       />
       <div style={ERROR_TEXT_STYLE}>{errors.name || ''}</div>
 
+
       <ConnectionAccountSelect
         config={config}
         setConfig={setConfig}
@@ -128,6 +130,8 @@ export default function PlatformAuthorization({
         onRefresh={refreshConnections}
         isRefreshing={isLoading}
       />
+
+      {showNewConnection && !isInfo && (extraFields || null)}
 
       {showNewConnection && !isInfo && (
         <AddNewConnection

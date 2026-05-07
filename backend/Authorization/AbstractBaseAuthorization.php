@@ -69,7 +69,8 @@ abstract class AbstractBaseAuthorization
             $headers = array_merge($headers, $authData);
         }
 
-        $response = $this->sendRequest($url, $method === '' ? 'GET' : $method, $payload, $headers);
+        $requestOptions = $this->buildRequestOptionsFromAuthDetails();
+        $response = $this->sendRequest($url, $method === '' ? 'GET' : $method, $payload, $headers, $requestOptions);
 
         if (is_wp_error($response)) {
             return [
@@ -250,18 +251,65 @@ abstract class AbstractBaseAuthorization
         return new HttpHelper();
     }
 
-    protected function sendRequest(string $url, string $method, $payload, array $headers)
+    protected function sendRequest(string $url, string $method, $payload, array $headers, array $options = [])
     {
         switch ($method) {
             case 'GET':
-                return HttpHelper::get($url, $payload, $headers);
+                return HttpHelper::get($url, $payload, $headers, $options);
 
             case 'POST':
-                return HttpHelper::post($url, $payload, $headers);
+                return HttpHelper::post($url, $payload, $headers, $options);
 
             default:
-                return HttpHelper::request($url, $method, $payload, $headers);
+                return HttpHelper::request($url, $method, $payload, $headers, $options);
         }
+    }
+
+    protected function buildRequestOptionsFromAuthDetails(): array
+    {
+        $authDetails = $this->getAuthDetails();
+
+        if (!\is_array($authDetails)) {
+            return [];
+        }
+
+        $sslVerify = $this->normalizeSslVerifyOption($authDetails['ssl_verify'] ?? null);
+
+        if ($sslVerify === null) {
+            return [];
+        }
+
+        return [
+            // WordPress HTTP API option
+            'sslverify' => $sslVerify,
+            // Kept for compatibility with existing code paths using "verify"
+            'verify' => $sslVerify,
+        ];
+    }
+
+    protected function normalizeSslVerifyOption($value): ?bool
+    {
+        if (\is_bool($value)) {
+            return $value;
+        }
+
+        if (\is_int($value)) {
+            return $value !== 0;
+        }
+
+        if (\is_string($value)) {
+            $normalized = strtolower(trim($value));
+
+            if (\in_array($normalized, ['1', 'true', 'yes', 'on'], true)) {
+                return true;
+            }
+
+            if (\in_array($normalized, ['0', 'false', 'no', 'off'], true)) {
+                return false;
+            }
+        }
+
+        return null;
     }
 
     protected static function getNestedValue(array $data, string $path)

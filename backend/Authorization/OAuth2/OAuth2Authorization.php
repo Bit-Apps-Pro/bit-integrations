@@ -104,7 +104,22 @@ class OAuth2Authorization extends AbstractBaseAuthorization
 
         $body = $this->bodyParams ?: $this->buildRefreshBody($authDetails);
 
-        $response = HttpHelper::post($url, $body, ['Content-Type' => 'application/x-www-form-urlencoded']);
+        $requestOptions = [];
+        $sslVerify = $this->normalizeSslVerifyOption($authDetails['ssl_verify'] ?? null);
+
+        if ($sslVerify !== null) {
+            $requestOptions = [
+                'sslverify' => $sslVerify,
+                'verify'    => $sslVerify,
+            ];
+        }
+
+        $response = HttpHelper::post(
+            $url,
+            $body,
+            ['Content-Type' => 'application/x-www-form-urlencoded'],
+            $requestOptions
+        );
 
         if (HttpHelper::$responseCode !== 200 || (\is_object($response) && isset($response->error))) {
             return [
