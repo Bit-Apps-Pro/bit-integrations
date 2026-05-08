@@ -6,12 +6,14 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use BitApps\Integrations\Authorization\AuthorizationType;
 use BitApps\Integrations\Authorization\AuthorizationFactory;
+use BitApps\Integrations\Authorization\AuthorizationType;
 use BitApps\Integrations\Core\Database\ConnectionModel;
 use BitApps\Integrations\Core\Util\Capabilities;
 use BitApps\Integrations\Core\Util\Hash;
+use BitApps\Integrations\Core\Util\Helper;
 use BitApps\Integrations\Core\Util\HttpHelper;
+use Exception;
 use WP_Error;
 
 final class ConnectionController
@@ -246,7 +248,7 @@ final class ConnectionController
             $handler = AuthorizationFactory::getAuthorizationHandler($authType, 0, $appSlug);
             $handler->setAuthDetailsOverride($authDetails);
             $result = $handler->authorize($apiEndpoint, $method, $payload, $headers);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             wp_send_json_error($e->getMessage());
         }
 
@@ -291,6 +293,8 @@ final class ConnectionController
     /**
      * Server-side OAuth2 token exchange (auth_code, pkce, client_credentials, refresh_token).
      * Browsers cannot reach token endpoints (no CORS) and must not hold client_secret.
+     *
+     * @param mixed $request
      */
     public function oauth2Exchange($request)
     {
@@ -331,7 +335,7 @@ final class ConnectionController
         }
 
         $responseCode = isset(HttpHelper::$responseCode) ? (int) HttpHelper::$responseCode : 0;
-        $decoded = \is_object($response) ? json_decode(wp_json_encode($response), true) : $response;
+        $decoded = \is_object($response) ? Helper::jsonEncodeDecode($response) : $response;
 
         if ($responseCode < 200 || $responseCode >= 300 || (\is_array($decoded) && isset($decoded['error']))) {
             wp_send_json_error(
@@ -595,7 +599,7 @@ final class ConnectionController
         }
 
         if (\is_object($value)) {
-            return json_decode(wp_json_encode($value), true) ?: [];
+            return Helper::jsonEncodeDecode($value) ?: [];
         }
 
         if (\is_string($value) && $value !== '') {
@@ -614,7 +618,7 @@ final class ConnectionController
         }
 
         if (\is_object($value)) {
-            return json_decode(wp_json_encode($value), true) ?: [];
+            return Helper::jsonEncodeDecode($value) ?: [];
         }
 
         return $value;
@@ -623,7 +627,7 @@ final class ConnectionController
     private function normalizeHeaders($value): array
     {
         if (\is_object($value)) {
-            $value = json_decode(wp_json_encode($value), true) ?: [];
+            $value = Helper::jsonEncodeDecode($value) ?: [];
         }
 
         if (!\is_array($value)) {
