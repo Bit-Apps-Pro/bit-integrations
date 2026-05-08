@@ -11,6 +11,7 @@ use BitApps\Integrations\Authorization\AuthorizationFactory;
 use BitApps\Integrations\Core\Database\ConnectionModel;
 use BitApps\Integrations\Core\Util\Capabilities;
 use BitApps\Integrations\Core\Util\Hash;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
 final class ConnectionController
@@ -285,6 +286,90 @@ final class ConnectionController
         }
 
         wp_send_json_success(['id' => $id]);
+    }
+
+    /**
+     * Server-side OAuth2 token exchange (auth_code, pkce, client_credentials, refresh_token).
+     * Browsers cannot reach token endpoints (no CORS) and must not hold client_secret.
+     */
+    public function oauth2Exchange($request)
+    {
+        $this->guardWrite();
+
+        $url = esc_url_raw((string) ($request->url ?? ''));
+        $method = strtoupper($this->sanitizeScalar($request->method ?? 'POST'));
+        $bodyParams = $this->normalizeArray($request->body_params ?? []);
+        $headers = $this->normalizeHeaders($request->headers ?? []);
+        $sslVerify = $this->normalizeSslVerifyOption($request->ssl_verify ?? null);
+
+        if ($url === '') {
+            wp_send_json_error(__('Token URL is required', 'bit-integrations'));
+        }
+
+        if (!isset($headers['Content-Type']) && !isset($headers['content-type'])) {
+            $headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        }
+
+        $options = [];
+
+        if ($sslVerify !== null) {
+            $options['sslverify'] = $sslVerify;
+            $options['verify'] = $sslVerify;
+        }
+
+        $contentType = strtolower($headers['Content-Type'] ?? ($headers['content-type'] ?? ''));
+        $isJson = strpos($contentType, 'application/json') !== false;
+        // form-urlencoded: pass array, WP will http_build_query. JSON: encode. Default array.
+        $payload = $isJson ? wp_json_encode($bodyParams) : $bodyParams;
+
+        $response = $method === 'GET'
+            ? HttpHelper::get($url, $bodyParams, $headers, $options)
+            : HttpHelper::request($url, $method === '' ? 'POST' : $method, $payload, $headers, $options);
+
+        if (is_wp_error($response)) {
+            wp_send_json_error($response->get_error_message(), 400);
+        }
+
+        $responseCode = isset(HttpHelper::$responseCode) ? (int) HttpHelper::$responseCode : 0;
+        $decoded = \is_object($response) ? json_decode(wp_json_encode($response), true) : $response;
+
+        if ($responseCode < 200 || $responseCode >= 300 || (\is_array($decoded) && isset($decoded['error']))) {
+            wp_send_json_error(
+                [
+                    'message'  => \is_array($decoded) && isset($decoded['error_description']) ? $decoded['error_description'] : (\is_array($decoded) && isset($decoded['error']) ? (\is_string($decoded['error']) ? $decoded['error'] : 'Token exchange failed') : 'Token exchange failed'),
+                    'response' => $decoded,
+                    'status'   => $responseCode,
+                ],
+                400
+            );
+        }
+
+        wp_send_json_success(['data' => $decoded]);
+    }
+
+    private function normalizeSslVerifyOption($value): ?bool
+    {
+        if (\is_bool($value)) {
+            return $value;
+        }
+
+        if (\is_int($value)) {
+            return $value !== 0;
+        }
+
+        if (\is_string($value)) {
+            $normalized = strtolower(trim($value));
+
+            if (\in_array($normalized, ['1', 'true', 'yes', 'on'], true)) {
+                return true;
+            }
+
+            if (\in_array($normalized, ['0', 'false', 'no', 'off'], true)) {
+                return false;
+            }
+        }
+
+        return null;
     }
 
     private function buildPayload($request, bool $isUpdate)

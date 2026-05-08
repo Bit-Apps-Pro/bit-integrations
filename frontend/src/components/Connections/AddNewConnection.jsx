@@ -4,6 +4,7 @@ import { AUTH_TYPES, defaultEncryptKeys } from '../../Utils/connectionAuth'
 import { authorizeConnection, saveConnection } from '../../Utils/connectionApi'
 import { __ } from '../../Utils/i18nwrap'
 import LoaderSm from '../Loaders/LoaderSm'
+import Oauth2Connection from './Oauth2Connection'
 
 const ERROR_TEXT_STYLE = { color: 'red', fontSize: '15px' }
 
@@ -92,7 +93,15 @@ const getValidationErrors = (authType, authData) => {
   return nextErrors
 }
 
-export default function AddNewConnection({
+export default function AddNewConnection(props) {
+  if (props?.authDetails?.authType === AUTH_TYPES.OAUTH2) {
+    return <Oauth2Connection {...props} />
+  }
+
+  return <CredentialAuthorizeForm {...props} />
+}
+
+function CredentialAuthorizeForm({
   authDetails,
   config,
   setConfig,

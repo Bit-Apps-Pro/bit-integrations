@@ -13,7 +13,7 @@ export const defaultEncryptKeys = {
   [AUTH_TYPES.API_KEY]: ['value'],
   [AUTH_TYPES.BASIC_AUTH]: ['password'],
   [AUTH_TYPES.BEARER_TOKEN]: ['token'],
-  [AUTH_TYPES.OAUTH2]: ['client_id', 'client_secret', 'access_token', 'refresh_token']
+  [AUTH_TYPES.OAUTH2]: ['client_secret', 'access_token', 'refresh_token']
 }
 
 export const isNoAuthType = authType => authType === AUTH_TYPES.NO_AUTH

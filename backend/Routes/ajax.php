@@ -67,4 +67,5 @@ Route::post('connections/authorize', [ConnectionController::class, 'authorize'])
 Route::post('connections/save', [ConnectionController::class, 'save']);
 Route::post('connections/update', [ConnectionController::class, 'update']);
 Route::post('connections/reauthorize', [ConnectionController::class, 'reauthorize']);
+Route::post('connections/oauth2/exchange', [ConnectionController::class, 'oauth2Exchange']);
 Route::post('connections/delete', [ConnectionController::class, 'delete']);

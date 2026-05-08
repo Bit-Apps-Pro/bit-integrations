@@ -30,7 +30,7 @@ export default function ConnectionAccountSelect({
 }) {
   const { integUrlName } = useParams()
 
-  const dropdownValue = config?.connection_id ? String(config.connection_id) : ''
+  const dropdownValue = config?.connection_id ? String(config.connection_id) : NEW_VALUE
 
   const options = useMemo(
     () => [
@@ -81,14 +81,14 @@ export default function ConnectionAccountSelect({
         />
         {!isInfo && fetchConnections && (
           <button
-                type="button"
-                className="icn-btn sh-sm tooltip"
-                style={{ '--tooltip-txt': `'${__('Refresh connections', 'bit-integrations')}'` }}
-                onClick={fetchConnections}
-                disabled={isLoading}
-                aria-label={__('Refresh connections', 'bit-integrations')}>
-                &#x21BB;
-              </button>
+            type="button"
+            className="icn-btn sh-sm tooltip"
+            style={{ '--tooltip-txt': `'${__('Refresh connections', 'bit-integrations')}'` }}
+            onClick={fetchConnections}
+            disabled={isLoading}
+            aria-label={__('Refresh connections', 'bit-integrations')}>
+            &#x21BB;
+          </button>
         )}
       </div>
     </div>
