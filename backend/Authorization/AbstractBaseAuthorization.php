@@ -42,7 +42,7 @@ abstract class AbstractBaseAuthorization
         if ($apiEndpoint === '') {
             return [
                 'error'   => true,
-                'message' => 'API endpoint is required',
+                'message' => __('API endpoint is required', 'bit-integrations'),
             ];
         }
 
@@ -51,7 +51,7 @@ abstract class AbstractBaseAuthorization
         if (!\is_array($authConfig)) {
             return [
                 'error'   => true,
-                'message' => 'Invalid authorization config',
+                'message' => __('Invalid authorization config', 'bit-integrations'),
             ];
         }
 
@@ -92,9 +92,11 @@ abstract class AbstractBaseAuthorization
         }
 
         if ((\is_object($response) && !empty($response->error)) || (\is_array($response) && !empty($response['error']))) {
+            $fallback = __('Authorization failed', 'bit-integrations');
+
             return [
                 'error'    => true,
-                'message'  => \is_object($response) ? ($response->error ?? 'Authorization failed') : ($response['error'] ?? 'Authorization failed'),
+                'message'  => \is_object($response) ? ($response->error ?? $fallback) : ($response['error'] ?? $fallback),
                 'response' => $response,
             ];
         }
@@ -102,7 +104,7 @@ abstract class AbstractBaseAuthorization
         if (isset(HttpHelper::$responseCode) && ((int) HttpHelper::$responseCode < 200 || (int) HttpHelper::$responseCode >= 300)) {
             return [
                 'error'    => true,
-                'message'  => 'Authorization failed',
+                'message'  => __('Authorization failed', 'bit-integrations'),
                 'response' => $response,
             ];
         }

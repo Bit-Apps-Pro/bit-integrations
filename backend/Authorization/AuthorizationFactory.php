@@ -42,10 +42,10 @@ class AuthorizationFactory
                     return new $class($connectionId);
                 }
 
-                throw new Exception('Authorization class not found');
+                throw new Exception(esc_html__('Authorization class not found', 'bit-integrations'));
 
             default:
-                throw new Exception('Invalid authorization type');
+                throw new Exception(esc_html__('Invalid authorization type', 'bit-integrations'));
         }
     }
 

@@ -68,7 +68,7 @@ class OAuth2Authorization extends AbstractBaseAuthorization
         if ($authDetails === null) {
             return $this->getLastError() ?: [
                 'error'   => true,
-                'message' => 'Connection auth details are missing',
+                'message' => __('Connection auth details are missing', 'bit-integrations'),
             ];
         }
 
@@ -121,7 +121,9 @@ class OAuth2Authorization extends AbstractBaseAuthorization
         $response = HttpHelper::post($url, $body, $headers, $requestOptions);
 
         if (HttpHelper::$responseCode !== 200 || (\is_object($response) && isset($response->error))) {
-            $message = \is_object($response) && isset($response->error) ? $response->error : 'Token refresh failed';
+            $message = \is_object($response) && isset($response->error)
+                ? $response->error
+                : __('Token refresh failed', 'bit-integrations');
             $this->setLastError((string) $message, $response);
 
             return null;

@@ -22,7 +22,7 @@ class Hash
 
         $secretKey = self::secretKey();
         $ivLength = openssl_cipher_iv_length(self::CIPHER);
-        $iv = openssl_random_pseudo_bytes($ivLength);
+        $iv = random_bytes($ivLength);
         $cipherText = openssl_encrypt((string) $data, self::CIPHER, $secretKey, 0, $iv);
 
         return urlencode($iv . $cipherText);
@@ -61,7 +61,7 @@ class Hash
         if (!$secretKey) {
             $secretKey = function_exists('wp_generate_password')
                 ? wp_generate_password(64, true, true)
-                : Config::VAR_PREFIX . bin2hex(openssl_random_pseudo_bytes(32));
+                : Config::VAR_PREFIX . bin2hex(random_bytes(32));
 
             // Autoloaded so encrypt/decrypt loops avoid repeated DB hits.
             Config::addOption('secret_key', $secretKey, true);

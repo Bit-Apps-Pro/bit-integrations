@@ -17,7 +17,7 @@ class BearerTokenAuthorization extends AbstractBaseAuthorization
         if (empty($authDetails) || empty($authDetails['token'])) {
             return [
                 'error'   => true,
-                'message' => 'access token field is missing',
+                'message' => __('access token field is missing', 'bit-integrations'),
             ];
         }
 

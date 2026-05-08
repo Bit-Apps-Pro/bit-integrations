@@ -17,7 +17,7 @@ class BasicAuthorization extends AbstractBaseAuthorization
         if (empty($authDetails) || empty($authDetails['username']) || !isset($authDetails['password'])) {
             return [
                 'error'   => true,
-                'message' => 'username or password field is missing',
+                'message' => __('username or password field is missing', 'bit-integrations'),
             ];
         }
 
