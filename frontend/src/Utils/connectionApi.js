@@ -14,6 +14,8 @@ export const authorizeConnection = payload => bitsFetch(payload, 'connections/au
 
 export const oauthConnectionExchange = payload => bitsFetch(payload, 'connections/oauth2/exchange')
 
+export const checkPlatform = payload => bitsFetch(payload, 'connections/platform/check')
+
 export const saveConnection = payload => bitsFetch(payload, 'connections/save')
 
 export const updateConnection = payload => bitsFetch(payload, 'connections/update')
@@ -21,25 +23,3 @@ export const updateConnection = payload => bitsFetch(payload, 'connections/updat
 export const reauthorizeConnection = payload => bitsFetch(payload, 'connections/reauthorize')
 
 export const deleteConnection = id => bitsFetch({ id }, 'connections/delete')
-
-/**
- * Persist auth payload as a reusable connection.
- *
- * @returns {Promise<{ success: boolean, data: object }>}
- */
-// export const persistConnection = ({
-//   appSlug,
-//   authType = 'oauth2',
-//   connectionName,
-//   accountName,
-//   authDetails,
-//   encryptKeys = []
-// }) =>
-//   saveConnection({
-//     app_slug: appSlug,
-//     auth_type: authType,
-//     connection_name: connectionName,
-//     account_name: accountName,
-//     auth_details: authDetails,
-//     encrypt_keys: encryptKeys
-//   })

@@ -57,14 +57,14 @@ class AuthDataCodec
     public static function getNested(array $data, string $path)
     {
         if ($path === '') {
-            return null;
+            return;
         }
 
         $cursor = $data;
 
         foreach (explode('.', $path) as $segment) {
             if (!\is_array($cursor) || !\array_key_exists($segment, $cursor)) {
-                return null;
+                return;
             }
 
             $cursor = $cursor[$segment];
@@ -102,6 +102,19 @@ class AuthDataCodec
     public static function decryptValues(array $data, array $keys): array
     {
         return self::transformValues($data, $keys, [Hash::class, 'decrypt']);
+    }
+
+    public static function toArray($value): array
+    {
+        if (\is_array($value)) {
+            return $value;
+        }
+
+        if (\is_object($value)) {
+            return (array) $value;
+        }
+
+        return [];
     }
 
     private static function transformValues(array $data, array $keys, callable $fn): array

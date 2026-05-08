@@ -14,11 +14,7 @@ use Exception;
 
 class AuthorizationFactory
 {
-    public const FREE_NAMESPACE = 'BitApps\\Integrations\\Actions\\';
-
-    public const PRO_NAMESPACE = 'BitApps\\IntegrationsPro\\Actions\\';
-
-    public const PRO_NAMESPACE_LEGACY = 'BitApps\\BTCBI_PRO\\Actions\\';
+    public const ACTION_NAMESPACE = 'BitApps\\Integrations\\Actions\\';
 
     public static function getAuthorizationHandler($type, $connectionId, $appSlug = '')
     {
@@ -52,17 +48,10 @@ class AuthorizationFactory
     public static function authorizationClassExists($appSlug)
     {
         $appSlug = ucfirst((string) $appSlug);
+        $class = self::ACTION_NAMESPACE . "{$appSlug}\\{$appSlug}Authorization";
 
-        $candidates = [
-            self::FREE_NAMESPACE . "{$appSlug}\\{$appSlug}Authorization",
-            self::PRO_NAMESPACE . "{$appSlug}\\{$appSlug}Authorization",
-            self::PRO_NAMESPACE_LEGACY . "{$appSlug}\\{$appSlug}Authorization",
-        ];
-
-        foreach ($candidates as $class) {
-            if (class_exists($class)) {
-                return $class;
-            }
+        if (class_exists($class)) {
+            return $class;
         }
 
         return false;

@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import BackIcn from '../../Icons/BackIcn'
-import { listConnections } from '../../Utils/connectionApi'
+import { AUTH_TYPES } from '../../Utils/connectionAuth'
+import { checkPlatform, listConnections } from '../../Utils/connectionApi'
 import { __ } from '../../Utils/i18nwrap'
+import LoaderSm from '../Loaders/LoaderSm'
 import Note from '../Utilities/Note'
 import TutorialLink from '../Utilities/TutorialLink'
 import AddNewConnection from './AddNewConnection'
@@ -27,8 +29,11 @@ export default function PlatformAuthorization({
   const [connections, setConnections] = useState([])
   const [showNewConnection, setShowNewConnection] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [isVerifying, setIsVerifying] = useState(false)
+  const [isVerified, setIsVerified] = useState(false)
 
   const appSlug = config?.app_slug || config?.type
+  const isNoAuth = authDetails?.authType === AUTH_TYPES.NO_AUTH
 
   const refreshConnections = useCallback(async () => {
     if (!appSlug) {
@@ -55,8 +60,12 @@ export default function PlatformAuthorization({
   }, [appSlug])
 
   useEffect(() => {
+    if (isNoAuth) {
+      return
+    }
+
     refreshConnections()
-  }, [appSlug])
+  }, [appSlug, isNoAuth])
 
   const handleNameChange = useCallback(
     event => {
@@ -70,6 +79,51 @@ export default function PlatformAuthorization({
     [setConfig]
   )
 
+  const platformCheck = authDetails?.platformCheck
+
+  const handleVerifyPlatform = useCallback(async () => {
+    if (!config?.name?.trim()) {
+      setErrors({ name: __('Integration name is required', 'bit-integrations') })
+      return
+    }
+
+    const hasGroups = Array.isArray(platformCheck?.groups) && platformCheck.groups.length > 0
+    const hasChecks = Array.isArray(platformCheck?.checks) && platformCheck.checks.length > 0
+
+    if (!hasGroups && !hasChecks) {
+      setErrors({
+        name: __('Platform checks are not defined for this integration', 'bit-integrations')
+      })
+      return
+    }
+
+    setIsVerifying(true)
+    setErrors({})
+
+    try {
+      const res = await checkPlatform({
+        logic: platformCheck.logic || 'AND',
+        ...(hasGroups ? { groups: platformCheck.groups } : { checks: platformCheck.checks })
+      })
+
+      if (res?.success) {
+        setIsVerified(true)
+      } else {
+        setIsVerified(false)
+        setErrors({
+          name: res?.data || __('Platform is not installed or activated', 'bit-integrations')
+        })
+      }
+    } catch (error) {
+      setIsVerified(false)
+      setErrors({
+        name: error?.message || __('Platform check failed', 'bit-integrations')
+      })
+    } finally {
+      setIsVerifying(false)
+    }
+  }, [config?.name, platformCheck])
+
   const handleNext = useCallback(() => {
     if (!config?.name?.trim()) {
       setErrors({ name: __('Integration name is required', 'bit-integrations') })
@@ -79,7 +133,7 @@ export default function PlatformAuthorization({
     setStep(2)
   }, [config?.name, setStep])
 
-  const canGoNext = Boolean(config?.connection_id)
+  const canGoNext = isNoAuth ? isVerified : Boolean(config?.connection_id)
 
   const pageStyle = useMemo(() => (step === 1 ? STEP_ONE_STYLE : undefined), [step])
 
@@ -120,28 +174,44 @@ export default function PlatformAuthorization({
       />
       <div style={ERROR_TEXT_STYLE}>{errors.name || ''}</div>
 
+      {!isNoAuth && (
+        <>
+          <ConnectionAccountSelect
+            config={config}
+            setConfig={setConfig}
+            connections={connections}
+            setShowNewConnection={setShowNewConnection}
+            isInfo={isInfo || isLoading}
+            onRefresh={refreshConnections}
+            isRefreshing={isLoading}
+          />
 
-      <ConnectionAccountSelect
-        config={config}
-        setConfig={setConfig}
-        connections={connections}
-        setShowNewConnection={setShowNewConnection}
-        isInfo={isInfo || isLoading}
-        onRefresh={refreshConnections}
-        isRefreshing={isLoading}
-      />
+          {showNewConnection && !isInfo && (extraFields || null)}
 
-      {showNewConnection && !isInfo && (extraFields || null)}
+          {showNewConnection && !isInfo && (
+            <AddNewConnection
+              authDetails={authDetails}
+              config={config}
+              setConfig={setConfig}
+              isInfo={isInfo}
+              customAuthFields={customAuthFields}
+              onConnectionSaved={handleConnectionSaved}
+            />
+          )}
+        </>
+      )}
 
-      {showNewConnection && !isInfo && (
-        <AddNewConnection
-          authDetails={authDetails}
-          config={config}
-          setConfig={setConfig}
-          isInfo={isInfo}
-          customAuthFields={customAuthFields}
-          onConnectionSaved={handleConnectionSaved}
-        />
+      {isNoAuth && !isInfo && (
+        <button
+          onClick={handleVerifyPlatform}
+          className="btn btcd-btn-lg purple mt-3 sh-sm flx"
+          type="button"
+          disabled={isVerified || isVerifying}>
+          {isVerified
+            ? __('Authorized ✔', 'bit-integrations')
+            : __('Authorize', 'bit-integrations')}
+          {isVerifying && <LoaderSm size={20} clr="#022217" className="ml-2" />}
+        </button>
       )}
 
       {!isInfo && canGoNext && (

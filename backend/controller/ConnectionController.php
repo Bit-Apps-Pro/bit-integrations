@@ -13,6 +13,7 @@ use BitApps\Integrations\Core\Database\ConnectionModel;
 use BitApps\Integrations\Core\Util\Capabilities;
 use BitApps\Integrations\Core\Util\Helper;
 use BitApps\Integrations\Core\Util\HttpHelper;
+use BitApps\Integrations\Core\Util\PlatformCheck;
 use Exception;
 use WP_Error;
 
@@ -223,7 +224,7 @@ final class ConnectionController
         $payload = isset($request->payload) ? $this->normalizePayload($request->payload) : null;
         $headers = $this->normalizeHeaders($request->headers ?? []);
 
-        if ($authType === '') {
+        if (empty($authType)) {
             wp_send_json_error(__('Auth type is required', 'bit-integrations'));
         }
 
@@ -235,7 +236,7 @@ final class ConnectionController
             wp_send_json_error(__('Authorization details are required', 'bit-integrations'));
         }
 
-        if ($apiEndpoint === '') {
+        if (empty($apiEndpoint)) {
             wp_send_json_error(__('API endpoint is required', 'bit-integrations'));
         }
 
@@ -289,6 +290,40 @@ final class ConnectionController
         }
 
         wp_send_json_success(['id' => $id]);
+    }
+
+    /**
+     * Confirm a WordPress-plugin platform is installed/active. No DB persistence —
+     * caller supplies a check spec (class/function/constant/plugin_file) with
+     * AND/OR logic (optionally grouped) and PlatformCheck evaluates it.
+     *
+     * Spec sanitization lives in PlatformCheck so this controller stays a thin
+     * adapter from the request shape to the evaluator.
+     *
+     * @param mixed $request
+     */
+    public function checkPlatform($request)
+    {
+        $this->guard();
+
+        $spec = ['logic' => $request->logic ?? null];
+
+        if (isset($request->groups)) {
+            $spec['groups'] = $request->groups;
+        } else {
+            $spec['checks'] = $request->checks ?? null;
+        }
+
+        $result = PlatformCheck::evaluate($spec);
+
+        if (empty($result['available'])) {
+            wp_send_json_error(
+                $result['message'] ?? __('Platform check failed', 'bit-integrations'),
+                400
+            );
+        }
+
+        wp_send_json_success(['available' => true]);
     }
 
     /**
