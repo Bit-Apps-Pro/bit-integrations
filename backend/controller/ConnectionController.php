@@ -8,9 +8,9 @@ if (!defined('ABSPATH')) {
 
 use BitApps\Integrations\Authorization\AuthorizationFactory;
 use BitApps\Integrations\Authorization\AuthorizationType;
+use BitApps\Integrations\Authorization\Support\AuthDataCodec;
 use BitApps\Integrations\Core\Database\ConnectionModel;
 use BitApps\Integrations\Core\Util\Capabilities;
-use BitApps\Integrations\Core\Util\Hash;
 use BitApps\Integrations\Core\Util\Helper;
 use BitApps\Integrations\Core\Util\HttpHelper;
 use Exception;
@@ -42,7 +42,7 @@ final class ConnectionController
 
     public function index($request)
     {
-        $this->guardRead();
+        $this->guard();
 
         $appSlug = $this->sanitizeScalar($request->app_slug ?? '');
         $condition = ['status' => ConnectionModel::STATUS_VERIFIED];
@@ -68,7 +68,7 @@ final class ConnectionController
 
     public function getById($request)
     {
-        $this->guardRead();
+        $this->guard();
 
         $id = $this->normalizeId($request);
 
@@ -87,7 +87,7 @@ final class ConnectionController
 
     public function save($request)
     {
-        $this->guardWrite();
+        $this->guard();
 
         $payload = $this->buildPayload($request, false);
 
@@ -95,19 +95,20 @@ final class ConnectionController
             wp_send_json_error($payload->get_error_message());
         }
 
-        // $existingId = $this->findExistingIdForAccount($payload['app_slug'], $payload['account_name']);
+        // Upsert policy: same (app_slug, account_name) is treated as the same connection
+        // and gets refreshed. Prevents accidental duplicates when re-authorizing the same
+        // account from a flow builder. Skipped when account_name is empty.
+        $existingId = $this->findExistingIdForAccount($payload['app_slug'], $payload['account_name']);
 
-        // if ($existingId > 0) {
-        //     $payload['id'] = $existingId;
+        if ($existingId > 0) {
+            $updated = $this->persist($payload, $existingId);
 
-        //     $updated = $this->persist($payload, $existingId);
+            if (is_wp_error($updated)) {
+                wp_send_json_error($updated->get_error_message());
+            }
 
-        //     if (is_wp_error($updated)) {
-        //         wp_send_json_error($updated->get_error_message());
-        //     }
-
-        //     wp_send_json_success(['data' => $this->formatRow($updated)]);
-        // }
+            wp_send_json_success(['data' => $this->formatRow($updated)]);
+        }
 
         $created = $this->persist($payload, 0);
 
@@ -120,7 +121,7 @@ final class ConnectionController
 
     public function update($request)
     {
-        $this->guardWrite();
+        $this->guard();
 
         $id = $this->normalizeId($request);
 
@@ -166,7 +167,7 @@ final class ConnectionController
 
     public function reauthorize($request)
     {
-        $this->guardWrite();
+        $this->guard();
 
         $id = $this->normalizeId($request);
 
@@ -213,7 +214,7 @@ final class ConnectionController
 
     public function authorize($request)
     {
-        $this->guardWrite();
+        $this->guard();
 
         $authType = $this->sanitizeScalar($request->auth_type ?? '');
         $appSlug = $this->sanitizeScalar($request->app_slug ?? '');
@@ -273,7 +274,7 @@ final class ConnectionController
 
     public function delete($request)
     {
-        $this->guardWrite();
+        $this->guard();
 
         $id = $this->normalizeId($request);
 
@@ -298,16 +299,20 @@ final class ConnectionController
      */
     public function oauth2Exchange($request)
     {
-        $this->guardWrite();
+        $this->guard();
 
         $url = esc_url_raw((string) ($request->url ?? ''));
         $method = strtoupper($this->sanitizeScalar($request->method ?? 'POST'));
         $bodyParams = $this->normalizeArray($request->body_params ?? []);
         $headers = $this->normalizeHeaders($request->headers ?? []);
-        $sslVerify = $this->normalizeSslVerifyOption($request->ssl_verify ?? null);
+        $sslVerify = AuthDataCodec::normalizeSslVerify($request->ssl_verify ?? null);
 
         if ($url === '') {
             wp_send_json_error(__('Token URL is required', 'bit-integrations'));
+        }
+
+        if (!$this->isPublicHttpsUrl($url)) {
+            wp_send_json_error(__('Token URL must be a public https endpoint', 'bit-integrations'), 400);
         }
 
         if (!isset($headers['Content-Type']) && !isset($headers['content-type'])) {
@@ -351,31 +356,6 @@ final class ConnectionController
         wp_send_json_success(['data' => $decoded]);
     }
 
-    private function normalizeSslVerifyOption($value): ?bool
-    {
-        if (\is_bool($value)) {
-            return $value;
-        }
-
-        if (\is_int($value)) {
-            return $value !== 0;
-        }
-
-        if (\is_string($value)) {
-            $normalized = strtolower(trim($value));
-
-            if (\in_array($normalized, ['1', 'true', 'yes', 'on'], true)) {
-                return true;
-            }
-
-            if (\in_array($normalized, ['0', 'false', 'no', 'off'], true)) {
-                return false;
-            }
-        }
-
-        return null;
-    }
-
     private function buildPayload($request, bool $isUpdate)
     {
         $appSlug = $this->sanitizeScalar($request->app_slug ?? '');
@@ -406,6 +386,12 @@ final class ConnectionController
             $connectionName = $accountName !== '' ? $accountName : $appSlug;
         }
 
+        // Backfill account_name so findExistingIdForAccount upsert key is never empty —
+        // otherwise re-authorize creates duplicate rows for the same logical account.
+        if ($accountName === '') {
+            $accountName = $connectionName;
+        }
+
         return [
             'app_slug'        => $appSlug,
             'auth_type'       => $authType !== '' ? $authType : AuthorizationType::OAUTH2,
@@ -426,7 +412,7 @@ final class ConnectionController
             $authDetails['generated_at'] = time();
         }
 
-        $authDetails = $this->encryptValues($authDetails, $encryptKeys);
+        $authDetails = AuthDataCodec::encryptValues($authDetails, $encryptKeys);
 
         $now = current_time('mysql');
 
@@ -465,34 +451,43 @@ final class ConnectionController
         return $this->findById((int) $insertId);
     }
 
-    private function encryptValues(array $authDetails, array $encryptKeys): array
+    /**
+     * Reject non-https URLs and hosts that resolve to private / loopback / reserved ranges.
+     * Token endpoints are always public https in practice; this closes SSRF surface for
+     * the server-side token exchange.
+     *
+     * Known-partial: literal IPs are filtered, but hostnames are NOT DNS-resolved here —
+     * a public hostname A-recording to a private IP would pass. Acceptable because the
+     * caller is an authenticated admin and the URL is supplied per-flow (not user-input
+     * from the public web). Add gethostbyname() screening if that threat model changes.
+     */
+    private function isPublicHttpsUrl(string $url): bool
     {
-        foreach ($encryptKeys as $path) {
-            $value = $this->getNestedValue($authDetails, $path);
+        $parts = wp_parse_url($url);
 
-            if (!\is_string($value) || $value === '') {
-                continue;
-            }
-
-            $this->setNestedValue($authDetails, $path, Hash::encrypt($value));
+        if (!$parts || empty($parts['scheme']) || empty($parts['host'])) {
+            return false;
         }
 
-        return $authDetails;
-    }
-
-    private function decryptValues(array $authDetails, array $encryptKeys): array
-    {
-        foreach ($encryptKeys as $path) {
-            $value = $this->getNestedValue($authDetails, $path);
-
-            if (!\is_string($value) || $value === '') {
-                continue;
-            }
-
-            $this->setNestedValue($authDetails, $path, Hash::decrypt($value));
+        if (strtolower($parts['scheme']) !== 'https') {
+            return false;
         }
 
-        return $authDetails;
+        $host = strtolower($parts['host']);
+
+        if (\in_array($host, ['localhost', 'localhost.localdomain', 'ip6-localhost', 'ip6-loopback'], true)) {
+            return false;
+        }
+
+        if (filter_var($host, FILTER_VALIDATE_IP)) {
+            return (bool) filter_var(
+                $host,
+                FILTER_VALIDATE_IP,
+                FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
+            );
+        }
+
+        return true;
     }
 
     private function findById(int $id)
@@ -534,9 +529,9 @@ final class ConnectionController
 
     private function formatRow($row): array
     {
-        $encryptKeys = $this->parseEncryptKeys($row->encrypt_keys ?? '');
+        $encryptKeys = AuthDataCodec::parseEncryptKeys($row->encrypt_keys ?? '');
         $authDetails = $this->normalizeArray($row->auth_details ?? null);
-        $authDetails = $this->decryptValues($authDetails, $encryptKeys);
+        $authDetails = AuthDataCodec::decryptValues($authDetails, $encryptKeys);
 
         return [
             'id'              => (int) $row->id,
@@ -560,7 +555,7 @@ final class ConnectionController
         }
 
         if (\is_string($request->encrypt_keys)) {
-            return $this->parseEncryptKeys($request->encrypt_keys);
+            return AuthDataCodec::parseEncryptKeys($request->encrypt_keys);
         }
 
         if (\is_array($request->encrypt_keys)) {
@@ -577,19 +572,6 @@ final class ConnectionController
         }
 
         return [];
-    }
-
-    private function parseEncryptKeys($value): array
-    {
-        if (\is_array($value)) {
-            $keys = array_filter(array_map([$this, 'sanitizeScalar'], $value));
-        } elseif (\is_string($value) && $value !== '') {
-            $keys = array_filter(array_map('trim', explode(',', $value)));
-        } else {
-            return [];
-        }
-
-        return array_values(array_unique($keys));
     }
 
     private function normalizeArray($value): array
@@ -653,47 +635,6 @@ final class ConnectionController
         return $headers;
     }
 
-    private function getNestedValue(array $data, string $path)
-    {
-        if ($path === '') {
-            return;
-        }
-
-        $segments = explode('.', $path);
-        $cursor = $data;
-
-        foreach ($segments as $segment) {
-            if (!\is_array($cursor) || !\array_key_exists($segment, $cursor)) {
-                return;
-            }
-
-            $cursor = $cursor[$segment];
-        }
-
-        return $cursor;
-    }
-
-    private function setNestedValue(array &$data, string $path, $value): void
-    {
-        if ($path === '') {
-            return;
-        }
-
-        $segments = explode('.', $path);
-        $last = array_pop($segments);
-        $cursor = &$data;
-
-        foreach ($segments as $segment) {
-            if (!isset($cursor[$segment]) || !\is_array($cursor[$segment])) {
-                $cursor[$segment] = [];
-            }
-
-            $cursor = &$cursor[$segment];
-        }
-
-        $cursor[$last] = $value;
-    }
-
     private function normalizeId($request): int
     {
         if (is_numeric($request)) {
@@ -728,19 +669,7 @@ final class ConnectionController
         return sanitize_text_field((string) $value);
     }
 
-    private function guardRead(): void
-    {
-        if (
-            !Capabilities::Check('manage_options')
-            && !Capabilities::Check('bit_integrations_manage_integrations')
-            && !Capabilities::Check('bit_integrations_create_integrations')
-            && !Capabilities::Check('bit_integrations_edit_integrations')
-        ) {
-            wp_send_json_error(__('You do not have permission to access connections', 'bit-integrations'));
-        }
-    }
-
-    private function guardWrite(): void
+    private function guard(): void
     {
         if (
             !Capabilities::Check('manage_options')

@@ -6,8 +6,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use BitApps\Integrations\Authorization\Support\AuthDataCodec;
 use BitApps\Integrations\Core\Database\ConnectionModel;
-use BitApps\Integrations\Core\Util\Hash;
 use BitApps\Integrations\Core\Util\HttpHelper;
 
 abstract class AbstractBaseAuthorization
@@ -17,6 +17,8 @@ abstract class AbstractBaseAuthorization
     protected $connection;
 
     protected $authDetailsOverride;
+
+    protected $lastError;
 
     public function __construct($connectionId)
     {
@@ -61,12 +63,21 @@ abstract class AbstractBaseAuthorization
         $authLocation = $authConfig['authLocation'] ?? 'header';
         $authData = (isset($authConfig['data']) && \is_array($authConfig['data'])) ? $authConfig['data'] : [];
 
-        if ($authLocation === 'query' && !empty($authData)) {
-            $query = http_build_query($authData);
-            $separator = strpos($url, '?') !== false ? '&' : '?';
-            $url .= $separator . $query;
-        } elseif (!empty($authData)) {
-            $headers = array_merge($headers, $authData);
+        if (!empty($authData)) {
+            if ($authLocation === 'query') {
+                if ($method === 'GET') {
+                    // HttpHelper::get appends $payload as query string. Merge auth data
+                    // into $payload so a single, deduplicated query is emitted. Caller
+                    // payload keys win on collision.
+                    $payload = array_merge($authData, \is_array($payload) ? $payload : []);
+                } else {
+                    $query = http_build_query($authData);
+                    $separator = strpos($url, '?') !== false ? '&' : '?';
+                    $url .= $separator . $query;
+                }
+            } else {
+                $headers = array_merge($headers, $authData);
+            }
         }
 
         $requestOptions = $this->buildRequestOptionsFromAuthDetails();
@@ -105,6 +116,48 @@ abstract class AbstractBaseAuthorization
     public function getConnectionId(): int
     {
         return (int) $this->connectionId;
+    }
+
+    /**
+     * Region-aware providers (Zoho .com/.in/.eu, Salesforce instance_url, MailChimp dc-prefix)
+     * should persist their resolved API base in auth_details under `endpoint_base` or
+     * `api_domain`. RecordApiHelper reads it via $handler->getEndpointBase() to avoid
+     * scattering region logic across the codebase. Subclasses may override.
+     */
+    public function getEndpointBase(): ?string
+    {
+        $details = $this->getAuthDetails();
+
+        if (!\is_array($details)) {
+            return null;
+        }
+
+        foreach (['endpoint_base', 'api_domain', 'instance_url', 'apiDomain'] as $key) {
+            if (!empty($details[$key]) && \is_string($details[$key])) {
+                return rtrim($details[$key], '/');
+            }
+        }
+
+        return null;
+    }
+
+    public function getLastError(): ?array
+    {
+        return $this->lastError;
+    }
+
+    protected function setLastError(string $message, $response = null): void
+    {
+        $this->lastError = [
+            'error'    => true,
+            'message'  => $message,
+            'response' => $response,
+        ];
+    }
+
+    protected function clearLastError(): void
+    {
+        $this->lastError = null;
     }
 
     public function setAuthDetailsOverride(array $authDetails)
@@ -148,23 +201,9 @@ abstract class AbstractBaseAuthorization
             return $authDetails;
         }
 
-        $encryptKeys = $this->parseEncryptKeys($connection->encrypt_keys ?? '');
+        $encryptKeys = AuthDataCodec::parseEncryptKeys($connection->encrypt_keys ?? '');
 
-        if (empty($encryptKeys)) {
-            return $authDetails;
-        }
-
-        foreach ($encryptKeys as $path) {
-            $value = self::getNestedValue($authDetails, $path);
-
-            if (!\is_string($value) || $value === '') {
-                continue;
-            }
-
-            self::setNestedValue($authDetails, $path, Hash::decrypt($value));
-        }
-
-        return $authDetails;
+        return AuthDataCodec::decryptValues($authDetails, $encryptKeys);
     }
 
     public function isTokenExpired($generatedAt, $expiresIn): bool
@@ -184,17 +223,8 @@ abstract class AbstractBaseAuthorization
             return false;
         }
 
-        $encryptKeys = $this->parseEncryptKeys($connection->encrypt_keys ?? '');
-
-        foreach ($encryptKeys as $path) {
-            $value = self::getNestedValue($authDetails, $path);
-
-            if (!\is_string($value) || $value === '') {
-                continue;
-            }
-
-            self::setNestedValue($authDetails, $path, Hash::encrypt($value));
-        }
+        $encryptKeys = AuthDataCodec::parseEncryptKeys($connection->encrypt_keys ?? '');
+        $authDetails = AuthDataCodec::encryptValues($authDetails, $encryptKeys);
 
         $connectionModel = new ConnectionModel();
         $result = $connectionModel->update(
@@ -233,19 +263,6 @@ abstract class AbstractBaseAuthorization
         return [];
     }
 
-    protected function parseEncryptKeys($value): array
-    {
-        if (\is_array($value)) {
-            return array_values(array_filter(array_map('strval', $value)));
-        }
-
-        if (\is_string($value) && $value !== '') {
-            return array_values(array_filter(array_map('trim', explode(',', $value))));
-        }
-
-        return [];
-    }
-
     protected function http()
     {
         return new HttpHelper();
@@ -273,7 +290,7 @@ abstract class AbstractBaseAuthorization
             return [];
         }
 
-        $sslVerify = $this->normalizeSslVerifyOption($authDetails['ssl_verify'] ?? null);
+        $sslVerify = AuthDataCodec::normalizeSslVerify($authDetails['ssl_verify'] ?? null);
 
         if ($sslVerify === null) {
             return [];
@@ -287,74 +304,12 @@ abstract class AbstractBaseAuthorization
         ];
     }
 
-    protected function normalizeSslVerifyOption($value): ?bool
-    {
-        if (\is_bool($value)) {
-            return $value;
-        }
-
-        if (\is_int($value)) {
-            return $value !== 0;
-        }
-
-        if (\is_string($value)) {
-            $normalized = strtolower(trim($value));
-
-            if (\in_array($normalized, ['1', 'true', 'yes', 'on'], true)) {
-                return true;
-            }
-
-            if (\in_array($normalized, ['0', 'false', 'no', 'off'], true)) {
-                return false;
-            }
-        }
-
-        return null;
-    }
-
-    protected static function getNestedValue(array $data, string $path)
-    {
-        if ($path === '') {
-            return;
-        }
-
-        $segments = explode('.', $path);
-        $cursor = $data;
-
-        foreach ($segments as $segment) {
-            if (!\is_array($cursor) || !\array_key_exists($segment, $cursor)) {
-                return;
-            }
-
-            $cursor = $cursor[$segment];
-        }
-
-        return $cursor;
-    }
-
-    protected static function setNestedValue(array &$data, string $path, $value): void
-    {
-        if ($path === '') {
-            return;
-        }
-
-        $segments = explode('.', $path);
-        $last = array_pop($segments);
-        $cursor = &$data;
-
-        foreach ($segments as $segment) {
-            if (!isset($cursor[$segment]) || !\is_array($cursor[$segment])) {
-                $cursor[$segment] = [];
-            }
-
-            $cursor = &$cursor[$segment];
-        }
-
-        $cursor[$last] = $value;
-    }
-
     private function loadConnection()
     {
+        if ($this->connectionId <= 0) {
+            return;
+        }
+
         $connectionModel = new ConnectionModel();
         $result = $connectionModel->get(
             ['id', 'app_slug', 'auth_type', 'connection_name', 'account_name', 'encrypt_keys', 'auth_details', 'status'],

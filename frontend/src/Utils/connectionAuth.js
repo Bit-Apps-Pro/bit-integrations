@@ -21,38 +21,3 @@ export const isNoAuthType = authType => authType === AUTH_TYPES.NO_AUTH
 export const normalizeAuthType = authType =>
   Object.values(AUTH_TYPES).includes(authType) ? authType : AUTH_TYPES.OAUTH2
 
-/**
- * Save or reauthorize a reusable connection.
- *
- * @returns {Promise<{success: boolean, data?: {data?: object}}>}
- */
-export const persistConnectionAuthorization = ({
-  appSlug,
-  authType = AUTH_TYPES.OAUTH2,
-  connectionId = null,
-  connectionName = '',
-  accountName = '',
-  authDetails = {},
-  encryptKeys = [],
-  status
-}) => {
-  const sanitizedConnectionName = connectionName?.trim() || ''
-  const sanitizedAccountName = accountName?.trim() || ''
-  const normalizedAuthType = normalizeAuthType(authType)
-
-  const payload = {
-    auth_type: normalizedAuthType,
-    auth_details: isNoAuthType(normalizedAuthType) ? {} : authDetails,
-    encrypt_keys: Array.isArray(encryptKeys) ? encryptKeys : []
-  }
-
-  if (sanitizedConnectionName) payload.connection_name = sanitizedConnectionName
-  if (sanitizedAccountName) payload.account_name = sanitizedAccountName
-  if (typeof status === 'number') payload.status = status
-
-  if (connectionId) {
-    return reauthorizeConnection({ id: connectionId, ...payload })
-  }
-
-  return saveConnection({ app_slug: appSlug, ...payload })
-}

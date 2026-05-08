@@ -12,6 +12,8 @@ class Hash
 {
     public const CIPHER = 'aes-256-cbc';
 
+    private static $cachedKey;
+
     public static function encrypt($data)
     {
         if ($data === null || $data === '') {
@@ -50,6 +52,10 @@ class Hash
 
     private static function secretKey()
     {
+        if (self::$cachedKey !== null) {
+            return self::$cachedKey;
+        }
+
         $secretKey = Config::getOption('secret_key');
 
         if (!$secretKey) {
@@ -57,8 +63,11 @@ class Hash
                 ? wp_generate_password(64, true, true)
                 : Config::VAR_PREFIX . bin2hex(openssl_random_pseudo_bytes(32));
 
+            // Autoloaded so encrypt/decrypt loops avoid repeated DB hits.
             Config::addOption('secret_key', $secretKey, true);
         }
+
+        self::$cachedKey = $secretKey;
 
         return $secretKey;
     }

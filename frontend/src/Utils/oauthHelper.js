@@ -11,9 +11,14 @@ const base64UrlEncode = bytes => {
 }
 
 export const generateCodeVerifier = (length = 64) => {
+  const charsetLen = PKCE_CHARSET.length
+  // Reject bytes >= max to avoid modulo bias (RFC 7636 wants uniform).
+  const max = 256 - (256 % charsetLen)
+  const buf = new Uint8Array(1)
   let result = ''
-  for (let i = 0; i < length; i++) {
-    result += PKCE_CHARSET.charAt(Math.floor(Math.random() * PKCE_CHARSET.length))
+  while (result.length < length) {
+    window.crypto.getRandomValues(buf)
+    if (buf[0] < max) result += PKCE_CHARSET.charAt(buf[0] % charsetLen)
   }
   return result
 }

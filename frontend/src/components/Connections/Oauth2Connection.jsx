@@ -53,8 +53,7 @@ const buildSavedAuthDetails = ({
     grant_type: persistedGrantType,
     refresh_token_url: refreshTokenUrl || tokenUrl,
     scope: scope || '',
-    ssl_verify: sslVerify !== false,
-    raw_response: tokenResponse
+    ssl_verify: sslVerify !== false
   }
 }
 
@@ -135,11 +134,12 @@ export default function Oauth2Connection({
 
   const handleAuthorizationCodeFlow = useCallback(async () => {
     const isPkce = grantType === GRANT_TYPES.AUTHORIZATION_CODE_PKCE
+    const declaredQueryParams = authCodeEndpoint?.queryParams || {}
     let codeVerifier
-    const extraParams = { ...(authCodeEndpoint?.queryParams?.client_id ? {} : { client_id: formData.clientId }) }
 
-    if (!authCodeEndpoint?.queryParams?.response_type) extraParams.response_type = 'code'
-    if (scope && !authCodeEndpoint?.queryParams?.scope) extraParams.scope = scope
+    const extraParams = { client_id: formData.clientId }
+    if (!declaredQueryParams.response_type) extraParams.response_type = 'code'
+    if (scope && !declaredQueryParams.scope) extraParams.scope = scope
 
     if (isPkce) {
       codeVerifier = generateCodeVerifier()
@@ -147,13 +147,10 @@ export default function Oauth2Connection({
       extraParams.code_challenge_method = 'S256'
     }
 
-    const populatedAuthCodeEndpoint = {
-      ...authCodeEndpoint,
-      queryParams: {
-        ...(authCodeEndpoint?.queryParams || {}),
-        ...(authCodeEndpoint?.queryParams?.client_id ? { client_id: formData.clientId } : {})
-      }
-    }
+    // Drop integration-declared client_id placeholder; URL.searchParams.append does not dedupe,
+    // so a placeholder + extraParams.client_id would emit two client_id entries.
+    const { client_id: _ignored, ...queryParams } = declaredQueryParams
+    const populatedAuthCodeEndpoint = { ...authCodeEndpoint, queryParams }
 
     const state = getCallbackState()
     const authUrl = buildAuthUrl(populatedAuthCodeEndpoint, { state, redirectUri, extraParams })

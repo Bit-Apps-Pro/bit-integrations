@@ -35,7 +35,7 @@ class ApiKeyAuthorization extends AbstractBaseAuthorization
             ];
         }
 
-        $key = $authDetails['key'] ?? 'api_key';
+        $key = $authDetails['key'] ?? 'X-API-Key';
         $location = $authDetails['addTo'] ?? 'header';
 
         return [

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import TrashIcn from '../../Icons/TrashIcn'
-import { __ } from '../../Utils/i18nwrap'
 import { deleteConnection } from '../../Utils/connectionApi'
+import { __ } from '../../Utils/i18nwrap'
 
 export default function ConnectionAccountList({
   connections,

@@ -7,6 +7,7 @@ if (!defined('ABSPATH')) {
 }
 
 use BitApps\Integrations\Authorization\AbstractBaseAuthorization;
+use BitApps\Integrations\Authorization\Support\AuthDataCodec;
 use BitApps\Integrations\Core\Util\HttpHelper;
 
 class OAuth2Authorization extends AbstractBaseAuthorization
@@ -38,15 +39,16 @@ class OAuth2Authorization extends AbstractBaseAuthorization
         return $this;
     }
 
-    public function getAuthDetails()
+    public function getAuthDetails(): ?array
     {
+        $this->clearLastError();
+
         $authDetails = parent::getAuthDetails();
 
         if (empty($authDetails)) {
-            return [
-                'error'   => true,
-                'message' => 'Connection auth details are missing',
-            ];
+            $this->setLastError(__('Connection auth details are missing', 'bit-integrations'));
+
+            return null;
         }
 
         $generatedAt = $authDetails['generated_at'] ?? null;
@@ -63,15 +65,17 @@ class OAuth2Authorization extends AbstractBaseAuthorization
     {
         $authDetails = $this->getAuthDetails();
 
-        if (isset($authDetails['error']) && $authDetails['error']) {
-            return $authDetails;
+        if ($authDetails === null) {
+            return $this->getLastError() ?: [
+                'error'   => true,
+                'message' => 'Connection auth details are missing',
+            ];
         }
 
         if (empty($authDetails['access_token'])) {
-            return [
-                'error'   => true,
-                'message' => 'Access token is missing',
-            ];
+            $this->setLastError(__('Access token is missing', 'bit-integrations'));
+
+            return $this->getLastError();
         }
 
         return $this->tokenPrefix . $authDetails['access_token'];
@@ -91,21 +95,21 @@ class OAuth2Authorization extends AbstractBaseAuthorization
         ];
     }
 
-    public function refreshAccessToken(array $authDetails)
+    public function refreshAccessToken(array $authDetails): ?array
     {
         $url = $this->refreshTokenUrl ?: ($authDetails['refresh_token_url'] ?? ($authDetails['refreshTokenUrl'] ?? ''));
 
         if (empty($url)) {
-            return [
-                'error'   => true,
-                'message' => 'Refresh token endpoint is missing',
-            ];
+            $this->setLastError(__('Refresh token endpoint is missing', 'bit-integrations'));
+
+            return null;
         }
 
         $body = $this->bodyParams ?: $this->buildRefreshBody($authDetails);
+        $headers = $this->buildRefreshHeaders($authDetails);
 
         $requestOptions = [];
-        $sslVerify = $this->normalizeSslVerifyOption($authDetails['ssl_verify'] ?? null);
+        $sslVerify = AuthDataCodec::normalizeSslVerify($authDetails['ssl_verify'] ?? null);
 
         if ($sslVerify !== null) {
             $requestOptions = [
@@ -114,19 +118,13 @@ class OAuth2Authorization extends AbstractBaseAuthorization
             ];
         }
 
-        $response = HttpHelper::post(
-            $url,
-            $body,
-            ['Content-Type' => 'application/x-www-form-urlencoded'],
-            $requestOptions
-        );
+        $response = HttpHelper::post($url, $body, $headers, $requestOptions);
 
         if (HttpHelper::$responseCode !== 200 || (\is_object($response) && isset($response->error))) {
-            return [
-                'error'    => true,
-                'message'  => \is_object($response) && isset($response->error) ? $response->error : 'Token refresh failed',
-                'response' => $response,
-            ];
+            $message = \is_object($response) && isset($response->error) ? $response->error : 'Token refresh failed';
+            $this->setLastError((string) $message, $response);
+
+            return null;
         }
 
         $response = \is_object($response) ? json_decode(wp_json_encode($response), true) : (array) $response;
@@ -151,17 +149,41 @@ class OAuth2Authorization extends AbstractBaseAuthorization
     private function buildRefreshBody(array $authDetails): array
     {
         $grantType = $authDetails['grant_type'] ?? 'authorization_code';
-
         $body = [
-            'grant_type'    => $grantType === 'client_credentials' ? 'client_credentials' : 'refresh_token',
-            'client_id'     => $authDetails['client_id'] ?? ($authDetails['clientId'] ?? ''),
-            'client_secret' => $authDetails['client_secret'] ?? ($authDetails['clientSecret'] ?? ''),
+            'grant_type' => $grantType === 'client_credentials' ? 'client_credentials' : 'refresh_token',
         ];
+
+        // Body auth is the default. Header auth puts client credentials in Authorization
+        // header instead — see buildRefreshHeaders.
+        if ($this->resolveClientAuthMode($authDetails) !== 'header') {
+            $body['client_id'] = $authDetails['client_id'] ?? ($authDetails['clientId'] ?? '');
+            $body['client_secret'] = $authDetails['client_secret'] ?? ($authDetails['clientSecret'] ?? '');
+        }
 
         if (!empty($authDetails['refresh_token'])) {
             $body['refresh_token'] = $authDetails['refresh_token'];
         }
 
         return $body;
+    }
+
+    private function buildRefreshHeaders(array $authDetails): array
+    {
+        $headers = ['Content-Type' => 'application/x-www-form-urlencoded'];
+
+        if ($this->resolveClientAuthMode($authDetails) === 'header') {
+            $clientId = $authDetails['client_id'] ?? ($authDetails['clientId'] ?? '');
+            $clientSecret = $authDetails['client_secret'] ?? ($authDetails['clientSecret'] ?? '');
+            $headers['Authorization'] = 'Basic ' . base64_encode($clientId . ':' . $clientSecret);
+        }
+
+        return $headers;
+    }
+
+    private function resolveClientAuthMode(array $authDetails): string
+    {
+        $mode = $authDetails['clientAuthentication'] ?? ($authDetails['client_authentication'] ?? 'body');
+
+        return $mode === 'header' ? 'header' : 'body';
     }
 }
