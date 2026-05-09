@@ -30,7 +30,7 @@ export default function RestrictContentAuthorization({
       tutorialTitle="Restrict Content"
       tutorialLinks={tutorialLinks?.restrictContent || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: {
           groups: [
             { logic: 'AND', checks: [{ type: 'plugin_file', value: 'restrict-content-pro/restrict-content-pro.php' }] },

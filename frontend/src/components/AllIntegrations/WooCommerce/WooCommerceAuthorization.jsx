@@ -21,7 +21,7 @@ export default function WooCommerceAuthorization({
       tutorialTitle="WooCommerce"
       tutorialLinks={tutorialLinks?.wooCommerce || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: { checks: [{ type: 'plugin_file', value: 'woocommerce/woocommerce.php' }], logic: 'AND' }
       }}
       noteDetails={{

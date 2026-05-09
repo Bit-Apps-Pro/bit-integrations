@@ -19,7 +19,7 @@ export default function WpErpAuthorization({
       setStep={setStep}
       isInfo={isInfo}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: { checks: [{ type: 'function', value: 'erp_insert_people' }], logic: 'AND' }
       }}
       noteDetails={{

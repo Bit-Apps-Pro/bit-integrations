@@ -21,7 +21,7 @@ export default function JetEngineAuthorization({
       tutorialTitle="JetEngine"
       tutorialLinks={tutorialLinks?.jetEngine || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: { checks: [{ type: 'plugin_file', value: 'jet-engine/jet-engine.php' }], logic: 'AND' }
       }}
       noteDetails={{

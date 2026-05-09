@@ -22,7 +22,7 @@ export default function FluentCrmAuthorization({
       tutorialTitle="FluentCRM"
       tutorialLinks={tutorialLinks?.fluentCrm || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: { checks: [{ type: 'plugin_file', value: 'fluent-crm/fluent-crm.php' }], logic: 'AND' }
       }}
       noteDetails={{

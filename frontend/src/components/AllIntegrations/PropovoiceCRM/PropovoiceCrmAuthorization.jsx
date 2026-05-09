@@ -21,7 +21,7 @@ export default function PropovoiceCrmAuthorization({
       tutorialTitle="Propovoice CRM"
       tutorialLinks={tutorialLinks?.propovoiceCrm || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: { checks: [{ type: 'class', value: 'Ndpv' }], logic: 'AND' }
       }}
       noteDetails={{

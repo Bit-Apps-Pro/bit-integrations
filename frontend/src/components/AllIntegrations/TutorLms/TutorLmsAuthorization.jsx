@@ -21,7 +21,7 @@ export default function TutorLmsAuthorization({
       tutorialTitle="Tutor LMS"
       tutorialLinks={tutorialLinks?.tutorlms || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: { checks: [{ type: 'plugin_file', value: 'tutor/tutor.php' }], logic: 'AND' }
       }}
       noteDetails={{

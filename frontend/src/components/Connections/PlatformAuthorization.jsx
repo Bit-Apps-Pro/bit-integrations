@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import BackIcn from '../../Icons/BackIcn'
-import { AUTH_TYPES } from '../../Utils/connectionAuth'
+import { isWpPluginCheckType } from '../../Utils/connectionAuth'
 import { checkPlatform, listConnections } from '../../Utils/connectionApi'
 import { __ } from '../../Utils/i18nwrap'
 import LoaderSm from '../Loaders/LoaderSm'
@@ -33,7 +33,7 @@ export default function PlatformAuthorization({
   const [isVerified, setIsVerified] = useState(false)
 
   const appSlug = config?.app_slug || config?.type
-  const isNoAuth = authDetails?.authType === AUTH_TYPES.NO_AUTH
+  const isWpPluginCheck = isWpPluginCheckType(authDetails?.authType)
 
   const refreshConnections = useCallback(async () => {
     if (!appSlug) {
@@ -60,12 +60,12 @@ export default function PlatformAuthorization({
   }, [appSlug])
 
   useEffect(() => {
-    if (isNoAuth) {
+    if (isWpPluginCheck) {
       return
     }
 
     refreshConnections()
-  }, [appSlug, isNoAuth])
+  }, [appSlug, isWpPluginCheck])
 
   const handleNameChange = useCallback(
     event => {
@@ -133,7 +133,7 @@ export default function PlatformAuthorization({
     setStep(2)
   }, [config?.name, setStep])
 
-  const canGoNext = isNoAuth ? isVerified : Boolean(config?.connection_id)
+  const canGoNext = isWpPluginCheck ? isVerified : Boolean(config?.connection_id)
 
   const pageStyle = useMemo(() => (step === 1 ? STEP_ONE_STYLE : undefined), [step])
 
@@ -174,7 +174,7 @@ export default function PlatformAuthorization({
       />
       <div style={ERROR_TEXT_STYLE}>{errors.name || ''}</div>
 
-      {!isNoAuth && (
+      {!isWpPluginCheck && (
         <>
           <ConnectionAccountSelect
             config={config}
@@ -201,7 +201,7 @@ export default function PlatformAuthorization({
         </>
       )}
 
-      {isNoAuth && !isInfo && (
+      {isWpPluginCheck && !isInfo && (
         <button
           onClick={handleVerifyPlatform}
           className="btn btcd-btn-lg purple mt-3 sh-sm flx"

@@ -19,7 +19,7 @@ export default function WCAffiliateAuthorization({
       setStep={setStep}
       isInfo={isInfo}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: {
           checks: [
             { type: 'class', value: 'WC_Affiliate\\Models\\Affiliate' },

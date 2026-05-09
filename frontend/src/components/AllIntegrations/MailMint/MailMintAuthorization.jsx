@@ -32,7 +32,7 @@ export default function MailMintAuthorization({
       tutorialTitle="Mail Mint"
       tutorialLinks={tutorialLinks?.mailMint || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: { checks: [{ type: 'class', value: 'MailMint' }], logic: 'AND' }
       }}
       noteDetails={{

@@ -21,7 +21,7 @@ export default function MasterStudyLmsAuthorization({
       tutorialTitle="MasterStudy LMS"
       tutorialLinks={tutorialLinks?.masterStudyLMS || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: {
           groups: [
             { logic: 'AND', checks: [{ type: 'plugin_file', value: 'masterstudy-lms-learning-management-system/masterstudy-lms-learning-management-system.php' }] },

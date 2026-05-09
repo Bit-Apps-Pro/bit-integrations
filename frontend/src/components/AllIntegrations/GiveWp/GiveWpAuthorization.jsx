@@ -21,7 +21,7 @@ export default function GiveWpAuthorization({
       tutorialTitle="GiveWP"
       tutorialLinks={tutorialLinks?.giveWp || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: { checks: [{ type: 'plugin_file', value: 'give/give.php' }], logic: 'AND' }
       }}
       noteDetails={{

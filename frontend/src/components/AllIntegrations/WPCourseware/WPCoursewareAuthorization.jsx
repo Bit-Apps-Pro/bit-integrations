@@ -22,7 +22,7 @@ export default function WPCoursewareAuthorization({
       tutorialTitle="WP Courseware"
       tutorialLinks={tutorialLinks?.wpCourseware || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: { checks: [{ type: 'plugin_file', value: 'wp-courseware/wp-courseware.php' }], logic: 'AND' }
       }}
       noteDetails={{

@@ -8,6 +8,8 @@ if (!defined('ABSPATH')) {
 
 class AuthorizationType
 {
+    public const WP_PLUGIN_CHECK = 'wp_plugin_check';
+
     public const BASIC_AUTH = 'basic_auth';
 
     public const API_KEY = 'api_key';

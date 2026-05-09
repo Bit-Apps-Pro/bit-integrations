@@ -22,7 +22,7 @@ export default function CreatorLmsAuthorization({
       tutorialTitle="Creator LMS"
       tutorialLinks={tutorialLinks?.creatorLms || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: {
           checks: [
             { type: 'class', value: 'CreatorLms' },

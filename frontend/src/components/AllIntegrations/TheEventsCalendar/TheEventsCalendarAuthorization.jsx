@@ -21,7 +21,7 @@ export default function TheEventsCalendarAuthorization({
       tutorialTitle="The Events Calendar"
       tutorialLinks={tutorialLinks?.theEventsCalendar || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: {
           checks: [
             { type: 'plugin_file', value: 'the-events-calendar/the-events-calendar.php' },

@@ -22,7 +22,7 @@ export default function NotificationXAuthorization({
       tutorialTitle="NotificationX"
       tutorialLinks={tutorialLinks?.notificationX || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: { checks: [{ type: 'constant', value: 'NOTIFICATIONX_FILE' }], logic: 'AND' }
       }}
       noteDetails={{

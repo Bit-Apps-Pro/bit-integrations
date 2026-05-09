@@ -21,7 +21,7 @@ export default function MailsterAuthorization({
       tutorialTitle="Mailster"
       tutorialLinks={tutorialLinks?.mailster || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: { checks: [{ type: 'plugin_file', value: 'mailster/mailster.php' }], logic: 'AND' }
       }}
       noteDetails={{

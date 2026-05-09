@@ -22,7 +22,7 @@ export default function FluentCartAuthorization({
       tutorialTitle="FluentCart"
       tutorialLinks={tutorialLinks?.fluentCart || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: { checks: [{ type: 'constant', value: 'FLUENTCART_PLUGIN_PATH' }], logic: 'AND' }
       }}
       noteDetails={{

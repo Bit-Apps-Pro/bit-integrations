@@ -23,7 +23,7 @@ export default function WeDocsAuthorization({
       tutorialTitle="weDocs"
       tutorialLinks={tutorialLinks?.weDocs || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: {
           checks: [{ type: 'class', value: 'WeDocs' }],
           logic: 'AND'

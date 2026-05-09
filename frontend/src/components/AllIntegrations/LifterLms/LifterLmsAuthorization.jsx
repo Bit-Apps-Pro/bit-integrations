@@ -21,7 +21,7 @@ export default function LifterLmsAuthorization({
       tutorialTitle="LifterLMS"
       tutorialLinks={tutorialLinks?.lifterLms || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: { checks: [{ type: 'plugin_file', value: 'lifterlms/lifterlms.php' }], logic: 'AND' }
       }}
       noteDetails={{

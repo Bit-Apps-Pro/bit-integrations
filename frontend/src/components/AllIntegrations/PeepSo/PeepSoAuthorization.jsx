@@ -22,7 +22,7 @@ export default function PeepSoAuthorization({
       tutorialTitle="PeepSo"
       tutorialLinks={tutorialLinks?.peepSo || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: { checks: [{ type: 'class', value: 'PeepSo' }], logic: 'AND' }
       }}
       noteDetails={{

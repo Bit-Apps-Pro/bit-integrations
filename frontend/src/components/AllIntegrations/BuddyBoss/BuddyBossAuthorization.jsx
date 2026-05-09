@@ -21,7 +21,7 @@ export default function BuddyBossAuthorization({
       tutorialTitle="BuddyBoss"
       tutorialLinks={tutorialLinks?.buddyBoss || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: { checks: [{ type: 'class', value: 'BuddyPress' }], logic: 'AND' }
       }}
       noteDetails={{

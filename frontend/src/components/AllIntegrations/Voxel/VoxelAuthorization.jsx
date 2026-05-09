@@ -21,7 +21,7 @@ export default function VoxelAuthorization({
       tutorialTitle="Voxel"
       tutorialLinks={tutorialLinks?.voxel || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: { checks: [{ type: 'class', value: 'Voxel\\Post_Type' }], logic: 'AND' }
       }}
       noteDetails={{

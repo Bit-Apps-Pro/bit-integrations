@@ -21,7 +21,7 @@ export default function SureMembersAuthorization({
       tutorialTitle="SureMembers"
       tutorialLinks={tutorialLinks?.sureMembers || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: { checks: [{ type: 'plugin_file', value: 'suremembers/suremembers.php' }], logic: 'AND' }
       }}
       noteDetails={{

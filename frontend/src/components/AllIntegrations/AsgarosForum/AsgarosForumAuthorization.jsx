@@ -19,7 +19,7 @@ export default function AsgarosForumAuthorization({
       setStep={setStep}
       isInfo={isInfo}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: { checks: [{ type: 'class', value: 'AsgarosForum' }], logic: 'AND' }
       }}
       noteDetails={{

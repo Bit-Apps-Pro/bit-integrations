@@ -22,7 +22,7 @@ export default function TeamsForWooCommerceMembershipsAuthorization({
       tutorialTitle="Teams for WooCommerce Memberships"
       tutorialLinks={tutorialLinks?.teamsForWooCommerceMemberships || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: { checks: [{ type: 'function', value: 'wc_memberships_for_teams' }], logic: 'AND' }
       }}
       noteDetails={{

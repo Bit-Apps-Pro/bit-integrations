@@ -21,7 +21,7 @@ export default function PaidMembershipProAuthorization({
       tutorialTitle="Paid Memberships Pro"
       tutorialLinks={tutorialLinks?.paidMembershipPro || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: { checks: [{ type: 'plugin_file', value: 'paid-memberships-pro/paid-memberships-pro.php' }], logic: 'AND' }
       }}
       noteDetails={{

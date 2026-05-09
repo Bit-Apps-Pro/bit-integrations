@@ -22,7 +22,7 @@ export default function WishlistMemberAuthorization({
       tutorialTitle="WishlistMember"
       tutorialLinks={tutorialLinks?.wishlistMember || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: {
           groups: [
             { logic: 'AND', checks: [{ type: 'class', value: 'WLMAPI' }] },

@@ -20,6 +20,7 @@ use WP_Error;
 final class ConnectionController
 {
     private const ALLOWED_AUTH_TYPES = [
+        AuthorizationType::WP_PLUGIN_CHECK,
         AuthorizationType::BASIC_AUTH,
         AuthorizationType::API_KEY,
         AuthorizationType::BEARER_TOKEN,
@@ -188,7 +189,7 @@ final class ConnectionController
 
         $payload = [
             'app_slug'        => $existing->app_slug,
-            'auth_type'       => $existing->auth_type,
+            'auth_type'       => (string) $existing->auth_type,
             'connection_name' => $existing->connection_name,
             'account_name'    => $existing->account_name,
             'status'          => ConnectionModel::STATUS_VERIFIED,
@@ -218,11 +219,6 @@ final class ConnectionController
         $this->guard();
 
         $authType = $this->sanitizeScalar($request->auth_type ?? '');
-        $appSlug = $this->sanitizeScalar($request->app_slug ?? '');
-        $apiEndpoint = esc_url_raw((string) ($request->api_endpoint ?? ''));
-        $method = strtoupper($this->sanitizeScalar($request->method ?? 'GET'));
-        $payload = isset($request->payload) ? $this->normalizePayload($request->payload) : null;
-        $headers = $this->normalizeHeaders($request->headers ?? []);
 
         if (empty($authType)) {
             wp_send_json_error(__('Auth type is required', 'bit-integrations'));
@@ -231,6 +227,19 @@ final class ConnectionController
         if (!\in_array($authType, self::ALLOWED_AUTH_TYPES, true)) {
             wp_send_json_error(__('Invalid auth type', 'bit-integrations'));
         }
+
+        if ($authType === AuthorizationType::WP_PLUGIN_CHECK) {
+            wp_send_json_error(
+                __('WP Plugin Check does not use credential authorization. Use platform check endpoint instead.', 'bit-integrations'),
+                400
+            );
+        }
+
+        $appSlug = $this->sanitizeScalar($request->app_slug ?? '');
+        $apiEndpoint = esc_url_raw((string) ($request->api_endpoint ?? ''));
+        $method = strtoupper($this->sanitizeScalar($request->method ?? 'GET'));
+        $payload = isset($request->payload) ? $this->normalizePayload($request->payload) : null;
+        $headers = $this->normalizeHeaders($request->headers ?? []);
 
         if (empty($request->auth_details)) {
             wp_send_json_error(__('Authorization details are required', 'bit-integrations'));
@@ -398,6 +407,13 @@ final class ConnectionController
 
         if (!$isUpdate && $appSlug === '') {
             return new WP_Error('missing_app_slug', __('App slug is required', 'bit-integrations'));
+        }
+
+        if ($authType === AuthorizationType::WP_PLUGIN_CHECK) {
+            return new WP_Error(
+                'invalid_auth_type',
+                __('WP Plugin Check does not require saving a reusable credential connection', 'bit-integrations')
+            );
         }
 
         if ($authType !== '' && !\in_array($authType, self::ALLOWED_AUTH_TYPES, true)) {
@@ -571,7 +587,7 @@ final class ConnectionController
         return [
             'id'              => (int) $row->id,
             'app_slug'        => $row->app_slug,
-            'auth_type'       => $row->auth_type,
+            'auth_type'       => (string) ($row->auth_type ?? ''),
             'connection_name' => $row->connection_name,
             'account_name'    => $row->account_name,
             'encrypt_keys'    => $encryptKeys,

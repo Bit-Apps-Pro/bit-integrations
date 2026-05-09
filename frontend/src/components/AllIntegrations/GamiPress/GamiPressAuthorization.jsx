@@ -21,7 +21,7 @@ export default function GamiPressAuthorization({
       tutorialTitle="GamiPress"
       tutorialLinks={tutorialLinks?.gamiPress || {}}
       authDetails={{
-        authType: AUTH_TYPES.NO_AUTH,
+        authType: AUTH_TYPES.WP_PLUGIN_CHECK,
         platformCheck: { checks: [{ type: 'plugin_file', value: 'gamipress/gamipress.php' }], logic: 'AND' }
       }}
       noteDetails={{
