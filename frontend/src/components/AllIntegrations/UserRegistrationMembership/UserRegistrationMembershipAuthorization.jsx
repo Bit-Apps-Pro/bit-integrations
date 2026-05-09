@@ -23,7 +23,7 @@ export default function UserRegistrationMembershipAuthorization({
       tutorialLinks={tutorialLinks?.userRegistrationMembership || {}}
       authDetails={{
         authType: AUTH_TYPES.WP_PLUGIN_CHECK,
-        platformCheck: { checks: [{ type: 'class', value: 'UserRegistration' }], logic: 'AND' }
+        pluginCheck: { checks: [{ type: 'class', value: 'UserRegistration' }], logic: 'AND' }
       }}
       noteDetails={{
         note: __(

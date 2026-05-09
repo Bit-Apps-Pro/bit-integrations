@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 
 /**
  * Evaluates a caller-supplied spec describing how to detect whether a
- * WordPress plugin (platform) is available. Used by the shared platform-check
+ * WordPress plugin (Plugin) is available. Used by the shared Plugin-check
  * authorization step for integrations that target a WP plugin and need no
  * external API credentials.
  *
@@ -34,7 +34,7 @@ if (!defined('ABSPATH')) {
  * Flat shape (single implicit group):
  *   ['checks' => [...], 'logic' => 'AND' | 'OR']
  */
-final class PlatformCheck
+final class PluginCheck
 {
     private const ALLOWED_TYPES = ['class', 'function', 'constant', 'plugin_file'];
 
@@ -52,7 +52,7 @@ final class PlatformCheck
         if (empty($groups)) {
             return [
                 'available' => false,
-                'message'   => __('Platform checks are required', 'bit-integrations'),
+                'message'   => __('Plugin checks are required', 'bit-integrations'),
             ];
         }
 
@@ -85,7 +85,7 @@ final class PlatformCheck
         if (empty($groupResults)) {
             return [
                 'available' => false,
-                'message'   => __('No valid platform checks were provided', 'bit-integrations'),
+                'message'   => __('No valid Plugin checks were provided', 'bit-integrations'),
             ];
         }
 
@@ -95,7 +95,7 @@ final class PlatformCheck
 
         return [
             'available' => false,
-            'message'   => __('Platform is not installed or activated', 'bit-integrations'),
+            'message'   => __('Plugin is not installed or activated', 'bit-integrations'),
         ];
     }
 

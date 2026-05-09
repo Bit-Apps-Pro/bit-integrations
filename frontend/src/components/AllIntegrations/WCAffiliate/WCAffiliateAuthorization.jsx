@@ -20,7 +20,7 @@ export default function WCAffiliateAuthorization({
       isInfo={isInfo}
       authDetails={{
         authType: AUTH_TYPES.WP_PLUGIN_CHECK,
-        platformCheck: {
+        pluginCheck: {
           checks: [
             { type: 'class', value: 'WC_Affiliate\\Models\\Affiliate' },
             { type: 'class', value: 'WC_Affiliate\\Models\\Referral' },

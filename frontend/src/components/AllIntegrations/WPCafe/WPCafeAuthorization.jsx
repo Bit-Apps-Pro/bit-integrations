@@ -23,7 +23,7 @@ export default function WPCafeAuthorization({
       tutorialLinks={tutorialLinks?.wpcafe || {}}
       authDetails={{
         authType: AUTH_TYPES.WP_PLUGIN_CHECK,
-        platformCheck: { checks: [{ type: 'class', value: 'WpCafe\\Init' }], logic: 'AND' }
+        pluginCheck: { checks: [{ type: 'class', value: 'WpCafe\\Init' }], logic: 'AND' }
       }}
       noteDetails={{
         note: __(

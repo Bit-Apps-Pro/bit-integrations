@@ -23,7 +23,7 @@ export default function MailPoetAuthorization({
       tutorialLinks={tutorialLinks?.mailPoet || {}}
       authDetails={{
         authType: AUTH_TYPES.WP_PLUGIN_CHECK,
-        platformCheck: { checks: [{ type: 'class', value: 'MailPoet\\API\\API' }], logic: 'AND' }
+        pluginCheck: { checks: [{ type: 'class', value: 'MailPoet\\API\\API' }], logic: 'AND' }
       }}
       noteDetails={{
         note: __(

@@ -20,7 +20,7 @@ export default function WpErpAuthorization({
       isInfo={isInfo}
       authDetails={{
         authType: AUTH_TYPES.WP_PLUGIN_CHECK,
-        platformCheck: { checks: [{ type: 'function', value: 'erp_insert_people' }], logic: 'AND' }
+        pluginCheck: { checks: [{ type: 'function', value: 'erp_insert_people' }], logic: 'AND' }
       }}
       noteDetails={{
         note: __(

@@ -33,7 +33,7 @@ export default function MemberpressAuthorization({
       tutorialLinks={tutorialLinks?.memberpress || {}}
       authDetails={{
         authType: AUTH_TYPES.WP_PLUGIN_CHECK,
-        platformCheck: { checks: [{ type: 'plugin_file', value: 'memberpress/memberpress.php' }], logic: 'AND' }
+        pluginCheck: { checks: [{ type: 'plugin_file', value: 'memberpress/memberpress.php' }], logic: 'AND' }
       }}
       noteDetails={{
         note: __(

@@ -22,7 +22,7 @@ export default function SliceWpAuthorization({
       tutorialLinks={tutorialLinks?.sliceWp || {}}
       authDetails={{
         authType: AUTH_TYPES.WP_PLUGIN_CHECK,
-        platformCheck: { checks: [{ type: 'plugin_file', value: 'slicewp/index.php' }], logic: 'AND' }
+        pluginCheck: { checks: [{ type: 'plugin_file', value: 'slicewp/index.php' }], logic: 'AND' }
       }}
       noteDetails={{
         note: __(

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import BackIcn from '../../Icons/BackIcn'
 import { isWpPluginCheckType } from '../../Utils/connectionAuth'
-import { checkPlatform, listConnections } from '../../Utils/connectionApi'
+import { verifyPluginActivation, listConnections } from '../../Utils/connectionApi'
 import { __ } from '../../Utils/i18nwrap'
 import LoaderSm from '../Loaders/LoaderSm'
 import Note from '../Utilities/Note'
@@ -79,20 +79,20 @@ export default function PlatformAuthorization({
     [setConfig]
   )
 
-  const platformCheck = authDetails?.platformCheck
+  const pluginCheck = authDetails?.pluginCheck
 
-  const handleVerifyPlatform = useCallback(async () => {
+  const handleVerifyPluginActivation = useCallback(async () => {
     if (!config?.name?.trim()) {
       setErrors({ name: __('Integration name is required', 'bit-integrations') })
       return
     }
 
-    const hasGroups = Array.isArray(platformCheck?.groups) && platformCheck.groups.length > 0
-    const hasChecks = Array.isArray(platformCheck?.checks) && platformCheck.checks.length > 0
+    const hasGroups = Array.isArray(pluginCheck?.groups) && pluginCheck.groups.length > 0
+    const hasChecks = Array.isArray(pluginCheck?.checks) && pluginCheck.checks.length > 0
 
     if (!hasGroups && !hasChecks) {
       setErrors({
-        name: __('Platform checks are not defined for this integration', 'bit-integrations')
+        name: __('Plugin checks are not defined for this integration', 'bit-integrations')
       })
       return
     }
@@ -101,9 +101,9 @@ export default function PlatformAuthorization({
     setErrors({})
 
     try {
-      const res = await checkPlatform({
-        logic: platformCheck.logic || 'AND',
-        ...(hasGroups ? { groups: platformCheck.groups } : { checks: platformCheck.checks })
+      const res = await verifyPluginActivation({
+        logic: pluginCheck.logic || 'AND',
+        ...(hasGroups ? { groups: pluginCheck.groups } : { checks: pluginCheck.checks })
       })
 
       if (res?.success) {
@@ -111,18 +111,18 @@ export default function PlatformAuthorization({
       } else {
         setIsVerified(false)
         setErrors({
-          name: res?.data || __('Platform is not installed or activated', 'bit-integrations')
+          name: res?.data || __('Plugin is not installed or activated', 'bit-integrations')
         })
       }
     } catch (error) {
       setIsVerified(false)
       setErrors({
-        name: error?.message || __('Platform check failed', 'bit-integrations')
+        name: error?.message || __('Plugin check failed', 'bit-integrations')
       })
     } finally {
       setIsVerifying(false)
     }
-  }, [config?.name, platformCheck])
+  }, [config?.name, pluginCheck])
 
   const handleNext = useCallback(() => {
     if (!config?.name?.trim()) {
@@ -203,7 +203,7 @@ export default function PlatformAuthorization({
 
       {isWpPluginCheck && !isInfo && (
         <button
-          onClick={handleVerifyPlatform}
+          onClick={handleVerifyPluginActivation}
           className="btn btcd-btn-lg purple mt-3 sh-sm flx"
           type="button"
           disabled={isVerified || isVerifying}>

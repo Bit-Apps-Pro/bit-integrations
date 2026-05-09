@@ -23,7 +23,7 @@ export default function CreatorLmsAuthorization({
       tutorialLinks={tutorialLinks?.creatorLms || {}}
       authDetails={{
         authType: AUTH_TYPES.WP_PLUGIN_CHECK,
-        platformCheck: {
+        pluginCheck: {
           checks: [
             { type: 'class', value: 'CreatorLms' },
             { type: 'function', value: 'crlms_get_course' }

@@ -22,7 +22,7 @@ export default function AcademyLmsAuthorization({
       tutorialLinks={tutorialLinks?.academyLms || {}}
       authDetails={{
         authType: AUTH_TYPES.WP_PLUGIN_CHECK,
-        platformCheck: { checks: [{ type: 'plugin_file', value: 'academy/academy.php' }], logic: 'AND' }
+        pluginCheck: { checks: [{ type: 'plugin_file', value: 'academy/academy.php' }], logic: 'AND' }
       }}
       noteDetails={{
         note: __(

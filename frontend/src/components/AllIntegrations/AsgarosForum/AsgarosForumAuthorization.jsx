@@ -20,7 +20,7 @@ export default function AsgarosForumAuthorization({
       isInfo={isInfo}
       authDetails={{
         authType: AUTH_TYPES.WP_PLUGIN_CHECK,
-        platformCheck: { checks: [{ type: 'class', value: 'AsgarosForum' }], logic: 'AND' }
+        pluginCheck: { checks: [{ type: 'class', value: 'AsgarosForum' }], logic: 'AND' }
       }}
       noteDetails={{
         note: __(

@@ -22,7 +22,7 @@ export default function BuddyBossAuthorization({
       tutorialLinks={tutorialLinks?.buddyBoss || {}}
       authDetails={{
         authType: AUTH_TYPES.WP_PLUGIN_CHECK,
-        platformCheck: { checks: [{ type: 'class', value: 'BuddyPress' }], logic: 'AND' }
+        pluginCheck: { checks: [{ type: 'class', value: 'BuddyPress' }], logic: 'AND' }
       }}
       noteDetails={{
         note: __(

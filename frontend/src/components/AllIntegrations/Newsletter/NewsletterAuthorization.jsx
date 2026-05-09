@@ -22,7 +22,7 @@ export default function NewsletterAuthorization({
       tutorialLinks={tutorialLinks?.newsletter || {}}
       authDetails={{
         authType: AUTH_TYPES.WP_PLUGIN_CHECK,
-        platformCheck: { checks: [{ type: 'plugin_file', value: 'newsletter/plugin.php' }], logic: 'AND' }
+        pluginCheck: { checks: [{ type: 'plugin_file', value: 'newsletter/plugin.php' }], logic: 'AND' }
       }}
       noteDetails={{
         note: __(

@@ -23,7 +23,7 @@ export default function UltimateAffiliateProAuthorization({
       tutorialLinks={tutorialLinks?.ultimateAffiliatePro || {}}
       authDetails={{
         authType: AUTH_TYPES.WP_PLUGIN_CHECK,
-        platformCheck: {
+        pluginCheck: {
           groups: [
             { logic: 'AND', checks: [{ type: 'plugin_file', value: 'ultimate-affiliate/ultimate-affiliate.php' }] },
             { logic: 'AND', checks: [{ type: 'plugin_file', value: 'ultimate-affiliate-pro/ultimate-affiliate-pro.php' }] },

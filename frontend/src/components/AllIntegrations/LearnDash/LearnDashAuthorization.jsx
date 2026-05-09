@@ -22,7 +22,7 @@ export default function LearnDashAuthorization({
       tutorialLinks={tutorialLinks?.learnDash || {}}
       authDetails={{
         authType: AUTH_TYPES.WP_PLUGIN_CHECK,
-        platformCheck: {
+        pluginCheck: {
           groups: [
             { logic: 'AND', checks: [{ type: 'plugin_file', value: 'learndash-propanel/learndash_propanel.php' }] },
             { logic: 'AND', checks: [{ type: 'plugin_file', value: 'learndash/learndash.php' }] },

@@ -14,7 +14,7 @@ export const authorizeConnection = payload => bitsFetch(payload, 'connections/au
 
 export const oauthConnectionExchange = payload => bitsFetch(payload, 'connections/oauth2/exchange')
 
-export const checkPlatform = payload => bitsFetch(payload, 'connections/platform/check')
+export const verifyPluginActivation = payload => bitsFetch(payload, 'connections/verify-plugin-activation')
 
 export const saveConnection = payload => bitsFetch(payload, 'connections/save')
 

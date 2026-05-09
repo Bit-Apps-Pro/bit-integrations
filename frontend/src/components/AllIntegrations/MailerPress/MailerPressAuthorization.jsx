@@ -23,7 +23,7 @@ export default function MailerPressAuthorization({
       tutorialLinks={tutorialLinks?.mailerPress || {}}
       authDetails={{
         authType: AUTH_TYPES.WP_PLUGIN_CHECK,
-        platformCheck: { checks: [{ type: 'class', value: 'MailerPress\\Core\\Kernel' }], logic: 'AND' }
+        pluginCheck: { checks: [{ type: 'class', value: 'MailerPress\\Core\\Kernel' }], logic: 'AND' }
       }}
       noteDetails={{
         note: __(

@@ -23,7 +23,7 @@ export default function AutonamiAuthorization({
       tutorialLinks={tutorialLinks?.autonami || {}}
       authDetails={{
         authType: AUTH_TYPES.WP_PLUGIN_CHECK,
-        platformCheck: { checks: [{ type: 'class', value: 'BWFCRM_Contact' }], logic: 'AND' }
+        pluginCheck: { checks: [{ type: 'class', value: 'BWFCRM_Contact' }], logic: 'AND' }
       }}
       noteDetails={{
         note: __(

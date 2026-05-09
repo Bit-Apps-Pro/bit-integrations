@@ -22,7 +22,7 @@ export default function DokanAuthorization({
       tutorialLinks={tutorialLinks?.dokan || {}}
       authDetails={{
         authType: AUTH_TYPES.WP_PLUGIN_CHECK,
-        platformCheck: { checks: [{ type: 'plugin_file', value: 'dokan-lite/dokan.php' }], logic: 'AND' }
+        pluginCheck: { checks: [{ type: 'plugin_file', value: 'dokan-lite/dokan.php' }], logic: 'AND' }
       }}
       noteDetails={{
         note: __(

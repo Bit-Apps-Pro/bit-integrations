@@ -13,7 +13,7 @@ use BitApps\Integrations\Core\Database\ConnectionModel;
 use BitApps\Integrations\Core\Util\Capabilities;
 use BitApps\Integrations\Core\Util\Helper;
 use BitApps\Integrations\Core\Util\HttpHelper;
-use BitApps\Integrations\Core\Util\PlatformCheck;
+use BitApps\Integrations\Core\Util\PluginCheck;
 use Exception;
 use WP_Error;
 
@@ -230,7 +230,7 @@ final class ConnectionController
 
         if ($authType === AuthorizationType::WP_PLUGIN_CHECK) {
             wp_send_json_error(
-                __('WP Plugin Check does not use credential authorization. Use platform check endpoint instead.', 'bit-integrations'),
+                __('WP Plugin Check does not use credential authorization. Use Plugin check endpoint instead.', 'bit-integrations'),
                 400
             );
         }
@@ -302,16 +302,16 @@ final class ConnectionController
     }
 
     /**
-     * Confirm a WordPress-plugin platform is installed/active. No DB persistence —
+     * Confirm a WordPress-plugin Plugin is installed/active. No DB persistence —
      * caller supplies a check spec (class/function/constant/plugin_file) with
-     * AND/OR logic (optionally grouped) and PlatformCheck evaluates it.
+     * AND/OR logic (optionally grouped) and PluginCheck evaluates it.
      *
-     * Spec sanitization lives in PlatformCheck so this controller stays a thin
+     * Spec sanitization lives in PluginCheck so this controller stays a thin
      * adapter from the request shape to the evaluator.
      *
      * @param mixed $request
      */
-    public function checkPlatform($request)
+    public function verifyPluginActivation($request)
     {
         $this->guard();
 
@@ -323,11 +323,11 @@ final class ConnectionController
             $spec['checks'] = $request->checks ?? null;
         }
 
-        $result = PlatformCheck::evaluate($spec);
+        $result = PluginCheck::evaluate($spec);
 
         if (empty($result['available'])) {
             wp_send_json_error(
-                $result['message'] ?? __('Platform check failed', 'bit-integrations'),
+                $result['message'] ?? __('Plugin check failed', 'bit-integrations'),
                 400
             );
         }

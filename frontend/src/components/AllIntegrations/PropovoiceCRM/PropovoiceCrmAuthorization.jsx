@@ -22,7 +22,7 @@ export default function PropovoiceCrmAuthorization({
       tutorialLinks={tutorialLinks?.propovoiceCrm || {}}
       authDetails={{
         authType: AUTH_TYPES.WP_PLUGIN_CHECK,
-        platformCheck: { checks: [{ type: 'class', value: 'Ndpv' }], logic: 'AND' }
+        pluginCheck: { checks: [{ type: 'class', value: 'Ndpv' }], logic: 'AND' }
       }}
       noteDetails={{
         note: __(

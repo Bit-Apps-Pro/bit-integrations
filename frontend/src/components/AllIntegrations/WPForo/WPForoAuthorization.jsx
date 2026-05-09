@@ -22,7 +22,7 @@ export default function WPForoAuthorization({
       tutorialLinks={tutorialLinks?.wpforo || {}}
       authDetails={{
         authType: AUTH_TYPES.WP_PLUGIN_CHECK,
-        platformCheck: { checks: [{ type: 'plugin_file', value: 'wpforo/wpforo.php' }], logic: 'AND' }
+        pluginCheck: { checks: [{ type: 'plugin_file', value: 'wpforo/wpforo.php' }], logic: 'AND' }
       }}
       noteDetails={{
         note: __(
