@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { AUTH_TYPES } from '../../../Utils/connectionAuth'
 import { __ } from '../../../Utils/i18nwrap'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
-import PlatformAuthorization from '../../Connections/PlatformAuthorization'
+import Authorization from '../../Connections/Authorization'
 
 export default function WPForoAuthorization({
   wpforoConf,
@@ -12,7 +12,7 @@ export default function WPForoAuthorization({
   isInfo
 }) {
   return (
-    <PlatformAuthorization
+    <Authorization
       config={wpforoConf}
       setConfig={setWPForoConf}
       step={step}

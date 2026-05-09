@@ -12,7 +12,7 @@ import ConnectionAccountSelect from './ConnectionAccountSelect'
 const STEP_ONE_STYLE = { width: 900, height: 'auto' }
 const ERROR_TEXT_STYLE = { color: 'red', fontSize: '15px' }
 
-export default function PlatformAuthorization({
+export default function Authorization({
   config,
   setConfig,
   step,

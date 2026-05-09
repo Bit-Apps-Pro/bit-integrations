@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { AUTH_TYPES } from '../../../Utils/connectionAuth'
 import { __ } from '../../../Utils/i18nwrap'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
-import PlatformAuthorization from '../../Connections/PlatformAuthorization'
+import Authorization from '../../Connections/Authorization'
 import { getAllList, getAllTags } from './MailMintCommonFunc'
 
 export default function MailMintAuthorization({
@@ -23,7 +23,7 @@ export default function MailMintAuthorization({
   }, [setStep, mailMintConf, setMailMintConf, setIsLoading, setSnackbar])
 
   return (
-    <PlatformAuthorization
+    <Authorization
       config={mailMintConf}
       setConfig={setMailMintConf}
       step={step}

@@ -2,7 +2,7 @@
 import { __ } from '../../../Utils/i18nwrap'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import { AUTH_TYPES } from '../../../Utils/connectionAuth'
-import PlatformAuthorization from '../../Connections/PlatformAuthorization'
+import Authorization from '../../Connections/Authorization'
 
 export default function SystemeIOAuthorization({
   systemeIOConf,
@@ -25,7 +25,7 @@ export default function SystemeIOAuthorization({
             </ul>`
 
   return (
-    <PlatformAuthorization
+    <Authorization
       config={systemeIOConf}
       setConfig={setSystemeIOConf}
       step={step}

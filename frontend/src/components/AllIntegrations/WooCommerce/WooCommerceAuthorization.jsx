@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { AUTH_TYPES } from '../../../Utils/connectionAuth'
 import { __ } from '../../../Utils/i18nwrap'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
-import PlatformAuthorization from '../../Connections/PlatformAuthorization'
+import Authorization from '../../Connections/Authorization'
 
 export default function WooCommerceAuthorization({
   wcConf,
@@ -12,7 +12,7 @@ export default function WooCommerceAuthorization({
   isInfo
 }) {
   return (
-    <PlatformAuthorization
+    <Authorization
       config={wcConf}
       setConfig={setWcConf}
       step={step}

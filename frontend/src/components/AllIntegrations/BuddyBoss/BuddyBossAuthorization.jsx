@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { AUTH_TYPES } from '../../../Utils/connectionAuth'
 import { __ } from '../../../Utils/i18nwrap'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
-import PlatformAuthorization from '../../Connections/PlatformAuthorization'
+import Authorization from '../../Connections/Authorization'
 
 export default function BuddyBossAuthorization({
   buddyBossConf,
@@ -12,7 +12,7 @@ export default function BuddyBossAuthorization({
   isInfo
 }) {
   return (
-    <PlatformAuthorization
+    <Authorization
       config={buddyBossConf}
       setConfig={setBuddyBossConf}
       step={step}

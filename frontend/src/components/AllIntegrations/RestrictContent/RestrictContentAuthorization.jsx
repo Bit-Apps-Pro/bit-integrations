@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { AUTH_TYPES } from '../../../Utils/connectionAuth'
 import { __ } from '../../../Utils/i18nwrap'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
-import PlatformAuthorization from '../../Connections/PlatformAuthorization'
+import Authorization from '../../Connections/Authorization'
 import { getAllLevels } from './RestrictContentCommonFunc'
 
 export default function RestrictContentAuthorization({
@@ -21,7 +21,7 @@ export default function RestrictContentAuthorization({
   }, [setStep, restrictConf, setRestrictConf, setIsLoading])
 
   return (
-    <PlatformAuthorization
+    <Authorization
       config={restrictConf}
       setConfig={setRestrictConf}
       step={step}

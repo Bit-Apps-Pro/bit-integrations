@@ -8,7 +8,7 @@ import Note from '../../Utilities/Note'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
 import { AUTH_TYPES } from '../../../Utils/connectionAuth'
-import PlatformAuthorization from '../../Connections/PlatformAuthorization'
+import Authorization from '../../Connections/Authorization'
 
 const STEP_ONE_STYLE = { width: 900, height: 'auto' }
 
@@ -42,7 +42,7 @@ export default function FabmanAuthorization({
   }
 
   return (
-    <PlatformAuthorization
+    <Authorization
       config={fabmanConf}
       setConfig={setFabmanConf}
       step={step}

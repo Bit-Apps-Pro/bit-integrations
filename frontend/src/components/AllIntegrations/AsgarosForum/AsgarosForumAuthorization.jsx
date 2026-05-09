@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { AUTH_TYPES } from '../../../Utils/connectionAuth'
 import { __ } from '../../../Utils/i18nwrap'
-import PlatformAuthorization from '../../Connections/PlatformAuthorization'
+import Authorization from '../../Connections/Authorization'
 
 export default function AsgarosForumAuthorization({
   asgarosForumConf,
@@ -12,7 +12,7 @@ export default function AsgarosForumAuthorization({
 }) {
   const setStep = useCallback(value => nextPage(value), [nextPage])
   return (
-    <PlatformAuthorization
+    <Authorization
       config={asgarosForumConf}
       setConfig={setAsgarosForumConf}
       step={step}
