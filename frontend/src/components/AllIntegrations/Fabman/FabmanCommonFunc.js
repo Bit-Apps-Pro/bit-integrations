@@ -6,7 +6,7 @@ import { __ } from '../../../Utils/i18nwrap'
 import { create } from 'mutative'
 
 export const fetchFabmanAccountId = async (connectionId, setConf) => {
-  const result = await bitsFetch({ connection_id: connectionId }, 'fabman_authorization')
+  const result = await bitsFetch({ connection_id: connectionId }, 'fabman_fetch_account_id')
   if (result?.success && result.data?.accountId) {
     setConf(prev => ({ ...prev, accountId: result.data.accountId }))
   }

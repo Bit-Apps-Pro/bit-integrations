@@ -19,7 +19,7 @@ class FabmanController
         ],
     ];
 
-    public static function authorization($requestParams)
+    public static function fetchAccountId($requestParams)
     {
         if (empty($requestParams->apiKey)) {
             wp_send_json_error(__('API Key is required', 'bit-integrations'), 400);
@@ -49,15 +49,12 @@ class FabmanController
 
     public static function fetchWorkspaces($requestParams)
     {
-        error_log('Fetch workspaces called with params: ' . print_r($requestParams, true));
-        $apiKey = $requestParams->apiKey ?? '';
-
-        if (empty($apiKey)) {
+        if (empty($requestParams->apiKey)) {
             wp_send_json_error(__('API Key is required', 'bit-integrations'), 400);
         }
 
         $header = [
-            'Authorization' => 'Bearer ' . $apiKey,
+            'Authorization' => 'Bearer ' . $requestParams->apiKey,
             'Content-Type'  => 'application/json'
         ];
 

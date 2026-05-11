@@ -161,7 +161,7 @@ class RecordApiHelper
         unset($data['memberId']);
         $apiEndpoint = self::API_ENDPOINT . '/members';
         $apiResponse = HttpHelper::post($apiEndpoint, json_encode($data), $this->setHeaders());
-        error_log(print_r([$apiResponse, $data], true));
+
         if (\is_wp_error($apiResponse)) {
             return $apiResponse;
         }
