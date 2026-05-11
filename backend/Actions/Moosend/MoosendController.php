@@ -6,6 +6,7 @@
 
 namespace BitApps\Integrations\Actions\Moosend;
 
+use BitApps\Integrations\Authorization\AuthorizationType;
 use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
@@ -14,9 +15,17 @@ use WP_Error;
  */
 class MoosendController
 {
+    public static array $authConfig = [
+        'authType' => AuthorizationType::API_KEY,
+        'slug'     => 'moosend',
+        'fields'   => [
+            'authKey' => 'value',
+        ],
+    ];
+
     private $baseUrl = 'https://api.moosend.com/v3/';
 
-    public function handleAuthorize($requestParams)
+    public function getAllLists($requestParams)
     {
         if (empty($requestParams->authKey)) {
             wp_send_json_error(
