@@ -20,6 +20,17 @@ import { APP_CONFIG } from '../../config/app'
 const ERROR_TEXT_STYLE = { color: 'red', fontSize: '15px' }
 const READONLY_INPUT_STYLE = { backgroundColor: '#f5f5f5' }
 
+// Resolves {fieldName} placeholders in URL templates using form data.
+// Strips trailing slashes from substituted values. Unknown tokens → ''.
+const resolveTemplate = (template, data) => {
+  if (!template) return ''
+  return template.replace(/\{(\w+)\}/g, (_, key) => {
+    const val = data[key]
+    if (val == null) return ''
+    return typeof val === 'string' ? val.replace(/\/+$/, '') : String(val)
+  })
+}
+
 const GRANT_TYPES = Object.freeze({
   AUTHORIZATION_CODE: 'authorization_code',
   AUTHORIZATION_CODE_PKCE: 'authorization_code_pkce',
@@ -35,13 +46,15 @@ const buildSavedAuthDetails = ({
   refreshTokenUrl,
   tokenUrl,
   scope,
-  sslVerify
+  sslVerify,
+  extraTokenFields = [],
+  extraFormData = {}
 }) => {
   const expiresIn = Number(tokenResponse?.expires_in) || 0
   const persistedGrantType =
     grantType === GRANT_TYPES.AUTHORIZATION_CODE_PKCE ? GRANT_TYPES.AUTHORIZATION_CODE : grantType
 
-  return {
+  const base = {
     access_token: tokenResponse?.access_token || '',
     refresh_token: tokenResponse?.refresh_token || '',
     token_type: tokenResponse?.token_type || 'Bearer',
@@ -55,6 +68,16 @@ const buildSavedAuthDetails = ({
     scope: scope || '',
     ssl_verify: sslVerify !== false
   }
+
+  // Capture provider-specific extra fields from token response (e.g., instance_url for Salesforce)
+  extraTokenFields.forEach(field => {
+    if (tokenResponse?.[field] != null) base[field] = tokenResponse[field]
+  })
+
+  // Merge extra form fields (e.g., baseUrl for Mautic self-hosted instance)
+  Object.assign(base, extraFormData)
+
+  return base
 }
 
 export default function Oauth2Connection({
@@ -77,10 +100,23 @@ export default function Oauth2Connection({
     grantType = GRANT_TYPES.AUTHORIZATION_CODE,
     clientAuthentication = 'body',
     scope,
-    sslVerify = true
+    sslVerify = true,
+    extraTokenFields = [],
+    extraFields = []
   } = authDetails || {}
 
   const redirectUri = useMemo(() => getRedirectUri(), [])
+
+  // Resolve {fieldName} templates in endpoint URLs using current form values (e.g., Mautic baseUrl)
+  const resolvedAuthCodeEndpoint = useMemo(() => {
+    if (!authCodeEndpoint) return null
+    return { ...authCodeEndpoint, url: resolveTemplate(authCodeEndpoint.url, formData) }
+  }, [authCodeEndpoint, formData])
+
+  const resolvedTokenEndpoint = useMemo(() => {
+    if (!tokenEndpoint) return null
+    return { ...tokenEndpoint, url: resolveTemplate(tokenEndpoint.url, formData) }
+  }, [tokenEndpoint, formData])
 
   const handleChange = useCallback(event => {
     const { name, value } = event.target
@@ -99,9 +135,14 @@ export default function Oauth2Connection({
     if (!formData.clientSecret?.trim()) {
       next.clientSecret = __('Client secret is required', 'bit-integrations')
     }
+    extraFields.forEach(field => {
+      if (field.required && !formData[field.name]?.trim()) {
+        next[field.name] = `${field.label} ${__('is required', 'bit-integrations')}`
+      }
+    })
     setErrors(next)
     return Object.keys(next).length === 0
-  }, [formData])
+  }, [extraFields, formData])
 
   const storeConnection = useCallback(
     async authPayload => {
@@ -134,7 +175,7 @@ export default function Oauth2Connection({
 
   const handleAuthorizationCodeFlow = useCallback(async () => {
     const isPkce = grantType === GRANT_TYPES.AUTHORIZATION_CODE_PKCE
-    const declaredQueryParams = authCodeEndpoint?.queryParams || {}
+    const declaredQueryParams = resolvedAuthCodeEndpoint?.queryParams || {}
     let codeVerifier
 
     const extraParams = { client_id: formData.clientId }
@@ -150,7 +191,7 @@ export default function Oauth2Connection({
     // Drop integration-declared client_id placeholder; URL.searchParams.append does not dedupe,
     // so a placeholder + extraParams.client_id would emit two client_id entries.
     const { client_id: _ignored, ...queryParams } = declaredQueryParams
-    const populatedAuthCodeEndpoint = { ...authCodeEndpoint, queryParams }
+    const populatedAuthCodeEndpoint = { ...resolvedAuthCodeEndpoint, queryParams }
 
     const state = getCallbackState()
     const authUrl = buildAuthUrl(populatedAuthCodeEndpoint, { state, redirectUri, extraParams })
@@ -169,7 +210,7 @@ export default function Oauth2Connection({
     }
 
     const tokenRes = await exchangeAuthCodeForToken({
-      tokenEndpoint,
+      tokenEndpoint: resolvedTokenEndpoint,
       clientId: formData.clientId,
       clientSecret: formData.clientSecret,
       clientAuthentication,
@@ -184,11 +225,11 @@ export default function Oauth2Connection({
     }
 
     return tokenRes?.data?.data || {}
-  }, [authCodeEndpoint, clientAuthentication, formData, grantType, redirectUri, scope, sslVerify, tokenEndpoint])
+  }, [clientAuthentication, formData, grantType, redirectUri, resolvedAuthCodeEndpoint, resolvedTokenEndpoint, scope, sslVerify])
 
   const handleClientCredentialsFlow = useCallback(async () => {
     const tokenRes = await exchangeClientCredentialsForToken({
-      tokenEndpoint,
+      tokenEndpoint: resolvedTokenEndpoint,
       clientId: formData.clientId,
       clientSecret: formData.clientSecret,
       clientAuthentication,
@@ -201,7 +242,7 @@ export default function Oauth2Connection({
     }
 
     return tokenRes?.data?.data || {}
-  }, [clientAuthentication, formData.clientId, formData.clientSecret, scope, sslVerify, tokenEndpoint])
+  }, [clientAuthentication, formData.clientId, formData.clientSecret, resolvedTokenEndpoint, scope, sslVerify])
 
   const handleAuthorize = useCallback(async () => {
     if (!validate()) return
@@ -215,6 +256,11 @@ export default function Oauth2Connection({
         tokenResponse = await handleAuthorizationCodeFlow()
       }
 
+      const extraFormData = extraFields.reduce((acc, { name }) => {
+        if (formData[name] != null) acc[name] = formData[name]
+        return acc
+      }, {})
+
       const savedAuthDetails = buildSavedAuthDetails({
         tokenResponse,
         clientId: formData.clientId,
@@ -222,9 +268,11 @@ export default function Oauth2Connection({
         clientAuthentication,
         grantType,
         refreshTokenUrl,
-        tokenUrl: tokenEndpoint?.url,
+        tokenUrl: resolvedTokenEndpoint?.url,
         scope,
-        sslVerify
+        sslVerify,
+        extraTokenFields,
+        extraFormData
       })
 
       await storeConnection(savedAuthDetails)
@@ -236,16 +284,17 @@ export default function Oauth2Connection({
     }
   }, [
     clientAuthentication,
-    formData.clientId,
-    formData.clientSecret,
+    extraFields,
+    extraTokenFields,
+    formData,
     grantType,
     handleAuthorizationCodeFlow,
     handleClientCredentialsFlow,
-    storeConnection,
     refreshTokenUrl,
+    resolvedTokenEndpoint,
     scope,
     sslVerify,
-    tokenEndpoint?.url,
+    storeConnection,
     validate
   ])
 
@@ -316,6 +365,24 @@ export default function Oauth2Connection({
         disabled={isInfo}
       />
       <div style={ERROR_TEXT_STYLE}>{errors.clientSecret || ''}</div>
+
+      {extraFields.map(field => (
+        <div key={field.name}>
+          <div className="mt-3">
+            <b>{field.label}:</b>
+          </div>
+          <input
+            className="btcd-paper-inp w-6 mt-1"
+            onChange={handleChange}
+            name={field.name}
+            value={formData[field.name] || ''}
+            type={field.type || 'text'}
+            placeholder={field.placeholder || `${field.label}...`}
+            disabled={isInfo}
+          />
+          <div style={ERROR_TEXT_STYLE}>{errors[field.name] || ''}</div>
+        </div>
+      ))}
 
       {customAuthFields}
 

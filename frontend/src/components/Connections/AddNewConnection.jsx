@@ -25,12 +25,32 @@ const normalizeAdditionalHeaders = headers => {
   }, {})
 }
 
+// Resolves {fieldName} placeholders in URL templates using authData values.
+// Strips trailing slashes from substituted values to avoid double-slash in paths.
+// Unknown tokens are replaced with '' (empty required fields caught by validation).
+const resolveTemplate = (template, data) => {
+  if (!template) return ''
+  return template.replace(/\{(\w+)\}/g, (_, key) => {
+    const val = data[key]
+    if (val == null) return ''
+    return typeof val === 'string' ? val.replace(/\/+$/, '') : String(val)
+  })
+}
+
 const getAuthPayload = ({ authType, apiEndpoint, method, authData, authDetails }) => {
   const additionalHeaders = normalizeAdditionalHeaders(authDetails?.headers)
   const sslVerify = authDetails?.ssl_verify !== false
+
+  // Extra fields captured first; standard auth keys below always win on collision.
+  // Reserved auth_details keys: value, token, key, addTo, username, password, ssl_verify
+  const extraAuthDetails = (authDetails?.extraFields || []).reduce((acc, { name }) => {
+    if (authData[name] != null) acc[name] = authData[name]
+    return acc
+  }, {})
+
   const basePayload = {
     auth_type: authType,
-    api_endpoint: apiEndpoint || '',
+    api_endpoint: resolveTemplate(apiEndpoint, authData),
     method: method || 'GET',
     auth_details: {},
     headers: additionalHeaders
@@ -38,6 +58,7 @@ const getAuthPayload = ({ authType, apiEndpoint, method, authData, authDetails }
 
   if (authType === AUTH_TYPES.API_KEY) {
     basePayload.auth_details = {
+      ...extraAuthDetails,
       key: authDetails?.key || 'X-API-Key',
       value: authData.api_key,
       addTo: authData.addTo || 'header',
@@ -48,6 +69,7 @@ const getAuthPayload = ({ authType, apiEndpoint, method, authData, authDetails }
 
   if (authType === AUTH_TYPES.BASIC_AUTH) {
     basePayload.auth_details = {
+      ...extraAuthDetails,
       username: authData.username,
       password: authData.password,
       ssl_verify: sslVerify
@@ -57,6 +79,7 @@ const getAuthPayload = ({ authType, apiEndpoint, method, authData, authDetails }
 
   if (authType === AUTH_TYPES.BEARER_TOKEN) {
     basePayload.auth_details = {
+      ...extraAuthDetails,
       token: authData.token,
       ssl_verify: sslVerify
     }
@@ -65,7 +88,7 @@ const getAuthPayload = ({ authType, apiEndpoint, method, authData, authDetails }
   return basePayload
 }
 
-const getValidationErrors = (authType, authData) => {
+const getValidationErrors = (authType, authData, extraFields = []) => {
   const nextErrors = {}
 
   if (!authData.connectionName?.trim()) {
@@ -89,6 +112,12 @@ const getValidationErrors = (authType, authData) => {
   if (authType === AUTH_TYPES.BEARER_TOKEN && !authData.token?.trim()) {
     nextErrors.token = __('Bearer token is required', 'bit-integrations')
   }
+
+  extraFields.forEach(field => {
+    if (field.required && !authData[field.name]?.trim()) {
+      nextErrors[field.name] = `${field.label} ${__('is required', 'bit-integrations')}`
+    }
+  })
 
   return nextErrors
 }
@@ -123,7 +152,7 @@ function CredentialAuthorizeForm({
   }, [])
 
   const handleAuthorize = useCallback(async () => {
-    const validationErrors = getValidationErrors(authType, authData)
+    const validationErrors = getValidationErrors(authType, authData, authDetails?.extraFields)
     setErrors(validationErrors)
 
     if (Object.keys(validationErrors).length > 0) {
@@ -271,6 +300,24 @@ function CredentialAuthorizeForm({
           <div style={ERROR_TEXT_STYLE}>{errors.token || ''}</div>
         </>
       )}
+
+      {authDetails?.extraFields?.map(field => (
+        <div key={field.name}>
+          <div className="mt-3">
+            <b>{field.label}:</b>
+          </div>
+          <input
+            className="btcd-paper-inp w-6 mt-1"
+            onChange={handleChange}
+            name={field.name}
+            value={authData[field.name] || ''}
+            type={field.type || 'text'}
+            placeholder={field.placeholder || `${field.label}...`}
+            disabled={isInfo}
+          />
+          <div style={ERROR_TEXT_STYLE}>{errors[field.name] || ''}</div>
+        </div>
+      ))}
 
       {customAuthFields}
 
