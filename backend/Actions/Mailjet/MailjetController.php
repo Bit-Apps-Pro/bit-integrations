@@ -6,6 +6,7 @@
 
 namespace BitApps\Integrations\Actions\Mailjet;
 
+use BitApps\Integrations\Authorization\AuthorizationType;
 use BitApps\Integrations\Core\Util\HttpHelper;
 use WP_Error;
 
@@ -14,9 +15,18 @@ use WP_Error;
  */
 class MailjetController
 {
-    public function authentication($fieldsRequestParams)
+    public static array $authConfig = [
+        'authType' => AuthorizationType::BASIC_AUTH,
+        'slug'     => 'mailjet',
+        'fields'   => [
+            'apiKey'    => 'username',
+            'secretKey' => 'password',
+        ],
+    ];
+
+    public function getAllLists($fieldsRequestParams)
     {
-        if (empty($fieldsRequestParams->secretKey) && empty($fieldsRequestParams->apiKey)) {
+        if (empty($fieldsRequestParams->secretKey) || empty($fieldsRequestParams->apiKey)) {
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 
@@ -44,7 +54,7 @@ class MailjetController
 
     public function getCustomFields($fieldsRequestParams)
     {
-        if (empty($fieldsRequestParams->secretKey) && empty($fieldsRequestParams->apiKey)) {
+        if (empty($fieldsRequestParams->secretKey) || empty($fieldsRequestParams->apiKey)) {
             wp_send_json_error(__('Requested parameter is empty', 'bit-integrations'), 400);
         }
 

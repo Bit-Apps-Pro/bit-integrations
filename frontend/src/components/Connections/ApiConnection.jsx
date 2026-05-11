@@ -47,9 +47,39 @@ const resolveHeaderTemplates = (headers, data) => {
     }, {})
 }
 
+const resolvePayloadTemplates = (payload, data) => {
+    if (Array.isArray(payload)) {
+        return payload.map(item => resolvePayloadTemplates(item, data))
+    }
+
+    if (payload && typeof payload === 'object') {
+        return Object.entries(payload).reduce((acc, [key, value]) => {
+            acc[key] = resolvePayloadTemplates(value, data)
+            return acc
+        }, {})
+    }
+
+    if (typeof payload === 'string') {
+        return resolveTemplate(payload, data)
+    }
+
+    return payload
+}
+
+const resolveConfigValue = (value, data) => {
+    if (typeof value === 'function') {
+        return value(data)
+    }
+
+    return value
+}
+
 const getAuthPayload = ({ authType, apiEndpoint, method, authData, authDetails }) => {
+    const resolvedApiEndpoint = resolveConfigValue(apiEndpoint, authData)
+    const resolvedHeaders = resolveConfigValue(authDetails?.headers, authData)
+    const resolvedPayload = resolveConfigValue(authDetails?.payload, authData)
     const additionalHeaders = resolveHeaderTemplates(
-        normalizeAdditionalHeaders(authDetails?.headers),
+        normalizeAdditionalHeaders(resolvedHeaders),
         authData
     )
     const sslVerify = authDetails?.ssl_verify !== false
@@ -63,10 +93,14 @@ const getAuthPayload = ({ authType, apiEndpoint, method, authData, authDetails }
 
     const basePayload = {
         auth_type: authType,
-        api_endpoint: resolveTemplate(apiEndpoint, authData),
+        api_endpoint: resolveTemplate(resolvedApiEndpoint, authData),
         method: method || 'GET',
         auth_details: {},
         headers: additionalHeaders
+    }
+
+    if (resolvedPayload !== undefined) {
+        basePayload.payload = resolvePayloadTemplates(resolvedPayload, authData)
     }
 
     if (authType === AUTH_TYPES.API_KEY) {
@@ -101,7 +135,7 @@ const getAuthPayload = ({ authType, apiEndpoint, method, authData, authDetails }
     return basePayload
 }
 
-const getValidationErrors = (authType, authData, extraFields = []) => {
+const getValidationErrors = (authType, authData, extraFields = [], authDetails = {}) => {
     const nextErrors = {}
 
     if (!authData.connectionName?.trim()) {
@@ -117,7 +151,7 @@ const getValidationErrors = (authType, authData, extraFields = []) => {
             nextErrors.username = __('Username is required', 'bit-integrations')
         }
 
-        if (!authData.password?.trim()) {
+        if (!authDetails?.allowEmptyPassword && !authData.password?.trim()) {
             nextErrors.password = __('Password is required', 'bit-integrations')
         }
     }
@@ -127,7 +161,9 @@ const getValidationErrors = (authType, authData, extraFields = []) => {
     }
 
     extraFields.forEach(field => {
-        if (field.required && !authData[field.name]?.trim()) {
+        const value = authData[field.name]
+        const normalized = typeof value === 'string' ? value.trim() : value
+        if (field.required && (normalized === '' || normalized == null)) {
             nextErrors[field.name] = `${field.label} ${__('is required', 'bit-integrations')}`
         }
     })
@@ -157,7 +193,12 @@ export default function ApiConnection({
     }, [])
 
     const handleAuthorize = useCallback(async () => {
-        const validationErrors = getValidationErrors(authType, authData, authDetails?.extraFields)
+        const validationErrors = getValidationErrors(
+            authType,
+            authData,
+            authDetails?.extraFields,
+            authDetails
+        )
         setErrors(validationErrors)
 
         if (Object.keys(validationErrors).length > 0) {
@@ -204,7 +245,14 @@ export default function ApiConnection({
             }
 
             const connection = saveRes?.data?.data || null
-            setConfig(prev => ({ ...prev, connection_id: connection?.id }))
+            const persistedExtraFields = (authDetails?.extraFields || []).reduce((acc, { name }) => {
+                if (authData[name] != null) {
+                    acc[name] = authData[name]
+                }
+                return acc
+            }, {})
+
+            setConfig(prev => ({ ...prev, connection_id: connection?.id, ...persistedExtraFields }))
 
             if (onConnectionSaved) {
                 await onConnectionSaved(connection)
@@ -245,15 +293,31 @@ export default function ApiConnection({
                     <div className="mt-3">
                         <b>{field.label}:</b>
                     </div>
-                    <input
-                        className="btcd-paper-inp w-6 mt-1"
-                        onChange={handleChange}
-                        name={field.name}
-                        value={authData[field.name] || ''}
-                        type={field.type || 'text'}
-                        placeholder={field.placeholder || `${field.label}...`}
-                        disabled={isInfo}
-                    />
+                    {field.type === 'select' ? (
+                        <select
+                            className="btcd-paper-inp w-6 mt-1"
+                            onChange={handleChange}
+                            name={field.name}
+                            value={authData[field.name] || ''}
+                            disabled={isInfo}>
+                            <option value="">{field.placeholder || `${field.label}...`}</option>
+                            {(field.options || []).map(option => (
+                                <option key={option.value || option.label} value={option.value}>
+                                    {option.label}
+                                </option>
+                            ))}
+                        </select>
+                    ) : (
+                        <input
+                            className="btcd-paper-inp w-6 mt-1"
+                            onChange={handleChange}
+                            name={field.name}
+                            value={authData[field.name] || ''}
+                            type={field.type || 'text'}
+                            placeholder={field.placeholder || `${field.label}...`}
+                            disabled={isInfo}
+                        />
+                    )}
                     <div style={ERROR_TEXT_STYLE}>{errors[field.name] || ''}</div>
                 </div>
             ))}
@@ -292,19 +356,23 @@ export default function ApiConnection({
                     />
                     <div style={ERROR_TEXT_STYLE}>{errors.username || ''}</div>
 
-                    <div className="mt-3">
-                        <b>{__('Password:', 'bit-integrations')}</b>
-                    </div>
-                    <input
-                        className="btcd-paper-inp w-6 mt-1"
-                        onChange={handleChange}
-                        name="password"
-                        value={authData.password || ''}
-                        type="password"
-                        placeholder={__('Password...', 'bit-integrations')}
-                        disabled={isInfo}
-                    />
-                    <div style={ERROR_TEXT_STYLE}>{errors.password || ''}</div>
+                    {!authDetails?.allowEmptyPassword && (
+                        <>
+                            <div className="mt-3">
+                                <b>{__('Password:', 'bit-integrations')}</b>
+                            </div>
+                            <input
+                                className="btcd-paper-inp w-6 mt-1"
+                                onChange={handleChange}
+                                name="password"
+                                value={authData.password || ''}
+                                type="password"
+                                placeholder={__('Password...', 'bit-integrations')}
+                                disabled={isInfo}
+                            />
+                            <div style={ERROR_TEXT_STYLE}>{errors.password || ''}</div>
+                        </>
+                    )}
                 </>
             )}
 
