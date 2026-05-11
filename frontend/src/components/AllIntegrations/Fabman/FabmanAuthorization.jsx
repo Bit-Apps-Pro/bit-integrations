@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-unused-expressions */
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { __, sprintf } from '../../../Utils/i18nwrap'
 import LoaderSm from '../../Loaders/LoaderSm'
-import { fabmanAuthentication, fetchFabmanWorkspaces } from './FabmanCommonFunc'
+import { fabmanAuthentication, fetchFabmanAccountId, fetchFabmanWorkspaces } from './FabmanCommonFunc'
 import Note from '../../Utilities/Note'
 import tutorialLinks from '../../../Utils/StaticData/tutorialLinks'
 import TutorialLink from '../../Utilities/TutorialLink'
@@ -23,6 +23,13 @@ export default function FabmanAuthorization({
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState({ name: '', apiKey: '' })
+
+  const handleConnectionSelected = useCallback(
+    async connectionId => {
+      await fetchFabmanAccountId(connectionId, setFabmanConf)
+    },
+    [setFabmanConf]
+  )
 
   const nextPage = () => {
     fetchFabmanWorkspaces(fabmanConf, setFabmanConf, loading, setLoading, 'fetch')
@@ -50,7 +57,6 @@ export default function FabmanAuthorization({
       isInfo={isInfo}
       tutorialTitle="Fabman"
       tutorialLinks={tutorialLinks?.fabman || {}}
-      isInfo={isInfo}
       authDetails={{
         authType: AUTH_TYPES.BEARER_TOKEN,
         apiEndpoint: 'https://fabman.io/api/v1/accounts',
@@ -59,6 +65,7 @@ export default function FabmanAuthorization({
       noteDetails={{
         note: fabmanApiKeyNote,
       }}
+      onConnectionSelected={handleConnectionSelected}
     />
   )
 

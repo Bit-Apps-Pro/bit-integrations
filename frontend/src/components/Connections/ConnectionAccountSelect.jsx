@@ -26,7 +26,8 @@ export default function ConnectionAccountSelect({
   setShowNewConnection,
   isInfo,
   onRefresh,
-  isRefreshing = false
+  isRefreshing = false,
+  onConnectionSelected
 }) {
   const { integUrlName } = useParams()
 
@@ -51,8 +52,9 @@ export default function ConnectionAccountSelect({
       }
 
       setConfig(prev => ({ ...prev, connection_id: value }))
+      onConnectionSelected?.(value)
     },
-    [setConfig, setShowNewConnection]
+    [setConfig, setShowNewConnection, onConnectionSelected]
   )
 
   const connectionTitle = integUrlName

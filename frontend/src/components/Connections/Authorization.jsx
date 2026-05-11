@@ -23,7 +23,8 @@ export default function Authorization({
   extraFields,
   noteDetails = undefined,
   authDetails = {},
-  customAuthFields
+  customAuthFields,
+  onConnectionSelected
 }) {
   const [errors, setErrors] = useState({ name: '' })
   const [connections, setConnections] = useState([])
@@ -31,6 +32,7 @@ export default function Authorization({
   const [isLoading, setIsLoading] = useState(false)
   const [isVerifying, setIsVerifying] = useState(false)
   const [isVerified, setIsVerified] = useState(false)
+  const [isPendingPostAuth, setIsPendingPostAuth] = useState(false)
 
   const appSlug = config?.app_slug || config?.type
   const isWpPluginCheck = isWpPluginCheckType(authDetails?.authType)
@@ -133,7 +135,22 @@ export default function Authorization({
     setStep(2)
   }, [config?.name, setStep])
 
-  const canGoNext = isWpPluginCheck ? isVerified : Boolean(config?.connection_id)
+  const fireConnectionSelected = useCallback(
+    async connectionId => {
+      if (!onConnectionSelected || !connectionId) return
+      setIsPendingPostAuth(true)
+      try {
+        await onConnectionSelected(connectionId)
+      } finally {
+        setIsPendingPostAuth(false)
+      }
+    },
+    [onConnectionSelected]
+  )
+
+  const canGoNext = isWpPluginCheck
+    ? isVerified
+    : Boolean(config?.connection_id) && !isPendingPostAuth
 
   const pageStyle = useMemo(() => (step === 1 ? STEP_ONE_STYLE : undefined), [step])
 
@@ -148,13 +165,14 @@ export default function Authorization({
       const selectedConnectionId = matchedConnection?.id || savedConnectionId
       setConfig(prev => ({ ...prev, connection_id: selectedConnectionId }))
       setShowNewConnection(false)
+      await fireConnectionSelected(selectedConnectionId)
       return
     }
 
     if (refreshedConnections.length > 0) {
       setShowNewConnection(false)
     }
-  }, [refreshConnections, setConfig])
+  }, [refreshConnections, setConfig, fireConnectionSelected])
 
   return (
     <div className="btcd-stp-page" style={pageStyle}>
@@ -184,6 +202,7 @@ export default function Authorization({
             isInfo={isInfo || isLoading}
             onRefresh={refreshConnections}
             isRefreshing={isLoading}
+            onConnectionSelected={fireConnectionSelected}
           />
 
           {showNewConnection && !isInfo && (extraFields || null)}

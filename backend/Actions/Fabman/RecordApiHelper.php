@@ -4,8 +4,8 @@ namespace BitApps\Integrations\Actions\Fabman;
 
 use BitApps\Integrations\Config;
 use BitApps\Integrations\Core\Util\Common;
-use BitApps\Integrations\Core\Util\HttpHelper;
 use BitApps\Integrations\Core\Util\Hooks;
+use BitApps\Integrations\Core\Util\HttpHelper;
 use BitApps\Integrations\Log\LogHandler;
 use DateTime;
 use WP_Error;
@@ -161,7 +161,7 @@ class RecordApiHelper
         unset($data['memberId']);
         $apiEndpoint = self::API_ENDPOINT . '/members';
         $apiResponse = HttpHelper::post($apiEndpoint, json_encode($data), $this->setHeaders());
-
+        error_log(print_r([$apiResponse, $data], true));
         if (\is_wp_error($apiResponse)) {
             return $apiResponse;
         }
@@ -170,9 +170,9 @@ class RecordApiHelper
             return $apiResponse;
         }
 
-        $errorMessage = isset($apiResponse->error) ? $apiResponse->error : \__('Failed to create member', 'bit-integrations');
+        // $errorMessage = isset($apiResponse->error) ? $apiResponse->error : \__('Failed to create member', 'bit-integrations');
 
-        return new WP_Error('API_ERROR', $errorMessage);
+        return new WP_Error('API_ERROR', __('Failed to create member', 'bit-integrations'), $apiResponse);
     }
 
     private function updateMember($data)

@@ -6,10 +6,19 @@
 
 namespace BitApps\Integrations\Actions\Fabman;
 
+use BitApps\Integrations\Authorization\AuthorizationType;
 use BitApps\Integrations\Core\Util\HttpHelper;
 
 class FabmanController
 {
+    public static array $authConfig = [
+        'authType' => AuthorizationType::BEARER_TOKEN,
+        'slug'     => 'fabman',
+        'fields'   => [
+            'apiKey' => 'token',
+        ],
+    ];
+
     public static function authorization($requestParams)
     {
         if (empty($requestParams->apiKey)) {
@@ -40,12 +49,15 @@ class FabmanController
 
     public static function fetchWorkspaces($requestParams)
     {
-        if (empty($requestParams->apiKey)) {
+        error_log('Fetch workspaces called with params: ' . print_r($requestParams, true));
+        $apiKey = $requestParams->apiKey ?? '';
+
+        if (empty($apiKey)) {
             wp_send_json_error(__('API Key is required', 'bit-integrations'), 400);
         }
 
         $header = [
-            'Authorization' => 'Bearer ' . $requestParams->apiKey,
+            'Authorization' => 'Bearer ' . $apiKey,
             'Content-Type'  => 'application/json'
         ];
 
@@ -68,7 +80,8 @@ class FabmanController
     public static function execute($integrationData, $fieldValues)
     {
         $integrationDetails = $integrationData->flow_details;
-        $apiKey = $integrationDetails->apiKey;
+        $apiKey = $integrationDetails->apiKey ?? '';
+
         $selectedWorkspace = $integrationDetails->selectedWorkspace ?? null;
         $accountId = $integrationDetails->accountId ?? null;
         $actionName = $integrationDetails->actionName;
