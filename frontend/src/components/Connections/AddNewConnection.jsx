@@ -37,8 +37,22 @@ const resolveTemplate = (template, data) => {
   })
 }
 
+const resolveHeaderTemplates = (headers, data) => {
+  if (!headers || typeof headers !== 'object') {
+    return {}
+  }
+
+  return Object.entries(headers).reduce((acc, [key, value]) => {
+    acc[key] = typeof value === 'string' ? resolveTemplate(value, data) : value
+    return acc
+  }, {})
+}
+
 const getAuthPayload = ({ authType, apiEndpoint, method, authData, authDetails }) => {
-  const additionalHeaders = normalizeAdditionalHeaders(authDetails?.headers)
+  const additionalHeaders = resolveHeaderTemplates(
+    normalizeAdditionalHeaders(authDetails?.headers),
+    authData
+  )
   const sslVerify = authDetails?.ssl_verify !== false
 
   // Extra fields captured first; standard auth keys below always win on collision.
@@ -61,7 +75,7 @@ const getAuthPayload = ({ authType, apiEndpoint, method, authData, authDetails }
       ...extraAuthDetails,
       key: authDetails?.key || 'X-API-Key',
       value: authData.api_key,
-      addTo: authData.addTo || 'header',
+      addTo: authData.addTo || authDetails?.addTo || 'header',
       ssl_verify: sslVerify
     }
     return basePayload
