@@ -317,6 +317,26 @@ export default function Oauth2Connection({
       />
       <div style={ERROR_TEXT_STYLE}>{errors.connectionName || ''}</div>
 
+      {extraFields.map(field => (
+        <div key={field.name}>
+          <div className="mt-3">
+            <b>{field.label}:</b>
+          </div>
+          <input
+            className="btcd-paper-inp w-6 mt-1"
+            onChange={handleChange}
+            name={field.name}
+            value={formData[field.name] || ''}
+            type={field.type || 'text'}
+            placeholder={field.placeholder || `${field.label}...`}
+            disabled={isInfo}
+          />
+          <div style={ERROR_TEXT_STYLE}>{errors[field.name] || ''}</div>
+        </div>
+      ))}
+
+      {customAuthFields}
+
       {isAuthCodeFlow && (
         <>
           <div className="mt-3">
@@ -365,26 +385,6 @@ export default function Oauth2Connection({
         disabled={isInfo}
       />
       <div style={ERROR_TEXT_STYLE}>{errors.clientSecret || ''}</div>
-
-      {extraFields.map(field => (
-        <div key={field.name}>
-          <div className="mt-3">
-            <b>{field.label}:</b>
-          </div>
-          <input
-            className="btcd-paper-inp w-6 mt-1"
-            onChange={handleChange}
-            name={field.name}
-            value={formData[field.name] || ''}
-            type={field.type || 'text'}
-            placeholder={field.placeholder || `${field.label}...`}
-            disabled={isInfo}
-          />
-          <div style={ERROR_TEXT_STYLE}>{errors[field.name] || ''}</div>
-        </div>
-      ))}
-
-      {customAuthFields}
 
       <button
         onClick={handleAuthorize}

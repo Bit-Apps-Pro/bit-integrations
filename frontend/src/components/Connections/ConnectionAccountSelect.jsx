@@ -19,6 +19,14 @@ const buildConnectionOption = conn => {
   }
 }
 
+const getConnectionOptionById = (connections, connection_id) => {
+  if (connection_id) return String(connection_id)
+  if (connection_id === '') return NEW_VALUE
+  if (Array.isArray(connections) && connections.length > 0) return ''
+
+  return NEW_VALUE
+}
+
 export default function ConnectionAccountSelect({
   config,
   setConfig,
@@ -30,8 +38,7 @@ export default function ConnectionAccountSelect({
   onConnectionSelected
 }) {
   const { integUrlName } = useParams()
-
-  const dropdownValue = config?.connection_id ? String(config.connection_id) : NEW_VALUE
+  const dropdownValue = getConnectionOptionById(connections, config?.connection_id)
 
   const options = useMemo(
     () => [
