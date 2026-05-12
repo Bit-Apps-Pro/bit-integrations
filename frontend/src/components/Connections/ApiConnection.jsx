@@ -233,7 +233,7 @@ export default function ApiConnection({
                 connection_name: authData.connectionName,
                 account_name: authData.connectionName,
                 auth_details: payload.auth_details,
-                encrypt_keys: defaultEncryptKeys[authType] || []
+                encrypt_keys: authDetails?.encryptKeys || defaultEncryptKeys[authType] || []
             })
 
             if (!saveRes?.success) {

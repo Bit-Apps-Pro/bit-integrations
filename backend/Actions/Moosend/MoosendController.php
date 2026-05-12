@@ -27,7 +27,8 @@ class MoosendController
 
     public function getAllLists($requestParams)
     {
-        if (empty($requestParams->authKey)) {
+        $authKey = !empty($requestParams->authKey) ? $requestParams->authKey : (!empty($requestParams->api_key) ? $requestParams->api_key : '');
+        if (empty($authKey)) {
             wp_send_json_error(
                 __(
                     'Requested parameter is empty',
@@ -36,7 +37,7 @@ class MoosendController
                 400
             );
         }
-        $apiEndpoints = $this->baseUrl . 'lists/1/1000.json?apikey=' . $requestParams->authKey;
+        $apiEndpoints = $this->baseUrl . 'lists/1/1000.json?apikey=' . $authKey;
         $headers = [
             'Content-Type' => 'application/json',
             'Accept'       => 'application/json',
@@ -58,7 +59,7 @@ class MoosendController
     {
         $integrationDetails = $integrationData->flow_details;
         $integId = $integrationData->id;
-        $authKey = $integrationDetails->authKey;
+        $authKey = !empty($integrationDetails->authKey) ? $integrationDetails->authKey : (isset($integrationDetails->api_key) ? $integrationDetails->api_key : '');
         $listId = $integrationDetails->listId;
         $method = $integrationDetails->method;
         $field_map = $integrationDetails->field_map;

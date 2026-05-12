@@ -43,7 +43,10 @@ export const checkMappedFields = mailjetConf => {
 const buildAuthRequestParams = confTmp =>
   confTmp.connection_id
     ? { connection_id: confTmp.connection_id }
-    : { apiKey: confTmp.apiKey, secretKey: confTmp.secretKey }
+    : {
+        apiKey: confTmp.apiKey || confTmp.username,
+        secretKey: confTmp.secretKey || confTmp.password
+      }
 
 export const mailjetAuthentication = (
   confTmp,
