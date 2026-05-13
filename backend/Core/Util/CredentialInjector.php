@@ -45,6 +45,16 @@ class CredentialInjector
                 [$targetProp, $keys] = $authKey;
                 $obj = new \stdClass();
                 foreach ($keys as $key) {
+                    if ($key === 'generates_on' && empty($authDetails[$key]) && !empty($authDetails['generated_at'])) {
+                        $obj->$key = (int) $authDetails['generated_at'];
+                        continue;
+                    }
+
+                    if ($key === 'generated_at' && empty($authDetails[$key]) && !empty($authDetails['generates_on'])) {
+                        $obj->$key = (int) $authDetails['generates_on'];
+                        continue;
+                    }
+
                     $obj->$key = $authDetails[$key] ?? '';
                 }
                 $target->$targetProp = $obj;
