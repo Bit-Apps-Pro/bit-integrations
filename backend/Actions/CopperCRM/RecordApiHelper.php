@@ -241,7 +241,6 @@ class RecordApiHelper
     public function execute($fieldValues, $fieldMap, $actionName)
     {
         $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
-        error_log('final data' . print_r($finalData, true));
         if ($actionName === 'company') {
             $apiResponse = $this->addCompany($finalData);
         } elseif ($actionName === 'person') {
