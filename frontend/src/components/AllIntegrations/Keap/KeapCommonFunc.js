@@ -1,6 +1,6 @@
 import { __, sprintf } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
-import { contactFields } from './Keap'
+import { contactFields } from './staticData'
 
 export const handleInput = (
   e,
