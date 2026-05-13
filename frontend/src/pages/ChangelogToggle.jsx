@@ -9,7 +9,7 @@ import NewYear from '../resource/img/NewYear.png'
 import bitsFetch from '../Utils/bitsFetch'
 import { __, sprintf } from '../Utils/i18nwrap'
 
-const releaseDate = '15th April 2026'
+const releaseDate = '13th May 2026'
 
 // Example for items:
 // items: [
@@ -30,45 +30,13 @@ const changeLog = [
     label: __('New Triggers', 'bit-integrations'),
     headClass: 'new-trigger',
     itemClass: 'integration-list',
-    items: [
-      {
-        label: 'WP ERP',
-        desc: '28 new events added.',
-        isPro: true
-      },
-      {
-        label: 'PeepSo',
-        desc: '3 new events added.',
-        isPro: true
-      },
-      {
-        label: 'Fluent PDF Generator',
-        desc: '2 new event added.',
-        isPro: true
-      }
-    ]
+    items: []
   },
   {
     label: __('New Actions', 'bit-integrations'),
     headClass: 'new-integration',
     itemClass: 'integration-list',
-    items: [
-      {
-        label: 'Monday.com',
-        desc: '12 new events added.',
-        isPro: true
-      },
-      {
-        label: 'WP ERP',
-        desc: '14 new events added.',
-        isPro: true
-      },
-      {
-        label: 'PeepSo',
-        desc: '7 new events added.',
-        isPro: true
-      }
-    ]
+    items: []
   },
   {
     label: __('New Features', 'bit-integrations'),
@@ -80,23 +48,7 @@ const changeLog = [
     label: __('Improvements', 'bit-integrations'),
     headClass: 'new-improvement',
     itemClass: 'feature-list',
-    items: [
-      {
-        label: 'MailerLite',
-        desc: 'Added unassign subscriber from group support and improved subscriber existence checks.',
-        isPro: false
-      },
-      {
-        label: 'WooCommerce',
-        desc: 'Added line item subtotal and tax support for order creation.',
-        isPro: false
-      },
-      {
-        label: 'Email Notification',
-        desc: 'Enhanced integration failure notification template and message clarity.',
-        isPro: false
-      }
-    ]
+    items: []
   },
   {
     label: __('Bug Fixes', 'bit-integrations'),
@@ -104,28 +56,23 @@ const changeLog = [
     itemClass: 'fixes-list',
     items: [
       {
-        label: 'MailerLite',
-        desc: 'Fixed blank page issue.',
+        label: 'Keap',
+        desc: 'Added missing `last_name` contact field and corrected `middle_name` label.',
         isPro: false
       },
       {
-        label: 'FluentCRM',
-        desc: 'Fixed logo handling and added missing assets.',
+        label: 'Copper CRM',
+        desc: 'Fixed field mapping for custom values and mapped trigger fields.',
         isPro: false
       },
       {
-        label: 'Custom Trigger',
-        desc: 'Fixed save configuration handling in trigger/action config endpoints.',
+        label: 'Copper CRM',
+        desc: 'Fixed custom input handlers to avoid undefined event target errors.',
         isPro: false
       },
       {
-        label: 'WP User Registration',
-        desc: 'Improved error handling and password generation reliability.',
-        isPro: false
-      },
-      {
-        label: 'SendFox',
-        desc: 'Removed unused frontend imports and fixed field mapping behavior.',
+        label: 'Tagify Input',
+        desc: 'Fixed dropdown item limit handling during field mapping.',
         isPro: false
       }
     ]
