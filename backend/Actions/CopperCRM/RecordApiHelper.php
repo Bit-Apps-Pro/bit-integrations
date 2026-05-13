@@ -226,13 +226,13 @@ class RecordApiHelper
         foreach ($fieldMap as $value) {
             $triggerValue = $value->formField === 'custom' && isset($value->customValue)
                 ? Common::replaceFieldWithValue($value->customValue, $data)
-                : $value->formField;
+                : $data[$value->formField] ?? null;
 
             $actionValue = $value->coppercrmFormField === 'customFieldKey' && isset($value->customFieldKey)
                 ? Common::replaceFieldWithValue($value->customFieldKey, $data)
                 : $value->coppercrmFormField;
 
-            $dataFinal[$actionValue] = $data[$triggerValue];
+            $dataFinal[$actionValue] = $triggerValue;
         }
 
         return $dataFinal;
@@ -241,6 +241,7 @@ class RecordApiHelper
     public function execute($fieldValues, $fieldMap, $actionName)
     {
         $finalData = $this->generateReqDataFromFieldMap($fieldValues, $fieldMap);
+        error_log('final data' . print_r($finalData, true));
         if ($actionName === 'company') {
             $apiResponse = $this->addCompany($finalData);
         } elseif ($actionName === 'person') {
