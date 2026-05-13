@@ -322,15 +322,31 @@ export default function Oauth2Connection({
           <div className="mt-3">
             <b>{field.label}:</b>
           </div>
-          <input
-            className="btcd-paper-inp w-6 mt-1"
-            onChange={handleChange}
-            name={field.name}
-            value={formData[field.name] || ''}
-            type={field.type || 'text'}
-            placeholder={field.placeholder || `${field.label}...`}
-            disabled={isInfo}
-          />
+          {field.type === 'select' ? (
+            <select
+              className="btcd-paper-inp w-6 mt-1"
+              onChange={handleChange}
+              name={field.name}
+              value={formData[field.name] || ''}
+              disabled={isInfo}>
+              <option value="">{__('--Select--', 'bit-integrations')}</option>
+              {field.options?.map(opt => (
+                <option key={opt.value ?? opt} value={opt.value ?? opt}>
+                  {opt.label ?? opt}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <input
+              className="btcd-paper-inp w-6 mt-1"
+              onChange={handleChange}
+              name={field.name}
+              value={formData[field.name] || ''}
+              type={field.type || 'text'}
+              placeholder={field.placeholder || `${field.label}...`}
+              disabled={isInfo}
+            />
+          )}
           <div style={ERROR_TEXT_STYLE}>{errors[field.name] || ''}</div>
         </div>
       ))}
