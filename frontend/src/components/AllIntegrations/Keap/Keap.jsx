@@ -20,7 +20,8 @@ function Keap({ formFields, setFlow, flow, allIntegURL }) {
   const [snack, setSnackbar] = useState({ show: false })
   const contactFields = [
     { key: 'given_name', label: __('First Name', 'bit-integrations'), required: true },
-    { key: 'middle_name', label: __('Last Name', 'bit-integrations'), required: false },
+    { key: 'middle_name', label: __('Middle Name', 'bit-integrations'), required: false },
+    { key: 'family_name', label: __('Last Name', 'bit-integrations'), required: false },
     { key: 'job_title', label: __('Job Title', 'bit-integrations'), required: false },
     { key: 'email_addresses', label: __('Email Addresses', 'bit-integrations'), required: true },
     { key: 'phone_numbers', label: __('Phone Numbers', 'bit-integrations'), required: false },
