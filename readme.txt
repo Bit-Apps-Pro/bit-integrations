@@ -4,7 +4,7 @@ Tags: automation, automator, google sheets integration, form integration, WooCom
 Requires at least: 5.1
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.8.4
+Stable tag: 2.8.5
 License: GPLv2 or later
 
 Contact Form, Google Sheet, MailChimp, Brevo, Webhook, Zoho CRM Automation and Integration plugin that Connect 300+ platforms
@@ -467,6 +467,15 @@ Bit Integrations follows WordPress coding standards and best practices to ensure
 6. All integration list
 
 == Changelog ==
+
+= 2.8.5 =
+_Release Date - 13th May 2026_
+
+- **Bug Fixes**
+ - Keap: Added missing `last_name` contact field and corrected `middle_name` label.
+ - Copper CRM: Fixed field mapping for custom values and mapped trigger fields.
+ - Copper CRM: Fixed custom input handlers to avoid undefined event target errors.
+ - Tagify Input: Fixed dropdown item limit handling during field mapping.
 
 = 2.8.3 =
 _Release Date - 6th May 2026_
