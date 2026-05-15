@@ -17,7 +17,7 @@ class ApiKeyAuthorization extends AbstractBaseAuthorization
         if (empty($authDetails) || !isset($authDetails['value']) || $authDetails['value'] === '') {
             return [
                 'error'   => true,
-                'message' => __('token field is missing', 'bit-integrations'),
+                'message' => __('Token field is missing', 'bit-integrations'),
             ];
         }
 
@@ -31,7 +31,7 @@ class ApiKeyAuthorization extends AbstractBaseAuthorization
         if (empty($authDetails) || !isset($authDetails['value'])) {
             return [
                 'error'   => true,
-                'message' => __('token field is missing', 'bit-integrations'),
+                'message' => __('Token field is missing', 'bit-integrations'),
             ];
         }
 

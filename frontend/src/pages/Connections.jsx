@@ -18,6 +18,7 @@ export default function Connections() {
   const [editingId, setEditingId] = useState(null)
   const [deletingId, setDeletingId] = useState(null)
   const [savingId, setSavingId] = useState(null)
+  const [isConfirmPending, setIsConfirmPending] = useState(false)
   const inputRef = useRef(null)
   const editValueRef = useRef('')
 
@@ -111,7 +112,10 @@ export default function Connections() {
 
   const confirmDelete = useCallback(() => {
     const id = deletingId
-    if (!id) return
+    if (!id || isConfirmPending) return
+
+    setDeletingId(null)
+    setIsConfirmPending(true)
 
     const promise = deleteConnection(id).then(res => {
       if (!res?.success) throw new Error('delete_failed')
@@ -119,14 +123,14 @@ export default function Connections() {
       return __('Connection deleted', 'bit-integrations')
     })
 
-    toast.promise(promise, {
-      success: msg => msg,
-      error: __('Failed to delete', 'bit-integrations'),
-      loading: __('Deleting...', 'bit-integrations')
-    })
-
-    setDeletingId(null)
-  }, [deletingId])
+    toast
+      .promise(promise, {
+        success: msg => msg,
+        error: __('Failed to delete', 'bit-integrations'),
+        loading: __('Deleting...', 'bit-integrations')
+      })
+      .finally(() => setIsConfirmPending(false))
+  }, [deletingId, isConfirmPending])
 
   const setBulkDelete = useCallback(rows => {
     const ids = []
@@ -145,20 +149,31 @@ export default function Connections() {
       return
     }
 
-    const promise = Promise.all(
+    const promise = Promise.allSettled(
       ids.map(id =>
         deleteConnection(id).then(res => {
-          if (!res?.success) {
-            throw new Error('bulk_delete_failed')
-          }
-
+          if (!res?.success) throw new Error('bulk_delete_failed')
           return id
         })
       )
-    ).then(() => {
-      setConnections(prev => prev.filter(item => !ids.includes(item.id)))
+    ).then(results => {
+      const deletedIds = results
+        .filter(r => r.status === 'fulfilled')
+        .map(r => r.value)
 
-      return ids.length > 1
+      if (deletedIds.length > 0) {
+        setConnections(prev => prev.filter(item => !deletedIds.includes(item.id)))
+      }
+
+      const failedCount = results.filter(r => r.status === 'rejected').length
+
+      if (failedCount > 0) {
+        throw new Error(
+          failedCount === ids.length ? 'bulk_delete_failed' : 'bulk_delete_partial'
+        )
+      }
+
+      return deletedIds.length > 1
         ? __('Connections deleted', 'bit-integrations')
         : __('Connection deleted', 'bit-integrations')
     })

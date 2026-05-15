@@ -194,7 +194,7 @@ abstract class AbstractBaseAuthorization
         $connection = $this->getConnection();
 
         if (!$connection) {
-            return;
+            return null;
         }
 
         $authDetails = $this->decodeAuthDetails($connection->auth_details ?? null);

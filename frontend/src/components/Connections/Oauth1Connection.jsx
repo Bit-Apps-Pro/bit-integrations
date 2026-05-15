@@ -2,7 +2,12 @@ import { useCallback, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import { authorizeConnection, saveConnection } from '../../Utils/connectionApi'
 import { AUTH_TYPES, defaultEncryptKeys } from '../../Utils/connectionAuth'
-import { getCallbackState, openOauthPopup } from '../../Utils/oauthHelper'
+import {
+  buildCallbackState,
+  createOauthChannelKey,
+  getCallbackState,
+  openOauthPopup
+} from '../../Utils/oauthHelper'
 import { __ } from '../../Utils/i18nwrap'
 import { APP_CONFIG } from '../../config/app'
 import LoaderSm from '../Loaders/LoaderSm'
@@ -262,6 +267,7 @@ export default function Oauth1Connection({
     const queryParams = { ...declaredQueryParams }
     const authExtraParams = {}
     const callbackUrlParam = authDetails?.callbackUrlParam || ''
+    const stateParam = authDetails?.stateParam || 'state'
 
     if (!queryParams[consumerKeyParam]) {
       authExtraParams[consumerKeyParam] = formData.clientId
@@ -274,16 +280,26 @@ export default function Oauth1Connection({
     setIsLoading(true)
 
     try {
+      const oauthChannelKey = createOauthChannelKey()
+      const callbackState = buildCallbackState(oauthChannelKey)
+
       const authUrl = buildOauth1AuthUrl(
         {
           ...resolvedAuthEndpoint,
           queryParams
         },
-        authExtraParams
+        {
+          ...authExtraParams,
+          ...(queryParams[stateParam] ? {} : { [stateParam]: callbackState })
+        }
       )
 
       const popupResponse = normalizePopupResponse(
-        await openOauthPopup(authUrl, authDetails?.authorizationWindowLabel || 'OAuth1')
+        await openOauthPopup(
+          authUrl,
+          authDetails?.authorizationWindowLabel || 'OAuth1',
+          { channelKey: oauthChannelKey, includeLegacyFallback: true }
+        )
       )
 
       if (popupResponse?.error) {

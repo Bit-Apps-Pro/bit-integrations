@@ -4,11 +4,12 @@ import { AUTH_TYPES, defaultEncryptKeys } from '../../Utils/connectionAuth'
 import { saveConnection } from '../../Utils/connectionApi'
 import {
   buildAuthUrl,
+  buildCallbackState,
+  createOauthChannelKey,
   exchangeAuthCodeForToken,
   exchangeClientCredentialsForToken,
   generateCodeChallengeS256,
   generateCodeVerifier,
-  getCallbackState,
   getRedirectUri,
   openOauthPopup
 } from '../../Utils/oauthHelper'
@@ -193,9 +194,14 @@ export default function Oauth2Connection({
     const { client_id: _ignored, ...queryParams } = declaredQueryParams
     const populatedAuthCodeEndpoint = { ...resolvedAuthCodeEndpoint, queryParams }
 
-    const state = getCallbackState()
+    const oauthChannelKey = createOauthChannelKey()
+    const state = buildCallbackState(oauthChannelKey)
     const authUrl = buildAuthUrl(populatedAuthCodeEndpoint, { state, redirectUri, extraParams })
-    const popupResponse = await openOauthPopup(authUrl, formData.connectionName || 'OAuth')
+    const popupResponse = await openOauthPopup(
+      authUrl,
+      formData.connectionName || 'OAuth',
+      { channelKey: oauthChannelKey, includeLegacyFallback: true }
+    )
 
     if (popupResponse?.error) {
       throw new Error(

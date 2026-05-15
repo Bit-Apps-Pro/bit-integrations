@@ -120,7 +120,13 @@ class OAuth2Authorization extends AbstractBaseAuthorization
 
         $response = HttpHelper::post($url, $body, $headers, $requestOptions);
 
-        if (HttpHelper::$responseCode !== 200 || (\is_object($response) && isset($response->error))) {
+        if (is_wp_error($response)) {
+            $this->setLastError($response->get_error_message(), $response);
+
+            return null;
+        }
+
+        if (HttpHelper::$responseCode < 200 || HttpHelper::$responseCode >= 300 || (\is_object($response) && isset($response->error))) {
             $message = \is_object($response) && isset($response->error)
                 ? $response->error
                 : __('Token refresh failed', 'bit-integrations');

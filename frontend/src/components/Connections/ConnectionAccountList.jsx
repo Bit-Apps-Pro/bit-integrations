@@ -49,11 +49,10 @@ export default function ConnectionAccountList({
     <div className="user-radio-input">
       <div className="auth-list">
         {connections.map(conn => {
-          const userInfo = conn.auth_details?.userInfo?.user || conn.auth_details?.userInfo || {}
-          const displayName =
-            userInfo.displayName || userInfo.name || conn.account_name || conn.connection_name
-          const email = userInfo.emailAddress || userInfo.email || conn.account_name
-          const photo = userInfo.photoLink || userInfo.picture || ''
+          const displayName = conn.connection_name || conn.account_name
+          const email =
+            conn.account_name && conn.account_name !== displayName ? conn.account_name : ''
+          const photo = ''
 
           return (
             <div key={conn.id} className={`auth-item ${selectedId === conn.id ? 'active' : ''}`}>

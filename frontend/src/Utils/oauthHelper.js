@@ -39,6 +39,22 @@ export const getCallbackState = () => {
   return `${baseURL}/auth-response/`
 }
 
+const randomToken = (bytes = 16) => {
+  const arr = new Uint8Array(bytes)
+  window.crypto.getRandomValues(arr)
+  return base64UrlEncode(arr)
+}
+
+const getChannelName = channelKey =>
+  channelKey ? `${OAUTH_CHANNEL}:${channelKey}` : OAUTH_CHANNEL
+
+export const createOauthChannelKey = () => randomToken(18)
+
+export const buildCallbackState = channelKey => {
+  const baseState = getCallbackState()
+  return channelKey ? `${baseState}&oauth_channel=${encodeURIComponent(channelKey)}` : baseState
+}
+
 const appendQueryParam = (url, key, value) => {
   url.searchParams.append(key, String(value))
 }
@@ -55,7 +71,23 @@ export const buildAuthUrl = (authCodeEndpoint, { state, redirectUri, extraParams
   return url.toString()
 }
 
-export const openOauthPopup = (authUrl, label = 'OAuth') =>
+const extractChannelFromState = stateValue => {
+  if (!stateValue || typeof stateValue !== 'string') return ''
+
+  try {
+    const decoded = decodeURIComponent(stateValue)
+    const match = decoded.match(/(?:\?|&)oauth_channel=([^&]+)/)
+    return match?.[1] ? decodeURIComponent(match[1]) : ''
+  } catch {
+    return ''
+  }
+}
+
+export const openOauthPopup = (
+  authUrl,
+  label = 'OAuth',
+  { channelKey = '', includeLegacyFallback = false } = {}
+) =>
   new Promise(resolve => {
     const popup = window.open(authUrl, label, 'width=500,height=650,toolbar=off')
 
@@ -65,20 +97,27 @@ export const openOauthPopup = (authUrl, label = 'OAuth') =>
     }
 
     let resolved = false
-    const channel = new BroadcastChannel(OAUTH_CHANNEL)
+    const channel = new BroadcastChannel(getChannelName(channelKey))
+    const fallbackChannel =
+      includeLegacyFallback && channelKey
+        ? new BroadcastChannel(OAUTH_CHANNEL)
+        : null
 
     const cleanup = () => {
       channel.close()
+      fallbackChannel?.close()
       clearInterval(closeTimer)
     }
 
-    channel.onmessage = event => {
+    const resolveMessage = event => {
       if (resolved) return
       resolved = true
       cleanup()
       try { popup.close() } catch (_) {} // eslint-disable-line no-unused-vars, no-empty
       resolve(event.data || {})
     }
+    channel.onmessage = resolveMessage
+    if (fallbackChannel) fallbackChannel.onmessage = resolveMessage
 
     const closeTimer = setInterval(() => {
       if (popup.closed && !resolved) {
@@ -90,7 +129,8 @@ export const openOauthPopup = (authUrl, label = 'OAuth') =>
   })
 
 export const broadcastAuthCodeResponse = response => {
-  const channel = new BroadcastChannel(OAUTH_CHANNEL)
+  const channelKey = response?.oauth_channel || extractChannelFromState(response?.state)
+  const channel = new BroadcastChannel(getChannelName(channelKey))
   channel.postMessage(response)
   setTimeout(() => channel.close(), 200)
 }

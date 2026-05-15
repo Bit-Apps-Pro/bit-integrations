@@ -63,7 +63,7 @@ final class ConnectionController
         $payload = [];
 
         foreach ($rows as $row) {
-            $payload[] = $this->formatRow($row);
+            $payload[] = $this->formatListRow($row);
         }
 
         wp_send_json_success(['data' => $payload]);
@@ -250,6 +250,10 @@ final class ConnectionController
             wp_send_json_error(__('API endpoint is required', 'bit-integrations'));
         }
 
+        if (!$this->isPublicHttpsUrl($apiEndpoint)) {
+            wp_send_json_error(__('API endpoint must be a public https endpoint', 'bit-integrations'), 400);
+        }
+
         $authDetails = $this->normalizeArray($request->auth_details);
 
         if (empty($authDetails)) {
@@ -388,9 +392,17 @@ final class ConnectionController
         $decoded = \is_object($response) ? Helper::jsonEncodeDecode($response) : $response;
 
         if ($responseCode < 200 || $responseCode >= 300 || (\is_array($decoded) && isset($decoded['error']))) {
+            if (\is_array($decoded) && isset($decoded['error_description'])) {
+                $errorMessage = $decoded['error_description'];
+            } elseif (\is_array($decoded) && isset($decoded['error']) && \is_string($decoded['error'])) {
+                $errorMessage = $decoded['error'];
+            } else {
+                $errorMessage = 'Token exchange failed';
+            }
+
             wp_send_json_error(
                 [
-                    'message'  => \is_array($decoded) && isset($decoded['error_description']) ? $decoded['error_description'] : (\is_array($decoded) && isset($decoded['error']) ? (\is_string($decoded['error']) ? $decoded['error'] : 'Token exchange failed') : 'Token exchange failed'),
+                    'message'  => $errorMessage,
                     'response' => $decoded,
                     'status'   => $responseCode,
                 ],
@@ -593,6 +605,24 @@ final class ConnectionController
             'account_name'    => $row->account_name,
             'encrypt_keys'    => $encryptKeys,
             'auth_details'    => $authDetails,
+            'status'          => isset($row->status) ? (int) $row->status : ConnectionModel::STATUS_VERIFIED,
+            'user_id'         => isset($row->user_id) ? (int) $row->user_id : 0,
+            'created_at'      => $row->created_at ?? null,
+            'updated_at'      => $row->updated_at ?? null,
+        ];
+    }
+
+    /**
+     * List responses should not expose decrypted credential payloads.
+     */
+    private function formatListRow($row): array
+    {
+        return [
+            'id'              => (int) $row->id,
+            'app_slug'        => $row->app_slug,
+            'auth_type'       => (string) ($row->auth_type ?? ''),
+            'connection_name' => $row->connection_name,
+            'account_name'    => $row->account_name,
             'status'          => isset($row->status) ? (int) $row->status : ConnectionModel::STATUS_VERIFIED,
             'user_id'         => isset($row->user_id) ? (int) $row->user_id : 0,
             'created_at'      => $row->created_at ?? null,

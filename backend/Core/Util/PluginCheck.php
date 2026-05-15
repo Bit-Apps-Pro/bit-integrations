@@ -68,11 +68,11 @@ final class PluginCheck
                 $type = $check['type'] ?? null;
                 $value = $check['value'] ?? null;
 
-                if (!\in_array($type, self::ALLOWED_TYPES, true) || empty($value)) {
+                if (!\in_array($type, self::ALLOWED_TYPES, true) || !\is_scalar($value) || $value === '') {
                     continue;
                 }
 
-                $checkResults[] = self::matches($type, $value);
+                $checkResults[] = self::matches($type, (string) $value);
             }
 
             if (empty($checkResults)) {
@@ -143,7 +143,11 @@ final class PluginCheck
 
     private static function normalizeLogic($raw): string
     {
-        $normalized = strtoupper($raw);
+        if (!\is_scalar($raw)) {
+            return 'AND';
+        }
+
+        $normalized = strtoupper((string) $raw);
 
         return \in_array($normalized, self::ALLOWED_LOGIC, true) ? $normalized : 'AND';
     }
