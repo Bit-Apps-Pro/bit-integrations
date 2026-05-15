@@ -10,6 +10,7 @@ use BitApps\Integrations\Authorization\AuthorizationFactory;
 use BitApps\Integrations\Authorization\AuthorizationType;
 use BitApps\Integrations\Authorization\Support\AuthDataCodec;
 use BitApps\Integrations\Core\Database\ConnectionModel;
+use BitApps\Integrations\Core\Database\FlowModel;
 use BitApps\Integrations\Core\Util\Capabilities;
 use BitApps\Integrations\Core\Util\Helper;
 use BitApps\Integrations\Core\Util\HttpHelper;
@@ -295,6 +296,27 @@ final class ConnectionController
 
         if ($id === 0) {
             wp_send_json_error(__('Connection id is required', 'bit-integrations'));
+        }
+
+        $linkedIntegrations = $this->getLinkedIntegrations($id);
+
+        if (is_wp_error($linkedIntegrations)) {
+            wp_send_json_error($linkedIntegrations->get_error_message());
+        }
+
+        if (!empty($linkedIntegrations)) {
+            $linkedIntegrationCount = \count($linkedIntegrations);
+            wp_send_json_error(
+                [
+                    'message'             => wp_sprintf(
+                        __('Connection is linked with %d integration(s). Remove this connection from those integrations before deleting.', 'bit-integrations'),
+                        $linkedIntegrationCount
+                    ),
+                    'linked_integrations' => $linkedIntegrations,
+                    'linked_count'        => $linkedIntegrationCount,
+                ],
+                409
+            );
         }
 
         $result = (new ConnectionModel())->delete(['id' => $id]);
@@ -715,6 +737,53 @@ final class ConnectionController
         }
 
         return $headers;
+    }
+
+    private function getLinkedIntegrations(int $connectionId)
+    {
+        $flows = (new FlowModel())->get(['id', 'name', 'flow_details']);
+
+        if (is_wp_error($flows)) {
+            return $flows;
+        }
+
+        if (empty($flows)) {
+            return [];
+        }
+
+        $linkedIntegrations = [];
+
+        foreach ($flows as $flow) {
+            $flowDetails = json_decode((string) ($flow->flow_details ?? ''), true);
+
+            if (!\is_array($flowDetails)) {
+                continue;
+            }
+
+            if ($this->extractConnectionIdFromFlowDetails($flowDetails) !== $connectionId) {
+                continue;
+            }
+
+            $linkedIntegrations[] = [
+                'id'   => absint($flow->id ?? 0),
+                'name' => sanitize_text_field((string) ($flow->name ?? '')),
+            ];
+        }
+
+        return $linkedIntegrations;
+    }
+
+    private function extractConnectionIdFromFlowDetails(array $flowDetails): int
+    {
+        foreach (['connection_id', 'connectionId'] as $key) {
+            if (!isset($flowDetails[$key]) || $flowDetails[$key] === '') {
+                continue;
+            }
+
+            return absint($flowDetails[$key]);
+        }
+
+        return 0;
     }
 
     private function normalizeId($request): int

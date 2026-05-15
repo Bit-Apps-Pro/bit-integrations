@@ -13,6 +13,45 @@ import {
 import { __ } from '../Utils/i18nwrap'
 
 export default function Connections() {
+  const getLinkedIntegrationSummary = useCallback(res => {
+    const linkedIntegrations = Array.isArray(res?.data?.linked_integrations)
+      ? res.data.linked_integrations
+      : []
+
+    if (linkedIntegrations.length < 1) {
+      return ''
+    }
+
+    const previewLimit = 5
+    const previewNames = linkedIntegrations
+      .slice(0, previewLimit)
+      .map(item => item?.name || `#${item?.id || ''}`)
+      .filter(Boolean)
+
+    if (previewNames.length < 1) {
+      return ''
+    }
+
+    const extraCount = linkedIntegrations.length - previewNames.length
+    const extrasText = extraCount > 0 ? ` ${__('and', 'bit-integrations')} ${extraCount} ${__('more', 'bit-integrations')}` : ''
+
+    return `${__('Linked integrations:', 'bit-integrations')} ${previewNames.join(', ')}${extrasText}.`
+  }, [])
+
+  const getDeleteErrorMessage = useCallback(res => {
+    const linkedSummary = getLinkedIntegrationSummary(res)
+
+    if (typeof res?.data?.message === 'string' && res.data.message.trim() !== '') {
+      return linkedSummary ? `${res.data.message} ${linkedSummary}` : res.data.message
+    }
+
+    if (typeof res?.data === 'string' && res.data.trim() !== '') {
+      return res.data
+    }
+
+    return linkedSummary || __('Failed to delete', 'bit-integrations')
+  }, [getLinkedIntegrationSummary])
+
   const [connections, setConnections] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [filterApp, setFilterApp] = useState('')
@@ -119,7 +158,9 @@ export default function Connections() {
     setIsConfirmPending(true)
 
     const promise = deleteConnection(id).then(res => {
-      if (!res?.success) throw new Error('delete_failed')
+      if (!res?.success) {
+        throw new Error(getDeleteErrorMessage(res))
+      }
       setConnections(prev => prev.filter(c => c.id !== id))
       return __('Connection deleted', 'bit-integrations')
     })
@@ -127,11 +168,11 @@ export default function Connections() {
     toast
       .promise(promise, {
         success: msg => msg,
-        error: __('Failed to delete', 'bit-integrations'),
+        error: error => error?.message || __('Failed to delete', 'bit-integrations'),
         loading: __('Deleting...', 'bit-integrations')
       })
       .finally(() => setIsConfirmPending(false))
-  }, [deletingId, isConfirmPending])
+  }, [deletingId, isConfirmPending, getDeleteErrorMessage])
 
   const setBulkDelete = useCallback(rows => {
     const ids = []
@@ -153,7 +194,9 @@ export default function Connections() {
     const promise = Promise.allSettled(
       ids.map(id =>
         deleteConnection(id).then(res => {
-          if (!res?.success) throw new Error('bulk_delete_failed')
+          if (!res?.success) {
+            throw new Error(getDeleteErrorMessage(res))
+          }
           return id
         })
       )
@@ -169,6 +212,19 @@ export default function Connections() {
       const failedCount = results.filter(r => r.status === 'rejected').length
 
       if (failedCount > 0) {
+        const uniqueFailureMessages = [
+          ...new Set(
+            results
+              .filter(r => r.status === 'rejected')
+              .map(r => r.reason?.message)
+              .filter(Boolean)
+          )
+        ]
+
+        if (failedCount === ids.length && uniqueFailureMessages.length === 1) {
+          throw new Error(uniqueFailureMessages[0])
+        }
+
         throw new Error(
           failedCount === ids.length ? 'bulk_delete_failed' : 'bulk_delete_partial'
         )
@@ -181,10 +237,20 @@ export default function Connections() {
 
     toast.promise(promise, {
       success: msg => msg,
-      error: __('Failed to delete', 'bit-integrations'),
+      error: error => {
+        if (error?.message === 'bulk_delete_partial') {
+          return __('Some selected connections could not be deleted.', 'bit-integrations')
+        }
+
+        if (error?.message === 'bulk_delete_failed') {
+          return __('Failed to delete', 'bit-integrations')
+        }
+
+        return error?.message || __('Failed to delete', 'bit-integrations')
+      },
       loading: __('Deleting...', 'bit-integrations')
     })
-  }, [])
+  }, [getDeleteErrorMessage])
 
   const columns = useMemo(
     () => [
@@ -302,7 +368,7 @@ export default function Connections() {
       <ConfirmModal
         show={deletingId !== null}
         body={__(
-          'Delete this connection? Any flow that uses it will lose authorization.',
+          'Delete this connection? Linked connections cannot be deleted until removed from integrations.',
           'bit-integrations'
         )}
         action={confirmDelete}
