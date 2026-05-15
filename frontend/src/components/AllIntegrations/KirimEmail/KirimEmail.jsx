@@ -34,7 +34,7 @@ function KirimEmail({ formFields, setFlow, flow, allIntegURL }) {
     name: 'Kirim Email',
     type: 'Kirim Email',
     mainAction: '',
-    userName: 'vaishak',
+    userName: '',
     api_key: '',
     field_map: [{ formField: '', kirimEmailFormField: '' }],
     subscriberFields,
