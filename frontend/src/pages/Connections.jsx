@@ -10,47 +10,29 @@ import {
   listConnections,
   updateConnection
 } from '../Utils/connectionApi'
-import { __ } from '../Utils/i18nwrap'
+import { __, sprintf } from '../Utils/i18nwrap'
 
 export default function Connections() {
-  const getLinkedIntegrationSummary = useCallback(res => {
-    const linkedIntegrations = Array.isArray(res?.data?.linked_integrations)
-      ? res.data.linked_integrations
-      : []
-
-    if (linkedIntegrations.length < 1) {
-      return ''
-    }
-
-    const previewLimit = 5
-    const previewNames = linkedIntegrations
-      .slice(0, previewLimit)
-      .map(item => item?.name || `#${item?.id || ''}`)
-      .filter(Boolean)
-
-    if (previewNames.length < 1) {
-      return ''
-    }
-
-    const extraCount = linkedIntegrations.length - previewNames.length
-    const extrasText = extraCount > 0 ? ` ${__('and', 'bit-integrations')} ${extraCount} ${__('more', 'bit-integrations')}` : ''
-
-    return `${__('Linked integrations:', 'bit-integrations')} ${previewNames.join(', ')}${extrasText}.`
-  }, [])
-
   const getDeleteErrorMessage = useCallback(res => {
-    const linkedSummary = getLinkedIntegrationSummary(res)
+    const linkedCount = Number(res?.data?.linked_count || 0)
+
+    if (linkedCount > 0) {
+      return sprintf(
+        __('Connection is used in %d integrations. Unlink first, then delete.', 'bit-integrations'),
+        linkedCount
+      )
+    }
 
     if (typeof res?.data?.message === 'string' && res.data.message.trim() !== '') {
-      return linkedSummary ? `${res.data.message} ${linkedSummary}` : res.data.message
+      return res.data.message
     }
 
     if (typeof res?.data === 'string' && res.data.trim() !== '') {
       return res.data
     }
 
-    return linkedSummary || __('Failed to delete', 'bit-integrations')
-  }, [getLinkedIntegrationSummary])
+    return __('Failed to delete', 'bit-integrations')
+  }, [])
 
   const [connections, setConnections] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -64,7 +46,7 @@ export default function Connections() {
 
   const fetchConnections = useCallback(() => {
     setIsLoading(true)
-    listConnections('')
+    listConnections('', { includeLinkedIntegrations: true })
       .then(res => {
         if (res?.success && Array.isArray(res.data?.data)) {
           setConnections(res.data.data)
@@ -255,7 +237,7 @@ export default function Connections() {
   const columns = useMemo(
     () => [
       {
-        Header: __('App', 'bit-integrations'),
+        Header: __('Action', 'bit-integrations'),
         accessor: 'app_slug',
         width: 130,
         minWidth: 90,
@@ -319,11 +301,38 @@ export default function Connections() {
         }
       },
       {
-        Header: __('Account', 'bit-integrations'),
-        accessor: 'account_name',
-        width: 180,
-        minWidth: 120,
-        Cell: ({ value }) => value || '—'
+        Header: __('Linked Integrations', 'bit-integrations'),
+        accessor: 'linked_count',
+        width: 250,
+        minWidth: 180,
+        Cell: ({ row }) => {
+          const linkedIntegrations = Array.isArray(row?.original?.linked_integrations)
+            ? row.original.linked_integrations
+            : []
+
+          if (linkedIntegrations.length < 1) {
+            return '—'
+          }
+
+          const previewLimit = 3
+          const previewNames = linkedIntegrations
+            .slice(0, previewLimit)
+            .map(item => item?.name || `#${item?.id || ''}`)
+            .filter(Boolean)
+
+          const extraCount = linkedIntegrations.length - previewNames.length
+          const linkedText = extraCount > 0 ? `${previewNames.join(', ')} +${extraCount}` : previewNames.join(', ')
+          const tooltipText = linkedIntegrations
+            .map(item => item?.name || `#${item?.id || ''}`)
+            .filter(Boolean)
+            .join(', ')
+
+          return (
+            <span className="connections-name-txt" title={tooltipText}>
+              {linkedText}
+            </span>
+          )
+        }
       },
       {
         Header: __('Auth Type', 'bit-integrations'),

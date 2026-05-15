@@ -49,6 +49,7 @@ final class ConnectionController
         $this->guard();
 
         $appSlug = $this->sanitizeScalar($request->app_slug ?? '');
+        $includeLinkedIntegrations = $this->isTruthy($request->include_linked_integrations ?? false);
         $condition = ['status' => ConnectionModel::STATUS_VERIFIED];
 
         if ($appSlug !== '') {
@@ -61,10 +62,24 @@ final class ConnectionController
             wp_send_json_success(['data' => []]);
         }
 
+        $linkedIntegrationMap = [];
+
+        if ($includeLinkedIntegrations) {
+            $linkedIntegrationMap = $this->buildLinkedIntegrationMap();
+
+            if (is_wp_error($linkedIntegrationMap)) {
+                wp_send_json_error($linkedIntegrationMap->get_error_message());
+            }
+        }
+
         $payload = [];
 
         foreach ($rows as $row) {
-            $payload[] = $this->formatListRow($row);
+            $linkedIntegrations = $includeLinkedIntegrations
+                ? ($linkedIntegrationMap[(int) ($row->id ?? 0)] ?? [])
+                : null;
+
+            $payload[] = $this->formatListRow($row, $linkedIntegrations);
         }
 
         wp_send_json_success(['data' => $payload]);
@@ -637,9 +652,9 @@ final class ConnectionController
     /**
      * List responses should not expose decrypted credential payloads.
      */
-    private function formatListRow($row): array
+    private function formatListRow($row, ?array $linkedIntegrations = null): array
     {
-        return [
+        $payload = [
             'id'              => (int) $row->id,
             'app_slug'        => $row->app_slug,
             'auth_type'       => (string) ($row->auth_type ?? ''),
@@ -650,6 +665,13 @@ final class ConnectionController
             'created_at'      => $row->created_at ?? null,
             'updated_at'      => $row->updated_at ?? null,
         ];
+
+        if (\is_array($linkedIntegrations)) {
+            $payload['linked_integrations'] = $linkedIntegrations;
+            $payload['linked_count'] = \count($linkedIntegrations);
+        }
+
+        return $payload;
     }
 
     private function resolveEncryptKeys($request): array
@@ -741,36 +763,13 @@ final class ConnectionController
 
     private function getLinkedIntegrations(int $connectionId)
     {
-        $flows = (new FlowModel())->get(['id', 'name', 'flow_details']);
+        $linkedIntegrationMap = $this->buildLinkedIntegrationMap();
 
-        if (is_wp_error($flows)) {
-            return $flows;
+        if (is_wp_error($linkedIntegrationMap)) {
+            return $linkedIntegrationMap;
         }
 
-        if (empty($flows)) {
-            return [];
-        }
-
-        $linkedIntegrations = [];
-
-        foreach ($flows as $flow) {
-            $flowDetails = json_decode((string) ($flow->flow_details ?? ''), true);
-
-            if (!\is_array($flowDetails)) {
-                continue;
-            }
-
-            if ($this->extractConnectionIdFromFlowDetails($flowDetails) !== $connectionId) {
-                continue;
-            }
-
-            $linkedIntegrations[] = [
-                'id'   => absint($flow->id ?? 0),
-                'name' => sanitize_text_field((string) ($flow->name ?? '')),
-            ];
-        }
-
-        return $linkedIntegrations;
+        return $linkedIntegrationMap[$connectionId] ?? [];
     }
 
     private function extractConnectionIdFromFlowDetails(array $flowDetails): int
@@ -784,6 +783,46 @@ final class ConnectionController
         }
 
         return 0;
+    }
+
+    private function buildLinkedIntegrationMap()
+    {
+        $flows = (new FlowModel())->get(['id', 'name', 'flow_details']);
+
+        if (is_wp_error($flows)) {
+            return $flows;
+        }
+
+        if (empty($flows)) {
+            return [];
+        }
+
+        $linkedIntegrationMap = [];
+
+        foreach ($flows as $flow) {
+            $flowDetails = json_decode((string) ($flow->flow_details ?? ''), true);
+
+            if (!\is_array($flowDetails)) {
+                continue;
+            }
+
+            $connectionId = $this->extractConnectionIdFromFlowDetails($flowDetails);
+
+            if ($connectionId < 1) {
+                continue;
+            }
+
+            if (!isset($linkedIntegrationMap[$connectionId])) {
+                $linkedIntegrationMap[$connectionId] = [];
+            }
+
+            $linkedIntegrationMap[$connectionId][] = [
+                'id'   => absint($flow->id ?? 0),
+                'name' => sanitize_text_field((string) ($flow->name ?? '')),
+            ];
+        }
+
+        return $linkedIntegrationMap;
     }
 
     private function normalizeId($request): int
@@ -818,6 +857,25 @@ final class ConnectionController
         }
 
         return sanitize_text_field((string) $value);
+    }
+
+    private function isTruthy($value): bool
+    {
+        if (\is_bool($value)) {
+            return $value;
+        }
+
+        if (is_numeric($value)) {
+            return absint($value) === 1;
+        }
+
+        if (!\is_scalar($value)) {
+            return false;
+        }
+
+        $value = strtolower(trim((string) $value));
+
+        return \in_array($value, ['1', 'true', 'yes', 'on'], true);
     }
 
     private function guard(): void

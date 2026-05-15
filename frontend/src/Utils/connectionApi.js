@@ -5,8 +5,15 @@ import bitsFetch from './bitsFetch'
  *
  * @param {string} appSlug
  */
-export const listConnections = appSlug =>
-  bitsFetch(null, 'connections/list', { app_slug: appSlug }, 'GET')
+export const listConnections = (appSlug, options = {}) => {
+  const query = { app_slug: appSlug }
+
+  if (options?.includeLinkedIntegrations) {
+    query.include_linked_integrations = 1
+  }
+
+  return bitsFetch(null, 'connections/list', query, 'GET')
+}
 
 export const getConnection = id => bitsFetch(null, 'connections/get', { id }, 'GET')
 
