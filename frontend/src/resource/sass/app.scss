@@ -7391,20 +7391,42 @@ _:-ms-fullscreen,
     padding-left: 10px;
   }
 
+  .connections-toolbar {
+    align-items: center;
+    justify-content: start;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .connections-toolbar-meta {
+    align-items: center;
+    gap: 8px;
+  }
+
   .connections-count-txt {
-    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 600;
     color: #5f6d8a;
-    align-self: center;
+    line-height: 1;
+    border: 1px solid #dce4f3;
+    border-radius: 999px;
+    background: #f3f6fd;
+    padding: 7px 10px;
   }
 
   .connections-table-filters {
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
+    min-width: 220px;
+    flex: 1 1 220px;
   }
 
   .connections-filter-select {
     width: 220px;
+    margin: 0 !important;
   }
 
   .connections-app-tag {
@@ -7436,38 +7458,102 @@ _:-ms-fullscreen,
   .connections-name-cell {
     line-height: 1.35;
     overflow: visible !important;
+    white-space: normal !important;
     position: relative;
-    z-index: 20;
+    z-index: 0;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
   }
 
   .connections-name-row {
+    align-items: center;
+    justify-content: space-between;
     gap: 6px;
     min-width: 0;
+    width: 100%;
+    position: relative;
+    z-index: 1;
 
-    & > span {
+    .connections-name-txt {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
   }
 
-  .connections-name-row .tooltip {
-    position: relative;
-    z-index: 30;
-  }
+  .connections-rename-btn {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    min-height: 24px;
+    border-radius: 7px;
+    background: transparent;
+    color: #9246f7;
+    margin: 0;
 
-  .connections-name-row .tooltip::after {
-    z-index: 1200;
+    &:hover {
+      background: #efe4ff;
+      color: #6f26dc;
+    }
+
+    &:active {
+      background: #e5d6ff;
+    }
   }
 
   .connections-edit-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
     width: 100%;
     align-items: center;
     gap: 6px;
+  }
 
-    .btcd-paper-inp {
-      min-width: 140px;
+  .connections-edit-input {
+    min-width: 0 !important;
+    margin: 0 !important;
+    min-height: 34px !important;
+    padding: 6px 10px !important;
+    font-size: 13px !important;
+  }
+
+  .connections-edit-btn {
+    margin: 0 !important;
+    min-height: 28px;
+    font-size: 11px;
+    line-height: 1.1;
+    border-radius: 6px;
+    padding: 5px 8px;
+  }
+
+  .connections-edit-cancel-btn {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    min-height: 28px;
+    margin: 0 !important;
+    border-radius: 7px;
+    background: #f2f4fa;
+    color: #6a7693;
+    border: 1px solid #e0e7f3;
+
+    &:hover {
+      background: #e8edf8;
+      color: #4c5979;
     }
+
+    &:active {
+      background: #dfe6f3;
+    }
+  }
+
+  .connections-edit-cancel-icn {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .connections-edit-cancel-icn .svg-icn {
+    stroke: currentcolor;
   }
 
   .connections-action-cell {
@@ -7484,8 +7570,15 @@ _:-ms-fullscreen,
 
 @media only screen and (max-width: 767px) {
   #connections-page {
+    .connections-toolbar {
+      width: 100%;
+      align-items: stretch;
+    }
+
     .connections-table-filters {
       width: 100%;
+      min-width: 0;
+      flex: 1 1 auto;
     }
 
     .connections-filter-select {
@@ -7493,8 +7586,9 @@ _:-ms-fullscreen,
       max-width: none;
     }
 
-    .connections-count-txt {
-      display: none;
+    .connections-toolbar-meta {
+      width: 100%;
+      justify-content: space-between;
     }
   }
 }

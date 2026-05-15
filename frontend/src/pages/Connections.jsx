@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
+import CloseIcn from '../Icons/CloseIcn'
 import EditIcn from '../Icons/EditIcn'
 import TrashIcn from '../Icons/TrashIcn'
 import Table from '../components/Utilities/Table'
@@ -205,11 +206,11 @@ export default function Connections() {
 
           if (editingId === conn.id) {
             return (
-              <div className="flx connections-edit-row">
+              <div className="connections-edit-row">
                 <input
                   ref={inputRef}
                   type="text"
-                  className="btcd-paper-inp"
+                  className="btcd-paper-inp connections-edit-input"
                   defaultValue={editValueRef.current}
                   onChange={e => {
                     editValueRef.current = e.target.value
@@ -219,17 +220,19 @@ export default function Connections() {
                 />
                 <button
                   type="button"
-                  className="btn btcd-btn-sm purple"
+                  className="btn purple connections-edit-btn"
                   onClick={() => saveRename(conn.id, inputRef.current?.value ?? editValueRef.current)}
                   disabled={savingId === conn.id}>
                   {__('Save', 'bit-integrations')}
                 </button>
                 <button
                   type="button"
-                  className="btn btcd-btn-sm gray"
                   onClick={cancelEdit}
-                  disabled={savingId === conn.id}>
-                  {__('Cancel', 'bit-integrations')}
+                  disabled={savingId === conn.id}
+                  className="icn-btn icn-btn-sm connections-edit-cancel-btn tooltip"
+                  style={{ '--tooltip-txt': `'${__('Cancel', 'bit-integrations')}'` }}
+                  title={__('Cancel', 'bit-integrations')}>
+                  <CloseIcn size={10} stroke={3} className="connections-edit-cancel-icn" />
                 </button>
               </div>
             )
@@ -237,11 +240,11 @@ export default function Connections() {
 
           return (
             <div className="flx connections-name-row">
-              <span>{value || '—'}</span>
+              <span className="connections-name-txt">{value || '—'}</span>
               <button
                 type="button"
                 className="icn-btn tooltip"
-                style={{ '--tooltip-txt': `'${__('Rename connection', 'bit-integrations')}'` }}
+                style={{ '--tooltip-txt': `'${__('Rename Connection', 'bit-integrations')}'` }}
                 onClick={() => startEdit(conn)}>
                 <EditIcn size={14} />
               </button>
@@ -308,12 +311,8 @@ export default function Connections() {
         btnClass=""
       />
 
-      <div className="af-header flx flx-between mt-3">
+      <div className="af-header flx flx-between">
         <h2>{__('Connections', 'bit-integrations')}</h2>
-        <small className="connections-count-txt">
-          {__('Showing', 'bit-integrations')} {filteredConnections.length} {__('of', 'bit-integrations')}{' '}
-          {connections.length}
-        </small>
       </div>
 
       <div className="forms">
@@ -331,28 +330,32 @@ export default function Connections() {
           setBulkDelete={setBulkDelete}
           bulkDeleteLabel={__('Delete Connection', 'bit-integrations')}
           topLeftContent={
-            <div className="connections-table-filters flx">
-              <select
-                className="btcd-paper-inp connections-filter-select"
-                value={filterApp}
-                onChange={e => setFilterApp(e.target.value)}>
-                <option value="">{__('All apps', 'bit-integrations')}</option>
-                {apps.map(app => (
-                  <option key={app} value={app}>
-                    {app}
-                  </option>
-                ))}
-              </select>
+            <div className="connections-toolbar flx">
+              <div className="connections-table-filters flx">
+                <select
+                  className="btcd-paper-inp connections-filter-select"
+                  value={filterApp}
+                  onChange={e => setFilterApp(e.target.value)}>
+                  <option value="">{__('All apps', 'bit-integrations')}</option>
+                  {apps.map(app => (
+                    <option key={app} value={app}>
+                      {app}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-              <button
-                type="button"
-                className="icn-btn sh-sm tooltip"
-                style={{ '--tooltip-txt': `'${__('Refresh connections', 'bit-integrations')}'` }}
-                onClick={fetchConnections}
-                disabled={isLoading}
-                aria-label={__('Refresh connections', 'bit-integrations')}>
-                &#x21BB;
-              </button>
+              <div className="flx connections-toolbar-meta">
+                <button
+                  type="button"
+                  className="icn-btn sh-sm tooltip"
+                  style={{ '--tooltip-txt': `'${__('Refresh connections', 'bit-integrations')}'` }}
+                  onClick={fetchConnections}
+                  disabled={isLoading}
+                  aria-label={__('Refresh connections', 'bit-integrations')}>
+                  &#x21BB;
+                </button>
+              </div>
             </div>
           }
         />
