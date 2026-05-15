@@ -25,6 +25,7 @@ final class ConnectionController
         AuthorizationType::API_KEY,
         AuthorizationType::BEARER_TOKEN,
         AuthorizationType::OAUTH2,
+        AuthorizationType::OAUTH1,
         AuthorizationType::CUSTOM,
     ];
 

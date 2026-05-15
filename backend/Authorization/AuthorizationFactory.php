@@ -9,6 +9,7 @@ if (!defined('ABSPATH')) {
 use BitApps\Integrations\Authorization\ApiKey\ApiKeyAuthorization;
 use BitApps\Integrations\Authorization\Basic\BasicAuthorization;
 use BitApps\Integrations\Authorization\Bearer\BearerTokenAuthorization;
+use BitApps\Integrations\Authorization\OAuth1\OAuth1Authorization;
 use BitApps\Integrations\Authorization\OAuth2\OAuth2Authorization;
 use Exception;
 
@@ -30,6 +31,9 @@ class AuthorizationFactory
 
             case AuthorizationType::OAUTH2:
                 return new OAuth2Authorization($connectionId);
+
+            case AuthorizationType::OAUTH1:
+                return new OAuth1Authorization($connectionId);
 
             case AuthorizationType::CUSTOM:
                 $class = self::authorizationClassExists($appSlug);

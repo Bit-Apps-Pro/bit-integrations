@@ -18,5 +18,7 @@ class AuthorizationType
 
     public const OAUTH2 = 'oauth2';
 
+    public const OAUTH1 = 'oauth1';
+
     public const CUSTOM = 'custom';
 }
