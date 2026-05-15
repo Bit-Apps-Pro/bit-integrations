@@ -170,8 +170,6 @@ class RecordApiHelper
             return $apiResponse;
         }
 
-        // $errorMessage = isset($apiResponse->error) ? $apiResponse->error : \__('Failed to create member', 'bit-integrations');
-
         return new WP_Error('API_ERROR', __('Failed to create member', 'bit-integrations'), $apiResponse);
     }
 

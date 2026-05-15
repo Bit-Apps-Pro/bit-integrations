@@ -119,7 +119,7 @@ class GoogleSheetController
         $response = [];
         if (!$isConnectionAuth && (\intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $response['tokenDetails'] = GoogleSheetController::refreshAccessToken($queryParams);
-            if (!empty($response['tokenDetails']->access_token)) {
+            if ($response['tokenDetails'] && !empty($response['tokenDetails']->access_token)) {
                 $authorizationHeader['Authorization'] = 'Bearer ' . $response['tokenDetails']->access_token;
             }
         }
@@ -177,7 +177,7 @@ class GoogleSheetController
         $response = [];
         if (!$isConnectionAuth && (\intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $response['tokenDetails'] = GoogleSheetController::refreshAccessToken($queryParams);
-            if (!empty($response['tokenDetails']->access_token)) {
+            if ($response['tokenDetails'] && !empty($response['tokenDetails']->access_token)) {
                 $queryParams->tokenDetails = $response['tokenDetails'];
             }
         }
@@ -232,7 +232,7 @@ class GoogleSheetController
         $response = [];
         if (!$isConnectionAuth && (\intval($queryParams->tokenDetails->generates_on) + (55 * 60)) < time()) {
             $response['tokenDetails'] = GoogleSheetController::refreshAccessToken($queryParams);
-            if (!empty($response['tokenDetails']->access_token)) {
+            if ($response['tokenDetails'] && !empty($response['tokenDetails']->access_token)) {
                 $queryParams->tokenDetails = $response['tokenDetails'];
             }
         }
