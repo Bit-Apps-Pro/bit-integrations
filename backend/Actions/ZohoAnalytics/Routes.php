@@ -10,7 +10,7 @@ use BitApps\Integrations\Core\Util\Route;
 Route::post('zanalytics_refresh_workspaces', [ZohoAnalyticsController::class, 'refreshWorkspacesAjaxHelper']);
 Route::post('zanalytics_refresh_users', [ZohoAnalyticsController::class, 'refreshUsersAjaxHelper']);
 Route::post('zanalytics_refresh_tables', [ZohoAnalyticsController::class, 'refreshTablesAjaxHelper']);
-Route::post('wp_ajax_zanalytics_refresh_table_headers', [ZohoAnalyticsController::class, 'refreshTableHeadersAjaxHelper']);
+Route::post('zanalytics_refresh_table_headers', [ZohoAnalyticsController::class, 'refreshTableHeadersAjaxHelper']);
 
 // public static function registerAjax()
 // {

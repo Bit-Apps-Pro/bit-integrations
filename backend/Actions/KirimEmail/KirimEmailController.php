@@ -26,7 +26,7 @@ class KirimEmailController
 
     public function getAllList($tokenRequestParams)
     {
-        $userName = $tokenRequestParams->userName ?? '';
+        $userName = $tokenRequestParams->userName ?? $tokenRequestParams->username ?? '';
         $apiKey = $tokenRequestParams->api_key ?? '';
 
         if (
@@ -62,7 +62,7 @@ class KirimEmailController
         $integrationDetails = $integrationData->flow_details;
         $integrationId = $integrationData->id;
         $api_key = $integrationDetails->api_key;
-        $userName = $integrationDetails->userName ?? '';
+        $userName = $integrationDetails->userName ?? $integrationDetails->username ?? '';
         $fieldMap = $integrationDetails->field_map;
         $mainAction = $integrationDetails->mainAction;
 
@@ -74,7 +74,7 @@ class KirimEmailController
 
         ) {
             // translators: %s: Placeholder value
-            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Freshdesk'));
+            return new WP_Error('REQ_FIELD_EMPTY', wp_sprintf(__('module, fields are required for %s api', 'bit-integrations'), 'Kirim Email'));
         }
         $recordApiHelper = new RecordApiHelper($integrationId);
         $kirinEmailApiResponse = $recordApiHelper->execute(

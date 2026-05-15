@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast'
 import { __ } from '../../../Utils/i18nwrap'
 import bitsFetch from '../../../Utils/bitsFetch'
 import { contactFields } from './staticData'
@@ -51,7 +52,7 @@ export const generateMappedField = keapConf => {
 }
 
 export const getAllTags = (confTmp, setConf, setLoading) => {
-  setLoading({ ...setLoading, tags: true })
+  setLoading(true)
 
   const requestParams = {
     ...buildAuthRequestParams(confTmp),
@@ -65,19 +66,16 @@ export const getAllTags = (confTmp, setConf, setLoading) => {
       }
       setConf(newConf)
       setLoading(false)
-
-      setSnackbar({
-        show: true,
-        msg: __('Tag Fetched Successfully', 'bit-integrations')
-      })
+      toast.success(__('Tag Fetched Successfully', 'bit-integrations'))
       return
     }
-    setLoading({ ...setLoading, tags: false })
-    setSnackbar({
-      show: true,
-      msg: __("Tag Couldn't Fetched Successfully", 'bit-integrations')
-    })
+    setLoading(false)
+    toast.error(__("Tag Couldn't Fetched Successfully", 'bit-integrations'))
   })
+    .catch(() => {
+      setLoading(false)
+      toast.error(__("Tag Couldn't Fetched Successfully", 'bit-integrations'))
+    })
 }
 
 export const refreshCustomFields = (id, confTmp, setConf, setIsLoading, setSnackbar) => {

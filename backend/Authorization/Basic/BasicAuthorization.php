@@ -14,14 +14,16 @@ class BasicAuthorization extends AbstractBaseAuthorization
     {
         $authDetails = $this->getAuthDetails();
 
-        if (empty($authDetails) || empty($authDetails['username']) || !isset($authDetails['password'])) {
+        if (empty($authDetails) || empty($authDetails['username'])) {
             return [
                 'error'   => true,
-                'message' => __('username or password field is missing', 'bit-integrations'),
+                'message' => __('username field is missing', 'bit-integrations'),
             ];
         }
 
-        return 'Basic ' . base64_encode($authDetails['username'] . ':' . $authDetails['password']);
+        $password = $authDetails['password'] ?? '';
+
+        return 'Basic ' . base64_encode($authDetails['username'] . ':' . $password);
     }
 
     public function getAuthHeadersOrParams()

@@ -72,12 +72,11 @@ class KeapController
                     'name' => $tag->name
                 ];
             }
+            if (!empty($response['tokenDetails']) && !empty($queryParams->id)) {
+                static::saveRefreshedToken($queryParams->id, $response['tokenDetails']);
+            }
             wp_send_json_success($tags, 200);
         }
-        if (!empty($response['tokenDetails']) && $response['tokenDetails'] && !empty($queryParams->id)) {
-            static::saveRefreshedToken($queryParams->id, $response['tokenDetails'], $response);
-        }
-        wp_send_json_success($response, 200);
     }
 
     public static function refreshCustomFieldAjaxHelper($queryParams)

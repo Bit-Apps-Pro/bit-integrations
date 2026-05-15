@@ -122,11 +122,8 @@ export const refreshUsers = (formID, analyticsConf, setAnalyticsConf, setIsLoadi
   const refreshUsersRequestParams = {
     formID,
     id: analyticsConf.id,
-    connection_id: analyticsConf.connection_id,
+    ...buildAuthRequestParams(analyticsConf),
     dataCenter: analyticsConf.dataCenter,
-    clientId: analyticsConf.clientId,
-    clientSecret: analyticsConf.clientSecret,
-    tokenDetails: analyticsConf.tokenDetails,
     ownerEmail: analyticsConf.ownerEmail
   }
   bitsFetch(refreshUsersRequestParams, 'zanalytics_refresh_users')
@@ -175,11 +172,8 @@ export const refreshTables = (formID, analyticsConf, setAnalyticsConf, setIsLoad
   const refreshTablesRequestParams = {
     formID,
     workspace,
-    connection_id: analyticsConf.connection_id,
+    ...buildAuthRequestParams(analyticsConf),
     dataCenter: analyticsConf.dataCenter,
-    clientId: analyticsConf.clientId,
-    clientSecret: analyticsConf.clientSecret,
-    tokenDetails: analyticsConf.tokenDetails,
     ownerEmail: analyticsConf.ownerEmail
   }
   bitsFetch(refreshTablesRequestParams, 'zanalytics_refresh_tables')
@@ -226,9 +220,8 @@ export const refreshTableHeaders = (
     formID,
     workspace,
     table,
-    connection_id: analyticsConf.connection_id,
+    ...buildAuthRequestParams(analyticsConf),
     dataCenter: analyticsConf.dataCenter,
-
     ownerEmail: analyticsConf.ownerEmail
   }
   bitsFetch(refreshTableHeadersRequestParams, 'zanalytics_refresh_table_headers')
