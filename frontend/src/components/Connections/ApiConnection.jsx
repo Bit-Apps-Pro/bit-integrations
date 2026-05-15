@@ -95,7 +95,10 @@ const getAuthPayload = ({ authType, apiEndpoint, method, authData, authDetails }
         auth_type: authType,
         api_endpoint: resolveTemplate(resolvedApiEndpoint, authData),
         method: method || 'GET',
-        auth_details: {},
+        auth_details: {
+            ...extraAuthDetails,
+            ssl_verify: sslVerify
+        },
         headers: additionalHeaders
     }
 
