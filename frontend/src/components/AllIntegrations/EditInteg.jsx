@@ -172,6 +172,7 @@ const EditACPT = lazy(() => import('./ACPT/EditACPT'))
 const EditWishlistMember = lazy(() => import('./WishlistMember/EditWishlistMember'))
 const EditCreatorLms = lazy(() => import('./CreatorLms/EditCreatorLms'))
 const EditUltimateAffiliatePro = lazy(() => import('./UltimateAffiliatePro/EditUltimateAffiliatePro'))
+const EditBookly = lazy(() => import('./Bookly/EditBookly'))
 const EditFluentCart = lazy(() => import('./FluentCart/EditFluentCart'))
 const EditWpErp = lazy(() => import('./WpErp/EditWpErp'))
 const EditPeepSo = lazy(() => import('./PeepSo/EditPeepSo'))
@@ -596,6 +597,8 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditCreatorLms allIntegURL={allIntegURL} />
     case 'Ultimate Affiliate Pro':
       return <EditUltimateAffiliatePro allIntegURL={allIntegURL} />
+    case 'Bookly':
+      return <EditBookly allIntegURL={allIntegURL} />
     case 'FluentCart':
       return <EditFluentCart allIntegURL={allIntegURL} />
     case 'WP ERP':

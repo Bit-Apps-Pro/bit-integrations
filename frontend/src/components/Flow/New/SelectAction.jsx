@@ -176,6 +176,7 @@ export default function SelectAction() {
     { type: 'Ultimate Affiliate Pro' },
     { type: 'MailerPress' },
     { type: 'CreatorLms' },
+    { type: 'Bookly' },
     { type: 'FluentCart' },
     { type: 'WP ERP', logo: 'wpErp' },
     { type: 'PeepSo' },
