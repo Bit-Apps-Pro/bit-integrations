@@ -175,6 +175,7 @@ const CreatorLmsAuthorization = lazy(() => import('./CreatorLms/CreatorLmsAuthor
 const UltimateAffiliateProAuthorization = lazy(
   () => import('./UltimateAffiliatePro/UltimateAffiliateProAuthorization')
 )
+const BooklyAuthorization = lazy(() => import('./Bookly/BooklyAuthorization'))
 const FluentCartAuthorization = lazy(() => import('./FluentCart/FluentCartAuthorization'))
 const WpErpAuthorization = lazy(() => import('./WpErp/WpErpAuthorization'))
 const PeepSoAuthorization = lazy(() => import('./PeepSo/PeepSoAuthorization'))
@@ -639,6 +640,8 @@ export default function IntegInfo() {
             isInfo
           />
         )
+      case 'Bookly':
+        return <BooklyAuthorization booklyConf={integrationConf} step={1} isInfo />
       case 'FluentCart':
         return <FluentCartAuthorization fluentCartConf={integrationConf} step={1} isInfo />
       case 'WP ERP':
