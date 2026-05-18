@@ -75,6 +75,8 @@ export default function WpDataTables({ formFields, setFlow, flow, allIntegURL })
           formFields={formFields}
           wpDataTablesConf={wpDataTablesConf}
           setWpDataTablesConf={setWpDataTablesConf}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
         />
         <br />
         <br />

@@ -1,4 +1,5 @@
 import { create } from 'mutative'
+import { useEffect } from 'react'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import { useRecoilValue } from 'recoil'
 import { $appConfigState } from '../../../GlobalStates'
@@ -6,37 +7,61 @@ import { __ } from '../../../Utils/i18nwrap'
 import Loader from '../../Loaders/Loader'
 import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 import { addFieldMap } from '../IntegrationHelpers/IntegrationHelpers'
-import Note from '../../Utilities/Note'
-import { generateMappedField } from './WpDataTablesCommonFunc'
+import {
+  generateMappedField,
+  refreshWpDataTablesColumns,
+  refreshWpDataTablesTables
+} from './WpDataTablesCommonFunc'
 import WpDataTablesFieldMap from './WpDataTablesFieldMap'
-import { AddRowFields, modules } from './staticData'
+import { modules } from './staticData'
 
 export default function WpDataTablesIntegLayout({
   formFields,
   wpDataTablesConf,
   setWpDataTablesConf,
-  isLoading
+  isLoading,
+  setIsLoading
 }) {
   const btcbi = useRecoilValue($appConfigState)
   const { isPro } = btcbi
+
+  useEffect(() => {
+    if (wpDataTablesConf?.mainAction === 'add_row' && !wpDataTablesConf?.allTables?.length) {
+      refreshWpDataTablesTables(setWpDataTablesConf, setIsLoading)
+    }
+  }, [wpDataTablesConf?.mainAction])
+
+  useEffect(() => {
+    if (wpDataTablesConf?.selectedTable && !wpDataTablesConf?.wpDataTablesFields?.length) {
+      refreshWpDataTablesColumns(wpDataTablesConf.selectedTable, setWpDataTablesConf, setIsLoading)
+    }
+  }, [wpDataTablesConf?.selectedTable])
 
   const handleMainAction = value => {
     setWpDataTablesConf(prevConf =>
       create(prevConf, draftConf => {
         draftConf.mainAction = value
-
-        switch (value) {
-          case 'add_row':
-            draftConf.wpDataTablesFields = AddRowFields
-            break
-          default:
-            draftConf.wpDataTablesFields = []
-            draftConf.module_note = ''
-        }
-
-        draftConf.field_map = generateMappedField(draftConf.wpDataTablesFields)
+        draftConf.selectedTable = ''
+        draftConf.wpDataTablesFields = []
+        draftConf.field_map = [{ formField: '', wpDataTablesField: '' }]
       })
     )
+    if (value === 'add_row') {
+      refreshWpDataTablesTables(setWpDataTablesConf, setIsLoading)
+    }
+  }
+
+  const handleTableSelect = value => {
+    setWpDataTablesConf(prevConf =>
+      create(prevConf, draftConf => {
+        draftConf.selectedTable = value
+        draftConf.wpDataTablesFields = []
+        draftConf.field_map = [{ formField: '', wpDataTablesField: '' }]
+      })
+    )
+    if (value) {
+      refreshWpDataTablesColumns(value, setWpDataTablesConf, setIsLoading)
+    }
   }
 
   return (
@@ -52,12 +77,33 @@ export default function WpDataTablesIntegLayout({
           options={modules?.map(action => ({
             label: checkIsPro(isPro, action.is_pro) ? action.label : getProLabel(action.label),
             value: action.name,
-            disabled: checkIsPro(isPro, action.is_pro) ? false : true
+            disabled: !checkIsPro(isPro, action.is_pro)
           }))}
           singleSelect
           closeOnSelect
         />
       </div>
+
+      {wpDataTablesConf?.mainAction === 'add_row' && (
+        <div className="mt-3 flx">
+          <b className="wdt-200 d-in-b">{__('Select Table:', 'bit-integrations')}</b>
+          <MultiSelect
+            defaultValue={wpDataTablesConf?.selectedTable ?? null}
+            className="mt-2 w-5"
+            onChange={value => handleTableSelect(value)}
+            options={wpDataTablesConf?.allTables ?? []}
+            singleSelect
+            closeOnSelect
+          />
+          <button
+            onClick={() => refreshWpDataTablesTables(setWpDataTablesConf, setIsLoading)}
+            className="icn-btn sh-sm ml-2 mt-2"
+            type="button"
+            title={__('Refresh tables', 'bit-integrations')}>
+            ↻
+          </button>
+        </div>
+      )}
 
       {isLoading && (
         <Loader
@@ -71,9 +117,16 @@ export default function WpDataTablesIntegLayout({
         />
       )}
 
-      {wpDataTablesConf?.mainAction && wpDataTablesConf.wpDataTablesFields && (
+      {wpDataTablesConf?.selectedTable && wpDataTablesConf?.wpDataTablesFields?.length > 0 && (
         <div className="mt-4">
           <b className="wdt-100">{__('Map Fields', 'bit-integrations')}</b>
+          <button
+            onClick={() => refreshWpDataTablesColumns(wpDataTablesConf.selectedTable, setWpDataTablesConf, setIsLoading)}
+            className="icn-btn sh-sm ml-2 mt-2"
+            type="button"
+            title={__('Refresh Columns', 'bit-integrations')}>
+            ↻
+          </button>
           <div className="btcd-hr mt-1" />
           <div className="flx flx-around mt-2 mb-2 btcbi-field-map-label">
             <div className="txt-dp">
@@ -105,15 +158,8 @@ export default function WpDataTablesIntegLayout({
             </button>
           </div>
           <br />
-
-          {<Note note={note} />}
         </div>
       )}
     </>
   )
 }
-
-const note = `<p>${__(
-  'Row Data must be a JSON object where keys are column index and values are the corresponding cell values',
-  'bit-integrations'
-)}. <br/><br/> ${__('Example', 'bit-integrations')}: <b>{"0": "value1", "1": "value2"}</b></p>`

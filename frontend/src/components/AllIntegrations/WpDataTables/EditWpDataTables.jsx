@@ -43,6 +43,8 @@ export default function EditWpDataTables({ allIntegURL }) {
         formFields={formFields}
         wpDataTablesConf={wpDataTablesConf}
         setWpDataTablesConf={setWpDataTablesConf}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
       />
 
       <IntegrationStepThree

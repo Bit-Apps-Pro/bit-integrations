@@ -22,6 +22,57 @@ class WpDataTablesController
         wp_send_json_success(true);
     }
 
+    public static function wpDataTablesGetTables()
+    {
+        self::isExists();
+
+        global $wpdb;
+        $tables = $wpdb->get_results(
+            "SELECT id, title FROM {$wpdb->prefix}wpdatatables ORDER BY id ASC",
+            ARRAY_A
+        );
+
+        $options = array_map(static function ($table) {
+            return ['label' => $table['title'], 'value' => (string) $table['id']];
+        }, $tables ?? []);
+
+        wp_send_json_success($options);
+    }
+
+    public static function wpDataTablesGetTableColumns($requestParams)
+    {
+        self::isExists();
+
+        $tableId = $requestParams->table_id ?? null;
+
+        if (empty($tableId) || !is_numeric($tableId)) {
+            wp_send_json_error(__('Table ID is required', 'bit-integrations'), 400);
+        }
+
+        global $wpdb;
+        $table = $wpdb->get_row(
+            $wpdb->prepare(
+                "SELECT content FROM {$wpdb->prefix}wpdatatables WHERE id = %d",
+                (int) $tableId
+            ),
+            ARRAY_A
+        );
+
+        $fields = [];
+        $tableContent = json_decode(reset($table), true) ?? [];
+        $columnLength = isset($tableContent['colNumber']) ? (int) $tableContent['colNumber'] : \count($tableContent['colHeaders'] ?? []);
+
+        for ($i = 0; $i < $columnLength; $i++) {
+            $fields[] = [
+                'key'      => (string) $i,
+                'label'    => $tableContent['colHeaders'][$i] ?? 'Column ' . ($i + 1),
+                'required' => false,
+            ];
+        }
+
+        wp_send_json_success($fields);
+    }
+
     public function execute($integrationData, $fieldValues)
     {
         $integrationDetails = $integrationData->flow_details;

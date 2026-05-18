@@ -30,6 +30,7 @@ class RecordApiHelper
 
         $fieldData = static::generateReqDataFromFieldMap($fieldMap, $fieldValues);
         $mainAction = $this->_integrationDetails->mainAction ?? 'add_row';
+        $tableId = $this->_integrationDetails->selectedTable ?? null;
 
         $defaultResponse = [
             'success' => false,
@@ -38,7 +39,7 @@ class RecordApiHelper
 
         switch ($mainAction) {
             case 'add_row':
-                $response = Hooks::apply(Config::withPrefix('wp_data_tables_add_row'), $defaultResponse, $fieldData);
+                $response = Hooks::apply(Config::withPrefix('wp_data_tables_add_row'), $defaultResponse, $fieldData, $tableId);
                 $actionType = 'add_row';
 
                 break;
@@ -66,7 +67,7 @@ class RecordApiHelper
             $triggerValue = $item->formField ?? null;
             $actionValue = $item->wpDataTablesField ?? null;
 
-            if (!$triggerValue || !$actionValue) {
+            if (!$triggerValue || (!$actionValue && $actionValue !== '0')) {
                 continue;
             }
 
