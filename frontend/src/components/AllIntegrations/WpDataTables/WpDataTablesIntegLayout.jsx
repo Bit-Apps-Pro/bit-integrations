@@ -8,7 +8,6 @@ import Loader from '../../Loaders/Loader'
 import { checkIsPro, getProLabel } from '../../Utilities/ProUtilHelpers'
 import { addFieldMap } from '../IntegrationHelpers/IntegrationHelpers'
 import {
-  generateMappedField,
   refreshWpDataTablesColumns,
   refreshWpDataTablesTables
 } from './WpDataTablesCommonFunc'

@@ -58,8 +58,12 @@ class WpDataTablesController
             ARRAY_A
         );
 
+        if (empty($table)) {
+            wp_send_json_error(__('Table not found', 'bit-integrations'), 404);
+        }
+
         $fields = [];
-        $tableContent = json_decode(reset($table), true) ?? [];
+        $tableContent = json_decode($table['content'], true) ?? [];
         $columnLength = isset($tableContent['colNumber']) ? (int) $tableContent['colNumber'] : \count($tableContent['colHeaders'] ?? []);
 
         for ($i = 0; $i < $columnLength; $i++) {

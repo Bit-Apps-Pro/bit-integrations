@@ -11,7 +11,8 @@ export default function WpDataTablesAuthorization({
   nextPage,
   isLoading,
   setIsLoading,
-  setSnackbar
+  setSnackbar,
+  isInfo
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
@@ -54,6 +55,7 @@ export default function WpDataTablesAuthorization({
         value={wpDataTablesConf.name}
         type="text"
         placeholder={__('Integration Name...', 'bit-integrations')}
+        disabled={isInfo}
       />
 
       {isLoading === 'auth' && (
@@ -85,25 +87,29 @@ export default function WpDataTablesAuthorization({
         </div>
       )}
 
-      <button
-        onClick={authorizeHandler}
-        className="btn btcd-btn-lg purple sh-sm flx"
-        type="button"
-        disabled={isAuthorized || isLoading === 'auth'}>
-        {isAuthorized
-          ? __('Connected', 'bit-integrations')
-          : __('Connect to wpDataTables', 'bit-integrations')}
-        {isLoading === 'auth' && <LoaderSm size={20} clr="#022217" className="ml-2" />}
-      </button>
-      <br />
-      <button
-        onClick={() => nextPage(2)}
-        className="btn f-right btcd-btn-lg purple sh-sm flx"
-        type="button"
-        disabled={!isAuthorized}>
-        {__('Next', 'bit-integrations')}
-        <BackIcn className="ml-1 rev-icn" />
-      </button>
+      {!isInfo && (
+        <>
+          <button
+            onClick={authorizeHandler}
+            className="btn btcd-btn-lg purple sh-sm flx"
+            type="button"
+            disabled={isAuthorized || isLoading === 'auth'}>
+            {isAuthorized
+              ? __('Connected', 'bit-integrations')
+              : __('Connect to wpDataTables', 'bit-integrations')}
+            {isLoading === 'auth' && <LoaderSm size={20} clr="#022217" className="ml-2" />}
+          </button>
+          <br />
+          <button
+            onClick={() => nextPage(2)}
+            className="btn f-right btcd-btn-lg purple sh-sm flx"
+            type="button"
+            disabled={!isAuthorized}>
+            {__('Next', 'bit-integrations')}
+            <BackIcn className="ml-1 rev-icn" />
+          </button>
+        </>
+      )}
     </div>
   )
 }

@@ -54,13 +54,13 @@ class RecordApiHelper
                 break;
         }
 
-        $responseType = isset($response['success']) && $response['success'] ? 'success' : 'error';
+        $responseType = !is_wp_error($response) && isset($response['success']) && $response['success'] ? 'success' : 'error';
         LogHandler::save($this->_integrationID, ['type' => 'WpDataTables', 'type_name' => $actionType], $responseType, $response);
 
         return $response;
     }
 
-    private function generateReqDataFromFieldMap($fieldMap, $fieldValues)
+    private static function generateReqDataFromFieldMap($fieldMap, $fieldValues)
     {
         $dataFinal = [];
         foreach ($fieldMap as $item) {
