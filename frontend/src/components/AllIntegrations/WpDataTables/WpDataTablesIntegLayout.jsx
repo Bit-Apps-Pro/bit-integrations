@@ -133,7 +133,7 @@ export default function WpDataTablesIntegLayout({
               <b>{__('Form Fields', 'bit-integrations')}</b>
             </div>
             <div className="txt-dp">
-              <b>{__('wpDataTables Fields', 'bit-integrations')}</b>
+              <b>{__('wpDataTables Columns', 'bit-integrations')}</b>
             </div>
           </div>
 
