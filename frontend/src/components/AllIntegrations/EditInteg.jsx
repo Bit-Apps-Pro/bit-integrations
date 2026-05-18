@@ -184,6 +184,7 @@ const EditTeamsForWooCommerceMemberships = lazy(
   () => import('./TeamsForWooCommerceMemberships/EditTeamsForWooCommerceMemberships')
 )
 const EditAsgarosForum = lazy(() => import('./AsgarosForum/EditAsgarosForum'))
+const EditB2BKing = lazy(() => import('./B2BKing/EditB2BKing'))
 const EditSeoPress = lazy(() => import('./SeoPress/EditSeoPress'))
 const EditUserRegistrationMembership = lazy(
   () => import('./UserRegistrationMembership/EditUserRegistrationMembership')
@@ -616,6 +617,8 @@ const IntegType = memo(({ allIntegURL, flow }) => {
     case 'Asgaros Forum':
     case 'AsgarosForum':
       return <EditAsgarosForum allIntegURL={allIntegURL} />
+    case 'B2BKing':
+      return <EditB2BKing allIntegURL={allIntegURL} />
     case 'Teams For WooCommerce Memberships':
       return <EditTeamsForWooCommerceMemberships allIntegURL={allIntegURL} />
     case 'SeoPress':
