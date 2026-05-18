@@ -11,7 +11,8 @@ export default function B2BKingAuthorization({
   nextPage,
   isLoading,
   setIsLoading,
-  setSnackbar
+  setSnackbar,
+  isInfo
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
@@ -48,56 +49,61 @@ export default function B2BKingAuthorization({
         value={b2bKingConf.name}
         type="text"
         placeholder={__('Integration Name...', 'bit-integrations')}
+        disabled={isInfo}
       />
 
-      {isLoading === 'auth' && (
-        <div className="flx mt-5">
-          <LoaderSm size={25} clr="#022217" className="mr-2" />
-          {__('Checking if B2BKing is authorized!!!', 'bit-integrations')}
-        </div>
-      )}
-
-      {showAuthMsg && !isAuthorized && !isLoading && (
-        <div className="flx mt-5" style={{ width: 900, justifyContent: 'center' }}>
-          <div className="txt-center">
-            <div className="btcd-icn btcd-icn-err">
-              <span>✕</span>
+      {!isInfo && (
+        <>
+          {isLoading === 'auth' && (
+            <div className="flx mt-5">
+              <LoaderSm size={25} clr="#022217" className="mr-2" />
+              {__('Checking B2BKing connection…', 'bit-integrations')}
             </div>
-            <div className="mt-2">
-              {__('B2BKing is not activated or not installed', 'bit-integrations')}
+          )}
+
+          {showAuthMsg && !isAuthorized && !isLoading && (
+            <div className="flx mt-5" style={{ width: 900, justifyContent: 'center' }}>
+              <div className="txt-center">
+                <div className="btcd-icn btcd-icn-err">
+                  <span>✕</span>
+                </div>
+                <div className="mt-2">
+                  {__('B2BKing is not activated or not installed', 'bit-integrations')}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          )}
 
-      {showAuthMsg && isAuthorized && !isLoading && (
-        <div className="flx mt-5" style={{ width: 900 }}>
-          <div className="btcd-icn btcd-icn-success">
-            <span>✓</span>
-          </div>
-          <div className="mt-2">{__('B2BKing is activated', 'bit-integrations')}</div>
-        </div>
-      )}
+          {showAuthMsg && isAuthorized && !isLoading && (
+            <div className="flx mt-5" style={{ width: 900 }}>
+              <div className="btcd-icn btcd-icn-success">
+                <span>✓</span>
+              </div>
+              <div className="mt-2">{__('B2BKing is activated', 'bit-integrations')}</div>
+            </div>
+          )}
 
-      <button
-        onClick={authorizeHandler}
-        className="btn btcd-btn-lg purple sh-sm flx"
-        type="button"
-        disabled={isAuthorized || isLoading === 'auth'}>
-        {isAuthorized
-          ? __('Connected', 'bit-integrations')
-          : __('Connect to B2BKing', 'bit-integrations')}
-        {isLoading === 'auth' && <LoaderSm size={20} clr="#022217" className="ml-2" />}
-      </button>
-      <br />
-      <button
-        onClick={() => nextPage(2)}
-        className="btn f-right btcd-btn-lg purple sh-sm flx"
-        type="button"
-        disabled={!isAuthorized}>
-        {__('Next', 'bit-integrations')}
-        <BackIcn className="ml-1 rev-icn" />
-      </button>
+          <button
+            onClick={authorizeHandler}
+            className="btn btcd-btn-lg purple sh-sm flx"
+            type="button"
+            disabled={isAuthorized || isLoading === 'auth'}>
+            {isAuthorized
+              ? __('Connected', 'bit-integrations')
+              : __('Connect to B2BKing', 'bit-integrations')}
+            {isLoading === 'auth' && <LoaderSm size={20} clr="#022217" className="ml-2" />}
+          </button>
+          <br />
+          <button
+            onClick={() => nextPage(2)}
+            className="btn f-right btcd-btn-lg purple sh-sm flx"
+            type="button"
+            disabled={!isAuthorized}>
+            {__('Next', 'bit-integrations')}
+            <BackIcn className="ml-1 rev-icn" />
+          </button>
+        </>
+      )}
     </div>
   )
 }

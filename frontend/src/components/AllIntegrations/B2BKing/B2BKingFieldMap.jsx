@@ -93,7 +93,7 @@ export default function B2BKingFieldMap({ i, formFields, field, b2bKingConf, set
               onClick={() => delFieldMap(i, b2bKingConf, setB2BKingConf)}
               className="icn-btn sh-sm ml-1"
               type="button"
-              aria-label="btn">
+              aria-label={__('Remove field mapping', 'bit-integrations')}>
               <span className="btcd-icn icn-trash-2" />
             </button>
           </>

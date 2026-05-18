@@ -1,5 +1,6 @@
 import { create } from 'mutative'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
+import 'react-multiple-select-dropdown-lite/dist/index.css'
 import { useRecoilValue } from 'recoil'
 import { $appConfigState } from '../../../GlobalStates'
 import { __ } from '../../../Utils/i18nwrap'
@@ -87,14 +88,10 @@ export default function B2BKingIntegLayout({
               title="selected_group"
               defaultValue={b2bKingConf?.utilities?.selected_group ?? null}
               className="btcd-paper-drpdwn w-5"
-              options={
-                b2bKingConf?.allGroups &&
-                Array.isArray(b2bKingConf.allGroups) &&
-                b2bKingConf.allGroups.map(group => ({
-                  label: group.label,
-                  value: String(group.value)
-                }))
-              }
+              options={(Array.isArray(b2bKingConf?.allGroups) ? b2bKingConf.allGroups : []).map(group => ({
+                label: group.label,
+                value: String(group.value)
+              }))}
               onChange={val =>
                 setB2BKingConf(prevConf =>
                   create(prevConf, draftConf => {

@@ -12,7 +12,7 @@ import B2BKingIntegLayout from './B2BKingIntegLayout'
 
 export default function EditB2BKing({ allIntegURL }) {
   const navigate = useNavigate()
-  const { id, formID } = useParams()
+  const { id } = useParams()
 
   const [b2bKingConf, setB2BKingConf] = useRecoilState($actionConf)
   const [flow, setFlow] = useRecoilState($newFlow)

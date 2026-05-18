@@ -29,6 +29,10 @@ class User
 
         $user = get_user_by($field, $value);
 
+        if (!$user instanceof WP_User) {
+            return static::formattedUserTemp();
+        }
+
         if (empty($user->user_email)) {
             return static::formattedUserTemp();
         }

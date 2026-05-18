@@ -38,6 +38,17 @@ class RecordApiHelper
         ];
 
         $email = $fieldData['user_email'] ?? '';
+
+        if (empty($email)) {
+            $errorResponse = [
+                'success' => false,
+                'message' => __('User email is required', 'bit-integrations'),
+            ];
+            LogHandler::save($this->_integrationID, ['type' => 'B2BKing', 'type_name' => $mainAction], 'error', $errorResponse);
+
+            return $errorResponse;
+        }
+
         switch ($mainAction) {
             case 'update_customer_group':
                 $groupId = isset($utilities->selected_group) ? $utilities->selected_group : '';
