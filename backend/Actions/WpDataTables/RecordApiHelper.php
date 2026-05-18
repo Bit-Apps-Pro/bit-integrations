@@ -16,10 +16,10 @@ class RecordApiHelper
     public function __construct($integrationDetails, $integId)
     {
         $this->_integrationDetails = $integrationDetails;
-        $this->_integrationID      = $integId;
+        $this->_integrationID = $integId;
     }
 
-    public function execute($fieldValues, $fieldMap, $utilities)
+    public function execute($fieldValues, $fieldMap)
     {
         if (!class_exists('WDTConfigController')) {
             return [
@@ -28,17 +28,17 @@ class RecordApiHelper
             ];
         }
 
-        $fieldData  = static::generateReqDataFromFieldMap($fieldMap, $fieldValues);
+        $fieldData = static::generateReqDataFromFieldMap($fieldMap, $fieldValues);
         $mainAction = $this->_integrationDetails->mainAction ?? 'add_row';
 
         $defaultResponse = [
             'success' => false,
-            'message' => wp_sprintf(__('%s plugin is not installed or activate', 'bit-integrations'), 'Bit Integrations Pro'),
+            'message' => wp_sprintf(__('%s plugin is not installed or activated', 'bit-integrations'), 'Bit Integrations Pro'),
         ];
 
         switch ($mainAction) {
             case 'add_row':
-                $response   = Hooks::apply(Config::withPrefix('wp_data_tables_add_row'), $defaultResponse, $fieldData, $utilities, $this->_integrationDetails);
+                $response = Hooks::apply(Config::withPrefix('wp_data_tables_add_row'), $defaultResponse, $fieldData);
                 $actionType = 'add_row';
 
                 break;
@@ -63,8 +63,12 @@ class RecordApiHelper
     {
         $dataFinal = [];
         foreach ($fieldMap as $item) {
-            $triggerValue = $item->formField;
-            $actionValue  = $item->wpDataTablesField;
+            $triggerValue = $item->formField ?? null;
+            $actionValue = $item->wpDataTablesField ?? null;
+
+            if (!$triggerValue || !$actionValue) {
+                continue;
+            }
 
             $dataFinal[$actionValue] = $triggerValue === 'custom' && isset($item->customValue)
                 ? Common::replaceFieldWithValue($item->customValue, $fieldValues)

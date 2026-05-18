@@ -1,11 +1,14 @@
-export const modules = [{ label: 'Add Row', value: 'add_row' }]
+import { __ } from '../../../Utils/i18nwrap'
 
-export const AddRowFields = [
-  { key: 'table_id', label: 'Table ID', required: true },
-  { key: 'row_data', label: 'Row Data (JSON)', required: true },
+export const modules = [
+  {
+    label: __('Add Row', 'bit-integrations'),
+    name: 'add_row',
+    is_pro: true
+  }
 ]
 
-export const WpDataTablesStaticData = {
-  modules,
-  add_row: AddRowFields,
-}
+export const AddRowFields = [
+  { key: 'table_id', label: __('Table ID', 'bit-integrations'), required: true },
+  { key: 'row_data', label: __('Row Data (JSON)', 'bit-integrations'), required: true }
+]

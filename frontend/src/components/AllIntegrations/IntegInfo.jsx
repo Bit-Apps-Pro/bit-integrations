@@ -176,6 +176,7 @@ const UltimateAffiliateProAuthorization = lazy(
   () => import('./UltimateAffiliatePro/UltimateAffiliateProAuthorization')
 )
 const FluentCartAuthorization = lazy(() => import('./FluentCart/FluentCartAuthorization'))
+const WpDataTablesAuthorization = lazy(() => import('./WpDataTables/WpDataTablesAuthorization'))
 const WpErpAuthorization = lazy(() => import('./WpErp/WpErpAuthorization'))
 const PeepSoAuthorization = lazy(() => import('./PeepSo/PeepSoAuthorization'))
 const NinjaTablesAuthorization = lazy(() => import('./NinjaTables/NinjaTablesAuthorization'))
@@ -641,6 +642,8 @@ export default function IntegInfo() {
         )
       case 'FluentCart':
         return <FluentCartAuthorization fluentCartConf={integrationConf} step={1} isInfo />
+      case 'WpDataTables':
+        return <WpDataTablesAuthorization wpDataTablesConf={integrationConf} step={1} isInfo />
       case 'WP ERP':
         return <WpErpAuthorization wpErpConf={integrationConf} step={1} isInfo />
       case 'PeepSo':

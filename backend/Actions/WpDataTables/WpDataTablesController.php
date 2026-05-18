@@ -25,21 +25,15 @@ class WpDataTablesController
     public function execute($integrationData, $fieldValues)
     {
         $integrationDetails = $integrationData->flow_details;
-        $integId            = $integrationData->id;
-        $fieldMap           = $integrationDetails->field_map;
-        $utilities          = isset($integrationDetails->utilities) ? $integrationDetails->utilities : [];
+        $integId = $integrationData->id;
+        $fieldMap = $integrationDetails->field_map;
 
         if (empty($fieldMap)) {
             return new WP_Error('field_map_empty', __('Field map is empty', 'bit-integrations'));
         }
 
-        $recordApiHelper        = new RecordApiHelper($integrationDetails, $integId);
-        $wpDataTablesResponse   = $recordApiHelper->execute($fieldValues, $fieldMap, $utilities);
+        $recordApiHelper = new RecordApiHelper($integrationDetails, $integId);
 
-        if (is_wp_error($wpDataTablesResponse)) {
-            return $wpDataTablesResponse;
-        }
-
-        return $wpDataTablesResponse;
+        return $recordApiHelper->execute($fieldValues, $fieldMap);
     }
 }
