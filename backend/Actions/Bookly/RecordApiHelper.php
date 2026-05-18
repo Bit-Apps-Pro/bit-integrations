@@ -88,7 +88,7 @@ class RecordApiHelper
                 break;
         }
 
-        $responseType = isset($response['success']) && $response['success'] ? 'success' : 'error';
+        $responseType = !is_wp_error($response) && isset($response['success']) && $response['success'] ? 'success' : 'error';
         LogHandler::save($this->_integrationID, ['type' => $type, 'type_name' => $actionType], $responseType, $response);
 
         return $response;

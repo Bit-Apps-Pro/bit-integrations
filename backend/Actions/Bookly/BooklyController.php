@@ -19,7 +19,7 @@ class BooklyController
         wp_send_json_success(true);
     }
 
-    public function refreshStaff()
+    public static function refreshStaff()
     {
         self::isExists();
 
@@ -33,7 +33,7 @@ class BooklyController
         wp_send_json_success(['staff' => $staff], 200);
     }
 
-    public function refreshServices()
+    public static function refreshServices()
     {
         self::isExists();
 
@@ -47,7 +47,7 @@ class BooklyController
         wp_send_json_success(['services' => $services], 200);
     }
 
-    public function refreshStatuses()
+    public static function refreshStatuses()
     {
         self::isExists();
 
