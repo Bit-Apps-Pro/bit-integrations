@@ -36,7 +36,7 @@ export default function FormyChatFieldMap({ i, formFields, field, formyChatConf,
                 isPro ? '' : `(${__('Pro', 'bit-integrations')})`
               )}>
               {isPro && SmartTagField?.map(f => (
-                <option key={`ff-fc-${f.name}`} value={f.name}>{f.label}</option>
+                <option key={`st-fc-${f.name}`} value={f.name}>{f.label}</option>
               ))}
             </optgroup>
           </select>

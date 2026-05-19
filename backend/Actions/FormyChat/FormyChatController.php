@@ -22,7 +22,7 @@ class FormyChatController
         wp_send_json_success(true);
     }
 
-    public function refreshWidgets()
+    public static function refreshWidgets()
     {
         self::isExists();
 
@@ -48,7 +48,7 @@ class FormyChatController
         wp_send_json_success(['widgets' => $widgets], 200);
     }
 
-    public function refreshWidgetFields($request)
+    public static function refreshWidgetFields($request)
     {
         self::isExists();
 
@@ -63,7 +63,7 @@ class FormyChatController
         }
 
         $widget = \FormyChat\Models\Widget::find($widgetId);
-        if (!$widget) {
+        if (is_wp_error($widget) || !$widget) {
             wp_send_json_error(__('Widget not found', 'bit-integrations'), 400);
         }
 

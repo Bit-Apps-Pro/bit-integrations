@@ -20,14 +20,16 @@ export default function FormyChatAuthorization({
 
   const authorizeHandler = () => {
     setIsLoading('auth')
-    bitsFetch({}, 'formy_chat_authorize').then(result => {
-      if (result?.success) {
-        setIsAuthorized(true)
-        setSnackbar({ show: true, msg: __('Connected with FormyChat Successfully', 'bit-integrations') })
-      }
-      setIsLoading(false)
-      setShowAuthMsg(true)
-    })
+    bitsFetch({}, 'formy_chat_authorize')
+      .then(result => {
+        if (result?.success) {
+          setIsAuthorized(true)
+          setSnackbar({ show: true, msg: __('Connected with FormyChat Successfully', 'bit-integrations') })
+        }
+        setIsLoading(false)
+        setShowAuthMsg(true)
+      })
+      .catch(() => setIsLoading(false))
   }
 
   const handleInput = e => {

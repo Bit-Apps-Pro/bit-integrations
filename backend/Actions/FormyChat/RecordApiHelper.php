@@ -61,7 +61,7 @@ class RecordApiHelper
                 break;
         }
 
-        $responseType = isset($response['success']) && $response['success'] ? 'success' : 'error';
+        $responseType = (!is_wp_error($response) && isset($response['success']) && $response['success']) ? 'success' : 'error';
         LogHandler::save($this->_integrationID, ['type' => 'FormyChat', 'type_name' => $actionType], $responseType, $response);
 
         return $response;
@@ -71,8 +71,12 @@ class RecordApiHelper
     {
         $data = [];
         foreach ($fieldMap as $item) {
-            $triggerValue = $item->formField;
-            $actionValue = $item->formyChatField;
+            $triggerValue = $item->formField ?? '';
+            $actionValue = $item->formyChatField ?? '';
+
+            if (empty($actionValue)) {
+                continue;
+            }
 
             $data[$actionValue] = $triggerValue === 'custom' && isset($item->customValue)
                 ? Common::replaceFieldWithValue($item->customValue, $fieldValues)
