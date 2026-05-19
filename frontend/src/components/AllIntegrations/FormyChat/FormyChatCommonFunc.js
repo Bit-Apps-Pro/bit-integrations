@@ -60,7 +60,33 @@ export const checkMappedFields = formyChatConf => {
     : []
   if (mappedFields.length > 0) return false
   if (!formyChatConf?.widgetId || !formyChatConf?.mainAction) return false
+
+  const partialMeta = (formyChatConf?.meta_map || []).filter(
+    m => (m.formField && !m.metaKey) || (!m.formField && m.metaKey)
+  )
+  if (partialMeta.length > 0) return false
+
   return true
 }
 
 export const generateMappedField = () => [{ formField: '', formyChatField: '' }]
+
+export const addMetaFieldMap = (i, formyChatConf, setFormyChatConf) => {
+  const newConf = { ...formyChatConf }
+  newConf.meta_map.splice(i, 0, { formField: '', metaKey: '' })
+  setFormyChatConf({ ...newConf })
+}
+
+export const delMetaFieldMap = (i, formyChatConf, setFormyChatConf) => {
+  const newConf = { ...formyChatConf }
+  if (newConf.meta_map.length > 1) {
+    newConf.meta_map.splice(i, 1)
+  }
+  setFormyChatConf({ ...newConf })
+}
+
+export const handleMetaMapping = (event, i, formyChatConf, setFormyChatConf) => {
+  const newConf = { ...formyChatConf }
+  newConf.meta_map[i][event.target.name] = event.target.value
+  setFormyChatConf({ ...newConf })
+}

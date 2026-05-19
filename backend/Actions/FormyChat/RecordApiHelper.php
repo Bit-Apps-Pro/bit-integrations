@@ -29,6 +29,11 @@ class RecordApiHelper
         }
 
         $fieldData = static::generateReqDataFromFieldMap($fieldMap, $fieldValues);
+        $metaData = static::generateMetaDataFromMetaMap($this->_integrationDetails->meta_map ?? [], $fieldValues);
+        if (!empty($metaData)) {
+            $fieldData['_meta'] = $metaData;
+        }
+
         $mainAction = $this->_integrationDetails->mainAction ?? 'create_lead';
 
         $defaultResponse = [
@@ -39,7 +44,12 @@ class RecordApiHelper
 
         switch ($mainAction) {
             case 'create_lead':
-                $response = Hooks::apply(Config::withPrefix('formy_chat_create_lead'), $defaultResponse, $fieldData, $utilities, $this->_integrationDetails);
+                $response = Hooks::apply(
+                    Config::withPrefix('formy_chat_create_lead'),
+                    $defaultResponse,
+                    $fieldData,
+                    $this->_integrationDetails->widgetId ?? null
+                );
                 $actionType = 'create_lead';
 
                 break;
@@ -67,6 +77,25 @@ class RecordApiHelper
             $data[$actionValue] = $triggerValue === 'custom' && isset($item->customValue)
                 ? Common::replaceFieldWithValue($item->customValue, $fieldValues)
                 : ($fieldValues[$triggerValue] ?? '');
+        }
+
+        return $data;
+    }
+
+    protected static function generateMetaDataFromMetaMap($metaMap, $fieldValues)
+    {
+        $data = [];
+        foreach ($metaMap as $item) {
+            $formField = $item->formField ?? '';
+            $metaKey = $item->metaKey ?? '';
+
+            if (empty($formField) || empty($metaKey)) {
+                continue;
+            }
+
+            $data[$metaKey] = $formField === 'custom' && isset($item->customValue)
+                ? Common::replaceFieldWithValue($item->customValue, $fieldValues)
+                : ($fieldValues[$formField] ?? '');
         }
 
         return $data;

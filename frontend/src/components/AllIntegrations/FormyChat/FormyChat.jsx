@@ -24,6 +24,7 @@ export default function FormyChat({ formFields, setFlow, flow, allIntegURL }) {
     actions: {},
     allWidgets: [],
     allFields: [],
+    meta_map: [{ formField: '', metaKey: '' }],
   })
 
   const nextPage = val => {
