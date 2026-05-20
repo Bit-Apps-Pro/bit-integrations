@@ -155,6 +155,7 @@ const EditSystemeIO = lazy(() => import('./SystemeIO/EditSystemeIO'))
 const EditDiscord = lazy(() => import('./Discord/EditDiscord'))
 const EditZagoMail = lazy(() => import('./ZagoMail/EditZagoMail'))
 const EditNewsletter = lazy(() => import('./Newsletter/EditNewsletter'))
+const EditSureDash = lazy(() => import('./SureDash/EditSureDash'))
 const EditSureMembers = lazy(() => import('./SureMembers/EditSureMembers'))
 const EditMailster = lazy(() => import('./Mailster/EditMailster'))
 const EditWPForo = lazy(() => import('./WPForo/EditWPForo'))
@@ -563,6 +564,8 @@ const IntegType = memo(({ allIntegURL, flow }) => {
       return <EditZagoMail allIntegURL={allIntegURL} />
     case 'Newsletter':
       return <EditNewsletter allIntegURL={allIntegURL} />
+    case 'SureDash':
+      return <EditSureDash allIntegURL={allIntegURL} />
     case 'SureMembers':
       return <EditSureMembers allIntegURL={allIntegURL} />
     case 'Mailster':

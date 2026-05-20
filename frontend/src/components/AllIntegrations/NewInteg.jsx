@@ -154,6 +154,7 @@ const SystemeIO = lazy(() => import('./SystemeIO/SystemeIO'))
 const Discord = lazy(() => import('./Discord/Discord'))
 const ZagoMail = lazy(() => import('./ZagoMail/ZagoMail'))
 const Newsletter = lazy(() => import('./Newsletter/Newsletter'))
+const SureDash = lazy(() => import('./SureDash/SureDash'))
 const SureMembers = lazy(() => import('./SureMembers/SureMembers'))
 const Mailster = lazy(() => import('./Mailster/Mailster'))
 const WPForo = lazy(() => import('./WPForo/WPForo'))
@@ -1513,6 +1514,15 @@ export default function NewInteg({ allIntegURL }) {
       case 'Newsletter':
         return (
           <Newsletter
+            allIntegURL={allIntegURL}
+            formFields={flow?.triggerData?.fields}
+            flow={flow}
+            setFlow={setFlow}
+          />
+        )
+      case 'SureDash':
+        return (
+          <SureDash
             allIntegURL={allIntegURL}
             formFields={flow?.triggerData?.fields}
             flow={flow}
