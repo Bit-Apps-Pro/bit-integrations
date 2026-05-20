@@ -26,10 +26,6 @@ class SureDashController
     {
         self::isExists();
 
-        if (!\defined('SUREDASHBOARD_POST_TYPE')) {
-            wp_send_json_error(__('SureDash is not activated or not installed', 'bit-integrations'), 400);
-        }
-
         $posts = get_posts(
             [
                 'post_type'      => SUREDASHBOARD_POST_TYPE,

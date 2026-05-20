@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { create } from 'mutative'
 import MultiSelect from 'react-multiple-select-dropdown-lite'
 import { useRecoilValue } from 'recoil'
@@ -19,13 +18,11 @@ import FormyChatMetaFieldMap from './FormyChatMetaFieldMap'
 const modules = [{ label: __('Create Lead', 'bit-integrations'), value: 'create_lead', is_pro: true }]
 
 export default function FormyChatIntegLayout({
-  formID,
   formFields,
   formyChatConf,
   setFormyChatConf,
   isLoading,
-  setIsLoading,
-  setSnackbar
+  setIsLoading
 }) {
   const btcbi = useRecoilValue($appConfigState)
   const { isPro } = btcbi

@@ -62,7 +62,10 @@ export const checkMappedFields = formyChatConf => {
   if (!formyChatConf?.widgetId || !formyChatConf?.mainAction) return false
 
   const partialMeta = (formyChatConf?.meta_map || []).filter(
-    m => (m.formField && !m.metaKey) || (!m.formField && m.metaKey)
+    m =>
+      (m.formField && !m.metaKey) ||
+      (!m.formField && m.metaKey) ||
+      (m.formField === 'custom' && !m.customValue)
   )
   if (partialMeta.length > 0) return false
 
