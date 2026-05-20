@@ -11,24 +11,27 @@ export default function SureDashAuthorization({
   nextPage,
   isLoading,
   setIsLoading,
-  setSnackbar
+  setSnackbar,
+  isInfo
 }) {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [showAuthMsg, setShowAuthMsg] = useState(false)
 
   const authorizeHandler = () => {
     setIsLoading('auth')
-    bitsFetch({}, 'sure_dash_authorize').then(result => {
-      if (result?.success) {
-        setIsAuthorized(true)
-        setSnackbar({
-          show: true,
-          msg: __('Connected with SureDash Successfully', 'bit-integrations')
-        })
-      }
-      setIsLoading(false)
-      setShowAuthMsg(true)
-    })
+    bitsFetch({}, 'sure_dash_authorize')
+      .then(result => {
+        if (result?.success) {
+          setIsAuthorized(true)
+          setSnackbar({
+            show: true,
+            msg: __('Connected with SureDash Successfully', 'bit-integrations')
+          })
+        }
+        setIsLoading(false)
+        setShowAuthMsg(true)
+      })
+      .catch(() => setIsLoading(false))
   }
 
   const handleInput = e => {
@@ -54,6 +57,7 @@ export default function SureDashAuthorization({
         value={sureDashConf.name}
         type="text"
         placeholder={__('Integration Name...', 'bit-integrations')}
+        disabled={isInfo}
       />
 
       {isLoading === 'auth' && (
@@ -85,25 +89,29 @@ export default function SureDashAuthorization({
         </div>
       )}
 
-      <button
-        onClick={authorizeHandler}
-        className="btn btcd-btn-lg purple sh-sm flx"
-        type="button"
-        disabled={isAuthorized || isLoading === 'auth'}>
-        {isAuthorized
-          ? __('Connected', 'bit-integrations')
-          : __('Connect to SureDash', 'bit-integrations')}
-        {isLoading === 'auth' && <LoaderSm size={20} clr="#022217" className="ml-2" />}
-      </button>
-      <br />
-      <button
-        onClick={() => nextPage(2)}
-        className="btn f-right btcd-btn-lg purple sh-sm flx"
-        type="button"
-        disabled={!isAuthorized}>
-        {__('Next', 'bit-integrations')}
-        <BackIcn className="ml-1 rev-icn" />
-      </button>
+      {!isInfo && (
+        <>
+          <button
+            onClick={authorizeHandler}
+            className="btn btcd-btn-lg purple sh-sm flx"
+            type="button"
+            disabled={isAuthorized || isLoading === 'auth'}>
+            {isAuthorized
+              ? __('Connected', 'bit-integrations')
+              : __('Connect to SureDash', 'bit-integrations')}
+            {isLoading === 'auth' && <LoaderSm size={20} clr="#022217" className="ml-2" />}
+          </button>
+          <br />
+          <button
+            onClick={() => nextPage(2)}
+            className="btn f-right btcd-btn-lg purple sh-sm flx"
+            type="button"
+            disabled={!isAuthorized}>
+            {__('Next', 'bit-integrations')}
+            <BackIcn className="ml-1 rev-icn" />
+          </button>
+        </>
+      )}
     </div>
   )
 }
